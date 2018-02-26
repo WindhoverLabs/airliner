@@ -1,0 +1,28 @@
+%start ArmingMap::Init
+%class Arming
+%fsmclass ArmingContext
+%header Arming.h
+%map ArmingMap
+
+%%
+Init
+{
+    evInitComplete  Standby { EnteredStandby(); }
+}
+Standby
+{
+    evArm           Armed {EnteredArmed(); }
+    evError         StandbyError {EnteredStandbyError(); }
+}
+Armed
+{
+    evDisarm        Standby {EnteredStandby(); }
+    evError         ArmedError {EnteredArmedError(); }
+}
+StandbyError
+{
+}
+ArmedError
+{
+}
+%%

@@ -9,9 +9,14 @@ add_airliner_app_def(vm
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_msg.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_tbldefs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_version.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/Arming.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/Arming.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ArmingContext.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ArmingContext.h
    
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../../tools/smc/lib/C++
 
     USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}/user_doxy.in
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
@@ -40,6 +45,7 @@ add_airliner_app_unit_test(vm-ut
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../../tools/smc/lib/C++
         
     VALGRIND_SUPPRESSION_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/valgrind.supp
