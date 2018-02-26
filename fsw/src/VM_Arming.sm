@@ -1,0 +1,28 @@
+%start VM_ArmingMap::Init
+%class VM_Arming
+%fsmclass VM_ArmingContext
+%header vm_Arming.h
+%map VM_ArmingMap
+
+%%
+Init
+{
+    InitComplete  Standby { EnteredStandby(); }
+}
+Standby
+{
+    Arm           Armed {EnteredArmed(); }
+    Error         StandbyError {EnteredStandbyError(); }
+}
+Armed
+{
+    Disarm        Standby {EnteredStandby(); }
+    Error         ArmedError {EnteredArmedError(); }
+}
+StandbyError
+{
+}
+ArmedError
+{
+}
+%%

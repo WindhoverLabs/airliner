@@ -250,6 +250,12 @@ typedef enum {
 */
 	VM_CFGTBL_LOAD_ERR_EID,
 
+	VM_ENTERED_STANDBY_STATE_INFO_EID,
+	VM_ENTERED_ARMED_STATE_INFO_EID,
+	VM_ENTERED_STANDBY_ERROR_STATE_INFO_EID,
+	VM_ENTERED_ARMED_ERROR_STATE_INFO_EID,
+	VM_ILLEGAL_ARMING_TRANSITION_INFO_EID,
+
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
 	VM_EVT_CNT
 } VM_EventIds_t;

@@ -121,6 +121,10 @@ extern "C" {
 */
 #define VM_RESET_CC                (1)
 
+#define VM_VEHICLE_ARM_CC          (2)
+#define VM_VEHICLE_DISARM_CC       (3)
+
+
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
@@ -150,6 +154,8 @@ typedef struct
     /** \vmtlmmnemonic \VM_CMDRJCTCNT
         \brief Count of failed commands */
     uint8              usCmdErrCnt; 
+
+    uint32             ArmingState;
 
 } VM_HkTlm_t;
 

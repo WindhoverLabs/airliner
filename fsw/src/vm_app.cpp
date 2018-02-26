@@ -609,6 +609,32 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 HkTlm.usCmdErrCnt = 0;
                 break;
 
+            case VM_VEHICLE_ARM_CC:
+            	try{
+                    ArmingSM.Arm();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_ILLEGAL_ARMING_TRANSITION_INFO_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Arming transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_VEHICLE_DISARM_CC:
+            	try{
+                    ArmingSM.Disarm();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_ILLEGAL_ARMING_TRANSITION_INFO_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Arming transition.  Command rejected.");
+            	}
+                break;
+
             default:
                 HkTlm.usCmdErrCnt++;
                 (void) CFE_EVS_SendEvent(VM_CC_ERR_EID, CFE_EVS_ERROR,
@@ -626,6 +652,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 
 void VM::ReportHousekeeping()
 {
+	HkTlm.ArmingState = ArmingSM.GetCurrentStateID();
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&HkTlm);
 }
@@ -759,6 +786,9 @@ void VM::AppMain()
     {
         uiRunStatus = CFE_ES_APP_ERROR;
     }
+
+    /* TODO:  Replace with appropriate code to cause a transition. */
+    ArmingSM.InitComplete();
 
     /* Application main loop */
     while (CFE_ES_RunLoop(&uiRunStatus) == TRUE)

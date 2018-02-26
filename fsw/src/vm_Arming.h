@@ -31,23 +31,31 @@
 *
 *****************************************************************************/
 
-#ifndef VM_ARMINGSM_H
-#define VM_ARMINGSM_H
+#ifndef VM_ARMING_H
+#define VM_ARMING_H
 
-#include "ArmingContext.h"
+#include "VM_ArmingContext.h"
+#include "cfe.h"
 
-class Arming
+class VM_Arming
 {
 public:
-	Arming();
-	~Arming();
+	VM_Arming();
+	~VM_Arming();
 
 	void EnteredStandby(void);
 	void EnteredArmed(void);
 	void EnteredStandbyError(void);
 	void EnteredArmedError(void);
 
-    ArmingContext _fsm;
+	void Arm(void);
+	void Disarm(void);
+	void InitComplete(void);
+
+	void DisplayCurrentState(void);
+	uint32 GetCurrentStateID(void);
+
+	VM_ArmingContext _fsm;
 };
 
 

@@ -34,6 +34,8 @@
 #ifndef VM_APP_H
 #define VM_APP_H
 
+#include "vm_Arming.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -123,6 +125,8 @@ public:
     PX4_LedControlMsg_t LedControlMsg;
     PX4_VehicleStatusMsg_t VehicleStatusMsg;
 //    PX4_VehicleRoiMsg_t VehicleRoiMsg;
+
+    VM_Arming  ArmingSM;
 
     /** \brief Housekeeping Telemetry for downlink */
     VM_HkTlm_t HkTlm;
