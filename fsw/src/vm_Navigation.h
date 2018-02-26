@@ -31,30 +31,34 @@
 *
 *****************************************************************************/
 
-#ifndef VM_ARMING_H
-#define VM_ARMING_H
+#ifndef VM_NAVIGATION_H
+#define VM_NAVIGATION_H
 
-#include "VM_ArmingContext.h"
+#include "VM_NavigationContext.h"
 #include "cfe.h"
 
-class VM_Arming
+class VM_Navigation
 {
 public:
-	VM_Arming();
-	~VM_Arming();
+	VM_Navigation();
+	~VM_Navigation();
 
-	void EnteredStandby(void);
-	void EnteredArmed(void);
-	void EnteredStandbyError(void);
-	void EnteredArmedError(void);
-
-	void Arm(void);
-	void Disarm(void);
-	void InitComplete(void);
+    void EnteredManual();
+    void EnteredAltitudeControl();
+    void EnteredPositionControl();
+    void EnteredAutoMission();
+    void EnteredAutoLoiter();
+    void EnteredAutoReturnToLaunch();
+    void EnteredAutoRCRecover();
+    void EnteredAutoRtgs();
+    void EnteredAutoLandEngineFail();
+    void EnteredAutoLandGpsFail();
+    void EnteredAcrobatic();
+    void EnteredDescend();
 
 	uint32 GetCurrentStateID(void);
 
-	VM_ArmingContext FSM;
+	VM_NavigationContext FSM;
 };
 
 

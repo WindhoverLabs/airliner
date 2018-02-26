@@ -611,27 +611,365 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 
             case VM_VEHICLE_ARM_CC:
             	try{
-                    ArmingSM.Arm();
+                    ArmingSM.FSM.Arm();
                     HkTlm.usCmdCnt++;
             	}
             	catch(statemap::TransitionUndefinedException e)
             	{
                     HkTlm.usCmdErrCnt++;
-            	    CFE_EVS_SendEvent(VM_ILLEGAL_ARMING_TRANSITION_INFO_EID, CFE_EVS_INFORMATION,
+            	    CFE_EVS_SendEvent(VM_ARMING_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
             	    		"Illegal Arming transition.  Command rejected.");
             	}
                 break;
 
             case VM_VEHICLE_DISARM_CC:
             	try{
-                    ArmingSM.Disarm();
+                    ArmingSM.FSM.Disarm();
                     HkTlm.usCmdCnt++;
             	}
             	catch(statemap::TransitionUndefinedException e)
             	{
                     HkTlm.usCmdErrCnt++;
-            	    CFE_EVS_SendEvent(VM_ILLEGAL_ARMING_TRANSITION_INFO_EID, CFE_EVS_INFORMATION,
+            	    CFE_EVS_SendEvent(VM_ARMING_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
             	    		"Illegal Arming transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_MANUAL_CC:
+            	try{
+                    MainSM.FSM.trManual();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_ALTCTL_CC:
+            	try{
+                    MainSM.FSM.trAltitudeControl();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_POSCTL_CC:
+            	try{
+                    MainSM.FSM.trPositionControl();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_AUTO_MISSION_CC:
+            	try{
+                    MainSM.FSM.trAutoMission();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_AUTO_LOITER_CC:
+            	try{
+                    MainSM.FSM.trAutoLoiter();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_AUTO_RTL_CC:
+            	try{
+                    MainSM.FSM.trAutoReturnToLaunch();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_ACRO_CC:
+            	try{
+                    MainSM.FSM.trAcrobatic();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_OFFBOARD_CC:
+            	try{
+                    MainSM.FSM.trOffboard();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_STAB_CC:
+            	try{
+                    MainSM.FSM.trStabilize();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_RATTITUDE_CC:
+            	try{
+                    MainSM.FSM.trRattitude();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_AUTO_TAKEOFF_CC:
+            	try{
+                    MainSM.FSM.trAutoTakeoff();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_AUTO_LAND_CC:
+            	try{
+                    MainSM.FSM.trAutoLand();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_AUTO_FOLLOW_TARGET_CC:
+            	try{
+                    MainSM.FSM.trAutoFollowTarget();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_MAIN_AUTO_PRECLAND_CC:
+            	try{
+                    MainSM.FSM.trAutoPrecland();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_MANUAL_CC:
+            	try{
+                    NavigationSM.FSM.trManual();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_ALTCTL_CC:
+            	try{
+                    NavigationSM.FSM.trAltitudeControl();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_POSCTL_CC:
+            	try{
+                    NavigationSM.FSM.trPositionControl();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_AUTO_MISSION_CC:
+            	try{
+                    NavigationSM.FSM.trAutoMission();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_AUTO_LOITER_CC:
+            	try{
+                    NavigationSM.FSM.trAutoLoiter();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_AUTO_RTL_CC:
+            	try{
+                    NavigationSM.FSM.trAutoReturnToLaunch();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_AUTO_RCRECOVER_CC:
+            	try{
+                    NavigationSM.FSM.trAutoRCRecover();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_AUTO_RTGS_CC:
+            	try{
+                    NavigationSM.FSM.trAutoRtgs();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_AUTO_LAND_ENG_FAIL_CC:
+            	try{
+                    NavigationSM.FSM.trAutoLandEngineFail();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_AUTO_LAND_GPS_FAIL_CC:
+            	try{
+                    NavigationSM.FSM.trAutoLandGpsFail();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_ACRO_CC:
+            	try{
+                    NavigationSM.FSM.trAcrobatic();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_DESCEND_CC:
+            	try{
+                    NavigationSM.FSM.trDescend();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
             	}
                 break;
 
@@ -653,6 +991,8 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 void VM::ReportHousekeeping()
 {
 	HkTlm.ArmingState = ArmingSM.GetCurrentStateID();
+	HkTlm.MainState = MainSM.GetCurrentStateID();
+	HkTlm.NavState = NavigationSM.GetCurrentStateID();
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&HkTlm);
 }
@@ -788,7 +1128,7 @@ void VM::AppMain()
     }
 
     /* TODO:  Replace with appropriate code to cause a transition. */
-    ArmingSM.InitComplete();
+    ArmingSM.FSM.InitComplete();
 
     /* Application main loop */
     while (CFE_ES_RunLoop(&uiRunStatus) == TRUE)

@@ -35,6 +35,8 @@
 #define VM_APP_H
 
 #include "vm_Arming.h"
+#include "vm_Main.h"
+#include "vm_Navigation.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -126,7 +128,9 @@ public:
     PX4_VehicleStatusMsg_t VehicleStatusMsg;
 //    PX4_VehicleRoiMsg_t VehicleRoiMsg;
 
-    VM_Arming  ArmingSM;
+    VM_Arming     ArmingSM;
+    VM_Main       MainSM;
+    VM_Navigation NavigationSM;
 
     /** \brief Housekeeping Telemetry for downlink */
     VM_HkTlm_t HkTlm;

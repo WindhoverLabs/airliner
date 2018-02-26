@@ -31,30 +31,36 @@
 *
 *****************************************************************************/
 
-#ifndef VM_ARMING_H
-#define VM_ARMING_H
+#ifndef VM_MAIN_H
+#define VM_MAIN_H
 
-#include "VM_ArmingContext.h"
+#include "VM_MainContext.h"
 #include "cfe.h"
 
-class VM_Arming
+class VM_Main
 {
 public:
-	VM_Arming();
-	~VM_Arming();
+	VM_Main();
+	~VM_Main();
 
-	void EnteredStandby(void);
-	void EnteredArmed(void);
-	void EnteredStandbyError(void);
-	void EnteredArmedError(void);
-
-	void Arm(void);
-	void Disarm(void);
-	void InitComplete(void);
+    void EnteredManual();
+    void EnteredAltitudeControl();
+    void EnteredPositionControl();
+    void EnteredAutoMission();
+    void EnteredAutoLoiter();
+    void EnteredAutoReturnToLaunch();
+    void EnteredAcrobatic();
+    void EnteredOffboard();
+    void EnteredStabilize();
+    void EnteredRattitude();
+    void EnteredAutoTakeoff();
+    void EnteredAutoLand();
+    void EnteredAutoFollowTarget();
+    void EnteredAutoPrecland();
 
 	uint32 GetCurrentStateID(void);
 
-	VM_ArmingContext FSM;
+	VM_MainContext FSM;
 };
 
 

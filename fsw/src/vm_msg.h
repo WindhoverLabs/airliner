@@ -124,6 +124,34 @@ extern "C" {
 #define VM_VEHICLE_ARM_CC          (2)
 #define VM_VEHICLE_DISARM_CC       (3)
 
+#define VM_SET_MAIN_MANUAL_CC              (10)
+#define VM_SET_MAIN_ALTCTL_CC              (11)
+#define VM_SET_MAIN_POSCTL_CC              (12)
+#define VM_SET_MAIN_AUTO_MISSION_CC        (13)
+#define VM_SET_MAIN_AUTO_LOITER_CC         (14)
+#define VM_SET_MAIN_AUTO_RTL_CC            (15)
+#define VM_SET_MAIN_ACRO_CC                (16)
+#define VM_SET_MAIN_OFFBOARD_CC            (17)
+#define VM_SET_MAIN_STAB_CC                (18)
+#define VM_SET_MAIN_RATTITUDE_CC           (19)
+#define VM_SET_MAIN_AUTO_TAKEOFF_CC        (20)
+#define VM_SET_MAIN_AUTO_LAND_CC           (21)
+#define VM_SET_MAIN_AUTO_FOLLOW_TARGET_CC  (22)
+#define VM_SET_MAIN_AUTO_PRECLAND_CC       (23)
+
+#define VM_SET_NAV_MANUAL_CC               (40)
+#define VM_SET_NAV_ALTCTL_CC               (41)
+#define VM_SET_NAV_POSCTL_CC               (42)
+#define VM_SET_NAV_AUTO_MISSION_CC         (43)
+#define VM_SET_NAV_AUTO_LOITER_CC          (44)
+#define VM_SET_NAV_AUTO_RTL_CC             (45)
+#define VM_SET_NAV_AUTO_RCRECOVER_CC       (46)
+#define VM_SET_NAV_AUTO_RTGS_CC            (47)
+#define VM_SET_NAV_AUTO_LAND_ENG_FAIL_CC   (48)
+#define VM_SET_NAV_AUTO_LAND_GPS_FAIL_CC   (49)
+#define VM_SET_NAV_ACRO_CC                 (50)
+#define VM_SET_NAV_DESCEND_CC              (51)
+
 
 /************************************************************************
 ** Local Structure Declarations
@@ -156,6 +184,8 @@ typedef struct
     uint8              usCmdErrCnt; 
 
     uint32             ArmingState;
+    uint32             MainState;
+    uint32             NavState;
 
 } VM_HkTlm_t;
 
