@@ -37,10 +37,15 @@
 #include "VM_MainContext.h"
 #include "cfe.h"
 
+class VM;
+
 class VM_Main
 {
-public:
+protected:
 	VM_Main();
+
+public:
+	VM_Main(VM &inVmApp);
 	~VM_Main();
 
     void EnteredManual();
@@ -61,6 +66,7 @@ public:
 	uint32 GetCurrentStateID(void);
 
 	VM_MainContext FSM;
+	VM &App;
 };
 
 

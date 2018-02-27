@@ -24,7 +24,10 @@ VM oVM;
 /* Default constructor.                                            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-VM::VM()
+VM::VM() :
+	ArmingSM(*this),
+	MainSM(*this),
+	NavigationSM(*this)
 {
 
 }

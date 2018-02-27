@@ -37,10 +37,15 @@
 #include "VM_NavigationContext.h"
 #include "cfe.h"
 
+class VM;
+
 class VM_Navigation
 {
-public:
+protected:
 	VM_Navigation();
+
+public:
+	VM_Navigation(VM &inVmApp);
 	~VM_Navigation();
 
     void EnteredManual();
@@ -59,6 +64,7 @@ public:
 	uint32 GetCurrentStateID(void);
 
 	VM_NavigationContext FSM;
+	VM &App;
 };
 
 

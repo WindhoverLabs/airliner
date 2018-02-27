@@ -37,10 +37,15 @@
 #include "VM_ArmingContext.h"
 #include "cfe.h"
 
+class VM;
+
 class VM_Arming
 {
-public:
+protected:
 	VM_Arming();
+
+public:
+	VM_Arming(VM &inApp);
 	~VM_Arming();
 
 	void EnteredStandby(void);
@@ -55,6 +60,7 @@ public:
 	uint32 GetCurrentStateID(void);
 
 	VM_ArmingContext FSM;
+	VM &App;
 };
 
 

@@ -1,8 +1,10 @@
 #include "vm_Main.h"
 #include "vm_events.h"
+#include "vm_app.h"
 
-VM_Main::VM_Main() :
-    FSM(*this)
+VM_Main::VM_Main(VM &inApp) :
+    FSM(*this),
+    App(inApp)
 {
 
 }

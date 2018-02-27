@@ -1,8 +1,10 @@
 #include "vm_Arming.h"
 #include "vm_events.h"
+#include "vm_app.h"
 
-VM_Arming::VM_Arming() :
-    FSM(*this)
+VM_Arming::VM_Arming(VM &inApp) :
+    FSM(*this),
+	App(inApp)
 {
 
 }

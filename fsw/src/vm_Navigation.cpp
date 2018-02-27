@@ -1,8 +1,10 @@
 #include "vm_Navigation.h"
 #include "vm_events.h"
+#include "vm_app.h"
 
-VM_Navigation::VM_Navigation() :
-    FSM(*this)
+VM_Navigation::VM_Navigation(VM &inApp) :
+    FSM(*this),
+    App(inApp)
 {
 
 }
