@@ -49,7 +49,11 @@ void VM_Arming::EnteredStandby()
 
 void VM_Arming::EnteredArmed()
 {
+
     App.ActuatorArmedMsg.Armed = true;
+    App.CVT.VehicleStatusMsg.ArmingState = PX4_ArmingState_t::PX4_ARMING_STATE_ARMED;
+    App.CVT.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_LOITER;
+    memcpy(&App.VehicleStatusMsg,&App.CVT.VehicleStatusMsg,sizeof(App.CVT.VehicleStatusMsg));
 
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_ARMED_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::Armed");
@@ -102,4 +106,21 @@ void VM_Arming::DoAction()
 
 	App.ActuatorArmedMsg.Timestamp = PX4LIB_GetPX4TimeUs();
 	App.SendActuatorArmedMsg();
+}
+
+boolean VM_Arming::PreFlightCheckCleared(){
+	boolean battery_ok = true;
+	boolean safety_off = true;
+	OS_printf("checking.....");
+	/* Battery Warning Check */
+	if(App.CVT.BatteryStatusMsg.Warning >= PX4_BatteryWarningSeverity_t::PX4_BATTERY_WARNING_LOW ){
+		battery_ok = false;
+	}
+
+	/* Safety Check */
+	if(App.CVT.SafetyMsg.SafetySwitchAvailable && !App.CVT.SafetyMsg.SafetyOff){
+		safety_off = false;
+	}
+
+	return (battery_ok && safety_off);
 }

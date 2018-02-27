@@ -421,7 +421,7 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             	MainSM.DoAction();
             	NavigationSM.DoAction();
                 SendVehicleManagerStateMsg();
-                //SendVehicleStatusMsg();
+                SendVehicleStatusMsg();
                 break;
 
             case VM_SEND_HK_MID:
@@ -444,7 +444,9 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
 //            case PX4_SENSOR_PREFLIGHT_MID:
 //                memcpy(&CVT.SensorPreflightMsg, MsgPtr, sizeof(CVT.SensorPreflightMsg));
 //                break;
-
+            case PX4_BATTERY_STATUS_MID:
+                memcpy(&CVT.BatteryStatusMsg, MsgPtr, sizeof(CVT.BatteryStatusMsg));
+                break;
             case PX4_TELEMETRY_STATUS_MID:
                 memcpy(&CVT.TelemetryStatusMsg, MsgPtr, sizeof(CVT.TelemetryStatusMsg));
                 break;

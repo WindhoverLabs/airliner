@@ -19,7 +19,10 @@ Standby
 	    EnteredStandby();
 	}
 {
-    Arm           Armed {}
+    Arm           [
+    			  		ctxt.PreFlightCheckCleared() == true
+    			  ]
+    			  Armed {}
     Error         StandbyError {}
 }
 Armed
