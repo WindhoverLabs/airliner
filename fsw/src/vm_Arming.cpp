@@ -41,6 +41,7 @@ void VM_Arming::EnteredStandby()
     App.ActuatorArmedMsg.Armed = false;
     App.ActuatorArmedMsg.Prearmed = true;
     App.ActuatorArmedMsg.ReadyToArm = true;
+    App.VehicleStatusMsg.ArmingState = PX4_ArmingState_t::PX4_ARMING_STATE_STANDBY;
 
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_STANDBY_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::Standby");
@@ -51,9 +52,7 @@ void VM_Arming::EnteredArmed()
 {
 
     App.ActuatorArmedMsg.Armed = true;
-    App.CVT.VehicleStatusMsg.ArmingState = PX4_ArmingState_t::PX4_ARMING_STATE_ARMED;
-    App.CVT.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_LOITER;
-    memcpy(&App.VehicleStatusMsg,&App.CVT.VehicleStatusMsg,sizeof(App.CVT.VehicleStatusMsg));
+    App.VehicleStatusMsg.ArmingState = PX4_ArmingState_t::PX4_ARMING_STATE_ARMED;
 
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_ARMED_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::Armed");
@@ -70,6 +69,7 @@ void VM_Arming::EnteredStandbyError()
 {
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_STANDBY_ERROR_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::StandbyError");
+
 }
 
 
@@ -77,6 +77,7 @@ void VM_Arming::EnteredArmedError()
 {
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_ARMED_ERROR_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::ArmedError");
+
 }
 
 
@@ -89,6 +90,7 @@ void VM_Arming::DoAction()
 	else if(strcmp(FSM.getState().getName(),"VM_ArmingMap::Standby") == 0)
 	{
 		/* TODO */
+
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_ArmingMap::Armed") == 0)
 	{
@@ -103,15 +105,16 @@ void VM_Arming::DoAction()
 	    CFE_EVS_SendEvent(VM_IN_UNKNOWN_STATE_ERR_EID, CFE_EVS_ERROR,
 	    		"VM_ArmingMap is in unknown state (%u, '%s')", FSM.getState().getId(), FSM.getState().getName());
 	}
-
 	App.ActuatorArmedMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+	App.VehicleStatusMsg.Timestamp = PX4LIB_GetPX4TimeUs();
 	App.SendActuatorArmedMsg();
+
 }
 
 boolean VM_Arming::PreFlightCheckCleared(){
 	boolean battery_ok = true;
 	boolean safety_off = true;
-	OS_printf("checking.....");
+
 	/* Battery Warning Check */
 	if(App.CVT.BatteryStatusMsg.Warning >= PX4_BatteryWarningSeverity_t::PX4_BATTERY_WARNING_LOW ){
 		battery_ok = false;
@@ -124,3 +127,5 @@ boolean VM_Arming::PreFlightCheckCleared(){
 
 	return (battery_ok && safety_off);
 }
+
+

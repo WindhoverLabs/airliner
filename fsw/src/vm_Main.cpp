@@ -90,7 +90,7 @@ void VM_Main::EnteredAutoTakeoff()
 	cmd.Confirmation = 0;
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&cmd);
-    CFE_SB_SendMsg((CFE_SB_Msg_t*)&cmd);*/
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&cmd);
 
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_AUTO_TAKEOFF_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::AutoTakeoff");

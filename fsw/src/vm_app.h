@@ -413,6 +413,15 @@ public:
      *************************************************************************/
     boolean VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
 
+    PX4_VehicleStatusMsg_t* getVehicleStatusInMsg(){
+    	return &CVT.VehicleStatusMsg;
+    }
+
+    PX4_VehicleStatusMsg_t* getVehicleStatusOutMsg(){
+        	return &VehicleStatusMsg;
+        }
+
+
     boolean IsVehicleArmed();
 
     uint64 TimeElapsed(uint64 *);
