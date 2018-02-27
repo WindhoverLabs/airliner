@@ -526,7 +526,9 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
 //            case PX4_SENSOR_PREFLIGHT_MID:
 //                memcpy(&CVT.SensorPreflightMsg, MsgPtr, sizeof(CVT.SensorPreflightMsg));
 //                break;
-
+            case PX4_BATTERY_STATUS_MID:
+                memcpy(&CVT.BatteryStatusMsg, MsgPtr, sizeof(CVT.BatteryStatusMsg));
+                break;
             case PX4_TELEMETRY_STATUS_MID:
                 memcpy(&CVT.TelemetryStatusMsg, MsgPtr, sizeof(CVT.TelemetryStatusMsg));
                 break;
@@ -584,7 +586,7 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 break;
 
             case PX4_VEHICLE_STATUS_MID:
-                memcpy(&CVT.VehicleStatusMsg, MsgPtr, sizeof(CVT.VehicleStatusMsg));
+                memcpy(&VehicleStatusMsg, MsgPtr, sizeof(VehicleStatusMsg));
                 break;
 
             case PX4_SENSOR_COMBINED_MID:
@@ -1351,6 +1353,18 @@ boolean VM::IsVehicleArmed()
 	return ActuatorArmedMsg.Armed;
 }
 
+uint64 VM::TimeElapsed(uint64 *then)
+{
+	uint64 now = PX4LIB_GetPX4TimeUs();
+	uint64 delta = now - *then;
+	return delta;
+}
+
+uint64 VM::TimeNow()
+{
+	uint64 now = PX4LIB_GetPX4TimeUs();
+	return now;
+}
 
 /************************/
 /*  End of File Comment */

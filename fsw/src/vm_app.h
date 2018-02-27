@@ -59,6 +59,7 @@ extern "C" {
 #include "vm_events.h"
 #include "vm_tbldefs.h"
 #include "px4_msgs.h"
+#include "px4lib.h"
 
 /************************************************************************
  ** Local Defines
@@ -72,6 +73,7 @@ typedef struct
     PX4_SensorMagMsg_t SensorMagMsg;
     PX4_SensorGyroMsg_t SensorGyroMsg;
     PX4_SystemPowerMsg_t SystemPowerMsg;
+    PX4_BatteryStatusMsg_t BatteryStatusMsg;
 //    PX4_SensorPreflightMsg_t SensorPreflightMsg;
     PX4_TelemetryStatusMsg_t TelemetryStatusMsg;
     PX4_SubsystemInfoMsg_t SubsystemInfoMsg;
@@ -87,7 +89,6 @@ typedef struct
     PX4_SensorAccelMsg_t SensorAccelMsg;
     PX4_SafetyMsg_t SafetyMsg;
     PX4_SensorCorrectionMsg_t SensorCorrectionMsg;
-    PX4_VehicleStatusMsg_t VehicleStatusMsg;
     PX4_SensorCombinedMsg_t SensorCombinedMsg;
 } VM_CurrentValueTable_t;
 
@@ -139,6 +140,15 @@ public:
     VM_CurrentValueTable_t CVT;
 
     boolean ConditionLocalPositionValid;
+
+    /** \brief Timestamps vn boot */
+    uint64 VmBootTimestamp = 0;
+    float AvionicsPowerRailVoltage = -0.1f;// git it gtom systempower.voltage msg attribute
+    boolean ArmWithoutGps = false;
+    boolean ArmMissionRequired = false;
+
+
+
 
     /************************************************************************/
     /** \brief Vehicle Manager (VM) application entry point
@@ -403,6 +413,10 @@ public:
     boolean VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
 
     boolean IsVehicleArmed();
+
+    uint64 TimeElapsed(uint64 *);
+
+    uint64 TimeNow(void);
 
 private:
     /************************************************************************/

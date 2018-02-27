@@ -80,7 +80,9 @@ void VM_Main::EnteredAutoLand()
 
 void VM_Main::EnteredAutoTakeoff()
 {
+
 	PX4_VehicleCommandMsg_t cmd;
+
 
 	CFE_SB_InitMsg(&cmd, PX4_VEHICLE_COMMAND_MID, sizeof(cmd), TRUE);
 
