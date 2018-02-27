@@ -421,7 +421,7 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             	MainSM.DoAction();
             	NavigationSM.DoAction();
                 SendVehicleManagerStateMsg();
-                SendVehicleStatusMsg();
+                //SendVehicleStatusMsg();
                 break;
 
             case VM_SEND_HK_MID:
@@ -1175,6 +1175,18 @@ boolean VM::IsVehicleArmed()
 	return false;
 }
 
+uint64 VM::TimeElapsed(uint64 *then)
+{
+	uint64 now = PX4LIB_GetPX4TimeUs();
+	uint64 delta = now - *then;
+	return delta;
+}
+
+uint64 VM::TimeNow()
+{
+	uint64 now = PX4LIB_GetPX4TimeUs();
+	return now;
+}
 
 /************************/
 /*  End of File Comment */

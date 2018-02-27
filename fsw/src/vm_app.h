@@ -59,6 +59,7 @@ extern "C" {
 #include "vm_events.h"
 #include "vm_tbldefs.h"
 #include "px4_msgs.h"
+#include "px4lib.h"
 
 /************************************************************************
  ** Local Defines
@@ -139,6 +140,15 @@ public:
     VM_CurrentValueTable_t CVT;
 
     boolean ConditionLocalPositionValid;
+
+    /** \brief Timestamps vn boot */
+    uint64 VmBootTimestamp = 0;
+    float AvionicsPowerRailVoltage = -0.1f;// git it gtom systempower.voltage msg attribute
+    boolean ArmWithoutGps = false;
+    boolean ArmMissionRequired = false;
+
+
+
 
     /************************************************************************/
     /** \brief Vehicle Manager (VM) application entry point
@@ -403,6 +413,10 @@ public:
     boolean VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
 
     boolean IsVehicleArmed();
+
+    uint64 TimeElapsed(uint64 *);
+
+    uint64 TimeNow(void);
 
 private:
     /************************************************************************/
