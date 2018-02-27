@@ -56,11 +56,9 @@ void VM_Arming::EnteredArmed()
 {
     App.VehicleStatusMsg.ArmingState = PX4_ArmingState_t::PX4_ARMING_STATE_ARMED;
     App.ActuatorArmedMsg.Armed = true;
-<<<<<<< HEAD
-    App.VehicleStatusMsg.ArmingState = PX4_ArmingState_t::PX4_ARMING_STATE_ARMED;
-=======
+
     App.VehicleControlModeMsg.Armed = true;
->>>>>>> 929b9b29cbeba643d51087353e801d9515da5e6a
+
 
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_ARMED_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::Armed");
