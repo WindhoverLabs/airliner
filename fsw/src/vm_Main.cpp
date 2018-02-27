@@ -1,6 +1,8 @@
 #include "vm_Main.h"
 #include "vm_events.h"
 #include "vm_app.h"
+#include <math.h>
+#include "px4lib.h"
 
 VM_Main::VM_Main(VM &inApp) :
     FSM(*this),
@@ -66,7 +68,9 @@ void VM_Main::EnteredAutoLand()
 
 void VM_Main::EnteredAutoTakeoff()
 {
-	/*PX4_VehicleCommandMsg_t cmd;
+
+	PX4_VehicleCommandMsg_t cmd;
+
 
 	CFE_SB_InitMsg(&cmd, PX4_VEHICLE_COMMAND_MID, sizeof(cmd), TRUE);
 
