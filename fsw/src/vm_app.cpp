@@ -8,6 +8,7 @@
 #include "vm_app.h"
 #include "vm_msg.h"
 #include "vm_version.h"
+#include "px4lib.h"
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -326,8 +327,8 @@ void VM::InitData()
 	CFE_SB_InitMsg(&VehicleStatusMsg,
 		PX4_VEHICLE_STATUS_MID, sizeof(PX4_VehicleStatusMsg_t), TRUE);
 
-//	CFE_SB_InitMsg(&VehicleRoiMsg,
-//		PX4_VEHICLE_ROI_MID, sizeof(PX4_VehicleRoiMsg_t), TRUE);
+	CFE_SB_InitMsg(&VehicleControlModeMsg,
+		PX4_VEHICLE_CONTROL_MODE_MID, sizeof(PX4_VehicleControlModeMsg_t), TRUE);
 
 	ConditionLocalPositionValid = true;
 }
@@ -417,12 +418,93 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
         switch (MsgId)
         {
             case VM_WAKEUP_MID:
+            {
+            	uint64 timestamp;
+
+            	/* Execute all stateful behavior. */
             	ArmingSM.DoAction();
             	MainSM.DoAction();
             	NavigationSM.DoAction();
-                SendVehicleManagerStateMsg();
-                SendVehicleStatusMsg();
+
+            	/* Get a common timestamp. */
+            	timestamp = PX4LIB_GetPX4TimeUs();
+
+            	/* Update the ActuatorArmed message */
+            	ActuatorArmedMsg.Timestamp = timestamp;
+
+            	/* Update the VehicleManagerState message */
+            	VehicleManagerStateMsg.Timestamp = timestamp;
+
+            	/* Update the HomePosition message */
+            	HomePositionMsg.Timestamp = timestamp;
+            	HomePositionMsg.Lat = 47.39774;
+            	HomePositionMsg.Lon = 8.5456;
+            	HomePositionMsg.Alt = 488.23077;
+            	HomePositionMsg.X = 2.4739745e-7;
+            	HomePositionMsg.Y = -2.4956805e-7;
+            	HomePositionMsg.Z = 0.0021651047;
+            	HomePositionMsg.Yaw = 1.0870353;
+            	HomePositionMsg.DirectionX = 0;
+            	HomePositionMsg.DirectionY = 0;
+            	HomePositionMsg.DirectionZ = 0;
+
+            	/* Update the VehicleStatus message */
+            	VehicleStatusMsg.Timestamp = timestamp;
+            	VehicleStatusMsg.SystemID = 1;
+            	VehicleStatusMsg.ComponentID = 1;
+				VehicleStatusMsg.OnboardControlSensorsPresent = 0;
+				VehicleStatusMsg.OnboardControlSensorsEnabled = 0;
+				VehicleStatusMsg.OnboardControlSensorsHealth = 0;
+				//VehicleStatusMsg.NavigationState = PX4_NAVIGATION_STATE_AUTO_TAKEOFF
+				//VehicleStatusMsg.ArmingState = Armed
+				VehicleStatusMsg.HilState = PX4_HIL_STATE_OFF;
+				VehicleStatusMsg.Failsafe = false;
+				VehicleStatusMsg.SystemType = PX4_SYSTEM_TYPE_HEXAROTOR;
+				VehicleStatusMsg.IsRotaryWing = true;
+				VehicleStatusMsg.IsVtol = false;
+				VehicleStatusMsg.VtolFwPermanentStab = false;
+				VehicleStatusMsg.InTransitionMode = false;
+				VehicleStatusMsg.RcSignalLost = true;
+				VehicleStatusMsg.RcInputMode = PX4_RC_IN_MODE_GENERATED;
+				VehicleStatusMsg.DataLinkLost = true;
+				VehicleStatusMsg.DataLinkLostCounter = 0;
+				VehicleStatusMsg.EngineFailure = false;
+				VehicleStatusMsg.EngineFailureCmd = false;
+				VehicleStatusMsg.MissionFailure = false;
+
+            	/* Update the CommanderState message */
+            	VehicleManagerStateMsg.Timestamp = timestamp;
+
+            	/* Update the VehicleControlMode message */
+            	VehicleControlModeMsg.Timestamp = timestamp;
+            	//VehicleControlModeMsg.Armed;
+            	VehicleControlModeMsg.ExternalManualOverrideOk = false;
+            	VehicleControlModeMsg.SystemHilEnabled = false;
+            	VehicleControlModeMsg.ControlManualEnabled = false;
+            	VehicleControlModeMsg.ControlAutoEnabled = true;
+            	VehicleControlModeMsg.ControlOffboardEnabled = false;
+            	VehicleControlModeMsg.ControlRatesEnabled = true;
+            	VehicleControlModeMsg.ControlAttitudeEnabled = true;
+            	VehicleControlModeMsg.ControlRattitudeEnabled = false;
+            	VehicleControlModeMsg.ControlForceEnabled = false;
+            	VehicleControlModeMsg.ControlAccelerationEnabled = false;
+            	VehicleControlModeMsg.ControlVelocityEnabled = true;
+            	VehicleControlModeMsg.ControlPositionEnabled = true;
+            	VehicleControlModeMsg.ControlAltitudeEnabled = true;
+            	VehicleControlModeMsg.ControlClimbRateEnabled = true;
+            	VehicleControlModeMsg.ControlTerminationEnabled = false;
+            	VehicleControlModeMsg.ControlFixedHdgEnabled = false;
+
+            	/* Publish all the messages. */
+            	SendActuatorArmedMsg();
+            	SendVehicleManagerStateMsg();
+            	SendVehicleStatusMsg();
+            	SendVehicleManagerStateMsg();
+            	SendVehicleControlModeMsg();
+            	SendHomePositionMsg();
+
                 break;
+            }
 
             case VM_SEND_HK_MID:
                 ProcessCmdPipe();
@@ -504,7 +586,7 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 break;
 
             case PX4_VEHICLE_STATUS_MID:
-                memcpy(&CVT.VehicleStatusMsg, MsgPtr, sizeof(CVT.VehicleStatusMsg));
+                memcpy(&VehicleStatusMsg, MsgPtr, sizeof(VehicleStatusMsg));
                 break;
 
             case PX4_SENSOR_COMBINED_MID:
@@ -837,7 +919,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	{
                     HkTlm.usCmdErrCnt++;
             	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Main transition.  Command rejected.");
+            	    		"Illegal Nav transition.  Command rejected.");
             	}
                 break;
 
@@ -850,7 +932,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	{
                     HkTlm.usCmdErrCnt++;
             	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Main transition.  Command rejected.");
+            	    		"Illegal Nav transition.  Command rejected.");
             	}
                 break;
 
@@ -863,7 +945,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	{
                     HkTlm.usCmdErrCnt++;
             	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Main transition.  Command rejected.");
+            	    		"Illegal Nav transition.  Command rejected.");
             	}
                 break;
 
@@ -876,7 +958,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	{
                     HkTlm.usCmdErrCnt++;
             	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Main transition.  Command rejected.");
+            	    		"Illegal Nav transition.  Command rejected.");
             	}
                 break;
 
@@ -889,7 +971,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	{
                     HkTlm.usCmdErrCnt++;
             	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Main transition.  Command rejected.");
+            	    		"Illegal Nav transition.  Command rejected.");
             	}
                 break;
 
@@ -902,7 +984,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	{
                     HkTlm.usCmdErrCnt++;
             	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Main transition.  Command rejected.");
+            	    		"Illegal Nav transition.  Command rejected.");
             	}
                 break;
 
@@ -915,7 +997,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	{
                     HkTlm.usCmdErrCnt++;
             	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Main transition.  Command rejected.");
+            	    		"Illegal Nav transition.  Command rejected.");
             	}
                 break;
 
@@ -928,7 +1010,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	{
                     HkTlm.usCmdErrCnt++;
             	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Main transition.  Command rejected.");
+            	    		"Illegal Nav transition.  Command rejected.");
             	}
                 break;
 
@@ -941,7 +1023,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	{
                     HkTlm.usCmdErrCnt++;
             	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Main transition.  Command rejected.");
+            	    		"Illegal Nav transition.  Command rejected.");
             	}
                 break;
 
@@ -954,7 +1036,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	{
                     HkTlm.usCmdErrCnt++;
             	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Main transition.  Command rejected.");
+            	    		"Illegal Nav transition.  Command rejected.");
             	}
                 break;
 
@@ -967,7 +1049,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	{
                     HkTlm.usCmdErrCnt++;
             	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Main transition.  Command rejected.");
+            	    		"Illegal Nav transition.  Command rejected.");
             	}
                 break;
 
@@ -980,7 +1062,111 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	{
                     HkTlm.usCmdErrCnt++;
             	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Main transition.  Command rejected.");
+            	    		"Illegal Nav transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_TERMINATION_CC:
+            	try{
+                    NavigationSM.FSM.trTermination();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Nav transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_OFFBOARD_CC:
+            	try{
+                    NavigationSM.FSM.trOffboard();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Nav transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_STABILIZE_CC:
+            	try{
+                    NavigationSM.FSM.trStabilize();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Nav transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_RATTITUDE_CC:
+            	try{
+                    NavigationSM.FSM.trRattitude();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Nav transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_AUTO_TAKEOFF_CC:
+            	try{
+                    NavigationSM.FSM.trAutoTakeoff();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Nav transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_AUTO_LAND_CC:
+            	try{
+                    NavigationSM.FSM.trAutoLand();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Nav transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_AUTO_FOLLOW_TARGET_CC:
+            	try{
+                    NavigationSM.FSM.trAutoFollowTarget();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Nav transition.  Command rejected.");
+            	}
+                break;
+
+            case VM_SET_NAV_AUTO_PRECLAND_CC:
+            	try{
+                    NavigationSM.FSM.trAutoPrecland();
+                    HkTlm.usCmdCnt++;
+            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Nav transition.  Command rejected.");
             	}
                 break;
 
@@ -1050,11 +1236,11 @@ void VM::SendVehicleStatusMsg()
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleStatusMsg);
 }
 
-//void VM::SendVehicleRoiMsg()
-//{
-//    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&VehicleRoiMsg);
-//    CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleRoiMsg);
-//}
+void VM::SendVehicleControlModeMsg()
+{
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&VehicleControlModeMsg);
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleControlModeMsg);
+}
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

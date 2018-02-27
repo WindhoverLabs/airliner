@@ -89,7 +89,6 @@ typedef struct
     PX4_SensorAccelMsg_t SensorAccelMsg;
     PX4_SafetyMsg_t SafetyMsg;
     PX4_SensorCorrectionMsg_t SensorCorrectionMsg;
-    PX4_VehicleStatusMsg_t VehicleStatusMsg;
     PX4_SensorCombinedMsg_t SensorCombinedMsg;
 } VM_CurrentValueTable_t;
 
@@ -128,7 +127,7 @@ public:
     PX4_MissionMsg_t MissionMsg;
     PX4_LedControlMsg_t LedControlMsg;
     PX4_VehicleStatusMsg_t VehicleStatusMsg;
-//    PX4_VehicleRoiMsg_t VehicleRoiMsg;
+    PX4_VehicleControlModeMsg_t VehicleControlModeMsg;
 
     VM_Arming     ArmingSM;
     VM_Main       MainSM;
@@ -380,18 +379,18 @@ public:
      *************************************************************************/
     void SendVehicleStatusMsg(void);
 
-//    /************************************************************************/
-//    /** \brief Sends the VehicleRoiMsg message.
-//     **
-//     **  \par Description
-//     **       This function publishes the VehicleRoiMsg message containing
-//     **       <TODO>
-//     **
-//     **  \par Assumptions, External Events, and Notes:
-//     **       None
-//     **
-//     *************************************************************************/
-//    void SendVehicleRoiMsg(void);
+    /************************************************************************/
+    /** \brief Sends the VehicleControlModeMsg message.
+     **
+     **  \par Description
+     **       This function publishes the VehicleControlModeMsg message
+     **       containing <TODO>
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     *************************************************************************/
+    void SendVehicleControlModeMsg(void);
 
     /************************************************************************/
     /** \brief Verify Command Length

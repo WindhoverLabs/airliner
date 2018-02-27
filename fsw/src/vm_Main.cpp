@@ -26,6 +26,8 @@ uint32 VM_Main::GetCurrentStateID()
 
 void VM_Main::EnteredManual()
 {
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_MANUAL;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_MANUAL_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::Manual");
 }
@@ -33,6 +35,8 @@ void VM_Main::EnteredManual()
 
 void VM_Main::EnteredAltitudeControl()
 {
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_ALTCTL;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_ALTITUDE_CONTROL_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::AltitudeControl");
 }
@@ -40,6 +44,8 @@ void VM_Main::EnteredAltitudeControl()
 
 void VM_Main::EnteredPositionControl()
 {
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_POSCTL;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_POSITION_CONTROL_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::PositionControl");
 }
@@ -47,6 +53,8 @@ void VM_Main::EnteredPositionControl()
 
 void VM_Main::EnteredAutoMission()
 {
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_MISSION;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_AUTO_MISSION_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::AutoMission");
 }
@@ -54,6 +62,8 @@ void VM_Main::EnteredAutoMission()
 
 void VM_Main::EnteredAutoLoiter()
 {
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_LOITER;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_AUTO_LOITER_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::AutoLoiter");
 }
@@ -61,6 +71,8 @@ void VM_Main::EnteredAutoLoiter()
 
 void VM_Main::EnteredAutoLand()
 {
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_LAND;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_AUTO_LAND_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::EnteredAutoLand");
 }
@@ -92,6 +104,9 @@ void VM_Main::EnteredAutoTakeoff()
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&cmd);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&cmd);
 
+
+    App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_TAKEOFF;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_AUTO_TAKEOFF_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::AutoTakeoff");
 }
@@ -99,6 +114,8 @@ void VM_Main::EnteredAutoTakeoff()
 
 void VM_Main::EnteredAutoReturnToLaunch()
 {
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_RTL;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_AUTO_RTL_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::AutoReturnToLaunch");
 }
@@ -106,6 +123,8 @@ void VM_Main::EnteredAutoReturnToLaunch()
 
 void VM_Main::EnteredAutoFollowTarget()
 {
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_FOLLOW_TARGET;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_AUTO_FOLLOW_TARGET_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::AutoFollowTarget");
 }
@@ -113,6 +132,8 @@ void VM_Main::EnteredAutoFollowTarget()
 
 void VM_Main::EnteredAutoPrecland()
 {
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_PRECLAND;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_AUTO_PRECLAND_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::AutoPrecland");
 }
@@ -120,6 +141,8 @@ void VM_Main::EnteredAutoPrecland()
 
 void VM_Main::EnteredAcrobatic()
 {
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_ACRO;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_ACROBATIC_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::Acrobatic");
 }
@@ -127,6 +150,8 @@ void VM_Main::EnteredAcrobatic()
 
 void VM_Main::EnteredOffboard()
 {
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_OFFBOARD;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_OFFBOARD_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::Offboard");
 }
@@ -134,6 +159,8 @@ void VM_Main::EnteredOffboard()
 
 void VM_Main::EnteredRattitude()
 {
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_RATTITUDE;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_RATTITUDE_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::Rattitude");
 }
@@ -141,6 +168,8 @@ void VM_Main::EnteredRattitude()
 
 void VM_Main::EnteredStabilize()
 {
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_STAB;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_STABILIZE_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::Stabilize");
 }

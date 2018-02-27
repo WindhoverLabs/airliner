@@ -33,6 +33,8 @@ void VM_Arming::EnteredInit(void)
     App.ActuatorArmedMsg.ManualLockdown = false;
     App.ActuatorArmedMsg.ForceFailsafe = false;
     App.ActuatorArmedMsg.InEscCalibrationMode = false;
+
+	App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_INIT;
 }
 
 
@@ -43,6 +45,8 @@ void VM_Arming::EnteredStandby()
     App.ActuatorArmedMsg.ReadyToArm = true;
     App.VehicleStatusMsg.ArmingState = PX4_ArmingState_t::PX4_ARMING_STATE_STANDBY;
 
+	App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_STANDBY;
+
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_STANDBY_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::Standby");
 }
@@ -50,9 +54,13 @@ void VM_Arming::EnteredStandby()
 
 void VM_Arming::EnteredArmed()
 {
-
-    App.ActuatorArmedMsg.Armed = true;
     App.VehicleStatusMsg.ArmingState = PX4_ArmingState_t::PX4_ARMING_STATE_ARMED;
+    App.ActuatorArmedMsg.Armed = true;
+<<<<<<< HEAD
+    App.VehicleStatusMsg.ArmingState = PX4_ArmingState_t::PX4_ARMING_STATE_ARMED;
+=======
+    App.VehicleControlModeMsg.Armed = true;
+>>>>>>> 929b9b29cbeba643d51087353e801d9515da5e6a
 
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_ARMED_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::Armed");
@@ -62,11 +70,14 @@ void VM_Arming::EnteredArmed()
 void VM_Arming::ExitedArmed()
 {
     App.ActuatorArmedMsg.Armed = false;
+    App.VehicleControlModeMsg.Armed = false;
 }
 
 
 void VM_Arming::EnteredStandbyError()
 {
+	App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_STANDBY_ERROR;
+
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_STANDBY_ERROR_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::StandbyError");
 
@@ -75,6 +86,8 @@ void VM_Arming::EnteredStandbyError()
 
 void VM_Arming::EnteredArmedError()
 {
+	App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_ARMED_ERROR;
+
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_ARMED_ERROR_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::ArmedError");
 
@@ -105,9 +118,6 @@ void VM_Arming::DoAction()
 	    CFE_EVS_SendEvent(VM_IN_UNKNOWN_STATE_ERR_EID, CFE_EVS_ERROR,
 	    		"VM_ArmingMap is in unknown state (%u, '%s')", FSM.getState().getId(), FSM.getState().getName());
 	}
-	App.ActuatorArmedMsg.Timestamp = PX4LIB_GetPX4TimeUs();
-	App.VehicleStatusMsg.Timestamp = PX4LIB_GetPX4TimeUs();
-	App.SendActuatorArmedMsg();
 
 }
 
