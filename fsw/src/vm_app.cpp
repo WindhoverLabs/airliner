@@ -329,7 +329,7 @@ void VM::InitData()
 //	CFE_SB_InitMsg(&VehicleRoiMsg,
 //		PX4_VEHICLE_ROI_MID, sizeof(PX4_VehicleRoiMsg_t), TRUE);
 
-	ConditionLocalPositionValid = false;
+	ConditionLocalPositionValid = true;
 }
 
 
