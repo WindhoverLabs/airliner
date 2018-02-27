@@ -1,4 +1,4 @@
-%start VM_MainMap::AutoLoiter
+%start VM_MainMap::Init
 %class VM_Main
 %fsmclass VM_MainContext
 %header vm_Main.h
@@ -336,5 +336,9 @@ AutoPrecland
                          AutoTakeoff        { EnteredAutoTakeoff(); }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
+}
+Init
+{
+    trInitComplete       AutoLoiter         { }
 }
 %%

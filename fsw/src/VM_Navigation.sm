@@ -1,4 +1,4 @@
-%start VM_NavigationMap::AutoLoiter
+%start VM_NavigationMap::Init
 %class VM_Navigation
 %fsmclass VM_NavigationContext
 %header vm_Navigation.h
@@ -528,5 +528,10 @@ AutoPrecland
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
 }
+Init
+{
+    trInitComplete       AutoLoiter         { }
+}
+    
 
 %%

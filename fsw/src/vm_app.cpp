@@ -1326,6 +1326,8 @@ void VM::AppMain()
 
     /* TODO:  Replace with appropriate code to cause a transition. */
     ArmingSM.FSM.InitComplete();
+    MainSM.FSM.trInitComplete();
+    NavigationSM.FSM.trInitComplete();
 
     /* Application main loop */
     while (CFE_ES_RunLoop(&uiRunStatus) == TRUE)
