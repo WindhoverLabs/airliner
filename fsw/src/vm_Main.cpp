@@ -66,6 +66,28 @@ void VM_Main::EnteredAutoLand()
 
 void VM_Main::EnteredAutoTakeoff()
 {
+	PX4_VehicleCommandAckMsg_t cmd;
+
+	CFE_SB_InitMsg(&cmd, PX4_VEHICLE_COMMAND_MID, sizeof(cmd), TRUE);
+
+	cmd.Timestamp = PX4LIB_GetPX4TimeUs();
+	cmd.Param1 = NAN;
+	cmd.Param2 = NAN;
+	cmd.Param3 = NAN;
+	cmd.Param4 = NAN;
+	cmd.Param5 = NAN;
+	cmd.Param6 = NAN;
+	cmd.Param7 = NAN;
+	cmd.Command = PX4_VEHICLE_CMD_NAV_TAKEOFF;
+	cmd.TargetSystem = 0;
+	cmd.TargetComponent = 0;
+	cmd.SourceSystem = 0;
+	cmd.SourceComponent = 0;
+	cmd.Confirmation = 0;
+
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&cmd);
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&cmd);
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_AUTO_TAKEOFF_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::AutoTakeoff");
 }
