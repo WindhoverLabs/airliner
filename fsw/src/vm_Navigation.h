@@ -73,6 +73,8 @@ public:
 
 	void DoAction(void);
 
+	boolean IsStabilizationRequired(void);
+
 	VM_NavigationContext FSM;
 	VM &App;
 };

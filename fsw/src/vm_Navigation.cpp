@@ -2,6 +2,30 @@
 #include "vm_events.h"
 #include "vm_app.h"
 
+typedef enum {
+    VM_NAVSM_MANUAL_STATE,
+    VM_NAVSM_ALTCTL,
+    VM_NAVSM_POSCTL,
+    VM_NAVSM_AUTO_MISSION,
+    VM_NAVSM_AUTO_LOITER,
+    VM_NAVSM_AUTO_RTL,
+    VM_NAVSM_AUTO_RCRECOVER,
+    VM_NAVSM_AUTO_RTGS,
+    VM_NAVSM_AUTO_LAND_ENGINE_FAIL,
+    VM_NAVSM_AUTO_LAND_GPS_FAIL,
+    VM_NAVSM_ACRO,
+    VM_NAVSM_DESCEND,
+    VM_NAVSM_TERMINATION,
+    VM_NAVSM_OFFBOARD,
+    VM_NAVSM_STAB,
+    VM_NAVSM_RATTITUDE,
+    VM_NAVSM_AUTO_TAKEOFF,
+    VM_NAVSM_AUTO_LAND,
+    VM_NAVSM_AUTO_FOLLOW_TARGET,
+    VM_NAVSM_AUTO_PRECLAND
+} VM_NavSM_StateType;
+
+
 VM_Navigation::VM_Navigation(VM &inApp) :
     FSM(*this),
     App(inApp)
@@ -207,89 +231,360 @@ void VM_Navigation::EnteredAutoPrecland()
 
 void VM_Navigation::DoAction()
 {
+	/* TODO - Replace these next two lines with the correct code. */
+	App.VehicleControlModeMsg.SystemHilEnabled = false;
+	App.VehicleControlModeMsg.ExternalManualOverrideOk = false;
+
+	App.VehicleControlModeMsg.ControlOffboardEnabled = false;
+
+	switch(FSM.getState().getId())
+	{
+		case VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE:
+			App.VehicleControlModeMsg.ControlManualEnabled = true;
+			App.VehicleControlModeMsg.ControlAutoEnabled = false;
+			App.VehicleControlModeMsg.ControlRatesEnabled = IsStabilizationRequired();
+			App.VehicleControlModeMsg.ControlAttitudeEnabled = IsStabilizationRequired();
+			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlClimbRateEnabled = false;
+			App.VehicleControlModeMsg.ControlPositionEnabled = false;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+			break;
+
+		case VM_NavSM_StateType::VM_NAVSM_ALTCTL:
+			App.VehicleControlModeMsg.ControlManualEnabled = true;
+			App.VehicleControlModeMsg.ControlAutoEnabled = false;
+			App.VehicleControlModeMsg.ControlRatesEnabled = true;
+			App.VehicleControlModeMsg.ControlAttitudeEnabled = true;
+			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlAltitudeEnabled = true;
+			App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
+			App.VehicleControlModeMsg.ControlPositionEnabled = false;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+			break;
+
+		case VM_NavSM_StateType::VM_NAVSM_POSCTL:
+			App.VehicleControlModeMsg.ControlManualEnabled = true;
+			App.VehicleControlModeMsg.ControlAutoEnabled = false;
+			App.VehicleControlModeMsg.ControlRatesEnabled = true;
+			App.VehicleControlModeMsg.ControlAttitudeEnabled = true;
+			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlAltitudeEnabled = true;
+			App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
+			/* TODO - Replace the next 2 lines with the correct code. */
+			App.VehicleControlModeMsg.ControlPositionEnabled = false;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+			break;
+
+		/* Fallthru */
+		case VM_NavSM_StateType::VM_NAVSM_AUTO_RTL:
+		case VM_NavSM_StateType::VM_NAVSM_AUTO_RCRECOVER:
+			App.VehicleControlModeMsg.ExternalManualOverrideOk = false;
+		/* Continue the fallthru */
+		case VM_NavSM_StateType::VM_NAVSM_AUTO_FOLLOW_TARGET:
+		case VM_NavSM_StateType::VM_NAVSM_AUTO_RTGS:
+		case VM_NavSM_StateType::VM_NAVSM_AUTO_LAND:
+		case VM_NavSM_StateType::VM_NAVSM_AUTO_LAND_ENGINE_FAIL:
+		case VM_NavSM_StateType::VM_NAVSM_AUTO_MISSION:
+		case VM_NavSM_StateType::VM_NAVSM_AUTO_LOITER:
+		case VM_NavSM_StateType::VM_NAVSM_AUTO_TAKEOFF:
+			App.VehicleControlModeMsg.ControlManualEnabled = false;
+			App.VehicleControlModeMsg.ControlAutoEnabled = true;
+			App.VehicleControlModeMsg.ControlRatesEnabled = true;
+			App.VehicleControlModeMsg.ControlAttitudeEnabled = true;
+			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlAltitudeEnabled = true;
+			App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
+			/* TODO - Replace the next 2 lines with the correct code. */
+			App.VehicleControlModeMsg.ControlPositionEnabled = false;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+			break;
+
+		case VM_NavSM_StateType::VM_NAVSM_AUTO_LAND_GPS_FAIL:
+			App.VehicleControlModeMsg.ControlManualEnabled = false;
+			App.VehicleControlModeMsg.ControlAutoEnabled = true;
+			App.VehicleControlModeMsg.ControlRatesEnabled = true;
+			App.VehicleControlModeMsg.ControlAttitudeEnabled = true;
+			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
+			App.VehicleControlModeMsg.ControlPositionEnabled = false;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+			break;
+
+		case VM_NavSM_StateType::VM_NAVSM_ACRO:
+			App.VehicleControlModeMsg.ControlManualEnabled = true;
+			App.VehicleControlModeMsg.ControlAutoEnabled = false;
+			App.VehicleControlModeMsg.ControlRatesEnabled = true;
+			App.VehicleControlModeMsg.ControlAttitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlClimbRateEnabled = false;
+			App.VehicleControlModeMsg.ControlPositionEnabled = false;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+			break;
+
+		case VM_NavSM_StateType::VM_NAVSM_DESCEND:
+			App.VehicleControlModeMsg.ControlManualEnabled = false;
+			App.VehicleControlModeMsg.ControlAutoEnabled = true;
+			App.VehicleControlModeMsg.ControlRatesEnabled = true;
+			App.VehicleControlModeMsg.ControlAttitudeEnabled = true;
+			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
+			App.VehicleControlModeMsg.ControlPositionEnabled = false;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+			break;
+
+		case VM_NavSM_StateType::VM_NAVSM_TERMINATION:
+			App.VehicleControlModeMsg.ControlManualEnabled = false;
+			App.VehicleControlModeMsg.ControlAutoEnabled = false;
+			App.VehicleControlModeMsg.ControlRatesEnabled = false;
+			App.VehicleControlModeMsg.ControlAttitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlClimbRateEnabled = false;
+			App.VehicleControlModeMsg.ControlPositionEnabled = false;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+			App.VehicleControlModeMsg.ControlTerminationEnabled = true;
+			break;
+
+		case VM_NavSM_StateType::VM_NAVSM_OFFBOARD:
+			App.VehicleControlModeMsg.ControlManualEnabled = false;
+			App.VehicleControlModeMsg.ControlAutoEnabled = false;
+			App.VehicleControlModeMsg.ControlOffboardEnabled = true;
+			/* TODO - Replace the rest of the case with the correct code. */
+			App.VehicleControlModeMsg.ControlAttitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlClimbRateEnabled = false;
+			App.VehicleControlModeMsg.ControlPositionEnabled = false;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+			App.VehicleControlModeMsg.ControlTerminationEnabled = true;
+			break;
+
+		case VM_NavSM_StateType::VM_NAVSM_STAB:
+			App.VehicleControlModeMsg.ControlManualEnabled = true;
+			App.VehicleControlModeMsg.ControlAutoEnabled = false;
+			App.VehicleControlModeMsg.ControlRatesEnabled = true;
+			App.VehicleControlModeMsg.ControlAttitudeEnabled = true;
+			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlClimbRateEnabled = false;
+			App.VehicleControlModeMsg.ControlPositionEnabled = false;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+			App.VehicleControlModeMsg.ExternalManualOverrideOk = false;
+			break;
+
+		case VM_NavSM_StateType::VM_NAVSM_RATTITUDE:
+			App.VehicleControlModeMsg.ControlManualEnabled = true;
+			App.VehicleControlModeMsg.ControlAutoEnabled = false;
+			App.VehicleControlModeMsg.ControlRatesEnabled = true;
+			App.VehicleControlModeMsg.ControlAttitudeEnabled = true;
+			App.VehicleControlModeMsg.ControlRattitudeEnabled = true;
+			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlClimbRateEnabled = false;
+			App.VehicleControlModeMsg.ControlPositionEnabled = false;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+			break;
+
+		case VM_NavSM_StateType::VM_NAVSM_AUTO_PRECLAND:
+			/* TODO - Replace entire case with correct code. */
+			App.VehicleControlModeMsg.ControlManualEnabled = true;
+			App.VehicleControlModeMsg.ControlAutoEnabled = false;
+			App.VehicleControlModeMsg.ControlRatesEnabled = false;
+			App.VehicleControlModeMsg.ControlAttitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
+			App.VehicleControlModeMsg.ControlClimbRateEnabled = false;
+			App.VehicleControlModeMsg.ControlPositionEnabled = false;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
+			break;
+
+		default:
+		    CFE_EVS_SendEvent(VM_IN_UNKNOWN_STATE_ERR_EID, CFE_EVS_ERROR,
+		    		"VM_NavigationMap is in unknown state (%u, '%s')", FSM.getState().getId(), FSM.getState().getName());
+	}
+}
+
+
+
+
+/* TODO:  I'll finish this later. */
+/*
+void VM_Navigation::IsStateMachineSane()
+{
+	bool isSane = true;
 	if(strcmp(FSM.getState().getName(),"VM_NavigationMap::Manual") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AltitudeControl") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::PositionControl") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoMission") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoLoiter") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoReturnToLaunch") == 0)
 	{
-		/* TODO */
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoRCRecover") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoRtgs") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoLandEngineFail") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoLandGpsFail") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::Acrobatic") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::Descend") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::Termination") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::Offboard") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::Stabilize") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::Rattitude") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoTakeoff") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoLand") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoFollowTarget") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoPrecland") == 0)
 	{
-		/* TODO */
+		if(FSM.getState().getId() != VM_NavSM_StateType::VM_NAVSM_MANUAL_STATE)
+		{
+			isSane = false;
+		}
 	}
 	else
 	{
 	    CFE_EVS_SendEvent(VM_IN_UNKNOWN_STATE_ERR_EID, CFE_EVS_ERROR,
 	    		"VM_NavigationMap is in unknown state (%u, '%s')", FSM.getState().getId(), FSM.getState().getName());
 	}
+}
+*/
+
+
+
+boolean VM_Navigation::IsStabilizationRequired(void)
+{
+	/* TODO */
+	return true;
 }
