@@ -134,8 +134,12 @@ public:
 
     /** \brief Housekeeping Telemetry for downlink */
     VM_HkTlm_t HkTlm;
+
     /** \brief Current Value Table */
     VM_CurrentValueTable_t CVT;
+
+    boolean ConditionLocalPositionValid;
+
     /************************************************************************/
     /** \brief Vehicle Manager (VM) application entry point
      **
@@ -397,6 +401,8 @@ public:
      **
      *************************************************************************/
     boolean VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
+
+    boolean IsVehicleArmed();
 
 private:
     /************************************************************************/

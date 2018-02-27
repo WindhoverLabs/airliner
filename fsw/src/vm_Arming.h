@@ -48,14 +48,18 @@ public:
 	VM_Arming(VM &inApp);
 	~VM_Arming();
 
+	void EnteredInit(void);
 	void EnteredStandby(void);
 	void EnteredArmed(void);
+	void ExitedArmed(void);
 	void EnteredStandbyError(void);
 	void EnteredArmedError(void);
 
 	void Arm(void);
 	void Disarm(void);
 	void InitComplete(void);
+
+	void DoAction(void);
 
 	uint32 GetCurrentStateID(void);
 

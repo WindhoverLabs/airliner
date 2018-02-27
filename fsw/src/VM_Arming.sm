@@ -6,23 +6,47 @@
 
 %%
 Init
+    Entry
+    {
+	    EnteredInit();
+    }
 {
-    InitComplete  Standby { EnteredStandby(); }
+    InitComplete  Standby {}
 }
 Standby
+    Entry
+    {
+	    EnteredStandby();
+	}
 {
-    Arm           Armed {EnteredArmed(); }
-    Error         StandbyError {EnteredStandbyError(); }
+    Arm           Armed {}
+    Error         StandbyError {}
 }
 Armed
+    Entry
+    {
+        EnteredArmed();
+    }
+    Exit
+    {
+        ExitedArmed();
+    }
 {
-    Disarm        Standby {EnteredStandby(); }
-    Error         ArmedError {EnteredArmedError(); }
+    Disarm        Standby {}
+    Error         ArmedError {}
 }
 StandbyError
+    Entry
+    {
+        EnteredStandbyError();
+    }
 {
 }
 ArmedError
+    Entry
+    {
+        EnteredArmedError();
+    }
 {
 }
 %%

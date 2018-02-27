@@ -328,6 +328,8 @@ void VM::InitData()
 
 //	CFE_SB_InitMsg(&VehicleRoiMsg,
 //		PX4_VEHICLE_ROI_MID, sizeof(PX4_VehicleRoiMsg_t), TRUE);
+
+	ConditionLocalPositionValid = false;
 }
 
 
@@ -415,7 +417,11 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
         switch (MsgId)
         {
             case VM_WAKEUP_MID:
-                /* TODO:  Do something here. */
+            	ArmingSM.DoAction();
+            	MainSM.DoAction();
+            	NavigationSM.DoAction();
+                SendVehicleManagerStateMsg();
+                SendVehicleStatusMsg();
                 break;
 
             case VM_SEND_HK_MID:
@@ -769,16 +775,26 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 break;
 
             case VM_SET_MAIN_AUTO_TAKEOFF_CC:
-            	try{
-                    MainSM.FSM.trAutoTakeoff();
-                    HkTlm.usCmdCnt++;
-            	}
-            	catch(statemap::TransitionUndefinedException e)
+            	/* Check to make sure we have a valid local position first. */
+            	if(ConditionLocalPositionValid == true)
             	{
-                    HkTlm.usCmdErrCnt++;
-            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Main transition.  Command rejected.");
+            		/* Check if vehicle is armed. */
+            		if(IsVehicleArmed() == true)
+            		{
+            			/* Send a VehicleCommand message to initiate the takeoff. */
+            			//memset(&VehicleCommandMsg, 0, sizeof(VehicleCommandMsg));
+            		}
             	}
+//            	try{
+//                    MainSM.FSM.trAutoTakeoff();
+//                    HkTlm.usCmdCnt++;
+//            	}
+//            	catch(statemap::TransitionUndefinedException e)
+//            	{
+//                    HkTlm.usCmdErrCnt++;
+//            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+//            	    		"Illegal Main transition.  Command rejected.");
+//            	}
                 break;
 
             case VM_SET_MAIN_AUTO_LAND_CC:
@@ -1151,6 +1167,12 @@ void VM::AppMain()
 
     /* Exit the application */
     CFE_ES_ExitApp(uiRunStatus);
+}
+
+
+boolean VM::IsVehicleArmed()
+{
+	return false;
 }
 
 

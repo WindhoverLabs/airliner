@@ -120,3 +120,67 @@ void VM_Main::EnteredStabilize()
 }
 
 
+void VM_Main::DoAction()
+{
+	if(strcmp(FSM.getState().getName(),"VM_MainMap::Manual") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_MainMap::AltitudeControl") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_MainMap::PositionControl") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_MainMap::AutoMission") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_MainMap::AutoLoiter") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_MainMap::AutoReturnToLaunch") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_MainMap::Acrobatic") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_MainMap::Offboard") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_MainMap::Stabilize") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_MainMap::Rattitude") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_MainMap::AutoTakeoff") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_MainMap::AutoLand") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_MainMap::AutoFollowTarget") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_MainMap::AutoPrecland") == 0)
+	{
+		/* TODO */
+	}
+	else
+	{
+	    CFE_EVS_SendEvent(VM_IN_UNKNOWN_STATE_ERR_EID, CFE_EVS_ERROR,
+	    		"VM_MainMap is in unknown state (%u, '%s')", FSM.getState().getId(), FSM.getState().getName());
+	}
+}

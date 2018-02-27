@@ -70,6 +70,7 @@ add_airliner_app_unit_test(vm-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_testrunner.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_test_utils.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_stubs.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_app.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_app.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_config_utils.cpp

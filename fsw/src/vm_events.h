@@ -283,6 +283,7 @@ typedef enum {
 	VM_NAVSN_ENTERED_LAND_GPS_FAIL_INFO_EID,
 	VM_NAVSN_ENTERED_ACRO_INFO_EID,
 	VM_NAVSN_ENTERED_DESCEND_INFO_EID,
+	VM_IN_UNKNOWN_STATE_ERR_EID,
 
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
 	VM_EVT_CNT

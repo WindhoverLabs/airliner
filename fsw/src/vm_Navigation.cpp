@@ -104,3 +104,61 @@ void VM_Navigation::EnteredDescend()
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_DESCEND_INFO_EID, CFE_EVS_INFORMATION,
     		"Navigation::Descend");
 }
+
+
+void VM_Navigation::DoAction()
+{
+	if(strcmp(FSM.getState().getName(),"VM_NavigationMap::Manual") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AltitudeControl") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::PositionControl") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoMission") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoLoiter") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoReturnToLaunch") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoRCRecover") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoRtgs") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoLandEngineFail") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::AutoLandGpsFail") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::Acrobatic") == 0)
+	{
+		/* TODO */
+	}
+	else if(strcmp(FSM.getState().getName(),"VM_NavigationMap::Descend") == 0)
+	{
+		/* TODO */
+	}
+	else
+	{
+	    CFE_EVS_SendEvent(VM_IN_UNKNOWN_STATE_ERR_EID, CFE_EVS_ERROR,
+	    		"VM_NavigationMap is in unknown state (%u, '%s')", FSM.getState().getId(), FSM.getState().getName());
+	}
+}

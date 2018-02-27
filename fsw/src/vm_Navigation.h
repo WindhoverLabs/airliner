@@ -63,6 +63,8 @@ public:
 
 	uint32 GetCurrentStateID(void);
 
+	void DoAction(void);
+
 	VM_NavigationContext FSM;
 	VM &App;
 };
