@@ -6,174 +6,527 @@
 
 %%
 Manual
+    Entry
+    {
+        EnteredManual();
+    }
 {
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAutoRCRecover      AutoRCRecover      { EnteredAutoRCRecover(); }
-    trAutoRtgs           AutoRtgs           { EnteredAutoRtgs(); }
-    trAutoLandEngineFail AutoLandEngineFail { EnteredAutoLandEngineFail(); }
-    trAutoLandGpsFail    AutoLandGpsFail    { EnteredAutoLandGpsFail(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trDescend            Descend            { EnteredDescend(); }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 AltitudeControl
+    Entry
+    {
+        EnteredAltitudeControl();
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAutoRCRecover      AutoRCRecover      { EnteredAutoRCRecover(); }
-    trAutoRtgs           AutoRtgs           { EnteredAutoRtgs(); }
-    trAutoLandEngineFail AutoLandEngineFail { EnteredAutoLandEngineFail(); }
-    trAutoLandGpsFail    AutoLandGpsFail    { EnteredAutoLandGpsFail(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trDescend            Descend            { EnteredDescend(); }
+    trManual             Manual             { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 PositionControl
+    Entry
+    {
+        EnteredPositionControl();
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAutoRCRecover      AutoRCRecover      { EnteredAutoRCRecover(); }
-    trAutoRtgs           AutoRtgs           { EnteredAutoRtgs(); }
-    trAutoLandEngineFail AutoLandEngineFail { EnteredAutoLandEngineFail(); }
-    trAutoLandGpsFail    AutoLandGpsFail    { EnteredAutoLandGpsFail(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trDescend            Descend            { EnteredDescend(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 AutoMission
+    Entry
+    {
+        EnteredAutoMission();
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAutoRCRecover      AutoRCRecover      { EnteredAutoRCRecover(); }
-    trAutoRtgs           AutoRtgs           { EnteredAutoRtgs(); }
-    trAutoLandEngineFail AutoLandEngineFail { EnteredAutoLandEngineFail(); }
-    trAutoLandGpsFail    AutoLandGpsFail    { EnteredAutoLandGpsFail(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trDescend            Descend            { EnteredDescend(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 AutoLoiter
+    Entry
+    {
+        EnteredAutoLoiter();
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAutoRCRecover      AutoRCRecover      { EnteredAutoRCRecover(); }
-    trAutoRtgs           AutoRtgs           { EnteredAutoRtgs(); }
-    trAutoLandEngineFail AutoLandEngineFail { EnteredAutoLandEngineFail(); }
-    trAutoLandGpsFail    AutoLandGpsFail    { EnteredAutoLandGpsFail(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trDescend            Descend            { EnteredDescend(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 AutoReturnToLaunch
+    Entry
+    {
+        EnteredAutoReturnToLaunch();
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoRCRecover      AutoRCRecover      { EnteredAutoRCRecover(); }
-    trAutoRtgs           AutoRtgs           { EnteredAutoRtgs(); }
-    trAutoLandEngineFail AutoLandEngineFail { EnteredAutoLandEngineFail(); }
-    trAutoLandGpsFail    AutoLandGpsFail    { EnteredAutoLandGpsFail(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trDescend            Descend            { EnteredDescend(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 AutoRCRecover
+    Entry
+    {
+        EnteredAutoRCRecover();
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAutoRtgs           AutoRtgs           { EnteredAutoRtgs(); }
-    trAutoLandEngineFail AutoLandEngineFail { EnteredAutoLandEngineFail(); }
-    trAutoLandGpsFail    AutoLandGpsFail    { EnteredAutoLandGpsFail(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trDescend            Descend            { EnteredDescend(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 AutoRtgs
+    Entry
+    {
+        EnteredAutoRtgs();
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAutoRCRecover      AutoRCRecover      { EnteredAutoRCRecover(); }
-    trAutoLandEngineFail AutoLandEngineFail { EnteredAutoLandEngineFail(); }
-    trAutoLandGpsFail    AutoLandGpsFail    { EnteredAutoLandGpsFail(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trDescend            Descend            { EnteredDescend(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 AutoLandEngineFail
+    Entry
+    {
+        EnteredAutoLandEngineFail();
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAutoRCRecover      AutoRCRecover      { EnteredAutoRCRecover(); }
-    trAutoRtgs           AutoRtgs           { EnteredAutoRtgs(); }
-    trAutoLandGpsFail    AutoLandGpsFail    { EnteredAutoLandGpsFail(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trDescend            Descend            { EnteredDescend(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 AutoLandGpsFail
+    Entry
+    {
+        EnteredAutoLandGpsFail();
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAutoRCRecover      AutoRCRecover      { EnteredAutoRCRecover(); }
-    trAutoRtgs           AutoRtgs           { EnteredAutoRtgs(); }
-    trAutoLandEngineFail AutoLandEngineFail { EnteredAutoLandEngineFail(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trDescend            Descend            { EnteredDescend(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 Acrobatic
+    Entry
+    {
+        EnteredAcrobatic();
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAutoRCRecover      AutoRCRecover      { EnteredAutoRCRecover(); }
-    trAutoRtgs           AutoRtgs           { EnteredAutoRtgs(); }
-    trAutoLandEngineFail AutoLandEngineFail { EnteredAutoLandEngineFail(); }
-    trAutoLandGpsFail    AutoLandGpsFail    { EnteredAutoLandGpsFail(); }
-    trDescend            Descend            { EnteredDescend(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 Unused
 {
 }
 Descend
+    Entry
+    {
+        EnteredDescend();
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAutoRCRecover      AutoRCRecover      { EnteredAutoRCRecover(); }
-    trAutoRtgs           AutoRtgs           { EnteredAutoRtgs(); }
-    trAutoLandEngineFail AutoLandEngineFail { EnteredAutoLandEngineFail(); }
-    trAutoLandGpsFail    AutoLandGpsFail    { EnteredAutoLandGpsFail(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
+Termination
+    Entry
+    {
+        EnteredTermination();
+    }
+{
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
+}
+Offboard
+    Entry
+    {
+        EnteredOffboard();
+    }
+{
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
+}
+Stabilize
+    Entry
+    {
+        EnteredStabilize();
+    }
+{
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
+}
+Rattitude
+    Entry
+    {
+        EnteredRattitude();
+    }
+{
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
+}
+AutoTakeoff
+    Entry
+    {
+        EnteredAutoTakeoff();
+    }
+{
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
+}
+AutoLand
+    Entry
+    {
+        EnteredAutoLand();
+    }
+{
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
+}
+AutoFollowTarget
+    Entry
+    {
+        EnteredAutoFollowTarget();
+    }
+{
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoPrecland       AutoPrecland       { }
+}
+AutoPrecland
+    Entry
+    {
+        EnteredAutoPrecland();
+    }
+{
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAutoRCRecover      AutoRCRecover      { }
+    trAutoRtgs           AutoRtgs           { }
+    trAutoLandEngineFail AutoLandEngineFail { }
+    trAutoLandGpsFail    AutoLandGpsFail    { }
+    trAcrobatic          Acrobatic          { }
+    trDescend            Descend            { }
+    trTermination        Termination        { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+}
+
 %%

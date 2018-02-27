@@ -60,6 +60,14 @@ public:
     void EnteredAutoLandGpsFail();
     void EnteredAcrobatic();
     void EnteredDescend();
+    void EnteredTermination();
+    void EnteredOffboard();
+    void EnteredStabilize();
+    void EnteredRattitude();
+    void EnteredAutoTakeoff();
+    void EnteredAutoLand();
+    void EnteredAutoFollowTarget();
+    void EnteredAutoPrecland();
 
 	uint32 GetCurrentStateID(void);
 

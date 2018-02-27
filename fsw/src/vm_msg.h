@@ -151,6 +151,14 @@ extern "C" {
 #define VM_SET_NAV_AUTO_LAND_GPS_FAIL_CC   (49)
 #define VM_SET_NAV_ACRO_CC                 (50)
 #define VM_SET_NAV_DESCEND_CC              (51)
+#define VM_SET_NAV_TERMINATION_CC          (52)
+#define VM_SET_NAV_OFFBOARD_CC             (53)
+#define VM_SET_NAV_STABILIZE_CC            (54)
+#define VM_SET_NAV_RATTITUDE_CC            (55)
+#define VM_SET_NAV_AUTO_TAKEOFF_CC         (56)
+#define VM_SET_NAV_AUTO_LAND_CC            (57)
+#define VM_SET_NAV_AUTO_FOLLOW_TARGET_CC   (58)
+#define VM_SET_NAV_AUTO_PRECLAND_CC        (59)
 
 
 /************************************************************************
