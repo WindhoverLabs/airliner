@@ -1,4 +1,4 @@
-%start VM_MainMap::Manual
+%start VM_MainMap::AutoLoiter
 %class VM_Main
 %fsmclass VM_MainContext
 %header vm_Main.h
