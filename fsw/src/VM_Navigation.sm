@@ -1,4 +1,4 @@
-%start VM_NavigationMap::Manual
+%start VM_NavigationMap::AutoLoiter
 %class VM_Navigation
 %fsmclass VM_NavigationContext
 %header vm_Navigation.h
