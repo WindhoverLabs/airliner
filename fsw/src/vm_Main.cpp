@@ -184,3 +184,15 @@ void VM_Main::DoAction()
 	    		"VM_MainMap is in unknown state (%u, '%s')", FSM.getState().getId(), FSM.getState().getName());
 	}
 }
+
+
+boolean VM_Main::IsConditionLocalPositionValid()
+{
+	return App.ConditionLocalPositionValid;
+}
+
+
+boolean VM_Main::IsVehicleArmed()
+{
+	return App.IsVehicleArmed();
+}

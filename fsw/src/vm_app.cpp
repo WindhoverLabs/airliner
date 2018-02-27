@@ -775,26 +775,16 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 break;
 
             case VM_SET_MAIN_AUTO_TAKEOFF_CC:
-            	/* Check to make sure we have a valid local position first. */
-            	if(ConditionLocalPositionValid == true)
-            	{
-            		/* Check if vehicle is armed. */
-            		if(IsVehicleArmed() == true)
-            		{
-            			/* Send a VehicleCommand message to initiate the takeoff. */
-            			//memset(&VehicleCommandMsg, 0, sizeof(VehicleCommandMsg));
-            		}
+            	try{
+                    MainSM.FSM.trAutoTakeoff();
+                    HkTlm.usCmdCnt++;
             	}
-//            	try{
-//                    MainSM.FSM.trAutoTakeoff();
-//                    HkTlm.usCmdCnt++;
-//            	}
-//            	catch(statemap::TransitionUndefinedException e)
-//            	{
-//                    HkTlm.usCmdErrCnt++;
-//            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-//            	    		"Illegal Main transition.  Command rejected.");
-//            	}
+            	catch(statemap::TransitionUndefinedException e)
+            	{
+                    HkTlm.usCmdErrCnt++;
+            	    CFE_EVS_SendEvent(VM_MAIN_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+            	    		"Illegal Main transition.  Command rejected.");
+            	}
                 break;
 
             case VM_SET_MAIN_AUTO_LAND_CC:
@@ -1172,7 +1162,7 @@ void VM::AppMain()
 
 boolean VM::IsVehicleArmed()
 {
-	return false;
+	return ActuatorArmedMsg.Armed;
 }
 
 

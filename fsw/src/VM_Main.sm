@@ -6,166 +6,250 @@
 
 %%
 Manual
+    Entry
+    {
+        EnteredManual(); 
+    }
 {
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trOffboard           Offboard           { EnteredOffboard(); }
-    trStabilize          Stabilize          { EnteredStabilize(); }
-    trRattitude          Rattitude          { EnteredRattitude(); }
-    trAutoTakeoff        AutoTakeoff        { EnteredAutoTakeoff(); }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAcrobatic          Acrobatic          { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { EnteredAutoLand(); }
     trAutoFollowTarget   AutoFollowTarget   { EnteredAutoFollowTarget(); }
     trAutoPrecland       AutoPrecland       { EnteredAutoPrecland(); }
 }
 AltitudeControl
+    Entry
+    {
+        EnteredAltitudeControl(); 
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trOffboard           Offboard           { EnteredOffboard(); }
-    trStabilize          Stabilize          { EnteredStabilize(); }
-    trRattitude          Rattitude          { EnteredRattitude(); }
-    trAutoTakeoff        AutoTakeoff        { EnteredAutoTakeoff(); }
+    trManual             Manual             { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAcrobatic          Acrobatic          { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { EnteredAutoTakeoff(); }
     trAutoLand           AutoLand           { EnteredAutoLand(); }
     trAutoFollowTarget   AutoFollowTarget   { EnteredAutoFollowTarget(); }
     trAutoPrecland       AutoPrecland       { EnteredAutoPrecland(); }
 }
 PositionControl
+    Entry
+    {
+        EnteredPositionControl(); 
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trOffboard           Offboard           { EnteredOffboard(); }
-    trStabilize          Stabilize          { EnteredStabilize(); }
-    trRattitude          Rattitude          { EnteredRattitude(); }
-    trAutoTakeoff        AutoTakeoff        { EnteredAutoTakeoff(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAcrobatic          Acrobatic          { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { EnteredAutoTakeoff(); }
     trAutoLand           AutoLand           { EnteredAutoLand(); }
     trAutoFollowTarget   AutoFollowTarget   { EnteredAutoFollowTarget(); }
     trAutoPrecland       AutoPrecland       { EnteredAutoPrecland(); }
 }
 AutoMission
+    Entry
+    {
+        EnteredAutoMission(); 
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trOffboard           Offboard           { EnteredOffboard(); }
-    trStabilize          Stabilize          { EnteredStabilize(); }
-    trRattitude          Rattitude          { EnteredRattitude(); }
-    trAutoTakeoff        AutoTakeoff        { EnteredAutoTakeoff(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAcrobatic          Acrobatic          { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { EnteredAutoTakeoff(); }
     trAutoLand           AutoLand           { EnteredAutoLand(); }
     trAutoFollowTarget   AutoFollowTarget   { EnteredAutoFollowTarget(); }
     trAutoPrecland       AutoPrecland       { EnteredAutoPrecland(); }
 }
 AutoLoiter
+    Entry
+    {
+        EnteredAutoLoiter(); 
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trOffboard           Offboard           { EnteredOffboard(); }
-    trStabilize          Stabilize          { EnteredStabilize(); }
-    trRattitude          Rattitude          { EnteredRattitude(); }
-    trAutoTakeoff        AutoTakeoff        { EnteredAutoTakeoff(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAcrobatic          Acrobatic          { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { EnteredAutoTakeoff(); }
     trAutoLand           AutoLand           { EnteredAutoLand(); }
     trAutoFollowTarget   AutoFollowTarget   { EnteredAutoFollowTarget(); }
     trAutoPrecland       AutoPrecland       { EnteredAutoPrecland(); }
 }
 AutoReturnToLaunch
+    Entry
+    {
+        EnteredAutoReturnToLaunch(); 
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trOffboard           Offboard           { EnteredOffboard(); }
-    trStabilize          Stabilize          { EnteredStabilize(); }
-    trRattitude          Rattitude          { EnteredRattitude(); }
-    trAutoTakeoff        AutoTakeoff        { EnteredAutoTakeoff(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAcrobatic          Acrobatic          { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { EnteredAutoTakeoff(); }
     trAutoLand           AutoLand           { EnteredAutoLand(); }
     trAutoFollowTarget   AutoFollowTarget   { EnteredAutoFollowTarget(); }
     trAutoPrecland       AutoPrecland       { EnteredAutoPrecland(); }
 }
 Acrobatic
+    Entry
+    {
+        EnteredAcrobatic(); 
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trOffboard           Offboard           { EnteredOffboard(); }
-    trStabilize          Stabilize          { EnteredStabilize(); }
-    trRattitude          Rattitude          { EnteredRattitude(); }
-    trAutoTakeoff        AutoTakeoff        { EnteredAutoTakeoff(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { EnteredAutoTakeoff(); }
     trAutoLand           AutoLand           { EnteredAutoLand(); }
     trAutoFollowTarget   AutoFollowTarget   { EnteredAutoFollowTarget(); }
     trAutoPrecland       AutoPrecland       { EnteredAutoPrecland(); }
 }
 Offboard
+    Entry
+    {
+        EnteredOffboard(); 
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trStabilize          Stabilize          { EnteredStabilize(); }
-    trRattitude          Rattitude          { EnteredRattitude(); }
-    trAutoTakeoff        AutoTakeoff        { EnteredAutoTakeoff(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAcrobatic          Acrobatic          { }
+    trStabilize          Stabilize          { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { EnteredAutoTakeoff(); }
     trAutoLand           AutoLand           { EnteredAutoLand(); }
     trAutoFollowTarget   AutoFollowTarget   { EnteredAutoFollowTarget(); }
     trAutoPrecland       AutoPrecland       { EnteredAutoPrecland(); }
 }
 Stabilize
+    Entry
+    {
+        EnteredStabilize(); 
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trOffboard           Offboard           { EnteredOffboard(); }
-    trRattitude          Rattitude          { EnteredRattitude(); }
-    trAutoTakeoff        AutoTakeoff        { EnteredAutoTakeoff(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAcrobatic          Acrobatic          { }
+    trOffboard           Offboard           { }
+    trRattitude          Rattitude          { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { EnteredAutoTakeoff(); }
     trAutoLand           AutoLand           { EnteredAutoLand(); }
     trAutoFollowTarget   AutoFollowTarget   { EnteredAutoFollowTarget(); }
     trAutoPrecland       AutoPrecland       { EnteredAutoPrecland(); }
 }
 Rattitude
+    Entry
+    {
+        EnteredRattitude(); 
+    }
 {
-    trManual             Manual             { EnteredManual(); }
-    trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
-    trPositionControl    PositionControl    { EnteredPositionControl(); }
-    trAutoMission        AutoMission        { EnteredAutoMission();     }
-    trAutoLoiter         AutoLoiter         { EnteredAutoLoiter();      }
-    trAutoReturnToLaunch AutoReturnToLaunch { EnteredAutoReturnToLaunch(); }
-    trAcrobatic          Acrobatic          { EnteredAcrobatic(); }
-    trOffboard           Offboard           { EnteredOffboard(); }
-    trStabilize          Stabilize          { EnteredStabilize(); }
-    trAutoTakeoff        AutoTakeoff        { EnteredAutoTakeoff(); }
-    trAutoLand           AutoLand           { EnteredAutoLand(); }
-    trAutoFollowTarget   AutoFollowTarget   { EnteredAutoFollowTarget(); }
-    trAutoPrecland       AutoPrecland       { EnteredAutoPrecland(); }
+    trManual             Manual             { }
+    trAltitudeControl    AltitudeControl    { }
+    trPositionControl    PositionControl    { }
+    trAutoMission        AutoMission        { }
+    trAutoLoiter         AutoLoiter         { }
+    trAutoReturnToLaunch AutoReturnToLaunch { }
+    trAcrobatic          Acrobatic          { }
+    trOffboard           Offboard           { }
+    trStabilize          Stabilize          { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 AutoTakeoff
+    Entry
+    {
+        EnteredAutoTakeoff(); 
+    }
 {
     trManual             Manual             { EnteredManual(); }
     trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
@@ -177,11 +261,15 @@ AutoTakeoff
     trOffboard           Offboard           { EnteredOffboard(); }
     trStabilize          Stabilize          { EnteredStabilize(); }
     trRattitude          Rattitude          { EnteredRattitude(); }
-    trAutoLand           AutoLand           { EnteredAutoLand(); }
-    trAutoFollowTarget   AutoFollowTarget   { EnteredAutoFollowTarget(); }
-    trAutoPrecland       AutoPrecland       { EnteredAutoPrecland(); }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 AutoLand
+    Entry
+    {
+        EnteredAutoLand(); 
+    }
 {
     trManual             Manual             { EnteredManual(); }
     trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
@@ -193,11 +281,19 @@ AutoLand
     trOffboard           Offboard           { EnteredOffboard(); }
     trStabilize          Stabilize          { EnteredStabilize(); }
     trRattitude          Rattitude          { EnteredRattitude(); }
-    trAutoTakeoff        AutoTakeoff        { EnteredAutoTakeoff(); }
-    trAutoFollowTarget   AutoFollowTarget   { EnteredAutoFollowTarget(); }
-    trAutoPrecland       AutoPrecland       { EnteredAutoPrecland(); }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { EnteredAutoTakeoff(); }
+    trAutoFollowTarget   AutoFollowTarget   { }
+    trAutoPrecland       AutoPrecland       { }
 }
 AutoFollowTarget
+    Entry
+    {
+        EnteredAutoFollowTarget(); 
+    }
 {
     trManual             Manual             { EnteredManual(); }
     trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
@@ -209,11 +305,19 @@ AutoFollowTarget
     trOffboard           Offboard           { EnteredOffboard(); }
     trStabilize          Stabilize          { EnteredStabilize(); }
     trRattitude          Rattitude          { EnteredRattitude(); }
-    trAutoTakeoff        AutoTakeoff        { EnteredAutoTakeoff(); }
-    trAutoLand           AutoLand           { EnteredAutoLand(); }
-    trAutoPrecland       AutoPrecland       { EnteredAutoPrecland(); }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { EnteredAutoTakeoff(); }
+    trAutoLand           AutoLand           { }
+    trAutoPrecland       AutoPrecland       { }
 }
 AutoPrecland
+    Entry
+    {
+        EnteredAutoPrecland(); 
+    }
 {
     trManual             Manual             { EnteredManual(); }
     trAltitudeControl    AltitudeControl    { EnteredAltitudeControl(); }
@@ -225,8 +329,12 @@ AutoPrecland
     trOffboard           Offboard           { EnteredOffboard(); }
     trStabilize          Stabilize          { EnteredStabilize(); }
     trRattitude          Rattitude          { EnteredRattitude(); }
-    trAutoTakeoff        AutoTakeoff        { EnteredAutoTakeoff(); }
-    trAutoLand           AutoLand           { EnteredAutoLand(); }
-    trAutoFollowTarget   AutoFollowTarget   { EnteredAutoFollowTarget(); }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { EnteredAutoTakeoff(); }
+    trAutoLand           AutoLand           { }
+    trAutoFollowTarget   AutoFollowTarget   { }
 }
 %%

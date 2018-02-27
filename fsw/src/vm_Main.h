@@ -63,6 +63,9 @@ public:
     void EnteredAutoFollowTarget();
     void EnteredAutoPrecland();
 
+    boolean IsConditionLocalPositionValid();
+    boolean IsVehicleArmed();
+
 	uint32 GetCurrentStateID(void);
 
 	void DoAction(void);
