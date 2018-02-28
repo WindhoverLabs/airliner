@@ -90,6 +90,26 @@ add_airliner_app_unit_test(vm-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Navigation.h
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_NavigationContext.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_NavigationContext.h
+        #${PX4LIB_LIB_SOURCES}
+        # Adding lib sources individually so stubs can be used.
+        # Math
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/public_inc/math/Dcm.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/public_inc/math/Euler.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/public_inc/math/Matrix3F3.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/public_inc/math/Quaternion.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/public_inc/math/Vector3F.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/public_inc/math/Vector4F.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/public_inc/math/Matrix4F4.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/public_inc/math/Matrix1F3.hpp
+        
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Dcm.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Euler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Matrix3F3.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Quaternion.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Vector3F.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Vector4F.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Matrix4F4.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Matrix1F3.cpp
         
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

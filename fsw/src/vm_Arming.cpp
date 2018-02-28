@@ -25,6 +25,7 @@ uint32 VM_Arming::GetCurrentStateID()
 
 void VM_Arming::EnteredInit(void)
 {
+
     App.ActuatorArmedMsg.Timestamp = 0;
     App.ActuatorArmedMsg.Armed = false;
     App.ActuatorArmedMsg.Prearmed = false;
@@ -37,6 +38,7 @@ void VM_Arming::EnteredInit(void)
 	App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_INIT;
     App.VehicleStatusMsg.SystemID = 1;
     App.VehicleStatusMsg.ComponentID = 1;
+
 }
 
 
@@ -56,6 +58,8 @@ void VM_Arming::EnteredStandby()
 
 void VM_Arming::EnteredArmed()
 {
+
+
     App.VehicleStatusMsg.ArmingState = PX4_ArmingState_t::PX4_ARMING_STATE_ARMED;
     App.ActuatorArmedMsg.Armed = true;
 
@@ -108,6 +112,7 @@ void VM_Arming::DoAction()
 	else if(strcmp(FSM.getState().getName(),"VM_ArmingMap::Armed") == 0)
 	{
 		/* TODO */
+
 	}
 	else if(strcmp(FSM.getState().getName(),"VM_ArmingMap::StandbyError") == 0)
 	{

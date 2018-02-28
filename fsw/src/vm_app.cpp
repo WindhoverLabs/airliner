@@ -2,7 +2,7 @@
 ** Includes
 *************************************************************************/
 #include <string.h>
-
+#include <float.h>
 #include "cfe.h"
 
 #include "vm_app.h"
@@ -130,6 +130,22 @@ int32 VM::InitPipe()
 //            goto VM_InitPipe_Exit_Tag;
 //        }
 
+		iStatus = CFE_SB_SubscribeEx(PX4_BATTERY_STATUS_MID, SchPipeId, CFE_SB_Default_Qos, 1);
+		if (iStatus != CFE_SUCCESS)
+		{
+		   (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+				 "CMD Pipe failed to subscribe to PX4_TELEMETRY_STATUS_MID. (0x%08lX)",
+				 iStatus);
+		   goto VM_InitPipe_Exit_Tag;
+		}
+		iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_GLOBAL_POSITION_MID, SchPipeId, CFE_SB_Default_Qos, 1);
+		if (iStatus != CFE_SUCCESS)
+		{
+		   (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+				 "CMD Pipe failed to subscribe to PX4_SUBSYSTEM_INFO_MID. (0x%08lX)",
+				 iStatus);
+		   goto VM_InitPipe_Exit_Tag;
+		}
         iStatus = CFE_SB_SubscribeEx(PX4_TELEMETRY_STATUS_MID, SchPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
@@ -330,6 +346,12 @@ void VM::InitData()
 	CFE_SB_InitMsg(&VehicleControlModeMsg,
 		PX4_VEHICLE_CONTROL_MODE_MID, sizeof(PX4_VehicleControlModeMsg_t), TRUE);
 
+	CFE_SB_InitMsg(&VehicleGlobalPositionMsg,
+		PX4_VEHICLE_CONTROL_MODE_MID, sizeof(PX4_VehicleGlobalPositionMsg_t), TRUE);
+
+	CFE_SB_InitMsg(&VehicleGpsPositionMsg,
+		PX4_VEHICLE_CONTROL_MODE_MID, sizeof(PX4_VehicleGpsPositionMsg_t), TRUE);
+
 	ConditionLocalPositionValid = true;
 }
 
@@ -419,72 +441,75 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
         {
             case VM_WAKEUP_MID:
             {
-            	uint64 timestamp;
-
-            	/* Execute all stateful behavior. */
-            	ArmingSM.DoAction();
-            	MainSM.DoAction();
-            	NavigationSM.DoAction();
-
-            	/* Get a common timestamp. */
-            	timestamp = PX4LIB_GetPX4TimeUs();
-
-            	/* Update the ActuatorArmed message */
-            	ActuatorArmedMsg.Timestamp = timestamp;
-
-            	/* Update the VehicleManagerState message */
-            	VehicleManagerStateMsg.Timestamp = timestamp;
-
-            	/* Update the HomePosition message */
-            	HomePositionMsg.Timestamp = timestamp;
-            	HomePositionMsg.Lat = 47.39774;
-            	HomePositionMsg.Lon = 8.5456;
-            	HomePositionMsg.Alt = 488.23077;
-            	HomePositionMsg.X = 2.4739745e-7;
-            	HomePositionMsg.Y = -2.4956805e-7;
-            	HomePositionMsg.Z = 0.0021651047;
-            	HomePositionMsg.Yaw = 1.0870353;
-            	HomePositionMsg.DirectionX = 0;
-            	HomePositionMsg.DirectionY = 0;
-            	HomePositionMsg.DirectionZ = 0;
-
-            	/* Update the VehicleStatus message */
-            	VehicleStatusMsg.Timestamp = timestamp;
-            	VehicleStatusMsg.SystemID = 1;
-            	VehicleStatusMsg.ComponentID = 1;
-				VehicleStatusMsg.OnboardControlSensorsPresent = 0;
-				VehicleStatusMsg.OnboardControlSensorsEnabled = 0;
-				VehicleStatusMsg.OnboardControlSensorsHealth = 0;
-				//VehicleStatusMsg.NavigationState = PX4_NAVIGATION_STATE_AUTO_TAKEOFF
-				//VehicleStatusMsg.ArmingState = Armed
-				VehicleStatusMsg.HilState = PX4_HIL_STATE_OFF;
-				VehicleStatusMsg.Failsafe = false;
-				VehicleStatusMsg.SystemType = PX4_SYSTEM_TYPE_HEXAROTOR;
-				VehicleStatusMsg.IsRotaryWing = true;
-				VehicleStatusMsg.IsVtol = false;
-				VehicleStatusMsg.VtolFwPermanentStab = false;
-				VehicleStatusMsg.InTransitionMode = false;
-				VehicleStatusMsg.RcSignalLost = true;
-				VehicleStatusMsg.RcInputMode = PX4_RC_IN_MODE_GENERATED;
-				VehicleStatusMsg.DataLinkLost = true;
-				VehicleStatusMsg.DataLinkLostCounter = 0;
-				VehicleStatusMsg.EngineFailure = false;
-				VehicleStatusMsg.EngineFailureCmd = false;
-				VehicleStatusMsg.MissionFailure = false;
-
-            	/* Update the CommanderState message */
-            	VehicleManagerStateMsg.Timestamp = timestamp;
-
-            	/* Update the VehicleControlMode message */
-            	VehicleControlModeMsg.Timestamp = timestamp;
-
-            	/* Publish all the messages. */
-            	SendActuatorArmedMsg();
-            	SendVehicleManagerStateMsg();
-            	SendVehicleStatusMsg();
-            	SendVehicleManagerStateMsg();
-            	SendVehicleControlModeMsg();
-            	SendHomePositionMsg();
+            	if(test){
+            		Initialization();
+            		test = false;
+            	}
+            	Execute();
+//            	if (VehicleGlobalPositionMsg.Timestamp==0){
+//            			break;
+//            	}
+//            	if(test){
+//            		SetHomePosition();
+//            		test = false;
+//            	}
+//            	uint64 timestamp;
+//
+//            	/* Execute all stateful behavior. */
+//            	ArmingSM.DoAction();
+//            	MainSM.DoAction();
+//            	NavigationSM.DoAction();
+//
+//            	/* Get a common timestamp. */
+//            	timestamp = PX4LIB_GetPX4TimeUs();
+//
+//            	/* Update the ActuatorArmed message */
+//            	ActuatorArmedMsg.Timestamp = timestamp;
+//
+//            	/* Update the VehicleManagerState message */
+//            	VehicleManagerStateMsg.Timestamp = timestamp;
+//
+//
+//            	/* Update the VehicleStatus message */
+//            	VehicleStatusMsg.Timestamp = timestamp;
+//            	VehicleStatusMsg.SystemID = 1;
+//            	VehicleStatusMsg.ComponentID = 1;
+//				VehicleStatusMsg.OnboardControlSensorsPresent = 0;
+//				VehicleStatusMsg.OnboardControlSensorsEnabled = 0;
+//				VehicleStatusMsg.OnboardControlSensorsHealth = 0;
+//				//VehicleStatusMsg.NavigationState = PX4_NAVIGATION_STATE_AUTO_TAKEOFF
+//				//VehicleStatusMsg.ArmingState = Armed
+//				VehicleStatusMsg.HilState = PX4_HIL_STATE_OFF;
+//				VehicleStatusMsg.Failsafe = false;
+//				VehicleStatusMsg.SystemType = PX4_SYSTEM_TYPE_HEXAROTOR;
+//				VehicleStatusMsg.IsRotaryWing = true;
+//				VehicleStatusMsg.IsVtol = false;
+//				VehicleStatusMsg.VtolFwPermanentStab = false;
+//				VehicleStatusMsg.InTransitionMode = false;
+//				VehicleStatusMsg.RcSignalLost = true;
+//				VehicleStatusMsg.RcInputMode = PX4_RC_IN_MODE_GENERATED;
+//				VehicleStatusMsg.DataLinkLost = true;
+//				VehicleStatusMsg.DataLinkLostCounter = 0;
+//				VehicleStatusMsg.EngineFailure = false;
+//				VehicleStatusMsg.EngineFailureCmd = false;
+//				VehicleStatusMsg.MissionFailure = false;
+//				VehicleControlModeMsg.ControlVelocityEnabled = true;
+//				VehicleControlModeMsg.ControlPositionEnabled = true;
+//            	/* Update the CommanderState message */
+//            	VehicleManagerStateMsg.Timestamp = timestamp;
+//
+//            	/* Update the VehicleControlMode message */
+//            	VehicleControlModeMsg.Timestamp = timestamp;
+//
+//            	/* Publish all the messages. */
+//            	SendActuatorArmedMsg();
+//            	SendVehicleManagerStateMsg();
+//            	SendVehicleStatusMsg();
+//            	SendVehicleManagerStateMsg();
+//            	SendVehicleControlModeMsg();
+//            	SendVehicleGlobalPositionMsg();
+//            	SendVehicleGpsPositionMsg();
+//            	SendHomePositionMsg();
 
                 break;
             }
@@ -495,77 +520,82 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 break;
 
             case PX4_SENSOR_MAG_MID:
-                memcpy(&CVT.SensorMagMsg, MsgPtr, sizeof(CVT.SensorMagMsg));
+                memcpy(&SensorMagMsg, MsgPtr, sizeof(SensorMagMsg));
                 break;
 
             case PX4_SENSOR_GYRO_MID:
-                memcpy(&CVT.SensorGyroMsg, MsgPtr, sizeof(CVT.SensorGyroMsg));
+                memcpy(&SensorGyroMsg, MsgPtr, sizeof(SensorGyroMsg));
                 break;
 
             case PX4_SYSTEM_POWER_MID:
-                memcpy(&CVT.SystemPowerMsg, MsgPtr, sizeof(CVT.SystemPowerMsg));
+                memcpy(&SystemPowerMsg, MsgPtr, sizeof(SystemPowerMsg));
                 break;
 
 //            case PX4_SENSOR_PREFLIGHT_MID:
-//                memcpy(&CVT.SensorPreflightMsg, MsgPtr, sizeof(CVT.SensorPreflightMsg));
+//                memcpy(&SensorPreflightMsg, MsgPtr, sizeof(SensorPreflightMsg));
 //                break;
             case PX4_BATTERY_STATUS_MID:
-                memcpy(&CVT.BatteryStatusMsg, MsgPtr, sizeof(CVT.BatteryStatusMsg));
+                memcpy(&BatteryStatusMsg, MsgPtr, sizeof(BatteryStatusMsg));
                 break;
+
+            case PX4_VEHICLE_GLOBAL_POSITION_MID:
+                memcpy(&VehicleGlobalPositionMsg, MsgPtr, sizeof(VehicleGlobalPositionMsg));
+                break;
+
             case PX4_TELEMETRY_STATUS_MID:
-                memcpy(&CVT.TelemetryStatusMsg, MsgPtr, sizeof(CVT.TelemetryStatusMsg));
+                memcpy(&TelemetryStatusMsg, MsgPtr, sizeof(TelemetryStatusMsg));
                 break;
 
             case PX4_SUBSYSTEM_INFO_MID:
-                memcpy(&CVT.SubsystemInfoMsg, MsgPtr, sizeof(CVT.SubsystemInfoMsg));
+                memcpy(&SubsystemInfoMsg, MsgPtr, sizeof(SubsystemInfoMsg));
                 break;
 
             case PX4_VEHICLE_GPS_POSITION_MID:
-                memcpy(&CVT.VehicleGpsPositionMsg, MsgPtr, sizeof(CVT.VehicleGpsPositionMsg));
+                memcpy(&VehicleGpsPositionMsg, MsgPtr, sizeof(VehicleGpsPositionMsg));
                 break;
 
             case PX4_VEHICLE_ATTITUDE_MID:
-                memcpy(&CVT.VehicleAttitudeMsg, MsgPtr, sizeof(CVT.VehicleAttitudeMsg));
+                memcpy(&VehicleAttitudeMsg, MsgPtr, sizeof(VehicleAttitudeMsg));
                 break;
 
             case PX4_VEHICLE_LOCAL_POSITION_MID:
-                memcpy(&CVT.VehicleLocalPositionMsg, MsgPtr, sizeof(CVT.VehicleLocalPositionMsg));
+                memcpy(&VehicleLocalPositionMsg, MsgPtr, sizeof(VehicleLocalPositionMsg));
                 break;
 
             case PX4_VEHICLE_LAND_DETECTED_MID:
-                memcpy(&CVT.VehicleLandDetectedMsg, MsgPtr, sizeof(CVT.VehicleLandDetectedMsg));
+                memcpy(&VehicleLandDetectedMsg, MsgPtr, sizeof(VehicleLandDetectedMsg));
                 break;
 
             case PX4_GEOFENCE_RESULT_MID:
-                memcpy(&CVT.GeofenceResultMsg, MsgPtr, sizeof(CVT.GeofenceResultMsg));
+                memcpy(&GeofenceResultMsg, MsgPtr, sizeof(GeofenceResultMsg));
                 break;
 
             case PX4_MISSION_RESULT_MID:
-                memcpy(&CVT.MissionResultMsg, MsgPtr, sizeof(CVT.MissionResultMsg));
+                memcpy(&MissionResultMsg, MsgPtr, sizeof(MissionResultMsg));
                 break;
 
             case PX4_MANUAL_CONTROL_SETPOINT_MID:
-                memcpy(&CVT.ManualControlSetpointMsg, MsgPtr, sizeof(CVT.ManualControlSetpointMsg));
+                memcpy(&ManualControlSetpointMsg, MsgPtr, sizeof(ManualControlSetpointMsg));
                 break;
 
             case PX4_POSITION_SETPOINT_TRIPLET_MID:
-                memcpy(&CVT.PositionSetpointTripletMsg, MsgPtr, sizeof(CVT.PositionSetpointTripletMsg));
+                memcpy(&PositionSetpointTripletMsg, MsgPtr, sizeof(PositionSetpointTripletMsg));
                 break;
 
             case PX4_OFFBOARD_CONTROL_MODE_MID:
-                memcpy(&CVT.OffboardControlModeMsg, MsgPtr, sizeof(CVT.OffboardControlModeMsg));
+                memcpy(&OffboardControlModeMsg, MsgPtr, sizeof(OffboardControlModeMsg));
                 break;
 
             case PX4_SENSOR_ACCEL_MID:
-                memcpy(&CVT.SensorAccelMsg, MsgPtr, sizeof(CVT.SensorAccelMsg));
+                memcpy(&SensorAccelMsg, MsgPtr, sizeof(SensorAccelMsg));
                 break;
 
             case PX4_SAFETY_MID:
-                memcpy(&CVT.SafetyMsg, MsgPtr, sizeof(CVT.SafetyMsg));
+                memcpy(&SafetyMsg, MsgPtr, sizeof(SafetyMsg));
                 break;
 
             case PX4_SENSOR_CORRECTION_MID:
-                memcpy(&CVT.SensorCorrectionMsg, MsgPtr, sizeof(CVT.SensorCorrectionMsg));
+                memcpy(&SensorCorrectionMsg, MsgPtr, sizeof(SensorCorrectionMsg));
                 break;
 
             case PX4_VEHICLE_STATUS_MID:
@@ -573,7 +603,7 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 break;
 
             case PX4_SENSOR_COMBINED_MID:
-                memcpy(&CVT.SensorCombinedMsg, MsgPtr, sizeof(CVT.SensorCombinedMsg));
+                memcpy(&SensorCombinedMsg, MsgPtr, sizeof(SensorCombinedMsg));
                 break;
 
             default:
@@ -1226,6 +1256,17 @@ void VM::SendVehicleControlModeMsg()
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleControlModeMsg);
 }
 
+void VM::SendVehicleGlobalPositionMsg()
+{
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&VehicleGlobalPositionMsg);
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleGlobalPositionMsg);
+}
+
+void VM::SendVehicleGpsPositionMsg()
+{
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&VehicleGpsPositionMsg);
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleGpsPositionMsg);
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -1309,6 +1350,7 @@ void VM::AppMain()
     }
 
     /* TODO:  Replace with appropriate code to cause a transition. */
+
     ArmingSM.FSM.InitComplete();
     MainSM.FSM.trInitComplete();
     NavigationSM.FSM.trInitComplete();
@@ -1350,6 +1392,64 @@ uint64 VM::TimeNow()
 {
 	uint64 now = PX4LIB_GetPX4TimeUs();
 	return now;
+}
+
+
+
+void VM::SetHomePosition(){
+
+	VehicleGlobalPositionMsg.EpH = 1000.0f;
+	VehicleGlobalPositionMsg.EpV = 1000.0f;
+	VehicleGpsPositionMsg.EpH = FLT_MAX;
+	VehicleGpsPositionMsg.EpV = FLT_MAX;
+
+
+
+	/* Update the HomePosition message */
+
+
+	HomePositionMsg.Timestamp = TimeNow();
+	HomePositionMsg.Lat = VehicleGlobalPositionMsg.Lat;
+	HomePositionMsg.Lon = VehicleGlobalPositionMsg.Lon;
+	HomePositionMsg.Alt = VehicleGlobalPositionMsg.Alt;
+	HomePositionMsg.X = VehicleLocalPositionMsg.X;
+	HomePositionMsg.Y = VehicleLocalPositionMsg.Y;
+	HomePositionMsg.Z = VehicleLocalPositionMsg.Z;
+
+
+	math::Quaternion q(VehicleAttitudeMsg.Q[0],
+					   VehicleAttitudeMsg.Q[1],
+					   VehicleAttitudeMsg.Q[2],
+					   VehicleAttitudeMsg.Q[3]);
+
+	math::Matrix3F3 rotationMat = math::Dcm(q);
+	math::Vector3F euler = math::Euler(rotationMat);
+	HomePositionMsg.Yaw = euler[2];
+	/*HomePositionMsg.DirectionX = 0;
+	HomePositionMsg.DirectionY = 0;
+	HomePositionMsg.DirectionZ = 0;*/
+
+	OS_printf("HOMEPOSITION SET: lat(%f)  lon(%f)  alt(%f)  yaw(%f)\n",HomePositionMsg.Lat,
+																	 HomePositionMsg.Lon,
+																	 HomePositionMsg.Alt,
+																	 HomePositionMsg.Yaw);
+}
+
+void VM::Initialization(){
+	/* TODO: check LED and Buzzer device initialization and report */
+
+	/* Set default flags for initialization */
+	status_flags.condition_system_sensors_initialized = true;
+
+	/* Always accept RC input as default */
+	status_flags.rc_input_blocked = false;
+	VehicleStatusMsg.RcInputMode = PX4_RcInMode_t::PX4_RC_IN_MODE_DEFAULT
+
+}
+
+void VM::Execute(){
+
+
 }
 
 /************************/

@@ -61,6 +61,13 @@ extern "C" {
 #include "px4_msgs.h"
 #include "px4lib.h"
 
+#include "math/Quaternion.hpp"
+#include "math/Euler.hpp"
+#include "math/Dcm.hpp"
+
+#include "math/Matrix3F3.hpp"
+#include "math/Vector3F.hpp"
+
 /************************************************************************
  ** Local Defines
  *************************************************************************/
@@ -77,8 +84,9 @@ typedef struct
 //    PX4_SensorPreflightMsg_t SensorPreflightMsg;
     PX4_TelemetryStatusMsg_t TelemetryStatusMsg;
     PX4_SubsystemInfoMsg_t SubsystemInfoMsg;
-    PX4_VehicleGpsPositionMsg_t VehicleGpsPositionMsg;
+//    PX4_VehicleGpsPositionMsg_t VehicleGpsPositionMsg;
     PX4_VehicleAttitudeMsg_t VehicleAttitudeMsg;
+//    PX4_VehicleGlobalPositionMsg_t VehicleGlobalPositionMsg;
     PX4_VehicleLocalPositionMsg_t VehicleLocalPositionMsg;
     PX4_VehicleLandDetectedMsg_t VehicleLandDetectedMsg;
     PX4_GeofenceResultMsg_t GeofenceResultMsg;
@@ -122,6 +130,9 @@ public:
     VM_ConfigTbl_t* ConfigTblPtr;
     /** \brief Output Data published at the end of cycle */
     PX4_ActuatorArmedMsg_t ActuatorArmedMsg;
+    PX4_VehicleGlobalPositionMsg_t VehicleGlobalPositionMsg;
+    PX4_VehicleGpsPositionMsg_t VehicleGpsPositionMsg;
+
     PX4_HomePositionMsg_t HomePositionMsg;
     PX4_CommanderStateMsg_t VehicleManagerStateMsg;
     PX4_MissionMsg_t MissionMsg;
@@ -146,7 +157,8 @@ public:
     float AvionicsPowerRailVoltage = -0.1f;// git it gtom systempower.voltage msg attribute
     boolean ArmWithoutGps = false;
     boolean ArmMissionRequired = false;
-
+    PX4_VehicleGlobalPositionMsg_t PreviousGlobalPosition = {};
+    boolean test = true;
 
 
 
@@ -391,6 +403,8 @@ public:
      **
      *************************************************************************/
     void SendVehicleControlModeMsg(void);
+    void SendVehicleGlobalPositionMsg(void);
+    void SendVehicleGpsPositionMsg(void);
 
     /************************************************************************/
     /** \brief Verify Command Length
@@ -412,7 +426,9 @@ public:
      *************************************************************************/
     boolean VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
 
-    boolean IsVehicleArmed();
+    boolean IsVehicleArmed(void);
+
+    void SetHomePosition(void);
 
     uint64 TimeElapsed(uint64 *);
 
