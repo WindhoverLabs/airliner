@@ -35,6 +35,8 @@ void VM_Arming::EnteredInit(void)
     App.ActuatorArmedMsg.InEscCalibrationMode = false;
 
 	App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_INIT;
+    App.VehicleStatusMsg.SystemID = 1;
+    App.VehicleStatusMsg.ComponentID = 1;
 }
 
 

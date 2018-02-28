@@ -843,6 +843,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 
             case VM_SET_MAIN_AUTO_TAKEOFF_CC:
             	try{
+            		ArmingSM.FSM.Arm();
                     MainSM.FSM.trAutoTakeoff();
                     HkTlm.usCmdCnt++;
             	}

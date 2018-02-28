@@ -95,8 +95,8 @@ void VM_Main::EnteredAutoTakeoff()
 	cmd.Param6 = NAN;
 	cmd.Param7 = NAN;
 	cmd.Command = PX4_VEHICLE_CMD_NAV_TAKEOFF;
-	cmd.TargetSystem = 0;
-	cmd.TargetComponent = 0;
+	cmd.TargetSystem = 1;
+	cmd.TargetComponent = 1;
 	cmd.SourceSystem = 0;
 	cmd.SourceComponent = 0;
 	cmd.Confirmation = 0;
@@ -107,6 +107,7 @@ void VM_Main::EnteredAutoTakeoff()
 
     App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_TAKEOFF;
     App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_TAKEOFF;
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_AUTO_TAKEOFF_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::AutoTakeoff");
 }
