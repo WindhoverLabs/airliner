@@ -441,75 +441,74 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
         {
             case VM_WAKEUP_MID:
             {
+            	if (VehicleGlobalPositionMsg.Timestamp==0){
+            			break;
+            	}
             	if(test){
-            		Initialization();
+            		//Initialization();
+            		SetHomePosition();
             		test = false;
             	}
-            	Execute();
-//            	if (VehicleGlobalPositionMsg.Timestamp==0){
-//            			break;
-//            	}
-//            	if(test){
-//            		SetHomePosition();
-//            		test = false;
-//            	}
-//            	uint64 timestamp;
+            	//Execute();
+
+
+            	uint64 timestamp;
 //
 //            	/* Execute all stateful behavior. */
-//            	ArmingSM.DoAction();
-//            	MainSM.DoAction();
-//            	NavigationSM.DoAction();
-//
-//            	/* Get a common timestamp. */
-//            	timestamp = PX4LIB_GetPX4TimeUs();
-//
-//            	/* Update the ActuatorArmed message */
-//            	ActuatorArmedMsg.Timestamp = timestamp;
-//
-//            	/* Update the VehicleManagerState message */
-//            	VehicleManagerStateMsg.Timestamp = timestamp;
-//
-//
-//            	/* Update the VehicleStatus message */
-//            	VehicleStatusMsg.Timestamp = timestamp;
-//            	VehicleStatusMsg.SystemID = 1;
-//            	VehicleStatusMsg.ComponentID = 1;
-//				VehicleStatusMsg.OnboardControlSensorsPresent = 0;
-//				VehicleStatusMsg.OnboardControlSensorsEnabled = 0;
-//				VehicleStatusMsg.OnboardControlSensorsHealth = 0;
-//				//VehicleStatusMsg.NavigationState = PX4_NAVIGATION_STATE_AUTO_TAKEOFF
-//				//VehicleStatusMsg.ArmingState = Armed
-//				VehicleStatusMsg.HilState = PX4_HIL_STATE_OFF;
-//				VehicleStatusMsg.Failsafe = false;
-//				VehicleStatusMsg.SystemType = PX4_SYSTEM_TYPE_HEXAROTOR;
-//				VehicleStatusMsg.IsRotaryWing = true;
-//				VehicleStatusMsg.IsVtol = false;
-//				VehicleStatusMsg.VtolFwPermanentStab = false;
-//				VehicleStatusMsg.InTransitionMode = false;
-//				VehicleStatusMsg.RcSignalLost = true;
-//				VehicleStatusMsg.RcInputMode = PX4_RC_IN_MODE_GENERATED;
-//				VehicleStatusMsg.DataLinkLost = true;
-//				VehicleStatusMsg.DataLinkLostCounter = 0;
-//				VehicleStatusMsg.EngineFailure = false;
-//				VehicleStatusMsg.EngineFailureCmd = false;
-//				VehicleStatusMsg.MissionFailure = false;
-//				VehicleControlModeMsg.ControlVelocityEnabled = true;
-//				VehicleControlModeMsg.ControlPositionEnabled = true;
-//            	/* Update the CommanderState message */
-//            	VehicleManagerStateMsg.Timestamp = timestamp;
-//
-//            	/* Update the VehicleControlMode message */
-//            	VehicleControlModeMsg.Timestamp = timestamp;
+            	ArmingSM.DoAction();
+            	MainSM.DoAction();
+            	NavigationSM.DoAction();
+
+            	/* Get a common timestamp. */
+            	timestamp = PX4LIB_GetPX4TimeUs();
+
+            	/* Update the ActuatorArmed message */
+            	ActuatorArmedMsg.Timestamp = timestamp;
+
+            	/* Update the VehicleManagerState message */
+            	VehicleManagerStateMsg.Timestamp = timestamp;
+
+
+            	/* Update the VehicleStatus message */
+            	VehicleStatusMsg.Timestamp = timestamp;
+            	VehicleStatusMsg.SystemID = 1;
+            	VehicleStatusMsg.ComponentID = 1;
+				VehicleStatusMsg.OnboardControlSensorsPresent = 0;
+				VehicleStatusMsg.OnboardControlSensorsEnabled = 0;
+				VehicleStatusMsg.OnboardControlSensorsHealth = 0;
+				//VehicleStatusMsg.NavigationState = PX4_NAVIGATION_STATE_AUTO_TAKEOFF
+				//VehicleStatusMsg.ArmingState = Armed
+				VehicleStatusMsg.HilState = PX4_HIL_STATE_OFF;
+				VehicleStatusMsg.Failsafe = false;
+				VehicleStatusMsg.SystemType = PX4_SYSTEM_TYPE_HEXAROTOR;
+				VehicleStatusMsg.IsRotaryWing = true;
+				VehicleStatusMsg.IsVtol = false;
+				VehicleStatusMsg.VtolFwPermanentStab = false;
+				VehicleStatusMsg.InTransitionMode = false;
+				VehicleStatusMsg.RcSignalLost = true;
+				VehicleStatusMsg.RcInputMode = PX4_RC_IN_MODE_GENERATED;
+				VehicleStatusMsg.DataLinkLost = true;
+				VehicleStatusMsg.DataLinkLostCounter = 0;
+				VehicleStatusMsg.EngineFailure = false;
+				VehicleStatusMsg.EngineFailureCmd = false;
+				VehicleStatusMsg.MissionFailure = false;
+				VehicleControlModeMsg.ControlVelocityEnabled = true;
+				VehicleControlModeMsg.ControlPositionEnabled = true;
+            	/* Update the CommanderState message */
+            	VehicleManagerStateMsg.Timestamp = timestamp;
+
+            	/* Update the VehicleControlMode message */
+            	VehicleControlModeMsg.Timestamp = timestamp;
 //
 //            	/* Publish all the messages. */
-//            	SendActuatorArmedMsg();
-//            	SendVehicleManagerStateMsg();
-//            	SendVehicleStatusMsg();
-//            	SendVehicleManagerStateMsg();
-//            	SendVehicleControlModeMsg();
-//            	SendVehicleGlobalPositionMsg();
-//            	SendVehicleGpsPositionMsg();
-//            	SendHomePositionMsg();
+            	SendActuatorArmedMsg();
+            	SendVehicleManagerStateMsg();
+            	SendVehicleStatusMsg();
+            	SendVehicleManagerStateMsg();
+            	SendVehicleControlModeMsg();
+            	SendVehicleGlobalPositionMsg();
+            	SendVehicleGpsPositionMsg();
+            	SendHomePositionMsg();
 
                 break;
             }
@@ -1443,13 +1442,272 @@ void VM::Initialization(){
 
 	/* Always accept RC input as default */
 	status_flags.rc_input_blocked = false;
-	VehicleStatusMsg.RcInputMode = PX4_RcInMode_t::PX4_RC_IN_MODE_DEFAULT
+	VehicleStatusMsg.RcInputMode = PX4_RcInMode_t::PX4_RC_IN_MODE_DEFAULT;
+	VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_MANUAL;
+	VehicleStatusMsg.ArmingState = PX4_ArmingState_t::PX4_ARMING_STATE_INIT;
+	local_state.State =  PX4_CommanderMainState_t::PX4_COMMANDER_MAIN_STATE_MANUAL;
+	local_state.Timestamp = TimeNow();
+	prev_local_state.State = PX4_CommanderMainState_t::PX4_COMMANDER_MAIN_STATE_MAX;
+	prev_local_state.Timestamp = 0;
+
+	/* Vehicle status defaults */
+	VehicleStatusMsg.Failsafe = false;
+
+	/* neither manual nor offboard control commands have been received */
+	status_flags.offboard_control_signal_found_once = false;
+	status_flags.rc_signal_found_once = false;
+
+	/* assume we don't have a valid baro on startup */
+	status_flags.barometer_failure = true;
+	status_flags.ever_had_barometer_data = false;
+
+	/* mark all signals lost as long as they haven't been found */
+	VehicleStatusMsg.RcSignalLost = true;
+	status_flags.offboard_control_signal_lost = true;
+	VehicleStatusMsg.DataLinkLost = true;
+	status_flags.offboard_control_loss_timeout = false;
+
+	status_flags.condition_system_prearm_error_reported = false;
+	status_flags.condition_system_hotplug_timeout = false;
+	status_flags.condition_power_input_valid = true;
+	AvionicsPowerRailVoltage = -1.0f;
+	status_flags.usb_connected = false;
+
+	// CIRCUIT BREAKERS
+	status_flags.circuit_breaker_engaged_power_check = false;
+	status_flags.circuit_breaker_engaged_airspd_check = false;
+	status_flags.circuit_breaker_engaged_enginefailure_check = false;
+	status_flags.circuit_breaker_engaged_gpsfailure_check = false;
+	SetCircuitBreakers();
+
+	/* Set position and velocity validty to false */
+	status_flags.condition_global_position_valid = false;
+	status_flags.condition_global_velocity_valid = false;
+	status_flags.condition_local_position_valid = false;
+	status_flags.condition_local_velocity_valid = false;
+	status_flags.condition_local_altitude_valid = false;
+
+	// Initialize gps failure to false if circuit breaker enabled
+	if (status_flags.circuit_breaker_engaged_gpsfailure_check) {
+		status_flags.gps_failure = false;
+	} else {
+		status_flags.gps_failure = true;
+	}
+
+	/* Publish vehicle state */
+	VehicleStatusMsg.Timestamp = TimeNow();
+	SendVehicleStatusMsg();
+
+	/* Onboard mission not supported, set default mission and publish */
+	MissionMsg.Timestamp = TimeNow();
+	MissionMsg.DatamanID = 0;
+	MissionMsg.Count = 0;
+	MissionMsg.CurrentSeq = 0;
+	SendMissionMsg();
+
+	/* Safety defaults */
+	SafetyMsg.SafetySwitchAvailable = false;
+	SafetyMsg.SafetyOff = false;
+
+	/* Global position defaults */
+	VehicleGlobalPositionMsg.EpH = 1000.0f;
+	VehicleGlobalPositionMsg.EpV = 1000.0f;
+
+	/* Land detector message defaults */
+	VehicleLandDetectedMsg.Landed = true;
+
+	/* GPS position message defaults */
+	VehicleGpsPositionMsg.EpH = FLT_MAX;
+	VehicleGpsPositionMsg.EpV = FLT_MAX;
+
+
+	/* Now initialize VM */
+	vm_initialized = true;
+
+	/* Brief pre-flight check */
+	if(vm_params.rc_in_off == 2){
+		VehicleStatusMsg.RcInputMode = PX4_RcInMode_t::PX4_RC_IN_MODE_GENERATED;
+	}
+
+	// user adjustable duration required to assert arm/disarm via throttle/rudder stick
+	vm_params.rc_arm_hyst *= COMMANDER_MONITORING_LOOPSPERMSEC;
+
+	VmBootTimestamp = TimeNow();
+
+	/* update parameters */
+	if(!ActuatorArmedMsg.Armed){
+		vm_params.mav_type = VehicleStatusMsg.SystemType;
+		VehicleStatusMsg.IsRotaryWing = true;
+		VehicleStatusMsg.IsVtol = false;
+		VehicleStatusMsg.SystemID = vm_params.system_id;
+		VehicleStatusMsg.ComponentID =	vm_params.component_id;
+		SetCircuitBreakers();
+		status_changed = true;
+	}
+	// percentage (* 0.01) needs to be doubled because RC total interval is 2, not 1
+	// minimum stick change
+	vm_params.rc_stick_ovrde *= 0.02f;
+	arm_disarm_history.setTimeSince(false, (uint64)vm_params.disarm_land * 1000000 );
+
 
 }
 
 void VM::Execute(){
 
+	VM_StateTransition ArmingState = VM_StateTransition::TRANSITION_NOT_CHANGED;
 
+	/* offboard control message */
+	if(OffboardControlModeMsg.Timestamp != 0 && OffboardControlModeMsg.Timestamp + OFFBOARD_TIMEOUT > TimeNow()){
+		if (status_flags.offboard_control_signal_lost) {
+			status_flags.offboard_control_signal_lost = false;
+			status_flags.offboard_control_loss_timeout = false;
+			status_changed = true;
+		}
+	}
+	else{
+		if (!status_flags.offboard_control_signal_lost) {
+			status_flags.offboard_control_signal_lost = true;
+			status_changed = true;
+		}
+		/* check timer if offboard was there but now lost */
+		if (!status_flags.offboard_control_loss_timeout && OffboardControlModeMsg.Timestamp != 0) {
+			if (vm_params.of_loss_t < FLT_EPSILON) {
+				/* execute loss action immediately */
+				status_flags.offboard_control_loss_timeout = true;
+
+			} else {
+				/* wait for timeout if set */
+				status_flags.offboard_control_loss_timeout = OffboardControlModeMsg.Timestamp +
+															 OFFBOARD_TIMEOUT +
+															 vm_params.of_loss_t * 1e6f < TimeNow();
+			}
+
+			if (status_flags.offboard_control_loss_timeout) {
+				status_changed = true;
+			}
+		}
+
+	}
+
+	/* sensor message*/
+//	uint64 baro_timestamp = SensorCombinedMsg.Timestamp + SensorCombinedMsg.BaroRelTimeInvalid;
+//	uint64 elapsed_time = TimeElapsed(&baro_timestamp);
+//	if(elapsed_time<FAILSAFE_DEFAULT_TIMEOUT){
+//		 /* handle for baro regain */
+//		if(status_flags.barometer_failure){
+//			status_flags.barometer_failure = false;
+//			status_changed = true;
+//			if (status_flags.ever_had_barometer_data) {
+//				OS_printf("baro healthy\n");
+//				OS_printf("  baro_timestamp = %llu \n", baro_timestamp);
+//				OS_printf("  sensors.timestamp = %llu\n", SensorCombinedMsg.Timestamp);
+//				OS_printf("  sensors.baro_timestamp_relative = %llu\n", SensorCombinedMsg.BaroRelTimeInvalid);
+//				OS_printf("  FAILSAFE_DEFAULT_TIMEOUT = %llu\n", FAILSAFE_DEFAULT_TIMEOUT);
+//				OS_printf("  elapsedTime = %lli\n", elapsed_time);
+//			}
+//			status_flags.ever_had_barometer_data = true;
+//		}
+//		else{
+//			if (!status_flags.barometer_failure) {
+//				status_flags.barometer_failure = true;
+//				status_changed = true;
+//				OS_printf("baro failed\n");
+//				OS_printf("  baro_timestamp = %llu \n", baro_timestamp);
+//				OS_printf("  sensors.timestamp = %llu\n", SensorCombinedMsg.Timestamp);
+//				OS_printf("  sensors.baro_timestamp_relative = %llu\n", SensorCombinedMsg.BaroRelTimeInvalid);
+//				OS_printf("  FAILSAFE_DEFAULT_TIMEOUT = %llu\n", FAILSAFE_DEFAULT_TIMEOUT);
+//				OS_printf("  elapsedTime = %lli\n", elapsed_time);
+//			}
+//		}
+//	}
+
+
+	/* System Power Msg */
+	if(TimeElapsed(&SystemPowerMsg.Timestamp)<200000){
+		if(SystemPowerMsg.ServoValid && !SystemPowerMsg.BrickValid && !SystemPowerMsg.UsbConnected  ){
+			/* flying only on servo rail, this is unsafe */
+			status_flags.condition_power_input_valid = false;
+		}
+		else{
+			status_flags.condition_power_input_valid = true;
+		}
+
+		/* copy avionics voltage */
+		AvionicsPowerRailVoltage = SystemPowerMsg.Voltage5V;
+
+		if(status_flags.usb_connected == !SystemPowerMsg.UsbConnected){
+			OS_printf("CRITICAL!!!! USB disconnected,should reboot.\n");
+		}
+		status_flags.usb_connected = usb_telemetry_active;
+
+	}
+
+
+	/* Safety Msg */
+	boolean previous_safety_off = SafetyMsg.SafetyOff;
+	if(SafetyMsg.SafetySwitchAvailable && !SafetyMsg.SafetyOff && ActuatorArmedMsg.Armed && VehicleStatusMsg.ArmingState == PX4_ArmingState_t::PX4_ARMING_STATE_ARMED){
+		OS_printf("Disamed by safety message\n");
+		ArmingSM.FSM.Disarm();
+		arming_state_changed = true;
+	}
+
+	//Notify the user if the status of the safety switch changes
+	if (SafetyMsg.SafetySwitchAvailable && previous_safety_off != SafetyMsg.SafetyOff) {
+
+		if (SafetyMsg.SafetyOff) {
+			OS_printf("POSITIVE TONE\n");
+
+		} else {
+			OS_printf("NEUTRAL TONE\n");
+		}
+
+		status_changed = true;
+	}
+
+
+	/* global position msg*/
+
+	/* local position estimate msg*/
+
+	/* attitude estimator msg */
+	CheckValidity(VehicleLocalPositionMsg.Timestamp,
+			      POSITION_TIMEOUT,
+				  VehicleLocalPositionMsg.Z_Valid,
+				  &(status_flags.condition_local_altitude_valid),
+				  &status_changed);
+
+
+
+
+
+
+
+
+
+}
+
+void VM::SetCircuitBreakers(){
+	status_flags.circuit_breaker_engaged_power_check = CircuitBreakerEnabled(vm_params.cbrk_supply_chk, CBRK_SUPPLY_CHK_KEY);
+	status_flags.circuit_breaker_engaged_usb_check = CircuitBreakerEnabled(vm_params.cbrk_usb_chk, CBRK_USB_CHK_KEY);
+	status_flags.circuit_breaker_engaged_airspd_check = CircuitBreakerEnabled(vm_params.cbrk_airspd_chk, CBRK_AIRSPD_CHK_KEY);
+	status_flags.circuit_breaker_engaged_enginefailure_check = CircuitBreakerEnabled(vm_params.cbrk_enginefail_chk, CBRK_ENGINEFAIL_KEY);
+	status_flags.circuit_breaker_engaged_gpsfailure_check = CircuitBreakerEnabled(vm_params.cbrk_gpsdail_chk, CBRK_GPSFAIL_KEY);
+	status_flags.circuit_breaker_flight_termination_disabled = CircuitBreakerEnabled(vm_params.cbrk_flightterm_chk, CBRK_FLIGHTTERM_KEY);
+	status_flags.circuit_breaker_engaged_posfailure_check = CircuitBreakerEnabled(vm_params.cbrk_velposerr_chk, CBRK_VELPOSERR_KEY);
+}
+
+boolean VM::CircuitBreakerEnabled(int param, int magic_number){
+	return (param == magic_number);
+}
+
+void VM::CheckValidity(uint64 timestamp, uint64 timeout, bool valid_in, bool *valid_out, bool *changed){
+
+	uint64 now  = TimeNow();
+	bool valid = (now < timestamp + timeout && now >timeout && valid_in);
+	if(*valid_out != valid){
+		*valid_out = valid;
+		*changed = true;
+	}
 }
 
 /************************/

@@ -131,12 +131,12 @@ boolean VM_Arming::PreFlightCheckCleared(){
 	boolean safety_off = true;
 
 	/* Battery Warning Check */
-	if(App.CVT.BatteryStatusMsg.Warning >= PX4_BatteryWarningSeverity_t::PX4_BATTERY_WARNING_LOW ){
+	if(App.BatteryStatusMsg.Warning >= PX4_BatteryWarningSeverity_t::PX4_BATTERY_WARNING_LOW ){
 		battery_ok = false;
 	}
 
 	/* Safety Check */
-	if(App.CVT.SafetyMsg.SafetySwitchAvailable && !App.CVT.SafetyMsg.SafetyOff){
+	if(App.SafetyMsg.SafetySwitchAvailable && !App.SafetyMsg.SafetyOff){
 		safety_off = false;
 	}
 
