@@ -9,7 +9,9 @@ add_airliner_app_def(vm
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_msg.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_tbldefs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_version.h
-   
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/CautionWarningHelper.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/CautionWarningHelper.hpp
+
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
 
