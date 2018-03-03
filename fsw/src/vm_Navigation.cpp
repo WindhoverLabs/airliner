@@ -193,7 +193,9 @@ void VM_Navigation::EnteredRattitude()
 void VM_Navigation::EnteredAutoTakeoff()
 {
 	App.VehicleStatusMsg.NavState = PX4_NAVIGATION_STATE_AUTO_TAKEOFF;
-	App.TakeoffPackage();
+
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_TAKEOFF;
+	App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_TAKEOFF;
 
     App.SetHomePosition();
     App.SendHomePositionMsg();
@@ -211,6 +213,14 @@ void VM_Navigation::EnteredAutoTakeoff()
 void VM_Navigation::EnteredAutoLand()
 {
 	App.VehicleStatusMsg.NavState = PX4_NAVIGATION_STATE_AUTO_LAND;
+
+	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_LAND;
+	App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_LAND;
+
+	App.SendVehicleManagerStateMsg();
+	App.SendVehicleStatusMsg();
+    App.SendVehicleControlModeMsg();
+
 
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_AUTO_LAND_INFO_EID, CFE_EVS_INFORMATION,
     		"Navigation::AutoLand");

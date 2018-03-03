@@ -1585,52 +1585,8 @@ void VM::CheckValidity(uint64 timestamp, uint64 timeout, bool valid_in, bool *va
 }
 
 
-void VM::TakeoffPackage(){
-
-
-    //PX4_VehicleCommandMsg_t cmd;
-
-
-    	//CFE_SB_InitMsg(&cmd, PX4_VEHICLE_COMMAND_MID, sizeof(cmd), TRUE);
-
-    	VehicleCommandMsg.Timestamp = PX4LIB_GetPX4TimeUs();
-    	VehicleCommandMsg.Param1 = NAN;
-    	VehicleCommandMsg.Param2 = NAN;
-    	VehicleCommandMsg.Param3 = NAN;
-    	VehicleCommandMsg.Param4 = NAN;
-    	VehicleCommandMsg.Param5 = NAN;
-    	VehicleCommandMsg.Param6 = NAN;
-    	VehicleCommandMsg.Param7 = NAN;
-    	VehicleCommandMsg.Command = PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_TAKEOFF;
-    	VehicleCommandMsg.TargetSystem = 1;
-    	VehicleCommandMsg.TargetComponent = 1;
-    	VehicleCommandMsg.SourceSystem = 0;
-    	VehicleCommandMsg.SourceComponent = 0;
-    	VehicleCommandMsg.Confirmation = 0;
-    	OS_printf("command Prepared\n");
-    	SendVehicleCommandMsg();
-        //CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&cmd);
-        //CFE_SB_SendMsg((CFE_SB_Msg_t*)&cmd);
-
-
-        //VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_TAKEOFF;
-        OS_printf("SET NAVSTATE:\n");
-
-
-
-
-    	/* Update the VehicleStatus message */
-
-        //VehicleControlModeMsg.ControlVelocityEnabled = true;
-        //VehicleControlModeMsg.ControlPositionEnabled = true;
-    //	/* Update the CommanderState message */
-    //	VehicleManagerStateMsg.Timestamp = timestamp;
-    //
-    //	/* Update the VehicleControlMode message */
-    //	VehicleControlModeMsg.Timestamp = timestamp;
-    //
-    //
-
+void VM::TakeoffPackage()
+{
 
         VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_TAKEOFF;
         VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_TAKEOFF;
