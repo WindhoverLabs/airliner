@@ -195,6 +195,14 @@ void VM_Navigation::EnteredAutoTakeoff()
 	App.VehicleStatusMsg.NavState = PX4_NAVIGATION_STATE_AUTO_TAKEOFF;
 	App.TakeoffPackage();
 
+    App.SetHomePosition();
+    App.SendHomePositionMsg();
+
+	App.SendVehicleManagerStateMsg();
+	App.SendVehicleStatusMsg();
+    App.SendVehicleControlModeMsg();
+	App.SendActuatorArmedMsg();
+
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_AUTO_TAKEOFF_INFO_EID, CFE_EVS_INFORMATION,
     		"Navigation::AutoTakeoff");
 }
@@ -600,4 +608,17 @@ boolean VM_Navigation::IsStabilizationRequired(void)
 {
 	/* TODO */
 	return true;
+}
+
+
+
+boolean VM_Navigation::IsConditionLocalPositionValid()
+{
+	return App.ConditionLocalPositionValid;
+}
+
+
+boolean VM_Navigation::IsVehicleArmed()
+{
+	return App.IsVehicleArmed();
 }

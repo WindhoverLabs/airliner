@@ -35,7 +35,6 @@
 #define VM_APP_H
 
 #include "vm_Arming.h"
-#include "vm_Main.h"
 #include "vm_Navigation.h"
 
 #ifdef __cplusplus
@@ -299,7 +298,6 @@ public:
     PX4_VehicleControlModeMsg_t VehicleControlModeMsg;
 
     VM_Arming     ArmingSM;
-    VM_Main       MainSM;
     VM_Navigation NavigationSM;
 
     VM_Params_t vm_params;
