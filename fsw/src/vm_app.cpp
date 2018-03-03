@@ -468,12 +468,12 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             	if (VehicleGlobalPositionMsg.Timestamp==0){
             			break;
             	}
-            	if(test){
-            		//Initialization();
-            		SetHomePosition();
-                	SendHomePositionMsg();
-            		test = false;
-            	}
+            	//if(test){
+            	//	//Initialization();
+            	//	SetHomePosition();
+                //	SendHomePositionMsg();
+            	//	test = false;
+            	//}
             	//Execute();
             	uint64 timestamp;
 				/* Get a common timestamp. */
@@ -537,11 +537,11 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             	MainSM.DoAction();
             	//NavigationSM.DoAction();
             	/* Publish all the messages. */
-            	SendActuatorArmedMsg();
-            	SendVehicleManagerStateMsg();
-            	SendVehicleStatusMsg();
-            	SendVehicleManagerStateMsg();
-            	SendVehicleControlModeMsg();
+            	//SendActuatorArmedMsg();
+            	//SendVehicleManagerStateMsg();
+            	//SendVehicleStatusMsg();
+            	//SendVehicleManagerStateMsg();
+            	////SendVehicleControlModeMsg();
             	//SendVehicleGlobalPositionMsg();
             	//SendVehicleGpsPositionMsg();
 
@@ -644,15 +644,15 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             case PX4_SENSOR_COMBINED_MID:
                 memcpy(&SensorCombinedMsg, MsgPtr, sizeof(SensorCombinedMsg));
                 break;
-            case PX4_VEHICLE_COMMAND_MID:
-            	memcpy(&VehicleCommandMsg, MsgPtr, sizeof(VehicleCommandMsg));
-            	OS_printf("command received VM\n");
+            //case PX4_VEHICLE_COMMAND_MID:
+            //	memcpy(&VehicleCommandMsg, MsgPtr, sizeof(VehicleCommandMsg));
+            //	OS_printf("command received VM\n");
 
-            	if(VehicleCommandMsg.Command == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_TAKEOFF){
-            		//TakeoffPackage();
-            	}
+            //	if(VehicleCommandMsg.Command == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_TAKEOFF){
+            //		//TakeoffPackage();
+            //	}
 
-				break;
+			//	break;
 
 
             default:
@@ -924,7 +924,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	try{
             		//TakeoffPackage();
             		//ArmingSM.FSM.Arm();
-                    //MainSM.FSM.trAutoTakeoff();
+                    MainSM.FSM.trAutoTakeoff();
                     HkTlm.usCmdCnt++;
             	}
             	catch(statemap::TransitionUndefinedException e)
@@ -1184,7 +1184,6 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 
             case VM_SET_NAV_AUTO_TAKEOFF_CC:
             	try{
-            		ArmingSM.FSM.Arm();
                     NavigationSM.FSM.trAutoTakeoff();
                     HkTlm.usCmdCnt++;
             	}

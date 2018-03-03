@@ -127,6 +127,14 @@ void VM_Main::EnteredAutoTakeoff()
 //    App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_TAKEOFF;
 //    App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_TAKEOFF;
 
+    App.SetHomePosition();
+    App.SendHomePositionMsg();
+
+	App.SendVehicleManagerStateMsg();
+	App.SendVehicleStatusMsg();
+    App.SendVehicleControlModeMsg();
+	App.SendActuatorArmedMsg();
+
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_AUTO_TAKEOFF_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::AutoTakeoff");
 }
