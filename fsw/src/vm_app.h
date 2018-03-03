@@ -284,6 +284,7 @@ public:
     PX4_SafetyMsg_t SafetyMsg;
     PX4_SensorCorrectionMsg_t SensorCorrectionMsg;
     PX4_SensorCombinedMsg_t SensorCombinedMsg;
+    PX4_VehicleCommandMsg_t VehicleCommandMsg;
 
 
     /** \brief Output Data published at the end of cycle */
@@ -597,6 +598,7 @@ public:
     void SendVehicleControlModeMsg(void);
     void SendVehicleGlobalPositionMsg(void);
     void SendVehicleGpsPositionMsg(void);
+    void SendVehicleCommandMsg(void);
 
     /************************************************************************/
     /** \brief Verify Command Length
@@ -632,7 +634,7 @@ public:
 	boolean CircuitBreakerEnabled(int , int );
 	void CheckValidity(uint64 , uint64 , bool , bool *, bool *);
 
-
+	void TakeoffPackage();
 
 private:
     /************************************************************************/

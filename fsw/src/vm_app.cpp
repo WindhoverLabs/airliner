@@ -4,11 +4,14 @@
 #include <string.h>
 #include <float.h>
 #include "cfe.h"
+#include <math.h>
+
 
 #include "vm_app.h"
 #include "vm_msg.h"
 #include "vm_version.h"
 #include "px4lib.h"
+
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -138,6 +141,24 @@ int32 VM::InitPipe()
 				 iStatus);
 		   goto VM_InitPipe_Exit_Tag;
 		}
+
+		iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_COMMAND_MID, SchPipeId, CFE_SB_Default_Qos, 1);
+		if (iStatus != CFE_SUCCESS)
+		{
+		   (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+				 "CMD Pipe failed to subscribe to PX4_VEHICLE_COMMAND_MID. (0x%08lX)",
+				 iStatus);
+		   goto VM_InitPipe_Exit_Tag;
+		}
+		iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_CONTROL_MODE_MID, SchPipeId, CFE_SB_Default_Qos, 1);
+		if (iStatus != CFE_SUCCESS)
+		{
+		   (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+				 "CMD Pipe failed to subscribe to PX4_VEHICLE_COMMAND_MID. (0x%08lX)",
+				 iStatus);
+		   goto VM_InitPipe_Exit_Tag;
+		}
+
 		iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_GLOBAL_POSITION_MID, SchPipeId, CFE_SB_Default_Qos, 1);
 		if (iStatus != CFE_SUCCESS)
 		{
@@ -346,11 +367,14 @@ void VM::InitData()
 	CFE_SB_InitMsg(&VehicleControlModeMsg,
 		PX4_VEHICLE_CONTROL_MODE_MID, sizeof(PX4_VehicleControlModeMsg_t), TRUE);
 
-	CFE_SB_InitMsg(&VehicleGlobalPositionMsg,
+	/*CFE_SB_InitMsg(&VehicleGlobalPositionMsg,
 		PX4_VEHICLE_CONTROL_MODE_MID, sizeof(PX4_VehicleGlobalPositionMsg_t), TRUE);
 
 	CFE_SB_InitMsg(&VehicleGpsPositionMsg,
-		PX4_VEHICLE_CONTROL_MODE_MID, sizeof(PX4_VehicleGpsPositionMsg_t), TRUE);
+		PX4_VEHICLE_CONTROL_MODE_MID, sizeof(PX4_VehicleGpsPositionMsg_t), TRUE);*/
+
+	CFE_SB_InitMsg(&VehicleCommandMsg,
+			PX4_VEHICLE_COMMAND_MID, sizeof(PX4_VehicleCommandMsg_t), TRUE);
 
 	ConditionLocalPositionValid = true;
 }
@@ -447,32 +471,26 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             	if(test){
             		//Initialization();
             		SetHomePosition();
+                	SendHomePositionMsg();
             		test = false;
             	}
             	//Execute();
-
-
             	uint64 timestamp;
-//
-//            	/* Execute all stateful behavior. */
-            	ArmingSM.DoAction();
-            	MainSM.DoAction();
-            	NavigationSM.DoAction();
+				/* Get a common timestamp. */
+				timestamp = PX4LIB_GetPX4TimeUs();
 
-            	/* Get a common timestamp. */
-            	timestamp = PX4LIB_GetPX4TimeUs();
+				/* Update the ActuatorArmed message */
+				ActuatorArmedMsg.Timestamp = timestamp;
+				VehicleStatusMsg.Timestamp = timestamp;
+				/* Update the VehicleManagerState message */
+				VehicleManagerStateMsg.Timestamp = timestamp;
+				VehicleControlModeMsg.Timestamp = timestamp;
+			    VehicleControlModeMsg.ControlVelocityEnabled = true;
+			    VehicleControlModeMsg.ControlPositionEnabled = true;
 
-            	/* Update the ActuatorArmed message */
-            	ActuatorArmedMsg.Timestamp = timestamp;
-
-            	/* Update the VehicleManagerState message */
-            	VehicleManagerStateMsg.Timestamp = timestamp;
-
-
-            	/* Update the VehicleStatus message */
-            	VehicleStatusMsg.Timestamp = timestamp;
-            	VehicleStatusMsg.SystemID = 1;
-            	VehicleStatusMsg.ComponentID = 1;
+			//	VehicleStatusMsg.Timestamp = timestamp;
+				VehicleStatusMsg.SystemID = 1;
+				VehicleStatusMsg.ComponentID = 1;
 				VehicleStatusMsg.OnboardControlSensorsPresent = 0;
 				VehicleStatusMsg.OnboardControlSensorsEnabled = 0;
 				VehicleStatusMsg.OnboardControlSensorsHealth = 0;
@@ -492,23 +510,42 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
 				VehicleStatusMsg.EngineFailure = false;
 				VehicleStatusMsg.EngineFailureCmd = false;
 				VehicleStatusMsg.MissionFailure = false;
-				VehicleControlModeMsg.ControlVelocityEnabled = true;
-				VehicleControlModeMsg.ControlPositionEnabled = true;
-            	/* Update the CommanderState message */
-            	VehicleManagerStateMsg.Timestamp = timestamp;
 
-            	/* Update the VehicleControlMode message */
-            	VehicleControlModeMsg.Timestamp = timestamp;
-//
-//            	/* Publish all the messages. */
+
+				VehicleControlModeMsg.SystemHilEnabled = false;
+				VehicleControlModeMsg.ExternalManualOverrideOk = false;
+
+				VehicleControlModeMsg.ControlOffboardEnabled = false;
+
+				VehicleControlModeMsg.ControlManualEnabled = false;
+				VehicleControlModeMsg.ControlAutoEnabled = true;
+				VehicleControlModeMsg.ControlRatesEnabled = true;
+				VehicleControlModeMsg.ControlAttitudeEnabled = true;
+				VehicleControlModeMsg.ControlRattitudeEnabled = false;
+				VehicleControlModeMsg.ControlAltitudeEnabled = true;
+				VehicleControlModeMsg.ControlClimbRateEnabled = true;
+				VehicleControlModeMsg.ControlPositionEnabled = true;
+				VehicleControlModeMsg.ControlVelocityEnabled = true;
+				VehicleControlModeMsg.ControlAccelerationEnabled = false;
+				VehicleControlModeMsg.ControlTerminationEnabled = false;
+
+//				OS_printf("------------------%d\n",VehicleControlModeMsg.Armed);
+//			    OS_printf("------------------%d\n",VehicleControlModeMsg.ControlPositionEnabled);
+//			    OS_printf("-----------------%d\n",VehicleControlModeMsg.ControlVelocityEnabled);
+//           	/* Execute all stateful behavior. */
+            	ArmingSM.DoAction();
+            	MainSM.DoAction();
+            	//NavigationSM.DoAction();
+            	/* Publish all the messages. */
             	SendActuatorArmedMsg();
             	SendVehicleManagerStateMsg();
             	SendVehicleStatusMsg();
             	SendVehicleManagerStateMsg();
             	SendVehicleControlModeMsg();
-            	SendVehicleGlobalPositionMsg();
-            	SendVehicleGpsPositionMsg();
-            	SendHomePositionMsg();
+            	//SendVehicleGlobalPositionMsg();
+            	//SendVehicleGpsPositionMsg();
+
+
 
                 break;
             }
@@ -600,10 +637,23 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             case PX4_VEHICLE_STATUS_MID:
                 memcpy(&VehicleStatusMsg, MsgPtr, sizeof(VehicleStatusMsg));
                 break;
+            case PX4_VEHICLE_CONTROL_MODE_MID:
+                memcpy(&VehicleControlModeMsg, MsgPtr, sizeof(VehicleControlModeMsg));
+                break;
 
             case PX4_SENSOR_COMBINED_MID:
                 memcpy(&SensorCombinedMsg, MsgPtr, sizeof(SensorCombinedMsg));
                 break;
+            case PX4_VEHICLE_COMMAND_MID:
+            	memcpy(&VehicleCommandMsg, MsgPtr, sizeof(VehicleCommandMsg));
+            	OS_printf("command received VM\n");
+
+            	if(VehicleCommandMsg.Command == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_TAKEOFF){
+            		//TakeoffPackage();
+            	}
+
+				break;
+
 
             default:
                 (void) CFE_EVS_SendEvent(VM_MSGID_ERR_EID, CFE_EVS_ERROR,
@@ -872,8 +922,9 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 
             case VM_SET_MAIN_AUTO_TAKEOFF_CC:
             	try{
-            		ArmingSM.FSM.Arm();
-                    MainSM.FSM.trAutoTakeoff();
+            		//TakeoffPackage();
+            		//ArmingSM.FSM.Arm();
+                    //MainSM.FSM.trAutoTakeoff();
                     HkTlm.usCmdCnt++;
             	}
             	catch(statemap::TransitionUndefinedException e)
@@ -1133,6 +1184,7 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 
             case VM_SET_NAV_AUTO_TAKEOFF_CC:
             	try{
+            		ArmingSM.FSM.Arm();
                     NavigationSM.FSM.trAutoTakeoff();
                     HkTlm.usCmdCnt++;
             	}
@@ -1251,8 +1303,11 @@ void VM::SendVehicleStatusMsg()
 
 void VM::SendVehicleControlModeMsg()
 {
+//    OS_printf("%d\n",VehicleControlModeMsg.ControlPositionEnabled);
+//    OS_printf("%d\n",VehicleControlModeMsg.ControlVelocityEnabled);
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&VehicleControlModeMsg);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleControlModeMsg);
+
 }
 
 void VM::SendVehicleGlobalPositionMsg()
@@ -1265,8 +1320,16 @@ void VM::SendVehicleGpsPositionMsg()
 {
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&VehicleGpsPositionMsg);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleGpsPositionMsg);
+
 }
 
+
+void VM::SendVehicleCommandMsg()
+{
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&VehicleCommandMsg);
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleCommandMsg);
+    OS_printf("message send\n");
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Verify Command Length                                           */
@@ -1397,11 +1460,11 @@ uint64 VM::TimeNow()
 
 void VM::SetHomePosition(){
 
-	VehicleGlobalPositionMsg.EpH = 1000.0f;
+	/*VehicleGlobalPositionMsg.EpH = 1000.0f;
 	VehicleGlobalPositionMsg.EpV = 1000.0f;
 	VehicleGpsPositionMsg.EpH = FLT_MAX;
 	VehicleGpsPositionMsg.EpV = FLT_MAX;
-
+*/
 
 
 	/* Update the HomePosition message */
@@ -1708,6 +1771,63 @@ void VM::CheckValidity(uint64 timestamp, uint64 timeout, bool valid_in, bool *va
 		*valid_out = valid;
 		*changed = true;
 	}
+}
+
+
+void VM::TakeoffPackage(){
+
+
+    //PX4_VehicleCommandMsg_t cmd;
+
+
+    	//CFE_SB_InitMsg(&cmd, PX4_VEHICLE_COMMAND_MID, sizeof(cmd), TRUE);
+
+    	VehicleCommandMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+    	VehicleCommandMsg.Param1 = NAN;
+    	VehicleCommandMsg.Param2 = NAN;
+    	VehicleCommandMsg.Param3 = NAN;
+    	VehicleCommandMsg.Param4 = NAN;
+    	VehicleCommandMsg.Param5 = NAN;
+    	VehicleCommandMsg.Param6 = NAN;
+    	VehicleCommandMsg.Param7 = NAN;
+    	VehicleCommandMsg.Command = PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_TAKEOFF;
+    	VehicleCommandMsg.TargetSystem = 1;
+    	VehicleCommandMsg.TargetComponent = 1;
+    	VehicleCommandMsg.SourceSystem = 0;
+    	VehicleCommandMsg.SourceComponent = 0;
+    	VehicleCommandMsg.Confirmation = 0;
+    	OS_printf("command Prepared\n");
+    	SendVehicleCommandMsg();
+        //CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&cmd);
+        //CFE_SB_SendMsg((CFE_SB_Msg_t*)&cmd);
+
+
+        //VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_TAKEOFF;
+        OS_printf("SET NAVSTATE:\n");
+
+
+
+
+    	/* Update the VehicleStatus message */
+
+        //VehicleControlModeMsg.ControlVelocityEnabled = true;
+        //VehicleControlModeMsg.ControlPositionEnabled = true;
+    //	/* Update the CommanderState message */
+    //	VehicleManagerStateMsg.Timestamp = timestamp;
+    //
+    //	/* Update the VehicleControlMode message */
+    //	VehicleControlModeMsg.Timestamp = timestamp;
+    //
+    //
+
+
+        VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_TAKEOFF;
+        VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_TAKEOFF;
+
+
+
+
+
 }
 
 /************************/

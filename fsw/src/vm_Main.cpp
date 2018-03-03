@@ -80,32 +80,52 @@ void VM_Main::EnteredAutoLand()
 
 void VM_Main::EnteredAutoTakeoff()
 {
-	PX4_VehicleCommandMsg_t cmd;
-
-
-	CFE_SB_InitMsg(&cmd, PX4_VEHICLE_COMMAND_MID, sizeof(cmd), TRUE);
-
-	cmd.Timestamp = PX4LIB_GetPX4TimeUs();
-	cmd.Param1 = NAN;
-	cmd.Param2 = NAN;
-	cmd.Param3 = NAN;
-	cmd.Param4 = NAN;
-	cmd.Param5 = NAN;
-	cmd.Param6 = NAN;
-	cmd.Param7 = NAN;
-	cmd.Command = PX4_VEHICLE_CMD_NAV_TAKEOFF;
-	cmd.TargetSystem = 1;
-	cmd.TargetComponent = 1;
-	cmd.SourceSystem = 0;
-	cmd.SourceComponent = 0;
-	cmd.Confirmation = 0;
-
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&cmd);
-    CFE_SB_SendMsg((CFE_SB_Msg_t*)&cmd);
-
-
-    App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_TAKEOFF;
-    App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_TAKEOFF;
+//	//PX4_VehicleCommandMsg_t cmd;
+//
+//
+//	//CFE_SB_InitMsg(&cmd, PX4_VEHICLE_COMMAND_MID, sizeof(cmd), TRUE);
+//
+//	App.VehicleCommandMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+//	App.VehicleCommandMsg.Param1 = NAN;
+//	App.VehicleCommandMsg.Param2 = NAN;
+//	App.VehicleCommandMsg.Param3 = NAN;
+//	App.VehicleCommandMsg.Param4 = NAN;
+//	App.VehicleCommandMsg.Param5 = NAN;
+//	App.VehicleCommandMsg.Param6 = NAN;
+//	App.VehicleCommandMsg.Param7 = NAN;
+//	App.VehicleCommandMsg.Command = PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_TAKEOFF;
+//	App.VehicleCommandMsg.TargetSystem = 1;
+//	App.VehicleCommandMsg.TargetComponent = 1;
+//	App.VehicleCommandMsg.SourceSystem = 0;
+//	App.VehicleCommandMsg.SourceComponent = 0;
+//	App.VehicleCommandMsg.Confirmation = 0;
+//	OS_printf("command Prepared\n");
+//	App.SendVehicleCommandMsg();
+//    //CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&cmd);
+//    //CFE_SB_SendMsg((CFE_SB_Msg_t*)&cmd);
+//
+//
+//    //App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_TAKEOFF;
+//    OS_printf("SET NAVSTATE:\n");
+//
+//
+//
+//
+//	/* Update the VehicleStatus message */
+//
+//    App.VehicleControlModeMsg.ControlVelocityEnabled = true;
+//    App.VehicleControlModeMsg.ControlPositionEnabled = true;
+////	/* Update the CommanderState message */
+////	VehicleManagerStateMsg.Timestamp = timestamp;
+////
+////	/* Update the VehicleControlMode message */
+////	VehicleControlModeMsg.Timestamp = timestamp;
+////
+////
+//
+//
+//    App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_TAKEOFF;
+//    App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_TAKEOFF;
 
     CFE_EVS_SendEvent(VM_MAIN_ENTERED_AUTO_TAKEOFF_INFO_EID, CFE_EVS_INFORMATION,
     		"Main::AutoTakeoff");

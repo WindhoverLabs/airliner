@@ -193,6 +193,7 @@ void VM_Navigation::EnteredRattitude()
 void VM_Navigation::EnteredAutoTakeoff()
 {
 	App.VehicleStatusMsg.NavState = PX4_NAVIGATION_STATE_AUTO_TAKEOFF;
+	App.TakeoffPackage();
 
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_AUTO_TAKEOFF_INFO_EID, CFE_EVS_INFORMATION,
     		"Navigation::AutoTakeoff");
@@ -236,6 +237,18 @@ void VM_Navigation::DoAction()
 	App.VehicleControlModeMsg.ExternalManualOverrideOk = false;
 
 	App.VehicleControlModeMsg.ControlOffboardEnabled = false;
+
+	App.VehicleControlModeMsg.ControlManualEnabled = false;
+	App.VehicleControlModeMsg.ControlAutoEnabled = true;
+	App.VehicleControlModeMsg.ControlRatesEnabled = IsStabilizationRequired();
+	App.VehicleControlModeMsg.ControlAttitudeEnabled = IsStabilizationRequired();
+	App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
+	App.VehicleControlModeMsg.ControlAltitudeEnabled = true;
+	App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
+	App.VehicleControlModeMsg.ControlPositionEnabled = true;
+	App.VehicleControlModeMsg.ControlVelocityEnabled = true;
+	App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
+	App.VehicleControlModeMsg.ControlTerminationEnabled = false;
 
 	switch(FSM.getState().getId())
 	{
@@ -302,8 +315,8 @@ void VM_Navigation::DoAction()
 			App.VehicleControlModeMsg.ControlAltitudeEnabled = true;
 			App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
 			/* TODO - Replace the next 2 lines with the correct code. */
-			App.VehicleControlModeMsg.ControlPositionEnabled = false;
-			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlPositionEnabled = true;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = true;
 			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
 			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
 			break;

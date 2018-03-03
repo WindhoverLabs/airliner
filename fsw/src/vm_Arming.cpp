@@ -1,6 +1,8 @@
 #include "vm_Arming.h"
 #include "vm_events.h"
 #include "vm_app.h"
+#include <math.h>
+
 #include "px4lib.h"
 
 VM_Arming::VM_Arming(VM &inApp) :
@@ -64,6 +66,7 @@ void VM_Arming::EnteredArmed()
     App.ActuatorArmedMsg.Armed = true;
 
     App.VehicleControlModeMsg.Armed = true;
+
 
 
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_ARMED_STATE_INFO_EID, CFE_EVS_INFORMATION,
