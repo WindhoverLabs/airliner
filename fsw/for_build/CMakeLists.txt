@@ -31,7 +31,6 @@ add_airliner_app_def(vm
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Arming.h
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_ArmingContext.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_ArmingContext.h
-        ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_MainContext.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Navigation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Navigation.h
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_NavigationContext.cpp
@@ -76,10 +75,6 @@ add_airliner_app_unit_test(vm-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Arming.h
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_ArmingContext.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_ArmingContext.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Main.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Main.h
-        ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_MainContext.cpp
-        ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_MainContext.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Navigation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Navigation.h
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_NavigationContext.cpp
