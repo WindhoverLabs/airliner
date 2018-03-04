@@ -375,6 +375,46 @@ void VM::InitData()
 	CFE_SB_InitMsg(&VehicleCommandMsg,
 			PX4_VEHICLE_COMMAND_MID, sizeof(PX4_VehicleCommandMsg_t), TRUE);
 
+	VehicleControlModeMsg.ControlVelocityEnabled = true;
+	VehicleControlModeMsg.ControlPositionEnabled = true;
+	VehicleStatusMsg.SystemID = 1;
+	VehicleStatusMsg.ComponentID = 1;
+	VehicleStatusMsg.OnboardControlSensorsPresent = 0;
+	VehicleStatusMsg.OnboardControlSensorsEnabled = 0;
+	VehicleStatusMsg.OnboardControlSensorsHealth = 0;
+	//VehicleStatusMsg.NavigationState = PX4_NAVIGATION_STATE_AUTO_TAKEOFF
+	//VehicleStatusMsg.ArmingState = Armed
+	VehicleStatusMsg.HilState = PX4_HIL_STATE_OFF;
+	VehicleStatusMsg.Failsafe = false;
+	VehicleStatusMsg.SystemType = PX4_SYSTEM_TYPE_HEXAROTOR;
+	VehicleStatusMsg.IsRotaryWing = true;
+	VehicleStatusMsg.IsVtol = false;
+	VehicleStatusMsg.VtolFwPermanentStab = false;
+	VehicleStatusMsg.InTransitionMode = false;
+	VehicleStatusMsg.RcSignalLost = true;
+	VehicleStatusMsg.RcInputMode = PX4_RC_IN_MODE_GENERATED;
+	VehicleStatusMsg.DataLinkLost = true;
+	VehicleStatusMsg.DataLinkLostCounter = 0;
+	VehicleStatusMsg.EngineFailure = false;
+	VehicleStatusMsg.EngineFailureCmd = false;
+	VehicleStatusMsg.MissionFailure = false;
+
+	VehicleControlModeMsg.SystemHilEnabled = false;
+	VehicleControlModeMsg.ExternalManualOverrideOk = false;
+
+	VehicleControlModeMsg.ControlOffboardEnabled = false;
+	VehicleControlModeMsg.ControlManualEnabled = false;
+	VehicleControlModeMsg.ControlAutoEnabled = true;
+	VehicleControlModeMsg.ControlRatesEnabled = true;
+	VehicleControlModeMsg.ControlAttitudeEnabled = true;
+	VehicleControlModeMsg.ControlRattitudeEnabled = false;
+	VehicleControlModeMsg.ControlAltitudeEnabled = true;
+	VehicleControlModeMsg.ControlClimbRateEnabled = true;
+	VehicleControlModeMsg.ControlPositionEnabled = true;
+	VehicleControlModeMsg.ControlVelocityEnabled = true;
+	VehicleControlModeMsg.ControlAccelerationEnabled = false;
+	VehicleControlModeMsg.ControlTerminationEnabled = false;
+
 	ConditionLocalPositionValid = true;
 }
 
@@ -481,59 +521,17 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
 				/* Update the ActuatorArmed message */
 				ActuatorArmedMsg.Timestamp = timestamp;
 				VehicleStatusMsg.Timestamp = timestamp;
-				/* Update the VehicleManagerState message */
 				VehicleManagerStateMsg.Timestamp = timestamp;
 				VehicleControlModeMsg.Timestamp = timestamp;
-			    VehicleControlModeMsg.ControlVelocityEnabled = true;
-			    VehicleControlModeMsg.ControlPositionEnabled = true;
+				/* Update the VehicleManagerState message */
 
-			//	VehicleStatusMsg.Timestamp = timestamp;
-				VehicleStatusMsg.SystemID = 1;
-				VehicleStatusMsg.ComponentID = 1;
-				VehicleStatusMsg.OnboardControlSensorsPresent = 0;
-				VehicleStatusMsg.OnboardControlSensorsEnabled = 0;
-				VehicleStatusMsg.OnboardControlSensorsHealth = 0;
-				//VehicleStatusMsg.NavigationState = PX4_NAVIGATION_STATE_AUTO_TAKEOFF
-				//VehicleStatusMsg.ArmingState = Armed
-				VehicleStatusMsg.HilState = PX4_HIL_STATE_OFF;
-				VehicleStatusMsg.Failsafe = false;
-				VehicleStatusMsg.SystemType = PX4_SYSTEM_TYPE_HEXAROTOR;
-				VehicleStatusMsg.IsRotaryWing = true;
-				VehicleStatusMsg.IsVtol = false;
-				VehicleStatusMsg.VtolFwPermanentStab = false;
-				VehicleStatusMsg.InTransitionMode = false;
-				VehicleStatusMsg.RcSignalLost = true;
-				VehicleStatusMsg.RcInputMode = PX4_RC_IN_MODE_GENERATED;
-				VehicleStatusMsg.DataLinkLost = true;
-				VehicleStatusMsg.DataLinkLostCounter = 0;
-				VehicleStatusMsg.EngineFailure = false;
-				VehicleStatusMsg.EngineFailureCmd = false;
-				VehicleStatusMsg.MissionFailure = false;
-
-
-				VehicleControlModeMsg.SystemHilEnabled = false;
-				VehicleControlModeMsg.ExternalManualOverrideOk = false;
-
-				VehicleControlModeMsg.ControlOffboardEnabled = false;
-
-				VehicleControlModeMsg.ControlManualEnabled = false;
-				VehicleControlModeMsg.ControlAutoEnabled = true;
-				VehicleControlModeMsg.ControlRatesEnabled = true;
-				VehicleControlModeMsg.ControlAttitudeEnabled = true;
-				VehicleControlModeMsg.ControlRattitudeEnabled = false;
-				VehicleControlModeMsg.ControlAltitudeEnabled = true;
-				VehicleControlModeMsg.ControlClimbRateEnabled = true;
-				VehicleControlModeMsg.ControlPositionEnabled = true;
-				VehicleControlModeMsg.ControlVelocityEnabled = true;
-				VehicleControlModeMsg.ControlAccelerationEnabled = false;
-				VehicleControlModeMsg.ControlTerminationEnabled = false;
 
 //				OS_printf("------------------%d\n",VehicleControlModeMsg.Armed);
 //			    OS_printf("------------------%d\n",VehicleControlModeMsg.ControlPositionEnabled);
 //			    OS_printf("-----------------%d\n",VehicleControlModeMsg.ControlVelocityEnabled);
 //           	/* Execute all stateful behavior. */
             	ArmingSM.DoAction();
-            	//NavigationSM.DoAction();
+            	NavigationSM.DoAction();
             	/* Publish all the messages. */
             	//SendActuatorArmedMsg();
             	//SendVehicleManagerStateMsg();
@@ -642,6 +640,7 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             case PX4_SENSOR_COMBINED_MID:
                 memcpy(&SensorCombinedMsg, MsgPtr, sizeof(SensorCombinedMsg));
                 break;
+
             //case PX4_VEHICLE_COMMAND_MID:
             //	memcpy(&VehicleCommandMsg, MsgPtr, sizeof(VehicleCommandMsg));
             //	OS_printf("command received VM\n");

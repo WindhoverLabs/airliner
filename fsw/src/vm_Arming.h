@@ -48,7 +48,7 @@ public:
 	VM_Arming(VM &inApp);
 	~VM_Arming();
 
-	void EnteredInit(void);
+	void Init(void);
 	void EnteredStandby(void);
 	void EnteredArmed(void);
 	void ExitedArmed(void);
