@@ -542,6 +542,9 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             	//SendVehicleGpsPositionMsg();
 
 
+            	SendVehicleStatusMsg();
+            	SendVehicleManagerStateMsg();
+                SendVehicleControlModeMsg();
 
                 break;
             }
