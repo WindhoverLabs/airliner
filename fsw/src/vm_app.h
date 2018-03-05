@@ -316,7 +316,7 @@ public:
     boolean ArmWithoutGps = false;
     boolean ArmMissionRequired = false;
     PX4_VehicleGlobalPositionMsg_t PreviousGlobalPosition = {};
-    boolean test = true;
+boolean not_initialized = true;
     VM_StatusFlags status_flags = {};
     VM_MainStateHold local_state = {};
     VM_MainStateHold prev_local_state = {};
@@ -327,6 +327,7 @@ public:
     boolean vm_initialized = false;
 
     boolean vh_landed = true;
+    boolean vh_prev_landed = true;
     boolean vh_freefall = false;
     boolean vh_armed = false;
 
@@ -627,6 +628,7 @@ public:
     uint64 TimeNow(void);
 
     void Initialization();
+    void FlightSessionInit();
     void Execute();
     void SetCircuitBreakers();
 	boolean CircuitBreakerEnabled(int , int );

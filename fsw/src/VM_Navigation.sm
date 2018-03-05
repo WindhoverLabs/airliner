@@ -34,6 +34,7 @@ Manual
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AltitudeControl
     Entry
@@ -64,6 +65,8 @@ AltitudeControl
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
+    
 }
 PositionControl
     Entry
@@ -94,6 +97,7 @@ PositionControl
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoMission
     Entry
@@ -124,6 +128,7 @@ AutoMission
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoLoiter
     Entry
@@ -154,6 +159,7 @@ AutoLoiter
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoReturnToLaunch
     Entry
@@ -184,6 +190,7 @@ AutoReturnToLaunch
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoRCRecover
     Entry
@@ -214,6 +221,7 @@ AutoRCRecover
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoRtgs
     Entry
@@ -244,6 +252,7 @@ AutoRtgs
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoLandEngineFail
     Entry
@@ -274,6 +283,7 @@ AutoLandEngineFail
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoLandGpsFail
     Entry
@@ -304,6 +314,7 @@ AutoLandGpsFail
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 Acrobatic
     Entry
@@ -334,6 +345,7 @@ Acrobatic
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 Unused
 {
@@ -367,6 +379,7 @@ Descend
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 Termination
     Entry
@@ -397,6 +410,7 @@ Termination
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 Offboard
     Entry
@@ -427,6 +441,7 @@ Offboard
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 Stabilize
     Entry
@@ -457,6 +472,7 @@ Stabilize
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 Rattitude
     Entry
@@ -487,6 +503,7 @@ Rattitude
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoTakeoff
     Entry
@@ -513,6 +530,7 @@ AutoTakeoff
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoLand
     Entry
@@ -543,6 +561,7 @@ AutoLand
                          AutoTakeoff        { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoFollowTarget
     Entry
@@ -573,6 +592,7 @@ AutoFollowTarget
                          AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoPrecland
     Entry
@@ -603,10 +623,13 @@ AutoPrecland
                          AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
+    Reset		  		 Init 				{ }
 }
 Init
 {
     trInitComplete       AutoLoiter         { }
+    Reset		         Init               { }
+		                 
 }
     
 
