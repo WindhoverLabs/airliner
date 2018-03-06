@@ -26,10 +26,15 @@ Manual
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AltitudeControl
     Entry
@@ -52,10 +57,16 @@ AltitudeControl
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
+    
 }
 PositionControl
     Entry
@@ -78,10 +89,15 @@ PositionControl
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoMission
     Entry
@@ -104,10 +120,15 @@ AutoMission
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoLoiter
     Entry
@@ -130,10 +151,15 @@ AutoLoiter
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoReturnToLaunch
     Entry
@@ -156,10 +182,15 @@ AutoReturnToLaunch
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoRCRecover
     Entry
@@ -182,10 +213,15 @@ AutoRCRecover
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoRtgs
     Entry
@@ -208,10 +244,15 @@ AutoRtgs
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoLandEngineFail
     Entry
@@ -234,10 +275,15 @@ AutoLandEngineFail
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoLandGpsFail
     Entry
@@ -260,10 +306,15 @@ AutoLandGpsFail
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 Acrobatic
     Entry
@@ -286,10 +337,15 @@ Acrobatic
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 Unused
 {
@@ -315,10 +371,15 @@ Descend
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 Termination
     Entry
@@ -341,10 +402,15 @@ Termination
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 Offboard
     Entry
@@ -367,10 +433,15 @@ Offboard
     trTermination        Termination        { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 Stabilize
     Entry
@@ -393,10 +464,15 @@ Stabilize
     trTermination        Termination        { }
     trOffboard           Offboard           { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 Rattitude
     Entry
@@ -419,10 +495,15 @@ Rattitude
     trTermination        Termination        { }
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoTakeoff
     Entry
@@ -449,6 +530,7 @@ AutoTakeoff
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoLand
     Entry
@@ -472,9 +554,14 @@ AutoLand
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoFollowTarget   AutoFollowTarget   { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoFollowTarget
     Entry
@@ -498,9 +585,14 @@ AutoFollowTarget
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoPrecland       AutoPrecland       { }
+    Reset		  		 Init 				{ }
 }
 AutoPrecland
     Entry
@@ -524,13 +616,20 @@ AutoPrecland
     trOffboard           Offboard           { }
     trStabilize          Stabilize          { }
     trRattitude          Rattitude          { }
-    trAutoTakeoff        AutoTakeoff        { }
+    trAutoTakeoff        [ 
+                             ctxt.IsConditionLocalPositionValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoTakeoff        { }
     trAutoLand           AutoLand           { }
     trAutoFollowTarget   AutoFollowTarget   { }
+    Reset		  		 Init 				{ }
 }
 Init
 {
     trInitComplete       AutoLoiter         { }
+    Reset		         Init               { }
+		                 
 }
     
 

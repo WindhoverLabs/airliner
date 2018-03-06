@@ -31,42 +31,56 @@
 *
 *****************************************************************************/
 
-#ifndef VM_ARMING_H
-#define VM_ARMING_H
 
-#include "VM_ArmingContext.h"
-#include "cfe.h"
+/************************************************************************
+ ** Pragmas
+ *************************************************************************/
 
-class VM;
+/************************************************************************
+ ** Includes
+ *************************************************************************/
 
-class VM_Arming
+#include "vm_state_history.h"
+
+void StateHistory::update()
 {
-protected:
-	VM_Arming();
+	if(requested_state != state){
+		if((PX4LIB_GetPX4TimeUs() - time_since_state_change) >=  (state ? time_since_true_state: time_since_false_state )){
+			state = requested_state;
+		}
+	}
+}
 
-public:
-	VM_Arming(VM &inApp);
-	~VM_Arming();
+void StateHistory::setState(const bool new_state){
+	if(new_state!=state){
+		if(new_state!=requested_state){
+			requested_state = new_state;
+			time_since_state_change = PX4LIB_GetPX4TimeUs();
+		}
+	}
+	else{
+		requested_state = state;
+	}
+	update();
+}
 
-	void Init(void);
-	void EnteredStandby(void);
-	void EnteredArmed(void);
-	void ExitedArmed(void);
-	void EnteredStandbyError(void);
-	void EnteredArmedError(void);
+void StateHistory::setTimeSince(const bool from_state, const uint64 new_time){
 
-	void Arm(void);
-	void Disarm(void);
-	void InitComplete(void);
+	if(from_state){
+		time_since_true_state = new_time;
+	}
+	else{
+		time_since_false_state = new_time;
+	}
 
-	void DoAction(void);
+}
 
-	uint32 GetCurrentStateID(void);
-
-	boolean PreFlightCheckCleared(void);
-	VM_ArmingContext FSM;
-	VM &App;
-};
+bool StateHistory::getState() const{
+	return state;
+}
 
 
-#endif
+
+/************************/
+/*  End of File Comment */
+/************************/

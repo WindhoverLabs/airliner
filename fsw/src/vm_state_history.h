@@ -31,48 +31,55 @@
 *
 *****************************************************************************/
 
-#ifndef VM_MAIN_H
-#define VM_MAIN_H
+#ifndef VM_STATE_HIST_H
+#define VM_STATE_HIST_H
 
-#include "VM_MainContext.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/************************************************************************
+ ** Pragmas
+ *************************************************************************/
+
+/************************************************************************
+ ** Includes
+ *************************************************************************/
+#include "px4lib.h"
 #include "cfe.h"
 
-class VM;
 
-class VM_Main
+class StateHistory
 {
-protected:
-	VM_Main();
-
 public:
-	VM_Main(VM &inVmApp);
-	~VM_Main();
+	StateHistory(bool initial_state):
+		state(initial_state),
+		requested_state(initial_state),
+		time_since_true_state(0),
+		time_since_false_state(0),
+		time_since_state_change(0)
+	{}
+    ~StateHistory()
+    {}
+    void update();
+    bool getState()const;
+    void setState(const bool new_state);
+    void setTimeSince(const bool from_state, const uint64 new_time);
 
-    void EnteredManual();
-    void EnteredAltitudeControl();
-    void EnteredPositionControl();
-    void EnteredAutoMission();
-    void EnteredAutoLoiter();
-    void EnteredAutoReturnToLaunch();
-    void EnteredAcrobatic();
-    void EnteredOffboard();
-    void EnteredStabilize();
-    void EnteredRattitude();
-    void EnteredAutoTakeoff();
-    void EnteredAutoLand();
-    void EnteredAutoFollowTarget();
-    void EnteredAutoPrecland();
-
-    boolean IsConditionLocalPositionValid();
-    boolean IsVehicleArmed();
-
-	uint32 GetCurrentStateID(void);
-
-	void DoAction(void);
-
-	VM_MainContext FSM;
-	VM &App;
+private:
+    bool state;
+    bool requested_state;
+    uint64 time_since_true_state;
+    uint64 time_since_false_state;
+    uint64 time_since_state_change;
 };
 
-
+#ifdef __cplusplus
+}
 #endif
+
+#endif /* VM_STATE_HIST_H */
+
+/************************/
+/*  End of File Comment */
+/************************/

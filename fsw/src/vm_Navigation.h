@@ -74,6 +74,8 @@ public:
 	void DoAction(void);
 
 	boolean IsStabilizationRequired(void);
+	boolean IsConditionLocalPositionValid(void);
+	boolean IsVehicleArmed(void);
 
 	VM_NavigationContext FSM;
 	VM &App;

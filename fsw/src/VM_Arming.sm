@@ -6,13 +6,15 @@
 
 %%
 Init
-    Entry
-    {
-	    EnteredInit();
-    }
 {
-    InitComplete  Standby {}
-    Reset		  Init {}
+    InitComplete  Standby 
+                  {
+                      Init();
+                  }
+    Reset		  Init 
+                  {
+                      Init();
+                  }
 }
 
 
