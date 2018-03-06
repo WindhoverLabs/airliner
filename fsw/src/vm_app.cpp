@@ -1231,7 +1231,7 @@ uint64 VM::TimeNow()
 
 void VM::SetHomePosition(){
 
-	if (!(VehicleGlobalPositionMsg.EpH > nav_params.home_h_t || VehicleGlobalPositionMsg.EpV > nav_params.home_v_t)) {
+	if (!(VehicleGlobalPositionMsg.EpH > vm_params.home_h_t || VehicleGlobalPositionMsg.EpV > vm_params.home_v_t)) {
 
 		/* Set the HomePosition message */
 		HomePositionMsg.Timestamp = TimeNow();
@@ -1466,7 +1466,7 @@ void VM::Execute(){
 
 	/* Battery status */
 	/* only consider battery voltage if system has been running 6s (usb most likely detected) and battery voltage is valid */
-	if(TimeNow() > VmBoottimestamp + 6000000 && BatteryStatusMsg.VoltageFiltered > 2.0f * FLT_EPSILON){
+	if(TimeNow() > VmBootTimestamp + 6000000 && BatteryStatusMsg.VoltageFiltered > 2.0f * FLT_EPSILON){
 
 		/* if battery voltage is getting lower, warn using buzzer, etc. */
 		if(BatteryStatusMsg.Warning == PX4_BATTERY_WARNING_LOW && !low_battery_voltage_actions_done){
@@ -1477,7 +1477,7 @@ void VM::Execute(){
 				OS_printf("LOW BATTERY, TAKEOFF DISCOURAGED\n");
 			}
 		}
-		else if (!status.usb_connected && BatteryStatusMsg.Warning == X4_BATTERY_WARNING_CRITICAL && !critical_battery_voltage_actions_done){
+		else if (!status_flags.usb_connected && BatteryStatusMsg.Warning == PX4_BATTERY_WARNING_CRITICAL && !critical_battery_voltage_actions_done){
 			critical_battery_voltage_actions_done = true;
 
 			if (!ActuatorArmedMsg.Armed){
@@ -1489,7 +1489,7 @@ void VM::Execute(){
 					NavigationSM.FSM.trAutoReturnToLaunch();
 					OS_printf("CRITICAL BATTERY, RETURNING TO LAND\n");
 				}
-				else if(cm_params.low_bat_act ==2){
+				else if(vm_params.low_bat_act ==2){
 					NavigationSM.FSM.trAutoLand();
 					OS_printf("CRITICAL BATTERY, LANDING AT CURRENT POSITION\n");
 				}
@@ -1499,7 +1499,7 @@ void VM::Execute(){
 
 			}
 		}
-		else if(!status_flags.usb_connected && BatteryStatusMag.Warning == PX4_BATTERY_WARNING_EMERGENCY && !emergency_battery_voltage_actions_done){
+		else if(!status_flags.usb_connected && BatteryStatusMsg.Warning == PX4_BATTERY_WARNING_EMERGENCY && !emergency_battery_voltage_actions_done){
 			emergency_battery_voltage_actions_done = true;
 
 			if (!ActuatorArmedMsg.Armed){
@@ -1524,25 +1524,25 @@ void VM::Execute(){
 
 	/* Subsystem message */
 	if(SubsystemInfoMsg.Present){
-		VehicleStatusMsg.OnboardControlSensorsPresent |= SubsystemInfoMsg.SubsystemType
+		VehicleStatusMsg.OnboardControlSensorsPresent |= SubsystemInfoMsg.SubsystemType;
 	} else {
-		VehicleStatusMsg.OnboardControlSensorsPresent &= ~SubsystemInfoMsg.SubsystemType
+		VehicleStatusMsg.OnboardControlSensorsPresent &= ~SubsystemInfoMsg.SubsystemType;
 	}
 	if(SubsystemInfoMsg.Enabled){
-		VehicleStatusMsg.OnboardControlSensorsEnabled |= SubsystemInfoMsg.SubsystemType
+		VehicleStatusMsg.OnboardControlSensorsEnabled |= SubsystemInfoMsg.SubsystemType;
 	} else {
-		VehicleStatusMsg.OnboardControlSensorsEnabled &= ~SubsystemInfoMsg.SubsystemType
+		VehicleStatusMsg.OnboardControlSensorsEnabled &= ~SubsystemInfoMsg.SubsystemType;
 	}
-	if(SubsystemInfoMsg.Health){
-		VehicleStatusMsg.OnboardControlSensorsHealth |= SubsystemInfoMsg.SubsystemType
+	if(SubsystemInfoMsg.Ok){
+		VehicleStatusMsg.OnboardControlSensorsHealth |= SubsystemInfoMsg.SubsystemType;
 	} else {
-		VehicleStatusMsg.OnboardControlSensorsHealth &= ~SubsystemInfoMsg.SubsystemType
+		VehicleStatusMsg.OnboardControlSensorsHealth &= ~SubsystemInfoMsg.SubsystemType;
 	}
 
 
 
 	/* RC input check */
-	if(!status_flags.rc_input_block && ManualControlSetpointMsg.Timestamp!=0 && (TimeNow() < ManualControlSetpointMsg.Timestamp + uint64(vm_params.rc_loss_t * 1e6f))){
+	if(!status_flags.rc_input_blocked && ManualControlSetpointMsg.Timestamp!=0 && (TimeNow() < ManualControlSetpointMsg.Timestamp + uint64(vm_params.rc_loss_t * 1e6f))){
 		if(!status_flags.rc_signal_found_once){
 			status_flags.rc_signal_found_once = true;
 		}
@@ -1552,12 +1552,12 @@ void VM::Execute(){
 			}
 		}
 		VehicleStatusMsg.RcSignalLost = false;
-		const bool is_armed_state = (VehicleStatusMsg.ArmedState == PX4_ARMING_STATE_ARMED || VehicleStatusMsg.ArmedState == PX4_ARMING_STATE_ARMED_ERROR);
+		const bool in_armed_state = (VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_ARMED || VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_ARMED_ERROR);
 		const bool arm_button_pressed = (vm_params.arm_switch_is_button == 1 && ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON);
 
 		/* DISARM */
 		const bool stick_in_lower_left = ((ManualControlSetpointMsg.R < -STICK_ON_OFF_LIMIT) && (ManualControlSetpointMsg.Z <0.1f));
-		const bool arm_switch_to_disarm_transition = ((arm_switch_is_button == 0) && (last_sp_man_arm_switch ==PX4_SWITCH_POS_ON) && (ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_OFF) );
+		const bool arm_switch_to_disarm_transition = ((vm_params.arm_switch_is_button == 0) && (last_sp_man_arm_switch ==PX4_SWITCH_POS_ON) && (ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_OFF) );
 
 		if(in_armed_state && VehicleStatusMsg.RcInputMode != PX4_RC_IN_MODE_OFF && (stick_in_lower_left || arm_button_pressed || arm_switch_to_disarm_transition)){
 
@@ -1569,20 +1569,59 @@ void VM::Execute(){
 			   !VehicleLandDetectedMsg.Landed){
 				OS_printf("DISARM REJECTED\n");
 			}
-			else if ((stick_off_counter == vm_params.rc_arm_hyst && stick_on_counter < vm_params.rc_arm_hyst) || arm_switch_to_disarm_trasition){
+			else if ((stick_off_counter == vm_params.rc_arm_hyst && stick_on_counter < vm_params.rc_arm_hyst) || arm_switch_to_disarm_transition){
 				ArmingSM.FSM.Disarm();
+				OS_printf("Disarmed By RC \n");
+				arming_state_changed = true;
+
 			}
 			stick_off_counter++;
 		}
 		/* do not reset the counter when holding the arm button longer than needed */
-		else if (!(arm_switch_is_button ==1 && ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON)){
-			stick_off_counter = 0
+		else if (!(vm_params.arm_switch_is_button ==1 && ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON)){
+			stick_off_counter = 0;
 		}
+
+		/* ARM */
+		const bool stick_in_lower_right = (ManualControlSetpointMsg.R > STICK_ON_OFF_LIMIT  && ManualControlSetpointMsg.Z <0.1f);
+		const bool arm_switch_to_arm_transition = ((vm_params.arm_switch_is_button == 0) && (last_sp_man_arm_switch ==PX4_SWITCH_POS_OFF) && (ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON) );
+
+		if(!in_armed_state && VehicleStatusMsg.RcInputMode != PX4_RC_IN_MODE_OFF && (stick_in_lower_right || arm_button_pressed || arm_switch_to_arm_transition)){
+			if((stick_on_counter == vm_params.rc_arm_hyst && stick_off_counter < vm_params.rc_arm_hyst) || arm_switch_to_arm_transition){
+				if((VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_MANUAL) &&
+				   (VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_ACRO) &&
+				   (VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_STAB) &&
+				   (VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_RATTITUDE) &&
+				   (VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_POSCTL) &&
+				   (VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_ALTCTL)){
+					OS_printf("Not Arming: switch to manual mode\n");
+				}
+				else if (!status_flags.condition_home_position_valid ){
+					OS_printf("home position is invalid \n");
+				}
+				else if (VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_STANDBY){
+					ArmingSM.FSM.Arm();
+					OS_printf("Armed By RC \n");
+					arming_state_changed = true;
+				}
+			}
+			stick_on_counter++;
+		}
+		/* do not reset the counter when holding the arm button longer than needed */
+		else if (!(vm_params.arm_switch_is_button ==1 && ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON)){
+			stick_on_counter = 0;
+		}
+		last_sp_man_arm_switch = ManualControlSetpointMsg.ArmSwitch;
+
+		/* Evaluate the state machine according to mode switched */
+		/* TODO: State change trasitions */
 
 
 
 
 	}
+
+
 
 
 
