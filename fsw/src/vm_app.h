@@ -95,32 +95,6 @@ extern "C" {
 /************************************************************************
  ** Local Structure Definitions
  *************************************************************************/
-//typedef struct
-//{
-//    PX4_SensorMagMsg_t SensorMagMsg;
-//    PX4_SensorGyroMsg_t SensorGyroMsg;
-//    PX4_SystemPowerMsg_t SystemPowerMsg;
-//    PX4_BatteryStatusMsg_t BatteryStatusMsg;
-////    PX4_SensorPreflightMsg_t SensorPreflightMsg;
-//    PX4_TelemetryStatusMsg_t TelemetryStatusMsg;
-//    PX4_SubsystemInfoMsg_t SubsystemInfoMsg;
-////    PX4_VehicleGpsPositionMsg_t VehicleGpsPositionMsg;
-//    PX4_VehicleAttitudeMsg_t VehicleAttitudeMsg;
-////    PX4_VehicleGlobalPositionMsg_t VehicleGlobalPositionMsg;
-//    PX4_VehicleLocalPositionMsg_t VehicleLocalPositionMsg;
-//    PX4_VehicleLandDetectedMsg_t VehicleLandDetectedMsg;
-//    PX4_GeofenceResultMsg_t GeofenceResultMsg;
-//    PX4_MissionResultMsg_t MissionResultMsg;
-//    PX4_ManualControlSetpointMsg_t ManualControlSetpointMsg;
-//    PX4_PositionSetpointTripletMsg_t PositionSetpointTripletMsg;
-//    PX4_OffboardControlModeMsg_t OffboardControlModeMsg;
-//    PX4_SensorAccelMsg_t SensorAccelMsg;
-//    PX4_SafetyMsg_t SafetyMsg;
-//    PX4_SensorCorrectionMsg_t SensorCorrectionMsg;
-//    PX4_SensorCombinedMsg_t SensorCombinedMsg;
-//} VM_CurrentValueTable_t;
-
-
 
 // This is a struct used by the commander internally.
 typedef struct  {
@@ -161,31 +135,6 @@ typedef struct  {
     bool barometer_failure;                                // Set to true if a barometer failure is detected
     bool ever_had_barometer_data;                        // Set to true if ever had valid barometer data before
 }VM_StatusFlags;
-
-
-/**
- * \brief estimator status
- */
-typedef enum
-{
-    /*! Estimator status uninitialized */
-    QAE_EST_UNINITIALIZED      = 0,
-    /*! Estimator status uninitialized */
-    QAE_EST_INITIALIZED        = 1
-} QAE_Estimator_Status_t;
-
-
-
-typedef struct
-{
-	uint8              TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint8              usCmdCnt;
-    uint8              usCmdErrCnt;
-    uint8              State;
-    uint8              EstimatorState;
-    PX4_VehicleAttitudeMsg_t VehicleAttitudeMsg;
-    PX4_ControlStateMsg_t ControlStateMsg;
-} QAE_HkTlm_t;
 
 
 /**
@@ -335,6 +284,8 @@ public:
     //VM_CurrentValueTable_t CVT;
 
     boolean ConditionLocalPositionValid;
+    /** \brief True if home position is not set and local variables are not initialization */
+    boolean NotInitialized = true;
 
     /** \brief Timestamps vn boot */
     uint64 VmBootTimestamp = 0;
@@ -342,7 +293,7 @@ public:
     boolean ArmWithoutGps = false;
     boolean ArmMissionRequired = false;
     PX4_VehicleGlobalPositionMsg_t PreviousGlobalPosition = {};
-    boolean not_initialized = true;
+
     VM_StatusFlags status_flags = {};
     VM_MainStateHold local_state = {};
     VM_MainStateHold prev_local_state = {};

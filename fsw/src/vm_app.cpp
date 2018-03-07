@@ -454,14 +454,17 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
         {
             case VM_WAKEUP_MID:
             {
-
+            	/* Wait till global position is initialized */
             	if (VehicleGlobalPositionMsg.Timestamp==0){
             			break;
             	}
-            	if(not_initialized){
+
+            	/* Initialize home position and local variables */
+            	if(NotInitialized){
+
             		Initialization();
             		SetHomePosition();
-                	not_initialized = false;
+            		NotInitialized = false;
             	}
 
             	Execute();
@@ -481,7 +484,6 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             	SendVehicleStatusMsg();
             	SendVehicleManagerStateMsg();
                 SendVehicleControlModeMsg();
-
                 break;
             }
 
@@ -1524,28 +1526,6 @@ void VM::Execute(){
 		rc_signal_lost_timestamp = ManualControlSetpointMsg.Timestamp;
 
 	}
-
-
-
-
-
-
-
-//	/* global position msg*/
-//
-//	/* local position estimate msg*/
-//
-//	/* attitude estimator msg */
-//	CheckValidity(VehicleLocalPositionMsg.Timestamp,
-//			      POSITION_TIMEOUT,
-//				  VehicleLocalPositionMsg.Z_Valid,
-//				  &(status_flags.condition_local_altitude_valid),
-//				  &status_changed);
-//
-//
-
-
-
 
 
 

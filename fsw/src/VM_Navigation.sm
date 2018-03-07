@@ -66,18 +66,46 @@ AltitudeControl
     }
 {
     trManual             Manual             { }
-    trPositionControl    PositionControl    { }
-    trAutoLoiter         AutoLoiter         { }
-    trAutoReturnToLaunch AutoReturnToLaunch { }
-    trAcrobatic          Acrobatic          { }
-    trStabilize          Stabilize          { }
-    trRattitude          Rattitude          { }
+    trPositionControl    [ 
+                             ctxt.IsTransitionPosCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         PositionControl    { }
+    trAutoLoiter         [ 
+                             ctxt.IsTransitionAutoLoiterValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLoiter         { }
+    trAutoReturnToLaunch [ 
+                             ctxt.IsTransitionRtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoReturnToLaunch { }
+    trAcrobatic          [ 
+                             ctxt.IsTransitionAcrobaticValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Acrobatic          { }
+    trStabilize          [ 
+                             ctxt.IsTransitionStabilizeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Stabilize          { }
+    trRattitude          [ 
+                             ctxt.IsTransitionRattitudeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Rattitude          { }
     trAutoTakeoff        [ 
                              ctxt.IsConditionLocalPositionValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoTakeoff        { }
-    trAutoLand           AutoLand           { }
+    trAutoLand            
+                             ctxt.IsTransitionAutoLandValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLand           { }
     Reset		  		 Init 				{ }
     
 }
@@ -89,19 +117,46 @@ PositionControl
     }
 {
     trManual             Manual             { }
-    trAltitudeControl    AltitudeControl    { }
-
-    trAutoLoiter         AutoLoiter         { }
-    trAutoReturnToLaunch AutoReturnToLaunch { }
-    trAcrobatic          Acrobatic          { }
-    trStabilize          Stabilize          { }
-    trRattitude          Rattitude          { }
+    trAltitudeControl    [ 
+                             ctxt.IsTransitionAltCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AltitudeControl    { }
+    trAutoLoiter         [ 
+                             ctxt.IsTransitionAutoLoiterValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLoiter         { }
+    trAutoReturnToLaunch [ 
+                             ctxt.IsTransitionRtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoReturnToLaunch { }
+    trAcrobatic          [ 
+                             ctxt.IsTransitionAcrobaticValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Acrobatic          { }
+    trStabilize          [ 
+                             ctxt.IsTransitionStabilizeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Stabilize          { }
+    trRattitude          [ 
+                             ctxt.IsTransitionRattitudeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Rattitude          { }
     trAutoTakeoff        [ 
                              ctxt.IsConditionLocalPositionValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoTakeoff        { }
-    trAutoLand           AutoLand           { }
+    trAutoLand            
+                             ctxt.IsTransitionAutoLandValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLand           { }
     Reset		  		 Init 				{ }
 }
 
@@ -112,18 +167,46 @@ AutoLoiter
     }
 {
     trManual             Manual             { }
-    trAltitudeControl    AltitudeControl    { }
-    trPositionControl    PositionControl    { }
-    trAutoReturnToLaunch AutoReturnToLaunch { }
-    trAcrobatic          Acrobatic          { }
-    trStabilize          Stabilize          { }
-    trRattitude          Rattitude          { }
+    trAltitudeControl    [ 
+                             ctxt.IsTransitionAltCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AltitudeControl    { }
+    trPositionControl    [ 
+                             ctxt.IsTransitionPosCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         PositionControl    { }
+    trAutoReturnToLaunch [ 
+                             ctxt.IsTransitionRtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoReturnToLaunch { }
+    trAcrobatic          [ 
+                             ctxt.IsTransitionAcrobaticValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Acrobatic          { }
+    trStabilize          [ 
+                             ctxt.IsTransitionStabilizeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Stabilize          { }
+    trRattitude          [ 
+                             ctxt.IsTransitionRattitudeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Rattitude          { }
     trAutoTakeoff        [ 
                              ctxt.IsConditionLocalPositionValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoTakeoff        { }
-    trAutoLand           AutoLand           { }
+    trAutoLand            
+                             ctxt.IsTransitionAutoLandValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLand           { }
     Reset		  		 Init 				{ }
 }
 
@@ -134,18 +217,46 @@ AutoReturnToLaunch
     }
 {
     trManual             Manual             { }
-    trAltitudeControl    AltitudeControl    { }
-    trPositionControl    PositionControl    { }
-    trAutoLoiter         AutoLoiter         { }
-    trAcrobatic          Acrobatic          { }
-    trStabilize          Stabilize          { }
-    trRattitude          Rattitude          { }
+    trAltitudeControl    [ 
+                             ctxt.IsTransitionAltCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AltitudeControl    { }
+    trPositionControl    [ 
+                             ctxt.IsTransitionPosCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         PositionControl    { }
+    trAutoLoiter         [ 
+                             ctxt.IsTransitionAutoLoiterValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLoiter         { }
+    trAcrobatic          [ 
+                             ctxt.IsTransitionAcrobaticValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Acrobatic          { }
+    trStabilize          [ 
+                             ctxt.IsTransitionStabilizeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Stabilize          { }
+    trRattitude          [ 
+                             ctxt.IsTransitionRattitudeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Rattitude          { }
     trAutoTakeoff        [ 
                              ctxt.IsConditionLocalPositionValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoTakeoff        { }
-    trAutoLand           AutoLand           { }
+    trAutoLand            
+                             ctxt.IsTransitionAutoLandValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLand           { }
     Reset		  		 Init 				{ }
 }
 
@@ -156,18 +267,46 @@ Acrobatic
     }
 {
     trManual             Manual             { }
-    trAltitudeControl    AltitudeControl    { }
-    trPositionControl    PositionControl    { }
-    trAutoLoiter         AutoLoiter         { }
-    trAutoReturnToLaunch AutoReturnToLaunch { }
-    trStabilize          Stabilize          { }
-    trRattitude          Rattitude          { }
+    trAltitudeControl    [ 
+                             ctxt.IsTransitionAltCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AltitudeControl    { }
+    trPositionControl    [ 
+                             ctxt.IsTransitionPosCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         PositionControl    { }
+    trAutoLoiter         [ 
+                             ctxt.IsTransitionAutoLoiterValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLoiter         { }
+    trAutoReturnToLaunch [ 
+                             ctxt.IsTransitionRtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoReturnToLaunch { }
+    trStabilize          [ 
+                             ctxt.IsTransitionStabilizeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Stabilize          { }
+    trRattitude          [ 
+                             ctxt.IsTransitionRattitudeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Rattitude          { }
     trAutoTakeoff        [ 
                              ctxt.IsConditionLocalPositionValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoTakeoff        { }
-    trAutoLand           AutoLand           { }
+    trAutoLand            
+                             ctxt.IsTransitionAutoLandValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLand           { }
     Reset		  		 Init 				{ }
 }
 
@@ -178,18 +317,46 @@ Stabilize
     }
 {
     trManual             Manual             { }
-    trAltitudeControl    AltitudeControl    { }
-    trPositionControl    PositionControl    { }
-    trAutoLoiter         AutoLoiter         { }
-    trAutoReturnToLaunch AutoReturnToLaunch { }
-    trAcrobatic          Acrobatic          { }
-    trRattitude          Rattitude          { }
+    trAltitudeControl    [ 
+                             ctxt.IsTransitionAltCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AltitudeControl    { }
+    trPositionControl    [ 
+                             ctxt.IsTransitionPosCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         PositionControl    { }
+    trAutoLoiter         [ 
+                             ctxt.IsTransitionAutoLoiterValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLoiter         { }
+    trAutoReturnToLaunch [ 
+                             ctxt.IsTransitionRtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoReturnToLaunch { }
+    trAcrobatic          [ 
+                             ctxt.IsTransitionAcrobaticValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Acrobatic          { }
+    trRattitude          [ 
+                             ctxt.IsTransitionRattitudeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Rattitude          { }
     trAutoTakeoff        [ 
                              ctxt.IsConditionLocalPositionValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoTakeoff        { }
-    trAutoLand           AutoLand           { }
+    trAutoLand            
+                             ctxt.IsTransitionAutoLandValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLand           { }
     Reset		  		 Init 				{ }
 }
 
@@ -200,18 +367,46 @@ Rattitude
     }
 {
     trManual             Manual             { }
-    trAltitudeControl    AltitudeControl    { }
-    trPositionControl    PositionControl    { }
-    trAutoLoiter         AutoLoiter         { }
-    trAutoReturnToLaunch AutoReturnToLaunch { }
-    trAcrobatic          Acrobatic          { }
-    trStabilize          Stabilize          { }
+    trAltitudeControl    [ 
+                             ctxt.IsTransitionAltCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AltitudeControl    { }
+    trPositionControl    [ 
+                             ctxt.IsTransitionPosCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         PositionControl    { }
+    trAutoLoiter         [ 
+                             ctxt.IsTransitionAutoLoiterValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLoiter         { }
+    trAutoReturnToLaunch [ 
+                             ctxt.IsTransitionRtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoReturnToLaunch { }
+    trAcrobatic          [ 
+                             ctxt.IsTransitionAcrobaticValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Acrobatic          { }
+    trStabilize          [ 
+                             ctxt.IsTransitionStabilizeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Stabilize          { }
     trAutoTakeoff        [ 
                              ctxt.IsConditionLocalPositionValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoTakeoff        { }
-    trAutoLand           AutoLand           { }
+    trAutoLand            
+                             ctxt.IsTransitionAutoLandValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLand           { }
     Reset		  		 Init 				{ }
 }
 
@@ -222,14 +417,46 @@ AutoTakeoff
     }
 {
     trManual             Manual             { }
-    trAltitudeControl    AltitudeControl    { }
-    trPositionControl    PositionControl    { }
-    trAutoLoiter         AutoLoiter         { }
-    trAutoReturnToLaunch AutoReturnToLaunch { }
-    trAcrobatic          Acrobatic          { }
-    trStabilize          Stabilize          { }
-    trRattitude          Rattitude          { }
-    trAutoLand           AutoLand           { }
+    trAltitudeControl    [ 
+                             ctxt.IsTransitionAltCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AltitudeControl    { }
+    trPositionControl    [ 
+                             ctxt.IsTransitionPosCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         PositionControl    { }
+    trAutoLoiter         [ 
+                             ctxt.IsTransitionAutoLoiterValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLoiter         { }
+    trAutoReturnToLaunch [ 
+                             ctxt.IsTransitionRtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoReturnToLaunch { }
+    trAcrobatic          [ 
+                             ctxt.IsTransitionAcrobaticValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Acrobatic          { }
+    trStabilize          [ 
+                             ctxt.IsTransitionStabilizeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Stabilize          { }
+    trRattitude          [ 
+                             ctxt.IsTransitionRattitudeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Rattitude          { }
+    trAutoLand            
+                             ctxt.IsTransitionAutoLandValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLand           { }
     Reset		  		 Init 				{ }
 }
 
@@ -240,13 +467,41 @@ AutoLand
     }
 {
     trManual             Manual             { }
-    trAltitudeControl    AltitudeControl    { }
-    trPositionControl    PositionControl    { }
-    trAutoLoiter         AutoLoiter         { }
-    trAutoReturnToLaunch AutoReturnToLaunch { }
-    trAcrobatic          Acrobatic          { }
-    trStabilize          Stabilize          { }
-    trRattitude          Rattitude          { }
+    trAltitudeControl    [ 
+                             ctxt.IsTransitionAltCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AltitudeControl    { }
+    trPositionControl    [ 
+                             ctxt.IsTransitionPosCtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         PositionControl    { }
+    trAutoLoiter         [ 
+                             ctxt.IsTransitionAutoLoiterValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoLoiter         { }
+    trAutoReturnToLaunch [ 
+                             ctxt.IsTransitionRtlValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         AutoReturnToLaunch { }
+    trAcrobatic          [ 
+                             ctxt.IsTransitionAcrobaticValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Acrobatic          { }
+    trStabilize          [ 
+                             ctxt.IsTransitionStabilizeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Stabilize          { }
+    trRattitude          [ 
+                             ctxt.IsTransitionRattitudeValid() == true && 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Rattitude          { }
     trAutoTakeoff        [ 
                              ctxt.IsConditionLocalPositionValid() == true && 
                              ctxt.IsVehicleArmed() == true
@@ -257,7 +512,7 @@ AutoLand
 
 Init
 {
-    trInitComplete       AutoLoiter         { }
+    trInitComplete       Manual             { }
     Reset		         Init               { }
 		                 
 }
