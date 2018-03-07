@@ -1598,11 +1598,6 @@ void VM::Execute(){
 			}
 
 		}
-
-
-
-	OS_printf("Lock:: %d \n",trasition_locked);
-
 	}
 	else if(!status_flags.rc_input_blocked && !VehicleStatusMsg.RcSignalLost ){
 		OS_printf("MANUAL CONTROL LOST (at t=%llums)", TimeNow() / 1000);
