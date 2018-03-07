@@ -114,23 +114,6 @@ int32 VM::InitPipe()
 					 iStatus);
             goto VM_InitPipe_Exit_Tag;
         }
-        iStatus = CFE_SB_SubscribeEx(PX4_SYSTEM_POWER_MID, SchPipeId, CFE_SB_Default_Qos, 1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-					 "CMD Pipe failed to subscribe to PX4_SYSTEM_POWER_MID. (0x%08lX)",
-					 iStatus);
-            goto VM_InitPipe_Exit_Tag;
-        }
-
-//        iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_PREFLIGHT_MID, SchPipeId, CFE_SB_Default_Qos, 1);
-//        if (iStatus != CFE_SUCCESS)
-//        {
-//            (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-//					 "CMD Pipe failed to subscribe to PX4_SENSOR_PREFLIGHT_MID. (0x%08lX)",
-//					 iStatus);
-//            goto VM_InitPipe_Exit_Tag;
-//        }
 
 		iStatus = CFE_SB_SubscribeEx(PX4_BATTERY_STATUS_MID, SchPipeId, CFE_SB_Default_Qos, 1);
 		if (iStatus != CFE_SUCCESS)
@@ -534,14 +517,7 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             case PX4_SENSOR_GYRO_MID:
                 memcpy(&SensorGyroMsg, MsgPtr, sizeof(SensorGyroMsg));
                 break;
-
-            case PX4_SYSTEM_POWER_MID:
-                memcpy(&SystemPowerMsg, MsgPtr, sizeof(SystemPowerMsg));
-                break;
-
-//            case PX4_SENSOR_PREFLIGHT_MID:
-//                memcpy(&SensorPreflightMsg, MsgPtr, sizeof(SensorPreflightMsg));
-//                break;
+                
             case PX4_BATTERY_STATUS_MID:
                 memcpy(&BatteryStatusMsg, MsgPtr, sizeof(BatteryStatusMsg));
                 break;
@@ -1447,27 +1423,6 @@ void VM::Execute(){
 	/* Vehicle status message update */
 	VehicleStatusMsg.SystemID = vm_params.system_id;
 	VehicleStatusMsg.ComponentID = vm_params.component_id;
-
-
-
-
-	/* System Power Msg */
-	if(TimeElapsed(&SystemPowerMsg.Timestamp)<200000){
-		if(SystemPowerMsg.ServoValid && !SystemPowerMsg.BrickValid && !SystemPowerMsg.UsbConnected  ){
-			/* flying only on servo rail, this is unsafe */
-			status_flags.condition_power_input_valid = false;
-		}
-		else{
-			status_flags.condition_power_input_valid = true;
-		}
-		/* copy avionics voltage */
-		AvionicsPowerRailVoltage = SystemPowerMsg.Voltage5V;
-
-		if(status_flags.usb_connected == !SystemPowerMsg.UsbConnected){
-			OS_printf("CRITICAL!!!! USB disconnected,should reboot.\n");
-		}
-		status_flags.usb_connected = usb_telemetry_active;
-	}
 
 	/* Safety Msg */
 	boolean previous_safety_off = SafetyMsg.SafetyOff;
