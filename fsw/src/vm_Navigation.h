@@ -51,27 +51,27 @@ public:
     void EnteredManual();
     void EnteredAltitudeControl();
     void EnteredPositionControl();
-    void EnteredAutoMission();
     void EnteredAutoLoiter();
     void EnteredAutoReturnToLaunch();
-    void EnteredAutoRCRecover();
-    void EnteredAutoRtgs();
-    void EnteredAutoLandEngineFail();
-    void EnteredAutoLandGpsFail();
     void EnteredAcrobatic();
-    void EnteredDescend();
-    void EnteredTermination();
-    void EnteredOffboard();
     void EnteredStabilize();
     void EnteredRattitude();
     void EnteredAutoTakeoff();
     void EnteredAutoLand();
-    void EnteredAutoFollowTarget();
-    void EnteredAutoPrecland();
 
 	uint32 GetCurrentStateID(void);
 
 	void DoAction(void);
+	boolean IsTransitionAltCtlValid(void);
+	boolean IsTransitionPosCtlValid(void);
+	boolean IsTransitionAcrobaticValid(void);
+
+	boolean IsTransitionAutoLoiterValid(void);
+	boolean IsTransitionRtlValid(void);
+	boolean IsTransitionStabilizeValid(void);
+	boolean IsTransitionRattitudeValid(void);
+	boolean IsTransitionAutoTakeoffValid(void);
+	boolean IsTransitionAutoLandValid(void);
 
 	boolean IsStabilizationRequired(void);
 	boolean IsConditionLocalPositionValid(void);

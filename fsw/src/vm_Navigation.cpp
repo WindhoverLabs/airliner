@@ -6,23 +6,13 @@ typedef enum {
     VM_NAVSM_MANUAL_STATE,
     VM_NAVSM_ALTCTL,
     VM_NAVSM_POSCTL,
-    VM_NAVSM_AUTO_MISSION,
+	VM_NAVSM_AUTO_RTL,
     VM_NAVSM_AUTO_LOITER,
-    VM_NAVSM_AUTO_RTL,
-    VM_NAVSM_AUTO_RCRECOVER,
-    VM_NAVSM_AUTO_RTGS,
-    VM_NAVSM_AUTO_LAND_ENGINE_FAIL,
-    VM_NAVSM_AUTO_LAND_GPS_FAIL,
     VM_NAVSM_ACRO,
-    VM_NAVSM_DESCEND,
-    VM_NAVSM_TERMINATION,
-    VM_NAVSM_OFFBOARD,
     VM_NAVSM_STAB,
     VM_NAVSM_RATTITUDE,
     VM_NAVSM_AUTO_TAKEOFF,
     VM_NAVSM_AUTO_LAND,
-    VM_NAVSM_AUTO_FOLLOW_TARGET,
-    VM_NAVSM_AUTO_PRECLAND
 } VM_NavSM_StateType;
 
 
@@ -75,17 +65,6 @@ void VM_Navigation::EnteredPositionControl()
     		"Navigation::PositionControl");
 }
 
-
-void VM_Navigation::EnteredAutoMission()
-{
-	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_MISSION;
-	App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_MISSION;
-
-    CFE_EVS_SendEvent(VM_NAVSN_ENTERED_AUTOMISSION_INFO_EID, CFE_EVS_INFORMATION,
-    		"Navigation::AutoMission");
-}
-
-
 void VM_Navigation::EnteredAutoLoiter()
 {
 	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_LOITER;
@@ -105,47 +84,6 @@ void VM_Navigation::EnteredAutoReturnToLaunch()
     		"Navigation::AutoRTL");
 }
 
-
-void VM_Navigation::EnteredAutoRCRecover()
-{
-	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_RCRECOVER;
-	App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_RCRECOVER;
-
-    CFE_EVS_SendEvent(VM_NAVSN_ENTERED_AUTORCRECOVER_INFO_EID, CFE_EVS_INFORMATION,
-    		"Navigation::AutoRcRecover");
-}
-
-
-void VM_Navigation::EnteredAutoRtgs()
-{
-	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_RTGS;
-	App.VehicleStatusMsg.NavState = PX4_NAVIGATION_STATE_AUTO_RTGS;
-
-    CFE_EVS_SendEvent(VM_NAVSN_ENTERED_AUTORTGS_INFO_EID, CFE_EVS_INFORMATION,
-    		"Navigation::AutoRtgs");
-}
-
-
-void VM_Navigation::EnteredAutoLandEngineFail()
-{
-	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_LANDENGFAIL;
-	App.VehicleStatusMsg.NavState = PX4_NAVIGATION_STATE_AUTO_LANDENGFAIL;
-
-    CFE_EVS_SendEvent(VM_NAVSN_ENTERED_LAND_ENGINE_FAIL_INFO_EID, CFE_EVS_INFORMATION,
-    		"Navigation::LandEngineFail");
-}
-
-
-void VM_Navigation::EnteredAutoLandGpsFail()
-{
-	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_LANDGPSFAIL;
-	App.VehicleStatusMsg.NavState = PX4_NAVIGATION_STATE_AUTO_LANDGPSFAIL;
-
-    CFE_EVS_SendEvent(VM_NAVSN_ENTERED_LAND_GPS_FAIL_INFO_EID, CFE_EVS_INFORMATION,
-    		"Navigation::LandGpsFail");
-}
-
-
 void VM_Navigation::EnteredAcrobatic()
 {
 	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_ACRO;
@@ -153,36 +91,6 @@ void VM_Navigation::EnteredAcrobatic()
 
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_ACRO_INFO_EID, CFE_EVS_INFORMATION,
     		"Navigation::Acrobatic");
-}
-
-
-void VM_Navigation::EnteredDescend()
-{
-	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_DESCEND;
-	App.VehicleStatusMsg.NavState = PX4_NAVIGATION_STATE_DESCEND;
-
-    CFE_EVS_SendEvent(VM_NAVSN_ENTERED_DESCEND_INFO_EID, CFE_EVS_INFORMATION,
-    		"Navigation::Descend");
-}
-
-
-void VM_Navigation::EnteredTermination()
-{
-	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_TERMINATION;
-	App.VehicleStatusMsg.NavState = PX4_NAVIGATION_STATE_TERMINATION;
-
-    CFE_EVS_SendEvent(VM_NAVSN_ENTERED_TERMINATION_INFO_EID, CFE_EVS_INFORMATION,
-    		"Navigation::Termination");
-}
-
-
-void VM_Navigation::EnteredOffboard()
-{
-	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_OFFBOARD;
-	App.VehicleStatusMsg.NavState = PX4_NAVIGATION_STATE_OFFBOARD;
-
-    CFE_EVS_SendEvent(VM_NAVSN_ENTERED_OFFBOARD_INFO_EID, CFE_EVS_INFORMATION,
-    		"Navigation::Offboard");
 }
 
 
@@ -228,25 +136,6 @@ void VM_Navigation::EnteredAutoLand()
     		"Navigation::AutoLand");
 }
 
-
-void VM_Navigation::EnteredAutoFollowTarget()
-{
-	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_FOLLOW_TARGET;
-	App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_LAND;
-
-    CFE_EVS_SendEvent(VM_NAVSN_ENTERED_AUTO_FOLLOW_TARGET_INFO_EID, CFE_EVS_INFORMATION,
-    		"Navigation::AutoFollowTarget");
-}
-
-
-void VM_Navigation::EnteredAutoPrecland()
-{
-	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_PRECLAND;
-	App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_PRECLAND;
-
-    CFE_EVS_SendEvent(VM_NAVSN_ENTERED_AUTO_PRECLAND_INFO_EID, CFE_EVS_INFORMATION,
-    		"Navigation::AutoPrecland");
-}
 
 
 
@@ -318,14 +207,10 @@ void VM_Navigation::DoAction()
 
 		/* Fallthru */
 		case VM_NavSM_StateType::VM_NAVSM_AUTO_RTL:
-		case VM_NavSM_StateType::VM_NAVSM_AUTO_RCRECOVER:
-			App.VehicleControlModeMsg.ExternalManualOverrideOk = false;
+
 		/* Continue the fallthru */
-		case VM_NavSM_StateType::VM_NAVSM_AUTO_FOLLOW_TARGET:
-		case VM_NavSM_StateType::VM_NAVSM_AUTO_RTGS:
+
 		case VM_NavSM_StateType::VM_NAVSM_AUTO_LAND:
-		case VM_NavSM_StateType::VM_NAVSM_AUTO_LAND_ENGINE_FAIL:
-		case VM_NavSM_StateType::VM_NAVSM_AUTO_MISSION:
 		case VM_NavSM_StateType::VM_NAVSM_AUTO_LOITER:
 		case VM_NavSM_StateType::VM_NAVSM_AUTO_TAKEOFF:
 			App.VehicleControlModeMsg.ControlManualEnabled = false;
@@ -342,19 +227,7 @@ void VM_Navigation::DoAction()
 			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
 			break;
 
-		case VM_NavSM_StateType::VM_NAVSM_AUTO_LAND_GPS_FAIL:
-			App.VehicleControlModeMsg.ControlManualEnabled = false;
-			App.VehicleControlModeMsg.ControlAutoEnabled = true;
-			App.VehicleControlModeMsg.ControlRatesEnabled = true;
-			App.VehicleControlModeMsg.ControlAttitudeEnabled = true;
-			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
-			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
-			App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
-			App.VehicleControlModeMsg.ControlPositionEnabled = false;
-			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
-			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
-			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
-			break;
+
 
 		case VM_NavSM_StateType::VM_NAVSM_ACRO:
 			App.VehicleControlModeMsg.ControlManualEnabled = true;
@@ -370,48 +243,7 @@ void VM_Navigation::DoAction()
 			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
 			break;
 
-		case VM_NavSM_StateType::VM_NAVSM_DESCEND:
-			App.VehicleControlModeMsg.ControlManualEnabled = false;
-			App.VehicleControlModeMsg.ControlAutoEnabled = true;
-			App.VehicleControlModeMsg.ControlRatesEnabled = true;
-			App.VehicleControlModeMsg.ControlAttitudeEnabled = true;
-			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
-			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
-			App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
-			App.VehicleControlModeMsg.ControlPositionEnabled = false;
-			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
-			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
-			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
-			break;
 
-		case VM_NavSM_StateType::VM_NAVSM_TERMINATION:
-			App.VehicleControlModeMsg.ControlManualEnabled = false;
-			App.VehicleControlModeMsg.ControlAutoEnabled = false;
-			App.VehicleControlModeMsg.ControlRatesEnabled = false;
-			App.VehicleControlModeMsg.ControlAttitudeEnabled = false;
-			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
-			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
-			App.VehicleControlModeMsg.ControlClimbRateEnabled = false;
-			App.VehicleControlModeMsg.ControlPositionEnabled = false;
-			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
-			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
-			App.VehicleControlModeMsg.ControlTerminationEnabled = true;
-			break;
-
-		case VM_NavSM_StateType::VM_NAVSM_OFFBOARD:
-			App.VehicleControlModeMsg.ControlManualEnabled = false;
-			App.VehicleControlModeMsg.ControlAutoEnabled = false;
-			App.VehicleControlModeMsg.ControlOffboardEnabled = true;
-			/* TODO - Replace the rest of the case with the correct code. */
-			App.VehicleControlModeMsg.ControlAttitudeEnabled = false;
-			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
-			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
-			App.VehicleControlModeMsg.ControlClimbRateEnabled = false;
-			App.VehicleControlModeMsg.ControlPositionEnabled = false;
-			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
-			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
-			App.VehicleControlModeMsg.ControlTerminationEnabled = true;
-			break;
 
 		case VM_NavSM_StateType::VM_NAVSM_STAB:
 			App.VehicleControlModeMsg.ControlManualEnabled = true;
@@ -442,20 +274,7 @@ void VM_Navigation::DoAction()
 			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
 			break;
 
-		case VM_NavSM_StateType::VM_NAVSM_AUTO_PRECLAND:
-			/* TODO - Replace entire case with correct code. */
-			App.VehicleControlModeMsg.ControlManualEnabled = true;
-			App.VehicleControlModeMsg.ControlAutoEnabled = false;
-			App.VehicleControlModeMsg.ControlRatesEnabled = false;
-			App.VehicleControlModeMsg.ControlAttitudeEnabled = false;
-			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
-			App.VehicleControlModeMsg.ControlAltitudeEnabled = false;
-			App.VehicleControlModeMsg.ControlClimbRateEnabled = false;
-			App.VehicleControlModeMsg.ControlPositionEnabled = false;
-			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
-			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
-			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
-			break;
+
 
 		default:
 		    CFE_EVS_SendEvent(VM_IN_UNKNOWN_STATE_ERR_EID, CFE_EVS_ERROR,
@@ -622,6 +441,88 @@ boolean VM_Navigation::IsStabilizationRequired(void)
 {
 	/* TODO */
 	return true;
+}
+
+boolean VM_Navigation::IsTransitionAltCtlValid(void){
+
+	boolean validity = false;
+	PX4_NavigationState_t Current_NavState = App.VehicleStatusMsg.NavState;
+
+	/* Altitude Hold Requirement Validation */
+	if(App.VehicleLocalPositionMsg.Timestamp > 0 && App.VehicleLocalPositionMsg.Z_Valid && App.VehicleLocalPositionMsg.V_Z_Valid){
+
+		validity = true;
+	}
+
+	return validity;
+}
+
+boolean VM_Navigation::IsTransitionPosCtlValid(void){
+
+	boolean validity = false;
+	PX4_NavigationState_t Current_NavState = App.VehicleStatusMsg.NavState;
+
+	/* Altitude Hold Requirement Validation */
+	if(App.VehicleLocalPositionMsg.Timestamp > 0
+	   && App.VehicleLocalPositionMsg.XY_Valid
+	   && App.VehicleLocalPositionMsg.V_XY_Valid
+	   && App.VehicleLocalPositionMsg.Z_Valid
+	   && App.VehicleLocalPositionMsg.V_Z_Valid){
+
+		validity = true;
+	}
+
+	return validity;
+}
+
+boolean VM_Navigation::IsTransitionAcrobaticValid(void){
+
+	boolean validity = false;
+	PX4_NavigationState_t Current_NavState = App.VehicleStatusMsg.NavState;
+
+	/* Altitude Hold Requirement Validation */
+	if(App.VehicleLocalPositionMsg.Timestamp > 0
+	   && App.VehicleLocalPositionMsg.XY_Valid
+	   && App.VehicleLocalPositionMsg.V_XY_Valid
+	   && App.VehicleLocalPositionMsg.Z_Valid
+	   && App.VehicleLocalPositionMsg.V_Z_Valid){
+
+		validity = true;
+	}
+
+	return validity;
+}
+
+
+boolean VM_Navigation::IsTransitionAutoLoiterValid(void){
+
+	return true;
+
+}
+
+boolean VM_Navigation::IsTransitionRtlValid(void){
+	return true;
+
+}
+
+boolean VM_Navigation::IsTransitionStabilizeValid(void){
+	return true;
+
+}
+
+boolean VM_Navigation::IsTransitionRattitudeValid(void){
+	return true;
+
+}
+
+boolean VM_Navigation::IsTransitionAutoTakeoffValid(void){
+	return true;
+
+}
+
+boolean VM_Navigation::IsTransitionAutoLandValid(void){
+	return true;
+
 }
 
 

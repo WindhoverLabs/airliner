@@ -162,6 +162,32 @@ typedef struct  {
     bool ever_had_barometer_data;                        // Set to true if ever had valid barometer data before
 }VM_StatusFlags;
 
+
+/**
+ * \brief estimator status
+ */
+typedef enum
+{
+    /*! Estimator status uninitialized */
+    QAE_EST_UNINITIALIZED      = 0,
+    /*! Estimator status uninitialized */
+    QAE_EST_INITIALIZED        = 1
+} QAE_Estimator_Status_t;
+
+
+
+typedef struct
+{
+	uint8              TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8              usCmdCnt;
+    uint8              usCmdErrCnt;
+    uint8              State;
+    uint8              EstimatorState;
+    PX4_VehicleAttitudeMsg_t VehicleAttitudeMsg;
+    PX4_ControlStateMsg_t ControlStateMsg;
+} QAE_HkTlm_t;
+
+
 /**
  * \brief parameter table
  */
@@ -285,7 +311,7 @@ public:
     PX4_SensorCorrectionMsg_t SensorCorrectionMsg;
     PX4_SensorCombinedMsg_t SensorCombinedMsg;
     PX4_VehicleCommandMsg_t VehicleCommandMsg;
-
+    QAE_HkTlm_t Qae;
 
     /** \brief Output Data published at the end of cycle */
     PX4_ActuatorArmedMsg_t ActuatorArmedMsg;
@@ -317,7 +343,7 @@ public:
     boolean ArmWithoutGps = false;
     boolean ArmMissionRequired = false;
     PX4_VehicleGlobalPositionMsg_t PreviousGlobalPosition = {};
-boolean not_initialized = true;
+    boolean not_initialized = true;
     VM_StatusFlags status_flags = {};
     VM_MainStateHold local_state = {};
     VM_MainStateHold prev_local_state = {};
@@ -357,6 +383,7 @@ boolean not_initialized = true;
 	bool have_taken_off_since_arming = false;
 
 	bool usb_telemetry_active = false;
+	bool trasition_locked = false;
 
 
 

@@ -38,7 +38,7 @@ void VM_Arming::Init(void)
 	App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_INIT;
     App.VehicleStatusMsg.SystemID = 1;
     App.VehicleStatusMsg.ComponentID = 1;
-	App.SendActuatorArmedMsg();
+	//App.SendActuatorArmedMsg();
 }
 
 
@@ -48,7 +48,7 @@ void VM_Arming::EnteredStandby()
     App.ActuatorArmedMsg.Prearmed = true;
     App.ActuatorArmedMsg.ReadyToArm = true;
 	App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_STANDBY;
-	App.SendActuatorArmedMsg();
+	//App.SendActuatorArmedMsg();
 
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_STANDBY_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::Standby");
@@ -120,6 +120,7 @@ void VM_Arming::DoAction()
 	    CFE_EVS_SendEvent(VM_IN_UNKNOWN_STATE_ERR_EID, CFE_EVS_ERROR,
 	    		"VM_ArmingMap is in unknown state (%u, '%s')", FSM.getState().getId(), FSM.getState().getName());
 	}
+	App.SendActuatorArmedMsg();
 
 }
 

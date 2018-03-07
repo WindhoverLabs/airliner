@@ -294,6 +294,14 @@ int32 VM::InitPipe()
 					 iStatus);
             goto VM_InitPipe_Exit_Tag;
         }
+        iStatus = CFE_SB_SubscribeEx(AE_HK_TLM_MID, SchPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+					 "CMD Pipe failed to subscribe to PX4_SENSOR_COMBINED_MID. (0x%08lX)",
+					 iStatus);
+            goto VM_InitPipe_Exit_Tag;
+        }
     }
     else
     {
@@ -463,6 +471,11 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
         {
             case VM_WAKEUP_MID:
             {
+            	//OS_printf("ts: %lld \n",Qae.Timestamp);
+				//OS_printf("header: %d \n",Qae.TlmHeader);
+				//OS_printf("ts: %lld \n",Qae.Timestamp);
+
+
             	if (VehicleGlobalPositionMsg.Timestamp==0){
             			break;
             	}
@@ -602,6 +615,14 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
 
             case PX4_SENSOR_COMBINED_MID:
                 memcpy(&SensorCombinedMsg, MsgPtr, sizeof(SensorCombinedMsg));
+                break;
+            case AE_HK_TLM_MID:
+                memcpy(&Qae, MsgPtr, sizeof(Qae));
+    			OS_printf("cmdcnt: %hhu \n",Qae.usCmdCnt);
+				OS_printf("errcnt: %hhu \n",Qae.usCmdErrCnt);
+				OS_printf("state: %hhu \n",Qae.State);
+				OS_printf("e_state: %hhu \n",Qae.EstimatorState);
+				OS_printf("__\n");
                 break;
 
             //case PX4_VEHICLE_COMMAND_MID:
@@ -789,18 +810,18 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	}
                 break;
 
-            case VM_SET_NAV_AUTO_MISSION_CC:
-            	try{
-                    NavigationSM.FSM.trAutoMission();
-                    HkTlm.usCmdCnt++;
-            	}
-            	catch(statemap::TransitionUndefinedException e)
-            	{
-                    HkTlm.usCmdErrCnt++;
-            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Nav transition.  Command rejected.");
-            	}
-                break;
+//            case VM_SET_NAV_AUTO_MISSION_CC:
+//            	try{
+//                    NavigationSM.FSM.trAutoMission();
+//                    HkTlm.usCmdCnt++;
+//            	}
+//            	catch(statemap::TransitionUndefinedException e)
+//            	{
+//                    HkTlm.usCmdErrCnt++;
+//            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+//            	    		"Illegal Nav transition.  Command rejected.");
+//            	}
+//                break;
 
             case VM_SET_NAV_AUTO_LOITER_CC:
             	try{
@@ -828,57 +849,57 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	}
                 break;
 
-            case VM_SET_NAV_AUTO_RCRECOVER_CC:
-            	try{
-                    NavigationSM.FSM.trAutoRCRecover();
-                    HkTlm.usCmdCnt++;
-            	}
-            	catch(statemap::TransitionUndefinedException e)
-            	{
-                    HkTlm.usCmdErrCnt++;
-            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Nav transition.  Command rejected.");
-            	}
-                break;
-
-            case VM_SET_NAV_AUTO_RTGS_CC:
-            	try{
-                    NavigationSM.FSM.trAutoRtgs();
-                    HkTlm.usCmdCnt++;
-            	}
-            	catch(statemap::TransitionUndefinedException e)
-            	{
-                    HkTlm.usCmdErrCnt++;
-            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Nav transition.  Command rejected.");
-            	}
-                break;
-
-            case VM_SET_NAV_AUTO_LAND_ENG_FAIL_CC:
-            	try{
-                    NavigationSM.FSM.trAutoLandEngineFail();
-                    HkTlm.usCmdCnt++;
-            	}
-            	catch(statemap::TransitionUndefinedException e)
-            	{
-                    HkTlm.usCmdErrCnt++;
-            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Nav transition.  Command rejected.");
-            	}
-                break;
-
-            case VM_SET_NAV_AUTO_LAND_GPS_FAIL_CC:
-            	try{
-                    NavigationSM.FSM.trAutoLandGpsFail();
-                    HkTlm.usCmdCnt++;
-            	}
-            	catch(statemap::TransitionUndefinedException e)
-            	{
-                    HkTlm.usCmdErrCnt++;
-            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Nav transition.  Command rejected.");
-            	}
-                break;
+//            case VM_SET_NAV_AUTO_RCRECOVER_CC:
+//            	try{
+//                    NavigationSM.FSM.trAutoRCRecover();
+//                    HkTlm.usCmdCnt++;
+//            	}
+//            	catch(statemap::TransitionUndefinedException e)
+//            	{
+//                    HkTlm.usCmdErrCnt++;
+//            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+//            	    		"Illegal Nav transition.  Command rejected.");
+//            	}
+//                break;
+//
+//            case VM_SET_NAV_AUTO_RTGS_CC:
+//            	try{
+//                    NavigationSM.FSM.trAutoRtgs();
+//                    HkTlm.usCmdCnt++;
+//            	}
+//            	catch(statemap::TransitionUndefinedException e)
+//            	{
+//                    HkTlm.usCmdErrCnt++;
+//            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+//            	    		"Illegal Nav transition.  Command rejected.");
+//            	}
+//                break;
+//
+//            case VM_SET_NAV_AUTO_LAND_ENG_FAIL_CC:
+//            	try{
+//                    NavigationSM.FSM.trAutoLandEngineFail();
+//                    HkTlm.usCmdCnt++;
+//            	}
+//            	catch(statemap::TransitionUndefinedException e)
+//            	{
+//                    HkTlm.usCmdErrCnt++;
+//            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+//            	    		"Illegal Nav transition.  Command rejected.");
+//            	}
+//                break;
+//
+//            case VM_SET_NAV_AUTO_LAND_GPS_FAIL_CC:
+//            	try{
+//                    NavigationSM.FSM.trAutoLandGpsFail();
+//                    HkTlm.usCmdCnt++;
+//            	}
+//            	catch(statemap::TransitionUndefinedException e)
+//            	{
+//                    HkTlm.usCmdErrCnt++;
+//            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+//            	    		"Illegal Nav transition.  Command rejected.");
+//            	}
+//                break;
 
             case VM_SET_NAV_ACRO_CC:
             	try{
@@ -893,44 +914,44 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	}
                 break;
 
-            case VM_SET_NAV_DESCEND_CC:
-            	try{
-                    NavigationSM.FSM.trDescend();
-                    HkTlm.usCmdCnt++;
-            	}
-            	catch(statemap::TransitionUndefinedException e)
-            	{
-                    HkTlm.usCmdErrCnt++;
-            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Nav transition.  Command rejected.");
-            	}
-                break;
-
-            case VM_SET_NAV_TERMINATION_CC:
-            	try{
-                    NavigationSM.FSM.trTermination();
-                    HkTlm.usCmdCnt++;
-            	}
-            	catch(statemap::TransitionUndefinedException e)
-            	{
-                    HkTlm.usCmdErrCnt++;
-            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Nav transition.  Command rejected.");
-            	}
-                break;
-
-            case VM_SET_NAV_OFFBOARD_CC:
-            	try{
-                    NavigationSM.FSM.trOffboard();
-                    HkTlm.usCmdCnt++;
-            	}
-            	catch(statemap::TransitionUndefinedException e)
-            	{
-                    HkTlm.usCmdErrCnt++;
-            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Nav transition.  Command rejected.");
-            	}
-                break;
+//            case VM_SET_NAV_DESCEND_CC:
+//            	try{
+//                    NavigationSM.FSM.trDescend();
+//                    HkTlm.usCmdCnt++;
+//            	}
+//            	catch(statemap::TransitionUndefinedException e)
+//            	{
+//                    HkTlm.usCmdErrCnt++;
+//            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+//            	    		"Illegal Nav transition.  Command rejected.");
+//            	}
+//                break;
+//
+//            case VM_SET_NAV_TERMINATION_CC:
+//            	try{
+//                    NavigationSM.FSM.trTermination();
+//                    HkTlm.usCmdCnt++;
+//            	}
+//            	catch(statemap::TransitionUndefinedException e)
+//            	{
+//                    HkTlm.usCmdErrCnt++;
+//            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+//            	    		"Illegal Nav transition.  Command rejected.");
+//            	}
+//                break;
+//
+//            case VM_SET_NAV_OFFBOARD_CC:
+//            	try{
+//                    NavigationSM.FSM.trOffboard();
+//                    HkTlm.usCmdCnt++;
+//            	}
+//            	catch(statemap::TransitionUndefinedException e)
+//            	{
+//                    HkTlm.usCmdErrCnt++;
+//            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+//            	    		"Illegal Nav transition.  Command rejected.");
+//            	}
+//                break;
 
             case VM_SET_NAV_STABILIZE_CC:
             	try{
@@ -984,31 +1005,31 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             	}
                 break;
 
-            case VM_SET_NAV_AUTO_FOLLOW_TARGET_CC:
-            	try{
-                    NavigationSM.FSM.trAutoFollowTarget();
-                    HkTlm.usCmdCnt++;
-            	}
-            	catch(statemap::TransitionUndefinedException e)
-            	{
-                    HkTlm.usCmdErrCnt++;
-            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Nav transition.  Command rejected.");
-            	}
-                break;
-
-            case VM_SET_NAV_AUTO_PRECLAND_CC:
-            	try{
-                    NavigationSM.FSM.trAutoPrecland();
-                    HkTlm.usCmdCnt++;
-            	}
-            	catch(statemap::TransitionUndefinedException e)
-            	{
-                    HkTlm.usCmdErrCnt++;
-            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-            	    		"Illegal Nav transition.  Command rejected.");
-            	}
-                break;
+//            case VM_SET_NAV_AUTO_FOLLOW_TARGET_CC:
+//            	try{
+//                    NavigationSM.FSM.trAutoFollowTarget();
+//                    HkTlm.usCmdCnt++;
+//            	}
+//            	catch(statemap::TransitionUndefinedException e)
+//            	{
+//                    HkTlm.usCmdErrCnt++;
+//            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+//            	    		"Illegal Nav transition.  Command rejected.");
+//            	}
+//                break;
+//
+//            case VM_SET_NAV_AUTO_PRECLAND_CC:
+//            	try{
+//                    NavigationSM.FSM.trAutoPrecland();
+//                    HkTlm.usCmdCnt++;
+//            	}
+//            	catch(statemap::TransitionUndefinedException e)
+//            	{
+//                    HkTlm.usCmdErrCnt++;
+//            	    CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+//            	    		"Illegal Nav transition.  Command rejected.");
+//            	}
+//                break;
 
             default:
                 HkTlm.usCmdErrCnt++;
@@ -1636,6 +1657,76 @@ void VM::Execute(){
 			}
 			ActuatorArmedMsg.ManualLockdown = false;
 		}
+
+		/* MANUAL SWITCH */
+		if(ManualControlSetpointMsg.ManSwitch == PX4_SWITCH_POS_ON){
+			if(!trasition_locked){
+				NavigationSM.FSM.trManual();
+				trasition_locked = true;
+				OS_printf("Transitions Locked [Current: Manual]\n");
+			}
+		}
+		else if(ManualControlSetpointMsg.ManSwitch == PX4_SWITCH_POS_OFF){
+			if(trasition_locked){
+				NavigationSM.FSM.trManual();
+				trasition_locked = false;
+				OS_printf("Transitions Locked [Current: NONE]\n");
+			}
+
+		}
+
+		/* ALTCTL SWITCH */
+		if(ManualControlSetpointMsg.ManSwitch == PX4_SWITCH_POS_ON){
+			if(!trasition_locked){
+				NavigationSM.FSM.trManual();
+				trasition_locked = true;
+				OS_printf("Transitions Locked [Current: Altitude Hold]\n");
+			}
+		}
+		else if(ManualControlSetpointMsg.ManSwitch == PX4_SWITCH_POS_OFF){
+			if(trasition_locked){
+				NavigationSM.FSM.trManual();
+				trasition_locked = false;
+				OS_printf("Transitions Locked [Current: NONE]\n");
+			}
+
+		}
+
+		/* POSCTL SWITCH */
+		if(ManualControlSetpointMsg.ManSwitch == PX4_SWITCH_POS_ON){
+			if(!trasition_locked){
+				NavigationSM.FSM.trManual();
+				trasition_locked = true;
+				OS_printf("Transitions Locked [Current: Position Hold]\n");
+			}
+		}
+		else if(ManualControlSetpointMsg.ManSwitch == PX4_SWITCH_POS_OFF){
+			if(trasition_locked){
+				NavigationSM.FSM.trManual();
+				trasition_locked = false;
+				OS_printf("Transitions Locked [Current: NONE]\n");
+			}
+
+		}
+
+		/* RTL SWITCH */
+		if(ManualControlSetpointMsg.ManSwitch == PX4_SWITCH_POS_ON){
+			if(!trasition_locked){
+				NavigationSM.FSM.trManual();
+				trasition_locked = true;
+				OS_printf("Transitions Locked [Current: RTL]\n");
+			}
+		}
+		else if(ManualControlSetpointMsg.ManSwitch == PX4_SWITCH_POS_OFF){
+			if(trasition_locked){
+				NavigationSM.FSM.trManual();
+				trasition_locked = false;
+				OS_printf("Transitions Locked [Current: NONE]\n");
+			}
+
+		}
+
+
 
 
 
