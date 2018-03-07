@@ -265,7 +265,6 @@ public:
     /** \brief Input Data subscribed at the beginning of cycle */
     PX4_SensorMagMsg_t SensorMagMsg;
     PX4_SensorGyroMsg_t SensorGyroMsg;
-    PX4_SystemPowerMsg_t SystemPowerMsg;
     PX4_BatteryStatusMsg_t BatteryStatusMsg;
 //  PX4_SensorPreflightMsg_t SensorPreflightMsg;
     PX4_TelemetryStatusMsg_t TelemetryStatusMsg;
