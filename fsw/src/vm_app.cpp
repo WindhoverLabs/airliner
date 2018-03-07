@@ -1250,8 +1250,8 @@ void VM::SetHomePosition(){
 		math::Matrix3F3 rotationMat = math::Dcm(q);
 		math::Vector3F euler = math::Euler(rotationMat);
 		HomePositionMsg.Yaw = euler[2];
-
-		OS_printf("VM_homeset [%f\t%f\t%f\t%f]\n",HomePositionMsg.Lat,
+		OS_printf("            lat\tlon\talt\tyaw\n");
+		OS_printf("VM_homeset  %f\t%f\t%f\t%f\n",HomePositionMsg.Lat,
 												  HomePositionMsg.Lon,
 												  HomePositionMsg.Alt,
 												  HomePositionMsg.Yaw);
@@ -1407,18 +1407,23 @@ void VM::Initialization(){
 
 void VM::Execute(){
 
-	if(VehicleLandDetectedMsg.Landed && !vh_prev_landed){
-		/* TODO: land detected now do */
-		FlightSessionInit();
+	/* Set home position at launch */
+	if(VehicleLandDetectedMsg.Landed && !VehicleLandDetectedMsg.Freefall && !VehicleLandDetectedMsg.GroundContact){
+		/* Vehicle has landed */
+		if(!vh_prev_landed){
+			FlightSessionInit();
+		}
 		vh_prev_landed = true;
-
-	}else if (VehicleLandDetectedMsg.Landed){
-		vh_prev_landed = true;
-	}else{
+		vh_prev_in_flight = false;
+	}
+	else if(!VehicleLandDetectedMsg.Landed && !VehicleLandDetectedMsg.Freefall && !VehicleLandDetectedMsg.GroundContact && vh_prev_landed && !vh_prev_in_flight ){
+		/* Vehicle is launched */
+		SetHomePosition();
 		vh_prev_landed = false;
+		vh_prev_in_flight = true;
 	}
 
-	/* Vehicle status updates */
+	/* Vehicle status message update */
 	VehicleStatusMsg.SystemID = vm_params.system_id;
 	VehicleStatusMsg.ComponentID = vm_params.component_id;
 
@@ -1596,9 +1601,9 @@ void VM::Execute(){
 				   (VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_ALTCTL)){
 					OS_printf("Not Arming: switch to manual mode\n");
 				}
-				else if (!status_flags.condition_home_position_valid ){
-					OS_printf("home position is invalid \n");
-				}
+//				else if (!status_flags.condition_home_position_valid ){
+//					OS_printf("home position is invalid \n");
+//				}
 				else if (VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_STANDBY){
 					ArmingSM.FSM.Arm();
 					OS_printf("Armed By RC \n");
@@ -1617,7 +1622,28 @@ void VM::Execute(){
 		/* TODO: State change trasitions */
 
 
+		/* KILLSWITCH */
+		if(ManualControlSetpointMsg.KillSwitch == PX4_SWITCH_POS_ON){
+			if(!ActuatorArmedMsg.ManualLockdown){
+				OS_printf("MANUAL KILLSWITCH ENGAGED\n");
+			}
+			ActuatorArmedMsg.ManualLockdown = true;
 
+		}
+		else if(ManualControlSetpointMsg.KillSwitch == PX4_SWITCH_POS_OFF){
+			if(ActuatorArmedMsg.ManualLockdown){
+				OS_printf("MANUAL KILLSWITCH ENGAGED\n");
+			}
+			ActuatorArmedMsg.ManualLockdown = false;
+		}
+
+
+
+	}
+	else if(!status_flags.rc_input_blocked && !VehicleStatusMsg.RcSignalLost ){
+		OS_printf("MANUAL CONTROL LOST (at t=%llums)", TimeNow() / 1000);
+		VehicleStatusMsg.RcSignalLost  = true;
+		rc_signal_lost_timestamp = ManualControlSetpointMsg.Timestamp;
 
 	}
 
@@ -1660,7 +1686,7 @@ void VM::FlightSessionInit(){
 	NavigationSM.FSM.trInitComplete();
 
 	/* Set home postion */
-	SetHomePosition();
+	//SetHomePosition();
 
 }
 

@@ -329,6 +329,7 @@ boolean not_initialized = true;
 
     boolean vh_landed = true;
     boolean vh_prev_landed = true;
+    boolean vh_prev_in_flight = false;
     boolean vh_freefall = false;
     boolean vh_armed = false;
 

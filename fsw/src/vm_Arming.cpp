@@ -163,6 +163,7 @@ boolean VM_Arming::PreFlightCheckCleared(){
 		OS_printf("Sensors not set up correctly \n");
 		sensors_ok = false;
 	}
+/*TODO:QAE HK*/
 
 
 	return (battery_ok && safety_off && power_ok && sensors_ok);
