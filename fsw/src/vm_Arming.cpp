@@ -148,17 +148,6 @@ boolean VM_Arming::PreFlightCheckCleared(){
 		OS_printf("Connect power module\n");
 		power_ok = false;
 	}
-	/* Check avionics rail voltages */
-	if(AvionicsPowerRailVoltage<4.5f){
-		OS_printf("NOT ARMING: Avionics power low: %6.2f Volt\n",AvionicsPowerRailVoltage);
-		power_ok = false;
-	}
-	else if(AvionicsPowerRailVoltage<4.9f){
-		OS_printf("CAUTION: Avionics power low: %6.2f Volt\n",AvionicsPowerRailVoltage);
-
-	}else if(AvionicsPowerRailVoltage>5.4f){
-		OS_printf("CAUTION: Avionics power high: %6.2f Volt\n",AvionicsPowerRailVoltage);
-	}
 
 	if (!App.status_flags.condition_system_sensors_initialized) {
 		OS_printf("Sensors not set up correctly \n");
