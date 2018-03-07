@@ -73,6 +73,7 @@ public:
 	boolean IsTransitionAutoTakeoffValid(void);
 	boolean IsTransitionAutoLandValid(void);
 
+	boolean IsAllMessagesReady(void);
 	boolean IsStabilizationRequired(void);
 	boolean IsConditionLocalPositionValid(void);
 	boolean IsVehicleArmed(void);

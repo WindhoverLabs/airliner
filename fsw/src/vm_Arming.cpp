@@ -127,7 +127,6 @@ void VM_Arming::DoAction()
 boolean VM_Arming::PreFlightCheckCleared(){
 	boolean battery_ok = true;
 	boolean safety_off = true;
-	boolean power_ok  = true;
 	boolean sensors_ok = true;
 	float AvionicsPowerRailVoltage = 4.5f;//App.SystemPowerMsg.Voltage5V;
 
@@ -143,11 +142,7 @@ boolean VM_Arming::PreFlightCheckCleared(){
 		safety_off = false;
 	}
 
-	/* Power check */
-	if(!App.status_flags.condition_power_input_valid){
-		OS_printf("Connect power module\n");
-		power_ok = false;
-	}
+
 
 	if (!App.status_flags.condition_system_sensors_initialized) {
 		OS_printf("Sensors not set up correctly \n");
@@ -156,7 +151,7 @@ boolean VM_Arming::PreFlightCheckCleared(){
 /*TODO:QAE HK*/
 
 
-	return (battery_ok && safety_off && power_ok && sensors_ok);
+	return (battery_ok && safety_off && sensors_ok);
 }
 
 

@@ -436,6 +436,36 @@ void VM_Navigation::IsStateMachineSane()
 */
 
 
+boolean VM_Navigation::IsAllMessagesReady(){
+
+	boolean validity = false;
+
+	boolean SensorMagMsgReady = (App.SensorMagMsg.Timestamp > 0);
+	boolean SensorGyroMsgReady = (App.SensorGyroMsg.Timestamp > 0);
+	boolean SensorAccelMsgReady = (App.SensorAccelMsg.Timestamp > 0);
+	boolean SensorCombinedMsgReady = (App.SensorCombinedMsg.Timestamp > 0);
+	boolean VehicleAttitudeMsgReady = (App.VehicleAttitudeMsg.Timestamp > 0);
+	boolean VehicleLocalPositionMsg = (App.VehicleLocalPositionMsg.Timestamp > 0);
+	boolean VehicleLandDetectedMsgReady = (App.VehicleLandDetectedMsg.Timestamp > 0);
+	boolean VehicleGlobalPositionMsgReady = (App.VehicleGlobalPositionMsg.Timestamp > 0);
+	boolean VehicleGpsPositionMsgReady = (App.VehicleGpsPositionMsg.Timestamp > 0);
+
+	if (SensorMagMsgReady
+			&& SensorGyroMsgReady
+			&& SensorAccelMsgReady
+			&& SensorCombinedMsgReady
+			&& VehicleAttitudeMsgReady
+			&& VehicleLocalPositionMsg
+			&& VehicleLandDetectedMsgReady
+			&& VehicleGlobalPositionMsgReady
+			&& VehicleGpsPositionMsgReady){
+		validity = true;
+
+	}
+
+	return validity;
+
+}
 
 boolean VM_Navigation::IsStabilizationRequired(void)
 {
@@ -481,11 +511,9 @@ boolean VM_Navigation::IsTransitionAcrobaticValid(void){
 	PX4_NavigationState_t Current_NavState = App.VehicleStatusMsg.NavState;
 
 	/* Altitude Hold Requirement Validation */
-	if(App.VehicleLocalPositionMsg.Timestamp > 0
-	   && App.VehicleLocalPositionMsg.XY_Valid
-	   && App.VehicleLocalPositionMsg.V_XY_Valid
-	   && App.VehicleLocalPositionMsg.Z_Valid
-	   && App.VehicleLocalPositionMsg.V_Z_Valid){
+	if(App.SensorCombinedMsg.Timestamp > 0
+	   && (App.SensorCombinedMsg.MagTimestampRelative!= PX4_RELATIVE_TIMESTAMP_INVALID)
+	   && (App.SensorCombinedMsg.AccRelTimeInvalid != PX4_RELATIVE_TIMESTAMP_INVALID)){
 
 		validity = true;
 	}
@@ -495,34 +523,34 @@ boolean VM_Navigation::IsTransitionAcrobaticValid(void){
 
 
 boolean VM_Navigation::IsTransitionAutoLoiterValid(void){
-
-	return true;
+	boolean validity = IsAllMessagesReady();
+	return validity;
 
 }
 
 boolean VM_Navigation::IsTransitionRtlValid(void){
-	return true;
-
+	boolean validity = IsAllMessagesReady();
+	return validity;
 }
 
 boolean VM_Navigation::IsTransitionStabilizeValid(void){
-	return true;
-
+	boolean validity = IsAllMessagesReady();
+	return validity;
 }
 
 boolean VM_Navigation::IsTransitionRattitudeValid(void){
-	return true;
-
+	boolean validity = IsAllMessagesReady();
+	return validity;
 }
 
 boolean VM_Navigation::IsTransitionAutoTakeoffValid(void){
-	return true;
-
+	boolean validity = IsAllMessagesReady();
+	return validity;
 }
 
 boolean VM_Navigation::IsTransitionAutoLandValid(void){
-	return true;
-
+	boolean validity = IsAllMessagesReady();
+	return validity;
 }
 
 
