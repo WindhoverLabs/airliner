@@ -1450,16 +1450,18 @@ void VM::Execute(){
 		/* MANUAL SWITCH */
 		if(ManualControlSetpointMsg.ManSwitch == PX4_SWITCH_POS_ON){
 			if(!trasition_locked){
+				OS_printf("Transitions Locked [Current: Manual]\n");
 				NavigationSM.FSM.trManual();
 				trasition_locked = true;
-				OS_printf("Transitions Locked [Current: Manual]\n");
+
 			}
 		}
 		else if(ManualControlSetpointMsg.ManSwitch == PX4_SWITCH_POS_OFF){
 			if(trasition_locked && VehicleStatusMsg.NavState == PX4_NAVIGATION_STATE_MANUAL ){
+				OS_printf("Transitions Locked [Current: NONE]\n");
 				NavigationSM.FSM.trManual();
 				trasition_locked = false;
-				OS_printf("Transitions Locked [Current: NONE]\n");
+
 			}
 
 		}
@@ -1467,16 +1469,17 @@ void VM::Execute(){
 		/* LOITER SWITCH */
 		if(ManualControlSetpointMsg.LoiterSwitch == PX4_SWITCH_POS_ON){
 			if(!trasition_locked){
+				OS_printf("Transitions Locked [Current: Loiter]\n");
 				NavigationSM.FSM.trAutoLoiter();
 				trasition_locked = true;
-				OS_printf("Transitions Locked [Current: Loiter]\n");
 			}
 		}
 		else if(ManualControlSetpointMsg.LoiterSwitch == PX4_SWITCH_POS_OFF){
 			if(trasition_locked && VehicleStatusMsg.NavState == PX4_NAVIGATION_STATE_AUTO_LOITER){
+				OS_printf("Transitions Locked [Current: NONE]\n");
+
 				NavigationSM.FSM.trManual();
 				trasition_locked = false;
-				OS_printf("Transitions Locked [Current: NONE]\n");
 			}
 
 		}
@@ -1484,16 +1487,18 @@ void VM::Execute(){
 		/* POSCTL SWITCH */
 		if(ManualControlSetpointMsg.PosctlSwitch == PX4_SWITCH_POS_ON){
 			if(!trasition_locked){
+				OS_printf("Transitions Locked [Current: Position Hold]\n");
+
 				NavigationSM.FSM.trPositionControl();
 				trasition_locked = true;
-				OS_printf("Transitions Locked [Current: Position Hold]\n");
 			}
 		}
 		else if(ManualControlSetpointMsg.PosctlSwitch == PX4_SWITCH_POS_OFF){
 			if(trasition_locked && VehicleStatusMsg.NavState == PX4_NAVIGATION_STATE_POSCTL){
+				OS_printf("Transitions Locked [Current: NONE]\n");
+
 				NavigationSM.FSM.trManual();
 				trasition_locked = false;
-				OS_printf("Transitions Locked [Current: NONE]\n");
 			}
 
 		}
@@ -1501,16 +1506,18 @@ void VM::Execute(){
 		/* RTL SWITCH */
 		if(ManualControlSetpointMsg.ReturnSwitch == PX4_SWITCH_POS_ON){
 			if(!trasition_locked){
+				OS_printf("Transitions Locked [Current: RTL]\n");
+
 				NavigationSM.FSM.trAutoReturnToLaunch();
 				trasition_locked = true;
-				OS_printf("Transitions Locked [Current: RTL]\n");
 			}
 		}
 		else if(ManualControlSetpointMsg.ReturnSwitch == PX4_SWITCH_POS_OFF){
 			if(trasition_locked && VehicleStatusMsg.NavState == PX4_NAVIGATION_STATE_AUTO_RTL){
+				OS_printf("Transitions Locked [Current: NONE]\n");
+
 				NavigationSM.FSM.trManual();
 				trasition_locked = false;
-				OS_printf("Transitions Locked [Current: NONE]\n");
 			}
 
 		}
