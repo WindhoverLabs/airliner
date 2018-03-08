@@ -102,55 +102,55 @@ typedef struct  {
  */
 typedef struct
 {
-	int autostart_id = 6001; //SYS_AUTOSTART (for hil)
-	int rc_in_off = 2; //COM_RC_IN_MODE
-	int arm_switch_is_button = 0;//COM_ARM_SWISBTN
-	int arm_without_gps = 1;//COM_ARM_WO_GPS
-	int arm_mission_required = 0;//COM_ARM_MIS_REQ
-	int rc_arm_hyst = 1000;//COM_RC_ARM_HYST
-	int mav_type = 13;//MAV_TYPE
-	int system_id = 1;//MAV_SYS_ID
-	int component_id = 1;//MAV_COMP_ID
-	int cbrk_supply_chk = 0;//CBRK_SUPPLY_CHK
-	int cbrk_usb_chk = 0;//CBRK_USB_CHK
-	int cbrk_airspd_chk = 0;//CBRK_AIRSPD_CHK
-	int cbrk_enginefail_chk = 284953;//CBRK_ENGINEFAIL
-	int cbrk_gpsdail_chk = 0;//CBRK_GPSFAIL
-	int cbrk_flightterm_chk = 121212;//CBRK_FLIGHTTERM
-	int cbrk_velposerr_chk = 0;//CBRK_VELPOSERR
-	int nav_dll_act = 2;//	NAV_DLL_ACT
-	int nav_rcl_act = 2;//	NAV_RCL_ACT
-	int dl_loss_t = 10;//	COM_DL_LOSS_T
-	float rc_loss_t = 0.5;//	COM_RC_LOSS_T
-	float rc_stick_ovrde = 12.0;//	COM_RC_STICK_OV
-	int rc_ovrde = 0;//	COM_RC_OVERRIDE
-	int dl_reg_t = 0;//	COM_DL_REG_T
-	float ef_throt = 0.5;//	COM_EF_THROT
-	float ef_c2t = 0.5;//	COM_EF_C2T
-	float ef_time = 10.0;//	COM_EF_TIME
-	int gf_action = 1;//	GF_ACTION
-	int disarm_land = 3;//	COM_DISARM_LAND
-	int low_bat_act = 1;//	COM_LOW_BAT_ACT
-	float of_loss_t = 0.0;//	COM_OF_LOSS_T
-	int obl_act = 0;//	COM_OBL_ACT
-	int obl_rcl_act = 0;//	COM_OBL_RC_ACT
-	float home_h_t = 5.0;//	COM_HOME_H_T
-	float home_v_t = 10.0;//	COM_HOME_V_T
-	int flt_mode_1 = -1;//	COM_FLTMODE1
-	int flt_mode_2 = -1;//	COM_FLTMODE2
-	int flt_mode_3 = -1;//	COM_FLTMODE3
-	int flt_mode_4 = -1;//	COM_FLTMODE4
-	int flt_mode_5 = -1;//	COM_FLTMODE5
-	int flt_mode_6 = -1;//	COM_FLTMODE6
-	float arm_ekf_pos = 0.5;//	COM_ARM_EKF_POS
-	float arm_ekf_vel = 0.5;//	COM_ARM_EKF_VEL
-	float arm_ekf_hgt = 1.0;//	COM_ARM_EKF_HGT
-	float arm_ekf_yaw = 0.5;//	COM_ARM_EKF_YAW
-	float arm_ekf_ab = 0.0050;//	COM_ARM_EKF_AB
-	float arm_ekf_gb = 0.0009;//	COM_ARM_EKF_GB
-	float arm_imu_acc = 0.7;//	COM_ARM_IMU_ACC
-	float arm_imu_gyr = 0.2;//	COM_ARM_IMU_GYR
-	int posctl_navl = 0;//	COM_POSCTL_NAVL
+	int autostart_id ;                           // 6001; //SYS_AUTOSTART (for hil)
+	int rc_in_off ;                           // 2; //COM_RC_IN_MODE
+	int arm_switch_is_button ;                           // 0;//COM_ARM_SWISBTN
+	int arm_without_gps ;                           // 1;//COM_ARM_WO_GPS
+	int arm_mission_required ;                           // 0;//COM_ARM_MIS_REQ
+	int rc_arm_hyst ;                           // 1000;//COM_RC_ARM_HYST
+	int mav_type ;                           // 13;//MAV_TYPE
+	int system_id ;                           // 1;//MAV_SYS_ID
+	int component_id ;                           // 1;//MAV_COMP_ID
+	int cbrk_supply_chk ;                           // 0;//CBRK_SUPPLY_CHK
+	int cbrk_usb_chk ;                           // 0;//CBRK_USB_CHK
+	int cbrk_airspd_chk ;                           // 0;//CBRK_AIRSPD_CHK
+	int cbrk_enginefail_chk ;                           // 284953;//CBRK_ENGINEFAIL
+	int cbrk_gpsdail_chk ;                           // 0;//CBRK_GPSFAIL
+	int cbrk_flightterm_chk ;                           // 121212;//CBRK_FLIGHTTERM
+	int cbrk_velposerr_chk ;                           // 0;//CBRK_VELPOSERR
+	int nav_dll_act ;                           // 2;//	NAV_DLL_ACT
+	int nav_rcl_act ;                           // 2;//	NAV_RCL_ACT
+	int dl_loss_t ;                           // 10;//	COM_DL_LOSS_T
+	float rc_loss_t ;                           // 0.5;//	COM_RC_LOSS_T
+	float rc_stick_ovrde ;                           // 12.0;//	COM_RC_STICK_OV
+	int rc_ovrde ;                           // 0;//	COM_RC_OVERRIDE
+	int dl_reg_t ;                           // 0;//	COM_DL_REG_T
+	float ef_throt ;                           // 0.5;//	COM_EF_THROT
+	float ef_c2t ;                           // 0.5;//	COM_EF_C2T
+	float ef_time ;                           // 10.0;//	COM_EF_TIME
+	int gf_action ;                           // 1;//	GF_ACTION
+	int disarm_land ;                           // 3;//	COM_DISARM_LAND
+	int low_bat_act ;                           // 1;//	COM_LOW_BAT_ACT
+	float of_loss_t ;                           // 0.0;//	COM_OF_LOSS_T
+	int obl_act ;                           // 0;//	COM_OBL_ACT
+	int obl_rcl_act ;                           // 0;//	COM_OBL_RC_ACT
+	float home_h_t ;                           // 5.0;//	COM_HOME_H_T
+	float home_v_t ;                           // 10.0;//	COM_HOME_V_T
+	int flt_mode_1 ;                           // -1;//	COM_FLTMODE1
+	int flt_mode_2 ;                           // -1;//	COM_FLTMODE2
+	int flt_mode_3 ;                           // -1;//	COM_FLTMODE3
+	int flt_mode_4 ;                           // -1;//	COM_FLTMODE4
+	int flt_mode_5 ;                           // -1;//	COM_FLTMODE5
+	int flt_mode_6 ;                           // -1;//	COM_FLTMODE6
+	float arm_ekf_pos ;                           // 0.5;//	COM_ARM_EKF_POS
+	float arm_ekf_vel ;                           // 0.5;//	COM_ARM_EKF_VEL
+	float arm_ekf_hgt ;                           // 1.0;//	COM_ARM_EKF_HGT
+	float arm_ekf_yaw ;                           // 0.5;//	COM_ARM_EKF_YAW
+	float arm_ekf_ab ;                           // 0.0050;//	COM_ARM_EKF_AB
+	float arm_ekf_gb ;                           // 0.0009;//	COM_ARM_EKF_GB
+	float arm_imu_acc ;                           // 0.7;//	COM_ARM_IMU_ACC
+	float arm_imu_gyr ;                           // 0.2;//	COM_ARM_IMU_GYR
+	int posctl_navl ;                           // 0;//	COM_POSCTL_NAVL
 } VM_Params_t;
 
 /**
@@ -537,6 +537,7 @@ public:
     uint64 TimeNow(void);
     void Initialization();
     void FlightSessionInit();
+    void UpdateParamsFromTable();
     void Execute();
 
 

@@ -62,8 +62,55 @@ extern "C" {
 /** \brief Definition for a single config table entry */
 typedef struct
 {
-    /* TODO:  Define the configuration table. */
-	uint32  temp;
+	int		SYS_AUTOSTART;
+	int 	COM_RC_IN_MODE;
+	int 	COM_ARM_SWISBTN;
+	int 	COM_ARM_WO_GPS;
+	int 	COM_ARM_MIS_REQ;
+	int 	COM_RC_ARM_HYST;
+	int 	MAV_TYPE;
+	int 	MAV_SYS_ID;
+	int 	MAV_COMP_ID;
+	int 	CBRK_SUPPLY_CHK;
+	int 	CBRK_USB_CHK;
+	int 	CBRK_AIRSPD_CHK;
+	int 	CBRK_ENGINEFAIL;
+	int 	CBRK_GPSFAIL;
+	int 	CBRK_FLIGHTTERM;
+	int 	CBRK_VELPOSERR;
+	int 	NAV_DLL_ACT;
+	int 	NAV_RCL_ACT;
+	int 	COM_DL_LOSS_T;
+	float 	COM_RC_LOSS_T;
+	float 	COM_RC_STICK_OV;
+	int 	COM_RC_OVERRIDE;
+	int 	COM_DL_REG_T;
+	float 	COM_EF_THROT;
+	float 	COM_EF_C2T;
+	float 	COM_EF_TIME;
+	int 	GF_ACTION;
+	int		COM_DISARM_LAND;
+	int 	COM_LOW_BAT_ACT;
+	float 	COM_OF_LOSS_T;
+	int 	COM_OBL_ACT;
+	int 	COM_OBL_RC_ACT;
+	float 	COM_HOME_H_T;
+	float 	COM_HOME_V_T;
+	int 	COM_FLTMODE1;
+	int 	COM_FLTMODE2;
+	int 	COM_FLTMODE3;
+	int 	COM_FLTMODE4;
+	int 	COM_FLTMODE5;
+	int 	COM_FLTMODE6;
+	float 	COM_ARM_EKF_POS;
+	float 	COM_ARM_EKF_VEL;
+	float 	COM_ARM_EKF_HGT;
+	float 	COM_ARM_EKF_YAW;
+	float 	COM_ARM_EKF_AB;
+	float 	COM_ARM_EKF_GB;
+	float 	COM_ARM_IMU_ACC;
+	float 	COM_ARM_IMU_GYR;
+	int 	COM_POSCTL_NAVL;
 } VM_ConfigTbl_t;
 
 

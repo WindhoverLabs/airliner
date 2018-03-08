@@ -390,6 +390,9 @@ int32 VM::InitApp()
         goto VM_InitApp_Exit_Tag;
     }
 
+    /* Updating application params from platform-nav-config-table */
+	UpdateParamsFromTable();
+
 VM_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
@@ -1557,7 +1560,64 @@ void VM::FlightSessionInit(){
 
 }
 
+void VM::UpdateParamsFromTable(){
+	if(ConfigTblPtr != nullptr){
 
+
+
+
+		vm_params.autostart_id                     			 =   ConfigTblPtr->        		SYS_AUTOSTART;
+		vm_params.rc_in_off                     			 =   ConfigTblPtr->         	COM_RC_IN_MODE;
+		vm_params.arm_switch_is_button                		 =   ConfigTblPtr->         	COM_ARM_SWISBTN;
+		vm_params.arm_without_gps                   		 =   ConfigTblPtr->         	COM_ARM_WO_GPS;
+		vm_params.arm_mission_required           			 =   ConfigTblPtr->         	COM_ARM_MIS_REQ;
+		vm_params.rc_arm_hyst                   			 =   ConfigTblPtr->         	COM_RC_ARM_HYST;
+		vm_params.mav_type                   				 =   ConfigTblPtr->         	MAV_TYPE;
+		vm_params.system_id                   				 =   ConfigTblPtr->         	MAV_SYS_ID;
+		vm_params.component_id                				 =   ConfigTblPtr->         	MAV_COMP_ID;
+		vm_params.cbrk_supply_chk              				 =   ConfigTblPtr->         	CBRK_SUPPLY_CHK;
+		vm_params.cbrk_usb_chk                 				 =   ConfigTblPtr->         	CBRK_USB_CHK;
+		vm_params.cbrk_airspd_chk         			         =   ConfigTblPtr->         	CBRK_AIRSPD_CHK;
+		vm_params.cbrk_enginefail_chk               		 =   ConfigTblPtr->         	CBRK_ENGINEFAIL;
+		vm_params.cbrk_gpsdail_chk                			 =   ConfigTblPtr->         	CBRK_GPSFAIL;
+		vm_params.cbrk_flightterm_chk                		 =   ConfigTblPtr->         	CBRK_FLIGHTTERM;
+		vm_params.cbrk_velposerr_chk                         =   ConfigTblPtr->         	CBRK_VELPOSERR;
+		vm_params.nav_dll_act                                =   ConfigTblPtr->         	NAV_DLL_ACT;
+		vm_params.nav_rcl_act              				     =   ConfigTblPtr->         	NAV_RCL_ACT;
+		vm_params.dl_loss_t             				     =   ConfigTblPtr->         	COM_DL_LOSS_T;
+		vm_params.rc_loss_t               				     =   ConfigTblPtr->         	COM_RC_LOSS_T;
+		vm_params.rc_stick_ovrde           				     =   ConfigTblPtr->         	COM_RC_STICK_OV;
+		vm_params.rc_ovrde             					     =   ConfigTblPtr->         	COM_RC_OVERRIDE;
+		vm_params.dl_reg_t             				         =   ConfigTblPtr->         	COM_DL_REG_T;
+		vm_params.ef_throt            						 =   ConfigTblPtr->         	COM_EF_THROT;
+		vm_params.ef_c2t           				             =   ConfigTblPtr->         	COM_EF_C2T;
+		vm_params.ef_time           					     =   ConfigTblPtr->         	COM_EF_TIME;
+		vm_params.gf_action          						 =   ConfigTblPtr->         	GF_ACTION;
+		vm_params.disarm_land                    		     =   ConfigTblPtr->        		COM_DISARM_LAND;
+		vm_params.low_bat_act              			         =   ConfigTblPtr->         	COM_LOW_BAT_ACT;
+		vm_params.of_loss_t           					     =   ConfigTblPtr->         	COM_OF_LOSS_T;
+		vm_params.obl_act            						 =   ConfigTblPtr->         	COM_OBL_ACT;
+		vm_params.obl_rcl_act       				         =   ConfigTblPtr->         	COM_OBL_RC_ACT;
+		vm_params.home_h_t           						 =   ConfigTblPtr->         	COM_HOME_H_T;
+		vm_params.home_v_t        					         =   ConfigTblPtr->         	COM_HOME_V_T;
+		vm_params.flt_mode_1       					         =   ConfigTblPtr->         	COM_FLTMODE1;
+		vm_params.flt_mode_2        			             =   ConfigTblPtr->         	COM_FLTMODE2;
+		vm_params.flt_mode_3         					     =   ConfigTblPtr->         	COM_FLTMODE3;
+		vm_params.flt_mode_4        					     =   ConfigTblPtr->         	COM_FLTMODE4;
+		vm_params.flt_mode_5        					     =   ConfigTblPtr->         	COM_FLTMODE5;
+		vm_params.flt_mode_6        					     =   ConfigTblPtr->         	COM_FLTMODE6;
+		vm_params.arm_ekf_pos        					     =   ConfigTblPtr->         	COM_ARM_EKF_POS;
+		vm_params.arm_ekf_vel        					     =   ConfigTblPtr->         	COM_ARM_EKF_VEL;
+		vm_params.arm_ekf_hgt         					     =   ConfigTblPtr->         	COM_ARM_EKF_HGT;
+		vm_params.arm_ekf_yaw         					     =   ConfigTblPtr->         	COM_ARM_EKF_YAW;
+		vm_params.arm_ekf_ab          					     =   ConfigTblPtr->         	COM_ARM_EKF_AB;
+		vm_params.arm_ekf_gb         					     =   ConfigTblPtr->         	COM_ARM_EKF_GB;
+		vm_params.arm_imu_acc        					     =   ConfigTblPtr->         	COM_ARM_IMU_ACC;
+		vm_params.arm_imu_gyr         					     =   ConfigTblPtr->         	COM_ARM_IMU_GYR;
+		vm_params.posctl_navl         					     =   ConfigTblPtr->         	COM_POSCTL_NAVL;
+	}
+
+}
 
 /************************/
 /*  End of File Comment */
