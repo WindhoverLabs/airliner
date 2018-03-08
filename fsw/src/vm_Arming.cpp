@@ -63,6 +63,7 @@ void VM_Arming::EnteredArmed()
     App.ActuatorArmedMsg.Armed = true;
     App.VehicleControlModeMsg.Armed = true;
 	App.SendActuatorArmedMsg();
+    App.SetHomePosition();
 
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_ARMED_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::Armed");
