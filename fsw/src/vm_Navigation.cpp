@@ -199,8 +199,8 @@ void VM_Navigation::DoAction()
 			App.VehicleControlModeMsg.ControlAltitudeEnabled = true;
 			App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
 			/* TODO - Replace the next 2 lines with the correct code. */
-			App.VehicleControlModeMsg.ControlPositionEnabled = false;
-			App.VehicleControlModeMsg.ControlVelocityEnabled = false;
+			App.VehicleControlModeMsg.ControlPositionEnabled = true;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = true;
 			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
 			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
 			break;

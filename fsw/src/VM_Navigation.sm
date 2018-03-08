@@ -65,7 +65,10 @@ AltitudeControl
         EnteredAltitudeControl();
     }
 {
-    trManual             Manual             { }
+    trManual             [ 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Manual             { }
     trPositionControl    [ 
                              ctxt.IsTransitionPosCtlValid() == true && 
                              ctxt.IsVehicleArmed() == true
@@ -116,7 +119,10 @@ PositionControl
         EnteredPositionControl();
     }
 {
-    trManual             Manual             { }
+    trManual             [ 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Manual             { }
     trAltitudeControl    [ 
                              ctxt.IsTransitionAltCtlValid() == true && 
                              ctxt.IsVehicleArmed() == true
@@ -166,7 +172,10 @@ AutoLoiter
         EnteredAutoLoiter();
     }
 {
-    trManual             Manual             { }
+    trManual             [ 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Manual             { }
     trAltitudeControl    [ 
                              ctxt.IsTransitionAltCtlValid() == true && 
                              ctxt.IsVehicleArmed() == true
@@ -216,7 +225,10 @@ AutoReturnToLaunch
         EnteredAutoReturnToLaunch();
     }
 {
-    trManual             Manual             { }
+    trManual             [ 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Manual             { }
     trAltitudeControl    [ 
                              ctxt.IsTransitionAltCtlValid() == true && 
                              ctxt.IsVehicleArmed() == true
@@ -266,7 +278,10 @@ Acrobatic
         EnteredAcrobatic();
     }
 {
-    trManual             Manual             { }
+    trManual             [ 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Manual             { }
     trAltitudeControl    [ 
                              ctxt.IsTransitionAltCtlValid() == true && 
                              ctxt.IsVehicleArmed() == true
@@ -316,7 +331,10 @@ Stabilize
         EnteredStabilize();
     }
 {
-    trManual             Manual             { }
+    trManual             [ 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Manual             { }
     trAltitudeControl    [ 
                              ctxt.IsTransitionAltCtlValid() == true && 
                              ctxt.IsVehicleArmed() == true
@@ -366,7 +384,10 @@ Rattitude
         EnteredRattitude();
     }
 {
-    trManual             Manual             { }
+    trManual             [ 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Manual             { }
     trAltitudeControl    [ 
                              ctxt.IsTransitionAltCtlValid() == true && 
                              ctxt.IsVehicleArmed() == true
@@ -416,7 +437,10 @@ AutoTakeoff
         EnteredAutoTakeoff();
     }
 {
-    trManual             Manual             { }
+    trManual             [ 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Manual             { }
     trAltitudeControl    [ 
                              ctxt.IsTransitionAltCtlValid() == true && 
                              ctxt.IsVehicleArmed() == true
@@ -466,7 +490,10 @@ AutoLand
         EnteredAutoLand();
     }
 {
-    trManual             Manual             { }
+    trManual             [ 
+                             ctxt.IsVehicleArmed() == true
+                         ]
+                         Manual             { }
     trAltitudeControl    [ 
                              ctxt.IsTransitionAltCtlValid() == true && 
                              ctxt.IsVehicleArmed() == true
