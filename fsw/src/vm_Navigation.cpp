@@ -127,9 +127,6 @@ void VM_Navigation::EnteredAutoTakeoff()
 	App.VehicleManagerStateMsg.MainState = PX4_COMMANDER_MAIN_STATE_AUTO_TAKEOFF;
 	App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_TAKEOFF;
 
-    //App.SetHomePosition();
-    //App.SendHomePositionMsg();
-
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_AUTO_TAKEOFF_INFO_EID, CFE_EVS_INFORMATION,
     		"Navigation::AutoTakeoff");
     App.SendVehicleStatusMsg();
@@ -152,23 +149,11 @@ void VM_Navigation::EnteredAutoLand()
 
 void VM_Navigation::DoAction()
 {
-	/* TODO - Replace these next two lines with the correct code. */
+	/* Set common fields in vehicle control mode message */
+	App.VehicleControlModeMsg.Armed = App.VehicleStatusMsg.ArmingState;
 	App.VehicleControlModeMsg.SystemHilEnabled = false;
 	App.VehicleControlModeMsg.ExternalManualOverrideOk = false;
-
 	App.VehicleControlModeMsg.ControlOffboardEnabled = false;
-
-	App.VehicleControlModeMsg.ControlManualEnabled = false;
-	App.VehicleControlModeMsg.ControlAutoEnabled = true;
-	App.VehicleControlModeMsg.ControlRatesEnabled = IsStabilizationRequired();
-	App.VehicleControlModeMsg.ControlAttitudeEnabled = IsStabilizationRequired();
-	App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
-	App.VehicleControlModeMsg.ControlAltitudeEnabled = true;
-	App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
-	App.VehicleControlModeMsg.ControlPositionEnabled = true;
-	App.VehicleControlModeMsg.ControlVelocityEnabled = true;
-	App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
-	App.VehicleControlModeMsg.ControlTerminationEnabled = false;
 
 	switch(FSM.getState().getId())
 	{
@@ -208,20 +193,17 @@ void VM_Navigation::DoAction()
 			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
 			App.VehicleControlModeMsg.ControlAltitudeEnabled = true;
 			App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
-			/* TODO - Replace the next 2 lines with the correct code. */
-			App.VehicleControlModeMsg.ControlPositionEnabled = true;
-			App.VehicleControlModeMsg.ControlVelocityEnabled = true;
+			App.VehicleControlModeMsg.ControlPositionEnabled = !App.VehicleStatusMsg.InTransitionMode;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = !App.VehicleStatusMsg.InTransitionMode;
 			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
 			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
 			break;
 
-		/* Fallthru */
+		/* Fall through */
 		case VM_NavSM_StateType::VM_NAVSM_AUTO_RTL:
-
-		/* Continue the fallthru */
-
 		case VM_NavSM_StateType::VM_NAVSM_AUTO_LAND:
 		case VM_NavSM_StateType::VM_NAVSM_AUTO_LOITER:
+
 		case VM_NavSM_StateType::VM_NAVSM_AUTO_TAKEOFF:
 			App.VehicleControlModeMsg.ControlManualEnabled = false;
 			App.VehicleControlModeMsg.ControlAutoEnabled = true;
@@ -230,14 +212,11 @@ void VM_Navigation::DoAction()
 			App.VehicleControlModeMsg.ControlRattitudeEnabled = false;
 			App.VehicleControlModeMsg.ControlAltitudeEnabled = true;
 			App.VehicleControlModeMsg.ControlClimbRateEnabled = true;
-			/* TODO - Replace the next 2 lines with the correct code. */
-			App.VehicleControlModeMsg.ControlPositionEnabled = true;
-			App.VehicleControlModeMsg.ControlVelocityEnabled = true;
+			App.VehicleControlModeMsg.ControlPositionEnabled = !App.VehicleStatusMsg.InTransitionMode;
+			App.VehicleControlModeMsg.ControlVelocityEnabled = !App.VehicleStatusMsg.InTransitionMode;
 			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
 			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
 			break;
-
-
 
 		case VM_NavSM_StateType::VM_NAVSM_ACRO:
 			App.VehicleControlModeMsg.ControlManualEnabled = true;
@@ -252,8 +231,6 @@ void VM_Navigation::DoAction()
 			App.VehicleControlModeMsg.ControlAccelerationEnabled = false;
 			App.VehicleControlModeMsg.ControlTerminationEnabled = false;
 			break;
-
-
 
 		case VM_NavSM_StateType::VM_NAVSM_STAB:
 			App.VehicleControlModeMsg.ControlManualEnabled = true;
@@ -292,9 +269,6 @@ void VM_Navigation::DoAction()
 	}
 
 }
-
-
-
 
 /* TODO:  I'll finish this later. */
 /*
@@ -469,8 +443,15 @@ boolean VM_Navigation::IsAllMessagesReady(){
 			&& VehicleLandDetectedMsgReady
 			&& VehicleGlobalPositionMsgReady
 			&& VehicleGpsPositionMsgReady){
+
 		validity = true;
 
+	}
+
+	if(!validity){
+		/* Send event */
+		CFE_EVS_SendEvent(VM_SEN_NOT_READY_INFO_EID, CFE_EVS_INFORMATION,
+				"Sensors not ready");
 	}
 
 	return validity;
@@ -479,7 +460,7 @@ boolean VM_Navigation::IsAllMessagesReady(){
 
 boolean VM_Navigation::IsStabilizationRequired(void)
 {
-	/* TODO */
+	/* Being a rotary wing qualifies for stabilization */
 	return true;
 }
 
@@ -493,6 +474,11 @@ boolean VM_Navigation::IsTransitionAltCtlValid(void){
 
 		validity = true;
 	}
+	if(!validity){
+		/* Send event */
+		CFE_EVS_SendEvent(VM_REQ_ALT_CTL_ERR_EID, CFE_EVS_ERROR,
+				"Altitude hold mode requirement failed");
+	}
 
 	return validity;
 }
@@ -502,7 +488,7 @@ boolean VM_Navigation::IsTransitionPosCtlValid(void){
 	boolean validity = false;
 	PX4_NavigationState_t Current_NavState = App.VehicleStatusMsg.NavState;
 
-	/* Altitude Hold Requirement Validation */
+	/* Position Hold Requirement Validation */
 	if(App.VehicleLocalPositionMsg.Timestamp > 0
 	   && App.VehicleLocalPositionMsg.XY_Valid
 	   && App.VehicleLocalPositionMsg.V_XY_Valid
@@ -510,6 +496,11 @@ boolean VM_Navigation::IsTransitionPosCtlValid(void){
 	   && App.VehicleLocalPositionMsg.V_Z_Valid){
 
 		validity = true;
+	}
+	if(!validity){
+		/* Send event */
+		CFE_EVS_SendEvent(VM_REQ_POS_CTL_ERR_EID, CFE_EVS_ERROR,
+				"Position hold mode requirement failed");
 	}
 
 	return validity;
@@ -526,6 +517,11 @@ boolean VM_Navigation::IsTransitionAcrobaticValid(void){
 	   && (App.SensorCombinedMsg.AccRelTimeInvalid != PX4_RELATIVE_TIMESTAMP_INVALID)){
 
 		validity = true;
+	}
+	if(!validity){
+		/* Send event */
+		CFE_EVS_SendEvent(VM_REQ_ACRO_ERR_EID, CFE_EVS_ERROR,
+				"Acrobatic mode requirement failed");
 	}
 
 	return validity;

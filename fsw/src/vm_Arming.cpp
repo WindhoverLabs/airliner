@@ -12,18 +12,15 @@ VM_Arming::VM_Arming(VM &inApp) :
 
 }
 
-
 VM_Arming::~VM_Arming()
 {
 
 }
 
-
 uint32 VM_Arming::GetCurrentStateID()
 {
 	return FSM.getState().getId();
 }
-
 
 void VM_Arming::Init(void)
 {
@@ -36,9 +33,7 @@ void VM_Arming::Init(void)
     App.ActuatorArmedMsg.ForceFailsafe = false;
     App.ActuatorArmedMsg.InEscCalibrationMode = false;
 	App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_INIT;
-    App.VehicleStatusMsg.SystemID = 1;
-    App.VehicleStatusMsg.ComponentID = 1;
-	//App.SendActuatorArmedMsg();
+
 }
 
 
@@ -48,7 +43,6 @@ void VM_Arming::EnteredStandby()
     App.ActuatorArmedMsg.Prearmed = true;
     App.ActuatorArmedMsg.ReadyToArm = true;
 	App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_STANDBY;
-	//App.SendActuatorArmedMsg();
 
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_STANDBY_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::Standby");
@@ -63,6 +57,7 @@ void VM_Arming::EnteredArmed()
     App.ActuatorArmedMsg.Armed = true;
     App.VehicleControlModeMsg.Armed = true;
 	App.SendActuatorArmedMsg();
+	App.SetHomePosition();
 
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_ARMED_STATE_INFO_EID, CFE_EVS_INFORMATION,
     		"Arming::Armed");
@@ -122,7 +117,6 @@ void VM_Arming::DoAction()
 	    CFE_EVS_SendEvent(VM_IN_UNKNOWN_STATE_ERR_EID, CFE_EVS_ERROR,
 	    		"VM_ArmingMap is in unknown state (%u, '%s')", FSM.getState().getId(), FSM.getState().getName());
 	}
-	//App.SendActuatorArmedMsg();
 
 }
 
@@ -130,28 +124,28 @@ boolean VM_Arming::PreFlightCheckCleared(){
 	boolean battery_ok = true;
 	boolean safety_off = true;
 	boolean sensors_ok = true;
-	float AvionicsPowerRailVoltage = 4.5f;//App.SystemPowerMsg.Voltage5V;
 
-	/* Battery Warning Check */
+	/* Battery warning check */
 	if(App.BatteryStatusMsg.Warning >= PX4_BatteryWarningSeverity_t::PX4_BATTERY_WARNING_LOW ){
-		OS_printf("LOW BATTERY CANNOT ARM \n");
+		CFE_EVS_SendEvent(VM_PRE_ARM_BAT_CHECK_INFO_EID, CFE_EVS_ERROR,
+				"Low battery, cannot arm");
 		battery_ok = false;
 	}
 
-	/* Safety Check */
+	/* Safety check */
 	if(App.SafetyMsg.SafetySwitchAvailable && !App.SafetyMsg.SafetyOff){
-		OS_printf("SAFETY ON CANNOT ARM \n");
+		CFE_EVS_SendEvent(VM_PRE_ARM_SAFETY_CHECK_INFO_EID, CFE_EVS_ERROR,
+				"Safety is ON, cannot arm");
 		safety_off = false;
 	}
 
 
-
+	/* Sensors check */
 	if (!App.status_flags.condition_system_sensors_initialized) {
-		OS_printf("Sensors not set up correctly \n");
+		CFE_EVS_SendEvent(VM_PRE_ARM_SENSORS_CHECK_INFO_EID, CFE_EVS_ERROR,
+				"Sensors not setup correctly");
 		sensors_ok = false;
 	}
-/*TODO:QAE HK*/
-
 
 	return (battery_ok && safety_off && sensors_ok);
 }
