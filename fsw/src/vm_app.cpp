@@ -1459,8 +1459,19 @@ void VM::Execute(){
 		uint64 Now = TimeNow();
 		(void) CFE_EVS_SendEvent(VM_RC_SIGN_LOST_INFO_EID, CFE_EVS_INFORMATION,
 				"Manual control lost at t = (%llu)ums", (Now));
-		ManualControlSetpointMsg.ReturnSwitch = PX4_SWITCH_POS_ON;
-		RcModes();
+		try{
+			NavigationSM.FSM.trAutoReturnToLaunch();
+			HkTlm.usCmdCnt++;
+			(void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
+					"Mode switched to auto rtl autonomously ");
+		}
+		catch(statemap::TransitionUndefinedException e)
+		{
+			HkTlm.usCmdErrCnt++;
+			CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+					"Illegal Nav transition. Switched to auto rtl rejected.");
+		}
+
 		VehicleStatusMsg.RcSignalLost  = true;
 		rc_signal_lost_timestamp = ManualControlSetpointMsg.Timestamp;
 	}
@@ -1475,10 +1486,17 @@ void VM::RcModes(){
 	boolean posctl = (ManualControlSetpointMsg.PosctlSwitch == PX4_SWITCH_POS_ON);
 	boolean rtl = (ManualControlSetpointMsg.ReturnSwitch == PX4_SWITCH_POS_ON);
 	boolean loiter = (ManualControlSetpointMsg.LoiterSwitch == PX4_SWITCH_POS_ON);
-	boolean manual = (!posctl && !rtl && !loiter);
-	boolean mode_changed = !( posctl==previous_modes.inPosCtl && rtl==previous_modes.inRtl && loiter==previous_modes.inLoiter && manual==previous_modes.inManual);
+	boolean takeoff = (ManualControlSetpointMsg.TransitionSwitch == PX4_SWITCH_POS_ON);
+	boolean manual = (!posctl && !rtl && !loiter && !takeoff);
+	boolean mode_changed = !(
+			posctl==previous_modes.inPosCtl
+			&& rtl==previous_modes.inRtl
+			&& loiter==previous_modes.inLoiter
+			&& manual==previous_modes.inManual
+			&& takeoff==previous_modes.intakeoff
+			);
 
-	if(posctl && !rtl && !loiter && mode_changed){
+	if(posctl && !rtl && !loiter && !takeoff && mode_changed){
 
 		try{
 			NavigationSM.FSM.trPositionControl();
@@ -1490,11 +1508,11 @@ void VM::RcModes(){
 		{
 			HkTlm.usCmdErrCnt++;
 			CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-					"Illegal Nav transition.  Command rejected.");
+					"Illegal Nav transition. Switched to position control rejected.");
 		}
 
 	}
-	else if(!posctl && rtl && !loiter && mode_changed){
+	else if(!posctl && rtl && !loiter && !takeoff && mode_changed){
 
 		try{
 			NavigationSM.FSM.trAutoReturnToLaunch();
@@ -1506,10 +1524,10 @@ void VM::RcModes(){
 		{
 			HkTlm.usCmdErrCnt++;
 			CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-					"Illegal Nav transition.  Command rejected.");
+					"Illegal Nav transition. Switched to auto rtl rejected.");
 		}
 
-	}else if(!posctl && !rtl && loiter && mode_changed){
+	}else if(!posctl && !rtl && loiter && !takeoff && mode_changed){
 		try{
 			NavigationSM.FSM.trAutoLoiter();
 			HkTlm.usCmdCnt++;
@@ -1520,7 +1538,20 @@ void VM::RcModes(){
 		{
 			HkTlm.usCmdErrCnt++;
 			CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-					"Illegal Nav transition.  Command rejected.");
+					"Illegal Nav transition. Switched to auto loiter rejected.");
+		}
+	}else if(!posctl && !rtl && !loiter && takeoff && mode_changed){
+		try{
+			NavigationSM.FSM.trAutoTakeoff();
+			HkTlm.usCmdCnt++;
+			(void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
+					"Mode switched to auto takeoff by rc");
+		}
+		catch(statemap::TransitionUndefinedException e)
+		{
+			HkTlm.usCmdErrCnt++;
+			CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+					"Illegal Nav transition. Switched to auto takeoff rejected.");
 		}
 	}
 	else if(manual && mode_changed){
@@ -1534,13 +1565,14 @@ void VM::RcModes(){
 		{
 			HkTlm.usCmdErrCnt++;
 			CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-					"Illegal Nav transition.  Command rejected.");
+					"Illegal Nav transition.  Switched to Manual rejected.");
 		}
 	}
 	previous_modes.inPosCtl = posctl;
 	previous_modes.inRtl = rtl;
 	previous_modes.inLoiter =loiter;
 	previous_modes.inManual = manual;
+	previous_modes.intakeoff = takeoff;
 }
 
 

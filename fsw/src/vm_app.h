@@ -161,6 +161,7 @@ typedef struct{
 	boolean inRtl;
 	boolean inLoiter;
 	boolean inManual;
+	boolean intakeoff;
 }VM_Modes;
 
 /**
