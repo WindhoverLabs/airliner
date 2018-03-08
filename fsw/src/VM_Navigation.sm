@@ -102,7 +102,7 @@ AltitudeControl
                          ]
                          AutoTakeoff        { }
     trAutoLand            
-                             ctxt.IsTransitionAutoLandValid() == true && 
+                         [    ctxt.IsTransitionAutoLandValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoLand           { }
@@ -152,7 +152,7 @@ PositionControl
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoTakeoff        { }
-    trAutoLand            
+    trAutoLand           [ 
                              ctxt.IsTransitionAutoLandValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
@@ -202,7 +202,7 @@ AutoLoiter
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoTakeoff        { }
-    trAutoLand            
+    trAutoLand           [ 
                              ctxt.IsTransitionAutoLandValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
@@ -252,7 +252,7 @@ AutoReturnToLaunch
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoTakeoff        { }
-    trAutoLand            
+    trAutoLand           [ 
                              ctxt.IsTransitionAutoLandValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
@@ -302,7 +302,7 @@ Acrobatic
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoTakeoff        { }
-    trAutoLand            
+    trAutoLand           [ 
                              ctxt.IsTransitionAutoLandValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
@@ -352,7 +352,7 @@ Stabilize
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoTakeoff        { }
-    trAutoLand            
+    trAutoLand           [ 
                              ctxt.IsTransitionAutoLandValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
@@ -402,7 +402,7 @@ Rattitude
                              ctxt.IsVehicleArmed() == true
                          ]
                          AutoTakeoff        { }
-    trAutoLand            
+    trAutoLand           [
                              ctxt.IsTransitionAutoLandValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]
@@ -452,7 +452,7 @@ AutoTakeoff
                              ctxt.IsVehicleArmed() == true
                          ]
                          Rattitude          { }
-    trAutoLand            
+    trAutoLand           [ 
                              ctxt.IsTransitionAutoLandValid() == true && 
                              ctxt.IsVehicleArmed() == true
                          ]

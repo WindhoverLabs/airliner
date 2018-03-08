@@ -277,14 +277,14 @@ int32 VM::InitPipe()
 					 iStatus);
             goto VM_InitPipe_Exit_Tag;
         }
-        iStatus = CFE_SB_SubscribeEx(AE_HK_TLM_MID, SchPipeId, CFE_SB_Default_Qos, 1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-					 "CMD Pipe failed to subscribe to PX4_SENSOR_COMBINED_MID. (0x%08lX)",
-					 iStatus);
-            goto VM_InitPipe_Exit_Tag;
-        }
+//        iStatus = CFE_SB_SubscribeEx(AE_HK_TLM_MID, SchPipeId, CFE_SB_Default_Qos, 1);
+//        if (iStatus != CFE_SUCCESS)
+//        {
+//            (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+//					 "CMD Pipe failed to subscribe to PX4_SENSOR_COMBINED_MID. (0x%08lX)",
+//					 iStatus);
+//            goto VM_InitPipe_Exit_Tag;
+//        }
     }
     else
     {
@@ -574,9 +574,9 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             case PX4_SENSOR_COMBINED_MID:
                 memcpy(&SensorCombinedMsg, MsgPtr, sizeof(SensorCombinedMsg));
                 break;
-            case AE_HK_TLM_MID:
-                memcpy(&Qae, MsgPtr, sizeof(Qae));
-                break;
+//            case AE_HK_TLM_MID:
+//                memcpy(&Qae, MsgPtr, sizeof(Qae));
+//                break;
 
             default:
                 (void) CFE_EVS_SendEvent(VM_MSGID_ERR_EID, CFE_EVS_ERROR,

@@ -259,7 +259,6 @@ public:
     PX4_SensorCorrectionMsg_t SensorCorrectionMsg;
     PX4_SensorCombinedMsg_t SensorCombinedMsg;
     PX4_VehicleCommandMsg_t VehicleCommandMsg;
-    QAE_HkTlm_t Qae;
 
     /** \brief Output Data published at the end of cycle */
     PX4_ActuatorArmedMsg_t ActuatorArmedMsg;
