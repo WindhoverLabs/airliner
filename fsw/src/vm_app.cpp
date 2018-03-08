@@ -933,7 +933,6 @@ void VM::SendVehicleCommandMsg()
 {
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&VehicleCommandMsg);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleCommandMsg);
-    OS_printf("message send\n");
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -1044,7 +1043,6 @@ void VM::AppMain()
 
 boolean VM::IsVehicleArmed()
 {
-	 OS_printf("actuator called ::: %d\n",ActuatorArmedMsg.Armed);
 	return ActuatorArmedMsg.Armed;
 }
 
@@ -1082,11 +1080,13 @@ void VM::SetHomePosition(){
 		math::Matrix3F3 rotationMat = math::Dcm(q);
 		math::Vector3F euler = math::Euler(rotationMat);
 		HomePositionMsg.Yaw = euler[2];
-		OS_printf("            lat\tlon\talt\tyaw\n");
-		OS_printf("VM_homeset  %f\t%f\t%f\t%f\n",HomePositionMsg.Lat,
-												  HomePositionMsg.Lon,
-												  HomePositionMsg.Alt,
-												  HomePositionMsg.Yaw);
+
+		(void) CFE_EVS_SendEvent(VM_HOMESET_INFO_EID, CFE_EVS_INFORMATION,
+							 "Home Position set to Lat (%.2f) Lon (%.2f) Alt (%.2f)",
+							  HomePositionMsg.Lat,
+							  HomePositionMsg.Lon,
+							  HomePositionMsg.Alt);
+
 		SendHomePositionMsg();
 	}
 
@@ -1262,18 +1262,21 @@ void VM::Execute(){
 	/* Safety Msg */
 	boolean previous_safety_off = SafetyMsg.SafetyOff;
 	if(SafetyMsg.SafetySwitchAvailable && !SafetyMsg.SafetyOff && ActuatorArmedMsg.Armed && VehicleStatusMsg.ArmingState == PX4_ArmingState_t::PX4_ARMING_STATE_ARMED){
-		OS_printf("Disamed by safety message\n");
 		ArmingSM.FSM.Disarm();
 		arming_state_changed = true;
+		(void) CFE_EVS_SendEvent(VM_SAFETY_DISARM_INFO_EID, CFE_EVS_INFORMATION,
+									 "Vehicle disarmed by safety message");
 	}
 	//Notify the user if the status of the safety switch changes
 	if (SafetyMsg.SafetySwitchAvailable && previous_safety_off != SafetyMsg.SafetyOff) {
 
 		if (SafetyMsg.SafetyOff) {
-			OS_printf("POSITIVE TONE\n");
+			(void) CFE_EVS_SendEvent(VM_SAFETY_INFO_EID, CFE_EVS_INFORMATION,
+										 "Safety is OFF");
 
 		} else {
-			OS_printf("NEUTRAL TONE\n");
+			(void) CFE_EVS_SendEvent(VM_SAFETY_INFO_EID, CFE_EVS_INFORMATION,
+										 "Safety is ON");
 		}
 
 		status_changed = true;
@@ -1288,29 +1291,35 @@ void VM::Execute(){
 		if(BatteryStatusMsg.Warning == PX4_BATTERY_WARNING_LOW && !low_battery_voltage_actions_done){
 			low_battery_voltage_actions_done = true;
 			if (ActuatorArmedMsg.Armed){
-				OS_printf("LOW BATTERY, RETURN TO LAND ADVISED\n");
+				(void) CFE_EVS_SendEvent(VM_LOW_BAT_INFO_EID, CFE_EVS_INFORMATION,
+														 "Low battery, return to land");
 			}else{
-				OS_printf("LOW BATTERY, TAKEOFF DISCOURAGED\n");
+				(void) CFE_EVS_SendEvent(VM_LOW_BAT_INFO_EID, CFE_EVS_INFORMATION,
+														 "Low battery, takeoff discouraged");
 			}
 		}
 		else if (!status_flags.usb_connected && BatteryStatusMsg.Warning == PX4_BATTERY_WARNING_CRITICAL && !critical_battery_voltage_actions_done){
 			critical_battery_voltage_actions_done = true;
 
 			if (!ActuatorArmedMsg.Armed){
-				OS_printf("CRITICAL BATTERY, SHUT SYSTEM DOWN\n");
+				(void) CFE_EVS_SendEvent(VM_CRITICAL_BAT_INFO_EID, CFE_EVS_INFORMATION,
+																		 "Critical battery, shutdown system");
 			}
 			else{
 
 				if(vm_params.low_bat_act == 1 || vm_params.low_bat_act == 3){
 					NavigationSM.FSM.trAutoReturnToLaunch();
-					OS_printf("CRITICAL BATTERY, RETURNING TO LAND\n");
+					(void) CFE_EVS_SendEvent(VM_CRITICAL_BAT_INFO_EID, CFE_EVS_INFORMATION,
+																			 "Critical battery, return to launch");
 				}
 				else if(vm_params.low_bat_act ==2){
 					NavigationSM.FSM.trAutoLand();
-					OS_printf("CRITICAL BATTERY, LANDING AT CURRENT POSITION\n");
+					(void) CFE_EVS_SendEvent(VM_CRITICAL_BAT_INFO_EID, CFE_EVS_INFORMATION,
+																			 "Critical battery, landing at current position");
 				}
 				else{
-					OS_printf("CRITICAL BATTERY, RETURN TO LAND ADVISED\n");
+					(void) CFE_EVS_SendEvent(VM_CRITICAL_BAT_INFO_EID, CFE_EVS_INFORMATION,
+																			 "Critical battery, return to launch advised");
 				}
 
 			}
@@ -1319,16 +1328,19 @@ void VM::Execute(){
 			emergency_battery_voltage_actions_done = true;
 
 			if (!ActuatorArmedMsg.Armed){
-				OS_printf("DANGEROUSLY LOW BATTERY, SHUT SYSTEM DOWN\n");
+				(void) CFE_EVS_SendEvent(VM_DANGER_BAT_LEVEL_INFO_EID, CFE_EVS_INFORMATION,
+																		"Dangerously low battery, shutdown system");
 			}
 			else{
 
 				if(vm_params.low_bat_act == 2 || vm_params.low_bat_act == 3){
 					NavigationSM.FSM.trAutoLand();
-					OS_printf("DANGEROUS BATTERY LEVEL, LANDING IMMEDIATELY\n");
+					(void) CFE_EVS_SendEvent(VM_DANGER_BAT_LEVEL_INFO_EID, CFE_EVS_INFORMATION,
+																		"Dangerously low battery, landing immediately");
 				}
 				else{
-					OS_printf("DANGEROUS BATTERY LEVEL, LANDING ADVISED!\n");
+					(void) CFE_EVS_SendEvent(VM_DANGER_BAT_LEVEL_INFO_EID, CFE_EVS_INFORMATION,
+																		"Dangerously low battery, landing advised");
 				}
 
 			}
@@ -1364,7 +1376,8 @@ void VM::Execute(){
 		}
 		else{
 			if(VehicleStatusMsg.RcSignalLost){
-				OS_printf("MANUAL CONTROL REGAINED after %llums", (TimeNow()-rc_signal_lost_timestamp)/1000);
+				(void) CFE_EVS_SendEvent(VM_RC_SIGN_REGAINED_INFO_EID, CFE_EVS_INFORMATION,
+												"Manual control regained after (%ll)ums",(TimeNow()-rc_signal_lost_timestamp)/1000);
 			}
 		}
 		VehicleStatusMsg.RcSignalLost = false;
@@ -1383,12 +1396,14 @@ void VM::Execute(){
 			   VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_STAB &&
 			   VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_RATTITUDE &&
 			   !VehicleLandDetectedMsg.Landed){
-				OS_printf("DISARM REJECTED\n");
+				(void) CFE_EVS_SendEvent(VM_RC_STK_DISARM_REJ_INFO_EID, CFE_EVS_INFORMATION,
+																"Stick disarm rejected, vehicle in flight");
 			}
 			else if ((stick_off_counter == vm_params.rc_arm_hyst && stick_on_counter < vm_params.rc_arm_hyst) || arm_switch_to_disarm_transition){
 				ArmingSM.FSM.Disarm();
 				trasition_locked = false;
-				OS_printf("Disarmed By RC \n");
+				(void) CFE_EVS_SendEvent(VM_RC_DISARM_INFO_EID, CFE_EVS_INFORMATION,
+																"Disarm engaged by rc");
 				arming_state_changed = true;
 
 			}
@@ -1411,7 +1426,8 @@ void VM::Execute(){
 				   (VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_RATTITUDE) &&
 				   (VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_POSCTL) &&
 				   (VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_ALTCTL)){
-					OS_printf("Not Arming: switch to manual mode\n");
+					(void) CFE_EVS_SendEvent(VM_RC_STK_ARM_REJ_INFO_EID, CFE_EVS_INFORMATION,
+																	"Stick arm rejected, vehicle not in manual mode");
 				}
 //				else if (!status_flags.condition_home_position_valid ){
 //					OS_printf("home position is invalid \n");
@@ -1419,6 +1435,8 @@ void VM::Execute(){
 				else if (VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_STANDBY){
 					ArmingSM.FSM.Arm();
 					OS_printf("Armed By RC \n");
+					(void) CFE_EVS_SendEvent(VM_RC_ARM_INFO_EID, CFE_EVS_INFORMATION,
+																	"Arm engaged by rc");
 					arming_state_changed = true;
 				}
 			}
@@ -1437,7 +1455,8 @@ void VM::Execute(){
 		/* KILLSWITCH */
 		if(ManualControlSetpointMsg.KillSwitch == PX4_SWITCH_POS_ON){
 			if(!ActuatorArmedMsg.ManualLockdown){
-				OS_printf("MANUAL KILLSWITCH ENGAGED\n");
+				(void) CFE_EVS_SendEvent(VM_RC_KIL_SWTCH_INFO_EID, CFE_EVS_INFORMATION,
+																"Killswitch engaged");
 			}
 			ActuatorArmedMsg.ManualLockdown = true;
 			trasition_locked = false;
@@ -1446,49 +1465,22 @@ void VM::Execute(){
 		}
 		else if(ManualControlSetpointMsg.KillSwitch == PX4_SWITCH_POS_OFF){
 			if(ActuatorArmedMsg.ManualLockdown){
-				OS_printf("MANUAL KILLSWITCH DISENGAGED\n");
+				(void) CFE_EVS_SendEvent(VM_RC_KIL_SWTCH_INFO_EID, CFE_EVS_INFORMATION,
+																"killswitch disengaged");
 			}
 			ActuatorArmedMsg.ManualLockdown = false;
 		}
 
-		/* MANUAL SWITCH */
-//		if(ManualControlSetpointMsg.ManSwitch == PX4_SWITCH_POS_ON){
-//			if(!trasition_locked){
-//				OS_printf("Transitions Locked [Current: Manual]\n");
-//
-//				try{
-//					NavigationSM.FSM.trManual();
-//					HkTlm.usCmdCnt++;
-//					trasition_locked = true;
-//				}
-//				catch(statemap::TransitionUndefinedException e)
-//				{
-//					HkTlm.usCmdErrCnt++;
-//					CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-//							"Illegal Nav transition.  Command rejected.");
-//				}
-//
-//
-//
-//			}
-//		}
-//		else if(ManualControlSetpointMsg.ManSwitch == PX4_SWITCH_POS_OFF){
-//			if(trasition_locked && VehicleStatusMsg.NavState == PX4_NAVIGATION_STATE_MANUAL ){
-//				OS_printf("Transitions Locked [Current: NONE]\n");
-//				trasition_locked = false;
-//
-//			}
-//
-//		}
 
 		/* LOITER SWITCH */
 		if(ManualControlSetpointMsg.LoiterSwitch == PX4_SWITCH_POS_ON){
 			if(!trasition_locked){
-				OS_printf("Transitions Locked [Current: Loiter]\n");
 				try{
 					NavigationSM.FSM.trAutoLoiter();
 					HkTlm.usCmdCnt++;
 					trasition_locked = true;
+					(void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
+														"Mode switched to auto loiter by rc");
 				}
 				catch(statemap::TransitionUndefinedException e)
 				{
@@ -1496,17 +1488,16 @@ void VM::Execute(){
 					CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
 							"Illegal Nav transition.  Command rejected.");
 				}
-
 			}
 		}
 		else if(ManualControlSetpointMsg.LoiterSwitch == PX4_SWITCH_POS_OFF){
 			if(trasition_locked && VehicleStatusMsg.NavState == PX4_NAVIGATION_STATE_AUTO_LOITER){
-				OS_printf("Transitions Locked [Current: NONE]\n");
-
 				try{
 					NavigationSM.FSM.trManual();
 					HkTlm.usCmdCnt++;
 					trasition_locked = false;
+					(void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
+														"Mode fell back to manual by rc");
 				}
 				catch(statemap::TransitionUndefinedException e)
 				{
@@ -1514,7 +1505,6 @@ void VM::Execute(){
 					CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
 							"Illegal Nav transition.  Command rejected.");
 				}
-
 			}
 
 		}
@@ -1522,13 +1512,12 @@ void VM::Execute(){
 		/* POSCTL SWITCH */
 		if(ManualControlSetpointMsg.PosctlSwitch == PX4_SWITCH_POS_ON){
 			if(!trasition_locked){
-				OS_printf("Transitions Locked [Current: Position Hold]\n");
-
-
 				try{
 					NavigationSM.FSM.trPositionControl();
 					HkTlm.usCmdCnt++;
 					trasition_locked = true;
+					(void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
+														"Mode switched to position control by rc");
 				}
 				catch(statemap::TransitionUndefinedException e)
 				{
@@ -1536,17 +1525,16 @@ void VM::Execute(){
 					CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
 							"Illegal Nav transition.  Command rejected.");
 				}
-
 			}
 		}
 		else if(ManualControlSetpointMsg.PosctlSwitch == PX4_SWITCH_POS_OFF){
 			if(trasition_locked && VehicleStatusMsg.NavState == PX4_NAVIGATION_STATE_POSCTL){
-				OS_printf("Transitions Locked [Current: NONE]\n");
-
 				try{
 					NavigationSM.FSM.trManual();
 					HkTlm.usCmdCnt++;
 					trasition_locked = false;
+					(void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
+														"Mode fell back to manual by rc");
 				}
 				catch(statemap::TransitionUndefinedException e)
 				{
@@ -1554,7 +1542,6 @@ void VM::Execute(){
 					CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
 							"Illegal Nav transition.  Command rejected.");
 				}
-
 			}
 
 		}
@@ -1562,12 +1549,12 @@ void VM::Execute(){
 		/* RTL SWITCH */
 		if(ManualControlSetpointMsg.ReturnSwitch == PX4_SWITCH_POS_ON){
 			if(!trasition_locked){
-				OS_printf("Transitions Locked [Current: RTL]\n");
-
 				try{
 					NavigationSM.FSM.trAutoReturnToLaunch();
 					HkTlm.usCmdCnt++;
 					trasition_locked = true;
+					(void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
+														"Mode switched to auto rtl by rc");
 				}
 				catch(statemap::TransitionUndefinedException e)
 				{
@@ -1575,18 +1562,16 @@ void VM::Execute(){
 					CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
 							"Illegal Nav transition.  Command rejected.");
 				}
-
 			}
 		}
 		else if(ManualControlSetpointMsg.ReturnSwitch == PX4_SWITCH_POS_OFF){
 			if(trasition_locked && VehicleStatusMsg.NavState == PX4_NAVIGATION_STATE_AUTO_RTL){
-				OS_printf("Transitions Locked [Current: NONE]\n");
-
-
 				try{
 					NavigationSM.FSM.trManual();
 					HkTlm.usCmdCnt++;
 					trasition_locked = false;
+					(void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
+															"Mode fell back to manual by rc");
 				}
 				catch(statemap::TransitionUndefinedException e)
 				{
@@ -1600,7 +1585,8 @@ void VM::Execute(){
 		}
 	}
 	else if(!status_flags.rc_input_blocked && !VehicleStatusMsg.RcSignalLost ){
-		OS_printf("MANUAL CONTROL LOST (at t=%llums)", TimeNow() / 1000);
+		(void) CFE_EVS_SendEvent(VM_RC_SIGN_LOST_INFO_EID, CFE_EVS_INFORMATION,
+												"Manual control lost at t = (%ll)ums",TimeNow() / 1000);
 		VehicleStatusMsg.RcSignalLost  = true;
 		rc_signal_lost_timestamp = ManualControlSetpointMsg.Timestamp;
 
@@ -1613,7 +1599,8 @@ void VM::Execute(){
 
 void VM::FlightSessionInit(){
 
-	OS_printf("session initialized\n");
+	(void) CFE_EVS_SendEvent(VM_LND_INIT_INFO_EID, CFE_EVS_INFORMATION,
+													"Flight initialized");
 	/* Push states to init */
 	ArmingSM.FSM.Reset();
 	//NavigationSM.FSM.Reset();
