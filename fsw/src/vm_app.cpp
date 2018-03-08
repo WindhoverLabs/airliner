@@ -481,7 +481,7 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             	NavigationSM.DoAction();
 
             	/* Publish the messages. */
-            	SendVehicleStatusMsg();
+            	//SendVehicleStatusMsg();
             	SendVehicleManagerStateMsg();
                 SendVehicleControlModeMsg();
                 break;
@@ -1244,9 +1244,12 @@ void VM::Execute(){
 		/* Vehicle has landed */
 		if(!vh_prev_landed){
 			FlightSessionInit();
+			previous_modes = {0};
 		}
 		vh_prev_landed = true;
 		vh_prev_in_flight = false;
+		/* Forget previous modes */
+
 	}
 	else if(!VehicleLandDetectedMsg.Landed && !VehicleLandDetectedMsg.Freefall && !VehicleLandDetectedMsg.GroundContact && vh_prev_landed && !vh_prev_in_flight ){
 		/* Vehicle is launched */
@@ -1376,8 +1379,9 @@ void VM::Execute(){
 		}
 		else{
 			if(VehicleStatusMsg.RcSignalLost){
+				uint64 Now = TimeNow();
 				(void) CFE_EVS_SendEvent(VM_RC_SIGN_REGAINED_INFO_EID, CFE_EVS_INFORMATION,
-												"Manual control regained after (%ll)ums",(TimeNow()-rc_signal_lost_timestamp)/1000);
+												"Manual control regained after (%ll)ums",((Now -rc_signal_lost_timestamp)/1000));
 			}
 		}
 		VehicleStatusMsg.RcSignalLost = false;
@@ -1400,12 +1404,20 @@ void VM::Execute(){
 																"Stick disarm rejected, vehicle in flight");
 			}
 			else if ((stick_off_counter == vm_params.rc_arm_hyst && stick_on_counter < vm_params.rc_arm_hyst) || arm_switch_to_disarm_transition){
-				ArmingSM.FSM.Disarm();
-				trasition_locked = false;
-				(void) CFE_EVS_SendEvent(VM_RC_DISARM_INFO_EID, CFE_EVS_INFORMATION,
-																"Disarm engaged by rc");
-				arming_state_changed = true;
-
+				try{
+					(void) CFE_EVS_SendEvent(VM_RC_DISARM_INFO_EID, CFE_EVS_INFORMATION,
+																"Disarm engaged by rc ");
+					ArmingSM.FSM.Disarm();
+					trasition_locked = false;
+					arming_state_changed = true;
+					HkTlm.usCmdCnt++;
+				}
+				catch(statemap::TransitionUndefinedException e)
+				{
+					HkTlm.usCmdErrCnt++;
+					CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+							"Illegal Nav transition.  Command rejected. ");
+				}
 			}
 			stick_off_counter++;
 		}
@@ -1427,16 +1439,26 @@ void VM::Execute(){
 				   (VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_POSCTL) &&
 				   (VehicleStatusMsg.NavState != PX4_NAVIGATION_STATE_ALTCTL)){
 					(void) CFE_EVS_SendEvent(VM_RC_STK_ARM_REJ_INFO_EID, CFE_EVS_INFORMATION,
-																	"Stick arm rejected, vehicle not in manual mode");
+																	"Stick arm rejected, vehicle not in manual mode ");
 				}
 //				else if (!status_flags.condition_home_position_valid ){
 //					OS_printf("home position is invalid \n");
 //				}
 				else if (VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_STANDBY){
-					ArmingSM.FSM.Arm();
-					OS_printf("Armed By RC \n");
-					(void) CFE_EVS_SendEvent(VM_RC_ARM_INFO_EID, CFE_EVS_INFORMATION,
-																	"Arm engaged by rc");
+					try{
+						(void) CFE_EVS_SendEvent(VM_RC_ARM_INFO_EID, CFE_EVS_INFORMATION,
+																	"Arm engaged by rc ");
+						ArmingSM.FSM.Arm();
+						HkTlm.usCmdCnt++;
+					}
+					catch(statemap::TransitionUndefinedException e)
+					{
+						HkTlm.usCmdErrCnt++;
+						CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+								"Illegal Nav transition.  Command rejected.");
+					}
+
+
 					arming_state_changed = true;
 				}
 			}
@@ -1456,137 +1478,33 @@ void VM::Execute(){
 		if(ManualControlSetpointMsg.KillSwitch == PX4_SWITCH_POS_ON){
 			if(!ActuatorArmedMsg.ManualLockdown){
 				(void) CFE_EVS_SendEvent(VM_RC_KIL_SWTCH_INFO_EID, CFE_EVS_INFORMATION,
-																"Killswitch engaged");
+																"Killswitch engaged ");
+				ActuatorArmedMsg.ManualLockdown = true;
+				SendActuatorArmedMsg();
 			}
-			ActuatorArmedMsg.ManualLockdown = true;
-			trasition_locked = false;
+
+			//trasition_locked = false;
 
 
 		}
 		else if(ManualControlSetpointMsg.KillSwitch == PX4_SWITCH_POS_OFF){
 			if(ActuatorArmedMsg.ManualLockdown){
 				(void) CFE_EVS_SendEvent(VM_RC_KIL_SWTCH_INFO_EID, CFE_EVS_INFORMATION,
-																"killswitch disengaged");
-			}
-			ActuatorArmedMsg.ManualLockdown = false;
-		}
-
-
-		/* LOITER SWITCH */
-		if(ManualControlSetpointMsg.LoiterSwitch == PX4_SWITCH_POS_ON){
-			if(!trasition_locked){
-				try{
-					NavigationSM.FSM.trAutoLoiter();
-					HkTlm.usCmdCnt++;
-					trasition_locked = true;
-					(void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
-														"Mode switched to auto loiter by rc");
-				}
-				catch(statemap::TransitionUndefinedException e)
-				{
-					HkTlm.usCmdErrCnt++;
-					CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-							"Illegal Nav transition.  Command rejected.");
-				}
-			}
-		}
-		else if(ManualControlSetpointMsg.LoiterSwitch == PX4_SWITCH_POS_OFF){
-			if(trasition_locked && VehicleStatusMsg.NavState == PX4_NAVIGATION_STATE_AUTO_LOITER){
-				try{
-					NavigationSM.FSM.trManual();
-					HkTlm.usCmdCnt++;
-					trasition_locked = false;
-					(void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
-														"Mode fell back to manual by rc");
-				}
-				catch(statemap::TransitionUndefinedException e)
-				{
-					HkTlm.usCmdErrCnt++;
-					CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-							"Illegal Nav transition.  Command rejected.");
-				}
+																"killswitch disengaged ");
+				ActuatorArmedMsg.ManualLockdown = false;
+				SendActuatorArmedMsg();
 			}
 
 		}
+		RcModes();
 
-		/* POSCTL SWITCH */
-		if(ManualControlSetpointMsg.PosctlSwitch == PX4_SWITCH_POS_ON){
-			if(!trasition_locked){
-				try{
-					NavigationSM.FSM.trPositionControl();
-					HkTlm.usCmdCnt++;
-					trasition_locked = true;
-					(void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
-														"Mode switched to position control by rc");
-				}
-				catch(statemap::TransitionUndefinedException e)
-				{
-					HkTlm.usCmdErrCnt++;
-					CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-							"Illegal Nav transition.  Command rejected.");
-				}
-			}
-		}
-		else if(ManualControlSetpointMsg.PosctlSwitch == PX4_SWITCH_POS_OFF){
-			if(trasition_locked && VehicleStatusMsg.NavState == PX4_NAVIGATION_STATE_POSCTL){
-				try{
-					NavigationSM.FSM.trManual();
-					HkTlm.usCmdCnt++;
-					trasition_locked = false;
-					(void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
-														"Mode fell back to manual by rc");
-				}
-				catch(statemap::TransitionUndefinedException e)
-				{
-					HkTlm.usCmdErrCnt++;
-					CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-							"Illegal Nav transition.  Command rejected.");
-				}
-			}
-
-		}
-
-		/* RTL SWITCH */
-		if(ManualControlSetpointMsg.ReturnSwitch == PX4_SWITCH_POS_ON){
-			if(!trasition_locked){
-				try{
-					NavigationSM.FSM.trAutoReturnToLaunch();
-					HkTlm.usCmdCnt++;
-					trasition_locked = true;
-					(void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
-														"Mode switched to auto rtl by rc");
-				}
-				catch(statemap::TransitionUndefinedException e)
-				{
-					HkTlm.usCmdErrCnt++;
-					CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-							"Illegal Nav transition.  Command rejected.");
-				}
-			}
-		}
-		else if(ManualControlSetpointMsg.ReturnSwitch == PX4_SWITCH_POS_OFF){
-			if(trasition_locked && VehicleStatusMsg.NavState == PX4_NAVIGATION_STATE_AUTO_RTL){
-				try{
-					NavigationSM.FSM.trManual();
-					HkTlm.usCmdCnt++;
-					trasition_locked = false;
-					(void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
-															"Mode fell back to manual by rc");
-				}
-				catch(statemap::TransitionUndefinedException e)
-				{
-					HkTlm.usCmdErrCnt++;
-					CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
-							"Illegal Nav transition.  Command rejected.");
-				}
-
-			}
-
-		}
 	}
 	else if(!status_flags.rc_input_blocked && !VehicleStatusMsg.RcSignalLost ){
+		uint64 Now = TimeNow();
 		(void) CFE_EVS_SendEvent(VM_RC_SIGN_LOST_INFO_EID, CFE_EVS_INFORMATION,
-												"Manual control lost at t = (%ll)ums",TimeNow() / 1000);
+												"Manual control lost at t = (%ll)ums", (Now/ 1000));
+		ManualControlSetpointMsg.ReturnSwitch = PX4_SWITCH_POS_ON;
+		RcModes();
 		VehicleStatusMsg.RcSignalLost  = true;
 		rc_signal_lost_timestamp = ManualControlSetpointMsg.Timestamp;
 
@@ -1597,20 +1515,95 @@ void VM::Execute(){
 
 }
 
+void VM::RcModes(){
+
+	boolean posctl = (ManualControlSetpointMsg.PosctlSwitch == PX4_SWITCH_POS_ON);
+	boolean rtl = (ManualControlSetpointMsg.ReturnSwitch == PX4_SWITCH_POS_ON);
+	boolean loiter = (ManualControlSetpointMsg.LoiterSwitch == PX4_SWITCH_POS_ON);
+	boolean manual = (!posctl && !rtl && !loiter);
+	boolean mode_changed = !( posctl==previous_modes.inPosCtl && rtl==previous_modes.inRtl && loiter==previous_modes.inLoiter && manual==previous_modes.inManual);
+
+	if(posctl && !rtl && !loiter && mode_changed){
+
+		try{
+			NavigationSM.FSM.trPositionControl();
+			HkTlm.usCmdCnt++;
+			(void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
+												"Mode switched to position control by rc");
+		}
+		catch(statemap::TransitionUndefinedException e)
+		{
+			HkTlm.usCmdErrCnt++;
+			CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+					"Illegal Nav transition.  Command rejected.");
+		}
+
+	}
+	else if(!posctl && rtl && !loiter && mode_changed){
+
+		try{
+			NavigationSM.FSM.trAutoReturnToLaunch();
+			HkTlm.usCmdCnt++;
+			trasition_locked = false;
+			(void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
+													"Mode switched to auto rtl by rc ");
+		}
+		catch(statemap::TransitionUndefinedException e)
+		{
+			HkTlm.usCmdErrCnt++;
+			CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+					"Illegal Nav transition.  Command rejected.");
+		}
+
+	}else if(!posctl && !rtl && loiter && mode_changed){
+		try{
+			NavigationSM.FSM.trAutoLoiter();
+			HkTlm.usCmdCnt++;
+			trasition_locked = true;
+			(void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
+												"Mode switched to auto loiter by rc");
+		}
+		catch(statemap::TransitionUndefinedException e)
+		{
+			HkTlm.usCmdErrCnt++;
+			CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+					"Illegal Nav transition.  Command rejected.");
+		}
+	}
+	else if(manual && mode_changed){
+		try{
+			NavigationSM.FSM.trManual();
+			HkTlm.usCmdCnt++;
+			trasition_locked = true;
+			(void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
+												"Mode switched to Manual by rc");
+		}
+		catch(statemap::TransitionUndefinedException e)
+		{
+			HkTlm.usCmdErrCnt++;
+			CFE_EVS_SendEvent(VM_NAV_ILLEGAL_TRANSITION_ERR_EID, CFE_EVS_INFORMATION,
+					"Illegal Nav transition.  Command rejected.");
+		}
+	}
+	previous_modes.inPosCtl = posctl;
+	previous_modes.inRtl = rtl;
+	previous_modes.inLoiter =loiter;
+	previous_modes.inManual = manual;
+}
+
+
 void VM::FlightSessionInit(){
 
 	(void) CFE_EVS_SendEvent(VM_LND_INIT_INFO_EID, CFE_EVS_INFORMATION,
-													"Flight initialized");
+										"Flight initialized" );
 	/* Push states to init */
 	ArmingSM.FSM.Reset();
-	//NavigationSM.FSM.Reset();
+	NavigationSM.FSM.Reset();
 
 	/* Transition from init to default state */
 	ArmingSM.FSM.InitComplete();
-	//NavigationSM.FSM.trInitComplete();
+	NavigationSM.FSM.trInitComplete();
 
-	/* Set home postion */
-	//SetHomePosition();
 
 }
 

@@ -202,6 +202,13 @@ typedef struct{
     PX4_CommanderMainState_t State;
 } VM_MainStateHold;
 
+typedef struct{
+	boolean inPosCtl;
+	boolean inRtl;
+	boolean inLoiter;
+	boolean inManual;
+}VM_Modes;
+
 typedef enum {
     TRANSITION_DENIED = -1,
     TRANSITION_NOT_CHANGED = 0,
@@ -333,6 +340,10 @@ public:
 
 	bool usb_telemetry_active = false;
 	bool trasition_locked = false;
+	bool HasModechanged = false;
+	VM_Modes previous_modes{0};
+
+
 
 
 
@@ -604,6 +615,7 @@ public:
     boolean IsVehicleArmed(void);
 
     void SetHomePosition(void);
+    void RcModes(void);
 
     uint64 TimeElapsed(uint64 *);
 
