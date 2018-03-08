@@ -1352,7 +1352,7 @@ void VM::Execute(){
 		const bool arm_button_pressed = (vm_params.arm_switch_is_button == 1 && ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON);
 
 		/* DISARM */
-		const bool stick_in_lower_left = ((ManualControlSetpointMsg.R < -STICK_ON_OFF_LIMIT) && (ManualControlSetpointMsg.Z <0.1f));
+		const bool stick_in_lower_left = false;//((ManualControlSetpointMsg.R < -STICK_ON_OFF_LIMIT) && (ManualControlSetpointMsg.Z <0.1f));
 		const bool arm_switch_to_disarm_transition = ((vm_params.arm_switch_is_button == 0) && (last_sp_man_arm_switch ==PX4_SWITCH_POS_ON) && (ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_OFF) );
 
 		if(in_armed_state && VehicleStatusMsg.RcInputMode != PX4_RC_IN_MODE_OFF && (stick_in_lower_left || arm_button_pressed || arm_switch_to_disarm_transition)){
@@ -1389,7 +1389,7 @@ void VM::Execute(){
 		}
 
 		/* ARM */
-		const bool stick_in_lower_right = (ManualControlSetpointMsg.R > STICK_ON_OFF_LIMIT  && ManualControlSetpointMsg.Z <0.1f);
+		const bool stick_in_lower_right = false;// (ManualControlSetpointMsg.R > STICK_ON_OFF_LIMIT  && ManualControlSetpointMsg.Z <0.1f);
 		const bool arm_switch_to_arm_transition = ((vm_params.arm_switch_is_button == 0) && (last_sp_man_arm_switch ==PX4_SWITCH_POS_OFF) && (ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON) );
 
 		if(!in_armed_state && VehicleStatusMsg.RcInputMode != PX4_RC_IN_MODE_OFF && (stick_in_lower_right || arm_button_pressed || arm_switch_to_arm_transition)){
