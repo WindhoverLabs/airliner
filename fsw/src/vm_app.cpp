@@ -522,9 +522,9 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 memcpy(&VehicleLandDetectedMsg, MsgPtr, sizeof(VehicleLandDetectedMsg));
                 break;
 
-            case PX4_GEOFENCE_RESULT_MID:
-                memcpy(&GeofenceResultMsg, MsgPtr, sizeof(GeofenceResultMsg));
-                break;
+//            case PX4_GEOFENCE_RESULT_MID:
+//                memcpy(&GeofenceResultMsg, MsgPtr, sizeof(GeofenceResultMsg));
+//                break;
 
             case PX4_MISSION_RESULT_MID:
                 memcpy(&MissionResultMsg, MsgPtr, sizeof(MissionResultMsg));
@@ -538,9 +538,9 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 memcpy(&PositionSetpointTripletMsg, MsgPtr, sizeof(PositionSetpointTripletMsg));
                 break;
 
-            case PX4_OFFBOARD_CONTROL_MODE_MID:
-                memcpy(&OffboardControlModeMsg, MsgPtr, sizeof(OffboardControlModeMsg));
-                break;
+//            case PX4_OFFBOARD_CONTROL_MODE_MID:
+//                memcpy(&OffboardControlModeMsg, MsgPtr, sizeof(OffboardControlModeMsg));
+//                break;
 
             case PX4_SENSOR_ACCEL_MID:
                 memcpy(&SensorAccelMsg, MsgPtr, sizeof(SensorAccelMsg));
@@ -902,18 +902,6 @@ void VM::SendVehicleControlModeMsg()
 
 }
 
-void VM::SendVehicleGlobalPositionMsg()
-{
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&VehicleGlobalPositionMsg);
-    CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleGlobalPositionMsg);
-}
-
-void VM::SendVehicleGpsPositionMsg()
-{
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&VehicleGpsPositionMsg);
-    CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleGpsPositionMsg);
-
-}
 
 void VM::SendVehicleCommandMsg()
 {
@@ -1001,7 +989,7 @@ void VM::AppMain()
         uiRunStatus = CFE_ES_APP_ERROR;
     }
 
-    /* TODO:  Replace with appropriate code to cause a transition. */
+    /* Initialize state machine */
 
     ArmingSM.FSM.InitComplete();
     NavigationSM.FSM.trInitComplete();
@@ -1032,10 +1020,10 @@ boolean VM::IsVehicleArmed()
 	return ActuatorArmedMsg.Armed;
 }
 
-uint64 VM::TimeElapsed(uint64 *then)
+uint64 VM::TimeElapsed(uint64 *TimePtr)
 {
 	uint64 now = PX4LIB_GetPX4TimeUs();
-	uint64 delta = now - *then;
+	uint64 delta = now - *TimePtr;
 	return delta;
 }
 
@@ -1075,15 +1063,11 @@ void VM::SetHomePosition(){
 
 		SendHomePositionMsg();
 	}
-
-
-
 }
 
 void VM::Initialization(){
 
 	/* TODO: check LED and Buzzer device initialization and report */
-
 	/* Initialize status flags */
 	status_flags.condition_system_sensors_initialized = true;
 
@@ -1348,12 +1332,12 @@ void VM::Execute(){
 			}
 		}
 		VehicleStatusMsg.RcSignalLost = false;
-		const bool in_armed_state = (VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_ARMED || VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_ARMED_ERROR);
-		const bool arm_button_pressed = (vm_params.arm_switch_is_button == 1 && ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON);
+		const boolean in_armed_state = (VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_ARMED || VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_ARMED_ERROR);
+		const boolean arm_button_pressed = (vm_params.arm_switch_is_button == 1 && ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON);
 
 		/* DISARM */
-		const bool stick_in_lower_left = false;//((ManualControlSetpointMsg.R < -STICK_ON_OFF_LIMIT) && (ManualControlSetpointMsg.Z <0.1f));
-		const bool arm_switch_to_disarm_transition = ((vm_params.arm_switch_is_button == 0) && (last_sp_man_arm_switch ==PX4_SWITCH_POS_ON) && (ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_OFF) );
+		const boolean stick_in_lower_left = false;//((ManualControlSetpointMsg.R < -STICK_ON_OFF_LIMIT) && (ManualControlSetpointMsg.Z <0.1f));
+		const boolean arm_switch_to_disarm_transition = ((vm_params.arm_switch_is_button == 0) && (last_sp_man_arm_switch ==PX4_SWITCH_POS_ON) && (ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_OFF) );
 
 		if(in_armed_state && VehicleStatusMsg.RcInputMode != PX4_RC_IN_MODE_OFF && (stick_in_lower_left || arm_button_pressed || arm_switch_to_disarm_transition)){
 
@@ -1389,8 +1373,8 @@ void VM::Execute(){
 		}
 
 		/* ARM */
-		const bool stick_in_lower_right = false;// (ManualControlSetpointMsg.R > STICK_ON_OFF_LIMIT  && ManualControlSetpointMsg.Z <0.1f);
-		const bool arm_switch_to_arm_transition = ((vm_params.arm_switch_is_button == 0) && (last_sp_man_arm_switch ==PX4_SWITCH_POS_OFF) && (ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON) );
+		const boolean stick_in_lower_right = false;// (ManualControlSetpointMsg.R > STICK_ON_OFF_LIMIT  && ManualControlSetpointMsg.Z <0.1f);
+		const boolean arm_switch_to_arm_transition = ((vm_params.arm_switch_is_button == 0) && (last_sp_man_arm_switch ==PX4_SWITCH_POS_OFF) && (ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON) );
 
 		if(!in_armed_state && VehicleStatusMsg.RcInputMode != PX4_RC_IN_MODE_OFF && (stick_in_lower_right || arm_button_pressed || arm_switch_to_arm_transition)){
 			if((stick_on_counter == vm_params.rc_arm_hyst && stick_off_counter < vm_params.rc_arm_hyst) || arm_switch_to_arm_transition){
@@ -1428,10 +1412,6 @@ void VM::Execute(){
 			stick_on_counter = 0;
 		}
 		last_sp_man_arm_switch = ManualControlSetpointMsg.ArmSwitch;
-
-		/* Evaluate the state machine according to mode switched */
-		/* TODO: State change trasitions */
-
 
 		/* KILLSWITCH */
 		if(ManualControlSetpointMsg.KillSwitch == PX4_SWITCH_POS_ON){
@@ -1501,7 +1481,7 @@ void VM::RcModes(){
 		try{
 			NavigationSM.FSM.trPositionControl();
 			HkTlm.usCmdCnt++;
-			(void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
+			(void) CFE_EVS_SendEvent(VM_RC_POSCTL_INFO_EID, CFE_EVS_INFORMATION,
 					"Mode switched to position control by rc");
 		}
 		catch(statemap::TransitionUndefinedException e)
@@ -1517,7 +1497,7 @@ void VM::RcModes(){
 		try{
 			NavigationSM.FSM.trAutoReturnToLaunch();
 			HkTlm.usCmdCnt++;
-			(void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
+			(void) CFE_EVS_SendEvent(VM_RC_RTL_INFO_EID, CFE_EVS_INFORMATION,
 					"Mode switched to auto rtl by rc ");
 		}
 		catch(statemap::TransitionUndefinedException e)
@@ -1544,7 +1524,7 @@ void VM::RcModes(){
 		try{
 			NavigationSM.FSM.trAutoTakeoff();
 			HkTlm.usCmdCnt++;
-			(void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
+			(void) CFE_EVS_SendEvent(VM_RC_TAKE_OFF_INFO_EID, CFE_EVS_INFORMATION,
 					"Mode switched to auto takeoff by rc");
 		}
 		catch(statemap::TransitionUndefinedException e)
@@ -1558,7 +1538,7 @@ void VM::RcModes(){
 		try{
 			NavigationSM.FSM.trManual();
 			HkTlm.usCmdCnt++;
-			(void) CFE_EVS_SendEvent(VM_RC_LTR_INFO_EID, CFE_EVS_INFORMATION,
+			(void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
 					"Mode switched to Manual by rc");
 		}
 		catch(statemap::TransitionUndefinedException e)
@@ -1594,9 +1574,6 @@ void VM::FlightSessionInit(){
 
 void VM::UpdateParamsFromTable(){
 	if(ConfigTblPtr != nullptr){
-
-
-
 
 		vm_params.autostart_id                     			 =   ConfigTblPtr->        		SYS_AUTOSTART;
 		vm_params.rc_in_off                     			 =   ConfigTblPtr->         	COM_RC_IN_MODE;
