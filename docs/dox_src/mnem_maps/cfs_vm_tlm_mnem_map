@@ -13,5 +13,6 @@
 #---------------------------------------------------------------------------
 ALIASES += VM_CMDACPTCNT=$sc_$cpu_VM_CMDACTPCNT
 ALIASES += VM_CMDRJCTCNT=$sc_$cpu_VM_CMDRJCTCNT
-
+ALIASES += VM_ARMSTATE=$sc_$cpu_VM_ARMSTATE
+ALIASES += VM_NAVSTATE=$sc_$cpu_VM_NAVSTATE
 

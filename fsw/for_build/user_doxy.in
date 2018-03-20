@@ -92,9 +92,11 @@ WARN_LOGFILE           =
 # configuration options related to the input files
 #---------------------------------------------------------------------------
 INPUT                  = @APP_DEFINITION_DIR@/../../docs/dox_src/users_guide/cfs_vm.dox
+INPUT                 += @APP_DEFINITION_DIR@/../src/vm_app.h
 INPUT                 += @APP_DEFINITION_DIR@/../src/vm_events.h
 INPUT                 += @APP_DEFINITION_DIR@/../src/vm_msg.h 
 INPUT                 += @APP_DEFINITION_DIR@/../src/vm_tbldefs.h
+INPUT                 += @APP_DEFINITION_DIR@/../src/vm_version.h
 INPUT                 += @CONFIG_SOURCES@
 
 #INPUT_ENCODING         = UTF-8
@@ -245,7 +247,7 @@ GRAPHICAL_HIERARCHY    = NO
 DIRECTORY_GRAPH        = YES
 DOT_IMAGE_FORMAT       = png
 DOT_PATH               = 
-DOTFILE_DIRS           = 
+DOTFILE_DIRS           = @CFS_DOCS_HTML_DIR@/../../target/apps/vm/sm_src/
 #DOT_GRAPH_MAX_NODES    = 50
 MAX_DOT_GRAPH_DEPTH    = 1000
 DOT_TRANSPARENT        = NO

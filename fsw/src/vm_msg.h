@@ -120,30 +120,464 @@ extern "C" {
 **  \sa #VM_NOOP_CC
 */
 #define VM_RESET_CC                (1)
-
+/** \vmcmd Arm
+**
+**  \par Description
+**       Arms the vehicle
+**
+**  \vmcmdmnemonic \VM_ARM
+**
+**  \par Command Structure
+**       #VM_NoArgCmd_t
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - \b \c \VM_ARMSTATE - arming state will say armed
+**       - \b \c \VM_CMDACPTCNT - command counter will increment
+**       - The #VM_CMD_INF_EID informational event message will be
+**         generated when the command is received
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Evidence of failure may be found in the following telemetry:
+**       - \b \c \VM_CMDRJCTCNT - command error counter will increment
+**       - Error specific event message #VM_MSGID_ERR_EID
+**
+**  \par Criticality
+**       Effects Vehicle Operation
+**
+**  \sa #VM_VEHICLE_DISARM_CC
+*/
 #define VM_VEHICLE_ARM_CC          (2)
+/** \vmcmd Disarm
+**
+**  \par Description
+**       Disarms the vehicle
+**
+**  \vmcmdmnemonic \VM_DISARM
+**
+**  \par Command Structure
+**       #VM_NoArgCmd_t
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - \b \c \VM_ARMSTATE - arming state will say standby
+**       - \b \c \VM_CMDACPTCNT - command counter will increment
+**       - The #VM_CMD_INF_EID informational event message will be
+**         generated when the command is received
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Evidence of failure may be found in the following telemetry:
+**       - \b \c \VM_CMDRJCTCNT - command error counter will increment
+**       - Error specific event message #VM_MSGID_ERR_EID
+**
+**  \par Criticality
+**       Effects Vehicle Operation
+**
+**  \sa #VM_VEHICLE_ARM_CC
+*/
 #define VM_VEHICLE_DISARM_CC       (3)
-
+/** \vmcmd Manual
+**
+**  \par Description
+**       Vehicle navigation mode is switched to manual
+**
+**  \vmcmdmnemonic \VM_MANUAL
+**
+**  \par Command Structure
+**       #VM_NoArgCmd_t
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - \b \c \VM_NAVSTATE - arming state will say manual
+**       - \b \c \VM_CMDACPTCNT - command counter will increment
+**       - The #VM_CMD_INF_EID informational event message will be
+**         generated when the command is received
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Evidence of failure may be found in the following telemetry:
+**       - \b \c \VM_CMDRJCTCNT - command error counter will increment
+**       - Error specific event message #VM_MSGID_ERR_EID
+**
+**  \par Criticality
+**       Effects Vehicle Operation
+**
+**  \sa #VM_SET_NAV_ALTCTL_CC               \n
+**		#VM_SET_NAV_POSCTL_CC               \n
+**		#VM_SET_NAV_AUTO_LOITER_CC          \n
+**		#VM_SET_NAV_AUTO_RTL_CC             \n
+**		#VM_SET_NAV_ACRO_CC                 \n
+**		#VM_SET_NAV_STABILIZE_CC            \n
+**		#VM_SET_NAV_RATTITUDE_CC            \n
+**		#VM_SET_NAV_AUTO_TAKEOFF_CC         \n
+**		#VM_SET_NAV_AUTO_LAND_CC            \n
+*/
 #define VM_SET_NAV_MANUAL_CC               (40)
+/** \vmcmd Altitude Control
+**
+**  \par Description
+**       Vehicle navigation mode is switched to altitude control
+**
+**  \vmcmdmnemonic \VM_ALTCTL
+**
+**  \par Command Structure
+**       #VM_NoArgCmd_t
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - \b \c \VM_NAVSTATE - arming state will say altitude control
+**       - \b \c \VM_CMDACPTCNT - command counter will increment
+**       - The #VM_CMD_INF_EID informational event message will be
+**         generated when the command is received
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Evidence of failure may be found in the following telemetry:
+**       - \b \c \VM_CMDRJCTCNT - command error counter will increment
+**       - Error specific event message #VM_MSGID_ERR_EID
+**
+**  \par Criticality
+**       Effects Vehicle Operation
+**
+**  \sa #VM_SET_NAV_MANUAL_CC        		\n
+**		#VM_SET_NAV_POSCTL_CC               \n
+**		#VM_SET_NAV_AUTO_LOITER_CC          \n
+**		#VM_SET_NAV_AUTO_RTL_CC             \n
+**		#VM_SET_NAV_ACRO_CC                 \n
+**		#VM_SET_NAV_STABILIZE_CC            \n
+**		#VM_SET_NAV_RATTITUDE_CC            \n
+**		#VM_SET_NAV_AUTO_TAKEOFF_CC         \n
+**		#VM_SET_NAV_AUTO_LAND_CC            \n
+*/
 #define VM_SET_NAV_ALTCTL_CC               (41)
+/** \vmcmd Position Control
+**
+**  \par Description
+**       Vehicle navigation mode is switched to position control
+**
+**  \vmcmdmnemonic \VM_POSCTL
+**
+**  \par Command Structure
+**       #VM_NoArgCmd_t
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - \b \c \VM_NAVSTATE - arming state will say position control
+**       - \b \c \VM_CMDACPTCNT - command counter will increment
+**       - The #VM_CMD_INF_EID informational event message will be
+**         generated when the command is received
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Evidence of failure may be found in the following telemetry:
+**       - \b \c \VM_CMDRJCTCNT - command error counter will increment
+**       - Error specific event message #VM_MSGID_ERR_EID
+**
+**  \par Criticality
+**       Effects Vehicle Operation
+**
+**  \sa #VM_SET_NAV_MANUAL_CC        		\n
+**		#VM_SET_NAV_ALTCTL_CC               \n
+**		#VM_SET_NAV_AUTO_LOITER_CC          \n
+**		#VM_SET_NAV_AUTO_RTL_CC             \n
+**		#VM_SET_NAV_ACRO_CC                 \n
+**		#VM_SET_NAV_STABILIZE_CC            \n
+**		#VM_SET_NAV_RATTITUDE_CC            \n
+**		#VM_SET_NAV_AUTO_TAKEOFF_CC         \n
+**		#VM_SET_NAV_AUTO_LAND_CC            \n
+*/
 #define VM_SET_NAV_POSCTL_CC               (42)
-#define VM_SET_NAV_AUTO_MISSION_CC         (43)
+/** \vmcmd Auto Loiter
+**
+**  \par Description
+**       Vehicle navigation mode is switched to auto loiter
+**
+**  \vmcmdmnemonic \VM_AUTO_LOITER
+**
+**  \par Command Structure
+**       #VM_NoArgCmd_t
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - \b \c \VM_NAVSTATE - arming state will say auto loiter
+**       - \b \c \VM_CMDACPTCNT - command counter will increment
+**       - The #VM_CMD_INF_EID informational event message will be
+**         generated when the command is received
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Evidence of failure may be found in the following telemetry:
+**       - \b \c \VM_CMDRJCTCNT - command error counter will increment
+**       - Error specific event message #VM_MSGID_ERR_EID
+**
+**  \par Criticality
+**       Effects Vehicle Operation
+**
+**  \sa #VM_SET_NAV_MANUAL_CC        		\n
+**		#VM_SET_NAV_ALTCTL_CC               \n
+**		#VM_SET_NAV_POSCTL_CC               \n
+**		#VM_SET_NAV_AUTO_RTL_CC             \n
+**		#VM_SET_NAV_ACRO_CC                 \n
+**		#VM_SET_NAV_STABILIZE_CC            \n
+**		#VM_SET_NAV_RATTITUDE_CC            \n
+**		#VM_SET_NAV_AUTO_TAKEOFF_CC         \n
+**		#VM_SET_NAV_AUTO_LAND_CC            \n
+*/
 #define VM_SET_NAV_AUTO_LOITER_CC          (44)
+/** \vmcmd Auto RTL
+**
+**  \par Description
+**       Vehicle navigation mode is switched to auto rtl
+**
+**  \vmcmdmnemonic \VM_AUTO_RTL
+**
+**  \par Command Structure
+**       #VM_NoArgCmd_t
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - \b \c \VM_NAVSTATE - arming state will say auto rtl
+**       - \b \c \VM_CMDACPTCNT - command counter will increment
+**       - The #VM_CMD_INF_EID informational event message will be
+**         generated when the command is received
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Evidence of failure may be found in the following telemetry:
+**       - \b \c \VM_CMDRJCTCNT - command error counter will increment
+**       - Error specific event message #VM_MSGID_ERR_EID
+**
+**  \par Criticality
+**       Effects Vehicle Operation
+**
+**  \sa #VM_SET_NAV_MANUAL_CC        		\n
+**		#VM_SET_NAV_ALTCTL_CC               \n
+**		#VM_SET_NAV_POSCTL_CC               \n
+**		#VM_SET_NAV_AUTO_LOITER_CC          \n
+**		#VM_SET_NAV_ACRO_CC                 \n
+**		#VM_SET_NAV_STABILIZE_CC            \n
+**		#VM_SET_NAV_RATTITUDE_CC            \n
+**		#VM_SET_NAV_AUTO_TAKEOFF_CC         \n
+**		#VM_SET_NAV_AUTO_LAND_CC            \n
+*/
 #define VM_SET_NAV_AUTO_RTL_CC             (45)
-#define VM_SET_NAV_AUTO_RCRECOVER_CC       (46)
-#define VM_SET_NAV_AUTO_RTGS_CC            (47)
-#define VM_SET_NAV_AUTO_LAND_ENG_FAIL_CC   (48)
-#define VM_SET_NAV_AUTO_LAND_GPS_FAIL_CC   (49)
+/** \vmcmd Acrobatic
+**
+**  \par Description
+**       Vehicle navigation mode is switched to acrobatic
+**
+**  \vmcmdmnemonic \VM_ACRO
+**
+**  \par Command Structure
+**       #VM_NoArgCmd_t
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - \b \c \VM_NAVSTATE - arming state will say acrobatic
+**       - \b \c \VM_CMDACPTCNT - command counter will increment
+**       - The #VM_CMD_INF_EID informational event message will be
+**         generated when the command is received
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Evidence of failure may be found in the following telemetry:
+**       - \b \c \VM_CMDRJCTCNT - command error counter will increment
+**       - Error specific event message #VM_MSGID_ERR_EID
+**
+**  \par Criticality
+**       Effects Vehicle Operation
+**
+**  \sa #VM_SET_NAV_MANUAL_CC        		\n
+**		#VM_SET_NAV_ALTCTL_CC               \n
+**		#VM_SET_NAV_POSCTL_CC               \n
+**		#VM_SET_NAV_AUTO_LOITER_CC          \n
+**		#VM_SET_NAV_AUTO_RTL_CC             \n
+**		#VM_SET_NAV_STABILIZE_CC            \n
+**		#VM_SET_NAV_RATTITUDE_CC            \n
+**		#VM_SET_NAV_AUTO_TAKEOFF_CC         \n
+**		#VM_SET_NAV_AUTO_LAND_CC            \n
+*/
 #define VM_SET_NAV_ACRO_CC                 (50)
-#define VM_SET_NAV_DESCEND_CC              (51)
-#define VM_SET_NAV_TERMINATION_CC          (52)
-#define VM_SET_NAV_OFFBOARD_CC             (53)
+/** \vmcmd Stabilize
+**
+**  \par Description
+**       Vehicle navigation mode is switched to stabilize
+**
+**  \vmcmdmnemonic \VM_STABILIZE
+**
+**  \par Command Structure
+**       #VM_NoArgCmd_t
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - \b \c \VM_NAVSTATE - arming state will say stabilize
+**       - \b \c \VM_CMDACPTCNT - command counter will increment
+**       - The #VM_CMD_INF_EID informational event message will be
+**         generated when the command is received
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Evidence of failure may be found in the following telemetry:
+**       - \b \c \VM_CMDRJCTCNT - command error counter will increment
+**       - Error specific event message #VM_MSGID_ERR_EID
+**
+**  \par Criticality
+**       Effects Vehicle Operation
+**
+**  \sa #VM_SET_NAV_MANUAL_CC        		\n
+**		#VM_SET_NAV_ALTCTL_CC               \n
+**		#VM_SET_NAV_POSCTL_CC               \n
+**		#VM_SET_NAV_AUTO_LOITER_CC          \n
+**		#VM_SET_NAV_AUTO_RTL_CC             \n
+**		#VM_SET_NAV_ACRO_CC                 \n
+**		#VM_SET_NAV_RATTITUDE_CC            \n
+**		#VM_SET_NAV_AUTO_TAKEOFF_CC         \n
+**		#VM_SET_NAV_AUTO_LAND_CC            \n
+*/
 #define VM_SET_NAV_STABILIZE_CC            (54)
+/** \vmcmd Rattitude
+**
+**  \par Description
+**       Vehicle navigation mode is switched to rattitude
+**
+**  \vmcmdmnemonic \VM_RATTITUDE
+**
+**  \par Command Structure
+**       #VM_NoArgCmd_t
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - \b \c \VM_NAVSTATE - arming state will say rattitude
+**       - \b \c \VM_CMDACPTCNT - command counter will increment
+**       - The #VM_CMD_INF_EID informational event message will be
+**         generated when the command is received
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Evidence of failure may be found in the following telemetry:
+**       - \b \c \VM_CMDRJCTCNT - command error counter will increment
+**       - Error specific event message #VM_MSGID_ERR_EID
+**
+**  \par Criticality
+**       Effects Vehicle Operation
+**
+**  \sa #VM_SET_NAV_MANUAL_CC        		\n
+**		#VM_SET_NAV_ALTCTL_CC               \n
+**		#VM_SET_NAV_POSCTL_CC               \n
+**		#VM_SET_NAV_AUTO_LOITER_CC          \n
+**		#VM_SET_NAV_AUTO_RTL_CC             \n
+**		#VM_SET_NAV_ACRO_CC                 \n
+**		#VM_SET_NAV_STABILIZE_CC            \n
+**		#VM_SET_NAV_AUTO_TAKEOFF_CC         \n
+**		#VM_SET_NAV_AUTO_LAND_CC            \n
+*/
 #define VM_SET_NAV_RATTITUDE_CC            (55)
+/** \vmcmd Auto Takeoff
+**
+**  \par Description
+**       Vehicle navigation mode is switched to auto takeoff
+**
+**  \vmcmdmnemonic \VM_AUTO_TAKEOFF
+**
+**  \par Command Structure
+**       #VM_NoArgCmd_t
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - \b \c \VM_NAVSTATE - arming state will say auto takeoff
+**       - \b \c \VM_CMDACPTCNT - command counter will increment
+**       - The #VM_CMD_INF_EID informational event message will be
+**         generated when the command is received
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Evidence of failure may be found in the following telemetry:
+**       - \b \c \VM_CMDRJCTCNT - command error counter will increment
+**       - Error specific event message #VM_MSGID_ERR_EID
+**
+**  \par Criticality
+**       Effects Vehicle Operation
+**
+**  \sa #VM_SET_NAV_MANUAL_CC        		\n
+**		#VM_SET_NAV_ALTCTL_CC               \n
+**		#VM_SET_NAV_POSCTL_CC               \n
+**		#VM_SET_NAV_AUTO_LOITER_CC          \n
+**		#VM_SET_NAV_AUTO_RTL_CC             \n
+**		#VM_SET_NAV_ACRO_CC                 \n
+**		#VM_SET_NAV_STABILIZE_CC            \n
+**		#VM_SET_NAV_RATTITUDE_CC            \n
+**		#VM_SET_NAV_AUTO_LAND_CC            \n
+*/
 #define VM_SET_NAV_AUTO_TAKEOFF_CC         (56)
+/** \vmcmd Auto Land
+**
+**  \par Description
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - \b \c \VM_NAVSTATE - arming state will say auto land
+**       - \b \c \VM_CMDACPTCNT - command counter will increment
+**       - The #VM_CMD_INF_EID informational event message will be
+**         generated when the command is received
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Evidence of failure may be found in the following telemetry:
+**       - \b \c \VM_CMDRJCTCNT - command error counter will increment
+**       - Error specific event message #VM_MSGID_ERR_EID
+**
+**  \par Criticality
+**       Effects Vehicle Operation
+**
+**  \sa #VM_SET_NAV_MANUAL_CC        		\n
+**		#VM_SET_NAV_ALTCTL_CC               \n
+**		#VM_SET_NAV_POSCTL_CC               \n
+**		#VM_SET_NAV_AUTO_LOITER_CC          \n
+**		#VM_SET_NAV_AUTO_RTL_CC             \n
+**		#VM_SET_NAV_ACRO_CC                 \n
+**		#VM_SET_NAV_STABILIZE_CC            \n
+**		#VM_SET_NAV_RATTITUDE_CC            \n
+**		#VM_SET_NAV_AUTO_TAKEOFF_CC         \n
+*/
 #define VM_SET_NAV_AUTO_LAND_CC            (57)
-#define VM_SET_NAV_AUTO_FOLLOW_TARGET_CC   (58)
-#define VM_SET_NAV_AUTO_PRECLAND_CC        (59)
 
 
 /************************************************************************
@@ -160,8 +594,14 @@ typedef struct
     uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
 } VM_NoArgCmd_t;
 
-/** 
-**  \brief VM application housekeeping data
+
+/** \vmtlm Housekeeping data
+**
+**  \par Description
+**  	 VM application housekeeping data
+**
+**  \par Criticality
+**       None
 */
 typedef struct
 {
@@ -174,9 +614,14 @@ typedef struct
 
     /** \vmtlmmnemonic \VM_CMDRJCTCNT
         \brief Count of failed commands */
-    uint8              usCmdErrCnt; 
+    uint8              usCmdErrCnt;
 
+    /** \vmtlmmnemonic \VM_ARMSTATE
+        \brief Current arm state */
     uint32             ArmingState;
+
+    /** \vmtlmmnemonic \VM_NAVSTATE
+        \brief Current navigation state */
     uint32             NavState;
 
 } VM_HkTlm_t;
