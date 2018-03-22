@@ -42,8 +42,6 @@ add_airliner_app_def(vm
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_NavigationContext.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/CautionWarningHelper.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/CautionWarningHelper.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_state_history.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_state_history.h
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -88,8 +86,6 @@ add_airliner_app_unit_test(vm-ut
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_NavigationContext.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/CautionWarningHelper.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/CautionWarningHelper.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_state_history.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_state_history.h
         #${PX4LIB_LIB_SOURCES}
         # Adding lib sources individually so stubs can be used.
         # Math
