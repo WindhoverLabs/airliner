@@ -50,7 +50,11 @@ typedef enum
     CAWS_POSITIVE            = 5,
     CAWS_NEUTRAL             = 6,
     CAWS_NEGATIVE            = 7,
-    CAWS_FAILSAFE            = 8
+    CAWS_FAILSAFE            = 8,
+    /* TODO temp values below here */
+    CAWS_ALTCTL              = 9,
+    CAWS_POSCTL              = 10,
+    CAWS_AUTO                = 11
 } CAWS_States_t;
 
 
@@ -67,6 +71,8 @@ private:
     void InitRGBLED(void);
     /* Deinit CAWS RGBLED component */
     void DeInitRGBLED(void);
+    /* Set the current CAWS state */
+    boolean SetState(uint8 state);
 
 public:
     CautionWarningHelper();
@@ -77,8 +83,8 @@ public:
     void DeInitCAWS(void);
     /* Get the current CAWS state */
     uint8 GetState(void);
-    /* Set the current CAWS state */
-    void SetState(uint8 state);
+    /* Provide thevehicle status for CAWS to evaluate and set state. */
+    boolean SetStatus(const PX4_VehicleStatusMsg_t *status);
 
 protected:
 

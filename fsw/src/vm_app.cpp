@@ -391,7 +391,10 @@ int32 VM::InitApp()
     }
 
     /* Updating application params from platform-nav-config-table */
-	UpdateParamsFromTable();
+    UpdateParamsFromTable();
+
+    /* Initialize the caution and warning helper */
+    m_caws.InitCAWS();
 
 VM_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
@@ -443,6 +446,9 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
         {
             case VM_WAKEUP_MID:
             {
+
+                /* Update status in caution and warning */
+                m_caws.SetStatus(&VehicleStatusMsg);
 
             	/* Wait till global position is initialized */
             	if (VehicleGlobalPositionMsg.Timestamp==0){
@@ -1455,9 +1461,6 @@ void VM::Execute(){
 		VehicleStatusMsg.RcSignalLost  = true;
 		rc_signal_lost_timestamp = ManualControlSetpointMsg.Timestamp;
 	}
-
-
-
 
 }
 

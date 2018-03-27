@@ -67,6 +67,7 @@ extern "C" {
 #include "math/Matrix3F3.hpp"
 #include "math/Vector3F.hpp"
 
+#include "CautionWarningHelper.hpp"
 
 
 /************************************************************************
@@ -251,6 +252,8 @@ public:
     CFE_TBL_Handle_t ConfigTblHdl;
     /** \brief Config Table Pointer */
     VM_ConfigTbl_t* ConfigTblPtr;
+    /** \brief Caution and Warning helper class */
+    CautionWarningHelper m_caws;
 
     /** \brief Input Data subscribed at the beginning of cycle */
     /** \brief Magnetometer message */
