@@ -723,6 +723,18 @@ public:
      *************************************************************************/
     void Execute(void);
     /************************************************************************/
+    /** \brief TODO
+     **
+     **  \par Description
+     **       Executes every time a new message is available, verifies message
+     **       validity and updates messages and publishes them to software bus.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     *************************************************************************/
+    const char* GetNavStateAsString(uint32);
+    /************************************************************************/
     /** \brief Updates application params from param table
      **
      **  \par Assumptions, External Events, and Notes:

@@ -3,16 +3,16 @@
 #include "vm_app.h"
 
 typedef enum {
-    VM_NAVSM_MANUAL_STATE,
-    VM_NAVSM_ALTCTL,
-    VM_NAVSM_POSCTL,
-    VM_NAVSM_AUTO_RTL,
-    VM_NAVSM_AUTO_LOITER,
-    VM_NAVSM_ACRO,
-    VM_NAVSM_STAB,
-    VM_NAVSM_RATTITUDE,
-    VM_NAVSM_AUTO_TAKEOFF,
-    VM_NAVSM_AUTO_LAND,
+    VM_NAVSM_MANUAL_STATE=0,
+    VM_NAVSM_ALTCTL=1,
+    VM_NAVSM_POSCTL=2,
+    VM_NAVSM_AUTO_RTL=3,
+    VM_NAVSM_AUTO_LOITER=4,
+    VM_NAVSM_ACRO=5,
+    VM_NAVSM_STAB=6,
+    VM_NAVSM_RATTITUDE=7,
+    VM_NAVSM_AUTO_TAKEOFF=8,
+    VM_NAVSM_AUTO_LAND=9,
 } VM_NavSM_StateType;
 
 VM_Navigation::VM_Navigation(VM &inApp) :
@@ -25,7 +25,7 @@ VM_Navigation::~VM_Navigation() {
 }
 
 uint32 VM_Navigation::GetCurrentStateID() {
-return FSM.getState().getId();
+    return FSM.getState().getId();
 }
 
 void VM_Navigation::EnteredManual() {

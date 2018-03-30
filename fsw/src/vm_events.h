@@ -248,8 +248,8 @@ typedef enum {
      **
      */
     VM_CFGTBL_LOAD_ERR_EID,
-    /** \brief <tt> 'Illegal Arming transition.  Command rejected.' </tt>
-     **  \event <tt> 'Illegal Arming transition.  Command rejected.' </tt>
+    /** \brief <tt> 'Illegal Arming transition. [%s] Command rejected.' </tt>
+     **  \event <tt> 'Illegal Arming transition. [%s] Command rejected.' </tt>
      **
      **  \par Type: ERROR
      **
@@ -258,10 +258,12 @@ typedef enum {
      **  This event message is issued when the CFS VM Task executes
      **  illegal arming state transition.
      **
+     **  The first \c %s field contains the command name.
+     **
      */
     VM_ARMING_ILLEGAL_TRANSITION_ERR_EID,
-    /** \brief <tt> 'Illegal Arming transition.  Command rejected.' </tt>
-     **  \event <tt> 'Illegal Arming transition.  Command rejected.' </tt>
+    /** \brief <tt> 'Illegal Nav transition [%s -> %s].  Command rejected.' </tt>
+     **  \event <tt> 'Illegal Nav transition [%s -> %s].  Command rejected.' </tt>
      **
      **  \par Type: ERROR
      **
