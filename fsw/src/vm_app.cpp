@@ -363,6 +363,9 @@ int32 VM::InitApp() {
     /* Updating application params from platform-nav-config-table */
     UpdateParamsFromTable();
 
+    /* Initialize the caution and warning helper */
+    m_caws.InitCAWS();
+
     VM_InitApp_Exit_Tag: if (iStatus == CFE_SUCCESS) {
         (void) CFE_EVS_SendEvent(VM_INIT_INF_EID, CFE_EVS_INFORMATION,
                 "Initialized.  Version %d.%d.%d.%d",
@@ -404,6 +407,9 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking) {
         MsgId = CFE_SB_GetMsgId(MsgPtr);
         switch (MsgId) {
         case VM_WAKEUP_MID: {
+
+            /* Update status in caution and warning */
+            m_caws.SetStatus(&VehicleStatusMsg);
 
             /* Wait till global position is initialized */
             if (VehicleGlobalPositionMsg.Timestamp == 0) {
