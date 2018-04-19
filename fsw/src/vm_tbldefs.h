@@ -570,6 +570,14 @@ typedef struct
      *       default 0.
      */
     int COM_POSCTL_NAVL;
+    /** \vmcfg HOME_POS_ALT_PADDING
+     *
+     *  \brief Padding for home position altitude message, to avoid hover above ground.
+     *
+     *  \par Limits:
+     *       default 1.
+     */
+    int HOME_POS_ALT_PADDING;
 
 }VM_ConfigTbl_t;
 

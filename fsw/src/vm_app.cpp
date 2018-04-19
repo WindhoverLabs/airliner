@@ -981,7 +981,7 @@ void VM::SetHomePosition() {
         HomePositionMsg.Timestamp = TimeNow();
         HomePositionMsg.Lat = VehicleGlobalPositionMsg.Lat;
         HomePositionMsg.Lon = VehicleGlobalPositionMsg.Lon;
-        HomePositionMsg.Alt = VehicleGlobalPositionMsg.Alt;
+        HomePositionMsg.Alt = VehicleGlobalPositionMsg.Alt - VehicleLocalPositionMsg.DistBottom - vm_params.home_pos_alt_padding ;
         HomePositionMsg.X = VehicleLocalPositionMsg.X;
         HomePositionMsg.Y = VehicleLocalPositionMsg.Y;
         HomePositionMsg.Z = VehicleLocalPositionMsg.Z;
@@ -994,7 +994,7 @@ void VM::SetHomePosition() {
         HomePositionMsg.Yaw = euler[2];
 
         (void) CFE_EVS_SendEvent(VM_HOMESET_INFO_EID, CFE_EVS_INFORMATION,
-                "Home Position set. [Lat -> %.2f | Lon -> %.2f | Alt ->%.2f]",
+                "Home Position set. [Lat -> %.6f | Lon -> %.6f | Alt ->%.6f]",
                 HomePositionMsg.Lat, HomePositionMsg.Lon, HomePositionMsg.Alt);
 
         SendHomePositionMsg();
@@ -1602,6 +1602,7 @@ void VM::UpdateParamsFromTable() {
         vm_params.arm_imu_acc = ConfigTblPtr->COM_ARM_IMU_ACC;
         vm_params.arm_imu_gyr = ConfigTblPtr->COM_ARM_IMU_GYR;
         vm_params.posctl_navl = ConfigTblPtr->COM_POSCTL_NAVL;
+        vm_params.home_pos_alt_padding = ConfigTblPtr->HOME_POS_ALT_PADDING;
     }
 
 }
