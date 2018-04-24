@@ -1394,7 +1394,7 @@ void VM::Execute() {
             NavigationSM.FSM.trAutoLoiter();
             HkTlm.usCmdCnt++;
             (void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
-                    "Mode switched to auto rtl autonomously ");
+                    "Mode switched to auto loiter autonomously ");
         }
         catch(statemap::TransitionUndefinedException e)
         {
