@@ -1391,7 +1391,7 @@ void VM::Execute() {
         (void) CFE_EVS_SendEvent(VM_RC_SIGN_LOST_INFO_EID, CFE_EVS_INFORMATION,
                 "Manual control lost at t = (%llu)ums", (Now));
         try {
-            NavigationSM.FSM.trAutoReturnToLaunch();
+            NavigationSM.FSM.trAutoLoiter();
             HkTlm.usCmdCnt++;
             (void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
                     "Mode switched to auto rtl autonomously ");
