@@ -577,7 +577,7 @@ typedef struct
      *  \par Limits:
      *       default 1.
      */
-    int HOME_POS_ALT_PADDING;
+    float HOME_POS_ALT_PADDING;
 
 }VM_ConfigTbl_t;
 

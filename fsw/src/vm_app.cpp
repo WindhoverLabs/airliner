@@ -978,10 +978,20 @@ void VM::SetHomePosition() {
             || VehicleGlobalPositionMsg.EpV > vm_params.home_v_t)) {
 
         /* Set the HomePosition message */
+        float DistBottom = 0;
+
+        /* Distance from ground should always be positive */
+        if (VehicleLocalPositionMsg.DistBottom > 0)
+        {
+
+            DistBottom = VehicleLocalPositionMsg.DistBottom;
+
+        }
+
         HomePositionMsg.Timestamp = TimeNow();
         HomePositionMsg.Lat = VehicleGlobalPositionMsg.Lat;
         HomePositionMsg.Lon = VehicleGlobalPositionMsg.Lon;
-        HomePositionMsg.Alt = VehicleGlobalPositionMsg.Alt - VehicleLocalPositionMsg.DistBottom - vm_params.home_pos_alt_padding ;
+        HomePositionMsg.Alt = VehicleGlobalPositionMsg.Alt - DistBottom - vm_params.home_pos_alt_padding ;
         HomePositionMsg.X = VehicleLocalPositionMsg.X;
         HomePositionMsg.Y = VehicleLocalPositionMsg.Y;
         HomePositionMsg.Z = VehicleLocalPositionMsg.Z;
@@ -994,10 +1004,15 @@ void VM::SetHomePosition() {
         HomePositionMsg.Yaw = euler[2];
 
         (void) CFE_EVS_SendEvent(VM_HOMESET_INFO_EID, CFE_EVS_INFORMATION,
-                "Home Position set. [Lat -> %.6f | Lon -> %.6f | Alt ->%.6f]",
-                HomePositionMsg.Lat, HomePositionMsg.Lon, HomePositionMsg.Alt);
+                "Home Position set. [Lat -> %.6f | Lon -> %.6f | Alt ->%.6f] [vgp -> %.6f |  padd ->%f]",
+                HomePositionMsg.Lat, HomePositionMsg.Lon, HomePositionMsg.Alt, VehicleGlobalPositionMsg.Alt,vm_params.home_pos_alt_padding);
 
         SendHomePositionMsg();
+    }
+    else{
+
+        (void) CFE_EVS_SendEvent(VM_HOMESET_INFO_EID, CFE_EVS_INFORMATION,
+                "Home Position Could'nt be set.");
     }
 }
 
