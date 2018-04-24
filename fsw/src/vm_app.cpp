@@ -1004,15 +1004,15 @@ void VM::SetHomePosition() {
         HomePositionMsg.Yaw = euler[2];
 
         (void) CFE_EVS_SendEvent(VM_HOMESET_INFO_EID, CFE_EVS_INFORMATION,
-                "Home Position set. [Lat -> %.6f | Lon -> %.6f | Alt ->%.6f] [vgp -> %.6f |  padd ->%f]",
-                HomePositionMsg.Lat, HomePositionMsg.Lon, HomePositionMsg.Alt, VehicleGlobalPositionMsg.Alt,vm_params.home_pos_alt_padding);
+                "Home Position set. [Lat -> %.6f | Lon -> %.6f | Alt ->%.6f]",
+                HomePositionMsg.Lat, HomePositionMsg.Lon, HomePositionMsg.Alt);
 
         SendHomePositionMsg();
     }
     else{
 
         (void) CFE_EVS_SendEvent(VM_HOMESET_INFO_EID, CFE_EVS_INFORMATION,
-                "Home Position Could'nt be set.");
+                "Home position cannot be set.");
     }
 }
 
