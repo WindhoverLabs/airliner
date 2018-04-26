@@ -411,11 +411,6 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking) {
             /* Update status in caution and warning */
             m_caws.SetStatus(&VehicleStatusMsg);
 
-            /* Wait till global position is initialized */
-            if (VehicleGlobalPositionMsg.Timestamp == 0) {
-                break;
-            }
-
             /* Initialize home position and local variables */
             if (NotInitialized) {
                 Initialization();
