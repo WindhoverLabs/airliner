@@ -1386,10 +1386,18 @@ void VM::Execute() {
         (void) CFE_EVS_SendEvent(VM_RC_SIGN_LOST_INFO_EID, CFE_EVS_INFORMATION,
                 "Manual control lost at t = (%llu)ums", (Now));
         try {
+			
+			if(VehicleStatusMsg.NavState != PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_RTL)
+			{
             NavigationSM.FSM.trAutoLoiter();
             HkTlm.usCmdCnt++;
             (void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
                     "Mode switched to auto loiter autonomously ");
+            }
+            else{
+				(void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
+                    "Mode switched will stay in RTL ");
+			}
         }
         catch(statemap::TransitionUndefinedException e)
         {
