@@ -36,7 +36,6 @@ App.ActuatorArmedMsg.Armed = false;
 App.ActuatorArmedMsg.Prearmed = true;
 App.ActuatorArmedMsg.ReadyToArm = true;
 App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_STANDBY;
-App.SendVehicleStatusMsg();
 
 CFE_EVS_SendEvent(VM_ARMING_ENTERED_STANDBY_STATE_INFO_EID, CFE_EVS_INFORMATION,
         "Arming::Standby");
@@ -60,13 +59,11 @@ void VM_Arming::ExitedArmed() {
 App.ActuatorArmedMsg.Armed = false;
 App.VehicleControlModeMsg.Armed = false;
 App.SendActuatorArmedMsg();
-App.SendVehicleStatusMsg();
 }
 
 void VM_Arming::EnteredStandbyError() {
 App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_STANDBY_ERROR;
 App.SendActuatorArmedMsg();
-App.SendVehicleStatusMsg();
 
 CFE_EVS_SendEvent(VM_ARMING_ENTERED_STANDBY_ERROR_STATE_INFO_EID,
 CFE_EVS_INFORMATION, "Arming::StandbyError");
@@ -75,7 +72,6 @@ CFE_EVS_INFORMATION, "Arming::StandbyError");
 void VM_Arming::EnteredArmedError() {
 App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_ARMED_ERROR;
 App.SendActuatorArmedMsg();
-App.SendVehicleStatusMsg();
 
 CFE_EVS_SendEvent(VM_ARMING_ENTERED_ARMED_ERROR_STATE_INFO_EID,
 CFE_EVS_INFORMATION, "Arming::ArmedError");
