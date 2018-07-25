@@ -781,6 +781,18 @@ typedef enum {
      **
      */
     VM_REQ_ACRO_ERR_EID,
+    /** \brief <tt> 'WARN!!! position estimation not initialized' </tt>
+     **  \event <tt> 'WARN!!! position estimation not initialized' </tt>
+     **
+     **  \par Type: ERROR
+     **
+     **  \par Cause:
+     **
+     **  This event message is issued when the CFS VM Task starts executing
+     **  without position estimator initialized
+     **
+     */
+    VM_NOPE_ERR_EID,
 
     /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     VM_EVT_CNT

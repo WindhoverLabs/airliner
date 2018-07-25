@@ -99,6 +99,14 @@ boolean battery_ok = true;
 boolean safety_off = true;
 boolean sensors_ok = true;
 
+
+/* Warn about global position */
+if (App.VehicleGlobalPositionMsg.Timestamp == 0) {
+    (void) CFE_EVS_SendEvent(VM_NOPE_ERR_EID, CFE_EVS_ERROR,
+                            "WARN! - Position estimator not initialized");
+}
+
+
 /* Battery warning check */
 if (App.BatteryStatusMsg.Warning
     >= PX4_BatteryWarningSeverity_t::PX4_BATTERY_WARNING_LOW) {

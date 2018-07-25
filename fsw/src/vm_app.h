@@ -207,6 +207,8 @@ typedef struct
     float arm_imu_gyr;                                                // 0.2
     /** \brief Position control navigation loss response */
     int posctl_navl;                                                    // 0
+    /** \brief Padding for home position altitude message, to avoid hover above ground.     */
+    float home_pos_alt_padding;                                         // 0.2
 
 }VM_Params_t;
 

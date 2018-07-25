@@ -411,11 +411,6 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking) {
             /* Update status in caution and warning */
             m_caws.SetStatus(&VehicleStatusMsg);
 
-            /* Wait till global position is initialized */
-            if (VehicleGlobalPositionMsg.Timestamp == 0) {
-                break;
-            }
-
             /* Initialize home position and local variables */
             if (NotInitialized) {
                 Initialization();
@@ -978,10 +973,20 @@ void VM::SetHomePosition() {
             || VehicleGlobalPositionMsg.EpV > vm_params.home_v_t)) {
 
         /* Set the HomePosition message */
+        float DistBottom = 0;
+
+        /* Distance from ground should always be positive */
+        if (VehicleLocalPositionMsg.DistBottom > 0)
+        {
+
+            DistBottom = VehicleLocalPositionMsg.DistBottom;
+
+        }
+
         HomePositionMsg.Timestamp = TimeNow();
         HomePositionMsg.Lat = VehicleGlobalPositionMsg.Lat;
         HomePositionMsg.Lon = VehicleGlobalPositionMsg.Lon;
-        HomePositionMsg.Alt = VehicleGlobalPositionMsg.Alt;
+        HomePositionMsg.Alt = VehicleGlobalPositionMsg.Alt - DistBottom - vm_params.home_pos_alt_padding ;
         HomePositionMsg.X = VehicleLocalPositionMsg.X;
         HomePositionMsg.Y = VehicleLocalPositionMsg.Y;
         HomePositionMsg.Z = VehicleLocalPositionMsg.Z;
@@ -994,10 +999,15 @@ void VM::SetHomePosition() {
         HomePositionMsg.Yaw = euler[2];
 
         (void) CFE_EVS_SendEvent(VM_HOMESET_INFO_EID, CFE_EVS_INFORMATION,
-                "Home Position set. [Lat -> %.2f | Lon -> %.2f | Alt ->%.2f]",
+                "Home Position set. [Lat -> %.6f | Lon -> %.6f | Alt ->%.6f]",
                 HomePositionMsg.Lat, HomePositionMsg.Lon, HomePositionMsg.Alt);
 
         SendHomePositionMsg();
+    }
+    else{
+
+        (void) CFE_EVS_SendEvent(VM_HOMESET_INFO_EID, CFE_EVS_INFORMATION,
+                "Home position cannot be set.");
     }
 }
 
@@ -1376,10 +1386,18 @@ void VM::Execute() {
         (void) CFE_EVS_SendEvent(VM_RC_SIGN_LOST_INFO_EID, CFE_EVS_INFORMATION,
                 "Manual control lost at t = (%llu)ums", (Now));
         try {
-            NavigationSM.FSM.trAutoReturnToLaunch();
+			
+			if(VehicleStatusMsg.NavState != PX4_NavigationState_t::PX4_NAVIGATION_STATE_AUTO_RTL)
+			{
+            NavigationSM.FSM.trAutoLoiter();
             HkTlm.usCmdCnt++;
             (void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
-                    "Mode switched to auto rtl autonomously ");
+                    "Mode switched to auto loiter autonomously ");
+            }
+            else{
+				(void) CFE_EVS_SendEvent(VM_RC_MAN_INFO_EID, CFE_EVS_INFORMATION,
+                    "Mode switched will stay in RTL ");
+			}
         }
         catch(statemap::TransitionUndefinedException e)
         {
@@ -1602,6 +1620,7 @@ void VM::UpdateParamsFromTable() {
         vm_params.arm_imu_acc = ConfigTblPtr->COM_ARM_IMU_ACC;
         vm_params.arm_imu_gyr = ConfigTblPtr->COM_ARM_IMU_GYR;
         vm_params.posctl_navl = ConfigTblPtr->COM_POSCTL_NAVL;
+        vm_params.home_pos_alt_padding = ConfigTblPtr->HOME_POS_ALT_PADDING;
     }
 
 }
