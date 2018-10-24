@@ -2,21 +2,21 @@
     "Airliner": {
         "apps": {
             "VM": {
-                "operations": {
-                    "VM_Modes":       { "airliner_cc": -1, "airliner_msg": "VM_Modes" },
-                    "Noop":           { "airliner_cc":  0, "airliner_msg": "" },
-                    "Reset":          { "airliner_cc":  1, "airliner_msg": "" },
-                    "Arm":            { "airliner_cc":  2, "airliner_msg": "" },
-                    "Disarm":         { "airliner_cc":  3, "airliner_msg": "" },
-                    "Manual":         { "airliner_cc": 40, "airliner_msg": "" },
-                    "AltCtl":         { "airliner_cc": 41, "airliner_msg": "" },
-                    "PosCtl":         { "airliner_cc": 42, "airliner_msg": "" },
-                    "AutoLoiter":     { "airliner_cc": 44, "airliner_msg": "" },
-                    "AutoRtl":        { "airliner_cc": 45, "airliner_msg": "" },
-                    "AutoTakeOff":    { "airliner_cc": 56, "airliner_msg": "" },
-                    "AutoLand":       { "airliner_cc": 57, "airliner_msg": "" },
-                    "VM_HkTlm_t":     { "airliner_cc": -1, "airliner_msg": "VM_HkTlm_t" }
-                }
+              "operations": {
+                  "VM_Modes":       { "airliner_cc": -1, "airliner_msg": "VM_Modes" },
+                  "Noop":           { "airliner_cc":  0, "airliner_msg": "" },
+                  "Reset":          { "airliner_cc":  1, "airliner_msg": "" },
+                  "Arm":            { "airliner_cc":  2, "airliner_msg": "" },
+                  "Disarm":         { "airliner_cc":  3, "airliner_msg": "" },
+                  "Manual":         { "airliner_cc": 40, "airliner_msg": "" },
+                  "AltCtl":         { "airliner_cc": 41, "airliner_msg": "" },
+                  "PosCtl":         { "airliner_cc": 42, "airliner_msg": "" },
+                  "AutoLoiter":     { "airliner_cc": 44, "airliner_msg": "" },
+                  "AutoRtl":        { "airliner_cc": 45, "airliner_msg": "" },
+                  "AutoTakeOff":    { "airliner_cc": 56, "airliner_msg": "" },
+                  "AutoLand":       { "airliner_cc": 57, "airliner_msg": "" },
+                  "VM_HkTlm_t":     { "airliner_cc": -1, "airliner_msg": "VM_HkTlm_t" }
+              }
             }
         }
     }
