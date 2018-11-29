@@ -1,17 +1,17 @@
 add_custom_command(
-    OUTPUT 
+    OUTPUT
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_ArmingContext.cpp ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_ArmingContext.h
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_NavigationContext.cpp ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_NavigationContext.h
     COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/sm_src
-    COMMAND java -jar ${PROJECT_SOURCE_DIR}/tools/smc/bin/Smc.jar -c++ -d ${CMAKE_CURRENT_BINARY_DIR}/sm_src ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Arming.sm 
-    COMMAND java -jar ${PROJECT_SOURCE_DIR}/tools/smc/bin/Smc.jar -c++ -d ${CMAKE_CURRENT_BINARY_DIR}/sm_src ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Navigation.sm 
-    COMMAND java -jar ${PROJECT_SOURCE_DIR}/tools/smc/bin/Smc.jar -graph -glevel 0 -d ${CMAKE_CURRENT_BINARY_DIR}/sm_src ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Arming.sm 
-    COMMAND java -jar ${PROJECT_SOURCE_DIR}/tools/smc/bin/Smc.jar -graph -glevel 0 -d ${CMAKE_CURRENT_BINARY_DIR}/sm_src ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Navigation.sm 
-    
-    BYPRODUCTS 
+    COMMAND java -jar ${PROJECT_SOURCE_DIR}/tools/smc/bin/Smc.jar -c++ -d ${CMAKE_CURRENT_BINARY_DIR}/sm_src ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Arming.sm
+    COMMAND java -jar ${PROJECT_SOURCE_DIR}/tools/smc/bin/Smc.jar -c++ -d ${CMAKE_CURRENT_BINARY_DIR}/sm_src ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Navigation.sm
+    COMMAND java -jar ${PROJECT_SOURCE_DIR}/tools/smc/bin/Smc.jar -graph -glevel 0 -d ${CMAKE_CURRENT_BINARY_DIR}/sm_src ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Arming.sm
+    COMMAND java -jar ${PROJECT_SOURCE_DIR}/tools/smc/bin/Smc.jar -graph -glevel 0 -d ${CMAKE_CURRENT_BINARY_DIR}/sm_src ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Navigation.sm
+
+    BYPRODUCTS
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_ArmingContext.cpp ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_ArmingContext.h
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_MainContext.cpp ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_NavigationContext.h
-    DEPENDS 
+    DEPENDS
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Arming.sm
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Navigation.sm
 )
@@ -50,8 +50,11 @@ add_airliner_app_def(vm
 
     USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}/user_doxy.in
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
-    
+
     MSG_OVERRIDES ${CMAKE_CURRENT_SOURCE_DIR}/vm_msg_overrides.json
+
+    COMMANDER_PLUGIN
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
 )
 
 add_dependencies(vm
@@ -99,7 +102,7 @@ add_airliner_app_unit_test(vm-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/public_inc/math/Vector4F.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/public_inc/math/Matrix4F4.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/public_inc/math/Matrix1F3.hpp
-        
+
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Dcm.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Euler.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Matrix3F3.cpp
@@ -108,13 +111,13 @@ add_airliner_app_unit_test(vm-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Vector4F.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Matrix4F4.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../px4lib/fsw/src/math/Matrix1F3.cpp
-        
+
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../../tools/smc/lib/C++
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/
-        
+
     VALGRIND_SUPPRESSION_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/valgrind.supp
 )
