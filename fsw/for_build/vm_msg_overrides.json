@@ -1,0 +1,99 @@
+{
+    "Airliner": {
+        "apps": {
+            "VM": {
+              "operations": {
+                  "Noop":           { "airliner_cc":  0, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "Reset":          { "airliner_cc":  1, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "Arm":            { "airliner_cc":  2, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "Disarm":         { "airliner_cc":  3, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "Manual":         { "airliner_cc": 40, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "AltCtl":         { "airliner_cc": 41, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "PosCtl":         { "airliner_cc": 42, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "AutoLoiter":     { "airliner_cc": 44, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "AutoRtl":        { "airliner_cc": 45, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "AutoTakeOff":    { "airliner_cc": 56, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "AutoLand":       { "airliner_cc": 57, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "Acrobatic":      { "airliner_cc": 50, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "Rattitude":      { "airliner_cc": 55, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "Stabilized":     { "airliner_cc": 54, "macro": "VM_CMD_MID", "airliner_msg": "" },
+                  "VM_HkTlm_t":     { "airliner_cc": -1, "macro": "VM_HK_TLM_MID", "airliner_msg": "VM_HkTlm_t" },
+                  "Wakeup":         { "airliner_cc":  0, "macro": "VM_WAKEUP_MID", "airliner_msg": "" },
+                  "SendHk":         { "airliner_cc":  0, "macro": "VM_SEND_HK_MID", "airliner_msg": "" }
+              },
+              "scheduler": {
+                  "activities": [
+                      "VM_WAKEUP_MID",
+                      "VM_SEND_HK_MID"
+                  ],
+                  "groups": [
+                      { "id": 1, "macro": "VM_SCH_GRP" }
+                  ]
+              },
+              "events": [
+                  {"macro": "VM_INIT_INF_EID", "id": 1},
+                  {"macro": "VM_CMD_NOOP_EID", "id": 2},
+                  {"macro": "VM_SUBSCRIBE_ERR_EID", "id": 3},
+                  {"macro": "VM_PIPE_INIT_ERR_EID", "id": 4},
+                  {"macro": "VM_CFGTBL_MANAGE_ERR_EID", "id": 5},
+                  {"macro": "VM_CFGTBL_GETADDR_ERR_EID", "id": 6},
+                  {"macro": "VM_RCVMSG_ERR_EID", "id": 7},
+                  {"macro": "VM_MSGID_ERR_EID", "id": 8},
+                  {"macro": "VM_CC_ERR_EID", "id": 9},
+                  {"macro": "VM_MSGLEN_ERR_EID", "id": 10},
+                  {"macro": "VM_CFGTBL_REG_ERR_EID", "id": 11},
+                  {"macro": "VM_CFGTBL_LOAD_ERR_EID", "id": 12},
+                  {"macro": "VM_ARMING_ILLEGAL_TRANSITION_ERR_EID", "id": 13},
+                  {"macro": "VM_NAV_ILLEGAL_TRANSITION_ERR_EID", "id": 14},
+                  {"macro": "VM_ARMING_ENTERED_STANDBY_STATE_INFO_EID", "id": 15},
+                  {"macro": "VM_ARMING_ENTERED_ARMED_STATE_INFO_EID", "id": 16},
+                  {"macro": "VM_ARMING_ENTERED_STANDBY_ERROR_STATE_INFO_EID", "id": 17},
+                  {"macro": "VM_ARMING_ENTERED_ARMED_ERROR_STATE_INFO_EID", "id": 18},
+                  {"macro": "VM_NAVSM_ENTERED_MANUAL_INFO_EID", "id": 19},
+                  {"macro": "VM_NAVSN_ENTERED_ALTCTL_INFO_EID", "id": 20},
+                  {"macro": "VM_NAVSN_ENTERED_POSCTL_INFO_EID", "id": 21},
+                  {"macro": "VM_NAVSN_ENTERED_AUTOLOITER_INFO_EID", "id": 22},
+                  {"macro": "VM_NAVSN_ENTERED_RTL_INFO_EID", "id": 23},
+                  {"macro": "VM_NAVSN_ENTERED_ACRO_INFO_EID", "id": 24},
+                  {"macro": "VM_NAVSN_ENTERED_STABILIZE_INFO_EID", "id": 25},
+                  {"macro": "VM_NAVSN_ENTERED_RATTITUDE_INFO_EID", "id": 26},
+                  {"macro": "VM_NAVSN_ENTERED_AUTO_TAKEOFF_INFO_EID", "id": 27},
+                  {"macro": "VM_NAVSN_ENTERED_AUTO_LAND_INFO_EID", "id": 28},
+                  {"macro": "VM_IN_UNKNOWN_STATE_ERR_EID", "id": 29},
+                  {"macro": "VM_HOMESET_INFO_EID", "id": 30},
+                  {"macro": "VM_LND_INIT_INFO_EID", "id": 31},
+                  {"macro": "VM_SAFETY_DISARM_INFO_EID", "id": 32},
+                  {"macro": "VM_SAFETY_INFO_EID", "id": 33},
+                  {"macro": "VM_LOW_BAT_INFO_EID", "id": 34},
+                  {"macro": "VM_CRITICAL_BAT_INFO_EID", "id": 35},
+                  {"macro": "VM_DANGER_BAT_LEVEL_INFO_EID", "id": 36},
+                  {"macro": "VM_RC_SIGN_REGAINED_INFO_EID", "id": 37},
+                  {"macro": "VM_RC_SIGN_LOST_INFO_EID", "id": 38},
+                  {"macro": "VM_RC_STK_DISARM_REJ_INFO_EID", "id": 39},
+                  {"macro": "VM_RC_STK_ARM_REJ_INFO_EID", "id": 40},
+                  {"macro": "VM_RC_DISARM_INFO_EID", "id": 41},
+                  {"macro": "VM_RC_ARM_INFO_EID", "id": 42},
+                  {"macro": "VM_RC_KIL_SWTCH_INFO_EID", "id": 43},
+                  {"macro": "VM_RC_LTR_INFO_EID", "id": 44},
+                  {"macro": "VM_RC_RTL_INFO_EID", "id": 45},
+                  {"macro": "VM_RC_POSCTL_INFO_EID", "id": 46},
+                  {"macro": "VM_RC_MAN_INFO_EID", "id": 47},
+                  {"macro": "VM_RC_TAKE_OFF_INFO_EID", "id": 48},
+                  {"macro": "VM_PRE_ARM_BAT_CHECK_INFO_EID", "id": 49},
+                  {"macro": "VM_PRE_ARM_SAFETY_CHECK_INFO_EID", "id": 50},
+                  {"macro": "VM_PRE_ARM_SENSORS_CHECK_INFO_EID", "id": 51},
+                  {"macro": "VM_SEN_NOT_READY_INFO_EID", "id": 52},
+                  {"macro": "VM_REQ_POS_CTL_ERR_EID", "id": 53},
+                  {"macro": "VM_REQ_ALT_CTL_ERR_EID", "id": 54},
+                  {"macro": "VM_REQ_ACRO_ERR_EID", "id": 55},
+                  {"macro": "VM_NOPE_ERR_EID", "id": 56}
+              ],
+              "config": {
+              },
+              "tables": [
+                  {"id": "CONFIG_TBL",  "title": "VM Configuration",  "isDumpTable": false}
+              ]
+            }
+        }
+    }
+}

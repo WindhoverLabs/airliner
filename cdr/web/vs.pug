@@ -1,0 +1,50 @@
+.row.os-theme-dark
+  article.col-xs-12.col-sm-12
+    header
+      span.widget-icon
+        i.fa.fa-table
+      h2 VM - Vehicle States
+    div.widget-body.table-responsive
+      table.table.table-condensed
+        tbody
+          tr
+            th Arming State
+            td
+              div(data-cdr={tlm:[{name:'/VM/VM_HkTlm_t/ArmingState', calibration:{ type:'enumeration',
+              enumerations:[
+              { value: 0, name:'NA'},
+              { value: 1, name:'STANDBY'},
+              { value: 2, name:'ARMED'}
+              ]}}],indicator:'text'}) ---
+          tr
+            th Navigation State
+            td
+              div(data-cdr={tlm:[{name:'/VM/VM_HkTlm_t/NavState', calibration:{ type:'enumeration',
+              enumerations:[
+              { value: 0, name:'MANUAL'},
+              { value: 1, name:'ALT-CTL'},
+              { value: 2, name:'POS-CTL'},
+              { value: 3, name:'AUTO-LOITER'},
+              { value: 4, name:'AUTO-RTL'},
+              { value: 5, name:'ACROBATIC'},
+              { value: 6, name:'STABILIZED'},
+              { value: 7, name:'RATTITUDE'},
+              { value: 8, name:'AUTO-TAKEOFF'},
+              { value: 9, name:'AUTO-LAND'}
+              ]}}],indicator:'text'}) ---
+    footer.btn-group(role="group")      
+      button.btn.cdr-outline-primary(data-cdr={cmd:{name:'/VM/Arm'},indicator:'cmd'}) Arm
+      button.btn.cdr-outline-primary(data-cdr={cmd:{name:'/VM/Disarm'},indicator:'cmd'}) Disarm
+    footer.btn-group(role="group")      
+      button.btn.cdr-outline-primary(data-cdr={cmd:{name:'/VM/Manual'},indicator:'cmd'}) Manual    
+      button.btn.cdr-outline-primary(data-cdr={cmd:{name:'/VM/AltCtl'},indicator:'cmd'}) Altitude Control
+      button.btn.cdr-outline-primary(data-cdr={cmd:{name:'/VM/PosCtl'},indicator:'cmd'}) Position Control
+    footer.btn-group(role="group")    
+      button.btn.cdr-outline-primary(data-cdr={cmd:{name:'/VM/AutoLoiter'},indicator:'cmd'}) Auto Loiter
+      button.btn.cdr-outline-primary(data-cdr={cmd:{name:'/VM/AutoRtl'},indicator:'cmd'}) Auto RTL  
+      button.btn.cdr-outline-primary(data-cdr={cmd:{name:'/VM/AutoTakeOff'},indicator:'cmd'}) Auto TakeOff
+      button.btn.cdr-outline-primary(data-cdr={cmd:{name:'/VM/AutoLand'},indicator:'cmd'}) Auto Land
+    footer.btn-group(role="group")    
+      button.btn.cdr-outline-primary(data-cdr={cmd:{name:'/VM/Acrobatic'},indicator:'cmd'}) Acrobatic    
+      button.btn.cdr-outline-primary(data-cdr={cmd:{name:'/VM/Rattitude'},indicator:'cmd'}) Rattitude
+      button.btn.cdr-outline-primary(data-cdr={cmd:{name:'/VM/Stabilized'},indicator:'cmd'}) Stabilized
