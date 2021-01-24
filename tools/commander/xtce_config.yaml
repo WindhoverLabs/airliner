@@ -1,0 +1,33 @@
+#Not sure if this is the best config file for xtce configuration
+# Configuration for xtce_generator
+xtce_config:
+  root_spacesystem: cfs
+
+  # The global settings affect every namespace except for the root namespace/spacesystem since the root spacesystem is
+  # merely used as an abstraction that may represent anything such as a vehicle, particular mission or even a hardware
+  # architecture. This is particularly useful when users want to decouple the protocol(an example is ccsds) from the payload
+  # data, which can be done by passing a BaseContainer reference.
+  global:
+    TelemetryMetaData:
+      BaseContainer:
+        container_ref: 'cfs-ccsds'
+        #size is in bits
+        size: 96
+
+    CommandMetaData:
+      # This is equivalent to a BaseCommand
+      BaseContainer:
+        container_ref: 'cfs-ccsds/cfs-cmd'
+        # size is in bits
+        size: 64
+
+  # Custom Mappings
+  # Beware that our configuration only supports mapping to types in our BaseType spacesystem such as BaseType/int16_LE
+  #spacesystems:
+  #  SCH:
+  #    remap:
+  #      CFE_SB_MsgId_t: 'BaseType/uint16_LE'
+  #  TO:
+  #    remap:
+  #      CFE_SB_MsgId_t: 'BaseType/uint16_LE'
+
