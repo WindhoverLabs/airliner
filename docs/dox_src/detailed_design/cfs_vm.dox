@@ -212,9 +212,8 @@
   Application Tailoring to the Mission
   ----
     
-    The vm_mission_cfg.h file, the vm_msgids.h, and the vm_perfids.h files
-    are tailored for the mission.  These are built into the application during
-    compilation.
+    The vm_msgids.h, and the vm_perfids.h files are tailored for the mission.  
+    These are built into the application during compilation.
 
   Application Tailoring to the Platform
   ----

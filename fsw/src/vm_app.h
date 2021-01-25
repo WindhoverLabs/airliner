@@ -36,6 +36,7 @@
 
 #include "vm_Arming.h"
 #include "vm_Navigation.h"
+#include "prm_lib.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -51,7 +52,6 @@ extern "C" {
 #include "cfe.h"
 
 #include "vm_platform_cfg.h"
-#include "vm_mission_cfg.h"
 #include "vm_perfids.h"
 #include "vm_msgids.h"
 #include "vm_msg.h"
@@ -66,7 +66,6 @@ extern "C" {
 #include "math/Dcm.hpp"
 #include "math/Matrix3F3.hpp"
 #include "math/Vector3F.hpp"
-
 #include "CautionWarningHelper.hpp"
 
 
@@ -77,166 +76,49 @@ extern "C" {
 #define COMMANDER_MONITORING_LOOPSPERMSEC (1/(COMMANDER_MONITORING_INTERVAL/1000.0f))
 #define STICK_ON_OFF_LIMIT (0.9f)
 
+/** \brief Pipe depth for the data pipe
+**
+**  \par Limits:
+**       minimum of 1, max of CFE_SB_MAX_PIPE_DEPTH.
+*/
+#define VM_DATA_PIPE_DEPTH            (18)
+
+/** \brief Pipe name for the Scheduler pipe
+**
+**  \par Limits:
+**       Note, this name must fit in OS_MAX_API_NAME.
+*/
+#define VM_DATA_PIPE_NAME             ("VM_DATA_PIPE")
+
+#define COM_RC_IN_MODE_MAX  (2)
+#define COM_RC_ARM_HYST_MIN (100)
+#define COM_RC_ARM_HYST_MAX (1500)
+#define MAV_SYS_ID_MIN      (1)
+#define MAV_SYS_ID_MAX      (250)
+#define MAV_COMP_ID_MIN     (1)
+#define MAV_COMP_ID_MAX     (250)
+#define COM_RC_LOSS_T_MAX   (35.0f)
+#define COM_LOW_BAT_ACT_MAX (3)
+#define COM_HOME_H_T_MIN    (2.0)
+#define COM_HOME_H_T_MAX    (15.0)
+#define COM_HOME_V_T_MIN    (5.0)
+#define COM_HOME_V_T_MAX    (25.0)
+
+
 /************************************************************************
  ** Local Structure Definitions
  *************************************************************************/
 
-/**
- * \brief Vehicle manager status flags
- */
-typedef struct {
-
-    /** \brief Indicates if all sensors are initialized */
-    boolean condition_system_sensors_initialized;
-    /** \brief System in rtl state */
-    boolean condition_system_returned_to_home;
-    /** \brief Indicates a valid home position (a valid home position is not always a valid launch) */
-    boolean condition_home_position_valid;
-    /** \brief Satus of the USB power supply */
-    boolean usb_connected;
-    /** \brief True if RC signal found atleast once */
-    boolean rc_signal_found_once;
-    /** \brief True if RC lost mode is commanded */
-    boolean rc_signal_lost_cmd;
-    /** \brief Set if RC input should be ignored temporarily */
-    boolean rc_input_blocked;
-
-}VM_StatusFlags;
-
-/**
- * \brief Parameter table
- */
-typedef struct
-{
-
-    /** \brief Auto-start script index */
-    int autostart_id;                                                // 6001
-    /** \brief RC control input mode */
-    int rc_in_off;                                                      // 2
-    /** \brief Arm switch is only a button */
-    int arm_switch_is_button;                                           // 0
-    /** \brief Allow arming without GPS */
-    int arm_without_gps;                                                // 1
-    /** \brief Require valid mission to arm */
-    int arm_mission_required;                                           // 0
-    /** \brief RC input arm/disarm command duration */
-    int rc_arm_hyst;                                                 // 1000
-    /** \brief Airframe type */
-    int mav_type;                                                      // 13
-    /** \brief System ID */
-    int system_id;                                                      // 1
-    /** \brief Component ID */
-    int component_id;                                                   // 1
-    /** \brief Circuit breaker for power supply check */
-    int cbrk_supply_chk;                                                // 0
-    /** \brief Circuit breaker for USB link check */
-    int cbrk_usb_chk;                                                   // 0
-    /** \brief Circuit breaker for airspeed sensor */
-    int cbrk_airspd_chk;                                                // 0
-    /** \brief Circuit breaker for engine failure detection */
-    int cbrk_enginefail_chk;                                       // 284953
-    /** \brief Circuit breaker for GPS failure detection */
-    int cbrk_gpsdail_chk;                                               // 0
-    /** \brief Circuit breaker for flight termination */
-    int cbrk_flightterm_chk;                                       // 121212
-    /** \brief Circuit breaker for position error check */
-    int cbrk_velposerr_chk;                                             // 0
-    /** \brief Set data link loss failsafe mode */
-    int nav_dll_act;                                                    // 2
-    /** \brief Set RC loss failsafe mode */
-    int nav_rcl_act;                                                    // 2
-    /** \brief Datalink loss time threshold */
-    int dl_loss_t;                                                     // 10
-    /** \brief RC loss time threshold */
-    float rc_loss_t;                                                  // 0.5
-    /** \brief RC stick override threshold */
-    float rc_stick_ovrde;                                            // 12.0
-    /** \brief Enable RC stick override of auto modes */
-    int rc_ovrde;                                                       // 0
-    /** \brief Datalink regain time threshold */
-    int dl_reg_t;                                                       // 0
-    /** \brief Engine Failure Throttle Threshold */
-    float ef_throt;                                                   // 0.5
-    /** \brief Engine Failure Current/Throttle Threshold */
-    float ef_c2t;                                                     // 0.5
-    /** \brief Engine Failure Time Threshold */
-    float ef_time;                                                   // 10.0
-    /** \brief Geofence violation action */
-    int gf_action;                                                      // 1
-    /** \brief Time-out for auto disarm after landing */
-    int disarm_land;                                                    // 3
-    /** \brief Battery failsafe mode */
-    int low_bat_act;                                                    // 1
-    /** \brief Time-out to wait when offboard connection is lost before triggering offboard lost action */
-    float of_loss_t;                                                  // 0.0
-    /** \brief Set offboard loss failsafe mode */
-    int obl_act;                                                        // 0
-    /** \brief Set offboard loss failsafe mode when RC is available */
-    int obl_rcl_act;                                                    // 0
-    /** \brief Home set horizontal threshold */
-    float home_h_t;                                                   // 5.0
-    /** \brief Home set vertical threshold */
-    float home_v_t;                                                  // 10.0
-    /** \brief First flightmode slot (1000-1160) */
-    int flt_mode_1;                                                    // -1
-    /** \brief Second flightmode slot (1160-1320) */
-    int flt_mode_2;                                                    // -1
-    /** \brief Third flightmode slot (1320-1480) */
-    int flt_mode_3;                                                    // -1
-    /** \brief Fourth flightmode slot (1480-1640) */
-    int flt_mode_4;                                                    // -1
-    /** \brief Fifth flightmode slot (1640-1800) */
-    int flt_mode_5;                                                    // -1
-    /** \brief Sixth flightmode slot (1800-2000) */
-    int flt_mode_6;                                                    // -1
-    /** \brief Maximum EKF position innovation test ratio that will allow arming */
-    float arm_ekf_pos;                                               // 0.5;
-    /** \brief Maximum EKF velocity innovation test ratio that will allow arming */
-    float arm_ekf_vel;                                                // 0.5
-    /** \brief Maximum EKF height innovation test ratio that will allow arming */
-    float arm_ekf_hgt;                                                // 1.0
-    /** \brief Maximum EKF yaw innovation test ratio that will allow arming */
-    float arm_ekf_yaw;                                                // 0.5
-    /** \brief Maximum value of EKF accelerometer delta velocity bias estimate that will allow arming */
-    float arm_ekf_ab;                                              // 0.0050
-    /** \brief Maximum value of EKF gyro delta angle bias estimate that will allow arming */
-    float arm_ekf_gb;                                              // 0.0009
-    /** \brief Maximum accelerometer inconsistency between IMU units that will allow arming */
-    float arm_imu_acc;                                                // 0.7
-    /** \brief Maximum rate gyro inconsistency between IMU units that will allow arming */
-    float arm_imu_gyr;                                                // 0.2
-    /** \brief Position control navigation loss response */
-    int posctl_navl;                                                    // 0
-    /** \brief Padding for home position altitude message, to avoid hover above ground.     */
-    float home_pos_alt_padding;                                         // 0.2
-
-}VM_Params_t;
-
-/**
- * \brief RC navigation mode switched
- */
-typedef struct {
-
-    /** \brief Position control is selected */
-    boolean inPosCtl;
-    /** \brief Return to launch is selected  */
-    boolean inRtl;
-    /** \brief Auto loiter is selected  */
-    boolean inLoiter;
-    /** \brief Manual is selected  */
-    boolean inManual;
-    /** \brief Takeoff is selected  */
-    boolean intakeoff;
-
-}VM_Modes;
 
 /**
  **  \brief VM Application Class
  */
-class VM
+class VM : ParamsConsumer
 {
 public:
+    /**\brief Default constructor. */
     VM();
+    /**\brief Destructor */
     ~VM();
 
     /**\brief Scheduling Pipe ID */
@@ -244,6 +126,9 @@ public:
 
     /** \brief Command Pipe ID */
     CFE_SB_PipeId_t CmdPipeId;
+
+    /** \brief Data Pipe ID */
+    CFE_SB_PipeId_t DataPipeId;
 
     /* Task-related */
     /** \brief Task Run Status */
@@ -315,43 +200,12 @@ public:
     VM_Arming ArmingSM;
     /** \brief Navigation state machine handle */
     VM_Navigation NavigationSM;
-    /** \brief param variable */
-    VM_Params_t vm_params;
 
     /** \brief Housekeeping Telemetry for downlink */
     VM_HkTlm_t HkTlm;
 
-    /** \brief True if home position is not set and local variables are not initialization */
-    boolean NotInitialized = true;
-
-    /** \brief Timestamps vm at boot */
-    uint64 VmBootTimestamp = 0;
-    /** \brief status flag variable */
-    VM_StatusFlags status_flags = {};
-    /** \brief True if local position is valid */
-    boolean ConditionLocalPositionValid;
-    /** \brief True if previously landed */
-    boolean vh_prev_landed = true;
-    /** \brief True if previously in flight */
-    boolean vh_prev_in_flight = false;
-    /** \brief Records a count when vehicle is disarmed with stick  */
-    unsigned stick_off_counter = 0;
-    /** \brief Records a count when vehicle is armed with stick */
-    unsigned stick_on_counter = 0;
-    /** \brief Arming switch in manual control setpoint message  */
-    unsigned last_sp_man_arm_switch = 0;
-    /** \brief True when vehicle's battery is low and a contingency action is implemented */
-    boolean low_battery_voltage_actions_done = false;
-    /** \brief True when vehicle's battery is critical and a contingency action is implemented */
-    boolean critical_battery_voltage_actions_done = false;
-    /** \brief True when vehicle's battery is dangerously low and a contingency action is implemented */
-    boolean emergency_battery_voltage_actions_done = false;
-    /** \brief Timestamps the moment rc signal is lost */
-    uint64 rc_signal_lost_timestamp;
-    /** \brief True when arming status changes with the vehicle */
-    boolean arming_state_changed = false;
-    /** \brief An instance rc navigation mode  */
-    VM_Modes previous_modes {0};
+    /** \brief Configuration Telemetry for downlink */
+    VM_ConfigTlm_t ConfigTlm;
 
     /************************************************************************/
     /** \brief Vehicle Manager (VM) application entry point
@@ -393,6 +247,24 @@ public:
      **
      *************************************************************************/
     int32 InitApp(void);
+
+    /************************************************************************/
+    /** \brief Initialize named parameters
+     **
+     **  \par Description
+     **       This function registers named parameters and prepares the object
+     **       to respond to updates in named parameters.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     **  \returns
+     **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
+     **  \retstmt Return codes from #ParamsConsumer::InitParams  \endcode
+     **  \endreturns
+     **
+     *************************************************************************/
+    int32 InitParams(void);
 
     /************************************************************************/
     /** \brief Initialize Event Services and Event tables
@@ -470,6 +342,19 @@ public:
     int32 RcvSchPipeMsg(int32 iBlocking);
 
     /************************************************************************/
+    /** \brief Process incoming data messages
+     **
+     **  \par Description
+     **       This function processes incoming data messages subscribed
+     **       by VM application
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     *************************************************************************/
+    void ProcessDataPipe(void);
+
+    /************************************************************************/
     /** \brief Vehicle Manager Task incoming command processing
      **
      **  \par Description
@@ -509,6 +394,7 @@ public:
      **
      *************************************************************************/
     void ReportHousekeeping(void);
+
     /************************************************************************/
     /** \brief Sends the ActuatorArmedMsg message.
      **
@@ -521,6 +407,7 @@ public:
      **
      *************************************************************************/
     void SendActuatorArmedMsg(void);
+
     /************************************************************************/
     /** \brief Sends the HomePositionMsg message.
      **
@@ -533,6 +420,7 @@ public:
      **
      *************************************************************************/
     void SendHomePositionMsg(void);
+
     /************************************************************************/
     /** \brief Sends the VehicleManagerStateMsg message.
      **
@@ -545,6 +433,7 @@ public:
      **
      *************************************************************************/
     void SendVehicleManagerStateMsg(void);
+
     /************************************************************************/
     /** \brief Sends the MissionMsg message.
      **
@@ -557,6 +446,7 @@ public:
      **
      *************************************************************************/
     void SendMissionMsg(void);
+
     /************************************************************************/
     /** \brief Sends the LedControlMsg message.
      **
@@ -569,6 +459,7 @@ public:
      **
      *************************************************************************/
     void SendLedControlMsg(void);
+
     /************************************************************************/
     /** \brief Sends the VehicleStatusMsg message.
      **
@@ -594,6 +485,7 @@ public:
      **
      *************************************************************************/
     void SendVehicleControlModeMsg(void);
+
     /************************************************************************/
     /** \brief Sends the VehicleCommandMsg message.
      **
@@ -643,6 +535,7 @@ public:
      **
      *************************************************************************/
     uint64 TimeElapsed(uint64 * TimePtr);
+
     /************************************************************************/
     /** \brief Time
      **
@@ -657,6 +550,7 @@ public:
      **
      *************************************************************************/
     uint64 TimeNow(void);
+
     /************************************************************************/
     /** \brief Vehicle Armed
      **
@@ -670,7 +564,8 @@ public:
      **  \endreturns
      **
      *************************************************************************/
-    boolean IsVehicleArmed(void);
+    osalbool IsVehicleArmed(void);
+
     /************************************************************************/
     /** \brief Set Home Position
      **
@@ -682,6 +577,7 @@ public:
      **
      *************************************************************************/
     void FlightSessionInit(void);
+
     /************************************************************************/
     /** \brief Set Home Position
      **
@@ -693,6 +589,7 @@ public:
      **
      *************************************************************************/
     void SetHomePosition(void);
+
     /************************************************************************/
     /** \brief RC Control Navigation Modes
      **
@@ -706,6 +603,7 @@ public:
      **
      *************************************************************************/
     void RcModes(void);
+
     /************************************************************************/
     /** \brief Vehicle Manager Initialization Task
      **
@@ -717,6 +615,7 @@ public:
      **
      *************************************************************************/
     void Initialization(void);
+
     /************************************************************************/
     /** \brief Vehicle Manager Maintenance Task
      **
@@ -729,6 +628,7 @@ public:
      **
      *************************************************************************/
     void Execute(void);
+
     /************************************************************************/
     /** \brief TODO
      **
@@ -788,6 +688,73 @@ private:
      *************************************************************************/
     int32 AcquireConfigPointers(void);
 
+    /************************************************************************/
+    /** \brief Send the configuration message.
+     **
+     **  \par Description
+     **       This function publishes a message containing the current
+     **       configuration.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     **  \returns
+     **   None
+     **  \endreturns
+     **
+     *************************************************************************/
+    void ReportConfiguration(void);
+
+    /************************************************************************/
+    /** \brief Process the parameter pipe.
+     **
+     **  \par Description
+     **       This function will process all incoming named parameter
+     **       commands.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     **  \returns
+     **   None
+     **  \endreturns
+     **
+     *************************************************************************/
+    void ProcessParamPipe(void);
+
+    /************************************************************************/
+    /** \brief Process parameter updates.
+     **
+     **  \par Description
+     **       This function is called to update named parameters.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     **  \returns
+     **   CFE_SUCCESS if successful.  -1 if unsuccessful.
+     **  \endreturns
+     **
+     *************************************************************************/
+    int32 ProcessUpdatedParam(PRMLIB_UpdatedParamMsg_t* MsgPtr);
+
+    /************************************************************************/
+    /** \brief Respond to changes in parameters
+     **
+     **  \par Description
+     **       This function is called by the #ParamsConsumer base class
+     **       when a registered named parameter has changed.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     **  \returns
+     **   CFE_SUCCESS if successful.  -1 if unsuccessful.
+     **  \endreturns
+     **
+     *************************************************************************/
+    virtual void onParamsChange(PRMLIB_ParamRegistration_t *ParamsData, uint32 ParamsCount);
+
 public:
     /************************************************************************/
     /** \brief Validate VM configuration table
@@ -806,6 +773,256 @@ public:
      **
      *************************************************************************/
     static int32 ValidateConfigTbl(void*);
+
+    /************************************************************************/
+    /** \brief Validate the COM_RC_IN_MODE parameter
+     **
+     **  \par Description
+     **       Validate the RC control input mode (COM_RC_IN_MODE) parameter.
+     **
+     **  \par Limits:
+     **       Min > Max (incr.) 0 > 2, default 0.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       #VM_INVALID_CONFIG_TABLE_ERR_EID
+     **
+     **  \param [in]   param    Value of the parameter.
+     **
+     **  \returns
+     **  \retcode false  \retdesc \copydoc false  \endcode
+     **  \retcode true  \retdesc \copydoc true  \endcode
+     **  \endreturns
+     **
+     *************************************************************************/
+    static osalbool Validate_COM_RC_IN_MODE(uint32 param);
+
+    /************************************************************************/
+    /** \brief Validate the COM_ARM_SWISBTN parameter
+     **
+     **  \par Description
+     **       Validate the Arm switch is only a button (COM_ARM_SWISBTN) parameter.
+     **
+     **  \par Limits:
+     **       Min > Max (incr.) 0 > 1, default 0.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       #VM_INVALID_CONFIG_TABLE_ERR_EID
+     **
+     **  \param [in]   param    Value of the parameter.
+     **
+     **  \returns
+     **  \retcode false  \retdesc \copydoc false  \endcode
+     **  \retcode true  \retdesc \copydoc true  \endcode
+     **  \endreturns
+     **
+     *************************************************************************/
+    static osalbool Validate_COM_ARM_SWISBTN(uint32 param);
+
+    /************************************************************************/
+    /** \brief Validate the COM_RC_ARM_HYST parameter
+     **
+     **  \par Description
+     **       Validate the RC input arm/disarm command duration (COM_RC_ARM_HYST) parameter.
+     **
+     **  \par Limits:
+     **       Min > Max (incr.) 100 > 1500, default 1000.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       #VM_INVALID_CONFIG_TABLE_ERR_EID
+     **
+     **  \param [in]   param    Value of the parameter.
+     **
+     **  \returns
+     **  \retcode false  \retdesc \copydoc false  \endcode
+     **  \retcode true  \retdesc \copydoc true  \endcode
+     **  \endreturns
+     **
+     *************************************************************************/
+    static osalbool Validate_COM_RC_ARM_HYST(uint32 param);
+
+    /************************************************************************/
+    /** \brief Validate the MAV_SYS_ID parameter
+     **
+     **  \par Description
+     **       Validate the System ID (MAV_SYS_ID) parameter.
+     **
+     **  \par Limits:
+     **       Min > Max (incr.) 1 > 250, default 1.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       #VM_INVALID_CONFIG_TABLE_ERR_EID
+     **
+     **  \param [in]   param    Value of the parameter.
+     **
+     **  \returns
+     **  \retcode false  \retdesc \copydoc false  \endcode
+     **  \retcode true  \retdesc \copydoc true  \endcode
+     **  \endreturns
+     **
+     *************************************************************************/
+    static osalbool Validate_MAV_SYS_ID(uint32 param);
+
+    /************************************************************************/
+    /** \brief Validate the MAV_COMP_ID parameter
+     **
+     **  \par Description
+     **       Validate the Component ID (MAV_COMP_ID) parameter.
+     **
+     **  \par Limits:
+     **       Min > Max (incr.) 1 > 250, default 1.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       #VM_INVALID_CONFIG_TABLE_ERR_EID
+     **
+     **  \param [in]   param    Value of the parameter.
+     **
+     **  \returns
+     **  \retcode false  \retdesc \copydoc false  \endcode
+     **  \retcode true  \retdesc \copydoc true  \endcode
+     **  \endreturns
+     **
+     *************************************************************************/
+    static osalbool Validate_MAV_COMP_ID(uint32 param);
+
+    /************************************************************************/
+    /** \brief Validate the COM_RC_LOSS_T parameter
+     **
+     **  \par Description
+     **       Validate the RC loss time threshold (COM_RC_LOSS_T) parameter.
+     **
+     **  \par Limits:
+     **       Min > Max (incr.) 0.0 > 35.0, default 0.5.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       #VM_INVALID_CONFIG_TABLE_ERR_EID
+     **
+     **  \param [in]   param    Value of the parameter.
+     **
+     **  \returns
+     **  \retcode false  \retdesc \copydoc false  \endcode
+     **  \retcode true  \retdesc \copydoc true  \endcode
+     **  \endreturns
+     **
+     *************************************************************************/
+    static osalbool Validate_COM_RC_LOSS_T(float param);
+
+    /************************************************************************/
+    /** \brief Validate the COM_LOW_BAT_ACT parameter
+     **
+     **  \par Description
+     **       Validate the Battery failsafe mode (COM_LOW_BAT_ACT) parameter.
+     **
+     **  \par Limits:
+     **       Min > Max (incr.) 0 > 3, default 0.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       #VM_INVALID_CONFIG_TABLE_ERR_EID
+     **
+     **  \param [in]   param    Value of the parameter.
+     **
+     **  \returns
+     **  \retcode false  \retdesc \copydoc false  \endcode
+     **  \retcode true  \retdesc \copydoc true  \endcode
+     **  \endreturns
+     **
+     *************************************************************************/
+    static osalbool Validate_COM_LOW_BAT_ACT(uint32 param);
+
+    /************************************************************************/
+    /** \brief Validate the COM_HOME_H_T parameter
+     **
+     **  \par Description
+     **       Validate the Home set horizontal threshold (COM_HOME_H_T) parameter.
+     **
+     **  \par Limits:
+     **       Min > Max (incr.) 2.0 > 15.0, default 5.0.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       #VM_INVALID_CONFIG_TABLE_ERR_EID
+     **
+     **  \param [in]   param    Value of the parameter.
+     **
+     **  \returns
+     **  \retcode false  \retdesc \copydoc false  \endcode
+     **  \retcode true  \retdesc \copydoc true  \endcode
+     **  \endreturns
+     **
+     *************************************************************************/
+    static osalbool Validate_COM_HOME_H_T(float param);
+
+    /************************************************************************/
+    /** \brief Validate the COM_HOME_V_T parameter
+     **
+     **  \par Description
+     **       Validate the Home set vertical threshold (COM_HOME_V_T) parameter.
+     **
+     **  \par Limits:
+     **       Min > Max (incr.) 5.0 > 25.0, default 10.0.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       #VM_INVALID_CONFIG_TABLE_ERR_EID
+     **
+     **  \param [in]   param    Value of the parameter.
+     **
+     **  \returns
+     **  \retcode false  \retdesc \copydoc false  \endcode
+     **  \retcode true  \retdesc \copydoc true  \endcode
+     **  \endreturns
+     **
+     *************************************************************************/
+    static osalbool Validate_COM_HOME_V_T(float param);
+
+    /************************************************************************/
+    /** \brief Validate a #uint32 named parameter
+     **
+     **  \par Description
+     **       This function is called by the #ParamsConsumer base class
+     **       when before a named parameter is changed by address.  The address
+     **       passed is the address of the parameter passed in the
+     **       #ParamsConsumer::InitParams function.  Return #true if the
+     **       parameter is valid, and #false if invalid.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     **  \returns
+     **   #true if valid.  #false if invalid
+     **  \retstmt Return codes from:
+     **           #VM::Validate_COM_RC_IN_MODE,
+     **           #VM::Validate_COM_ARM_SWISBTN,
+     **           #VM::Validate_COM_RC_ARM_HYST,
+     **           #VM::Validate_MAV_SYS_ID,
+     **           #VM::Validate_MAV_COMP_ID,
+     **           #VM::Validate_COM_LOW_BAT_ACT
+     **  \endreturns
+     **
+     *************************************************************************/
+    osalbool onParamValidate(void* Address, uint32 Value);
+
+    /************************************************************************/
+    /** \brief Validate a #float named parameter
+     **
+     **  \par Description
+     **       This function is called by the #ParamsConsumer base class
+     **       when before a named parameter is changed by address.  The address
+     **       passed is the address of the parameter passed in the
+     **       #ParamsConsumer::InitParams function.  Return #true if the
+     **       parameter is valid, and #false if invalid.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     **  \returns
+     **   #true if valid.  #false if invalid
+     **  \retstmt Return codes from:
+     **           #VM::Validate_COM_RC_LOSS_T,
+     **           #VM::Validate_COM_HOME_H_T,
+     **           #VM::Validate_COM_HOME_V_T,
+     **           #VM::Validate_HOME_POS_ALT_PADDING
+     **  \endreturns
+     **
+     *************************************************************************/
+    osalbool onParamValidate(void* Address, float Value);
 };
 
 #ifdef __cplusplus

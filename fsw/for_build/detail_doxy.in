@@ -8,7 +8,7 @@
 #DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "Vehicle Manager (VM) Application on @BUILD_CONFIG_NAME@ Detailed Design"
 PROJECT_NUMBER         = 
-OUTPUT_DIRECTORY       = @CFS_DOCS_HTML_DIR@/detailed_design/apps/vm
+OUTPUT_DIRECTORY       = @CFS_DOCS_HTML_DIR@/apps/vm/
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
 BRIEF_MEMBER_DESC      = YES
@@ -95,8 +95,8 @@ INPUT                  = @APP_DEFINITION_DIR@/../../docs/dox_src/detailed_design
 INPUT                 += @DEFINITION_SOURCES@
 INPUT                 += @CONFIG_SOURCES@
 #INPUT_ENCODING         = UTF-8
-FILE_PATTERNS          = *.c \
-                         *.h
+#FILE_PATTERNS          = *.c \
+#                         *.h
 RECURSIVE              = YES
 EXCLUDE                = 
 EXCLUDE_SYMLINKS       = NO
@@ -131,7 +131,7 @@ IGNORE_PREFIX          =
 # configuration options related to the HTML output
 #---------------------------------------------------------------------------
 GENERATE_HTML          = YES
-HTML_OUTPUT            = @CFS_DOCS_HTML_DIR@/detailed_design/apps/vm
+HTML_OUTPUT            = @CFS_DOCS_HTML_DIR@/apps/vm/
 HTML_FILE_EXTENSION    = .html
 HTML_HEADER            = 
 HTML_FOOTER            = 
@@ -152,7 +152,7 @@ TREEVIEW_WIDTH         = 250
 # configuration options related to the LaTeX output
 #---------------------------------------------------------------------------
 GENERATE_LATEX         = NO
-LATEX_OUTPUT           = @CFS_DOCS_LATEX_DIR@/detailed_design/apps/vm
+LATEX_OUTPUT           = @CFS_DOCS_LATEX_DIR@/apps/vm/
 LATEX_CMD_NAME         = latex
 MAKEINDEX_CMD_NAME     = makeindex
 COMPACT_LATEX          = YES
@@ -167,7 +167,7 @@ LATEX_HIDE_INDICES     = NO
 # configuration options related to the RTF output
 #---------------------------------------------------------------------------
 GENERATE_RTF           = NO
-RTF_OUTPUT             = @CFS_DOCS_DIR@/detailed_design/rtf/apps/vm
+RTF_OUTPUT             = @CFS_DOCS_DIR@//rtf/apps/vm
 COMPACT_RTF            = YES
 RTF_HYPERLINKS         = NO
 RTF_STYLESHEET_FILE    = 
@@ -182,7 +182,7 @@ MAN_LINKS              = NO
 #---------------------------------------------------------------------------
 # configuration options related to the XML output
 #---------------------------------------------------------------------------
-GENERATE_XML           = NO
+GENERATE_XML           = YES
 XML_OUTPUT             = xml
 XML_SCHEMA             = 
 XML_DTD                = 
@@ -217,8 +217,8 @@ SKIP_FUNCTION_MACROS   = YES
 #---------------------------------------------------------------------------
 # Configuration::additions related to external references   
 #---------------------------------------------------------------------------
-TAGFILES               = @CFS_DOCS_HTML_DIR@/detailed_design/cfe/cfe.tag=../../../detailed_design/cfe/
-GENERATE_TAGFILE       = @CFS_DOCS_HTML_DIR@/detailed_design/apps/vm/vm.tag
+TAGFILES               = @CFS_DOCS_HTML_DIR@/cfe/cfe.tag=../../cfe/
+GENERATE_TAGFILE       = @CFS_DOCS_HTML_DIR@/apps/vm//vm.tag
 ALLEXTERNALS           = NO
 EXTERNAL_GROUPS        = YES
 PERL_PATH              = /usr/bin/perl

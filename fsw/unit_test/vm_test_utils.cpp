@@ -48,13 +48,7 @@
 
 #include <time.h>
 
-/*
- * Config table for testing
- */
-VM_ConfigTbl_t ConfigTbl = {
-        /* TODO:  Define table */
-		0
-};
+extern VM_ConfigTbl_t VM_ConfigTbl;
 
 /*
  * Function Definitions
@@ -73,7 +67,7 @@ void VM_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-    Ut_CFE_TBL_AddTable(VM_CONFIG_TABLE_FILENAME, (void *) &ConfigTbl);
+    Ut_CFE_TBL_AddTable(VM_CONFIG_TABLE_FILENAME, (void *) &VM_ConfigTbl);
 }
 
 void VM_Test_TearDown(void) {

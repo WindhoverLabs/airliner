@@ -31,13 +31,10 @@
  *
  *****************************************************************************/
 
-#include "vm_app.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #include <math.h>
+#include "vm_app.h"
+
 
 /************************************************************************
  ** Function Definitions
@@ -50,7 +47,7 @@ extern "C" {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int32 VM::InitConfigTbl()
 {
-    int32 iStatus=0;
+    int32 iStatus = 0;
 
     /* Register Config table */
     iStatus = CFE_TBL_Register(&ConfigTblHdl,
@@ -84,24 +81,78 @@ int32 VM::InitConfigTbl()
 
     iStatus = AcquireConfigPointers();
 
-    VM_InitConfigTbl_Exit_Tag:
+VM_InitConfigTbl_Exit_Tag:
     return iStatus;
 }
+
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Validate VM Configuration Table                                */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 VM::ValidateConfigTbl(void* ConfigTblPtr)
+extern "C" int32 VM::ValidateConfigTbl(void* ConfigTblPtr)
 {
-    int32 iStatus=0;
-    VM_ConfigTbl_t* VM_ConfigTblPtr = (VM_ConfigTbl_t*)(ConfigTblPtr);
+	int32            status = CFE_SUCCESS;
+    osalbool         valid = true;
+    VM_ConfigTbl_t  *VM_ConfigTblPtr = (VM_ConfigTbl_t*)(ConfigTblPtr);
 
-    /* TODO:  Add validation code here. */
+    valid = VM::Validate_COM_RC_IN_MODE(VM_ConfigTblPtr->COM_RC_IN_MODE);
+    if(valid == false)
+    {
+    	status = -1;
+    }
 
-    VM_ValidateConfigTbl_Exit_Tag:
-    return iStatus;
+    valid = VM::Validate_COM_ARM_SWISBTN(VM_ConfigTblPtr->COM_ARM_SWISBTN);
+    if(valid == false)
+    {
+    	status = -1;
+    }
+
+    valid = VM::Validate_COM_RC_ARM_HYST(VM_ConfigTblPtr->COM_RC_ARM_HYST);
+    if(valid == false)
+    {
+    	status = -1;
+    }
+
+    valid = VM::Validate_MAV_SYS_ID(VM_ConfigTblPtr->MAV_SYS_ID);
+    if(valid == false)
+    {
+    	status = -1;
+    }
+
+    valid = VM::Validate_MAV_COMP_ID(VM_ConfigTblPtr->MAV_COMP_ID);
+    if(valid == false)
+    {
+    	status = -1;
+    }
+
+    valid = VM::Validate_COM_RC_LOSS_T(VM_ConfigTblPtr->COM_RC_LOSS_T);
+    if(valid == false)
+    {
+    	status = -1;
+    }
+
+    valid = VM::Validate_COM_LOW_BAT_ACT(VM_ConfigTblPtr->COM_LOW_BAT_ACT);
+    if(valid == false)
+    {
+    	status = -1;
+    }
+
+    valid = VM::Validate_COM_HOME_H_T(VM_ConfigTblPtr->COM_HOME_H_T);
+    if(valid == false)
+    {
+    	status = -1;
+    }
+
+    valid = VM::Validate_COM_HOME_V_T(VM_ConfigTblPtr->COM_HOME_V_T);
+    if(valid == false)
+    {
+    	status = -1;
+    }
+
+    return status;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -149,13 +200,210 @@ int32 VM::AcquireConfigPointers(void)
                 iStatus);
     }
 
-    VM_AcquireConfigPointers_Exit_Tag:
+VM_AcquireConfigPointers_Exit_Tag:
     return iStatus;
 }
 
-#ifdef __cplusplus
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Validate COM_RC_IN_MODE                                         */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+osalbool VM::Validate_COM_RC_IN_MODE(uint32 param)
+{
+	osalbool valid = true;
+
+    if(param > COM_RC_IN_MODE_MAX)
+    {
+        CFE_EVS_SendEvent(VM_INVALID_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+                "Invalid Config Table.  COM_RC_IN_MODE.  Exp:<0-%u>  Act: %u", COM_RC_IN_MODE_MAX, (unsigned int) param);
+
+        valid = false;
+    }
+
+    return valid;
 }
-#endif
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Validate COM_ARM_SWISBTN                                        */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+osalbool VM::Validate_COM_ARM_SWISBTN(uint32 param)
+{
+	osalbool valid = true;
+
+    if(param > 1)
+    {
+        CFE_EVS_SendEvent(VM_INVALID_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+                "Invalid Config Table.  COM_ARM_SWISBTN.  Exp:<0-1>  Act: %u", (unsigned int) param);
+
+        valid = false;
+    }
+
+    return valid;
+}
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Validate COM_RC_ARM_HYST                                        */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+osalbool VM::Validate_COM_RC_ARM_HYST(uint32 param)
+{
+	osalbool valid = true;
+
+    if((param < COM_RC_ARM_HYST_MIN) || (param > COM_RC_ARM_HYST_MAX))
+    {
+        CFE_EVS_SendEvent(VM_INVALID_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+                "Invalid Config Table.  COM_RC_ARM_HYST.  Exp:<%u-%u>  Act: %u", COM_RC_ARM_HYST_MIN, COM_RC_ARM_HYST_MAX, (unsigned int) param);
+
+        valid = false;
+    }
+
+    return valid;
+}
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Validate MAV_SYS_ID                                             */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+osalbool VM::Validate_MAV_SYS_ID(uint32 param)
+{
+	osalbool valid = true;
+
+    if((param < MAV_SYS_ID_MIN) || (param > MAV_SYS_ID_MAX))
+    {
+        CFE_EVS_SendEvent(VM_INVALID_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+                "Invalid Config Table.  MAV_SYS_ID.  Exp:<%u-%u>  Act: %u", MAV_SYS_ID_MIN, MAV_SYS_ID_MAX, (unsigned int) param);
+
+        valid = false;
+    }
+
+    return valid;
+}
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Validate MAV_COMP_ID                                            */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+osalbool VM::Validate_MAV_COMP_ID(uint32 param)
+{
+	osalbool valid = true;
+
+    if((param < MAV_COMP_ID_MIN) || (param > MAV_COMP_ID_MAX))
+    {
+        CFE_EVS_SendEvent(VM_INVALID_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+                "Invalid Config Table.  MAV_COMP_ID.  Exp:<%u-%u>  Act: %u", MAV_COMP_ID_MIN, MAV_COMP_ID_MAX, (unsigned int) param);
+
+        valid = false;
+    }
+
+    return valid;
+}
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Validate COM_RC_LOSS_T                                          */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+osalbool VM::Validate_COM_RC_LOSS_T(float param)
+{
+	osalbool valid = true;
+
+    if(param > COM_RC_LOSS_T_MAX)
+    {
+        CFE_EVS_SendEvent(VM_INVALID_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+                "Invalid Config Table.  COM_RC_LOSS_T.  Exp:<0.0-%f>  Act: %f", COM_RC_LOSS_T_MAX, param);
+
+        valid = false;
+    }
+
+    return valid;
+}
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Validate COM_LOW_BAT_ACT                                        */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+osalbool VM::Validate_COM_LOW_BAT_ACT(uint32 param)
+{
+	osalbool valid = true;
+
+    if(param > COM_LOW_BAT_ACT_MAX)
+    {
+        CFE_EVS_SendEvent(VM_INVALID_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+                "Invalid Config Table.  COM_LOW_BAT_ACT.  Exp:<0-%u>  Act: %u", COM_LOW_BAT_ACT_MAX, (unsigned int) param);
+
+        valid = false;
+    }
+
+    return valid;
+}
+
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Validate COM_HOME_H_T                                           */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+osalbool VM::Validate_COM_HOME_H_T(float param)
+{
+	osalbool valid = true;
+
+    if((param < COM_HOME_H_T_MIN) || (param > COM_HOME_H_T_MAX))
+    {
+        CFE_EVS_SendEvent(VM_INVALID_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+                "Invalid Config Table.  COM_HOME_H_T.  Exp:<%f-%f>  Act: %f", COM_HOME_H_T_MIN, COM_HOME_H_T_MAX, param);
+
+        valid = false;
+    }
+
+    return valid;
+}
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Validate COM_HOME_V_T                                           */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+osalbool VM::Validate_COM_HOME_V_T(float param)
+{
+	osalbool valid = true;
+
+    if((param < COM_HOME_V_T_MIN) || (param > COM_HOME_V_T_MAX))
+    {
+        CFE_EVS_SendEvent(VM_INVALID_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+                "Invalid Config Table.  COM_HOME_V_T.  Exp:<%f-%f>  Act: %f", COM_HOME_V_T_MIN, COM_HOME_V_T_MAX, param);
+
+        valid = false;
+    }
+
+    return valid;
+}
+
+
 
 /************************/
 /*  End of File Comment */
