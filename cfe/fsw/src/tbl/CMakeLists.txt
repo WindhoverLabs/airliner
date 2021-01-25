@@ -39,7 +39,7 @@ set(CFE_TBL_SRC
 	${CMAKE_CURRENT_SOURCE_DIR}/cfe_tbl_symbols.c 
 )
 	
-add_airliner_cfe_unit_test(cfe-tbl-ut
+buildliner_add_cfe_unit_test(cfe-tbl-ut
     NO_HELGRIND
     NO_MASSIF
 

@@ -48,7 +48,7 @@ set(CFE_ES_SRC
 )
 
 	
-add_airliner_cfe_unit_test(cfe-es-ut
+buildliner_add_cfe_unit_test(cfe-es-ut
     NO_HELGRIND
     NO_MASSIF
 

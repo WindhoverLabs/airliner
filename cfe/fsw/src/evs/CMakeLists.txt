@@ -39,7 +39,7 @@ set(CFE_EVS_SRC
 	${CMAKE_CURRENT_SOURCE_DIR}/cfe_evs_symbols.c
 )
 	
-add_airliner_cfe_unit_test(cfe-evs-ut
+buildliner_add_cfe_unit_test(cfe-evs-ut
     NO_HELGRIND
     NO_MASSIF
 

@@ -39,7 +39,7 @@ set(CFE_TIME_SRC
 	${CMAKE_CURRENT_SOURCE_DIR}/cfe_time_symbols.c
 )
 	
-add_airliner_cfe_unit_test(cfe-time-ut
+buildliner_add_cfe_unit_test(cfe-time-ut
     NO_HELGRIND
     NO_MASSIF
 

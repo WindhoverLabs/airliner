@@ -34,7 +34,7 @@
 set(CFE_PSP_DIR "")
 set(CFE_OSAL_DIR "")
 
-#initialize_airliner_build(
+#buildliner_initialize(
 #    PREFIX 
 #    PSP    pc-linux
 #    OSAL   posix
@@ -50,7 +50,7 @@ set(CFE_OSAL_DIR "")
 #    STARTUP_SCRIPT
 #        ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
 #)
-function(initialize_airliner_build)
+function(buildliner_initialize)
     # Define the function arguments.
     cmake_parse_arguments(PARSED_ARGS "" "CORE_BINARY;PSP;OSAL;STARTUP_SCRIPT;CORE_TOOLS" "CONFIG;CONFIG_SOURCES;FILESYS" ${ARGN})
     
@@ -95,7 +95,7 @@ function(initialize_airliner_build)
     separate_arguments(MASSIF_COMMAND)
     
     include(${PROJECT_SOURCE_DIR}/core/base/psp/make/build-functions.cmake)
-    set_global_airliner_includes(${PARSED_ARGS_CONFIG})
+    buildliner_set_global_includes(${PARSED_ARGS_CONFIG})
     
     # Make all variables scoped to the parent.
     get_cmake_property(_variableNames VARIABLES)
@@ -112,13 +112,13 @@ function(initialize_airliner_build)
         add_subdirectory(${CFE_CORE_SRC}/make core/cfe)
     endif()
     
-    psp_initialize_airliner_build(${ARGN})
+    psp_buildliner_initialize(${ARGN})
     
-endfunction(initialize_airliner_build)
+endfunction(buildliner_initialize)
 
 
 
-#add_airliner_app(
+#buildliner_add_app(
 #    DEFINITION
 #        ${PROJECT_SOURCE_DIR}/apps/cfs_lib
 #    CONFIG
@@ -126,18 +126,18 @@ endfunction(initialize_airliner_build)
 #)
 # This function doesn't actually add the application.  It calls the CMakeLists.txt in the application source directory,
 # which actually adds the application.
-function(add_airliner_app)
+function(buildliner_add_app)
     # Define the application name.
     set(PARSED_ARGS_APP_NAME ${ARGV0})
     cmake_parse_arguments(PARSED_ARGS "" "DEFINITION" "CONFIG" ${ARGN})
 
-    psp_add_airliner_app(${ARGN})
+    psp_buildliner_add_app(${ARGN})
 
-endfunction(add_airliner_app)
+endfunction(buildliner_add_app)
 
 
 
-#build_airliner_cfe_host_tools(
+#buildliner_build_cfe_host_tools(
 #    PSP pc-linux
 #    OSAL posix
 #    CONFIG
@@ -145,7 +145,7 @@ endfunction(add_airliner_app)
 #        ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/inc
 #)
 # Build all the host tools.  Currently, this is just the elf2cfetbl.
-function(build_airliner_cfe_host_tools)
+function(buildliner_build_cfe_host_tools)
     cmake_parse_arguments(PARSED_ARGS "" "PSP;OSAL" "CONFIG" ${ARGN})
 
     include_directories(${PARSED_ARGS_CONFIG})
@@ -156,10 +156,10 @@ function(build_airliner_cfe_host_tools)
 
     add_subdirectory(${CFE_TOOLS}/elf2cfetbl ${ELF2CFETBL_BIN})
 
-endfunction(build_airliner_cfe_host_tools)
+endfunction(buildliner_build_cfe_host_tools)
 
 
-#add_airliner_app_def(sch
+#buildliner_add_app_def(sch
 #    FILE SCH
 #    SOURCES
 #        ${CMAKE_CURRENT_SOURCE_DIR}/../src/sch_api.c
@@ -174,52 +174,46 @@ endfunction(build_airliner_cfe_host_tools)
 #
 #    UNIT_TEST_INCLUDES
 #)
-function(add_airliner_app_def)
+function(buildliner_add_app_def)
     set(PARSED_ARGS_TARGET ${ARGV0})
     cmake_parse_arguments(PARSED_ARGS "" "FILE;DESIGN_DEFINITION" "SOURCES;LIBS;INCLUDES;PUBLIC_INCLUDES;DESIGN_DOCS" ${ARGN})
 
-    psp_add_airliner_app_def(${ARGN})
-endfunction(add_airliner_app_def)
+    psp_buildliner_add_app_def(${ARGN})
+endfunction(buildliner_add_app_def)
 
 
 
-function(add_airliner_app_src)
+function(buildliner_add_app_src)
     set(PARSED_ARGS_TARGET ${ARGV0})
     cmake_parse_arguments(PARSED_ARGS "" "" "SOURCES" ${ARGN})
 
     target_sources(${PARSED_ARGS_TARGET} PUBLIC ${PARSED_ARGS_SOURCES})
 
-endfunction(add_airliner_app_src)
+endfunction(buildliner_add_app_src)
 
 
 
-function(add_airliner_app_unit_test_src)
-    add_airliner_app_unit_test_src(${ARGN})
-endfunction(add_airliner_app_unit_test_src)
+function(buildliner_add_app_def_src)
+    buildliner_add_app_def_src(${ARGN})
+endfunction(buildliner_add_app_def_src)
 
 
 
-function(set_airliner_app_unit_test_options)
-    psp_set_airliner_app_unit_test_options(${ARGN})
-endfunction(set_airliner_app_unit_test_options)
-
-
-
-function(add_airliner_app_unit_test)
+function(buildliner_add_app_def)
     set(PARSED_ARGS_TARGET ${ARGV0})
     cmake_parse_arguments(PARSED_ARGS "UTF;UTASSERT" "FILE;VALGRIND_SUPPRESSION_FILE" "SOURCES;LIBS;INCLUDES;WRAPPERS" ${ARGN})
 
-    psp_add_airliner_app_unit_test(${ARGN})
-endfunction(add_airliner_app_unit_test)
+    psp_buildliner_add_app_def(${ARGN})
+endfunction(buildliner_add_app_def)
 
 
 
-function(add_airliner_cfe_unit_test)
+function(buildliner_add_cfe_unit_test)
     set(PARSED_ARGS_TARGET ${ARGV0})
     cmake_parse_arguments(PARSED_ARGS "NO_MEMCHECK;NO_HELGRIND;NO_MASSIF" "VALGRIND_SUPPRESSION_FILE" "SOURCES;INCLUDES" ${ARGN})
     
-    psp_add_airliner_cfe_unit_test(${ARGN})
-endfunction(add_airliner_cfe_unit_test)
+    psp_buildliner_add_cfe_unit_test(${ARGN})
+endfunction(buildliner_add_cfe_unit_test)
 
 
 
@@ -231,11 +225,11 @@ endfunction(add_airliner_cfe_unit_test)
 
 
 
-function(add_airliner_app_table)
+function(buildliner_add_table)
     set(PARSED_ARGS_TARGET ${ARGV0})
     cmake_parse_arguments(PARSED_ARGS "" "NAME" "SOURCES;INCLUDES" ${ARGN})
 
-    psp_add_airliner_app_table(${ARGN})
+    psp_buildliner_add_table(${ARGN})
 
-endfunction(add_airliner_app_table)
+endfunction(buildliner_add_table)
 

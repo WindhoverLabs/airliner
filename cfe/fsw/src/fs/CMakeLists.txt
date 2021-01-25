@@ -36,7 +36,7 @@ set(CFE_FS_SRC
 	${CMAKE_CURRENT_SOURCE_DIR}/cfe_fs_decompress.c 
 	${CMAKE_CURRENT_SOURCE_DIR}/cfe_fs_priv.c)
 	
-add_airliner_cfe_unit_test(cfe-fs-ut
+buildliner_add_cfe_unit_test(cfe-fs-ut
     NO_HELGRIND
     NO_MASSIF
 

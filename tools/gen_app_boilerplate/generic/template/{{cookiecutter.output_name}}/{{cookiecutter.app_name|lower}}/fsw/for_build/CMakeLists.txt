@@ -31,7 +31,7 @@
 #
 #############################################################################
 
-add_airliner_app_def({{cookiecutter.app_name|lower}}
+buildliner_add_app_def({{cookiecutter.app_name|lower}}
     FILE {{cookiecutter.app_name}}
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/{{cookiecutter.app_name|lower}}_app.c
@@ -55,7 +55,7 @@ add_airliner_app_def({{cookiecutter.app_name|lower}}
         ${PROJECT_SOURCE_DIR}/apps/{{cookiecutter.app_name|lower}}/fsw/platform_inc
 )
 
-add_airliner_app_unit_test({{cookiecutter.app_name}}-UT
+buildliner_add_app_def({{cookiecutter.app_name}}-UT
     UTASSERT 
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/{{cookiecutter.app_name|lower}}_app_test.c

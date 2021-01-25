@@ -42,7 +42,7 @@ set(CFE_SB_SRC
 	${CMAKE_CURRENT_SOURCE_DIR}/cfe_sb_symbols.c
 )
 
-add_airliner_cfe_unit_test(cfe-sb-ut
+buildliner_add_cfe_unit_test(cfe-sb-ut
     NO_HELGRIND
     NO_MASSIF
 
