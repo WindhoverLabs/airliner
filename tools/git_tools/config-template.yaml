@@ -1,0 +1,112 @@
+---
+core:
+  url:      git@github.com:WindhoverLabs/cfs-core.git
+  branch:   develop
+  path:     core/base
+  strategy: subtree
+  osal:
+    posix-fast:
+      url:    git@github.com:WindhoverLabs/osal-posix-fast.git
+      branch: squeaky_weasel
+      path:   core/osal/posix-fast
+      strategy: submodule
+    posix-nasa:
+      url:    git@github.com:WindhoverLabs/osal-posix-nasa.git
+      branch: squeaky_weasel
+      path:   core/osal/posix-nasa
+      strategy: submodule
+  psp:
+    pc-linux-nasa:
+      url:    git@github.com:WindhoverLabs/psp-pc-linux-nasa.git
+      branch: squeaky_weasel
+      path:   core/psp/pc-linux-nasa
+      strategy: submodule
+    pc-linux-wh:
+      url:    git@github.com:WindhoverLabs/psp-pc-linux-wh.git
+      branch: squeaky_weasel
+      path:   core/psp/pc-linux-wh
+      strategy: submodule
+
+tools:
+  auto-yamcs:
+    url:    git@github.com:WindhoverLabs/auto-yamcs.git
+    branch: develop
+    path:   core/tools/auto-yamcs
+    strategy: submodule
+
+apps:
+  cf:
+    url:      git@github.com:WindhoverLabs/cf.git
+    branch:   squeaky_weasel2
+    path:     apps/cf
+    strategy: subtree
+  cfs_lib:
+    url:      git@github.com:WindhoverLabs/cfs_lib.git
+    branch:   squeaky_weasel2
+    path:     apps/cfs_lib
+    strategy: subtree
+  ci:
+    url:      git@github.com:WindhoverLabs/ci.git
+    branch:   squeaky_weasel
+    path:     apps/ci
+    strategy: subtree
+  cs:
+    url:      git@github.com:WindhoverLabs/cs.git
+    branch:   squeaky_weasel2
+    path:     apps/cs
+    strategy: subtree
+  ds:
+    url:      git@github.com:WindhoverLabs/ds.git
+    branch:   squeaky_weasel2
+    path:     apps/ds
+    strategy: subtree
+  fm:
+    url:      git@github.com:WindhoverLabs/fm.git
+    branch:   squeaky_weasel2
+    path:     apps/fm
+    strategy: subtree
+  hk:
+    url:      git@github.com:WindhoverLabs/hk.git
+    branch:   squeaky_weasel2
+    path:     apps/hk
+    strategy: subtree
+  hs:
+    url:      git@github.com:WindhoverLabs/hs.git
+    branch:   squeaky_weasel2
+    path:     apps/hs
+    strategy: subtree
+  lc:
+    url:      git@github.com:WindhoverLabs/lc.git
+    branch:   squeaky_weasel
+    path:     apps/lc
+    strategy: subtree
+  md:
+    url:      git@github.com:WindhoverLabs/md.git
+    branch:   squeaky_weasel
+    path:     apps/md
+    strategy: subtree
+  mm:
+    url:      git@github.com:WindhoverLabs/mm.git
+    branch:   squeaky_weasel2
+    path:     apps/mm
+    strategy: subtree
+  sbn:
+    url:      git@github.com:WindhoverLabs/sbn.git
+    branch:   squeaky_weasel2
+    path:     apps/sbn
+    strategy: subtree
+  sc:
+    url:      git@github.com:WindhoverLabs/sc.git
+    branch:   squeaky_weasel2
+    path:     apps/sc
+    strategy: subtree
+  sch:
+    url:      git@github.com:WindhoverLabs/sch.git
+    branch:   squeaky_weasel2
+    path:     apps/sch
+    strategy: subtree
+  to:
+    url:      git@github.com:WindhoverLabs/to.git
+    branch:   squeaky_weasel
+    path:     apps/to
+    strategy: subtree
