@@ -52,7 +52,7 @@ include(${PROJECT_SOURCE_DIR}/core/tools/auto-yamcs/build-functions.cmake)
 #)
 function(psp_initialize_airliner_build)
     # Define the function arguments.
-    cmake_parse_arguments(PARSED_ARGS "REFERENCE" "CORE_BINARY;OSAL;STARTUP_SCRIPT" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
     
     # Create all the target directories the caller requested.
     foreach(dir ${PARSED_ARGS_FILESYS})
@@ -68,8 +68,8 @@ function(psp_initialize_airliner_build)
     # Generate the XTCE file
     commander_initialize_workspace(commander_workspace
         CONFIG_FILE           ${CMAKE_BINARY_DIR}/wh_defs.yaml
-        XTCE_CONFIG_FILE      ${PROJECT_SOURCE_DIR}/core/tools/commander/xtce_config.yaml
-        WORKSPACE_TEMPLATE    ${PROJECT_SOURCE_DIR}/core/tools/commander/workspace_template
+        XTCE_CONFIG_FILE      ${PROJECT_SOURCE_DIR}/core/base/tools/commander/xtce_config.yaml
+        WORKSPACE_TEMPLATE    ${PROJECT_SOURCE_DIR}/core/base/tools/commander/workspace_template
         WORKSPACE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/commander_workspace
         OUTPUT_DB_FILE        wh_defs.db
         OUTPUT_XTCE_FILE      mdb/cfs.xml
@@ -80,95 +80,97 @@ function(psp_initialize_airliner_build)
     add_custom_target(start-yamcs 
         COMMAND ${CMAKE_BINARY_DIR}/commander_workspace/bin/yamcs-start /opt/yamcs/ ${CMAKE_BINARY_DIR}/commander_workspace
     )
-
-    # Copy the startup script into the default location.
-    if(EXISTS ${PARSED_ARGS_STARTUP_SCRIPT})
-        file(COPY ${PARSED_ARGS_STARTUP_SCRIPT} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/exe/cf/apps)
-    endif()
-
-    if(${BUILD_CORE_FROM_SOURCE})
-        # Do the things that we only do when we build the core binary from source.
         
-        # Set what we're going to call the executable file.
-        set(CFE_EXEC_FILE airliner)
+    # Add the 'build-file-system' target.  This is used to trigger the steps to embed the initial ramdisk 
+    # after all the build products have been built.
+    add_custom_target(build-file-system)
         
-        # Parse the OSAL CMake files that will specify the various source files.
-        if(NOT EXISTS ${PARSED_ARGS_OSAL})
-            message(FATAL_ERROR "*** The path to the OSAL is either incorrect, or does not include source code.")
-        endif()
-        
-        # Parse the OSAL CMake files that will specify the various source files.
-        add_subdirectory(${PARSED_ARGS_OSAL} core/osal)
+    # Parse the OSAL CMake files that will specify the various source files.
+    add_subdirectory(${PARSED_ARGS_OSAL} core/osal)
                 
+    set(TARGET_INCLUDES 
+        ${PSP_SHARED_INC} 
+        ${CMAKE_CURRENT_BINARY_DIR} 
+        ${OSAL_INCS})  
+
+    # Set a higher priority set of includes, if this is a reference build.
+    if(PARSED_ARGS_REFERENCE_INCLUDES)
         set(TARGET_INCLUDES 
-            ${PSP_SHARED_INC} 
-            ${CMAKE_CURRENT_BINARY_DIR} 
-            ${OSAL_INCS})  
-        # Set a higher priority set of includes, if this is a reference build.
-        if(PARSED_ARGS_REFERENCE_INCLUDES)
-            set(TARGET_INCLUDES 
-                ${PROJECT_SOURCE_DIR}/core/mission_inc 
-                ${PROJECT_SOURCE_DIR}/core/platform_inc 
-                ${PROJECT_SOURCE_DIR}/core/platform_inc/cpu1
-                ${TARGET_INCLUDES}
-            )
-        endif()
-        
-        # Add the 'build-file-system' target.  This is used to trigger the steps to embed the initial ramdisk 
-        # after all the build products have been built.
-        add_custom_target(build-file-system)
-        
-        psp_add_executable(core-binary 
-            FILE_NAME ${CFE_EXEC_FILE}
-            
-            SOURCES
-                ${CFE_SRC}
-                ${OSAL_SRC}
-                ${PSP_PLATFORM_SRC}
-                ${PSP_SHARED_SRC}
-                
-            INCLUDES
-                ${TARGET_INCLUDES}
- 
-            INSTALL_PATH ${CFE_INSTALL_DIR}
+            ${PROJECT_SOURCE_DIR}/core/mission_inc 
+            ${PROJECT_SOURCE_DIR}/core/platform_inc 
+            ${PROJECT_SOURCE_DIR}/core/platform_inc/cpu1
+            ${TARGET_INCLUDES}
         )
-
-        # Add the executable to the combined design+configuration yaml file
-        commander_add_module(core
-            TARGET_WORKSPACE   commander_workspace
-            TARGET_NAME        core-binary 
-        )
-        
-        ## Generate documentation
-        find_package(Doxygen)
-        if(DOXYGEN_FOUND)
-            string (REPLACE ";" " " OSAL_SRC_FILES "${OSAL_SRC}")
-            string (REPLACE ";" " " CONFIG_SOURCES "${PARSED_ARGS_CONFIG_SOURCES}")
-            
-            if(NOT {PARSED_ARGS_PREFIX}docs)        
-                add_custom_target(docs)
-            endif()
-            
-            set(CFS_DOCS_HTML_DIR ${CMAKE_BINARY_DIR}/docs/html/doxy/)
-            set(CFS_DOCS_LATEX_DIR ${CMAKE_BINARY_DIR}/docs/latex/doxy/)      
-            configure_file(${CFE_DOCS_DIR}/detail_doxy.in ${CMAKE_CURRENT_BINARY_DIR}/detail_doxy @ONLY)
-            
-            add_custom_target(cfe-docs
-                COMMAND mkdir -p ${CFS_DOCS_HTML_DIR}/cfe/
-                COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/detail_doxy
-                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/
-            )
-            add_dependencies(docs cfe-docs)
-        endif(DOXYGEN_FOUND) 
-    else()
-        # Do the things that we only do when we are assuming the core binary is already built.
-        
-        # Copy the core binary to the correct location.
-        if(EXISTS ${PARSED_ARGS_CORE_BINARY})
-            file(COPY ${PARSED_ARGS_CORE_BINARY} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/exe)
-        endif()
     endif()
 
+    if(NOT docs)        
+        add_custom_target(docs)
+    endif()
+
+    if(NOT ${PARSED_ARGS_APPS_ONLY})
+        # Copy the startup script into the default location.
+        if(EXISTS ${PARSED_ARGS_STARTUP_SCRIPT})
+            file(COPY ${PARSED_ARGS_STARTUP_SCRIPT} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/exe/cf/apps)
+        endif()
+
+        if(${BUILD_CORE_FROM_SOURCE})
+            # Do the things that we only do when we build the core binary from source.
+        
+            # Set what we're going to call the executable file.
+            set(CFE_EXEC_FILE airliner)
+        
+            # Parse the OSAL CMake files that will specify the various source files.
+            if(NOT EXISTS ${PARSED_ARGS_OSAL})
+                message(FATAL_ERROR "*** The path to the OSAL is either incorrect, or does not include source code.")
+            endif()
+        
+            psp_add_executable(core-binary 
+                FILE_NAME ${CFE_EXEC_FILE}
+                
+                SOURCES
+                    ${CFE_SRC}
+                    ${OSAL_SRC}
+                    ${PSP_PLATFORM_SRC}
+                    ${PSP_SHARED_SRC}
+                
+                INCLUDES
+                    ${TARGET_INCLUDES}
+ 
+                INSTALL_PATH ${CFE_INSTALL_DIR}
+            )
+
+            # Add the executable to the combined design+configuration yaml file
+            commander_add_module(core
+                TARGET_WORKSPACE   commander_workspace
+                TARGET_NAME        core-binary 
+            )
+        
+            ## Generate documentation
+            find_package(Doxygen)
+            if(DOXYGEN_FOUND)
+                string (REPLACE ";" " " OSAL_SRC_FILES "${OSAL_SRC}")
+                string (REPLACE ";" " " CONFIG_SOURCES "${PARSED_ARGS_CONFIG_SOURCES}")
+            
+                set(CFS_DOCS_HTML_DIR ${CMAKE_BINARY_DIR}/docs/html/doxy/)
+                set(CFS_DOCS_LATEX_DIR ${CMAKE_BINARY_DIR}/docs/latex/doxy/)      
+                configure_file(${CFE_DOCS_DIR}/detail_doxy.in ${CMAKE_CURRENT_BINARY_DIR}/detail_doxy @ONLY)
+            
+                add_custom_target(cfe-docs
+                    COMMAND mkdir -p ${CFS_DOCS_HTML_DIR}/cfe/
+                    COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/detail_doxy
+                    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/
+                )
+                add_dependencies(docs cfe-docs)
+            endif(DOXYGEN_FOUND) 
+        else()
+            # Do the things that we only do when we are assuming the core binary is already built.
+        
+            # Copy the core binary to the correct location.
+            if(EXISTS ${PARSED_ARGS_CORE_BINARY})
+                file(COPY ${PARSED_ARGS_CORE_BINARY} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/exe)
+            endif()
+        endif()
+    endif()
 endfunction(psp_initialize_airliner_build)
 
 
