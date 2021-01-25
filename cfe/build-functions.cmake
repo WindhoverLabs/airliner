@@ -81,7 +81,7 @@ function(initialize_airliner_build)
     set(CFE_PSP_DIR ${PARSED_ARGS_PSP})
     set(CFE_OSAL_DIR ${PARSED_ARGS_OSAL})
 
-    include(${PROJECT_SOURCE_DIR}/core/psp/make/default-build-vars.cmake)
+    include(${PROJECT_SOURCE_DIR}/core/base/psp/make/default-build-vars.cmake)
     if(EXISTS ${PARSED_ARGS_PSP}/make/build-vars.cmake)
         include(${PARSED_ARGS_PSP}/make/build-vars.cmake)
     endif()
@@ -94,7 +94,7 @@ function(initialize_airliner_build)
     separate_arguments(HELGRIND_COMMAND)
     separate_arguments(MASSIF_COMMAND)
     
-    include(${PROJECT_SOURCE_DIR}/core/psp/make/build-functions.cmake)
+    include(${PROJECT_SOURCE_DIR}/core/base/psp/make/build-functions.cmake)
     set_global_airliner_includes(${PARSED_ARGS_CONFIG})
     
     # Make all variables scoped to the parent.

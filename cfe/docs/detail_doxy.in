@@ -1,5 +1,5 @@
 # Doxyfile 1.8.11
-@INCLUDE_PATH=@PROJECT_SOURCE_DIR@/core/cfe/docs/src/mnem_maps
+@INCLUDE_PATH=@PROJECT_SOURCE_DIR@/core/base/cfe/docs/src/mnem_maps
 @INCLUDE=cfe_es_cmd_mnem_map
 @INCLUDE=cfe_es_tlm_mnem_map
 @INCLUDE=cfe_tbl_cmd_mnem_map
