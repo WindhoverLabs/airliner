@@ -1,0 +1,72 @@
+  short_name: prmlib
+  long_name: Parameters
+  events: 
+  telemetry: 
+    PRMLIB_PARAM_UPDATED_MID: 
+      msgID: 
+      struct: PRMLIB_UpdatedParamMsg_t
+  commands: 
+    PRM_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: PRM_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: PRM_NoArgCmd_t
+    PRM_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: PRM_NoArgCmd_t
+    PRM_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: PRM_NoArgCmd_t
+  perfids: 
+    PARAMS_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    PRM_SB_TIMEOUT: 
+      name: PRM_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    PRM_MISSION_REV: 
+      name: PRM_MISSION_REV
+      value: 0
+    PRM_SCH_PIPE_DEPTH: 
+      name: PRM_SCH_PIPE_DEPTH
+      value: 2
+    PRM_SCH_PIPE_NAME: 
+      name: PRM_SCH_PIPE_NAME
+      value: PRM_SCH_PIPE
+    PRM_SCH_PIPE_PEND_TIME: 
+      name: PRM_SCH_PIPE_PEND_TIME
+      value: 2000
+    PRM_SCH_PIPE_WAKEUP_RESERVED: 
+      name: PRM_SCH_PIPE_WAKEUP_RESERVED
+      value: 1
+    PRM_SCH_PIPE_SEND_HK_RESERVED: 
+      name: PRM_SCH_PIPE_SEND_HK_RESERVED
+      value: 1
+    PRM_CMD_PIPE_DEPTH: 
+      name: PRM_CMD_PIPE_DEPTH
+      value: 4
+    PRM_CMD_PIPE_NAME: 
+      name: PRM_CMD_PIPE_NAME
+      value: PRM_CMD_PIPE
+    PRM_DATA_PIPE_DEPTH: 
+      name: PRM_DATA_PIPE_DEPTH
+      value: 4
+    PRM_DATA_PIPE_NAME: 
+      name: PRM_DATA_PIPE_NAME
+      value: PRM_DATA_PIPE
+    PRM_CONFIG_TABLE_FILENAME: 
+      name: PRM_CONFIG_TABLE_FILENAME
+      value: /cf/apps/prm_config.tbl
+    PRM_STARTUP_TIMEOUT_MSEC: 
+      name: PRM_STARTUP_TIMEOUT_MSEC
+      value: 1000
