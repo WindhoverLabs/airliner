@@ -1,0 +1,140 @@
+table.table.table-condensed
+  tbody
+    tr
+      th GC_MinThrust
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/GC_MinThrust', notext: true, class: [{eval: '==0', class: 'CDR-LED-RED'},{eval: '==1', class: 'CDR-LED-GREEN'}]}]})
+    tr
+      th OR
+    tr
+      th GC_HitGround
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/GC_HitGround', notext: true, class: [{eval: '==0', class: 'CDR-LED-RED'},{eval: '==1', class: 'CDR-LED-GREEN'}]}]})
+    tr
+      th ---
+    tr
+      th AND
+    tr
+      th ---
+    tr
+      th NOT GC_HorMovement
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/GC_HorMovement', notext: true, class: [{eval: '==0', class: 'CDR-LED-GREEN'},{eval: '==1', class: 'CDR-LED-RED'}]}]})
+    tr
+      th OR
+    tr
+      th NOT GC_PositionLock
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/GC_PositionLock', notext: true, class: [{eval: '==0', class: 'CDR-LED-GREEN'},{eval: '==1', class: 'CDR-LED-RED'}]}]})
+
+    tr
+      th ---
+    tr
+      th AND
+    tr
+      th ---
+    
+    tr
+      th NOT GC_VertMovement
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/GC_VertMovement', notext: true, class: [{eval: '==0', class: 'CDR-LED-GREEN'},{eval: '==1', class: 'CDR-LED-RED'}]}]})
+    tr
+      th OR
+    tr
+      th NOT GC_AltitudeLock
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/GC_AltitudeLock', notext: true, class: [{eval: '==0', class: 'CDR-LED-GREEN'},{eval: '==1', class: 'CDR-LED-RED'}]}]})
+
+    tr
+      th ---
+    tr
+      th AND
+    tr
+      th ---
+
+    tr
+      th GC_ManualControlIdlingOrAutomatic
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/GC_ManualControlIdlingOrAutomatic', notext: true, class: [{eval: '==0', class: 'CDR-LED-RED'},{eval: '==1', class: 'CDR-LED-GREEN'}]}]})
+
+    tr
+      th ---
+
+    tr
+      th Result
+
+    tr
+      th GroundContact
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/GroundContact', notext: true, class: [{eval: '==0', class: 'CDR-LED-RED'},{eval: '==1', class: 'CDR-LED-GREEN'}]}]})
+
+    tr
+      th ---
+
+    tr
+      th Debug data:
+
+    tr
+      th GC_InDescent
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/GC_InDescent', notext: true, class: [{eval: '==0', class: 'CDR-LED-RED'},{eval: '==1', class: 'CDR-LED-GREEN'}]}]})
+
+    tr
+      th ---
+    tr
+      th Landed Checks
+    tr
+      th ---
+
+    tr
+      th LD_GC_history_state
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/LD_GC_history_state', notext: true, class: [{eval: '==0', class: 'CDR-LED-RED'},{eval: '==1', class: 'CDR-LED-GREEN'}]}]})
+
+    tr
+      th AND
+
+    tr
+      th LD_MinThrust
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/LD_MinThrust', notext: true, class: [{eval: '==0', class: 'CDR-LED-RED'},{eval: '==1', class: 'CDR-LED-GREEN'}]}]})
+
+    tr
+      th AND
+
+    tr
+      th NOT LD_Rotation
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/LD_Rotation', notext: true, class: [{eval: '==0', class: 'CDR-LED-GREEN'},{eval: '==1', class: 'CDR-LED-RED'}]}]})
+
+    tr
+      th ---
+    tr
+      th AND
+    tr
+      th ---
+
+    tr
+      th NOT LD_HorMovement
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/LD_HorMovement', notext: true, class: [{eval: '==0', class: 'CDR-LED-GREEN'},{eval: '==1', class: 'CDR-LED-RED'}]}]})
+
+    tr
+      th OR
+
+    tr
+      th NOT LD_PositionLock
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/LD_PositionLock', notext: true, class: [{eval: '==0', class: 'CDR-LED-GREEN'},{eval: '==1', class: 'CDR-LED-RED'}]}]})
+
+    tr
+      th ---
+
+    tr
+      th Result
+
+    tr
+      th Landed
+      td
+        .led-basic(data-cdr={tlm: [{name:'/LD/LD_Diag_t/Landed', notext: true, class: [{eval: '==0', class: 'CDR-LED-RED'},{eval: '==1', class: 'CDR-LED-GREEN'}]}]})
+

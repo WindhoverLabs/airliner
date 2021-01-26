@@ -1,0 +1,370 @@
+/*==========================================================================*/
+/* NOTE:                                                                    */
+/*      Additional notes to the Author can be found in comment blocks such  */
+/*      as this one.  These comment blocks will not appear in the doxygen   */
+/*      output and do not need to be removed but can be if so desired.      */
+/*      All text found within the pages that is surrounded by "()" is       */
+/*      merely a suggestion as to the appropriate content the Author should */
+/*      insert at that location.                                            */
+/*==========================================================================*/
+/**
+    \mainpage Landing Detector (LD) User's Guide    
+
+       <UL>
+           <LI> \subpage cfsldrevhist
+           <LI> \subpage cfsldintro
+           <LI> \subpage cfsldovr
+           <LI> \subpage cfsldopr
+           <LI> \subpage cfsldreq
+           <LI> \subpage cfslddg
+           <LI> \subpage cfsldcmds
+           <LI> \subpage cfsldtlm
+           <LI> \subpage cfsldtbl
+           <LI> \subpage cfsldcfg
+           <LI> \subpage cfsldcons
+           <LI> \subpage cfsldfaqs
+           <LI> \subpage ld_events.h "LD Application Event Message Reference" <BR>
+       </UL>
+**/
+
+/**
+  \page cfsldrevhist LD Application User's Guide Revision History
+
+  This document is generated against #LD_MAJOR_VERSION #LD_MINOR_VERSION #LD_REVISION.
+  
+  Next: \ref cfsldintro
+
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author may wish to examine the Acronym list and ensure the     */
+/*       Application's abbreviation is put in alphabetical order.           */
+/*==========================================================================*/
+/**
+  \page cfsldintro LD Application Introduction
+    
+  <H2> Scope </H2>
+
+  This document provides a complete specification for the commands and telemetry associated
+  with the LD Application (LD) software.  The document is intended primarily 
+  for users of the software (operations personal, test engineers, and maintenance personnel).  
+  The last section of the document, the deployment guide section, is intended for mission 
+  developers when deploying and configuring this application software for a mission 
+  flight software build environment. 
+
+  <H2> Applicable Documents </H2>
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%">
+  <TR><TD WIDTH="20%"> <B>Document ID</B> </TD> 
+      <TD WIDTH="40%"> <B>Document Title</B> </TD>
+  <TR><TD WIDTH="20%"> TBD       </TD> 
+      <TD WIDTH="40%"> LD Application Requirements Document </TD>
+  <TR><TD WIDTH="20%"> TBD       </TD> 
+      <TD WIDTH="40%"> LD Application Design Document </TD>
+  </TABLE>
+
+
+  <H2> Acronyms </H2>
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%">
+  <TR><TD WIDTH="20%"> <B>Acronym</B> </TD> <TD WIDTH="40%"> <B>Description</B>                       </TD>
+  <TR><TD WIDTH="20%"> API     </TD> <TD WIDTH="40%"> Application Programming Interface               </TD>
+  <TR><TD WIDTH="20%"> CCSDS   </TD> <TD WIDTH="40%"> Consultative Committee for Space Data Systems   </TD>
+  <TR><TD WIDTH="20%"> C&DH    </TD> <TD WIDTH="40%"> Command and Data Handling                       </TD>
+  <TR><TD WIDTH="20%"> CFE     </TD> <TD WIDTH="40%"> Core Flight Executive                           </TD>
+  <TR><TD WIDTH="20%"> CFS     </TD> <TD WIDTH="40%"> Core Flight System                              </TD>
+  <TR><TD WIDTH="20%"> Cmd     </TD> <TD WIDTH="40%"> Command                                         </TD>
+  <TR><TD WIDTH="20%"> CPU     </TD> <TD WIDTH="40%"> Central Processing Unit                         </TD>
+  <TR><TD WIDTH="20%"> FSW     </TD> <TD WIDTH="40%"> Flight Software                                 </TD>
+  <TR><TD WIDTH="20%"> HK      </TD> <TD WIDTH="40%"> Housekeeping telemetry, or CFS Housekeeping Application</TD>
+  <TR><TD WIDTH="20%"> HW, H/W </TD> <TD WIDTH="40%"> Hardware                                        </TD>
+  <TR><TD WIDTH="20%"> ICD     </TD> <TD WIDTH="40%"> Interface Control Document                      </TD>
+  <TR><TD WIDTH="20%"> ISR     </TD> <TD WIDTH="40%"> Interrupt Service Routine                       </TD>
+  <TR><TD WIDTH="20%"> OS      </TD> <TD WIDTH="40%"> Operating System                                </TD>
+  <TR><TD WIDTH="20%"> OSAL    </TD> <TD WIDTH="40%"> Operating System Abstraction Layer              </TD>
+  <TR><TD WIDTH="20%"> Pkts    </TD> <TD WIDTH="40%"> Packets                                         </TD>
+  <TR><TD WIDTH="20%"> RAM     </TD> <TD WIDTH="40%"> Random-Access Memory                            </TD>
+  <TR><TD WIDTH="20%"> RTOS    </TD> <TD WIDTH="40%"> Real Time Operating System                      </TD>
+  <TR><TD WIDTH="20%"> SB      </TD> <TD WIDTH="40%"> Software Bus Service                            </TD>
+  <TR><TD WIDTH="20%"> SW, S/W </TD> <TD WIDTH="40%"> Software                                        </TD>
+  <TR><TD WIDTH="20%"> TBD     </TD> <TD WIDTH="40%"> To Be Determined                                </TD>
+  <TR><TD WIDTH="20%"> TBL     </TD> <TD WIDTH="40%"> Table                                           </TD>
+  <TR><TD WIDTH="20%"> TLM     </TD> <TD WIDTH="40%"> Telemetry                                       </TD>
+  <TR><TD WIDTH="20%"> UTC     </TD> <TD WIDTH="40%"> Universal Coordinated Time (time scale)         </TD>
+  </TABLE>
+
+  Prev: \ref cfsldrevhist <BR>
+  Next: \ref cfsldovr
+**/
+
+/**
+  \page cfsldovr LD Application Overview
+    
+  The LD Application (LD) application detects if the vehicle is landed, free falling, had ground contact or flying.
+    
+  LD Design Overview
+  ====
+  1. The LD application reads various messages such as vehicle local position, actuator controls, control state, battery status, 
+  vehicle attitude, and manual control setpoint.
+  2. Determines if the vehicle is in free fall.
+  3. Determines if the vehicle has ground contact.
+  4. Determines if the vehicle has landed.
+  5. Sets and publishes vehicle land detected message.
+    
+  Prev: \ref cfsldintro <BR>
+  Next: \ref cfsldopr
+**/
+
+/**
+  \page cfsldopr LD Application Operation
+  The following operations are carried out by the LD Application:
+	1.Detect if vehicle is in free fall state
+     ----
+	    1) If parameter is set to zero or invalid, disable free-fall detection.<BR>
+	    2) Get x,y,z accelerations acting on the vehicle and compute the net acceleration.<BR>
+	    3) If acceleration is less than a predefined threshold, flag state to true.<BR>
+	2.Detect if vehicle is has ground contact state
+	 ----
+	    1) If the vehicle is not armed then it is in ground contact state.<BR>
+	    2) If vehicle is in manual mode never report landed.
+	    <OL>
+	        <LI>If the user has more than idle throttle.
+	        <LI>Check throttle and report no ground contact based on the pilots intent to take off.
+	    </OL>
+	    3) Increase acceptance thresholds for landed state after arming the vehicle so that the increasing motor speed and other effects do not trigger false negatives.<BR>
+	    4) Mark vehicle state as ground contact if. 
+	    <OL>
+	        <LI>Not moving vertically.
+	        <LI>Pilot reduces thrust, or in auto mode we are below minimum thrust.
+	        <LI>We cannot move any further down.
+	    </OL>    
+	3.Detect if vehicle is landed state
+     ----
+	    1) If the vehicle is not armed then it is in landed state.<BR>
+	    2) If the vehicle is manually controlled and is idling,  vehicle stays in landed state until the pilot increases throttle for takeoff.
+	    <OL>
+	        <LI>If throttle is more than a given threshold, set ground contact state history to false.
+	    </OL>
+	    3) If the vehicle is not in altitude lock mode, check if the vehicle has minimum thrust and the drone stays that way of at least 8 seconds then  mark state as landed.<BR>
+	    4) Increase acceptance thresholds for landed state after arming the vehicle so that the increasing motor speed and other effects do not trigger false negatives.<BR>
+	    5) Mark vehicle state as landed if.
+	    <OL>    
+	        <LI>Not moving horizontally.
+	        <LI>Have no thrust. (look if all rotation angles are not moving)
+	        <LI>Ground contact persists.
+	    </OL>
+	4.Determining current state of the vehicle
+     ----
+	    1) The state of the vehicle is determined by the land detector. A vehicle is said to be in landed state if it has seen a ground contact state previously.<BR> 
+	    
+    Next: \ref cfsldreq <BR>
+    Prev: \ref cfsldovr
+**/
+
+/**
+    \page cfsldreq LD Application Requirements
+    
+    The following are LD application requirements.
+
+  (Insert high level requirements and add a reference to where detailed requirements can be found)
+    
+    Next: \ref cfslddg <BR>
+    Prev: \ref cfsldopr 
+**/
+
+/**
+    \page cfslddg  LD Application Deployment Guide
+
+  (Basic Instructions to the Author)
+  ====  
+
+  (Insert text describing steps required to integrate the application with a CFS system.  This should
+   include:
+     1) References to message IDs that need to be inserted into a CFS Scheduler table
+     2) References to telemetry that can be generated
+     3) Additional description of application configuration parameters that may need to be modified.
+        For example, questions that a systems integrator needs to have answered before the application
+        can be successfully integrated
+     4) References to the application's performance ID)
+
+  Initial Integration
+  ====
+
+    The first step in deploying the LD application is to do stuff.
+
+  Application Tailoring to the Mission
+  ----
+    
+    The ld_mission_cfg.h file, the ld_msgids.h, and the ld_perfids.h files
+    are tailored for the mission.  These are built into the application during
+    compilation.
+
+  Application Tailoring to the Platform
+  ----
+
+    In the ld_platform_cfg.h file, there are configuration parameters that control
+    LD application behavior.  This should be tailored to the specific platform
+    needs.  This behavior is built into the application during compilation.
+
+  CFS Scheduler Support
+  ----
+
+    TODO Discuss any commands that must be included in the CFS Scheduler Table
+    and any related tailoring/configuration.
+     
+    Next: \ref cfsldcmds <BR>
+    Prev: \ref cfsldreq
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+    \page cfsldcmds LD Application Commands
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsldtlm</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsldtbl</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsldcfg</B></TD>
+    </TABLE>
+  
+    The following is a list of commands that are processed by the LD Application: 
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+    \page cfsldtlm  LD Application Telemetry
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsldcmds</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsldtbl</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsldcfg</B></TD>
+    </TABLE>
+  
+    The following is a list of telemetry that is generated by the LD Application: 
+**/
+
+/**
+    \page cfsldtbl LD Application Table Definitions
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsldcmds</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsldtlm</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsldcfg</B></TD>
+    </TABLE>
+
+  (Include text describing data structures used in application tables.  Further text can be used to
+   describe the process of populating the table if necessary.  Default values may also be described)
+
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+  \page cfsldcfg LD Application Configuration Parameters
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+  <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsldcmds</B></TD>
+      <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsldtlm</B> </TD> 
+      <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsldtbl</B></TD>
+  </TABLE>
+  
+  The following are configuration parameters used to configure the LD
+  Application either for each platform or for a mission as a whole.
+
+**/
+
+/**
+    \page cfsldcons LD Application Operational Constraints
+  
+  (Instructions to the author)
+  ====
+
+  (Insert text that describes:
+    1) situations that would prevent the application from starting
+    2) causes for the application to terminate prematurely
+    3) commands that cannot be issued either out of order or without sufficient wait time, etc) 
+
+  Application Termination
+  ====
+
+    Potential causes for LD to terminate prematurely are an error return from the 
+    software bus in the application main loop or error return from one of the cFE table
+    services functions when LD tries to do table management (check for updates, dump 
+    requests etc.) during each housekeeping cycle. 
+
+  Critical Data Store Operation
+  ====
+    
+    When using the Critical Data Store (CDS), the results tables and housekeeping data
+    will only be restored if the application was shut down through cFE Executive Services 
+    and exited clean. If this is not the case, default values will be used 
+    (see \ref cfsldfaqs). 
+    
+    Next: \ref cfsldfaqs <BR>
+    Prev: \ref cfsldtbl
+**/
+
+/**
+    \page cfsldfaqs LD Application Frequently Asked Questions
+
+ (Insert text that categorizes a group of questions, if necessary, here.
+  For example, "General".)
+
+  General
+  ====
+
+  <B> (Q)
+     What is the basic flow of the application?
+  </B> <BR> <BR> <I>
+     The LD application uses a common application format. When the app starts, 
+     initialization is performed, then the app enters an infinite loop waiting for
+     commands from the software bus.
+  </I>
+
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  (Insert text that categorizes another group of questions, if necessary, here)
+  ====
+    
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+
+**/
