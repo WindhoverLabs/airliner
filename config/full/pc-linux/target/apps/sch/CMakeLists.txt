@@ -20,7 +20,7 @@ buildliner_add_table(
     INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/src/
 )
 
-buildliner_add_app_def(sch-custom-ut
+buildliner_add_app_unit_test(sch-custom-ut
     UTASSERT
     NO_HELGRIND
     NO_MASSIF
