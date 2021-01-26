@@ -1,0 +1,226 @@
+  short_name: lc
+  long_name: Limits Checker
+  events: 
+    LC_TASK_EXIT_EID: 
+      id: 1
+    LC_INIT_INF_EID: 
+      id: 2
+    LC_CR_PIPE_ERR_EID: 
+      id: 3
+    LC_SUB_HK_REQ_ERR_EID: 
+      id: 4
+    LC_SUB_GND_CMD_ERR_EID: 
+      id: 5
+    LC_SUB_SAMPLE_CMD_ERR_EID: 
+      id: 6
+    LC_WDT_REGISTER_ERR_EID: 
+      id: 7
+    LC_WDT_REREGISTER_ERR_EID: 
+      id: 8
+    LC_ADT_REGISTER_ERR_EID: 
+      id: 9
+    LC_WRT_REGISTER_ERR_EID: 
+      id: 10
+    LC_ART_REGISTER_ERR_EID: 
+      id: 11
+    LC_WRT_CDS_REGISTER_ERR_EID: 
+      id: 12
+    LC_ART_CDS_REGISTER_ERR_EID: 
+      id: 13
+    LC_APP_CDS_REGISTER_ERR_EID: 
+      id: 14
+    LC_WDT_LOAD_ERR_EID: 
+      id: 15
+    LC_ADT_LOAD_ERR_EID: 
+      id: 16
+    LC_WRT_GETADDR_ERR_EID: 
+      id: 17
+    LC_ART_GETADDR_ERR_EID: 
+      id: 18
+    LC_WDT_GETADDR_ERR_EID: 
+      id: 19
+    LC_ADT_GETADDR_ERR_EID: 
+      id: 20
+    LC_CDS_RESTORED_INF_EID: 
+      id: 21
+    LC_CDS_UPDATED_INF_EID: 
+      id: 22
+    LC_CDS_DISABLED_INF_EID: 
+      id: 23
+    LC_CC_ERR_EID: 
+      id: 24
+    LC_APSAMPLE_APNUM_ERR_EID: 
+      id: 25
+    LC_NOOP_INF_EID: 
+      id: 26
+    LC_RESET_DBG_EID: 
+      id: 27
+    LC_LCSTATE_INF_EID: 
+      id: 28
+    LC_LCSTATE_ERR_EID: 
+      id: 29
+    LC_APSTATE_NEW_ERR_EID: 
+      id: 30
+    LC_APSTATE_CURR_ERR_EID: 
+      id: 31
+    LC_APSTATE_APNUM_ERR_EID: 
+      id: 32
+    LC_APSTATE_INF_EID: 
+      id: 33
+    LC_APOFF_APNUM_ERR_EID: 
+      id: 34
+    LC_APOFF_CURR_ERR_EID: 
+      id: 35
+    LC_APOFF_INF_EID: 
+      id: 36
+    LC_APSTATS_APNUM_ERR_EID: 
+      id: 37
+    LC_APSTATS_INF_EID: 
+      id: 38
+    LC_WPSTATS_WPNUM_ERR_EID: 
+      id: 39
+    LC_WPSTATS_INF_EID: 
+      id: 40
+    LC_HKREQ_LEN_ERR_EID: 
+      id: 41
+    LC_APSAMPLE_LEN_ERR_EID: 
+      id: 42
+    LC_LEN_ERR_EID: 
+      id: 43
+    LC_UNSUB_WP_ERR_EID: 
+      id: 44
+    LC_SUB_WP_ERR_EID: 
+      id: 45
+    LC_WRT_NO_SAVE_ERR_EID: 
+      id: 46
+    LC_ART_NO_SAVE_ERR_EID: 
+      id: 47
+    LC_APP_NO_SAVE_START_ERR_EID: 
+      id: 48
+    LC_MID_INF_EID: 
+      id: 49
+    LC_WP_DATATYPE_ERR_EID: 
+      id: 50
+    LC_WP_OPERID_ERR_EID: 
+      id: 51
+    LC_WP_NAN_ERR_EID: 
+      id: 52
+    LC_WP_OFFSET_ERR_EID: 
+      id: 53
+    LC_WDTVAL_FPERR_EID: 
+      id: 54
+    LC_WDTVAL_ERR_EID: 
+      id: 55
+    LC_WDTVAL_INF_EID: 
+      id: 56
+    LC_APSAMPLE_CURR_ERR_EID: 
+      id: 57
+    LC_AP_PASSTOFAIL_INF_EID: 
+      id: 58
+    LC_PASSIVE_FAIL_DBG_EID: 
+      id: 59
+    LC_AP_PASSIVE_FAIL_INF_EID: 
+      id: 60
+    LC_AP_FAILTOPASS_INF_EID : 
+      id: 61
+    LC_ACTION_ERROR_ERR_EID: 
+      id: 62
+    LC_INVALID_RPN_ERR_EID: 
+      id: 63
+    LC_ADTVAL_RPNERR_EID: 
+      id: 64
+    LC_ADTVAL_ERR_EID: 
+      id: 65
+    LC_ADTVAL_INF_EID: 
+      id: 66
+    LC_CFCALL_ERR_EID: 
+      id: 67
+  telemetry: 
+    LC_HK_TLM_MID: 
+      msgID: 
+      struct: LC_HkPacket_t
+    LC_SAMPLE_AP_MID: 
+      msgID: 
+      struct: LC_SampleAP_t
+  commands: 
+    LC_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
+        Reset: 
+          cc: 1
+          struct: CFE_SB_CmdHdr_t
+        SetLCState: 
+          cc: 2
+          struct: LC_SetLCState_t
+        SetAPState: 
+          cc: 3
+          struct: LC_SetAPState_t
+        SetAPPermOff: 
+          cc: 4
+          struct: LC_SetAPPermOff_t
+        ResetAPStats: 
+          cc: 5
+          struct: LC_ResetAPStats_t
+        ResetWPStats: 
+          cc: 6
+          struct: LC_ResetWPStats_t
+    LC_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
+  perfids: 
+    LC_APPMAIN_PERF_ID: 
+      id: 
+    LC_WDT_SEARCH_PERF_ID: 
+      id: 
+  config: 
+    LC_RTS_REQ_MI: 
+      name: LC_RTS_REQ_MI
+      value: 0x18A9
+    LC_RTS_REQ_CC: 
+      name: LC_RTS_REQ_CC
+      value: 4
+    LC_APP_NAME: 
+      name: LC_APP_NAME
+      value: LC
+    LC_PIPE_DEPTH: 
+      name: LC_PIPE_DEPTH
+      value: 12
+    LC_MAX_WATCHPOINTS: 
+      name: LC_MAX_WATCHPOINTS
+      value: 176
+    LC_MAX_ACTIONPOINTS: 
+      name: LC_MAX_ACTIONPOINTS
+      value: 176
+    LC_STATE_POWER_ON_RESET: 
+      name: LC_STATE_POWER_ON_RESET
+      value: LC_STATE_DISABLED
+    LC_STATE_WHEN_CDS_RESTORED: 
+      name: LC_STATE_WHEN_CDS_RESTORED
+      value: LC_STATE_FROM_CDS
+    LC_WDT_FILENAME: 
+      name: LC_WDT_FILENAME
+      value: /cf/apps/lc_def_wdt.tbl
+    LC_ADT_FILENAME: 
+      name: LC_ADT_FILENAME
+      value: /cf/apps/lc_def_adt.tbl
+    LC_MAX_RPN_EQU_SIZE: 
+      name: LC_MAX_RPN_EQU_SIZE
+      value: 20
+    LC_MAX_ACTION_TEXT: 
+      name: LC_MAX_ACTION_TEXT
+      value: 32
+    LC_MAX_VALID_ADT_RTSID: 
+      name: LC_MAX_VALID_ADT_RTSID
+      value: 0xFFF0
+    LC_FLOAT_TOLERANCE: 
+      name: LC_FLOAT_TOLERANCE
+      value: -1e-25
+    LC_MISSION_REV: 
+      name: LC_MISSION_REV
+      value: 0
