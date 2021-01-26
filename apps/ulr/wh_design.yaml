@@ -1,0 +1,121 @@
+  short_name: ulr
+  long_name: uLanding Radar Driver
+  events: 
+    ULR_INIT_INF_EID: 
+      id: 1
+    ULR_CMD_NOOP_EID: 
+      id: 2
+    ULR_SUBSCRIBE_ERR_EID: 
+      id: 3
+    ULR_PIPE_INIT_ERR_EID: 
+      id: 4
+    ULR_RCVMSG_ERR_EID: 
+      id: 5
+    ULR_MSGID_ERR_EID: 
+      id: 6
+    ULR_CC_ERR_EID: 
+      id: 7
+    ULR_MSGLEN_ERR_EID: 
+      id: 8
+    ULR_CUSTOM_INIT_ERR_EID: 
+      id: 9
+    ULR_UNEXPECTED_DATA_BEFORE_VERSION_ID: 
+      id: 10
+    ULR_UNEXPECTED_DATA_BEFORE_HEADER: 
+      id: 11
+    ULR_INVALID_CHECKSUM: 
+      id: 12
+    ULR_INVALID_PARSER_STATE: 
+      id: 13
+    ULR_LISTENER_CREATE_CHDTASK_ERR_EID: 
+      id: 14
+  telemetry: 
+    ULR_HK_TLM_MID: 
+      msgID: 
+      struct: ULR_HkTlm_t
+  commands: 
+    ULR_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: ULR_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: ULR_NoArgCmd_t
+    ULR_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: ULR_NoArgCmd_t
+    ULR_MEASURE_MID: 
+      msgID: 
+      commands: 
+        Measure: 
+          cc: 0
+          struct: ULR_NoArgCmd_t
+  perfids: 
+    ULR_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    ULR_SB_TIMEOUT: 
+      name: ULR_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    ULR_LISTENER_TASK_FLAGS: 
+      name: ULR_LISTENER_TASK_FLAGS
+      value: OS_ENABLE_CORE_0
+    ULR_MISSION_REV: 
+      name: ULR_MISSION_REV
+      value: 0
+    ULR_SCH_PIPE_DEPTH: 
+      name: ULR_SCH_PIPE_DEPTH
+      value: 2
+    ULR_SCH_PIPE_NAME: 
+      name: ULR_SCH_PIPE_NAME
+      value: ULR_SCH_PIPE
+    ULR_SCH_PIPE_PEND_TIME: 
+      name: ULR_SCH_PIPE_PEND_TIME
+      value: 2000
+    ULR_MEASURE_MID_MAX_MSG_COUNT: 
+      name: ULR_MEASURE_MID_MAX_MSG_COUNT
+      value: 1
+    ULR_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: ULR_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    ULR_CMD_PIPE_DEPTH: 
+      name: ULR_CMD_PIPE_DEPTH
+      value: 4
+    ULR_CMD_PIPE_NAME: 
+      name: ULR_CMD_PIPE_NAME
+      value: ULR_CMD_PIPE
+    ULR_DATA_PIPE_DEPTH: 
+      name: ULR_DATA_PIPE_DEPTH
+      value: 4
+    ULR_DATA_PIPE_NAME: 
+      name: ULR_DATA_PIPE_NAME
+      value: ULR_DATA_PIPE
+    ULR_CONFIG_TABLE_FILENAME: 
+      name: ULR_CONFIG_TABLE_FILENAME
+      value: /cf/apps/ulr_config.tbl
+    ULR_STARTUP_TIMEOUT_MSEC: 
+      name: ULR_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    ULR_CUSTOM_PORT_PATH: 
+      name: ULR_CUSTOM_PORT_PATH
+      value: /dev/ttyS6
+    ULR_SENS_VARIANCE: 
+      name: ULR_SENS_VARIANCE
+      value: 0.045f * 0.045f
+    ULR_LISTENER_TASK_PRIORITY: 
+      name: ULR_LISTENER_TASK_PRIORITY
+      value: 64
+    ULR_LISTENER_TASK_STACK_SIZE: 
+      name: ULR_LISTENER_TASK_STACK_SIZE
+      value: 16000
+    ULR_LISTENER_TASK_NAME: 
+      name: ULR_LISTENER_TASK_NAME
+      value: ULR_LISTENER
+    ULR_MUTEX_NAME: 
+      name: ULR_MUTEX_NAME
+      value: ULR_MUTEX
