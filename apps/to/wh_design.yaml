@@ -1,0 +1,217 @@
+  short_name: to
+  long_name: Telemetry Output
+  events: 
+    TO_INF_EID: 
+      id: 1
+    TO_INIT_INF_EID: 
+      id: 2
+    TO_CONFIG_TABLE_INF_EID: 
+      id: 3
+    TO_CDS_INF_EID: 
+      id: 4
+    TO_CMD_INF_EID: 
+      id: 5
+    TO_ERR_EID: 
+      id: 6
+    TO_INIT_ERR_EID: 
+      id: 7
+    TO_CONFIG_TABLE_ERR_EID: 
+      id: 8
+    TO_CDS_ERR_EID: 
+      id: 9
+    TO_CMD_ERR_EID: 
+      id: 10
+    TO_PIPE_ERR_EID: 
+      id: 11
+    TO_MSGID_ERR_EID: 
+      id: 12
+    TO_MSGLEN_ERR_EID: 
+      id: 13
+    TO_MSG_WRITE_ERR_EID: 
+      id: 14
+    TO_MSG_UNSUB_DBG_EID: 
+      id: 15
+    TO_MSG_DROP_FROM_FLOW_DBG_EID: 
+      id: 16
+    TO_CR_POOL_ERR_EID: 
+      id: 17
+    TO_GET_POOL_ERR_EID: 
+      id: 18
+    TO_TLM_LISTEN_ERR_EID: 
+      id: 19
+    TO_MSG_FLOW_INFO_EID: 
+      id: 20
+    TO_PQUEUE_INFO_EID: 
+      id: 21
+    TO_OUT_CH_INFO_EID: 
+      id: 22
+    TO_CMD_NOOP_EID: 
+      id: 23
+    TO_CMD_RESET_EID: 
+      id: 24
+    TO_CMD_ADD_MSG_FLOW_EID: 
+      id: 25
+    TO_CMD_REMOVE_MSG_FLOW_EID: 
+      id: 26
+    TO_CMD_SEND_DIAG_EID: 
+      id: 27
+    TO_NO_ENCODE_FUNC_EID: 
+      id: 28
+  telemetry: 
+    TO_DIAG_TLM_MID: 
+      msgID: 
+      struct: TO_ChannelDiagTlm_t
+    TO_HK_TLM_MID: 
+      msgID: 
+      struct: TO_HkTlm_t
+  commands: 
+    TO_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: TO_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: TO_NoArgCmd_t
+        AddMessageFlow: 
+          cc: 2
+          struct: TO_AddMessageFlowCmd_t
+        RemoveMessageFlow: 
+          cc: 3
+          struct: TO_RemoveMessageFlowCmd_t
+        QueryMessageFlow: 
+          cc: 4
+          struct: TO_QueryMessageFlowCmd_t
+        QueryPriorityQueue: 
+          cc: 5
+          struct: TO_QueryPriorityQueueCmd_t
+        QueryOutputChannel: 
+          cc: 6
+          struct: TO_QueryOutputChannelCmd_t
+        SendDiag: 
+          cc: 7
+          struct: TO_SendDiagCmd_t
+    TO_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: TO_NoArgCmd_t
+    TO_SEND_TLM_MID: 
+      msgID: 
+      commands: 
+        SendTelemetry: 
+          cc: 0
+          struct: TO_NoArgCmd_t
+  perfids: 
+    TO_MAIN_TASK_PERF_ID: 
+      id: 
+    TO_SOCKET_SEND_PERF_ID: 
+      id: 
+  config: 
+    TO_MAX_MESSAGE_FLOWS: 
+      name: TO_MAX_MESSAGE_FLOWS
+      value: 200
+    TO_MAX_PRIORITY_QUEUES: 
+      name: TO_MAX_PRIORITY_QUEUES
+      value: 10
+    TO_CUSTOM_CHILD_TASK_FLAGS: 
+      name: TO_CUSTOM_CHILD_TASK_FLAGS
+      value: OS_ENABLE_CORE_0
+    TO_CUSTOM_TASK_STACK_SIZE: 
+      name: TO_CUSTOM_TASK_STACK_SIZE
+      value: 131072
+    TO_MISSION_REV: 
+      name: TO_MISSION_REV
+      value: 0
+    TO_SCH_PIPE_DEPTH: 
+      name: TO_SCH_PIPE_DEPTH
+      value: 2
+    TO_SCH_PIPE_NAME: 
+      name: TO_SCH_PIPE_NAME
+      value: TO_SCH_PIPE
+    TO_SCH_PIPE_PEND_TIME: 
+      name: TO_SCH_PIPE_PEND_TIME
+      value: 2000
+    TO_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: TO_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    TO_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: TO_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    TO_CMD_PIPE_DEPTH: 
+      name: TO_CMD_PIPE_DEPTH
+      value: 4
+    TO_CMD_PIPE_NAME: 
+      name: TO_CMD_PIPE_NAME
+      value: TO_CMD_PIPE
+    TO_DATA_PIPE_DEPTH: 
+      name: TO_DATA_PIPE_DEPTH
+      value: CFE_SB_MAX_PIPE_DEPTH
+    TO_DATA_PIPE_NAME: 
+      name: TO_DATA_PIPE_NAME
+      value: TO_DATA_PIPE
+    TO_GROUND_BINARY_CONFIG_TABLE_FILENAME: 
+      name: TO_GROUND_BINARY_CONFIG_TABLE_FILENAME
+      value: /cf/apps/to_grnd_bin.tbl
+    TO_GROUND_PROTOBUF_CONFIG_TABLE_FILENAME: 
+      name: TO_GROUND_PROTOBUF_CONFIG_TABLE_FILENAME
+      value: /cf/apps/to_grnd_pb.tbl
+    TO_MAX_MEMPOOL_BLK_SIZES: 
+      name: TO_MAX_MEMPOOL_BLK_SIZES
+      value: 8
+    TO_MEM_BLOCK_SIZE_01: 
+      name: TO_MEM_BLOCK_SIZE_01
+      value: 32
+    TO_MEM_BLOCK_SIZE_02: 
+      name: TO_MEM_BLOCK_SIZE_02
+      value: 64
+    TO_MEM_BLOCK_SIZE_03: 
+      name: TO_MEM_BLOCK_SIZE_03
+      value: 128
+    TO_MEM_BLOCK_SIZE_04: 
+      name: TO_MEM_BLOCK_SIZE_04
+      value: 256
+    TO_MEM_BLOCK_SIZE_05: 
+      name: TO_MEM_BLOCK_SIZE_05
+      value: 512
+    TO_MEM_BLOCK_SIZE_06: 
+      name: TO_MEM_BLOCK_SIZE_06
+      value: 2048
+    TO_MEM_BLOCK_SIZE_07: 
+      name: TO_MEM_BLOCK_SIZE_07
+      value: 8192
+    TO_MAX_BLOCK_SIZE: 
+      name: TO_MAX_BLOCK_SIZE
+      value: TO_MEM_BLOCK_SIZE_07 + TO_MEM_BLOCK_SIZE_07
+    TO_GROUND_BINARY_CONFIG_TABLENAME: 
+      name: TO_GROUND_BINARY_CONFIG_TABLENAME
+      value: GRND_BIN_CFG
+    TO_GROUND_BINARY_DUMP_TABLENAME: 
+      name: TO_GROUND_BINARY_DUMP_TABLENAME
+      value: GRND_BIN_DMP
+    TO_GROUND_PROTOBUF_CONFIG_TABLENAME: 
+      name: TO_GROUND_PROTOBUF_CONFIG_TABLENAME
+      value: GRND_PB_CFG
+    TO_GROUND_PROTOBUF_DUMP_TABLENAME: 
+      name: TO_GROUND_PROTOBUF_DUMP_TABLENAME
+      value: GRND_PB_DMP
+    TO_STARTUP_TIMEOUT_MSEC: 
+      name: TO_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    TO_MAX_MSGS_OUT_PER_FRAME: 
+      name: TO_MAX_MSGS_OUT_PER_FRAME
+      value: 100
+    TO_MAX_CHANNELS: 
+      name: TO_MAX_CHANNELS
+      value: 5
+    TO_OUTPUT_QUEUE_DEPTH: 
+      name: TO_OUTPUT_QUEUE_DEPTH
+      value: 10
+    TO_NUM_BYTES_IN_MEM_POOL: 
+      name: TO_NUM_BYTES_IN_MEM_POOL
+      value: TO_MAX_CHANNELS * TO_OUTPUT_QUEUE_DEPTH * TO_MAX_BLOCK_SIZE
+    TO_MAX_PROTOBUF_ENC_LEN: 
+      name: TO_MAX_PROTOBUF_ENC_LEN
+      value: 5000

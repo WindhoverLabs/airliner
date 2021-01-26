@@ -1,0 +1,105 @@
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:pthread_getname_np
+   fun:Ut_OSAPI_QueuePutHook
+   fun:OS_QueuePut
+   fun:TO_PriorityQueue_QueueMsg
+   fun:TO_Classifier_Run
+   fun:TO_Channel_ProcessTelemetry
+   fun:TO_Channel_ProcessTelemetryAll
+   fun:TO_RcvMsg
+   fun:TO_AppMain
+   fun:Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1
+   fun:UtTest_Run
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:pthread_getname_np
+   fun:Ut_OSAPI_QueuePutHook
+   fun:OS_QueuePut
+   fun:TO_OutputQueue_QueueMsg
+   fun:TO_Scheduler_Run
+   fun:TO_Channel_ProcessTelemetry
+   fun:TO_Channel_ProcessTelemetryAll
+   fun:TO_RcvMsg
+   fun:TO_AppMain
+   fun:Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1
+   fun:UtTest_Run
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:Ut_CFE_ES_GetPoolBuf
+   fun:CFE_ES_GetPoolBuf
+   fun:TO_PriorityQueue_QueueMsg
+   fun:TO_Classifier_Run
+   fun:TO_Channel_ProcessTelemetry
+   fun:TO_Channel_ProcessTelemetryAll
+   fun:TO_RcvMsg
+   fun:TO_AppMain
+   fun:Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3
+   fun:UtTest_Run
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:Ut_CFE_ES_GetPoolBuf
+   fun:CFE_ES_GetPoolBuf
+   fun:TO_PriorityQueue_QueueMsg
+   fun:TO_Classifier_Run
+   fun:TO_Channel_ProcessTelemetry
+   fun:TO_Channel_ProcessTelemetryAll
+   fun:TO_RcvMsg
+   fun:TO_AppMain
+   fun:Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1
+   fun:UtTest_Run
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:Ut_CFE_ES_GetPoolBuf
+   fun:CFE_ES_GetPoolBuf
+   fun:TO_PriorityQueue_QueueMsg
+   fun:TO_Classifier_Run
+   fun:TO_Channel_ProcessTelemetry
+   fun:TO_Channel_ProcessTelemetryAll
+   fun:TO_RcvMsg
+   fun:TO_AppMain
+   fun:Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2
+   fun:UtTest_Run
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:Ut_CFE_ES_GetPoolBuf
+   fun:CFE_ES_GetPoolBuf
+   fun:TO_PriorityQueue_QueueMsg
+   fun:TO_Classifier_Run
+   fun:TO_Channel_ProcessTelemetry
+   fun:TO_Channel_ProcessTelemetryAll
+   fun:TO_RcvMsg
+   fun:TO_AppMain
+   fun:Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3
+   fun:UtTest_Run
+   fun:main
+}

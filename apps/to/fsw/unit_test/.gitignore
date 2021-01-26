@@ -1,0 +1,7 @@
+*.o
+*.gc*
+*.bin
+*.exe
+*.out
+massif.out*
+coverage/**
