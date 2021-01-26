@@ -1,0 +1,112 @@
+  short_name: qae
+  long_name: Attitude Estimator
+  events: 
+    QAE_INIT_INF_EID: 
+      id: 1
+    QAE_CMD_NOOP_EID: 
+      id: 2
+    QAE_SUBSCRIBE_ERR_EID: 
+      id: 3
+    QAE_PIPE_INIT_ERR_EID: 
+      id: 4
+    QAE_CFGTBL_MANAGE_ERR_EID: 
+      id: 5
+    QAE_CFGTBL_GETADDR_ERR_EID: 
+      id: 6
+    QAE_RCVMSG_ERR_EID: 
+      id: 7
+    QAE_MSGID_ERR_EID: 
+      id: 8
+    QAE_CC_ERR_EID: 
+      id: 9
+    QAE_MSGLEN_ERR_EID: 
+      id: 10
+    QAE_CFGTBL_REG_ERR_EID: 
+      id: 11
+    QAE_CFGTBL_LOAD_ERR_EID: 
+      id: 12
+    QAE_DEGENERATE_ACC_ERR_EID: 
+      id: 13
+    QAE_DEGENERATE_MAG_ERR_EID: 
+      id: 14
+    QAE_UPDATE_EST_ERR_EID: 
+      id: 15
+    QAE_CFGTBL_VALIDATION_ERR_EID: 
+      id: 16
+  telemetry: 
+    QAE_HK_TLM_MID: 
+      msgID: 
+      struct: QAE_HkTlm_t
+  commands: 
+    QAE_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: QAE_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: QAE_NoArgCmd_t
+    QAE_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: QAE_NoArgCmd_t
+    QAE_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: QAE_NoArgCmd_t
+  perfids: 
+    QAE_MAIN_TASK_PERF_ID: 
+      id: 
+    AE_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    AE_SB_TIMEOUT: 
+      name: AE_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    AE_MISSION_REV: 
+      name: AE_MISSION_REV
+      value: 0
+    AE_SCH_PIPE_DEPTH: 
+      name: AE_SCH_PIPE_DEPTH
+      value: 2
+    AE_SCH_PIPE_NAME: 
+      name: AE_SCH_PIPE_NAME
+      value: AE_SCH_PIPE
+    AE_SCH_PIPE_PEND_TIME: 
+      name: AE_SCH_PIPE_PEND_TIME
+      value: 2000
+    AE_PARAM_PIPE_DEPTH: 
+      name: AE_PARAM_PIPE_DEPTH
+      value: 4
+    AE_PARAM_PIPE_NAME: 
+      name: AE_PARAM_PIPE_NAME
+      value: AE_PARAM_PIPE
+    AE_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: AE_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    AE_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: AE_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    AE_CMD_PIPE_DEPTH: 
+      name: AE_CMD_PIPE_DEPTH
+      value: 4
+    AE_CMD_PIPE_NAME: 
+      name: AE_CMD_PIPE_NAME
+      value: AE_CMD_PIPE
+    AE_DATA_PIPE_DEPTH: 
+      name: AE_DATA_PIPE_DEPTH
+      value: 4
+    AE_DATA_PIPE_NAME: 
+      name: AE_DATA_PIPE_NAME
+      value: AE_DATA_PIPE
+    AE_CONFIG_TABLE_FILENAME: 
+      name: AE_CONFIG_TABLE_FILENAME
+      value: /cf/apps/ae_config.tbl
+    AE_STARTUP_TIMEOUT_MSEC: 
+      name: AE_STARTUP_TIMEOUT_MSEC
+      value: 1000
