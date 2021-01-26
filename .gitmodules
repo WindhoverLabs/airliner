@@ -1,0 +1,3 @@
+[submodule "core/tools/auto-yamcs"]
+	path = core/tools/auto-yamcs
+	url = git@github.com:WindhoverLabs/auto-yamcs.git
