@@ -1,0 +1,48 @@
+{
+    "Airliner": {
+        "apps": {
+            "LD": {
+                "operations": {
+                    "Noop":             { "airliner_cc":  0, "macro": "LD_CMD_MID", "airliner_msg": "" },
+                    "Reset":            { "airliner_cc":  1, "macro": "LD_CMD_MID", "airliner_msg": "" },
+                    "LD_HkTlm_t":       { "airliner_cc":  -1, "macro": "LD_HK_TLM_MID", "airliner_msg": "LD_HkTlm_t" },
+                    "LD_Diag_t":     { "airliner_cc":  -1, "macro": "LD_DIAG_TLM_MID", "airliner_msg": "LD_Diag_t" },
+                    "Wakeup":           { "airliner_cc":  0, "macro": "LD_WAKEUP_MID", "airliner_msg": ""},
+                    "SendHk":           { "airliner_cc":  0, "macro": "LD_SEND_HK_MID", "airliner_msg": ""}
+                },
+                "scheduler": {
+                    "activities": [
+                        "LD_SEND_HK_MID",
+                        "LD_WAKEUP_MID"
+                    ],
+                    "groups": [
+                        { "id": 1, "macro": "LD_SCH_GRP" }
+                    ]
+                },
+                "events": [
+                    {"macro": "LD_INIT_INF_EID", "id": 1},
+                    {"macro": "LD_CMD_NOOP_EID", "id": 2},
+                    {"macro": "LD_SUBSCRIBE_ERR_EID", "id": 3},
+                    {"macro": "LD_PIPE_INIT_ERR_EID", "id": 4},
+                    {"macro": "LD_CFGTBL_MANAGE_ERR_EID", "id": 5},
+                    {"macro": "LD_CFGTBL_GETADDR_ERR_EID", "id": 6},
+                    {"macro": "LD_RCVMSG_ERR_EID", "id": 7},
+                    {"macro": "LD_MSGID_ERR_EID", "id": 8},
+                    {"macro": "LD_CC_ERR_EID", "id": 9},
+                    {"macro": "LD_MSGLEN_ERR_EID", "id": 10},
+                    {"macro": "LD_CFGTBL_REG_ERR_EID", "id": 11},
+                    {"macro": "LD_CFGTBL_LOAD_ERR_EID", "id": 12},
+                    {"macro": "LD_FREEFALL_DETECTED_EID", "id": 13},
+                    {"macro": "LD_GROUNDCONTACT_DETECTED_EID", "id": 14},
+                    {"macro": "LD_LAND_DETECTED_EID", "id": 15},
+                    {"macro": "LD_FLIGHT_DETECTED_EID", "id": 16}
+                ],
+                "config": {
+                },
+                "tables": [
+                    {"id": "CONFIG_TBL",  "title": "LD Configuration",  "isDumpTable": false}
+                ]
+            }
+        }
+    }
+}
