@@ -1,0 +1,132 @@
+  short_name: mpc
+  long_name: Multicopter Position Controller
+  events: 
+    MPC_INIT_INF_EID: 
+      id: 1
+    MPC_CMD_NOOP_EID: 
+      id: 2
+    MPC_SUBSCRIBE_ERR_EID: 
+      id: 3
+    MPC_PIPE_INIT_ERR_EID: 
+      id: 4
+    MPC_CFGTBL_MANAGE_ERR_EID: 
+      id: 5
+    MPC_CFGTBL_GETADDR_ERR_EID: 
+      id: 6
+    MPC_RCVMSG_ERR_EID: 
+      id: 7
+    MPC_MSGID_ERR_EID: 
+      id: 8
+    MPC_CC_ERR_EID: 
+      id: 9
+    MPC_MSGLEN_ERR_EID: 
+      id: 10
+    MPC_CFGTBL_REG_ERR_EID: 
+      id: 11
+    MPC_CFGTBL_LOAD_ERR_EID: 
+      id: 12
+    MPC_UNK_VEL_FRM_ERR_EID: 
+      id: 13
+    MPC_PID_UPDATE_EID: 
+      id: 14
+    MPC_SEND_DIAG_EID: 
+      id: 15
+    MPC_SET_DZ_EID: 
+      id: 16
+    MPC_SET_EXPO_EID: 
+      id: 17
+    MPC_SET_TKO_RAMP_EID: 
+      id: 18
+    MPC_UNKNOWN_USER_INTENTION_ERR_EID: 
+      id: 19
+    MPC_POS_SP_NOT_FINITE_ERR_EID: 
+      id: 20
+    MPC_INVLD_PARAM_ERR_EID: 
+      id: 21
+  telemetry: 
+    MPC_HK_TLM_MID: 
+      msgID: 
+      struct: MPC_HkTlm_t
+    MPC_DIAG_TLM_MID: 
+      msgID: 
+      struct: MPC_DiagPacket_t
+  commands: 
+    MPC_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: MPC_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: MPC_NoArgCmd_t
+        SetXYPid: 
+          cc: 2
+          struct: MPC_SetPidCmd_t
+        SetZPid: 
+          cc: 3
+          struct: MPC_SetPidCmd_t
+        SetHoldDZ: 
+          cc: 4
+          struct: MPC_SetDzCmd_t
+        SendDiag: 
+          cc: 5
+          struct: MPC_NoArgCmd_t
+        SetStickExpo: 
+          cc: 6
+          struct: MPC_SetStickExpoCmd_t
+        SetTKORamp: 
+          cc: 7
+          struct: MPC_SetTkoRampCmd_t
+    MPC_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: MPC_NoArgCmd_t
+    MPC_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: MPC_NoArgCmd_t
+  perfids: 
+    MPC_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    MPC_SB_TIMEOUT: 
+      name: MPC_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    MPC_MISSION_REV: 
+      name: MPC_MISSION_REV
+      value: 0
+    MPC_SCH_PIPE_DEPTH: 
+      name: MPC_SCH_PIPE_DEPTH
+      value: 15
+    MPC_SCH_PIPE_NAME: 
+      name: MPC_SCH_PIPE_NAME
+      value: MPC_SCH_PIPE
+    MPC_SCH_PIPE_PEND_TIME: 
+      name: MPC_SCH_PIPE_PEND_TIME
+      value: 2000
+    MPC_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: MPC_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    MPC_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: MPC_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    MPC_CMD_PIPE_DEPTH: 
+      name: MPC_CMD_PIPE_DEPTH
+      value: 4
+    MPC_CMD_PIPE_NAME: 
+      name: MPC_CMD_PIPE_NAME
+      value: MPC_CMD_PIPE
+    MPC_CONFIG_TABLE_FILENAME: 
+      name: MPC_CONFIG_TABLE_FILENAME
+      value: /cf/apps/mpc_config.tbl
+    MPC_STARTUP_TIMEOUT_MSEC: 
+      name: MPC_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    DIRECTION_CHANGE_TRIGGER_TIME_US: 
+      name: DIRECTION_CHANGE_TRIGGER_TIME_US
+      value: 100000
