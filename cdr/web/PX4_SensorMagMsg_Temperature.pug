@@ -1,0 +1,15 @@
+#SensorMagMsg_Temperature(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': '/PX4/PX4_SensorMagMsg_t/Temperature'},
+          'color': '#ffffff'
+        }
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#SensorMagMsg_Temperature'), dataplotDef);
+  });

@@ -1,0 +1,20 @@
+#VehicleGpsPositionMsg_Ep(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': '/PX4/PX4_VehicleGlobalPositionMsg_t/EpH'},
+          'label': 'H',
+          'color': '#ffff00'
+        },
+        { 'tlm': {'name': '/PX4/PX4_VehicleGlobalPositionMsg_t/EpV'},
+          'label': 'V',
+          'color': '#ff00ff'
+        }
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#VehicleGpsPositionMsg_Ep'), dataplotDef);
+  });

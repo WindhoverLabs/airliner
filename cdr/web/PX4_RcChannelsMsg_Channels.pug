@@ -1,0 +1,87 @@
+#RcChannelsMsg_Channel(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[0]'},
+          'label': '0'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[1]'},
+          'label': '1'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[2]'},
+          'label': '2'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[3]'},
+          'label': '3'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[4]'},
+          'label': '4'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[5]'},
+          'label': '5'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[6]'},
+          'label': '6'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[7]'},
+          'label': '7'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[8]'},
+          'label': '8'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[9]'},
+          'label': '9'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[10]'},
+          'label': '10'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[11]'},
+          'label': '11'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[12]'},
+          'label': '12'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[13]'},
+          'label': '13'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[14]'},
+          'label': '14'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[15]'},
+          'label': '15'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[16]'},
+          'label': '16'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[17]'},
+          'label': '17'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[18]'},
+          'label': '18'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[19]'},
+          'label': '19'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[20]'},
+          'label': '20'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[21]'},
+          'label': '21'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[22]'},
+          'label': '22'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[23]'},
+          'label': '23'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/Channel[24]'},
+          'label': '24'
+        }
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#RcChannelsMsg_Channel'), dataplotDef);
+  });

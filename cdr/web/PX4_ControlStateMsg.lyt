@@ -1,0 +1,276 @@
+﻿{
+ "settings": {
+  "hasHeaders": true,
+  "constrainDragToContainer": false,
+  "reorderEnabled": true,
+  "selectionEnabled": true,
+  "popoutWholeStack": false,
+  "blockedPopoutsThrowError": true,
+  "closePopoutsOnUnload": true,
+  "showPopoutIcon": false,
+  "showMaximiseIcon": true,
+  "showCloseIcon": true,
+  "responsiveMode": "onload",
+  "tabOverlapAllowance": 0,
+  "reorderOnTabMenuClick": true,
+  "tabControlOffset": 10
+ },
+ "dimensions": {
+  "borderWidth": 5,
+  "borderGrabWidth": 15,
+  "minItemHeight": 10,
+  "minItemWidth": 10,
+  "headerHeight": 20,
+  "dragProxyWidth": 300,
+  "dragProxyHeight": 200
+ },
+ "labels": {
+  "close": "close",
+  "maximise": "maximise",
+  "minimise": "minimise",
+  "popout": "open in new window",
+  "popin": "pop in",
+  "tabDropdown": "additional tabs"
+ },
+ "content": [
+  {
+   "type": "row",
+   "isClosable": true,
+   "reorderEnabled": true,
+   "title": "",
+   "content": [
+    {
+     "type": "stack",
+     "header": {},
+     "isClosable": true,
+     "reorderEnabled": true,
+     "title": "",
+     "activeItemIndex": 0,
+     "width": 32.17279174725983,
+     "height": 100,
+     "content": [
+      {
+       "title": "Message",
+       "type": "component",
+       "componentName": "Blank",
+       "componentState": {
+        "text": "text",
+        "link": "/flight/apps/px4lib/PX4_ControlState/PX4_ControlStateMsg"
+       },
+       "isClosable": true,
+       "reorderEnabled": true
+      }
+     ]
+    },
+    {
+     "type": "column",
+     "isClosable": true,
+     "reorderEnabled": true,
+     "title": "",
+     "width": 67.82720825274016,
+     "content": [
+      {
+       "type": "row",
+       "isClosable": true,
+       "reorderEnabled": true,
+       "title": "",
+       "height": 35.730858468677496,
+       "content": [
+        {
+         "type": "stack",
+         "header": {},
+         "isClosable": true,
+         "reorderEnabled": true,
+         "title": "",
+         "activeItemIndex": 0,
+         "width": 50,
+         "content": [
+          {
+           "title": "Position",
+           "type": "component",
+           "componentName": "Blank",
+           "componentState": {
+            "text": "text",
+            "link": "/flight/apps/px4lib/PX4_ControlState/PX4_ControlStateMsg_Pos"
+           },
+           "isClosable": true,
+           "reorderEnabled": true
+          },
+          {
+           "title": "Position Variance",
+           "type": "component",
+           "componentName": "Blank",
+           "componentState": {
+            "text": "text",
+            "link": "/flight/apps/px4lib/PX4_ControlState/PX4_ControlStateMsg_PosVariance"
+           },
+           "isClosable": true,
+           "reorderEnabled": true
+          }
+         ]
+        },
+        {
+         "type": "stack",
+         "header": {},
+         "isClosable": true,
+         "reorderEnabled": true,
+         "title": "",
+         "activeItemIndex": 0,
+         "width": 50,
+         "height": 50,
+         "content": [
+          {
+           "title": "Airspeed",
+           "type": "component",
+           "componentName": "Blank",
+           "componentState": {
+            "text": "text",
+            "link": "/flight/apps/px4lib/PX4_ControlState/PX4_ControlStateMsg_Airspeed"
+           },
+           "isClosable": true,
+           "reorderEnabled": true
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "type": "row",
+       "isClosable": true,
+       "reorderEnabled": true,
+       "title": "",
+       "height": 64.2691415313225,
+       "content": [
+        {
+         "type": "column",
+         "isClosable": true,
+         "reorderEnabled": true,
+         "title": "",
+         "width": 50,
+         "content": [
+          {
+           "type": "stack",
+           "header": {},
+           "isClosable": true,
+           "reorderEnabled": true,
+           "title": "",
+           "activeItemIndex": 0,
+           "height": 50,
+           "width": 50,
+           "content": [
+            {
+             "title": "Velocity",
+             "type": "component",
+             "componentName": "Blank",
+             "componentState": {
+              "text": "text",
+              "link": "/flight/apps/px4lib/PX4_ControlState/PX4_ControlStateMsg_Vel"
+             },
+             "isClosable": true,
+             "reorderEnabled": true
+            },
+            {
+             "title": "Velocity Variance",
+             "type": "component",
+             "componentName": "Blank",
+             "componentState": {
+              "text": "text",
+              "link": "/flight/apps/px4lib/PX4_ControlState/PX4_ControlStateMsg_VelVariance"
+             },
+             "isClosable": true,
+             "reorderEnabled": true
+            }
+           ]
+          },
+          {
+           "type": "stack",
+           "header": {},
+           "isClosable": true,
+           "reorderEnabled": true,
+           "title": "",
+           "activeItemIndex": 0,
+           "height": 50,
+           "content": [
+            {
+             "title": "Acc",
+             "type": "component",
+             "componentName": "Blank",
+             "componentState": {
+              "text": "text",
+              "link": "/flight/apps/px4lib/PX4_ControlState/PX4_ControlStateMsg_Acc"
+             },
+             "isClosable": true,
+             "reorderEnabled": true
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "type": "column",
+         "isClosable": true,
+         "reorderEnabled": true,
+         "title": "",
+         "width": 50,
+         "content": [
+          {
+           "type": "stack",
+           "header": {},
+           "isClosable": true,
+           "reorderEnabled": true,
+           "title": "",
+           "activeItemIndex": 0,
+           "height": 50,
+           "content": [
+            {
+             "title": "Rates",
+             "type": "component",
+             "componentName": "Blank",
+             "componentState": {
+              "text": "text",
+              "link": "/flight/apps/px4lib/PX4_ControlState/PX4_ControlStateMsg_Rates"
+             },
+             "isClosable": true,
+             "reorderEnabled": true
+            }
+           ]
+          },
+          {
+           "type": "stack",
+           "header": {},
+           "isClosable": true,
+           "reorderEnabled": true,
+           "title": "",
+           "activeItemIndex": 0,
+           "width": 50,
+           "height": 50,
+           "content": [
+            {
+             "title": "Horiz Acc Mag",
+             "type": "component",
+             "componentName": "Blank",
+             "componentState": {
+              "text": "text",
+              "link": "/flight/apps/px4lib/PX4_ControlState/PX4_ControlStateMsg_HorizAccMag"
+             },
+             "isClosable": true,
+             "reorderEnabled": true
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "isClosable": true,
+ "reorderEnabled": true,
+ "title": "",
+ "openPopouts": [],
+ "maximisedItemId": null,
+ "database": {}
+}

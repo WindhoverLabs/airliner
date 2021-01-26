@@ -1,0 +1,45 @@
+table.table.table-condensed
+  tr
+    th CellCount
+    td
+      div(data-cdr={tlm:[{name:'/PX4/PX4_BatteryStatusMsg_t/CellCount'}]}) ---
+  tr
+    th Connected
+    td
+      div.led-basic(data-cdr={tlm:[{name:'/PX4/PX4_BatteryStatusMsg_t/Connected', notext: true, class: [{eval: '==0', class: 'CDR-LED-OFF'},{eval: '==1', class: 'CDR-LED-GREEN'}]}]})
+  tr
+    th Current
+    td
+      div(data-cdr={tlm:[{name:'/PX4/PX4_BatteryStatusMsg_t/Current', format:'%.3f'}]}) ---
+  tr
+    th CurrentFiltered
+    td
+      div(data-cdr={tlm:[{name:'/PX4/PX4_BatteryStatusMsg_t/CurrentFiltered', format:'%.3f'}]}) ---
+  tr
+    th Discharged
+    td
+      div(data-cdr={tlm:[{name:'/PX4/PX4_BatteryStatusMsg_t/Discharged', format:'%.3f'}]}) ---
+  tr
+    th Remaining
+    td
+      div(data-cdr={tlm:[{name:'/PX4/PX4_BatteryStatusMsg_t/Remaining'}]}) ---
+  tr
+    th Scale
+    td
+      div(data-cdr={tlm:[{name:'/PX4/PX4_BatteryStatusMsg_t/Scale'}]}) ---
+  tr
+    th Timestamp
+    td
+      div(data-cdr={tlm:[{name:'/PX4/PX4_BatteryStatusMsg_t/Timestamp'}]}) ---
+  tr
+    th Voltage
+    td
+      div(data-cdr={tlm:[{name:'/PX4/PX4_BatteryStatusMsg_t/Voltage', format:'%.3f'}]}) ---
+  tr
+    th VoltageFiltered
+    td
+      div(data-cdr={tlm:[{name:'/PX4/PX4_BatteryStatusMsg_t/VoltageFiltered', format:'%.3f'}]}) ---
+  tr
+    th Warning
+    td
+      div.led-basic(data-cdr={tlm:[{name:'/PX4/PX4_BatteryStatusMsg_t/Warning', notext: true, class: [{eval: '==0', class: 'CDR-LED-OFF'},{eval: '==1', class: 'CDR-LED-YELLOW'}]}]}) 

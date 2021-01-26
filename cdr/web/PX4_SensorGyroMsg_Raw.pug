@@ -1,0 +1,24 @@
+#SensorGyroMsg_Raw(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': '/PX4/PX4_SensorGyroMsg_t/XRaw'},
+          'label': 'X',
+          'color': '#ffff00'
+        },
+        { 'tlm': {'name': '/PX4/PX4_SensorGyroMsg_t/YRaw'},
+          'label': 'Y',
+          'color': '#ff00ff'
+        },
+        { 'tlm': {'name': '/PX4/PX4_SensorGyroMsg_t/ZRaw'},
+          'label': 'Z',
+          'color': '#00ffff'
+        }
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#SensorGyroMsg_Raw'), dataplotDef);
+  });

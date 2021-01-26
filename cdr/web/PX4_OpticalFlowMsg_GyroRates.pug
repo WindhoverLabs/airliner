@@ -1,0 +1,24 @@
+#OpticalFlowMsg_GyroRates(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': 'name:'/PX4/PX4_OpticalFlowMsg_t/GyroXRateIntegral'},
+          'label': 'X',
+          'color': '#ffff00'
+        },
+        { 'tlm': {'name': 'name:'/PX4/PX4_OpticalFlowMsg_t/GyroYRateIntegral'},
+          'label': 'X',
+          'color': '#ff00ff'
+        },
+        { 'tlm': {'name': 'name:'/PX4/PX4_OpticalFlowMsg_t/GyroZRateIntegral'},
+          'label': 'X',
+          'color': '#00ffff'
+        }
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#OpticalFlowMsg_GyroRates'), dataplotDef);
+  });
