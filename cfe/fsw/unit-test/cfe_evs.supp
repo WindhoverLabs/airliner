@@ -1,0 +1,25 @@
+{
+   # This hit is triggered by a CFE_EVS_Packet_t being uninitialized
+   # in a test case.
+   <uninit_packet>
+   Memcheck:Cond
+   fun:CFE_SB_SendMsg
+   fun:EVS_SendPacket
+   fun:Test_Misc
+   fun:UtTest_Run
+   fun:main
+}
+
+{
+   # This hit is triggered the same CFE_EVS_Packet_t being uninitialized
+   # in a different test case.
+   <uninit_packet2>
+   Memcheck:Cond
+   fun:CFE_EVS_ProcessCommandPacket
+   fun:UT_ProcessSBMsg
+   fun:CFE_SB_SendMsg
+   fun:EVS_SendPacket
+   fun:Test_Misc
+   fun:UtTest_Run
+   fun:main
+}

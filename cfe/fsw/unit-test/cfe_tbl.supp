@@ -1,0 +1,107 @@
+# The following 2 hits are the result of a CFE_TBL_DumpCmd_t not being 
+# initialized before use in tbl_UT
+
+{
+   <uninit_msg>
+   Memcheck:Cond
+   fun:strncpy
+   fun:CFE_SB_MessageStringGet
+   fun:CFE_TBL_DumpCmd
+   fun:Test_CFE_TBL_DumpCmd
+   fun:UtTest_Run
+   fun:main
+}
+
+{
+   <uninit_msg2>
+   Memcheck:Cond
+   fun:strlen
+   fun:CFE_SB_MessageStringGet
+   fun:CFE_TBL_DumpCmd
+   fun:Test_CFE_TBL_DumpCmd
+   fun:UtTest_Run
+   fun:main
+}
+
+######################################################################
+
+# The following 3 hits are the result of 2 buffer pointers referencing the same address
+# being memcpy'd onto another. The purpose is to ensure the active buffer is copied
+# into the working buffer during a partial table load. 
+
+{
+   <overlap_buffer_ok>
+   Memcheck:Overlap
+   fun:memcpy
+   fun:CFE_PSP_MemCpy
+   fun:CFE_TBL_GetWorkingBuffer
+   fun:CFE_TBL_Load
+   fun:Test_CFE_TBL_Load
+   fun:UtTest_Run
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Overlap
+   fun:memcpy
+   fun:CFE_PSP_MemCpy
+   fun:CFE_TBL_GetWorkingBuffer
+   fun:Test_CFE_TBL_Internal
+   fun:UtTest_Run
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Overlap
+   fun:memcpy
+   fun:CFE_PSP_MemCpy
+   fun:CFE_TBL_GetWorkingBuffer
+   fun:Test_CFE_TBL_Manage
+   fun:UtTest_Run
+   fun:main
+}
+
+######################################################################
+
+# The following 2 hits are the result of 2 buffer pointers referencing the same address
+# being memcpy'd onto another.  This is just because we're loading the same table that
+# was previously loaded in the unit test.
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Overlap
+   fun:memcpy
+   fun:CFE_PSP_MemCpy
+   fun:CFE_TBL_UpdateInternal
+   fun:CFE_TBL_Load
+   fun:Test_CFE_TBL_Load
+   fun:UtTest_Run
+   fun:main
+}
+
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Overlap
+   fun:memcpy
+   fun:CFE_PSP_MemCpy
+   fun:CFE_TBL_UpdateInternal
+   fun:CFE_TBL_Update
+   fun:CFE_TBL_Manage
+   fun:Test_CFE_TBL_Manage
+   fun:UtTest_Run
+   fun:main
+}
+
+# This is due to a malloc in the unit test code with no corresponding free.
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:UtList_Add
+   fun:UtTest_Add
+   fun:OS_Application_Startup
+   fun:main
+}
