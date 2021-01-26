@@ -1,0 +1,263 @@
+  short_name: pe
+  long_name: Position Estimator
+  events: 
+    PE_INIT_INF_EID: 
+      id: 1
+    PE_CMD_NOOP_EID: 
+      id: 2
+    PE_SUBSCRIBE_ERR_EID: 
+      id: 3
+    PE_PIPE_INIT_ERR_EID: 
+      id: 4
+    PE_CFGTBL_MANAGE_ERR_EID: 
+      id: 5
+    PE_CFGTBL_GETADDR_ERR_EID: 
+      id: 6
+    PE_RCVMSG_ERR_EID: 
+      id: 7
+    PE_MSGID_ERR_EID: 
+      id: 8
+    PE_CC_ERR_EID: 
+      id: 9
+    PE_MSGLEN_ERR_EID: 
+      id: 10
+    PE_CFGTBL_REG_ERR_EID: 
+      id: 11
+    PE_CFGTBL_LOAD_ERR_EID: 
+      id: 12
+    PE_LOCAL_ESTIMATOR_INF_EID: 
+      id: 13
+    PE_GLOBAL_ESTIMATOR_INF_EID: 
+      id: 14
+    PE_ESTIMATOR_ERR_EID: 
+      id: 15
+    PE_BARO_FAULT_ERR_EID: 
+      id: 16
+    PE_BARO_OK_INF_EID: 
+      id: 17
+    PE_BARO_TIMEOUT_ERR_EID: 
+      id: 18
+    PE_GPS_TIMEOUT_ERR_EID: 
+      id: 19
+    PE_GPS_FAULT_ERR_EID: 
+      id: 20
+    PE_GPS_OK_INF_EID: 
+      id: 21
+    PE_LAND_FAULT_ERR_EID: 
+      id: 22
+    PE_LAND_OK_INF_EID: 
+      id: 23
+    PE_LAND_TIMEOUT_ERR_EID: 
+      id: 24
+    PE_DIST_FAULT_ERR_EID: 
+      id: 25
+    PE_DIST_OK_INF_EID: 
+      id: 26
+    PE_DIST_TIMEOUT_ERR_EID: 
+      id: 27
+    PE_MUTEX_ERR_EID: 
+      id: 28
+    PE_LOCAL_POS_MSG_ERR_EID: 
+      id: 29
+    PE_GLOBAL_POS_MSG_ERR_EID: 
+      id: 30
+    PE_FUSE_DIST_INF_EID: 
+      id: 31
+    PE_FUSE_DIST_ERR_EID: 
+      id: 32
+    PE_DISABLE_DIST_INF_EID: 
+      id: 33
+    PE_DISABLE_DIST_ERR_EID: 
+      id: 34
+    PE_FUSE_GPS_INF_EID: 
+      id: 35
+    PE_FUSE_GPS_ERR_EID: 
+      id: 36
+    PE_DISABLE_GPS_INF_EID: 
+      id: 37
+    PE_DISABLE_GPS_ERR_EID: 
+      id: 38
+    PE_FUSE_BARO_INF_EID: 
+      id: 39
+    PE_FUSE_BARO_ERR_EID: 
+      id: 40
+    PE_DISABLE_BARO_INF_EID: 
+      id: 41
+    PE_DISABLE_BARO_ERR_EID: 
+      id: 42
+    PE_FUSE_LAND_INF_EID: 
+      id: 43
+    PE_FUSE_LAND_ERR_EID : 
+      id: 44
+    PE_DISABLE_LAND_INF_EID: 
+      id: 45
+    PE_DISABLE_LAND_ERR_EID: 
+      id: 46
+    PE_FUSE_FLOW_INF_EID: 
+      id: 47
+    PE_FUSE_FLOW_ERR_EID: 
+      id: 48
+    PE_DISABLE_FLOW_INF_EID: 
+      id: 49
+    PE_DISABLE_FLOW_ERR_EID: 
+      id: 50
+    PE_FLOW_FAULT_ERR_EID: 
+      id: 51
+    PE_FLOW_OK_INF_EID: 
+      id: 52
+    PE_FLOW_TIMEOUT_ERR_EID: 
+      id: 53
+    PE_TBL_VALIDATE_ERR_EID: 
+      id: 54
+  telemetry: 
+    PE_HK_TLM_MID: 
+      msgID: 
+      struct: PE_HkTlm_t
+  commands: 
+    PE_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: PE_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: PE_NoArgCmd_t
+        EnableDistanceSensor: 
+          cc: 2
+          struct: PE_NoArgCmd_t
+        DisableDistanceSensor: 
+          cc: 3
+          struct: PE_NoArgCmd_t
+        EnableGPS: 
+          cc: 4
+          struct: PE_NoArgCmd_t
+        DisableGPS: 
+          cc: 5
+          struct: PE_NoArgCmd_t
+        EnableBaro: 
+          cc: 6
+          struct: PE_NoArgCmd_t
+        DisableBaro: 
+          cc: 7
+          struct: PE_NoArgCmd_t
+        EnableLanding: 
+          cc: 8
+          struct: PE_NoArgCmd_t
+        DisableLanding: 
+          cc: 9
+          struct: PE_NoArgCmd_t
+        EnableFlow: 
+          cc: 10
+          struct: PE_NoArgCmd_t
+        DisableFlow: 
+          cc: 11
+          struct: PE_NoArgCmd_t
+    PE_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: PE_NoArgCmd_t
+    PE_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: PE_NoArgCmd_t
+  perfids: 
+    PE_MAIN_TASK_PERF_ID: 
+      id: 
+    PE_UPDATE_TASK_PERF_ID: 
+      id: 
+    PE_SENSOR_GPS_PERF_ID: 
+      id: 
+    PE_SENSOR_BARO_PERF_ID: 
+      id: 
+    PE_SENSOR_LAND_PERF_ID: 
+      id: 
+    PE_INVERSE_MAT_PERF_ID: 
+      id: 
+    PE_SENSOR_FLOW_PERF_ID: 
+      id: 
+    PE_SENSOR_DIST_PERF_ID: 
+      id: 
+  config: 
+    PE_SB_TIMEOUT: 
+      name: PE_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    PE_ONE_G: 
+      name: PE_ONE_G
+      value: 9.81
+    PE_MISSION_REV: 
+      name: PE_MISSION_REV
+      value: 0
+    PE_SCH_PIPE_DEPTH: 
+      name: PE_SCH_PIPE_DEPTH
+      value: 20
+    PE_SCH_PIPE_NAME: 
+      name: PE_SCH_PIPE_NAME
+      value: PE_SCH_PIPE
+    PE_SCH_PIPE_PEND_TIME: 
+      name: PE_SCH_PIPE_PEND_TIME
+      value: 2000
+    PE_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: PE_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    PE_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: PE_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    PE_CMD_PIPE_DEPTH: 
+      name: PE_CMD_PIPE_DEPTH
+      value: 4
+    PE_CMD_PIPE_NAME: 
+      name: PE_CMD_PIPE_NAME
+      value: PE_CMD_PIPE
+    PE_CONFIG_TABLE_FILENAME: 
+      name: PE_CONFIG_TABLE_FILENAME
+      value: /cf/apps/pe_config.tbl
+    PE_STARTUP_TIMEOUT_MSEC: 
+      name: PE_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    PE_MAX_EVENT_FILTERS: 
+      name: PE_MAX_EVENT_FILTERS
+      value: 64
+    REQ_BARO_INIT_COUNT: 
+      name: REQ_BARO_INIT_COUNT
+      value: 2000
+    BARO_TIMEOUT: 
+      name: BARO_TIMEOUT
+      value: 100000
+    REQ_GPS_INIT_COUNT: 
+      name: REQ_GPS_INIT_COUNT
+      value: 50
+    GPS_TIMEOUT: 
+      name: GPS_TIMEOUT
+      value: 1000000
+    REQ_LAND_INIT_COUNT: 
+      name: REQ_LAND_INIT_COUNT
+      value: 1
+    LAND_TIMEOUT: 
+      name: LAND_TIMEOUT
+      value: 1000000
+    REQ_DIST_INIT_COUNT: 
+      name: REQ_DIST_INIT_COUNT
+      value: 50
+    DIST_TIMEOUT: 
+      name: DIST_TIMEOUT
+      value: 150000
+    DIST_BETA_MAX: 
+      name: DIST_BETA_MAX
+      value: 700
+    DIST_SENSOR_TYPE: 
+      name: DIST_SENSOR_TYPE
+      value: 3
+    REQ_FLOW_INIT_COUNT: 
+      name: REQ_FLOW_INIT_COUNT
+      value: 10
+    FLOW_TIMEOUT: 
+      name: FLOW_TIMEOUT
+      value: 1000000
+    FLOW_GYRO_HP_CUTOFF: 
+      name: FLOW_GYRO_HP_CUTOFF
+      value: 0.001
