@@ -1,0 +1,120 @@
+  short_name: sim
+  long_name: Simulation Application
+  events: 
+    SIM_INIT_INF_EID: 
+      id: 1
+    SIM_CMD_NOOP_EID: 
+      id: 2
+    SIM_SUBSCRIBE_ERR_EID: 
+      id: 3
+    SIM_PIPE_INIT_ERR_EID: 
+      id: 4
+    SIM_CFGTBL_MANAGE_ERR_EID: 
+      id: 5
+    SIM_CFGTBL_GETADDR_ERR_EID: 
+      id: 6
+    SIM_RCVMSG_ERR_EID: 
+      id: 7
+    SIM_MSGID_ERR_EID: 
+      id: 8
+    SIM_CC_ERR_EID: 
+      id: 9
+    SIM_MSGLEN_ERR_EID: 
+      id: 10
+    SIM_CFGTBL_REG_ERR_EID: 
+      id: 11
+    SIM_CFGTBL_LOAD_ERR_EID: 
+      id: 12
+  telemetry: 
+    SIM_HK_TLM_MID: 
+      msgID: 
+      struct: SIM_HkTlm_t
+  commands: 
+    SIM_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: SIM_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: SIM_NoArgCmd_t
+    SIM_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: SIM_NoArgCmd_t
+    SIM_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: SIM_NoArgCmd_t
+  perfids: 
+    SIM_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    SIM_LISTENER_TASK_FLAGS: 
+      name: SIM_LISTENER_TASK_FLAGS
+      value: OS_ENABLE_CORE_0
+    SIM_SB_TIMEOUT: 
+      name: SIM_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    SIM_MISSION_REV: 
+      name: SIM_MISSION_REV
+      value: 0
+    SIM_SCH_PIPE_DEPTH: 
+      name: SIM_SCH_PIPE_DEPTH
+      value: 2
+    SIM_SCH_PIPE_NAME: 
+      name: SIM_SCH_PIPE_NAME
+      value: SIM_SCH_PIPE
+    SIM_SCH_PIPE_PEND_TIME: 
+      name: SIM_SCH_PIPE_PEND_TIME
+      value: 2000
+    SIM_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: SIM_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    SIM_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: SIM_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    SIM_CMD_PIPE_DEPTH: 
+      name: SIM_CMD_PIPE_DEPTH
+      value: 4
+    SIM_CMD_PIPE_NAME: 
+      name: SIM_CMD_PIPE_NAME
+      value: SIM_CMD_PIPE
+    SIM_DATA_PIPE_DEPTH: 
+      name: SIM_DATA_PIPE_DEPTH
+      value: 4
+    SIM_DATA_PIPE_NAME: 
+      name: SIM_DATA_PIPE_NAME
+      value: SIM_DATA_PIPE
+    SIM_CONFIG_TABLE_FILENAME: 
+      name: SIM_CONFIG_TABLE_FILENAME
+      value: /cf/apps/sim_config.tbl
+    SIM_STARTUP_TIMEOUT_MSEC: 
+      name: SIM_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    SIM_MAX_MESSAGE_SIZE: 
+      name: SIM_MAX_MESSAGE_SIZE
+      value: 1500
+    SIM_LISTENER_TASK_NAME: 
+      name: SIM_LISTENER_TASK_NAME
+      value: SIM_LISTENER
+    SIM_LISTENER_TASK_STACK_SIZE: 
+      name: SIM_LISTENER_TASK_STACK_SIZE
+      value: 16378
+    SIM_LISTENER_TASK_PRIORITY: 
+      name: SIM_LISTENER_TASK_PRIORITY
+      value: 50
+    SIM_MUTEX_NAME: 
+      name: SIM_MUTEX_NAME
+      value: SIM_MUTEX
+    SIMLIB_MUTEX_SEM_NAME: 
+      name: SIMLIB_MUTEX_SEM_NAME
+      value: SIMLIB_MUTEX
+    SIM_PORT: 
+      name: SIM_PORT
+      value: 14560
