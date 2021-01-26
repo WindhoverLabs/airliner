@@ -1,0 +1,372 @@
+/*==========================================================================*/
+/* NOTE:                                                                    */
+/*      Additional notes to the Author can be found in comment blocks such  */
+/*      as this one.  These comment blocks will not appear in the doxygen   */
+/*      output and do not need to be removed but can be if so desired.      */
+/*      All text found within the pages that is surrounded by "()" is       */
+/*      merely a suggestion as to the appropriate content the Author should */
+/*      insert at that location.                                            */
+/*==========================================================================*/
+/**
+    \mainpage MS5611 (MS5611) User's Guide    
+
+       <UL>
+           <LI> \subpage cfsms5611revhist
+           <LI> \subpage cfsms5611intro
+           <LI> \subpage cfsms5611ovr
+           <LI> \subpage cfsms5611opr
+           <LI> \subpage cfsms5611req
+           <LI> \subpage cfsms5611dg
+           <LI> \subpage cfsms5611cmds
+           <LI> \subpage cfsms5611tlm
+           <LI> \subpage cfsms5611tbl
+           <LI> \subpage cfsms5611cfg
+           <LI> \subpage cfsms5611cons
+           <LI> \subpage cfsms5611faqs
+           <LI> \subpage ms5611_events.h "MS5611 Application Event Message Reference" <BR>
+       </UL>
+**/
+
+/**
+  \page cfsms5611revhist MS5611 Application User's Guide Revision History
+
+  This document is generated against #MS5611_MAJOR_VERSION #MS5611_MINOR_VERSION #MS5611_REVISION.
+  
+  Next: \ref cfsms5611intro
+
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author may wish to examine the Acronym list and ensure the     */
+/*       Application's abbreviation is put in alphabetical order.           */
+/*==========================================================================*/
+/**
+  \page cfsms5611intro MS5611 Application Introduction
+    
+  <H2> Scope </H2>
+
+  This document provides a complete specification for the commands and telemetry associated
+  with the MS5611 Application (MS5611) software.  The document is intended primarily 
+  for users of the software (operations personal, test engineers, and maintenance personnel).  
+  The last section of the document, the deployment guide section, is intended for mission 
+  developers when deploying and configuring this application software for a mission 
+  flight software build environment. 
+
+  <H2> Applicable Documents </H2>
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%">
+  <TR><TD WIDTH="20%"> <B>Document ID</B> </TD> 
+      <TD WIDTH="40%"> <B>Document Title</B> </TD>
+  <TR><TD WIDTH="20%"> TBD       </TD> 
+      <TD WIDTH="40%"> MS5611 Application Requirements Document </TD>
+  <TR><TD WIDTH="20%"> TBD       </TD> 
+      <TD WIDTH="40%"> MS5611 Application Design Document </TD>
+  </TABLE>
+
+
+  <H2> Acronyms </H2>
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%">
+  <TR><TD WIDTH="20%"> <B>Acronym</B> </TD> <TD WIDTH="40%"> <B>Description</B>                       </TD>
+  <TR><TD WIDTH="20%"> API     </TD> <TD WIDTH="40%"> Application Programming Interface               </TD>
+  <TR><TD WIDTH="20%"> CCSDS   </TD> <TD WIDTH="40%"> Consultative Committee for Space Data Systems   </TD>
+  <TR><TD WIDTH="20%"> C&DH    </TD> <TD WIDTH="40%"> Command and Data Handling                       </TD>
+  <TR><TD WIDTH="20%"> CFE     </TD> <TD WIDTH="40%"> Core Flight Executive                           </TD>
+  <TR><TD WIDTH="20%"> CFS     </TD> <TD WIDTH="40%"> Core Flight System                              </TD>
+  <TR><TD WIDTH="20%"> Cmd     </TD> <TD WIDTH="40%"> Command                                         </TD>
+  <TR><TD WIDTH="20%"> CPU     </TD> <TD WIDTH="40%"> Central Processing Unit                         </TD>
+  <TR><TD WIDTH="20%"> FSW     </TD> <TD WIDTH="40%"> Flight Software                                 </TD>
+  <TR><TD WIDTH="20%"> HK      </TD> <TD WIDTH="40%"> Housekeeping telemetry, or CFS Housekeeping Application</TD>
+  <TR><TD WIDTH="20%"> HW, H/W </TD> <TD WIDTH="40%"> Hardware                                        </TD>
+  <TR><TD WIDTH="20%"> ICD     </TD> <TD WIDTH="40%"> Interface Control Document                      </TD>
+  <TR><TD WIDTH="20%"> ISR     </TD> <TD WIDTH="40%"> Interrupt Service Routine                       </TD>
+  <TR><TD WIDTH="20%"> OS      </TD> <TD WIDTH="40%"> Operating System                                </TD>
+  <TR><TD WIDTH="20%"> OSAL    </TD> <TD WIDTH="40%"> Operating System Abstraction Layer              </TD>
+  <TR><TD WIDTH="20%"> Pkts    </TD> <TD WIDTH="40%"> Packets                                         </TD>
+  <TR><TD WIDTH="20%"> RAM     </TD> <TD WIDTH="40%"> Random-Access Memory                            </TD>
+  <TR><TD WIDTH="20%"> RTOS    </TD> <TD WIDTH="40%"> Real Time Operating System                      </TD>
+  <TR><TD WIDTH="20%"> SB      </TD> <TD WIDTH="40%"> Software Bus Service                            </TD>
+  <TR><TD WIDTH="20%"> SW, S/W </TD> <TD WIDTH="40%"> Software                                        </TD>
+  <TR><TD WIDTH="20%"> TBD     </TD> <TD WIDTH="40%"> To Be Determined                                </TD>
+  <TR><TD WIDTH="20%"> TBL     </TD> <TD WIDTH="40%"> Table                                           </TD>
+  <TR><TD WIDTH="20%"> TLM     </TD> <TD WIDTH="40%"> Telemetry                                       </TD>
+  <TR><TD WIDTH="20%"> UTC     </TD> <TD WIDTH="40%"> Universal Coordinated Time (time scale)         </TD>
+  </TABLE>
+
+  Prev: \ref cfsms5611revhist <BR>
+  Next: \ref cfsms5611ovr
+**/
+
+/**
+  \page cfsms5611ovr MS5611 Application Overview
+    
+  The MS5611 Application (MS5611) application does some cool stuff.
+
+  (Insert paragraph providing application purpose and a high level description of 
+  application capabilites)
+    
+  MS5611 Design Overview
+  ====
+
+  (Insert text and/or diagrams to describe high-level design.  Remember your audience is
+  not necessarily going to be a software engineer!)
+
+  (Inserting Diagrams)
+  ----
+
+  (Diagrams can be inserted using the following formatting:
+    \image html My_Diagram_Image_Filename.jpg "My Diagram Label" <BR>
+  The referenced jpg file should be put into the same directory as this file.)
+    
+  Prev: \ref cfsms5611intro <BR>
+  Next: \ref cfsms5611opr
+**/
+
+/**
+    \page cfsms5611opr MS5611 Application Operation
+   
+  (Insert intended operational scenarios.  This should include references to appropriate commands
+   and telemetry points as needed.  Detailed explanation of telemetry could also be useful.)
+
+    1. The application version number
+    ----
+  
+    The application version number is displayed in the initialization event and the
+    no-op event.
+
+    2. Table Handling
+    ----
+
+    TODO High-level stuff on tables goes here.
+
+    3. Sending the No-op Command
+    ----
+
+    TODO Discuss the No-Op command here.
+    
+    4. Sending the reset counters command
+    ----
+
+    TODO Discuss the reset counters command here.
+
+    5. Monitoring the command counter
+    ----
+
+    TODO Discuss the counter here.
+
+    6. Monitoring the command error counter
+    ----
+
+    TODO Discuss the counter behavior here.
+    
+    Next: \ref cfsms5611req <BR>
+    Prev: \ref cfsms5611ovr
+**/
+
+/**
+    \page cfsms5611req MS5611 Application Requirements
+    
+    The following are MS5611 application requirements.
+
+  (Insert high level requirements and add a reference to where detailed requirements can be found)
+    
+    Next: \ref cfsms5611dg <BR>
+    Prev: \ref cfsms5611opr 
+**/
+
+/**
+    \page cfsms5611dg  MS5611 Application Deployment Guide
+
+  (Basic Instructions to the Author)
+  ====  
+
+  (Insert text describing steps required to integrate the application with a CFS system.  This should
+   include:
+     1) References to message IDs that need to be inserted into a CFS Scheduler table
+     2) References to telemetry that can be generated
+     3) Additional description of application configuration parameters that may need to be modified.
+        For example, questions that a systems integrator needs to have answered before the application
+        can be successfully integrated
+     4) References to the application's performance ID)
+
+  Initial Integration
+  ====
+
+    The first step in deploying the MS5611 application is to do stuff.
+
+  Application Tailoring to the Mission
+  ----
+    
+    The ms5611_mission_cfg.h file, the ms5611_msgids.h, and the ms5611_perfids.h files
+    are tailored for the mission.  These are built into the application during
+    compilation.
+
+  Application Tailoring to the Platform
+  ----
+
+    In the ms5611_platform_cfg.h file, there are configuration parameters that control
+    MS5611 application behavior.  This should be tailored to the specific platform
+    needs.  This behavior is built into the application during compilation.
+
+  CFS Scheduler Support
+  ----
+
+    TODO Discuss any commands that must be included in the CFS Scheduler Table
+    and any related tailoring/configuration.
+     
+    Next: \ref cfsms5611cmds <BR>
+    Prev: \ref cfsms5611req
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+    \page cfsms5611cmds MS5611 Application Commands
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsms5611tlm</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsms5611tbl</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsms5611cfg</B></TD>
+    </TABLE>
+  
+    The following is a list of commands that are processed by the MS5611 Application: 
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+    \page cfsms5611tlm  MS5611 Application Telemetry
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsms5611cmds</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsms5611tbl</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsms5611cfg</B></TD>
+    </TABLE>
+  
+    The following is a list of telemetry that is generated by the MS5611 Application: 
+**/
+
+/**
+    \page cfsms5611tbl MS5611 Application Table Definitions
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsms5611cmds</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsms5611tlm</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsms5611cfg</B></TD>
+    </TABLE>
+
+  (Include text describing data structures used in application tables.  Further text can be used to
+   describe the process of populating the table if necessary.  Default values may also be described)
+
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+  \page cfsms5611cfg MS5611 Application Configuration Parameters
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+  <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsms5611cmds</B></TD>
+      <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsms5611tlm</B> </TD> 
+      <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsms5611tbl</B></TD>
+  </TABLE>
+  
+  The following are configuration parameters used to configure the MS5611
+  Application either for each platform or for a mission as a whole.
+
+**/
+
+/**
+    \page cfsms5611cons MS5611 Application Operational Constraints
+  
+  (Instructions to the author)
+  ====
+
+  (Insert text that describes:
+    1) situations that would prevent the application from starting
+    2) causes for the application to terminate prematurely
+    3) commands that cannot be issued either out of order or without sufficient wait time, etc) 
+
+  Application Termination
+  ====
+
+    Potential causes for MS5611 to terminate prematurely are an error return from the 
+    software bus in the application main loop or error return from one of the cFE table
+    services functions when MS5611 tries to do table management (check for updates, dump 
+    requests etc.) during each housekeeping cycle. 
+
+  Critical Data Store Operation
+  ====
+    
+    When using the Critical Data Store (CDS), the results tables and housekeeping data
+    will only be restored if the application was shut down through cFE Executive Services 
+    and exited clean. If this is not the case, default values will be used 
+    (see \ref cfsms5611faqs). 
+    
+    Next: \ref cfsms5611faqs <BR>
+    Prev: \ref cfsms5611tbl
+**/
+
+/**
+    \page cfsms5611faqs MS5611 Application Frequently Asked Questions
+
+ (Insert text that categorizes a group of questions, if necessary, here.
+  For example, "General".)
+
+  General
+  ====
+
+  <B> (Q)
+     What is the basic flow of the application?
+  </B> <BR> <BR> <I>
+     The MS5611 application uses a common application format. When the app starts, 
+     initialization is performed, then the app enters an infinite loop waiting for
+     commands from the software bus.
+  </I>
+
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  (Insert text that categorizes another group of questions, if necessary, here)
+  ====
+    
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+
+**/
