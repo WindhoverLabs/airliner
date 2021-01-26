@@ -22,7 +22,7 @@ add_custom_target(vm-smc-gen ALL
 
 
 
-add_airliner_app_def(vm
+buildliner_add_app_def(vm
     FILE VM
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_app.cpp
@@ -62,7 +62,7 @@ add_dependencies(vm
     vm-smc-gen
 )
 
-add_airliner_app_unit_test(vm-ut
+buildliner_add_app_unit_test(vm-ut
     UTASSERT
     NO_HELGRIND
     NO_MASSIF
