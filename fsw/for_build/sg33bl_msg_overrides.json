@@ -1,0 +1,45 @@
+{
+    "Airliner": {
+        "apps": {
+            "SG33BL": {
+              "operations": {
+                  "Noop":                 { "airliner_cc":  0, "macro": "SG33BL_CMD_MID", "airliner_msg": "" },
+                  "Reset":                { "airliner_cc":  1, "macro": "SG33BL_CMD_MID", "airliner_msg": "" },
+                  "SetPosition":             { "airliner_cc": 2 , "macro": "SG33BL_CMD_MID", "airliner_msg": "SG33BL_PositionCmd_t" },
+                  "SetVelocity":             { "airliner_cc": 3 , "macro": "SG33BL_CMD_MID", "airliner_msg": "SG33BL_VelocityCmd_t" },
+                  "SetTorque":             { "airliner_cc": 4 , "macro": "SG33BL_CMD_MID", "airliner_msg": "SG33BL_TorqueCmd_t" },
+                  "SG33BL_DiagPacket_t": { "airliner_cc": -1, "macro": "SG33BL_DIAG_TLM_MID", "airliner_msg": "SG33BL_DiagPacket_t" },
+                  "SG33BL_HkTlm_t":      { "airliner_cc": -1, "macro": "SG33BL_HK_TLM_MID", "airliner_msg": "SG33BL_HkTlm_t" }
+              },
+              "scheduler": {
+                  "activities": [
+                      "SG33BL_CUSTOM_WAKEUP_MID",
+                      "SG33BL_WAKEUP_MID",
+                      "SG33BL_SEND_HK_MID"
+                  ],
+                  "groups": [
+                  ]
+              },
+              "events": [
+                  {"macro": "SG33BL_INIT_INF_EID", "id": 1},
+                  {"macro": "SG33BL_CMD_NOOP_EID", "id": 2},
+                  {"macro": "SG33BL_SUBSCRIBE_ERR_EID", "id": 3},
+                  {"macro": "SG33BL_PIPE_INIT_ERR_EID", "id": 4},
+                  {"macro": "SG33BL_CFGTBL_MANAGE_ERR_EID", "id": 5},
+                  {"macro": "SG33BL_CFGTBL_GETADDR_ERR_EID", "id": 6},
+                  {"macro": "SG33BL_RCVMSG_ERR_EID", "id": 7},
+                  {"macro": "SG33BL_MSGID_ERR_EID", "id": 8},
+                  {"macro": "SG33BL_CC_ERR_EID", "id": 9},
+                  {"macro": "SG33BL_MSGLEN_ERR_EID", "id": 10},
+                  {"macro": "SG33BL_CFGTBL_REG_ERR_EID", "id": 11},
+                  {"macro": "SG33BL_CFGTBL_LOAD_ERR_EID", "id": 12}
+              ],
+              "config": {
+              },
+              "tables": [
+                  {"id": "CONFIG_TBL",  "title": "SG33BL Configuration",  "isDumpTable": false}
+              ]
+            }
+        }
+    }
+}
