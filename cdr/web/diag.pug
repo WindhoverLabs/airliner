@@ -1,0 +1,79 @@
+table.table.table-condensed
+  tbody
+    tr
+      th 
+      th(style='width: 100px') X
+      th(style='width: 100px') Y
+      th(style='width: 100px') Z
+    tr
+      th Accel Scale
+      td
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Calibration.AccXScale'}]}) ---
+      td
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Calibration.AccYScale'}]}) ---
+      td
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Calibration.AccZScale'}]}) ---
+    tr
+      th Accel Offset
+      td
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Calibration.AccXOffset'}]}) ---
+      td
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Calibration.AccYOffset'}]}) ---
+      td
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Calibration.AccZOffset'}]}) ---
+    tr
+      th Gyro Scale
+      td
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Calibration.GyroXScale'}]}) ---
+      td
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Calibration.GyroYScale'}]}) ---
+      td
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Calibration.GyroZScale'}]}) ---
+    tr
+      th Gyro Offset
+      td
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Calibration.GyroXOffset'}]}) ---
+      td
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Calibration.GyroYOffset'}]}) ---
+      td
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Calibration.GyroZOffset'}]}) ---
+    tr
+      th Gyro Offset
+      td(colspan=3)
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Calibration.Rotation'}]}) ---
+    tr
+      th Accel Unit
+      td(colspan=3)
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Conversion.AccUnit'}]}) --- 
+    tr
+      th Gyro Unit
+      td(colspan=3)
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Conversion.GyroUnit'}]}) ---
+    tr
+      th Accel Divider
+      td(colspan=3)
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Conversion.AccDivider'}]}) ---
+    tr
+      th Gyro Divider
+      td(colspan=3)
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Conversion.GyroDivider'}]}) ---
+    tr
+      th Room Temp Offset
+      td(colspan=3)
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Conversion.RoomTempOffset'}]}) ---
+    tr
+      th Temp Sensitivity
+      td(colspan=3)
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Conversion.TempSensitivity'}]}) ---
+    tr
+      th Accel Scale
+      td(colspan=3)
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Conversion.AccScale'}]}) ---
+    tr
+      th Gyro Scale
+      td(colspan=3)
+        div(data-cdr={tlm:[{name:'/MPU6050/MPU6050_DiagPacket_t/Conversion.GyroScale'}]}) ---
+              
+footer.btn-group(role="group")      
+  button.btn.cdr-primary(data-cdr={cmd:{name:'/MPU6050/SendDiag'}}) Send Diag    
+  button.btn.cdr-primary(data-cdr={cmd:{name:'/MPU6050/MPU6050_SetCalibrationCmd_t'}}) Set Calibration 
