@@ -1,0 +1,1735 @@
+#ifndef _PX4_MSGS_H_
+#define _PX4_MSGS_H_
+
+#include "cfe.h"
+
+#define PX4_ACTUATOR_DIRECT_MAX			16
+#define PX4_ACTUATOR_OUTPUTS_MAX		16
+#define PX4_ACTUATOR_OUTPUTS_GROUP_MAX 	4
+#define PX4_ADC_CHANNEL_MAX 			8
+#define PX4_ESC_CONNECTED_ESC_MAX		8
+#define PX4_ESTIMATOR_STATES_MAX		32
+#define PX4_ESTIMATOR_VIBE_MAX			3
+#define PX4_ESTIMATOR_COVARIANCES_MAX	28
+#define PX4_FENCE_MAX_VERTICES			16
+#define PX4_GPS_DUMP_DATA_MAX			79
+#define PX4_GPS_INJECT_DATA_MAX			182
+#define PX4_RC_INPUT_MAX_CHANNELS		18
+#define PX4_PWM_OUTPUT_MAX_CHANNELS		16
+#define PX4_QSHELL_REQ_MAX_STRLEN		100
+#define PX4_RC_PARAM_MAP_NCHAN			3
+#define PX4_RC_PARAM_MAP_ID_LEN			51
+#define PX4_SAT_INFO_MAX_SATELLITES		20
+#define PX4_NUM_MOTOR_OUTPUTS			8
+#define PX4_ADSB_CALLSIGN_LEN			8
+
+typedef enum
+{
+    PX4_ACTUATOR_CONTROL_ROLL 			= 0,
+	PX4_ACTUATOR_CONTROL_PITCH 			= 1,
+	PX4_ACTUATOR_CONTROL_YAW 			= 2,
+	PX4_ACTUATOR_CONTROL_THROTTLE 		= 3,
+	PX4_ACTUATOR_CONTROL_FLAPS 			= 4,
+	PX4_ACTUATOR_CONTROL_SPOILERS 		= 5,
+	PX4_ACTUATOR_CONTROL_AIRBRAKES 		= 6,
+	PX4_ACTUATOR_CONTROL_LANDING_GEAR 	= 7,
+	PX4_ACTUATOR_CONTROL_COUNT			= 8
+} PX4_ActuatorControlIndex_t;
+
+typedef enum
+{
+    PX4_ACTUATOR_CONTROL_GROUP_ATTITUDE 			= 0,
+	PX4_ACTUATOR_CONTROL_GROUP_ATTITUDE_ALTERNATE 	= 1,
+	PX4_ACTUATOR_CONTROL_GROUP_COUNT 				= 4
+} PX4_ActuatorControlGroupIndex_t;
+
+typedef enum
+{
+	PX4_BATTERY_WARNING_NONE		= 0,
+	PX4_BATTERY_WARNING_LOW			= 1,
+	PX4_BATTERY_WARNING_CRITICAL	= 2
+} PX4_BatteryWarningSeverity_t;
+
+typedef enum
+{
+	PX4_COMMANDER_MAIN_STATE_MANUAL 			= 0,
+	PX4_COMMANDER_MAIN_STATE_ALTCTL 			= 1,
+	PX4_COMMANDER_MAIN_STATE_POSCTL 			= 2,
+	PX4_COMMANDER_MAIN_STATE_AUTO_MISSION 		= 3,
+	PX4_COMMANDER_MAIN_STATE_AUTO_LOITER 		= 4,
+	PX4_COMMANDER_MAIN_STATE_AUTO_RTL 			= 5,
+	PX4_COMMANDER_MAIN_STATE_ACRO 				= 6,
+	PX4_COMMANDER_MAIN_STATE_OFFBOARD 			= 7,
+	PX4_COMMANDER_MAIN_STATE_STAB 				= 8,
+	PX4_COMMANDER_MAIN_STATE_RATTITUDE 			= 9,
+	PX4_COMMANDER_MAIN_STATE_AUTO_TAKEOFF 		= 10,
+	PX4_COMMANDER_MAIN_STATE_AUTO_LAND 			= 11,
+	PX4_COMMANDER_MAIN_STATE_AUTO_FOLLOW_TARGET	= 12,
+	PX4_COMMANDER_MAIN_STATE_MAX 				= 13
+} PX4_CommanderMainState_t;
+
+typedef enum
+{
+	PX4_AIRSPEED_MODE_MEAS 				= 0,
+	PX4_AIRSPEED_MODE_EST 				= 1,
+	PX4_AIRSPEED_MODE_DISABLED 			= 2
+} PX4_AirspeedMode_t;
+
+typedef enum
+{
+	PX4_ESC_VENDOR_GENERIC 				= 0,
+	PX4_ESC_VENDOR_MIKROKOPTER 			= 1,
+	PX4_ESC_VENDOR_GRAUPNER_HOTT 		= 2,
+	PX4_ESC_VENDOR_TAP 					= 3,
+} PX4_EscVendor_t;
+
+typedef enum
+{
+	PX4_ESC_CONNECTION_TYPE_PPM 		= 0,
+	PX4_ESC_CONNECTION_TYPE_SERIAL 		= 1,
+	PX4_ESC_CONNECTION_TYPE_ONESHOOT 	= 2,
+	PX4_ESC_CONNECTION_TYPE_I2C 		= 3,
+	PX4_ESC_CONNECTION_TYPE_CAN 		= 4
+} PX4_EscConnectionType_t;
+
+typedef enum
+{
+	PX4_GEOFENCE_ACTION_NONE 		= 0,
+	PX4_GEOFENCE_ACTION_WARN 		= 1,
+	PX4_GEOFENCE_ACTION_LOITER 		= 2,
+	PX4_GEOFENCE_ACTION_RTL 		= 3,
+	PX4_GEOFENCE_ACTION_TERMINATE	= 4
+} PX4_GeofenceAction_t;
+
+typedef enum
+{
+	PX4_MAGNETOMETER_MODE_NORMAL		= 0,
+	PX4_MAGNETOMETER_MODE_POSITIVE_BIAS = 1,
+	PX4_MAGNETOMETER_MODE_NEGATIVE_BIAS = 2
+} PX4_MagnetometerMode_t;
+
+typedef enum
+{
+	PX4_RC_INPUT_SOURCE_UNKNOWN = 0,
+	PX4_RC_INPUT_SOURCE_PX4FMU_PPM = 1,
+	PX4_RC_INPUT_SOURCE_PX4IO_PPM = 2,
+	PX4_RC_INPUT_SOURCE_PX4IO_SPEKTRUM = 3,
+	PX4_RC_INPUT_SOURCE_PX4IO_SBUS = 4,
+	PX4_RC_INPUT_SOURCE_PX4IO_ST24 = 5,
+	PX4_RC_INPUT_SOURCE_MAVLINK = 6,
+	PX4_RC_INPUT_SOURCE_QURT = 7,
+	PX4_RC_INPUT_SOURCE_PX4FMU_SPEKTRUM = 8,
+	PX4_RC_INPUT_SOURCE_PX4FMU_SBUS = 9,
+	PX4_RC_INPUT_SOURCE_PX4FMU_ST24 = 10,
+	PX4_RC_INPUT_SOURCE_PX4FMU_SUMD = 11,
+	PX4_RC_INPUT_SOURCE_PX4FMU_DSM = 12,
+	PX4_RC_INPUT_SOURCE_PX4IO_SUMD = 13
+} PX4_RcInputSource_t;
+
+typedef enum
+{
+	PX4_SWITCH_POS_NONE 	= 0,
+	PX4_SWITCH_POS_ON 		= 1,
+	PX4_SWITCH_POS_MIDDLE	= 2,
+	PX4_SWITCH_POS_OFF 		= 3
+} PX4_SwitchPos_t;
+
+typedef enum
+{
+	PX4_MODE_SLOT_1		= 0,
+	PX4_MODE_SLOT_2		= 1,
+	PX4_MODE_SLOT_3		= 2,
+	PX4_MODE_SLOT_4		= 3,
+	PX4_MODE_SLOT_5		= 4,
+	PX4_MODE_SLOT_6		= 5,
+	PX4_MODE_SLOT_MAX	= 6
+} PX4_ModeSlot_t;
+
+typedef enum
+{
+	PX4_SETPOINT_TYPE_POSITION = 0,
+	PX4_SETPOINT_TYPE_VELOCITY = 1,
+	PX4_SETPOINT_TYPE_LOITER = 2,
+	PX4_SETPOINT_TYPE_TAKEOFF = 3,
+	PX4_SETPOINT_TYPE_LAND = 4,
+	PX4_SETPOINT_TYPE_IDLE = 5,
+	PX4_SETPOINT_TYPE_OFFBOARD = 6,
+	PX4_SETPOINT_TYPE_FOLLOW_TARGET = 7
+} PX4_SetpointType_t;
+
+typedef enum
+{
+	PX4_RC_CHANNELS_FUNCTION_THROTTLE	= 0,
+	PX4_RC_CHANNELS_FUNCTION_ROLL	= 1,
+	PX4_RC_CHANNELS_FUNCTION_PITCH	= 2,
+	PX4_RC_CHANNELS_FUNCTION_YAW	= 3,
+	PX4_RC_CHANNELS_FUNCTION_MODE	= 4,
+	PX4_RC_CHANNELS_FUNCTION_RETURN	= 5,
+	PX4_RC_CHANNELS_FUNCTION_POSCTL	= 6,
+	PX4_RC_CHANNELS_FUNCTION_LOITER	= 7,
+	PX4_RC_CHANNELS_FUNCTION_OFFBOARD = 8,
+	PX4_RC_CHANNELS_FUNCTION_ACRO = 9,
+	PX4_RC_CHANNELS_FUNCTION_FLAPS = 10,
+	PX4_RC_CHANNELS_FUNCTION_AUX_1 = 11,
+	PX4_RC_CHANNELS_FUNCTION_AUX_2 = 12,
+	PX4_RC_CHANNELS_FUNCTION_AUX_3 = 13,
+	PX4_RC_CHANNELS_FUNCTION_AUX_4 = 14,
+	PX4_RC_CHANNELS_FUNCTION_AUX_5 = 15,
+	PX4_RC_CHANNELS_FUNCTION_PARAM_1 = 16,
+	PX4_RC_CHANNELS_FUNCTION_PARAM_2 = 17,
+	PX4_RC_CHANNELS_FUNCTION_PARAM_3 = 18,
+	PX4_RC_CHANNELS_FUNCTION_RATTITUDE = 19,
+	PX4_RC_CHANNELS_FUNCTION_KILLSWITCH = 20,
+	PX4_RC_CHANNELS_FUNCTION_TRANSITION = 21,
+	PX4_RC_CHANNELS_FUNCTION_COUNT = 22
+} PX4_RcChannelFunction_t;
+
+typedef enum
+{
+	PX4_SUBSYSTEM_TYPE_GYRO = 1,
+	PX4_SUBSYSTEM_TYPE_ACC = 2,
+	PX4_SUBSYSTEM_TYPE_MAG = 4,
+	PX4_SUBSYSTEM_TYPE_ABSPRESSURE = 8,
+	PX4_SUBSYSTEM_TYPE_DIFFPRESSURE = 16,
+	PX4_SUBSYSTEM_TYPE_GPS = 32,
+	PX4_SUBSYSTEM_TYPE_OPTICALFLOW = 64,
+	PX4_SUBSYSTEM_TYPE_CVPOSITION = 128,
+	PX4_SUBSYSTEM_TYPE_LASERPOSITION = 256,
+	PX4_SUBSYSTEM_TYPE_EXTERNALGROUNDTRUTH = 512,
+	PX4_SUBSYSTEM_TYPE_ANGULARRATECONTROL = 1024,
+	PX4_SUBSYSTEM_TYPE_ATTITUDESTABILIZATION = 2048,
+	PX4_SUBSYSTEM_TYPE_YAWPOSITION = 4096,
+	PX4_SUBSYSTEM_TYPE_ALTITUDECONTROL = 16384,
+	PX4_SUBSYSTEM_TYPE_POSITIONCONTROL = 32768,
+	PX4_SUBSYSTEM_TYPE_MOTORCONTROL = 65536,
+	PX4_SUBSYSTEM_TYPE_RANGEFINDER = 131072
+} PX4_SubsystemType_t;
+
+typedef enum
+{
+	PX4_TECS_MODE_NORMAL = 0,
+	PX4_TECS_MODE_UNDERSPEED = 1,
+	PX4_TECS_MODE_TAKEOFF = 2,
+	PX4_TECS_MODE_LAND = 3,
+	PX4_TECS_MODE_LAND_THROTTLELIM = 4,
+	PX4_TECS_MODE_BAD_DESCENT = 5,
+	PX4_TECS_MODE_CLIMBOUT = 6
+} PX4_TecsMode_t;
+
+typedef enum
+{
+	PX4_TELEMETRY_STATUS_RADIO_TYPE_GENERIC = 0,
+	PX4_TELEMETRY_STATUS_RADIO_TYPE_3DR_RADIO = 1,
+	PX4_TELEMETRY_STATUS_RADIO_TYPE_UBIQUITY_BULLET = 2,
+	PX4_TELEMETRY_STATUS_RADIO_TYPE_WIRE = 3,
+	PX4_TELEMETRY_STATUS_RADIO_TYPE_USB = 4
+} PX4_TelemetryStatusRadioType_t;
+
+typedef enum
+{
+	PX4_ADSB_ALTITUDE_TYPE_PRESSURE_QNH = 0,
+	PX4_ADSB_ALTITUDE_TYPE_GEOMETRIC = 1
+} PX4_AdsbAltitudeType_t;
+
+typedef enum
+{
+	PX4_ADSB_EMITTER_TYPE_NO_INFO = 0,
+	PX4_ADSB_EMITTER_TYPE_LIGHT = 1,
+	PX4_ADSB_EMITTER_TYPE_SMALL = 2,
+	PX4_ADSB_EMITTER_TYPE_LARGE = 3,
+	PX4_ADSB_EMITTER_TYPE_HIGH_VORTEX_LARGE = 4,
+	PX4_ADSB_EMITTER_TYPE_HEAVY = 5,
+	PX4_ADSB_EMITTER_TYPE_HIGHLY_MANUV = 6,
+	PX4_ADSB_EMITTER_TYPE_ROTOCRAFT = 7,
+	PX4_ADSB_EMITTER_TYPE_UNASSIGNED = 8,
+	PX4_ADSB_EMITTER_TYPE_GLIDER = 9,
+	PX4_ADSB_EMITTER_TYPE_LIGHTER_AIR = 10,
+	PX4_ADSB_EMITTER_TYPE_PARACHUTE = 11,
+	PX4_ADSB_EMITTER_TYPE_ULTRA_LIGHT = 12,
+	PX4_ADSB_EMITTER_TYPE_UNASSIGNED2 = 13,
+	PX4_ADSB_EMITTER_TYPE_UAV = 14,
+	PX4_ADSB_EMITTER_TYPE_SPACE = 15,
+	PX4_ADSB_EMITTER_TYPE_UNASSGINED3 = 16,
+	PX4_ADSB_EMITTER_TYPE_EMERGENCY_SURFACE = 17,
+	PX4_ADSB_EMITTER_TYPE_SERVICE_SURFACE = 18,
+	PX4_ADSB_EMITTER_TYPE_POINT_OBSTACLE = 19
+} PX4_AdsbEmitterType_t;
+
+typedef enum
+{
+	PX4_ADSB_FLAGS_VALID_COORDS = 1,
+	PX4_ADSB_FLAGS_VALID_ALTITUDE = 2,
+	PX4_ADSB_FLAGS_VALID_HEADING = 4,
+	PX4_ADSB_FLAGS_VALID_VELOCITY = 8,
+	PX4_ADSB_FLAGS_VALID_CALLSIGN = 16,
+	PX4_ADSB_FLAGS_VALID_SQUAWK = 32,
+	PX4_ADSB_FLAGS_SIMULATED = 64
+} PX4_AdsbFlags_t;
+
+typedef enum
+{
+	PX4_VEHICLE_COMMAND_RESULT_ACCEPTED = 0,
+	PX4_VEHICLE_COMMAND_RESULT_TEMPORARILY_REJECTED = 1,
+	PX4_VEHICLE_COMMAND_RESULT_DENIED = 2,
+	PX4_VEHICLE_COMMAND_RESULT_UNSUPPORTED = 3,
+	PX4_VEHICLE_COMMAND_RESULT_FAILED = 4
+} PX4_VehicleCommandResult_t;
+
+typedef enum
+{
+	PX4_VEHICLE_CMD_CUSTOM_0 = 0,
+	PX4_VEHICLE_CMD_CUSTOM_1 = 1,
+	PX4_VEHICLE_CMD_CUSTOM_2 = 2,
+	PX4_VEHICLE_CMD_NAV_WAYPOINT = 16,
+	PX4_VEHICLE_CMD_NAV_LOITER_UNLIM = 17,
+	PX4_VEHICLE_CMD_NAV_LOITER_TURNS = 18,
+	PX4_VEHICLE_CMD_NAV_LOITER_TIME = 19,
+	PX4_VEHICLE_CMD_NAV_RETURN_TO_LAUNCH = 20,
+	PX4_VEHICLE_CMD_NAV_LAND = 21,
+	PX4_VEHICLE_CMD_NAV_TAKEOFF = 22,
+	PX4_VEHICLE_CMD_NAV_ROI = 80,
+	PX4_VEHICLE_CMD_NAV_PATHPLANNING = 81,
+	PX4_VEHICLE_CMD_NAV_VTOL_TAKEOFF = 84,
+	PX4_VEHICLE_CMD_NAV_VTOL_LAND = 85,
+	PX4_VEHICLE_CMD_NAV_GUIDED_LIMITS = 90,
+	PX4_VEHICLE_CMD_NAV_GUIDED_MASTER = 91,
+	PX4_VEHICLE_CMD_NAV_GUIDED_ENABLE = 92,
+	PX4_VEHICLE_CMD_NAV_LAST = 95,
+	PX4_VEHICLE_CMD_CONDITION_DELAY = 112,
+	PX4_VEHICLE_CMD_CONDITION_CHANGE_ALT = 113,
+	PX4_VEHICLE_CMD_CONDITION_DISTANCE = 114,
+	PX4_VEHICLE_CMD_CONDITION_YAW = 115,
+	PX4_VEHICLE_CMD_CONDITION_LAST = 159,
+	PX4_VEHICLE_CMD_DO_SET_MODE = 176,
+	PX4_VEHICLE_CMD_DO_JUMP = 177,
+	PX4_VEHICLE_CMD_DO_CHANGE_SPEED = 178,
+	PX4_VEHICLE_CMD_DO_SET_HOME = 179,
+	PX4_VEHICLE_CMD_DO_SET_PARAMETER = 180,
+	PX4_VEHICLE_CMD_DO_SET_RELAY = 181,
+	PX4_VEHICLE_CMD_DO_REPEAT_RELAY = 182,
+	PX4_VEHICLE_CMD_DO_SET_SERVO = 183,
+	PX4_VEHICLE_CMD_DO_REPEAT_SERVO = 184,
+	PX4_VEHICLE_CMD_DO_FLIGHTTERMINATION = 185,
+	PX4_VEHICLE_CMD_DO_GO_AROUND = 191,
+	PX4_VEHICLE_CMD_DO_REPOSITION = 192,
+	PX4_VEHICLE_CMD_DO_PAUSE_CONTINUE = 193,
+	PX4_VEHICLE_CMD_DO_CONTROL_VIDEO = 200,
+	PX4_VEHICLE_CMD_DO_DIGICAM_CONTROL = 203,
+	PX4_VEHICLE_CMD_DO_MOUNT_CONFIGURE = 204,
+	PX4_VEHICLE_CMD_DO_MOUNT_CONTROL = 205,
+	PX4_VEHICLE_CMD_DO_SET_CAM_TRIGG_DIST = 206,
+	PX4_VEHICLE_CMD_DO_FENCE_ENABLE = 207,
+	PX4_VEHICLE_CMD_DO_PARACHUTE = 208,
+	PX4_VEHICLE_CMD_DO_INVERTED_FLIGHT = 210,
+	PX4_VEHICLE_CMD_DO_MOUNT_CONTROL_QUAT = 220,
+	PX4_VEHICLE_CMD_DO_GUIDED_MASTER = 221,
+	PX4_VEHICLE_CMD_DO_GUIDED_LIMITS = 222,
+	PX4_VEHICLE_CMD_DO_LAST = 240,
+	PX4_VEHICLE_CMD_PREFLIGHT_CALIBRATION = 241,
+	PX4_VEHICLE_CMD_PREFLIGHT_SET_SENSOR_OFFSETS = 242,
+	PX4_VEHICLE_CMD_PREFLIGHT_STORAGE = 245,
+	PX4_VEHICLE_CMD_PREFLIGHT_REBOOT_SHUTDOWN = 246,
+	PX4_VEHICLE_CMD_OVERRIDE_GOTO = 252,
+	PX4_VEHICLE_CMD_MISSION_START = 300,
+	PX4_VEHICLE_CMD_COMPONENT_ARM_DISARM = 400,
+	PX4_VEHICLE_CMD_START_RX_PAIR = 500,
+	PX4_VEHICLE_CMD_DO_TRIGGER_CONTROL = 2003,
+	PX4_VEHICLE_CMD_DO_VTOL_TRANSITION = 3000,
+	PX4_VEHICLE_CMD_PAYLOAD_PREPARE_DEPLOY = 30001,
+	PX4_VEHICLE_CMD_PAYLOAD_CONTROL_DEPLOY = 30002,
+	PX4_VEHICLE_CMD_PREFLIGHT_UAVCAN = 243
+} PX4_VehicleCmd_t;
+
+typedef enum
+{
+	PX4_ARMING_STATE_INIT = 0,
+	PX4_ARMING_STATE_STANDBY = 1,
+	PX4_ARMING_STATE_ARMED = 2,
+	PX4_ARMING_STATE_ARMED_ERROR = 3,
+	PX4_ARMING_STATE_STANDBY_ERROR = 4,
+	PX4_ARMING_STATE_REBOOT = 5,
+	PX4_ARMING_STATE_IN_AIR_RESTORE = 6,
+	PX4_ARMING_STATE_MAX = 7
+} PX4_ArmingState_t;
+
+typedef enum
+{
+	PX4_HIL_STATE_OFF = 0,
+	PX4_HIL_STATE_ON = 1
+} PX4_HilState_t;
+
+typedef enum
+{
+	PX4_NAVIGATION_STATE_MANUAL = 0,
+	PX4_NAVIGATION_STATE_ALTCTL = 1,
+	PX4_NAVIGATION_STATE_POSCTL = 2,
+	PX4_NAVIGATION_STATE_AUTO_MISSION = 3,
+	PX4_NAVIGATION_STATE_AUTO_LOITER = 4,
+	PX4_NAVIGATION_STATE_AUTO_RTL = 5,
+	PX4_NAVIGATION_STATE_AUTO_RCRECOVER = 6,
+	PX4_NAVIGATION_STATE_AUTO_RTGS = 7,
+	PX4_NAVIGATION_STATE_AUTO_LANDENGFAIL = 8,
+	PX4_NAVIGATION_STATE_AUTO_LANDGPSFAIL = 9,
+	PX4_NAVIGATION_STATE_ACRO = 10,
+	PX4_NAVIGATION_STATE_UNUSED = 11,
+	PX4_NAVIGATION_STATE_DESCEND = 12,
+	PX4_NAVIGATION_STATE_TERMINATION = 13,
+	PX4_NAVIGATION_STATE_OFFBOARD = 14,
+	PX4_NAVIGATION_STATE_STAB = 15,
+	PX4_NAVIGATION_STATE_RATTITUDE = 16,
+	PX4_NAVIGATION_STATE_AUTO_TAKEOFF = 17,
+	PX4_NAVIGATION_STATE_AUTO_LAND = 18,
+	PX4_NAVIGATION_STATE_AUTO_FOLLOW_TARGET = 19,
+	PX4_NAVIGATION_STATE_MAX = 20
+} PX4_NavigationState_t;
+
+typedef enum
+{
+	PX4_RC_IN_MODE_DEFAULT = 0,
+	PX4_RC_IN_MODE_OFF = 1,
+	PX4_RC_IN_MODE_GENERATED = 2
+} PX4_RcInMode_t;
+
+typedef enum
+{
+	PX4_VEHICLE_MOUNT_MODE_RETRACT = 0,
+	PX4_VEHICLE_MOUNT_MODE_NEUTRAL = 1,
+	PX4_VEHICLE_MOUNT_MODE_MAVLINK_TARGETING = 2,
+	PX4_VEHICLE_MOUNT_MODE_RC_TARGETING = 3,
+	PX4_VEHICLE_MOUNT_MODE_GPS_POINT = 4,
+	PX4_VEHICLE_MOUNT_MODE_ENUM_END = 5
+} PX4_VehicleMountMode_t;
+
+typedef enum
+{
+	PX4_SYSTEM_TYPE_GENERIC = 0,
+	PX4_SYSTEM_TYPE_FIXED_WING = 1,
+	PX4_SYSTEM_TYPE_QUADROTOR = 2,
+	PX4_SYSTEM_TYPE_COAXIAL = 3,
+	PX4_SYSTEM_TYPE_HELICOPTER = 4,
+	PX4_SYSTEM_TYPE_ANTENNA_TRACKER = 5,
+	PX4_SYSTEM_TYPE_GCS = 6,
+	PX4_SYSTEM_TYPE_AIRSHIP = 7,
+	PX4_SYSTEM_TYPE_FREE_BALLOON = 8,
+	PX4_SYSTEM_TYPE_ROCKET = 9,
+	PX4_SYSTEM_TYPE_GROUND_ROVER = 10,
+	PX4_SYSTEM_TYPE_SURFACE_BOAT = 11,
+	PX4_SYSTEM_TYPE_SUBMARINE = 12,
+	PX4_SYSTEM_TYPE_HEXAROTOR = 13,
+	PX4_SYSTEM_TYPE_OCTOROTOR = 14,
+	PX4_SYSTEM_TYPE_TRICOPTER = 15,
+	PX4_SYSTEM_TYPE_FLAPPING_WING = 16,
+	PX4_SYSTEM_TYPE_KITE = 17,
+	PX4_SYSTEM_TYPE_ONBOARD_CONTROLLER = 18,
+	PX4_SYSTEM_TYPE_VTOL_DUOROTOR = 19,
+	PX4_SYSTEM_TYPE_VTOL_QUADROTOR = 20,
+	PX4_SYSTEM_TYPE_VTOL_TILTROTOR = 21,
+	PX4_SYSTEM_TYPE_VTOL_RESERVED2 = 22,
+	PX4_SYSTEM_TYPE_VTOL_RESERVED3 = 23,
+	PX4_SYSTEM_TYPE_VTOL_RESERVED4 = 24,
+	PX4_SYSTEM_TYPE_VTOL_RESERVED5 = 25,
+	PX4_SYSTEM_TYPE_GIMBAL = 26,
+	PX4_SYSTEM_TYPE_ADSB = 27
+} PX4_SystemType_t;
+
+typedef enum
+{
+	PX4_VEHICLE_VTOL_STATE_UNDEFINED = 0,
+	PX4_VEHICLE_VTOL_STATE_TRANSITION_TO_FW = 1,
+	PX4_VEHICLE_VTOL_STATE_TRANSITION_TO_MC = 2,
+	PX4_VEHICLE_VTOL_STATE_MC = 3,
+	PX4_VEHICLE_VTOL_STATE_FW = 4
+} PX4_VehicleVtolState_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	boolean Armed;
+	boolean Prearmed;
+	boolean ReadyToArm;
+	boolean Lockdown;
+	boolean ForceFailsafe;
+	boolean InEscCalibrationMode;
+} PX4_ActuatorArmedMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	CFE_TIME_SysTime_t SampleTime;
+	float Control[8];
+} PX4_ActuatorControlsMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint32 NValues;
+	float Values[PX4_ACTUATOR_DIRECT_MAX];
+} PX4_ActuatorDirectMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint32 Count;
+	float Output[PX4_ACTUATOR_OUTPUTS_MAX];
+} PX4_ActuatorOutputsMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float ChannelValue[PX4_ADC_CHANNEL_MAX];
+	uint32 ChannelID[PX4_ADC_CHANNEL_MAX];
+} PX4_AdcReportMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float IndicatedAirspeed;		/* m/s */
+	float TrueAirspeed;				/* m/s */
+	float TrueAirspeedUnfiltered;	/* m/s */
+	float AirTemperature;			/* Celsius */
+	float Confidence;
+} PX4_AirspeedMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+} PX4_AttPosMoCapMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float Voltage;					/* V */
+	float VoltageFiltered;			/* V */
+	float Current;					/* A */
+	float CurrentFiltered;			/* A */
+	float Discharged;				/* mAh */
+	float Remaining;
+	int32 CellCount;
+	boolean Connected;
+	PX4_BatteryWarningSeverity_t Warning;
+} PX4_BatteryStatusMsg_t;
+
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+} PX4_CameraTriggerMsg_t;
+
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	PX4_CommanderMainState_t MainState;
+} PX4_CommanderStateMsg_t;
+
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float AccX;
+	float AccY;
+	float AccZ;
+	float VelX;
+	float VelY;
+	float VelZ;
+	float PosX;
+	float PosY;
+	float PosZ;
+	float Airspeed;
+	float VelVariance[3];
+	float PosVariance[3];
+	float Q[4];
+	float RollRate;
+	float PitchRate;
+	float YawRate;
+	float HorzAccMag;
+	boolean AirspeedValid;
+} PX4_ControlStateMsg_t;
+
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float Load;
+	float RamUsage;
+} PX4_CpuLoadMsg_t;
+
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint32 TimestampMs;
+	float Value;
+	int8  Key[10];
+} PX4_DebugKeyValueMsg_t;
+
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64 ErrorCount;
+	float DifferentialPressureRaw;
+	float DifferentialPressureFiltered;
+	float MaxDifferentialPressure;
+	float Temperature;
+} PX4_DifferentialPressureMsg_t;
+
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float MinDistance;
+	float MaxDistance;
+	float CurrentDistance;
+	float Covariance;
+	uint8 Type;
+	uint8 ID;
+	uint8 Orientation;
+} PX4_DistanceSensorMsg_t;
+
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float NavRoll;
+	float NavPitch;
+	float NavBearing;
+	float TargetBearing;
+	float WpDist;
+	float XtrackError;
+	float TurnDistance;
+	float LandingHorizontalSlopeDisplacement;
+	float LandingSlopeAngleRad;
+	float LandingFlareLength;
+	boolean AbortLanding;
+} PX4_FwPosCtrlStatusMsg_t;
+
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float RollBody;
+	float PitchBody;
+	float YawBody;
+	float YawSpMoveRate;
+	float RBody[9];
+	float Q_D[4];
+	float Q_E[4];
+	float Thrust;
+	boolean RValid;
+	boolean Q_D_Valid;
+	boolean Q_E_Valid;
+	boolean RollResetIntegral;
+	boolean PitchResetIntegral;
+	boolean YawResetIntegral;
+	boolean FwControlYaw;
+	boolean DisableMcYawControl;
+	boolean ApplyFlaps;
+} PX4_FwVirtualAttitudeSetpointMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float Roll;
+	float Pitch;
+	float Yaw;
+	float Thrust;
+} PX4_FwVirtualRatesSetpointMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float VelPosInnov[6];
+	float MagInnov[3];
+	float HeadingInnov;
+	float AirspeedInnov;
+	float FlowInnov[2];
+	float HaglInnov;
+	float VelPosInnovVar[6];
+	float MagInnovVar[3];
+	float HeadingInnovVar;
+	float AirspeedInnovVar;
+	float FlowInnovVar[2];
+	float HaglInnovVar;
+} PX4_Ekf2InnovationsMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64 TimeRef;
+	uint64 Magnetometer_timestamp;
+	uint64 Baro_timestamp;
+	uint64 Rng_timestamp;
+	uint64 Flow_timestamp;
+	uint64 Asp_timestamp;
+	uint64 Ev_timestamp;
+	uint64 Time_usec;
+	uint64 Time_usec_vel;
+	float GyroIntegral_dt;
+	float AccelerometerIntegral_dt;
+	float GyroRad[3];
+	float Accelerometer[3];
+	float Magnetometer[3];
+	float BaroAltMeter;
+	int32 Lat;
+	int32 Lon;
+	int32 Alt;
+	float Eph;
+	float Epv;
+	float Sacc;
+	float Vel_m_s;
+	float Vel_n_m_s;
+	float Vel_e_m_s;
+	float Vel_d_m_s;
+	float RangeToGround;
+	float FlowPixelIntegral[2];
+	float FlowGyroIntegral[2];
+	uint32 FlowTimeIntegral;
+	float IndicatedAirspeed;
+	float TrueAirspeed;
+	float PosEv[3];
+	float QuatEv[4];
+	float PosErr;
+	float AngErr;
+	uint8 FixType;
+	uint8 Nsats;
+	boolean VelNedValid;
+	uint8 FlowQuality;
+} PX4_Ekf2ReplayMsg_t;
+
+typedef struct
+{
+	CFE_TIME_SysTime_t Timestamp;
+	uint32 ErrorCount;
+	int32 Rpm;
+	float Voltage;
+	float Current;
+	float Temperature;
+	float Setpoint;
+	uint16 SetpointRaw;
+	uint16 Address;
+	uint16 Version;
+	uint16 State;
+	uint8 Vendor;
+} PX4_EscReport_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    PX4_EscReport_t	Esc;
+} PX4_EscReportMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint16 Counter;
+	uint8 EscCount;
+	uint8 ConnectionType;
+    PX4_EscReport_t	Esc[PX4_ESC_CONNECTED_ESC_MAX];
+} PX4_EscStatusMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float States[PX4_ESTIMATOR_STATES_MAX];
+	uint32 NumStates;
+	float Vibe[PX4_ESTIMATOR_VIBE_MAX];
+	float Covariances[PX4_ESTIMATOR_COVARIANCES_MAX];
+	uint16 GpsCheckFailFlags;
+	uint16 ControlModeFlags;
+	uint16 FilterFaultFlags;
+	uint8 NanFlags;
+	uint8 HealthFlags;
+	uint8 TimeoutFlags;
+} PX4_EstimatorStatusMsg_t;
+
+typedef struct
+{
+	float Lat;
+	float Lon;
+} PX4_FenceVertex_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint32 Count;
+	PX4_FenceVertex_t Vertices[PX4_FENCE_MAX_VERTICES];
+} PX4_FenceMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	PX4_FenceVertex_t Vertex;
+} PX4_FenceVertexMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float SumX;
+	float SumY;
+	float VX;
+	float VY;
+} PX4_FilteredBottomFlowMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	double Lat;
+	double Lon;
+	float Alt;
+	float VX;
+	float VY;
+	float VZ;
+	uint8 EstCap;
+} PX4_FollowTargetMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	boolean GeofenceViolated;
+	PX4_GeofenceAction_t GeofenceAction;
+} PX4_GeofenceResultMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint8 Len;
+	char Data[PX4_GPS_DUMP_DATA_MAX];
+} PX4_GpsDumpMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint8 Len;
+	uint8 Flags;
+	char Data[PX4_GPS_INJECT_DATA_MAX];
+} PX4_GpsInjectDataMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64 AccTimestamp;
+	uint64 MagTimestamp;
+	uint64 Gyro1Timestamp;
+	uint64 Acc1Timestamp;
+	uint64 Mag1Timestamp;
+	uint64 Gyro2Timestamp;
+	uint64 Acc2Timestamp;
+	uint64 Mag2Timestamp;
+	uint64 BaroTimestamp;
+	uint64 Baro1Timestamp;
+	uint64 DiffPressTimestamp;
+	uint64 DiffPress1Timestamp;
+	float Gyro[3];
+	uint32 GyroErrCount;
+	float GyroTemp;
+	float Acc[3];
+	float AccRange;
+	uint32 AccErrCount;
+	float AccTemp;
+	float Mag[3];
+	float MagRange;
+	float MagCutoffFreq;
+	uint32 MagErrCount;
+	float MagTemp;
+	float Gyro1[3];
+	uint32 Gyro1ErrCount;
+	float Gyro1Temp;
+	float Acc1[3];
+	uint32 Acc1ErrCount;
+	float Acc1Temp;
+	float Mag1[3];
+	uint32 Mag1ErrCount;
+	float Mag1Temp;
+	float Gyro2[3];
+	uint32 Gyro2ErrCount;
+	float Gyro2Temp;
+	float Acc2[3];
+	uint32 Acc2ErrCount;
+	float Acc2Temp;
+	float Mag2[3];
+	uint32 Mag2ErrCount;
+	float Mag2Temp;
+	float BaroPres;
+	float BaroAlt;
+	float BaroTemp;
+	float Baro1Pres;
+	float Baro1Alt;
+	float Baro1Temp;
+	float AdcVoltage[10];
+	float McuTemp;
+	float DiffPress;
+	float DiffPressFiltered;
+	float DiffPress1;
+	float DiffPress1Filtered;
+	int16 GyroRaw[3];
+	int16 AccRaw[3];
+	int16 AccMode;
+	int16 MagRaw[3];
+	PX4_MagnetometerMode_t MagMode;
+	int16 Gyro1Raw[3];
+	int16 Acc1Raw[3];
+	int16 Mag1Raw[3];
+	int16 Gyro2Raw[3];
+	int16 Acc2Raw[3];
+	int16 Mag2Raw[3];
+	uint16 AdcMapping[10];
+} PX4_HilSensorMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	double Lat;
+	double Lon;
+	float Alt;
+	float X;
+	float Y;
+	float Z;
+	float Yaw;
+	float DirectionX;
+	float DirectionY;
+	float DirectionZ;
+} PX4_HomePositionMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64 TimestampPublication;
+	uint64 TimestampLastSignal;
+	uint32 ChannelCount;
+	int32 RSSI;
+	uint16 RcLostFrameCount;
+	uint16 RcTotalFrameCount;
+	uint16 RcPpmFrameLength;
+	uint16 Values[18];
+	boolean RcFailsafe;
+	boolean RcLost;
+	PX4_RcInputSource_t InputSource;
+} PX4_InputRcMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint8 Severity;
+	char Text[127];
+} PX4_LogMessageMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float X;
+	float Y;
+	float Z;
+	float R;
+	float Flaps;
+	float Aux1;
+	float Aux2;
+	float Aux3;
+	float Aux4;
+	float Aux5;
+	PX4_SwitchPos_t ModeSwitch;
+	PX4_SwitchPos_t ReturnSwitch;
+	PX4_SwitchPos_t RattitudeSwitch;
+	PX4_SwitchPos_t PosctlSwitch;
+	PX4_SwitchPos_t LoiterSwitch;
+	PX4_SwitchPos_t AcroSwitch;
+	PX4_SwitchPos_t OffboardSwitch;
+	PX4_SwitchPos_t KillSwitch;
+	PX4_SwitchPos_t TransitionSwitch;
+	PX4_ModeSlot_t ModeSlot;
+} PX4_ManualControlSetpointMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	char Text[50];
+	uint8 Severity;
+} PX4_MavlinkLogMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float RollRateInteg;
+	float PitchRateInteg;
+	float YawRateInteg;
+} PX4_McAttCtrlStatusMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float RollBody;
+	float PitchBody;
+	float YawBody;
+	float YawSpMoveRate;
+	float R_Body[9];
+	float Q_D[4];
+	float Q_E[4];
+	float Thrust;
+	boolean R_Valid;
+	boolean Q_D_Valid;
+	boolean Q_E_Valid;
+	boolean RollResetIntegral;
+	boolean PitchResetIntegral;
+	boolean YawResetIntegral;
+	boolean FwControlYaw;
+	boolean DisableMcYawControl;
+	boolean ApplyFlaps;
+} PX4_McVirtualAttitudeSetpointMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float Roll;
+	float Pitch;
+	float Yaw;
+	float Thrust;
+} PX4_McVirtualRatesSetpointMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	int32 DatamanID;
+	uint32 Count;
+	int32 CurrentSeq;
+} PX4_MissionMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint32 InstanceCount;
+	uint32 SeqReached;
+	uint32 SeqCurrent;
+	uint32 ItemChangedIndex;
+	uint32 ItemDoJumpRemaining;
+	boolean Valid;
+	boolean Warning;
+	boolean Reached;
+	boolean Finished;
+	boolean StayInFailsafe;
+	boolean FlightTermination;
+	boolean ItemDoJumpChanged;
+	boolean MissionFailure;
+} PX4_MissionResultMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint8 LowerLimit;
+	uint8 UpperLimit;
+	uint8 Yaw;
+} PX4_MultirotorMotorLimitsMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	boolean IgnoreThrust;
+	boolean IgnoreAttitude;
+	boolean IgnoreBodyrate;
+	boolean IgnorePosition;
+	boolean IgnoreVelocity;
+	boolean IgnoreAccelerationForce;
+} PX4_OffboardControlModeMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float PixelFlowXIntegral;
+	float PixelFlowYIntegral;
+	float GyroXRateIntegral;
+	float GyroYRateIntegral;
+	float GyroZRateIntegral;
+	float GroundDistance;
+	uint32 IntegrationTimespan;
+	uint32 TimeSinceLastSonarUpdate;
+	uint16 FrameCountSinceLastReadout;
+	int16 GyroTemperature;
+	uint8 SensorID;
+	uint8 Quality;
+} PX4_OpticalFlowMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint32 ChannelCount;
+	uint16 Values[PX4_PWM_OUTPUT_MAX_CHANNELS];
+} PX4_OutputPwmMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	boolean Saved;
+} PX4_ParameterUpdateMsg_t;
+
+typedef struct
+{
+	double Lat;
+	double Lon;
+	float X;
+	float Y;
+	float Z;
+	float VX;
+	float VY;
+	float VZ;
+	float Alt;
+	float Yaw;
+	float Yawspeed;
+	float LoiterRadius;
+	float PitchMin;
+	float A_X;
+	float A_Y;
+	float A_Z;
+	float AcceptanceRadius;
+	float CruisingSpeed;
+	float CruisingThrottle;
+	boolean Valid;
+	PX4_SetpointType_t Type;
+	boolean PositionValid;
+	boolean VelocityValid;
+	boolean YawValid;
+	boolean DisableMcYawControl;
+	boolean YawspeedValid;
+	int8 LoiterDirection;
+	boolean AccelerationValid;
+	boolean AccelerationIsForce;
+} PX4_PositionSetpoint_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	PX4_PositionSetpoint_t Setpoint;
+} PX4_PositionSetpointMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint8 NavState;
+	PX4_PositionSetpoint_t Previous;
+	PX4_PositionSetpoint_t Current;
+	PX4_PositionSetpoint_t Next;
+} PX4_PositionSetpointTripletMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64 ErrorCount;
+	uint32 PulseWidth;
+	uint32 Period;
+} PX4_PwmInputMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64 StrLen;
+	int32 String[PX4_QSHELL_REQ_MAX_STRLEN];
+} PX4_QShellReqMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	CFE_TIME_SysTime_t TimestampLastValid;
+	float Channels[18];
+	uint32 FrameDropCount;
+	uint8 ChannelCount;
+	PX4_RcChannelFunction_t Function[PX4_RC_CHANNELS_FUNCTION_COUNT];
+	uint8 RSSI;
+	boolean SignalLost;
+} PX4_RcChannelsMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	int32 ParamIndex[PX4_RC_PARAM_MAP_NCHAN];
+	float Scale[PX4_RC_PARAM_MAP_NCHAN];
+	float Value0[PX4_RC_PARAM_MAP_NCHAN];
+	float ValueMin[PX4_RC_PARAM_MAP_NCHAN];
+	float ValueMax[PX4_RC_PARAM_MAP_NCHAN];
+	boolean Valid[PX4_RC_PARAM_MAP_NCHAN];
+	char ParamID[PX4_RC_PARAM_MAP_ID_LEN];
+} PX4_RcParameterMapMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	boolean SafetySwitchAvailable;
+	boolean SafetyOff;
+} PX4_SafetyMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint8 Count;
+	uint8 SVID[PX4_SAT_INFO_MAX_SATELLITES];
+	uint8 Used[PX4_SAT_INFO_MAX_SATELLITES];
+	uint8 Elevation[PX4_SAT_INFO_MAX_SATELLITES];
+	uint8 Azimuth[PX4_SAT_INFO_MAX_SATELLITES];
+	uint8 SNR[PX4_SAT_INFO_MAX_SATELLITES];
+} PX4_SatelliteInfoMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64	IntegralDt;
+	uint64	ErrorCount;
+	float 	X;
+	float 	Y;
+	float 	Z;
+	float 	XIntegral;
+	float 	YIntegral;
+	float 	ZIntegral;
+	float 	Temperature;
+	float 	Range_m_s2;
+	float 	Scaling;
+	uint32	DeviceID;
+	int16	XRaw;
+	int16	YRaw;
+	int16	ZRaw;
+	int16	TemperatureRaw;
+} PX4_SensorAccelMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64 ErrorCount;
+	float Pressure;
+	float Altitude;
+	float Temperature;
+} PX4_SensorBaroMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float GyroRad[3];
+	float GyroIntegralDt;
+	CFE_TIME_SysTime_t AccTimestampRelative;
+	boolean AccRelTimeInvalid;
+	float Acc[3];
+	float AccIntegralDt;
+	CFE_TIME_SysTime_t MagTimestampRelative;
+	boolean MagRelTimeInvalid;
+	float Mag[3];
+	CFE_TIME_SysTime_t BaroTimestampRelative;
+	boolean BaroRelTimeInvalid;
+	float BaroAlt;
+	float BaroTemp;
+} PX4_SensorCombinedMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64 IntegralDt;
+	uint64 ErrorCount;
+	float X;
+	float Y;
+	float Z;
+	float XIntegral;
+	float YIntegral;
+	float ZIntegral;
+	float Temperature;
+	float Range;
+	float Scaling;
+	uint32 DeviceID;
+	int16 XRaw;
+	int16 YRaw;
+	int16 ZRaw;
+	int16 TemperatureRaw;
+} PX4_SensorGyroMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64 ErrorCount;
+	float X;
+	float Y;
+	float Z;
+	float Range;
+	float Scaling;
+	float Temperature;
+	uint32 DeviceID;
+	int16 XRaw;
+	int16 YRaw;
+	int16 ZRaw;
+} PX4_SensorMagMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float Voltage;
+	float RSSI;
+} PX4_ServorailStatusMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	PX4_SubsystemType_t SubsystemType;
+	boolean Present;
+	boolean Enabled;
+	boolean Ok;
+} PX4_SubsystemInfoMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float Voltage5V;
+	uint8 UsbConnected;
+	uint8 BrickValid;
+	uint8 ServoValid;
+	uint8 Periph5V;
+	uint8 HiPower5V;
+} PX4_SystemPowerMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float AltitudeSp;
+	float AltitudeFiltered;
+	float FlightPathAngleSp;
+	float FlightPathAngle;
+	float FlightPathAngleFiltered;
+	float AirspeedSp;
+	float AirspeedFiltered;
+	float AirspeedDerivativeSp;
+	float AirspeedDerivative;
+	float TotalEnergyError;
+	float EnergyDistributionError;
+	float TotalEnergyRateError;
+	float EnergyDistributionRateError;
+	float ThrottleInteg;
+	float PitchInteg;
+	PX4_TecsMode_t Mode;
+} PX4_TecsStatusMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64 HeartbeatTime;
+	uint64 TelemTime;
+	uint16 RxErrors;
+	uint16 Fixed;
+	PX4_TelemetryStatusRadioType_t Type;
+	uint8 RSSI;
+	uint8 RemoteRSSI;
+	uint8 Noise;
+	uint8 RemoteNoise;
+	uint8 TxBuf;
+	uint8 SystemID;
+	uint8 ComponentID;
+} PX4_TelemetryStatusMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint32 MotorNumber;
+	float Value;
+} PX4_TestMotorMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64 OffsetNs;
+} PX4_TimeOffsetMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	double Lat;
+	double Lon;
+	uint32 ICAOAddress;
+	float Altitude;
+	float Heading;
+	float HorVelocity;
+	float VerVelocity;
+	uint8 Flags;
+	uint16 Squawk;
+	PX4_AdsbAltitudeType_t AltitudeType;
+	char Callsign[PX4_ADSB_CALLSIGN_LEN+1];
+	PX4_AdsbEmitterType_t EmitterType;
+	uint8 TSLC;
+} PX4_TransponderReportMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	int64 IntValue;
+	float RealValue;
+	int16 ParamIndex;
+	uint8 MessageType;
+	uint8 NodeID;
+	char ParamID[17];
+	uint8 ParamType;
+} PX4_UavCanParameterRequestMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	int64 IntValue;
+	float RealValue;
+	int16 ParamIndex;
+	uint16 ParamCount;
+	uint8 NodeID;
+	char ParamID[17];
+	uint8 ParamType;
+} PX4_UavCanParameterValueMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float Roll;
+	float Pitch;
+	float Yaw;
+	float RollSpeed;
+	float PitchSpeed;
+	float YawSpeed;
+	float RollAcc;
+	float PitchAcc;
+	float YawAcc;
+	float RateVibration;
+	float AccelVibration;
+	float MagVibration;
+	float RateOffsets[3];
+	float R[9];
+	float Q[4];
+	float G_Comp[3];
+	boolean R_Valid;
+	boolean Q_Valid;
+} PX4_VehicleAttitudeMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float RollBody;
+	float PitchBody;
+	float YawBody;
+	float YawSpMoveRate;
+	float R_Body[9];
+	float Q_D[4];
+	float Q_E[4];
+	float Thrust;
+	boolean R_Valid;
+	boolean Q_D_Valid;
+	boolean Q_E_Valid;
+	boolean RollResetIntegral;
+	boolean PitchResetIntegral;
+	boolean YawResetIntegral;
+	boolean FwControlYaw;
+	boolean DisableMcYawControl;
+	boolean ApplyFlaps;
+} PX4_VehicleAttitudeSetpointMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint16 Command;
+	PX4_VehicleCommandResult_t Result;
+} PX4_VehicleCommandAckMsg_t;
+
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	double Param5;
+	double Param6;
+	float Param1;
+	float Param2;
+	float Param3;
+	float Param4;
+	float Param7;
+	PX4_VehicleCmd_t Command;
+	uint32 TargetSystem;
+	uint32 TargetComponent;
+	uint32 SourceSystem;
+	uint32 SourceComponent;
+	uint8 Confirmation;
+} PX4_VehicleCommandMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	boolean Armed;
+	boolean ExternalManualOverrideOk;
+	boolean SystemHilEnabled;
+	boolean ControlManualEnabled;
+	boolean ControlAutoEnabled;
+	boolean ControlOffboardEnabled;
+	boolean ControlRatesEnabled;
+	boolean ControlAttitudeEnabled;
+	boolean ControlRattitudeEnabled;
+	boolean ControlForceEnabled;
+	boolean ControlAccelerationEnabled;
+	boolean ControlVelocityEnabled;
+	boolean ControlPositionEnabled;
+	boolean ControlAltitudeEnabled;
+	boolean ControlClimbRateEnabled;
+	boolean ControlTerminationEnabled;
+} PX4_VehicleControlModeMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float X;
+	float Y;
+	float Z;
+	float Yaw;
+} PX4_VehicleForceSetpointMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64 TimeUtcUsec;
+	double Lat;
+	double Lon;
+	float Alt;
+	float VelN;
+	float VelE;
+	float VelD;
+	float Yaw;
+	float EpH;
+	float EpV;
+	float TerrainAlt;
+	float PressureAlt;
+	boolean TerrainAltValid;
+	boolean DeadReckoning;
+} PX4_VehicleGlobalPositionMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float VX;
+	float VY;
+	float VZ;
+} PX4_VehicleGlobalVelocitySetpointMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint64 TimeUtcUsec;
+	int32 Lat;
+	int32 Lon;
+	int32 Alt;
+	int32 AltEllipsoid;
+	float SVariance;
+	float CVariance;
+	float EpH;
+	float EpV;
+	float HDOP;
+	float VDOP;
+	int32 NoisePerMs;
+	int32 JammingIndicator;
+	float Vel_m_s;
+	float Vel_n_m_s;
+	float Vel_e_m_s;
+	float Vel_d_m_s;
+	float COG;
+	int32 TimestampTimeRelative;
+	uint8 FixType;
+	boolean VelNedValid;
+	uint8 SatellitesUsed;
+} PX4_VehicleGpsPositionMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	boolean Landed;
+	boolean Freefall;
+	boolean GroundContact;
+} PX4_VehicleLandDetectedMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	CFE_TIME_SysTime_t RefTimestamp;
+	double RefLat;
+	double RefLon;
+	CFE_TIME_SysTime_t SurfaceBottomTimestamp;
+	float X;
+	float Y;
+	float Z;
+	float VX;
+	float VY;
+	float VZ;
+	float Yaw;
+	float RefAlt;
+	float DistBottom;
+	float DistBottomRate;
+	float EpH;
+	float EpV;
+	boolean XY_Valid;
+	boolean Z_Valid;
+	boolean V_XY_Valid;
+	boolean V_Z_Valid;
+	boolean XY_Global;
+	boolean Z_Global;
+	boolean DistBottomValid;
+} PX4_VehicleLocalPositionMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float X;
+	float Y;
+	float Z;
+	float Yaw;
+	float VX;
+	float VY;
+	float VZ;
+	float AccX;
+	float AccY;
+	float AccZ;
+} PX4_VehicleLocalPositionSetpointMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float Roll;
+	float Pitch;
+	float Yaw;
+	float Thrust;
+} PX4_VehicleRatesSetpointMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	uint32 SystemID;
+	uint32 ComponentID;
+	uint32 OnboardControlSensorsPresent;
+	uint32 OnboardControlSensorsEnabled;
+	uint32 OnboardControlSensorsHealth;
+	PX4_NavigationState_t NavState;
+	PX4_ArmingState_t ArmingState;
+	PX4_HilState_t HilState;
+	boolean Failsafe;
+	PX4_SystemType_t SystemType;
+	boolean IsRotaryWing;
+	boolean IsVtol;
+	boolean VtolFwPermanentStab;
+	boolean InTransitionMode;
+	boolean RcSignalLost;
+	PX4_RcInMode_t RcInputMode;
+	boolean DataLinkLost;
+	uint8 DataLinkLostCounter;
+	boolean EngineFailure;
+	boolean EngineFailureCmd;
+	boolean MissionFailure;
+} PX4_VehicleStatusMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	CFE_TIME_SysTime_t TimeReceived;
+	uint32 ID;
+	float X;
+	float Y;
+	float Z;
+	float VX;
+	float VY;
+	float VZ;
+	float Q[4];
+	float PosErr;
+	float AngErr;
+} PX4_VisionPositionEstimateMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float AirspeedTot;
+	boolean VtolInRwMode;
+	boolean VtolInTransMode;
+	boolean VtolTransitionFailsafe;
+	boolean FwPermanentStab;
+} PX4_VtolVehicleStatusMsg_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+	CFE_TIME_SysTime_t Timestamp;
+	float WindspeedNorth;
+	float WindspeedEast;
+	float CovarianceNorth;
+	float CovarianceEast;
+} PX4_WindEstimateMsg_t;
+
+
+#endif
