@@ -1,0 +1,123 @@
+  short_name: ea
+  long_name: External Application
+  events: 
+    EA_INF_EID: 
+      id: 1
+    EA_INIT_INF_EID: 
+      id: 2
+    EA_CMD_INF_EID: 
+      id: 3
+    EA_INF_APP_START_EID: 
+      id: 4
+    EA_INF_APP_TERM_EID: 
+      id: 5
+    EA_APP_ERR_EID: 
+      id: 6
+    EA_WARN_APP_UTIL_EID: 
+      id: 7
+    EA_ERR_EID: 
+      id: 8
+    EA_INIT_ERR_EID: 
+      id: 9
+    EA_CMD_ERR_EID: 
+      id: 10
+    EA_PIPE_ERR_EID: 
+      id: 11
+    EA_MSGID_ERR_EID: 
+      id: 12
+    EA_MSGLEN_ERR_EID: 
+      id: 13
+    EA_CHILD_TASK_START_EID: 
+      id: 14
+    EA_CHILD_TASK_START_ERR_EID: 
+      id: 15
+    EA_CMD_NOOP_EID: 
+      id: 16
+    EA_CMD_RESET_EID: 
+      id: 17
+    EA_CC_ERR_EID: 
+      id: 18
+  telemetry: 
+    EA_HK_TLM_MID: 
+      msgID: 
+      struct: EA_HkTlm_t
+  commands: 
+    EA_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: EA_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: EA_NoArgCmd_t
+        Start: 
+          cc: 2
+          struct: EA_StartCmd_t
+        Terminate: 
+          cc: 3
+          struct: EA_NoArgCmd_t
+    EA_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: EA_NoArgCmd_t
+  perfids: 
+    EA_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    EA_SB_TIMEOUT: 
+      name: EA_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    EA_CHILD_TASK_FLAGS: 
+      name: EA_CHILD_TASK_FLAGS
+      value: OS_ENABLE_CORE_0
+    EA_MISSION_REV: 
+      name: EA_MISSION_REV
+      value: 0
+    EA_SCH_PIPE_DEPTH: 
+      name: EA_SCH_PIPE_DEPTH
+      value: 2
+    EA_SCH_PIPE_NAME: 
+      name: EA_SCH_PIPE_NAME
+      value: EA_SCH_PIPE
+    EA_SCH_PIPE_PEND_TIME: 
+      name: EA_SCH_PIPE_PEND_TIME
+      value: 2000
+    EA_SCH_PIPE_WAKEUP_RESERVED: 
+      name: EA_SCH_PIPE_WAKEUP_RESERVED
+      value: 1
+    EA_SCH_PIPE_SEND_HK_RESERVED: 
+      name: EA_SCH_PIPE_SEND_HK_RESERVED
+      value: 1
+    EA_CMD_PIPE_DEPTH: 
+      name: EA_CMD_PIPE_DEPTH
+      value: 4
+    EA_CMD_PIPE_NAME: 
+      name: EA_CMD_PIPE_NAME
+      value: EA_CMD_PIPE
+    EA_DATA_PIPE_DEPTH: 
+      name: EA_DATA_PIPE_DEPTH
+      value: 4
+    EA_DATA_PIPE_NAME: 
+      name: EA_DATA_PIPE_NAME
+      value: EA_DATA_PIPE
+    EA_CONFIG_TABLE_FILENAME: 
+      name: EA_CONFIG_TABLE_FILENAME
+      value: /cf/apps/ea_config.tbl
+    EA_STARTUP_TIMEOUT_MSEC: 
+      name: EA_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    EA_CHILD_TASK_PRIORITY: 
+      name: EA_CHILD_TASK_PRIORITY
+      value: 187
+    EA_APP_UTIL_THRESHOLD: 
+      name: EA_APP_UTIL_THRESHOLD
+      value: 70
+    EA_APP_NUM_THREADS: 
+      name: EA_APP_NUM_THREADS
+      value: 4
+    EA_MAX_PATH_LEN: 
+      name: EA_MAX_PATH_LEN
+      value: 96
