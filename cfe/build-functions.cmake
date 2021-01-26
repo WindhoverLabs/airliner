@@ -199,12 +199,12 @@ endfunction(buildliner_add_app_def_src)
 
 
 
-function(buildliner_add_app_def)
+function(buildliner_add_app_unit_test)
     set(PARSED_ARGS_TARGET ${ARGV0})
     cmake_parse_arguments(PARSED_ARGS "UTF;UTASSERT" "FILE;VALGRIND_SUPPRESSION_FILE" "SOURCES;LIBS;INCLUDES;WRAPPERS" ${ARGN})
 
-    psp_buildliner_add_app_def(${ARGN})
-endfunction(buildliner_add_app_def)
+    psp_buildliner_add_app_unit_test(${ARGN})
+endfunction(buildliner_add_app_unit_test)
 
 
 

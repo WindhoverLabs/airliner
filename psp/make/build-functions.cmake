@@ -558,7 +558,7 @@ endfunction(psp_buildliner_add_app_def)
 
 
 
-function(psp_buildliner_add_app_def)
+function(psp_buildliner_add_app_unit_test)
     set(PARSED_ARGS_TARGET ${ARGV0})
     cmake_parse_arguments(PARSED_ARGS "UTASSERT;NO_MEMCHECK;NO_HELGRIND;NO_MASSIF" "COMPILE_OPTIONS;FILE;VALGRIND_SUPPRESSION_FILE" "SOURCES;LIBS;INCLUDES;WRAPPERS;REFERENCE_CUSTOM_SOURCE" ${ARGN})
         
@@ -699,7 +699,7 @@ function(psp_buildliner_add_app_def)
             endif()
         endif()
     endif()
-endfunction(psp_buildliner_add_app_def)
+endfunction(psp_buildliner_add_app_unit_test)
 
 
 
