@@ -1,0 +1,190 @@
+  short_name: vc
+  long_name: Video Control
+  events: 
+    VC_INIT_INF_EID: 
+      id: 1
+    VC_NOOP_INF_EID: 
+      id: 2
+    VC_RESET_INF_EID: 
+      id: 3
+    VC_CMD_INF_EID: 
+      id: 4
+    VC_DEV_INF_EID: 
+      id: 5
+    VC_CHA_INF_EID: 
+      id: 6
+    VC_INIT_ERR_EID: 
+      id: 7
+    VC_UNINIT_ERR_EID: 
+      id: 8
+    VC_CMD_ERR_EID: 
+      id: 9
+    VC_PIPE_ERR_EID: 
+      id: 10
+    VC_MSGID_ERR_EID: 
+      id: 11
+    VC_MSGLEN_ERR_EID: 
+      id: 12
+  telemetry: 
+    VC_HK_TLM_MID: 
+      msgID: 
+      struct: VC_HkTlm_t
+  commands: 
+    VC_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: VC_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: VC_NoArgCmd_t
+        StartStreaming: 
+          cc: 2
+          struct: VC_StartStreamCmd_t
+        StopStreaming: 
+          cc: 3
+          struct: VC_NoArgCmd_t
+    VC_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: VC_NoArgCmd_t
+    VC_PROCESS_CMDS_MID: 
+      msgID: 
+      commands: 
+        ProcessCommands: 
+          cc: 0
+          struct: VC_NoArgCmd_t
+  perfids: 
+    VC_MAIN_TASK_PERF_ID: 
+      id: 
+    VC_SOCKET_SEND_PERF_ID: 
+      id: 
+    VC_DEVICE_GET_PERF_ID: 
+      id: 
+  config: 
+    VC_SB_TIMEOUT: 
+      name: VC_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    VC_STREAMING_TASK_FLAGS: 
+      name: VC_STREAMING_TASK_FLAGS
+      value: OS_ENABLE_CORE_0
+    VC_MISSION_REV: 
+      name: VC_MISSION_REV
+      value: 0
+    VC_SCH_PIPE_DEPTH: 
+      name: VC_SCH_PIPE_DEPTH
+      value: 2
+    VC_SCH_PIPE_NAME: 
+      name: VC_SCH_PIPE_NAME
+      value: VC_SCH_PIPE
+    VC_SCH_PIPE_PEND_TIME: 
+      name: VC_SCH_PIPE_PEND_TIME
+      value: 2000
+    VC_SCH_PIPE_WAKEUP_RESERVED: 
+      name: VC_SCH_PIPE_WAKEUP_RESERVED
+      value: 1
+    VC_SCH_PIPE_SEND_HK_RESERVED: 
+      name: VC_SCH_PIPE_SEND_HK_RESERVED
+      value: 1
+    VC_CMD_PIPE_DEPTH: 
+      name: VC_CMD_PIPE_DEPTH
+      value: 4
+    VC_CMD_PIPE_NAME: 
+      name: VC_CMD_PIPE_NAME
+      value: VC_CMD_PIPE
+    VC_DATA_PIPE_DEPTH: 
+      name: VC_DATA_PIPE_DEPTH
+      value: 4
+    VC_DATA_PIPE_NAME: 
+      name: VC_DATA_PIPE_NAME
+      value: VC_DATA_PIPE
+    VC_CONFIG_TABLE_FILENAME: 
+      name: VC_CONFIG_TABLE_FILENAME
+      value: /cf/apps/vc_config.tbl
+    VC_STARTUP_TIMEOUT_MSEC: 
+      name: VC_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    VC_ADDRESS_LENGTH: 
+      name: VC_ADDRESS_LENGTH
+      value: INET_ADDRSTRLEN
+    VC_MAX_OUTPUT_CHANNELS: 
+      name: VC_MAX_OUTPUT_CHANNELS
+      value: 5
+    VC_MAX_DEVICE_PATH: 
+      name: VC_MAX_DEVICE_PATH
+      value: OS_MAX_LOCAL_PATH_LEN
+    VC_MAX_DEVICES: 
+      name: VC_MAX_DEVICES
+      value: 2
+    VC_MAX_BUFFER_SIZE: 
+      name: VC_MAX_BUFFER_SIZE
+      value: 28800
+    VC_MAX_PACKET_SIZE: 
+      name: VC_MAX_PACKET_SIZE
+      value: 65527
+    VC_MAX_RETRY_ATTEMPTS: 
+      name: VC_MAX_RETRY_ATTEMPTS
+      value: 2
+    VC_MAX_RETRY_SLEEP_USEC: 
+      name: VC_MAX_RETRY_SLEEP_USEC
+      value: 10
+    VC_STREAMING_TASK_PRIORITY: 
+      name: VC_STREAMING_TASK_PRIORITY
+      value: 91
+    VC_STREAMING_TASK_NAME: 
+      name: VC_STREAMING_TASK_NAME
+      value: VC_STREAM
+    VC_FRAME_WIDTH: 
+      name: VC_FRAME_WIDTH
+      value: 320
+    VC_FRAME_HEIGHT: 
+      name: VC_FRAME_HEIGHT
+      value: 240
+    VC_FRAMERATE: 
+      name: VC_FRAMERATE
+      value: 30
+    VC_DEVICE_PATH: 
+      name: VC_DEVICE_PATH
+      value: /dev/video0
+    VC_DESTINATION_IP: 
+      name: VC_DESTINATION_IP
+      value: 127.0.0.1
+    VC_DESTINATION_PORT: 
+      name: VC_DESTINATION_PORT
+      value: 3001
+    VC_SOURCE_IP: 
+      name: VC_SOURCE_IP
+      value: 0
+    VC_SOURCE_PORT: 
+      name: VC_SOURCE_PORT
+      value: 0
+    VC_V4L_IO_METHOD: 
+      name: VC_V4L_IO_METHOD
+      value: V4L2_MEMORY_USERPTR
+    VC_V4L_BUFFER_TYPE: 
+      name: VC_V4L_BUFFER_TYPE
+      value: V4L2_BUF_TYPE_VIDEO_CAPTURE
+    VC_V4L_VIDEO_FORMAT: 
+      name: VC_V4L_VIDEO_FORMAT
+      value: V4L2_PIX_FMT_MJPEG
+    VC_V4L_VIDEO_FIELD_ORDER: 
+      name: VC_V4L_VIDEO_FIELD_ORDER
+      value: V4L2_FIELD_NONE
+    VC_V4L_BUFFER_REQUEST: 
+      name: VC_V4L_BUFFER_REQUEST
+      value: 4
+    VC_V4L_MEMORY_TYPE: 
+      name: VC_V4L_MEMORY_TYPE
+      value: V4L2_MEMORY_USERPTR
+    VC_BUFFER_FILL_TIMEOUT_SEC: 
+      name: VC_BUFFER_FILL_TIMEOUT_SEC
+      value: 2
+    VC_BUFFER_FILL_TIMEOUT_USEC: 
+      name: VC_BUFFER_FILL_TIMEOUT_USEC
+      value: 0
+    VC_BUFFER_TIMEOUTS_ALLOWED: 
+      name: VC_BUFFER_TIMEOUTS_ALLOWED
+      value: 2
