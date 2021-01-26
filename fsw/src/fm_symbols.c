@@ -1,0 +1,26 @@
+#include "fm_msg.h"
+
+FM_NoopCmd_t          FM_NoopCmd;
+FM_ResetCmd_t         FM_ResetCmd;
+FM_CopyFileCmd_t      FM_CopyFileCmd;
+FM_MoveFileCmd_t      FM_MoveFileCmd;
+FM_RenameFileCmd_t    FM_RenameFileCmd;
+FM_DeleteFileCmd_t    FM_DeleteFileCmd;
+FM_DeleteAllCmd_t     FM_DeleteAllCmd;
+FM_DecompressCmd_t    FM_DecompressCmd;
+FM_ConcatCmd_t        FM_ConcatCmd;
+FM_GetFileInfoCmd_t   FM_GetFileInfoCmd;
+FM_GetOpenFilesCmd_t  FM_GetOpenFilesCmd;
+FM_CreateDirCmd_t     FM_CreateDirCmd;
+FM_DeleteDirCmd_t     FM_DeleteDirCmd;
+FM_GetDirFileCmd_t    FM_GetDirFileCmd;
+FM_GetDirPktCmd_t     FM_GetDirPktCmd;
+FM_GetFreeSpaceCmd_t  FM_GetFreeSpaceCmd;
+FM_SetTableStateCmd_t FM_SetTableStateCmd;
+FM_SetPermCmd_t       FM_SetPermCmd;
+FM_DirListPkt_t       FM_DirListPkt;
+FM_FileInfoPkt_t      FM_FileInfoPkt;
+FM_OpenFilesPkt_t     FM_OpenFilesPkt;
+FM_FreeSpacePkt_t     FM_FreeSpacePkt;
+FM_HousekeepingPkt_t  FM_HousekeepingPkt;
+FM_HousekeepingCmd_t  FM_HousekeepingCmd;
