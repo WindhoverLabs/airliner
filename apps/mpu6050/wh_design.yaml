@@ -1,0 +1,172 @@
+  short_name: mpu6050
+  long_name: 
+  events: 
+    MPU6050_INIT_INF_EID: 
+      id: 1
+    MPU6050_CMD_NOOP_EID: 
+      id: 2
+    MPU6050_SUBSCRIBE_ERR_EID: 
+      id: 3
+    MPU6050_PIPE_INIT_ERR_EID: 
+      id: 4
+    MPU6050_CFGTBL_MANAGE_ERR_EID: 
+      id: 5
+    MPU6050_CFGTBL_GETADDR_ERR_EID: 
+      id: 6
+    MPU6050_RCVMSG_ERR_EI: 
+      id: 7
+    MPU6050_MSGID_ERR_EID: 
+      id: 8
+    MPU6050_CC_ERR_EID: 
+      id: 9
+    MPU6050_MSGLEN_ERR_EID: 
+      id: 10
+    MPU6050_CFGTBL_REG_ERR_EID: 
+      id: 11
+    MPU6050_CFGTBL_LOAD_ERR_EID: 
+      id: 12
+    MPU6050_UNINIT_ERR_EID: 
+      id: 13
+    MPU6050_INIT_ERR_EID: 
+      id: 14
+    MPU6050_READ_ERR_EID: 
+      id: 15
+    MPU6050_VALIDATE_ERR_EID: 
+      id: 16
+    MPU6050_CALIBRATE_INF_EID: 
+      id: 17
+    MPU6050_CALIBRATE_ERR_EID: 
+      id: 18
+  telemetry: 
+    MPU6050_HK_TLM_MID: 
+      msgID: 
+      struct: MPU6050_HkTlm_t
+    MPU6050_DIAG_TLM_MID: 
+      msgID: 
+      struct: MPU6050_DiagPacket_t
+  commands: 
+    MPU6050_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: MPU6050_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: MPU6050_NoArgCmd_t
+        SendDiag: 
+          cc: 2
+          struct: MPU6050_NoArgCmd_t
+        SetCalibration: 
+          cc: 3
+          struct: MPU6050_SetCalibrationCmd_t
+    MPU6050_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: MPU6050_NoArgCmd_t
+    MPU6050_MEASURE_MID: 
+      msgID: 
+      commands: 
+        Measure: 
+          cc: 0
+          struct: MPU6050_NoArgCmd_t
+  perfids: 
+    MPU6050_MAIN_TASK_PERF_ID: 
+      id: 
+    MPU6050_RECEIVE_PERF_ID: 
+      id: 
+    MPU6050_SEND_PERF_ID: 
+      id: 
+  config: 
+    MPU6050_SB_TIMEOUT: 
+      name: MPU6050_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    MPU6050_MISSION_REV: 
+      name: MPU6050_MISSION_REV
+      value: 0
+    MPU6050_SCH_PIPE_DEPTH: 
+      name: MPU6050_SCH_PIPE_DEPTH
+      value: 2
+    MPU6050_SCH_PIPE_NAME: 
+      name: MPU6050_SCH_PIPE_NAME
+      value: MPU6050_SCH_PIPE
+    MPU6050_SCH_PIPE_PEND_TIME: 
+      name: MPU6050_SCH_PIPE_PEND_TIME
+      value: 2000
+    MPU6050_PARAM_PIPE_DEPTH: 
+      name: MPU6050_PARAM_PIPE_DEPTH
+      value: 4
+    MPU6050_PARAM_PIPE_NAME: 
+      name: MPU6050_PARAM_PIPE_NAME
+      value: MPU6050_PARAM_PIPE
+    MPU6050_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: MPU6050_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    MPU6050_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: MPU6050_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    MPU6050_CMD_PIPE_DEPTH: 
+      name: MPU6050_CMD_PIPE_DEPTH
+      value: 4
+    MPU6050_CMD_PIPE_NAME: 
+      name: MPU6050_CMD_PIPE_NAME
+      value: MPU6050_CMD_PIPE
+    MPU6050_DATA_PIPE_DEPTH: 
+      name: MPU6050_DATA_PIPE_DEPTH
+      value: 4
+    MPU6050_DATA_PIPE_NAME: 
+      name: MPU6050_DATA_PIPE_NAME
+      value: MPU6050_DATA_PIPE
+    MPU6050_CONFIG_TABLE_FILENAME: 
+      name: MPU6050_CONFIG_TABLE_FILENAME
+      value: /cf/apps/mpu6050_config.tbl
+    MPU6050_STARTUP_TIMEOUT_MSEC: 
+      name: MPU6050_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    MPU6050_ACCEL_PX4_DEVICE_ID: 
+      name: MPU6050_ACCEL_PX4_DEVICE_ID
+      value: 6789478
+    MPU6050_GYRO_PX4_DEVICE_ID: 
+      name: MPU6050_GYRO_PX4_DEVICE_ID
+      value: 3467548
+    MPU6050_ACCEL_INT_PUB_RATE: 
+      name: MPU6050_ACCEL_INT_PUB_RATE
+      value: 1000000 / 400
+    MPU6050_GYRO_INT_PUB_RATE: 
+      name: MPU6050_GYRO_INT_PUB_RATE
+      value: 1000000 / 400
+    MPU6050_ACC_SCALE: 
+      name: MPU6050_ACC_SCALE
+      value: 16
+    MPU6050_GYRO_SCALE: 
+      name: MPU6050_GYRO_SCALE
+      value: 2000
+    MPU6050_DEVICE_ID: 
+      name: MPU6050_DEVICE_ID
+      value: 0x68
+    MPU6050_ACCEL_SAMPLE_RATE: 
+      name: MPU6050_ACCEL_SAMPLE_RATE
+      value: 200
+    MPU6050_ACCEL_FILTER_CUTOFF_FREQ: 
+      name: MPU6050_ACCEL_FILTER_CUTOFF_FREQ
+      value: 30
+    MPU6050_GYRO_SAMPLE_RATE: 
+      name: MPU6050_GYRO_SAMPLE_RATE
+      value: 200
+    MPU6050_GYRO_FILTER_CUTOFF_FREQ: 
+      name: MPU6050_GYRO_FILTER_CUTOFF_FREQ
+      value: 30
+    MPU6050_ONE_G: 
+      name: MPU6050_ONE_G
+      value: 9.80665
+    MPU6050_RADIANS_PER_DEGREE: 
+      name: MPU6050_RADIANS_PER_DEGREE
+      value: 0.0174532
+    MPU6050_ROOM_TEMP_OFFSET: 
+      name: MPU6050_ROOM_TEMP_OFFSET
+      value: 0
+    MPU6050_TEMP_SENS: 
+      name: MPU6050_TEMP_SENS
+      value: 340
