@@ -1,0 +1,22 @@
+#include "cf_msg.h"
+
+CF_NoArgsCmd_t            CF_NoArgsCmd;
+CF_ResetCtrsCmd_t         CF_ResetCtrsCmd;
+CF_PlaybackFileCmd_t      CF_PlaybackFileCmd;
+CF_PlaybackDirCmd_t       CF_PlaybackDirCmd;
+CF_CARSCmd_t              CF_CARSCmd;
+CF_SetMibParam_t          CF_SetMibParam;
+CF_GetMibParam_t          CF_GetMibParam;
+CF_SendTransCmd_t         CF_SendTransCmd;
+CF_SetPollParamCmd_t      CF_SetPollParamCmd;
+CF_WriteQueueCmd_t        CF_WriteQueueCmd;
+CF_EnDisDequeueCmd_t      CF_EnDisDequeueCmd;
+CF_EnDisPollCmd_t         CF_EnDisPollCmd;
+CF_DequeueNodeCmd_t       CF_DequeueNodeCmd;
+CF_PurgeQueueCmd_t        CF_PurgeQueueCmd;
+CF_WriteActiveTransCmd_t  CF_WriteActiveTransCmd;
+CF_KickstartCmd_t         CF_KickstartCmd;
+CF_QuickStatCmd_t         CF_QuickStatCmd;
+CF_GiveTakeCmd_t          CF_GiveTakeCmd;
+CF_AutoSuspendEnCmd_t     CF_AutoSuspendEnCmd;
+CF_CyclesPerWakeupCmd_t   CF_CyclesPerWakeupCmd;
