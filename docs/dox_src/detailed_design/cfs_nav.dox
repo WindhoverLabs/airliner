@@ -1,0 +1,350 @@
+/*==========================================================================*/
+/* NOTE:                                                                    */
+/*      Additional notes to the Author can be found in comment blocks such  */
+/*      as this one.  These comment blocks will not appear in the doxygen   */
+/*      output and do not need to be removed but can be if so desired.      */
+/*      All text found within the pages that is surrounded by "()" is       */
+/*      merely a suggestion as to the appropriate content the Author should */
+/*      insert at that location.                                            */
+/*==========================================================================*/
+/**
+    \mainpage Navigator Application (NAV) User's Guide    
+
+       <UL>
+           <LI> \subpage cfsnavrevhist
+           <LI> \subpage cfsnavintro
+           <LI> \subpage cfsnavovr
+           <LI> \subpage cfsnavopr
+           <LI> \subpage cfsnavreq
+           <LI> \subpage cfsnavdg
+           <LI> \subpage cfsnavcmds
+           <LI> \subpage cfsnavtlm
+           <LI> \subpage cfsnavtbl
+           <LI> \subpage cfsnavcfg
+           <LI> \subpage cfsnavcons
+           <LI> \subpage cfsnavfaqs
+           <LI> \subpage nav_events.h "NAV Application Event Message Reference" <BR>
+       </UL>
+**/
+
+/**
+  \page cfsnavrevhist NAV Application User's Guide Revision History
+
+  This document is generated against #NAV_MAJOR_VERSION #NAV_MINOR_VERSION #NAV_REVISION.
+  
+  Next: \ref cfsnavintro
+
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author may wish to examine the Acronym list and ensure the     */
+/*       Application's abbreviation is put in alphabetical order.           */
+/*==========================================================================*/
+/**
+  \page cfsnavintro NAV Application Introduction
+    
+  <H2> Scope </H2>
+
+  This document provides a complete specification for the commands and telemetry associated
+  with the NAV Application (NAV) software.  The document is intended primarily 
+  for users of the software (operations personal, test engineers, and maintenance personnel).  
+  The last section of the document, the deployment guide section, is intended for mission 
+  developers when deploying and configuring this application software for a mission 
+  flight software build environment. 
+
+  <H2> Applicable Documents </H2>
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%">
+  <TR><TD WIDTH="20%"> <B>Document ID</B> </TD> 
+      <TD WIDTH="40%"> <B>Document Title</B> </TD>
+  <TR><TD WIDTH="20%"> TBD       </TD> 
+      <TD WIDTH="40%"> NAV Application Requirements Document </TD>
+  <TR><TD WIDTH="20%"> TBD       </TD> 
+      <TD WIDTH="40%"> NAV Application Design Document </TD>
+  </TABLE>
+
+
+  <H2> Acronyms </H2>
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%">
+  <TR><TD WIDTH="20%"> <B>Acronym</B> </TD> <TD WIDTH="40%"> <B>Description</B>                       </TD>
+  <TR><TD WIDTH="20%"> API     </TD> <TD WIDTH="40%"> Application Programming Interface               </TD>
+  <TR><TD WIDTH="20%"> CCSDS   </TD> <TD WIDTH="40%"> Consultative Committee for Space Data Systems   </TD>
+  <TR><TD WIDTH="20%"> C&DH    </TD> <TD WIDTH="40%"> Command and Data Handling                       </TD>
+  <TR><TD WIDTH="20%"> CFE     </TD> <TD WIDTH="40%"> Core Flight Executive                           </TD>
+  <TR><TD WIDTH="20%"> CFS     </TD> <TD WIDTH="40%"> Core Flight System                              </TD>
+  <TR><TD WIDTH="20%"> Cmd     </TD> <TD WIDTH="40%"> Command                                         </TD>
+  <TR><TD WIDTH="20%"> CPU     </TD> <TD WIDTH="40%"> Central Processing Unit                         </TD>
+  <TR><TD WIDTH="20%"> FSW     </TD> <TD WIDTH="40%"> Flight Software                                 </TD>
+  <TR><TD WIDTH="20%"> HK      </TD> <TD WIDTH="40%"> Housekeeping telemetry, or CFS Housekeeping Application</TD>
+  <TR><TD WIDTH="20%"> HW, H/W </TD> <TD WIDTH="40%"> Hardware                                        </TD>
+  <TR><TD WIDTH="20%"> ICD     </TD> <TD WIDTH="40%"> Interface Control Document                      </TD>
+  <TR><TD WIDTH="20%"> ISR     </TD> <TD WIDTH="40%"> Interrupt Service Routine                       </TD>
+  <TR><TD WIDTH="20%"> OS      </TD> <TD WIDTH="40%"> Operating System                                </TD>
+  <TR><TD WIDTH="20%"> OSAL    </TD> <TD WIDTH="40%"> Operating System Abstraction Layer              </TD>
+  <TR><TD WIDTH="20%"> Pkts    </TD> <TD WIDTH="40%"> Packets                                         </TD>
+  <TR><TD WIDTH="20%"> RAM     </TD> <TD WIDTH="40%"> Random-Access Memory                            </TD>
+  <TR><TD WIDTH="20%"> RTOS    </TD> <TD WIDTH="40%"> Real Time Operating System                      </TD>
+  <TR><TD WIDTH="20%"> SB      </TD> <TD WIDTH="40%"> Software Bus Service                            </TD>
+  <TR><TD WIDTH="20%"> SW, S/W </TD> <TD WIDTH="40%"> Software                                        </TD>
+  <TR><TD WIDTH="20%"> TBD     </TD> <TD WIDTH="40%"> To Be Determined                                </TD>
+  <TR><TD WIDTH="20%"> TBL     </TD> <TD WIDTH="40%"> Table                                           </TD>
+  <TR><TD WIDTH="20%"> TLM     </TD> <TD WIDTH="40%"> Telemetry                                       </TD>
+  <TR><TD WIDTH="20%"> UTC     </TD> <TD WIDTH="40%"> Universal Coordinated Time (time scale)         </TD>
+  </TABLE>
+
+  Prev: \ref cfsnavrevhist <BR>
+  Next: \ref cfsnavovr
+**/
+
+/**
+  \page cfsnavovr NAV Application Overview
+    
+  The NAV Application is responsible for safely navigating or moving the vehicle from one location to another.
+    
+  NAV Design Overview
+  ====
+  1. Reads position, vehicle status, and land detection data to generate position setpoint triplet for commanded action.
+  2. This message has enough information for a vehicle to move from one position to another.
+  3. The message is published on the software bus which is then received by MPC.
+    
+  Prev: \ref cfsnavintro <BR>
+  Next: \ref cfsnavopr
+**/
+
+/**
+    \page cfsnavopr NAV Application Operation
+    
+    The following operations are carried out by the NAV Application:
+  	1. Receive and act to vehicle command message
+     ----
+     a. Vehicle command is parsed (takeoff, land, return to launch, mission)<BR>
+     b. Store current position as previous and goal as next.<BR>
+     c. Store new current position.<BR>
+     d. Assign yaw to current position set point.<BR>
+     e. Assign latitude and longitude to current set point.<BR>
+     f. Assign altitude to current set point.<BR>
+     g. Assign set point triplet validity.<BR>
+
+	2. Receive and act to vehicle status message
+     ----
+     a. On receipt of a new navigation state set position setpoint triplet message.<BR>
+     b. while in a navigation state do activities to update position setpoint triplet message and identify if the next position is reached.<BR>
+
+	3. Set and publish position set point triplet
+     ----
+     a. The position setpoint triplet contains 3 position setpoints they are named as previous, current and next.<BR>
+     b. Previous setpoint store history as old as one level, current setpoint stores present position and next setpoint will store position which is supposed to be reached by the vehicle.<BR>
+     c. This message is published on to software bus.<BR>
+
+    Next: \ref cfsnavreq <BR>
+    Prev: \ref cfsnavovr
+**/
+
+/**
+    \page cfsnavreq NAV Application Requirements
+    
+    The following are NAV application requirements.
+
+  (Insert high level requirements and add a reference to where detailed requirements can be found)
+    
+    Next: \ref cfsnavdg <BR>
+    Prev: \ref cfsnavopr 
+**/
+
+/**
+    \page cfsnavdg  NAV Application Deployment Guide
+
+  (Basic Instructions to the Author)
+  ====  
+
+  (Insert text describing steps required to integrate the application with a CFS system.  This should
+   include:
+     1) References to message IDs that need to be inserted into a CFS Scheduler table
+     2) References to telemetry that can be generated
+     3) Additional description of application configuration parameters that may need to be modified.
+        For example, questions that a systems integrator needs to have answered before the application
+        can be successfully integrated
+     4) References to the application's performance ID)
+
+  Initial Integration
+  ====
+
+    The first step in deploying the NAV application is to do stuff.
+
+  Application Tailoring to the Mission
+  ----
+    
+    The nav_mission_cfg.h file, the nav_msgids.h, and the nav_perfids.h files
+    are tailored for the mission.  These are built into the application during
+    compilation.
+
+  Application Tailoring to the Platform
+  ----
+
+    In the nav_platform_cfg.h file, there are configuration parameters that control
+    NAV application behavior.  This should be tailored to the specific platform
+    needs.  This behavior is built into the application during compilation.
+
+  CFS Scheduler Support
+  ----
+
+    TODO Discuss any commands that must be included in the CFS Scheduler Table
+    and any related tailoring/configuration.
+     
+    Next: \ref cfsnavcmds <BR>
+    Prev: \ref cfsnavreq
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+    \page cfsnavcmds NAV Application Commands
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsnavtlm</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsnavtbl</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsnavcfg</B></TD>
+    </TABLE>
+  
+    The following is a list of commands that are processed by the NAV Application: 
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+    \page cfsnavtlm  NAV Application Telemetry
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsnavcmds</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsnavtbl</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsnavcfg</B></TD>
+    </TABLE>
+  
+    The following is a list of telemetry that is generated by the NAV Application: 
+**/
+
+/**
+    \page cfsnavtbl NAV Application Table Definitions
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsnavcmds</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsnavtlm</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsnavcfg</B></TD>
+    </TABLE>
+
+  (Include text describing data structures used in application tables.  Further text can be used to
+   describe the process of populating the table if necessary.  Default values may also be described)
+
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+  \page cfsnavcfg NAV Application Configuration Parameters
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+  <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsnavcmds</B></TD>
+      <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsnavtlm</B> </TD> 
+      <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsnavtbl</B></TD>
+  </TABLE>
+  
+  The following are configuration parameters used to configure the NAV
+  Application either for each platform or for a mission as a whole.
+
+**/
+
+/**
+    \page cfsnavcons NAV Application Operational Constraints
+  
+  (Instructions to the author)
+  ====
+
+  (Insert text that describes:
+    1) situations that would prevent the application from starting
+    2) causes for the application to terminate prematurely
+    3) commands that cannot be issued either out of order or without sufficient wait time, etc) 
+
+  Application Termination
+  ====
+
+    Potential causes for NAV to terminate prematurely are an error return from the 
+    software bus in the application main loop or error return from one of the cFE table
+    services functions when NAV tries to do table management (check for updates, dump 
+    requests etc.) during each housekeeping cycle. 
+
+  Critical Data Store Operation
+  ====
+    
+    When using the Critical Data Store (CDS), the results tables and housekeeping data
+    will only be restored if the application was shut down through cFE Executive Services 
+    and exited clean. If this is not the case, default values will be used 
+    (see \ref cfsnavfaqs). 
+    
+    Next: \ref cfsnavfaqs <BR>
+    Prev: \ref cfsnavtbl
+**/
+
+/**
+    \page cfsnavfaqs NAV Application Frequently Asked Questions
+
+ (Insert text that categorizes a group of questions, if necessary, here.
+  For example, "General".)
+
+  General
+  ====
+
+  <B> (Q)
+     What is the basic flow of the application?
+  </B> <BR> <BR> <I>
+     The NAV application uses a common application format. When the app starts, 
+     initialization is performed, then the app enters an infinite loop waiting for
+     commands from the software bus.
+  </I>
+
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  (Insert text that categorizes another group of questions, if necessary, here)
+  ====
+    
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+
+**/

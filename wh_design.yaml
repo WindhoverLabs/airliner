@@ -1,0 +1,120 @@
+  short_name: nav
+  long_name: Navigation
+  events: 
+    NAV_INIT_INF_EID: 
+      id: 1
+    NAV_CMD_NOOP_EID: 
+      id: 2
+    NAV_SUBSCRIBE_ERR_EID: 
+      id: 3
+    NAV_PIPE_INIT_ERR_EID: 
+      id: 4
+    NAV_CFGTBL_MANAGE_ERR_EID: 
+      id: 5
+    NAV_CFGTBL_GETADDR_ERR_EID: 
+      id: 6
+    NAV_RCVMSG_ERR_EID: 
+      id: 7
+    NAV_MSGID_ERR_EID : 
+      id: 8
+    NAV_CC_ERR_EID: 
+      id: 9
+    NAV_MSGLEN_ERR_EID: 
+      id: 10
+    NAV_CFGTBL_REG_ERR_EID: 
+      id: 11
+    NAV_CFGTBL_LOAD_ERR_EID: 
+      id: 12
+    NAV_MSN_FAILED_ERR_EID: 
+      id: 13
+    NAV_HIGH_ALT_EID: 
+      id: 14
+    NAV_ACTION_ST_EID: 
+      id: 15
+    NAV_RTL_CLIMB_ST_EID: 
+      id: 16
+    NAV_RTL_RETURN_ST_EID: 
+      id: 17
+    NAV_RTL_DESCEND_ST_EID: 
+      id: 18
+    NAV_RTL_LOITER_ST_EID: 
+      id: 19
+    NAV_RTL_LOITER_EN_EID: 
+      id: 20
+    NAV_RTL_LAND_ST_EID: 
+      id: 21
+    NAV_RTL_LAND_EN_EID: 
+      id: 22
+    NAV_RTL_LND_SFGA_EID: 
+      id: 23
+    NAV_SUBSEQ_TAKEOFF_EID: 
+      id: 24
+  telemetry: 
+    NAV_HK_TLM_MID: 
+      msgID: 
+      struct: NAV_HkTlm_t
+  commands: 
+    NAV_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: NAV_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: NAV_NoArgCmd_t
+    NAV_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: NAV_NoArgCmd_t
+    NAV_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: NAV_NoArgCmd_t
+  perfids: 
+    NAV_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    NAV_SB_TIMEOUT: 
+      name: NAV_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    NAV_MISSION_REV: 
+      name: NAV_MISSION_REV
+      value: 0
+    NAV_SCH_PIPE_DEPTH: 
+      name: NAV_SCH_PIPE_DEPTH
+      value: 15
+    NAV_SCH_PIPE_NAME: 
+      name: NAV_SCH_PIPE_NAME
+      value: NAV_SCH_PIPE
+    NAV_SCH_PIPE_PEND_TIME: 
+      name: NAV_SCH_PIPE_PEND_TIME
+      value: 2000
+    NAV_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: NAV_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    NAV_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: NAV_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    NAV_CMD_PIPE_DEPTH: 
+      name: NAV_CMD_PIPE_DEPTH
+      value: 4
+    NAV_CMD_PIPE_NAME: 
+      name: NAV_CMD_PIPE_NAME
+      value: NAV_CMD_PIPE
+    NAV_DATA_PIPE_DEPTH: 
+      name: NAV_DATA_PIPE_DEPTH
+      value: 4
+    NAV_DATA_PIPE_NAME: 
+      name: NAV_DATA_PIPE_NAME
+      value: NAV_DATA_PIPE
+    NAV_CONFIG_TABLE_FILENAME: 
+      name: NAV_CONFIG_TABLE_FILENAME
+      value: /cf/apps/nav_config.tbl
+    NAV_STARTUP_TIMEOUT_MSEC: 
+      name: NAV_STARTUP_TIMEOUT_MSEC
+      value: 1000
