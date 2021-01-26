@@ -1,0 +1,13 @@
+# This hit is the result of an unitialized pointer in DS_AppMain.
+# The pointer is initialized in CFE_SB_RcvMsg.
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Value4
+   fun:Ut_CFE_SB_GetMsgIdHook
+   fun:CFE_SB_GetMsgId
+   fun:DS_AppProcessMsg
+   fun:DS_AppMain
+   fun:DS_AppMain_Test_Nominal
+   fun:UtTest_Run
+   fun:main
+}
