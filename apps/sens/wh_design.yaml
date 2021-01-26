@@ -1,0 +1,108 @@
+  short_name: sens
+  long_name: Sensor Application
+  events: 
+    SENS_INIT_INF_EID: 
+      id: 1
+    SENS_CMD_NOOP_EID: 
+      id: 2
+    SENS_SUBSCRIBE_ERR_EID: 
+      id: 3
+    SENS_PIPE_INIT_ERR_EID: 
+      id: 4
+    SENS_CFGTBL_MANAGE_ERR_EID: 
+      id: 5
+    SENS_CFGTBL_GETADDR_ERR_EID: 
+      id: 6
+    SENS_RCVMSG_ERR_EID: 
+      id: 7
+    SENS_MSGID_ERR_EID: 
+      id: 8
+    SENS_CC_ERR_EID: 
+      id: 9
+    SENS_MSGLEN_ERR_EID: 
+      id: 10
+    SENS_CFGTBL_REG_ERR_EID: 
+      id: 11
+    ENS_CFGTBL_LOAD_ERR_EID: 
+      id: 12
+  telemetry: 
+    SENS_HK_TLM_MID: 
+      msgID: 
+      struct: SENS_HkTlm_t
+  commands: 
+    SENS_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: SENS_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: SENS_NoArgCmd_t
+    SENS_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: SENS_NoArgCmd_t
+    SENS_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: SENS_NoArgCmd_t
+  perfids: 
+    SENS_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    SENS_SB_TIMEOUT: 
+      name: SENS_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    SENS_MISSION_REV: 
+      name: SENS_MISSION_REV
+      value: 0
+    SENS_SCH_PIPE_DEPTH: 
+      name: SENS_SCH_PIPE_DEPTH
+      value: 10
+    SENS_SCH_PIPE_NAME: 
+      name: SENS_SCH_PIPE_NAME
+      value: SENS_SCH_PIPE
+    SENS_SCH_PIPE_PEND_TIME: 
+      name: SENS_SCH_PIPE_PEND_TIME
+      value: 2000
+    SENS_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: SENS_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    SENS_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: SENS_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    SENS_CMD_PIPE_DEPTH: 
+      name: SENS_CMD_PIPE_DEPTH
+      value: 4
+    SENS_CMD_PIPE_NAME: 
+      name: SENS_CMD_PIPE_NAME
+      value: SENS_CMD_PIPE
+    SENS_DATA_PIPE_DEPTH: 
+      name: SENS_DATA_PIPE_DEPTH
+      value: 4
+    SENS_DATA_PIPE_NAME: 
+      name: SENS_DATA_PIPE_NAME
+      value: SENS_DATA_PIPE
+    SENS_CONFIG_TABLE_FILENAME: 
+      name: SENS_CONFIG_TABLE_FILENAME
+      value: /cf/apps/sens_config.tbl
+    SENS_STARTUP_TIMEOUT_MSEC: 
+      name: SENS_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    SENS_MAX_ACC_TIME_DELTA: 
+      name: SENS_MAX_ACC_TIME_DELTA
+      value: 25
+    SENS_MAX_GYRO_TIME_DELTA: 
+      name: SENS_MAX_GYRO_TIME_DELTA
+      value: 25
+    SENS_MAX_MAG_TIME_DELTA: 
+      name: SENS_MAX_MAG_TIME_DELTA
+      value: 25
+    SENS_MAX_BARO_TIME_DELTA: 
+      name: SENS_MAX_BARO_TIME_DELTA
+      value: 100
