@@ -1,0 +1,509 @@
+  short_name: cs
+  long_name: Checksum Services
+  events: 
+    CS_INIT_INF_EID: 
+      id: 1
+    CS_NOOP_INF_EID: 
+      id: 2
+    CS_RESET_DBG_EID: 
+      id: 3
+    CS_DISABLE_ALL_INF_EID: 
+      id: 4
+    CS_ENABLE_ALL_INF_EID : 
+      id: 5
+    CS_DISABLE_CFECORE_INF_EID: 
+      id: 6
+    CS_ENABLE_CFECORE_INF_EID: 
+      id: 7
+    CS_DISABLE_OS_INF_EID: 
+      id: 8
+    CS_ENABLE_OS_INF_EID: 
+      id: 9
+    CS_BASELINE_CFECORE_INF_EID: 
+      id: 10
+    CS_NO_BASELINE_CFECORE_INF_EID: 
+      id: 11
+    CS_BASELINE_OS_INF_EID: 
+      id: 12
+    CS_NO_BASELINE_OS_INF_EID: 
+      id: 13
+    CS_RECOMPUTE_CFECORE_STARTED_DBG_EID: 
+      id: 14
+    CS_RECOMPUTE_CFECORE_CREATE_CHDTASK_ERR_EID: 
+      id: 15
+    CS_RECOMPUTE_CFECORE_CHDTASK_ERR_EID: 
+      id: 16
+    CS_RECOMPUTE_OS_STARTED_DBG_EI: 
+      id: 17
+    CS_RECOMPUTE_OS_CREATE_CHDTASK_ERR_EID: 
+      id: 18
+    CS_RECOMPUTE_OS_CHDTASK_ERR_EID: 
+      id: 19
+    CS_ONESHOT_STARTED_DBG_EID: 
+      id: 20
+    CS_ONESHOT_CREATE_CHDTASK_ERR_EID: 
+      id: 21
+    CS_ONESHOT_CHDTASK_ERR_EID: 
+      id: 22
+    CS_ONESHOT_MEMVALIDATE_ERR_EID: 
+      id: 23
+    CS_ONESHOT_CANCELLED_INF_EID: 
+      id: 24
+    CS_ONESHOT_CANCEL_DELETE_CHDTASK_ERR_EID: 
+      id: 25
+    CS_ONESHOT_CANCEL_NO_CHDTASK_ERR_EID: 
+      id: 26
+    CS_EEPROM_MISCOMPARE_ERR_EID: 
+      id: 27
+    CS_MEMORY_MISCOMPARE_ERR_EID: 
+      id: 28
+    CS_TABLES_MISCOMPARE_ERR_EID: 
+      id: 29
+    CS_APP_MISCOMPARE_ERR_EID: 
+      id: 30
+    CS_CFECORE_MISCOMPARE_ERR_EID: 
+      id: 31
+    CS_OS_MISCOMPARE_ERR_EID: 
+      id: 32
+    CS_MID_ERR_EID: 
+      id: 33
+    CS_CC1_ERR_EID: 
+      id: 34
+    CS_EXIT_ERR_EID: 
+      id: 35
+    CS_LEN_ERR_EID: 
+      id: 36
+    CS_DISABLE_EEPROM_INF_EID: 
+      id: 37
+    CS_ENABLE_EEPROM_INF_EID: 
+      id: 38
+    CS_BASELINE_EEPROM_INF_EID: 
+      id: 39
+    CS_NO_BASELINE_EEPROM_INF_EID: 
+      id: 40
+    CS_BASELINE_INVALID_ENTRY_EEPROM_ERR_EID: 
+      id: 41
+    CS_RECOMPUTE_EEPROM_STARTED_DBG_EID: 
+      id: 42
+    CS_RECOMPUTE_EEPROM_CREATE_CHDTASK_ERR_EID: 
+      id: 43
+    CS_RECOMPUTE_INVALID_ENTRY_EEPROM_ERR_EID: 
+      id: 44
+    CS_RECOMPUTE_EEPROM_CHDTASK_ERR_EID: 
+      id: 45
+    CS_ENABLE_EEPROM_ENTRY_INF_EID: 
+      id: 46
+    CS_ENABLE_EEPROM_INVALID_ENTRY_ERR_EID: 
+      id: 47
+    CS_DISABLE_EEPROM_ENTRY_INF_EID: 
+      id: 48
+    CS_DISABLE_EEPROM_INVALID_ENTRY_ERR_EID: 
+      id: 49
+    CS_GET_ENTRY_ID_EEPROM_INF_EID: 
+      id: 50
+    CS_GET_ENTRY_ID_EEPROM_NOT_FOUND_INF_EI: 
+      id: 51
+    CS_DISABLE_MEMORY_INF_EID: 
+      id: 52
+    CS_ENABLE_MEMORY_INF_EID: 
+      id: 53
+    CS_BASELINE_MEMORY_INF_EID: 
+      id: 54
+    CS_NO_BASELINE_MEMORY_INF_EID: 
+      id: 55
+    CS_BASELINE_INVALID_ENTRY_MEMORY_ERR_EID: 
+      id: 56
+    CS_RECOMPUTE_MEMORY_STARTED_DBG_EID: 
+      id: 57
+    CS_RECOMPUTE_MEMORY_CREATE_CHDTASK_ERR_EID: 
+      id: 58
+    CS_RECOMPUTE_INVALID_ENTRY_MEMORY_ERR_EID: 
+      id: 59
+    CS_RECOMPUTE_MEMORY_CHDTASK_ERR_EID: 
+      id: 60
+    CS_ENABLE_MEMORY_ENTRY_INF_EID: 
+      id: 61
+    CS_ENABLE_MEMORY_INVALID_ENTRY_ERR_EID: 
+      id: 62
+    CS_DISABLE_MEMORY_ENTRY_INF_EID: 
+      id: 63
+    CS_DISABLE_MEMORY_INVALID_ENTRY_ERR_EID: 
+      id: 64
+    CS_GET_ENTRY_ID_MEMORY_INF_EID: 
+      id: 65
+    CS_GET_ENTRY_ID_MEMORY_NOT_FOUND_INF_EID: 
+      id: 66
+    CS_DISABLE_TABLES_INF_EID: 
+      id: 67
+    CS_ENABLE_TABLES_INF_EID: 
+      id: 68
+    CS_BASELINE_TABLES_INF_EID: 
+      id: 69
+    CS_NO_BASELINE_TABLES_INF_EID: 
+      id: 70
+    CS_BASELINE_INVALID_NAME_TABLES_ERR_EID: 
+      id: 71
+    CS_RECOMPUTE_TABLES_STARTED_DBG_EID: 
+      id: 72
+    CS_RECOMPUTE_TABLES_CREATE_CHDTASK_ERR_EID: 
+      id: 73
+    CS_RECOMPUTE_UNKNOWN_NAME_TABLES_ERR_EID: 
+      id: 74
+    CS_RECOMPUTE_TABLES_CHDTASK_ERR_EID: 
+      id: 75
+    CS_ENABLE_TABLES_NAME_INF_EID: 
+      id: 76
+    CS_ENABLE_TABLES_UNKNOWN_NAME_ERR_EID: 
+      id: 77
+    CS_DISABLE_TABLES_NAME_INF_EID: 
+      id: 78
+    CS_DISABLE_TABLES_UNKNOWN_NAME_ERR_EID: 
+      id: 79
+    CS_DISABLE_APP_INF_EID: 
+      id: 80
+    CS_ENABLE_APP_INF_EID: 
+      id: 81
+    CS_BASELINE_APP_INF_EID: 
+      id: 82
+    CS_NO_BASELINE_APP_INF_EID: 
+      id: 83
+    CS_BASELINE_INVALID_NAME_APP_ERR_EID: 
+      id: 84
+    CS_RECOMPUTE_APP_STARTED_DBG_EID: 
+      id: 85
+    CS_RECOMPUTE_APP_CREATE_CHDTASK_ERR_EID: 
+      id: 86
+    CS_RECOMPUTE_UNKNOWN_NAME_APP_ERR_EID: 
+      id: 87
+    CS_RECOMPUTE_APP_CHDTASK_ERR_EID: 
+      id: 88
+    CS_ENABLE_APP_NAME_INF_EID: 
+      id: 89
+    CS_ENABLE_APP_UNKNOWN_NAME_ERR_EID: 
+      id: 90
+    CS_DISABLE_APP_NAME_INF_EID: 
+      id: 91
+    CS_DISABLE_APP_UNKNOWN_NAME_ERR_EID: 
+      id: 92
+    CS_COMPUTE_APP_NOT_FOUND_ERR_EID: 
+      id: 93
+    CS_COMPUTE_TABLES_NOT_FOUND_ERR_EID: 
+      id: 94
+    CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID: 
+      id: 95
+    CS_RECOMPUTE_ERROR_TABLES_ERR_EID: 
+      id: 96
+    CS_RECOMPUTE_ERROR_APP_ERR_EID: 
+      id: 97
+    CS_RECOMPUTE_FINISH_TABLES_INF_EID: 
+      id: 98
+    CS_RECOMPUTE_FINISH_APP_INF_EID: 
+      id: 99
+    CS_ONESHOT_FINISHED_INF_EID : 
+      id: 100
+    CS_VAL_EEPROM_STATE_ERR_EID: 
+      id: 101
+    CS_VAL_EEPROM_RANGE_ERR_EID: 
+      id: 102
+    CS_VAL_MEMORY_STATE_ERR_EID: 
+      id: 103
+    CS_VAL_MEMORY_RANGE_ERR_EID: 
+      id: 104
+    CS_VAL_TABLES_STATE_ERR_EID: 
+      id: 105
+    CS_VAL_APP_STATE_ERR_EID: 
+      id: 106
+    CS_PROCESS_EEPROM_MEMORY_NO_ENTRIES_INF_EID: 
+      id: 107
+    CS_PROCESS_APP_NO_ENTRIES_INF_EID: 
+      id: 108
+    CS_PROCESS_TABLES_NO_ENTRIES_INF_EID: 
+      id: 109
+    CS_TBL_INIT_ERR_EID: 
+      id: 110
+    CS_TBL_UPDATE_ERR_EID: 
+      id: 111
+    CS_INIT_SB_CREATE_ERR_EID: 
+      id: 112
+    CS_INIT_SB_SUBSCRIBE_HK_ERR_EID: 
+      id: 113
+    CS_INIT_SB_SUBSCRIBE_BACK_ERR_EID: 
+      id: 114
+    CS_INIT_SB_SUBSCRIBE_CMD_ERR_EID: 
+      id: 115
+    CS_INIT_EEPROM_ERR_EID: 
+      id: 116
+    CS_INIT_MEMORY_ERR_EID: 
+      id: 117
+    CS_INIT_TABLES_ERR_EID: 
+      id: 118
+    CS_INIT_APP_ERR_EID: 
+      id: 119
+    CS_COMPUTE_TABLES_RELEASE_ERR_EID: 
+      id: 120
+    CS_COMPUTE_TABLES_ERR_EID: 
+      id: 121
+    CS_COMPUTE_APP_ERR_EID: 
+      id: 122
+    CS_UPDATE_EEPROM_ERR_EID: 
+      id: 123
+    CS_UPDATE_MEMORY_ERR_EID: 
+      id: 124
+    CS_UPDATE_TABLES_ERR_EID: 
+      id: 125
+    CS_UPDATE_APP_ERR_EID: 
+      id: 126
+    CS_OS_TEXT_SEG_INF_EID: 
+      id: 127
+    CS_COMPUTE_APP_PLATFORM_DBG_EID: 
+      id: 128
+    CS_ENABLE_TABLE_DEF_NOT_FOUND_DBG_EID: 
+      id: 129
+    CS_DISABLE_TABLE_DEF_NOT_FOUND_DBG_EID: 
+      id: 130
+    CS_ENABLE_APP_DEF_NOT_FOUND_DBG_EID: 
+      id: 131
+    CS_DISABLE_APP_DEF_NOT_FOUND_DBG_EID: 
+      id: 132
+    CS_DISABLE_MEMORY_DEF_EMPTY_DBG_EID: 
+      id: 133
+    CS_ENABLE_MEMORY_DEF_EMPTY_DBG_EID: 
+      id: 134
+    CS_DISABLE_EEPROM_DEF_EMPTY_DBG_EID: 
+      id: 135
+    CS_ENABLE_EEPROM_DEF_EMPTY_DBG_EID: 
+      id: 136
+    CS_VAL_TABLES_DEF_TBL_DUPL_ERR_EID: 
+      id: 137
+    CS_VAL_TABLES_DEF_TBL_ZERO_NAME_ERR_EID: 
+      id: 138
+    CS_VAL_TABLES_INF_EID: 
+      id: 139
+    CS_VAL_APP_DEF_TBL_DUPL_ERR_EID: 
+      id: 140
+    CS_VAL_APP_DEF_TBL_ZERO_NAME_ERR_EID: 
+      id: 141
+    CS_VAL_APP_INF_EID: 
+      id: 142
+    CS_VAL_MEMORY_INF_EID: 
+      id: 143
+    CS_VAL_EEPROM_INF_EID: 
+      id: 144
+    CS_INIT_CDS_ERR_EID 145: 
+      id: 145
+    CS_EXIT_INF_EID: 
+      id: 146
+  telemetry: 
+    CS_HK_TLM_MID: 
+      msgID: 
+      struct: CS_HkPacket_t
+  commands: 
+    CS_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: CS_NoArgsCmd_t
+        Reset: 
+          cc: 1
+          struct: CS_NoArgsCmd_t
+        OneShot: 
+          cc: 2
+          struct: CS_OneShotCmd_t
+        CancelOneShot: 
+          cc: 3
+          struct: CS_NoArgsCmd_t
+        EnableAllCS: 
+          cc: 4
+          struct: CS_NoArgsCmd_t
+        DisableAllCS: 
+          cc: 5
+          struct: CS_NoArgsCmd_t
+        EnableCfeCore: 
+          cc: 6
+          struct: CS_NoArgsCmd_t
+        DisableCfeCore: 
+          cc: 7
+          struct: CS_NoArgsCmd_t
+        ReportBaselineCfeCore: 
+          cc: 8
+          struct: CS_NoArgsCmd_t
+        RecomputeBaselineCfeCore: 
+          cc: 9
+          struct: CS_NoArgsCmd_t
+        EnableOS: 
+          cc: 10
+          struct: CS_NoArgsCmd_t
+        DisableOS: 
+          cc: 11
+          struct: CS_NoArgsCmd_t
+        ReportBaselineOS: 
+          cc: 12
+          struct: CS_NoArgsCmd_t
+        RecomputeBaselineOS: 
+          cc: 13
+          struct: CS_NoArgsCmd_t
+        EnableEEPROM: 
+          cc: 14
+          struct: CS_NoArgsCmd_t
+        DisableEEPROM: 
+          cc: 15
+          struct: CS_NoArgsCmd_t
+        ReportBaselineEEPROM: 
+          cc: 16
+          struct: CS_EntryCmd_t
+        RecomputeBaselineEEPROM: 
+          cc: 17
+          struct: CS_EntryCmd_t
+        EnableEntryEEPROM: 
+          cc: 18
+          struct: CS_EntryCmd_t
+        DisableEntryEEPROM: 
+          cc: 19
+          struct: CS_EntryCmd_t
+        GetEntryIDEEPROM: 
+          cc: 20
+          struct: CS_GetEntryIDCmd_t
+        EnableMemory: 
+          cc: 21
+          struct: CS_NoArgsCmd_t
+        DisableMemory: 
+          cc: 22
+          struct: CS_NoArgsCmd_t
+        ReportBaselineMemory: 
+          cc: 23
+          struct: CS_EntryCmd_t
+        RecomputeBaselineMemory: 
+          cc: 24
+          struct: CS_EntryCmd_t
+        EnableEntryMemory: 
+          cc: 25
+          struct: CS_EntryCmd_t
+        DisableEntryMemory: 
+          cc: 26
+          struct: CS_EntryCmd_t
+        GetEntryIDMemory: 
+          cc: 27
+          struct: CS_GetEntryIDCmd_t
+        EnableTables: 
+          cc: 28
+          struct: CS_NoArgsCmd_t
+        DisableTables: 
+          cc: 29
+          struct: CS_NoArgsCmd_t
+        ReportBaselineTable: 
+          cc: 30
+          struct: CS_TableNameCmd_t
+        RecomputeBaselineTable: 
+          cc: 31
+          struct: CS_TableNameCmd_t
+        EnableNameTable: 
+          cc: 32
+          struct: CS_TableNameCmd_t
+        DisableNameTable: 
+          cc: 33
+          struct: CS_TableNameCmd_t
+        EnableApps: 
+          cc: 34
+          struct: CS_NoArgsCmd_t
+        DisableApps: 
+          cc: 35
+          struct: CS_NoArgsCmd_t
+        ReportBaselineApp: 
+          cc: 36
+          struct: CS_AppNameCmd_t
+        RecomputeBaselineApp: 
+          cc: 37
+          struct: CS_AppNameCmd_t
+        EnableNameApp: 
+          cc: 38
+          struct: CS_AppNameCmd_t
+        DisableNameApp: 
+          cc: 39
+          struct: CS_AppNameCmd_t
+    CS_BACKGROUND_CYCLE_MID: 
+      msgID: 
+      commands: 
+        BackgroundCycle: 
+          cc: 0
+          struct: CS_NoArgsCmd_t
+    CS_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: CS_NoArgsCmd_t
+  perfids: 
+    CS_APPMAIN_PERF_ID: 
+      id: 
+  config: 
+    CS_DEFAULT_ALGORITHM: 
+      name: CS_DEFAULT_ALGORITHM
+      value: CFE_ES_DEFAULT_CRC
+    CS_CHILD_TASK_FLAGS: 
+      name: CS_CHILD_TASK_FLAGS
+      value: OS_ENABLE_CORE_0
+    CS_DEF_EEPROM_TABLE_FILENAM: 
+      name: CS_DEF_EEPROM_TABLE_FILENAM
+      value: /cf/apps/cs_eepromtbl.tbl
+    CS_DEF_MEMORY_TABLE_FILENAME: 
+      name: CS_DEF_MEMORY_TABLE_FILENAME
+      value: /cf/apps/cs_memorytbl.tbl
+    CS_DEF_TABLES_TABLE_FILENAME: 
+      name: CS_DEF_TABLES_TABLE_FILENAME
+      value: /cf/apps/cs_tablestbl.tbl
+    CS_DEF_APP_TABLE_FILENAME : 
+      name: CS_DEF_APP_TABLE_FILENAME 
+      value: /cf/apps/cs_apptbl.tbl
+    CS_PIPE_DEPTH: 
+      name: CS_PIPE_DEPTH
+      value: 12
+    CS_MAX_NUM_EEPROM_TABLE_ENTRIES: 
+      name: CS_MAX_NUM_EEPROM_TABLE_ENTRIES
+      value: 16
+    CS_MAX_NUM_MEMORY_TABLE_ENTRIES : 
+      name: CS_MAX_NUM_MEMORY_TABLE_ENTRIES 
+      value: 16
+    CS_MAX_NUM_TABLES_TABLE_ENTRIES: 
+      name: CS_MAX_NUM_TABLES_TABLE_ENTRIES
+      value: 24
+    CS_MAX_NUM_APP_TABLE_ENTRIES: 
+      name: CS_MAX_NUM_APP_TABLE_ENTRIES
+      value: 24
+    CS_DEFAULT_BYTES_PER_CYCLE: 
+      name: CS_DEFAULT_BYTES_PER_CYCLE
+      value: 1024 *16
+    CS_CHILD_TASK_PRIORITY: 
+      name: CS_CHILD_TASK_PRIORITY
+      value: 200
+    CS_CHILD_TASK_DELAY: 
+      name: CS_CHILD_TASK_DELAY
+      value: 1000
+    CS_STARTUP_TIMEOUT: 
+      name: CS_STARTUP_TIMEOUT
+      value: 60000
+    CS_OSCS_CHECKSUM_STATE: 
+      name: CS_OSCS_CHECKSUM_STATE
+      value: CS_STATE_ENABLED
+    CS_CFECORE_CHECKSUM_STATE: 
+      name: CS_CFECORE_CHECKSUM_STATE
+      value: CS_STATE_ENABLED
+    CS_EEPROM_TBL_POWERON_STATE: 
+      name: CS_EEPROM_TBL_POWERON_STATE
+      value: CS_STATE_ENABLED
+    CS_MEMORY_TBL_POWERON_STATE: 
+      name: CS_MEMORY_TBL_POWERON_STATE
+      value: CS_STATE_ENABLED
+    CS_APPS_TBL_POWERON_STATE: 
+      name: CS_APPS_TBL_POWERON_STATE
+      value: CS_STATE_ENABLED
+    CS_TABLES_TBL_POWERON_STATE: 
+      name: CS_TABLES_TBL_POWERON_STATE
+      value: CS_STATE_ENABLED
+    CS_PRESERVE_STATES_ON_PROCESSOR_RESET: 
+      name: CS_PRESERVE_STATES_ON_PROCESSOR_RESET
+      value: true
+    CS_CDS_NAME: 
+      name: CS_CDS_NAME
+      value: CS_CDS
+
