@@ -1,0 +1,134 @@
+  short_name: hmc5883
+  long_name: 
+  events: 
+    HMC5883_INIT_INF_EID: 
+      id: 1
+    HMC5883_CMD_NOOP_EID: 
+      id: 2
+    HMC5883_SUBSCRIBE_ERR_EID: 
+      id: 3
+    HMC5883_PIPE_INIT_ERR_EID: 
+      id: 4
+    HMC5883_CFGTBL_MANAGE_ERR_EID: 
+      id: 5
+    HMC5883_CFGTBL_GETADDR_ERR_EID: 
+      id: 6
+    HMC5883_RCVMSG_ERR_EID: 
+      id: 7
+    HMC5883_MSGID_ERR_EID: 
+      id: 8
+    HMC5883_CC_ERR_EI: 
+      id: 9
+    HMC5883_MSGLEN_ERR_EID: 
+      id: 10
+    HMC5883_CFGTBL_REG_ERR_EID: 
+      id: 11
+    HMC5883_CFGTBL_LOAD_ERR_EID: 
+      id: 12
+    HMC5883_UNINIT_ERR_EID: 
+      id: 13
+    HMC5883_INIT_ERR_EID: 
+      id: 14
+    HMC5883_READ_ERR_EID: 
+      id: 15
+    HMC5883_VALIDATE_ERR_EID: 
+      id: 16
+    HMC5883_SCALE_ERR_EID: 
+      id: 17
+    HMC5883_OFFSET_ERR_EID: 
+      id: 18
+    HMC5883_CALIBRATE_INF_EID: 
+      id: 19
+    HMC5883_CALIBRATE_ERR_EID: 
+      id: 20
+  telemetry: 
+    HMC5883_HK_TLM_MID: 
+      msgID: 
+      struct: HMC5883_HkTlm_t
+    HMC5883_DIAG_TLM_MID: 
+      msgID: 
+      struct: HMC5883_DiagPacket_t
+  commands: 
+    HMC5883_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: HMC5883_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: HMC5883_NoArgCmd_t
+        SendDiag: 
+          cc: 2
+          struct: HMC5883_NoArgCmd_t
+        SetCalibration: 
+          cc: 3
+          struct: HMC5883_SetCalibrationCmd_t
+    HMC5883_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: HMC5883_NoArgCmd_t
+    HMC5883_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: HMC5883_NoArgCmd_t
+  perfids: 
+    HMC5883_MAIN_TASK_PERF_ID: 
+      id: 
+    HMC5883_RECEIVE_PERF_ID: 
+      id: 
+    HMC5883_SEND_PERF_ID: 
+      id: 
+  config: 
+    HMC5883_SB_TIMEOUT: 
+      name: HMC5883_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    HMC5883_MISSION_REV: 
+      name: HMC5883_MISSION_REV
+      value: 0
+    HMC5883_SCH_PIPE_DEPTH: 
+      name: HMC5883_SCH_PIPE_DEPTH
+      value: 2
+    HMC5883_SCH_PIPE_NAME: 
+      name: HMC5883_SCH_PIPE_NAME
+      value: HMC5883_SCH_PIPE
+    HMC5883_SCH_PIPE_PEND_TIME: 
+      name: HMC5883_SCH_PIPE_PEND_TIME
+      value: 2000
+    HMC5883_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: HMC5883_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    HMC5883_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: HMC5883_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    HMC5883_CMD_PIPE_DEPTH: 
+      name: HMC5883_CMD_PIPE_DEPTH
+      value: 4
+    HMC5883_CMD_PIPE_NAME: 
+      name: HMC5883_CMD_PIPE_NAME
+      value: HMC5883_CMD_PIPE
+    HMC5883_DATA_PIPE_DEPTH: 
+      name: HMC5883_DATA_PIPE_DEPTH
+      value: 4
+    HMC5883_DATA_PIPE_NAME: 
+      name: HMC5883_DATA_PIPE_NAME
+      value: HMC5883_DATA_PIPE
+    HMC5883_CONFIG_TABLE_FILENAME: 
+      name: HMC5883_CONFIG_TABLE_FILENAME
+      value: /cf/apps/hmc5883_config.tbl
+    HMC5883_STARTUP_TIMEOUT_MSEC: 
+      name: HMC5883_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    HMC5883_MAG_DIVIDER: 
+      name: HMC5883_MAG_DIVIDER
+      value: 1090
+    HMC5883_MAG_UNIT: 
+      name: HMC5883_MAG_UNIT
+      value: 1
+    HMC5883_CALC_MAG_RANGE: 
+      name: HMC5883_CALC_MAG_RANGE
+      value: 1.3
