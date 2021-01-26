@@ -1,0 +1,107 @@
+  short_name: lgc
+  long_name: Landing Gear Control
+  events: 
+    LGC_INIT_INF_EID: 
+      id: 1
+    LGC_CMD_NOOP_EID: 
+      id: 2
+    LGC_SUBSCRIBE_ERR_EID: 
+      id: 3
+    LGC_PIPE_INIT_ERR_EID: 
+      id: 4
+    LGC_CFGTBL_GETADDR_ERR_EID: 
+      id: 5
+    LGC_RCVMSG_ERR_EID: 
+      id: 6
+    LGC_MSGID_ERR_EID: 
+      id: 7
+    LGC_CC_ERR_EID: 
+      id: 8
+    LGC_MSGLEN_ERR_EID: 
+      id: 9
+    LGC_CFGTBL_REG_ERR_EID: 
+      id: 10
+    LGC_CFGTBL_LOAD_ERR_EID: 
+      id: 11
+    LGC_PWM_CFGTBL_MIN_LT_DISARMED_ERR_EID: 
+      id: 12
+    LGC_PWM_CFGTBL_MAX_LT_MIN_ERR_EID: 
+      id: 13
+    LGC_DEVICE_INIT_ERR_EID: 
+      id: 14
+    LGC_RETRACT_INF_EID: 
+      id: 15
+    LGC_EXTEND_INF_EID: 
+      id: 16
+  telemetry: 
+    LGC_HK_TLM_MID: 
+      msgID: 
+      struct: LGC_HkTlm_t
+  commands: 
+    LGC_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
+        Reset: 
+          cc: 1
+          struct: CFE_SB_CmdHdr_t
+    LGC_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
+    LGC_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
+  perfids: 
+    LGC_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    LGC_SB_TIMEOUT: 
+      name: LGC_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    LGC_MISSION_REV: 
+      name: LGC_MISSION_REV
+      value: 0
+    LGC_SCH_PIPE_DEPTH: 
+      name: LGC_SCH_PIPE_DEPTH
+      value: 2
+    LGC_SCH_PIPE_NAME: 
+      name: LGC_SCH_PIPE_NAME
+      value: LGC_SCH_PIPE
+    LGC_SCH_PIPE_PEND_TIME: 
+      name: LGC_SCH_PIPE_PEND_TIME
+      value: 2000
+    LGC_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: LGC_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    LGC_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: LGC_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    LGC_CMD_PIPE_DEPTH: 
+      name: LGC_CMD_PIPE_DEPTH
+      value: 4
+    LGC_CMD_PIPE_NAME: 
+      name: LGC_CMD_PIPE_NAME
+      value: LGC_CMD_PIPE
+    LGC_DATA_PIPE_DEPTH: 
+      name: LGC_DATA_PIPE_DEPTH
+      value: 4
+    LGC_DATA_PIPE_NAME: 
+      name: LGC_DATA_PIPE_NAME
+      value: LGC_DATA_PIPE
+    LGC_CONFIG_TABLE_FILENAME: 
+      name: LGC_CONFIG_TABLE_FILENAME
+      value: /cf/apps/lgc_config.tbl
+    LGC_STARTUP_TIMEOUT_MSEC: 
+      name: LGC_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    LGC_MAX_GEAR_OUTPUTS: 
+      name: LGC_MAX_GEAR_OUTPUTS
+      value: 1
