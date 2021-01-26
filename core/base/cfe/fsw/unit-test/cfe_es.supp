@@ -1,0 +1,10 @@
+# These hits are a result of a unit test not initializing a variable
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Cond
+   fun:CFE_ES_PutCDSBlock
+   fun:TestCDSMempool
+   fun:UtTest_Run
+   fun:main
+}
+############################################
