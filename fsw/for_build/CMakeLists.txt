@@ -1,5 +1,5 @@
 
-add_airliner_app_def(ld
+buildliner_add_app_def(ld
     FILE LD
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ld_app.cpp
@@ -24,7 +24,7 @@ add_airliner_app_def(ld
         ${PROJECT_SOURCE_DIR}/apps/ld/fsw/platform_inc
 )
 
-add_airliner_app_unit_test(ld-ut
+buildliner_add_app_unit_test(ld-ut
     UTASSERT
     NO_HELGRIND
     NO_MASSIF
