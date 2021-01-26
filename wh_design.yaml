@@ -1,0 +1,107 @@
+  short_name: bat
+  long_name: Battery Manager
+  events: 
+    BAT_INIT_INF_EID: 
+      id: 1
+    BAT_CMD_NOOP_EID: 
+      id: 2
+    BAT_SUBSCRIBE_ERR_EID: 
+      id: 3
+    BAT_PIPE_INIT_ERR_EID: 
+      id: 4
+    BAT_CFGTBL_MANAGE_ERR_EID: 
+      id: 5
+    BAT_CFGTBL_GETADDR_ERR_EID: 
+      id: 6
+    BAT_RCVMSG_ERR_EID: 
+      id: 7
+    BAT_MSGID_ERR_EID: 
+      id: 8
+    BAT_CC_ERR_EID: 
+      id: 9
+    BAT_MSGLEN_ERR_EID: 
+      id: 10
+    BAT_CFGTBL_REG_ERR_EID: 
+      id: 11
+    BAT_CFGTBL_LOAD_ERR_EID: 
+      id: 12
+    BAT_LISTENER_CREATE_CHDTASK_ERR_EID: 
+      id: 13
+  telemetry: 
+    BAT_HK_TLM_MID: 
+      msgID: 
+      struct: BAT_HkTlm_t
+  commands: 
+    BAT_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: BAT_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: BAT_NoArgCmd_t
+        SendDiag: 
+          cc: 2
+          struct: BAT_NoArgCmd_t
+    BAT_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: BAT_NoArgCmd_t
+    BAT_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: BAT_NoArgCmd_t
+  perfids: 
+    BAT_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    BAT_SB_TIMEOUT: 
+      name: BAT_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    BAT_MISSION_REV: 
+      name: BAT_MISSION_REV
+      value: 0
+    BAT_SCH_PIPE_DEPTH: 
+      name: BAT_SCH_PIPE_DEPTH
+      value: 3
+    BAT_SCH_PIPE_NAME: 
+      name: BAT_SCH_PIPE_NAME
+      value: BAT_SCH_PIPE
+    BAT_SCH_PIPE_PEND_TIME: 
+      name: BAT_SCH_PIPE_PEND_TIME
+      value: 2000
+    BAT_LISTENER_TASK_STACK_SIZE: 
+      name: BAT_LISTENER_TASK_STACK_SIZE
+      value: 16000
+    BAT_LISTENER_TASK_FLAGS: 
+      name: BAT_LISTENER_TASK_FLAGS
+      value: OS_ENABLE_CORE_0
+    BAT_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: BAT_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    BAT_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: BAT_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    BAT_CMD_PIPE_DEPTH: 
+      name: BAT_CMD_PIPE_DEPTH
+      value: 4
+    BAT_CMD_PIPE_NAME: 
+      name: BAT_CMD_PIPE_NAME
+      value: BAT_CMD_PIPE
+    BAT_DATA_PIPE_DEPTH: 
+      name: BAT_DATA_PIPE_DEPTH
+      value: 4
+    BAT_DATA_PIPE_NAME: 
+      name: BAT_DATA_PIPE_NAME
+      value: BAT_DATA_PIPE
+    BAT_CONFIG_TABLE_FILENAME: 
+      name: BAT_CONFIG_TABLE_FILENAME
+      value: /cf/apps/bat_config.tbl
+    BAT_STARTUP_TIMEOUT_MSEC: 
+      name: BAT_STARTUP_TIMEOUT_MSEC
+      value: 1000
