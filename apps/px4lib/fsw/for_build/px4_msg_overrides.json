@@ -1,0 +1,186 @@
+{
+  "Airliner": {
+    "apps": {
+      "PX4": {
+        "operations": {
+          "PX4_ActuatorArmedMsg_t": {
+            "airliner_msg": "PX4_ActuatorArmedMsg_t",
+            "macro": "PX4_ACTUATOR_ARMED_MID"
+          },
+          "PX4_ActuatorControlsMsg_t": {
+            "airliner_msg": "PX4_ActuatorControlsMsg_t",
+            "macro": "PX4_ACTUATOR_CONTROLS_0_MID"
+          },
+          "PX4_ActuatorOutputsMsg_t": {
+            "airliner_msg": "PX4_ActuatorOutputsMsg_t",
+            "macro": "PX4_ACTUATOR_OUTPUTS_MID"
+          },
+          "PX4_AirspeedMsg_t": {
+            "airliner_msg": "PX4_AirspeedMsg_t",
+            "macro": "PX4_AIRSPEED_MID"
+          },
+          "PX4_BatteryStatusMsg_t": {
+            "airliner_msg": "PX4_BatteryStatusMsg_t",
+            "macro": "PX4_BATTERY_STATUS_MID"
+          },
+          "PX4_CommanderStateMsg_t": {
+            "airliner_msg": "PX4_CommanderStateMsg_t",
+            "macro": "PX4_COMMANDER_STATE_MID"
+          },
+          "PX4_ControlStateMsg_t": {
+            "airliner_msg": "PX4_ControlStateMsg_t",
+            "macro": "PX4_CONTROL_STATE_MID"
+          },
+          "PX4_DifferentialPressureMsg_t": {
+            "airliner_msg": "PX4_DifferentialPressureMsg_t",
+            "macro": "PX4_DIFFERENTIAL_PRESSURE_MID"
+          },
+          "PX4_DistanceSensorMsg_t": {
+            "airliner_msg": "PX4_DistanceSensorMsg_t",
+            "macro": "PX4_DISTANCE_SENSOR_MID"
+          },
+          "PX4_EstimatorStatusMsg_t": {
+            "airliner_msg": "PX4_EstimatorStatusMsg_t",
+            "macro": "PX4_ESTIMATOR_STATUS_MID"
+          },
+          "PX4_GpsInjectDataMsg_t": {
+            "airliner_msg": "PX4_GpsInjectDataMsg_t",
+            "macro": "PX4_GPS_INJECT_DATA_MID"
+          },
+          "PX4_HomePositionMsg_t": {
+            "airliner_msg": "PX4_HomePositionMsg_t",
+            "macro": "PX4_HOME_POSITION_MID"
+          },
+          "PX4_InputRcMsg_t": {
+            "airliner_msg": "PX4_InputRcMsg_t",
+            "macro": "PX4_INPUT_RC_MID"
+          },
+          "PX4_LedControlMsg_t": {
+            "airliner_msg": "PX4_LedControlMsg_t",
+            "macro": "PX4_LED_CONTROL_MID"
+          },
+          "PX4_ManualControlSetpointMsg_t": {
+            "airliner_msg": "PX4_ManualControlSetpointMsg_t",
+            "macro": "PX4_MANUAL_CONTROL_SETPOINT_MID"
+          },
+          "PX4_McAttCtrlStatusMsg_t": {
+            "airliner_msg": "PX4_McAttCtrlStatusMsg_t",
+            "macro": "PX4_MC_ATT_CTRL_STATUS_MID"
+          },
+          "PX4_MissionMsg_t": {
+            "airliner_msg": "PX4_MissionMsg_t",
+            "macro": "PX4_MISSION_MID"
+          },
+          "PX4_MissionResultMsg_t": {
+            "airliner_msg": "PX4_MissionResultMsg_t",
+            "macro": "PX4_MISSION_RESULT_MID"
+          },
+          "PX4_MultirotorMotorLimitsMsg_t": {
+            "airliner_msg": "PX4_MultirotorMotorLimitsMsg_t",
+            "macro": "PX4_MULTIROTOR_MOTOR_LIMITS_MID"
+          },
+          "PX4_OpticalFlowMsg_t": {
+            "airliner_msg": "PX4_OpticalFlowMsg_t",
+            "macro": "PX4_OPTICAL_FLOW_MID"
+          },
+          "PX4_PositionSetpointTripletMsg_t": {
+            "airliner_msg": "PX4_PositionSetpointTripletMsg_t",
+            "macro": "PX4_POSITION_SETPOINT_TRIPLET_MID"
+          },
+          "PX4_RcChannelsMsg_t": {
+            "airliner_msg": "PX4_RcChannelsMsg_t",
+            "macro": "PX4_RC_CHANNELS_MID"
+          },
+          "PX4_SafetyMsg_t": {
+            "airliner_msg": "PX4_SafetyMsg_t",
+            "macro": "PX4_SAFETY_MID"
+          },
+          "PX4_SatelliteInfoMsg_t": {
+            "airliner_msg": "PX4_SatelliteInfoMsg_t",
+            "macro": "PX4_SATELLITE_INFO_MID"
+          },
+          "PX4_SensorAccelMsg_t": {
+            "airliner_msg": "PX4_SensorAccelMsg_t",
+            "macro": "PX4_SENSOR_ACCEL_MID"
+          },
+          "PX4_SensorBaroMsg_t": {
+            "airliner_msg": "PX4_SensorBaroMsg_t",
+            "macro": "PX4_SENSOR_BARO_MID"
+          },
+          "PX4_SensorCombinedMsg_t": {
+            "airliner_msg": "PX4_SensorCombinedMsg_t",
+            "macro": "PX4_SENSOR_COMBINED_MID"
+          },
+          "PX4_SensorCorrectionMsg_t": {
+            "airliner_msg": "PX4_SensorCorrectionMsg_t",
+            "macro": "PX4_SENSOR_CORRECTION_MID"
+          },
+          "PX4_SensorGyroMsg_t": {
+            "airliner_msg": "PX4_SensorGyroMsg_t",
+            "macro": "PX4_SENSOR_GYRO_MID"
+          },
+          "PX4_SensorMagMsg_t": {
+            "airliner_msg": "PX4_SensorMagMsg_t",
+            "macro": "PX4_SENSOR_MAG_MID"
+          },
+          "PX4_SubsystemInfoMsg_t": {
+            "airliner_msg": "PX4_SubsystemInfoMsg_t",
+            "macro": "PX4_SUBSYSTEM_INFO_MID"
+          },
+          "PX4_TelemetryStatusMsg_t": {
+            "airliner_msg": "PX4_TelemetryStatusMsg_t",
+            "macro": "PX4_TELEMETRY_STATUS_MID"
+          },
+          "PX4_VehicleAttitudeMsg_t": {
+            "airliner_msg": "PX4_VehicleAttitudeMsg_t",
+            "macro": "PX4_VEHICLE_ATTITUDE_MID"
+          },
+          "PX4_VehicleAttitudeSetpointMsg_t": {
+            "airliner_msg": "PX4_VehicleAttitudeSetpointMsg_t",
+            "macro": "PX4_VEHICLE_ATTITUDE_SETPOINT_MID"
+          },
+          "PX4_VehicleCommandMsg_t": {
+            "airliner_msg": "PX4_VehicleCommandMsg_t",
+            "macro": "PX4_VEHICLE_COMMAND_MID"
+          },
+          "PX4_VehicleControlModeMsg_t": {
+            "airliner_msg": "PX4_VehicleControlModeMsg_t",
+            "macro": "PX4_VEHICLE_CONTROL_MODE_MID"
+          },
+          "PX4_VehicleGlobalPositionMsg_t": {
+            "airliner_msg": "PX4_VehicleGlobalPositionMsg_t",
+            "macro": "PX4_VEHICLE_GLOBAL_POSITION_MID"
+          },
+          "PX4_VehicleGlobalVelocitySetpointMsg_t": {
+            "airliner_msg": "PX4_VehicleGlobalVelocitySetpointMsg_t",
+            "macro": "PX4_VEHICLE_GLOBAL_VELOCITY_SETPOINT_MID"
+          },
+          "PX4_VehicleGpsPositionMsg_t": {
+            "airliner_msg": "PX4_VehicleGpsPositionMsg_t",
+            "macro": "PX4_VEHICLE_GPS_POSITION_MID"
+          },
+          "PX4_VehicleLandDetectedMsg_t": {
+            "airliner_msg": "PX4_VehicleLandDetectedMsg_t",
+            "macro": "PX4_VEHICLE_LAND_DETECTED_MID"
+          },
+          "PX4_VehicleLocalPositionMsg_t": {
+            "airliner_msg": "PX4_VehicleLocalPositionMsg_t",
+            "macro": "PX4_VEHICLE_LOCAL_POSITION_MID"
+          },
+          "PX4_VehicleLocalPositionSetpointMsg_t": {
+            "airliner_msg": "PX4_VehicleLocalPositionSetpointMsg_t",
+            "macro": "PX4_VEHICLE_LOCAL_POSITION_SETPOINT_MID"
+          },
+          "PX4_VehicleRatesSetpointMsg_t": {
+            "airliner_msg": "PX4_VehicleRatesSetpointMsg_t",
+            "macro": "PX4_VEHICLE_RATES_SETPOINT_MID"
+          },
+          "PX4_VehicleStatusMsg_t": {
+            "airliner_msg": "PX4_VehicleStatusMsg_t",
+            "macro": "PX4_VEHICLE_STATUS_MID"
+          }
+        }
+      }
+    }
+  }
+}

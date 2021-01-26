@@ -1,0 +1,20 @@
+#DifferentialPressureMsg_DiffPress(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': '/PX4/PX4_DifferentialPressureMsg_t/DifferentialPressureFiltered'},
+          'label': 'Filtered',
+          'color': '#ffff00'
+        },
+        { 'tlm': {'name': '/PX4/PX4_DifferentialPressureMsg_t/DifferentialPressure'},
+          'label': 'Unfiltered',
+          'color': '#ff00ff'
+        }
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#DifferentialPressureMsg_DiffPress'), dataplotDef);
+  });

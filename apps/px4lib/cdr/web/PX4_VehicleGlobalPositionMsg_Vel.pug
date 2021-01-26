@@ -1,0 +1,24 @@
+#VehicleGlobalPositionMsg_Vel(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': '/PX4/PX4_VehicleGlobalPositionMsg_t/VelN'},
+          'label': 'N',
+          'color': '#ffff00'
+        },
+        { 'tlm': {'name': '/PX4/PX4_VehicleGlobalPositionMsg_t/VelE'},
+          'label': 'E',
+          'color': '#ff00ff'
+        },
+        { 'tlm': {'name': '/PX4/PX4_VehicleGlobalPositionMsg_t/VelD'},
+          'label': 'D',
+          'color': '#00ffff'
+        },
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#VehicleGlobalPositionMsg_Vel'), dataplotDef);
+  });

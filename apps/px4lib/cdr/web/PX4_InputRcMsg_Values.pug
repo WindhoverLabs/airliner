@@ -1,0 +1,66 @@
+#InputRcMsg_Values(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[0]'},
+          'label': '0'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[1]'},
+          'label': '1'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[2]'},
+          'label': '2'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[3]'},
+          'label': '3'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[4]'},
+          'label': '4'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[5]'},
+          'label': '5'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[6]'},
+          'label': '6'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[7]'},
+          'label': '7'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[8]'},
+          'label': '8'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[9]'},
+          'label': '9'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[10]'},
+          'label': '10'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[11]'},
+          'label': '11'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[12]'},
+          'label': '12'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[13]'},
+          'label': '13'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[14]'},
+          'label': '14'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[15]'},
+          'label': '15'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[16]'},
+          'label': '16'
+        },
+        { 'tlm': {'name': '/PX4/PX4_InputRcMsg_t/Values[17]'},
+          'label': '17'
+        }
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#InputRcMsg_Values'), dataplotDef);
+  });

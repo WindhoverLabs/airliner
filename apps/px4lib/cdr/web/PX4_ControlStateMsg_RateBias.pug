@@ -1,0 +1,24 @@
+#ControlStateMsg_RateBias(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': '/PX4/PX4_ControlStateMsg_t/YawRateBias'},
+          'label': 'Yaw',
+          'color': '#ffff00'
+        },
+        { 'tlm': {'name': '/PX4/PX4_ControlStateMsg_t/PitchRateBias'},
+          'label': 'Pitch',
+          'color': '#ff00ff'
+        },
+        { 'tlm': {'name': '/PX4/PX4_ControlStateMsg_t/RollRateBias'},
+          'label': 'Roll',
+          'color': '#00ffff'
+        }
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#ControlStateMsg_RateBias'), dataplotDef);
+  });

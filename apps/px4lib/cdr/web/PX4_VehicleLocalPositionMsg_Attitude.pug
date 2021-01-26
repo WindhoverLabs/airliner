@@ -1,0 +1,24 @@
+#VehicleLocalPositionMsg_Attitude(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': '/PX4/PX4_VehicleLocalPositionMsg_t/Yaw'},
+          'label': 'X',
+          'color': '#ffff00'
+        },
+        { 'tlm': {'name': '/PX4/PX4_VehicleLocalPositionMsg_t/Pitch'},
+          'label': 'Y',
+          'color': '#ff00ff'
+        },
+        { 'tlm': {'name': '/PX4/PX4_VehicleLocalPositionMsg_t/Roll'},
+          'label': 'Z',
+          'color': '#00ffff'
+        },
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#VehicleLocalPositionMsg_Attitude'), dataplotDef);
+  });

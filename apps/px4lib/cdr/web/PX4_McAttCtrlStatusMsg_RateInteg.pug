@@ -1,0 +1,24 @@
+#McAttCtrlStatusMsg_RateInteg(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/YawRateInteg'},
+          'label': 'Yaw',
+          'color': '#ffff00'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/PitchRateInteg'},
+          'label': 'Pitch',
+          'color': '#ff00ff'
+        },
+        { 'tlm': {'name': '/PX4/PX4_McAttCtrlStatusMsg_t/RollRateInteg'},
+          'label': 'Roll',
+          'color': '#00ffff'
+        },
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#McAttCtrlStatusMsg_RateInteg'), dataplotDef);
+  });

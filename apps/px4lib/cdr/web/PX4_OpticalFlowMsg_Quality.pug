@@ -1,0 +1,16 @@
+#OpticalFlowMsg_Quality(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': 'name:'/PX4/PX4_OpticalFlowMsg_t/Quality'},
+          'label': 'Filtered',
+          'color': '#ffffff'
+        }
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#OpticalFlowMsg_Quality'), dataplotDef);
+  });

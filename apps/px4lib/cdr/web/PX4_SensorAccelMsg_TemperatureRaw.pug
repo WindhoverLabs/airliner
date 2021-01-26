@@ -1,0 +1,16 @@
+#SensorAccelMsg_TemperatureRaw(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': '/PX4/PX4_SensorAccelMsg_t/TemperatureRaw'},
+          'label': 'TemperatureRaw',
+          'color': '#ffffff'
+        }
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#SensorAccelMsg_TemperatureRaw'), dataplotDef);
+  });

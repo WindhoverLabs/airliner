@@ -1,0 +1,24 @@
+#VehicleRatesSetpointMsg_Attitude(style='width: 100%; height: 100%; font-size: 14px;')
+
+script.
+  $(function () {
+    var dataplotDef = {
+      'data': [
+        { 'tlm': {'name': '/PX4/PX4_VehicleRatesSetpointMsg_t/Yaw'},
+          'label': 'Yaw',
+          'color': '#ffff00'
+        },
+        { 'tlm': {'name': '/PX4/PX4_VehicleRatesSetpointMsg_t/Pitch'},
+          'label': 'Pitch',
+          'color': '#ff00ff'
+        },
+        { 'tlm': {'name': '/PX4/PX4_VehicleRatesSetpointMsg_t/Roll'},
+          'label': 'Roll',
+          'color': '#00ffff'
+        }
+      ],
+      'options': {
+      }
+    };
+    var dataplot = new CdrTimeSeriesDataplot($('#VehicleRatesSetpointMsg_Attitude'), dataplotDef);
+  });
