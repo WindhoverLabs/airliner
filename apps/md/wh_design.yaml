@@ -1,0 +1,155 @@
+  short_name: md
+  long_name: Memory Dwell
+  events: 
+    MD_INIT_INF_EID: 
+      id: 1
+    MD_PIPE_ERR_EID: 
+      id: 2
+    MD_RECOVERED_TBL_VALID_INF_EID: 
+      id: 3
+    MD_RECOVERED_TBL_NOT_VALID_ERR_EID: 
+      id: 4
+    MD_DWELL_TBL_TOO_LARGE_CRIT_EID: 
+      id: 5
+    MD_TBL_REGISTER_CRIT_EID: 
+      id: 6
+    MD_TBL_INIT_INF_EI: 
+      id: 7
+    MD_NOOP_INF_EID: 
+      id: 10
+    MD_RESET_CNTRS_DBG_EID: 
+      id: 11
+    MD_START_DWELL_INF_EID: 
+      id: 12
+    MD_STOP_DWELL_INF_EID: 
+      id: 13
+    MD_EMPTY_TBLMASK_ERR_EID: 
+      id: 14
+    MD_MID_ERR_EID: 
+      id: 15
+    MD_CC_NOT_IN_TBL_ERR_EID: 
+      id: 16
+    MD_CC_NOT_IN_LOOP_ERR_EID: 
+      id: 17
+    MD_TBL_STATUS_ERR_EID 20: 
+      id: 20
+    MD_CMD_LEN_ERR_EID: 
+      id: 21
+    MD_MSG_LEN_ERR_EID: 
+      id: 22
+    MD_JAM_DWELL_INF_EID: 
+      id: 30
+    MD_JAM_NULL_DWELL_INF_EID: 
+      id: 31
+    MD_INVALID_JAM_TABLE_ERR_EID: 
+      id: 32
+    MD_INVALID_ENTRY_ARG_ERR_EID: 
+      id: 33
+    MD_INVALID_LEN_ARG_ERR_EID: 
+      id: 34
+    MD_CANT_RESOLVE_JAM_ADDR_ERR_EID: 
+      id: 35
+    MD_INVALID_JAM_ADDR_ERR_EID: 
+      id: 36
+    MD_JAM_ADDR_NOT_32BIT_ERR_EID: 
+      id: 37
+    MD_JAM_ADDR_NOT_16BIT_ERR_EID: 
+      id: 38
+    MD_NO_TBL_COPY_ERR_EID: 
+      id: 39
+    MD_ZERO_RATE_TBL_INF_EID: 
+      id: 40
+    MD_RESOLVE_ERR_EID: 
+      id: 41
+    MD_RANGE_ERR_EID: 
+      id: 42
+    MD_TBL_HAS_LEN_ERR_EID: 
+      id: 43
+    MD_TBL_ENA_FLAG_EID: 
+      id: 44
+    MD_TBL_ALIGN_ERR_EID: 
+      id: 45
+    MD_SET_SIGNATURE_INF_EID: 
+      id: 46
+    MD_INVALID_SIGNATURE_TABLE_ERR_EID: 
+      id: 47
+    MD_INVALID_SIGNATURE_LENGTH_ERR_EID: 
+      id: 49
+    MD_TBL_SIG_LEN_ERR_EID: 
+      id: 50
+    MD_ZERO_RATE_CMD_INF_EID: 
+      id: 51
+    MD_DWELL_TBL_INF_EID: 
+      id: 52
+  telemetry: 
+    MD_HK_TLM_MID: 
+      msgID: 
+      struct: MD_HkTlm_t
+    MD_DWELL_PKT_MID_BASE: 
+      msgID: 
+      struct: MD_DwellPkt_t
+  commands: 
+    MD_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
+        Reset: 
+          cc: 1
+          struct: CFE_SB_CmdHdr_t
+        Start: 
+          cc: 2
+          struct: MD_CmdStartStop_t
+        Stop: 
+          cc: 3
+          struct: MD_CmdStartStop_t
+        Jam: 
+          cc: 4
+          struct: MD_CmdJam_t
+        SetSignature: 
+          cc: 5
+          struct: MD_CmdSetSignature_t
+    MD_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
+    MD_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
+  perfids: 
+    MD_APPMAIN_PERF_ID: 
+      id: 
+  config: 
+    MD_PIPE_NAME: 
+      name: MD_PIPE_NAME
+      value: MD_CMD_PIPE
+    MD_PIPE_DEPTH: 
+      name: MD_PIPE_DEPTH
+      value: 50
+    MD_TBL_FILENAME_FORMAT: 
+      name: MD_TBL_FILENAME_FORMAT
+      value: /cf/apps/md_dw\%02d.tbl
+    MD_NUM_DWELL_TABLES: 
+      name: MD_NUM_DWELL_TABLES
+      value: 4
+    MD_DWELL_TABLE_SIZE: 
+      name: MD_DWELL_TABLE_SIZE
+      value: 25
+    MD_ENFORCE_DWORD_ALIGN: 
+      name: MD_ENFORCE_DWORD_ALIGN
+      value: 1
+    MD_SIGNATURE_OPTION: 
+      name: MD_SIGNATURE_OPTION
+      value: 1
+    MD_SIGNATURE_FIELD_LENGTH: 
+      name: MD_SIGNATURE_FIELD_LENGTH
+      value: 32
+    MD_MISSION_REV: 
+      name: MD_MISSION_REV
+      value: 0
