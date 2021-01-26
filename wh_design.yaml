@@ -1,0 +1,141 @@
+  short_name: amc
+  long_name: Actuator Motor Control
+  events: 
+    AMC_INIT_INF_EID: 
+      id: 1
+    AMC_PWM_CFGTBL_MIN_LT_DISARMED_ERR_EID: 
+      id: 2
+    AMC_PWM_CFGTBL_MAX_LT_MIN_ERR_EID: 
+      id: 3
+    AMC_CMD_NOOP_EID: 
+      id: 4
+    AMC_SUBSCRIBE_ERR_EID: 
+      id: 5
+    AMC_PIPE_INIT_ERR_EID: 
+      id: 6
+    AMC_MIXER_INIT_ERR_EID: 
+      id: 7
+    AMC_PWM_CFGTBL_MANAGE_ERR_EID: 
+      id: 8
+    AMC_MIXER_CFGTBL_MANAGE_ERR_EID: 
+      id: 9
+    AMC_PWM_CFGTBL_GETADDR_ERR_EID: 
+      id: 10
+    AMC_MIXER_CFGTBL_GETADDR_ERR_EID: 
+      id: 11
+    AMC_RCVMSG_ERR_EID: 
+      id: 12
+    AMC_MSGID_ERR_EID: 
+      id: 13
+    AMC_CC_ERR_EID: 
+      id: 14
+    AMC_MSGLEN_ERR_EID: 
+      id: 15
+    AMC_DEVICE_INIT_ERR_EID: 
+      id: 16
+    AMC_PWM_CFGTBL_REG_ERR_EID: 
+      id: 17
+    AMC_MIXER_CFGTBL_REG_ERR_EID: 
+      id: 18
+    AMC_PWM_CFGTBL_LOAD_ERR_EID: 
+      id: 19
+    AMC_MIXER_CFGTBL_LOAD_ERR_EID: 
+      id: 20
+    AMC_MIXER_INVALID_MIXER_ERR_EID: 
+      id: 21
+    AMC_MIXER_INVLD_ROTOR_CONFIG_ERR_EID: 
+      id: 22
+    AMC_MIXER_TBLVAL_NONZER_DATA_ERR_EID: 
+      id: 23
+    AMC_PARAM_UPDATE_ERR_EID: 
+      id: 24
+    AMC_DELETE_CB_REG_ERR_EID: 
+      id: 25
+  telemetry: 
+    AMC_HK_TLM_MID: 
+      msgID: 
+      struct: AMC_HkTlm_t
+  commands: 
+    AMC_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: AMC_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: AMC_NoArgCmd_t
+    AMC_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: AMC_NoArgCmd_t
+    AMC_UPDATE_MOTORS_MID: 
+      msgID: 
+      commands: 
+        UpdateMotors: 
+          cc: 0
+          struct: AMC_NoArgCmd_t
+  perfids: 
+    AMC_MAIN_TASK_PERF_ID: 
+      id: 
+    AMC_SEND_PERF_ID: 
+      id: 
+    AMC_RECEIVE_PERF_ID: 
+      id: 
+  config: 
+    AMC_SB_TIMEOUT: 
+      name: AMC_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    AMC_MISSION_REV: 
+      name: AMC_MISSION_REV
+      value: 0
+    AMC_SCH_PIPE_DEPTH: 
+      name: AMC_SCH_PIPE_DEPTH
+      value: 15
+    AMC_SCH_PIPE_NAME: 
+      name: AMC_SCH_PIPE_NAME
+      value: AMC_SCH_PIPE
+    AMC_SCH_PIPE_PEND_TIME: 
+      name: AMC_SCH_PIPE_PEND_TIME
+      value: 2000
+    AMC_PARAM_PIPE_DEPTH: 
+      name: AMC_PARAM_PIPE_DEPTH
+      value: 4
+    AMC_PARAM_PIPE_NAME: 
+      name: AMC_PARAM_PIPE_NAME
+      value: AMC_PARAM_PIPE
+    AMC_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: AMC_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    AMC_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: AMC_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    AMC_CMD_PIPE_DEPTH: 
+      name: AMC_CMD_PIPE_DEPTH
+      value: 4
+    AMC_CMD_PIPE_NAME: 
+      name: AMC_CMD_PIPE_NAME
+      value: AMC_CMD_PIPE
+    AMC_DATA_PIPE_DEPTH: 
+      name: AMC_DATA_PIPE_DEPTH
+      value: 4
+    AMC_DATA_PIPE_NAME: 
+      name: AMC_DATA_PIPE_NAME
+      value: AMC_DATA_PIPE
+    AMC_PWM_CONFIG_TABLE_FILENAME: 
+      name: AMC_PWM_CONFIG_TABLE_FILENAME
+      value: /cf/apps/amc_pwmcfg.tbl
+    AMC_STARTUP_TIMEOUT_MSEC: 
+      name: AMC_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    AMC_MIXER_CONFIG_TABLE_FILENAME: 
+      name: AMC_MIXER_CONFIG_TABLE_FILENAME
+      value: /cf/apps/amc_mixercfg.tbl
+    AMC_MAX_MOTOR_OUTPUTS: 
+      name: AMC_MAX_MOTOR_OUTPUTS
+      value: 4
+    AMC_MAX_PARAMS: 
+      name: AMC_MAX_PARAMS
+      value: 3
