@@ -3047,7 +3047,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_es/Restart', {'Type': 1});]]></scriptText>
+Yamcs.issueCommand('/cfs/cfe_es/Restart', {'Payload.RestartType': PROCESSOR_RESET});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3103,7 +3103,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_es/Restart', {'Type': 2});]]></scriptText>
+Yamcs.issueCommand('/cfs/cfe_es/Restart', {'Payload.RestartType': POWERON_RESET});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
