@@ -1,0 +1,386 @@
+/*==========================================================================*/
+/* NOTE:                                                                    */
+/*      Additional notes to the Author can be found in comment blocks such  */
+/*      as this one.  These comment blocks will not appear in the doxygen   */
+/*      output and do not need to be removed but can be if so desired.      */
+/*      All text found within the pages that is surrounded by "()" is       */
+/*      merely a suggestion as to the appropriate content the Author should */
+/*      insert at that location.                                            */
+/*==========================================================================*/
+/**
+    \mainpage Vehicle Manager Application (VM) User's Guide    
+
+       <UL>
+           <LI> \subpage cfsvmrevhist
+           <LI> \subpage cfsvmintro
+           <LI> \subpage cfsvmovr
+           <LI> \subpage cfsvmopr
+           <LI> \subpage cfsvmreq
+           <LI> \subpage cfsvmdg
+           <LI> \subpage cfsvmcmds
+           <LI> \subpage cfsvmtlm
+           <LI> \subpage cfsvmtbl
+           <LI> \subpage cfsvmcfg
+           <LI> \subpage cfsvmcons
+           <LI> \subpage cfsvmfaqs
+           <LI> \subpage vm_events.h "VM Application Event Message Reference" <BR>
+       </UL>
+**/
+
+/**
+  \page cfsvmrevhist VM Application User's Guide Revision History
+
+  This document is generated against #VM_MAJOR_VERSION #VM_MINOR_VERSION #VM_REVISION.
+  
+  Next: \ref cfsvmintro
+
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author may wish to examine the Acronym list and ensure the     */
+/*       Application's abbreviation is put in alphabetical order.           */
+/*==========================================================================*/
+/**
+  \page cfsvmintro VM Application Introduction
+    
+  <H2> Scope </H2>
+
+  This document provides a complete specification for the commands and telemetry associated
+  with the VM Application (VM) software.  The document is intended primarily 
+  for users of the software (operations personal, test engineers, and maintenance personnel).  
+  The last section of the document, the deployment guide section, is intended for mission 
+  developers when deploying and configuring this application software for a mission 
+  flight software build environment. 
+
+  <H2> Applicable Documents </H2>
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%">
+  <TR><TD WIDTH="20%"> <B>Document ID</B> </TD> 
+      <TD WIDTH="40%"> <B>Document Title</B> </TD>
+  <TR><TD WIDTH="20%"> TBD       </TD> 
+      <TD WIDTH="40%"> VM Application Requirements Document </TD>
+  <TR><TD WIDTH="20%"> TBD       </TD> 
+      <TD WIDTH="40%"> VM Application Design Document </TD>
+  </TABLE>
+
+
+  <H2> Acronyms </H2>
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%">
+  <TR><TD WIDTH="20%"> <B>Acronym</B> </TD> <TD WIDTH="40%"> <B>Description</B>                       </TD>
+  <TR><TD WIDTH="20%"> API     </TD> <TD WIDTH="40%"> Application Programming Interface               </TD>
+  <TR><TD WIDTH="20%"> CCSDS   </TD> <TD WIDTH="40%"> Consultative Committee for Space Data Systems   </TD>
+  <TR><TD WIDTH="20%"> C&DH    </TD> <TD WIDTH="40%"> Command and Data Handling                       </TD>
+  <TR><TD WIDTH="20%"> CFE     </TD> <TD WIDTH="40%"> Core Flight Executive                           </TD>
+  <TR><TD WIDTH="20%"> CFS     </TD> <TD WIDTH="40%"> Core Flight System                              </TD>
+  <TR><TD WIDTH="20%"> Cmd     </TD> <TD WIDTH="40%"> Command                                         </TD>
+  <TR><TD WIDTH="20%"> CPU     </TD> <TD WIDTH="40%"> Central Processing Unit                         </TD>
+  <TR><TD WIDTH="20%"> FSW     </TD> <TD WIDTH="40%"> Flight Software                                 </TD>
+  <TR><TD WIDTH="20%"> HK      </TD> <TD WIDTH="40%"> Housekeeping telemetry, or CFS Housekeeping Application</TD>
+  <TR><TD WIDTH="20%"> HW, H/W </TD> <TD WIDTH="40%"> Hardware                                        </TD>
+  <TR><TD WIDTH="20%"> ICD     </TD> <TD WIDTH="40%"> Interface Control Document                      </TD>
+  <TR><TD WIDTH="20%"> ISR     </TD> <TD WIDTH="40%"> Interrupt Service Routine                       </TD>
+  <TR><TD WIDTH="20%"> OS      </TD> <TD WIDTH="40%"> Operating System                                </TD>
+  <TR><TD WIDTH="20%"> OSAL    </TD> <TD WIDTH="40%"> Operating System Abstraction Layer              </TD>
+  <TR><TD WIDTH="20%"> Pkts    </TD> <TD WIDTH="40%"> Packets                                         </TD>
+  <TR><TD WIDTH="20%"> RAM     </TD> <TD WIDTH="40%"> Random-Access Memory                            </TD>
+  <TR><TD WIDTH="20%"> RTOS    </TD> <TD WIDTH="40%"> Real Time Operating System                      </TD>
+  <TR><TD WIDTH="20%"> SB      </TD> <TD WIDTH="40%"> Software Bus Service                            </TD>
+  <TR><TD WIDTH="20%"> SW, S/W </TD> <TD WIDTH="40%"> Software                                        </TD>
+  <TR><TD WIDTH="20%"> TBD     </TD> <TD WIDTH="40%"> To Be Determined                                </TD>
+  <TR><TD WIDTH="20%"> TBL     </TD> <TD WIDTH="40%"> Table                                           </TD>
+  <TR><TD WIDTH="20%"> TLM     </TD> <TD WIDTH="40%"> Telemetry                                       </TD>
+  <TR><TD WIDTH="20%"> UTC     </TD> <TD WIDTH="40%"> Universal Coordinated Time (time scale)         </TD>
+  </TABLE>
+
+  Prev: \ref cfsvmrevhist <BR>
+  Next: \ref cfsvmovr
+**/
+
+/**
+  \page cfsvmovr VM Application Overview
+    
+  The VM Application (VM) application enables safe vehicle commanding, additionally detects failure and executes contingent action.
+    
+  VM Design Overview
+  ====
+
+  The VM Application (VM) has three components. <BR>
+  1. System Routines<BR>
+  2. Arming State Machine<BR>
+  3. Navigation State Machine<BR>
+
+  System Routines
+  ====
+  The Routines performed by VM include battery management, listening to RC commanding, checking for citicality and warnings.
+  
+  Arming State Machine
+  ====
+  The state machine initializes at a start state (Init) then moves to default state (Standby) and waits for further transitions.<BR>
+  The state machine handles trasitions between states and guards against illeagal transitions of the states.<BR>
+  The states that can be found in this state machine are:<BR>
+  1. Init<BR>
+  2. Standby<BR>
+  3. Armed<BR>
+  4. StandbyError<BR>
+  5. ArmedError<BR>
+  \dotfile VM_ArmingContext.dot "Arming State Diagram" 
+  
+  
+  Navigation State Machine
+  ====
+  The state machine initializes at a start state (Init) then moves to default state (Manual) and waits for further transitions.<BR>
+  The transitions can be invoked by either RC or from ground station.<BR>
+  The state machine handles trasitions between states and guards against illeagal transitions of the states.<BR>
+  The states that can be found in this state machine are:<BR>
+  1. Init<BR>
+  2. Manual<BR>
+  3. Altitude Control<BR>
+  4. Position Control<BR>
+  5. Acrobatic<BR>
+  6. Rattitude<BR>
+  7. Stabilize<BR>
+  8. Auto Takeoff<BR>
+  9. Auto Land<BR>
+  10. Auto Loiter<BR>
+  11. Auto RTL<BR>
+  \dotfile VM_NavigationContext.dot "Navigation State Diagram"
+    
+  Prev: \ref cfsvmintro <BR>
+  Next: \ref cfsvmopr
+**/
+
+/**
+  \page cfsvmopr VM Application Operation
+   
+  The following operations are carried out by the VM Application:
+   1. Set Home Position
+    ----
+    a. Computes home latitutde, logitude, altitude and yaw from vehicle global position.<BR>
+    b. Sets new home position on arming.<BR>
+    c. Sets new home position on launch.<BR>
+
+   2. Update Navigation State
+    ----
+    a. Updates naviagation state of vehicle status message based on ingested command.<BR>
+
+   3. Monitor Activities
+    ----
+    a. Moniters the systems for red flags such as low battery, unarmed takeoffs, engine, gps faliure, rc loss.<BR>
+    b. Responds to red flags with appropriate reporting or contengent actions.<BR>
+
+   4. Send Housekeeping
+    ----
+    a. On receipt of a "Send HK" command, VM publishes a housekeeping message to the software bus containing general health and status.<BR>
+
+    
+    Next: \ref cfsvmreq <BR>
+    Prev: \ref cfsvmovr
+**/
+
+/**
+    \page cfsvmreq VM Application Requirements
+    
+    The following are VM application requirements.
+
+  (Insert high level requirements and add a reference to where detailed requirements can be found)
+    
+    Next: \ref cfsvmdg <BR>
+    Prev: \ref cfsvmopr 
+**/
+
+/**
+    \page cfsvmdg  VM Application Deployment Guide
+
+  (Basic Instructions to the Author)
+  ====  
+
+  (Insert text describing steps required to integrate the application with a CFS system.  This should
+   include:
+     1) References to message IDs that need to be inserted into a CFS Scheduler table
+     2) References to telemetry that can be generated
+     3) Additional description of application configuration parameters that may need to be modified.
+        For example, questions that a systems integrator needs to have answered before the application
+        can be successfully integrated
+     4) References to the application's performance ID)
+
+  Initial Integration
+  ====
+
+    The first step in deploying the VM application is to do stuff.
+
+  Application Tailoring to the Mission
+  ----
+    
+    The vm_msgids.h, and the vm_perfids.h files are tailored for the mission.  
+    These are built into the application during compilation.
+
+  Application Tailoring to the Platform
+  ----
+
+    In the vm_platform_cfg.h file, there are configuration parameters that control
+    VM application behavior.  This should be tailored to the specific platform
+    needs.  This behavior is built into the application during compilation.
+
+  CFS Scheduler Support
+  ----
+
+    TODO Discuss any commands that must be included in the CFS Scheduler Table
+    and any related tailoring/configuration.
+     
+    Next: \ref cfsvmcmds <BR>
+    Prev: \ref cfsvmreq
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+    \page cfsvmcmds VM Application Commands
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsvmtlm</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsvmtbl</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsvmcfg</B></TD>
+    </TABLE>
+  
+    The following is a list of commands that are processed by the VM Application: 
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+    \page cfsvmtlm  VM Application Telemetry
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsvmcmds</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsvmtbl</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsvmcfg</B></TD>
+    </TABLE>
+  
+    The following is a list of telemetry that is generated by the VM Application: 
+**/
+
+/**
+    \page cfsvmtbl VM Application Table Definitions
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsvmcmds</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsvmtlm</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsvmcfg</B></TD>
+    </TABLE>
+
+  (Include text describing data structures used in application tables.  Further text can be used to
+   describe the process of populating the table if necessary.  Default values may also be described)
+
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+  \page cfsvmcfg VM Application Configuration Parameters
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+  <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsvmcmds</B></TD>
+      <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsvmtlm</B> </TD> 
+      <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsvmtbl</B></TD>
+  </TABLE>
+  
+  The following are configuration parameters used to configure the VM
+  Application either for each platform or for a mission as a whole.
+
+**/
+
+/**
+    \page cfsvmcons VM Application Operational Constraints
+  
+  (Instructions to the author)
+  ====
+
+  (Insert text that describes:
+    1) situations that would prevent the application from starting
+    2) causes for the application to terminate prematurely
+    3) commands that cannot be issued either out of order or without sufficient wait time, etc) 
+
+  Application Termination
+  ====
+
+    Potential causes for VM to terminate prematurely are an error return from the 
+    software bus in the application main loop or error return from one of the cFE table
+    services functions when VM tries to do table management (check for updates, dump 
+    requests etc.) during each housekeeping cycle. 
+
+  Critical Data Store Operation
+  ====
+    
+    When using the Critical Data Store (CDS), the results tables and housekeeping data
+    will only be restored if the application was shut down through cFE Executive Services 
+    and exited clean. If this is not the case, default values will be used 
+    (see \ref cfsvmfaqs). 
+    
+    Next: \ref cfsvmfaqs <BR>
+    Prev: \ref cfsvmtbl
+**/
+
+/**
+    \page cfsvmfaqs VM Application Frequently Asked Questions
+
+ (Insert text that categorizes a group of questions, if necessary, here.
+  For example, "General".)
+
+  General
+  ====
+
+  <B> (Q)
+     What is the basic flow of the application?
+  </B> <BR> <BR> <I>
+     The VM application uses a common application format. When the app starts, 
+     initialization is performed, then the app enters an infinite loop waiting for
+     commands from the software bus.
+  </I>
+
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  (Insert text that categorizes another group of questions, if necessary, here)
+  ====
+    
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+
+**/
