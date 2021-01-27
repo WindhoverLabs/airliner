@@ -18,3 +18,7 @@ secretKey: changeme
 
 yamcs-web:
   displayPath: Displays
+
+buckets:
+  - name: cfdpUp12
+    path: cfdp_upload
