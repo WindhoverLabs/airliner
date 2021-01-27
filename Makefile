@@ -31,28 +31,30 @@
 #
 #############################################################################
 
+SPHINX_OPTS     ?=
+SPHINX_BUILD    ?= sphinx-build
+SPHINX_SOURCEDIR = .
+SPHINX_BUILDDIR  = build/reference/default/target/docs
+SPHINX_FSW_BUILD = reference/default
+
 SHELL := /bin/bash
 
 CONFIG_DIR   := config
-TARGET_NAMES := ocpoc/default ocpoc/sitl
+#TARGET_PATHS := $(shell find config -mindepth 1 -maxdepth 5 -type d -path 'config/shared/*' -prune -o -exec expr {} : '[^/]*/\(.*\)' \; )
+TARGET_PATHS :=  $(shell find ${CONFIG_DIR} -mindepth 2 -maxdepth 20 -type f -name 'wh_config.yaml' | sed -r 's,^[^/]*/,,' | sed -r 's|/[^/]+$$||' | sort -u)
+TARGET_NAMES := $(shell echo ${TARGET_PATHS} )
 BUILD_TYPES  := host target
 ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 export PROJECT_SOURCE_DIR=${PWD}
 
 help::
-	@echo '---=== Buildliner ===---                                                        '
-	@echo '                                                                                '
 	@echo 'Specify a target to build.  Available targets are:                              '
 	@echo '                                                                                '
 	@echo '  Flight Software Builds                                                        '
-	@echo '    core-only/pc-linux      : This builds only the Core Binary for Linux running'
-	@echo '                              on a PC.                                          '
-	@echo '    ocpoc/default           : This is the default OcPoC build for an S1000      '
-	@echo '                              airframe.                                         '
-	@echo '    ocpoc/sitl              : This is the Software in the Loop build for the    '
-	@echo '                              OcPoC on an S1000 airframe.                       '
-	@echo '                              airframe.                                         '  
+	@for name in $(TARGET_NAMES); do \
+		echo "   " $$name; \
+	done  
 	@echo '    clean                   : This will clean all build flight software build   '
 	@echo '                              targets.  This includes the Commander workspace,  '
 	@echo '                              if one was generated.                             '
@@ -62,9 +64,16 @@ help::
 	@echo '                              the "venv" directory with all the python          '
 	@echo '                              modules required to use the Buildliner build      '
 	@echo '                              system.                                           '
-       
+	@echo '                                                                                '
+	@echo '  Documentation                                                                 '
+	@echo '    docs                    : Generate all documentation from the reference     '
+	@echo '                              build.                                            '
+	@echo '    docs-doxygen            : Generate only the Doxygen documentation from the  '
+	@echo '                              reference build.                                  '
+	@echo '    docs-sphinx             : Generate the Sphinx documentation from the        '
+	@echo '                              reference build.                                  '
 	
-.PHONY: help Makefile
+.PHONY: help Makefile docs
 	
 
 $(TARGET_NAMES)::
@@ -78,23 +87,41 @@ $(TARGET_NAMES)::
 		fi; \
 		((idx++)); \
 	done; \
-	TARGET_NAME=$$(echo ${TARGET_NAMES} | cut -d " " -f $$idx); \
+	TARGET_PATH=$$(echo ${TARGET_PATHS} | cut -d " " -f $$idx); \
 		echo "Generating complete design/configuration definition file, 'wh_defs.yaml'"; \
-	echo "$(CONFIG_DIR)/$$TARGET_NAME/wh_config.yaml"; \
-	if [ -f "$(CONFIG_DIR)/$$TARGET_NAME/wh_config.yaml" ]; then \
-		mkdir -p build/$$TARGET_NAME/target; \
-		python3 core/base/tools/config/wh_defgen.py $(CONFIG_DIR)/$$TARGET_NAME/ build/$$TARGET_NAME/target/wh_defs.yaml; \
+	if [ -f "$(CONFIG_DIR)/$$TARGET_PATH/wh_config.yaml" ]; then \
+			mkdir -p build/$$TARGET_PATH/target; \
+			python3 core/tools/config/wh_defgen.py $(CONFIG_DIR)/$$TARGET_PATH/ build/$$TARGET_PATH/target/wh_defs.yaml; \
 	fi; \
-	for buildtype in $(BUILD_TYPES); do \
-		if [ -d "$(CONFIG_DIR)/$$TARGET_NAME/$$buildtype" ]; then \
-			mkdir -p build/$$TARGET_NAME/$$buildtype; \
-			(cd build/$$TARGET_NAME/$$buildtype; \
-			cmake -DBUILDNAME:STRING=$$TARGET_NAME -DBUILDTYPE:STRING=$$buildtype -G"Eclipse CDT4 - Unix Makefiles" \
-			-DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); \
-			$(MAKE) --no-print-directory); \
-		fi; \
-	done;
+		for buildtype in $(BUILD_TYPES); do \
+		if [ -d "$(CONFIG_DIR)/$$TARGET_PATH/$$buildtype" ]; then \
+				mkdir -p build/$$TARGET_PATH/$$buildtype; \
+				(cd build/$$TARGET_PATH/$$buildtype; \
+					cmake -DBUILDNAME:STRING=$$TARGET_PATH -DBUILDTYPE:STRING=$$buildtype -G"Eclipse CDT4 - Unix Makefiles" \
+						-DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); \
+					$(MAKE) --no-print-directory); \
+				fi \
+		done;
 	
+docs-doxygen: 
+	@echo 'Updating submodules'
+	git submodule update --init --recursive
+	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
+	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} -DBUILDTYPE:STRING=target \
+		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); make docs);
+	
+docs-sphinx: 
+	@echo 'Updating submodules'
+	git submodule update --init --recursive
+	@echo 'Building $$SPHINX_FSW_BUILD.'
+	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
+	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} -DBUILDTYPE:STRING=target \
+		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR));
+	@$(SPHINX_BUILD) -M html "$(SOURCE_DIR)" "$(SPHINX_BUILDDIR)" $(SPHINX_OPTS) -c build/$(SPHINX_FSW_BUILD)/target/docs $(O)
+	@echo 'Completed'
+	
+docs: docs-doxygen docs-sphinx
+	@echo 'Completed'
 
 python-env::
 	virtualenv -p python3 venv || exit -1

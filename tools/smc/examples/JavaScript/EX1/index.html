@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>SMC - Check String Demo</title>
+<script src="../../../lib/JavaScript/statemap.js"></script>
+<script src="./AppClass_sm.js"></script>
+<script src="./AppClass.js"></script>
+<script>
+var appobject = new AppClass(); 
+function buttonClicked(){
+    var str = document.getElementById('arg0').value;
+    if (appobject.CheckString(str)) {
+        alert(str + " is accepted ");
+    }
+    else {
+        alert(str + " is not acceptable");
+    }
+}
+</script>
+</head>
+<body>
+<fieldset>
+<legend>SMC- Check String Demo</legend>
+<input type="text" id="arg0" value="" />
+<input type="button" onclick="buttonClicked()" value="Check String"/>
+</fieldset>
+</body>
+</html>
