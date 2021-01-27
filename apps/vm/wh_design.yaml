@@ -1,0 +1,247 @@
+  short_name: vm
+  long_name: Vehicle Manager
+  events: 
+    VM_INIT_INF_EID: 
+      id: 1
+    VM_CMD_NOOP_EID: 
+      id: 2
+    VM_SUBSCRIBE_ERR_EID: 
+      id: 3
+    VM_PIPE_INIT_ERR_EID: 
+      id: 4
+    VM_PARAM_UPDATE_ERR_EID: 
+      id: 5
+    VM_CFGTBL_MANAGE_ERR_EID: 
+      id: 6
+    VM_CFGTBL_GETADDR_ERR_EID: 
+      id: 7
+    VM_RCVMSG_ERR_EID: 
+      id: 8
+    VM_MSGID_ERR_EID: 
+      id: 9
+    VM_CC_ERR_EID: 
+      id: 10
+    VM_MSGLEN_ERR_EID: 
+      id: 11
+    VM_CFGTBL_REG_ERR_EID: 
+      id: 12
+    VM_CFGTBL_LOAD_ERR_EID: 
+      id: 13
+    VM_ARMING_ILLEGAL_TRANSITION_ERR_EID: 
+      id: 14
+    VM_NAV_ILLEGAL_TRANSITION_ERR_EID: 
+      id: 15
+    VM_ARMING_ENTERED_STANDBY_STATE_INFO_EID: 
+      id: 16
+    VM_ARMING_ENTERED_ARMED_STATE_INFO_EID : 
+      id: 17
+    VM_ARMING_ENTERED_STANDBY_ERROR_STATE_INFO_EID: 
+      id: 18
+    VM_ARMING_ENTERED_ARMED_ERROR_STATE_INFO_EID: 
+      id: 19
+    VM_NAVSM_ENTERED_MANUAL_INFO_EID: 
+      id: 20
+    VM_NAVSN_ENTERED_ALTCTL_INFO_EID: 
+      id: 21
+    VM_NAVSN_ENTERED_POSCTL_INFO_EID: 
+      id: 22
+    VM_NAVSN_ENTERED_AUTOLOITER_INFO_EID: 
+      id: 23
+    VM_NAVSN_ENTERED_RTL_INFO_EID: 
+      id: 24
+    VM_NAVSN_ENTERED_ACRO_INFO_EID : 
+      id: 25
+    VM_NAVSN_ENTERED_STABILIZE_INFO_EID: 
+      id: 26
+    VM_NAVSN_ENTERED_RATTITUDE_INFO_EID: 
+      id: 27
+    VM_NAVSN_ENTERED_AUTO_TAKEOFF_INFO_EID: 
+      id: 28
+    VM_NAVSN_ENTERED_AUTO_LAND_INFO_EID: 
+      id: 29
+    VM_IN_UNKNOWN_STATE_ERR_EID: 
+      id: 30
+    VM_HOMESET_INFO_EID: 
+      id: 31
+    VM_LND_INIT_INFO_EID: 
+      id: 32
+    VM_SAFETY_DISARM_INFO_EID: 
+      id: 33
+    VM_SAFETY_INFO_EID: 
+      id: 34
+    VM_LOW_BAT_INFO_EID: 
+      id: 35
+    VM_CRITICAL_BAT_INFO_EID: 
+      id: 36
+    VM_DANGER_BAT_LEVEL_INFO_EID: 
+      id: 37
+    VM_RC_SIGN_REGAINED_INFO_EID : 
+      id: 38
+    VM_RC_SIGN_LOST_INFO_EID: 
+      id: 39
+    VM_RC_STK_DISARM_REJ_INFO_EID: 
+      id: 40
+    VM_RC_STK_ARM_REJ_INFO_EID: 
+      id: 41
+    VM_RC_DISARM_INFO_EID: 
+      id: 42
+    VM_RC_ARM_INFO_EID: 
+      id: 43
+    VM_RC_KIL_SWTCH_INFO_EID: 
+      id: 44
+    VM_RC_LTR_INFO_EID: 
+      id: 45
+    VM_RC_RTL_INFO_EID: 
+      id: 46
+    VM_RC_POSCTL_INFO_EID: 
+      id: 47
+    VM_RC_MAN_INFO_EID: 
+      id: 48
+    VM_RC_TAKE_OFF_INFO_EID : 
+      id: 49
+    VM_PRE_ARM_BAT_CHECK_INFO_EID: 
+      id: 50
+    VM_PRE_ARM_SAFETY_CHECK_INFO_EID: 
+      id: 51
+    VM_PRE_ARM_SENSORS_CHECK_INFO_EID: 
+      id: 52
+    VM_SEN_NOT_READY_INFO_EID: 
+      id: 53
+    VM_REQ_POS_CTL_ERR_EID: 
+      id: 54
+    VM_REQ_ALT_CTL_ERR_EID : 
+      id: 55
+    VM_REQ_ACRO_ERR_EID : 
+      id: 56
+    VM_NOPE_ERR_EID: 
+      id: 57
+    VM_CONFIG_CHANGE_EID: 
+      id: 58
+    VM_CONFIG_PARAMETER_OUT_OF_BOUNDS_EID : 
+      id: 59
+    VM_PARAM_INIT_ERR_EID: 
+      id: 60
+    VM_INVALID_CONFIG_TABLE_ERR_EID: 
+      id: 61
+    VM_HOMESET_ERROR_EID: 
+      id: 62
+  telemetry: 
+    VM_HK_TLM_MID: 
+      msgID: 
+      struct: VM_HkTlm_t
+    VM_CONFIG_TLM_MID: 
+      msgID: 
+      struct: VM_HkTlm_t
+  commands: 
+    VM_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: VM_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: VM_NoArgCmd_t
+        Arm: 
+          cc: 2
+          struct: VM_NoArgCmd_t
+        Disarm: 
+          cc: 3
+          struct: VM_NoArgCmd_t
+        Manual: 
+          cc: 40
+          struct: VM_NoArgCmd_t
+        AltCtl: 
+          cc: 41
+          struct: VM_NoArgCmd_t
+        PosCtl: 
+          cc: 42
+          struct: VM_NoArgCmd_t
+        AutoLoiter: 
+          cc: 44
+          struct: VM_NoArgCmd_t
+        AutoRtl: 
+          cc: 45
+          struct: VM_NoArgCmd_t
+        AutoTakeOff: 
+          cc: 56
+          struct: VM_NoArgCmd_t
+        AutoLand: 
+          cc: 57
+          struct: VM_NoArgCmd_t
+        Acrobatic: 
+          cc: 50
+          struct: VM_NoArgCmd_t
+        Rattitude: 
+          cc: 55
+          struct: VM_NoArgCmd_t
+        Stabilized: 
+          cc: 54
+          struct: VM_NoArgCmd_t
+        SendConfig: 
+          cc: 58
+          struct: VM_NoArgCmd_t
+    VM_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: VM_NoArgCmd_t
+    VM_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: VM_NoArgCmd_t
+  perfids: 
+    VM_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    VM_MISSION_REV: 
+      name: VM_MISSION_REV
+      value: 0
+    VM_SCH_PIPE_DEPTH: 
+      name: VM_SCH_PIPE_DEPTH
+      value: 30
+    VM_SCH_PIPE_NAME: 
+      name: VM_SCH_PIPE_NAME
+      value: VM_SCH_PIPE
+    VM_SCH_PIPE_PEND_TIME: 
+      name: VM_SCH_PIPE_PEND_TIME
+      value: 2000
+    VM_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: VM_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    VM_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: VM_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    VM_CMD_PIPE_DEPTH: 
+      name: VM_CMD_PIPE_DEPTH
+      value: 4
+    VM_CMD_PIPE_NAME: 
+      name: VM_CMD_PIPE_NAME
+      value: VM_CMD_PIPE
+    VM_DATA_PIPE_DEPTH: 
+      name: VM_DATA_PIPE_DEPTH
+      value: 18
+    VM_DATA_PIPE_NAME: 
+      name: VM_DATA_PIPE_NAME
+      value: VM_DATA_PIPE
+    VM_PARAM_PIPE_DEPTH: 
+      name: VM_PARAM_PIPE_DEPTH
+      value: 4
+    VM_PARAM_PIPE_NAME: 
+      name: VM_PARAM_PIPE_NAME
+      value: VM_PARAM_PIPE
+    VM_CONFIG_TABLE_FILENAME: 
+      name: VM_CONFIG_TABLE_FILENAME
+      value: /cf/apps/vm_config.tbl
+    VM_STARTUP_TIMEOUT_MSEC: 
+      name: VM_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    VM_BATTERY_VOLTAGE_CHECK_DELAY: 
+      name: VM_BATTERY_VOLTAGE_CHECK_DELAY
+      value: 6000000
+    VM_MINIMUM_VALID_BATTERY_VOLTAGE: 
+      name: VM_MINIMUM_VALID_BATTERY_VOLTAGE
+      value: 2
