@@ -193,9 +193,9 @@ endfunction(buildliner_add_app_src)
 
 
 
-function(buildliner_add_app_def_src)
-    buildliner_add_app_def_src(${ARGN})
-endfunction(buildliner_add_app_def_src)
+function(buildliner_add_app_unit_test_src)
+    psp_buildliner_add_app_unit_test_src(${ARGN})
+endfunction(buildliner_add_app_unit_test_src)
 
 
 

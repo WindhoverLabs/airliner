@@ -871,7 +871,7 @@ endfunction(psp_buildliner_add_table)
 
 
 
-function(buildliner_add_app_def_src)
+function(psp_buildliner_add_app_unit_test_src)
     set(PARSED_ARGS_TARGET ${ARGV0})
     cmake_parse_arguments(PARSED_ARGS "" "" "SOURCES" ${ARGN})
 
@@ -899,4 +899,4 @@ function(buildliner_add_app_def_src)
         target_sources(${PARSED_ARGS_TARGET}-ut-massif PRIVATE ${PARSED_ARGS_SOURCES})
         target_sources(${PARSED_ARGS_TARGET}-ut-massif_no_symtab PRIVATE ${PARSED_ARGS_SOURCES})
     endif(TARGET ${PARSED_ARGS_TARGET}-ut-massif)
-endfunction(buildliner_add_app_def_src)
+endfunction(psp_buildliner_add_app_unit_test_src)
