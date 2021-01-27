@@ -1,3 +1,6 @@
 [submodule "core/tools/auto-yamcs"]
 	path = core/tools/auto-yamcs
 	url = git@github.com:WindhoverLabs/auto-yamcs.git
+[submodule "mavlink"]
+	path = mavlink
+	url = https://github.com/mavlink/mavlink.git
