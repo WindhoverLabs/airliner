@@ -1,0 +1,63 @@
+CFE_LIB, /cf/apps/CFS_LIB.so,   CFS_LibInit,     CFS_LIB,    0,     0, 0x0, 0, 2;
+CFE_LIB, /cf/apps/PRMLIB.so,    PRMLIB_LibInit,  PRMLIB,      0,     0, 0x0, 0, 2;
+CFE_LIB, /cf/apps/PX4LIB.so,    PX4LIB_LibInit,  PX4LIB,    0,     0, 0x0, 0, 2;
+CFE_APP, /cf/apps/AMC.so,       AMC_AppMain,     AMC,       43, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/SENS.so,      SENS_AppMain,    SENS,      52, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/MPU9250.so,   MPU9250_AppMain,     MPU9250,      46, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/HMC5883.so,   HMC5883_AppMain,     HMC5883,      49, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/MS5611.so,    MS5611_AppMain,      MS5611,       82, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/MAC.so,       MAC_AppMain,     MAC,       55, 327680, 0x0, 0, 4;
+CFE_APP, /cf/apps/GPS.so,       GPS_AppMain,     GPS,       97, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/CI.so,        CI_AppMain,      CI,        115, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/TO.so,        TO_AppMain,      TO,        124, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/CF.so,        CF_AppMain,      CF,        157, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/BAT.so,       BAT_AppMain,     BAT,       106, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/DS.so,        DS_AppMain,      DS,        190, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/FM.so,        FM_AppMain,      FM,        163, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/HK.so,        HK_AppMain,      HK,        166, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/LC.so,        LC_AppMain,      LC,        178, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/MM.so,        MM_AppMain,      MM,        172, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/SC.so,        SC_AppMain,      SC,        175, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/MD.so,        MD_AppMain,      MD,        169, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/EA.so,        EA_AppMain,      EA,        184, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/PE.so,        PE_AppMain,      PE,       76, 327680, 0x0, 0, 4;
+CFE_APP, /cf/apps/QAE.so,       QAE_AppMain,     QAE,       58, 327680, 0x0, 0, 4;
+CFE_APP, /cf/apps/MPC.so,       MPC_AppMain,     MPC,       61, 327680, 0x0, 0, 4;
+CFE_APP, /cf/apps/NAV.so,       NAV_AppMain,     NAV,       100, 327680, 0x0, 0, 4;
+CFE_APP, /cf/apps/VM.so,        VM_AppMain,      VM,       70, 327680, 0x0, 0, 4;
+CFE_APP, /cf/apps/CS.so,        CS_AppMain,      CS,        160, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/RCIN.so,      RCIN_AppMain,    RCIN,      88, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/LD.so,        LD_AppMain,      LD,       73, 327680, 0x0, 0, 4;
+CFE_APP, /cf/apps/RGBLED.so,    RGBLED_AppMain,  RGBLED,   151, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/SCH.so,       SCH_AppMain,     SCH,       34,  40960, 0x0, 0, 2;
+CFE_APP, /cf/apps/PRM.so,       PRM_AppMain,     PRM,       80,  40960, 0x0, 0, 2;
+!CFE_LIB, /cf/apps/schlib.so,    SCH_LibInit,     SCH_LIB,    0,     0, 0x0, 0, 2;
+CFE_APP, /cf/apps/VC.so,        VC_AppMain,      VC,       181, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/FLOW.so,      FLOW_AppMain,    FLOW,      80, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/HS.so,        HS_AppMain,      HS,       123, 32768, 0x0, 0, 2;
+!CFE_APP, /cf/apps/ETA.so,     ETA_AppMain,     ETA,      100, 32768, 0x0, 0, 2;
+!CFE_APP, /cf/apps/SBN.so,     SBN_AppMain,     SBN,       37, 32768, 0x0, 0, 2;
+!
+! Startup script fields:
+! 1. Object Type      -- CFE_APP for an Application, or CFE_LIB for a library.
+! 2. Path/Filename    -- This is a cFE Virtual filename, not a vxWorks device/pathname
+! 3. Entry Point      -- This is the "main" function for Apps.
+! 4. CFE Name         -- The cFE name for the the APP or Library
+! 5. Priority         -- This is the Priority of the App, not used for Library
+! 6. Stack Size       -- This is the Stack size for the App, not used for the Library
+! 7. Load Address     -- This is the Optional Load Address for the App or Library. Currently not implemented
+!                        so keep it at 0x0.
+! 8. Exception Action -- This is the Action the cFE should take if the App has an exception.
+!                        0        = Just restart the Application 
+!                        Non-Zero = Do a cFE Processor Reset
+!
+! Other  Notes:
+! 1. The software will not try to parse anything after the first '!' character it sees. That
+!    is the End of File marker.
+! 2. Common Application file extensions: 
+!    Linux = .so  ( ci.so )
+!    OS X  = .bundle  ( ci.bundle )
+!    Cygwin = .dll ( ci.dll )
+!    vxWorks = .o ( ci.o )
+!    RTEMS with S-record Loader = .s3r ( ci.s3r )
+!    RTEMS with CEXP Loader = .o ( ci.o )

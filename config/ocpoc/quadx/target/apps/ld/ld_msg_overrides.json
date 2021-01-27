@@ -1,0 +1,18 @@
+{
+    "Airliner": {
+        "apps": {
+            "LD": {
+                "operations": {
+                  "Noop":             { "airliner_mid":  "0x1c60" },
+                  "Reset":            { "airliner_mid":  "0x1c60" },
+                  "LD_HkTlm_t":       { "airliner_mid":  "0x0c5d" },
+                  "LD_Diag_t":        { "airliner_mid":  "0x0ceb" },
+                  "Wakeup":           { "airliner_mid":  "0x1c5f" },
+                  "SendHk":           { "airliner_mid":  "0x1c5e" }
+                },
+                "config": {
+                }
+            }
+        }
+    }
+}

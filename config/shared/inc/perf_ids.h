@@ -29,7 +29,7 @@
 #define MM_EEPROM_FILL_PERF_ID      (58)
 #define SC_APPMAIN_PERF_ID          (59)
 #define TO_MAIN_TASK_PERF_ID        (60)
-#define SCH_APPMAIN_PERF_ID	    (61)
+#define SCH_APPMAIN_PERF_ID	        (61)
 #define TO_SOCKET_SEND_PERF_ID      (62)
 #define VC_MAIN_TASK_PERF_ID        (63)
 #define VC_SOCKET_SEND_PERF_ID      (64)

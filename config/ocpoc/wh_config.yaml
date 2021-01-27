@@ -1,11 +1,11 @@
---- 
+---
 config_base: ${PROJECT_SOURCE_DIR}
 
 core:
   osal:
-    definition: ${PROJECT_SOURCE_DIR}/core/osal/posix-fast/wh_design.yaml
+    definition: ${PROJECT_SOURCE_DIR}/core/osal/src/os/posix-fast/wh_design.yaml
   psp:
-    definition: ${PROJECT_SOURCE_DIR}/core/psp/ocpoc-linux/wh_design.yaml
+    definition: ${PROJECT_SOURCE_DIR}/core/psp/fsw/ocpoc-linux/wh_design.yaml
   
 modules:
   ak8963:

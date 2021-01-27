@@ -3,7 +3,7 @@ include(../set-vars.cmake)
 # Put target specific functions here.  This is where we build most everything.  Everything that either uses the
 # cross toolchain or has target independent functions.
 
-initialize_airliner_build(
+buildliner_initialize(
     EMBED_SYMTAB
     PSP ${PSP}
     OSAL ${OSAL}
@@ -32,13 +32,13 @@ initialize_airliner_build(
 )
 
 
-add_airliner_app(
+buildliner_add_app(
     cfs_lib
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cfs_lib/fsw/for_build
 )
 
-add_airliner_app(
+buildliner_add_app(
     sch
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
@@ -52,7 +52,7 @@ add_airliner_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/sch/sch_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     cs
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cs/fsw/for_build
@@ -65,7 +65,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/cs/cs_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     ds
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ds/fsw/for_build
@@ -77,7 +77,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/ds/ds_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     fm
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/fm/fsw/for_build
@@ -89,7 +89,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/fm/fm_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     hk
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/hk/fsw/for_build
@@ -101,7 +101,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/hk/hk_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     hs
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
@@ -114,7 +114,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/hs/hs_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     lc
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/lc/fsw/for_build
@@ -128,7 +128,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/lc/lc_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     md
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/md/fsw/for_build
@@ -140,7 +140,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/md/md_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     mm
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/mm/fsw/for_build
@@ -153,7 +153,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/mm/mm_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     sc
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sc/fsw/for_build
@@ -165,7 +165,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/sc/sc_msg_overrides.json
 )
 
-#add_airliner_app(
+#buildliner_add_app(
 #    ci
 #    EMBEDDED
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
@@ -179,7 +179,7 @@ add_airliner_app(
 #    DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci/ci_msg_overrides.json
 #)
 #
-#add_airliner_app(
+#buildliner_add_app(
 #    to
 #    EMBEDDED
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build

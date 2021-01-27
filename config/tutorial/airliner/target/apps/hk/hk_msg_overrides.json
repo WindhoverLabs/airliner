@@ -1,0 +1,17 @@
+{
+    "Airliner": {
+        "apps": {
+            "HK": {
+                "operations": {
+                    "Noop":              { "airliner_mid": "0x1990" },
+                    "Reset":             { "airliner_mid": "0x1990" },
+                    "HK_HkPacket_t":     { "airliner_mid": "0x0993" },
+                    "HK_Send_Out_Msg_t": { "airliner_mid": "0x1992" },
+                    "HK_SendHk":         { "airliner_mid": "0x1991" }
+                },
+                "config": {
+                }
+            }
+        }
+    }
+}

@@ -3,7 +3,7 @@ include(../set-vars.cmake)
 # Put target specific functions here.  This is where we build most everything.  Everything that either uses the
 # cross toolchain or has target independent functions.
 
-initialize_airliner_build(
+buildliner_initialize(
     PSP ${PSP}
     OSAL ${OSAL}
     CORE_TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/tools
@@ -37,25 +37,25 @@ set_target_properties(allstop
   RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/exe
 )
 
-add_airliner_app(
+buildliner_add_app(
     cfs_lib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cfs_lib/fsw/for_build
 )
 
-add_airliner_app(
+buildliner_add_app(
     px4lib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/px4lib/px4_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     prmlib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/prm
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/prm/prm_custom_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     sch
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sch
@@ -68,7 +68,7 @@ add_airliner_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/sch/sch_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     cf
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cf/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/cf
@@ -79,7 +79,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/cf/cf_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     cs
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cs/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/cs
@@ -91,7 +91,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/cs/cs_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     ds
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ds/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ds
@@ -102,7 +102,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/ds/ds_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     fm
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/fm/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/fm
@@ -113,7 +113,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/fm/fm_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     hk
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/hk/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/hk
@@ -124,7 +124,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/hk/hk_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     hs
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/hs
@@ -136,7 +136,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/hs/hs_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     lc
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/lc/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/lc
@@ -149,7 +149,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/lc/lc_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     md
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/md/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/md
@@ -160,7 +160,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/md/md_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     mm
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/mm/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/mm
@@ -172,7 +172,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/mm/mm_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     sc
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sc/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sc
@@ -183,7 +183,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/sc/sc_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     ci
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci
@@ -196,7 +196,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci/ci_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     to
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/to
@@ -211,7 +211,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/to_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     ea
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ea/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ea
@@ -223,7 +223,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/ea/ea_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     vc
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/vc/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc
@@ -241,7 +241,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc/vc_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     amc
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/amc/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/amc
@@ -254,7 +254,7 @@ add_airliner_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/amc/amc_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     mac
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/mac/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/mac
@@ -265,7 +265,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/mac/mac_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     ulr
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ulr/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ulr
@@ -276,7 +276,7 @@ add_airliner_app(
         ${PROJECT_SOURCE_DIR}/config/shared/inc/ulr_perfids.h
 )
 
-add_airliner_app(
+buildliner_add_app(
     rgbled
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/rgbled/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/rgbled
@@ -289,7 +289,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/rgbled/rgbled_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     ms5611
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ms5611/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ms5611
@@ -301,7 +301,7 @@ add_airliner_app(
         ${PROJECT_SOURCE_DIR}/config/shared/inc/ms5611_perfids.h
 )
 
-add_airliner_app(
+buildliner_add_app(
     gps
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/gps/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/gps
@@ -328,7 +328,7 @@ add_airliner_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/gps/gps_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     sens
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sens/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sens
@@ -339,7 +339,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/sens/sens_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     mpc
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/mpc/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/mpc
@@ -350,7 +350,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/mpc/mpc_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     vm
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/vm/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/vm
@@ -362,7 +362,7 @@ add_airliner_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/vm/vm_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     ld
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ld
@@ -373,7 +373,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/ld/ld_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     nav
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/nav/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/nav
@@ -384,7 +384,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/nav/nav_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     rcin
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/rcin/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/rcin
@@ -397,7 +397,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/rcin/rcin_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     bat
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/bat/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/bat
@@ -409,7 +409,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/bat/bat_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     mpu9250
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/mpu9250/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/mpu9250
@@ -421,7 +421,7 @@ add_airliner_app(
         ${PROJECT_SOURCE_DIR}/config/shared/inc/mpu9250_perfids.h
 )
 
-add_airliner_app(
+buildliner_add_app(
     hmc5883
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/hmc5883/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/hmc5883
@@ -433,7 +433,7 @@ add_airliner_app(
         ${PROJECT_SOURCE_DIR}/config/shared/inc/hmc5883_perfids.h
 )
 
-add_airliner_app(
+buildliner_add_app(
     pe
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/pe/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/pe
@@ -444,7 +444,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/pe/pe_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     qae
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/qae/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/qae
@@ -455,7 +455,7 @@ add_airliner_app(
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/apps/qae/qae_msg_overrides.json
 )
 
-add_airliner_app(
+buildliner_add_app(
     lgc
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/lgc/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/lgc

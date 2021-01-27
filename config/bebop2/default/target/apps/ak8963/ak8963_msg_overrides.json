@@ -1,0 +1,19 @@
+{
+    "Airliner": {
+        "apps": {
+            "AK8963": {
+                "operations": {
+                    "Noop":                       {"airliner_mid": "0x1cc4" },
+                    "Reset":                      {"airliner_mid": "0x1cc4" },
+                    "SendDiag":                   {"airliner_mid": "0x1cc4" },
+                    "AK8963_SetCalibrationCmd_t": {"airliner_mid": "0x1cc4" },
+                    "AK8963_HkTlm_t":             {"airliner_mid": "0x0cc1" },
+                    "AK8963_SendHk":              {"airliner_mid": "0x1cc2" },
+                    "AK8963_DiagPacket_t":        {"airliner_mid": "0x0cc5" }
+                },
+                "config": {
+                }
+            }
+        }
+    }
+}

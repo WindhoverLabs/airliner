@@ -1,0 +1,20 @@
+{
+    "Airliner": {
+        "apps": {
+            "MPU6050": {
+              "operations": {
+                  "Noop":                 {"airliner_mid": "0x1cd3" },
+                  "Reset":                {"airliner_mid": "0x1cd3" },
+                  "SendDiag":             {"airliner_mid": "0x1cd3" },
+                  "SetCalibration":       {"airliner_mid": "0x1cd3" },
+                  "MPU9250_DiagPacket_t": {"airliner_mid": "0x0cd2" },
+                  "MPU9250_HkTlm_t":      {"airliner_mid": "0x0cd1" },
+                  "Measure":              {"airliner_mid": "0x1cd4" },
+                  "SendHk":               {"airliner_mid": "0x1cc2" }
+              },
+              "config": {
+              }
+            }
+        }
+    }
+}
