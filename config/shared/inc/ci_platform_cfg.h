@@ -5,7 +5,6 @@
 extern "C" {
 #endif
 
-#define CI_UDP_CHANNEL_PORT (5010)
 
 /*
 ** ci Platform Configuration Parameter Definitions

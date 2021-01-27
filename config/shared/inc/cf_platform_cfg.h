@@ -16,7 +16,7 @@
 **       The maximum size dictated by cFE platform configuration 
 **		 parameter is CFE_SB_MAX_PIPE_DEPTH
 */
-#define CF_PIPE_DEPTH                       32
+#define CF_PIPE_DEPTH                       40
 
 
 /**
@@ -41,7 +41,7 @@
 **  \par Limits:
 **
 */
-#define CF_MAX_SIMULTANEOUS_TRANSACTIONS    1
+#define CF_MAX_SIMULTANEOUS_TRANSACTIONS    100
 
 
 
@@ -63,7 +63,7 @@
 **      
 **
 */
-#define CF_INCOMING_PDU_BUF_SIZE            1024
+#define CF_INCOMING_PDU_BUF_SIZE            512
 
 
 
@@ -87,7 +87,7 @@
 **      
 **
 */
-#define CF_OUTGOING_PDU_BUF_SIZE            1024
+#define CF_OUTGOING_PDU_BUF_SIZE            2048
 
 
 /**
@@ -169,7 +169,7 @@
 **      having to recompile and reload a new CF Application when a playback 
 **      channel is added.
 */
-#define CF_MAX_PLAYBACK_CHANNELS            1
+#define CF_MAX_PLAYBACK_CHANNELS            2
 
 
 /**
@@ -192,7 +192,7 @@
 **      added.
 **
 */
-#define CF_MAX_POLLING_DIRS_PER_CHAN        6
+#define CF_MAX_POLLING_DIRS_PER_CHAN        8
 
 
 /**
@@ -291,7 +291,7 @@
 **       This should be greater than or equal to the Startup Sync timeout for
 **       any application in the Application Monitor Table.
 */
-#define CF_STARTUP_SYNC_TIMEOUT   5000
+#define CF_STARTUP_SYNC_TIMEOUT   65000
 
 
 /**
@@ -362,7 +362,7 @@
 **  \par Limits:
 **       Must be defined or commented out.
 */
-#define CF_DEBUG
+/* #define CF_DEBUG */
 
 
 

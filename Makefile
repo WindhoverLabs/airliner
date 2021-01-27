@@ -34,11 +34,9 @@
 SHELL := /bin/bash
 
 CONFIG_DIR   := config
-TARGET_NAMES := core-only/pc-linux slim/pc-linux slim-apps-only/pc-linux full/pc-linux full-apps-only/pc-linux 
+TARGET_NAMES := ocpoc/default ocpoc/sitl
 BUILD_TYPES  := host target
 ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-LOCAL_GIT_FOLDER_DIR  := ~/gitsource
-LIB_DIR := ~/xsdk-workspace/firmware_r5_0_bsp/psu_cortexr5_0/lib
 
 export PROJECT_SOURCE_DIR=${PWD}
 
@@ -47,24 +45,14 @@ help::
 	@echo '                                                                                '
 	@echo 'Specify a target to build.  Available targets are:                              '
 	@echo '                                                                                '
-	@echo '    deploy                  : This is a one time process that create your       '
-	@echo '                              repository.  This can only be performed once.     '
-	@echo '                                                                                '
 	@echo '  Flight Software Builds                                                        '
 	@echo '    core-only/pc-linux      : This builds only the Core Binary for Linux running'
 	@echo '                              on a PC.                                          '
-	@echo '    slim/pc-linux           : This builds the simplest, most basic build with   '
-	@echo '                              the Core Binary and applications for scheduling,  '
-	@echo '                              commanding, and telemetry.                        '  
-	@echo '    slim-apps-only/pc-linux : This builds the simplest, most basic build with   '
-	@echo '                              the Core Binary and applications for scheduling,  '
-	@echo '                              commanding, and telemetry.                        ' 
-	@echo '    full/pc-linux           : This builds a full compliment of the Core Binary  '
-	@echo '                              and the most common apps for all targets and      '
-	@echo '                              use cases.                                        '
-	@echo '    full-apps-only/pc-linux : This builds a full compliment of the Core Binary  '
-	@echo '                              and the most common apps for all targets and      '
-	@echo '                              use cases.                                        '
+	@echo '    ocpoc/default           : This is the default OcPoC build for an S1000      '
+	@echo '                              airframe.                                         '
+	@echo '    ocpoc/sitl              : This is the Software in the Loop build for the    '
+	@echo '                              OcPoC on an S1000 airframe.                       '
+	@echo '                              airframe.                                         '  
 	@echo '    clean                   : This will clean all build flight software build   '
 	@echo '                              targets.  This includes the Commander workspace,  '
 	@echo '                              if one was generated.                             '
@@ -117,32 +105,6 @@ python-env::
 	@echo 'Deactivate:                                                                     '
 	@echo '    deactivate                                                                  '
 	@echo '                                                                                '
-
-
-deploy::
-	@if test -f "tools/git_tools/deploy.py"; then \
-		if test ! -f "tools/git_tools/config.yaml"; then \
-			echo '"tools/git_tools/config.yaml" not found. Using the template.'; \
-			python3 tools/git_tools/deploy.py tools/git_tools/config-template.yaml || exit -1; \
-			rc=$?; \
-		else \
-			python3 tools/git_tools/deploy.py tools/git_tools/config.yaml || exit -1; \
-			rc=$?; \
-		fi; \
-		if [[ $rc -ne 0 ]]; then \
-		    echo 'Deploy failed.                                                      '; \
-		else \
-		    rm tools/git_tools/deploy.py; \
-		    echo '                                                                        '; \
-		    echo 'Project is deployed.                                                    '; \
-		    echo 'The deploy script is deleted to prevent accidental redeploy.            '; \
-		    echo 'Check this newly created project into your own version control system.  '; \
-		    echo '                                                                        '; \
-		fi; \
-	else \
-		echo 'Project is already deployed and cannot be redeployed.                   '; \
-		echo '                                                                        '; \
-	fi
 	
 
 clean::
