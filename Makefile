@@ -113,7 +113,7 @@ $(TARGET_NAMES)::
 		echo "Generating complete design/configuration definition file, 'wh_defs.yaml'"; \
 	if [ -f "$(CONFIG_DIR)/$$TARGET_PATH/wh_config.yaml" ]; then \
 			mkdir -p build/$$TARGET_PATH/target; \
-			python3 core/tools/config/wh_defgen.py $(CONFIG_DIR)/$$TARGET_PATH/ build/$$TARGET_PATH/target/wh_defs.yaml; \
+			python3 core/base/tools/config/wh_defgen.py $(CONFIG_DIR)/$$TARGET_PATH/ build/$$TARGET_PATH/target/wh_defs.yaml; \
 	fi; \
 		for buildtype in $(BUILD_TYPES); do \
 		if [ -d "$(CONFIG_DIR)/$$TARGET_PATH/$$buildtype" ]; then \
