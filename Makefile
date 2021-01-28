@@ -73,11 +73,14 @@ help::
 	@echo '                              targets.  This includes the Commander workspace,  '
 	@echo '                              if one was generated.                             '
 	@echo '                                                                                '
+	@echo '                                                                                '
 	@echo '  Utilities                                                                     '
 	@echo '    python-env              : This generates a Python3 virtual environment in   '
 	@echo '                              the "venv" directory with all the python          '
 	@echo '                              modules required to use the Buildliner build      '
 	@echo '                              system.                                           '
+	@echo '    submodule-update        : This just updates all submodules.                 '
+	@echo '                                                                                '
 	@echo '                                                                                '
 	@echo '  Documentation                                                                 '
 	@echo '    reference               : This will build the reference version of the      '
@@ -123,15 +126,11 @@ $(TARGET_NAMES)::
 		done;
 	
 docs-doxygen: 
-	@echo 'Updating submodules'
-	git submodule update --init --recursive
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
 	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} -DBUILDTYPE:STRING=target \
 		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); make docs);
 	
 docs-sphinx: 
-	@echo 'Updating submodules'
-	git submodule update --init --recursive
 	@echo 'Building $$SPHINX_FSW_BUILD.'
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
 	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} -DBUILDTYPE:STRING=target \
@@ -153,6 +152,11 @@ python-env::
 	@echo 'Deactivate:                                                                     '
 	@echo '    deactivate                                                                  '
 	@echo '                                                                                '
+	
+submodule-update: 
+	@echo 'Completed'
+	@echo 'Updating submodules'
+	git submodule update --init --recursive
 	
 
 clean::
