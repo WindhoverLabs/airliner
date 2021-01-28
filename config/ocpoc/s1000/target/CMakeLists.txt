@@ -57,7 +57,7 @@ buildliner_add_app(
 buildliner_add_app(
     cs
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cs/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/cs
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/cs
 )
 
 buildliner_add_app(
@@ -69,47 +69,46 @@ buildliner_add_app(
 buildliner_add_app(
     fm
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/fm/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/fm
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/fm
 )
 
 buildliner_add_app(
     hk
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/hk/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/hk
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hk
 )
 
 buildliner_add_app(
     hs
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/hs
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hs
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/hs/hs_custom.c
+        ${PROJECT_SOURCE_DIR}/config/shared/apps/hs/hs_custom.c
 )
 
 buildliner_add_app(
     lc
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/lc/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/lc
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/lc
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/lc/src/lc_custom.c
+        ${PROJECT_SOURCE_DIR}/config/shared/apps/lc/src/lc_custom.c
 )
 
 buildliner_add_app(
     md
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/md/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/md
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/md
 )
 
 buildliner_add_app(
     mm
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/mm/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/mm
 )
 
 buildliner_add_app(
     sc
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sc/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sc
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sc
 )
 
 buildliner_add_app(
