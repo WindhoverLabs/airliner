@@ -32,66 +32,28 @@
 #############################################################################
  
 # Collect PSP includes and source
-set(PSP_INC_DIRS
-    ${CMAKE_CURRENT_LIST_DIR}/../inc
-    ${CMAKE_CURRENT_LIST_DIR}/../../inc)
-
-# Set libraries to link into the main executable
-set(LIBS pthread dl rt m)
+set(PSP_INC_DIRS ${PSP_INC_DIRS} ${CMAKE_CURRENT_LIST_DIR}/../inc)
 
 # Set compiler flags for apps and the main executable.
-set(COMPILE_FLAGS "-g -fstack-protector-all" )
+set(COMPILE_FLAGS "-g" )
 set(LINK_FLAGS "")
-
-# the name of the target operating system
-set(CMAKE_SYSTEM_NAME Linux)
 
 set(TOOLCHAIN_PREFIX "arm-linux-gnueabihf-")
 
 # which compilers to use for C and C++
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
-set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-g -O3 -Wno-pointer-to-int-cast -fstack-protector-all")
+set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-g -O2 -Wno-pointer-to-int-cast")
 set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}g++)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-g -O3 -fstack-protector-all -std=c++11")
-
-set(INSTALL_DIR	      ${CMAKE_CURRENT_BINARY_DIR}/exe/cf/apps)
-set(CFE_INSTALL_DIR   ${CMAKE_CURRENT_BINARY_DIR}/exe)
-
-set(MEMCHECK_COMMAND "valgrind --tool=memcheck --leak-check=full --show-reachable=yes --undef-value-errors=yes --num-callers=20 --track-origins=yes --child-silent-after-fork=no --trace-children=no --xml=yes --xml-file=dynamic-analysis-%p.xml --gen-suppressions=all")
-set(HELGRIND_COMMAND "valgrind --tool=helgrind --num-callers=20 --child-silent-after-fork=no --trace-children=no --xml=yes --xml-file=dynamic-analysis-%p.xml --gen-suppressions=all")
-set(MASSIF_COMMAND "valgrind --tool=massif --heap=yes --stacks=yes --massif-out-file=massif-%p.out")
-separate_arguments(MEMCHECK_COMMAND)
-separate_arguments(HELGRIND_COMMAND)
-separate_arguments(MASSIF_COMMAND)
-set(MEMCHECK_COMMAND ${MEMCHECK_COMMAND} PARENT_SCOPE)
-set(HELGRIND_COMMAND ${helgrind_command} PARENT_SCOPE)
-set(MASSIF_COMMAND ${massif_command} PARENT_SCOPE)
-set(INSTALL_DIR	      ${INSTALL_DIR} PARENT_SCOPE)
-
-set(COMMANDER_WORKSPACE_PLUGINS_DIR ${CMAKE_CURRENT_BINARY_DIR}/commander/commander_workspace/plugins PARENT_SCOPE)
-
-
-set(PSP_INC_DIRS ${PSP_INC_DIRS} PARENT_SCOPE)
-set(LIBS ${LIBS} PARENT_SCOPE)
-set(COMPILE_FLAGS ${COMPILE_FLAGS} PARENT_SCOPE)
-set(CMAKE_SYSTEM_NAME ${CMAKE_SYSTEM_NAME} PARENT_SCOPE)
-set(CMAKE_C_COMPILER ${CMAKE_C_COMPILER} PARENT_SCOPE)
-set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} PARENT_SCOPE)
-set(CMAKE_CXX_COMPILER ${CMAKE_CXX_COMPILER} PARENT_SCOPE)
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} PARENT_SCOPE)
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-g -O2 -std=c++11")
 
 set(PSP_UNIT_TEST_SRC_DIR ${CMAKE_CURRENT_LIST_DIR}/../unit_test)
 
-set(PSP_OSAL_UT_BSP_SRC ${PSP_UNIT_TEST_SRC_DIR}/bsp_start.c)
-
-set(PSP_OSAL_UTASSERT_BSP_SRC 
-    ${PSP_UNIT_TEST_SRC_DIR}/bsp_voltab.c
-    ${PSP_UNIT_TEST_SRC_DIR}/bsp_ut.c
+set(PSP_WB_UT_BSP_SRC
+    ${PSP_UNIT_TEST_SRC_DIR}/bsp_start.c
 )
 
-set(MEMCHECK_COMMAND ${MEMCHECK_COMMAND} PARENT_SCOPE)
-set(HELGRIND_COMMAND ${HELGRIND_COMMAND} PARENT_SCOPE)
-set(MASSIF_COMMAND ${MASSIF_COMMAND} PARENT_SCOPE)
-
-set(BUILD_CORE_FROM_SOURCE TRUE)
+set(PSP_BB_UT_BSP_SRC
+    ${PSP_UNIT_TEST_SRC_DIR}/bsp_ut.c
+    ${PSP_UNIT_TEST_SRC_DIR}/bsp_voltab.c 
+)
 

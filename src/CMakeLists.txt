@@ -66,10 +66,3 @@ set(PSP_UNIT_TEST_SRC
 )
 
 set(PSP_UNIT_TEST_COUNT 49 PARENT_SCOPE)
-
-#target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${PROJECT_BINARY_DIR}/inc)
-#target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${PARSED_ARGS_INCLUDES})
-#target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${CFE_INC_DIRS})
-#target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${OSAL_INC_DIRS})
-#target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${PSP_INC_DIRS})
-
