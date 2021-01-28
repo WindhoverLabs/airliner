@@ -509,6 +509,12 @@ function(psp_buildliner_add_app_def)
         target_include_directories(core-binary_no_symtab PUBLIC ${PARSED_ARGS_INCLUDES})
 	    target_include_directories(core-binary PUBLIC ${PUBLIC_APP_INCLUDES})
 	    target_include_directories(core-binary_no_symtab PUBLIC ${PUBLIC_APP_INCLUDES})
+	    
+	    add_custom_target(${PARSED_ARGS_TARGET})
+	    add_dependencies(core-binary ${PARSED_ARGS_TARGET})
+	    if(${PARSED_ARGS_TARGET}_yaml)
+	        add_dependencies(${PARSED_ARGS_TARGET}_yaml ${PARSED_ARGS_TARGET})
+	    endif()
     else()
 	    add_library(${PARSED_ARGS_TARGET} MODULE ${PARSED_ARGS_SOURCES})
 	    add_dependencies(build-file-system ${PARSED_ARGS_TARGET})
@@ -549,13 +555,43 @@ function(psp_buildliner_add_app_def)
 	    endif()
 	endif()
 
-    # Add the binary file to the combined design+configuration yaml file
-    commander_add_module(${PARSED_ARGS_TARGET}
-        TARGET_WORKSPACE   commander_workspace
-        TARGET_NAME        ${PARSED_ARGS_TARGET}
-    )
+    if(IS_EMBEDDED) 
+        # Add the core binary file to the combined design+configuration yaml file
+        commander_add_module(${PARSED_ARGS_TARGET}
+            TARGET_WORKSPACE   commander_workspace
+            TARGET_NAME        core-binary
+        )
+    else()
+        # Add the binary file to the combined design+configuration yaml file
+        commander_add_module(${PARSED_ARGS_TARGET}
+            TARGET_WORKSPACE   commander_workspace
+            TARGET_NAME        ${PARSED_ARGS_TARGET}
+        )
+    endif()
 endfunction(psp_buildliner_add_app_def)
 
+
+
+function(buildliner_add_app_dependencies)
+    set(PARSED_ARGS_TARGET ${ARGV0})
+    cmake_parse_arguments(PARSED_ARGS "" "" "TARGETS" ${ARGN})
+
+    # See if this is an embedded build
+    get_property(IS_EMBEDDED GLOBAL PROPERTY ${PARSED_ARGS_TARGET}_EMBEDDED)
+
+    if(IS_EMBEDDED) 
+        # Add the dependency to the core binary
+        add_dependencies(core-binary_no_symtab
+            ${PARSED_ARGS_TARGETS}
+        )
+    else() 
+        # Add the dependency to the application binary
+        add_dependencies(${PARSED_ARGS_TARGET}
+            ${PARSED_ARGS_TARGETS}
+        )
+    endif()
+    
+endfunction(buildliner_add_app_dependencies)
 
 
 function(psp_buildliner_add_app_unit_test)
