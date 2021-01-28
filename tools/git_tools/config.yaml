@@ -15,6 +15,11 @@ core:
       branch: develop
       path:   core/osal/posix-nasa
       strategy: subtree
+    freertos:
+      url:    git@github.com:WindhoverLabs/osal-freertos.git
+      branch: develop
+      path:   core/osal/freertos
+      strategy: submodule
   psp:
     pc-linux-nasa:
       url:    git@github.com:WindhoverLabs/psp-pc-linux-nasa.git
@@ -25,6 +30,16 @@ core:
       url:    git@github.com:WindhoverLabs/psp-pc-linux-wh.git
       branch: develop
       path:   core/psp/pc-linux-wh
+      strategy: subtree
+    obc-cpd:
+      url:    git@github.com:WindhoverLabs/psp-obc-cpd.git
+      branch: develop
+      path:   core/psp/obc-cpd
+      strategy: submodule
+    pc-linux-wh:
+      url:    git@github.com:WindhoverLabs/psp-ocpoc-linux.git
+      branch: develop
+      path:   core/psp/ocpoc-linux
       strategy: subtree
 
 tools:
