@@ -98,8 +98,6 @@ help::
 	
 
 $(TARGET_NAMES)::
-	@echo 'Updating submodules.'
-	git submodule update --init --recursive
 	@echo 'Building '$@'.'
 	@idx=1; \
 	for name in $(TARGET_NAMES); do \

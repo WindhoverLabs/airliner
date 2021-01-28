@@ -1,3 +1,9 @@
 [submodule "core/tools/auto-yamcs"]
 	path = core/tools/auto-yamcs
 	url = git@github.com:WindhoverLabs/auto-yamcs.git
+[submodule "core/psp/obc-cpd"]
+	path = core/psp/obc-cpd
+	url = git@github.com:WindhoverLabs/psp-obc-cpd
+[submodule "core/osal/freertos"]
+	path = core/osal/freertos
+	url = git@github.com:WindhoverLabs/osal-freertos
