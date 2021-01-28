@@ -1,2 +1,5 @@
 ---
-config_base: ${PROJECT_SOURCE_DIR}
+config_base: ${PROJECT_SOURCE_DIR} 
+
+modules:
+  sch:

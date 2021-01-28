@@ -7,29 +7,7 @@ core:
   psp:
     definition: ${PROJECT_SOURCE_DIR}/core/psp/fsw/ocpoc-linux/wh_design.yaml
   
-modules:
-  ak8963:
-    telemetry:
-      AK8963_HK_TLM_MID:
-        msgID: 0x0cc1
-      AK8963_DIAG_TLM_MID:
-        msgID: 0x0cc5
-    commands:
-      AK8963_CMD_MID:
-        msgID: 0x1cc4
-      AK8963_WAKEUP_MID:
-        msgID: 0x1cc3
-      AK8963_SEND_HK_MID:
-        msgID: 0x1cc2
-    perfids:
-      AK8963_RECEIVE_PERF_ID:
-        id: 102
-      AK8963_SEND_PERF_ID:
-        id: 103
-      AK8963_MAIN_TASK_PERF_ID:
-        id: 104
-    definition: ${PROJECT_SOURCE_DIR}/apps/ak8963/wh_design.yaml
-    
+modules:    
   amc:
     telemetry:
       AMC_HK_TLM_MID:
@@ -190,15 +168,6 @@ modules:
         id: 68
     definition: ${PROJECT_SOURCE_DIR}/apps/mac/wh_design.yaml
     
-  mavlink:
-    telemetry:
-      MAVLINK_HK_TLM_MID:
-        msgID: 0x0c83
-    perfids:
-      MAVLINK_MAIN_TASK_PERF_ID:
-        id: 86
-    definition: ${PROJECT_SOURCE_DIR}/apps/mavlink/wh_design.yaml
-    
   mpc:
     telemetry:
       MPC_HK_TLM_MID:
@@ -217,28 +186,6 @@ modules:
         id: 78
     definition: ${PROJECT_SOURCE_DIR}/apps/mpc/wh_design.yaml
     
-  mpu6050:
-    telemetry:
-      MPU6050_HK_TLM_MID:
-        msgID: 0x0cd1
-      MPU6050_DIAG_TLM_MID:
-        msgID: 0x0cd2
-    commands:
-      MPU6050_CMD_MID:
-        msgID: 0x1cd3
-      MPU6050_SEND_HK_MID:
-        msgID: 0x1cd0
-      MPU6050_MEASURE_MID:
-        msgID: 0x1cd4
-    perfids:
-      MPU6050_MAIN_TASK_PERF_ID:
-        id: 105
-      MPU6050_RECEIVE_PERF_ID:
-        id: 106
-      MPU6050_SEND_PERF_ID:
-        id: 107
-    definition: ${PROJECT_SOURCE_DIR}/apps/mpu6050/wh_design.yaml
-    
   mpu9250:
     telemetry:
       MPU9250_HK_TLM_MID:
@@ -256,28 +203,6 @@ modules:
       MPU9250_MAIN_TASK_PERF_ID:
         id: 83
     definition: ${PROJECT_SOURCE_DIR}/apps/mpu9250/wh_design.yaml
-    
-  ms5607:
-    telemetry:
-      MS5607_HK_TLM_MID:
-        msgID: 0x0cb6
-      MS5607_DIAG_TLM_MID:
-        msgID: 0x0cb7
-    commands:
-      MS5607_CMD_MID:
-        msgID: 0x1cb8
-      MS5607_SEND_HK_MID:
-        msgID: 0x1cb5
-      MS5607_MEASURE_MID:
-        msgID: 0x1cb9
-    perfids:
-      MS5607_MAIN_TASK_PERF_ID:
-        id: 99
-      MS5607_RECEIVE_PERF_ID:
-        id: 100
-      MS5607_SEND_PERF_ID:
-        id: 101
-    definition: ${PROJECT_SOURCE_DIR}/apps/ms5607/wh_design.yaml
     
   ms5611:
     telemetry:
@@ -415,28 +340,6 @@ modules:
         id: 73
     definition: ${PROJECT_SOURCE_DIR}/apps/rgbled/wh_design.yaml
     
-  sbn:
-    commands:
-      SBN_WAKEUP_MID:
-        msgID: 0x1ba0
-    definition: ${PROJECT_SOURCE_DIR}/apps/sbn/wh_design.yaml
-    
-  sc:
-    telemetry:
-      SC_HK_TLM_MID:
-        msgID: 0x09e3
-    commands:
-      SC_CMD_MID:
-        msgID: 0x19e0
-      SC_SEND_HK_MID:
-        msgID: 0x19e1
-      SC_1HZ_WAKEUP_MID:
-        msgID: 0x19e2
-    perfids:
-      SC_APPMAIN_PERF_ID:
-        id: 59
-    definition: ${PROJECT_SOURCE_DIR}/apps/sc/wh_design.yaml
-    
   sens:
     telemetry:
       SENS_HK_TLM_MID:
@@ -452,40 +355,6 @@ modules:
       SENS_MAIN_TASK_PERF_ID:
         id: 75
     definition: ${PROJECT_SOURCE_DIR}/apps/sens/wh_design.yaml
-    
-  sim:
-    telemetry:
-      SIM_HK_TLM_MID:
-        msgID: 0x0c7d
-    commands:
-      SIM_CMD_MID:
-        msgID: 0x1c80
-      SIM_WAKEUP_MID:
-        msgID: 0x1c7f
-      SIM_SEND_HK_MID:
-        msgID: 0x1c7e
-    perfids:
-      SIM_MAIN_TASK_PERF_ID:
-        id: 85
-    definition: ${PROJECT_SOURCE_DIR}/apps/sim/wh_design.yaml
-    
-  sonar:
-    telemetry:
-      SONAR_OUT_DATA_MID:
-        msgID: 0x0cd9
-      SONAR_HK_TLM_MID:
-        msgID: 0x0ce0
-    commands:
-      SONAR_CMD_MID:
-        msgID: 0x1cd6
-      SONAR_SEND_HK_MID:
-        msgID: 0x1cd7
-      SONAR_MEASURE_MID:
-        msgID: 0x1cd8
-    perfids:
-      SONAR_MAIN_TASK_PERF_ID:
-        id: 111
-    definition: ${PROJECT_SOURCE_DIR}/apps/sonar/wh_design.yaml
     
   ulr:
     telemetry:
