@@ -45,6 +45,7 @@ var fileName =VTypeHelper.getString(display.getWidget('inFileName').getPropertyV
 var cmd = '/cfs/cfe_es/DumpCDSReg(FileName: ' + fileName + ')';
 
 Yamcs.issueCommand(cmd);
+
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
