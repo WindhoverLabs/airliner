@@ -3,7 +3,7 @@ include(../set-vars.cmake)
 buildliner_initialize(
     PSP ${PSP}
     OSAL ${OSAL}
-    CORE_TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/tools
+    CORE_TOOLS ${CMAKE_BINARY_DIR}/../host/tools
     CONFIG
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../inc
@@ -18,11 +18,6 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
 )
 
-add_subdirectory(allstop allstop)
-set_target_properties(allstop
-  PROPERTIES
-  RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/exe
-)
 
 buildliner_add_app(
     cfs_lib
@@ -142,6 +137,7 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/vc/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc
     CONFIG_SOURCES
+    	${CMAKE_CURRENT_SOURCE_DIR}/apps/vc/src/vc_dev_io_i2c/vc_dev_io_i2c.c
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc/src/vc_dev_io_v4l/vc_dev_io_v4l.c
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc/src/vc_transmit_udp/vc_transmit_udp.c
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc/src/vc_custom.c
@@ -162,14 +158,6 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    ulr
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ulr/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ulr
-    CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ulr/ulr_custom.cpp
-)
-
-buildliner_add_app(
     rgbled
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/rgbled/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/rgbled
@@ -178,11 +166,11 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    ms5611
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ms5611/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ms5611
+    ms5607
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ms5607/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ms5607
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ms5611/src/ms5611_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ms5607/src/ms5607_custom.c
 )
 
 buildliner_add_app(
@@ -246,19 +234,19 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    mpu9250
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mpu9250/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/mpu9250
+    mpu6050
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mpu6050/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/mpu6050
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/mpu9250/src/mpu9250_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/mpu6050/src/mpu6050_custom.c
 )
 
 buildliner_add_app(
-    hmc5883
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hmc5883/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/hmc5883
+    ak8963
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ak8963/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ak8963
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/hmc5883/src/hmc5883_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ak8963/src/ak8963_custom.c
 )
 
 buildliner_add_app(
@@ -280,3 +268,12 @@ buildliner_add_app(
     CONFIG_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/lgc/lgc_custom.cpp
 )
+
+buildliner_add_app(
+    sonar
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sonar/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sonar
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sonar/src/sonar_custom.c
+)
+

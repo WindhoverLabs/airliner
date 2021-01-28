@@ -1,9 +1,0 @@
----
-
-config_base: ${PROJECT_SOURCE_DIR}
-
-core:
-  osal:
-    definition: ${PROJECT_SOURCE_DIR}/core/osal/src/os/posix-fast/wh_design.yaml
-  psp:
-    definition: ${PRO${PROJECT_SOURCE_DIR}/core/psppc-linux-wh/wh_design.yaml

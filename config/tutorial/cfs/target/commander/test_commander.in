@@ -1,5 +1,0 @@
-#!/bin/bash
-
-source setvars
-
-(cd ${COMMANDER_PATH}; npm run test-cov;)

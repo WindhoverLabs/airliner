@@ -1,6 +1,0 @@
----
-config_base: ${PROJECT_SOURCE_DIR}
-
-core:
-  psp:
-    definition: ${PROJECT_SOURCE_DIR}/core/psp/fsw/bebop2/wh_design.yaml
