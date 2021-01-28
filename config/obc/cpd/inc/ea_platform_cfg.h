@@ -103,7 +103,7 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define EA_CONFIG_TABLE_FILENAME      ("/ram/apps/ea_config.tbl")
+#define EA_CONFIG_TABLE_FILENAME      ("/cf/apps/ea_config.tbl")
 /** \brief The timeout value, in milliseconds, to wait for ES application startup sync.
 **
 **  \par Limits:

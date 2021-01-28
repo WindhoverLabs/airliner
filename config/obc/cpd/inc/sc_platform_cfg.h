@@ -132,7 +132,7 @@
 **       to the base portion of the filename defined here.
 **
 **       The default definitions will create ATS filenames as follows:
-**       "/ram/apps/sc_ats1.tbl or /ram/apps/sc_ats2.tbl"
+**       "/cf/apps/sc_ats1.tbl or /cf/apps/sc_ats2.tbl"
 **
 **  \par Limits:
 **       SC requires that this name be defined, but otherwise places no
@@ -140,7 +140,7 @@
 **       at run time, or the table fails validation, then the table load
 **       will fail.  Refer to #OS_MAX_PATH_LEN for filename length limits.
 */
-#define SC_ATS_FILE_NAME                "/ram/apps/sc_ats"
+#define SC_ATS_FILE_NAME                "/cf/apps/sc_ats"
 
 
 /** \sccfg Append ATS Table Filename
@@ -157,7 +157,7 @@
 **       at run time, or the table fails validation, then the table load
 **       will fail.  Refer to #OS_MAX_PATH_LEN for filename length limits.
 */
-#define SC_APPEND_FILE_NAME             "/ram/apps/sc_append.tbl"
+#define SC_APPEND_FILE_NAME             "/cf/apps/sc_append.tbl"
 
 
 /** \sccfg RTS Table Filenames 
@@ -168,7 +168,7 @@
 **       to the base portion of the filename defined here.
 **
 **       The default definitions will create RTS filenames as follows:
-**       "/ram/apps/sc_rts001.tbl, /ram/apps/sc_rts002.tbl, etc"
+**       "/cf/apps/sc_rts001.tbl, /cf/apps/sc_rts002.tbl, etc"
 **
 **  \par Limits:
 **       SC requires that this name be defined, but otherwise places no
@@ -176,7 +176,7 @@
 **       at run time, or the table fails validation, then the table load
 **       will fail.  Refer to #OS_MAX_PATH_LEN for filename length limits.
 */
-#define SC_RTS_FILE_NAME               "/ram/apps/sc_rts"
+#define SC_RTS_FILE_NAME               "/cf/apps/sc_rts"
 
 
 /** \sccfg ATS Table Object Names 

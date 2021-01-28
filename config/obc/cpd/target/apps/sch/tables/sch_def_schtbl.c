@@ -111,6 +111,8 @@ VC_PROCESS_CMDS_MIDX                  1Hz, 12
 #define CFE_TBL_SEND_HK_MIDX           5
 #define CFE_TIME_FAKE_CMD_MIDX         6
 
+#define LC_SAMPLE_AP_MIDX              9
+
 #define SCH_SEND_HK_MIDX              15
 #define TO_SEND_HK_MIDX               16
 #define HK_SEND_HK_MIDX               17
@@ -159,6 +161,8 @@ VC_PROCESS_CMDS_MIDX                  1Hz, 12
 
 #define AMC_UPDATE_MOTORS_MIDX        65
 #define AMC_SEND_HK_MIDX              66
+#define MPU9250_SEND_HK_MIDX          67
+#define MPU9250_MEASURE_MIDX          68
 
 #define MM_SEND_HK_MIDX               70
 
@@ -168,15 +172,17 @@ VC_PROCESS_CMDS_MIDX                  1Hz, 12
 #define PE_WAKEUP_MIDX                75
 #define MS5607_SEND_HK_MIDX           76
 #define MS5607_MEASURE_MIDX           77
-
+#define MS5611_SEND_HK_MIDX           78
+#define MS5611_MEASURE_MIDX           79
 #define ULR_MEASURE_MIDX              80
 #define ULR_SEND_HK_MIDX              81
-
+#define HMC5883_SEND_HK_MIDX          82
 #define AK8963_SEND_HK_MIDX           83
 #define AK8963_WAKEUP_MIDX            84
 #define NEOM8N_SEND_HK_MIDX           85
 #define NEOM8N_MEASURE_MIDX           86
 #define NEOM8N_PROC_CMDS_MIDX         87
+#define HMC5883_WAKEUP_MIDX           88
 
 #define SENS_SEND_HK_MIDX             90
 #define SENS_WAKEUP_MIDX              91
@@ -3441,7 +3447,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	{ SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  MAC_RUN_CONTROLLER_MIDX,  SCH_GROUP_NONE },
 	{ SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  MPC_WAKEUP_MIDX,          SCH_GROUP_NONE },
 	{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	MPU9250_MEASURE_MIDX,	  SCH_GROUP_NONE },
-	{ SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  LC_SAMPLE_AP_MIDX,        SCH_GROUP_NONE },
+	{ SCH_UNUSED,	0,	0,	0,	0,	SCH_GROUP_NONE },
 	{ SCH_UNUSED,	0,	0,	0,	0,	SCH_GROUP_NONE },
 	{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SENS_WAKEUP_MIDX,         SCH_GROUP_NONE },
 	{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	ULR_MEASURE_MIDX,         SCH_GROUP_NONE },

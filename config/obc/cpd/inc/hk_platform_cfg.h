@@ -98,7 +98,7 @@
 **       the #OS_MAX_PATH_LEN value.
 */
 
-#define HK_COPY_TABLE_FILENAME  "/ram/apps/hk_cpy_tbl.tbl"
+#define HK_COPY_TABLE_FILENAME  "/cf/apps/hk_cpy_tbl.tbl"
 
 /** \hkcfg Mission specific version number for HK application
 **  

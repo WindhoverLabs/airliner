@@ -44,8 +44,8 @@ BAT_ConfigTbl_t BAT_ConfigTbl =
 {
 	/* V_EMPTY       */  3.4f,
         /* V_CHARGED     */  4.05f,
-	/* N_CELLS       */  6,
-	/* CAPACITY      */  12000.0f,
+	/* N_CELLS       */  3,
+	/* CAPACITY      */  3300.0f,
 	/* V_LOAD_DROP   */  0.3f,
 	/* R_INTERNAL    */  0.002f,
 	/* LOW_THR       */  0.15f,

@@ -174,9 +174,9 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #66 */
    { { SCH_FIX_HEADER(AMC_SEND_HK_MID, 0xC000, 0x0001), 0 } },
    /* Command ID #67 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(MPU9250_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #68 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(MPU9250_MEASURE_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #69 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #70 */
@@ -184,31 +184,31 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #71 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #72 */
-   { { SCH_FIX_HEADER(MPU9250_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
+   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #73 */
-   { { SCH_FIX_HEADER(MPU9250_MEASURE_MID, 0xC000, 0x0001), 0x0000 } },
+   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #74 */
    { { SCH_FIX_HEADER(PE_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #75 */
    { { SCH_FIX_HEADER(PE_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #76 */
-   { { SCH_FIX_HEADER(MS5611_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
+   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #77 */
-   { { SCH_FIX_HEADER(MS5611_MEASURE_MID, 0xC000, 0x0001), 0x0000 } },
+   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #78 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(MS5611_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #79 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(MS5611_MEASURE_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #80 */
    { { SCH_FIX_HEADER(ULR_MEASURE_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #81 */
    { { SCH_FIX_HEADER(ULR_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #82 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
-   /* Command ID #83 */
    { { SCH_FIX_HEADER(HMC5883_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
+   /* Command ID #83 */
+   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #84 */
-   { { SCH_FIX_HEADER(HMC5883_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
+   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #85 */
    { { SCH_FIX_HEADER(NEOM8N_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #86 */
@@ -216,7 +216,7 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #87 */
    { { SCH_FIX_HEADER(NEOM8N_PROC_CMDS_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #88 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(HMC5883_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #89 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #90 */

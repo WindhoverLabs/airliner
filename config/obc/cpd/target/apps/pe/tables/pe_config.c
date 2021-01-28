@@ -93,7 +93,7 @@ PE_ConfigTbl_t PE_ConfigTbl =
 	//INIT_ORIGIN_LON
     -95.144554,
     //ULR_FUSE
-    TRUE,
+    FALSE,
     //ULR_STDDEV
     .05f,
     //ULR_OFF_Z

@@ -96,7 +96,7 @@ int32 LGC::InitDevice(void)
             LGC_RCOUT_ZYNQ_PWM_BASE);
     close(mem_fd);
 
-    if (LGC_SharedMemCmd <= 0)
+    if (LGC_SharedMemCmd == 0) 
     {
         returnVal = errno;
         goto end_of_function;

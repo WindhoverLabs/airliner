@@ -6,7 +6,7 @@
 ** Include Files
 */
 #include "cfe_tbl_filedef.h"
-#include "hmc5883_tbldefs.h"
+#include "mpu9250_tbldefs.h"
 
 /*
 ** Local Defines
@@ -27,8 +27,8 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
     **    ObjSize - size of the entire table
     */
 
-    "HMC5883_ConfigTbl", "HMC5883.CONFIG_TBL", "HMC5883 default config table",
-    "hmc5883_config.tbl", (sizeof(HMC5883_ConfigTbl_t))
+    "MPU9250_ConfigTbl", "MPU9250.CONFIG_TBL", "MPU9250 default config table",
+    "mpu9250_config.tbl", (sizeof(MPU9250_ConfigTbl_t))
 };
 
 /*
@@ -40,21 +40,39 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 */
 
 /* Default MPU9250 config table data */
-HMC5883_ConfigTbl_t HMC5883_ConfigTbl =
+MPU9250_ConfigTbl_t MPU9250_ConfigTbl =
 {
-    /* User calibration params */
-    /* x_scale */
-    0.968205928802490234f,
-    /* y_scale */
-    0.963344454765319824f,
-    /* z_scale */
-    1.080147743225097656f,
-    /* x_offset */
-    -0.010398024693131447f,
-    /* y_offset */
-    -0.077417798340320587f,
-    /* z_offset */
-    -0.106414273381233215f
+        /* User calibration params */
+        /* AccXScale */
+        1.002483367919921875f,
+        /* AccYScale */
+        1.002597928047180176f,
+        /* AccZScale */
+        0.991139471530914307f,
+        /* AccXOffset */
+        0.018333911895751953f,
+        /* AccYOffset */
+        -0.134463787078857422f,
+        /* AccZOffset */
+        0.048464775085449219f,
+        /* GyroXScale */
+        1.0f,
+        /* GyroYScale */
+        1.0f,
+        /* GyroZScale */
+        1.0f,
+        /* GyroXOffset */
+        0.019233696162700653f,
+        /* GyroYOffset */
+        0.024173684418201447f,
+        /* GyroZOffset */
+        -0.008248925209045410f
+        /* MagXScale */
+        /* MagYScale */
+        /* MagZScale */
+        /* MagXOffset */
+        /* MagYOffset */
+        /* MagZOffset */
 };
 
 /*
@@ -70,6 +88,6 @@ HMC5883_ConfigTbl_t HMC5883_ConfigTbl =
 */
 
 /*=======================================================================================
-** End of file hmc5883_config.c
+** End of file mpu9250_config.c
 **=====================================================================================*/
     

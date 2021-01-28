@@ -96,7 +96,7 @@ LD_ConfigTbl_t LD_ConfigTbl =
 	     *  \par Limits:
 	     *  	default 0.3.
 	     */
-	    0.38,
+	    0.35,
 
 	    /** \brief Multicopter minimum throttle in manual mode.
 	     *

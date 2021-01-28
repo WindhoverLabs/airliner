@@ -4,7 +4,7 @@ FULL_COMMAND=${*:2}
 TARGET_DIR="/root/unit-test"
 TARGET_GCOV_PREFIX="${TARGET_DIR}"
 TARGET_USER="root"
-TARGET_ADDRESS="vehicle1.windhoverlabs.lan"
+TARGET_ADDRESS="192.168.1.150"
 HOST_DIR_DEPTH=$(find $1 -type d -printf '%d\n' | sort -n | tail -1)
 
 ssh ${TARGET_USER}@${TARGET_ADDRESS} "mkdir -p ${TARGET_DIR}" || /bin/true

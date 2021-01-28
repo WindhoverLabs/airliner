@@ -24,7 +24,7 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define MD_TBL_FILENAME_FORMAT                "/ram/apps/md_dw\%02d.tbl"
+#define MD_TBL_FILENAME_FORMAT                "/cf/apps/md_dw\%02d.tbl"
 
 /**
 **  \mdcfg Number of memory dwell tables.

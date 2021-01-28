@@ -107,7 +107,7 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define MAVLINK_ACTION_MAP_TABLE_FILENAME      ("/ram/apps/mavlink_action.tbl")
+#define MAVLINK_ACTION_MAP_TABLE_FILENAME      ("/cf/apps/mavlink_action.tbl")
 
 /** \brief The timeout table default filename
 **
@@ -115,7 +115,7 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define MAVLINK_TIMEOUT_TABLE_FILENAME      ("/ram/apps/mavlink_timeout.tbl")
+#define MAVLINK_TIMEOUT_TABLE_FILENAME      ("/cf/apps/mavlink_timeout.tbl")
 
 /** \brief The timeout value, in milliseconds, to wait for ES application startup sync.
 **

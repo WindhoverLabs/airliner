@@ -354,7 +354,7 @@
 **       no limits on the definition.  If the named table does not
 **       exist or fails validation, the table load will fail.
 */
-#define FM_TABLE_DEF_NAME               "/ram/apps/fm_freespace.tbl"
+#define FM_TABLE_DEF_NAME               "/cf/apps/fm_freespace.tbl"
 
 
 /** \fmcfg Free Space Table Name - filename without path

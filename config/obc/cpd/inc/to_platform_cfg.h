@@ -181,7 +181,7 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define TO_UDP_CONFIG_TABLE_FILENAME    ("/ram/apps/to_udp_cfg.tbl")
+#define TO_UDP_CONFIG_TABLE_FILENAME    ("/cf/apps/to_udp_cfg.tbl")
 
 
 #define TO_MAX_MEMPOOL_BLK_SIZES      (8)

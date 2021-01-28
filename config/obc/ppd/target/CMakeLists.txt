@@ -1,8 +1,5 @@
 include(../set-vars.cmake)
 
-# Put target specific functions here.  This is where we build most everything.  Everything that either uses the
-# cross toolchain or has target independent functions.
-
 buildliner_initialize(
     PSP ${PSP}
     OSAL ${OSAL}

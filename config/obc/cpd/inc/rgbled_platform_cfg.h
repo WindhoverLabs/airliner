@@ -104,7 +104,7 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define RGBLED_CONFIG_TABLE_FILENAME      ("/ram/apps/rgbled_config.tbl")
+#define RGBLED_CONFIG_TABLE_FILENAME      ("/cf/apps/rgbled_config.tbl")
 
 /** \brief The timeout value, in milliseconds, to wait for ES application startup sync.
 **

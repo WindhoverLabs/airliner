@@ -374,7 +374,7 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define HS_AMT_FILENAME                "/ram/apps/hs_amt.tbl"
+#define HS_AMT_FILENAME                "/cf/apps/hs_amt.tbl"
 
 /** \hscfg Event Monitor Table (EMT) filename
 **
@@ -386,7 +386,7 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define HS_EMT_FILENAME                "/ram/apps/hs_emt.tbl"
+#define HS_EMT_FILENAME                "/cf/apps/hs_emt.tbl"
 
 /** \hscfg Execution Counter Table (XCT) filename
 **
@@ -398,7 +398,7 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define HS_XCT_FILENAME                "/ram/apps/hs_xct.tbl"
+#define HS_XCT_FILENAME                "/cf/apps/hs_xct.tbl"
 
 /** \hscfg Message Actions Table (MAT) filename
 **
@@ -410,7 +410,7 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define HS_MAT_FILENAME                "/ram/apps/hs_mat.tbl"
+#define HS_MAT_FILENAME                "/cf/apps/hs_mat.tbl"
 
 /** \hscfg CPU Utilization Calls per Mark (custom)
 **

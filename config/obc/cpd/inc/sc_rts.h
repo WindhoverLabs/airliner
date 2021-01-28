@@ -9,8 +9,8 @@
 #define RTS_ID_AUTO_POWER_ON            1    /**< \brief Startup auto-exec after power-on reset */
 #define RTS_ID_AUTO_PROCESSOR           2    /**< \brief Startup auto-exec after processor reset */
 
-#define RTS_ID_EXTEND_GEAR              3    /**< \brief Extend landing gear command to LGC. */
-#define RTS_ID_RETRACT_GEAR             4    /**< \brief Retract landing gear command to LGC. */
+#define RTS_ID_Spare3                   3    
+#define RTS_ID_Spare4                   4    
 #define RTS_ID_Spare5                   5                     
 #define RTS_ID_Spare6                   6
 #define RTS_ID_Spare7                   7

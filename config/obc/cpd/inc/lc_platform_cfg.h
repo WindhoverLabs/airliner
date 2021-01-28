@@ -131,7 +131,7 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define LC_WDT_FILENAME                "/ram/apps/lc_def_wdt.tbl"
+#define LC_WDT_FILENAME                "/cf/apps/lc_def_wdt.tbl"
 
 /** \lccfg Actionpoint Definition Table (ADT) filename
 **  
@@ -143,7 +143,7 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define LC_ADT_FILENAME                "/ram/apps/lc_def_adt.tbl"
+#define LC_ADT_FILENAME                "/cf/apps/lc_def_adt.tbl"
 
 /** \lccfg Maximum reverse polish (RPN) equation size
 **  
