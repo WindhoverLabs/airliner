@@ -1,15 +1,13 @@
 #ifndef OSCONFIG_H
 #define OSCONFIG_H
 
-#define OS_RUNTIME_MANAGER_CMD_QUEUE_NAME 		"OS_RUNTIME_MGR_CMD"
-#define OS_RUNTIME_MANAGER_CMD_QUEUE_DEPTH		1
-#define OS_RUNTIME_MANAGER_CMD_TASK_NAME		"OS_RUNTIME_MGR_CMD"
-#define OS_RUNTIME_MANAGER_CMD_TASK_STACK_SIZE  32535
-#define OS_RUNTIME_MANAGER_CMD_TASK_PRIORITY	0
-#define OS_RUNTIME_MANAGER_EXEC_TASK_NAME		"OS_RUNTIME_MGR_EXEC"
-#define OS_RUNTIME_MANAGER_EXEC_TASK_STACK_SIZE  32535
-#define OS_RUNTIME_MANAGER_EXEC_TASK_PRIORITY	99
-#define OS_RUNTIME_MANAGER_SEM_NAME				"OS_RUNTIME_MGR_SEM"
+
+#define OS_DL_EXPORT_MAX_COUNT                   (200000)
+#define OS_DATAFILE_ADDRESS_ALIGNMENT            (16)
+#define OS_MODULE_SPACE_MAX_SIZE                 (0x1000)
+#define OS_SYMTABFILE_LINE_LENGTH_MAX            (300)
+#define OS_SYMTABFILE_LINE_COUNT_MAX             (1000000)
+#define OS_SYMTABFILE_CHAR_COUNT_MAX             (OS_SYMTABFILE_LINE_LENGTH_MAX * OS_SYMTABFILE_LINE_COUNT_MAX)
 
 /*#define OS_USE_EMBEDDED_PRINTF*/
 
@@ -25,7 +23,7 @@
 #define OS_MAX_COUNT_SEMAPHORES     100
 #define OS_MAX_BIN_SEMAPHORES       100
 #define OS_MAX_MUTEXES              100
-#define OS_MAX_TIMEOUTS				(OS_MAX_QUEUES+OS_MAX_COUNT_SEMAPHORES+OS_MAX_BIN_SEMAPHORES)
+#define OS_MAX_TIMEOUTS             (OS_MAX_QUEUES + OS_MAX_COUNT_SEMAPHORES + OS_MAX_BIN_SEMAPHORES)
 
 /*
 ** Maximum length for an absolute path name
@@ -96,12 +94,6 @@
 ** is written to in the VxWorks6 port 
 */
 #define OS_SHELL_CMD_INPUT_FILE_NAME "/ram/OS_ShellCmd.in"
-
-/* 
-** This define sets the queue implentation of the Linux port to use sockets 
-** commenting this out makes the Linux port use the POSIX message queues.
-*/
-#define OSAL_SOCKET_QUEUE */
 
 /*
 ** Module loader/symbol table is optional
