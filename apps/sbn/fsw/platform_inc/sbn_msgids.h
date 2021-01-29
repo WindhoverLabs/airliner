@@ -1,10 +1,6 @@
 /*=======================================================================================
 ** File Name:  sbn_msgids.h
 **
-**  Copyright © 2007-2014 United States Government as represented by the 
-**  Administrator of the National Aeronautics and Space Administration. 
-**  All Other Rights Reserved.
-**
 ** Title:
 **
 ** $Author:    Steve Duran
@@ -30,8 +26,9 @@
 /*
 ** Local Defines
 */
-#define SBN_WAKEUP_MID   0x18FF
+#define SBN_CMD_MID      0x18FA
 
+#define SBN_TLM_MID               0x08FC
 /*
 ** Include Files
 */

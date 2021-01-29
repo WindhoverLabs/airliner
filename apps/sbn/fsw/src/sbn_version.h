@@ -1,5 +1,5 @@
 /*************************************************************************
-** File: sbn_version.h
+** \File sbn_version.h
 **
 **  Copyright © 2007-2014 United States Government as represented by the 
 **  Administrator of the National Aeronautics and Space Administration. 
@@ -16,34 +16,22 @@
 ** References:
 **
 ** Notes:
-**   Version 1.0.0 of the SBN is a prototype version and has not completed 
-**   GSFC 582 Flight Software Systems Branch CMMI procedures and processes.  
-**   This version of the SBN has been beta tested and is compatable with 
-**   the VxWorks and Linux operating systems.  Version 1.0.0 of the SBN has 
-**   not completed beta testing on the RTEMS operating system and may not be 
-**   compatable.  
+**   Version 1.3.0 adds Task-based concurrency (polling is configurable).
 **
+**   Version 1.2.0 of the SBN is a prototype version and has not completed 
+**   GSFC 582 Flight Software Systems Branch CMMI procedures and processes.  
+**   This version of the SBN has been beta tested on Linux but not VxWorks
+**   or other platforms. Version 1.2.0 of the SBN has 
+**   not completed beta testing on the VxWorks or RTEMS operating system
+**   and may not be compatable. Additionally the Spacewire module needs
+**   to be re-architected for this version of SBN.
 ** 
 *************************************************************************/
 #ifndef _sbn_version_
 #define _sbn_version_
 
-/*************************************************************************
-** Includes
-*************************************************************************/
+#define SBN_MAJOR_VERSION   1
+#define SBN_MINOR_VERSION   8
+#define SBN_REVISION        0
 
-/*************************************************************************
-** Macro Definitions
-*************************************************************************/
-
-#define SBN_MAJOR_VERSION    1
-#define SBN_MINOR_VERSION    0
-#define SBN_REVISION         0
-
-#endif
-/*_sbn_version_*/
-
-
-/************************/
-/*  End of File Comment */
-/************************/
+#endif /*_sbn_version_*/

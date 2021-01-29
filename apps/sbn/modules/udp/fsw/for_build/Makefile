@@ -1,36 +1,34 @@
 ###############################################################################
-# File: CFS Application Makefile
-#
-# $Id: Makefile 1.5 2009/07/09 11:41:19EDT rmcgraw Exp  $
-#
-# $Log: Makefile  $
-# Revision 1.5 2009/07/09 11:41:19EDT rmcgraw
-# DCR8291:1 Changed CFE_MISSION_INC to CFS_MISSION_INC and added log if needed
+# File: UDP Application Makefile
 #
 ###############################################################################
 #
 # Subsystem produced by this makefile.
 #
-APPTARGET = sbn
+export APPTARGET = sbn_udp
 
 #
 # Entry Point for task
 #
-ENTRY_PT = SBN_AppMain
+ENTRY_PT = SBN_UDP_AppMain
 
 #
 # Object files required to build subsystem.
 #
-OBJS = sbn_app.o
-OBJS += sbn_netif.o
-OBJS += sbn_loader.o
-OBJS += sbn_cmds.o
-OBJS += sbn_subs.o
+OBJS = sbn_udp_if.o
+
 #
 # Source files required to build subsystem; used to generate dependencies.
 # As long as there are no assembly files this can be automated.
 #
 SOURCES = $(OBJS:.o=.c)
+
+
+##
+## Specify extra C Flags needed to build this subsystem
+##
+LOCAL_COPTS = -g -fPIC
+
 
 ##
 ## EXEDIR is defined here, just in case it needs to be different for a custom
@@ -44,6 +42,11 @@ EXEDIR=../exe
 ## For each shared library that this app depends on, you need to have an
 ## entry like the following:
 ##  -R../tst_lib/tst_lib.elf
+##
+## For builds under cygwin when you need the cfs_lib.dll linked in
+## set this variables as follows:
+##
+## SHARED_LIB_LINK =../cfs_lib/cfs_lib.dll
 ##
 SHARED_LIB_LINK =
 
@@ -85,7 +88,6 @@ include $(CFE_PSP_SRC)/$(PSP)/make/compiler-opts.mak
 INCLUDE_PATH = \
 -I$(OSAL_SRC)/inc \
 -I$(CFE_CORE_SRC)/inc \
--I$(CFE_CORE_SRC)/sb \
 -I$(CFE_PSP_SRC)/inc \
 -I$(CFE_PSP_SRC)/$(PSP)/inc \
 -I$(CFS_APP_SRC)/inc \
@@ -98,7 +100,7 @@ INCLUDE_PATH = \
 ## Define the VPATH make variable.
 ## This can be modified to include source from another directory.
 ## If there is no corresponding app in the cfs-apps directory, then this can be discarded, or
-## if the mission chooses to put the src in another directory such as "src", then that can be
+## if the mission chooses to put the src in another directory such as src, then that can be
 ## added here as well.
 ##
 VPATH = $(CFS_APP_SRC)/$(APPTARGET)/fsw/src
@@ -107,8 +109,3 @@ VPATH = $(CFS_APP_SRC)/$(APPTARGET)/fsw/src
 ## Include the common make rules for building a cFE Application
 ##
 include $(CFE_CORE_SRC)/make/app-rules.mak
-
-install:
-	$(CP) $(APPTARGET).$(APP_EXT) $(EXEDIR)
-	$(CP) $(CFS_APP_SRC)/$(APPTARGET)/fsw/src/SbnPeerData.dat $(EXEDIR)
-	$(CP) $(CFS_APP_SRC)/$(APPTARGET)/fsw/src/SbnModuleData.dat $(EXEDIR)
