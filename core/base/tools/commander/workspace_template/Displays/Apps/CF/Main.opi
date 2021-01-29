@@ -8,7 +8,7 @@
   </auto_scale_widgets>
   <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
   <background_color>
-    <color red="240" green="240" blue="240" />
+    <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
   <boy_version>1.5.3</boy_version>
   <foreground_color>
@@ -86,7 +86,7 @@
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -141,7 +141,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -196,7 +196,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -251,7 +251,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -306,7 +306,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -346,97 +346,5 @@ $(pv_value)</tooltip>
     <wuid>31ffe3bf:150a7259bb9:-6f00</wuid>
     <x>70</x>
     <y>135</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>37</height>
-    <horizontal_alignment>1</horizontal_alignment>
-    <name>Label</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>Stuff</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>169</width>
-    <wrap_words>false</wrap_words>
-    <wuid>-400e50e1:1518d4ecb8d:-7dfd</wuid>
-    <x>108</x>
-    <y>372</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <format_type>1</format_type>
-    <height>31</height>
-    <horizontal_alignment>0</horizontal_alignment>
-    <name>Text Update</name>
-    <precision>0</precision>
-    <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.CmdCounter</pv_name>
-    <pv_value />
-    <rotation_angle>0.0</rotation_angle>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <show_units>true</show_units>
-    <text>######</text>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <transparent>false</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Text Update</widget_type>
-    <width>193</width>
-    <wrap_words>false</wrap_words>
-    <wuid>-400e50e1:1518d4ecb8d:-7ca2</wuid>
-    <x>276</x>
-    <y>378</y>
   </widget>
 </display>

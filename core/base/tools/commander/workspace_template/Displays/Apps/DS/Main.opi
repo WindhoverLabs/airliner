@@ -269,7 +269,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light sky blue" red="135" green="206" blue="250" />
+      <color red="34" green="45" blue="75" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -283,7 +283,7 @@ $(pv_value)</tooltip>
     </font>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <foreground_color>
-      <color red="0" green="0" blue="0" />
+      <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>13</height>
     <image></image>
@@ -323,7 +323,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light sky blue" red="135" green="206" blue="250" />
+      <color red="34" green="45" blue="75" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -337,7 +337,7 @@ $(pv_value)</tooltip>
     </font>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <foreground_color>
-      <color red="0" green="0" blue="0" />
+      <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>13</height>
     <image></image>
@@ -1650,7 +1650,7 @@ Yamcs.issueCommand('/CFS/DS/SetAppState(State: 1)');]]></scriptText>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light sky blue" red="135" green="206" blue="250" />
+      <color red="34" green="45" blue="75" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -1664,7 +1664,7 @@ Yamcs.issueCommand('/CFS/DS/SetAppState(State: 1)');]]></scriptText>
     </font>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <foreground_color>
-      <color red="0" green="0" blue="0" />
+      <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>19</height>
     <image></image>
@@ -1693,18 +1693,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>SetFilterFile.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -1747,18 +1748,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>SetFilterType.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -1801,18 +1803,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>SetFilterParms.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -1855,18 +1858,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>SetDestType.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -1909,18 +1913,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>SetDestState.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -1963,18 +1968,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>SetDestPath.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -2017,18 +2023,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>SetDestBase.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -2071,18 +2078,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>SetDestExt.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -2125,18 +2133,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>SetDestSize.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -2179,18 +2188,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>SetDestAge.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -2233,18 +2243,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>SetDestCount.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -2287,18 +2298,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>CloseFile.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -2341,18 +2353,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>GetFileInfo.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -2395,18 +2408,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>AddMid.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -2449,18 +2463,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+      <action type="OPEN_DISPLAY">
+        <path>CloseAll.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>0</mode>
         <description></description>
       </action>
     </actions>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light green" red="144" green="238" blue="144" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -2516,7 +2531,7 @@ Yamcs.issueCommand('/CFS/DS/SetAppState(State: 0)');]]></scriptText>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light sky blue" red="135" green="206" blue="250" />
+      <color red="34" green="45" blue="75" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -2530,7 +2545,7 @@ Yamcs.issueCommand('/CFS/DS/SetAppState(State: 0)');]]></scriptText>
     </font>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <foreground_color>
-      <color red="0" green="0" blue="0" />
+      <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>19</height>
     <image></image>
