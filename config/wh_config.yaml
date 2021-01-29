@@ -6,9 +6,6 @@ modules:
     modules:
       cfe:
         definition: ${PROJECT_SOURCE_DIR}/core/base/cfe/wh_design.yaml
-    
-  cfs_lib:
-    definition: ${PROJECT_SOURCE_DIR}/apps/cfs_lib/wh_design.yaml
         
   cf:
     definition: ${PROJECT_SOURCE_DIR}/apps/cf/wh_design.yaml
@@ -26,25 +23,6 @@ modules:
         msgID: 0x1912
       CF_WAKE_UP_REQ_CMD_MID:
         msgID: 0x1918
-    perfids: 
-      CF_APPMAIN_PERF_ID:
-        id: 35
-      CF_FILESIZE_PERF_ID: 
-        id: 36
-      CF_FOPEN_PERF_ID: 
-        id: 37
-      CF_FCLOSE_PERF_ID: 
-        id: 38
-      CF_FREAD_PERF_ID: 
-        id: 39
-      CF_FWRITE_PERF_ID: 
-        id: 40
-      CF_REDLIGHT_PERF_ID: 
-        id: 41
-      CF_CYCLE_ENG_PERF_ID: 
-        id: 42
-      CF_QDIRFILES_PERF_ID: 
-        id: 43
     
   ci:
     telemetry:
@@ -65,201 +43,8 @@ modules:
       CF_APPMAIN_PERF_ID:
         id: 35
     definition: ${PROJECT_SOURCE_DIR}/apps/ci/wh_design.yaml
-    
-  cs:
-    definition: ${PROJECT_SOURCE_DIR}/apps/cs/wh_design.yaml
-    telemetry: 
-      CS_HK_TLM_MID: 
-        msgID: 0x0933
-    commands: 
-      CS_CMD_MID: 
-        msgID: 0x1930
-      CS_BACKGROUND_CYCLE_MID: 
-        msgID: 0x1931
-      CS_SEND_HK_MID: 
-        msgID: 0x1932
-    perfids: 
-      CS_APPMAIN_PERF_ID: 
-        id: 44
-    
-  ds:
-    definition: ${PROJECT_SOURCE_DIR}/apps/ds/wh_design.yaml
-    telemetry: 
-      DS_HK_TLM_MID: 
-        msgID: 0x0942
-      DS_DIAG_TLM_MID: 
-        msgID: 0x0943
-    commands: 
-      DS_CMD_MID: 
-        msgID: 0x1940
-      DS_SEND_HK_MID: 
-        msgID: 0x1941
-    perfids: 
-      DS_APPMAIN_PERF_ID: 
-        id: 45
-    
-  fm:
-    definition: ${PROJECT_SOURCE_DIR}/apps/fm/wh_design.yaml
-    telemetry: 
-      FM_HK_TLM_MID: 
-        msgID: 0x0982
-      FM_OPEN_FILES_TLM_MID: 
-        msgID: 0x0983
-      FM_FREE_SPACE_TLM_MID: 
-        msgID: 0x0984
-      FM_FILE_INFO_TLM_MID: 
-        msgID: 0x0985
-      FM_DIR_LIST_TLM_MID: 
-        msgID: 0x0986
-    commands: 
-      FM_CMD_MID: 
-        msgID: 0x1980
-      FM_SEND_HK_MID: 
-        msgID: 0x1981
-    perfids: 
-      FM_APPMAIN_PERF_ID: 
-        id: 46
-      FM_CHILD_TASK_PERF_ID: 
-        id: 47
-    
-  hk:
-    definition: ${PROJECT_SOURCE_DIR}/apps/hk/wh_design.yaml
-    telemetry: 
-      HK_HK_TLM_MID: 
-        msgID: 0x0993
-      HK_COMBINED_PKT1_MID: 
-        msgID: 0x0994
-      HK_COMBINED_PKT2_MID: 
-        msgID: 0x0995
-      HK_COMBINED_PKT3_MID: 
-        msgID: 0x0996
-      HK_COMBINED_PKT4_MID: 
-        msgID: 0x0997
-      HK_COMBINED_PKT5_MID: 
-        msgID: 0x0998
-      HK_COMBINED_PKT6_MID: 
-        msgID: 0x0999
-      HK_COMBINED_PKT7_MID: 
-        msgID: 0x099a
-      HK_COMBINED_PKT8_MID: 
-        msgID: 0x099b
-      HK_COMBINED_PKT9_MID: 
-        msgID: 0x099c
-      HK_COMBINED_PKT10_MID: 
-        msgID: 0x099d
-    commands: 
-      HK_CMD_MID: 
-        msgID: 0x1990
-      HK_SEND_HK_MID: 
-        msgID: 0x1991
-      HK_SEND_COMBINED_PKT_MID: 
-        msgID: 0x1992
-    perfids: 
-      HK_APPMAIN_PERF_ID: 
-        id: 48
-      
-  hs:
-    definition: ${PROJECT_SOURCE_DIR}/apps/hs/wh_design.yaml
-    telemetry: 
-      HS_HK_TLM_MID: 
-        msgID: 0x09a3
-      HS_CUSTOM_HK_TLM_MID: 
-        msgID: 0x09a4
-    commands: 
-      HS_CMD_MID: 
-        msgID: 0x19a0
-      HS_SEND_HK_MID: 
-        msgID: 0x19a1
-      HS_WAKEUP_MID: 
-        msgID: 0x19a2
-    perfids: 
-      HS_IDLETASK_PERF_ID: 
-        id: 49
-      HS_APPMAIN_PERF_ID: 
-        id: 50
-    
-  lc:
-    definition: ${PROJECT_SOURCE_DIR}/apps/lc/wh_design.yaml
-    telemetry: 
-      LC_HK_TLM_MID: 
-        msgID: 0x09b0
-      LC_SAMPLE_AP_MID: 
-        msgID: 0x09b3
-    commands: 
-      LC_CMD_MID: 
-        msgID: 0x19b2
-      LC_SEND_HK_MID: 
-        msgID: 0x19b1
-    perfids: 
-      LC_APPMAIN_PERF_ID: 
-        id: 51
-      LC_WDT_SEARCH_PERF_ID: 
-        id: 52
-    
-  md:
-    definition: ${PROJECT_SOURCE_DIR}/apps/md/wh_design.yaml
-    telemetry: 
-      MD_HK_TLM_MID: 
-        msgID: 0x09c6
-      MD_DWELL_PKT_MID_BASE: 
-        msgID: 0x09c7
-    commands: 
-      MD_CMD_MID: 
-        msgID: 0x19c3
-      MD_WAKEUP_MID: 
-        msgID: 0x19c4
-      MD_SEND_HK_MID: 
-        msgID: 0x19c5
-    perfids: 
-      MD_APPMAIN_PERF_ID: 
-        id:  53
-    
-  mm:
-    definition: ${PROJECT_SOURCE_DIR}/apps/mm/wh_design.yaml
-    telemetry: 
-      MM_HK_TLM_MID: 
-        msgID: 
-    commands: 
-      MM_CMD_MID: 
-        msgID: 0x19c0
-      MM_SEND_HK_MID: 
-        msgID: 0x19c1
-    perfids: 
-      MM_APPMAIN_PERF_ID: 
-        id: 54
-      MM_SEGBREAK_PERF_ID: 
-        id: 55
-      MM_EEPROM_POKE_PERF_ID: 
-        id: 56
-      MM_EEPROM_FILELOAD_PERF_ID: 
-        id: 57
-      MM_EEPROM_FILL_PERF_ID: 
-        id: 58
-    
-  sc:
-    definition: ${PROJECT_SOURCE_DIR}/apps/sc/wh_design.yaml
-    telemetry:
-      SC_HK_TLM_MID:
-        msgID: 0x09e3
-    commands:
-      SC_CMD_MID:
-        msgID: 0x19e0
-      SC_SEND_HK_MID:
-        msgID: 0x19e1
-      SC_1HZ_WAKEUP_MID:
-        msgID: 0x19e2
-    perfids:
-      SC_APPMAIN_PERF_ID:
-        id: 59
-    
-#   sbn:
-#     commands:
-#       SBN_WAKEUP_MID:
-#         msgID: 0x1ba0
-#     definition: ${PROJECT_SOURCE_DIR}/apps/sbn/wh_design.yaml
 
   sch:
-    definition: ${PROJECT_SOURCE_DIR}/apps/sch/wh_design.yaml
     telemetry:
       SCH_DIAG_TLM_MID:
         msgID: 0x09e7
@@ -275,9 +60,9 @@ modules:
     perfids:
       SCH_APPMAIN_PERF_ID:
         id: 61
+    definition: ${PROJECT_SOURCE_DIR}/apps/sch/wh_design.yaml
 
   to:
-    definition: ${PROJECT_SOURCE_DIR}/apps/to/wh_design.yaml
     telemetry:
       TO_DIAG_TLM_MID:
         msgID: 0x0911
@@ -295,6 +80,695 @@ modules:
         id: 60
       TO_SOCKET_SEND_PERF_ID:
         id: 62
-    
+    definition: ${PROJECT_SOURCE_DIR}/apps/to/wh_design.yaml
 
+  ak8963:
+    telemetry:
+      AK8963_HK_TLM_MID:
+        msgID: 0x0cc1
+      AK8963_DIAG_TLM_MID:
+        msgID: 0x0cc5
+    commands:
+      AK8963_CMD_MID:
+        msgID: 0x1cc4
+      AK8963_WAKEUP_MID:
+        msgID: 0x1cc3
+      AK8963_SEND_HK_MID:
+        msgID: 0x1cc2
+    perfids:
+      AK8963_RECEIVE_PERF_ID:
+        id: 102
+      AK8963_SEND_PERF_ID:
+        id: 103
+      AK8963_MAIN_TASK_PERF_ID:
+        id: 104
+    definition: ${PROJECT_SOURCE_DIR}/apps/ak8963/wh_design.yaml
+    
+  amc:
+    telemetry:
+      AMC_HK_TLM_MID:
+        msgID: 0x0c41
+    commands:
+      AMC_CMD_MID:
+        msgID: 0x1c3d
+      AMC_SEND_HK_MID:
+        msgID: 0x1c3e
+      AMC_UPDATE_MOTORS_MID:
+        msgID: 0x1c3f
+    perfids:
+      AMC_MAIN_TASK_PERF_ID:
+        id: 67
+      AMC_SEND_PERF_ID:
+        id: 108
+      AMC_RECEIVE_PERF_ID:
+        id: 109
+    definition: ${PROJECT_SOURCE_DIR}/apps/amc/wh_design.yaml
+    
+  bat:
+    telemetry:
+      BAT_HK_TLM_MID:
+        msgID: 0x0c71
+    commands:
+      BAT_CMD_MID:
+        msgID: 0x1c74
+      BAT_SEND_HK_MID:
+        msgID: 0x1c72
+      BAT_WAKEUP_MID:
+        msgID: 0x1c73
+    perfids:
+      BAT_MAIN_TASK_PERF_ID:
+        id: 82
+    definition: ${PROJECT_SOURCE_DIR}/apps/bat/wh_design.yaml
+    
+  ea:
+    telemetry:
+      EA_HK_TLM_MID:
+        msgID: 0x0c2b
+    commands:
+      EA_CMD_MID:
+        msgID: 0x1c29
+      EA_WAKEUP_MID:
+        msgID: 0x1c2c
+    perfids:
+      EA_MAIN_TASK_PERF_ID:
+        id: 69
+    definition: ${PROJECT_SOURCE_DIR}/apps/ea/wh_design.yaml
+    
+  gps:
+    telemetry:
+      GPS_HK_TLM_MID:
+        msgID: 0x0c54
+    commands:
+      GPS_CMD_MID:
+        msgID: 0x1c51
+      GPS_SEND_HK_MID:
+        msgID: 0x1c52
+      GPS_READ_SENSOR_MID:
+        msgID: 0x1c53
+    perfids: 
+      GPS_MAIN_TASK_PERF_ID:
+        id: 116
+    definition: ${PROJECT_SOURCE_DIR}/apps/gps/wh_design.yaml
+    
+  hmc5883:
+    telemetry:
+      HMC5883_HK_TLM_MID:
+        msgID: 0x0ca1
+      HMC5883_DIAG_TLM_MID:
+        msgID: 0x0ca5
+    commands:
+      HMC5883_CMD_MID:
+        msgID: 0x1ca4
+      HMC5883_WAKEUP_MID:
+        msgID: 0x1ca3
+      HMC5883_SEND_HK_MID:
+        msgID: 0x1ca2
+    perfids:
+      HMC5883_MAIN_TASK_PERF_ID:
+        id: 87
+      HMC5883_RECEIVE_PERF_ID:
+        id: 88
+      HMC5883_SEND_PERF_ID:
+        id: 89
+    definition: ${PROJECT_SOURCE_DIR}/apps/hmc5883/wh_design.yaml
+    
+  ld:
+    telemetry:
+      LD_HK_TLM_MID:
+        msgID: 0x0c5d
+      LD_DIAG_TLM_MID:
+        msgID: 0x0ceb
+    commands:
+      LD_CMD_MID:
+        msgID: 0x1c60
+      LD_SEND_HK_MID:
+        msgID: 0x1c5e
+      LD_WAKEUP_MID:
+        msgID: 0x1c5f
+    perfids:
+      LD_MAIN_TASK_PERF_ID:
+        id: 77
+    definition: ${PROJECT_SOURCE_DIR}/apps/ld/wh_design.yaml
+    
+  lgc:
+    telemetry:
+      LGC_HK_TLM_MID:
+        msgID: 0x0cb0
+    commands:
+      LGC_CMD_MID:
+        msgID: 0x1cb3
+      LGC_SEND_HK_MID:
+        msgID: 0x1cb1
+      LGC_WAKEUP_MID:
+        msgID: 0x1cb2
+    perfids:
+      LGC_MAIN_TASK_PERF_ID:
+        id: 112
+    definition: ${PROJECT_SOURCE_DIR}/apps/lgc/wh_design.yaml
+    
+  mac:
+    telemetry:
+      MAC_HK_TLM_MID:
+        msgID: 0x0c46
+    commands:
+      MAC_CMD_MID:
+        msgID: 0x1c42
+      MAC_SEND_HK_MID:
+        msgID: 0x1c43
+      MAC_RUN_CONTROLLER_MID:
+        msgID: 0x1c44
+    perfids:
+      MAC_MAIN_TASK_PERF_ID:
+        id: 68
+    definition: ${PROJECT_SOURCE_DIR}/apps/mac/wh_design.yaml
+    
+  mpc:
+    telemetry:
+      MPC_HK_TLM_MID:
+        msgID: 0x0c61
+      MPC_DIAG_TLM_MID:
+        msgID: 0x0cea
+    commands:
+      MPC_CMD_MID:
+        msgID: 0x1c64
+      MPC_WAKEUP_MID:
+        msgID: 0x1c63
+      MPC_SEND_HK_MID:
+        msgID: 0x1c62
+    perfids:
+      MPC_MAIN_TASK_PERF_ID:
+        id: 78
+    definition: ${PROJECT_SOURCE_DIR}/apps/mpc/wh_design.yaml
+    
+  mpu6050:
+    telemetry:
+      MPU6050_HK_TLM_MID:
+        msgID: 0x0cd1
+      MPU6050_DIAG_TLM_MID:
+        msgID: 0x0cd2
+    commands:
+      MPU6050_CMD_MID:
+        msgID: 0x1cd3
+      MPU6050_SEND_HK_MID:
+        msgID: 0x1cd0
+      MPU6050_MEASURE_MID:
+        msgID: 0x1cd4
+    perfids:
+      MPU6050_MAIN_TASK_PERF_ID:
+        id: 105
+      MPU6050_RECEIVE_PERF_ID:
+        id: 106
+      MPU6050_SEND_PERF_ID:
+        id: 107
+    definition: ${PROJECT_SOURCE_DIR}/apps/mpu6050/wh_design.yaml
+    
+  mpu9250:
+    telemetry:
+      MPU9250_HK_TLM_MID:
+        msgID: 0x0b51
+      MPU9250_DIAG_TLM_MID:
+        msgID: 0x0b52
+    commands:
+      MPU9250_CMD_MID:
+        msgID: 0x1b53
+      MPU9250_SEND_HK_MID:
+        msgID: 0x1b50
+      MPU9250_MEASURE_MID:
+        msgID: 0x1b54
+    perfids:
+      MPU9250_MAIN_TASK_PERF_ID:
+        id: 83
+    definition: ${PROJECT_SOURCE_DIR}/apps/mpu9250/wh_design.yaml
+    
+  ms5607:
+    telemetry:
+      MS5607_HK_TLM_MID:
+        msgID: 0x0cb6
+      MS5607_DIAG_TLM_MID:
+        msgID: 0x0cb7
+    commands:
+      MS5607_CMD_MID:
+        msgID: 0x1cb8
+      MS5607_SEND_HK_MID:
+        msgID: 0x1cb5
+      MS5607_MEASURE_MID:
+        msgID: 0x1cb9
+    perfids:
+      MS5607_MAIN_TASK_PERF_ID:
+        id: 99
+      MS5607_RECEIVE_PERF_ID:
+        id: 100
+      MS5607_SEND_PERF_ID:
+        id: 101
+    definition: ${PROJECT_SOURCE_DIR}/apps/ms5607/wh_design.yaml
+    
+  ms5611:
+    telemetry:
+      MS5611_HK_TLM_MID:
+        msgID: 0x0b61
+      MS5611_DIAG_TLM_MID:
+        msgID: 0x0b62
+    commands:
+      MS5611_CMD_MID:
+        msgID: 0x1b63
+      MS5611_SEND_HK_MID:
+        msgID: 0x1b60
+      MS5611_MEASURE_MID:
+        msgID: 0x1b64
+    perfids:
+      MS5611_MAIN_TASK_PERF_ID:
+        id: 74
+    definition: ${PROJECT_SOURCE_DIR}/apps/ms5611/wh_design.yaml
+    
+  nav:
+    telemetry:
+      NAV_HK_TLM_MID:
+        msgID: 0x0c65
+    commands:
+      NAV_CMD_MID:
+        msgID: 0x1c68
+      NAV_SEND_HK_MID:
+        msgID: 0x1c66
+      NAV_WAKEUP_MID:
+        msgID: 0x1c67
+    perfids:
+      NAV_MAIN_TASK_PERF_ID:
+        id: 79
+    definition: ${PROJECT_SOURCE_DIR}/apps/nav/wh_design.yaml
+    
+#   prmlib:
+#     telemetry:
+#       PRMLIB_PARAM_UPDATED_MID:
+#         msgID: 0x0ca6
+#     commands:
+#       PRM_CMD_MID:
+#         msgID: 0x1ced
+#       PRM_SEND_HK_MID:
+#         msgID: 0x1cee
+#       PRM_WAKEUP_MID:
+#         msgID: 0x1cef
+#     perfids:
+#       PARAMS_MAIN_TASK_PERF_ID:
+#         id: 90
+#     definition: ${PROJECT_SOURCE_DIR}/apps/prmlib/wh_design.yaml
+    
+  pe:
+    telemetry:
+      PE_HK_TLM_MID:
+        msgID: 0x0c79
+    commands:
+      PE_CMD_MID:
+        msgID: 0x1c7c
+      PE_SEND_HK_MID:
+        msgID: 0x1c7a
+      PE_WAKEUP_MID:
+        msgID: 0x1c7b
+    perfids:
+      PE_MAIN_TASK_PERF_ID:
+        id: 92
+      PE_UPDATE_TASK_PERF_ID:
+        id: 93
+      PE_SENSOR_GPS_PERF_ID:
+        id: 94
+      PE_SENSOR_BARO_PERF_ID:
+        id: 95
+      PE_SENSOR_LAND_PERF_ID:
+        id: 96
+      PE_INVERSE_MAT_PERF_ID:
+        id: 97
+      PE_SENSOR_FLOW_PERF_ID:
+        id: 98
+      PE_SENSOR_DIST_PERF_ID:
+        id: 110
+    definition: ${PROJECT_SOURCE_DIR}/apps/pe/wh_design.yaml
+    
+  qae:
+    telemetry:
+      QAE_HK_TLM_MID:
+        msgID: 0x0c59
+    commands:
+      QAE_CMD_MID:
+        msgID: 0x1c5c
+      QAE_SEND_HK_MID:
+        msgID: 0x1c5a
+      QAE_WAKEUP_MID:
+        msgID: 0x1c5b
+    perfids:
+      QAE_MAIN_TASK_PERF_ID:
+        id: 76
+      AE_MAIN_TASK_PERF_ID:
+        id: 91
+    definition: ${PROJECT_SOURCE_DIR}/apps/qae/wh_design.yaml
+    
+  rcin:
+    telemetry:
+      RCIN_HK_TLM_MID:
+        msgID: 0x0c69
+    commands:
+      RCIN_CMD_MID:
+        msgID: 0x1c6c
+      RCIN_SEND_HK_MID:
+        msgID: 0x1c6a
+      RCIN_WAKEUP_MID:
+        msgID: 0x1c6b
+    perfids:
+      RCIN_MAIN_TASK_PERF_ID:
+        id: 80
+      RCIN_DEVICE_GET_PERF_ID:
+        id: 84
+    definition: ${PROJECT_SOURCE_DIR}/apps/rcin/wh_design.yaml
+    
+  rgbled:
+    telemetry:
+      RGBLED_HK_TLM_MID:
+        msgID: 0x0c4f
+    commands:
+      RGBLED_CMD_MID:
+        msgID: 0x1c4c
+      RGBLED_SEND_HK_MID:
+        msgID: 0x1c4d
+      RGBLED_WAKEUP_MID:
+        msgID: 0x1c4e
+    perfids:
+      RGBLED_MAIN_TASK_PERF_ID:
+        id: 71
+      RGBLED_SEND_PERF_ID:
+        id: 72
+      RGBLED_RECEIVE_PERF_ID:
+        id: 73
+    definition: ${PROJECT_SOURCE_DIR}/apps/rgbled/wh_design.yaml
+    
+#   sbn:
+#     commands:
+#       SBN_WAKEUP_MID:
+#         msgID: 0x1ba0
+#     definition: ${PROJECT_SOURCE_DIR}/apps/sbn/wh_design.yaml
+    
+  sc:
+    telemetry:
+      SC_HK_TLM_MID:
+        msgID: 0x09e3
+    commands:
+      SC_CMD_MID:
+        msgID: 0x19e0
+      SC_SEND_HK_MID:
+        msgID: 0x19e1
+      SC_1HZ_WAKEUP_MID:
+        msgID: 0x19e2
+    perfids:
+      SC_APPMAIN_PERF_ID:
+        id: 59
+    definition: ${PROJECT_SOURCE_DIR}/apps/sc/wh_design.yaml
+    
+  sens:
+    telemetry:
+      SENS_HK_TLM_MID:
+        msgID: 0x0c55
+    commands:
+      SENS_CMD_MID:
+        msgID: 0x1c58
+      SENS_WAKEUP_MID:
+        msgID: 0x1c57
+      SENS_SEND_HK_MID:
+        msgID: 0x1c56
+    perfids:
+      SENS_MAIN_TASK_PERF_ID:
+        id: 75
+    definition: ${PROJECT_SOURCE_DIR}/apps/sens/wh_design.yaml
+    
+#   sim:
+#     telemetry:
+#       SIM_HK_TLM_MID:
+#         msgID: 0x0c7d
+#     commands:
+#       SIM_CMD_MID:
+#         msgID: 0x1c80
+#       SIM_WAKEUP_MID:
+#         msgID: 0x1c7f
+#       SIM_SEND_HK_MID:
+#         msgID: 0x1c7e
+#     perfids:
+#       SIM_MAIN_TASK_PERF_ID:
+#         id: 85
+#     definition: ${PROJECT_SOURCE_DIR}/apps/sim/wh_design.yaml
+    
+  sonar:
+    telemetry:
+      SONAR_OUT_DATA_MID:
+        msgID: 0x0cd9
+      SONAR_HK_TLM_MID:
+        msgID: 0x0ce0
+    commands:
+      SONAR_CMD_MID:
+        msgID: 0x1cd6
+      SONAR_SEND_HK_MID:
+        msgID: 0x1cd7
+      SONAR_MEASURE_MID:
+        msgID: 0x1cd8
+    perfids:
+      SONAR_MAIN_TASK_PERF_ID:
+        id: 111
+    definition: ${PROJECT_SOURCE_DIR}/apps/sonar/wh_design.yaml
+    
+  ulr:
+    telemetry:
+      ULR_HK_TLM_MID:
+        msgID: 0x0c4b
+    commands:
+      ULR_CMD_MID:
+        msgID: 0x1c47
+      ULR_SEND_HK_MID:
+        msgID: 0x1c48
+      ULR_MEASURE_MID:
+        msgID: 0x1c49
+    perfids:
+      ULR_MAIN_TASK_PERF_ID:
+        id: 70
+    definition: ${PROJECT_SOURCE_DIR}/apps/ulr/wh_design.yaml
+    
+  vc:
+    telemetry:
+      VC_HK_TLM_MID:
+        msgID: 0x0c39
+    commands:
+      VC_CMD_MID:
+        msgID: 0x1c3b
+      VC_SEND_HK_MID:
+        msgID: 0x1c3a
+      VC_PROCESS_CMDS_MID:
+        msgID: 0x1c3c
+    perfids:
+      VC_MAIN_TASK_PERF_ID:
+        id: 63
+      VC_SOCKET_SEND_PERF_ID:
+        id: 64
+      VC_DEVICE_GET_PERF_ID:
+        id: 65
+    definition: ${PROJECT_SOURCE_DIR}/apps/vc/wh_design.yaml
+    
+  vm:
+    telemetry:
+      VM_HK_TLM_MID:
+        msgID: 0x0c6d
+      VM_CONFIG_TLM_MID:
+        msgID: 0x0cec
+    commands:
+      VM_CMD_MID:
+        msgID: 0x1c70
+      VM_SEND_HK_MID:
+        msgID: 0x1c6e
+      VM_WAKEUP_MID:
+        msgID: 0x1c6f
+    perfids:
+      VM_MAIN_TASK_PERF_ID:
+        id: 81
+    definition: ${PROJECT_SOURCE_DIR}/apps/vm/wh_design.yaml
+    
+#   px4lib:
+#     telemetry:
+#       PX4_ACTUATOR_ARMED_MID:
+#         msgID: 0x0a05
+#       PX4_ACTUATOR_CONTROLS_0_MID:
+#         msgID: 0x0a06
+#       PX4_ACTUATOR_CONTROLS_1_MID:
+#         msgID: 0x0a5f
+#       PX4_ACTUATOR_CONTROLS_2_MID:
+#         msgID: 0x0a5d
+#       PX4_ACTUATOR_CONTROLS_3_MID:
+#         msgID: 0x0a5e
+#       PX4_ACTUATOR_DIRECT_MID:
+#         msgID: 0x0a07
+#       PX4_ACTUATOR_OUTPUTS_MID:
+#         msgID: 0x0a08
+#       PX4_ADC_REPORT_MID:
+#         msgID: 0x0a09
+#       PX4_AIRSPEED_MID:
+#         msgID: 0x0a0a
+#       PX4_ATT_POS_MOCAP_MID:
+#         msgID: 0x0a0b
+#       PX4_BATTERY_STATUS_MID:
+#         msgID: 0x0a0c
+#       PX4_CAMERA_TRIGGER_MID:
+#         msgID: 0x0a0d
+#       PX4_COMMANDER_STATE_MID:
+#         msgID: 0x0a0e
+#       PX4_CONTROL_STATE_MID:
+#         msgID: 0x0a0f
+#       PX4_CPULOAD_MID:
+#         msgID: 0x0a10
+#       PX4_DEBUG_KEY_VALUE_MID:
+#         msgID: 0x0a11
+#       PX4_DIFFERENTIAL_PRESSURE_MID:
+#         msgID: 0x0a12
+#       PX4_DISTANCE_SENSOR_MID:
+#         msgID: 0x0a13
+#       PX4_FW_POS_CTRL_STATUS_MID:
+#         msgID: 0x0a14
+#       PX4_FW_VIRTUAL_ATTITUDE_SETPOINT_MID:
+#         msgID: 0x0a15
+#       PX4_FW_VIRTUAL_RATES_SETPOINT_MID:
+#         msgID: 0x0a16
+#       PX4_EKF2_INNOVATIONS_MID:
+#         msgID: 0x0a17
+#       PX4_EKF2_REPLAY_MID:
+#         msgID: 0x0a18
+#       PX4_ESC_REPORT_MID:
+#         msgID: 0x0a19
+#       PX4_ESC_STATUS_MID:
+#         msgID: 0x0a1a
+#       PX4_ESTIMATOR_STATUS_MID:
+#         msgID: 0x0a1b
+#       PX4_FENCE_MID:
+#         msgID: 0x0a1c
+#       PX4_FENCE_VERTEX_MID:
+#         msgID: 0x0a1d
+#       PX4_FILTERED_BOTTOM_FLOW_MID:
+#         msgID: 0x0a1e
+#       PX4_FOLLOW_TARGET_MID:
+#         msgID: 0x0a1f
+#       PX4_GEOFENCE_RESULT_MID:
+#         msgID: 0x0a20
+#       PX4_GPS_DUMP_MID:
+#         msgID: 0x0a21
+#       PX4_GPS_INJECT_DATA_MID:
+#         msgID: 0x0a22
+#       PX4_HIL_SENSOR_MID:
+#         msgID: 0x0a23
+#       PX4_HOME_POSITION_MID:
+#         msgID: 0x0a24
+#       PX4_INPUT_RC_MID:
+#         msgID: 0x0a25
+#       PX4_LED_CONTROL_MID:
+#         msgID: 0x0a5c
+#       PX4_LOG_MESSAGE_MID:
+#         msgID: 0x0a26
+#       PX4_MANUAL_CONTROL_SETPOINT_MID:
+#         msgID: 0x0a27
+#       PX4_MAVLINK_LOG_MID:
+#         msgID: 0x0a28
+#       PX4_MC_ATT_CTRL_STATUS_MID:
+#         msgID: 0x0a29
+#       PX4_MC_VIRTUAL_ATTITUDE_SETPOINT_MID:
+#         msgID: 0x0a2a
+#       PX4_MC_VIRTUAL_RATES_SETPOINT_MID:
+#         msgID: 0x0a2b
+#       PX4_MISSION_MID:
+#         msgID: 0x0a2c
+#       PX4_MISSION_RESULT_MID:
+#         msgID: 0x0a2d
+#       PX4_MULTIROTOR_MOTOR_LIMITS_MID:
+#         msgID: 0x0a2e
+#       PX4_OFFBOARD_CONTROL_MODE_MID:
+#         msgID: 0x0a2f
+#       PX4_OPTICAL_FLOW_MID:
+#         msgID: 0x0a30
+#       PX4_OUTPUT_PWM_MID:
+#         msgID: 0x0a31
+#       PX4_PARAMETER_UPDATE_MID:
+#         msgID: 0x0a32
+#       PX4_POSITION_SETPOINT_MID:
+#         msgID: 0x0a33
+#       PX4_POSITION_SETPOINT_TRIPLET_MID:
+#         msgID: 0x0a34
+#       PX4_PWM_INPUT_MID:
+#         msgID: 0x0a35
+#       PX4_QSHELL_REQ_MID:
+#         msgID: 0x0a36
+#       PX4_RC_CHANNELS_MID:
+#         msgID: 0x0a37
+#       PX4_RC_PARAMETER_MAP_MID:
+#         msgID: 0x0a38
+#       PX4_SAFETY_MID:
+#         msgID: 0x0a39
+#       PX4_SATELLITE_INFO_MID:
+#         msgID: 0x0a3a
+#       PX4_SENSOR_ACCEL_MID:
+#         msgID: 0x0a3b
+#       PX4_SENSOR_BARO_MID:
+#         msgID: 0x0a3c
+#       PX4_SENSOR_COMBINED_MID:
+#         msgID: 0x0a3d
+#       PX4_SENSOR_GYRO_MID:
+#         msgID: 0x0a3e
+#       PX4_SENSOR_MAG_MID:
+#         msgID: 0x0a3f
+#       PX4_SERVORAIL_STATUS_MID:
+#         msgID: 0x0a40
+#       PX4_SUBSYSTEM_INFO_MID:
+#         msgID: 0x0a41
+#       PX4_SYSTEM_POWER_MID:
+#         msgID: 0x0a42
+#       PX4_TECS_STATUS_MID:
+#         msgID: 0x0a43
+#       PX4_TELEMETRY_STATUS_MID:
+#         msgID: 0x0a44
+#       PX4_TEST_MOTOR_MID:
+#         msgID: 0x0a45
+#       PX4_TIME_OFFSET_MID:
+#         msgID: 0x0a46
+#       PX4_TRANSPONDER_REPORT_MID:
+#         msgID: 0x0a47
+#       PX4_UAVCAN_PARAMETER_REQUEST_MID:
+#         msgID: 0x0a48
+#       PX4_UAVCAN_PARAMETER_VALUE_MID:
+#         msgID: 0x0a49
+#       PX4_VEHICLE_ATTITUDE_MID:
+#         msgID: 0x0a4a
+#       PX4_VEHICLE_ATTITUDE_SETPOINT_MID:
+#         msgID: 0x0a4b
+#       PX4_VEHICLE_COMMAND_ACK_MID:
+#         msgID: 0x0a4c
+#       PX4_VEHICLE_COMMAND_MID:
+#         msgID: 0x0a4d
+#       PX4_VEHICLE_CONTROL_MODE_MID:
+#         msgID: 0x0a4e
+#       PX4_VEHICLE_FORCE_SETPOINT_MID:
+#         msgID: 0x0a4f
+#       PX4_VEHICLE_GLOBAL_POSITION_MID:
+#         msgID: 0x0a50
+#       PX4_VEHICLE_GLOBAL_VELOCITY_SETPOINT_MID:
+#         msgID: 0x0a51
+#       PX4_VEHICLE_GPS_POSITION_MID:
+#         msgID: 0x0a52
+#       PX4_VEHICLE_LAND_DETECTED_MID:
+#         msgID: 0x0a53
+#       PX4_VEHICLE_LOCAL_POSITION_MID:
+#         msgID: 0x0a54
+#       PX4_VEHICLE_LOCAL_POSITION_SETPOINT_MID:
+#         msgID: 0x0a55
+#       PX4_VEHICLE_RATES_SETPOINT_MID:
+#         msgID: 0x0a56
+#       PX4_VEHICLE_STATUS_MID:
+#         msgID: 0x0a57
+#       PX4_VISION_POSITION_ESTIMATE_MID:
+#         msgID: 0x0a58
+#       PX4_VTOL_VEHICLE_STATUS_MID:
+#         msgID: 0x0a59
+#       PX4_WIND_ESTIMATE_MID:
+#         msgID: 0x0a5a
+#       PX4_SENSOR_CORRECTION_MID:
+#         msgID: 0x0a5b
+#       FLOW_FRAME_MID:
+#         msgID: 0x0ce5
+#     definition: ${PROJECT_SOURCE_DIR}/apps/px4lib/wh_design.yaml
     

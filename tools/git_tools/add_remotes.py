@@ -44,7 +44,7 @@ import yaml
 import subprocess
 
 
-def add_remote(module_name, prefix, config, output_path):
+def add_remote(module_name, prefix, config):
     if not module_name in config:
         print("" + module_name + " module not found.")
         return -1
@@ -84,13 +84,8 @@ def main():
     """"
     """
     # Load the configuration file
-    if len(sys.argv) == 3 :
+    if len(sys.argv) == 2 :
         config_file_name = sys.argv[1]
-        output_path = sys.argv[2]
-        
-        if os.path.exists(output_path):
-            print("Directory '" + output_path + "' already exists.")
-            return -1
                     
         with open(config_file_name, 'r') as inFile:   
             config = yaml.load(inFile, Loader=yaml.FullLoader)

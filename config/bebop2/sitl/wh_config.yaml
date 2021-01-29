@@ -1,0 +1,9 @@
+---
+config_base: ${PROJECT_SOURCE_DIR}
+
+core:
+  psp:
+    definition: ${PROJECT_SOURCE_DIR}/core/psp/fsw/pc-linux-wh/wh_design.yaml
+    
+modules:
+  sch:
