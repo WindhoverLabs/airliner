@@ -41,9 +41,9 @@
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>14</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -53,7 +53,7 @@
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>32</height>
+    <height>34</height>
     <items>
       <s>Start</s>
       <s>Middle</s>
@@ -145,7 +145,7 @@ if(strTriggerOn == 'Start') {
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light sky blue" red="135" green="206" blue="250" />
+      <color red="34" green="45" blue="75" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -159,7 +159,7 @@ if(strTriggerOn == 'Start') {
     </font>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <foreground_color>
-      <color red="0" green="0" blue="0" />
+      <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>29</height>
     <image></image>

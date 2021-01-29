@@ -42,9 +42,9 @@
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1534,9 +1534,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1586,9 +1586,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1638,9 +1638,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1690,9 +1690,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1742,9 +1742,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1794,9 +1794,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1846,9 +1846,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1898,9 +1898,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1950,9 +1950,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2002,9 +2002,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2054,9 +2054,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2106,9 +2106,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2158,9 +2158,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2210,9 +2210,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2262,9 +2262,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2314,9 +2314,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2366,9 +2366,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2418,9 +2418,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2470,9 +2470,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2522,9 +2522,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2574,9 +2574,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2626,9 +2626,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2678,9 +2678,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2730,9 +2730,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2782,9 +2782,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2834,9 +2834,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2886,9 +2886,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -2943,7 +2943,7 @@ Yamcs.issueCommand('/cfs/cfe_es/Noop');]]></scriptText>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="121" green="128" blue="146" />
+      <color red="34" green="45" blue="75" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -2960,7 +2960,7 @@ Yamcs.issueCommand('/cfs/cfe_es/Noop');]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image></image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2999,7 +2999,7 @@ Yamcs.issueCommand('/cfs/cfe_es/Reset');]]></scriptText>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="121" green="128" blue="146" />
+      <color red="34" green="45" blue="75" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3016,7 +3016,7 @@ Yamcs.issueCommand('/cfs/cfe_es/Reset');]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image></image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3052,10 +3052,10 @@ Yamcs.issueCommand('/cfs/cfe_es/Restart', {'Payload.RestartType': PROCESSOR_RESE
         <description></description>
       </action>
     </actions>
-    <alarm_pulsing>false</alarm_pulsing>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <alarm_pulsing>true</alarm_pulsing>
+    <backcolor_alarm_sensitive>true</backcolor_alarm_sensitive>
     <background_color>
-      <color red="253" green="152" blue="152" />
+      <color red="255" green="50" blue="50" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3065,11 +3065,11 @@ Yamcs.issueCommand('/cfs/cfe_es/Restart', {'Payload.RestartType': PROCESSOR_RESE
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
     </font>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <foreground_color>
-      <color red="0" green="0" blue="0" />
+      <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
     <image></image>
@@ -3108,10 +3108,10 @@ Yamcs.issueCommand('/cfs/cfe_es/Restart', {'Payload.RestartType': POWERON_RESET}
         <description></description>
       </action>
     </actions>
-    <alarm_pulsing>false</alarm_pulsing>
+    <alarm_pulsing>true</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="253" green="152" blue="152" />
+      <color red="255" green="50" blue="50" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3121,11 +3121,11 @@ Yamcs.issueCommand('/cfs/cfe_es/Restart', {'Payload.RestartType': POWERON_RESET}
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
     </font>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <foreground_color>
-      <color red="0" green="0" blue="6" />
+      <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
     <image></image>
@@ -3202,9 +3202,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -3258,7 +3258,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="252" green="252" blue="252" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3394,7 +3394,7 @@ Yamcs.issueCommand('/cfs/cfe_es/DeleteCDS');]]></scriptText>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="121" green="128" blue="146" />
+      <color red="34" green="45" blue="75" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3411,7 +3411,7 @@ Yamcs.issueCommand('/cfs/cfe_es/DeleteCDS');]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image>../../Resources/send.png</image>
+    <image></image>
     <name>NoOp_16</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3450,7 +3450,7 @@ Yamcs.issueCommand('/cfs/cfe_es/ResetPRCount', {'Count': 10});]]></scriptText>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="121" green="128" blue="146" />
+      <color red="34" green="45" blue="75" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3467,7 +3467,7 @@ Yamcs.issueCommand('/cfs/cfe_es/ResetPRCount', {'Count': 10});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image></image>
     <name>NoOp_17</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3505,7 +3505,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="252" green="252" blue="252" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3561,7 +3561,7 @@ Yamcs.issueCommand('/cfs/cfe_es/ClearSysLog');]]></scriptText>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="121" green="128" blue="146" />
+      <color red="34" green="45" blue="75" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3578,7 +3578,7 @@ Yamcs.issueCommand('/cfs/cfe_es/ClearSysLog');]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>21</height>
-    <image>../../Resources/send.png</image>
+    <image></image>
     <name>NoOp_19</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3616,7 +3616,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="252" green="252" blue="252" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3671,7 +3671,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="252" green="252" blue="252" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3726,7 +3726,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="252" green="252" blue="252" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3781,7 +3781,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="252" green="252" blue="252" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3836,7 +3836,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="252" green="252" blue="252" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3891,7 +3891,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="252" green="252" blue="252" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -3946,7 +3946,7 @@ $(pv_value)</tooltip>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="252" green="252" blue="252" />
+      <color red="240" green="240" blue="240" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -4002,7 +4002,7 @@ Yamcs.issueCommand('/cfs/cfe_es/ClearERLog(noarg: 0)');]]></scriptText>
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color red="121" green="128" blue="146" />
+      <color red="34" green="45" blue="75" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -4019,7 +4019,7 @@ Yamcs.issueCommand('/cfs/cfe_es/ClearERLog(noarg: 0)');]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>21</height>
-    <image>../../Resources/send.png</image>
+    <image></image>
     <name>NoOp_27</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
