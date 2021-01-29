@@ -131,7 +131,7 @@
       struct: VM_HkTlm_t
     VM_CONFIG_TLM_MID: 
       msgID: 
-      struct: VM_HkTlm_t
+      struct: VM_ConfigTlm_t
   commands: 
     VM_CMD_MID: 
       msgID: 
