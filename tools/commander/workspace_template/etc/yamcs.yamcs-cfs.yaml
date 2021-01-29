@@ -23,20 +23,38 @@ services:
         warmupTime: 60
   - class: org.yamcs.tctm.cfs.CfsEventDecoder
     args:
-      msgIds: [0x0808]
+      msgIds: [0x0808]  
+  - class: org.yamcs.cfdp.CfdpService
+    name: cfdp0
+    args:
+      inStream: cfdp_in
+      outStream: cfdp_out
+      localEntities:
+        - name: "0.23"
+          id: 23
+          bucket: cfdpUp12
+      remoteEntities:
+        - name: "0.24"
+          id: 24
+          bucket: bucket2
+      receiverFaultHandlers:
+        AckLimitReached: suspend
 
 dataLinks:
-  - name: udp-in
+  - name: tm_realtime
     class: org.yamcs.tctm.UdpTmDataLink
     stream: tm_realtime
     port: 5011
     packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.PacketPreprocessor
 
-  - name: udp-out
+  - name: tc_realtime
     class: org.yamcs.tctm.UdpTcDataLink
     stream: tc_realtime
     host: localhost
     port: 5010
+    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+    commandPostprocessorArgs:
+      swapChecksumFc: true
 
 mdb:
     # Configuration of the active loaders
@@ -56,3 +74,4 @@ streamConfig:
   param: ["pp_realtime", "sys_param", "proc_param"]
   parameterAlarm: ["alarms_realtime"]
   tc: ["tc_realtime"]
+  sqlFile: "etc/extra_streams.sql"

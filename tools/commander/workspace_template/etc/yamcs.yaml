@@ -15,3 +15,10 @@ instances:
 # Secret key unique to a particular Yamcs installation.
 # This is used to provide cryptographic signing.
 secretKey: changeme
+
+yamcs-web:
+  displayPath: Displays
+
+buckets:
+  - name: cfdpUp12
+    path: cfdp_upload

@@ -49,7 +49,7 @@ Yamcs.issueCommand('/CFS/CF/SendCfgParam(args: none)');
     <alarm_pulsing>false</alarm_pulsing>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
-      <color name="light sky blue" red="135" green="206" blue="250" />
+      <color red="34" green="45" blue="75" />
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
@@ -63,7 +63,7 @@ Yamcs.issueCommand('/CFS/CF/SendCfgParam(args: none)');
     </font>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <foreground_color>
-      <color red="0" green="0" blue="0" />
+      <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
     <image></image>
