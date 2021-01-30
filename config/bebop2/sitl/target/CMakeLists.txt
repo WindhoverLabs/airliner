@@ -46,7 +46,7 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sch
     CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/config/shared/apps/sch/sch_custom.c
+        ${PROJECT_SOURCE_DIR}/config/shared/apps/sch/sch_custom_rt.c
 )
 
 buildliner_add_app(
