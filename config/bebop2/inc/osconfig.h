@@ -101,7 +101,7 @@
 ** This define sets the queue implentation of the Linux port to use sockets 
 ** commenting this out makes the Linux port use the POSIX message queues.
 */
-#define OSAL_SOCKET_QUEUE
+/* #define OSAL_SOCKET_QUEUE */
 
 /*
 ** Module loader/symbol table is optional

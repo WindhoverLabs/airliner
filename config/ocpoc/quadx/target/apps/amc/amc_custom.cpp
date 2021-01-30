@@ -82,8 +82,9 @@ uint32 AMC_Freq2tick(uint16 FreqHz);
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int32 AMC::InitDevice(void)
 {
-    uint32 i;
-    int mem_fd;
+    uint32 i = 0;
+    int returnVal = 0;
+    int mem_fd = 0;
 
     /* Initialize just in case we were reloaded and the ctor wasn't called. */
     AMC_SharedMemCmd = 0;
@@ -96,8 +97,8 @@ int32 AMC::InitDevice(void)
 
     if (AMC_SharedMemCmd <= 0)
     {
-    	AMC_SharedMemCmd = 0;
-        return errno;
+        returnVal = errno;
+        goto end_of_function;
     }
 
     // Note: this appears to be required actuators to initialize
@@ -108,10 +109,11 @@ int32 AMC::InitDevice(void)
         AMC_SharedMemCmd->PeriodHi[i].Hi     =
                 AMC_Freq2tick(AMC_FREQUENCY_PWM) / 2;
     }
-    
+
+end_of_function:
     StopMotors();
 
-    return 0;
+    return returnVal;
 }
 
 

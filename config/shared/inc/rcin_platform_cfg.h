@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#define RCIN_STREAMING_TASK_FLAGS          OS_ENABLE_CORE_0
+
 /*
 ** RCIN Platform Configuration Parameter Definitions
 */
