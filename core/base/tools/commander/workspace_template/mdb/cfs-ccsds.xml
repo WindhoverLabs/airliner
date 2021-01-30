@@ -57,17 +57,14 @@
 						</xtce:FixedValueEntry>
 						<xtce:ArgumentRefEntry argumentRef="ccsds-seq-cnt"></xtce:ArgumentRefEntry>
 						<xtce:ArgumentRefEntry argumentRef="ccsds-length"></xtce:ArgumentRefEntry>
-						
+						<xtce:ArgumentRefEntry argumentRef="cfs-cmd-code" sizeInBits="7">
+							<xtce:LocationInContainerInBits referenceLocation="previousEntry">
+								<xtce:FixedValue>1</xtce:FixedValue>
+							</xtce:LocationInContainerInBits>
+						</xtce:ArgumentRefEntry>
 						<xtce:FixedValueEntry sizeInBits="8"
 							binaryValue="00" name="cfs-cmd-checksum">
 						</xtce:FixedValueEntry>
-						<xtce:ArgumentRefEntry argumentRef="cfs-cmd-code">
-							<xtce:LocationInContainerInBits
-								referenceLocation="previousEntry">
-								<xtce:FixedValue>1</xtce:FixedValue>
-							</xtce:LocationInContainerInBits></xtce:ArgumentRefEntry>
-
-
 					</xtce:EntryList>
 				</xtce:CommandContainer>
 			</xtce:MetaCommand>
