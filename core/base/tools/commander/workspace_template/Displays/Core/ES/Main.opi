@@ -1241,7 +1241,7 @@ $(pv_value)</tooltip>
     <width>164</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7d5c</wuid>
-    <x>417</x>
+    <x>432</x>
     <y>35</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1481,7 +1481,7 @@ $(pv_value)</tooltip>
     <width>164</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7d23</wuid>
-    <x>368</x>
+    <x>425</x>
     <y>208</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -3093,8 +3093,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>179</width>
     <wuid>-9ddfcbe:1507831914f:-73b7</wuid>
-    <x>467</x>
-    <y>545</y>
+    <x>498</x>
+    <y>541</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -3149,8 +3149,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>179</width>
     <wuid>-9ddfcbe:1507831914f:-6e95</wuid>
-    <x>467</x>
-    <y>574</y>
+    <x>498</x>
+    <y>570</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3296,7 +3296,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>80</width>
     <wuid>763e00b7:150973f1dd8:-7dbe</wuid>
-    <x>467</x>
+    <x>420</x>
     <y>167</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -3432,7 +3432,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>79</width>
     <wuid>-5b3cf925:1773c9998f6:-7e84</wuid>
-    <x>559</x>
+    <x>517</x>
     <y>167</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -3653,8 +3653,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>172</width>
     <wuid>-5b3cf925:1773c9998f6:-7e2f</wuid>
-    <x>472</x>
-    <y>342</y>
+    <x>502</x>
+    <y>369</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -3708,8 +3708,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>172</width>
     <wuid>-5b3cf925:1773c9998f6:-7e25</wuid>
-    <x>472</x>
-    <y>374</y>
+    <x>502</x>
+    <y>401</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -3763,8 +3763,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>172</width>
     <wuid>-5b3cf925:1773c9998f6:-7e1d</wuid>
-    <x>472</x>
-    <y>408</y>
+    <x>502</x>
+    <y>435</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -3818,8 +3818,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>172</width>
     <wuid>-5b3cf925:1773c9998f6:-7e13</wuid>
-    <x>472</x>
-    <y>443</y>
+    <x>502</x>
+    <y>470</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
