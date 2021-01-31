@@ -19,9 +19,28 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CFE-ES - Perf</name>
   <rules />
-  <scripts />
+  <scripts>
+    <path pathString="EmbeddedJs" checkConnect="true" seoe="false">
+      <scriptName>EmbeddedScript</scriptName>
+      <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
+
+var newMask =PVUtil.getLong(pvs[0])
+
+for(var i = 1; i <= 32; ++i) {
+    var RequestFilterName = 'FilterActual' + i;
+    var newValue = 0;
+    if((newMask & Math.pow(2, i-1)) > 0) {
+        newValue = 1;
+    }
+    display.getWidget(RequestFilterName).setPropertyValue('pv_value', newValue);	
+}]]></scriptText>
+      <pv trig="true">/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfFilterMask_0_</pv>
+    </path>
+  </scripts>
   <show_close_button>true</show_close_button>
   <show_edit_range>true</show_edit_range>
   <show_grid>true</show_grid>
@@ -69,8 +88,8 @@
     <width>98</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7f04</wuid>
-    <x>19</x>
-    <y>36</y>
+    <x>18</x>
+    <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -109,8 +128,8 @@
     <width>98</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7eef</wuid>
-    <x>19</x>
-    <y>55</y>
+    <x>18</x>
+    <y>61</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -149,8 +168,8 @@
     <width>98</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7ee8</wuid>
-    <x>19</x>
-    <y>74</y>
+    <x>18</x>
+    <y>80</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -189,8 +208,8 @@
     <width>98</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7ed0</wuid>
-    <x>258</x>
-    <y>36</y>
+    <x>359</x>
+    <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -229,8 +248,8 @@
     <width>98</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7ec9</wuid>
-    <x>258</x>
-    <y>55</y>
+    <x>359</x>
+    <y>61</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -269,8 +288,8 @@
     <width>98</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7ec2</wuid>
-    <x>258</x>
-    <y>74</y>
+    <x>359</x>
+    <y>80</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -309,8 +328,8 @@
     <width>98</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7ebb</wuid>
-    <x>258</x>
-    <y>93</y>
+    <x>359</x>
+    <y>99</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -340,16 +359,16 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Performance Utility</text>
+    <text>Performance Collection</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>164</width>
+    <width>193</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7d80</wuid>
-    <x>12</x>
+    <x>243</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -380,7 +399,7 @@
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/PerfState</pv_name>
+    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -398,11 +417,11 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>210</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7ca7</wuid>
-    <x>133</x>
-    <y>36</y>
+    <x>132</x>
+    <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -432,7 +451,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/PerfMode</pv_name>
+    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfMode</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -450,11 +469,11 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>210</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7ca2</wuid>
-    <x>133</x>
-    <y>55</y>
+    <x>132</x>
+    <y>61</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -484,7 +503,7 @@ $(pv_value)</tooltip>
     <name>Text Update_22</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/PerfTriggerCount</pv_name>
+    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfTriggerCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -502,11 +521,11 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>210</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7c9d</wuid>
-    <x>133</x>
-    <y>74</y>
+    <x>132</x>
+    <y>80</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -536,7 +555,7 @@ $(pv_value)</tooltip>
     <name>Text Update_25</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/PerfDataStart</pv_name>
+    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataStart</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -557,8 +576,8 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7c8e</wuid>
-    <x>372</x>
-    <y>36</y>
+    <x>473</x>
+    <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -588,7 +607,7 @@ $(pv_value)</tooltip>
     <name>Text Update_26</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/PerfDataEnd</pv_name>
+    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataEnd</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -609,8 +628,8 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7c89</wuid>
-    <x>372</x>
-    <y>55</y>
+    <x>473</x>
+    <y>61</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -640,7 +659,7 @@ $(pv_value)</tooltip>
     <name>Text Update_27</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/PerfDataCount</pv_name>
+    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -661,8 +680,8 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7c84</wuid>
-    <x>372</x>
-    <y>74</y>
+    <x>473</x>
+    <y>80</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -692,7 +711,7 @@ $(pv_value)</tooltip>
     <name>Text Update_28</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/PerfDataToWrite</pv_name>
+    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataToWrite</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -713,8 +732,8 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7c7f</wuid>
-    <x>372</x>
-    <y>93</y>
+    <x>473</x>
+    <y>99</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -723,7 +742,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -768,8 +787,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>69</width>
     <wuid>-35c7bfc1:1509236a393:-770b</wuid>
-    <x>333</x>
-    <y>126</y>
+    <x>167</x>
+    <y>118</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -778,7 +797,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -823,8 +842,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>69</width>
     <wuid>-35c7bfc1:1509236a393:-76fd</wuid>
-    <x>408</x>
-    <y>126</y>
+    <x>242</x>
+    <y>118</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.tab" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -907,10 +926,10 @@ $(pv_value)</tooltip>
     <tooltip></tooltip>
     <visible>true</visible>
     <widget_type>Tabbed Container</widget_type>
-    <width>450</width>
+    <width>661</width>
     <wuid>-35c7bfc1:1509236a393:-7209</wuid>
-    <x>24</x>
-    <y>174</y>
+    <x>19</x>
+    <y>150</y>
     <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0.0">
       <actions hook="false" hook_all="false" />
       <background_color>
@@ -947,7 +966,7 @@ $(pv_value)</tooltip>
       <transparent>true</transparent>
       <visible>true</visible>
       <widget_type>Grouping Container</widget_type>
-      <width>448</width>
+      <width>659</width>
       <wuid>-35c7bfc1:1509236a393:-7208</wuid>
       <x>1</x>
       <y>1</y>
@@ -995,7 +1014,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7493</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>626</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1042,7 +1061,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-76d0</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>109</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1089,7 +1108,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75cb</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>358</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1136,7 +1155,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-76ae</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>147</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1183,7 +1202,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74be</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>453</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1212,7 +1231,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual27</name>
-        <pv_name>/cfs/cfe_es/PerfFilter27</pv_name>
+        <pv_name>loc://FilterActual27</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -1230,7 +1249,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-749c</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>588</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1277,7 +1296,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-766a</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>223</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1306,7 +1325,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual26</name>
-        <pv_name>/cfs/cfe_es/PerfFilter26</pv_name>
+        <pv_name>loc://FilterActual26</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -1324,7 +1343,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74a1</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>569</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1353,7 +1372,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual20</name>
-        <pv_name>/cfs/cfe_es/PerfFilter20</pv_name>
+        <pv_name>loc://FilterActual20</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -1371,7 +1390,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74bf</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>453</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1400,7 +1419,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual14</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger14</pv_name>
+        <pv_name>loc://TriggerActual14</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -1418,7 +1437,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75cf</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>339</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1465,7 +1484,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74aa</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>529</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1494,7 +1513,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual15</name>
-        <pv_name>/cfs/cfe_es/PerfFilter15</pv_name>
+        <pv_name>loc://FilterActual15</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -1512,7 +1531,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75cc</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>358</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1559,7 +1578,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74b9</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>472</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1606,7 +1625,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74c8</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>415</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1635,7 +1654,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual14</name>
-        <pv_name>/cfs/cfe_es/PerfFilter14</pv_name>
+        <pv_name>loc://FilterActual14</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -1653,7 +1672,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75d1</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>339</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1682,7 +1701,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual21</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger21</pv_name>
+        <pv_name>loc://TriggerActual21</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -1700,7 +1719,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74b8</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>472</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1747,7 +1766,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74ca</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>415</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1776,7 +1795,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual30</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger30</pv_name>
+        <pv_name>loc://TriggerActual30</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -1794,7 +1813,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-748b</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>645</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1841,7 +1860,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-748e</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>645</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1888,7 +1907,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74a2</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>569</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1917,7 +1936,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual3</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger3</pv_name>
+        <pv_name>loc://TriggerActual3</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -1935,7 +1954,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-76be</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>128</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -1982,7 +2001,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7482</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>683</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2029,7 +2048,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74cd</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>396</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2058,7 +2077,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual29</name>
-        <pv_name>/cfs/cfe_es/PerfFilter29</pv_name>
+        <pv_name>loc://FilterActual29</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -2076,7 +2095,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7492</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>626</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2105,7 +2124,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual15</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger15</pv_name>
+        <pv_name>loc://TriggerActual15</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -2123,7 +2142,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75ca</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>358</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2170,7 +2189,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7c12</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>90</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2199,7 +2218,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual1</name>
-        <pv_name>/cfs/cfe_es/PerfFilter1</pv_name>
+        <pv_name>loc://FilterActual1</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -2217,7 +2236,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7c0d</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>90</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -2257,7 +2276,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-7769</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>90</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2304,7 +2323,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74b6</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>491</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2351,7 +2370,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75d2</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>339</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -2391,7 +2410,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-749e</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>569</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2420,7 +2439,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual32</name>
-        <pv_name>/cfs/cfe_es/PerfFilter32</pv_name>
+        <pv_name>loc://FilterActual32</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -2438,7 +2457,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7483</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>683</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2467,7 +2486,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual19</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger19</pv_name>
+        <pv_name>loc://TriggerActual19</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -2485,7 +2504,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74c2</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>434</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2514,7 +2533,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual21</name>
-        <pv_name>/cfs/cfe_es/PerfFilter22</pv_name>
+        <pv_name>loc://FilterActual22</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -2532,7 +2551,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74ba</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>472</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2579,7 +2598,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74ac</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>529</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2626,7 +2645,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-77c2</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>90</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2655,7 +2674,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual9</name>
-        <pv_name>/cfs/cfe_es/PerfFilter9</pv_name>
+        <pv_name>loc://FilterActual9</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -2673,7 +2692,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75ea</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>244</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2702,7 +2721,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual17</name>
-        <pv_name>/cfs/cfe_es/PerfFilter17</pv_name>
+        <pv_name>loc://FilterActual17</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -2720,7 +2739,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74ce</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>396</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2749,7 +2768,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual20</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger20</pv_name>
+        <pv_name>loc://TriggerActual20</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -2767,7 +2786,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74bd</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>453</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2814,7 +2833,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-767b</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>204</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2861,7 +2880,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-76d2</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>109</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2908,7 +2927,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-768c</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>185</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2937,7 +2956,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual12</name>
-        <pv_name>/cfs/cfe_es/PerfFilter12</pv_name>
+        <pv_name>loc://FilterActual12</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -2955,7 +2974,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75db</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>301</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2984,7 +3003,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual19</name>
-        <pv_name>/cfs/cfe_es/PerfFilter19</pv_name>
+        <pv_name>loc://FilterActual19</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -3002,7 +3021,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74c4</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>434</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -3042,7 +3061,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-76ac</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>147</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3071,7 +3090,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual10</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger10</pv_name>
+        <pv_name>loc://TriggerActual10</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -3089,7 +3108,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75e3</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>263</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3136,7 +3155,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75e1</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>282</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3165,7 +3184,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual7</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger7</pv_name>
+        <pv_name>loc://TriggerActual7</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -3183,7 +3202,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-767a</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>204</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3212,7 +3231,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual27</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger27</pv_name>
+        <pv_name>loc://TriggerActual27</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -3230,7 +3249,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-749a</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>588</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -3270,7 +3289,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-7485</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>664</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3317,7 +3336,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-769d</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>166</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3346,7 +3365,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual11</name>
-        <pv_name>/cfs/cfe_es/PerfFilter11</pv_name>
+        <pv_name>loc://FilterActual11</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -3364,7 +3383,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75e0</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>282</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3393,7 +3412,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual30</name>
-        <pv_name>/cfs/cfe_es/PerfFilter30</pv_name>
+        <pv_name>loc://FilterActual30</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -3411,7 +3430,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-748d</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>645</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3458,7 +3477,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-768e</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>185</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3505,7 +3524,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75dc</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>301</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3552,7 +3571,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75cd</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>358</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -3592,7 +3611,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-7679</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>204</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -3632,7 +3651,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-75dd</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>282</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3679,7 +3698,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-748c</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>645</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3726,7 +3745,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75e4</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>263</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3773,7 +3792,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74af</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>510</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -3813,7 +3832,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-76bd</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>128</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3860,7 +3879,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75d0</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>339</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -3889,7 +3908,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual28</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger28</pv_name>
+        <pv_name>loc://TriggerActual28</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -3907,7 +3926,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7495</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>607</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -3947,7 +3966,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-74cb</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>396</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -3987,7 +4006,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-76ce</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>109</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4034,7 +4053,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75d5</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>320</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -4074,7 +4093,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-74a8</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>529</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4121,7 +4140,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7491</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>626</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -4161,7 +4180,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-74c1</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>434</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -4201,7 +4220,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-748a</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>645</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4248,7 +4267,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-76b0</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>147</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4277,7 +4296,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual5</name>
-        <pv_name>/cfs/cfe_es/PerfFilter5</pv_name>
+        <pv_name>loc://FilterActual5</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -4295,7 +4314,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-769e</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>166</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -4335,7 +4354,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-769b</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>166</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4364,7 +4383,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual6</name>
-        <pv_name>/cfs/cfe_es/PerfFilter6</pv_name>
+        <pv_name>loc://FilterActual6</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -4382,7 +4401,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-768d</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>185</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4429,7 +4448,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75c8</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>377</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4458,7 +4477,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual28</name>
-        <pv_name>/cfs/cfe_es/PerfFilter28</pv_name>
+        <pv_name>loc://FilterActual28</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -4476,7 +4495,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7497</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>607</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4523,7 +4542,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-767d</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>204</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4570,7 +4589,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75c6</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>377</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4599,7 +4618,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual10</name>
-        <pv_name>/cfs/cfe_es/PerfFilter10</pv_name>
+        <pv_name>loc://FilterActual10</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -4617,7 +4636,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75e5</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>263</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4664,7 +4683,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7487</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>664</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4693,7 +4712,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual25</name>
-        <pv_name>/cfs/cfe_es/PerfFilter25</pv_name>
+        <pv_name>loc://FilterActual25</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -4711,7 +4730,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74a6</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>550</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4758,7 +4777,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74bb</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>472</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4805,7 +4824,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74b4</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>491</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -4845,7 +4864,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-75c9</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>358</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4874,7 +4893,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual11</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger11</pv_name>
+        <pv_name>loc://TriggerActual11</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -4892,7 +4911,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75de</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>282</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -4932,7 +4951,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-75ce</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>339</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -4961,7 +4980,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual31</name>
-        <pv_name>/cfs/cfe_es/PerfFilter31</pv_name>
+        <pv_name>loc://FilterActual31</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -4979,7 +4998,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7488</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>664</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5008,7 +5027,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual23</name>
-        <pv_name>/cfs/cfe_es/PerfFilter23</pv_name>
+        <pv_name>loc://FilterActual23</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -5026,7 +5045,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74b0</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>510</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5073,7 +5092,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-76c1</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>128</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5102,7 +5121,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual4</name>
-        <pv_name>/cfs/cfe_es/PerfFilter4</pv_name>
+        <pv_name>loc://FilterActual4</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -5120,7 +5139,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-76af</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>147</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5167,7 +5186,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-749d</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>588</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5214,7 +5233,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74cf</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>396</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5261,7 +5280,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74a0</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>569</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5308,7 +5327,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-76bf</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>128</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5355,7 +5374,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74a7</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>550</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5402,7 +5421,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74a5</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>550</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -5442,7 +5461,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-74c6</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>415</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5489,7 +5508,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74c3</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>434</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5536,7 +5555,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75df</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>282</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5565,7 +5584,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual25</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger25</pv_name>
+        <pv_name>loc://TriggerActual25</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -5583,7 +5602,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74a4</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>550</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5612,7 +5631,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual17</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger17</pv_name>
+        <pv_name>loc://TriggerActual17</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -5630,7 +5649,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74cc</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>396</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5659,7 +5678,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual23</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger23</pv_name>
+        <pv_name>loc://TriggerActual23</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -5677,7 +5696,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74ae</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>510</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5724,7 +5743,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75eb</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>244</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5771,7 +5790,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7489</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>664</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5800,7 +5819,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual24</name>
-        <pv_name>/cfs/cfe_es/PerfFilter24</pv_name>
+        <pv_name>loc://FilterActual24</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -5818,7 +5837,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74ab</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>529</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5847,7 +5866,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual5</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger5</pv_name>
+        <pv_name>loc://TriggerActual5</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -5865,7 +5884,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-769c</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>166</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5912,7 +5931,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-769f</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>166</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5941,7 +5960,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual3</name>
-        <pv_name>/cfs/cfe_es/PerfFilter3</pv_name>
+        <pv_name>loc://FilterActual3</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -5959,7 +5978,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-76c0</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>128</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -5988,7 +6007,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual18</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger18</pv_name>
+        <pv_name>loc://TriggerActual18</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -6006,7 +6025,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74c7</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>415</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -6046,7 +6065,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-7668</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>223</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -6086,7 +6105,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-75c4</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>377</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6133,7 +6152,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-749b</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>588</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -6173,7 +6192,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-75e7</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>244</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6202,7 +6221,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual9</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger9</pv_name>
+        <pv_name>loc://TriggerActual9</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -6220,7 +6239,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75e8</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>244</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6249,7 +6268,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual13</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger13</pv_name>
+        <pv_name>loc://TriggerActual13</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -6267,7 +6286,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75d4</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>320</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -6307,7 +6326,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-74b7</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>472</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6354,7 +6373,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7484</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>683</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -6394,7 +6413,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-75d3</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>320</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6423,7 +6442,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual16</name>
-        <pv_name>/cfs/cfe_es/PerfFilter16</pv_name>
+        <pv_name>loc://FilterActual16</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -6441,7 +6460,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75c7</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>377</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6470,7 +6489,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual22</name>
-        <pv_name>/cfs/cfe_es/PerfFilter22</pv_name>
+        <pv_name>loc://FilterActual22</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -6488,7 +6507,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74b5</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>491</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6517,7 +6536,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual26</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger26</pv_name>
+        <pv_name>loc://TriggerActual26</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -6535,7 +6554,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-749f</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>569</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6564,7 +6583,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual4</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger4</pv_name>
+        <pv_name>loc://TriggerActual4</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -6582,7 +6601,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-76ad</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>147</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6611,7 +6630,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual24</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger24</pv_name>
+        <pv_name>loc://TriggerActual24</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -6629,7 +6648,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74a9</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>529</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6676,7 +6695,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74b1</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>510</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6705,7 +6724,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual13</name>
-        <pv_name>/cfs/cfe_es/PerfFilter13</pv_name>
+        <pv_name>loc://FilterActual13</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -6723,7 +6742,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75d6</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>320</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -6763,7 +6782,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-74b2</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>491</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -6803,7 +6822,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-74ad</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>510</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6850,7 +6869,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-766c</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>223</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6879,7 +6898,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual16</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger16</pv_name>
+        <pv_name>loc://TriggerActual16</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -6897,7 +6916,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75c5</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>377</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6926,7 +6945,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual22</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger22</pv_name>
+        <pv_name>loc://TriggerActual22</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -6944,7 +6963,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74b3</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>491</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -6991,7 +7010,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7498</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>607</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7020,7 +7039,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual1</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger1</pv_name>
+        <pv_name>loc://TriggerActual1</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -7038,7 +7057,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-77c1</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>90</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -7078,7 +7097,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-74a3</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>550</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -7118,7 +7137,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-7499</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>588</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7147,7 +7166,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual7</name>
-        <pv_name>/cfs/cfe_es/PerfFilter7</pv_name>
+        <pv_name>loc://FilterActual7</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -7165,7 +7184,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-767c</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>204</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -7205,7 +7224,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-768a</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>185</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7234,7 +7253,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual32</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger32</pv_name>
+        <pv_name>loc://TriggerActual32</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -7252,7 +7271,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7481</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>683</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7299,7 +7318,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74c0</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>453</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -7339,7 +7358,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-7494</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>607</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -7379,7 +7398,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-75e2</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>263</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7408,7 +7427,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual12</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger12</pv_name>
+        <pv_name>loc://TriggerActual12</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -7426,7 +7445,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75d9</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>301</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7455,7 +7474,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual2</name>
-        <pv_name>/cfs/cfe_es/PerfFilter2</pv_name>
+        <pv_name>loc://FilterActual2</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -7473,7 +7492,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-76d1</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>109</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7502,7 +7521,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual8</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger8</pv_name>
+        <pv_name>loc://TriggerActual8</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -7520,7 +7539,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7669</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>223</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7567,7 +7586,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7496</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>607</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7596,7 +7615,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual29</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger29</pv_name>
+        <pv_name>loc://TriggerActual29</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -7614,7 +7633,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7490</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>626</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -7654,7 +7673,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-748f</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>626</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7701,7 +7720,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74c5</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>434</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7730,7 +7749,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual31</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger31</pv_name>
+        <pv_name>loc://TriggerActual31</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -7748,7 +7767,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-7486</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>664</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7777,7 +7796,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual2</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger2</pv_name>
+        <pv_name>loc://TriggerActual2</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -7795,7 +7814,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-76cf</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>109</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7824,7 +7843,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual8</name>
-        <pv_name>/cfs/cfe_es/PerfFilter8</pv_name>
+        <pv_name>loc://FilterActual8</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -7842,7 +7861,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-766b</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>223</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7889,7 +7908,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75da</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>301</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -7936,7 +7955,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75d7</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>320</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -7976,7 +7995,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-75d8</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>301</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -8005,7 +8024,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>TriggerActual6</name>
-        <pv_name>/cfs/cfe_es/PerfTrigger6</pv_name>
+        <pv_name>loc://TriggerActual6</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -8023,7 +8042,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-768b</wuid>
-        <x>160</x>
+        <x>222</x>
         <y>185</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -8070,7 +8089,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75e6</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>263</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -8099,7 +8118,7 @@ $(pv_value)</tooltip>
         <height>20</height>
         <label></label>
         <name>FilterActual18</name>
-        <pv_name>/cfs/cfe_es/PerfFilter18</pv_name>
+        <pv_name>loc://FilterActual18</pv_name>
         <pv_value />
         <rules />
         <scale_options>
@@ -8117,7 +8136,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-74c9</wuid>
-        <x>18</x>
+        <x>80</x>
         <y>415</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -8164,7 +8183,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-75e9</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>244</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -8204,7 +8223,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-74bc</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>453</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -8244,7 +8263,7 @@ $(pv_value)</tooltip>
         <width>163</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-7480</wuid>
-        <x>282</x>
+        <x>344</x>
         <y>683</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -8284,8 +8303,8 @@ $(pv_value)</tooltip>
         <width>50</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-77bf</wuid>
-        <x>143</x>
-        <y>49</y>
+        <x>204</x>
+        <y>24</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
         <actions hook="false" hook_all="false" />
@@ -8321,11 +8340,11 @@ $(pv_value)</tooltip>
         <vertical_alignment>1</vertical_alignment>
         <visible>true</visible>
         <widget_type>Label</widget_type>
-        <width>50</width>
+        <width>79</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-77dc</wuid>
-        <x>67</x>
-        <y>49</y>
+        <x>115</x>
+        <y>24</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
         <actions hook="false" hook_all="false" />
@@ -8361,11 +8380,11 @@ $(pv_value)</tooltip>
         <vertical_alignment>1</vertical_alignment>
         <visible>true</visible>
         <widget_type>Label</widget_type>
-        <width>50</width>
+        <width>75</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-77be</wuid>
-        <x>209</x>
-        <y>49</y>
+        <x>257</x>
+        <y>24</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
         <actions hook="false" hook_all="false" />
@@ -8404,8 +8423,8 @@ $(pv_value)</tooltip>
         <width>50</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-77e6</wuid>
-        <x>1</x>
-        <y>49</y>
+        <x>62</x>
+        <y>24</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
         <actions hook="false" hook_all="false" />
@@ -8444,8 +8463,8 @@ $(pv_value)</tooltip>
         <width>50</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-77c0</wuid>
-        <x>174</x>
-        <y>30</y>
+        <x>235</x>
+        <y>5</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
         <actions hook="false" hook_all="false" />
@@ -8484,8 +8503,8 @@ $(pv_value)</tooltip>
         <width>50</width>
         <wrap_words>false</wrap_words>
         <wuid>-35c7bfc1:1509236a393:-7836</wuid>
-        <x>32</x>
-        <y>30</y>
+        <x>93</x>
+        <y>5</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
         <actions hook="false" hook_all="false">
@@ -8495,19 +8514,25 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var cmdString = '/cfs/cfe_es/PerfSetFilterMask1(';
+var maskNumber = 0;
+var maskValue = 0;
 
-for(var i = 1; i <= 32; ++i) {
-	var PerfID = 'PerfFilter' + i;
-	var RequestFilterName = 'FilterRequest' + i;
-	cmdString = cmdString + PerfID + ': ' + VTypeHelper.getDouble(display.getWidget(RequestFilterName).getPropertyValue('pv_value'));
-	if(i < 32) {
-		cmdString = cmdString + ', ';
-	}	
+for(var i = 1; i <= 31; ++i) {
+    var RequestFilterName = 'FilterRequest' + i;
+    var perfIdValue = VTypeHelper.getDouble(display.getWidget(RequestFilterName).getPropertyValue('pv_value'));
+
+    if(perfIdValue >= 0) {
+        if(i < 31) {
+            maskValue = Math.pow(2, i - 1) + maskValue;
+        } else {
+            maskValue = maskValue | 0x80000000;
+        }
+    }
 }
-cmdString = cmdString + ')';
 
-Yamcs.issueCommand(cmdString);]]></scriptText>
+Yamcs.issueCommand( '/cfs/cfe_es/PerfSetFilterMask', {
+    'Payload.FilterMaskNum': maskNumber,
+    'Payload.FilterMask': '4294967295'});]]></scriptText>
             <embedded>true</embedded>
             <description></description>
           </action>
@@ -8532,7 +8557,7 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
           <color red="255" green="255" blue="255" />
         </foreground_color>
         <height>25</height>
-        <image></image>
+        <image>../../Resources/send.png</image>
         <name>Action Button_2</name>
         <push_action_index>0</push_action_index>
         <pv_name></pv_name>
@@ -8551,10 +8576,10 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
 $(pv_value)</tooltip>
         <visible>true</visible>
         <widget_type>Action Button</widget_type>
-        <width>51</width>
+        <width>55</width>
         <wuid>-35c7bfc1:1509236a393:-76f0</wuid>
-        <x>4</x>
-        <y>6</y>
+        <x>63</x>
+        <y>43</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
         <actions hook="false" hook_all="false">
@@ -8601,7 +8626,7 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
           <color red="255" green="255" blue="255" />
         </foreground_color>
         <height>25</height>
-        <image></image>
+        <image>../../Resources/send.png</image>
         <name>Action Button_3</name>
         <push_action_index>0</push_action_index>
         <pv_name></pv_name>
@@ -8620,10 +8645,10 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
 $(pv_value)</tooltip>
         <visible>true</visible>
         <widget_type>Action Button</widget_type>
-        <width>51</width>
+        <width>55</width>
         <wuid>-35c7bfc1:1509236a393:-76e6</wuid>
-        <x>146</x>
-        <y>6</y>
+        <x>205</x>
+        <y>43</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
         <actions hook="false" hook_all="false">
@@ -8682,10 +8707,10 @@ for(var i = 1; i <= 32; ++i) {
 $(pv_value)</tooltip>
         <visible>true</visible>
         <widget_type>Action Button</widget_type>
-        <width>51</width>
+        <width>65</width>
         <wuid>-35c7bfc1:1509236a393:-6e6e</wuid>
-        <x>66</x>
-        <y>6</y>
+        <x>120</x>
+        <y>43</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
         <actions hook="false" hook_all="false">
@@ -8744,10 +8769,10 @@ for(var i = 1; i <= 32; ++i) {
 $(pv_value)</tooltip>
         <visible>true</visible>
         <widget_type>Action Button</widget_type>
-        <width>51</width>
+        <width>65</width>
         <wuid>-35c7bfc1:1509236a393:-6e60</wuid>
-        <x>208</x>
-        <y>6</y>
+        <x>262</x>
+        <y>43</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
         <actions hook="false" hook_all="true" />
@@ -8808,7 +8833,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-4be4</wuid>
-        <x>80</x>
+        <x>142</x>
         <y>68</y>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -8870,7 +8895,7 @@ $(pv_value)</tooltip>
         <widget_type>Check Box</widget_type>
         <width>22</width>
         <wuid>-35c7bfc1:1509236a393:-4bdf</wuid>
-        <x>222</x>
+        <x>284</x>
         <y>68</y>
       </widget>
     </widget>
@@ -8910,7 +8935,7 @@ $(pv_value)</tooltip>
       <transparent>true</transparent>
       <visible>false</visible>
       <widget_type>Grouping Container</widget_type>
-      <width>448</width>
+      <width>659</width>
       <wuid>-35c7bfc1:1509236a393:-7207</wuid>
       <x>1</x>
       <y>1</y>
@@ -8951,7 +8976,7 @@ $(pv_value)</tooltip>
       <transparent>true</transparent>
       <visible>false</visible>
       <widget_type>Grouping Container</widget_type>
-      <width>448</width>
+      <width>659</width>
       <wuid>-35c7bfc1:1509236a393:-7206</wuid>
       <x>1</x>
       <y>1</y>
@@ -8992,7 +9017,7 @@ $(pv_value)</tooltip>
       <transparent>true</transparent>
       <visible>false</visible>
       <widget_type>Grouping Container</widget_type>
-      <width>448</width>
+      <width>659</width>
       <wuid>-35c7bfc1:1509236a393:-7205</wuid>
       <x>1</x>
       <y>1</y>
