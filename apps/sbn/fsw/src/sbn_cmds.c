@@ -252,7 +252,7 @@ static void RemapCfgCmd(CFE_SB_MsgPtr_t MsgPtr)
     SBN.RemapTbl->RemapDefaultFlag = *Ptr;
 
     CFE_EVS_SendEvent(SBN_CMD_EID, CFE_EVS_INFORMATION,
-        "remap cfg (RemapEnabled=%d, RemapDefaultFlag=%d)",
+        "remap cfg (RemapEnabled=%d, RemapDefaultFlag=%lu)",
         SBN.RemapEnabled, SBN.RemapTbl->RemapDefaultFlag);
 }/* end RemapCfgCmd */
 
@@ -284,7 +284,7 @@ static void RemapAddCmd(CFE_SB_MsgPtr_t MsgPtr)
     CFE_SB_MsgId_t ToMID = *((CFE_SB_MsgId_t *)Ptr);
 
     CFE_EVS_SendEvent(SBN_CMD_EID, CFE_EVS_INFORMATION,
-        "remap add (ProcessorID=%d, FromMID=0x%04x, ToMID=0x%04x)",
+        "remap add (ProcessorID=%lu, FromMID=0x%04x, ToMID=0x%04x)",
         ProcessorID, FromMID, ToMID);
 
     SBN_RemapAdd(ProcessorID, FromMID, ToMID);
@@ -317,7 +317,7 @@ static void RemapDelCmd(CFE_SB_MsgPtr_t MsgPtr)
     CFE_SB_MsgId_t FromMID = *((CFE_SB_MsgId_t *)Ptr);
 
     CFE_EVS_SendEvent(SBN_CMD_EID, CFE_EVS_INFORMATION,
-        "remap del (ProcessorID=%d, FromMID=0x%04x)",
+        "remap del (ProcessorID=%lu, FromMID=0x%04x)",
         ProcessorID, FromMID);
 
     SBN_RemapDel(ProcessorID, FromMID);
