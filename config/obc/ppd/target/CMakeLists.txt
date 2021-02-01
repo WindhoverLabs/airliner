@@ -144,3 +144,8 @@ buildliner_add_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/sbn/src/sbn_remap_tbl.c
 )
 
+buildliner_add_app(
+    sbn_udp
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/udp/fsw/for_build
+)
+
