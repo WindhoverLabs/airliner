@@ -10,9 +10,14 @@ buildliner_initialize(
         ${PROJECT_SOURCE_DIR}/config/shared/inc
     FILESYS
         /cf/apps
-        /cf/download
+        /cf/downlink/ch0/poll0
+        /cf/downlink/ch0/poll1
+        /cf/downlink/ch0/poll2
+        /cf/downlink/ch0/poll3
+        /cf/downlink/ch0/poll4
+        /cf/downlink/ch0/poll5
         /cf/log
-        /cf/upload
+        /cf/uplink
         /ram
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
