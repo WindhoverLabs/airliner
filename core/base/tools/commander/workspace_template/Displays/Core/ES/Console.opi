@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CFE-ES - Console</name>
   <rules />
   <scripts>
     <path pathString="EmbeddedJs" checkConnect="true" seoe="false">
@@ -35,7 +35,7 @@ var combined = prevOutput + newOutput;
 
 display.getWidget('ConsoleDisplay').setPropertyValue('pv_value', combined);
 ]]></scriptText>
-      <pv trig="true">/cfs/cfe_es/ShellOutput</pv>
+      <pv trig="true">/cfs/cfe_es/CFE_ES_ShellPacket_t.Payload.ShellOutput</pv>
     </path>
   </scripts>
   <show_close_button>true</show_close_button>
@@ -51,19 +51,18 @@ display.getWidget('ConsoleDisplay').setPropertyValue('pv_value', combined);
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-display.getWidget('ConsoleDisplay').setPropertyValue('pv_value', '');
-
 var consoleInput =VTypeHelper.getString(display.getWidget('inConsoleInput').getPropertyValue('pv_value'));
 var fileName =VTypeHelper.getString(display.getWidget('inFileName').getPropertyValue('pv_value'));
 
-var cmd = '/cfs/cfe_es/ShellCmd(Command: ' + consoleInput + ' , OutputFile: ' + fileName + ')';
+Yamcs.issueCommand('/cfs/cfe_es/ShellCmd', {
+    'Payload.CmdString': consoleInput,
+    'Payload.OutputFilename': fileName});
 
-Yamcs.issueCommand(cmd);
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -89,7 +88,7 @@ Yamcs.issueCommand(cmd);
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -102,7 +101,7 @@ Yamcs.issueCommand(cmd);
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Send Cmd</text>
+    <text>Send</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
@@ -151,7 +150,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>-e1e6812:1508d3700d4:-75c4</wuid>
     <x>276</x>
-    <y>0</y>
+    <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -307,6 +306,63 @@ $(pv_value)</tooltip>
     <x>11</x>
     <y>561</y>
   </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
+
+display.getWidget('ConsoleDisplay').setPropertyValue('pv_value', '');]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="197" green="211" blue="236" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>25</height>
+    <image></image>
+    <name>Action Button_1</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>Clear</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>73</width>
+    <wuid>-2dc23c5:177557ff444:-6838</wuid>
+    <x>18</x>
+    <y>6</y>
+  </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
     <alarm_pulsing>false</alarm_pulsing>
@@ -323,14 +379,14 @@ $(pv_value)</tooltip>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+      <fontdata fontName="Monospace" height="11" style="0" pixels="false" />
     </font>
     <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
     <foreground_color>
       <color red="0" green="255" blue="0" />
     </foreground_color>
     <format_type>4</format_type>
-    <height>480</height>
+    <height>481</height>
     <horizontal_alignment>0</horizontal_alignment>
     <name>ConsoleDisplay</name>
     <precision>0</precision>
@@ -346,17 +402,17 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <show_units>false</show_units>
-    <text>######</text>
+    <text></text>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <transparent>false</transparent>
     <vertical_alignment>0</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>775</width>
+    <width>763</width>
     <wrap_words>false</wrap_words>
     <wuid>-e1e6812:1508d3700d4:-7435</wuid>
     <x>18</x>
-    <y>30</y>
+    <y>36</y>
   </widget>
 </display>

@@ -37,21 +37,21 @@ buildliner_add_app(
 buildliner_add_app(
     prmlib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/prm
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/prm
 )
 
 buildliner_add_app(
     sch
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sch
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/sch
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sch/sch_custom_rt.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/sch/sch_custom_rt.c
 )
 
 buildliner_add_app(
     cf
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cf/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/cf
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/cf
 )
 
 buildliner_add_app(
@@ -63,7 +63,7 @@ buildliner_add_app(
 buildliner_add_app(
     ds
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ds/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ds
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/ds
 )
 
 buildliner_add_app(
@@ -114,36 +114,26 @@ buildliner_add_app(
 buildliner_add_app(
     ci
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/ci
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci/ci_custom.c
+        ${PROJECT_SOURCE_DIR}/config/shared/apps/ci/ci_custom.c
 )
 
 buildliner_add_app(
     to
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/to
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/to
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/tables/to_backup_cfg.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/to_custom.c
+        ${PROJECT_SOURCE_DIR}/config/shared/apps/to/tables/to_backup_cfg.c
+        ${PROJECT_SOURCE_DIR}/config/shared/apps/to/to_custom.c
 )
 
 buildliner_add_app(
     ea
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ea/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ea
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/ea
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ea/src/ea_custom.c
-)
-
-buildliner_add_app(
-    vc
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/vc/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc
-    CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc/src/vc_dev_io_v4l/vc_dev_io_v4l.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc/src/vc_transmit_udp/vc_transmit_udp.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc/src/vc_custom.c
+        ${PROJECT_SOURCE_DIR}/config/shared/apps/ea/src/ea_custom.c
 )
 
 buildliner_add_app(
@@ -163,45 +153,45 @@ buildliner_add_app(
 buildliner_add_app(
     ulr
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ulr/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ulr
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/ulr
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ulr/ulr_custom.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/ulr/ulr_custom.cpp
 )
 
 buildliner_add_app(
     rgbled
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/rgbled/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/rgbled
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/rgbled
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/rgbled/src/rgbled_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/rgbled/src/rgbled_custom.c
 )
 
 buildliner_add_app(
     ms5611
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ms5611/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ms5611
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/ms5611
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ms5611/src/ms5611_custom.c
+        ${PROJECT_SOURCE_DIR}/config/shared/apps/ms5611/src/ms5611_custom.c
 )
 
 buildliner_add_app(
     gps
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/gps/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/gps
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/gps
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/gps/src/gps_interface_uart/gps_serial.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/gps/src/gps_parser_ubx/gps_parser_ubx_common.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/gps/src/gps_parser_ubx/gps_parser_ubx_nav.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/gps/src/gps_parser_ubx/gps_parser_ubx_cfg.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/gps/src/gps_parser_ubx/gps_parser_ubx_ack.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/gps/src/gps_parser_ubx/gps_parser_ubx_mon.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/gps/src/gps_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/gps/src/gps_interface_uart/gps_serial.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_common.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_nav.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_cfg.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_ack.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_mon.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/gps/src/gps_custom.c
 )
 
 buildliner_add_app(
     sens
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sens/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sens
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/sens
 )
 
 buildliner_add_app(
@@ -213,27 +203,27 @@ buildliner_add_app(
 buildliner_add_app(
     vm
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/vm/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/vm
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/vm
 )
 
 buildliner_add_app(
     ld
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ld
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/ld
 )
 
 buildliner_add_app(
     nav
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/nav/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/nav
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/nav
 )
 
 buildliner_add_app(
     rcin
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/rcin/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/rcin
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/rcin
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/rcin/src/rcin_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/apps/rcin/src/rcin_custom.c
 )
 
 buildliner_add_app(
@@ -247,35 +237,21 @@ buildliner_add_app(
 buildliner_add_app(
     mpu9250
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/mpu9250/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/mpu9250
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/mpu9250
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/mpu9250/src/mpu9250_custom.c
+        ${PROJECT_SOURCE_DIR}/config/shared/apps/mpu9250/src/mpu9250_custom.c
 )
 
 buildliner_add_app(
     hmc5883
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/hmc5883/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/hmc5883
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hmc5883
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/hmc5883/src/hmc5883_custom.c
+        ${PROJECT_SOURCE_DIR}/config/shared/apps/hmc5883/src/hmc5883_custom.c
 )
 
 buildliner_add_app(
     pe
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/pe/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/pe
-)
-
-buildliner_add_app(
-    qae
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/qae/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/qae
-)
-
-buildliner_add_app(
-    lgc
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/lgc/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/lgc
-    CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/lgc/lgc_custom.cpp
 )

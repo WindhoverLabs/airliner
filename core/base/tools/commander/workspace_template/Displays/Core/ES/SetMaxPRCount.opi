@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CFE-ES - Set Max Proc Reset</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,23 +28,21 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>300</width>
+  <width>280</width>
   <wuid>72a2bf2b:1508717c835:-7839</wuid>
   <x>-1</x>
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
 var maxResets =VTypeHelper.getDouble(display.getWidget('inMaxResets').getPropertyValue('pv_value'));
 
-var cmd = '/cfs/cfe_es/SetMaxPRCount(Count: ' + maxResets + ')';
-
-Yamcs.issueCommand(cmd);]]></scriptText>
+Yamcs.issueCommand('/cfs/cfe_es/SetMaxPRCount', {'Payload.MaxPRCount': maxResets});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -69,7 +67,7 @@ Yamcs.issueCommand(cmd);]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -90,8 +88,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>73</width>
     <wuid>72a2bf2b:1508717c835:-77e3</wuid>
-    <x>114</x>
-    <y>90</y>
+    <x>104</x>
+    <y>87</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -130,8 +128,8 @@ $(pv_value)</tooltip>
     <width>80</width>
     <wrap_words>false</wrap_words>
     <wuid>72a2bf2b:1508717c835:-772d</wuid>
-    <x>24</x>
-    <y>48</y>
+    <x>14</x>
+    <y>45</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -185,8 +183,8 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>157</width>
     <wuid>72a2bf2b:1508717c835:-76fa</wuid>
-    <x>114</x>
-    <y>43</y>
+    <x>104</x>
+    <y>40</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -201,7 +199,7 @@ $(pv_value)</tooltip>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
     </font>
     <foreground_color>
       <color red="0" green="0" blue="0" />
@@ -225,7 +223,7 @@ $(pv_value)</tooltip>
     <width>231</width>
     <wrap_words>false</wrap_words>
     <wuid>72a2bf2b:1508717c835:-76c0</wuid>
-    <x>40</x>
-    <y>15</y>
+    <x>25</x>
+    <y>12</y>
   </widget>
 </display>

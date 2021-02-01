@@ -67,13 +67,6 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    ds
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ds/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ds
-)
-
-buildliner_add_app(
     fm
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/fm/fsw/for_build

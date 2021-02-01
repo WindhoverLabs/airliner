@@ -120,7 +120,7 @@ extern "C" {
 **  \par Limits:
 **       Minimum of 1.
 */
-#define VC_MAX_DEVICES                  (2)
+#define VC_MAX_DEVICES                  (1)
 
 /** \brief Max buffer size
 **
@@ -128,7 +128,7 @@ extern "C" {
 **       Minimum based on configured device driver requirements.
 */
 //#define VC_MAX_BUFFER_SIZE              (115200)
-#define VC_MAX_BUFFER_SIZE              (28800)
+#define VC_MAX_BUFFER_SIZE              (1228800)
 
 /** \brief Max packet size
 **
