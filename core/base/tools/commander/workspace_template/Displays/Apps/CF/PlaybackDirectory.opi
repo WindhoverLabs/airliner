@@ -73,7 +73,7 @@ if( Preserve == 'Delete' ) {
 
 Yamcs.issueCommand('/cfs/cf/PlaybackDirectory', {
     'Class': pTransferClass,
-    'Channel': pChannel,
+    'Chan': pChannel,
     'Priority': Priority,
     'Preserve': pPreserve,
     'PeerEntityId': PeerEntityID,

@@ -8,7 +8,7 @@
   </auto_scale_widgets>
   <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
   <background_color>
-    <color red="240" green="240" blue="240" />
+    <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
   <boy_version>1.5.3</boy_version>
   <foreground_color>
@@ -66,7 +66,7 @@ var cmd = '/CFS/CS/ReportBaselineTable(Name: ' + Name + ')';]]></scriptText>
       <color red="240" green="240" blue="240" />
     </foreground_color>
     <height>24</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -85,7 +85,7 @@ var cmd = '/CFS/CS/ReportBaselineTable(Name: ' + Name + ')';]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>121</width>
+    <width>130</width>
     <wuid>-736e4684:150ac3c95a1:-7e06</wuid>
     <x>42</x>
     <y>48</y>

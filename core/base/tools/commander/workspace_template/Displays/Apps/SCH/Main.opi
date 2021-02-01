@@ -8,14 +8,14 @@
   </auto_scale_widgets>
   <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
   <background_color>
-    <color red="240" green="240" blue="240" />
+    <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
   <boy_version>1.5.3</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>410</height>
+  <height>510</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
@@ -259,10 +259,12 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/sch/Noop', {});]]></scriptText>
+        <embedded>true</embedded>
         <description></description>
       </action>
     </actions>
@@ -286,7 +288,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -299,7 +301,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>NoOp</text>
+    <text>Noop</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
@@ -313,10 +315,12 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/ResetCounters.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/sch/Reset', {});]]></scriptText>
+        <embedded>true</embedded>
         <description></description>
       </action>
     </actions>
@@ -340,7 +344,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>17</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

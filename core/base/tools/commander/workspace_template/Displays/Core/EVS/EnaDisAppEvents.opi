@@ -69,7 +69,7 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>28</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -130,7 +130,7 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>28</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

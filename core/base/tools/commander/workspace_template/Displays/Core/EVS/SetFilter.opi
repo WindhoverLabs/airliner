@@ -71,7 +71,7 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>28</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -90,9 +90,9 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>80</width>
+    <width>90</width>
     <wuid>763e00b7:150973f1dd8:-7b0d</wuid>
-    <x>78</x>
+    <x>102</x>
     <y>120</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">

@@ -55,7 +55,7 @@ Yamcs.issueCommand('/cfs/cf/EnableDirPolling', {
     'Chan': pChannel,
     'Dir': Dir,
     'Spare_0_': 0,
-    'Spare_0_0': 0});
+    'Spare_1_': 0});
 
 ]]></scriptText>
         <embedded>true</embedded>

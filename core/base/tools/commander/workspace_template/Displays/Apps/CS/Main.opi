@@ -8,7 +8,7 @@
   </auto_scale_widgets>
   <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
   <background_color>
-    <color red="240" green="240" blue="240" />
+    <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
   <boy_version>1.5.3</boy_version>
   <foreground_color>
@@ -286,7 +286,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>13</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -340,7 +340,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>13</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2619,7 +2619,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>22</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_3</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2783,7 +2783,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_6</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2837,7 +2837,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_7</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3331,7 +3331,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_16</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3385,7 +3385,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_17</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3439,7 +3439,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_18</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3493,7 +3493,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_19</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3877,7 +3877,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_26</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3931,7 +3931,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_27</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3985,7 +3985,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_28</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -4039,7 +4039,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_29</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

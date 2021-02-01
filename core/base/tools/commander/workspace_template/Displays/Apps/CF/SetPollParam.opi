@@ -43,8 +43,8 @@ importPackage(Packages.org.yamcs.studio.data);
 var TransferClass =VTypeHelper.getString(display.getWidget('TransferClass').getPropertyValue('pv_value'));
 var Channel =VTypeHelper.getString(display.getWidget('Channel').getPropertyValue('pv_value'));
 var Priority =VTypeHelper.getDouble(display.getWidget('Priority').getPropertyValue('pv_value'));
-var Preserve =VTypeHelper.getDouble(display.getWidget('Preserve').getPropertyValue('pv_value'));
-var Dir =VTypeHelper.getString(display.getWidget('Dir').getPropertyValue('pv_value'));
+var Preserve =VTypeHelper.getString(display.getWidget('Preserve').getPropertyValue('pv_value'));
+var Dir =VTypeHelper.getDouble(display.getWidget('Dir').getPropertyValue('pv_value'));
 var PeerEntityID =VTypeHelper.getString(display.getWidget('PeerEntityID').getPropertyValue('pv_value'));
 var Source =VTypeHelper.getString(display.getWidget('Source').getPropertyValue('pv_value'));
 var Destination =VTypeHelper.getString(display.getWidget('Destination').getPropertyValue('pv_value'));
@@ -71,7 +71,7 @@ if( Preserve == 'Delete' ) {
     pPreserve = 'KEEP';
 } 
 
-Yamcs.issueCommand('/cfs/cf/EnableDirPolling', {
+Yamcs.issueCommand('/cfs/cf/SetPollParameter', {
     'Chan': pChannel, 
     'Dir': Dir,
     'Class': pTransferClass,

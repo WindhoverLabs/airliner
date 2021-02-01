@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>250</width>
+  <width>272</width>
   <wuid>763e00b7:150973f1dd8:-7ba3</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -70,7 +70,7 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>28</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -89,7 +89,7 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>80</width>
+    <width>110</width>
     <wuid>763e00b7:150973f1dd8:-7b0d</wuid>
     <x>36</x>
     <y>96</y>
@@ -325,7 +325,7 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>28</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -344,9 +344,9 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>80</width>
+    <width>110</width>
     <wuid>763e00b7:150973f1dd8:-74e4</wuid>
-    <x>132</x>
+    <x>162</x>
     <y>96</y>
   </widget>
 </display>

@@ -69,7 +69,7 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>28</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -88,7 +88,7 @@ Yamcs.issueCommand(cmdString);]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>139</width>
+    <width>150</width>
     <wuid>763e00b7:150973f1dd8:-7b0d</wuid>
     <x>60</x>
     <y>60</y>

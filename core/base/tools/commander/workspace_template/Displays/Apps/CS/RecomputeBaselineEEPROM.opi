@@ -8,7 +8,7 @@
   </auto_scale_widgets>
   <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
   <background_color>
-    <color red="240" green="240" blue="240" />
+    <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
   <boy_version>1.5.3</boy_version>
   <foreground_color>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>180</width>
+  <width>186</width>
   <wuid>-736e4684:150ac3c95a1:-7e23</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -66,7 +66,7 @@ var cmd = '/CFS/CS/RecomputeBaselineEEPROM(EntryID: ' + EntryID + ')';]]></scrip
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>24</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -85,7 +85,7 @@ var cmd = '/CFS/CS/RecomputeBaselineEEPROM(EntryID: ' + EntryID + ')';]]></scrip
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>136</width>
+    <width>160</width>
     <wuid>-736e4684:150ac3c95a1:-7e06</wuid>
     <x>24</x>
     <y>54</y>

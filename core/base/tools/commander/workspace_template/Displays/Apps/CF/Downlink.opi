@@ -462,7 +462,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_54</name>
-    <pv_name>/CFS/CF/Chan_0_Flags_Dequeue</pv_name>
+    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -509,7 +509,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_55</name>
-    <pv_name>/CFS/CF/Chan_0_Flags_Blast</pv_name>
+    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1740,7 +1740,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_68</name>
-    <pv_name>/CFS/CF/Chan_0_Flags_Dequeue</pv_name>
+    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1787,7 +1787,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_69</name>
-    <pv_name>/CFS/CF/Chan_0_Flags_Blast</pv_name>
+    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>

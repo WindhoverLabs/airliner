@@ -8,7 +8,7 @@
   </auto_scale_widgets>
   <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
   <background_color>
-    <color red="240" green="240" blue="240" />
+    <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
   <boy_version>1.5.3</boy_version>
   <foreground_color>
@@ -259,10 +259,12 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/ds/Noop', {});]]></scriptText>
+        <embedded>true</embedded>
         <description></description>
       </action>
     </actions>
@@ -286,7 +288,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>13</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -305,7 +307,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>67</width>
+    <width>117</width>
     <wuid>-33cb7c72:150aa4c347f:-75fa</wuid>
     <x>217</x>
     <y>60</y>
@@ -313,10 +315,12 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/ResetCounters.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/ds/Reset', {});]]></scriptText>
+        <embedded>true</embedded>
         <description></description>
       </action>
     </actions>
@@ -340,7 +344,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>13</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -359,7 +363,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>67</width>
+    <width>117</width>
     <wuid>-33cb7c72:150aa4c347f:-75f9</wuid>
     <x>217</x>
     <y>79</y>
@@ -1667,7 +1671,7 @@ Yamcs.issueCommand('/CFS/DS/SetAppState(State: 1)');]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>19</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_2</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -1686,7 +1690,7 @@ Yamcs.issueCommand('/CFS/DS/SetAppState(State: 1)');]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>47</width>
+    <width>97</width>
     <wuid>-736e4684:150ac3c95a1:-72d3</wuid>
     <x>224</x>
     <y>220</y>
@@ -2548,7 +2552,7 @@ Yamcs.issueCommand('/CFS/DS/SetAppState(State: 0)');]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>19</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_18</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2567,9 +2571,9 @@ Yamcs.issueCommand('/CFS/DS/SetAppState(State: 0)');]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>47</width>
+    <width>97</width>
     <wuid>-736e4684:150ac3c95a1:-71f7</wuid>
-    <x>276</x>
+    <x>333</x>
     <y>220</y>
   </widget>
 </display>

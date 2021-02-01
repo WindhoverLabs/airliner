@@ -42,7 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var TransferType =VTypeHelper.getString(display.getWidget('TransferType').getPropertyValue('pv_value'));
 var Channel =VTypeHelper.getString(display.getWidget('Channel').getPropertyValue('pv_value'));
-var Queue =VTypeHelper.getDouble(display.getWidget('Queue').getPropertyValue('pv_value'));
+var Queue =VTypeHelper.getString(display.getWidget('Queue').getPropertyValue('pv_value'));
 
 var pTransferType = '';
 var pChannel = -1;
