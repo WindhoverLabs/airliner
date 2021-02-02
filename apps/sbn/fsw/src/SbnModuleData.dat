@@ -1,6 +1,4 @@
-1, UDP, /cf/sbn_udp.so, SBN_UDP_Ops;
-2, TCP, /cf/sbn_tcp.so, SBN_TCP_Ops;
-6, Serial, /cf/sbn_serial.so, SBN_Serial_Ops; 
+1, UDP, /cf/apps/sbn_udp.so, SBN_UDP_Ops;
 !
 ! Format: ProtocolId, ModuleLocation, IFStructName
 !

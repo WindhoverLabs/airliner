@@ -105,7 +105,7 @@ static int PeerFileRowCallback(const char *Filename, int LineNum,
     if(SpacecraftID != CFE_PSP_GetSpacecraftId())
     {   
         CFE_EVS_SendEvent(SBN_FILE_EID, CFE_EVS_CRITICAL,
-            "Invalid spacecraft ID (got '%d', expected '%d')", SpacecraftID,
+            "Invalid spacecraft ID (got '%lu', expected '%lu')", SpacecraftID,
             CFE_PSP_GetSpacecraftId());
         return OS_ERROR; /* ignore other spacecraft entries */
     }/* end if */
@@ -1382,7 +1382,7 @@ void SBN_AppMain(void)
     Status = OS_MutSemCreate(&(SBN.RemapMutex), "sbn_remap_mutex", 0);
 
     CFE_EVS_SendEvent(SBN_INIT_EID, CFE_EVS_INFORMATION,
-        "initialized (CFE_CPU_NAME='%s' ProcessorID=%d SpacecraftId=%d %s "
+        "initialized (CFE_CPU_NAME='%s' ProcessorID=%lu SpacecraftId=%lu %s "
         "SBN.AppID=%d...",
         CFE_CPU_NAME, CFE_PSP_GetProcessorId(), CFE_PSP_GetSpacecraftId(),
 #ifdef SOFTWARE_BIG_BIT_ORDER
