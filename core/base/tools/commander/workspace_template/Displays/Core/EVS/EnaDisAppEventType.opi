@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>150</height>
+  <height>175</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CFE-EVS - Ena/Dis App Event</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -77,7 +77,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wuid>763e00b7:150973f1dd8:-7b43</wuid>
     <x>18</x>
-    <y>60</y>
+    <y>84</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -124,7 +124,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wuid>763e00b7:150973f1dd8:-7b37</wuid>
     <x>18</x>
-    <y>79</y>
+    <y>103</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -171,7 +171,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wuid>763e00b7:150973f1dd8:-7b32</wuid>
     <x>18</x>
-    <y>98</y>
+    <y>122</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -218,7 +218,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wuid>763e00b7:150973f1dd8:-7b2d</wuid>
     <x>18</x>
-    <y>117</y>
+    <y>141</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -283,7 +283,7 @@ $(pv_value)</tooltip>
     <width>80</width>
     <wuid>763e00b7:150973f1dd8:-7b0d</wuid>
     <x>156</x>
-    <y>60</y>
+    <y>84</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -348,7 +348,7 @@ $(pv_value)</tooltip>
     <width>80</width>
     <wuid>763e00b7:150973f1dd8:-789f</wuid>
     <x>156</x>
-    <y>98</y>
+    <y>122</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -388,7 +388,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>763e00b7:150973f1dd8:-76cf</wuid>
     <x>12</x>
-    <y>29</y>
+    <y>47</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.combo" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -411,7 +411,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>34</height>
+    <height>32</height>
     <items>
       <s>CF</s>
       <s>CI</s>
@@ -445,6 +445,46 @@ $(pv_value)</tooltip>
     <width>134</width>
     <wuid>763e00b7:150973f1dd8:-76ce</wuid>
     <x>102</x>
-    <y>24</y>
+    <y>42</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_49</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Enable / Disable App Event</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>205</width>
+    <wrap_words>false</wrap_words>
+    <wuid>6b3345f4:17760d4a2f0:-7b68</wuid>
+    <x>24</x>
+    <y>12</y>
   </widget>
 </display>

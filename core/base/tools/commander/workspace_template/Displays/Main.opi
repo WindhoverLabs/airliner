@@ -79,7 +79,7 @@
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>

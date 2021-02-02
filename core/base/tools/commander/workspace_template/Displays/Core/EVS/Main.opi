@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>620</height>
+  <height>460</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CFE-EVS - Main</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>700</width>
+  <width>430</width>
   <wuid>45ea5983:1502a6e6386:-7f06</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -1127,10 +1127,12 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/cfe_evs/NoOp', {});]]></scriptText>
+        <embedded>true</embedded>
         <description></description>
       </action>
     </actions>
@@ -1172,7 +1174,7 @@ $(pv_value)</tooltip>
     <tooltip>This command performs no other function than to increment the command execution counter.  The command may be used to verify general aliveness of the Event Services task.</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>67</width>
+    <width>79</width>
     <wuid>39deb42:1504a4eb8cc:-7de2</wuid>
     <x>276</x>
     <y>55</y>
@@ -1180,10 +1182,12 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/ResetCounters.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/cfe_evs/Reset', {});]]></scriptText>
+        <embedded>true</embedded>
         <description></description>
       </action>
     </actions>
@@ -1226,7 +1230,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>67</width>
+    <width>79</width>
     <wuid>-9ddfcbe:1507831914f:-7cfc</wuid>
     <x>276</x>
     <y>74</y>
@@ -1268,8 +1272,8 @@ $(pv_value)</tooltip>
     <width>295</width>
     <wrap_words>false</wrap_words>
     <wuid>763e00b7:150973f1dd8:-7cf4</wuid>
-    <x>192</x>
-    <y>6</y>
+    <x>71</x>
+    <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -1323,8 +1327,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>187</width>
     <wuid>763e00b7:150973f1dd8:-7bb2</wuid>
-    <x>66</x>
-    <y>318</y>
+    <x>18</x>
+    <y>312</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -1378,172 +1382,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>187</width>
     <wuid>763e00b7:150973f1dd8:-7ba6</wuid>
-    <x>66</x>
-    <y>343</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
-    <actions hook="false" hook_all="false">
-      <action type="OPEN_DISPLAY">
-        <path>SetLogMode.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-        </macros>
-        <mode>8</mode>
-        <description></description>
-      </action>
-    </actions>
-    <alarm_pulsing>false</alarm_pulsing>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>19</height>
-    <image></image>
-    <name>NoOp_2</name>
-    <push_action_index>0</push_action_index>
-    <pv_name></pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <style>0</style>
-    <text>Set Mode</text>
-    <toggle_button>false</toggle_button>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Action Button</widget_type>
-    <width>85</width>
-    <wuid>763e00b7:150973f1dd8:-7875</wuid>
-    <x>276</x>
-    <y>216</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
-    <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/ClearLog.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
-        <description></description>
-      </action>
-    </actions>
-    <alarm_pulsing>false</alarm_pulsing>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="34" green="45" blue="75" />
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="255" green="255" blue="255" />
-    </foreground_color>
-    <height>21</height>
-    <image>../../Resources/send.png</image>
-    <name>NoOp_3</name>
-    <push_action_index>0</push_action_index>
-    <pv_name></pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <style>0</style>
-    <text>Clear Log</text>
-    <toggle_button>false</toggle_button>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Action Button</widget_type>
-    <width>95</width>
-    <wuid>763e00b7:150973f1dd8:-77fe</wuid>
-    <x>360</x>
-    <y>196</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
-    <actions hook="false" hook_all="false">
-      <action type="OPEN_DISPLAY">
-        <path>DumpEventLog.opi</path>
-        <macros>
-          <include_parent_macros>true</include_parent_macros>
-        </macros>
-        <mode>8</mode>
-        <description></description>
-      </action>
-    </actions>
-    <alarm_pulsing>false</alarm_pulsing>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>21</height>
-    <image></image>
-    <name>NoOp_4</name>
-    <push_action_index>0</push_action_index>
-    <pv_name></pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <style>0</style>
-    <text>Dump Log</text>
-    <toggle_button>false</toggle_button>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Action Button</widget_type>
-    <width>85</width>
-    <wuid>763e00b7:150973f1dd8:-77f0</wuid>
-    <x>276</x>
-    <y>196</y>
+    <x>18</x>
+    <y>337</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -1589,13 +1429,13 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Set Format</text>
+    <text>Change</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>79</width>
+    <width>67</width>
     <wuid>763e00b7:150973f1dd8:-779c</wuid>
     <x>276</x>
     <y>121</y>
@@ -1652,8 +1492,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>187</width>
     <wuid>763e00b7:150973f1dd8:-769d</wuid>
-    <x>66</x>
-    <y>368</y>
+    <x>18</x>
+    <y>362</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -1707,8 +1547,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>187</width>
     <wuid>763e00b7:150973f1dd8:-75e2</wuid>
-    <x>66</x>
-    <y>393</y>
+    <x>18</x>
+    <y>387</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -1762,8 +1602,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>187</width>
     <wuid>763e00b7:150973f1dd8:-75cd</wuid>
-    <x>66</x>
-    <y>418</y>
+    <x>18</x>
+    <y>412</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -1817,8 +1657,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>187</width>
     <wuid>763e00b7:150973f1dd8:-75c3</wuid>
-    <x>66</x>
-    <y>443</y>
+    <x>220</x>
+    <y>312</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -1872,8 +1712,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>187</width>
     <wuid>763e00b7:150973f1dd8:-75b9</wuid>
-    <x>66</x>
-    <y>468</y>
+    <x>220</x>
+    <y>337</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -1927,8 +1767,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>187</width>
     <wuid>763e00b7:150973f1dd8:-75a4</wuid>
-    <x>66</x>
-    <y>493</y>
+    <x>220</x>
+    <y>362</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -1982,8 +1822,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>187</width>
     <wuid>763e00b7:150973f1dd8:-7590</wuid>
-    <x>66</x>
-    <y>518</y>
+    <x>220</x>
+    <y>387</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -2037,7 +1877,173 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>187</width>
     <wuid>763e00b7:150973f1dd8:-7586</wuid>
-    <x>66</x>
-    <y>543</y>
+    <x>220</x>
+    <y>412</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="OPEN_DISPLAY">
+        <path>DumpEventLog.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>8</mode>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>21</height>
+    <image></image>
+    <name>NoOp_4</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>Dump</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>67</width>
+    <wuid>6b3345f4:17760d4a2f0:-7a62</wuid>
+    <x>276</x>
+    <y>196</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/cfe_evs/ClearLog', {});]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="34" green="45" blue="75" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="255" green="255" blue="255" />
+    </foreground_color>
+    <height>21</height>
+    <image>../../Resources/send.png</image>
+    <name>NoOp_3</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>Clear</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>67</width>
+    <wuid>6b3345f4:17760d4a2f0:-7a5a</wuid>
+    <x>342</x>
+    <y>196</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="OPEN_DISPLAY">
+        <path>SetLogMode.opi</path>
+        <macros>
+          <include_parent_macros>true</include_parent_macros>
+        </macros>
+        <mode>8</mode>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>19</height>
+    <image></image>
+    <name>NoOp_2</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>Change</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>67</width>
+    <wuid>6b3345f4:17760d4a2f0:-7a52</wuid>
+    <x>276</x>
+    <y>216</y>
   </widget>
 </display>
