@@ -60,7 +60,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkTlm_t.usCmdCnt</pv_name>
+    <pv_name>/cfs/cs/CS_HkPacket_t.CmdCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -152,7 +152,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkTlm_t.usCmdErrCnt</pv_name>
+    <pv_name>/cfs/cs/CS_HkPacket_t.CmdErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -756,7 +756,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/ds/DS_HkTlm_t.usCmdCnt</pv_name>
+    <pv_name>/cfs/ds/DS_HkPacket_t.CmdAcceptedCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -808,7 +808,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/ds/DS_HkTlm_t.usCmdErrCnt</pv_name>
+    <pv_name>/cfs/ds/DS_HkPacket_t.CmdRejectedCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1063,7 +1063,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/fm/FM_HkTlm_t.usCmdCnt</pv_name>
+    <pv_name>/cfs/fm/FM_HousekeepingPkt_t.CommandCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1115,7 +1115,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hk/HK_HkTlm_t.usCmdErrCnt</pv_name>
+    <pv_name>/cfs/hk/HK_HkPacket_t.ErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1370,7 +1370,7 @@ $(pv_value)</tooltip>
     <name>Text Update_10</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hk/HK_HkTlm_t.usCmdCnt</pv_name>
+    <pv_name>/cfs/hk/HK_HkPacket_t.CmdCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1422,7 +1422,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hk/HK_HkTlm_t.usCmdErrCnt</pv_name>
+    <pv_name>/cfs/hk/HK_HkPacket_t.ErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1988,7 +1988,7 @@ $(pv_value)</tooltip>
     <name>Text Update_14</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkTlm_t.usCmdCnt</pv_name>
+    <pv_name>/cfs/hs/HS_HkPacket_t.CmdCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2040,7 +2040,7 @@ $(pv_value)</tooltip>
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkTlm_t.usCmdErrCnt</pv_name>
+    <pv_name>/cfs/hs/HS_HkPacket_t.CmdErrCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2295,7 +2295,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/lc/LC_HkTlm_t.usCmdCnt</pv_name>
+    <pv_name>/cfs/lc/LC_HkPacket_t.CmdCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2347,7 +2347,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/lc/LC_HkTlm_t.usCmdErrCnt</pv_name>
+    <pv_name>/cfs/lc/LC_HkPacket_t.CmdErrCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2602,7 +2602,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.usCmdCnt</pv_name>
+    <pv_name>/cfs/md/MD_HkTlm_t.ValidCmdCntr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2654,7 +2654,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.usCmdErrCnt</pv_name>
+    <pv_name>/cfs/md/MD_HkTlm_t.ValidCmdCntr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2909,7 +2909,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/mm/MM_HkTlm_t.usCmdCnt</pv_name>
+    <pv_name>/cfs/mm/MM_HkPacket_t.CmdCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2961,7 +2961,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/mm/MM_HkTlm_t.usCmdErrCnt</pv_name>
+    <pv_name>/cfs/mm/MM_HkPacket_t.ErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
