@@ -9,12 +9,12 @@
 /*
 ** CPU Id for target Processor
 */
-#define CFE_CPU_ID 1
+#define CFE_CPU_ID 2
 
 /*
 ** CPU Name for target Processor
 */
-#define CFE_CPU_NAME "CPU1"
+#define CFE_CPU_NAME "CPU2"
 
 /**
 **  \cfesbcfg Maximum Number of Unique Message IDs SB Routing Table can hold

@@ -414,7 +414,7 @@ void SBN_ProcessSubsFromPeer(SBN_PeerInterface_t *Peer, void *Msg)
     if(strncmp(VersionHash, SBN_IDENT, SBN_IDENT_LEN))
     {
         CFE_EVS_SendEvent(SBN_PROTO_EID, CFE_EVS_ERROR,
-            "version number mismatch with peer CpuID %d",
+            "version number mismatch with peer CpuID %lu",
             Peer->ProcessorID);
     }
 
@@ -491,7 +491,7 @@ void SBN_ProcessUnsubsFromPeer(SBN_PeerInterface_t *Peer, void *Msg)
     if(strncmp(VersionHash, SBN_IDENT, SBN_IDENT_LEN))
     {
         CFE_EVS_SendEvent(SBN_PROTO_EID, CFE_EVS_ERROR,
-            "version number mismatch with peer CpuID %d",
+            "version number mismatch with peer CpuID %lu",
             Peer->ProcessorID);
     }
 

@@ -127,7 +127,7 @@ extern "C" {
  */
 #define EA_CHILD_TASK_PRIORITY              (187)
 #define EA_APP_UTIL_THRESHOLD               (70)
-#define EA_APP_NUM_THREADS                  (4)
+#define EA_APP_NUM_THREADS                  (2)
 
 #define EA_MAX_PATH_LEN                     (96)
 

@@ -107,7 +107,15 @@ extern "C" {
 **  \par Limits:
 **       This parameter must be at least 1000 (ms).
 */
-#define MS5611_STARTUP_TIMEOUT_MSEC    (1000)
+#define MS5611_STARTUP_TIMEOUT_MSEC       (1000)
+
+/** \brief The MS5611 device path.
+**
+**  \par Limits:
+**       The length of each string, including the NULL terminator cannot exceed
+**       the #OS_MAX_PATH_LEN value.
+*/
+#define MS5611_DEVICE_PATH                ("/dev/spidev1.1")
 
 /** \brief The ratio pressure per temperature measurements
 **

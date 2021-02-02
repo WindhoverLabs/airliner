@@ -12,14 +12,11 @@ CFE_APP, /cf/apps/CI.so,        CI_AppMain,      CI,        115, 327680, 0x0, 0,
 CFE_APP, /cf/apps/TO.so,        TO_AppMain,      TO,        124, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/CF.so,        CF_AppMain,      CF,        157, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/BAT.so,       BAT_AppMain,     BAT,       106, 327680, 0x0, 0, 2;
-CFE_APP, /cf/apps/DS.so,        DS_AppMain,      DS,        190, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/FM.so,        FM_AppMain,      FM,        163, 327680, 0x0, 0, 2;
-CFE_APP, /cf/apps/HK.so,        HK_AppMain,      HK,        166, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/LC.so,        LC_AppMain,      LC,        178, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/MM.so,        MM_AppMain,      MM,        172, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/SC.so,        SC_AppMain,      SC,        175, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/MD.so,        MD_AppMain,      MD,        169, 327680, 0x0, 0, 2;
-CFE_APP, /cf/apps/EA.so,        EA_AppMain,      EA,        184, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/PE.so,        PE_AppMain,      PE,       76, 327680, 0x0, 0, 4;
 CFE_APP, /cf/apps/QAE.so,       QAE_AppMain,     QAE,       58, 327680, 0x0, 0, 4;
 CFE_APP, /cf/apps/MPC.so,       MPC_AppMain,     MPC,       61, 327680, 0x0, 0, 4;
@@ -29,8 +26,8 @@ CFE_APP, /cf/apps/CS.so,        CS_AppMain,      CS,        160, 327680, 0x0, 0,
 CFE_APP, /cf/apps/RCIN.so,      RCIN_AppMain,    RCIN,      88, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/LD.so,        LD_AppMain,      LD,       73, 327680, 0x0, 0, 4;
 CFE_APP, /cf/apps/RGBLED.so,    RGBLED_AppMain,  RGBLED,   151, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/SBN.so,       SBN_AppMain,     SBN,       37, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/SCH.so,       SCH_AppMain,     SCH,       34,  40960, 0x0, 0, 2;
-CFE_APP, /cf/apps/PRM.so,       PRM_AppMain,     PRM,       80,  40960, 0x0, 0, 2;
 !CFE_LIB, /cf/apps/schlib.so,    SCH_LibInit,     SCH_LIB,    0,     0, 0x0, 0, 2;
 CFE_APP, /cf/apps/VC.so,        VC_AppMain,      VC,       181, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/FLOW.so,      FLOW_AppMain,    FLOW,      80, 327680, 0x0, 0, 2;
