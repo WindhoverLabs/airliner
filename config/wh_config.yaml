@@ -6,6 +6,8 @@ modules:
     modules:
       cfe:
         definition: ${PROJECT_SOURCE_DIR}/core/base/cfe/wh_design.yaml
+      osal:
+        definition: ${PROJECT_SOURCE_DIR}/core/osal/posix-fast/wh_design.yaml
         
   cf:
     definition: ${PROJECT_SOURCE_DIR}/apps/cf/wh_design.yaml
@@ -25,6 +27,7 @@ modules:
         msgID: 0x1918
     
   ci:
+    definition: ${PROJECT_SOURCE_DIR}/apps/ci/wh_design.yaml
     telemetry:
       CI_HK_TLM_MID:
         msgID: 0x0907
@@ -42,9 +45,175 @@ modules:
         id: 34
       CF_APPMAIN_PERF_ID:
         id: 35
-    definition: ${PROJECT_SOURCE_DIR}/apps/ci/wh_design.yaml
+
+  cs:
+    definition: ${PROJECT_SOURCE_DIR}/apps/cs/wh_design.yaml
+    telemetry: 
+      CS_HK_TLM_MID: 
+        msgID: 0x0933
+    commands: 
+      CS_CMD_MID: 
+        msgID: 0x1930
+      CS_BACKGROUND_CYCLE_MID: 
+        msgID: 0x1931
+      CS_SEND_HK_MID: 
+        msgID: 0x1932
+    perfids: 
+      CS_APPMAIN_PERF_ID: 
+        id: 44
+
+  ds:
+    definition: ${PROJECT_SOURCE_DIR}/apps/ds/wh_design.yaml
+    telemetry: 
+      DS_HK_TLM_MID: 
+        msgID: 0x0942
+      DS_DIAG_TLM_MID: 
+        msgID: 0x0943
+    commands: 
+      DS_CMD_MID: 
+        msgID: 0x1940
+      DS_SEND_HK_MID: 
+        msgID: 0x1941
+    perfids: 
+      DS_APPMAIN_PERF_ID: 
+        id: 45
+
+  fm:
+    definition: ${PROJECT_SOURCE_DIR}/apps/fm/wh_design.yaml
+    telemetry: 
+      FM_HK_TLM_MID: 
+        msgID: 0x0982
+      FM_OPEN_FILES_TLM_MID: 
+        msgID: 0x0983
+      FM_FREE_SPACE_TLM_MID: 
+        msgID: 0x0984
+      FM_FILE_INFO_TLM_MID: 
+        msgID: 0x0985
+      FM_DIR_LIST_TLM_MID: 
+        msgID: 0x0986
+    commands: 
+      FM_CMD_MID: 
+        msgID: 0x1980
+      FM_SEND_HK_MID: 
+        msgID: 0x1981
+    perfids: 
+      FM_APPMAIN_PERF_ID: 
+        id: 46
+      FM_CHILD_TASK_PERF_ID: 
+        id: 47
+
+  hk:
+    definition: ${PROJECT_SOURCE_DIR}/apps/hk/wh_design.yaml
+    telemetry: 
+      HK_HK_TLM_MID: 
+        msgID: 0x0993
+    commands: 
+      HK_CMD_MID: 
+        msgID: 0x1990
+      HK_SEND_HK_MID: 
+        msgID: 0x1991
+      HK_SEND_COMBINED_PKT_MID: 
+        msgID: 0x1992
+    perfids: 
+      HK_APPMAIN_PERF_ID: 
+        id: 48
+
+  hs:
+    definition: ${PROJECT_SOURCE_DIR}/apps/hs/wh_design.yaml
+    telemetry: 
+      HS_HK_TLM_MID: 
+        msgID: 0x09a3
+      HS_CUSTOM_HK_TLM_MID:
+        msgID: 0x09a4
+    commands: 
+      HS_CMD_MID: 
+        msgID: 0x19a0
+      HS_SEND_HK_MID: 
+        msgID: 0x19a1
+      HS_WAKEUP_MID: 
+        msgID: 0x19a2
+    perfids: 
+      HS_IDLETASK_PERF_ID: 
+        id: 49
+      HS_APPMAIN_PERF_ID: 
+        id: 50
+    
+  lc:
+    definition: ${PROJECT_SOURCE_DIR}/apps/lc/wh_design.yaml
+    telemetry: 
+      LC_HK_TLM_MID: 
+        msgID: 0x09b0
+      LC_SAMPLE_AP_MID: 
+        msgID: 0x09b3
+    commands: 
+      LC_CMD_MID: 
+        msgID: 0x19b2
+      LC_SEND_HK_MID: 
+        msgID: 0x19b1
+    perfids: 
+      LC_APPMAIN_PERF_ID: 
+        id: 51
+      LC_WDT_SEARCH_PERF_ID: 
+        id: 52
+
+  md:
+    definition: ${PROJECT_SOURCE_DIR}/apps/md/wh_design.yaml
+    telemetry: 
+      MD_HK_TLM_MID: 
+        msgID: 0x09c6
+      MD_DWELL_PKT_MID_BASE: 
+        msgID: 0x09c7
+    commands: 
+      MD_CMD_MID: 
+        msgID: 0x19c3
+      MD_WAKEUP_MID: 
+        msgID: 0x19c4
+      MD_SEND_HK_MID: 
+        msgID: 0x19c5
+    perfids: 
+      MD_APPMAIN_PERF_ID: 
+        id: 53
+
+  mm:
+    definition: ${PROJECT_SOURCE_DIR}/apps/mm/wh_design.yaml
+    telemetry: 
+      MM_HK_TLM_MID: 
+        msgID: 0x09c2
+    commands: 
+      MM_CMD_MID: 
+        msgID: 0x19c0
+      MM_SEND_HK_MID: 
+        msgID: 0x19c1
+    perfids: 
+      MM_APPMAIN_PERF_ID: 
+        id: 54
+      MM_SEGBREAK_PERF_ID: 
+        id: 55
+      MM_EEPROM_POKE_PERF_ID: 
+        id: 56
+      MM_EEPROM_FILELOAD_PERF_ID: 
+        id: 57
+      MM_EEPROM_FILL_PERF_ID: 
+        id: 58
+
+  sc:
+    definition: ${PROJECT_SOURCE_DIR}/apps/sc/wh_design.yaml
+    telemetry:
+      SC_HK_TLM_MID:
+        msgID: 0x09e3
+    commands:
+      SC_CMD_MID:
+        msgID: 0x19e0
+      SC_SEND_HK_MID:
+        msgID: 0x19e1
+      SC_1HZ_WAKEUP_MID:
+        msgID: 0x19e2
+    perfids:
+      SC_APPMAIN_PERF_ID:
+        id: 59
 
   sch:
+    definition: ${PROJECT_SOURCE_DIR}/apps/sch/wh_design.yaml
     telemetry:
       SCH_DIAG_TLM_MID:
         msgID: 0x09e7
@@ -60,9 +229,9 @@ modules:
     perfids:
       SCH_APPMAIN_PERF_ID:
         id: 61
-    definition: ${PROJECT_SOURCE_DIR}/apps/sch/wh_design.yaml
 
   to:
+    definition: ${PROJECT_SOURCE_DIR}/apps/to/wh_design.yaml
     telemetry:
       TO_DIAG_TLM_MID:
         msgID: 0x0911
@@ -80,7 +249,6 @@ modules:
         id: 60
       TO_SOCKET_SEND_PERF_ID:
         id: 62
-    definition: ${PROJECT_SOURCE_DIR}/apps/to/wh_design.yaml
 
   ak8963:
     telemetry:
