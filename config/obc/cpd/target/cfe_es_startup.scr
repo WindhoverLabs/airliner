@@ -26,6 +26,7 @@ CFE_APP, /cf/apps/CS.so,        CS_AppMain,      CS,        160, 327680, 0x0, 0,
 CFE_APP, /cf/apps/RCIN.so,      RCIN_AppMain,    RCIN,      88, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/LD.so,        LD_AppMain,      LD,       73, 327680, 0x0, 0, 4;
 CFE_APP, /cf/apps/RGBLED.so,    RGBLED_AppMain,  RGBLED,   151, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/SBN.so,       SBN_AppMain,     SBN,       37, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/SCH.so,       SCH_AppMain,     SCH,       34,  40960, 0x0, 0, 2;
 !CFE_LIB, /cf/apps/schlib.so,    SCH_LibInit,     SCH_LIB,    0,     0, 0x0, 0, 2;
 CFE_APP, /cf/apps/VC.so,        VC_AppMain,      VC,       181, 327680, 0x0, 0, 2;

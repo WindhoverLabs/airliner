@@ -314,7 +314,11 @@
 #define NEOM8N_MON_GNSS_MID                          (0x0b9a)
 #define NEOM8N_MON_SMGR_MID                          (0x0b9b)
 
+
+/* SBN                                                     */
 #define SBN_WAKEUP_MID                               (0x0ba0)
+#define SBN_CMD_MID                                  (0x1ba1)
+#define SBN_TLM_MID                                  (0x0ba2)
 
 /* ROS                                                     */
 /* Range: 0x900 - 0x90f                                    */

@@ -84,6 +84,11 @@
 #define FLOW_MAIN_TASK_PERF_ID     (113)
 #define FLOW_COMPUTE_PERF_ID       (114)
 #define PRM_MAIN_TASK_PERF_ID      (115)
+#define SBN_PERF_MIN_ID            (116)
+#define SBN_PERF_SEND_ID           SBN_PERF_MIN_ID
+#define SBN_PERF_RECV_ID           (SBN_PERF_MIN_ID + 1)
+#define SBN_PERF_MAX_ID            (SBN_PERF_MIN_ID + 100)
+
 
 #endif
 

@@ -136,3 +136,16 @@ buildliner_add_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/ea/src/ea_custom.c
 )
 
+buildliner_add_app(
+    sbn
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sbn
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sbn/src/sbn_remap_tbl.c
+)
+
+buildliner_add_app(
+    sbn_udp
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/udp/fsw/for_build
+)
+

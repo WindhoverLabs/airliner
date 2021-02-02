@@ -244,7 +244,7 @@ void SBN_UnloadModules(void)
             if(OS_ModuleUnload(SBN.ModuleIDs[ProtocolID]) != OS_SUCCESS)
             {
                 /* TODO: send event? */
-                OS_printf("Unable to unload module ID %d for Protocol ID %d\n",
+                OS_printf("Unable to unload module ID %lu for Protocol ID %d\n",
                     SBN.ModuleIDs[ProtocolID], ProtocolID);
             }/* end if */
         }/* end if */
