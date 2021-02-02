@@ -42,7 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var Parameter =VTypeHelper.getString(display.getWidget('Parameter').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cf/GetMIBParam', {'Param': Parameter});
+Yamcs.issueCommand('/cfs/cf/GetMIBParameter', {'Param': Parameter});
 
 ]]></scriptText>
         <embedded>true</embedded>

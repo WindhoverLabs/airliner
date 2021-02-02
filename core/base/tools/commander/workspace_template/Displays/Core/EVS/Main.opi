@@ -1154,7 +1154,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -1207,7 +1207,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -1466,7 +1466,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>21</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_3</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -1485,7 +1485,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>79</width>
+    <width>95</width>
     <wuid>763e00b7:150973f1dd8:-77fe</wuid>
     <x>360</x>
     <y>196</y>

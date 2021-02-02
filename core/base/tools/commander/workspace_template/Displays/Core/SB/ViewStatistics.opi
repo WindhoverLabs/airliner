@@ -39,7 +39,7 @@
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_sb/SendStats(arg: none)');]]></scriptText>
+Yamcs.issueCommand('/cfs/cfe_sb/SendStats', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -64,7 +64,7 @@ Yamcs.issueCommand('/cfs/cfe_sb/SendStats(arg: none)');]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>28</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
