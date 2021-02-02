@@ -28,14 +28,14 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>275</width>
+  <width>360</width>
   <wuid>35ebaa52:1509cf6a868:-791f</wuid>
   <x>-1</x>
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
@@ -45,24 +45,22 @@ var tableName =VTypeHelper.getString(display.getWidget('TableName').getPropertyV
 var fileName =VTypeHelper.getString(display.getWidget('FileName').getPropertyValue('pv_value'));
 
 var cmd;
+cmd = '/cfs/cfe_tbl/Dump';
+
+var args;
 
 if( fileName != 'no value' ) {
-    cmd = '/cfs/cfe_tbl/Dump(FileName: ' + fileName;
-} else {
-    cmd = '/cfs/cfe_tbl/Dump(FileName: ""';
+  args = {'Payload.DumpFilename':fileName,
+		'Payload.TableName': tableName,
+		'Payload.ActiveTblFlag':tableBuffer };
+}
+else {
+  //    args = {"payload.DumpFilename":"",
+//		"Payload.TableName":''",
+//		"Payload.ActiveTblFlag":"" };
 }
 
-cmd = cmd + ', TableName: ' + tableName;
-
-if( tableBuffer != 'Inactive' ) {
-    cmd = cmd + ', Buffer: 0)';
-} else {
-    cmd = cmd + ', Buffer: 1)';
-}
-
-Yamcs.issueCommand(cmd);
-
-]]></scriptText>
+Yamcs.issueCommand(cmd, args);]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -318,7 +316,7 @@ $(pv_value)</tooltip>
     <maximum>1.7976931348623157E308</maximum>
     <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
-    <name>FileName_1</name>
+    <name>FileName</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>loc://FileName&lt;VString&gt;</pv_name>
@@ -369,8 +367,8 @@ $(pv_value)</tooltip>
     <height>33</height>
     <horizontal>true</horizontal>
     <items>
-      <s>Inactive</s>
-      <s>Active</s>
+      <s>ACTIVE_BUFFER</s>
+      <s>INACTIVE_BUFFER</s>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>TableBuffer</name>
@@ -390,7 +388,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Radio Box</widget_type>
-    <width>216</width>
+    <width>345</width>
     <wuid>35ebaa52:1509cf6a868:-7878</wuid>
     <x>28</x>
     <y>31</y>

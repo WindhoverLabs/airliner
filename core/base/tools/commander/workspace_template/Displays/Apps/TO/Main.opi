@@ -288,7 +288,7 @@ Yamcs.issueCommand('/cfs/to/Noop', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image>../../Resources/send.png</image>
+    <image>Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

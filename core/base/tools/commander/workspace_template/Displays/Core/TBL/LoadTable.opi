@@ -45,9 +45,9 @@ var fileName =VTypeHelper.getString(display.getWidget('FileName').getPropertyVal
 var cmd;
 
 if( fileName != 'no value' ) {
-    cmd = '/cfs/cfe_tbl/Load(FileName: ' + fileName + ')';
+    cmd = '/cfs/cfe_tbl/Load(Payload.LoadFilename: ' + fileName + ')';
 } else {
-    cmd = '/cfs/cfe_tbl/Load(FileName: "")';
+    cmd = '/cfs/cfe_tbl/Load(Payload.LoadFilename: "")';
 }
 
 Yamcs.issueCommand(cmd);

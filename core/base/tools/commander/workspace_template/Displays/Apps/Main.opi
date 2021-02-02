@@ -208,7 +208,7 @@ Yamcs.issueCommand('/cfs/cs/Noop()');]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -265,7 +265,7 @@ Yamcs.issueCommand('/cfs/cs/Reset()');
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -559,7 +559,7 @@ Yamcs.issueCommand('/cfs/cf/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>../Resources/send.png</image>
     <name>NoOp_3</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -869,7 +869,7 @@ Yamcs.issueCommand('/cfs/ds/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_6</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -925,7 +925,7 @@ Yamcs.issueCommand('/cfs/ds/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_7</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -1180,7 +1180,7 @@ Yamcs.issueCommand('/cfs/fm/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_12</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -1236,7 +1236,7 @@ Yamcs.issueCommand('/cfs/fm/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_13</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -1491,7 +1491,7 @@ Yamcs.issueCommand('/cfs/hk/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_15</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -1547,7 +1547,7 @@ Yamcs.issueCommand('/cfs/hk/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_16</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -1802,7 +1802,7 @@ Yamcs.issueCommand('/cfs/ci/Noop(arg: none)');]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_18</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -1858,7 +1858,7 @@ Yamcs.issueCommand('/cfs/ci/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_19</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2113,7 +2113,7 @@ Yamcs.issueCommand('/cfs/hs/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_21</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2169,7 +2169,7 @@ Yamcs.issueCommand('/cfs/hs/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_22</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2424,7 +2424,7 @@ Yamcs.issueCommand('/cfs/lc/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_24</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2480,7 +2480,7 @@ Yamcs.issueCommand('/cfs/lc/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_25</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2735,7 +2735,7 @@ Yamcs.issueCommand('/cfs/md/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_27</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2791,7 +2791,7 @@ Yamcs.issueCommand('/cfs/md/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_28</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3046,7 +3046,7 @@ Yamcs.issueCommand('/cfs/mm/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_30</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3102,7 +3102,7 @@ Yamcs.issueCommand('/cfs/mm/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_31</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3357,7 +3357,7 @@ Yamcs.issueCommand('/cfs/sc/Noop',{});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_33</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3414,7 +3414,7 @@ Yamcs.issueCommand('/cfs/sc/Reset',{});
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_34</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3669,7 +3669,7 @@ Yamcs.issueCommand('/cfs/sch/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_36</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3725,7 +3725,7 @@ Yamcs.issueCommand('/cfs/sch/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_37</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -3980,7 +3980,7 @@ Yamcs.issueCommand('/cfs/to/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_39</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -4036,7 +4036,7 @@ Yamcs.issueCommand('/cfs/to/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_40</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

@@ -579,10 +579,12 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/cfe_time/Noop', {});]]></scriptText>
+        <embedded>true</embedded>
         <description></description>
       </action>
     </actions>
@@ -632,10 +634,12 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/ResetCounters.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/cfe_time/Reset', {});]]></scriptText>
+        <embedded>true</embedded>
         <description></description>
       </action>
     </actions>
@@ -1309,7 +1313,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.Clock</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1356,7 +1360,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_1</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.Flying</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1403,7 +1407,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_2</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SrcInt</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1450,7 +1454,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_3</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SigPri</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1497,7 +1501,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_4</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SrvFly</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1544,7 +1548,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_5</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.CmdFly</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1591,7 +1595,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_6</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.AddAdj</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1638,7 +1642,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_7</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.Add1Hz</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1685,7 +1689,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_8</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.AddTcl</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1732,7 +1736,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_9</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.Server</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1779,7 +1783,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_10</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.GoodTone</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2316,7 +2320,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SecondsSCTF</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SecondsSTCF</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2368,7 +2372,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SubsecsSCTF</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SubsecsSTCF</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
