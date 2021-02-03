@@ -82,15 +82,15 @@ Yamcs.issueCommand('/cfs/cfe_es/DumpCDSReg', {'Payload.DumpFilename': fileName})
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Dump to File System</text>
+    <text>Dump</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>181</width>
+    <width>109</width>
     <wuid>72a2bf2b:1508717c835:-77e3</wuid>
-    <x>96</x>
+    <x>144</x>
     <y>84</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">

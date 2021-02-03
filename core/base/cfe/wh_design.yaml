@@ -722,10 +722,10 @@ modules:
         DeleteAppEventFilter:
           cc: 16
           struct: CFE_EVS_AppNameEventIDCmd_t
-        AppData:
+        WriteAppData:
           cc: 17
           struct: CFE_EVS_AppDataCmd_t
-        LogFile:
+        WriteLogData:
           cc: 18
           struct: CFE_EVS_LogFileCmd_t
         SetLogMode:
