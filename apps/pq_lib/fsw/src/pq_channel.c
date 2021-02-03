@@ -487,7 +487,7 @@ void PQ_Channel_CleanupAll(void)
 {
     uint32 i;
 
-    PQ_OutputChannel_CustomCleanupAll();
+    //PQ_OutputChannel_CustomCleanupAll();
 
     for (i = 0; i < PQ_MAX_CHANNELS; ++i)
     {

@@ -127,7 +127,7 @@ int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t *channel)
         }
     }
 
-    status = PQ_OutputChannel_CustomTeardown(channel->channelIdx);
+    //status = PQ_OutputChannel_CustomTeardown(channel->channelIdx);
 
     return status;
 }

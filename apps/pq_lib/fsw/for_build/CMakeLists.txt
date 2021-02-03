@@ -36,12 +36,15 @@ buildliner_add_app_def(pq_lib
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/pq_channel.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/pq_classifier.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/pq_config_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/pq_lib.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/pq_message_flow.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/pq_output_queue.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/pq_priority_queue.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/pq_scheduler.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_channel.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_classifier.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_config_utils.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_errors.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_message_flow.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_mission_cfg.h
@@ -49,6 +52,7 @@ buildliner_add_app_def(pq_lib
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_platform_cfg.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_priority_queue.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_structs.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_scheduler.h
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
