@@ -4205,7 +4205,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>86</width>
     <wuid>2285957:177658292c4:-6d7f</wuid>
-    <x>17</x>
+    <x>624</x>
     <y>12</y>
   </widget>
 </display>

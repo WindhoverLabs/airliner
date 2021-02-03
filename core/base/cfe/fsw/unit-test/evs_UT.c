@@ -677,7 +677,7 @@ void Test_Format(void)
     int16 EventID[2];
 
     CFE_TIME_SysTime_t          time = {0, 0};
-    CFE_EVS_ModeCmd_t           modecmd;
+    CFE_EVS_FormatCmd_t           formatcmd;
     CFE_EVS_AppNameBitMaskCmd_t appbitcmd;
 
 #ifdef UT_VERBOSE
@@ -688,7 +688,7 @@ void Test_Format(void)
     UT_InitData();
     strncpy((char *) appbitcmd.Payload.AppName, "ut_cfe_evs",
             sizeof(appbitcmd.Payload.AppName));
-    modecmd.Payload.Mode = CFE_EVS_LONG_FORMAT;
+    formatcmd.Payload.Mode = CFE_EVS_LONG_FORMAT;
     appbitcmd.Payload.BitMask = CFE_EVS_DEBUG_BIT | CFE_EVS_INFORMATION_BIT |
                         CFE_EVS_ERROR_BIT | CFE_EVS_CRITICAL_BIT;
     UT_SetSBTotalMsgLen(sizeof(CFE_EVS_AppNameBitMaskCmd_t));
@@ -702,8 +702,8 @@ void Test_Format(void)
     /* Test set event format mode command using an invalid mode */
     UT_InitData();
     modecmd.Payload.Mode = 0xff;
-    UT_SetSBTotalMsgLen(sizeof(CFE_EVS_ModeCmd_t));
-    UT_SendMsg((CFE_SB_MsgPtr_t) &modecmd, CFE_EVS_CMD_MID,
+    UT_SetSBTotalMsgLen(sizeof(CFE_EVS_FormatCmd_t));
+    UT_SendMsg((CFE_SB_MsgPtr_t) &formatcmd, CFE_EVS_CMD_MID,
                CFE_EVS_SET_EVENT_FORMAT_MODE_CC);
     UT_Report(__FILE__, __LINE__,
               SendMsgEventIDRtn.value == CFE_EVS_ERR_ILLEGALFMTMOD_EID,

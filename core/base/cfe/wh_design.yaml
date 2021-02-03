@@ -622,6 +622,12 @@ modules:
         enumerations:
           OVERWRITE: 0
           DISCARD:   1
+      - parent: CFE_EVS_FormatCmd_Payload_t
+        member: Mode
+        type: enumeration
+        enumerations:
+          SHORT:  0
+          LONG:   1
       - parent: CFE_EVS_AppNameCmd_Payload_t
         member: AppName
         type: string
@@ -685,7 +691,7 @@ modules:
           struct: CFE_EVS_BitMaskCmd_t
         SetEventFormatMode:
           cc: 4
-          struct: CFE_EVS_ModeCmd_t
+          struct: CFE_EVS_FormatCmd_t
         EnableAppEventType:
           cc: 5
           struct: CFE_EVS_AppNameBitMaskCmd_t
@@ -850,7 +856,7 @@ modules:
           SendStats:
             cc: 2
             struct: CFE_SB_CmdHdr_t
-          SendRouteInfo:
+          WriteRouteInfo:
             cc: 3
             struct: CFE_SB_WriteFileInfoCmd_t
           EnableRoute:
@@ -859,10 +865,10 @@ modules:
           DisableRoute:
             cc: 5
             struct: CFE_SB_EnRoutCmd_t
-          SendPipeInfo:
+          WritePipeInfo:
             cc: 7
             struct: CFE_SB_WriteFileInfoCmd_t
-          SendMapInfo:
+          WriteMapInfo:
             cc: 8
             struct: CFE_SB_WriteFileInfoCmd_t
           EnableSubReport:

@@ -57,8 +57,8 @@
     </foreground_color>
     <height>20</height>
     <label>Port 4</label>
-    <name>Critical</name>
-    <pv_name>loc://Critical</pv_name>
+    <name>Port4</name>
+    <pv_name>loc://Port4</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -104,8 +104,8 @@ $(pv_value)</tooltip>
     </foreground_color>
     <height>20</height>
     <label>Port 3</label>
-    <name>Error</name>
-    <pv_name>loc://Error</pv_name>
+    <name>Port3</name>
+    <pv_name>loc://Port3</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -151,8 +151,8 @@ $(pv_value)</tooltip>
     </foreground_color>
     <height>20</height>
     <label>Port 2</label>
-    <name>Information</name>
-    <pv_name>loc://Information</pv_name>
+    <name>Port2</name>
+    <pv_name>loc://Port2</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -198,8 +198,8 @@ $(pv_value)</tooltip>
     </foreground_color>
     <height>20</height>
     <label>Port 1</label>
-    <name>Debug</name>
-    <pv_name>loc://Debug</pv_name>
+    <name>Port1</name>
+    <pv_name>loc://Port1</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -228,14 +228,17 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var cmdString = '/cfs/cfe_evs/EnablePorts(';
-cmdString = cmdString + 'Critical: ' + VTypeHelper.getDouble(display.getWidget('Critical').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Error: ' + VTypeHelper.getDouble(display.getWidget('Error').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Information: ' + VTypeHelper.getDouble(display.getWidget('Information').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Debug: ' + VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + ')';
+port4 = VTypeHelper.getDouble(display.getWidget('Port4').getPropertyValue('pv_value'));
+port3 = VTypeHelper.getDouble(display.getWidget('Port3').getPropertyValue('pv_value'));
+port2 = VTypeHelper.getDouble(display.getWidget('Port2').getPropertyValue('pv_value'));
+port1 = VTypeHelper.getDouble(display.getWidget('Port1').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand(cmdString);]]></scriptText>
+var mask = (port4 * 8) + (port3 * 4) + (port2 * 2) + (port1);
+
+Yamcs.issueCommand('/cfs/cfe_evs/EnablePorts', {
+    'Payload.BitMask': mask,
+    'Payload.Spare': 0
+});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -292,14 +295,17 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var cmdString = '/cfs/cfe_evs/DisablePorts(';
-cmdString = cmdString + 'Critical: ' + VTypeHelper.getDouble(display.getWidget('Critical').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Error: ' + VTypeHelper.getDouble(display.getWidget('Error').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Information: ' + VTypeHelper.getDouble(display.getWidget('Information').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Debug: ' + VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + ')';
+port4 = VTypeHelper.getDouble(display.getWidget('Port4').getPropertyValue('pv_value'));
+port3 = VTypeHelper.getDouble(display.getWidget('Port3').getPropertyValue('pv_value'));
+port2 = VTypeHelper.getDouble(display.getWidget('Port2').getPropertyValue('pv_value'));
+port1 = VTypeHelper.getDouble(display.getWidget('Port1').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand(cmdString);]]></scriptText>
+var mask = (port4 * 8) + (port3 * 4) + (port2 * 2) + (port1);
+
+Yamcs.issueCommand('/cfs/cfe_evs/DisablePorts', {
+    'Payload.BitMask': mask,
+    'Payload.Spare': 0
+});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

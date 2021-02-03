@@ -40,8 +40,8 @@
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var MsgID =VTypeHelper.getDouble(display.getWidget('MsgID').getPropertyValue('pv_value'));
-var PipeID =VTypeHelper.getDouble(display.getWidget('PipeID').getPropertyValue('pv_value'));
+var MsgID =VTypeHelper.getNumber(display.getWidget('MsgID').getPropertyValue('pv_value'));
+var PipeID =VTypeHelper.getNumber(display.getWidget('PipeID').getPropertyValue('pv_value'));
 
 Yamcs.issueCommand('/cfs/cfe_sb/EnableRoute', {
     'MsgID': MsgID,
@@ -341,8 +341,8 @@ var MsgID =VTypeHelper.getDouble(display.getWidget('MsgID').getPropertyValue('pv
 var PipeID =VTypeHelper.getDouble(display.getWidget('PipeID').getPropertyValue('pv_value'));
 
 Yamcs.issueCommand('/cfs/cfe_sb/DisableRoute', {
-    'MsgID': MsgID,
-    'PipeID': PipeID});
+    'Payload.MsgId': MsgID,
+    'Payload.Spare': 0});
     ]]></scriptText>
         <embedded>true</embedded>
         <description></description>

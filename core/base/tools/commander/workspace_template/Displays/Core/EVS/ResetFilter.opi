@@ -40,12 +40,12 @@
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var cmdString = '/cfs/cfe_evs/ResetFilter(';
-cmdString = cmdString + 'AppName: ' + VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'EventID: ' + VTypeHelper.getDouble(display.getWidget('EventID').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + ')';
+appName = VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value'));
+eventID = VTypeHelper.getDouble(display.getWidget('EventID').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand(cmdString);]]></scriptText>
+Yamcs.issueCommand('/cfs/cfe_evs/ResetAppEventFilter', {
+    'Payload.AppName': appName,
+    'Payload.EventID': eventID});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -170,6 +170,8 @@ $(pv_value)</tooltip>
       <s>SCH</s>
       <s>TO</s>
       <s>SBN</s>
+      <s>CFE_ES</s>
+      <s>CFE_EVS</s>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>AppName</name>
@@ -296,11 +298,10 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var cmdString = '/cfs/cfe_evs/ResetAllFilters(';
-cmdString = cmdString + 'AppName: ' + VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + ')';
+appName = VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand(cmdString);]]></scriptText>
+Yamcs.issueCommand('/cfs/cfe_evs/ResetAppFilters', {
+    'Payload.AppName': appName});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -377,16 +378,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Reset Filter</text>
+    <text>Reset App Event Filter</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>103</width>
+    <width>193</width>
     <wrap_words>false</wrap_words>
     <wuid>6b3345f4:17760d4a2f0:-7bc4</wuid>
-    <x>102</x>
+    <x>43</x>
     <y>12</y>
   </widget>
 </display>

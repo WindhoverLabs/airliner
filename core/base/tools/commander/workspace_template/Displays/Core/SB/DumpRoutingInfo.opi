@@ -35,22 +35,14 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
 var fileName =VTypeHelper.getString(display.getWidget('inFileName').getPropertyValue('pv_value'));
 
-var cmd;
-
-if( fileName != 'no value' ) {
-    cmd = '/cfs/cfe_sb/DumpRoutingInfo(FileName: ' + fileName + ')';
-} else {
-    cmd = '/cfs/cfe_sb/DumpRoutingInfo(FileName: "")';
-}
-
-Yamcs.issueCommand(cmd);
+Yamcs.issueCommand('/cfs/cfe_sb/WriteRouteInfo', {'Payload.Filename': fileName});
 
 ]]></scriptText>
         <embedded>true</embedded>

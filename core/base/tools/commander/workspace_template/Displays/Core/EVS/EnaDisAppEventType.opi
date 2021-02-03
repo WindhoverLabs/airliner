@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>250</width>
+  <width>270</width>
   <wuid>763e00b7:150973f1dd8:-7ba3</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -76,7 +76,7 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>100</width>
     <wuid>763e00b7:150973f1dd8:-7b43</wuid>
-    <x>18</x>
+    <x>30</x>
     <y>84</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -123,7 +123,7 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>100</width>
     <wuid>763e00b7:150973f1dd8:-7b37</wuid>
-    <x>18</x>
+    <x>30</x>
     <y>103</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -170,7 +170,7 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>100</width>
     <wuid>763e00b7:150973f1dd8:-7b32</wuid>
-    <x>18</x>
+    <x>30</x>
     <y>122</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -217,7 +217,7 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>100</width>
     <wuid>763e00b7:150973f1dd8:-7b2d</wuid>
-    <x>18</x>
+    <x>30</x>
     <y>141</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -228,15 +228,19 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var cmdString = '/cfs/cfe_evs/EnableAppEventType(';
-cmdString = cmdString + 'AppName: ' + VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Critical: ' + VTypeHelper.getDouble(display.getWidget('Critical').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Error: ' + VTypeHelper.getDouble(display.getWidget('Error').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Information: ' + VTypeHelper.getDouble(display.getWidget('Information').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Debug: ' + VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + ')';
+appName = VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value'));
+critFlag = VTypeHelper.getDouble(display.getWidget('Critical').getPropertyValue('pv_value'));
+errorFlag = VTypeHelper.getDouble(display.getWidget('Error').getPropertyValue('pv_value'));
+infoFlag = VTypeHelper.getDouble(display.getWidget('Information').getPropertyValue('pv_value'));
+debugFlag = VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand(cmdString);]]></scriptText>
+var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
+
+Yamcs.issueCommand('/cfs/cfe_evs/EnableAppEventType', {
+    'Payload.AppName': appName,
+    'Payload.BitMask': mask,
+    'Payload.Spare': 0
+});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -282,7 +286,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>80</width>
     <wuid>763e00b7:150973f1dd8:-7b0d</wuid>
-    <x>156</x>
+    <x>168</x>
     <y>84</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -293,15 +297,19 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var cmdString = '/cfs/cfe_evs/DisableAppEventType(';
-cmdString = cmdString + 'AppName: ' + VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Critical: ' + VTypeHelper.getDouble(display.getWidget('Critical').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Error: ' + VTypeHelper.getDouble(display.getWidget('Error').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Information: ' + VTypeHelper.getDouble(display.getWidget('Information').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Debug: ' + VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + ')';
+appName = VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value'));
+critFlag = VTypeHelper.getDouble(display.getWidget('Critical').getPropertyValue('pv_value'));
+errorFlag = VTypeHelper.getDouble(display.getWidget('Error').getPropertyValue('pv_value'));
+infoFlag = VTypeHelper.getDouble(display.getWidget('Information').getPropertyValue('pv_value'));
+debugFlag = VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand(cmdString);]]></scriptText>
+var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
+
+Yamcs.issueCommand('/cfs/cfe_evs/DisableAppEventType', {
+    'Payload.AppName': appName,
+    'Payload.BitMask': mask,
+    'Payload.Spare': 0
+});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -347,7 +355,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>80</width>
     <wuid>763e00b7:150973f1dd8:-789f</wuid>
-    <x>156</x>
+    <x>168</x>
     <y>122</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -426,6 +434,8 @@ $(pv_value)</tooltip>
       <s>SCH</s>
       <s>TO</s>
       <s>SBN</s>
+      <s>CFE_EVS</s>
+      <s>CFE_ES</s>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>AppName</name>
@@ -442,7 +452,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Combo</widget_type>
-    <width>134</width>
+    <width>163</width>
     <wuid>763e00b7:150973f1dd8:-76ce</wuid>
     <x>102</x>
     <y>42</y>
@@ -475,16 +485,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Enable / Disable App Event</text>
+    <text>Enable / Disable App Event Type</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>205</width>
+    <width>265</width>
     <wrap_words>false</wrap_words>
     <wuid>6b3345f4:17760d4a2f0:-7b68</wuid>
-    <x>24</x>
+    <x>12</x>
     <y>12</y>
   </widget>
 </display>

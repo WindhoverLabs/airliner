@@ -229,13 +229,17 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
 var cmdString = '/cfs/cfe_evs/EnableEventType(';
-cmdString = cmdString + 'Critical: ' + VTypeHelper.getDouble(display.getWidget('Critical').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Error: ' + VTypeHelper.getDouble(display.getWidget('Error').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Information: ' + VTypeHelper.getDouble(display.getWidget('Information').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Debug: ' + VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + ')';
+critFlag = VTypeHelper.getDouble(display.getWidget('Critical').getPropertyValue('pv_value'));
+errorFlag = VTypeHelper.getDouble(display.getWidget('Error').getPropertyValue('pv_value'));
+infoFlag = VTypeHelper.getDouble(display.getWidget('Information').getPropertyValue('pv_value'));
+debugFlag = VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand(cmdString);]]></scriptText>
+var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
+
+Yamcs.issueCommand('/cfs/cfe_evs/EnableEventType', {
+    'Payload.BitMask': mask,
+    'Payload.Spare': 0
+});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -293,13 +297,17 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
 var cmdString = '/cfs/cfe_evs/EnableEventType(';
-cmdString = cmdString + 'Critical: ' + VTypeHelper.getDouble(display.getWidget('Critical').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Error: ' + VTypeHelper.getDouble(display.getWidget('Error').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Information: ' + VTypeHelper.getDouble(display.getWidget('Information').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Debug: ' + VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + ')';
+critFlag = VTypeHelper.getDouble(display.getWidget('Critical').getPropertyValue('pv_value'));
+errorFlag = VTypeHelper.getDouble(display.getWidget('Error').getPropertyValue('pv_value'));
+infoFlag = VTypeHelper.getDouble(display.getWidget('Information').getPropertyValue('pv_value'));
+debugFlag = VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand(cmdString);]]></scriptText>
+var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
+
+Yamcs.issueCommand('/cfs/cfe_evs/DisableEventType', {
+    'Payload.BitMask': mask,
+    'Payload.Spare': 0
+});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

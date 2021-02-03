@@ -40,13 +40,14 @@
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var cmdString = '/cfs/cfe_evs/AddEventFilter(';
-cmdString = cmdString + 'AppName: ' + VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'EventID: ' + VTypeHelper.getDouble(display.getWidget('EventID').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + 'Mask: ' + VTypeHelper.getDouble(display.getWidget('Mask').getPropertyValue('pv_value')) + ', ';
-cmdString = cmdString + ')';
+appName = VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value'));
+eventID = VTypeHelper.getDouble(display.getWidget('EventID').getPropertyValue('pv_value'));
+mask = VTypeHelper.getDouble(display.getWidget('Mask').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand(cmdString);]]></scriptText>
+Yamcs.issueCommand('/cfs/cfe_evs/AddAppEventFilter', {
+    'Payload.AppName': appName,
+    'Payload.EventID': eventID,
+    'Payload.Mask': mask});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -171,6 +172,8 @@ $(pv_value)</tooltip>
       <s>SCH</s>
       <s>TO</s>
       <s>SBN</s>
+      <s>CFE_ES</s>
+      <s>CFE_EVS</s>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>AppName</name>
@@ -287,7 +290,7 @@ $(pv_value)</tooltip>
     <width>134</width>
     <wuid>763e00b7:150973f1dd8:-754d</wuid>
     <x>96</x>
-    <y>77</y>
+    <y>74</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -361,7 +364,7 @@ $(pv_value)</tooltip>
     <multiline_input>false</multiline_input>
     <name>Mask</name>
     <precision>0</precision>
-    <precision_from_pv>true</precision_from_pv>
+    <precision_from_pv>false</precision_from_pv>
     <pv_name>loc://Mask&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
@@ -384,7 +387,7 @@ $(pv_value)</tooltip>
     <width>134</width>
     <wuid>763e00b7:150973f1dd8:-7535</wuid>
     <x>96</x>
-    <y>108</y>
+    <y>105</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />

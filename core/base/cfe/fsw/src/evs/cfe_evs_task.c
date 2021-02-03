@@ -523,7 +523,7 @@ void CFE_EVS_ProcessGroundCommand ( CFE_SB_MsgPtr_t EVS_MsgPtr )
 
       case CFE_EVS_SET_EVENT_FORMAT_MODE_CC:
 
-         if ((Valid = CFE_EVS_VerifyCmdLength(EVS_MsgPtr, sizeof(CFE_EVS_ModeCmd_t))) == TRUE)
+         if ((Valid = CFE_EVS_VerifyCmdLength(EVS_MsgPtr, sizeof(CFE_EVS_FormatCmd_t))) == TRUE)
          {
             Valid = CFE_EVS_SetEventFormatModeCmd(Payload);
          }
