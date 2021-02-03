@@ -497,15 +497,15 @@ void PQ_ManageChannelTables(osalbool initialManage, uint16 ChannelID)
         (void) PQ_PriorityQueue_TeardownAll(&PQ_AppData.ChannelData[ChannelID]);       
 
         /* Clear remaining messages from SB data pipe*/
-        dequeueStatus = PQ_Channel_SBPipe_Dequeue_All(ChannelID);
-        if (FALSE == dequeueStatus)
-        {
-            (void) CFE_EVS_SendEvent(PQ_CONFIG_TABLE_ERR_EID,
-                                     CFE_EVS_ERROR,
-                                     "Failed to clear SB data pipe for channel %u, (0x%08X)",
-                                     ChannelID,
-                                     (unsigned int)status);
-        }
+        //dequeueStatus = PQ_Channel_SBPipe_Dequeue_All(ChannelID);
+        //if (FALSE == dequeueStatus)
+        //{
+            //(void) CFE_EVS_SendEvent(PQ_CONFIG_TABLE_ERR_EID,
+                                     //CFE_EVS_ERROR,
+                                     //"Failed to clear SB data pipe for channel %u, (0x%08X)",
+                                     //ChannelID,
+                                     //(unsigned int)status);
+        //}
 
         /* Now null the table pointer, because it is going to be updated.  Also
          * so that if something goes wrong it won't be set to an invalid address.

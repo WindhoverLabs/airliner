@@ -262,7 +262,7 @@ osalbool PQ_Channel_Flush(uint16 index);
 **                          CFE_SUCCESS \endcode  
 **  
 *************************************************************************/
-osalbool PQ_Channel_SBPipe_Dequeue_All(uint16 index);
+//osalbool PQ_Channel_SBPipe_Dequeue_All(uint16 index);
 
 
 #endif

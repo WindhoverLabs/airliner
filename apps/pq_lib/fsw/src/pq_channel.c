@@ -209,31 +209,32 @@ int32 PQ_Channel_OpenChannel(const uint32 index, const char *ChannelName,
             return status;
         }
         
-        /* Init data pipe and subscribe to messages on the data pipe */
-        status = CFE_SB_CreatePipe(&channel->DataPipeId,
-                                     PQ_DATA_PIPE_DEPTH,
-                                     pipeName);
-        if (status != CFE_SUCCESS)
-        {
-            /* This is a critical error for this channel.  No sense in continuing.  Destroy
-             * the counting semaphore and call the Output queue teardown function before
-             * returning the error back to the caller.
-             */
-            (void) OS_CountSemDelete(channel->CfCntSemId);
-            (void) PQ_OutputQueue_Teardown(channel);
+        /* TODO commented out. Messages passed in directly no pipes needed. */
+        ///* Init data pipe and subscribe to messages on the data pipe */
+        //status = CFE_SB_CreatePipe(&channel->DataPipeId,
+                                     //PQ_DATA_PIPE_DEPTH,
+                                     //pipeName);
+        //if (status != CFE_SUCCESS)
+        //{
+            ///* This is a critical error for this channel.  No sense in continuing.  Destroy
+             //* the counting semaphore and call the Output queue teardown function before
+             //* returning the error back to the caller.
+             //*/
+            //(void) OS_CountSemDelete(channel->CfCntSemId);
+            //(void) PQ_OutputQueue_Teardown(channel);
 
-            (void) CFE_EVS_SendEvent(PQ_INIT_DATAPIPE_ERR_EID,
-                                     CFE_EVS_ERROR,
-                                     "Failed to create channel (%u) '%s' pipe (0x%08X)",
-                                     (unsigned int)index,
-                                     ChannelName,
-                                     (unsigned int)status);
+            //(void) CFE_EVS_SendEvent(PQ_INIT_DATAPIPE_ERR_EID,
+                                     //CFE_EVS_ERROR,
+                                     //"Failed to create channel (%u) '%s' pipe (0x%08X)",
+                                     //(unsigned int)index,
+                                     //ChannelName,
+                                     //(unsigned int)status);
 
-            channel->State = PQ_CHANNEL_CLOSED;
+            //channel->State = PQ_CHANNEL_CLOSED;
 
-            PQ_Channel_UnlockByRef(channel);
-            return status;
-        }
+            //PQ_Channel_UnlockByRef(channel);
+            //return status;
+        //}
         
         /* Set channel state: required state to complete table initialization */
         channel->State = PQ_CHANNEL_OPENED;
@@ -565,45 +566,45 @@ uint8 PQ_Channel_State(uint16 index)
 }
 
 
-osalbool PQ_Channel_SBPipe_Dequeue_All(uint16 index)
-{
-    int32 status = CFE_SUCCESS;
-    int32 i;
-    CFE_SB_MsgPtr_t  DataMsgPtr = NULL;
-    PQ_ChannelData_t *channel = NULL;
+//osalbool PQ_Channel_SBPipe_Dequeue_All(uint16 index)
+//{
+    //int32 status = CFE_SUCCESS;
+    //int32 i;
+    //CFE_SB_MsgPtr_t  DataMsgPtr = NULL;
+    //PQ_ChannelData_t *channel = NULL;
 
-    if (index >= PQ_MAX_CHANNELS)
-    {
-        (void) CFE_EVS_SendEvent(PQ_FLUSH_INVALID_CHIDX_ERR_EID, CFE_EVS_ERROR,
-                            "ChannelID %u out of range in SB pipe dequeue all.", (unsigned int)index);
-        return FALSE;
-    }
+    //if (index >= PQ_MAX_CHANNELS)
+    //{
+        //(void) CFE_EVS_SendEvent(PQ_FLUSH_INVALID_CHIDX_ERR_EID, CFE_EVS_ERROR,
+                            //"ChannelID %u out of range in SB pipe dequeue all.", (unsigned int)index);
+        //return FALSE;
+    //}
 
-    channel = &PQ_AppData.ChannelData[index];
+    //channel = &PQ_AppData.ChannelData[index];
 
-    /* Dequeue until empty */
-    for (i = 0; i < PQ_DATA_PIPE_DEPTH; ++i)
-    {
-        status = CFE_SB_RcvMsg(&DataMsgPtr, channel->DataPipeId, CFE_SB_POLL);
-        if (CFE_SUCCESS == status)
-        {
-            continue;
-        }
-        else if (CFE_SB_NO_MESSAGE == status)
-        {
-            /* Break early if empty */
-            break;
-        }
-        else
-        {
-            (void) CFE_EVS_SendEvent(PQ_PIPE_READ_ERR_EID,
-                                     CFE_EVS_ERROR,
-                                     "Data pipe read error on SBPipe dequeue all (0x%08X) on channel %d",
-                                     (unsigned int)status,
-                                     index);
-            return FALSE;
-        }  
-    }
+    ///* Dequeue until empty */
+    //for (i = 0; i < PQ_DATA_PIPE_DEPTH; ++i)
+    //{
+        //status = CFE_SB_RcvMsg(&DataMsgPtr, channel->DataPipeId, CFE_SB_POLL);
+        //if (CFE_SUCCESS == status)
+        //{
+            //continue;
+        //}
+        //else if (CFE_SB_NO_MESSAGE == status)
+        //{
+            ///* Break early if empty */
+            //break;
+        //}
+        //else
+        //{
+            //(void) CFE_EVS_SendEvent(PQ_PIPE_READ_ERR_EID,
+                                     //CFE_EVS_ERROR,
+                                     //"Data pipe read error on SBPipe dequeue all (0x%08X) on channel %d",
+                                     //(unsigned int)status,
+                                     //index);
+            //return FALSE;
+        //}  
+    //}
 
-    return TRUE;
-}
+    //return TRUE;
+//}
