@@ -1158,7 +1158,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name></pv_name>
+    <pv_name>/cfs/cf/CF_ConfigPacket_t.CfgTbleFilename</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
