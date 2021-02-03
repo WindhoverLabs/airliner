@@ -43,11 +43,9 @@
 /* Run the Classifier algorithm                                    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void PQ_Classifier_Run(PQ_ChannelData_t *channel)
+void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr)
 {
     int32  status                = CFE_SUCCESS;
-    CFE_SB_MsgPtr_t  DataMsgPtr   = NULL;
-    uint32  ii;
     PQ_PriorityQueue_t *pqueue    = NULL;
     PQ_MessageFlow_t *msgFlow     = NULL;
     uint32 msgFlowIndex           = 0;
@@ -55,108 +53,91 @@ void PQ_Classifier_Run(PQ_ChannelData_t *channel)
     CFE_SB_MsgId_t  DataMsgID;
     uint32 totalMsgLength         = 0;
 
-    /* Process telemetry messages till the pipe is empty, or until we hit the
-     * maximum number of messages we want to process in this frame. */
-    for (ii = 0; ii < PQ_MAX_MSGS_OUT_PER_FRAME; ++ii)
+    if (DataMsgPtr != NULL)
     {
-        status = CFE_SB_RcvMsg(&DataMsgPtr, channel->DataPipeId, CFE_SB_POLL);
+        DataMsgID = CFE_SB_GetMsgId(DataMsgPtr);
 
-        if (status != CFE_SUCCESS)
+        totalMsgLength = CFE_SB_GetTotalMsgLength(DataMsgPtr);
+        if (totalMsgLength > PQ_MAX_MSG_LENGTH)
         {
-            if (status != CFE_SB_NO_MESSAGE)
-            {
-                (void) CFE_EVS_SendEvent(PQ_PIPE_READ_ERR_EID,
-                                        CFE_EVS_ERROR,
-                                        "Data pipe read error (0x%08X) on channel %d",
-                                        (unsigned int)status,
-                                        (unsigned int)channel->channelIdx);
-            }
-            return;
+            (void) CFE_EVS_SendEvent(PQ_TLM_MSG_LEN_ERR_EID, CFE_EVS_ERROR,
+                                     "Message too long (size = %lu > max = %d) for msgId = (0x%04X) on channel (%u)",
+                                     totalMsgLength,
+                                     PQ_MAX_MSG_LENGTH,
+                                     (unsigned short)DataMsgID,
+                                     (unsigned short)channel->channelIdx);
+            (void) OS_MutSemTake(PQ_AppData.MutexID);
+            PQ_AppData.HkTlm.usTotalMsgDropped++;
+            (void) OS_MutSemGive(PQ_AppData.MutexID);
+            
+            channel->DropMsgCount++;
+            goto end_of_function;
         }
 
-        if (DataMsgPtr != NULL)
+        /* Get the first Message Flow object.  If this returns null, the
+         * Message ID is not in the table at all so we shouldn't have
+         * received this message.  Raise an event.
+         */
+        msgFlow = PQ_MessageFlow_GetObject(channel, DataMsgID, &msgFlowIndex);
+        if (NULL == msgFlow)
         {
-            DataMsgID = CFE_SB_GetMsgId(DataMsgPtr);
+            (void) CFE_EVS_SendEvent(PQ_MF_MSG_ID_ERR_EID,
+                                     CFE_EVS_ERROR,
+                                     "Classifier Recvd invalid msgId (0x%04X) or message flow was removed on channel (%u)", 
+                                     (unsigned short)DataMsgID,
+                                     (unsigned short)channel->channelIdx);
+            
+            (void) OS_MutSemTake(PQ_AppData.MutexID);
+            PQ_AppData.HkTlm.usTotalMsgDropped++;
+            (void) OS_MutSemGive(PQ_AppData.MutexID);
 
-            totalMsgLength = CFE_SB_GetTotalMsgLength(DataMsgPtr);
-            if (totalMsgLength > PQ_MAX_MSG_LENGTH)
+            channel->DropMsgCount++;
+            goto end_of_function;
+        }
+
+        /* Get the Priority Queue assigned to this Message Flow. */
+        pqueue = PQ_MessageFlow_GetPQueue(channel, msgFlow, &pQueueIndex);
+        if (pqueue != NULL)
+        {
+            /* Queue the message. The else portion will handle all cases where the message 
+            *  was not queued for the following reasons: configuration table pointer was not
+            *  available, queue is full, or memory full error.
+            */
+            status = PQ_PriorityQueue_QueueMsg(channel, DataMsgPtr, pQueueIndex);
+
+            if (CFE_SUCCESS == status)
             {
-                (void) CFE_EVS_SendEvent(PQ_TLM_MSG_LEN_ERR_EID, CFE_EVS_ERROR,
-                                         "Message too long (size = %lu > max = %d) for msgId = (0x%04X) on channel (%u)",
-                                         totalMsgLength,
-                                         PQ_MAX_MSG_LENGTH,
-                                         (unsigned short)DataMsgID,
-                                         (unsigned short)channel->channelIdx);
-                (void) OS_MutSemTake(PQ_AppData.MutexID);
-                PQ_AppData.HkTlm.usTotalMsgDropped++;
-                (void) OS_MutSemGive(PQ_AppData.MutexID);
+                /* The message was queued.  Increment counters. */
+                channel->DumpTbl.MessageFlow[msgFlowIndex].QueuedMsgCnt++;
                 
-                channel->DropMsgCount++;              
-                continue;
+                channel->QueuedMsgCount++;
             }
-
-            /* Get the first Message Flow object.  If this returns null, the
-             * Message ID is not in the table at all so we shouldn't have
-             * received this message.  Raise an event.
-             */
-            msgFlow = PQ_MessageFlow_GetObject(channel, DataMsgID, &msgFlowIndex);
-            if (NULL == msgFlow)
+            /* The call to PQ_PriorityQueue_QueueMsg may generate the following errors:
+             * PQ_PRIORITY_QUEUE_FULL_ERR (OS_QUEUE_FULL), PQ_MEMORY_FULL_ERR, CFE_ES_ERR_MEM_HANDLE,
+             * OS_ERR_INVALID_ID, OS_INVALID_POINTER, OS_ERROR  are all handled by this else clause */
+            else
             {
-                (void) CFE_EVS_SendEvent(PQ_MF_MSG_ID_ERR_EID,
-                                         CFE_EVS_ERROR,
-                                         "Classifier Recvd invalid msgId (0x%04X) or message flow was removed on channel (%u)", 
-                                         (unsigned short)DataMsgID,
-                                         (unsigned short)channel->channelIdx);
+                /* Queue is full.  Increment counters and drop the message. */
+                channel->DumpTbl.MessageFlow[msgFlowIndex].DroppedMsgCnt++;
                 
                 (void) OS_MutSemTake(PQ_AppData.MutexID);
                 PQ_AppData.HkTlm.usTotalMsgDropped++;
                 (void) OS_MutSemGive(PQ_AppData.MutexID);
 
                 channel->DropMsgCount++;
-                continue;
-            }
 
-            /* Get the Priority Queue assigned to this Message Flow. */
-            pqueue = PQ_MessageFlow_GetPQueue(channel, msgFlow, &pQueueIndex);
-            if (pqueue != NULL)
-            {
-                /* Queue the message. The else portion will handle all cases where the message 
-                *  was not queued for the following reasons: configuration table pointer was not
-                *  available, queue is full, or memory full error.
-                */
-                status = PQ_PriorityQueue_QueueMsg(channel, DataMsgPtr, pQueueIndex);
-
-                if (CFE_SUCCESS == status)
-                {
-                    /* The message was queued.  Increment counters. */
-                    channel->DumpTbl.MessageFlow[msgFlowIndex].QueuedMsgCnt++;
-                    
-                    channel->QueuedMsgCount++;
-                }
-                /* The call to PQ_PriorityQueue_QueueMsg may generate the following errors:
-                 * PQ_PRIORITY_QUEUE_FULL_ERR (OS_QUEUE_FULL), PQ_MEMORY_FULL_ERR, CFE_ES_ERR_MEM_HANDLE,
-                 * OS_ERR_INVALID_ID, OS_INVALID_POINTER, OS_ERROR  are all handled by this else clause */
-                else
-                {
-                    /* Queue is full.  Increment counters and drop the message. */
-                    channel->DumpTbl.MessageFlow[msgFlowIndex].DroppedMsgCnt++;
-                    
-                    (void) OS_MutSemTake(PQ_AppData.MutexID);
-                    PQ_AppData.HkTlm.usTotalMsgDropped++;
-                    (void) OS_MutSemGive(PQ_AppData.MutexID);
-
-                    channel->DropMsgCount++;
-
-                    (void) CFE_EVS_SendEvent(PQ_MSG_DROP_FROM_FLOW_DBG_EID,
-                                             CFE_EVS_DEBUG,
-                                             "PQ full (PQ %u, channel %u). Error code (%d) Dropped message 0x%04x",
-                                             (unsigned int)pQueueIndex,
-                                             (unsigned int)channel->channelIdx,
-                                             (int)status,
-                                             (unsigned int)DataMsgID);
-                }
+                (void) CFE_EVS_SendEvent(PQ_MSG_DROP_FROM_FLOW_DBG_EID,
+                                         CFE_EVS_DEBUG,
+                                         "PQ full (PQ %u, channel %u). Error code (%d) Dropped message 0x%04x",
+                                         (unsigned int)pQueueIndex,
+                                         (unsigned int)channel->channelIdx,
+                                         (int)status,
+                                         (unsigned int)DataMsgID);
             }
         }
     }
+
+end_of_function:
+    return;
 }
 

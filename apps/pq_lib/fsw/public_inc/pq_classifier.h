@@ -71,10 +71,13 @@
 **       that the call will never contain a null pointer, therefore 
 **       the null pointer condition is not checked.
 **
-**  \param [in]   channel       A #PQ_ChannelData_t pointer that
-**                              references the channel data structure
+**  \param [in]     channel       A #PQ_ChannelData_t pointer that
+**                                references the channel data structure
+**
+**  \param [in,out] DataMsgPtr    A #CFE_SB_MsgPtr_t pointer of
+**                                the message to classify
 **
 *************************************************************************/
-void PQ_Classifier_Run(PQ_ChannelData_t *channel);
+void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr);
 
 #endif
