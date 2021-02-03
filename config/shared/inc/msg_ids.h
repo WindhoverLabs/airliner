@@ -27,7 +27,7 @@
 /* CF                                                      */
 /* Range: 0x910 - 0x92f                                    */
 #define CF_CMD_MID                                   (0x1910)
-#define CF_INCOMING_PDU_MID                          (0x0FFD)
+#define CF_INCOMING_PDU_MID                          (0x1FFD)
 #define CF_SEND_HK_MID                               (0x1912)
 #define CF_SPARE1_CMD_MID                            (0x1913)
 #define CF_SPARE2_CMD_MID                            (0x1914)
@@ -49,7 +49,7 @@
 ** IDs defined in this file, the CF table should reference this macro
 ** definition.
 */
-#define CF_SPACE_TO_GND_PDU_MID                      (0x1FFE)
+#define CF_SPACE_TO_GND_PDU_MID                      (0x0FFE)
 
 
 /* CS                                                      */
