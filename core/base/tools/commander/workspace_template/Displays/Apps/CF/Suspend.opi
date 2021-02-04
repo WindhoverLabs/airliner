@@ -105,7 +105,7 @@
     <name>Transaction</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Transaction&lt;VString&gt;</pv_name>
+    <pv_name>loc://SuspendTransaction&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

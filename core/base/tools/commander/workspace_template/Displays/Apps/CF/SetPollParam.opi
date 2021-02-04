@@ -365,7 +365,7 @@ $(pv_value)</tooltip>
     <name>PeerEntityID</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://PeerEntityID&lt;VString&gt;</pv_name>
+    <pv_name>loc://SetPollingParamPeerEntityID&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -462,7 +462,7 @@ $(pv_value)</tooltip>
     <name>Source</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Source&lt;VString&gt;</pv_name>
+    <pv_name>loc://SetPollingParamSource&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -559,7 +559,7 @@ $(pv_value)</tooltip>
     <name>Destination</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Destination&lt;VString&gt;</pv_name>
+    <pv_name>loc://SetPollingParamDestination&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -616,7 +616,7 @@ $(pv_value)</tooltip>
     <page_increment>10.0</page_increment>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Priority&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://SetPollingParamPriority&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -667,7 +667,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>TransferClass</name>
-    <pv_name>loc://TransferClass</pv_name>
+    <pv_name>loc://SetPollingParamTransferClass</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -717,7 +717,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Channel</name>
-    <pv_name>loc://Channel</pv_name>
+    <pv_name>loc://SetPollingParamChannel</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -767,7 +767,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Preserve</name>
-    <pv_name>loc://Preserve</pv_name>
+    <pv_name>loc://SetPollingParamPreserve</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -861,7 +861,7 @@ $(pv_value)</tooltip>
     <page_increment>10.0</page_increment>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Dir&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://SetPollingParamDir&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
