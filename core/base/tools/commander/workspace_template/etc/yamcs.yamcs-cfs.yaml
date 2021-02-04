@@ -45,6 +45,7 @@ dataLinks:
     class: org.yamcs.tctm.UdpTmDataLink
     stream: tm_realtime
     port: 5011
+    maxLength: 32768 #32KB is the default for CCSDS
     packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.PacketPreprocessor
 
   - name: tc_realtime
