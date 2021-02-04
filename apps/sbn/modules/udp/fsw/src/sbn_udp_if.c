@@ -4,6 +4,7 @@
 #include "cfe.h"
 #include <string.h>
 #include <errno.h>
+#include "pq_includes.h"
 
 /* at some point this will be replaced by the OSAL network interface */
 #ifdef _VXWORKS_OS_
@@ -11,6 +12,15 @@
 #else
 #include <sys/select.h>
 #endif
+
+
+void PQ_Output_Task(void);
+
+
+extern PQ_ChannelTbl_t PQ_BackupConfigTbl;
+PQ_ChannelData_t Channel;
+PQ_HkTlm_t HkTlm;
+
 
 int SBN_UDP_LoadNet(const char **Row, int FieldCnt,
     SBN_NetInterface_t *Net)
@@ -70,6 +80,7 @@ int SBN_UDP_LoadPeer(const char **Row, int FieldCnt,
  */
 int SBN_UDP_InitNet(SBN_NetInterface_t *Net)
 {
+    int32 iStatus = 0;
     SBN_UDP_Net_t *NetData = (SBN_UDP_Net_t *)Net->ModulePvt;
 
     CFE_EVS_SendEvent(SBN_UDP_SOCK_EID, CFE_EVS_DEBUG,
@@ -97,6 +108,34 @@ int SBN_UDP_InitNet(SBN_NetInterface_t *Net)
             NetData->Host, NetData->Port, NetData->Socket, errno);
         return SBN_ERROR;
     }/* end if */
+
+
+    iStatus = PQ_Channel_Init(0, &Channel);
+    if (iStatus != CFE_SUCCESS)
+    {
+        /* TODO update to event. */
+        printf("PQ_Channel_Init failed%u\n", iStatus);
+        return SBN_ERROR;
+    }
+
+    iStatus = PQ_Channel_OpenChannel(
+                      &Channel,
+                      PQ_UDP_CHANNEL_NAME,
+                      PQ_UDP_CONFIG_TABLENAME,
+                      PQ_UDP_CONFIG_TABLE_FILENAME,
+                      &PQ_BackupConfigTbl,
+                      PQ_UDP_DUMP_TABLENAME, 
+                      1, 
+                      PQ_UDP_CF_THROTTLE_SEM_NAME);
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        /* TODO update to event. */
+        printf("PQ_Channel_OpenChannel failed%u\n", iStatus);
+        return SBN_ERROR;
+    }
+
+    /* Create a child task here. */
 
     return SBN_SUCCESS;
 }/* end SBN_UDP_InitNet */
@@ -151,24 +190,29 @@ int SBN_UDP_PollPeer(SBN_PeerInterface_t *Peer)
 int SBN_UDP_Send(SBN_PeerInterface_t *Peer, SBN_MsgType_t MsgType,
     SBN_MsgSz_t MsgSz, void *Payload)
 {
-    size_t BufSz = MsgSz + SBN_PACKED_HDR_SZ;
-    uint8 Buf[BufSz];
+    PQ_Channel_LockByRef(&Channel);
+    PQ_Classifier_Run(&Channel, Payload, &HkTlm);
+    PQ_Scheduler_Run(&Channel);
+    PQ_Channel_UnlockByRef(&Channel);
 
-    SBN_UDP_Peer_t *PeerData = (SBN_UDP_Peer_t *)Peer->ModulePvt;
-    SBN_NetInterface_t *Net = Peer->Net;
-    SBN_UDP_Net_t *NetData = (SBN_UDP_Net_t *)Net->ModulePvt;
+    //size_t BufSz = MsgSz + SBN_PACKED_HDR_SZ;
+    //uint8 Buf[BufSz];
 
-    SBN_PackMsg(&Buf, MsgSz, MsgType, CFE_PSP_GetProcessorId(), Payload);
+    //SBN_UDP_Peer_t *PeerData = (SBN_UDP_Peer_t *)Peer->ModulePvt;
+    //SBN_NetInterface_t *Net = Peer->Net;
+    //SBN_UDP_Net_t *NetData = (SBN_UDP_Net_t *)Net->ModulePvt;
 
-    static struct sockaddr_in s_addr;
+    //SBN_PackMsg(&Buf, MsgSz, MsgType, CFE_PSP_GetProcessorId(), Payload);
 
-    memset(&s_addr, 0, sizeof(s_addr));
-    s_addr.sin_family = AF_INET;
-    s_addr.sin_addr.s_addr = inet_addr(PeerData->Host);
-    s_addr.sin_port = htons(PeerData->Port);
+    //static struct sockaddr_in s_addr;
 
-    sendto(NetData->Socket, &Buf, BufSz, 0, (struct sockaddr *) &s_addr,
-        sizeof(s_addr));
+    //memset(&s_addr, 0, sizeof(s_addr));
+    //s_addr.sin_family = AF_INET;
+    //s_addr.sin_addr.s_addr = inet_addr(PeerData->Host);
+    //s_addr.sin_port = htons(PeerData->Port);
+
+    //sendto(NetData->Socket, &Buf, BufSz, 0, (struct sockaddr *) &s_addr,
+        //sizeof(s_addr));
 
     return SBN_SUCCESS;
 }/* end SBN_UDP_Send */
@@ -271,3 +315,14 @@ int SBN_UDP_UnloadPeer(SBN_PeerInterface_t *Peer)
 {
     return SBN_SUCCESS;
 }/* end SBN_UDP_UnloadPeer */
+
+void PQ_Output_Task(void)
+{
+    CFE_ES_RegisterChildTask();
+
+    //TO_OutputChannel_ChannelHandler(0);
+
+    CFE_ES_ExitChildTask();
+}
+
+
