@@ -319,6 +319,7 @@
 #define SBN_WAKEUP_MID                               (0x0ba0)
 #define SBN_CMD_MID                                  (0x1ba1)
 #define SBN_TLM_MID                                  (0x0ba2)
+#define SBN_SUB_MID                                  (0x0ba3)
 
 /* ROS                                                     */
 /* Range: 0x900 - 0x90f                                    */
