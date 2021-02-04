@@ -159,7 +159,7 @@ int32 PQ_InitTables(PQ_ChannelData_t *channel)
     }
 
     /* Force a manage on this channel's tables since this is the first time */
-    PQ_ManageChannelTables(TRUE, channel->channelIdx);
+    PQ_ManageChannelTables(TRUE, channel);
 
     return (status);
 }
@@ -432,15 +432,15 @@ int32 PQ_ProcessNewConfigTbl(PQ_ChannelData_t* channel)
 /* Manage all tables                                               */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void PQ_ManageAllAppTables(void)
-{
-    uint32 i;
+//void PQ_ManageAllAppTables(void)
+//{
+    //uint32 i;
 
-    for (i = 0; i < PQ_MAX_CHANNELS; ++i)
-    {
-        PQ_ManageChannelTables(FALSE, i);
-    }
-}
+    //for (i = 0; i < PQ_MAX_CHANNELS; ++i)
+    //{
+        //PQ_ManageChannelTables(FALSE, i);
+    //}
+//}
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -448,7 +448,7 @@ void PQ_ManageAllAppTables(void)
 /* Manage all tables                                               */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void PQ_ManageChannelTables(osalbool initialManage, uint16 ChannelID)
+void PQ_ManageChannelTables(osalbool initialManage, PQ_ChannelData_t *Channel)
 {
     int32 status = CFE_SUCCESS;
 
@@ -461,31 +461,32 @@ void PQ_ManageChannelTables(osalbool initialManage, uint16 ChannelID)
     /* Override if this is the first time through to force a config table update. */
     tableNeedsManaged = initialManage;
 
-    PQ_Channel_LockByIndex(ChannelID);
+    //PQ_Channel_LockByIndex(ChannelID);
+    PQ_Channel_LockByRef(Channel);
 
-    if (PQ_AppData.ChannelData[ChannelID].State != PQ_CHANNEL_OPENED) {
-        PQ_Channel_UnlockByIndex(ChannelID);
+    if (Channel->State != PQ_CHANNEL_OPENED)
+    {
+        PQ_Channel_UnlockByRef(Channel);
         return;
     }
 
     /* Always manage the dump table for this channel */
-    (void) CFE_TBL_Manage(PQ_AppData.ChannelData[ChannelID].DumpTblHdl);
+    (void) CFE_TBL_Manage(Channel->DumpTblHdl);
 
-    status = CFE_TBL_GetStatus(PQ_AppData.ChannelData[ChannelID].ConfigTblHdl);
+    status = CFE_TBL_GetStatus(Channel->ConfigTblHdl);
     if ((status & CFE_SEVERITY_BITMASK) == CFE_SEVERITY_ERROR)
     {
         (void) CFE_EVS_SendEvent(PQ_CONFIG_TABLE_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Channel %u config table handle failure! (0x%08X)",
-                                 ChannelID,
+                                 "Channel config table handle failure! (0x%08X)",
                                  (unsigned int)status);
 
         /* Null the table pointer, because we don't have confidence in the handle
          * and the pointer might be to an invalid table address.
          * Given this error the pointer MIGHT be set by CFE_TBL_GetAddress(), below,
          * but perhaps not. */
-        PQ_AppData.ChannelData[ChannelID].ConfigTblPtr = 0;
-        CFE_TBL_ReleaseAddress(PQ_AppData.ChannelData[ChannelID].ConfigTblHdl);
+        Channel->ConfigTblPtr = 0;
+        CFE_TBL_ReleaseAddress(Channel->ConfigTblHdl);
 
         /* let's attempt Manage() below, in case we can get a valid table back */
         tableNeedsManaged = TRUE;
@@ -493,8 +494,8 @@ void PQ_ManageChannelTables(osalbool initialManage, uint16 ChannelID)
     else if (CFE_TBL_INFO_UPDATE_PENDING == status)
     {
         /* Teardown message flows and PQueues*/
-        (void) PQ_MessageFlow_TeardownAll(&PQ_AppData.ChannelData[ChannelID]);
-        (void) PQ_PriorityQueue_TeardownAll(&PQ_AppData.ChannelData[ChannelID]);       
+        (void) PQ_MessageFlow_TeardownAll(Channel);
+        (void) PQ_PriorityQueue_TeardownAll(Channel);       
 
         /* Clear remaining messages from SB data pipe*/
         //dequeueStatus = PQ_Channel_SBPipe_Dequeue_All(ChannelID);
@@ -510,8 +511,8 @@ void PQ_ManageChannelTables(osalbool initialManage, uint16 ChannelID)
         /* Now null the table pointer, because it is going to be updated.  Also
          * so that if something goes wrong it won't be set to an invalid address.
          * It will be set by CFE_TBL_GetAddress(), below. */
-        PQ_AppData.ChannelData[ChannelID].ConfigTblPtr = 0;
-        CFE_TBL_ReleaseAddress(PQ_AppData.ChannelData[ChannelID].ConfigTblHdl);
+        Channel->ConfigTblPtr = 0;
+        CFE_TBL_ReleaseAddress(Channel->ConfigTblHdl);
         tableNeedsManaged = TRUE;
     }
     else if (CFE_TBL_INFO_VALIDATION_PENDING == status)
@@ -522,13 +523,12 @@ void PQ_ManageChannelTables(osalbool initialManage, uint16 ChannelID)
     if (tableNeedsManaged) 
     {
         /* Manage the config table */
-        status = CFE_TBL_Manage(PQ_AppData.ChannelData[ChannelID].ConfigTblHdl);
+        status = CFE_TBL_Manage(Channel->ConfigTblHdl);
         if ((status != CFE_SUCCESS) && (status != CFE_TBL_INFO_UPDATED))
         {
             (void) CFE_EVS_SendEvent(PQ_CONFIG_MANAGE_ERR_EID,
                                      CFE_EVS_ERROR,
-                                     "Failed to manage Config table for channel %u, (0x%08X)",
-                                     ChannelID,
+                                     "Failed to manage Config table for channel (0x%08X)",
                                      (unsigned int)status);
         }
         else
@@ -537,32 +537,30 @@ void PQ_ManageChannelTables(osalbool initialManage, uint16 ChannelID)
             ** Get a pointer to the table
             */
             status = CFE_TBL_GetAddress(
-                    (void *) &PQ_AppData.ChannelData[ChannelID].ConfigTblPtr,
-                    PQ_AppData.ChannelData[ChannelID].ConfigTblHdl);
+                    (void *) &Channel->ConfigTblPtr,
+                    Channel->ConfigTblHdl);
             if (CFE_TBL_INFO_UPDATED == status)
             {
-                status = PQ_ProcessNewConfigTbl(&PQ_AppData.ChannelData[ChannelID]);
+                status = PQ_ProcessNewConfigTbl(Channel);
                 if (status != CFE_SUCCESS) 
                 {
                     (void) CFE_EVS_SendEvent(PQ_CONFIG_PROCESS_CONFIG_TBL_ERR_EID,
                                          CFE_EVS_ERROR,
-                                         "Process New Config Table Failed for channel %u, (0x%08X)",
-                                         ChannelID,
-                                         (unsigned int)status);                
+                                         "Process New Config Table Failed for channel (0x%08X)",
+                                         (unsigned int)status);
                 }
             }
             else if (status != CFE_SUCCESS)
             {
                 (void) CFE_EVS_SendEvent(PQ_CONFIG_ADDR_ERR_EID,
                                          CFE_EVS_ERROR,
-                                         "Failed to get Config table's address for channel %u, (0x%08X)",
-                                         ChannelID,
+                                         "Failed to get Config table's address for channel (0x%08X)",
                                          (unsigned int)status);
             }
         }
     }
 
-    PQ_Channel_UnlockByIndex(ChannelID);
+    PQ_Channel_UnlockByRef(Channel);
 }
 
 

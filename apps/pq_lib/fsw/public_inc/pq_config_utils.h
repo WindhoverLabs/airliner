@@ -197,7 +197,7 @@ int32 PQ_ValidateConfigGrndTbl(void *configTblPtr);
 **       This is called during app cyclic operations.
 **
 *************************************************************************/
-void PQ_ManageAllAppTables(void);
+//void PQ_ManageAllAppTables(void);
 
 
 /************************************************************************/
@@ -216,7 +216,7 @@ void PQ_ManageAllAppTables(void);
 **  \param ChannelID The index of the channel to manage
 **
 *************************************************************************/
-void PQ_ManageChannelTables(osalbool initialManage, uint16 ChannelID);
+void PQ_ManageChannelTables(osalbool initialManage, PQ_ChannelData_t *Channel);
 
 
 /************************************************************************/

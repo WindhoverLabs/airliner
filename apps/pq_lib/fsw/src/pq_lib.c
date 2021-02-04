@@ -37,12 +37,12 @@ int32 PQ_InitData(void)
 }
 
 
-int32 PQ_AppInit(void)
-{
-    PQ_Channel_InitAll();
+//int32 PQ_AppInit(void)
+//{
+    //PQ_Channel_InitAll();
 
-    return CFE_SUCCESS;
-}
+    //return CFE_SUCCESS;
+//}
 
 
 int32 PQ_AppCleanup(void)
