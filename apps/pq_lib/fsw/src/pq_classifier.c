@@ -43,9 +43,9 @@
 /* Run the Classifier algorithm                                    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr)
+void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr, PQ_HkTlm_t *HkTlmPtr)
 {
-    int32  status                = CFE_SUCCESS;
+    int32  status                 = CFE_SUCCESS;
     PQ_PriorityQueue_t *pqueue    = NULL;
     PQ_MessageFlow_t *msgFlow     = NULL;
     uint32 msgFlowIndex           = 0;
@@ -66,10 +66,7 @@ void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr)
                                      PQ_MAX_MSG_LENGTH,
                                      (unsigned short)DataMsgID,
                                      (unsigned short)channel->channelIdx);
-            (void) OS_MutSemTake(PQ_AppData.MutexID);
-            PQ_AppData.HkTlm.usTotalMsgDropped++;
-            (void) OS_MutSemGive(PQ_AppData.MutexID);
-            
+            HkTlmPtr->usTotalMsgDropped++;
             channel->DropMsgCount++;
             goto end_of_function;
         }
@@ -86,11 +83,7 @@ void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr)
                                      "Classifier Recvd invalid msgId (0x%04X) or message flow was removed on channel (%u)", 
                                      (unsigned short)DataMsgID,
                                      (unsigned short)channel->channelIdx);
-            
-            (void) OS_MutSemTake(PQ_AppData.MutexID);
-            PQ_AppData.HkTlm.usTotalMsgDropped++;
-            (void) OS_MutSemGive(PQ_AppData.MutexID);
-
+            HkTlmPtr->usTotalMsgDropped++;
             channel->DropMsgCount++;
             goto end_of_function;
         }
@@ -109,7 +102,6 @@ void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr)
             {
                 /* The message was queued.  Increment counters. */
                 channel->DumpTbl.MessageFlow[msgFlowIndex].QueuedMsgCnt++;
-                
                 channel->QueuedMsgCount++;
             }
             /* The call to PQ_PriorityQueue_QueueMsg may generate the following errors:
@@ -119,11 +111,8 @@ void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr)
             {
                 /* Queue is full.  Increment counters and drop the message. */
                 channel->DumpTbl.MessageFlow[msgFlowIndex].DroppedMsgCnt++;
-                
-                (void) OS_MutSemTake(PQ_AppData.MutexID);
-                PQ_AppData.HkTlm.usTotalMsgDropped++;
-                (void) OS_MutSemGive(PQ_AppData.MutexID);
 
+                HkTlmPtr->usTotalMsgDropped++;
                 channel->DropMsgCount++;
 
                 (void) CFE_EVS_SendEvent(PQ_MSG_DROP_FROM_FLOW_DBG_EID,

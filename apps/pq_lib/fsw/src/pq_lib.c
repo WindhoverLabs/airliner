@@ -15,6 +15,7 @@ int32 PQ_LibInit(void)
 }/* End PQ_LibInit */
 
 
+
 int32 PQ_InitData(void)
 {
     int32 status = CFE_SUCCESS;
@@ -36,16 +37,6 @@ int32 PQ_InitData(void)
 }
 
 
-int32 PQ_InitTelem(CFE_SB_MsgId_t MsgID)
-{
-    /* Init housekeeping packet */
-    CFE_SB_InitMsg(&PQ_AppData.HkTlm,
-                   MsgID, sizeof(PQ_AppData.HkTlm), TRUE);
-
-    return CFE_SUCCESS;
-}
-
-
 int32 PQ_AppInit(void)
 {
     PQ_Channel_InitAll();
@@ -56,7 +47,7 @@ int32 PQ_AppInit(void)
 
 int32 PQ_AppCleanup(void)
 {
-    PQ_Channel_CleanupAll();
+    //PQ_Channel_CleanupAll();
     OS_MutSemDelete(PQ_AppData.MutexID);
 
     return CFE_SUCCESS;

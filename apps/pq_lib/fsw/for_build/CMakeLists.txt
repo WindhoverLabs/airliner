@@ -46,6 +46,8 @@ buildliner_add_app_def(pq_lib
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_classifier.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_config_utils.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_errors.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_events.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_includes.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_message_flow.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_mission_cfg.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/pq_output_queue.h

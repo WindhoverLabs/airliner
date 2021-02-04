@@ -70,8 +70,7 @@
 **
 **       Only the index is range-checked and no other argument checking is performed. 
 **
-**  \param[in]   index
-**                Index of the channel, cannot be greater than PQ_MAX_CHANNELS
+**  \param[in]   Channel
 **
 **  \param[in]   ChannelName
 **                Name of channel, will be prefixed with PQ_ .
@@ -100,10 +99,10 @@
 **                Name of the CF throttling semaphore, must be unique among each channel.
 **
 **  \return
-**  CFE_SUCCESS if successful.  #PQ_CHANNEL_OUT_OF_RANGE_ERR or OSAL error if unsuccessful.
+**  CFE_SUCCESS if successful. OSAL error if unsuccessful.
 **
 *************************************************************************/
-int32 PQ_Channel_OpenChannel(const uint32 index, const char *ChannelName,
+int32 PQ_Channel_OpenChannel(PQ_ChannelData_t *Channel, const char *ChannelName,
         const char *ConfigTableName, const char *ConfigTableFileName,
         PQ_ChannelTbl_t *BackupTblPtr, const char *DumpTableName,
         const uint32 CfCntSemMax, const char *CfCntSemName);
@@ -143,7 +142,7 @@ void PQ_Channel_ResetCountsAll(void);
 ** \param[in]   index
 **              Index of the channel
 *************************************************************************/
-void PQ_Channel_LockByIndex(uint16 index);
+//void PQ_Channel_LockByIndex(uint16 index);
 
 
 /************************************************************************/
@@ -158,7 +157,7 @@ void PQ_Channel_LockByIndex(uint16 index);
 ** \param[in]   index
 **              Index of the channel
 *************************************************************************/
-void PQ_Channel_UnlockByIndex(uint16 index);
+//void PQ_Channel_UnlockByIndex(uint16 index);
 
 
 /************************************************************************/
@@ -169,7 +168,7 @@ void PQ_Channel_UnlockByIndex(uint16 index);
 ** \par Assumptions, External Events, and Notes:
 **      Assumes channel pointer is not NULL
 *************************************************************************/
-void PQ_Channel_LockByRef(PQ_ChannelData_t *channel);
+void PQ_Channel_LockByRef(PQ_ChannelData_t *Channel);
 
 
 /************************************************************************/
@@ -180,7 +179,7 @@ void PQ_Channel_LockByRef(PQ_ChannelData_t *channel);
 ** \par Assumptions, External Events, and Notes:
 **      Assumes channel pointer is not NULL
 *************************************************************************/
-void PQ_Channel_UnlockByRef(PQ_ChannelData_t *channel);
+void PQ_Channel_UnlockByRef(PQ_ChannelData_t *Channel);
 
 
 /************************************************************************/
@@ -192,7 +191,7 @@ void PQ_Channel_UnlockByRef(PQ_ChannelData_t *channel);
 ** \par Assumptions, External Events, and Notes:
 **      None.
 *************************************************************************/
-void PQ_Channel_InitAll(void);
+//void PQ_Channel_InitAll(void);
 
 
 /************************************************************************/
@@ -204,7 +203,7 @@ void PQ_Channel_InitAll(void);
 ** \par Assumptions, External Events, and Notes:
 **      None.
 *************************************************************************/
-void PQ_Channel_CleanupAll(void);
+//void PQ_Channel_CleanupAll(void);
 
 
 /************************************************************************/
@@ -221,7 +220,7 @@ void PQ_Channel_CleanupAll(void);
 **  PQ_CHANNEL_CLOSED, PQ_CHANNEL_OPENED, or PQ_CHANNEL_UNKNOWN
 **  
 *************************************************************************/
-uint8 PQ_Channel_State(uint16 index);
+uint8 PQ_Channel_State(PQ_ChannelData_t *Channel);
 
 
 /************************************************************************/
@@ -263,6 +262,51 @@ osalbool PQ_Channel_Flush(uint16 index);
 **  
 *************************************************************************/
 //osalbool PQ_Channel_SBPipe_Dequeue_All(uint16 index);
+
+/**
+ * \brief Initializes a reference channel data, sets the channel's index,
+ *        and creates a channel mutex.
+ *
+ * \par Assumptions, External Events, and Notes:
+ *      None
+ * 
+ * \param [in]  Index
+ *              Index of the channel
+ *
+ * \param [in/out]   Channel
+ *
+ * \returns
+ * CFE_SUCCESS if successful.
+ * \endreturns
+ */
+int32 PQ_Channel_Init(uint16 Index, PQ_ChannelData_t *Channel);
+
+
+/**
+ * \brief Calls functions to teardown an individual channel's priority queue, 
+ *        output queue, and message flow(s).  It also deletes the channel's mutex.
+ *
+ * \par Assumptions, External Events, and Notes:
+ *      If the input index is out of range, an event is generated
+ *      #PQ_CHANNEL_OUT_OF_RANGE_ERR_EID
+ *
+ * \param [in/out]   Channel
+ *
+ */
+void PQ_Channel_Cleanup(PQ_ChannelData_t *Channel);
+
+
+/**
+ * \brief Resets each channel's message flow, priority queue,
+ *        and output queue counters.
+ *
+ * \par Assumptions, External Events, and Notes:
+ *      Assumes channel pointer is not NULL
+ *
+ * \param [in]   channel       A #PQ_ChannelData_t pointer that
+ *                             references the channel data structures
+ */
+void PQ_Channel_ResetCounts(PQ_ChannelData_t *Channel);
 
 
 #endif

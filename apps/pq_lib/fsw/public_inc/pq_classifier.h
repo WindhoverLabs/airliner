@@ -77,7 +77,10 @@
 **  \param [in,out] DataMsgPtr    A #CFE_SB_MsgPtr_t pointer of
 **                                the message to classify
 **
+**  \param [in,out] HkTlmPtr      A #PQ_HkTlm_t pointer of telemetry to 
+**                                update
+**
 *************************************************************************/
-void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr);
+void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr, PQ_HkTlm_t *HkTlmPtr);
 
 #endif

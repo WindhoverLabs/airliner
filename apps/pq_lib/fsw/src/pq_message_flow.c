@@ -57,30 +57,30 @@ int32 PQ_MessageFlow_Buildup(PQ_ChannelData_t *channel)
         return PQ_MESSAGE_FLOW_NO_TABLE_ERR;
     }
     
-    /*
-     * Create message flows by subscribing to messages.
-     */
-    for (i = 0; i < PQ_MAX_MESSAGE_FLOWS; ++i)
-    {
-        if (channel->ConfigTblPtr->MessageFlow[i].MsgId != 0)
-        {
-            /* Subscribe to message. */
-            status = CFE_SB_SubscribeEx(channel->ConfigTblPtr->MessageFlow[i].MsgId, channel->DataPipeId,
-                                         CFE_SB_Default_Qos, channel->ConfigTblPtr->MessageFlow[i].MsgLimit);
-            if (status != CFE_SUCCESS)
-            {
-                /* We failed to subscribe to a message.  However, lets just keep going so we can maybe
-                 * subscribe to at least some of the messages.  Report and keep going.
-                 */
-                (void) CFE_EVS_SendEvent(PQ_SUBSCRIBE_ERR_EID,
-                                         CFE_EVS_ERROR,
-                                         "Message flow failed to subscribe to (0x%08X) on channel %d. (%ld)",
-                                         channel->ConfigTblPtr->MessageFlow[i].MsgId,
-                                         channel->channelIdx,
-                                         status);
-            }
-        }
-    }
+    ///*
+     //* Create message flows by subscribing to messages.
+     //*/
+    //for (i = 0; i < PQ_MAX_MESSAGE_FLOWS; ++i)
+    //{
+        //if (channel->ConfigTblPtr->MessageFlow[i].MsgId != 0)
+        //{
+            ///* Subscribe to message. */
+            //status = CFE_SB_SubscribeEx(channel->ConfigTblPtr->MessageFlow[i].MsgId, channel->DataPipeId,
+                                         //CFE_SB_Default_Qos, channel->ConfigTblPtr->MessageFlow[i].MsgLimit);
+            //if (status != CFE_SUCCESS)
+            //{
+                ///* We failed to subscribe to a message.  However, lets just keep going so we can maybe
+                 //* subscribe to at least some of the messages.  Report and keep going.
+                 //*/
+                //(void) CFE_EVS_SendEvent(PQ_SUBSCRIBE_ERR_EID,
+                                         //CFE_EVS_ERROR,
+                                         //"Message flow failed to subscribe to (0x%08X) on channel %d. (%ld)",
+                                         //channel->ConfigTblPtr->MessageFlow[i].MsgId,
+                                         //channel->channelIdx,
+                                         //status);
+            //}
+        //}
+    //}
     return CFE_SUCCESS;
 }
 
@@ -106,28 +106,28 @@ int32 PQ_MessageFlow_TeardownAll(PQ_ChannelData_t *channel)
         return PQ_MESSAGE_FLOW_NO_TABLE_ERR;
     }
     
-    for (i = 0; i < PQ_MAX_MESSAGE_FLOWS; ++i)
-    {
-        if (channel->ConfigTblPtr->MessageFlow[i].MsgId != 0)
-        {
-            /* Unsubscribe from message. */
-            status = CFE_SB_Unsubscribe(channel->ConfigTblPtr->MessageFlow[i].MsgId,
-                                         channel->DataPipeId);
+    //for (i = 0; i < PQ_MAX_MESSAGE_FLOWS; ++i)
+    //{
+        //if (channel->ConfigTblPtr->MessageFlow[i].MsgId != 0)
+        //{
+            ///* Unsubscribe from message. */
+            //status = CFE_SB_Unsubscribe(channel->ConfigTblPtr->MessageFlow[i].MsgId,
+                                         //channel->DataPipeId);
                         
-            if (status != CFE_SUCCESS)
-            {
-                /*  This is not a critical error.  Just continue processing the rest of the messages. 
-                 *  Will not return the failure back.
-                 */
-                (void) CFE_EVS_SendEvent(PQ_UNSUBSCRIBE_ERR_EID,
-                                         CFE_EVS_ERROR,
-                                         "Message flow failed to unsubscribe from 0x%04x on channel %d. (%ld)",
-                                         channel->ConfigTblPtr->MessageFlow[i].MsgId,
-                                         channel->channelIdx,
-                                         status);
-            }
-        }
-    }
+            //if (status != CFE_SUCCESS)
+            //{
+                ///*  This is not a critical error.  Just continue processing the rest of the messages. 
+                 //*  Will not return the failure back.
+                 //*/
+                //(void) CFE_EVS_SendEvent(PQ_UNSUBSCRIBE_ERR_EID,
+                                         //CFE_EVS_ERROR,
+                                         //"Message flow failed to unsubscribe from 0x%04x on channel %d. (%ld)",
+                                         //channel->ConfigTblPtr->MessageFlow[i].MsgId,
+                                         //channel->channelIdx,
+                                         //status);
+            //}
+        //}
+    //}
     return CFE_SUCCESS;
 }
 
@@ -334,21 +334,21 @@ osalbool PQ_MessageFlow_Add(
                 return FALSE;
             }
 
-            /* Now subscribe to the message to ensure the message ID is
-             * valid.
-             */
-            status = CFE_SB_SubscribeEx(MsgID, channel->DataPipeId,
-                                         CFE_SB_Default_Qos, MsgLimit);
-            if (status != CFE_SUCCESS)
-            {
-                (void) CFE_EVS_SendEvent(PQ_CMD_ADD_MSG_FLOW_ERR_EID,
-                                         CFE_EVS_ERROR,
-                                         "Message flow failed to subscribe to (0x%08X) on channel %d. (%ld)",
-                                         MsgID, ChannelIdx, status);
+            ///* Now subscribe to the message to ensure the message ID is
+             //* valid.
+             //*/
+            //status = CFE_SB_SubscribeEx(MsgID, channel->DataPipeId,
+                                         //CFE_SB_Default_Qos, MsgLimit);
+            //if (status != CFE_SUCCESS)
+            //{
+                //(void) CFE_EVS_SendEvent(PQ_CMD_ADD_MSG_FLOW_ERR_EID,
+                                         //CFE_EVS_ERROR,
+                                         //"Message flow failed to subscribe to (0x%08X) on channel %d. (%ld)",
+                                         //MsgID, ChannelIdx, status);
                                          
-                PQ_Channel_UnlockByRef(channel);
-                return FALSE;
-            }
+                //PQ_Channel_UnlockByRef(channel);
+                //return FALSE;
+            //}
 
             /* Now that the message was successfully subscribed to, set the
              * message flow definition.

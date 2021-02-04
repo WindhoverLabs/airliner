@@ -214,7 +214,7 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define PQ_UDP_CONFIG_TABLE_FILENAME    ("/cf/apps/to_udp_cfg.tbl")
+#define PQ_UDP_CONFIG_TABLE_FILENAME    ("/cf/apps/pq_cfg.tbl")
 
 
 #define PQ_MAX_MEMPOOL_BLK_SIZES      (8)
@@ -243,13 +243,13 @@ extern "C" {
  * \tocfg Defines the table identification name used for table registration
  *        of the configuration table.
  */
-#define PQ_UDP_CONFIG_TABLENAME        "UDP_CFG"
+#define PQ_UDP_CONFIG_TABLENAME        "CFG"
 
 /**
  * \tocfg Defines the table identification name used for table registration
  *        of the dump table.
  */
-#define PQ_UDP_DUMP_TABLENAME          "UDP_DMP"
+#define PQ_UDP_DUMP_TABLENAME          "DMP"
 
 /** \tocfg The timeout value, in milliseconds, to wait for ES application startup sync.
 **

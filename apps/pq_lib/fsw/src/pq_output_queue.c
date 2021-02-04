@@ -31,9 +31,7 @@
 *
 *****************************************************************************/
 
-//#include "to_app.h"
 #include "pq_output_queue.h"
-//#include "to_custom.h"
 #include "pq_events.h"
 #include "pq_structs.h"
 
