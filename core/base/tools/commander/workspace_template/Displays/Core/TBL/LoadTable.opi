@@ -227,7 +227,7 @@ $(pv_value)</tooltip>
     <selector_type>0</selector_type>
     <show_units>true</show_units>
     <style>0</style>
-    <text>######</text>
+    <text>####</text>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <transparent>false</transparent>
