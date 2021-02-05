@@ -83,7 +83,15 @@ static void SendLocalSubToPeer(int SubType, CFE_SB_MsgId_t MsgID,
 {
     SBN_SubPacket_t Packet;
 
-    CFE_SB_InitMsg(&Packet, SBN_SUB_MID, sizeof(Packet), TRUE);
+    if(SubType == SBN_SUBSCRIBE_MSG)
+    {
+        CFE_SB_InitMsg(&Packet, SBN_SUB_MID, sizeof(Packet), TRUE);
+    }
+    else
+    {
+        CFE_SB_InitMsg(&Packet, SBN_UNSUB_MID, sizeof(Packet), TRUE);
+    }
+
     memcpy(&Packet.Ident, SBN_IDENT, SBN_IDENT_LEN);
     Packet.SubCount = 1;
     Packet.Sub.MsgID = MsgID;
@@ -128,6 +136,7 @@ void SBN_SendLocalSubsToPeer(SBN_PeerInterface_t *Peer)
     SBN_SubsPacket_t Packet;
 
     CFE_SB_InitMsg(&Packet, SBN_SUB_MID, sizeof(Packet), TRUE);
+
     memcpy(&Packet.Ident, SBN_IDENT, SBN_IDENT_LEN);
     Packet.SubCount = SBN.SubCnt;
 

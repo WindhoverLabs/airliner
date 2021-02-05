@@ -5,6 +5,7 @@
 #include <string.h>
 #include <errno.h>
 #include "pq_includes.h"
+#include "msg_ids.h"
 
 /* at some point this will be replaced by the OSAL network interface */
 #ifdef _VXWORKS_OS_
@@ -22,8 +23,10 @@ extern PQ_ChannelTbl_t PQ_BackupConfigTbl;
 PQ_ChannelData_t Channel;
 PQ_HkTlm_t HkTlm;
 uint32 ChildTaskID;
-CFE_ES_ChildTaskMainFuncPtr_t   ListenerTask;
+CFE_ES_ChildTaskMainFuncPtr_t ListenerTask;
 uint8 Priority;
+struct sockaddr_in s_addr;
+int Socket;
 
 
 int SBN_UDP_LoadNet(const char **Row, int FieldCnt,
@@ -98,22 +101,6 @@ int SBN_UDP_InitNet(SBN_NetInterface_t *Net)
         return SBN_ERROR;
     }/* end if */
 
-    static struct sockaddr_in my_addr;
-
-    my_addr.sin_addr.s_addr = inet_addr(NetData->Host);
-    my_addr.sin_family = AF_INET;
-    my_addr.sin_port = htons(NetData->Port);
-
-    if(bind(NetData->Socket, (struct sockaddr *) &my_addr,
-        sizeof(my_addr)) < 0)
-    {
-        CFE_EVS_SendEvent(SBN_UDP_SOCK_EID, CFE_EVS_ERROR,
-            "bind call failed (%s:%d Socket=%d errno=%d)",
-            NetData->Host, NetData->Port, NetData->Socket, errno);
-        return SBN_ERROR;
-    }/* end if */
-
-
     iStatus = PQ_Channel_Init(0, &Channel);
     if (iStatus != CFE_SUCCESS)
     {
@@ -137,6 +124,25 @@ int SBN_UDP_InitNet(SBN_NetInterface_t *Net)
         /* TODO update to event. */
         printf("PQ_Channel_OpenChannel failed%u\n", iStatus);
         return SBN_ERROR;
+    }
+
+    static struct sockaddr_in my_addr;
+
+    my_addr.sin_addr.s_addr = inet_addr(NetData->Host);
+    my_addr.sin_family = AF_INET;
+    my_addr.sin_port = htons(NetData->Port);
+
+    if(bind(NetData->Socket, (struct sockaddr *) &my_addr,
+        sizeof(my_addr)) < 0)
+    {
+        CFE_EVS_SendEvent(SBN_UDP_SOCK_EID, CFE_EVS_ERROR,
+            "bind call failed (%s:%d Socket=%d errno=%d)",
+            NetData->Host, NetData->Port, NetData->Socket, errno);
+        return SBN_ERROR;
+    }/* end if */
+    else
+    {
+        printf("SBN bound %s:%d\n", NetData->Host, NetData->Port);
     }
 
     char TaskName[OS_MAX_API_NAME];
@@ -220,18 +226,18 @@ int SBN_UDP_Send(SBN_PeerInterface_t *Peer, SBN_MsgType_t MsgType,
     //size_t BufSz = MsgSz + SBN_PACKED_HDR_SZ;
     //uint8 Buf[BufSz];
 
-    //SBN_UDP_Peer_t *PeerData = (SBN_UDP_Peer_t *)Peer->ModulePvt;
-    //SBN_NetInterface_t *Net = Peer->Net;
-    //SBN_UDP_Net_t *NetData = (SBN_UDP_Net_t *)Net->ModulePvt;
+    SBN_UDP_Peer_t *PeerData = (SBN_UDP_Peer_t *)Peer->ModulePvt;
+    SBN_NetInterface_t *Net = Peer->Net;
+    SBN_UDP_Net_t *NetData = (SBN_UDP_Net_t *)Net->ModulePvt;
 
     //SBN_PackMsg(&Buf, MsgSz, MsgType, CFE_PSP_GetProcessorId(), Payload);
 
-    //static struct sockaddr_in s_addr;
-
-    //memset(&s_addr, 0, sizeof(s_addr));
-    //s_addr.sin_family = AF_INET;
-    //s_addr.sin_addr.s_addr = inet_addr(PeerData->Host);
-    //s_addr.sin_port = htons(PeerData->Port);
+    /* TODO Save off this information for now. */
+    memset(&s_addr, 0, sizeof(s_addr));
+    s_addr.sin_family = AF_INET;
+    s_addr.sin_addr.s_addr = inet_addr(PeerData->Host);
+    s_addr.sin_port = htons(PeerData->Port);
+    Socket = NetData->Socket;
 
     //sendto(NetData->Socket, &Buf, BufSz, 0, (struct sockaddr *) &s_addr,
         //sizeof(s_addr));
@@ -286,6 +292,9 @@ int SBN_UDP_Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
     {
         return SBN_ERROR;
     }/* end if */
+    
+    CFE_SB_MsgId_t MsgID = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)Payload);
+    printf("Received %u MID %x\n", Received, MsgID);
 
     SBN_PeerInterface_t *Peer = SBN_GetPeer(Net, *CpuIDPtr);
     if(Peer == NULL)
@@ -375,8 +384,26 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
 
             if(iStatus == OS_SUCCESS)
             {
-                uint16  actualMessageSize = CFE_SB_GetTotalMsgLength((CFE_SB_MsgPtr_t)buffer);
-                printf("actualMessageSize %u\n", actualMessageSize);
+                uint16 actualMessageSize = CFE_SB_GetTotalMsgLength((CFE_SB_MsgPtr_t)buffer);
+                CFE_SB_MsgId_t MsgID = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)buffer);
+                SBN_MsgType_t MsgType;
+                size_t BufSz = actualMessageSize + SBN_PACKED_HDR_SZ;
+                uint8 Buf[BufSz];
+
+                if(MsgID == SBN_SUB_MID)
+                {
+                    MsgType = SBN_SUBSCRIBE_MSG;
+                }
+                else if (MsgID == SBN_UNSUB_MID)
+                {
+                    MsgType = SBN_UN_SUBSCRIBE_MSG;
+                }
+                else
+                {
+                    MsgType = SBN_APP_MSG;
+                }
+
+                SBN_PackMsg(&Buf, actualMessageSize, MsgType, CFE_PSP_GetProcessorId(), buffer);
 
                 //int32 sendResult = TO_OutputChannel_Send(ChannelIdx, (const char*)buffer, actualMessageSize);
 
@@ -384,6 +411,15 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 //{
                 	//TO_OutputChannel_Disable(ChannelIdx);
                 //}
+                
+                int status = sendto(Socket, (const char*)Buf, BufSz, 0, (struct sockaddr *) &s_addr,
+                sizeof(s_addr));
+                if (status < 0)
+                {
+                    /* TODO */
+                    printf("sendto failed errno %d\n", errno);
+                    iStatus = -1;
+                }
 
                 iStatus = CFE_ES_PutPoolBuf(Channel->MemPoolHandle, (uint32 *)buffer);
                 if(iStatus < 0)
