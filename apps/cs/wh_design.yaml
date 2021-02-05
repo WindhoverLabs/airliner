@@ -293,7 +293,14 @@
       id: 145
     CS_EXIT_INF_EID: 
       id: 146
-  telemetry: 
+  msg_def_overrides:
+    - parent: CS_AppNameCmd_t
+      member: Name
+      type: string
+    - parent: CS_TableNameCmd_t
+      member: Name
+      type: string
+  telemetry:
     CS_HK_TLM_MID: 
       msgID: 
       struct: CS_HkPacket_t
