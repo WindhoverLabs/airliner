@@ -1,4 +1,4 @@
 importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/CFS/CS/EnableAll(arg: none)');
+Yamcs.issueCommand('/cfs/cfs/EnableApps', {});

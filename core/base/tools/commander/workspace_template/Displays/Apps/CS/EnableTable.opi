@@ -35,13 +35,14 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/QueryOneApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
 
-var cmd = '/CFS/CS/EnableTables(args: none)';
+var cmd = '/cfs/cs/EnableTables';
 
-Yamcs.issueCommand(cmd);]]></scriptText>
+Yamcs.issueCommand(cmd, {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -93,13 +94,16 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/QueryOneApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
 
 var Name =VTypeHelper.getString(display.getWidget('Name').getPropertyValue('pv_value'));
 
-var cmd = '/CFS/CS/EnableNameTable(Name: ' + Name + ')';]]></scriptText>
+var cmd = '/cfs/cs/EnableNameTable';
+
+Yamcs.issueCommand(cmd, {'Name': Name});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -232,7 +236,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Name</name>
-    <pv_name>loc://Name</pv_name>
+    <pv_name>loc://EnableTableName</pv_name>
     <pv_value />
     <rules />
     <scale_options>
