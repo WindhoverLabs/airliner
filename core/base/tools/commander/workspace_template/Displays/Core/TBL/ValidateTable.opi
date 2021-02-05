@@ -47,15 +47,15 @@ var cmd;
 
 var pBuffer;
 
-if( tableBuffer != 'Inactive' ) {
-    pBuffer = 'INACTIVE';
+if( tableBuffer != 'Active' ) {
+    pBuffer = 'INACTIVE_BUFFER';
 } else {
-    pBuffer = 'ACTIVE';
+    pBuffer = 'ACTIVE_BUFFER';
 }
 
 Yamcs.issueCommand('/cfs/cfe_tbl/Validate', {
-    'TableName': tableName,
-    'Buffer': pBuffer
+    'Payload.TableName': tableName,
+    'Payload.ActiveTblFlag': pBuffer
 });
 
 ]]></scriptText>

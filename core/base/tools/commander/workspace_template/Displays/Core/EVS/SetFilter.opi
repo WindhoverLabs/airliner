@@ -42,7 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 appName = VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value'));
 eventID = VTypeHelper.getDouble(display.getWidget('EventID').getPropertyValue('pv_value'));
-mask = VTypeHelper.getNumber(display.getWidget('Mask').getPropertyValue('pv_value'));
+mask = VTypeHelper.getDouble(display.getWidget('Mask').getPropertyValue('pv_value'));
 
 Yamcs.issueCommand('/cfs/cfe_evs/SetAppEventFilter', {
     'Payload.AppName': appName,
@@ -197,7 +197,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>32</height>
+    <height>34</height>
     <items>
       <s>CF</s>
       <s>CI</s>
@@ -308,7 +308,7 @@ $(pv_value)</tooltip>
     <name>EventID</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://EventID</pv_name>
+    <pv_name>loc://EventID&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -395,7 +395,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <format_type>3</format_type>
+    <format_type>0</format_type>
     <height>25</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
@@ -405,7 +405,7 @@ $(pv_value)</tooltip>
     <name>Mask</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://Mask</pv_name>
+    <pv_name>loc://Mask&lt;VDouble&gt;(0)</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
