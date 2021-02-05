@@ -14,12 +14,16 @@
 #endif
 
 
-void PQ_Output_Task(void);
+void SBN_PQ_Output_Task(void);
+void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel);
 
 
 extern PQ_ChannelTbl_t PQ_BackupConfigTbl;
 PQ_ChannelData_t Channel;
 PQ_HkTlm_t HkTlm;
+uint32 ChildTaskID;
+CFE_ES_ChildTaskMainFuncPtr_t   ListenerTask;
+uint8 Priority;
 
 
 int SBN_UDP_LoadNet(const char **Row, int FieldCnt,
@@ -135,7 +139,25 @@ int SBN_UDP_InitNet(SBN_NetInterface_t *Net)
         return SBN_ERROR;
     }
 
+    char TaskName[OS_MAX_API_NAME];
+    snprintf(TaskName, OS_MAX_API_NAME, "PQ_OUTCH_%u", 0);
+    ListenerTask = SBN_PQ_Output_Task;
+    Priority = 50;
     /* Create a child task here. */
+    iStatus = CFE_ES_CreateChildTask(
+        &ChildTaskID,
+        (const char *)TaskName,
+        ListenerTask,
+        0,
+        131072,
+        Priority,
+        OS_ENABLE_CORE_0);
+    if (iStatus != CFE_SUCCESS)
+    {
+        /* TODO update to event. */
+        printf("CFE_ES_CreateChildTask failed%u\n", iStatus);
+        return SBN_ERROR;
+    }
 
     return SBN_SUCCESS;
 }/* end SBN_UDP_InitNet */
@@ -316,13 +338,83 @@ int SBN_UDP_UnloadPeer(SBN_PeerInterface_t *Peer)
     return SBN_SUCCESS;
 }/* end SBN_UDP_UnloadPeer */
 
-void PQ_Output_Task(void)
+
+void SBN_PQ_Output_Task(void)
 {
     CFE_ES_RegisterChildTask();
 
-    //TO_OutputChannel_ChannelHandler(0);
+    SBN_PQ_ChannelHandler(&Channel);
 
     CFE_ES_ExitChildTask();
 }
 
+/* TODO remove. */
+#include "pq_events.h"
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Channel Handler                                                 */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
+{
+    int32 iStatus = CFE_SUCCESS;
+    uint32 msgSize = 0;
+    char *buffer;
+
+    /* TODO add flag */
+    while(1)
+    {
+        if(PQ_Channel_State(Channel) == PQ_CHANNEL_OPENED)
+        {
+            PQ_OutputQueue_t *chQueue = &Channel->OutputQueue;
+
+            iStatus =  OS_QueueGet(
+                    chQueue->OSALQueueID,
+                    &buffer, sizeof(buffer), &msgSize, 500);
+
+            if(iStatus == OS_SUCCESS)
+            {
+                uint16  actualMessageSize = CFE_SB_GetTotalMsgLength((CFE_SB_MsgPtr_t)buffer);
+                printf("actualMessageSize %u\n", actualMessageSize);
+
+                //int32 sendResult = TO_OutputChannel_Send(ChannelIdx, (const char*)buffer, actualMessageSize);
+
+                //if (sendResult != 0)
+                //{
+                	//TO_OutputChannel_Disable(ChannelIdx);
+                //}
+
+                iStatus = CFE_ES_PutPoolBuf(Channel->MemPoolHandle, (uint32 *)buffer);
+                if(iStatus < 0)
+                {
+                    (void) CFE_EVS_SendEvent(PQ_PUT_POOL_ERR_EID, CFE_EVS_ERROR,
+                                "PutPoolBuf: error=0x%08lx",
+                                    (unsigned long)iStatus);
+                }
+                else
+                {
+                    //OS_MutSemTake(TO_AppData.MutexID);
+                    Channel->MemInUse -= iStatus;
+                    //OS_MutSemGive(TO_AppData.MutexID);
+
+                    PQ_Channel_LockByRef(Channel);
+                    chQueue->CurrentlyQueuedCnt--;
+                    chQueue->SentCount++;
+                    PQ_Channel_UnlockByRef(Channel);
+                }
+
+            }
+            else if(iStatus == OS_QUEUE_TIMEOUT)
+            {
+            	/* Do nothing.  Just loop back around and check the guard. */
+            }
+            else
+            {
+                CFE_EVS_SendEvent(PQ_OSQUEUE_GET_ERROR_EID, CFE_EVS_ERROR,
+                                "Listener failed to pop message from queue. (%i).", (int)iStatus);
+            }
+        }
+    }
+}
 
