@@ -154,36 +154,36 @@ int SBN_UDP_InitPeer(SBN_PeerInterface_t *Peer)
 
 int SBN_UDP_PollPeer(SBN_PeerInterface_t *Peer)
 {
-    OS_time_t CurrentTime;
-    OS_GetLocalTime(&CurrentTime);
+    //OS_time_t CurrentTime;
+    //OS_GetLocalTime(&CurrentTime);
 
-    SBN_UDP_Peer_t *PeerData = (SBN_UDP_Peer_t *)Peer->ModulePvt;
+    //SBN_UDP_Peer_t *PeerData = (SBN_UDP_Peer_t *)Peer->ModulePvt;
     
-    if(PeerData->ConnectedFlag)
-    {
-        if(CurrentTime.seconds - Peer->LastRecv.seconds
-            > SBN_UDP_PEER_TIMEOUT)
-        {
-            CFE_EVS_SendEvent(SBN_UDP_DEBUG_EID, CFE_EVS_INFORMATION,
-                "CPU %d disconnected", Peer->ProcessorID);
-            PeerData->ConnectedFlag = FALSE;
-            return 0;
-        }/* end if */
+    //if(PeerData->ConnectedFlag)
+    //{
+        //if(CurrentTime.seconds - Peer->LastRecv.seconds
+            //> SBN_UDP_PEER_TIMEOUT)
+        //{
+            //CFE_EVS_SendEvent(SBN_UDP_DEBUG_EID, CFE_EVS_INFORMATION,
+                //"CPU %d disconnected", Peer->ProcessorID);
+            //PeerData->ConnectedFlag = FALSE;
+            //return 0;
+        //}/* end if */
 
-        if(CurrentTime.seconds - Peer->LastSend.seconds
-            > SBN_UDP_PEER_HEARTBEAT)
-        {
-            return SBN_UDP_Send(Peer, SBN_UDP_HEARTBEAT_MSG, 0, NULL);
-        }/* end if */
-    }
-    else
-    {
-        if(CurrentTime.seconds - Peer->LastSend.seconds
-            > SBN_UDP_ANNOUNCE_TIMEOUT)
-        {
-            return SBN_UDP_Send(Peer, SBN_UDP_ANNOUNCE_MSG, 0, NULL);
-        }/* end if */
-    }/* end if */
+        //if(CurrentTime.seconds - Peer->LastSend.seconds
+            //> SBN_UDP_PEER_HEARTBEAT)
+        //{
+            //return SBN_UDP_Send(Peer, SBN_UDP_HEARTBEAT_MSG, 0, NULL);
+        //}/* end if */
+    //}
+    //else
+    //{
+        //if(CurrentTime.seconds - Peer->LastSend.seconds
+            //> SBN_UDP_ANNOUNCE_TIMEOUT)
+        //{
+            //return SBN_UDP_Send(Peer, SBN_UDP_ANNOUNCE_MSG, 0, NULL);
+        //}/* end if */
+    //}/* end if */
     return SBN_SUCCESS;
 }/* end SBN_UDP_PollPeer */
 

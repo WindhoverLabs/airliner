@@ -83,7 +83,7 @@ uint32  PQ_MemPoolDefSize[PQ_MAX_MEMPOOL_BLK_SIZES] =
  * \param [in]   channel       A #PQ_ChannelData_t pointer that
  *                             references the channel data structures
  */
-void PQ_Channel_ProcessTelemetry(PQ_ChannelData_t *channel);
+//void PQ_Channel_ProcessTelemetry(PQ_ChannelData_t *channel);
 
 
 int32 PQ_Channel_OpenChannel(PQ_ChannelData_t *Channel, const char *ChannelName,

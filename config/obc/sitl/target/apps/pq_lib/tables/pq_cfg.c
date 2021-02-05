@@ -45,6 +45,7 @@ PQ_ChannelTbl_t PQ_ConfigTbl =
     {
         /* Message Flows */
         /* Ground Queues */
+        {SBN_SUB_MID,                  1, PQ_PQUEUE_HIGH_IDX},
         {AMC_HK_TLM_MID,               1, PQ_PQUEUE_HIGH_IDX},
         {MAC_HK_TLM_MID,               1, PQ_PQUEUE_HIGH_IDX},
         {MPC_HK_TLM_MID,               1, PQ_PQUEUE_HIGH_IDX},

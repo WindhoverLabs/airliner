@@ -26,6 +26,7 @@ PQ_ChannelTbl_t PQ_BackupConfigTbl =
     {
         /* Message Flows */
         /* Ground Queues */
+        {SBN_SUB_MID,                  1, PQ_PQUEUE_HIGH_IDX},
         {TO_HK_TLM_MID,                1, PQ_PQUEUE_HIGH_IDX},
         {TO_DATA_TYPE_MID,             1, PQ_PQUEUE_HIGH_IDX},
         {TO_DIAG_TLM_MID,              1, PQ_PQUEUE_HIGH_IDX},
