@@ -24,6 +24,9 @@ services:
   - class: org.yamcs.tctm.cfs.CfsEventDecoder
     args:
       msgIds: [0x0808]  
+      byteOrder: LITTLE_ENDIAN
+      appNameMax: 40
+      eventMsgMax: 122
   - class: org.yamcs.cfdp.CfdpService
     name: cfdp0
     args:

@@ -72,6 +72,7 @@ modules:
       # CFE_ES_MemHandle_t is a void* that is wrapped in a macro. For now we are assuming 32-bit void*, which is the word size
       # of our machine. You can get this number in linux with the 'getconf WORD_BIT' command.
       CFE_ES_MemHandle_t: uint32
+      cpuaddr: uint32
     msg_def_overrides:
       - parent: CFE_ES_RestartCmd_Payload_t
         member: RestartType
