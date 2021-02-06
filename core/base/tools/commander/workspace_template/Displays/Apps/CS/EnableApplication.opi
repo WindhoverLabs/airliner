@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>200</width>
+  <width>300</width>
   <wuid>-736e4684:150ac3c95a1:-7e23</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -88,8 +88,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>120</width>
     <wuid>-736e4684:150ac3c95a1:-7e12</wuid>
-    <x>48</x>
-    <y>18</y>
+    <x>144</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -150,8 +150,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>120</width>
     <wuid>-736e4684:150ac3c95a1:-7e06</wuid>
-    <x>48</x>
-    <y>114</y>
+    <x>6</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -190,8 +190,8 @@ $(pv_value)</tooltip>
     <width>50</width>
     <wrap_words>false</wrap_words>
     <wuid>-736e4684:150ac3c95a1:-76ae</wuid>
-    <x>12</x>
-    <y>83</y>
+    <x>18</x>
+    <y>35</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.combo" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -252,7 +252,7 @@ $(pv_value)</tooltip>
     <widget_type>Combo</widget_type>
     <width>115</width>
     <wuid>-736e4684:150ac3c95a1:-76ad</wuid>
-    <x>72</x>
-    <y>78</y>
+    <x>78</x>
+    <y>30</y>
   </widget>
 </display>

@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>180</width>
+  <width>300</width>
   <wuid>-736e4684:150ac3c95a1:-7e23</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -87,8 +87,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>120</width>
     <wuid>-736e4684:150ac3c95a1:-7e12</wuid>
-    <x>36</x>
-    <y>18</y>
+    <x>150</x>
+    <y>72</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -148,8 +148,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>120</width>
     <wuid>-736e4684:150ac3c95a1:-7e06</wuid>
-    <x>36</x>
-    <y>114</y>
+    <x>15</x>
+    <y>72</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -188,8 +188,8 @@ $(pv_value)</tooltip>
     <width>55</width>
     <wrap_words>false</wrap_words>
     <wuid>-736e4684:150ac3c95a1:-7de8</wuid>
-    <x>12</x>
-    <y>78</y>
+    <x>36</x>
+    <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -243,7 +243,7 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>100</width>
     <wuid>-736e4684:150ac3c95a1:-7de7</wuid>
-    <x>72</x>
-    <y>78</y>
+    <x>96</x>
+    <y>36</y>
   </widget>
 </display>
