@@ -161,8 +161,16 @@ modules:
     telemetry: 
       MD_HK_TLM_MID: 
         msgID: 0x09c6
-      MD_DWELL_PKT_MID_BASE: 
+      MD_DWELL_PKT1_MID: 
         msgID: 0x09c7
+      MD_DWELL_PKT2_MID: 
+        msgID: 0x09c8
+      MD_DWELL_PKT3_MID: 
+        msgID: 0x09c9
+      MD_DWELL_PKT4_MID: 
+        msgID: 0x09ca
+      MD_DWELL_PKT5_MID: 
+        msgID: 0x09cb
     commands: 
       MD_CMD_MID: 
         msgID: 0x19c3
