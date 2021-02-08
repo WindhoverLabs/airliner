@@ -81,11 +81,27 @@
       id: 51
     MD_DWELL_TBL_INF_EID: 
       id: 52
+  msg_def_overrides:
+    - parent: MD_CmdSetSignature_t
+      member: Signature
+      type: string
   telemetry: 
     MD_HK_TLM_MID: 
       msgID: 
       struct: MD_HkTlm_t
-    MD_DWELL_PKT_MID_BASE: 
+    MD_DWELL_PKT1_MID: 
+      msgID: 
+      struct: MD_DwellPkt_t
+    MD_DWELL_PKT2_MID: 
+      msgID: 
+      struct: MD_DwellPkt_t
+    MD_DWELL_PKT3_MID: 
+      msgID: 
+      struct: MD_DwellPkt_t
+    MD_DWELL_PKT4_MID: 
+      msgID: 
+      struct: MD_DwellPkt_t
+    MD_DWELL_PKT5_MID: 
       msgID: 
       struct: MD_DwellPkt_t
   commands: 
