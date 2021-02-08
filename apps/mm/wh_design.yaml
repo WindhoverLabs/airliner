@@ -119,6 +119,113 @@
       id: 58
     MM_PSP_SET_ERR_EID: 
       id: 59
+  msg_def_overrides:
+    - parent: MM_LoadDumpFileHeader_t
+      member: MemType
+      type: enumeration
+      enumerations:
+        NOMEMTYPE: 0
+        RAM:       1
+        EEPROM:    2
+        MEM8:      3
+        MEM16:     4
+        MEM32:     5
+    - parent: CFS_SymAddr_t
+      member: SymName
+      type: string
+    - parent: MM_PeekCmd_t
+      member: MemType
+      type: enumeration
+      enumerations:
+        NOMEMTYPE: 0
+        RAM:       1
+        EEPROM:    2
+        MEM8:      3
+        MEM16:     4
+        MEM32:     5
+    - parent: MM_PokeCmd_t
+      member: MemType
+      type: enumeration
+      enumerations:
+        NOMEMTYPE: 0
+        RAM:       1
+        EEPROM:    2
+        MEM8:      3
+        MEM16:     4
+        MEM32:     5
+    - parent: MM_DumpInEventCmd_t
+      member: MemType
+      type: enumeration
+      enumerations:
+        NOMEMTYPE: 0
+        RAM:       1
+        EEPROM:    2
+        MEM8:      3
+        MEM16:     4
+        MEM32:     5
+    - parent: MM_LoadMemFromFileCmd_t
+      member: FileName
+      type: string
+    - parent: MM_DumpMemToFileCmd_t
+      member: MemType
+      type: enumeration
+      enumerations:
+        NOMEMTYPE: 0
+        RAM:       1
+        EEPROM:    2
+        MEM8:      3
+        MEM16:     4
+        MEM32:     5
+    - parent: MM_DumpMemToFileCmd_t
+      member: FileName
+      type: string
+    - parent: MM_FillMemCmd_t
+      member: MemType
+      type: enumeration
+      enumerations:
+        NOMEMTYPE: 0
+        RAM:       1
+        EEPROM:    2
+        MEM8:      3
+        MEM16:     4
+        MEM32:     5
+    - parent: MM_LookupSymCmd_t
+      member: SymName
+      type: string
+    - parent: MM_SymTblToFileCmd_t
+      member: FileName
+      type: string
+    - parent: MM_HkPacket_t
+      member: LastAction
+      type: enumeration
+      enumerations:
+        NOACTION:         0
+        PEEK:             1
+        POKE:             2
+        LOAD_FROM_FILE:   3
+        LOAD_WID:         4
+        DUMP_TO_FILE:     5
+        DUMP_INEVENT:     6
+        FILL:             7
+        SYM_LOOKUP:       8
+        SYMTBL_SAVE:      9
+        EEPROMWRITE_ENA: 10
+        EEPROMWRITE_DIS: 11
+        NOOP:            12
+        RESET:           13
+    - parent: MM_HkPacket_t
+      member: MemType
+      type: enumeration
+      enumerations:
+        NOMEMTYPE: 0
+        RAM:       1
+        EEPROM:    2
+        MEM8:      3
+        MEM16:     4
+        MEM32:     5
+    - parent: MM_HkPacket_t
+      member: FileName
+      type: string
   telemetry: 
     MM_HK_TLM_MID: 
       msgID: 

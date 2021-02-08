@@ -35,13 +35,19 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/QueryOneApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
 
 var EntryID =VTypeHelper.getDouble(display.getWidget('EntryID').getPropertyValue('pv_value'));
 
-var cmd = '/CFS/CS/RecomputeBaselineMemory(EntryID: ' + EntryID + ')';]]></scriptText>
+var cmd = '/cfs/cs/RecomputeBaselineMemory';
+
+Yamcs.issueCommand(cmd, {'EntryID': EntryID});
+
+
+]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -163,7 +169,7 @@ $(pv_value)</tooltip>
     <page_increment>10.0</page_increment>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://EntryID&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://RecomputeBaselineMemoryEntryID&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>

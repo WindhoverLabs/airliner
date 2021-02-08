@@ -133,6 +133,31 @@
       id: 67
     HS_BADEMT_UNSUB_EID: 
       id: 68
+  msg_def_overrides:
+    - parent: HS_HkPacket_t
+      member: CurrentAppMonState
+      type: enumeration
+      enumerations:
+        DISABLED: 0
+        ENABLED: 1
+    - parent: HS_HkPacket_t
+      member: CurrentEventMonState
+      type: enumeration
+      enumerations:
+        DISABLED: 0
+        ENABLED: 1
+    - parent: HS_HkPacket_t
+      member: CurrentAlivenessState
+      type: enumeration
+      enumerations:
+        DISABLED: 0
+        ENABLED: 1
+    - parent: HS_HkPacket_t
+      member: CurrentCPUHogState
+      type: enumeration
+      enumerations:
+        DISABLED: 0
+        ENABLED: 1
   telemetry: 
     HS_HK_TLM_MID: 
       msgID: 

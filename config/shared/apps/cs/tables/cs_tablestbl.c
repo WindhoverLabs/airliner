@@ -10,30 +10,22 @@
 CS_Def_Tables_Table_Entry_t      CS_TablesTable[CS_MAX_NUM_TABLES_TABLE_ENTRIES] =
 {
     /*         State             Name   */
-	/*   0 */ { CS_STATE_ENABLED,   "TO.GRND_BIN_CFG"    },
-	/*   1 */ { CS_STATE_ENABLED,   "TO.GRND_PB_CFG"   },
-    /*   2 */ { CS_STATE_EMPTY,   ""    },
-    /*   3 */ { CS_STATE_EMPTY,   ""    },
-    /*   4 */ { CS_STATE_EMPTY,   ""    },
-    /*   5 */ { CS_STATE_EMPTY,   ""    },
-    /*   6 */ { CS_STATE_EMPTY,   ""    },
-    /*   7 */ { CS_STATE_EMPTY,   ""    },
-    /*   8 */ { CS_STATE_EMPTY,   ""    },
-    /*   9 */ { CS_STATE_EMPTY,   ""    },
-    /*  10 */ { CS_STATE_EMPTY,   ""    },
-    /*  11 */ { CS_STATE_EMPTY,   ""    },
-    /*  12 */ { CS_STATE_EMPTY,   ""    },
-    /*  13 */ { CS_STATE_EMPTY,   ""    },
-    /*  14 */ { CS_STATE_EMPTY,   ""    },
-    /*  15 */ { CS_STATE_EMPTY,   ""    },
-    /*  16 */ { CS_STATE_EMPTY,   ""    },
-    /*  17 */ { CS_STATE_EMPTY,   ""    },
-    /*  18 */ { CS_STATE_EMPTY,   ""    },
-    /*  19 */ { CS_STATE_EMPTY,   ""    },
-    /*  20 */ { CS_STATE_EMPTY,   ""    },
-    /*  21 */ { CS_STATE_EMPTY,   ""    },
-    /*  22 */ { CS_STATE_EMPTY,   ""    },
-    /*  23 */ { CS_STATE_EMPTY,   ""    }
+    /*   0 */ { CS_STATE_ENABLED,   "CF.ConfigTable"  },
+    /*   1 */ { CS_STATE_ENABLED,   "CI.CONFIG_TBL"   },
+    /*   2 */ { CS_STATE_ENABLED,   "CS.DefAppTbl"    },
+    /*   3 */ { CS_STATE_ENABLED,   "CS.DefMemoryTbl" },
+    /*   4 */ { CS_STATE_ENABLED,   "DS.FILE_TBL"     },
+    /*   5 */ { CS_STATE_ENABLED,   "DS.FILTER_TBL"   },
+    /*   6 */ { CS_STATE_ENABLED,   "FM.FreeSpace"    },
+    /*   7 */ { CS_STATE_ENABLED,   "HK.CopyTable"    },
+    /*   8 */ { CS_STATE_ENABLED,   "LC.LC_ADT"       },
+    /*   9 */ { CS_STATE_ENABLED,   "LC.LC_WDT"       },
+    /*  10 */ { CS_STATE_ENABLED,   "SCH.MSG_DEFS"    },
+    /*  11 */ { CS_STATE_ENABLED,   "SCH.SCHED_DEF"   },
+    /*  12 */ { CS_STATE_ENABLED,   "TO.UDP_CFG"      },
+    /*  13 */ { CS_STATE_EMPTY,     ""                },
+    /*  14 */ { CS_STATE_EMPTY,     ""                },
+    /*  15 */ { CS_STATE_EMPTY,     ""                }
 
 };
 

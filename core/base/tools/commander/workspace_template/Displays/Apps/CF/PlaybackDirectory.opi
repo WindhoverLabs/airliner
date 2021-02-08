@@ -40,13 +40,13 @@
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var TransferClass =VTypeHelper.getString(display.getWidget('TransferClass').getPropertyValue('pv_value'));
-var Channel =VTypeHelper.getString(display.getWidget('Channel').getPropertyValue('pv_value'));
-var Priority =VTypeHelper.getDouble(display.getWidget('Priority').getPropertyValue('pv_value'));
-var Preserve =VTypeHelper.getString(display.getWidget('Preserve').getPropertyValue('pv_value'));
-var PeerEntityID =VTypeHelper.getString(display.getWidget('PeerEntityID').getPropertyValue('pv_value'));
-var Source =VTypeHelper.getString(display.getWidget('Source').getPropertyValue('pv_value'));
-var Destination =VTypeHelper.getString(display.getWidget('Destination').getPropertyValue('pv_value'));
+var TransferClass =VTypeHelper.getString(display.getWidget('DirTransferClass').getPropertyValue('pv_value'));
+var Channel =VTypeHelper.getString(display.getWidget('DirChannel').getPropertyValue('pv_value'));
+var Priority =VTypeHelper.getDouble(display.getWidget('DirPriority').getPropertyValue('pv_value'));
+var Preserve =VTypeHelper.getString(display.getWidget('DirPreserve').getPropertyValue('pv_value'));
+var PeerEntityID =VTypeHelper.getString(display.getWidget('DirPeerEntityID').getPropertyValue('pv_value'));
+var Source =VTypeHelper.getString(display.getWidget('DirSource').getPropertyValue('pv_value'));
+var Destination =VTypeHelper.getString(display.getWidget('DirDestination').getPropertyValue('pv_value'));;
 
 var pTransferClass = '';
 var pChannel = -1;
@@ -358,10 +358,10 @@ $(pv_value)</tooltip>
     <maximum>1.7976931348623157E308</maximum>
     <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
-    <name>PeerEntityID</name>
+    <name>DirPeerEntityID</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://PeerEntityID&lt;VString&gt;</pv_name>
+    <pv_name>loc://PlaybackDirPeerEntityID&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -455,10 +455,10 @@ $(pv_value)</tooltip>
     <maximum>1.7976931348623157E308</maximum>
     <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
-    <name>Source</name>
+    <name>DirSource</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Source&lt;VString&gt;</pv_name>
+    <pv_name>loc://PlaybackDirSource&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -552,10 +552,10 @@ $(pv_value)</tooltip>
     <maximum>1.7976931348623157E308</maximum>
     <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
-    <name>Destination</name>
+    <name>DirDestination</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Destination&lt;VString&gt;</pv_name>
+    <pv_name>loc://PlaybackDirDestination&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -608,11 +608,11 @@ $(pv_value)</tooltip>
     <limits_from_pv>false</limits_from_pv>
     <maximum>1.7976931348623157E308</maximum>
     <minimum>-1.7976931348623157E308</minimum>
-    <name>Priority</name>
+    <name>DirPriority</name>
     <page_increment>10.0</page_increment>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Priority&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://PlaybackDirPriority&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -662,8 +662,8 @@ $(pv_value)</tooltip>
       <s>Class 2 (Reliable)</s>
     </items>
     <items_from_pv>false</items_from_pv>
-    <name>TransferClass</name>
-    <pv_name>loc://TransferClass</pv_name>
+    <name>DirTransferClass</name>
+    <pv_name>loc://PlaybackDirTransferClass&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -712,8 +712,8 @@ $(pv_value)</tooltip>
       <s>Channel 2</s>
     </items>
     <items_from_pv>false</items_from_pv>
-    <name>Channel</name>
-    <pv_name>loc://Channel</pv_name>
+    <name>DirChannel</name>
+    <pv_name>loc://PlaybackDirChannel</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -762,8 +762,8 @@ $(pv_value)</tooltip>
       <s>Keep</s>
     </items>
     <items_from_pv>false</items_from_pv>
-    <name>Preserve</name>
-    <pv_name>loc://Preserve</pv_name>
+    <name>DirPreserve</name>
+    <pv_name>loc://PlaybackDirPreserve</pv_name>
     <pv_value />
     <rules />
     <scale_options>

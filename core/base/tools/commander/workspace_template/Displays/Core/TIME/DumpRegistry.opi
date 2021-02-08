@@ -45,9 +45,9 @@ var fileName =VTypeHelper.getString(display.getWidget('FileName').getPropertyVal
 var cmd;
 
 if( fileName != 'no value' ) {
-    cmd = '/cfs/cfe_tbl/DumpReg(FileName: ' + fileName + ')';
+    cmd = '/cfs/cfe_tbl/DumpReg(Payload.DumpFilename: ' + fileName + ')';
 } else {
-    cmd = '/cfs/cfe_tbl/DumpReg(FileName: "")';
+    cmd = '/cfs/cfe_tbl/DumpReg(Payload.DumpFilename: "")';
 }
 
 Yamcs.issueCommand(cmd);

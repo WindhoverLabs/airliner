@@ -269,7 +269,7 @@ extern "C" {
 **  \cfecmdmnemonic \EVS_SETEVTFMT
 **
 **  \par Command Structure
-**       #CFE_EVS_ModeCmd_t
+**       #CFE_EVS_FormatCmd_t
 **
 **  \par Command Verification
 **       Successful execution of this command may be verified with 
@@ -985,9 +985,25 @@ typedef struct {
 } CFE_EVS_AppDataCmd_t;
 
 /**
-** \brief Set Event Format Mode or Set Log Mode Commands
+** \brief Set Event Format Mode Commands
 **
 ** For command details, see #CFE_EVS_SET_EVENT_FORMAT_MODE_CC and/or #CFE_EVS_SET_LOG_MODE_CC
+**
+**/
+typedef struct {
+   uint8                     Mode;                              /**< \brief Format to use in the command*/
+   uint8                     Spare;                             /**< \brief Pad to even byte*/
+} CFE_EVS_FormatCmd_Payload_t;
+
+typedef struct {
+   uint8                     CmdHeader[CFE_SB_CMD_HDR_SIZE];
+   CFE_EVS_FormatCmd_Payload_t Payload;
+} CFE_EVS_FormatCmd_t;
+
+/**
+** \brief Set Log Mode Commands
+**
+** For command details, see #CFE_EVS_SET_LOG_MODE_CC
 **
 **/
 typedef struct {

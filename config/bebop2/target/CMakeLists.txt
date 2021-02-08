@@ -44,6 +44,14 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    hs
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/hs
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/hs/hs_custom.c
+)
+
+buildliner_add_app(
     cf
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cf/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/cf

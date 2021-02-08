@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CFE-TBL - Dump Table</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,14 +28,14 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>275</width>
+  <width>360</width>
   <wuid>35ebaa52:1509cf6a868:-791f</wuid>
   <x>-1</x>
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
@@ -45,24 +45,22 @@ var tableName =VTypeHelper.getString(display.getWidget('TableName').getPropertyV
 var fileName =VTypeHelper.getString(display.getWidget('FileName').getPropertyValue('pv_value'));
 
 var cmd;
+cmd = '/cfs/cfe_tbl/Dump';
+
+var args;
 
 if( fileName != 'no value' ) {
-    cmd = '/cfs/cfe_tbl/Dump(FileName: ' + fileName;
-} else {
-    cmd = '/cfs/cfe_tbl/Dump(FileName: ""';
+  args = {'Payload.DumpFilename':fileName,
+		'Payload.TableName': tableName,
+		'Payload.ActiveTblFlag':tableBuffer };
+}
+else {
+  //    args = {"Payload.DumpFilename":"",
+//		"Payload.TableName":''",
+//		"Payload.ActiveTblFlag":"" };
 }
 
-cmd = cmd + ', TableName: ' + tableName;
-
-if( tableBuffer != 'Inactive' ) {
-    cmd = cmd + ', Buffer: 0)';
-} else {
-    cmd = cmd + ', Buffer: 1)';
-}
-
-Yamcs.issueCommand(cmd);
-
-]]></scriptText>
+Yamcs.issueCommand(cmd, args);]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -100,15 +98,15 @@ Yamcs.issueCommand(cmd);
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Load Table</text>
+    <text>Dump</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>163</width>
+    <width>91</width>
     <wuid>35ebaa52:1509cf6a868:-78ea</wuid>
-    <x>54</x>
+    <x>90</x>
     <y>132</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -145,10 +143,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>71</width>
+    <width>79</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-78e9</wuid>
-    <x>20</x>
+    <x>12</x>
     <y>72</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -164,7 +162,7 @@ $(pv_value)</tooltip>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
     </font>
     <foreground_color>
       <color red="0" green="0" blue="0" />
@@ -179,7 +177,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Load table from file system.</text>
+    <text>Dump Table to File System</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -237,7 +235,7 @@ $(pv_value)</tooltip>
     <selector_type>0</selector_type>
     <show_units>true</show_units>
     <style>0</style>
-    <text>######</text>
+    <text>####</text>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <transparent>false</transparent>
@@ -318,7 +316,7 @@ $(pv_value)</tooltip>
     <maximum>1.7976931348623157E308</maximum>
     <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
-    <name>FileName_1</name>
+    <name>FileName</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
     <pv_name>loc://FileName&lt;VString&gt;</pv_name>
@@ -334,7 +332,7 @@ $(pv_value)</tooltip>
     <selector_type>0</selector_type>
     <show_units>true</show_units>
     <style>0</style>
-    <text>######</text>
+    <text>####</text>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <transparent>false</transparent>
@@ -369,8 +367,8 @@ $(pv_value)</tooltip>
     <height>33</height>
     <horizontal>true</horizontal>
     <items>
-      <s>Inactive</s>
-      <s>Active</s>
+      <s>ACTIVE_BUFFER</s>
+      <s>INACTIVE_BUFFER</s>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>TableBuffer</name>
@@ -390,7 +388,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Radio Box</widget_type>
-    <width>216</width>
+    <width>345</width>
     <wuid>35ebaa52:1509cf6a868:-7878</wuid>
     <x>28</x>
     <y>31</y>

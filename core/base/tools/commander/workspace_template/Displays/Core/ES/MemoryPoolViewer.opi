@@ -40,7 +40,7 @@
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var poolHandle =VTypeHelper.getDouble(display.getWidget('inPoolHandle').getPropertyValue('pv_value'));
+var poolHandle =display.getWidget('inPoolHandle').getPropertyValue('text');
 
 Yamcs.issueCommand('/cfs/cfe_es/TlmPoolStats', {
     'Payload.Application': '',
@@ -91,7 +91,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>81</width>
     <wuid>72a2bf2b:1508717c835:-7cf7</wuid>
-    <x>228</x>
+    <x>248</x>
     <y>48</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -486,7 +486,7 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>100</width>
+    <width>121</width>
     <wuid>-3fca34e1:15096a78c93:-7697</wuid>
     <x>108</x>
     <y>49</y>

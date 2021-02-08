@@ -72,6 +72,7 @@ modules:
       # CFE_ES_MemHandle_t is a void* that is wrapped in a macro. For now we are assuming 32-bit void*, which is the word size
       # of our machine. You can get this number in linux with the 'getconf WORD_BIT' command.
       CFE_ES_MemHandle_t: uint32
+      cpuaddr: uint32
     msg_def_overrides:
       - parent: CFE_ES_RestartCmd_Payload_t
         member: RestartType
@@ -622,6 +623,12 @@ modules:
         enumerations:
           OVERWRITE: 0
           DISCARD:   1
+      - parent: CFE_EVS_FormatCmd_Payload_t
+        member: Mode
+        type: enumeration
+        enumerations:
+          SHORT:  0
+          LONG:   1
       - parent: CFE_EVS_AppNameCmd_Payload_t
         member: AppName
         type: string
@@ -685,7 +692,7 @@ modules:
           struct: CFE_EVS_BitMaskCmd_t
         SetEventFormatMode:
           cc: 4
-          struct: CFE_EVS_ModeCmd_t
+          struct: CFE_EVS_FormatCmd_t
         EnableAppEventType:
           cc: 5
           struct: CFE_EVS_AppNameBitMaskCmd_t
@@ -722,10 +729,10 @@ modules:
         DeleteAppEventFilter:
           cc: 16
           struct: CFE_EVS_AppNameEventIDCmd_t
-        AppData:
+        WriteAppData:
           cc: 17
           struct: CFE_EVS_AppDataCmd_t
-        LogFile:
+        WriteLogData:
           cc: 18
           struct: CFE_EVS_LogFileCmd_t
         SetLogMode:
@@ -802,6 +809,7 @@ modules:
     events: {}
     type_remaps:
       CFE_SB_MsgId_t: uint16
+      CFE_SB_PipeId_t: uint8
     msg_def_overrides:
       - parent: CFE_SB_WriteFileInfoCmd_Payload_t
         member: Filename
@@ -850,7 +858,7 @@ modules:
           SendStats:
             cc: 2
             struct: CFE_SB_CmdHdr_t
-          SendRouteInfo:
+          WriteRouteInfo:
             cc: 3
             struct: CFE_SB_WriteFileInfoCmd_t
           EnableRoute:
@@ -859,10 +867,10 @@ modules:
           DisableRoute:
             cc: 5
             struct: CFE_SB_EnRoutCmd_t
-          SendPipeInfo:
+          WritePipeInfo:
             cc: 7
             struct: CFE_SB_WriteFileInfoCmd_t
-          SendMapInfo:
+          WriteMapInfo:
             cc: 8
             struct: CFE_SB_WriteFileInfoCmd_t
           EnableSubReport:

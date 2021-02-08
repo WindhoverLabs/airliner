@@ -2,5 +2,9 @@
   short_name: cfs_lib
   long_name: CFS Library
   events: 
+  msg_def_overrides:
+    - parent: CFS_SymAddr_t
+      member: SymName
+      type: string
   telemetry: 
   commands: 

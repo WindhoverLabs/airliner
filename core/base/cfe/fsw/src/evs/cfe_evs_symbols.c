@@ -41,6 +41,7 @@ CFE_EVS_Packet_t CFE_EVS_Packet_S;
 CFE_EVS_LogFileCmd_t CFE_EVS_LogFileCmd_S;
 CFE_EVS_AppDataCmd_t CFE_EVS_AppDataCmd_S;
 CFE_EVS_ModeCmd_t    CFE_EVS_ModeCmd_S;
+CFE_EVS_FormatCmd_t    CFE_EVS_FormatCmd_S;
 CFE_EVS_BitMaskCmd_t CFE_EVS_BitMaskCmd_S;
 CFE_EVS_AppNameCmd_t CFE_EVS_AppNameCmd_S;
 CFE_EVS_AppNameEventIDCmd_t CFE_EVS_AppNameEventIDCmd_S;

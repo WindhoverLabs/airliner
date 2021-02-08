@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>130</height>
+  <height>120</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CFE-EVS - Dump App Data</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>400</width>
+  <width>415</width>
   <wuid>72a2bf2b:1508717c835:-7839</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -42,9 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var fileName =VTypeHelper.getString(display.getWidget('inFileName').getPropertyValue('pv_value'));
 
-var cmd = '/cfs/cfe_evs/FileWriteAppData(FileName: ' + fileName + ')';
-
-Yamcs.issueCommand(cmd);
+Yamcs.issueCommand('/cfs/cfe_evs/WriteAppData', {'Payload.AppDataFilename': fileName});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -83,16 +81,16 @@ Yamcs.issueCommand(cmd);
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Write to File System</text>
+    <text>Write File</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>163</width>
+    <width>125</width>
     <wuid>72a2bf2b:1508717c835:-77e3</wuid>
-    <x>114</x>
-    <y>90</y>
+    <x>143</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -128,11 +126,11 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>80</width>
+    <width>74</width>
     <wrap_words>false</wrap_words>
     <wuid>72a2bf2b:1508717c835:-772d</wuid>
-    <x>24</x>
-    <y>48</y>
+    <x>6</x>
+    <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -147,7 +145,7 @@ $(pv_value)</tooltip>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
     </font>
     <foreground_color>
       <color red="0" green="0" blue="0" />
@@ -171,7 +169,7 @@ $(pv_value)</tooltip>
     <width>231</width>
     <wrap_words>false</wrap_words>
     <wuid>72a2bf2b:1508717c835:-76c0</wuid>
-    <x>80</x>
+    <x>90</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
@@ -226,9 +224,9 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>259</width>
+    <width>313</width>
     <wuid>-e1e6812:1508d3700d4:-79c8</wuid>
-    <x>114</x>
-    <y>48</y>
+    <x>90</x>
+    <y>42</y>
   </widget>
 </display>
