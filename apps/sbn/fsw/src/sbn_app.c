@@ -472,7 +472,7 @@ boolean SBN_UnpackMsg(void *SBNBuf, SBN_MsgSz_t *MsgSzPtr,
     Unpack_UInt8(&Unpack, MsgTypePtr);
     Unpack_UInt32(&Unpack, CpuIDPtr);
 
-    if(!*MsgSzPtr)
+    if(MsgSzPtr == NULL)
     {
         return FALSE;
     }/* end if */

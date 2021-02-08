@@ -320,7 +320,8 @@
 #define SBN_CMD_MID                                  (0x1ba1)
 #define SBN_TLM_MID                                  (0x0ba2)
 #define SBN_SUB_MID                                  (0x0ba3)
-#define SBN_UNSUB_MID                                (0x0ba4)
+#define SBN_ALLSUB_MID                               (0x0ba4)
+#define SBN_UNSUB_MID                                (0x0ba5)
 
 /* ROS                                                     */
 /* Range: 0x900 - 0x90f                                    */

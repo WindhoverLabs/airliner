@@ -18,13 +18,14 @@
 void SBN_PQ_Output_Task(void);
 void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel);
 
+int SBN_UDP_Send_Direct(SBN_PeerInterface_t *Peer, SBN_MsgType_t MsgType,
+    SBN_MsgSz_t MsgSz, void *Payload);
 
 extern PQ_ChannelTbl_t PQ_BackupConfigTbl;
 PQ_ChannelData_t Channel;
 PQ_HkTlm_t HkTlm;
 uint32 ChildTaskID;
-CFE_ES_ChildTaskMainFuncPtr_t ListenerTask;
-uint8 Priority;
+
 struct sockaddr_in s_addr;
 int Socket;
 
@@ -147,8 +148,8 @@ int SBN_UDP_InitNet(SBN_NetInterface_t *Net)
 
     char TaskName[OS_MAX_API_NAME];
     snprintf(TaskName, OS_MAX_API_NAME, "PQ_OUTCH_%u", 0);
-    ListenerTask = SBN_PQ_Output_Task;
-    Priority = 50;
+    CFE_ES_ChildTaskMainFuncPtr_t ListenerTask = SBN_PQ_Output_Task;
+
     /* Create a child task here. */
     iStatus = CFE_ES_CreateChildTask(
         &ChildTaskID,
@@ -156,7 +157,7 @@ int SBN_UDP_InitNet(SBN_NetInterface_t *Net)
         ListenerTask,
         0,
         131072,
-        Priority,
+        50,
         OS_ENABLE_CORE_0);
     if (iStatus != CFE_SUCCESS)
     {
@@ -201,7 +202,7 @@ int SBN_UDP_PollPeer(SBN_PeerInterface_t *Peer)
         //if(CurrentTime.seconds - Peer->LastSend.seconds
             //> SBN_UDP_PEER_HEARTBEAT)
         //{
-            //return SBN_UDP_Send(Peer, SBN_UDP_HEARTBEAT_MSG, 0, NULL);
+            //return SBN_UDP_Send_Direct(Peer, SBN_UDP_HEARTBEAT_MSG, 0, NULL);
         //}/* end if */
     //}
     //else
@@ -209,7 +210,7 @@ int SBN_UDP_PollPeer(SBN_PeerInterface_t *Peer)
         //if(CurrentTime.seconds - Peer->LastSend.seconds
             //> SBN_UDP_ANNOUNCE_TIMEOUT)
         //{
-            //return SBN_UDP_Send(Peer, SBN_UDP_ANNOUNCE_MSG, 0, NULL);
+            //return SBN_UDP_Send_Direct(Peer, SBN_UDP_ANNOUNCE_MSG, 0, NULL);
         //}/* end if */
     //}/* end if */
     return SBN_SUCCESS;
@@ -218,6 +219,10 @@ int SBN_UDP_PollPeer(SBN_PeerInterface_t *Peer)
 int SBN_UDP_Send(SBN_PeerInterface_t *Peer, SBN_MsgType_t MsgType,
     SBN_MsgSz_t MsgSz, void *Payload)
 {
+    //SBN_UDP_Send_Direct(Peer, MsgType, MsgSz, Payload);
+    //return SBN_SUCCESS;
+    
+    printf("MsgSz into queue %u\n", MsgSz);
     PQ_Channel_LockByRef(&Channel);
     PQ_Classifier_Run(&Channel, Payload, &HkTlm);
     PQ_Scheduler_Run(&Channel);
@@ -244,6 +249,28 @@ int SBN_UDP_Send(SBN_PeerInterface_t *Peer, SBN_MsgType_t MsgType,
 
     return SBN_SUCCESS;
 }/* end SBN_UDP_Send */
+
+
+int SBN_UDP_Send_Direct(SBN_PeerInterface_t *Peer, SBN_MsgType_t MsgType,
+    SBN_MsgSz_t MsgSz, void *Payload)
+{
+    size_t BufSz = MsgSz + SBN_PACKED_HDR_SZ;
+    uint8 Buf[BufSz];
+    SBN_UDP_Peer_t *PeerData = (SBN_UDP_Peer_t *)Peer->ModulePvt;
+    SBN_NetInterface_t *Net = Peer->Net;
+    SBN_UDP_Net_t *NetData = (SBN_UDP_Net_t *)Net->ModulePvt;
+
+    SBN_PackMsg(&Buf, MsgSz, MsgType, CFE_PSP_GetProcessorId(), Payload);
+
+    memset(&s_addr, 0, sizeof(s_addr));
+    s_addr.sin_family = AF_INET;
+    s_addr.sin_addr.s_addr = inet_addr(PeerData->Host);
+    s_addr.sin_port = htons(PeerData->Port);
+    Socket = NetData->Socket;
+    printf("sent %u\n", BufSz);
+    sendto(NetData->Socket, &Buf, BufSz, 0, (struct sockaddr *) &s_addr,
+        sizeof(s_addr));
+}
 
 /* Note that this Recv function is indescriminate, packets will be received
  * from all peers but that's ok, I just inject them into the SB and all is
@@ -290,11 +317,12 @@ int SBN_UDP_Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
     if(SBN_UnpackMsg(&RecvBuf, MsgSzPtr, MsgTypePtr, CpuIDPtr, Payload)
         == FALSE)
     {
+        printf("Recv SBN_UnpackMsg error\n");
         return SBN_ERROR;
     }/* end if */
     
     CFE_SB_MsgId_t MsgID = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)Payload);
-    printf("Received %u MID %x\n", Received, MsgID);
+    printf("Received %u CPUID %u, %x\n", Received, *CpuIDPtr, MsgID);
 
     SBN_PeerInterface_t *Peer = SBN_GetPeer(Net, *CpuIDPtr);
     if(Peer == NULL)
@@ -390,7 +418,7 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 size_t BufSz = actualMessageSize + SBN_PACKED_HDR_SZ;
                 uint8 Buf[BufSz];
 
-                if(MsgID == SBN_SUB_MID)
+                if(MsgID == SBN_SUB_MID || MsgID == SBN_ALLSUB_MID)
                 {
                     MsgType = SBN_SUBSCRIBE_MSG;
                 }
@@ -404,6 +432,8 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 }
 
                 SBN_PackMsg(&Buf, actualMessageSize, MsgType, CFE_PSP_GetProcessorId(), buffer);
+                
+                printf("sent %u\n", BufSz);
 
                 //int32 sendResult = TO_OutputChannel_Send(ChannelIdx, (const char*)buffer, actualMessageSize);
 

@@ -135,7 +135,7 @@ void SBN_SendLocalSubsToPeer(SBN_PeerInterface_t *Peer)
 {
     SBN_SubsPacket_t Packet;
 
-    CFE_SB_InitMsg(&Packet, SBN_SUB_MID, sizeof(Packet), TRUE);
+    CFE_SB_InitMsg(&Packet, SBN_ALLSUB_MID, sizeof(Packet), TRUE);
 
     memcpy(&Packet.Ident, SBN_IDENT, SBN_IDENT_LEN);
     Packet.SubCount = SBN.SubCnt;
@@ -500,33 +500,58 @@ static void ProcessSubFromPeer(SBN_PeerInterface_t *Peer, CFE_SB_MsgId_t MsgID,
  */
 void SBN_ProcessSubsFromPeer(SBN_PeerInterface_t *Peer, void *Msg)
 {
-    SBN_SubsPacket_t Packet;
+    SBN_SubsPacket_t AllSubPacket;
+    SBN_SubPacket_t SubPacket;
+    
     uint16 SubCnt = 0;
 
-    memcpy(&Packet, Msg, sizeof(SBN_SubPacket_t));
+    CFE_SB_MsgId_t MsgID = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)Msg);
 
-    if(Packet.SubCount > 1)
+    if(MsgID == SBN_SUB_MID)
     {
-        memcpy(&Packet, Msg, sizeof(SBN_SubsPacket_t));
-    }
+        /* TODO add size check*/
+        memcpy(&SubPacket, Msg, sizeof(SubPacket));
 
-    if(strncmp(Packet.Ident, SBN_IDENT, SBN_IDENT_LEN))
-    {
-        CFE_EVS_SendEvent(SBN_PROTO_EID, CFE_EVS_ERROR,
-            "version number mismatch with peer CpuID %lu",
-            Peer->ProcessorID);
-    }
+        if(strncmp(SubPacket.Ident, SBN_IDENT, SBN_IDENT_LEN))
+        {
+            CFE_EVS_SendEvent(SBN_PROTO_EID, CFE_EVS_ERROR,
+                "version number mismatch with peer CpuID %lu",
+                Peer->ProcessorID);
+        }
 
-    SubCnt = Packet.SubCount;
-
-    int SubIdx = 0;
-    for(SubIdx = 0; SubIdx < SubCnt; SubIdx++)
-    {
-        CFE_SB_MsgId_t MsgID = Packet.Subs[SubIdx].MsgID;
-        CFE_SB_Qos_t QoS = Packet.Subs[SubIdx].QoS;
-
+        CFE_SB_MsgId_t MsgID = SubPacket.Sub.MsgID;
+        CFE_SB_Qos_t QoS = SubPacket.Sub.QoS;
         ProcessSubFromPeer(Peer, MsgID, QoS);
-    }/* end for */
+    }
+
+    if(MsgID == SBN_ALLSUB_MID)
+    {
+        /* TODO add size check*/
+        memcpy(&AllSubPacket, Msg, sizeof(AllSubPacket));
+
+        if(strncmp(AllSubPacket.Ident, SBN_IDENT, SBN_IDENT_LEN))
+        {
+            CFE_EVS_SendEvent(SBN_PROTO_EID, CFE_EVS_ERROR,
+                "version number mismatch with peer CpuID %lu",
+                Peer->ProcessorID);
+        }
+
+        SubCnt = AllSubPacket.SubCount;
+
+        int SubIdx = 0;
+        for(SubIdx = 0; SubIdx < SubCnt; SubIdx++)
+        {
+            CFE_SB_MsgId_t MsgID = AllSubPacket.Subs[SubIdx].MsgID;
+            CFE_SB_Qos_t QoS = AllSubPacket.Subs[SubIdx].QoS;
+
+            ProcessSubFromPeer(Peer, MsgID, QoS);
+        }
+    }
+
+
+
+    
+
 }/* SBN_ProcessSubsFromPeer */
 
 
