@@ -34,6 +34,8 @@
 # The build system is tested with cmake version 3.5.2
 cmake_minimum_required(VERSION 3.0.0)
 
+project(Airliner)
+
 include(CTest)
 find_program( MEMORYCHECK_COMMAND valgrind )
 find_package(Threads)
