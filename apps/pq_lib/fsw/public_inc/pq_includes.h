@@ -35,6 +35,7 @@
 #define PQ_INCLUDES_H
 
 #include "pq_classifier.h"
+#include "pq_scheduler.h"
 #include "pq_channel.h"
 #include "pq_platform_cfg.h"
 

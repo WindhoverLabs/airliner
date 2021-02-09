@@ -282,6 +282,7 @@ int SBN_UDP_Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
     uint8 RecvBuf[SBN_MAX_PACKED_MSG_SZ];
 
     SBN_UDP_Net_t *NetData = (SBN_UDP_Net_t *)Net->ModulePvt;
+    boolean MessageComplete = FALSE;
 
 #ifndef SBN_RECV_TASK
 
@@ -332,6 +333,7 @@ int SBN_UDP_Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
             if(Status == MPS_MESSAGE_COMPLETE)
             {
                 printf("message complete.\n");
+                MessageComplete = TRUE;
                 if (SBN_UnpackMsg(&ParserBuffer[0], MsgSzPtr, MsgTypePtr, CpuIDPtr, Payload) == FALSE)
                 {
                     OS_printf("Unpack failed.\n");
@@ -342,6 +344,10 @@ int SBN_UDP_Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
     }
     /******************************************************************/
 
+    if(MessageComplete == FALSE)
+    {
+        return SBN_IF_EMPTY;
+    }
 
     //if(SBN_UnpackMsg(&RecvBuf[8], MsgSzPtr, MsgTypePtr, CpuIDPtr, Payload)
         //== FALSE)
@@ -469,8 +475,6 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 }
 
                 SBN_PackMsg(&Buf, actualMessageSize, MsgType, CFE_PSP_GetProcessorId(), buffer);
-                
-
 
                 /* Mailbox specific */
                 /******************************************************/
@@ -484,9 +488,9 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 SizeInBytes = (BufSz + (MAILBOX_WORD_SIZE - (BufSz % MAILBOX_WORD_SIZE)));
                 SizeInWords = SizeInBytes / MAILBOX_WORD_SIZE;
 
-                printf("BufSz %u\n", BufSz);
-                printf("SizeInBytes %u\n", SizeInBytes);
-                printf("SizeInWords %u\n", SizeInWords);
+                //printf("BufSz %u\n", BufSz);
+                //printf("SizeInBytes %u\n", SizeInBytes);
+                //printf("SizeInWords %u\n", SizeInWords);
 
                 if(SizeInWords + MAILBOX_HEADER_SIZE_WORDS > MAILBOX_MAX_BUFFER_SIZE_WORDS)
                 {
@@ -508,7 +512,7 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 {
                     Checksum += OutputBuffer[i + 2];
                 }
-                /* Set the checkout. */
+                /* Set the checksum. */
                 OutputBuffer[SizeInWords + 2] = Checksum;
 
                 /* Send payload size plus mailbox header size. */
