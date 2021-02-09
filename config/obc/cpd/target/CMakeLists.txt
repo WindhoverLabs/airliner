@@ -118,6 +118,21 @@ buildliner_add_app(
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sc
 )
 
+buildliner_add_app(
+    sbn
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sbn
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sbn/src/sbn_remap_tbl.c
+)
+
+buildliner_add_app(
+    sbn_mbox
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/mbox/fsw/for_build
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib/tables/pq_backup_cfg.c
+)
+
 # This is temporarily removed until we can remove the OS dependency
 # in ci, i.e. "arpa/inet.h"
 #buildliner_add_app(
