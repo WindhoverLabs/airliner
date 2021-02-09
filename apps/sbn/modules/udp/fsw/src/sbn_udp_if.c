@@ -342,6 +342,13 @@ int SBN_UDP_Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
     }
     /******************************************************************/
 
+
+    //if(SBN_UnpackMsg(&RecvBuf[8], MsgSzPtr, MsgTypePtr, CpuIDPtr, Payload)
+        //== FALSE)
+    //{
+        //return SBN_ERROR;
+    //}/* end if */
+
     //if(SBN_UnpackMsg(&RecvBuf, MsgSzPtr, MsgTypePtr, CpuIDPtr, Payload)
         //== FALSE)
     //{
@@ -463,7 +470,7 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
 
                 SBN_PackMsg(&Buf, actualMessageSize, MsgType, CFE_PSP_GetProcessorId(), buffer);
                 
-                //printf("sent %u\n", BufSz);
+
 
                 /* Mailbox specific */
                 /******************************************************/
@@ -474,11 +481,8 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
 
                 SizeInBytes = BufSz;
                 /* Ensure word boundary */
-                if(SizeInBytes % MAILBOX_WORD_SIZE)
-                {
-                    SizeInBytes = (BufSz + (MAILBOX_WORD_SIZE - (BufSz % MAILBOX_WORD_SIZE)));
-                    SizeInWords = SizeInBytes / MAILBOX_WORD_SIZE;
-                }
+                SizeInBytes = (BufSz + (MAILBOX_WORD_SIZE - (BufSz % MAILBOX_WORD_SIZE)));
+                SizeInWords = SizeInBytes / MAILBOX_WORD_SIZE;
 
                 printf("BufSz %u\n", BufSz);
                 printf("SizeInBytes %u\n", SizeInBytes);
