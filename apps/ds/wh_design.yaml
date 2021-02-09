@@ -115,6 +115,12 @@
     - parent: DS_DestPathCmd_t
       member: Pathname
       type: string
+    - parent: DS_DestBaseCmd_t
+      member: Basename
+      type: string
+    - parent: DS_DestExtCmd_t
+      member: Extension
+      type: string
   telemetry: 
     DS_HK_TLM_MID: 
       msgID: 
