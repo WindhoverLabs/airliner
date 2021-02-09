@@ -6,6 +6,8 @@
 #include <errno.h>
 #include "pq_includes.h"
 #include "msg_ids.h"
+#include "pq_events.h"
+#include "mailbox_parser.h"
 
 /* at some point this will be replaced by the OSAL network interface */
 #ifdef _VXWORKS_OS_
@@ -15,6 +17,15 @@
 #endif
 
 
+#define MAILBOX_HEADER_SIZE_BYTES (12)
+#define MAILBOX_WORD_SIZE         (4)
+#define MAILBOX_HEADER_SIZE_WORDS (MAILBOX_HEADER_SIZE_BYTES/MAILBOX_WORD_SIZE)
+#define MAILBOX_MAX_BUFFER_SIZE_BYTES   (1500)
+#define MAILBOX_MAX_BUFFER_SIZE_WORDS   (MAILBOX_MAX_BUFFER_SIZE_BYTES/MAILBOX_WORD_SIZE)
+#define MAILBOX_SBN_HEADER_SIZE_WORDS   (2)
+#define MAILBOX_SBN_TASK_DELAY_MSEC     (1)
+
+
 void SBN_PQ_Output_Task(void);
 void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel);
 
@@ -22,12 +33,17 @@ int SBN_UDP_Send_Direct(SBN_PeerInterface_t *Peer, SBN_MsgType_t MsgType,
     SBN_MsgSz_t MsgSz, void *Payload);
 
 extern PQ_ChannelTbl_t PQ_BackupConfigTbl;
+
+/* TODO add to global data struct. */
 PQ_ChannelData_t Channel;
 PQ_HkTlm_t HkTlm;
-uint32 ChildTaskID;
-
 struct sockaddr_in s_addr;
 int Socket;
+/* Mailbox specific */
+unsigned int OutputBuffer[1500/sizeof(unsigned int)] __attribute__ ((aligned(4)));
+unsigned int InputBuffer[1500/sizeof(unsigned int)] __attribute__ ((aligned(4)));
+unsigned int ParserBuffer[1500/sizeof(unsigned int)];
+Mailbox_Parser_Handle_t Parser;
 
 
 int SBN_UDP_LoadNet(const char **Row, int FieldCnt,
@@ -123,7 +139,7 @@ int SBN_UDP_InitNet(SBN_NetInterface_t *Net)
     if (iStatus != CFE_SUCCESS)
     {
         /* TODO update to event. */
-        printf("PQ_Channel_OpenChannel failed%u\n", iStatus);
+        printf("PQ_Channel_OpenChannel failed %u\n", iStatus);
         return SBN_ERROR;
     }
 
@@ -143,11 +159,13 @@ int SBN_UDP_InitNet(SBN_NetInterface_t *Net)
     }/* end if */
     else
     {
+        /* TODO update to event. */
         printf("SBN bound %s:%d\n", NetData->Host, NetData->Port);
     }
 
     char TaskName[OS_MAX_API_NAME];
     snprintf(TaskName, OS_MAX_API_NAME, "PQ_OUTCH_%u", 0);
+    uint32 ChildTaskID = 0;
     CFE_ES_ChildTaskMainFuncPtr_t ListenerTask = SBN_PQ_Output_Task;
 
     /* Create a child task here. */
@@ -165,6 +183,8 @@ int SBN_UDP_InitNet(SBN_NetInterface_t *Net)
         printf("CFE_ES_CreateChildTask failed%u\n", iStatus);
         return SBN_ERROR;
     }
+
+    memset(&Parser, 0x0, sizeof(Parser));
 
     return SBN_SUCCESS;
 }/* end SBN_UDP_InitNet */
@@ -251,27 +271,6 @@ int SBN_UDP_Send(SBN_PeerInterface_t *Peer, SBN_MsgType_t MsgType,
 }/* end SBN_UDP_Send */
 
 
-int SBN_UDP_Send_Direct(SBN_PeerInterface_t *Peer, SBN_MsgType_t MsgType,
-    SBN_MsgSz_t MsgSz, void *Payload)
-{
-    size_t BufSz = MsgSz + SBN_PACKED_HDR_SZ;
-    uint8 Buf[BufSz];
-    SBN_UDP_Peer_t *PeerData = (SBN_UDP_Peer_t *)Peer->ModulePvt;
-    SBN_NetInterface_t *Net = Peer->Net;
-    SBN_UDP_Net_t *NetData = (SBN_UDP_Net_t *)Net->ModulePvt;
-
-    SBN_PackMsg(&Buf, MsgSz, MsgType, CFE_PSP_GetProcessorId(), Payload);
-
-    memset(&s_addr, 0, sizeof(s_addr));
-    s_addr.sin_family = AF_INET;
-    s_addr.sin_addr.s_addr = inet_addr(PeerData->Host);
-    s_addr.sin_port = htons(PeerData->Port);
-    Socket = NetData->Socket;
-    printf("sent %u\n", BufSz);
-    sendto(NetData->Socket, &Buf, BufSz, 0, (struct sockaddr *) &s_addr,
-        sizeof(s_addr));
-}
-
 /* Note that this Recv function is indescriminate, packets will be received
  * from all peers but that's ok, I just inject them into the SB and all is
  * good!
@@ -314,12 +313,40 @@ int SBN_UDP_Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
 
     /* each UDP packet is a full SBN message */
 
-    if(SBN_UnpackMsg(&RecvBuf, MsgSzPtr, MsgTypePtr, CpuIDPtr, Payload)
-        == FALSE)
+    /******************************************************************/
+    printf("Received %u\n", Received);
+    memcpy(&InputBuffer[0], &RecvBuf[0], Received);
+
+    /* TODO this can't handle two messages in a buffer. */
+    if(Received > 0)
     {
-        printf("Recv SBN_UnpackMsg error\n");
-        return SBN_ERROR;
-    }/* end if */
+        int i = 0;
+        /* Add check for word length. */
+        for(i = 0; i < Received/4; ++i)
+        {
+            unsigned int Size = MAILBOX_MAX_BUFFER_SIZE_BYTES;
+            unsigned int Status = ParseMessage(&Parser,
+                                               InputBuffer[i],
+                                               &ParserBuffer[0],
+                                               &Size);
+            if(Status == MPS_MESSAGE_COMPLETE)
+            {
+                printf("message complete.\n");
+                if (SBN_UnpackMsg(&ParserBuffer[0], MsgSzPtr, MsgTypePtr, CpuIDPtr, Payload) == FALSE)
+                {
+                    OS_printf("Unpack failed.\n");
+                    return SBN_ERROR;
+                }
+            }
+        }
+    }
+    /******************************************************************/
+
+    //if(SBN_UnpackMsg(&RecvBuf, MsgSzPtr, MsgTypePtr, CpuIDPtr, Payload)
+        //== FALSE)
+    //{
+        //return SBN_ERROR;
+    //}/* end if */
     
     CFE_SB_MsgId_t MsgID = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)Payload);
     printf("Received %u CPUID %u, %x\n", Received, *CpuIDPtr, MsgID);
@@ -345,15 +372,18 @@ int SBN_UDP_Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
     return SBN_SUCCESS;
 }/* end SBN_UDP_Recv */
 
+
 int SBN_UDP_ReportModuleStatus(SBN_ModuleStatusPacket_t *Packet)
 {
     return SBN_NOT_IMPLEMENTED;
 }/* end SBN_UDP_ReportModuleStatus */
 
+
 int SBN_UDP_ResetPeer(SBN_PeerInterface_t *Peer)
 {
     return SBN_NOT_IMPLEMENTED;
 }/* end SBN_UDP_ResetPeer */
+
 
 int SBN_UDP_UnloadNet(SBN_NetInterface_t *Net)
 {
@@ -385,8 +415,6 @@ void SBN_PQ_Output_Task(void)
     CFE_ES_ExitChildTask();
 }
 
-/* TODO remove. */
-#include "pq_events.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -417,6 +445,8 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 SBN_MsgType_t MsgType;
                 size_t BufSz = actualMessageSize + SBN_PACKED_HDR_SZ;
                 uint8 Buf[BufSz];
+                int status = 0;
+                uint32 outputWord = 0;
 
                 if(MsgID == SBN_SUB_MID || MsgID == SBN_ALLSUB_MID)
                 {
@@ -433,16 +463,52 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
 
                 SBN_PackMsg(&Buf, actualMessageSize, MsgType, CFE_PSP_GetProcessorId(), buffer);
                 
-                printf("sent %u\n", BufSz);
+                //printf("sent %u\n", BufSz);
 
-                //int32 sendResult = TO_OutputChannel_Send(ChannelIdx, (const char*)buffer, actualMessageSize);
+                /* Mailbox specific */
+                /******************************************************/
+                unsigned int SizeInBytes = 0;
+                unsigned int SizeInWords = 0;
+                unsigned int Checksum    = 0;
+                unsigned int i           = 0;
 
-                //if (sendResult != 0)
-                //{
-                	//TO_OutputChannel_Disable(ChannelIdx);
-                //}
-                
-                int status = sendto(Socket, (const char*)Buf, BufSz, 0, (struct sockaddr *) &s_addr,
+                SizeInBytes = BufSz;
+                /* Ensure word boundary */
+                if(SizeInBytes % MAILBOX_WORD_SIZE)
+                {
+                    SizeInBytes = (BufSz + (MAILBOX_WORD_SIZE - (BufSz % MAILBOX_WORD_SIZE)));
+                    SizeInWords = SizeInBytes / MAILBOX_WORD_SIZE;
+                }
+
+                printf("BufSz %u\n", BufSz);
+                printf("SizeInBytes %u\n", SizeInBytes);
+                printf("SizeInWords %u\n", SizeInWords);
+
+                if(SizeInWords + MAILBOX_HEADER_SIZE_WORDS > MAILBOX_MAX_BUFFER_SIZE_WORDS)
+                {
+                    /* TODO update to event. */
+                    OS_printf("SBN_MailboxSend Send size too large %u bytes, %u words.\n", SizeInBytes, SizeInWords);
+                    continue;
+                }
+
+                /* Set CADU. */
+                OutputBuffer[0] = MAILBOX_MSG_CADU;
+                /* Set size of the payload in words. */
+                OutputBuffer[1] = SizeInWords;
+                /* Copy the payload. */
+                memcpy(&OutputBuffer[2], &Buf[0], BufSz);
+
+                Checksum = 0;
+                /* Checksum Calculation */
+                for(i = 0; i < SizeInWords - 1; ++i)
+                {
+                    Checksum += OutputBuffer[i + 2];
+                }
+                /* Set the checkout. */
+                OutputBuffer[SizeInWords + 2] = Checksum;
+
+                /* Send payload size plus mailbox header size. */
+                status = sendto(Socket, (const char*)&OutputBuffer[0], SizeInBytes + MAILBOX_HEADER_SIZE_BYTES, 0, (struct sockaddr *) &s_addr,
                 sizeof(s_addr));
                 if (status < 0)
                 {
@@ -450,6 +516,16 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                     printf("sendto failed errno %d\n", errno);
                     iStatus = -1;
                 }
+                /******************************************************/
+                printf("sent %u\n", SizeInBytes + MAILBOX_HEADER_SIZE_BYTES);
+                //status = sendto(Socket, (const char*)Buf, BufSz, 0, (struct sockaddr *) &s_addr,
+                //sizeof(s_addr));
+                //if (status < 0)
+                //{
+                    ///* TODO */
+                    //printf("sendto failed errno %d\n", errno);
+                    //iStatus = -1;
+                //}
 
                 iStatus = CFE_ES_PutPoolBuf(Channel->MemPoolHandle, (uint32 *)buffer);
                 if(iStatus < 0)
@@ -473,7 +549,7 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
             }
             else if(iStatus == OS_QUEUE_TIMEOUT)
             {
-            	/* Do nothing.  Just loop back around and check the guard. */
+                /* Do nothing.  Just loop back around and check the guard. */
             }
             else
             {
