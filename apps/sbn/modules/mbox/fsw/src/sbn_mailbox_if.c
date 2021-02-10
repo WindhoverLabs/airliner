@@ -59,6 +59,8 @@ static int InitNet(SBN_NetInterface_t *Net)
 
     memset(&SBN_Mailbox_Data, 0x0, sizeof(SBN_UIO_Mailbox_Data));
 
+    SBN_UIO_Mailbox_Data.HkTlm.ChannelMaxMem = PQ_NUM_BYTES_IN_MEM_POOL;
+
     SBN_Mailbox_Data.MboxConfigPtr = XMbox_LookupConfig(XPAR_SED_MBOX_MAILBOX_CPD_TO_SED_IF_1_DEVICE_ID);
     if (SBN_Mailbox_Data.MboxConfigPtr == (XMbox_Config *)NULL)
     {

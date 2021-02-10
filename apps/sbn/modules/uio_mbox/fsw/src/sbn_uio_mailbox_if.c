@@ -271,6 +271,8 @@ static int InitNet(SBN_NetInterface_t *Net)
 
     memset(&SBN_UIO_Mailbox_Data, 0x0, sizeof(SBN_UIO_Mailbox_Data));
 
+    SBN_UIO_Mailbox_Data.HkTlm.ChannelMaxMem = PQ_NUM_BYTES_IN_MEM_POOL;
+
     SBN_UIO_Mailbox_Data.Instance = InitDevice(MAILBOX_UIO_PATH);
     if(SBN_UIO_Mailbox_Data.Instance == NULL)
     {

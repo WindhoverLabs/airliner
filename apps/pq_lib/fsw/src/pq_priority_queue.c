@@ -87,8 +87,8 @@ int32 PQ_PriorityQueue_BuildupAll(PQ_ChannelData_t *channel)
                                 CFE_EVS_ERROR,
                                 "Channel is NULL.");
         return PQ_CHANNEL_PTR_NULL;      
-    }    
-    
+    }
+
     if (NULL == channel->ConfigTblPtr)
     {
         (void) CFE_EVS_SendEvent(PQ_PQUEUE_MISSING_TBL_ERR_EID,

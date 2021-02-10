@@ -16,25 +16,25 @@ int32 PQ_LibInit(void)
 
 
 
-int32 PQ_InitData(void)
-{
-    int32 status = CFE_SUCCESS;
+//int32 PQ_InitData(void)
+//{
+    //int32 status = CFE_SUCCESS;
 
-    status = OS_MutSemCreate(&PQ_AppData.MutexID, "PQ_APP", 0);
-    if (status != OS_SUCCESS)
-    {
-        CFE_EVS_SendEvent(PQ_CREATE_APPDATA_MUTEX_ERR_EID,
-                CFE_EVS_ERROR,
-                "Init Data: Failed to create PQ_AppData mutex: 0x%08lX",
-                (unsigned long)status);
+    //status = OS_MutSemCreate(&PQ_AppData.MutexID, "PQ_APP", 0);
+    //if (status != OS_SUCCESS)
+    //{
+        //CFE_EVS_SendEvent(PQ_CREATE_APPDATA_MUTEX_ERR_EID,
+                //CFE_EVS_ERROR,
+                //"Init Data: Failed to create PQ_AppData mutex: 0x%08lX",
+                //(unsigned long)status);
 
-        return status;
-    }
+        //return status;
+    //}
 
-    PQ_AppData.HkTlm.ChannelMaxMem = PQ_NUM_BYTES_IN_MEM_POOL;
+    //PQ_AppData.HkTlm.ChannelMaxMem = PQ_NUM_BYTES_IN_MEM_POOL;
     
-    return CFE_SUCCESS;
-}
+    //return CFE_SUCCESS;
+//}
 
 
 //int32 PQ_AppInit(void)
@@ -45,10 +45,9 @@ int32 PQ_InitData(void)
 //}
 
 
-int32 PQ_AppCleanup(void)
-{
-    //PQ_Channel_CleanupAll();
-    OS_MutSemDelete(PQ_AppData.MutexID);
+//int32 PQ_AppCleanup(void)
+//{
+    //OS_MutSemDelete(PQ_AppData.MutexID);
 
-    return CFE_SUCCESS;
-}
+    //return CFE_SUCCESS;
+//}
