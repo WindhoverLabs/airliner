@@ -95,7 +95,7 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-//FIXME: Very weird how I have to do "getNumber" for this one, but the others.
+//FIXME: Very weird how I have to do "getNumber" for this one, but not the others.
 var file_index = VTypeHelper.getNumber(display.getWidget('FileTableIndex').getPropertyValue('pv_value'));
 
 var size = VTypeHelper.getDouble(display.getWidget('MaxFileSize').getPropertyValue('pv_value'));
