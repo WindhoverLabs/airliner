@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>130</height>
+  <height>150</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CF - Set MIB Param</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -35,7 +35,7 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
@@ -43,8 +43,9 @@ importPackage(Packages.org.yamcs.studio.data);
 var Parameter =VTypeHelper.getString(display.getWidget('Parameter').getPropertyValue('pv_value'));
 var Value =VTypeHelper.getString(display.getWidget('Value').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/CFS/CF/SetMIBParam(Param: ' + Parameter + ', Value: ' + Value + ')');
-
+Yamcs.issueCommand('/cfs/cf/SetMIBParameter', {
+    'Param': Parameter,
+    'Value': Value});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -70,7 +71,7 @@ Yamcs.issueCommand('/CFS/CF/SetMIBParam(Param: ' + Parameter + ', Value: ' + Val
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -83,16 +84,16 @@ Yamcs.issueCommand('/CFS/CF/SetMIBParam(Param: ' + Parameter + ', Value: ' + Val
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Set Parameter</text>
+    <text>Send</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>163</width>
+    <width>80</width>
     <wuid>31ffe3bf:150a7259bb9:-670a</wuid>
-    <x>54</x>
-    <y>90</y>
+    <x>86</x>
+    <y>102</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -131,8 +132,8 @@ $(pv_value)</tooltip>
     <width>83</width>
     <wrap_words>false</wrap_words>
     <wuid>31ffe3bf:150a7259bb9:-66d5</wuid>
-    <x>12</x>
-    <y>17</y>
+    <x>18</x>
+    <y>47</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -158,7 +159,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <format_type>0</format_type>
-    <height>29</height>
+    <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
     <maximum>1.7976931348623157E308</maximum>
@@ -167,7 +168,7 @@ $(pv_value)</tooltip>
     <name>Parameter</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Parameter&lt;VString&gt;</pv_name>
+    <pv_name>loc://SetMIBParameterParameter&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -188,8 +189,8 @@ $(pv_value)</tooltip>
     <widget_type>Text Input</widget_type>
     <width>135</width>
     <wuid>31ffe3bf:150a7259bb9:-66d4</wuid>
-    <x>102</x>
-    <y>12</y>
+    <x>108</x>
+    <y>47</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -228,8 +229,8 @@ $(pv_value)</tooltip>
     <width>83</width>
     <wrap_words>false</wrap_words>
     <wuid>31ffe3bf:150a7259bb9:-64c5</wuid>
-    <x>12</x>
-    <y>45</y>
+    <x>18</x>
+    <y>66</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -255,16 +256,16 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <format_type>0</format_type>
-    <height>29</height>
+    <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
     <maximum>1.7976931348623157E308</maximum>
     <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
-    <name>Parameter_1</name>
+    <name>Value</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Parameter&lt;VString&gt;</pv_name>
+    <pv_name>loc://SetMIBValue&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -285,7 +286,47 @@ $(pv_value)</tooltip>
     <widget_type>Text Input</widget_type>
     <width>135</width>
     <wuid>31ffe3bf:150a7259bb9:-64c4</wuid>
-    <x>102</x>
-    <y>40</y>
+    <x>108</x>
+    <y>66</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label_2</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Set MIB Parameter</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>131</width>
+    <wrap_words>false</wrap_words>
+    <wuid>6c5e5e62:1775b7b9abc:-7378</wuid>
+    <x>60</x>
+    <y>12</y>
   </widget>
 </display>

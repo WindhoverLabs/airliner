@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>130</height>
+  <height>160</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CF - Disable Polling Directory</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>330</width>
+  <width>350</width>
   <wuid>31ffe3bf:150a7259bb9:-673d</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -51,7 +51,11 @@ if( Channel == 'Channel 1' ) {
     pChannel = 2;
 } 
 
-Yamcs.issueCommand('/CFS/CF/DisableDirPolling(Channel: ' + pChannel + ', Dir: ' + Dir + ')');
+Yamcs.issueCommand('/cfs/cf/DisableDirPolling', {
+    'Chan': pChannel,
+    'Dir': Dir,
+    'Spare_0_': 0,
+    'Spare_1_': 0});
 
 ]]></scriptText>
         <embedded>true</embedded>
@@ -78,7 +82,7 @@ Yamcs.issueCommand('/CFS/CF/DisableDirPolling(Channel: ' + pChannel + ', Dir: ' 
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -91,16 +95,16 @@ Yamcs.issueCommand('/CFS/CF/DisableDirPolling(Channel: ' + pChannel + ', Dir: ' 
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Disable Polling Directory</text>
+    <text>Send</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>163</width>
-    <wuid>31ffe3bf:150a7259bb9:-670a</wuid>
-    <x>84</x>
-    <y>90</y>
+    <width>80</width>
+    <wuid>6c5e5e62:1775b7b9abc:-71f5</wuid>
+    <x>137</x>
+    <y>120</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -138,9 +142,9 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>59</width>
     <wrap_words>false</wrap_words>
-    <wuid>31ffe3bf:150a7259bb9:-66f9</wuid>
-    <x>12</x>
-    <y>13</y>
+    <wuid>6c5e5e62:1775b7b9abc:-71f4</wuid>
+    <x>26</x>
+    <y>43</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.radioBox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -171,7 +175,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Channel</name>
-    <pv_name>loc://Channel</pv_name>
+    <pv_name>loc://PollingChannel</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -188,9 +192,9 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Radio Box</widget_type>
     <width>307</width>
-    <wuid>31ffe3bf:150a7259bb9:-6615</wuid>
-    <x>84</x>
-    <y>12</y>
+    <wuid>6c5e5e62:1775b7b9abc:-71f3</wuid>
+    <x>98</x>
+    <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -226,11 +230,11 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>95</width>
+    <width>108</width>
     <wrap_words>false</wrap_words>
-    <wuid>-33cb7c72:150aa4c347f:-78ea</wuid>
-    <x>12</x>
-    <y>47</y>
+    <wuid>6c5e5e62:1775b7b9abc:-71f2</wuid>
+    <x>13</x>
+    <y>77</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -265,7 +269,7 @@ $(pv_value)</tooltip>
     <page_increment>10.0</page_increment>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Dir&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://PollingDir&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -283,8 +287,48 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Spinner</widget_type>
     <width>135</width>
-    <wuid>-33cb7c72:150aa4c347f:-78e9</wuid>
-    <x>114</x>
-    <y>42</y>
+    <wuid>6c5e5e62:1775b7b9abc:-71f1</wuid>
+    <x>128</x>
+    <y>72</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_8</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Disable Polling Directory</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>186</width>
+    <wrap_words>false</wrap_words>
+    <wuid>6c5e5e62:1775b7b9abc:-71f0</wuid>
+    <x>84</x>
+    <y>12</y>
   </widget>
 </display>

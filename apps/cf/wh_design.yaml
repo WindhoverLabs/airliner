@@ -320,6 +320,15 @@
     CF_QUICK_CMD_EID : 
       id: 160
   msg_def_overrides:
+    - parent: CF_SetMibParam_t
+      member: Param
+      type: string
+    - parent: CF_SetMibParam_t
+      member: Value
+      type: string
+    - parent: CF_GetMibParam_t
+      member: Param
+      type: string
     - parent: CF_ResetCtrsCmd_t
       member: Value
       type: enumeration

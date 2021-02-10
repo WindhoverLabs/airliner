@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>100</height>
+  <height>120</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CF - Reset Counters</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -35,29 +35,14 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
 var counters =VTypeHelper.getString(display.getWidget('Counters').getPropertyValue('pv_value'));
 
-var cmd;
-
-if( counters == 'All' ) {
-    cmd = '/CFS/CF/Reset(Value: 0)';
-} else if( counters == 'Command' ) {
-    cmd = '/CFS/CF/Reset(Value: 1)';
-} else if( counters == 'Fault' ) {
-    cmd = '/CFS/CF/Reset(Value: 2)';
-} else if( counters == 'Uplink' ) {
-    cmd = '/CFS/CF/Reset(Value: 3)';
-} else if( counters == 'Downlink' ) {
-    cmd = '/CFS/CF/Reset(Value: 4)';
-}
-
-Yamcs.issueCommand(cmd);
-
+Yamcs.issueCommand('/cfs/cf/ResetCounters', {'Value': counters, 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -83,7 +68,7 @@ Yamcs.issueCommand(cmd);
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -96,16 +81,16 @@ Yamcs.issueCommand(cmd);
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Reset Counters</text>
+    <text>Send</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>163</width>
+    <width>80</width>
     <wuid>35ebaa52:1509cf6a868:-78ea</wuid>
-    <x>54</x>
-    <y>60</y>
+    <x>96</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -145,7 +130,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-78e9</wuid>
     <x>18</x>
-    <y>23</y>
+    <y>41</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.combo" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -170,15 +155,15 @@ $(pv_value)</tooltip>
     </foreground_color>
     <height>32</height>
     <items>
-      <s>All</s>
-      <s>Command</s>
-      <s>Fault</s>
-      <s>Uplink</s>
-      <s>Downlink</s>
+      <s>ALL</s>
+      <s>CMD</s>
+      <s>DOWN</s>
+      <s>FAULT</s>
+      <s>UP</s>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Counters</name>
-    <pv_name>loc://Counters&lt;VString&gt;</pv_name>
+    <pv_name>loc://ResetCountersCounters&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -194,6 +179,46 @@ $(pv_value)</tooltip>
     <width>135</width>
     <wuid>35ebaa52:1509cf6a868:-78e7</wuid>
     <x>108</x>
-    <y>18</y>
+    <y>36</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_1</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Reset Counters</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>137</width>
+    <wrap_words>false</wrap_words>
+    <wuid>6c5e5e62:1775b7b9abc:-7bca</wuid>
+    <x>67</x>
+    <y>12</y>
   </widget>
 </display>

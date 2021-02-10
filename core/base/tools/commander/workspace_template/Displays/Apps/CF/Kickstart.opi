@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>100</height>
+  <height>110</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CF - Kickstart</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -35,23 +35,26 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var Kickstart =VTypeHelper.getString(display.getWidget('Kickstart').getPropertyValue('pv_value'));
+var Channel =VTypeHelper.getString(display.getWidget('Channel').getPropertyValue('pv_value'));
 
-var pKickstart = -1;
+var pChannel = -1;
 
-if( Kickstart == 'Channel 1' ) {
-    pKickstart = 0;
-} else if( Kickstart == 'Channel 2' ) {
-    pKickstart = 1;
+if( Channel == 'Channel 1' ) {
+    pChannel = 0;
+} else if( Channel == 'Channel 2' ) {
+    pChannel = 1;
 }
 
-Yamcs.issueCommand('/CFS/CF/Kickstart(Kickstart: ' + pKickstart + ')');
-
+Yamcs.issueCommand('/cfs/cf/Kickstart', {
+    'Chan': pChannel, 
+    'Spare_0_': 0,
+    'Spare_1_': 0,
+    'Spare_2_': 0});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -77,7 +80,7 @@ Yamcs.issueCommand('/CFS/CF/Kickstart(Kickstart: ' + pKickstart + ')');
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -90,16 +93,16 @@ Yamcs.issueCommand('/CFS/CF/Kickstart(Kickstart: ' + pKickstart + ')');
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Kickstart</text>
+    <text>Send</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>163</width>
+    <width>80</width>
     <wuid>31ffe3bf:150a7259bb9:-670a</wuid>
-    <x>58</x>
-    <y>54</y>
+    <x>105</x>
+    <y>72</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -138,8 +141,8 @@ $(pv_value)</tooltip>
     <width>61</width>
     <wrap_words>false</wrap_words>
     <wuid>31ffe3bf:150a7259bb9:-6709</wuid>
-    <x>12</x>
-    <y>19</y>
+    <x>17</x>
+    <y>37</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.radioBox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -170,7 +173,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Channel</name>
-    <pv_name>loc://Channel</pv_name>
+    <pv_name>loc://KickstartChannel</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -188,7 +191,47 @@ $(pv_value)</tooltip>
     <widget_type>Radio Box</widget_type>
     <width>211</width>
     <wuid>-33cb7c72:150aa4c347f:-788f</wuid>
-    <x>84</x>
-    <y>18</y>
+    <x>89</x>
+    <y>36</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_7</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Kickstart</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>113</width>
+    <wrap_words>false</wrap_words>
+    <wuid>6c5e5e62:1775b7b9abc:-728c</wuid>
+    <x>88</x>
+    <y>12</y>
   </widget>
 </display>

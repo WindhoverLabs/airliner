@@ -8,7 +8,7 @@
   </auto_scale_widgets>
   <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
   <background_color>
-    <color red="240" green="240" blue="240" />
+    <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
   <boy_version>1.5.3</boy_version>
   <foreground_color>
@@ -28,20 +28,21 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>200</width>
+  <width>300</width>
   <wuid>-736e4684:150ac3c95a1:-7e23</wuid>
   <x>-1</x>
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/QueryOneApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
 
-var cmd = '/CFS/CS/EnableTables(args: none)';
+var cmd = '/cfs/cs/EnableTables';
 
-Yamcs.issueCommand(cmd);]]></scriptText>
+Yamcs.issueCommand(cmd, {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -66,7 +67,7 @@ Yamcs.issueCommand(cmd);]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>24</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -79,27 +80,30 @@ Yamcs.issueCommand(cmd);]]></scriptText>
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Enable All</text>
+    <text>Enable Table</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>109</width>
+    <width>120</width>
     <wuid>-736e4684:150ac3c95a1:-7e12</wuid>
-    <x>48</x>
-    <y>18</y>
+    <x>174</x>
+    <y>84</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/QueryOneApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
 
 var Name =VTypeHelper.getString(display.getWidget('Name').getPropertyValue('pv_value'));
 
-var cmd = '/CFS/CS/EnableNameTable(Name: ' + Name + ')';]]></scriptText>
+var cmd = '/cfs/cs/EnableNameTable';
+
+Yamcs.issueCommand(cmd, {'Name': Name});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -124,7 +128,7 @@ var cmd = '/CFS/CS/EnableNameTable(Name: ' + Name + ')';]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>24</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -143,10 +147,10 @@ var cmd = '/CFS/CS/EnableNameTable(Name: ' + Name + ')';]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>109</width>
+    <width>120</width>
     <wuid>-736e4684:150ac3c95a1:-7e06</wuid>
-    <x>48</x>
-    <y>114</y>
+    <x>36</x>
+    <y>84</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -185,8 +189,8 @@ $(pv_value)</tooltip>
     <width>50</width>
     <wrap_words>false</wrap_words>
     <wuid>-736e4684:150ac3c95a1:-76ae</wuid>
-    <x>12</x>
-    <y>83</y>
+    <x>48</x>
+    <y>41</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.combo" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -232,7 +236,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Name</name>
-    <pv_name>loc://Name</pv_name>
+    <pv_name>loc://EnableTableName</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -247,7 +251,7 @@ $(pv_value)</tooltip>
     <widget_type>Combo</widget_type>
     <width>115</width>
     <wuid>-736e4684:150ac3c95a1:-76ad</wuid>
-    <x>72</x>
-    <y>78</y>
+    <x>108</x>
+    <y>36</y>
   </widget>
 </display>

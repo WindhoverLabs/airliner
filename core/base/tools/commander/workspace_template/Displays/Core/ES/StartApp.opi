@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CFE-ES - Start App</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,33 +28,32 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>300</width>
+  <width>350</width>
   <wuid>72a2bf2b:1508717c835:-7839</wuid>
   <x>-1</x>
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
 var appName =VTypeHelper.getString(display.getWidget('inAppName').getPropertyValue('pv_value'));
-var entryPoint = display.getWidget("inEntryPoint").getPropertyValue("text");
-var fileName = display.getWidget("inFileName").getPropertyValue("text");
-var stackSize = display.getWidget("inStackSize").getPropertyValue("text");
-var strExceptionAction = VTypeHelper.getString(display.getWidget('inExceptionAction').getPropertyValue('pv_value'));
-var priority = display.getWidget("inPriority").getPropertyValue("text");
+var entryPoint = VTypeHelper.getString(display.getWidget("inEntryPoint").getPropertyValue("pv_value"));
+var fileName = VTypeHelper.getString(display.getWidget("inFileName").getPropertyValue("pv_value"));
+var stackSize = VTypeHelper.getNumber(display.getWidget("inStackSize").getPropertyValue("pv_value"));
+var exceptionAction =VTypeHelper.getString(display.getWidget('inExceptionAction').getPropertyValue('pv_value'));
+var priority = VTypeHelper.getNumber(display.getWidget("inPriority").getPropertyValue("pv_value"));
 
-var exceptionAction = 0;
-if(strExceptionAction == 'PROC RESTART') {
-    exceptionAction = 1;
-}
-
-var cmd = '/cfs/cfe_es/StartApp(Name: ' + appName + ', EntryPoint: ' + entryPoint + ', FileName: ' + fileName + ', StackSize: ' + stackSize + ', ExceptionAction: ' + exceptionAction + ', Priority: ' + priority + ')';
-
-Yamcs.issueCommand(cmd);]]></scriptText>
+Yamcs.issueCommand('/cfs/cfe_es/StartApp', {
+    'Payload.Application':         appName,
+    'Payload.AppEntryPoint':   entryPoint,
+    'Payload.AppFileName':     fileName,
+    'Payload.StackSize':             stackSize,
+    'Payload.ExceptionAction': exceptionAction,
+    'Payload.Priority':                  priority});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -79,7 +78,7 @@ Yamcs.issueCommand(cmd);]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -100,8 +99,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>73</width>
     <wuid>72a2bf2b:1508717c835:-77e3</wuid>
-    <x>161</x>
-    <y>259</y>
+    <x>144</x>
+    <y>252</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -141,7 +140,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>72a2bf2b:1508717c835:-772d</wuid>
     <x>29</x>
-    <y>53</y>
+    <y>41</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.combo" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -164,7 +163,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>34</height>
+    <height>32</height>
     <items>
       <s>CF</s>
       <s>CI</s>
@@ -182,7 +181,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>inAppName</name>
-    <pv_name>loc://AppName</pv_name>
+    <pv_name>loc://AppName&lt;VString&gt;("")</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -195,10 +194,10 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Combo</widget_type>
-    <width>157</width>
+    <width>226</width>
     <wuid>72a2bf2b:1508717c835:-76fa</wuid>
     <x>119</x>
-    <y>48</y>
+    <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -213,7 +212,7 @@ $(pv_value)</tooltip>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
     </font>
     <foreground_color>
       <color red="0" green="0" blue="0" />
@@ -237,7 +236,7 @@ $(pv_value)</tooltip>
     <width>231</width>
     <wrap_words>false</wrap_words>
     <wuid>72a2bf2b:1508717c835:-76c0</wuid>
-    <x>82</x>
+    <x>65</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -278,7 +277,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>72a2bf2b:1508717c835:-734b</wuid>
     <x>29</x>
-    <y>90</y>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -313,7 +312,7 @@ $(pv_value)</tooltip>
     <name>inEntryPoint</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name></pv_name>
+    <pv_name>loc://EntryPoint&lt;VString&gt;("")</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -332,10 +331,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>152</width>
+    <width>221</width>
     <wuid>72a2bf2b:1508717c835:-7345</wuid>
     <x>122</x>
-    <y>90</y>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -375,7 +374,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>72a2bf2b:1508717c835:-7338</wuid>
     <x>27</x>
-    <y>129</y>
+    <y>117</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -410,7 +409,7 @@ $(pv_value)</tooltip>
     <name>inFileName</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name></pv_name>
+    <pv_name>loc://FileName&lt;VString&gt;("")</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -429,10 +428,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>152</width>
+    <width>221</width>
     <wuid>72a2bf2b:1508717c835:-7337</wuid>
     <x>122</x>
-    <y>126</y>
+    <y>114</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -472,7 +471,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>72a2bf2b:1508717c835:-7326</wuid>
     <x>27</x>
-    <y>159</y>
+    <y>147</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -506,8 +505,8 @@ $(pv_value)</tooltip>
     <multiline_input>false</multiline_input>
     <name>inStackSize</name>
     <precision>0</precision>
-    <precision_from_pv>true</precision_from_pv>
-    <pv_name></pv_name>
+    <precision_from_pv>false</precision_from_pv>
+    <pv_name>loc://StackSize&lt;VDouble&gt;(0)</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -526,10 +525,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>152</width>
+    <width>221</width>
     <wuid>72a2bf2b:1508717c835:-7325</wuid>
     <x>122</x>
-    <y>156</y>
+    <y>144</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -569,7 +568,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>72a2bf2b:1508717c835:-731e</wuid>
     <x>27</x>
-    <y>189</y>
+    <y>177</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -603,8 +602,8 @@ $(pv_value)</tooltip>
     <multiline_input>false</multiline_input>
     <name>inPriority</name>
     <precision>0</precision>
-    <precision_from_pv>true</precision_from_pv>
-    <pv_name></pv_name>
+    <precision_from_pv>false</precision_from_pv>
+    <pv_name>loc://Priority&lt;VDouble&gt;(0)</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -623,10 +622,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>152</width>
+    <width>221</width>
     <wuid>72a2bf2b:1508717c835:-731d</wuid>
     <x>122</x>
-    <y>186</y>
+    <y>174</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -666,7 +665,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>72a2bf2b:1508717c835:-730f</wuid>
     <x>-13</x>
-    <y>216</y>
+    <y>210</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.combo" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -689,14 +688,14 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>34</height>
+    <height>32</height>
     <items>
-      <s>APP RESTART</s>
-      <s>PROC RESTART</s>
+      <s>RESTART_APP</s>
+      <s>PROC_RESTART</s>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>inExceptionAction</name>
-    <pv_name>loc://ExceptionAction</pv_name>
+    <pv_name>loc://ExceptionAction&lt;VString&gt;("")</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -709,9 +708,9 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Combo</widget_type>
-    <width>157</width>
+    <width>226</width>
     <wuid>72a2bf2b:1508717c835:-730e</wuid>
     <x>119</x>
-    <y>216</y>
+    <y>204</y>
   </widget>
 </display>

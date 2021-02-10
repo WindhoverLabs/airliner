@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CF - Playback File</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,14 +28,14 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>400</width>
+  <width>410</width>
   <wuid>31ffe3bf:150a7259bb9:-673d</wuid>
   <x>-1</x>
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
@@ -48,30 +48,36 @@ var PeerEntityID =VTypeHelper.getString(display.getWidget('PeerEntityID').getPro
 var Source =VTypeHelper.getString(display.getWidget('Source').getPropertyValue('pv_value'));
 var Destination =VTypeHelper.getString(display.getWidget('Destination').getPropertyValue('pv_value'));
 
-var pTransferClass = -1;
+var pTransferClass = '';
 var pChannel = -1;
-var pPreserve = -1;
+var pPreserve = '';
 
 if( TransferClass == 'Class 1 (Unreliable)' ) {
-    pTransferClass = 1;
+    pTransferClass = 'CLASS_1';
 } else if( TransferClass == 'Class 2 (Reliable)' ) {
-    pTransferClass = 2;
+    pTransferClass = 'CLASS_2';
 } 
 
 if( Channel == 'Channel 1' ) {
-    pChannel = 1;
+    pChannel = 0;
 } else if( Channel == 'Channel 2' ) {
-    pChannel = 2;
+    pChannel = 1;
 } 
 
 if( Preserve == 'Delete' ) {
-    pPreserve = 0;
+    pPreserve = 'DELETE';
 } else if( Preserve == 'Keep' ) {
-    pPreserve = 1;
+    pPreserve = 'KEEP';
 } 
 
-Yamcs.issueCommand('/CFS/CF/PlaybackFile(Class: ' + pClass + ', Channel: ' + pChannel + ', Priority: ' + Priority + ', Preserve: ' + pPreserve + ', PeerEntityID: ' + PeerEntityID + ', SrcFilename: ' + Source + ', DstFilename: ' + Destination + ')');
-
+Yamcs.issueCommand('/cfs/cf/PlaybackFile', {
+    'Class': pTransferClass,
+    'Channel': pChannel,
+    'Priority': Priority,
+    'Preserve': pPreserve,
+    'PeerEntityId': PeerEntityID,
+    'SrcFilename': Source,
+    'DstFilename': Destination});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -97,7 +103,7 @@ Yamcs.issueCommand('/CFS/CF/PlaybackFile(Class: ' + pClass + ', Channel: ' + pCh
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -110,15 +116,15 @@ Yamcs.issueCommand('/CFS/CF/PlaybackFile(Class: ' + pClass + ', Channel: ' + pCh
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Playback File</text>
+    <text>Send</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>163</width>
+    <width>80</width>
     <wuid>31ffe3bf:150a7259bb9:-670a</wuid>
-    <x>102</x>
+    <x>169</x>
     <y>228</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -158,8 +164,8 @@ $(pv_value)</tooltip>
     <width>83</width>
     <wrap_words>false</wrap_words>
     <wuid>31ffe3bf:150a7259bb9:-6709</wuid>
-    <x>12</x>
-    <y>17</y>
+    <x>24</x>
+    <y>39</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -198,8 +204,8 @@ $(pv_value)</tooltip>
     <width>83</width>
     <wrap_words>false</wrap_words>
     <wuid>31ffe3bf:150a7259bb9:-66f9</wuid>
-    <x>12</x>
-    <y>45</y>
+    <x>24</x>
+    <y>67</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -238,8 +244,8 @@ $(pv_value)</tooltip>
     <width>83</width>
     <wrap_words>false</wrap_words>
     <wuid>31ffe3bf:150a7259bb9:-66ee</wuid>
-    <x>12</x>
-    <y>73</y>
+    <x>24</x>
+    <y>95</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -278,8 +284,8 @@ $(pv_value)</tooltip>
     <width>83</width>
     <wrap_words>false</wrap_words>
     <wuid>31ffe3bf:150a7259bb9:-66e0</wuid>
-    <x>12</x>
-    <y>101</y>
+    <x>24</x>
+    <y>123</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -315,11 +321,11 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>83</width>
+    <width>101</width>
     <wrap_words>false</wrap_words>
     <wuid>31ffe3bf:150a7259bb9:-66d5</wuid>
-    <x>12</x>
-    <y>129</y>
+    <x>6</x>
+    <y>146</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -345,7 +351,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <format_type>0</format_type>
-    <height>29</height>
+    <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
     <maximum>1.7976931348623157E308</maximum>
@@ -354,7 +360,7 @@ $(pv_value)</tooltip>
     <name>PeerEntityID</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://PeerEntityID&lt;VString&gt;</pv_name>
+    <pv_name>loc://PlaybackFilePeerEntityID&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -375,8 +381,8 @@ $(pv_value)</tooltip>
     <widget_type>Text Input</widget_type>
     <width>135</width>
     <wuid>31ffe3bf:150a7259bb9:-66d4</wuid>
-    <x>102</x>
-    <y>124</y>
+    <x>114</x>
+    <y>146</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -415,8 +421,8 @@ $(pv_value)</tooltip>
     <width>83</width>
     <wrap_words>false</wrap_words>
     <wuid>31ffe3bf:150a7259bb9:-66ca</wuid>
-    <x>12</x>
-    <y>157</y>
+    <x>24</x>
+    <y>165</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -442,16 +448,16 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <format_type>0</format_type>
-    <height>29</height>
+    <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
     <maximum>1.7976931348623157E308</maximum>
     <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
-    <name>Counters_5</name>
+    <name>Source</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Source&lt;VString&gt;</pv_name>
+    <pv_name>loc://PlaybackFileSource&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -472,8 +478,8 @@ $(pv_value)</tooltip>
     <widget_type>Text Input</widget_type>
     <width>135</width>
     <wuid>31ffe3bf:150a7259bb9:-66c9</wuid>
-    <x>102</x>
-    <y>152</y>
+    <x>114</x>
+    <y>165</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -512,8 +518,8 @@ $(pv_value)</tooltip>
     <width>83</width>
     <wrap_words>false</wrap_words>
     <wuid>31ffe3bf:150a7259bb9:-66bf</wuid>
-    <x>12</x>
-    <y>185</y>
+    <x>24</x>
+    <y>184</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -539,16 +545,16 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <format_type>0</format_type>
-    <height>29</height>
+    <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
     <maximum>1.7976931348623157E308</maximum>
     <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
-    <name>Counters_6</name>
+    <name>Destination</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Destination&lt;VString&gt;</pv_name>
+    <pv_name>loc://PlaybackFileDestination&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -569,8 +575,8 @@ $(pv_value)</tooltip>
     <widget_type>Text Input</widget_type>
     <width>135</width>
     <wuid>31ffe3bf:150a7259bb9:-66be</wuid>
-    <x>102</x>
-    <y>180</y>
+    <x>114</x>
+    <y>184</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -605,7 +611,7 @@ $(pv_value)</tooltip>
     <page_increment>10.0</page_increment>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://Priority&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://PlaybackFilePriority&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -624,8 +630,8 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>135</width>
     <wuid>31ffe3bf:150a7259bb9:-669e</wuid>
-    <x>102</x>
-    <y>68</y>
+    <x>114</x>
+    <y>90</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.radioBox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -656,7 +662,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>TransferClass</name>
-    <pv_name>loc://TransferClass</pv_name>
+    <pv_name>loc://PlaybackFileTransferClass</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -674,8 +680,8 @@ $(pv_value)</tooltip>
     <widget_type>Radio Box</widget_type>
     <width>307</width>
     <wuid>31ffe3bf:150a7259bb9:-6626</wuid>
-    <x>102</x>
-    <y>16</y>
+    <x>114</x>
+    <y>38</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.radioBox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -706,7 +712,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Channel</name>
-    <pv_name>loc://Channel</pv_name>
+    <pv_name>loc://PlaybackFileChannel</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -724,8 +730,8 @@ $(pv_value)</tooltip>
     <widget_type>Radio Box</widget_type>
     <width>307</width>
     <wuid>31ffe3bf:150a7259bb9:-6615</wuid>
-    <x>102</x>
-    <y>44</y>
+    <x>114</x>
+    <y>66</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.radioBox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -756,7 +762,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Preserve</name>
-    <pv_name>loc://Preserve</pv_name>
+    <pv_name>loc://PlaybackFilePreserve</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -774,7 +780,47 @@ $(pv_value)</tooltip>
     <widget_type>Radio Box</widget_type>
     <width>307</width>
     <wuid>31ffe3bf:150a7259bb9:-6604</wuid>
-    <x>102</x>
-    <y>100</y>
+    <x>114</x>
+    <y>122</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_7</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Playback File</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>113</width>
+    <wrap_words>false</wrap_words>
+    <wuid>6c5e5e62:1775b7b9abc:-72ee</wuid>
+    <x>152</x>
+    <y>12</y>
   </widget>
 </display>

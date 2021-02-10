@@ -48,13 +48,13 @@ var Microseconds =VTypeHelper.getDouble(display.getWidget('Microseconds').getPro
 var cmd;
 
 if( (Direction == "Add" ) && (Frequency == "One Shot")) {
-    Yamcs.issueCommand('/cfs/cfe_time/AddAdjust(Seconds: ' + Seconds + ', Microseconds: ' + Microseconds + ')');
+    Yamcs.issueCommand('/cfs/cfe_time/AddAdjust(Payload.Seconds: ' + Seconds + ',Payload.Microseconds: ' + Microseconds + ')');
 } if( (Direction == "Subtract" ) && (Frequency == "One Shot")) {
-    Yamcs.issueCommand('/cfs/cfe_time/SubAdjust(Seconds: ' + Seconds + ', Microseconds: ' + Microseconds + ')');
+    Yamcs.issueCommand('/cfs/cfe_time/SubAdjust(Payload.Seconds: ' + Seconds + ',Payload.Microseconds: ' + Microseconds + ')');
 } if( (Direction == "Add" ) && (Frequency == "1 Hz")) {
-    Yamcs.issueCommand('/cfs/cfe_time/Add1HzAdj(Seconds: ' + Seconds + ', Subseconds: ' + Microseconds + ')');
+    Yamcs.issueCommand('/cfs/cfe_time/Add1HzAdj(Payload.Seconds: ' + Seconds + ',Payload.Subseconds: ' + Microseconds + ')');
 } if( (Direction == "Subtract" ) && (Frequency == "1 Hz")) {
-    Yamcs.issueCommand('/cfs/cfe_time/Sub1HzAdj(Seconds: ' + Seconds + ', Subseconds: ' + Microseconds + ')');
+    Yamcs.issueCommand('/cfs/cfe_time/Sub1HzAdj(Payload.Seconds: ' + Seconds + ',Payload.Subseconds: ' + Microseconds + ')');
 }
 
 
@@ -83,7 +83,7 @@ if( (Direction == "Add" ) && (Frequency == "One Shot")) {
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

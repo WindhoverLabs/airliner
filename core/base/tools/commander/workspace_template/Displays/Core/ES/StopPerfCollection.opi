@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CFE-ES - Stop Perf</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>400</width>
+  <width>350</width>
   <wuid>-35c7bfc1:1509236a393:-54f2</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -70,7 +70,7 @@
     <wrap_words>false</wrap_words>
     <wuid>-35c7bfc1:1509236a393:-52b1</wuid>
     <x>12</x>
-    <y>35</y>
+    <y>47</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -82,7 +82,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 fileName = VTypeHelper.getString(display.getWidget('FileName').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cfe_es/PerfStop(FileName: "' + fileName + '")');]]></scriptText>
+Yamcs.issueCommand('/cfs/cfe_es/PerfStop', {'Payload.DataFileName': fileName});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -107,7 +107,7 @@ Yamcs.issueCommand('/cfs/cfe_es/PerfStop(FileName: "' + fileName + '")');]]></sc
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>29</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -128,8 +128,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>80</width>
     <wuid>-35c7bfc1:1509236a393:-5274</wuid>
-    <x>168</x>
-    <y>72</y>
+    <x>126</x>
+    <y>84</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -183,9 +183,49 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>289</width>
+    <width>229</width>
     <wuid>-35c7bfc1:1509236a393:-51dc</wuid>
     <x>96</x>
-    <y>32</y>
+    <y>44</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_1</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Stop Performance Collection</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>283</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-2dc23c5:177557ff444:-5f1d</wuid>
+    <x>24</x>
+    <y>12</y>
   </widget>
 </display>

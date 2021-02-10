@@ -6,6 +6,7 @@ CFE_APP, /cf/apps/SENS.so,      SENS_AppMain,    SENS,      52, 327680, 0x0, 0, 
 CFE_APP, /cf/apps/MPU9250.so,   MPU9250_AppMain,     MPU9250,      46, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/HMC5883.so,   HMC5883_AppMain,     HMC5883,      49, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/MS5611.so,    MS5611_AppMain,      MS5611,       82, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/ULR.so,       ULR_AppMain,     ULR,       67, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/MAC.so,       MAC_AppMain,     MAC,       55, 327680, 0x0, 0, 4;
 CFE_APP, /cf/apps/GPS.so,       GPS_AppMain,     GPS,       97, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/CI.so,        CI_AppMain,      CI,        115, 327680, 0x0, 0, 2;

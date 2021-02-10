@@ -42,7 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var tableName =VTypeHelper.getString(display.getWidget('TableName').getPropertyValue('pv_value'));
 
-var cmd = '/cfs/cfe_tbl/Activate(TableName: ' + tableName + ')';
+var cmd = '/cfs/cfe_tbl/Activate(Payload.TableName: ' + tableName + ')';
 
 Yamcs.issueCommand(cmd);
 
@@ -71,7 +71,7 @@ Yamcs.issueCommand(cmd);
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

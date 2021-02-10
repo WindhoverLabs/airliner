@@ -57,6 +57,45 @@
       id: 27
     TO_NO_ENCODE_FUNC_EID: 
       id: 28
+  msg_def_overrides:
+    - parent: TO_ChannelDiagTlm_t
+      member: State
+      type: enumeration
+      enumerations:
+        UNKNOWN: 0
+        CLOSED:  1
+        OPEN:    2
+    - parent: TO_ChannelDiagTlm_t
+      member: ConfigTableName
+      type: string
+    - parent: TO_ChannelDiagTlm_t
+      member: ConfigTableFileName
+      type: string
+    - parent: TO_ChannelDiagTlm_t
+      member: DumpTableName
+      type: string
+    - parent: TO_ChannelDiagTlm_t
+      member: ChannelName
+      type: string
+    - parent: TO_ChannelDiagTlm_t
+      member: ConfigTableName
+      type: string
+    - parent: TO_ChannelDiagTlm_t
+      member: ConfigTableFileName
+      type: string
+    - parent: TO_PriorityDiagTlm_t
+      member: State
+      type: enumeration
+      enumerations:
+        UNKNOWN: 0
+        CLOSED:  1
+        OPEN:    2
+    - parent: TO_PriorityDiagTlm_t
+      member: QType
+      type: enumeration
+      enumerations:
+        FIFO:   0
+        SINGLE: 1
   telemetry: 
     TO_DIAG_TLM_MID: 
       msgID: 

@@ -579,10 +579,12 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/cfe_time/Noop', {});]]></scriptText>
+        <embedded>true</embedded>
         <description></description>
       </action>
     </actions>
@@ -606,7 +608,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -624,7 +626,7 @@ $(pv_value)</tooltip>
     <tooltip>This command performs no other function than to increment the command execution counter.  The command may be used to verify general aliveness of the Event Services task.</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>67</width>
+    <width>79</width>
     <wuid>39deb42:1504a4eb8cc:-7de2</wuid>
     <x>276</x>
     <y>55</y>
@@ -632,10 +634,12 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/ResetCounters.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/cfe_time/Reset', {});]]></scriptText>
+        <embedded>true</embedded>
         <description></description>
       </action>
     </actions>
@@ -659,7 +663,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -678,7 +682,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>67</width>
+    <width>79</width>
     <wuid>-9ddfcbe:1507831914f:-7cfc</wuid>
     <x>276</x>
     <y>74</y>
@@ -720,7 +724,7 @@ $(pv_value)</tooltip>
     <width>295</width>
     <wrap_words>false</wrap_words>
     <wuid>763e00b7:150973f1dd8:-7cf4</wuid>
-    <x>66</x>
+    <x>12</x>
     <y>6</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -730,7 +734,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -905,7 +909,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -960,7 +964,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -1015,7 +1019,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -1070,7 +1074,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -1125,7 +1129,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -1180,7 +1184,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -1235,7 +1239,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -1309,7 +1313,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.Clock</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1356,7 +1360,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_1</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.Flying</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1403,7 +1407,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_2</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SrcInt</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1450,7 +1454,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_3</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SigPri</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1497,7 +1501,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_4</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SrvFly</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1544,7 +1548,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_5</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.CmdFly</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1591,7 +1595,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_6</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.AddAdj</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1638,7 +1642,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_7</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.Add1Hz</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1685,7 +1689,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_8</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.AddTcl</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1732,7 +1736,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_9</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.Server</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1779,7 +1783,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_10</name>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.GoodTone</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2316,7 +2320,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SecondsSCTF</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SecondsSTCF</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2368,7 +2372,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SubsecsSCTF</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_HkPacket_t.Payload.SubsecsSTCF</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

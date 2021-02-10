@@ -45,9 +45,9 @@ var fileName =VTypeHelper.getString(display.getWidget('FileName').getPropertyVal
 var cmd;
 
 if( fileName != 'no value' ) {
-    cmd = '/cfs/cfe_tbl/DumpReg(FileName: ' + fileName + ')';
+    cmd = '/cfs/cfe_tbl/DumpReg(Payload.DumpFilename: ' + fileName + ')';
 } else {
-    cmd = '/cfs/cfe_tbl/DumpReg(FileName: "")';
+    cmd = '/cfs/cfe_tbl/DumpReg(Payload.DumpFilename: "")';
 }
 
 Yamcs.issueCommand(cmd);
@@ -77,7 +77,7 @@ Yamcs.issueCommand(cmd);
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

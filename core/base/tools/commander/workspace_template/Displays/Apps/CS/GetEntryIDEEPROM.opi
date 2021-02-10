@@ -8,7 +8,7 @@
   </auto_scale_widgets>
   <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
   <background_color>
-    <color red="240" green="240" blue="240" />
+    <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
   <boy_version>1.5.3</boy_version>
   <foreground_color>
@@ -35,16 +35,16 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/QueryOneApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
 var Address =VTypeHelper.getDouble(display.getWidget('Address').getPropertyValue('pv_value'));
 
-var cmd = '/CFS/CS/GetEntryIDEEPROM(Address: ' + Address + ')';
+var cmd = '/cfs/cs/GetEntryIDEEPROM';
 
-Yamcs.issueCommand(cmd);]]></scriptText>
+Yamcs.issueCommand(cmd, {'Address': Address});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -69,7 +69,7 @@ Yamcs.issueCommand(cmd);]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>24</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -88,7 +88,7 @@ Yamcs.issueCommand(cmd);]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>109</width>
+    <width>120</width>
     <wuid>-736e4684:150ac3c95a1:-7e80</wuid>
     <x>48</x>
     <y>48</y>
@@ -143,7 +143,7 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color name="Border" red="240" green="240" blue="240" />
     </border_color>
     <border_style>3</border_style>
     <border_width>1</border_width>
@@ -156,7 +156,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <format_type>3</format_type>
+    <format_type>0</format_type>
     <height>19</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
@@ -166,7 +166,7 @@ $(pv_value)</tooltip>
     <name>Address</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://Address&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://GetEntryIDEEPROMAddress&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

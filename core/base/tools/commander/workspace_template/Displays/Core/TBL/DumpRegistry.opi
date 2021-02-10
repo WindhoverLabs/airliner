@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CFE-TBL - Dump Registry</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -45,9 +45,9 @@ var fileName =VTypeHelper.getString(display.getWidget('FileName').getPropertyVal
 var cmd;
 
 if( fileName != 'no value' ) {
-    cmd = '/cfs/cfe_tbl/DumpReg(FileName: ' + fileName + ')';
+    cmd = '/cfs/cfe_tbl/DumpReg(Payload.DumpFilename: ' + fileName + ')';
 } else {
-    cmd = '/cfs/cfe_tbl/DumpReg(FileName: "")';
+    cmd = '/cfs/cfe_tbl/DumpReg(Payload.DumpFilename: "")';
 }
 
 Yamcs.issueCommand(cmd);
@@ -77,7 +77,7 @@ Yamcs.issueCommand(cmd);
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -154,7 +154,7 @@ $(pv_value)</tooltip>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
     </font>
     <foreground_color>
       <color red="0" green="0" blue="0" />
@@ -169,7 +169,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Write Registry to file system.</text>
+    <text>Write Registry to File System</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>

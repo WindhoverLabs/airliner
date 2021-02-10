@@ -215,6 +215,152 @@
       id: 111
     FM_SET_PERM_OS_ERR_EID: 
       id: 112
+  msg_def_overrides:
+    - parent: FM_CopyFileCmd_t
+      member: Source
+      type: string
+    - parent: FM_CopyFileCmd_t
+      member: Target
+      type: string
+    - parent: FM_MoveFileCmd_t
+      member: Source
+      type: string
+    - parent: FM_MoveFileCmd_t
+      member: Target
+      type: string
+    - parent: FM_RenameFileCmd_t
+      member: Source
+      type: string
+    - parent: FM_RenameFileCmd_t
+      member: Target
+      type: string
+    - parent: FM_DeleteFileCmd_t
+      member: Filename
+      type: string
+    - parent: FM_DeleteAllCmd_t
+      member: Directory
+      type: string
+    - parent: FM_DecompressCmd_t
+      member: Source
+      type: string
+    - parent: FM_DecompressCmd_t
+      member: Target
+      type: string
+    - parent: FM_ConcatCmd_t
+      member: Source1
+      type: string
+    - parent: FM_ConcatCmd_t
+      member: Source2
+      type: string
+    - parent: FM_ConcatCmd_t
+      member: Target
+      type: string
+    - parent: FM_GetFileInfoCmd_t
+      member: Filename
+      type: string
+    - parent: FM_CreateDirCmd_t
+      member: Directory
+      type: string
+    - parent: FM_DeleteDirCmd_t
+      member: Directory
+      type: string
+    - parent: FM_GetDirFileCmd_t
+      member: Directory
+      type: string
+    - parent: FM_GetDirFileCmd_t
+      member: Filename
+      type: string
+    - parent: FM_GetDirPktCmd_t
+      member: Directory
+      type: string
+    - parent: FM_SetTableStateCmd_t
+      member: TableEntryState
+      type: enumeration
+      enumerations:
+        DISABLED: 0
+        ENABLED:  1
+        UNUSED:   2
+    - parent: FM_SetPermCmd_t
+      member: FileName
+      type: string
+    - parent: FM_DirListEntry_t
+      member: EntryName
+      type: string
+    - parent: FM_DirListPkt_t
+      member: DirName
+      type: string
+    - parent: FM_DirListFileStats_t
+      member: DirName
+      type: string
+    - parent: FM_FileInfoPkt_t
+      member: Filename
+      type: string
+    - parent: FM_OpenFilesEntry_t
+      member: LogicalName
+      type: string
+    - parent: FM_OpenFilesEntry_t
+      member: AppName
+      type: string
+    - parent: FM_FreeSpacePktEntry_t
+      member: Name
+      type: string
+    - parent: FM_HousekeepingPkt_t
+      member: ChildCurrentCC
+      type: enumeration
+      enumerations:
+        NOOP:             0
+        RESET:            1
+        COPY:             2
+        MOVE:             3
+        RENAME:           4
+        DELETE:           5
+        DELETE_ALL:       7
+        DECOMPRESS:       8
+        CONCAT:           9
+        GET_FILE_INFO:   10
+        GET_OPEN_FILES:  11
+        CREATE_DIR:      12
+        DELETE_DIR:      13
+        GET_DIR_FILE:    14
+        GET_DIR_PKT:     15
+        GET_FREE_SPACE:  16
+        SET_TABLE_STATE: 17
+        DELETE_INT:      18
+        SET_FILE_PEERM:  19
+    - parent: FM_HousekeepingPkt_t
+      member: ChildPreviousCC
+      type: enumeration
+      enumerations:
+        NOOP:             0
+        RESET:            1
+        COPY:             2
+        MOVE:             3
+        RENAME:           4
+        DELETE:           5
+        DELETE_ALL:       7
+        DECOMPRESS:       8
+        CONCAT:           9
+        GET_FILE_INFO:   10
+        GET_OPEN_FILES:  11
+        CREATE_DIR:      12
+        DELETE_DIR:      13
+        GET_DIR_FILE:    14
+        GET_DIR_PKT:     15
+        GET_FREE_SPACE:  16
+        SET_TABLE_STATE: 17
+        DELETE_INT:      18
+        SET_FILE_PEERM:  19
+    - parent: FM_TableEntry_t
+      member: Name
+      type: string
+    - parent: FM_TableEntry_t
+      member: State
+      type: enumeration
+      enumerations:
+        DISABLED: 0
+        ENABLED:  1
+        UNUSED:   2
+        
   telemetry: 
     FM_HK_TLM_MID: 
       msgID: 

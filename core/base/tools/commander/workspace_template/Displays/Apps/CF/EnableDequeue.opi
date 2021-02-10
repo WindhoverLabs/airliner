@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>80</height>
+  <height>120</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CF - Enable Dequeue</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -35,7 +35,7 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
@@ -50,7 +50,11 @@ if( Channel == 'Channel 1' ) {
     pChannel = 2;
 } 
 
-Yamcs.issueCommand('/CFS/CF/EnableDequeue(Channel: ' + pChannel + ')');
+Yamcs.issueCommand('/cfs/cf/EnableDequeue', {
+    'Chan': pChannel,
+    'Spare_0_': 0,
+    'Spare_1_': 0,
+    'Spare_2_': 0});
 
 ]]></scriptText>
         <embedded>true</embedded>
@@ -77,7 +81,7 @@ Yamcs.issueCommand('/CFS/CF/EnableDequeue(Channel: ' + pChannel + ')');
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image></image>
+    <image>../../Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -90,16 +94,16 @@ Yamcs.issueCommand('/CFS/CF/EnableDequeue(Channel: ' + pChannel + ')');
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Enable Dequeue</text>
+    <text>Send</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>163</width>
+    <width>80</width>
     <wuid>31ffe3bf:150a7259bb9:-670a</wuid>
-    <x>60</x>
-    <y>42</y>
+    <x>102</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -139,7 +143,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>31ffe3bf:150a7259bb9:-66f9</wuid>
     <x>12</x>
-    <y>13</y>
+    <y>43</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.radioBox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -170,7 +174,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Channel</name>
-    <pv_name>loc://Channel</pv_name>
+    <pv_name>loc://EnbaleDequeueChannel</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -189,6 +193,46 @@ $(pv_value)</tooltip>
     <width>229</width>
     <wuid>31ffe3bf:150a7259bb9:-6615</wuid>
     <x>78</x>
+    <y>42</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_7</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Enable Dequeue</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>199</width>
+    <wrap_words>false</wrap_words>
+    <wuid>6c5e5e62:1775b7b9abc:-724e</wuid>
+    <x>42</x>
     <y>12</y>
   </widget>
 </display>
