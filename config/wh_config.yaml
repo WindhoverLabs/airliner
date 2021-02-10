@@ -6,6 +6,80 @@ modules:
     modules:
       cfe:
         definition: ${PROJECT_SOURCE_DIR}/core/base/cfe/wh_design.yaml
+        modules:
+          cfe_es:
+            telemetry:
+              CFE_ES_HK_TLM_MID:
+                msgID: 0x080f
+              CFE_ES_APP_TLM_MID:
+                msgID: 0x0817
+              CFE_ES_MEMSTATS_TLM_MID:
+                msgID: 0x081c
+              CFE_ES_SHELL_TLM_MID:
+                msgID: 0x081b
+            commands:
+              CFE_ES_CMD_MID:
+                msgID: 0x1804
+              CFE_ES_SEND_HK_MID:
+                msgID: 0x1805
+          cfe_evs:
+            telemetry:
+              CFE_EVS_HK_TLM_MID:
+                msgID: 0x0810
+              CFE_EVS_EVENT_MSG_MID:
+                msgID: 0x0815
+            commands:
+              CFE_EVS_CMD_MID:
+                msgID: 0x1800
+              CFE_EVS_SEND_HK_MID:
+                msgID: 0x1806
+          cfe_sb:
+            telemetry:
+              CFE_SB_HK_TLM_MID:
+                msgID: 0x0811
+              CFE_SB_STATS_TLM_MID:
+                msgID: 0x0816
+              CFE_SB_ALLSUBS_TLM_MID:
+                msgID: 0x0819
+              CFE_SB_ONESUB_TLM_MID:
+                msgID: 0x081a
+            commands:
+              CFE_SB_CMD_MID:
+                msgID: 0x1801
+              CFE_SB_SEND_HK_MID:
+                msgID: 0x1807
+          cfe_tbl:
+            telemetry:
+              CFE_TBL_HK_TLM_MID:
+                msgID: 0x1802
+              CFE_TBL_REG_TLM_MID:
+                msgID: 0x0818
+            commands:
+              CFE_TBL_CMD_MID:
+                msgID: 0x0802
+              CFE_TBL_SEND_HK_MID:
+                msgID: 0x1808
+          cfe_time:
+            telemetry:
+              CFE_TIME_DIAG_TLM_MID:
+                msgID: 0x0802
+              CFE_TIME_HK_TLM_MID:
+                msgID: 0x0813
+            commands:
+              CFE_TIME_CMD_MID:
+                msgID: 0x1803
+              CFE_TIME_SEND_HK_MID:
+                msgID: 0x1809
+              CFE_TIME_DATA_CMD_MID:
+                msgID: 0x180c
+              CFE_TIME_TONE_CMD_MID:
+                msgID: 0x180a
+              CFE_TIME_FAKE_CMD_MID:
+                msgID: 0x180d
+              CFE_TIME_1HZ_CMD_MID:
+                msgID: 0x180b
+              CFE_TIME_SEND_CMD_MID:
+                msgID: 0x180e
       osal:
         definition: ${PROJECT_SOURCE_DIR}/core/osal/posix-fast/wh_design.yaml
         
@@ -13,31 +87,31 @@ modules:
     definition: ${PROJECT_SOURCE_DIR}/apps/cf/wh_design.yaml
     telemetry: 
       CF_CONFIG_TLM_MID: 
-        msgID: 0x0919
+        msgID: 0x08ff
       CF_HK_TLM_MID: 
-        msgID: 0x091a
+        msgID: 0x08ff
       CF_TRANS_TLM_MID:
-        msgID: 0x0920
+        msgID: 0x08ff
     commands:
       CF_CMD_MID: 
-        msgID: 0x1910
+        msgID: 0x18ff
       CF_SEND_HK_MID: 
-        msgID: 0x1912
+        msgID: 0x18ff
       CF_WAKE_UP_REQ_CMD_MID:
-        msgID: 0x1918
+        msgID: 0x18ff
     
   ci:
     definition: ${PROJECT_SOURCE_DIR}/apps/ci/wh_design.yaml
     telemetry:
       CI_HK_TLM_MID:
-        msgID: 0x0907
+        msgID: 0x08ff
     commands:
       CI_CMD_MID:
-        msgID: 0x1905
+        msgID: 0x18ff
       CI_WAKEUP_MID:
-        msgID: 0x1908
+        msgID: 0x18ff
       CI_PROCESS_TIMEOUTS_MID:
-        msgID: 0x190a
+        msgID: 0x18ff
     perfids:
       CI_MAIN_TASK_PERF_ID:
         id: 33
@@ -50,14 +124,14 @@ modules:
     definition: ${PROJECT_SOURCE_DIR}/apps/cs/wh_design.yaml
     telemetry: 
       CS_HK_TLM_MID: 
-        msgID: 0x0933
+        msgID: 0x08ff
     commands: 
       CS_CMD_MID: 
-        msgID: 0x1930
+        msgID: 0x18ff
       CS_BACKGROUND_CYCLE_MID: 
-        msgID: 0x1931
+        msgID: 0x18ff
       CS_SEND_HK_MID: 
-        msgID: 0x1932
+        msgID: 0x18ff
     perfids: 
       CS_APPMAIN_PERF_ID: 
         id: 44
@@ -66,14 +140,14 @@ modules:
     definition: ${PROJECT_SOURCE_DIR}/apps/ds/wh_design.yaml
     telemetry: 
       DS_HK_TLM_MID: 
-        msgID: 0x0942
+        msgID: 0x08ff
       DS_DIAG_TLM_MID: 
-        msgID: 0x0943
+        msgID: 0x08ff
     commands: 
       DS_CMD_MID: 
-        msgID: 0x1940
+        msgID: 0x18ff
       DS_SEND_HK_MID: 
-        msgID: 0x1941
+        msgID: 0x18ff
     perfids: 
       DS_APPMAIN_PERF_ID: 
         id: 45
@@ -82,20 +156,20 @@ modules:
     definition: ${PROJECT_SOURCE_DIR}/apps/fm/wh_design.yaml
     telemetry: 
       FM_HK_TLM_MID: 
-        msgID: 0x0982
+        msgID: 0x08ff
       FM_OPEN_FILES_TLM_MID: 
-        msgID: 0x0983
+        msgID: 0x08ff
       FM_FREE_SPACE_TLM_MID: 
-        msgID: 0x0984
+        msgID: 0x08ff
       FM_FILE_INFO_TLM_MID: 
-        msgID: 0x0985
+        msgID: 0x08ff
       FM_DIR_LIST_TLM_MID: 
-        msgID: 0x0986
+        msgID: 0x08ff
     commands: 
       FM_CMD_MID: 
-        msgID: 0x1980
+        msgID: 0x18ff
       FM_SEND_HK_MID: 
-        msgID: 0x1981
+        msgID: 0x18ff
     perfids: 
       FM_APPMAIN_PERF_ID: 
         id: 46
@@ -106,14 +180,14 @@ modules:
     definition: ${PROJECT_SOURCE_DIR}/apps/hk/wh_design.yaml
     telemetry: 
       HK_HK_TLM_MID: 
-        msgID: 0x0993
+        msgID: 0x08ff
     commands: 
       HK_CMD_MID: 
-        msgID: 0x1990
+        msgID: 0x18ff
       HK_SEND_HK_MID: 
-        msgID: 0x1991
+        msgID: 0x18ff
       HK_SEND_COMBINED_PKT_MID: 
-        msgID: 0x1992
+        msgID: 0x18ff
     perfids: 
       HK_APPMAIN_PERF_ID: 
         id: 48
@@ -122,16 +196,16 @@ modules:
     definition: ${PROJECT_SOURCE_DIR}/apps/hs/wh_design.yaml
     telemetry: 
       HS_HK_TLM_MID: 
-        msgID: 0x09a3
+        msgID: 0x08ff
       HS_CUSTOM_HK_TLM_MID:
-        msgID: 0x09a4
+        msgID: 0x08ff
     commands: 
       HS_CMD_MID: 
-        msgID: 0x19a0
+        msgID: 0x18ff
       HS_SEND_HK_MID: 
-        msgID: 0x19a1
+        msgID: 0x18ff
       HS_WAKEUP_MID: 
-        msgID: 0x19a2
+        msgID: 0x18ff
     perfids: 
       HS_IDLETASK_PERF_ID: 
         id: 49
@@ -142,14 +216,14 @@ modules:
     definition: ${PROJECT_SOURCE_DIR}/apps/lc/wh_design.yaml
     telemetry: 
       LC_HK_TLM_MID: 
-        msgID: 0x09b0
+        msgID: 0x08ff
       LC_SAMPLE_AP_MID: 
-        msgID: 0x09b3
+        msgID: 0x08ff
     commands: 
       LC_CMD_MID: 
-        msgID: 0x19b2
+        msgID: 
       LC_SEND_HK_MID: 
-        msgID: 0x19b1
+        msgID: 
     perfids: 
       LC_APPMAIN_PERF_ID: 
         id: 51
@@ -160,24 +234,24 @@ modules:
     definition: ${PROJECT_SOURCE_DIR}/apps/md/wh_design.yaml
     telemetry: 
       MD_HK_TLM_MID: 
-        msgID: 0x09c6
+        msgID: 0x08ff
       MD_DWELL_PKT1_MID: 
-        msgID: 0x09c7
+        msgID: 0x08ff
       MD_DWELL_PKT2_MID: 
-        msgID: 0x09c8
+        msgID: 0x08ff
       MD_DWELL_PKT3_MID: 
-        msgID: 0x09c9
+        msgID: 0x08ff
       MD_DWELL_PKT4_MID: 
-        msgID: 0x09ca
+        msgID: 0x08ff
       MD_DWELL_PKT5_MID: 
-        msgID: 0x09cb
+        msgID: 0x08ff
     commands: 
       MD_CMD_MID: 
-        msgID: 0x19c3
+        msgID: 0x18ff
       MD_WAKEUP_MID: 
-        msgID: 0x19c4
+        msgID: 0x18ff
       MD_SEND_HK_MID: 
-        msgID: 0x19c5
+        msgID: 0x18ff
     perfids: 
       MD_APPMAIN_PERF_ID: 
         id: 53
@@ -186,12 +260,12 @@ modules:
     definition: ${PROJECT_SOURCE_DIR}/apps/mm/wh_design.yaml
     telemetry: 
       MM_HK_TLM_MID: 
-        msgID: 0x09c2
+        msgID: 0x08ff
     commands: 
       MM_CMD_MID: 
-        msgID: 0x19c0
+        msgID: 0x18ff
       MM_SEND_HK_MID: 
-        msgID: 0x19c1
+        msgID: 0x18ff
     perfids: 
       MM_APPMAIN_PERF_ID: 
         id: 54
@@ -208,14 +282,14 @@ modules:
     definition: ${PROJECT_SOURCE_DIR}/apps/sc/wh_design.yaml
     telemetry:
       SC_HK_TLM_MID:
-        msgID: 0x09e3
+        msgID: 0x08ff
     commands:
       SC_CMD_MID:
-        msgID: 0x19e0
+        msgID: 0x18ff
       SC_SEND_HK_MID:
-        msgID: 0x19e1
+        msgID: 0x18ff
       SC_1HZ_WAKEUP_MID:
-        msgID: 0x19e2
+        msgID: 0x18ff
     perfids:
       SC_APPMAIN_PERF_ID:
         id: 59
@@ -224,16 +298,16 @@ modules:
     definition: ${PROJECT_SOURCE_DIR}/apps/sch/wh_design.yaml
     telemetry:
       SCH_DIAG_TLM_MID:
-        msgID: 0x09e7
+        msgID: 0x08ff
       SCH_HK_TLM_MID:
-        msgID: 0x09e8
+        msgID: 0x08ff
       SCH_ACTIVITY_DONE_MID:
-        msgID: 0x09e9
+        msgID: 0x08ff
     commands:
       SCH_CMD_MID:
-        msgID: 0x19e4
+        msgID: 0x18ff
       SCH_SEND_HK_MID:
-        msgID: 0x19e5
+        msgID: 0x18ff
     perfids:
       SCH_APPMAIN_PERF_ID:
         id: 61
@@ -242,16 +316,16 @@ modules:
     definition: ${PROJECT_SOURCE_DIR}/apps/to/wh_design.yaml
     telemetry:
       TO_DIAG_TLM_MID:
-        msgID: 0x0911
+        msgID: 0x08ff
       TO_HK_TLM_MID:
-        msgID: 0x0902
+        msgID: 0x08ff
     commands:
       TO_CMD_MID:
-        msgID: 0x1900
+        msgID: 0x18ff
       TO_SEND_HK_MID:
-        msgID: 0x1901
+        msgID: 0x18ff
       TO_SEND_TLM_MID:
-        msgID: 0x1903
+        msgID: 0x18ff
     perfids:
       TO_MAIN_TASK_PERF_ID:
         id: 60
@@ -261,16 +335,16 @@ modules:
   ak8963:
     telemetry:
       AK8963_HK_TLM_MID:
-        msgID: 0x0cc1
+        msgID: 0x08ff
       AK8963_DIAG_TLM_MID:
-        msgID: 0x0cc5
+        msgID: 0x08ff
     commands:
       AK8963_CMD_MID:
-        msgID: 0x1cc4
+        msgID: 0x18ff
       AK8963_WAKEUP_MID:
-        msgID: 0x1cc3
+        msgID: 0x18ff
       AK8963_SEND_HK_MID:
-        msgID: 0x1cc2
+        msgID: 0x18ff
     perfids:
       AK8963_RECEIVE_PERF_ID:
         id: 102
@@ -283,14 +357,14 @@ modules:
   amc:
     telemetry:
       AMC_HK_TLM_MID:
-        msgID: 0x0c41
+        msgID: 0x08ff
     commands:
       AMC_CMD_MID:
-        msgID: 0x1c3d
+        msgID: 0x18ff
       AMC_SEND_HK_MID:
-        msgID: 0x1c3e
+        msgID: 0x18ff
       AMC_UPDATE_MOTORS_MID:
-        msgID: 0x1c3f
+        msgID: 0x18ff
     perfids:
       AMC_MAIN_TASK_PERF_ID:
         id: 67
@@ -303,14 +377,14 @@ modules:
   bat:
     telemetry:
       BAT_HK_TLM_MID:
-        msgID: 0x0c71
+        msgID: 0x08ff
     commands:
       BAT_CMD_MID:
-        msgID: 0x1c74
+        msgID: 0x18ff
       BAT_SEND_HK_MID:
-        msgID: 0x1c72
+        msgID: 0x18ff
       BAT_WAKEUP_MID:
-        msgID: 0x1c73
+        msgID: 0x18ff
     perfids:
       BAT_MAIN_TASK_PERF_ID:
         id: 82
@@ -319,12 +393,12 @@ modules:
   ea:
     telemetry:
       EA_HK_TLM_MID:
-        msgID: 0x0c2b
+        msgID: 0x08ff
     commands:
       EA_CMD_MID:
-        msgID: 0x1c29
+        msgID: 0x18ff
       EA_WAKEUP_MID:
-        msgID: 0x1c2c
+        msgID: 0x18ff
     perfids:
       EA_MAIN_TASK_PERF_ID:
         id: 69
@@ -333,14 +407,14 @@ modules:
   gps:
     telemetry:
       GPS_HK_TLM_MID:
-        msgID: 0x0c54
+        msgID: 0x08ff
     commands:
       GPS_CMD_MID:
-        msgID: 0x1c51
+        msgID: 0x18ff
       GPS_SEND_HK_MID:
-        msgID: 0x1c52
+        msgID: 0x18ff
       GPS_READ_SENSOR_MID:
-        msgID: 0x1c53
+        msgID: 0x18ff
     perfids: 
       GPS_MAIN_TASK_PERF_ID:
         id: 116
@@ -349,16 +423,16 @@ modules:
   hmc5883:
     telemetry:
       HMC5883_HK_TLM_MID:
-        msgID: 0x0ca1
+        msgID: 0x08ff
       HMC5883_DIAG_TLM_MID:
-        msgID: 0x0ca5
+        msgID: 0x08ff
     commands:
       HMC5883_CMD_MID:
-        msgID: 0x1ca4
+        msgID: 0x18ff
       HMC5883_WAKEUP_MID:
-        msgID: 0x1ca3
+        msgID: 0x18ff
       HMC5883_SEND_HK_MID:
-        msgID: 0x1ca2
+        msgID: 0x18ff
     perfids:
       HMC5883_MAIN_TASK_PERF_ID:
         id: 87
@@ -371,16 +445,16 @@ modules:
   ld:
     telemetry:
       LD_HK_TLM_MID:
-        msgID: 0x0c5d
+        msgID: 0x08ff
       LD_DIAG_TLM_MID:
-        msgID: 0x0ceb
+        msgID: 0x08ff
     commands:
       LD_CMD_MID:
-        msgID: 0x1c60
+        msgID: 
       LD_SEND_HK_MID:
-        msgID: 0x1c5e
+        msgID: 
       LD_WAKEUP_MID:
-        msgID: 0x1c5f
+        msgID: 
     perfids:
       LD_MAIN_TASK_PERF_ID:
         id: 77
@@ -389,14 +463,14 @@ modules:
   lgc:
     telemetry:
       LGC_HK_TLM_MID:
-        msgID: 0x0cb0
+        msgID: 0x08ff
     commands:
       LGC_CMD_MID:
-        msgID: 0x1cb3
+        msgID: 0x18ff
       LGC_SEND_HK_MID:
-        msgID: 0x1cb1
+        msgID: 0x18ff
       LGC_WAKEUP_MID:
-        msgID: 0x1cb2
+        msgID: 0x18ff
     perfids:
       LGC_MAIN_TASK_PERF_ID:
         id: 112
@@ -405,14 +479,14 @@ modules:
   mac:
     telemetry:
       MAC_HK_TLM_MID:
-        msgID: 0x0c46
+        msgID: 0x08ff
     commands:
       MAC_CMD_MID:
-        msgID: 0x1c42
+        msgID: 0x18ff
       MAC_SEND_HK_MID:
-        msgID: 0x1c43
+        msgID: 0x18ff
       MAC_RUN_CONTROLLER_MID:
-        msgID: 0x1c44
+        msgID: 0x18ff
     perfids:
       MAC_MAIN_TASK_PERF_ID:
         id: 68
@@ -421,16 +495,16 @@ modules:
   mpc:
     telemetry:
       MPC_HK_TLM_MID:
-        msgID: 0x0c61
+        msgID: 0x08ff
       MPC_DIAG_TLM_MID:
-        msgID: 0x0cea
+        msgID: 0x08ff
     commands:
       MPC_CMD_MID:
-        msgID: 0x1c64
+        msgID: 0x18ff
       MPC_WAKEUP_MID:
-        msgID: 0x1c63
+        msgID: 0x18ff
       MPC_SEND_HK_MID:
-        msgID: 0x1c62
+        msgID: 0x18ff
     perfids:
       MPC_MAIN_TASK_PERF_ID:
         id: 78
@@ -439,16 +513,16 @@ modules:
   mpu6050:
     telemetry:
       MPU6050_HK_TLM_MID:
-        msgID: 0x0cd1
+        msgID: 0x08ff
       MPU6050_DIAG_TLM_MID:
-        msgID: 0x0cd2
+        msgID: 0x08ff
     commands:
       MPU6050_CMD_MID:
-        msgID: 0x1cd3
+        msgID: 0x18ff
       MPU6050_SEND_HK_MID:
-        msgID: 0x1cd0
+        msgID: 0x18ff
       MPU6050_MEASURE_MID:
-        msgID: 0x1cd4
+        msgID: 0x18ff
     perfids:
       MPU6050_MAIN_TASK_PERF_ID:
         id: 105
@@ -461,16 +535,16 @@ modules:
   mpu9250:
     telemetry:
       MPU9250_HK_TLM_MID:
-        msgID: 0x0b51
+        msgID: 0x08ff
       MPU9250_DIAG_TLM_MID:
-        msgID: 0x0b52
+        msgID: 0x08ff
     commands:
       MPU9250_CMD_MID:
-        msgID: 0x1b53
+        msgID: 0x18ff
       MPU9250_SEND_HK_MID:
-        msgID: 0x1b50
+        msgID: 0x18ff
       MPU9250_MEASURE_MID:
-        msgID: 0x1b54
+        msgID: 0x18ff
     perfids:
       MPU9250_MAIN_TASK_PERF_ID:
         id: 83
@@ -479,16 +553,16 @@ modules:
   ms5607:
     telemetry:
       MS5607_HK_TLM_MID:
-        msgID: 0x0cb6
+        msgID: 0x08ff
       MS5607_DIAG_TLM_MID:
-        msgID: 0x0cb7
+        msgID: 0x08ff
     commands:
       MS5607_CMD_MID:
-        msgID: 0x1cb8
+        msgID: 0x18ff
       MS5607_SEND_HK_MID:
-        msgID: 0x1cb5
+        msgID: 0x18ff
       MS5607_MEASURE_MID:
-        msgID: 0x1cb9
+        msgID: 0x18ff
     perfids:
       MS5607_MAIN_TASK_PERF_ID:
         id: 99
@@ -501,16 +575,16 @@ modules:
   ms5611:
     telemetry:
       MS5611_HK_TLM_MID:
-        msgID: 0x0b61
+        msgID: 0x08ff
       MS5611_DIAG_TLM_MID:
-        msgID: 0x0b62
+        msgID: 0x08ff
     commands:
       MS5611_CMD_MID:
-        msgID: 0x1b63
+        msgID: 0x18ff
       MS5611_SEND_HK_MID:
-        msgID: 0x1b60
+        msgID: 0x18ff
       MS5611_MEASURE_MID:
-        msgID: 0x1b64
+        msgID: 0x18ff
     perfids:
       MS5611_MAIN_TASK_PERF_ID:
         id: 74
@@ -519,14 +593,14 @@ modules:
   nav:
     telemetry:
       NAV_HK_TLM_MID:
-        msgID: 0x0c65
+        msgID: 0x08ff
     commands:
       NAV_CMD_MID:
-        msgID: 0x1c68
+        msgID: 0x18ff
       NAV_SEND_HK_MID:
-        msgID: 0x1c66
+        msgID: 0x18ff
       NAV_WAKEUP_MID:
-        msgID: 0x1c67
+        msgID: 0x18ff
     perfids:
       NAV_MAIN_TASK_PERF_ID:
         id: 79
@@ -535,14 +609,14 @@ modules:
 #   prmlib:
 #     telemetry:
 #       PRMLIB_PARAM_UPDATED_MID:
-#         msgID: 0x0ca6
+#         msgID: 
 #     commands:
 #       PRM_CMD_MID:
-#         msgID: 0x1ced
+#         msgID: 
 #       PRM_SEND_HK_MID:
-#         msgID: 0x1cee
+#         msgID: 
 #       PRM_WAKEUP_MID:
-#         msgID: 0x1cef
+#         msgID: 
 #     perfids:
 #       PARAMS_MAIN_TASK_PERF_ID:
 #         id: 90
@@ -551,14 +625,14 @@ modules:
   pe:
     telemetry:
       PE_HK_TLM_MID:
-        msgID: 0x0c79
+        msgID: 0x08ff
     commands:
       PE_CMD_MID:
-        msgID: 0x1c7c
+        msgID: 0x18ff
       PE_SEND_HK_MID:
-        msgID: 0x1c7a
+        msgID: 0x18ff
       PE_WAKEUP_MID:
-        msgID: 0x1c7b
+        msgID: 0x18ff
     perfids:
       PE_MAIN_TASK_PERF_ID:
         id: 92
@@ -581,14 +655,14 @@ modules:
   qae:
     telemetry:
       QAE_HK_TLM_MID:
-        msgID: 0x0c59
+        msgID: 0x08ff
     commands:
       QAE_CMD_MID:
-        msgID: 0x1c5c
+        msgID: 0x18ff
       QAE_SEND_HK_MID:
-        msgID: 0x1c5a
+        msgID: 0x18ff
       QAE_WAKEUP_MID:
-        msgID: 0x1c5b
+        msgID: 0x18ff
     perfids:
       QAE_MAIN_TASK_PERF_ID:
         id: 76
@@ -599,14 +673,14 @@ modules:
   rcin:
     telemetry:
       RCIN_HK_TLM_MID:
-        msgID: 0x0c69
+        msgID: 0x08ff
     commands:
       RCIN_CMD_MID:
-        msgID: 0x1c6c
+        msgID: 0x18ff
       RCIN_SEND_HK_MID:
-        msgID: 0x1c6a
+        msgID: 0x18ff
       RCIN_WAKEUP_MID:
-        msgID: 0x1c6b
+        msgID: 0x18ff
     perfids:
       RCIN_MAIN_TASK_PERF_ID:
         id: 80
@@ -617,14 +691,14 @@ modules:
   rgbled:
     telemetry:
       RGBLED_HK_TLM_MID:
-        msgID: 0x0c4f
+        msgID: 0x08ff
     commands:
       RGBLED_CMD_MID:
-        msgID: 0x1c4c
+        msgID: 0x18ff
       RGBLED_SEND_HK_MID:
-        msgID: 0x1c4d
+        msgID: 0x18ff
       RGBLED_WAKEUP_MID:
-        msgID: 0x1c4e
+        msgID: 0x18ff
     perfids:
       RGBLED_MAIN_TASK_PERF_ID:
         id: 71
@@ -637,20 +711,20 @@ modules:
 #   sbn:
 #     commands:
 #       SBN_WAKEUP_MID:
-#         msgID: 0x1ba0
+#         msgID: 
 #     definition: ${PROJECT_SOURCE_DIR}/apps/sbn/wh_design.yaml
     
   sc:
     telemetry:
       SC_HK_TLM_MID:
-        msgID: 0x09e3
+        msgID: 0x08ff
     commands:
       SC_CMD_MID:
-        msgID: 0x19e0
+        msgID: 0x18ff
       SC_SEND_HK_MID:
-        msgID: 0x19e1
+        msgID: 0x18ff
       SC_1HZ_WAKEUP_MID:
-        msgID: 0x19e2
+        msgID: 0x18ff
     perfids:
       SC_APPMAIN_PERF_ID:
         id: 59
@@ -659,14 +733,14 @@ modules:
   sens:
     telemetry:
       SENS_HK_TLM_MID:
-        msgID: 0x0c55
+        msgID: 0x08ff
     commands:
       SENS_CMD_MID:
-        msgID: 0x1c58
+        msgID: 0x18ff
       SENS_WAKEUP_MID:
-        msgID: 0x1c57
+        msgID: 0x18ff
       SENS_SEND_HK_MID:
-        msgID: 0x1c56
+        msgID: 0x18ff
     perfids:
       SENS_MAIN_TASK_PERF_ID:
         id: 75
@@ -675,14 +749,14 @@ modules:
 #   sim:
 #     telemetry:
 #       SIM_HK_TLM_MID:
-#         msgID: 0x0c7d
+#         msgID: 
 #     commands:
 #       SIM_CMD_MID:
-#         msgID: 0x1c80
+#         msgID: 
 #       SIM_WAKEUP_MID:
-#         msgID: 0x1c7f
+#         msgID: 
 #       SIM_SEND_HK_MID:
-#         msgID: 0x1c7e
+#         msgID: 
 #     perfids:
 #       SIM_MAIN_TASK_PERF_ID:
 #         id: 85
@@ -691,16 +765,16 @@ modules:
   sonar:
     telemetry:
       SONAR_OUT_DATA_MID:
-        msgID: 0x0cd9
+        msgID: 0x08ff
       SONAR_HK_TLM_MID:
-        msgID: 0x0ce0
+        msgID: 0x08ff
     commands:
       SONAR_CMD_MID:
-        msgID: 0x1cd6
+        msgID: 0x18ff
       SONAR_SEND_HK_MID:
-        msgID: 0x1cd7
+        msgID: 0x18ff
       SONAR_MEASURE_MID:
-        msgID: 0x1cd8
+        msgID: 0x18ff
     perfids:
       SONAR_MAIN_TASK_PERF_ID:
         id: 111
@@ -709,14 +783,14 @@ modules:
   ulr:
     telemetry:
       ULR_HK_TLM_MID:
-        msgID: 0x0c4b
+        msgID: 0x08ff
     commands:
       ULR_CMD_MID:
-        msgID: 0x1c47
+        msgID: 0x18ff
       ULR_SEND_HK_MID:
-        msgID: 0x1c48
+        msgID: 0x18ff
       ULR_MEASURE_MID:
-        msgID: 0x1c49
+        msgID: 0x18ff
     perfids:
       ULR_MAIN_TASK_PERF_ID:
         id: 70
@@ -725,14 +799,14 @@ modules:
   vc:
     telemetry:
       VC_HK_TLM_MID:
-        msgID: 0x0c39
+        msgID: 0x08ff
     commands:
       VC_CMD_MID:
-        msgID: 0x1c3b
+        msgID: 0x18ff
       VC_SEND_HK_MID:
-        msgID: 0x1c3a
+        msgID: 0x18ff
       VC_PROCESS_CMDS_MID:
-        msgID: 0x1c3c
+        msgID: 0x18ff
     perfids:
       VC_MAIN_TASK_PERF_ID:
         id: 63
@@ -745,16 +819,16 @@ modules:
   vm:
     telemetry:
       VM_HK_TLM_MID:
-        msgID: 0x0c6d
+        msgID: 0x08ff
       VM_CONFIG_TLM_MID:
-        msgID: 0x0cec
+        msgID: 0x08ff
     commands:
       VM_CMD_MID:
-        msgID: 0x1c70
+        msgID: 0x18ff
       VM_SEND_HK_MID:
-        msgID: 0x1c6e
+        msgID: 0x18ff
       VM_WAKEUP_MID:
-        msgID: 0x1c6f
+        msgID: 0x18ff
     perfids:
       VM_MAIN_TASK_PERF_ID:
         id: 81
@@ -763,188 +837,188 @@ modules:
 #   px4lib:
 #     telemetry:
 #       PX4_ACTUATOR_ARMED_MID:
-#         msgID: 0x0a05
+#         msgID: 
 #       PX4_ACTUATOR_CONTROLS_0_MID:
-#         msgID: 0x0a06
+#         msgID: 
 #       PX4_ACTUATOR_CONTROLS_1_MID:
-#         msgID: 0x0a5f
+#         msgID: 
 #       PX4_ACTUATOR_CONTROLS_2_MID:
-#         msgID: 0x0a5d
+#         msgID: 
 #       PX4_ACTUATOR_CONTROLS_3_MID:
-#         msgID: 0x0a5e
+#         msgID: 
 #       PX4_ACTUATOR_DIRECT_MID:
-#         msgID: 0x0a07
+#         msgID: 
 #       PX4_ACTUATOR_OUTPUTS_MID:
-#         msgID: 0x0a08
+#         msgID: 
 #       PX4_ADC_REPORT_MID:
-#         msgID: 0x0a09
+#         msgID: 
 #       PX4_AIRSPEED_MID:
-#         msgID: 0x0a0a
+#         msgID: 
 #       PX4_ATT_POS_MOCAP_MID:
-#         msgID: 0x0a0b
+#         msgID: 
 #       PX4_BATTERY_STATUS_MID:
-#         msgID: 0x0a0c
+#         msgID: 
 #       PX4_CAMERA_TRIGGER_MID:
-#         msgID: 0x0a0d
+#         msgID: 
 #       PX4_COMMANDER_STATE_MID:
-#         msgID: 0x0a0e
+#         msgID: 
 #       PX4_CONTROL_STATE_MID:
-#         msgID: 0x0a0f
+#         msgID: 
 #       PX4_CPULOAD_MID:
-#         msgID: 0x0a10
+#         msgID: 
 #       PX4_DEBUG_KEY_VALUE_MID:
-#         msgID: 0x0a11
+#         msgID: 
 #       PX4_DIFFERENTIAL_PRESSURE_MID:
-#         msgID: 0x0a12
+#         msgID: 
 #       PX4_DISTANCE_SENSOR_MID:
-#         msgID: 0x0a13
+#         msgID: 
 #       PX4_FW_POS_CTRL_STATUS_MID:
-#         msgID: 0x0a14
+#         msgID: 
 #       PX4_FW_VIRTUAL_ATTITUDE_SETPOINT_MID:
-#         msgID: 0x0a15
+#         msgID: 
 #       PX4_FW_VIRTUAL_RATES_SETPOINT_MID:
-#         msgID: 0x0a16
+#         msgID: 
 #       PX4_EKF2_INNOVATIONS_MID:
-#         msgID: 0x0a17
+#         msgID: 
 #       PX4_EKF2_REPLAY_MID:
-#         msgID: 0x0a18
+#         msgID: 
 #       PX4_ESC_REPORT_MID:
-#         msgID: 0x0a19
+#         msgID: 
 #       PX4_ESC_STATUS_MID:
-#         msgID: 0x0a1a
+#         msgID: 
 #       PX4_ESTIMATOR_STATUS_MID:
-#         msgID: 0x0a1b
+#         msgID: 
 #       PX4_FENCE_MID:
-#         msgID: 0x0a1c
+#         msgID: 
 #       PX4_FENCE_VERTEX_MID:
-#         msgID: 0x0a1d
+#         msgID: 
 #       PX4_FILTERED_BOTTOM_FLOW_MID:
-#         msgID: 0x0a1e
+#         msgID: 
 #       PX4_FOLLOW_TARGET_MID:
-#         msgID: 0x0a1f
+#         msgID: 
 #       PX4_GEOFENCE_RESULT_MID:
-#         msgID: 0x0a20
+#         msgID: 
 #       PX4_GPS_DUMP_MID:
-#         msgID: 0x0a21
+#         msgID: 
 #       PX4_GPS_INJECT_DATA_MID:
-#         msgID: 0x0a22
+#         msgID: 
 #       PX4_HIL_SENSOR_MID:
-#         msgID: 0x0a23
+#         msgID: 
 #       PX4_HOME_POSITION_MID:
-#         msgID: 0x0a24
+#         msgID: 
 #       PX4_INPUT_RC_MID:
-#         msgID: 0x0a25
+#         msgID: 
 #       PX4_LED_CONTROL_MID:
-#         msgID: 0x0a5c
+#         msgID: 
 #       PX4_LOG_MESSAGE_MID:
-#         msgID: 0x0a26
+#         msgID: 
 #       PX4_MANUAL_CONTROL_SETPOINT_MID:
-#         msgID: 0x0a27
+#         msgID: 
 #       PX4_MAVLINK_LOG_MID:
-#         msgID: 0x0a28
+#         msgID: 
 #       PX4_MC_ATT_CTRL_STATUS_MID:
-#         msgID: 0x0a29
+#         msgID: 
 #       PX4_MC_VIRTUAL_ATTITUDE_SETPOINT_MID:
-#         msgID: 0x0a2a
+#         msgID: 
 #       PX4_MC_VIRTUAL_RATES_SETPOINT_MID:
-#         msgID: 0x0a2b
+#         msgID: 
 #       PX4_MISSION_MID:
-#         msgID: 0x0a2c
+#         msgID: 
 #       PX4_MISSION_RESULT_MID:
-#         msgID: 0x0a2d
+#         msgID: 
 #       PX4_MULTIROTOR_MOTOR_LIMITS_MID:
-#         msgID: 0x0a2e
+#         msgID: 
 #       PX4_OFFBOARD_CONTROL_MODE_MID:
-#         msgID: 0x0a2f
+#         msgID: 
 #       PX4_OPTICAL_FLOW_MID:
-#         msgID: 0x0a30
+#         msgID: 
 #       PX4_OUTPUT_PWM_MID:
-#         msgID: 0x0a31
+#         msgID: 
 #       PX4_PARAMETER_UPDATE_MID:
-#         msgID: 0x0a32
+#         msgID: 
 #       PX4_POSITION_SETPOINT_MID:
-#         msgID: 0x0a33
+#         msgID: 
 #       PX4_POSITION_SETPOINT_TRIPLET_MID:
-#         msgID: 0x0a34
+#         msgID: 
 #       PX4_PWM_INPUT_MID:
-#         msgID: 0x0a35
+#         msgID: 
 #       PX4_QSHELL_REQ_MID:
-#         msgID: 0x0a36
+#         msgID: 
 #       PX4_RC_CHANNELS_MID:
-#         msgID: 0x0a37
+#         msgID: 
 #       PX4_RC_PARAMETER_MAP_MID:
-#         msgID: 0x0a38
+#         msgID: 
 #       PX4_SAFETY_MID:
-#         msgID: 0x0a39
+#         msgID: 
 #       PX4_SATELLITE_INFO_MID:
-#         msgID: 0x0a3a
+#         msgID: 
 #       PX4_SENSOR_ACCEL_MID:
-#         msgID: 0x0a3b
+#         msgID: 
 #       PX4_SENSOR_BARO_MID:
-#         msgID: 0x0a3c
+#         msgID: 
 #       PX4_SENSOR_COMBINED_MID:
-#         msgID: 0x0a3d
+#         msgID: 
 #       PX4_SENSOR_GYRO_MID:
-#         msgID: 0x0a3e
+#         msgID: 
 #       PX4_SENSOR_MAG_MID:
-#         msgID: 0x0a3f
+#         msgID: 
 #       PX4_SERVORAIL_STATUS_MID:
-#         msgID: 0x0a40
+#         msgID: 
 #       PX4_SUBSYSTEM_INFO_MID:
-#         msgID: 0x0a41
+#         msgID: 
 #       PX4_SYSTEM_POWER_MID:
-#         msgID: 0x0a42
+#         msgID: 
 #       PX4_TECS_STATUS_MID:
-#         msgID: 0x0a43
+#         msgID: 
 #       PX4_TELEMETRY_STATUS_MID:
-#         msgID: 0x0a44
+#         msgID: 
 #       PX4_TEST_MOTOR_MID:
-#         msgID: 0x0a45
+#         msgID: 
 #       PX4_TIME_OFFSET_MID:
-#         msgID: 0x0a46
+#         msgID: 
 #       PX4_TRANSPONDER_REPORT_MID:
-#         msgID: 0x0a47
+#         msgID: 
 #       PX4_UAVCAN_PARAMETER_REQUEST_MID:
-#         msgID: 0x0a48
+#         msgID: 
 #       PX4_UAVCAN_PARAMETER_VALUE_MID:
-#         msgID: 0x0a49
+#         msgID: 
 #       PX4_VEHICLE_ATTITUDE_MID:
-#         msgID: 0x0a4a
+#         msgID: 
 #       PX4_VEHICLE_ATTITUDE_SETPOINT_MID:
-#         msgID: 0x0a4b
+#         msgID: 
 #       PX4_VEHICLE_COMMAND_ACK_MID:
-#         msgID: 0x0a4c
+#         msgID: 
 #       PX4_VEHICLE_COMMAND_MID:
-#         msgID: 0x0a4d
+#         msgID: 
 #       PX4_VEHICLE_CONTROL_MODE_MID:
-#         msgID: 0x0a4e
+#         msgID: 
 #       PX4_VEHICLE_FORCE_SETPOINT_MID:
-#         msgID: 0x0a4f
+#         msgID: 
 #       PX4_VEHICLE_GLOBAL_POSITION_MID:
-#         msgID: 0x0a50
+#         msgID: 
 #       PX4_VEHICLE_GLOBAL_VELOCITY_SETPOINT_MID:
-#         msgID: 0x0a51
+#         msgID: 
 #       PX4_VEHICLE_GPS_POSITION_MID:
-#         msgID: 0x0a52
+#         msgID: 
 #       PX4_VEHICLE_LAND_DETECTED_MID:
-#         msgID: 0x0a53
+#         msgID: 
 #       PX4_VEHICLE_LOCAL_POSITION_MID:
-#         msgID: 0x0a54
+#         msgID: 
 #       PX4_VEHICLE_LOCAL_POSITION_SETPOINT_MID:
-#         msgID: 0x0a55
+#         msgID: 
 #       PX4_VEHICLE_RATES_SETPOINT_MID:
-#         msgID: 0x0a56
+#         msgID: 
 #       PX4_VEHICLE_STATUS_MID:
-#         msgID: 0x0a57
+#         msgID: 
 #       PX4_VISION_POSITION_ESTIMATE_MID:
-#         msgID: 0x0a58
+#         msgID: 
 #       PX4_VTOL_VEHICLE_STATUS_MID:
-#         msgID: 0x0a59
+#         msgID: 
 #       PX4_WIND_ESTIMATE_MID:
-#         msgID: 0x0a5a
+#         msgID: 
 #       PX4_SENSOR_CORRECTION_MID:
-#         msgID: 0x0a5b
+#         msgID: 
 #       FLOW_FRAME_MID:
-#         msgID: 0x0ce5
+#         msgID: 
 #     definition: ${PROJECT_SOURCE_DIR}/apps/px4lib/wh_design.yaml
     
