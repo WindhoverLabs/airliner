@@ -470,6 +470,7 @@
 #define SBN_SUB_MID                               TLM_MSG(  440 ) - CFE_MSG_CPU_BASE
 #define SBN_ALLSUB_MID                            TLM_MSG(  441 ) - CFE_MSG_CPU_BASE
 #define SBN_UNSUB_MID                             TLM_MSG(  442 ) - CFE_MSG_CPU_BASE
+#define SBN_MODULE_HK_MID                         TLM_MSG(  443 )
 
 /* SENS                                                      */
 #define SENS_HK_TLM_MID                           TLM_MSG(  450 )
