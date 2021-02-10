@@ -94,7 +94,7 @@ bool MailboxEmptyError(void *instance)
 /* Blocking write */
 int MailboxWrite(void *instance, const unsigned int *buffer, unsigned int size)
 {
-    int status     = 0;
+    int status     = size;
     bool isFull    = false;
     unsigned int i = 0;
 
@@ -105,7 +105,6 @@ int MailboxWrite(void *instance, const unsigned int *buffer, unsigned int size)
             OS_TaskDelay(SBN_MAILBOX_BLOCKING_DELAY);
         }
         uio_write(instance, MAILBOX_WRITE_REG, *buffer++);
-        status = size;
     }
 
 end_of_function:
