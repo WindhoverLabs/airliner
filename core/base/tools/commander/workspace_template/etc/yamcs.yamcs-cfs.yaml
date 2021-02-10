@@ -24,6 +24,9 @@ services:
   - class: org.yamcs.tctm.cfs.CfsEventDecoder
     args:
       msgIds: [0x0808]  
+      byteOrder: LITTLE_ENDIAN
+      appNameMax: 40
+      eventMsgMax: 122
   - class: org.yamcs.cfdp.CfdpService
     name: cfdp0
     args:
@@ -45,6 +48,7 @@ dataLinks:
     class: org.yamcs.tctm.UdpTmDataLink
     stream: tm_realtime
     port: 5011
+    maxLength: 32768 #32KB is the default for CCSDS
     packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.PacketPreprocessor
 
   - name: tc_realtime

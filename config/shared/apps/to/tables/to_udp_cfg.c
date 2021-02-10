@@ -112,6 +112,14 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {LD_DIAG_TLM_MID,              1, TO_PQUEUE_MEDIUM_IDX},
         {PRM_HK_TLM_MID,               1, TO_PQUEUE_MEDIUM_IDX},
         {VM_CONFIG_TLM_MID,            1, TO_PQUEUE_MEDIUM_IDX},
+        {SC_HK_TLM_MID,                1, TO_PQUEUE_MEDIUM_IDX},
+        {MD_DWELL_PKT_MID_BASE+0,      1, TO_PQUEUE_MEDIUM_IDX},
+        {MD_DWELL_PKT_MID_BASE+1,      1, TO_PQUEUE_MEDIUM_IDX},
+        {MD_DWELL_PKT_MID_BASE+2,      1, TO_PQUEUE_MEDIUM_IDX},
+        {MD_DWELL_PKT_MID_BASE+3,      1, TO_PQUEUE_MEDIUM_IDX},
+        {MD_DWELL_PKT_MID_BASE+4,      1, TO_PQUEUE_MEDIUM_IDX},
+
+
 
 //        {PX4_ACTUATOR_ARMED_MID,       1, TO_PQUEUE_LOW_IDX},
 //        {PX4_ACTUATOR_CONTROLS_0_MID,  1, TO_PQUEUE_LOW_IDX},

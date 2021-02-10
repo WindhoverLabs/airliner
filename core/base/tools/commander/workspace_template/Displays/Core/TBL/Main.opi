@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>CFE-TBL - Main</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>450</width>
+  <width>500</width>
   <wuid>45ea5983:1502a6e6386:-7f06</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -622,7 +622,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7cf7</wuid>
     <x>169</x>
@@ -674,7 +674,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7cf2</wuid>
     <x>169</x>
@@ -726,7 +726,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7ced</wuid>
     <x>169</x>
@@ -778,7 +778,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7ce8</wuid>
     <x>169</x>
@@ -830,7 +830,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7ce3</wuid>
     <x>169</x>
@@ -882,7 +882,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7cde</wuid>
     <x>169</x>
@@ -934,7 +934,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7cd9</wuid>
     <x>169</x>
@@ -943,10 +943,12 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/NoOp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/cfe_tbl/NoOp', {});]]></scriptText>
+        <embedded>true</embedded>
         <description></description>
       </action>
     </actions>
@@ -988,7 +990,7 @@ $(pv_value)</tooltip>
     <tooltip>This command performs no other function than to increment the command execution counter.  The command may be used to verify general aliveness of the Event Services task.</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>67</width>
+    <width>85</width>
     <wuid>39deb42:1504a4eb8cc:-7de2</wuid>
     <x>276</x>
     <y>55</y>
@@ -996,10 +998,12 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>scripts/ResetCounters.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-]]></scriptText>
-        <embedded>false</embedded>
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/cfe_tbl/Reset', {});]]></scriptText>
+        <embedded>true</embedded>
         <description></description>
       </action>
     </actions>
@@ -1042,7 +1046,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>67</width>
+    <width>85</width>
     <wuid>-9ddfcbe:1507831914f:-7cfc</wuid>
     <x>276</x>
     <y>74</y>
@@ -1139,7 +1143,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>130</width>
     <wuid>763e00b7:150973f1dd8:-7ba6</wuid>
-    <x>294</x>
+    <x>360</x>
     <y>144</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1228,7 +1232,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>763e00b7:150973f1dd8:-7380</wuid>
     <x>169</x>
@@ -1320,7 +1324,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>763e00b7:150973f1dd8:-7378</wuid>
     <x>169</x>
@@ -1412,7 +1416,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7ae5</wuid>
     <x>169</x>
@@ -1504,7 +1508,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7ada</wuid>
     <x>169</x>
@@ -1596,7 +1600,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7abd</wuid>
     <x>169</x>
@@ -1688,7 +1692,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7ab2</wuid>
     <x>169</x>
@@ -1740,7 +1744,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7aa4</wuid>
     <x>169</x>
@@ -1832,7 +1836,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7a99</wuid>
     <x>169</x>
@@ -1924,7 +1928,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7a8e</wuid>
     <x>169</x>
@@ -2016,7 +2020,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7a83</wuid>
     <x>169</x>
@@ -2108,7 +2112,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>168</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7a5f</wuid>
     <x>169</x>
@@ -2166,7 +2170,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>130</width>
     <wuid>35ebaa52:1509cf6a868:-7980</wuid>
-    <x>294</x>
+    <x>360</x>
     <y>169</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2221,7 +2225,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>130</width>
     <wuid>35ebaa52:1509cf6a868:-7976</wuid>
-    <x>294</x>
+    <x>360</x>
     <y>194</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2276,7 +2280,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>130</width>
     <wuid>35ebaa52:1509cf6a868:-796c</wuid>
-    <x>294</x>
+    <x>360</x>
     <y>219</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2331,7 +2335,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>130</width>
     <wuid>35ebaa52:1509cf6a868:-7965</wuid>
-    <x>294</x>
+    <x>360</x>
     <y>244</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2386,7 +2390,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>130</width>
     <wuid>35ebaa52:1509cf6a868:-794e</wuid>
-    <x>294</x>
+    <x>360</x>
     <y>269</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2441,7 +2445,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>130</width>
     <wuid>35ebaa52:1509cf6a868:-7940</wuid>
-    <x>294</x>
+    <x>360</x>
     <y>294</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2496,7 +2500,63 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>130</width>
     <wuid>35ebaa52:1509cf6a868:-7936</wuid>
-    <x>294</x>
+    <x>360</x>
     <y>319</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/cfe_tbl/SendHK', {});]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="34" green="45" blue="75" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="255" green="255" blue="255" />
+    </foreground_color>
+    <height>20</height>
+    <image>../../Resources/send.png</image>
+    <name>NoOp_34</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>SendHK</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>86</width>
+    <wuid>1075cf36:17766873921:-79f9</wuid>
+    <x>396</x>
+    <y>6</y>
   </widget>
 </display>

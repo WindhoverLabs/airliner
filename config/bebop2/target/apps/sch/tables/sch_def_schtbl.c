@@ -177,9 +177,6 @@ FLOW_SEND_HK_MIDX 				1Hz, 53
 
 #define AK8963_SEND_HK_MIDX           83
 #define AK8963_WAKEUP_MIDX            84
-#define NEOM8N_SEND_HK_MIDX           85
-#define NEOM8N_MEASURE_MIDX           86
-#define NEOM8N_PROC_CMDS_MIDX         87
 
 #define SENS_SEND_HK_MIDX             90
 #define SENS_WAKEUP_MIDX              91

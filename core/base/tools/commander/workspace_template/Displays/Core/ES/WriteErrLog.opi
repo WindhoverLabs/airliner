@@ -81,15 +81,15 @@ Yamcs.issueCommand('/cfs/cfe_es/WriteErLog', {'Payload.ERLogFileName': fileName}
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Write to File System</text>
+    <text>Dump</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>163</width>
+    <width>97</width>
     <wuid>72a2bf2b:1508717c835:-77e3</wuid>
-    <x>114</x>
+    <x>147</x>
     <y>90</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -160,7 +160,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Write Error Log to File System</text>
+    <text>Dump Error Log to File System</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>

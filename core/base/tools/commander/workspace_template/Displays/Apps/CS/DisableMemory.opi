@@ -28,20 +28,20 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>180</width>
+  <width>300</width>
   <wuid>-736e4684:150ac3c95a1:-7e23</wuid>
   <x>-1</x>
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/QueryOneApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-var cmd = '/CFS/CS/DisableMemory(args: none)';
+var cmd = '/cfs/cs/DisableMemory';
 
-Yamcs.issueCommand(cmd);]]></scriptText>
+Yamcs.issueCommand(cmd, {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -79,7 +79,7 @@ Yamcs.issueCommand(cmd);]]></scriptText>
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Enable All</text>
+    <text>Disable All</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
@@ -87,8 +87,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>120</width>
     <wuid>-736e4684:150ac3c95a1:-7e12</wuid>
-    <x>36</x>
-    <y>18</y>
+    <x>150</x>
+    <y>72</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -96,10 +96,13 @@ $(pv_value)</tooltip>
         <path>../scripts/QueryOneApp.js</path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
 
 var EntryID =VTypeHelper.getDouble(display.getWidget('EntryID').getPropertyValue('pv_value'));
 
-var cmd = '/CFS/CS/DisableEntryMemory(EntryID: ' + EntryID + ')';]]></scriptText>
+var cmd = '/cfs/cs/DisableEntryMemory';
+
+Yamcs.issueCommand(cmd, {'EntryID': EntryID });]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -137,7 +140,7 @@ var cmd = '/CFS/CS/DisableEntryMemory(EntryID: ' + EntryID + ')';]]></scriptText
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Enable Entry</text>
+    <text>Disable Entry</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
@@ -145,8 +148,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>120</width>
     <wuid>-736e4684:150ac3c95a1:-7e06</wuid>
-    <x>36</x>
-    <y>114</y>
+    <x>15</x>
+    <y>72</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -185,8 +188,8 @@ $(pv_value)</tooltip>
     <width>55</width>
     <wrap_words>false</wrap_words>
     <wuid>-736e4684:150ac3c95a1:-7de8</wuid>
-    <x>12</x>
-    <y>78</y>
+    <x>36</x>
+    <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -221,7 +224,7 @@ $(pv_value)</tooltip>
     <page_increment>10.0</page_increment>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://EntryID&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://DisableMemoeryEntryID&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -240,7 +243,7 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>100</width>
     <wuid>-736e4684:150ac3c95a1:-7de7</wuid>
-    <x>72</x>
-    <y>78</y>
+    <x>96</x>
+    <y>36</y>
   </widget>
 </display>

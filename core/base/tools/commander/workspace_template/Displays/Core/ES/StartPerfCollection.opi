@@ -55,9 +55,9 @@
     </foreground_color>
     <height>32</height>
     <items>
-      <s>Start</s>
-      <s>Middle</s>
-      <s>End</s>
+      <s>START</s>
+      <s>CENTER</s>
+      <s>END</s>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>TriggerOn</name>

@@ -678,6 +678,7 @@ void Test_Format(void)
 
     CFE_TIME_SysTime_t          time = {0, 0};
     CFE_EVS_ModeCmd_t           modecmd;
+    CFE_EVS_FormatCmd_t           formatcmd;
     CFE_EVS_AppNameBitMaskCmd_t appbitcmd;
 
 #ifdef UT_VERBOSE
@@ -688,7 +689,7 @@ void Test_Format(void)
     UT_InitData();
     strncpy((char *) appbitcmd.Payload.AppName, "ut_cfe_evs",
             sizeof(appbitcmd.Payload.AppName));
-    modecmd.Payload.Mode = CFE_EVS_LONG_FORMAT;
+    formatcmd.Payload.Mode = CFE_EVS_LONG_FORMAT;
     appbitcmd.Payload.BitMask = CFE_EVS_DEBUG_BIT | CFE_EVS_INFORMATION_BIT |
                         CFE_EVS_ERROR_BIT | CFE_EVS_CRITICAL_BIT;
     UT_SetSBTotalMsgLen(sizeof(CFE_EVS_AppNameBitMaskCmd_t));
