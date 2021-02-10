@@ -466,9 +466,10 @@
 #define SBN_WAKEUP_MID                            CMD_MSG(  437 )
 #define SBN_CMD_MID                               CMD_MSG(  438 )
 #define SBN_TLM_MID                               TLM_MSG(  439 )
-#define SBN_SUB_MID                               TLM_MSG(  440 )
-#define SBN_ALLSUB_MID                            TLM_MSG(  441 )
-#define SBN_UNSUB_MID                             TLM_MSG(  442 )
+/* These MIDs must match for SBN to SBN communication. */
+#define SBN_SUB_MID                               TLM_MSG(  440 ) - CFE_MSG_CPU_BASE
+#define SBN_ALLSUB_MID                            TLM_MSG(  441 ) - CFE_MSG_CPU_BASE
+#define SBN_UNSUB_MID                             TLM_MSG(  442 ) - CFE_MSG_CPU_BASE
 
 /* SENS                                                      */
 #define SENS_HK_TLM_MID                           TLM_MSG(  450 )

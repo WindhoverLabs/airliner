@@ -167,8 +167,12 @@ int SBN_UDP_Send(SBN_PeerInterface_t *Peer, SBN_MsgType_t MsgType,
     s_addr.sin_addr.s_addr = inet_addr(PeerData->Host);
     s_addr.sin_port = htons(PeerData->Port);
 
-    sendto(NetData->Socket, &Buf, BufSz, 0, (struct sockaddr *) &s_addr,
+    int sent = sendto(NetData->Socket, &Buf, BufSz, 0, (struct sockaddr *) &s_addr,
         sizeof(s_addr));
+    if(sent < 0)
+    {
+        OS_printf("sendto errno %u\n", errno);
+    }
 
     return SBN_SUCCESS;
 }/* end SBN_UDP_Send */

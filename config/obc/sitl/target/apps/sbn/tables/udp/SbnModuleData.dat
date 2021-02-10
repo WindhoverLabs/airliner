@@ -1,5 +1,4 @@
-5, UIO_MBOX, /cf/apps/sbn_uio_mbox.so, SBN_UIO_Mbox_Ops;
-
+1, UDP, /cf/apps/sbn_udp.so, SBN_UDP_Ops;
 !
 ! Format: ProtocolId, ModuleLocation, IFStructName
 !

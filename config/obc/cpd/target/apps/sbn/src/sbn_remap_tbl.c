@@ -4,25 +4,11 @@
 
 SBN_RemapTbl_t SBN_RemapTbl =
 { 
-    SBN_REMAP_DEFAULT_IGNORE, /* Remap Default */
+    SBN_REMAP_DEFAULT_SEND, /* Remap Default */
     0, /* number of entries, initialized at validation time */
     {  /* remap table */
         /* {CPU_ID, from, to} and if to is 0x0000, filter rather than remap */
-        {1, CFE_ES_HK_TLM_MID, CFE_ES_HK_TLM_MID},
-        {1, CFE_EVS_HK_TLM_MID, CFE_EVS_HK_TLM_MID},
-        {1, CFE_SB_HK_TLM_MID, CFE_SB_HK_TLM_MID},
-	{1, CFE_TBL_HK_TLM_MID, CFE_TBL_HK_TLM_MID},
-	{1, CFE_TIME_HK_TLM_MID, CFE_TIME_HK_TLM_MID},
-	{1, CFE_TIME_DIAG_TLM_MID, CFE_TIME_DIAG_TLM_MID},
-	{1, CFE_EVS_EVENT_MSG_MID, CFE_EVS_EVENT_MSG_MID},
-	{1, CFE_SB_STATS_TLM_MID, CFE_SB_STATS_TLM_MID},
-	{1, CFE_ES_APP_TLM_MID, CFE_ES_APP_TLM_MID},
-	{1, CFE_TBL_REG_TLM_MID, CFE_TBL_REG_TLM_MID},
-	/* SB allsubs and onesub */
-	//{1, CFE_SB_ALLSUBS_TLM_MID, CFE_SB_ALLSUBS_TLM_MID},
-	//{1, CFE_SB_ONESUB_TLM_MID, CFE_SB_ONESUB_TLM_MID},
-	{1, CFE_ES_SHELL_TLM_MID, CFE_ES_SHELL_TLM_MID},
-	{1, CFE_ES_MEMSTATS_TLM_MID, CFE_ES_MEMSTATS_TLM_MID}
+        {0, 0x0000, 0x0000}
     }
 };/* end SBN_RemapTbl */
 
