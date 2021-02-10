@@ -36,6 +36,8 @@ buildliner_add_app_def(sbn_udp
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sbn_udp_if.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sbn_udp_if.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/mailbox_parser.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/mailbox_parser.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sbn_udp_events.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sbn_udp_if_struct.h
 

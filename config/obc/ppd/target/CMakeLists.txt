@@ -151,12 +151,10 @@ buildliner_add_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/sbn/src/sbn_remap_tbl.c
 )
 
-#buildliner_add_app(
-    #sbn_udp
-    #DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/udp/fsw/for_build
-    #CONFIG_SOURCES
-        #${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib/tables/pq_backup_cfg.c
-#)
+buildliner_add_app(
+    sbn_udp
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/udp/fsw/for_build
+)
 
 buildliner_add_app(
     sbn_uio_mbox
