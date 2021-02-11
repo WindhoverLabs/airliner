@@ -521,7 +521,7 @@ typedef struct
     \brief Count of telemetry messages sent out the channel interface.
     Counter begins at zero with app initialization and rolls over.
     Index of array is equivalent to the relevant TO channel index. */
-    uint32  uiSentMsgCountChannel[PQ_MAX_CHANNELS];
+    uint32  uiSentMsgCountChannel;
 
     /** \totlm Queued Channel Telemetry
     \totlmmnemonic  PQ_RDOQUEUED
@@ -530,7 +530,7 @@ typedef struct
     \brief Count of telemetry messages queued on the TO channel's Priority Queues.
     Counter begins at zero with app initialization and rolls over.
     Index of array is equivalent to the relevant TO channel index. */
-    uint32  uiQueuedMsgCountChannel[PQ_MAX_CHANNELS];
+    uint32  uiQueuedMsgCountChannel;
 
     /** \totlm Dropped Channel Telemetry
     \totlmmnemonic PQ_RDODROP
@@ -539,7 +539,7 @@ typedef struct
     \brief Count of telemetry messages rejected, and not passed into the channel's Priority Queues.
     Counter begins at zero with app initialization and rolls over.
     Index of array is equivalent to the relevant TO channel index. */
-    uint32  uiDropMsgCountChannel[PQ_MAX_CHANNELS];
+    uint32  uiDropMsgCountChannel;
 
     /** \totlm Failed Channel Telemetry
     \totlmmnemonic  PQ_RDOFAILED
@@ -549,7 +549,7 @@ typedef struct
     from the output queue, and lost.
     Counter begins at zero with app initialization and rolls over.
     Index of array is equivalent to the relevant TO channel index. */
-    uint32  uiFailedMsgCountChannel[PQ_MAX_CHANNELS];
+    uint32  uiFailedMsgCountChannel;
 
     /** \totlm Channel Bytes Sent
     \totlmmnemonic PQ_RDOB
@@ -558,7 +558,7 @@ typedef struct
     \brief The number of bytes sent out the channel's interface
     Counter begins at zero with app initialization and rolls over.
     Index of array is equivalent to the relevant TO channel index. */
-    uint32  uiBytesSentChannel[PQ_MAX_CHANNELS];
+    uint32  uiBytesSentChannel;
 
     /** \totlmmnemonic PQ_CMDACPTCNT
         \brief Count of accepted commands */
@@ -578,7 +578,7 @@ typedef struct
 
     /** \totlmmnemonic PQ_QDINOUTCHN
         \brief Currently queued count for each Channel */
-    uint16  QueuedInOutputChannel[PQ_MAX_CHANNELS];
+    uint16  QueuedInOutputChannel;
 
     /** \totlmmnemonic PQ_CHMAXMEM
         \brief Maximum memory available for each channel. */
@@ -586,7 +586,7 @@ typedef struct
 
     /** \totlmmnemonic PQ_CHMEMINFO
         \brief Memory information per channel. */
-    PQ_ChannelMemoryInfo_t ChannelMemInfo[PQ_MAX_CHANNELS];
+    PQ_ChannelMemoryInfo_t ChannelMemInfo;
 
 } PQ_HkTlm_t;
 

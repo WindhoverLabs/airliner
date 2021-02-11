@@ -428,6 +428,35 @@ end_of_function:
 
 static int ReportModuleStatus(SBN_ModuleStatusPacket_t *Packet)
 {
+    PQ_ChannelData_t *channel = NULL;
+
+    //(void) OS_MutSemTake(TO_AppData.MutexID);
+    SBN_UIO_Mailbox_Data.HkTlm.SentBytes = 0;
+    //(void) OS_MutSemGive(TO_AppData.MutexID);
+
+    /* TODO this should be updated so that a copy isn't needed. */
+    channel = &SBN_UIO_Mailbox_Data.Channel;
+
+    //PQ_Channel_LockByRef(channel);
+
+    SBN_UIO_Mailbox_Data.HkTlm.QueuedInOutputChannel = channel->OutputQueue.CurrentlyQueuedCnt;
+    
+    SBN_UIO_Mailbox_Data.HkTlm.uiSentMsgCountChannel = channel->SentMsgCount;
+    SBN_UIO_Mailbox_Data.HkTlm.uiQueuedMsgCountChannel = channel->QueuedMsgCount;
+    SBN_UIO_Mailbox_Data.HkTlm.uiDropMsgCountChannel = channel->DropMsgCount;
+    SBN_UIO_Mailbox_Data.HkTlm.uiFailedMsgCountChannel = channel->FailedMsgCount;
+    SBN_UIO_Mailbox_Data.HkTlm.uiBytesSentChannel = channel->BytesSent;
+    
+    //(void) OS_MutSemTake(TO_AppData.MutexID);
+    SBN_UIO_Mailbox_Data.HkTlm.SentBytes += channel->OutputQueue.SentBytes;
+    
+    //(void) OS_MutSemGive(TO_AppData.MutexID);
+    
+    SBN_UIO_Mailbox_Data.HkTlm.ChannelMemInfo.MemInUse = channel->MemInUse;
+    SBN_UIO_Mailbox_Data.HkTlm.ChannelMemInfo.PeakMemInUse = channel->PeakMemInUse;
+    
+    //PQ_Channel_UnlockByRef(channel);
+
     CFE_SB_InitMsg(&SBN_UIO_Mailbox_Data.HkTlm, SBN_MODULE_HK_MID, 
                    sizeof(SBN_UIO_Mailbox_Data.HkTlm), FALSE);
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *) &SBN_UIO_Mailbox_Data.HkTlm);

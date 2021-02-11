@@ -388,10 +388,39 @@ int SBN_UDP_Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
 
 int SBN_UDP_ReportModuleStatus(SBN_ModuleStatusPacket_t *Packet)
 {
-    CFE_SB_InitMsg(&SBN_UIO_Mailbox_Data.HkTlm, SBN_MODULE_HK_MID, 
-                   sizeof(SBN_UIO_Mailbox_Data.HkTlm), FALSE);
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *) &SBN_UIO_Mailbox_Data.HkTlm);
-    CFE_SB_SendMsg((CFE_SB_Msg_t *) &SBN_UIO_Mailbox_Data.HkTlm);
+    PQ_ChannelData_t *channel = NULL;
+
+    //(void) OS_MutSemTake(TO_AppData.MutexID);
+    HkTlm.SentBytes = 0;
+    //(void) OS_MutSemGive(TO_AppData.MutexID);
+
+    /* TODO this should be updated so that a copy isn't needed. */
+    channel = &Channel;
+
+    //PQ_Channel_LockByRef(channel);
+
+    HkTlm.QueuedInOutputChannel = channel->OutputQueue.CurrentlyQueuedCnt;
+    
+    HkTlm.uiSentMsgCountChannel = channel->SentMsgCount;
+    HkTlm.uiQueuedMsgCountChannel = channel->QueuedMsgCount;
+    HkTlm.uiDropMsgCountChannel = channel->DropMsgCount;
+    HkTlm.uiFailedMsgCountChannel = channel->FailedMsgCount;
+    HkTlm.uiBytesSentChannel = channel->BytesSent;
+    
+    //(void) OS_MutSemTake(TO_AppData.MutexID);
+    HkTlm.SentBytes += channel->OutputQueue.SentBytes;
+    
+    //(void) OS_MutSemGive(TO_AppData.MutexID);
+    
+    HkTlm.ChannelMemInfo.MemInUse = channel->MemInUse;
+    HkTlm.ChannelMemInfo.PeakMemInUse = channel->PeakMemInUse;
+    
+    //PQ_Channel_UnlockByRef(channel);
+
+    CFE_SB_InitMsg(&HkTlm, SBN_MODULE_HK_MID, 
+                   sizeof(HkTlm), FALSE);
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *) &HkTlm);
+    CFE_SB_SendMsg((CFE_SB_Msg_t *) &HkTlm);
 
     return SBN_SUCCESS;
 }/* end SBN_UDP_ReportModuleStatus */
