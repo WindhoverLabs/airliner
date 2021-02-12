@@ -1,4 +1,4 @@
-#TODO: Needs to be updated to work with our custom CFS configuration
+#Configuration tested on YAMCS 5.4.0
 realtime:
   services:
     - class: org.yamcs.StreamTmPacketProvider
@@ -55,6 +55,7 @@ ParameterArchive:
 
 
 # Used for performing archive retrievals via replays
+#Configuration tested on YAMCS 5.4.0
 # we do not want cache in order to extract the minimum data necessary
 ArchiveRetrieval:
   services:

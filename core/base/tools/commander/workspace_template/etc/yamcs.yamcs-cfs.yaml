@@ -1,4 +1,4 @@
-#TODO: Needs to be updated to work with our custom CFS configuration
+#Configuration tested on YAMCS 5.4.0
 services:
   - class: org.yamcs.archive.XtceTmRecorder
   - class: org.yamcs.archive.ParameterRecorder
@@ -35,11 +35,11 @@ services:
       localEntities:
         - name: "0.23"
           id: 23
-          bucket: cfdpUp12
+          bucket: cfdpUp
       remoteEntities:
         - name: "0.24"
           id: 24
-          bucket: bucket2
+          bucket: cfdpDown
       receiverFaultHandlers:
         AckLimitReached: suspend
 
