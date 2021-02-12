@@ -66,11 +66,11 @@
 **       It resets all metrics, which include the Dropped Message Counts,
 **       and Queued Message Counts.
 **
-**  \param [in]   channel       A #PQ_ChannelData_t pointer that
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
 **                              references the channel data structure
 **
 *************************************************************************/
-void PQ_PriorityQueue_ResetCountsAll(PQ_ChannelData_t *channel);
+void PQ_PriorityQueue_ResetCountsAll(PQ_ChannelData_t *Channel);
 
 
 /************************************************************************/
@@ -80,7 +80,7 @@ void PQ_PriorityQueue_ResetCountsAll(PQ_ChannelData_t *channel);
 **       This function is called at when the application has loaded a new
 **       configuration table.
 **
-**  \param [in]   channel       A #PQ_ChannelData_t pointer that
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
 **                              references the channel data structure
 **
 **  \return
@@ -88,7 +88,7 @@ void PQ_PriorityQueue_ResetCountsAll(PQ_ChannelData_t *channel);
 **  is returned indicating what error occured.
 **
 *************************************************************************/
-int32 PQ_PriorityQueue_BuildupAll(PQ_ChannelData_t *channel);
+int32 PQ_PriorityQueue_BuildupAll(PQ_ChannelData_t *Channel);
 
 
 /************************************************************************/
@@ -97,6 +97,9 @@ int32 PQ_PriorityQueue_BuildupAll(PQ_ChannelData_t *channel);
 **  \par Description
 **       This function is called by the Classifier to queue a message
 **       into a priority queue.
+**
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
 **
 **  \param [in]   MsgPtr        A #CFE_SB_Msg_t pointer that
 **                              references the software bus message
@@ -110,7 +113,7 @@ int32 PQ_PriorityQueue_BuildupAll(PQ_ChannelData_t *channel);
 **  \endreturns
 **
 *************************************************************************/
-int32 PQ_PriorityQueue_QueueMsg(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t MsgPtr, uint32 PQueueIndex);
+int32 PQ_PriorityQueue_QueueMsg(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t MsgPtr, uint32 PQueueIndex);
 
 
 
@@ -122,14 +125,14 @@ int32 PQ_PriorityQueue_QueueMsg(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t MsgPt
 **       a new configuration table.  This will flush the queues and
 **       deallocate the messages contained in the queues.
 **
-**  \param [in]   channel       A #PQ_ChannelData_t pointer that
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
 **                              references the channel data structure
 **
 **  \return
 **  0 if successful.  OSAL error if unsuccessful.
 **
 *************************************************************************/
-int32 PQ_PriorityQueue_TeardownAll(PQ_ChannelData_t *channel);
+int32 PQ_PriorityQueue_TeardownAll(PQ_ChannelData_t *Channel);
 
 
 
@@ -142,7 +145,8 @@ int32 PQ_PriorityQueue_TeardownAll(PQ_ChannelData_t *channel);
 **       text format:
 **       "PQI=<PQueueIndex> CI=<ChannelID> S=<State> ML=<MsgLimit> QT=<QueueType> D=<DroppedMsgCnt> Q=<QueuedMsgCnt> CQ=<CurrentlyQueuedCnt> HWM=<HighwaterMark>"
 **
-**  \param [in]   ChannelIdx    Index for a given channel
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
 **
 **  \param [in]   PQueueIdx     Index of the priority queue.
 **
@@ -150,7 +154,7 @@ int32 PQ_PriorityQueue_TeardownAll(PQ_ChannelData_t *channel);
 **  TRUE if priority queue is found.  FALSE if not found.
 **
 *************************************************************************/
-osalbool PQ_PriorityQueue_Query(uint16 ChannelIdx, uint16 PQueueIdx);
+osalbool PQ_PriorityQueue_Query(PQ_ChannelData_t *Channel, uint16 PQueueIdx);
 
 
 /************************************************************************/
@@ -160,7 +164,7 @@ osalbool PQ_PriorityQueue_Query(uint16 ChannelIdx, uint16 PQueueIdx);
 **       This function is used internally to determine if an index is
 **       to a valid priority queue.
 **
-**  \param [in]   channel       A #PQ_ChannelData_t pointer that
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
 **                              references the channel data structure
 **
 **  \param [in]   PQueueIdx     Index of the priority queue.
@@ -169,7 +173,7 @@ osalbool PQ_PriorityQueue_Query(uint16 ChannelIdx, uint16 PQueueIdx);
 **  TRUE if priority queue is valid.  FALSE if not.
 **
 *************************************************************************/
-osalbool PQ_PriorityQueue_IsValid(PQ_ChannelData_t *channel, uint32 PQueueIdx);
+osalbool PQ_PriorityQueue_IsValid(PQ_ChannelData_t *Channel, uint32 PQueueIdx);
 
 
 #endif

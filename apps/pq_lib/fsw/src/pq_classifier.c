@@ -43,7 +43,7 @@
 /* Run the Classifier algorithm                                    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr, PQ_HkTlm_t *HkTlmPtr)
+void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr)
 {
     int32  status                 = CFE_SUCCESS;
     PQ_PriorityQueue_t *pqueue    = NULL;
@@ -66,7 +66,7 @@ void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr, PQ
                                      PQ_MAX_MSG_LENGTH,
                                      (unsigned short)DataMsgID,
                                      (unsigned short)channel->channelIdx);
-            HkTlmPtr->usTotalMsgDropped++;
+            //HkTlmPtr->usTotalMsgDropped++;
             channel->DropMsgCount++;
             goto end_of_function;
         }
@@ -83,7 +83,7 @@ void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr, PQ
                                      "Classifier Recvd invalid msgId (0x%04X) or message flow was removed on channel (%u)", 
                                      (unsigned short)DataMsgID,
                                      (unsigned short)channel->channelIdx);
-            HkTlmPtr->usTotalMsgDropped++;
+            //HkTlmPtr->usTotalMsgDropped++;
             channel->DropMsgCount++;
             goto end_of_function;
         }
@@ -112,7 +112,7 @@ void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr, PQ
                 /* Queue is full.  Increment counters and drop the message. */
                 channel->DumpTbl.MessageFlow[msgFlowIndex].DroppedMsgCnt++;
 
-                HkTlmPtr->usTotalMsgDropped++;
+                //HkTlmPtr->usTotalMsgDropped++;
                 channel->DropMsgCount++;
 
                 (void) CFE_EVS_SendEvent(PQ_MSG_DROP_FROM_FLOW_DBG_EID,

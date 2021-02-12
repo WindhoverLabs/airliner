@@ -40,7 +40,7 @@
 /* Buildup a channel output queue                                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 PQ_OutputQueue_Buildup(PQ_ChannelData_t* channel)
+int32 PQ_OutputQueue_Buildup(PQ_ChannelData_t* Channel)
 {
     int32 status = OS_SUCCESS;
 
@@ -49,9 +49,9 @@ int32 PQ_OutputQueue_Buildup(PQ_ChannelData_t* channel)
      * starting with queues for the channels and priority queues.
      */
     char QueueName[OS_MAX_API_NAME];
-    snprintf(QueueName, OS_MAX_API_NAME, "PQ_%s_OUT", (const char*)&channel->ChannelName[0]);
+    snprintf(QueueName, OS_MAX_API_NAME, "PQ_%s_OUT", (const char*)&Channel->ChannelName[0]);
     
-    status = OS_QueueCreate(&channel->OutputQueue.OSALQueueID,
+    status = OS_QueueCreate(&Channel->OutputQueue.OSALQueueID,
                             QueueName,
                             PQ_OUTPUT_QUEUE_DEPTH,
                             sizeof(CFE_SB_Msg_t*),
@@ -61,10 +61,10 @@ int32 PQ_OutputQueue_Buildup(PQ_ChannelData_t* channel)
     {
         (void) CFE_EVS_SendEvent(PQ_CONFIG_TABLE_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Failed to create '%s' output channel queue for channel %d. err=%ld",
-                                 channel->ChannelName, channel->channelIdx, status);
+                                 "Failed to create '%s' output channel queue for channel %lu. err=%ld",
+                                 Channel->ChannelName, Channel->channelIdx, status);
 
-        channel->OutputQueue.OSALQueueID = OS_MAX_QUEUES;
+        Channel->OutputQueue.OSALQueueID = OS_MAX_QUEUES;
     }
 
     return status;
@@ -78,23 +78,23 @@ int32 PQ_OutputQueue_Buildup(PQ_ChannelData_t* channel)
 /* reconfiguration.                                                */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t *channel)
+int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t *Channel)
 {
     int32 status = CFE_SUCCESS;
     int32 putStatus = 0;
     void *buffer = NULL;
     uint32 nBytesCopied = 0;    
 
-    if (channel->OutputQueue.OSALQueueID != OS_MAX_QUEUES)
+    if (Channel->OutputQueue.OSALQueueID != OS_MAX_QUEUES)
     {
         while (OS_SUCCESS == status)
         {
             status =  OS_QueueGet(
-                    channel->OutputQueue.OSALQueueID,
+                    Channel->OutputQueue.OSALQueueID,
                     &buffer, sizeof(buffer), &nBytesCopied, OS_CHECK);
             if (OS_SUCCESS == status)
             {
-                putStatus = CFE_ES_PutPoolBuf(channel->MemPoolHandle, (uint32*)buffer);
+                putStatus = CFE_ES_PutPoolBuf(Channel->MemPoolHandle, (uint32*)buffer);
                 if (putStatus < 0)
                 {
                     /* Failed to return memory back to memory pool.  Not much we can do but report it
@@ -102,12 +102,12 @@ int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t *channel)
                      */
                     (void) CFE_EVS_SendEvent(PQ_PUT_POOL_ERR_EID,
                                              CFE_EVS_ERROR,
-                                             "Failed to return message back to memory pool on output queue teardown, channel %d. (%d)",
-                                             (unsigned int)channel->channelIdx, 
+                                             "Failed to return message back to memory pool on output queue teardown, channel %lu. (%d)",
+                                             Channel->channelIdx, 
                                              (int)putStatus);
                 } else {
                     /* Since status is positive, it is safe to cast */
-                    channel->MemInUse -= (uint32)putStatus;
+                    Channel->MemInUse -= (uint32)putStatus;
                 }
             }
       
@@ -118,9 +118,9 @@ int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t *channel)
             /* The OSAL failed to pop all the messages off.  Not much we can do.  Report it and keep going. */
             (void) CFE_EVS_SendEvent(PQ_OSQUEUE_GET_ERROR_EID,
                                      CFE_EVS_ERROR,
-                                     "Failed to pop all messages from channel '%s' (channel id = %d) output queue. (%d)",
-                                     channel->ChannelName, 
-                                     (unsigned int)channel->channelIdx, 
+                                     "Failed to pop all messages from channel '%s' (channel id = %lu) output queue. (%d)",
+                                     Channel->ChannelName, 
+                                     Channel->channelIdx, 
                                      (int)status);
         }
     }
@@ -137,12 +137,12 @@ int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t *channel)
 /* Reset all dynamic metrics.                                      */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void PQ_OutputQueue_ResetCounts(PQ_ChannelData_t *channel)
+void PQ_OutputQueue_ResetCounts(PQ_ChannelData_t *Channel)
 {
-    channel->OutputQueue.SentCount = 0;
-    channel->OutputQueue.HighwaterMark = 0;
-    channel->OutputQueue.SentBytes = 0;
-    channel->OutputQueue.CurrentlyQueuedCnt = 0;
+    Channel->OutputQueue.SentCount = 0;
+    Channel->OutputQueue.HighwaterMark = 0;
+    Channel->OutputQueue.SentBytes = 0;
+    Channel->OutputQueue.CurrentlyQueuedCnt = 0;
 }
 
 
@@ -152,11 +152,11 @@ void PQ_OutputQueue_ResetCounts(PQ_ChannelData_t *channel)
 /* Push a message on the output channel queue.                     */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 PQ_OutputQueue_QueueMsg(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t MsgPtr)
+int32 PQ_OutputQueue_QueueMsg(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t MsgPtr)
 {
     int32 status = 0;
 
-    status = OS_QueuePut(channel->OutputQueue.OSALQueueID, &MsgPtr, sizeof(MsgPtr), 0);
+    status = OS_QueuePut(Channel->OutputQueue.OSALQueueID, &MsgPtr, sizeof(MsgPtr), 0);
     if (OS_QUEUE_FULL == status)
     {
         /* This is not supposed to happen since we only queue when the channel
@@ -164,27 +164,27 @@ int32 PQ_OutputQueue_QueueMsg(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t MsgPtr)
          * message will not be sent, deallocate the memory allocated as it 
          * won't be needed
          */
-        status = CFE_ES_PutPoolBuf(channel->MemPoolHandle, (uint32 *)MsgPtr);
+        status = CFE_ES_PutPoolBuf(Channel->MemPoolHandle, (uint32 *)MsgPtr);
         if (status < 0)
         {
             (void) CFE_EVS_SendEvent(PQ_PUT_POOL_ERR_EID,
                                      CFE_EVS_ERROR,
-                                     "PutPoolBuf: channel=%d, error=%i",
-                                     (unsigned int)channel->channelIdx, 
+                                     "PutPoolBuf: channel=%lu, error=%i",
+                                     Channel->channelIdx, 
                                      (int)status);
 
             return status;
         }
         
         /* Since status is positive, it is safe to cast */
-        channel->MemInUse -= (uint32)status;
+        Channel->MemInUse -= (uint32)status;
     }
     else if (status != CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(PQ_OSQUEUE_PUT_ERROR_EID,
                                  CFE_EVS_ERROR,
-                                 "OS_QueuePut failed: channel=%d size=%u error=%i",
-                                 (unsigned int)channel->channelIdx, 
+                                 "OS_QueuePut failed: channel=%lu size=%u error=%i",
+                                 Channel->channelIdx, 
                                  sizeof(MsgPtr), 
                                  (int)status);
     }
@@ -199,42 +199,33 @@ int32 PQ_OutputQueue_QueueMsg(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t MsgPtr)
 /* Query an output channel.                                        */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-osalbool PQ_OutputChannel_Query(uint16 ChannelIdx)
+osalbool PQ_OutputChannel_Query(PQ_ChannelData_t *Channel)
 {
-    PQ_ChannelData_t *channel = NULL;
 
-    /* First, check if the channel index is valid. */
-    if (ChannelIdx >= PQ_MAX_CHANNELS)
+    if (NULL == Channel)
     {
-        (void) CFE_EVS_SendEvent(PQ_OUT_CH_INFO_ERR_EID,
-                                 CFE_EVS_ERROR,
-                                 "Invalid channel index (index = %d, max = %d).",
-                                 (unsigned int)ChannelIdx, 
-                                 PQ_MAX_CHANNELS);
-
         return FALSE;
     }
-    channel = &PQ_AppData.ChannelData[ChannelIdx];   
 
     /* Next, see if the channel is open. */
-    if (channel->State != PQ_CHANNEL_OPENED)
+    if (Channel->State != PQ_CHANNEL_OPENED)
     {
         (void) CFE_EVS_SendEvent(PQ_OUT_CH_INFO_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Channel %d not open.", 
-                                 (unsigned int)ChannelIdx);
+                                 "Channel %lu not open.",
+                                 Channel->channelIdx);
 
         return FALSE;
     }
 
     (void) CFE_EVS_SendEvent(PQ_OUT_CH_INFO_EID,
                              CFE_EVS_INFORMATION,
-                             "CHANNEL=%d S=%d ML=%i SC=%u CQC=%d HWM=%d",
-                             (unsigned int)ChannelIdx,
-                             (unsigned int)channel->State,
+                             "CHANNEL=%lu S=%d ML=%i SC=%u CQC=%d HWM=%d",
+                             Channel->channelIdx,
+                             (unsigned int)Channel->State,
                              PQ_OUTPUT_QUEUE_DEPTH,
-                             (unsigned int)channel->OutputQueue.SentCount,
-                             (unsigned int)channel->OutputQueue.CurrentlyQueuedCnt,
-                             (unsigned int)channel->OutputQueue.HighwaterMark);
+                             (unsigned int)Channel->OutputQueue.SentCount,
+                             (unsigned int)Channel->OutputQueue.CurrentlyQueuedCnt,
+                             (unsigned int)Channel->OutputQueue.HighwaterMark);
     return TRUE;
 }

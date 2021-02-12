@@ -2,9 +2,6 @@
 #include "cfe.h"
 #include "pq_events.h"
 
-PQ_AppData_t PQ_AppData;
-
-
 int32 PQ_LibInit(void)
 {
     
@@ -13,7 +10,6 @@ int32 PQ_LibInit(void)
     return OS_SUCCESS;
  
 }/* End PQ_LibInit */
-
 
 
 //int32 PQ_InitData(void)

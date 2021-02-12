@@ -69,11 +69,11 @@
 **       Queued Message Count, Software Bus Message Count, and Sent 
 **       Message Count.
 **
-**  \param [in]   channel       A #PQ_ChannelData_t pointer that
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
 **                              references the channel data structure
 **
 *************************************************************************/
-void PQ_MessageFlow_ResetCountsAll(PQ_ChannelData_t *channel);
+void PQ_MessageFlow_ResetCountsAll(PQ_ChannelData_t *Channel);
 
 
 /************************************************************************/
@@ -91,7 +91,7 @@ void PQ_MessageFlow_ResetCountsAll(PQ_ChannelData_t *channel);
 **  0 if successful.  OSAL error if unsuccessful.
 **
 *************************************************************************/
-int32 PQ_MessageFlow_TeardownAll(PQ_ChannelData_t *channel);
+int32 PQ_MessageFlow_TeardownAll(PQ_ChannelData_t *Channel);
 
 
 /************************************************************************/
@@ -101,12 +101,15 @@ int32 PQ_MessageFlow_TeardownAll(PQ_ChannelData_t *channel);
 **       This function is called at when the application has loaded a new
 **       configuration table.
 **
+**  \param [in]   channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
+**
 **  \return
 **  CFE_SUCCESS if no error occurred.  On error, an OSAL error is returned
 **  indicating what error occured.
 **
 *************************************************************************/
-int32 PQ_MessageFlow_Buildup(PQ_ChannelData_t *channel);
+int32 PQ_MessageFlow_Buildup(PQ_ChannelData_t *Channel);
 
 
 /************************************************************************/
@@ -119,7 +122,7 @@ int32 PQ_MessageFlow_Buildup(PQ_ChannelData_t *channel);
 **  \param [in]   MsgID         A #CFE_SB_MsgId_t that references the
 **                              software bus message.
 **
-**  \param [in]   channel       A #PQ_ChannelData_t pointer that
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
 **                              references the channel data structure
 **
 **  \param [in,out] Index       Pointer to a value that will be set to the array
@@ -136,7 +139,7 @@ int32 PQ_MessageFlow_Buildup(PQ_ChannelData_t *channel);
 **  pointer when unsuccessful.
 **
 *************************************************************************/
-PQ_MessageFlow_t* PQ_MessageFlow_GetObject(PQ_ChannelData_t *channel, 
+PQ_MessageFlow_t* PQ_MessageFlow_GetObject(PQ_ChannelData_t *Channel, 
                                            CFE_SB_MsgId_t MsgID, 
                                            uint32 *Index);
 
@@ -148,7 +151,7 @@ PQ_MessageFlow_t* PQ_MessageFlow_GetObject(PQ_ChannelData_t *channel,
 **       This function is used by the classifier to get the priority
 **       queue object from the message flow object.
 **
-**  \param [in]   channel       A #PQ_ChannelData_t pointer that
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
 **                              references the channel data structure
 **
 **  \param [in]   MsgFlow       A #PQ_MessageFlow_t pointer that
@@ -163,7 +166,7 @@ PQ_MessageFlow_t* PQ_MessageFlow_GetObject(PQ_ChannelData_t *channel,
 **  pointer when unsuccessful.
 **
 *************************************************************************/
-PQ_PriorityQueue_t* PQ_MessageFlow_GetPQueue(PQ_ChannelData_t *channel, 
+PQ_PriorityQueue_t* PQ_MessageFlow_GetPQueue(PQ_ChannelData_t *Channel, 
          PQ_MessageFlow_t *MsgFlow, uint32 *Index);
 
 
@@ -174,7 +177,8 @@ PQ_PriorityQueue_t* PQ_MessageFlow_GetPQueue(PQ_ChannelData_t *channel,
 **       This function adds message flow, if the message flow is not
 **       found on a given channel.
 **
-**  \param [in]   ChannelIdx    Index for a given channel
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
 **
 **  \param [in]   MsgID         A #CFE_SB_MsgId_t that references the
 **                              software bus message.
@@ -187,7 +191,7 @@ PQ_PriorityQueue_t* PQ_MessageFlow_GetPQueue(PQ_ChannelData_t *channel,
 **  TRUE if added.  FALSE if not.
 **
 *************************************************************************/
-osalbool PQ_MessageFlow_Add(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID, uint16 MsgLimit, uint16 PQueueIdx);
+osalbool PQ_MessageFlow_Add(PQ_ChannelData_t *Channel, CFE_SB_MsgId_t MsgID, uint16 MsgLimit, uint16 PQueueIdx);
 
 
 /************************************************************************/
@@ -197,8 +201,8 @@ osalbool PQ_MessageFlow_Add(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID, uint16 MsgL
 **       This function removes a message flow from a given channel if it
 **       is found.
 **
-**  \param [in]   ChannelIdx    Index for a given channel
-**                              Ground = 0, Radio = 1, Storage = 2
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
 **
 **  \param [in]   MsgID         A #CFE_SB_MsgId_t that references the
 **                              software bus message.
@@ -207,7 +211,7 @@ osalbool PQ_MessageFlow_Add(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID, uint16 MsgL
 **  TRUE if message flow is found and removed.  FALSE if not.
 **
 *************************************************************************/
-osalbool PQ_MessageFlow_Remove(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID);
+osalbool PQ_MessageFlow_Remove(PQ_ChannelData_t *Channel, CFE_SB_MsgId_t MsgID);
 
 
 /************************************************************************/
@@ -217,8 +221,8 @@ osalbool PQ_MessageFlow_Remove(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID);
 **       This function queries a message flow to determine if it exists
 **       on a given channel.
 **
-**  \param [in]   ChannelIdx    Index for a given channel
-**                              Ground = 0, Radio = 1, Storage = 2
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
 **
 **  \param [in]   MsgID         A #CFE_SB_MsgId_t that references the
 **                              software bus message.
@@ -227,7 +231,7 @@ osalbool PQ_MessageFlow_Remove(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID);
 **  TRUE if message flow is found.  FALSE if not found.
 **
 *************************************************************************/
-osalbool PQ_MessageFlow_Query(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID);
+osalbool PQ_MessageFlow_Query(PQ_ChannelData_t *Channel, CFE_SB_MsgId_t MsgID);
 
 
 

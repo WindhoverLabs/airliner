@@ -42,17 +42,17 @@
 /* Build up all the message flows                                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 PQ_MessageFlow_Buildup(PQ_ChannelData_t *channel)
+int32 PQ_MessageFlow_Buildup(PQ_ChannelData_t *Channel)
 {
     uint32 i;
     int32 status = CFE_SUCCESS;
     
-    if (NULL == channel)
+    if (NULL == Channel)
     {
         return PQ_MESSAGE_FLOW_BAD_ARG_ERR;
     }
 
-    if  (NULL == channel->ConfigTblPtr)
+    if  (NULL == Channel->ConfigTblPtr)
     {
         return PQ_MESSAGE_FLOW_NO_TABLE_ERR;
     }
@@ -91,17 +91,17 @@ int32 PQ_MessageFlow_Buildup(PQ_ChannelData_t *channel)
 /* Teardown all the message flows                                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 PQ_MessageFlow_TeardownAll(PQ_ChannelData_t *channel)
+int32 PQ_MessageFlow_TeardownAll(PQ_ChannelData_t *Channel)
 {
     uint32 i;
     int32 status = CFE_SUCCESS;
     
-    if (NULL == channel)
+    if (NULL == Channel)
     {
         return PQ_MESSAGE_FLOW_BAD_ARG_ERR;
     }
 
-    if (NULL == channel->ConfigTblPtr)
+    if (NULL == Channel->ConfigTblPtr)
     {
         return PQ_MESSAGE_FLOW_NO_TABLE_ERR;
     }
@@ -137,21 +137,21 @@ int32 PQ_MessageFlow_TeardownAll(PQ_ChannelData_t *channel)
 /* Reset all runtime metrics.                                      */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void PQ_MessageFlow_ResetCountsAll(PQ_ChannelData_t *channel)
+void PQ_MessageFlow_ResetCountsAll(PQ_ChannelData_t *Channel)
 {
     uint32 i;
     uint32 j;
     
-    if (NULL == channel)
+    if (NULL == Channel)
     {
         return;
     }
-    
+
     for (i = 0; i < PQ_MAX_MESSAGE_FLOWS; ++i)
     {
-        channel->DumpTbl.MessageFlow[i].DroppedMsgCnt = 0;
-        channel->DumpTbl.MessageFlow[i].QueuedMsgCnt = 0;
-        channel->DumpTbl.MessageFlow[i].SBMsgCnt = 0;
+        Channel->DumpTbl.MessageFlow[i].DroppedMsgCnt = 0;
+        Channel->DumpTbl.MessageFlow[i].QueuedMsgCnt = 0;
+        Channel->DumpTbl.MessageFlow[i].SBMsgCnt = 0;
     }
 }
 
@@ -162,26 +162,26 @@ void PQ_MessageFlow_ResetCountsAll(PQ_ChannelData_t *channel)
 /* Get message flow object                                         */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-PQ_MessageFlow_t* PQ_MessageFlow_GetObject(PQ_ChannelData_t *channel, CFE_SB_MsgId_t MsgID, uint32 *Index)
+PQ_MessageFlow_t* PQ_MessageFlow_GetObject(PQ_ChannelData_t *Channel, CFE_SB_MsgId_t MsgID, uint32 *Index)
 {
     PQ_MessageFlow_t *outMsgFlow = NULL;
     uint32 i;
 
-    if (NULL == channel)
+    if (NULL == Channel)
     {
         return NULL;
     }
 
-    if  (NULL == channel->ConfigTblPtr)
+    if  (NULL == Channel->ConfigTblPtr)
     {
         return NULL;
     }    
 
     for (i = 0; i < PQ_MAX_MESSAGE_FLOWS; ++i)
     {
-        if (channel->ConfigTblPtr->MessageFlow[i].MsgId == MsgID)
+        if (Channel->ConfigTblPtr->MessageFlow[i].MsgId == MsgID)
         {
-            outMsgFlow = &channel->ConfigTblPtr->MessageFlow[i];
+            outMsgFlow = &Channel->ConfigTblPtr->MessageFlow[i];
 
             if (NULL != Index)
             {
@@ -201,7 +201,7 @@ PQ_MessageFlow_t* PQ_MessageFlow_GetObject(PQ_ChannelData_t *channel, CFE_SB_Msg
 /* Get the priority queue for a specific message flow              */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-PQ_PriorityQueue_t* PQ_MessageFlow_GetPQueue(PQ_ChannelData_t *channel, PQ_MessageFlow_t *msgFlow, uint32 *Index)
+PQ_PriorityQueue_t* PQ_MessageFlow_GetPQueue(PQ_ChannelData_t *Channel, PQ_MessageFlow_t *msgFlow, uint32 *Index)
 {
     uint32 idx = 0;
     PQ_PriorityQueue_t* outPQueue = NULL;
@@ -211,12 +211,12 @@ PQ_PriorityQueue_t* PQ_MessageFlow_GetPQueue(PQ_ChannelData_t *channel, PQ_Messa
         return NULL;
     }
     
-    if (NULL == channel)
+    if (NULL == Channel)
     {
         return NULL;
     }
     
-    if (NULL == channel->ConfigTblPtr)
+    if (NULL == Channel->ConfigTblPtr)
     {
         return NULL;
     }    
@@ -232,7 +232,7 @@ PQ_PriorityQueue_t* PQ_MessageFlow_GetPQueue(PQ_ChannelData_t *channel, PQ_Messa
         *Index = idx;
     }
     
-    outPQueue = &channel->ConfigTblPtr->PriorityQueue[idx];
+    outPQueue = &Channel->ConfigTblPtr->PriorityQueue[idx];
 
     return outPQueue;
 }
@@ -245,7 +245,7 @@ PQ_PriorityQueue_t* PQ_MessageFlow_GetPQueue(PQ_ChannelData_t *channel, PQ_Messa
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 osalbool PQ_MessageFlow_Add(
-    uint16 ChannelIdx, 
+    PQ_ChannelData_t *Channel, 
     CFE_SB_MsgId_t MsgID, 
     uint16 MsgLimit, 
     uint16 PQueueIdx)
@@ -258,56 +258,45 @@ osalbool PQ_MessageFlow_Add(
     uint8 queueIdx              = 0;
     uint32 decimationFactorsSum = 0;
 
-    PQ_ChannelData_t *channel = NULL;
-
-    /* First, check if the channel index is valid. */
-    if (ChannelIdx >= PQ_MAX_CHANNELS)
+    if (NULL == Channel)
     {
-        (void) CFE_EVS_SendEvent(PQ_CMD_ADD_MSG_FLOW_ERR_EID,
-                                 CFE_EVS_ERROR,
-                                 "Invalid channel (channel = %d, but max = %d).",
-                                 ChannelIdx, PQ_MAX_CHANNELS);
-
         return FALSE;
     }
-    
-    channel = &PQ_AppData.ChannelData[ChannelIdx];
 
-    if (NULL == channel->ConfigTblPtr)
+    if (NULL == Channel->ConfigTblPtr)
     {
         (void) CFE_EVS_SendEvent(PQ_MSG_FLOW_MISSING_TBL_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Channel missing valid table data (channel = %d).",
-                                 ChannelIdx);
+                                 "Channel %lu missing valid table data.", Channel->channelIdx);
 
         return FALSE;
     }
     
-    PQ_Channel_LockByRef(channel);
+    PQ_Channel_LockByRef(Channel);
 
     /* Next, see if the channel is open. */
-    if (channel->State != PQ_CHANNEL_OPENED)
+    if (Channel->State != PQ_CHANNEL_OPENED)
     {
         (void) CFE_EVS_SendEvent(PQ_CMD_ADD_MSG_FLOW_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Channel (%d) not open.", ChannelIdx);
+                                 "Channel %lu not open.", Channel->channelIdx);
                                  
-        PQ_Channel_UnlockByRef(channel);
+        PQ_Channel_UnlockByRef(Channel);
         return FALSE;
     }
 
     /* Next, see if there is a flow with this message ID. */
-    msgFlow = PQ_MessageFlow_GetObject(channel, MsgID, NULL);
+    msgFlow = PQ_MessageFlow_GetObject(Channel, MsgID, NULL);
 
     if (NULL != msgFlow)
     {
         /* A message flow already exists.  Reject the request. */
         (void) CFE_EVS_SendEvent(PQ_CMD_ADD_MSG_FLOW_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Message flow is already defined for channel %d.",
-                                 ChannelIdx);
+                                 "Message flow is already defined for channel %lu.",
+                                 Channel->channelIdx);
                                  
-        PQ_Channel_UnlockByRef(channel);
+        PQ_Channel_UnlockByRef(Channel);
         return FALSE;
     }
 
@@ -317,20 +306,21 @@ osalbool PQ_MessageFlow_Add(
      */
     for (i = 0; i < PQ_MAX_MESSAGE_FLOWS; ++i)
     {
-        if (channel->ConfigTblPtr->MessageFlow[i].MsgId == 0)
+        if (Channel->ConfigTblPtr->MessageFlow[i].MsgId == 0)
         {
             /* We found an unused entry.  Set the message flow definition
              * here.  First, make sure the requested priority queue is valid.
              */
-            if (PQ_PriorityQueue_IsValid(channel, PQueueIdx) == FALSE)
+            if (PQ_PriorityQueue_IsValid(Channel, PQueueIdx) == FALSE)
             {
                 /* This is an invalid priority queue. */
                 (void) CFE_EVS_SendEvent(PQ_CMD_ADD_MSG_FLOW_ERR_EID,
                                          CFE_EVS_ERROR,
-                                         "Priority Queue Index %u is invalid for channel %d.",
-                                         PQueueIdx, ChannelIdx);
+                                         "Priority Queue Index %u is invalid for channel %lu.",
+                                         PQueueIdx,
+                                         Channel->channelIdx);
                                          
-                PQ_Channel_UnlockByRef(channel);
+                PQ_Channel_UnlockByRef(Channel);
                 return FALSE;
             }
 
@@ -353,14 +343,14 @@ osalbool PQ_MessageFlow_Add(
             /* Now that the message was successfully subscribed to, set the
              * message flow definition.
              */
-            channel->ConfigTblPtr->MessageFlow[i].MsgId = MsgID;
-            channel->ConfigTblPtr->MessageFlow[i].MsgLimit = MsgLimit;
-            channel->ConfigTblPtr->MessageFlow[i].PQueueID = PQueueIdx;
-            channel->DumpTbl.MessageFlow[i].DroppedMsgCnt = 0;
-            channel->DumpTbl.MessageFlow[i].QueuedMsgCnt = 0;
-            channel->DumpTbl.MessageFlow[i].SBMsgCnt = 0;
+            Channel->ConfigTblPtr->MessageFlow[i].MsgId = MsgID;
+            Channel->ConfigTblPtr->MessageFlow[i].MsgLimit = MsgLimit;
+            Channel->ConfigTblPtr->MessageFlow[i].PQueueID = PQueueIdx;
+            Channel->DumpTbl.MessageFlow[i].DroppedMsgCnt = 0;
+            Channel->DumpTbl.MessageFlow[i].QueuedMsgCnt = 0;
+            Channel->DumpTbl.MessageFlow[i].SBMsgCnt = 0;
             
-            CFE_TBL_Modified(channel->ConfigTblHdl);
+            CFE_TBL_Modified(Channel->ConfigTblHdl);
 
             added = TRUE;
             break;
@@ -371,11 +361,11 @@ osalbool PQ_MessageFlow_Add(
     {
         (void) CFE_EVS_SendEvent(PQ_CMD_ADD_MSG_FLOW_ERR_EID, 
                                 CFE_EVS_ERROR,
-                                "Failed to add message flow. No unused slots available on channel %d.",
-                                ChannelIdx);
+                                "Failed to add message flow. No unused slots available on channel %lu.", 
+                                Channel->channelIdx);
     }    
 
-    PQ_Channel_UnlockByRef(channel);
+    PQ_Channel_UnlockByRef(Channel);
 
     return added;
 }
@@ -387,91 +377,80 @@ osalbool PQ_MessageFlow_Add(
 /* Remove a message flow                                           */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-osalbool PQ_MessageFlow_Remove(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID)
+osalbool PQ_MessageFlow_Remove(PQ_ChannelData_t *Channel, CFE_SB_MsgId_t MsgID)
 {
     uint32 msgFlowIndex       = 0;
     uint32 i                 = 0;
     PQ_MessageFlow_t *msgFlow = NULL;
     int32 status              = CFE_SUCCESS;
-    PQ_ChannelData_t *channel = NULL;
 
-    /* First, check if the channel index is valid. */
-    if (ChannelIdx >= PQ_MAX_CHANNELS)
+    if (NULL == Channel)
     {
-        (void) CFE_EVS_SendEvent(PQ_CMD_REMOVE_MSG_FLOW_ERR_EID,
-                                 CFE_EVS_ERROR,
-                                 "Invalid channel (channel = %d, but max = %d).",
-                                 ChannelIdx, PQ_MAX_CHANNELS);
-                                 
         return FALSE;
     }
-    
-    channel = &PQ_AppData.ChannelData[ChannelIdx];
 
-    if (NULL == channel->ConfigTblPtr)
+    if (NULL == Channel->ConfigTblPtr)
     {
         (void) CFE_EVS_SendEvent(PQ_MSG_FLOW_MISSING_TBL_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Channel missing valid table data (channel = %d).",
-                                 ChannelIdx);
+                                 "Channel %lu missing valid table data.", Channel->channelIdx);
 
         return FALSE;
     }
     
-    PQ_Channel_LockByRef(channel);
+    PQ_Channel_LockByRef(Channel);
 
     /* Next, see if the channel is open. */
-    if (channel->State != PQ_CHANNEL_OPENED)
+    if (Channel->State != PQ_CHANNEL_OPENED)
     {
         (void) CFE_EVS_SendEvent(PQ_CMD_REMOVE_MSG_FLOW_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Channel (%d) not open.", ChannelIdx);
+                                 "Channel %lu not open.", Channel->channelIdx);
                                  
-        PQ_Channel_UnlockByRef(channel);
+        PQ_Channel_UnlockByRef(Channel);
         return FALSE;
     }
 
     /* Next, see if there is a flow with this message ID */
-    msgFlow = PQ_MessageFlow_GetObject(channel, MsgID, &msgFlowIndex);
+    msgFlow = PQ_MessageFlow_GetObject(Channel, MsgID, &msgFlowIndex);
     if (NULL == msgFlow)
     {
         /* A message flow does not exist.  Reject the request. */
         (void) CFE_EVS_SendEvent(PQ_CMD_REMOVE_MSG_FLOW_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Message flow is not defined for channel %d.",
-                                 ChannelIdx);
+                                 "Message flow is not defined for channel %lu.", Channel->channelIdx);
                                  
-        PQ_Channel_UnlockByRef(channel);
+        PQ_Channel_UnlockByRef(Channel);
         return FALSE;
     }
 
     /* Now that we have the message flow object, unsubscribe from it and clear
      * the entries. 
      */
-    status = CFE_SB_Unsubscribe(msgFlow->MsgId, channel->DataPipeId);
+    status = CFE_SB_Unsubscribe(msgFlow->MsgId, Channel->DataPipeId);
     
     if (status != CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(PQ_CMD_REMOVE_MSG_FLOW_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Message flow failed to unsubscribe from 0x%08X on channel %d. (%ld)",
-                                 msgFlow->MsgId, ChannelIdx, status);
+                                 "Message flow failed to unsubscribe from 0x%08X on channel %lu. (%ld)",
+                                 msgFlow->MsgId, Channel->channelIdx, status);
                                  
-        PQ_Channel_UnlockByRef(channel);
+        PQ_Channel_UnlockByRef(Channel);
         return FALSE;
     }
 
     /* Now just clear the entries. */
-    channel->ConfigTblPtr->MessageFlow[msgFlowIndex].MsgId = 0;
-    channel->ConfigTblPtr->MessageFlow[msgFlowIndex].MsgLimit = 0;
-    channel->ConfigTblPtr->MessageFlow[msgFlowIndex].PQueueID = 0;
-    channel->DumpTbl.MessageFlow[msgFlowIndex].DroppedMsgCnt = 0;
-    channel->DumpTbl.MessageFlow[msgFlowIndex].QueuedMsgCnt = 0;
-    channel->DumpTbl.MessageFlow[msgFlowIndex].SBMsgCnt = 0;
+    Channel->ConfigTblPtr->MessageFlow[msgFlowIndex].MsgId = 0;
+    Channel->ConfigTblPtr->MessageFlow[msgFlowIndex].MsgLimit = 0;
+    Channel->ConfigTblPtr->MessageFlow[msgFlowIndex].PQueueID = 0;
+    Channel->DumpTbl.MessageFlow[msgFlowIndex].DroppedMsgCnt = 0;
+    Channel->DumpTbl.MessageFlow[msgFlowIndex].QueuedMsgCnt = 0;
+    Channel->DumpTbl.MessageFlow[msgFlowIndex].SBMsgCnt = 0;
 
-    PQ_Channel_UnlockByRef(channel);
+    PQ_Channel_UnlockByRef(Channel);
 
-    CFE_TBL_Modified(channel->ConfigTblHdl);
+    CFE_TBL_Modified(Channel->ConfigTblHdl);
 
     return TRUE;
 }
@@ -483,74 +462,64 @@ osalbool PQ_MessageFlow_Remove(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID)
 /* Query a message flow                                            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-osalbool PQ_MessageFlow_Query(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID)
+osalbool PQ_MessageFlow_Query(PQ_ChannelData_t *Channel, CFE_SB_MsgId_t MsgID)
 {
     uint32 i = 0;
     osalbool found = FALSE;
-    PQ_ChannelData_t *channel = NULL;
-    
-    /* First, check if the channel index is valid. */
-    if (ChannelIdx >= PQ_MAX_CHANNELS)
+
+    if (NULL == Channel)
     {
-        (void) CFE_EVS_SendEvent(PQ_MSG_FLOW_INFO_ERR_EID,
-                                 CFE_EVS_ERROR,
-                                 "Invalid channel (channel = %d, but max = %d).",
-                                 ChannelIdx, PQ_MAX_CHANNELS);
-          
         return FALSE;
     }
 
-    channel = &PQ_AppData.ChannelData[ChannelIdx];
-    
-    if (NULL == channel->ConfigTblPtr)
+    if (NULL == Channel->ConfigTblPtr)
     {
         (void) CFE_EVS_SendEvent(PQ_MSG_FLOW_MISSING_TBL_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Channel missing valid table data (channel = %d).",
-                                 ChannelIdx);
+                                 "Channel %lu missing valid table data.", Channel->channelIdx);
 
         return FALSE;
     }
     
-    PQ_Channel_LockByRef(channel);
+    PQ_Channel_LockByRef(Channel);
 
     /* Next, see if the channel is open. */
-    if (channel->State != PQ_CHANNEL_OPENED)
+    if (Channel->State != PQ_CHANNEL_OPENED)
     {
         (void) CFE_EVS_SendEvent(PQ_MSG_FLOW_INFO_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Channel (%d) not open.", ChannelIdx);
+                                 "Channel %lu not open.", Channel->channelIdx);
                                  
-        PQ_Channel_UnlockByRef(channel);
+        PQ_Channel_UnlockByRef(Channel);
         return FALSE;
     }
 
     for (i = 0; i < PQ_MAX_MESSAGE_FLOWS; ++i)
     {
-        if (channel->ConfigTblPtr->MessageFlow[i].MsgId == MsgID)
+        if (Channel->ConfigTblPtr->MessageFlow[i].MsgId == MsgID)
         {
             (void) CFE_EVS_SendEvent(PQ_MSG_FLOW_INFO_EID,
                                      CFE_EVS_INFORMATION,
-                                     "CHANNEL=%d MID=0x%04x ML=%u PQI=%u D=%lu Q=%lu SB=%lu",
-                                     ChannelIdx,
-                                     channel->ConfigTblPtr->MessageFlow[i].MsgId,
-                                     channel->ConfigTblPtr->MessageFlow[i].MsgLimit,
-                                     channel->ConfigTblPtr->MessageFlow[i].PQueueID,
-                                     channel->DumpTbl.MessageFlow[i].DroppedMsgCnt,
-                                     channel->DumpTbl.MessageFlow[i].QueuedMsgCnt,
-                                     channel->DumpTbl.MessageFlow[i].SBMsgCnt);
+                                     "CHANNEL=%lu MID=0x%04x ML=%u PQI=%u D=%lu Q=%lu SB=%lu",
+                                     Channel->channelIdx,
+                                     Channel->ConfigTblPtr->MessageFlow[i].MsgId,
+                                     Channel->ConfigTblPtr->MessageFlow[i].MsgLimit,
+                                     Channel->ConfigTblPtr->MessageFlow[i].PQueueID,
+                                     Channel->DumpTbl.MessageFlow[i].DroppedMsgCnt,
+                                     Channel->DumpTbl.MessageFlow[i].QueuedMsgCnt,
+                                     Channel->DumpTbl.MessageFlow[i].SBMsgCnt);
             found = TRUE;
             break;
         }
     }
 
-    PQ_Channel_UnlockByRef(channel);
+    PQ_Channel_UnlockByRef(Channel);
 
     if (found != TRUE)
     {
         (void) CFE_EVS_SendEvent(PQ_MSG_FLOW_INFO_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "MsgID=0x%04x not found (channel = %d)", MsgID, ChannelIdx);
+                                 "MsgID=0x%04x not found.", MsgID);
     }
     
     return found;

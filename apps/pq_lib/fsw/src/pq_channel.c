@@ -541,3 +541,22 @@ uint8 PQ_Channel_State(PQ_ChannelData_t *Channel)
 
     //return TRUE;
 //}
+
+
+void PQ_Channel_CopyStats(PQ_HkTlm_t *HkTlm, PQ_ChannelData_t *Channel)
+{
+    //PQ_Channel_LockByRef(channel);
+    HkTlm->QueuedInOutputChannel       = Channel->OutputQueue.CurrentlyQueuedCnt;
+    HkTlm->uiSentMsgCountChannel       = Channel->SentMsgCount;
+    HkTlm->uiQueuedMsgCountChannel     = Channel->QueuedMsgCount;
+    HkTlm->uiDropMsgCountChannel       = Channel->DropMsgCount;
+    HkTlm->uiFailedMsgCountChannel     = Channel->FailedMsgCount;
+    HkTlm->uiBytesSentChannel          = Channel->BytesSent;
+    HkTlm->ChannelMemInfo.MemInUse     = Channel->MemInUse;
+    HkTlm->ChannelMemInfo.PeakMemInUse = Channel->PeakMemInUse;
+    HkTlm->usTotalMsgDropped           = Channel->DropMsgCount;
+    //PQ_Channel_UnlockByRef(channel);
+    //(void) OS_MutSemTake(TO_AppData.MutexID);
+    HkTlm->SentBytes                   = Channel->OutputQueue.SentBytes;
+    //(void) OS_MutSemGive(TO_AppData.MutexID);
+}

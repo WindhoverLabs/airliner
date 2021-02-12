@@ -65,15 +65,15 @@
 **       This function is called by the Scheduler to push a message onto
 **       the output channel for downlink.
 **
-**  \param [in]   ChannelIdx    The index of the channel to push the
-**                              message to.
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
 **
 **  \param [in]   Buffer        Buffer containing the message to push.
 **
 **  \param [in]   Size          Size of the message, in bytes, to push.
 **
 *************************************************************************/
-int32 PQ_OutputQueue_Push(PQ_ChannelData_t* channel, const char* Buffer, uint32 Size);
+int32 PQ_OutputQueue_Push(PQ_ChannelData_t* Channel, const char* Buffer, uint32 Size);
 
 
 
@@ -84,8 +84,11 @@ int32 PQ_OutputQueue_Push(PQ_ChannelData_t* channel, const char* Buffer, uint32 
 **       This function is call at application termination and empties
 **       the queue, deallocating each message its popped off the queue.
 **
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
+**
 *************************************************************************/
-void  PQ_OutputQueue_CleanupAll(PQ_ChannelData_t* channel);
+void  PQ_OutputQueue_CleanupAll(PQ_ChannelData_t* Channel);
 
 
 
@@ -97,8 +100,11 @@ void  PQ_OutputQueue_CleanupAll(PQ_ChannelData_t* channel);
 **       It resets all metrics, which include the Sent Counts and the
 **       Highwater Marks.
 **
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
+**
 *************************************************************************/
-void  PQ_OutputQueue_ResetCounts(PQ_ChannelData_t* channel);
+void  PQ_OutputQueue_ResetCounts(PQ_ChannelData_t* Channel);
 
 
 
@@ -110,8 +116,11 @@ void  PQ_OutputQueue_ResetCounts(PQ_ChannelData_t* channel);
 **       a new configuration table.  This will flush the queues and
 **       deallocate the messages contained in the queues.
 **
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
+**
 *************************************************************************/
-int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t* channel);
+int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t* Channel);
 
 
 
@@ -122,13 +131,16 @@ int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t* channel);
 **       This function is called at when the application has loaded a new
 **       configuration table.
 **
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
+**
 **  \returns
 **  0 if no error occurred.  On error, an OSAL error is returned
 **  indicating what error occured.
 **  \endreturns
 **
 *************************************************************************/
-int32 PQ_OutputQueue_Buildup(PQ_ChannelData_t* channel);
+int32 PQ_OutputQueue_Buildup(PQ_ChannelData_t* Channel);
 
 
 
@@ -139,19 +151,18 @@ int32 PQ_OutputQueue_Buildup(PQ_ChannelData_t* channel);
 **       This function is called by the Scheduler to queue a message
 **       for downlink.
 **
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
+**
 **  \param [in]   MsgPtr        A #CFE_SB_Msg_t pointer that
 **                              references the software bus message
-
-**
-**  \param [in]   OutChannel    A #PQ_TlmOutputChannelQueue_t pointer to
-**                              the output channel object.
 **
 **  \returns
 **  0 if successful.  OSAL error if unsuccessful.
 **  \endreturns
 **
 *************************************************************************/
-int32 PQ_OutputQueue_QueueMsg(PQ_ChannelData_t* channel, CFE_SB_MsgPtr_t MsgPtr);
+int32 PQ_OutputQueue_QueueMsg(PQ_ChannelData_t* Channel, CFE_SB_MsgPtr_t MsgPtr);
 
 
 
@@ -163,13 +174,14 @@ int32 PQ_OutputQueue_QueueMsg(PQ_ChannelData_t* channel, CFE_SB_MsgPtr_t MsgPtr)
 **       query an output channel.  This will raise an information event
 **       containing text with Sent Count and Highwater Mark.
 **
-**  \param [in]   OutputChannelIdx  Index of the output channel to query.
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
 **
 **  \returns
 **  TRUE if successful.  FALSE if an error occurred.
 **  \endreturns
 **
 *************************************************************************/
-boolean PQ_OutputChannel_Query(uint16 ChannelIdx);
+boolean PQ_OutputChannel_Query(PQ_ChannelData_t* Channel);
 
 #endif

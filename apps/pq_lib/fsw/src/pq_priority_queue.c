@@ -34,11 +34,9 @@
 #include "pq_priority_queue.h"
 #include <string.h>
 #include <stddef.h>
-
+#include "pq_channel.h"
 #include "pq_structs.h"
 #include "pq_events.h"
-
-extern PQ_AppData_t PQ_AppData;
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -55,16 +53,16 @@ uint32 PQ_GetEventMsgLength(CFE_EVS_Packet_t *msgPtr);
 /* Clear all dynamics metrics.                                     */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void PQ_PriorityQueue_ResetCountsAll(PQ_ChannelData_t* channel)
+void PQ_PriorityQueue_ResetCountsAll(PQ_ChannelData_t* Channel)
 {
     uint32 i;
 
     for (i = 0; i < PQ_MAX_PRIORITY_QUEUES; ++i)
     {
-        channel->DumpTbl.PriorityQueue[i].DroppedMsgCnt = 0;
-        channel->DumpTbl.PriorityQueue[i].QueuedMsgCnt = 0;
-        channel->DumpTbl.PriorityQueue[i].HighwaterMark = 0;
-        channel->DumpTbl.PriorityQueue[i].CurrentlyQueuedCnt = 0;
+        Channel->DumpTbl.PriorityQueue[i].DroppedMsgCnt = 0;
+        Channel->DumpTbl.PriorityQueue[i].QueuedMsgCnt = 0;
+        Channel->DumpTbl.PriorityQueue[i].HighwaterMark = 0;
+        Channel->DumpTbl.PriorityQueue[i].CurrentlyQueuedCnt = 0;
     }
 }
 
@@ -75,13 +73,13 @@ void PQ_PriorityQueue_ResetCountsAll(PQ_ChannelData_t* channel)
 /* Buildup all priority queues after a reconfiguration.            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 PQ_PriorityQueue_BuildupAll(PQ_ChannelData_t *channel)
+int32 PQ_PriorityQueue_BuildupAll(PQ_ChannelData_t *Channel)
 {
     uint32 i;
     int32 status = CFE_SUCCESS;
 
     /* First, check if the channel NULL. */
-    if (NULL == channel) 
+    if (NULL == Channel) 
     {
         (void) CFE_EVS_SendEvent(PQ_PQUEUE_MISSING_TBL_ERR_EID, 
                                 CFE_EVS_ERROR,
@@ -89,12 +87,12 @@ int32 PQ_PriorityQueue_BuildupAll(PQ_ChannelData_t *channel)
         return PQ_CHANNEL_PTR_NULL;      
     }
 
-    if (NULL == channel->ConfigTblPtr)
+    if (NULL == Channel->ConfigTblPtr)
     {
         (void) CFE_EVS_SendEvent(PQ_PQUEUE_MISSING_TBL_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Failed to create priority queues on channel %d, missing table.",
-                                 channel->channelIdx);
+                                 "Failed to create priority queues on channel %lu, missing table.",
+                                 Channel->channelIdx);
         return PQ_NO_TABLE_ERR;
     }
 
@@ -103,15 +101,15 @@ int32 PQ_PriorityQueue_BuildupAll(PQ_ChannelData_t *channel)
      */
     for (i = 0; i < PQ_MAX_PRIORITY_QUEUES; ++i)
     {
-        if (channel->ConfigTblPtr->PriorityQueue[i].State != PQ_PQUEUE_UNUSED)
+        if (Channel->ConfigTblPtr->PriorityQueue[i].State != PQ_PQUEUE_UNUSED)
         {
             char QueueName[OS_MAX_API_NAME];
             (void) CFE_PSP_MemSet(QueueName, 0, sizeof(QueueName));
-            snprintf(QueueName, OS_MAX_API_NAME, "PQ_%s_%u", (const char*)&channel->ChannelName[0], (uint8)i);
+            snprintf(QueueName, OS_MAX_API_NAME, "PQ_%s_%u", (const char*)&Channel->ChannelName[0], (uint8)i);
             status = OS_QueueCreate(
-                    &channel->DumpTbl.PriorityQueue[i].OSALQueueID,
+                    &Channel->DumpTbl.PriorityQueue[i].OSALQueueID,
                     QueueName,
-                    channel->ConfigTblPtr->PriorityQueue[i].MsgLimit,
+                    Channel->ConfigTblPtr->PriorityQueue[i].MsgLimit,
                     sizeof(CFE_SB_Msg_t*),
                     0);
             if (status != OS_SUCCESS)
@@ -124,13 +122,13 @@ int32 PQ_PriorityQueue_BuildupAll(PQ_ChannelData_t *channel)
                  */
                 (void) CFE_EVS_SendEvent(PQ_PQUEUE_CREATE_ERR_EID,
                                      CFE_EVS_ERROR,
-                                    "Failed to create '%s' priority queue #%u on channel %d. (%i)",
-                                    channel->ChannelName,
+                                    "Failed to create '%s' priority queue #%u on channel %lu. (%i)",
+                                    Channel->ChannelName,
                                     (unsigned int)i,
-                                    channel->channelIdx,
+                                    Channel->channelIdx,
                                     (int)status);
 
-                channel->DumpTbl.PriorityQueue[i].OSALQueueID = OS_MAX_QUEUES;
+                Channel->DumpTbl.PriorityQueue[i].OSALQueueID = OS_MAX_QUEUES;
             }
         }
     }
@@ -145,7 +143,7 @@ int32 PQ_PriorityQueue_BuildupAll(PQ_ChannelData_t *channel)
 /* Teardown all priority queues after a reconfiguration.           */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 PQ_PriorityQueue_TeardownAll(PQ_ChannelData_t *channel)
+int32 PQ_PriorityQueue_TeardownAll(PQ_ChannelData_t *Channel)
 {
     uint32 i;
     int32 status = 0;
@@ -153,36 +151,36 @@ int32 PQ_PriorityQueue_TeardownAll(PQ_ChannelData_t *channel)
     uint32 bufferSize = 0;
     void *buffer = NULL;
 
-    if(NULL != channel->ConfigTblPtr)
+    if(NULL != Channel->ConfigTblPtr)
     {
         for(i = 0; i < PQ_MAX_PRIORITY_QUEUES; ++i)
         {
-            if(channel->ConfigTblPtr->PriorityQueue[i].State != PQ_PQUEUE_UNUSED)
+            if(Channel->ConfigTblPtr->PriorityQueue[i].State != PQ_PQUEUE_UNUSED)
             {
-                if(channel->DumpTbl.PriorityQueue[i].OSALQueueID < OS_MAX_QUEUES)
+                if(Channel->DumpTbl.PriorityQueue[i].OSALQueueID < OS_MAX_QUEUES)
                 {
                     buffer = NULL;
                     bufferSize = 0;
                     while(OS_SUCCESS == status)
                     {
                         status =  OS_QueueGet(
-                                channel->DumpTbl.PriorityQueue[i].OSALQueueID,
+                                Channel->DumpTbl.PriorityQueue[i].OSALQueueID,
                                 &buffer, sizeof(buffer), &bufferSize, OS_CHECK);
                         if(OS_SUCCESS == status)
                         {
-                            bytesReleased = CFE_ES_PutPoolBuf(channel->MemPoolHandle, (uint32*)buffer);
+                            bytesReleased = CFE_ES_PutPoolBuf(Channel->MemPoolHandle, (uint32*)buffer);
                             if(bytesReleased < 0)
                             {
                                 (void) CFE_EVS_SendEvent(PQ_PQUEUE_TEARDOWN_ERR_EID,
                                                          CFE_EVS_ERROR,
-                                                         "Failed to return message back to memory pool on tbl load for channel %d. (%ld)",
-                                                         (unsigned int)channel->channelIdx, 
+                                                         "Failed to return message back to memory pool on tbl load for channel %lu. (%ld)",
+                                                         Channel->channelIdx, 
                                                          (unsigned long int)bytesReleased);
                             } else {
-                                PQ_Channel_LockByRef(channel);
+                                PQ_Channel_LockByRef(Channel);
                                 /* Since bytesReleased is positive, it is safe to cast */
-                                channel->MemInUse -= (uint32)bytesReleased;
-                                PQ_Channel_UnlockByRef(channel);
+                                Channel->MemInUse -= (uint32)bytesReleased;
+                                PQ_Channel_UnlockByRef(Channel);
                             }
                         }
                     }
@@ -191,9 +189,9 @@ int32 PQ_PriorityQueue_TeardownAll(PQ_ChannelData_t *channel)
                     {
                         (void) CFE_EVS_SendEvent(PQ_PQUEUE_TEARDOWN_ERR_EID,
                                                  CFE_EVS_ERROR,
-                                                 "Message flow failed to pop all messages from pqueue %u for channel %d. (%d)",
+                                                 "Message flow failed to pop all messages from pqueue %u for channel %lu. (%d)",
                                                  (unsigned int)i,
-                                                 (unsigned int)channel->channelIdx,
+                                                 Channel->channelIdx,
                                                  (int)status);
                     }
 
@@ -202,19 +200,19 @@ int32 PQ_PriorityQueue_TeardownAll(PQ_ChannelData_t *channel)
                      * queue.
                      */
                     status = OS_QueueDelete(
-                            channel->DumpTbl.PriorityQueue[i].OSALQueueID);
+                            Channel->DumpTbl.PriorityQueue[i].OSALQueueID);
                     if(status != OS_SUCCESS)
                     {
                         /* We ran into an error.  Send an event, but just keep going.  Nothing we can do. */
                         (void) CFE_EVS_SendEvent(PQ_PQUEUE_TEARDOWN_ERR_EID,
                                                  CFE_EVS_ERROR,
-                                                 "Failed to delete priority queue %u for channel %d. (%d)",
+                                                 "Failed to delete priority queue %u for channel %lu. (%d)",
                                                  (unsigned int)i,
-                                                 (unsigned int)channel->channelIdx,
+                                                 Channel->channelIdx,
                                                  (int)status);
                     }
 
-                    channel->DumpTbl.PriorityQueue[i].OSALQueueID = OS_MAX_QUEUES;
+                    Channel->DumpTbl.PriorityQueue[i].OSALQueueID = OS_MAX_QUEUES;
                 }
             }
         }
@@ -224,8 +222,8 @@ int32 PQ_PriorityQueue_TeardownAll(PQ_ChannelData_t *channel)
         /* No table.  Just keep going and try processing the next channel. */
         (void) CFE_EVS_SendEvent(PQ_PQUEUE_MISSING_TBL_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Failed to tear down priority queues on channel %d, missing table.",
-                                 (unsigned int)channel->channelIdx);
+                                 "Failed to tear down priority queues on channel %lu, missing table.",
+                                 Channel->channelIdx);
     }
 
     return status;
@@ -238,7 +236,7 @@ int32 PQ_PriorityQueue_TeardownAll(PQ_ChannelData_t *channel)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int32 PQ_PriorityQueue_QueueMsg(
-    PQ_ChannelData_t *channel, 
+    PQ_ChannelData_t *Channel, 
     CFE_SB_MsgPtr_t MsgPtr, 
     uint32 PQueueIndex)
 {
@@ -248,15 +246,15 @@ int32 PQ_PriorityQueue_QueueMsg(
     void *PQ_CopyBuffer = NULL;
     CFE_SB_MsgId_t  DataMsgID;
     
-    if (NULL == channel->ConfigTblPtr)
+    if (NULL == Channel->ConfigTblPtr)
     {
         (void) CFE_EVS_SendEvent(PQ_PQUEUE_MISSING_TBL_ERR_EID, CFE_EVS_ERROR,
-                                 "Failed to queue message on channel %d, missing table!",
-                                 (unsigned int)channel->channelIdx);
+                                 "Failed to queue message on channel %lu, missing table!",
+                                 Channel->channelIdx);
         return PQ_NO_TABLE_ERR;
     }    
 
-    pqueueDump = &channel->DumpTbl.PriorityQueue[PQueueIndex];
+    pqueueDump = &Channel->DumpTbl.PriorityQueue[PQueueIndex];
 
     DataMsgID = CFE_SB_GetMsgId(MsgPtr);
     bufferSize = CFE_SB_GetTotalMsgLength(MsgPtr);
@@ -274,7 +272,7 @@ int32 PQ_PriorityQueue_QueueMsg(
      * copy.
      */
     status = CFE_ES_GetPoolBuf((uint32 **) &PQ_CopyBuffer,
-                                channel->MemPoolHandle, bufferSize);
+                                Channel->MemPoolHandle, bufferSize);
     if ((status < 0) || (PQ_CopyBuffer == NULL))
     {
         /* The allocation failed.  There's nothing we can do.  Rather than
@@ -285,21 +283,21 @@ int32 PQ_PriorityQueue_QueueMsg(
          * let's just increment a counter, and let the caller know the queue
          * failed.
          */
-        PQ_Channel_LockByRef(channel);
-        channel->MemFullCount++;
+        PQ_Channel_LockByRef(Channel);
+        Channel->MemFullCount++;
         pqueueDump->DroppedMsgCnt++;
-        PQ_Channel_UnlockByRef(channel);
+        PQ_Channel_UnlockByRef(Channel);
         return PQ_MEMORY_FULL_ERR;
     }
 
-    PQ_Channel_LockByRef(channel);
+    PQ_Channel_LockByRef(Channel);
     /* Since status is positive, it is safe to cast */
-    channel->MemInUse += (uint32)status;
-    if (channel->MemInUse > channel->PeakMemInUse)
+    Channel->MemInUse += (uint32)status;
+    if (Channel->MemInUse > Channel->PeakMemInUse)
     {
-        channel->PeakMemInUse = channel->MemInUse;
+        Channel->PeakMemInUse = Channel->MemInUse;
     }
-    PQ_Channel_UnlockByRef(channel);
+    PQ_Channel_UnlockByRef(Channel);
 
     /* Copy the message into the temp buffer. */
     (void) CFE_PSP_MemCpy(PQ_CopyBuffer, MsgPtr, bufferSize);
@@ -318,21 +316,21 @@ int32 PQ_PriorityQueue_QueueMsg(
          * deallocate the memory allocated first since we don't need it
          * anymore.
          */
-        status = CFE_ES_PutPoolBuf(channel->MemPoolHandle, (uint32*)PQ_CopyBuffer);
+        status = CFE_ES_PutPoolBuf(Channel->MemPoolHandle, (uint32*)PQ_CopyBuffer);
         if (status < 0)
         {
             pqueueDump->DroppedMsgCnt++;
             (void) CFE_EVS_SendEvent(PQ_PUT_POOL_ERR_EID,
                                      CFE_EVS_ERROR,
-                                     "PutPoolBuf: channel=%d error=%i",
-                                     (unsigned int)channel->channelIdx,
+                                     "PutPoolBuf: channel=%lu error=%i",
+                                     Channel->channelIdx,
                                      (int)status);
             return status;
         }
-        PQ_Channel_LockByRef(channel);
-        channel->MemInUse -= (uint32)status;
+        PQ_Channel_LockByRef(Channel);
+        Channel->MemInUse -= (uint32)status;
 
-        PQ_Channel_UnlockByRef(channel);
+        PQ_Channel_UnlockByRef(Channel);
         status = PQ_PRIORITY_QUEUE_FULL_ERR;
     }
     else if (status != OS_SUCCESS)
@@ -340,8 +338,8 @@ int32 PQ_PriorityQueue_QueueMsg(
         pqueueDump->DroppedMsgCnt++;
         (void) CFE_EVS_SendEvent(PQ_OSQUEUE_PUT_ERROR_EID,
                                  CFE_EVS_ERROR,
-                                 "OS_QueuePut failed: channel=%d size=%u error=%i",
-                                 (unsigned int)channel->channelIdx, 
+                                 "OS_QueuePut failed: channel=%lu size=%u error=%i",
+                                 Channel->channelIdx, 
                                  sizeof(PQ_CopyBuffer), 
                                  (int)status);
         return status;
@@ -367,41 +365,33 @@ int32 PQ_PriorityQueue_QueueMsg(
 /* Query a priority queue.                                         */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-osalbool PQ_PriorityQueue_Query(uint16 ChannelIdx, uint16 PQueueIdx)
+osalbool PQ_PriorityQueue_Query(PQ_ChannelData_t *Channel, uint16 PQueueIdx)
 {
     osalbool returnCode = FALSE;
-    PQ_ChannelData_t *channel = NULL;
 
-    /* First, check if the channel index is valid. */
-    if (ChannelIdx >= PQ_MAX_CHANNELS)
+    if (NULL == Channel)
     {
-        (void) CFE_EVS_SendEvent(PQ_PQUEUE_INFO_ERR_EID,
-                                 CFE_EVS_ERROR,
-                                 "Invalid channel index (index = %d, max = %d).",
-                                 ChannelIdx, PQ_MAX_CHANNELS);
-        return returnCode;
+        return FALSE;
     }
-    
-    channel = &PQ_AppData.ChannelData[ChannelIdx];
 
-    if (NULL == channel->ConfigTblPtr)
+    if (NULL == Channel->ConfigTblPtr)
     {
         (void) CFE_EVS_SendEvent(PQ_PQUEUE_MISSING_TBL_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Channel missing valid table data (index = %d).",
-                                 ChannelIdx);
+                                 "Channel missing valid table data (index = %lu).",
+                                 Channel->channelIdx);
         return returnCode;
     }
 
-    PQ_Channel_LockByRef(channel);
+    PQ_Channel_LockByRef(Channel);
 
     /* Next, see if the channel is open. */
-    if (channel->State != PQ_CHANNEL_OPENED)
+    if (Channel->State != PQ_CHANNEL_OPENED)
     {
         (void) CFE_EVS_SendEvent(PQ_PQUEUE_INFO_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Channel %d not open.", ChannelIdx);
-        PQ_Channel_UnlockByRef(channel);
+                                 "Channel %lu not open.", Channel->channelIdx);
+        PQ_Channel_UnlockByRef(Channel);
         return returnCode;
     }
 
@@ -417,21 +407,21 @@ osalbool PQ_PriorityQueue_Query(uint16 ChannelIdx, uint16 PQueueIdx)
     {
         (void) CFE_EVS_SendEvent(PQ_PQUEUE_INFO_EID,
                                  CFE_EVS_INFORMATION,
-                                 "CHANNEL=%d PQI=%u S=%u ML=%u QT=%u D=%lu Q=%lu CQ=%u HWM=%u",
-                                 ChannelIdx,
+                                 "CHANNEL=%lu PQI=%u S=%u ML=%u QT=%u D=%lu Q=%lu CQ=%u HWM=%u",
+                                 Channel->channelIdx,
                                  PQueueIdx,
-                                 channel->ConfigTblPtr->PriorityQueue[PQueueIdx].State,
-                                 channel->ConfigTblPtr->PriorityQueue[PQueueIdx].MsgLimit,
-                                 channel->ConfigTblPtr->PriorityQueue[PQueueIdx].QType,
-                                 channel->DumpTbl.PriorityQueue[PQueueIdx].DroppedMsgCnt,
-                                 channel->DumpTbl.PriorityQueue[PQueueIdx].QueuedMsgCnt,
-                                 channel->DumpTbl.PriorityQueue[PQueueIdx].CurrentlyQueuedCnt,
-                                 channel->DumpTbl.PriorityQueue[PQueueIdx].HighwaterMark);
+                                 Channel->ConfigTblPtr->PriorityQueue[PQueueIdx].State,
+                                 Channel->ConfigTblPtr->PriorityQueue[PQueueIdx].MsgLimit,
+                                 Channel->ConfigTblPtr->PriorityQueue[PQueueIdx].QType,
+                                 Channel->DumpTbl.PriorityQueue[PQueueIdx].DroppedMsgCnt,
+                                 Channel->DumpTbl.PriorityQueue[PQueueIdx].QueuedMsgCnt,
+                                 Channel->DumpTbl.PriorityQueue[PQueueIdx].CurrentlyQueuedCnt,
+                                 Channel->DumpTbl.PriorityQueue[PQueueIdx].HighwaterMark);
 
         returnCode = TRUE;
     }
 
-    PQ_Channel_UnlockByRef(channel);
+    PQ_Channel_UnlockByRef(Channel);
 
     return returnCode;
 }

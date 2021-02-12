@@ -591,38 +591,38 @@ typedef struct
 } PQ_HkTlm_t;
 
 
-/**
-**  \brief PQ Operational Data Structure
-*/
-typedef struct
-{
-    /* Task-related */
-    /** \brief Task Run Status */
-    //uint32                runStatus;
+///**
+//**  \brief PQ Operational Data Structure
+//*/
+//typedef struct
+//{
+    ///* Task-related */
+    ///** \brief Task Run Status */
+    ////uint32                runStatus;
 
-    /** \brief Housekeeping Telemetry for downlink */
-    PQ_HkTlm_t            HkTlm;
+    ///** \brief Housekeeping Telemetry for downlink */
+    //PQ_HkTlm_t            HkTlm;
 
-    /** \brief Mutex for PQ AppData */
-    uint32                MutexID;
+    ///** \brief Mutex for PQ AppData */
+    //uint32                MutexID;
 
-    /** \brief Channel Data */
-    PQ_ChannelData_t      ChannelData[PQ_MAX_CHANNELS];
+    ///** \brief Channel Data */
+    //PQ_ChannelData_t      ChannelData[PQ_MAX_CHANNELS];
 
-    /** \brief CFE Event Table */
-    //CFE_EVS_BinFilter_t   EventTbl[CFE_EVS_MAX_EVENT_FILTERS];
-    /* CFE_EVS_BinFilter_t is two uint16's */
+    ///** \brief CFE Event Table */
+    ////CFE_EVS_BinFilter_t   EventTbl[CFE_EVS_MAX_EVENT_FILTERS];
+    ///* CFE_EVS_BinFilter_t is two uint16's */
 
-    uint16                OutMessageSize;
+    //uint16                OutMessageSize;
 
-    /**\brief Scheduling Pipe ID */
-    //CFE_SB_PipeId_t       SchPipeId;
+    ///**\brief Scheduling Pipe ID */
+    ////CFE_SB_PipeId_t       SchPipeId;
 
-    /** \brief Command Pipe ID */
-    //CFE_SB_PipeId_t       CmdPipeId;
+    ///** \brief Command Pipe ID */
+    ////CFE_SB_PipeId_t       CmdPipeId;
 
-} PQ_AppData_t;
+//} PQ_AppData_t;
 
-extern PQ_AppData_t PQ_AppData;
+//extern PQ_AppData_t PQ_AppData;
 
 #endif
