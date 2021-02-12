@@ -63,7 +63,6 @@ void PQ_MessageFlow_ResetCountsAll(PQ_ChannelData_t *Channel)
 }
 
 
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Get message flow object                                         */
@@ -103,7 +102,6 @@ PQ_MessageFlow_t* PQ_MessageFlow_GetObject(PQ_ChannelData_t *Channel, CFE_SB_Msg
 
     return outMsgFlow;
 }
-
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -155,7 +153,6 @@ PQ_PriorityQueue_t* PQ_MessageFlow_GetPQueue(PQ_ChannelData_t *Channel, PQ_Messa
 
     return outPQueue;
 }
-
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -293,7 +290,6 @@ osalbool PQ_MessageFlow_Add(
 }
 
 
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Remove a message flow                                           */
@@ -381,7 +377,6 @@ osalbool PQ_MessageFlow_Remove(PQ_ChannelData_t *Channel, CFE_SB_MsgId_t MsgID)
 }
 
 
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Query a message flow                                            */
@@ -452,4 +447,3 @@ osalbool PQ_MessageFlow_Query(PQ_ChannelData_t *Channel, CFE_SB_MsgId_t MsgID)
     
     return found;
 }
-

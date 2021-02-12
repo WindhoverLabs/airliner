@@ -76,7 +76,6 @@
 int32 PQ_OutputQueue_Push(PQ_ChannelData_t* Channel, const char* Buffer, uint32 Size);
 
 
-
 /************************************************************************/
 /** \brief Cleanup all output channels.
 **
@@ -89,7 +88,6 @@ int32 PQ_OutputQueue_Push(PQ_ChannelData_t* Channel, const char* Buffer, uint32 
 **
 *************************************************************************/
 void  PQ_OutputQueue_CleanupAll(PQ_ChannelData_t* Channel);
-
 
 
 /************************************************************************/
@@ -107,7 +105,6 @@ void  PQ_OutputQueue_CleanupAll(PQ_ChannelData_t* Channel);
 void  PQ_OutputQueue_ResetCounts(PQ_ChannelData_t* Channel);
 
 
-
 /************************************************************************/
 /** \brief Teardown all output channel queues.
 **
@@ -121,7 +118,6 @@ void  PQ_OutputQueue_ResetCounts(PQ_ChannelData_t* Channel);
 **
 *************************************************************************/
 int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t* Channel);
-
 
 
 /************************************************************************/
@@ -143,7 +139,6 @@ int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t* Channel);
 int32 PQ_OutputQueue_Buildup(PQ_ChannelData_t* Channel);
 
 
-
 /************************************************************************/
 /** \brief Queue message.
 **
@@ -163,7 +158,6 @@ int32 PQ_OutputQueue_Buildup(PQ_ChannelData_t* Channel);
 **
 *************************************************************************/
 int32 PQ_OutputQueue_QueueMsg(PQ_ChannelData_t* Channel, CFE_SB_MsgPtr_t MsgPtr);
-
 
 
 /************************************************************************/

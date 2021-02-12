@@ -236,6 +236,7 @@ void PQ_Channel_Cleanup(PQ_ChannelData_t *Channel);
  */
 void PQ_Channel_ResetCounts(PQ_ChannelData_t *Channel);
 
+
 /**
  * \brief Forwards a single channel's telemetry data to PQ_Classifier
  *        and PQ_Scheduler
@@ -243,11 +244,15 @@ void PQ_Channel_ResetCounts(PQ_ChannelData_t *Channel);
  * \par Assumptions, External Events, and Notes:
  *      Assumes channel pointer is not NULL
  *
- * \param [in]   channel       A #PQ_ChannelData_t pointer that
+ * \param [in]   Channel       A #PQ_ChannelData_t pointer that
  *                             references the channel data structures
+ * 
+ * \param [in]   DataMsgPtr    A #CFE_SB_MsgPtr_t pointer of an SB message
+ * 
  */
 void PQ_Channel_ProcessTelemetry(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t DataMsgPtr);
-void PQ_Channel_CopyStats(PQ_HkTlm_t *HkTlm, PQ_ChannelData_t *Channel);
 
+
+void PQ_Channel_CopyStats(PQ_HkTlm_t *HkTlm, PQ_ChannelData_t *Channel);
 
 #endif

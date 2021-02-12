@@ -47,7 +47,6 @@
 uint32 PQ_GetEventMsgLength(CFE_EVS_Packet_t *msgPtr);
 
 
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Clear all dynamics metrics.                                     */
@@ -73,7 +72,6 @@ void PQ_PriorityQueue_ResetCountsAll(PQ_ChannelData_t* Channel)
         Channel->DumpTbl.PriorityQueue[i].CurrentlyQueuedCnt = 0;
     }
 }
-
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -143,7 +141,6 @@ int32 PQ_PriorityQueue_BuildupAll(PQ_ChannelData_t *Channel)
 
     return CFE_SUCCESS;
 }
-
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -381,7 +378,6 @@ int32 PQ_PriorityQueue_QueueMsg(
 
     return status;
 }
-
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

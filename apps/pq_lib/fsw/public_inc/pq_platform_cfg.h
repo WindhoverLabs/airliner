@@ -52,7 +52,7 @@ extern "C" {
 **       classifier.
 **
 */
-#define PQ_MAX_MSG_LENGTH             (32767)
+#define PQ_MAX_MSG_LENGTH              (32767)
 
 /**
 **  \cfeescfg Define PQ Memory Pool Block Sizes

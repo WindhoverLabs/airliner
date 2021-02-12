@@ -56,7 +56,6 @@
 ** External Global Variables
 *************************************************************************/
 
-
 /************************************************************************/
 /** \brief Runs the Classifier algorithm on incoming message flows.
 **

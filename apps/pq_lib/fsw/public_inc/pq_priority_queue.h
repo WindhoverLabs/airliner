@@ -116,7 +116,6 @@ int32 PQ_PriorityQueue_BuildupAll(PQ_ChannelData_t *Channel);
 int32 PQ_PriorityQueue_QueueMsg(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t MsgPtr, uint32 PQueueIndex);
 
 
-
 /************************************************************************/
 /** \brief Teardown all priority queues.
 **
@@ -133,7 +132,6 @@ int32 PQ_PriorityQueue_QueueMsg(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t MsgPt
 **
 *************************************************************************/
 int32 PQ_PriorityQueue_TeardownAll(PQ_ChannelData_t *Channel);
-
 
 
 /************************************************************************/
@@ -174,6 +172,5 @@ osalbool PQ_PriorityQueue_Query(PQ_ChannelData_t *Channel, uint16 PQueueIdx);
 **
 *************************************************************************/
 osalbool PQ_PriorityQueue_IsValid(PQ_ChannelData_t *Channel, uint32 PQueueIdx);
-
 
 #endif

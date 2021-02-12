@@ -79,7 +79,6 @@ int32 PQ_OutputQueue_Buildup(PQ_ChannelData_t* Channel)
 }
 
 
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Teardown channel output queue in preparation for a              */
@@ -145,7 +144,6 @@ int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t *Channel)
 }
 
 
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Reset all dynamic metrics.                                      */
@@ -166,7 +164,6 @@ void PQ_OutputQueue_ResetCounts(PQ_ChannelData_t *Channel)
     Channel->OutputQueue.SentBytes = 0;
     Channel->OutputQueue.CurrentlyQueuedCnt = 0;
 }
-
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -221,7 +218,6 @@ int32 PQ_OutputQueue_QueueMsg(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t MsgPtr)
 
     return status;
 }
-
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

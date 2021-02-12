@@ -93,6 +93,7 @@ void PQ_MessageFlow_ResetCountsAll(PQ_ChannelData_t *Channel);
 *************************************************************************/
 int32 PQ_MessageFlow_TeardownAll(PQ_ChannelData_t *Channel);
 
+
 /************************************************************************/
 /** \brief Get the next message flow object.
 **

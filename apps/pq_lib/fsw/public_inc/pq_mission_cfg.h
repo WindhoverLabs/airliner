@@ -39,7 +39,7 @@ extern "C" {
 #endif
 
 /*
-** TO Mission Configuration Parameter Definitions
+** PQ Mission Configuration Parameter Definitions
 */
 
 /**
