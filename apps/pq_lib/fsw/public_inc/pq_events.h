@@ -49,10 +49,6 @@ extern "C" {
  * For long-term maintenance, consider not removing an event but replacing it
  * with an unused, reserved, enum to preserve the IDs later in the list. */
 typedef enum {
-
-/** \brief Value of zero is reserved, and should not be used. */
-    PQ_RESERVED_EID = 0,  /* Do not use this event ID */
-
     /*
      * START OF STANDARDIZED EVENT LIST
      *
@@ -63,270 +59,59 @@ typedef enum {
      * convention.
      */
 
-/** \brief TO Init App INFO.
-**  \event Initialized.  Version \%d.\%d.\%d.\%d
-**
-**  \par Type: INFORMATION
-*
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  completed initialization.
-**
-**  The first \c \b " %d " field contains the Application's Major Version Number
-**  The second \c \b " %d " field contains the Application's Minor Version Number
-**  The third \c \b " %d " field contains the Application's Revision Number
-*/
-    PQ_INIT_APP_INF_EID      = 1,
-
-/** \brief TO Configuration Table Initialized.
-**  \event Config tables are initialized.
-**
-**  \par Type: INFORMATION
-**
-**  \par Cause:
-**
-**  This message is generated when a table is initialized.
-**
-*/
-    PQ_INIT_CONFIG_INF_EID   = 2,
-
-/** \brief TO NOOP CMD INFO.
-**  \event Executed NOOP cmd (\%u), Version \%d.\%d.\%d.\%d
-**
-**  \par Type: INFORMATION
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  received and processed a Noop command.  Also, the
-**  application version number is displayed.
-*/
-    PQ_CMD_NOOP_INF_EID      = 3,
-
-/** \brief TO RESET CMD INFO.
-**  \event Executed RESET cmd (\%u)
-**
-**  \par Type: INFORMATION
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  received and processed a Reset command.
-**
-*/
-    PQ_CMD_RESET_INF_EID     = 4,
-
-/** \brief TO - 
-**  \event TO - 
-**
-**  \par Type:
-**
-**  \par Cause:
-**
-**  This event message is reserved.
-**  Reserved for common id - PQ_SUBSCRIBE_INF_EID
-**
-*/
-    PQ_RESERVED_ONE_EID      = 5,
-
-/** \brief TO Init App ERROR.
+/** \brief PQ Init ERROR.
 **  \event Application failed to initialize.
 **
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
-**  This event message is issued when the CFS TO Task has
+**  This event message is issued when a CFS Task has
 **  had an error with initializing the app.
 **
 */
-    PQ_INIT_APP_ERR_EID      = 6,
+    PQ_INIT_APP_ERR_EID      = 1 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO - 
-**  \event TO - 
-**
-**  \par Type:
-**
-**  \par Cause:
-**
-**  This event message is reserved.
-**  Reserved for common id - PQ_INIT_CLEANUP_ERR_EID
-**
-*/
-    PQ_RESERVED_TWO_EID      = 7,
-
-/** \brief TO Init CMD Pipe ERROR.
-**  \event Failed to create CMD pipe (0x%08X)
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  had an error initializing the command pipe.
-**
-*/
-    PQ_INIT_CMDPIPE_ERR_EID  = 8,
-
-/** \brief TO Init configuration table ERROR.
+/** \brief PQ Init configuration table ERROR.
 **  \event Failed to init config tables (0x%08X)
 **
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
-**  This event message is issued when the CFS TO Task has
+**  This event message is issued when the CFS Task has
 **  had an error initializing a configuration table.
 **
 */
-    PQ_INIT_CONFIG_ERR_EID   = 9,
+    PQ_INIT_CONFIG_ERR_EID   = 2 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO - 
-**  \event TO - 
-**
-**  \par Type:
-**
-**  \par Cause:
-**
-**  This event message is reserved.
-**  Reserved for common id - PQ_INIT_DATA_ERR_EID
-**
-*/
-    PQ_RESERVED_THREE_EID    = 10,
-
-/** \brief TO Init data pipe ERROR.
-**  \event Failed to init config tables (0x%08X)
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  had an error initializing the data pipe
-**
-*/
-    PQ_INIT_DATAPIPE_ERR_EID = 11,
-
-/** \brief TO Init pipe ERROR.
-**  \event Failed to init pipes (0x%08X)
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  has at least 1 error initializing a pipe.
-**
-*/
-    PQ_INIT_PIPE_ERR_EID     = 12,
-
-/** \brief TO Init SCH pipe ERROR.
-**  \event Failed to create SCH pipe (0x%08X)
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  had an error initializing the scheduler pipe
-**
-*/
-    PQ_INIT_SCHPIPE_ERR_EID  = 13,
-
-/** \brief TO Command Code Error.
-**  \event Recvd invalid cmdId (\%u)
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  received a command with an invalid command code
-**
-*/
-    PQ_CC_ERR_EID            = 14,
-
-/** \brief TO CONFIG TABLE Address Error.
+/** \brief PQ CONFIG TABLE Address Error.
 **  \event Failed to get Config table's address for channel \%u, (0x%08X)
 **
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
-**  This event message is issued when the CFS TO Task has
+**  This event message is issued when the CFS Task has
 **  had an error with getting the configuration table address.
 **
 */
-    PQ_CONFIG_ADDR_ERR_EID   = 15,
+    PQ_CONFIG_ADDR_ERR_EID   = 3 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO CONFIG TABLE Manage Error.
+/** \brief PQ CONFIG TABLE Manage Error.
 **  \event Failed to manage Config table for channel \%u, (0x%08X)
 **
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
-**  This event message is issued when the CFS TO Task has
+**  This event message is issued when the CFS Task has
 **  had an error with managing the configuration table.
 **
 */
-    PQ_CONFIG_MANAGE_ERR_EID = 16,
+    PQ_CONFIG_MANAGE_ERR_EID = 4 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO received invalid message ID.
-**  \event Recvd invalid $type msgId (0x%04x)
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  received an invalid message ID.
-**
-*/
-    PQ_MSG_ID_ERR_EID        = 17,
-
-/** \brief TO received a message with a invalid length
-**  \event Rcvd invalid msgLen: msgId=0x%08X, cmdCode=\%d, msgLen=\%d, expectedLen=\%d"
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  received a message with a bad length.
-**
-*/
-    PQ_MSG_LEN_ERR_EID       = 18,
-
-/** \brief TO Software Bus Pipe ERROR.
-**  \event SB pipe read error (0x%08X)
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  had an error reading from a pipe.
-**
-*/
-    PQ_PIPE_READ_ERR_EID     = 19,
-
-/** \brief TO Subscribe ERROR.
-**  \event CMD Pipe failed to subscribe to PQ_CMD_MID. (0x%08X)
-**  \event Sch Pipe failed to subscribe to PQ_SEND_HK_MID. (0x%08X)
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  had an error subscribing to messages.
-**
-*/
-    PQ_SUBSCRIBE_ERR_EID     = 20,
-
-/** \brief TO Configuration ERROR.
+/** \brief PQ Configuration ERROR.
 **  \event Channel \%u config table handle failure! (0x%08X)
 **  \event Failed to clear SB data pipe for channel \%u, (0x%08X)
 **  \event Failed to create '\%s' output channel queue for channel \%d. err=\%ld
@@ -335,50 +120,11 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message is issued when the CFS TO Task has
+**  This event message is issued when the CFS Task has
 **  had an error with the configuration table.
 **
 */
-    PQ_CONFIG_TABLE_ERR_EID  = 21,
-
-/** \brief TO received and processed a command.
-**  \event Enabled channel \%u to \%s:\%u.
-**
-**  \par Type: INFORMATION
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  received and processed a command.
-**
-*/
-    PQ_CMD_INF_EID           = 22,
-
-/** \brief TO Unsubscribe ERROR.
-**  \event Message flow failed to unsubscribe from 0x%04x. (\%ld)
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS TO Task has
-**  had an error subscribing to messages.
-**
-*/
-    PQ_UNSUBSCRIBE_ERR_EID   = 23,
-
-/** \brief TO Create child task failed.
-**  \event Child task creation failed: Failed to create \%s: 0x%08lX
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when TO has failed to
-**  create its child task.
-**
-*/
-    PQ_CREATE_CHDTASK_ERR_EID = 24,
+    PQ_CONFIG_TABLE_ERR_EID  = 5 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Message Dropped on Priority Queue.
 **  \event PQ full (PQ \%lu, channel \%u). Error code (\%ld) Dropped message 0x%04x
@@ -397,36 +143,20 @@ typedef enum {
 **    - OS_ERROR  are all handled by this else clause
 **
 */
-    PQ_MSG_DROP_FROM_FLOW_DBG_EID = 25,
+    PQ_MSG_DROP_FROM_FLOW_DBG_EID = 6 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO Create memory pool failed.
+/** \brief PQ Create memory pool failed.
 **  \event Error creating memory pool (0x%08X)
 **
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
-**  This event message is issued when TO has failed to
+**  This event message is issued when PQ has failed to
 **  create memory pool.
 **
 */
-    PQ_CR_POOL_ERR_EID        = 26,
-
-    /* Deleted "PQ_GET_POOL_ERR_EID  = 27" */
-
-/** \brief Listener failed to write.
-**  \event Listener passed NULL POINTER to PQ_OutputChannel_Send().
-**  \event Not all bytes written to storage locations.
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when TO has failed to
-**  write due to NULL pointer or not all bytes written.
-**
-*/
-    PQ_TLM_LISTEN_ERR_EID     = 28,
+    PQ_CR_POOL_ERR_EID        = 7 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Query a channel for a specified message flow.
 **  \event CHANNEL=\%d MID=0x%04x ML=\%u PQI=\%u N=\%u AB=\%u D=\%lu Q=\%lu SB=\%lu FLT=\%lu FLD=\%lu S=\%lu
@@ -435,7 +165,7 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message is issued when the CFS TO Task has
+**  This event message is issued when the CFS Task has
 **  received and processed a Query Message Flow command.
 **  The following information is displayed:
 **
@@ -452,7 +182,7 @@ typedef enum {
 **    - Failed Message Count
 **    - Sent Message Count
 */
-    PQ_MSG_FLOW_INFO_EID = 29,
+    PQ_MSG_FLOW_INFO_EID = 8 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Failed query on channel for a specified message flow.
 **  \event MsgID=0x%04x not found (channel = \%d)
@@ -463,13 +193,13 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  TO Command to query a message flow has failed due to the following:
+**  PQ Command to query a message flow has failed due to the following:
 **
 **    - MsgID not found
 **    - Channel not open
 **    - Channel index not valid (out of range)
 */
-    PQ_MSG_FLOW_INFO_ERR_EID = 30,
+    PQ_MSG_FLOW_INFO_ERR_EID = 9 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Failed query on a channel for a specified message with NULL table pointer
 **  \event Channel missing valid table data (channel = \%d).
@@ -478,11 +208,11 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  TO Command to query a message flow has failed due to the following:
+**  PQ Command to query a message flow has failed due to the following:
 **
 **    - Channel missing valid table data.
 */
-    PQ_MSG_FLOW_MISSING_TBL_ERR_EID = 31,
+    PQ_MSG_FLOW_MISSING_TBL_ERR_EID = 10 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Query a channel's priority queue.
 **  \event CHANNEL=\%d PQI=\%u S=\%u ML=\%u QT=\%u D=\%lu Q=\%lu CQ=\%u HWM=\%u
@@ -491,11 +221,11 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message is issued when TO Command Priority Queue Query executed
+**  This event message is issued when PQ Command Priority Queue Query executed
 **  successfully.
 **
 */
-    PQ_PQUEUE_INFO_EID = 32,
+    PQ_PQUEUE_INFO_EID = 11 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Failed query on a channel's priority queue.
 **  \event PQueueIdx \%u exceeds the largest available priority queue index
@@ -506,14 +236,14 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message is issued when TO Command Priority Queue Query failed due to the following:
+**  This event message is issued when PQ Command Priority Queue Query failed due to the following:
 **
 **    - Priority queue index exceeds largest available priority queue index
 **    - Channel not open
 **    - Channel index not valid (out of range)
 **
 */
-    PQ_PQUEUE_INFO_ERR_EID = 33,    
+    PQ_PQUEUE_INFO_ERR_EID = 12 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Command to query an output queue.
 **  \event CHANNEL=\%d S=\%d ML=\%i SC=\%lu CQC=\%d HWM=\%d
@@ -522,7 +252,7 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message is issued when the CFS TO Task has
+**  This event message is issued when the CFS Task has
 **  received and processed a Query Output Queue command.
 **  The following information is displayed:
 **
@@ -534,7 +264,7 @@ typedef enum {
 **    - HighwaterMark
 **
 */
-    PQ_OUT_CH_INFO_EID = 34,
+    PQ_OUT_CH_INFO_EID = 13 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Command to query an output queue failed.
 **  \event Invalid channel index (index = \%d, max = \%d).
@@ -544,38 +274,14 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message is issued when TO Command Output Queue Query failed due to the following:
+**  This event message is issued when PQ Command Output Queue Query failed due to the following:
 **
 **    - Channel index not valid (out of range)
 **    - Channel not open
 **
 */
-    PQ_OUT_CH_INFO_ERR_EID = 35,    
+    PQ_OUT_CH_INFO_ERR_EID = 14 + PQ_EVENT_ID_OFFSET,
 
-/** \brief Failed to send out telemetry message, message too large.
-**  \event Listener: message too big, MID=0x\%x, bytes=\%u
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when TO failed to send out telemetry message, message too large.
-**
-*/
-    PQ_OUT_CH_MSG_TOO_BIG_EID = 36,
-
-/** \brief Command to add a message flow executed successfully.
-**  \event Executed ADD_MESSAGE cmd (\%u)
-**
-**  \par Type: INFORMATION
-**
-**  \par Cause:
-**
-**  This event message is issued when TO Command Add a message flow executed successfully.
-**
-*/
-    PQ_CMD_ADD_MSG_FLOW_EID = 37,
-    
 /** \brief Command to add a message flow has failed.
 **  \event Invalid channel (channel = \%d, but max = \%d).
 **  \event Channel (\%d) not open.
@@ -592,7 +298,7 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message is issued when TO Command Add a message flow failed
+**  This event message is issued when PQ Command Add a message flow failed
 **  for one of the following reasons:
 **
 **    - Channel index not valid (out of range)
@@ -606,19 +312,7 @@ typedef enum {
 **    - Message flow failed to subscribe
 **    - No available slots to insert message flow > PQ_MAX_MESSAGE_FLOWS
 */
-    PQ_CMD_ADD_MSG_FLOW_ERR_EID = 38,    
-
-/** \brief Command to remove a message flow executed successfully.
-**  \event Executed remove message flow cmd (\%u)
-**
-**  \par Type: INFORMATION
-**
-**  \par Cause:
-**
-**  This event message is issued when TO command remove a message flow executed successfully.
-**
-*/
-    PQ_CMD_REMOVE_MSG_FLOW_EID = 39,
+    PQ_CMD_ADD_MSG_FLOW_ERR_EID = 15 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Command to remove a message flow has failed.
 **  \event Invalid channel (channel = \%d, but max = \%d).
@@ -630,7 +324,7 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message is issued when TO Command Remove a message flow failed
+**  This event message is issued when PQ Command Remove a message flow failed
 **  for one of the following reasons:
 **
 **    - Channel index not valid (out of range)
@@ -639,49 +333,7 @@ typedef enum {
 **    - Message flow failed to unsubscribe from channel
 **
 */
-    PQ_CMD_REMOVE_MSG_FLOW_ERR_EID = 40,    
-
-/** \brief Command to send TO Diagnostics telemetry executed successfully.
-**  \event Successfully executed send diagnostics (\%u)
-**
-**  \par Type: INFORMATION
-**
-**  \par Cause:
-**
-**  This event message is issued when TO command to Send TO Diagnostics telemetry executed successfully.
-**
-*/
-    PQ_CMD_SEND_DIAG_EID = 41,
-
-/** \brief Command to send TO Diagnostics telemetry failed - (per-channel event).
-**  \event Invalid channel index.
-**  \event Channel has not been opened.
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message (per-channel event) is issued when TO Send TO Diagnostics telemetry failed
-**  for one of the following reasons:
-**
-**    - Channel index not valid (out of range)
-**    - Channel not open
-*/
-    PQ_CMD_SEND_DIAG_ERR_EID = 42,
-
-/** \brief Command to send diagnostics action did not occur because table data was missing - (per-channel event) 
-**  \event Channel table is not available.
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message (per-channel event) is issued when TO Command to sent 
-**  TO diagnostic telemetry has failed due to the following:
-**
-**    - Channel table pointer is NULL.
-*/
-    PQ_CMD_SEND_MISSING_TBL_ERR_EID = 43,
+    PQ_CMD_REMOVE_MSG_FLOW_ERR_EID = 16 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Failed to create priority queue because table data was missing - (per-channel event).
 **  \event Failed to create priority queues on channel \%d, missing table.
@@ -690,12 +342,12 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message (per-channel event) is issued when TO Command to query 
+**  This event message (per-channel event) is issued when PQ Command to query 
 **  a priority queue has failed due to the following:
 **
 **    - Channel table pointer is NULL.
 */
-    PQ_PQUEUE_MISSING_TBL_ERR_EID  = 44,
+    PQ_PQUEUE_MISSING_TBL_ERR_EID  = 17 + PQ_EVENT_ID_OFFSET,
 
 /** \brief A priority queue could not be created because call to OS_QueueCreate failed (per-channel event).
 **  \event Failed to create '\%s' priority queue #\%u on channel \%d. (\%i)
@@ -715,7 +367,7 @@ typedef enum {
 **
 **  A priority queue could not be created.  Not a critical error.
 */
-    PQ_PQUEUE_CREATE_ERR_EID  = 45,
+    PQ_PQUEUE_CREATE_ERR_EID  = 18 + PQ_EVENT_ID_OFFSET,
 
 /** \brief A priority queue could not be torn down (per-channel event).
 **  \event Failed to return message back to memory pool on tbl load for channel \%d. (\%ld)
@@ -733,22 +385,9 @@ typedef enum {
 **  - Failed to delete priority queue for the channel - error returned from call to OS_QueueDelete
 ** 
 */
-    PQ_PQUEUE_TEARDOWN_ERR_EID = 46,
+    PQ_PQUEUE_TEARDOWN_ERR_EID = 19 + PQ_EVENT_ID_OFFSET,
 
-/** \brief The Storage queue anomaly buffer value is not in valid range.
-**  \event TO custom setting anomaly queue index error (\%u) using default anomaly buffer (10) index 6
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issed when TO custom setting anomaly queue index is not in range.  It must be
-**  greater than PQ_MIN_ANOMALY_QUEUE and less than PQ_MAX_ANOMALY_QUEUE
-**
-*/
-    PQ_DECIMATE_SET_QUEUE_BIT_ERR_EID = 47,
-
-/** \brief TO Table Validation failed - Configuration table pointer is NULL (not available).
+/** \brief PQ Table Validation failed - Configuration table pointer is NULL (not available).
 **  \event ERROR: Config table pointer is NULL, table validation ended"
 **
 **  \par Type: ERROR
@@ -758,9 +397,9 @@ typedef enum {
 **  This event message is issed when table validation failed due config table pointer being NULL (not available).
 **
 */
-    PQ_CONFIG_TABLE_NULL_PTR_EID = 48,
+    PQ_CONFIG_TABLE_NULL_PTR_EID = 20 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO Table Validation failed - Priority Queue State is invalid.
+/** \brief PQ Table Validation failed - Priority Queue State is invalid.
 **  \event ERROR: Priority Queue State is invalid (\%d), for Table ID (\%lu) at table index (\%d)
 **
 **  \par Type: ERROR
@@ -770,9 +409,9 @@ typedef enum {
 **  This event message is issed when table validation failed due Priority Queue State not valid.
 **
 */
-    PQ_CONFIG_TABLE_PQUEUE_STATE_ERR_EID = 49,
+    PQ_CONFIG_TABLE_PQUEUE_STATE_ERR_EID = 21 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO Table Validation failed - Priority Queue Type is invalid.
+/** \brief PQ Table Validation failed - Priority Queue Type is invalid.
 **  \event ERROR: Priority Queue Qtype is invalid (\%d) for Table ID (\%lu) at table index (\%d)
 **
 **  \par Type: ERROR
@@ -782,9 +421,9 @@ typedef enum {
 **  This event message is issed when table validation failed due to Priority Queue Type not valid. Only one type - FIFO.
 **
 */
-    PQ_CONFIG_TABLE_PQUEUE_QTYPE_ERR_EID = 50,
+    PQ_CONFIG_TABLE_PQUEUE_QTYPE_ERR_EID = 22 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO Table Validation failed - Priority Queue Message Limit is invalid.
+/** \brief PQ Table Validation failed - Priority Queue Message Limit is invalid.
 **  \event ERROR: Priority Queue MsgLimit invalid (\%d) for Table ID (\%lu) at table index (\%d)
 **
 **  \par Type: ERROR
@@ -794,9 +433,9 @@ typedef enum {
 **  Table validation failed due to Priority Queue Message Limit because invalid.
 **
 */
-    PQ_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR_EID = 51,
+    PQ_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR_EID = 23 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO Table Validation failed - no Priority Queues defined in the table.
+/** \brief PQ Table Validation failed - no Priority Queues defined in the table.
 **  \event ERROR: No Priority Queues or all queue states are unused in the config table with Table ID (\%lu)
 **
 **  \par Type: ERROR
@@ -806,9 +445,9 @@ typedef enum {
 **  This event message is issed when table validation failed due because no Priority Queues defined in the table.
 **
 */
-    PQ_CONFIG_TABLE_NO_PQUEUES_ERR_EID = 52,
+    PQ_CONFIG_TABLE_NO_PQUEUES_ERR_EID = 24 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO Table Validation failed - secondary header is absent.
+/** \brief PQ Table Validation failed - secondary header is absent.
 **  \event ERROR: Secondary Header is absent for table index (\%d), MsgId (0x%04X) in Table ID (\%lu)
 **
 **  \par Type: ERROR
@@ -818,9 +457,9 @@ typedef enum {
 **  This event message is issed when table validation failed due to CCSDS secondary header error (absent)
 **
 */
-    PQ_CONFIG_TABLE_SHDR_ABSENT_EID = 53,
+    PQ_CONFIG_TABLE_SHDR_ABSENT_EID = 25 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO Table Validation failed - Invalid CCSDS version
+/** \brief PQ Table Validation failed - Invalid CCSDS version
 **  \event ERROR: Invalid CCSDS Version for table index (\%d), MsgId (0x%04X) in Table ID (\%lu)
 **
 **  \par Type: ERROR
@@ -830,9 +469,9 @@ typedef enum {
 **  This event message is issed when table validation failed due to CCSDS VERS error.
 **
 */
-    PQ_CONFIG_TABLE_CCSDS_VER_INVALID_EID = 54,
+    PQ_CONFIG_TABLE_CCSDS_VER_INVALID_EID = 26 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO Table Validation failed - configuration table Message Flow Limit is invalid.
+/** \brief PQ Table Validation failed - configuration table Message Flow Limit is invalid.
 **  \event ERROR: Message Flow MsgLimit invalid (\%u) in Table ID (\%lu) at table index (\%d) 
 **
 **  \par Type: ERROR
@@ -842,9 +481,9 @@ typedef enum {
 **  This event message is issed when table validation failed due to Message Flow Limit is out of range.
 **
 */
-    PQ_CONFIG_TABLE_MSG_FLOW_MSG_LIMIT_ERR_EID = 55,
+    PQ_CONFIG_TABLE_MSG_FLOW_MSG_LIMIT_ERR_EID = 27 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO Table Validation failed - configuration table Message Flow Priority Queue ID is invalid.
+/** \brief PQ Table Validation failed - configuration table Message Flow Priority Queue ID is invalid.
 **  \event ERROR: Message Flow Priority Queue ID is invalid (\%d) for Table ID (\%lu) at table index (\%d)
 **
 **  \par Type: ERROR
@@ -854,9 +493,9 @@ typedef enum {
 **  This event message is issed when table validation failed due to Message Flow Priority Queue ID being invalid.
 **
 */
-    PQ_CONFIG_TABLE_MSG_FLOW_PQ_ID_ERR_EID = 56,
+    PQ_CONFIG_TABLE_MSG_FLOW_PQ_ID_ERR_EID = 28 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO Table Validation failed - configuration table has no Message Flows defined.
+/** \brief PQ Table Validation failed - configuration table has no Message Flows defined.
 **  \event INFO: No Message Flow entries in the config table, Table Id (\%lu)
 **
 **  \par Type: INFO
@@ -866,33 +505,7 @@ typedef enum {
 **  This event message is issed when table validation failed due to no Message Flows defined in table.
 **
 */
-    PQ_CONFIG_TABLE_NO_MSG_FLOW_INF_EID  = 57,
-
-/** \brief TO Table Validation failed - configuration table Message Flow Decimation Filter value is invalid.
-**  \event ERROR: Storage Filter value is invalid must be 0 value is (\%u) for Table ID (\%lu) at table index (\%d)
-**  \event ERROR: Ground or Onboard Filter value is invalid must at least 1, value is (\%d) for Table ID (\%lu) at table index (\%d)"
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  These event messages are issed when table validation failed due to Message Flow Decimation Filter value being invalid.
-**  For Storage channel the filter value must be 0 and for the Ground and Onboard channels the filter value must be non-zero.
-**
-*/
-    PQ_CONFIG_TABLE_MSG_FLOW_FILTER_ERR_EID = 58,
-
-/** \brief TO Table Validation failed - configuration table storage anomaly queue values are invalid for Ground and Onboard Channels.
-**  \event ERROR: Queue value is invalid must be 0 value is (\%u) for Table ID (\%lu) at table index (\%d)
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issed when table validation failed due to storage anomaly queue values being non-zero for Ground and Onboard Channels.
-**
-*/
-    PQ_CONFIG_TABLE_QUEUE_ERR_EID = 59,
+    PQ_CONFIG_TABLE_NO_MSG_FLOW_INF_EID  = 29 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Memory pool error - failed deallocating the memory allocated.
 **  \event PutPoolBuf: channel=\%d error=\%i
@@ -901,252 +514,13 @@ typedef enum {
 **
 **  \par Cause:
 **
-**   This event message is issued when TO has failed to deallocate the memory allocated 
+**   This event message is issued when PQ has failed to deallocate the memory allocated 
 **   because CFE_ES_PutPoolBuf returned an error.
 **
 */
-    PQ_PUT_POOL_ERR_EID = 60,
+    PQ_PUT_POOL_ERR_EID = 30 + PQ_EVENT_ID_OFFSET,
 
-/** \brief Command to flush a TO channel failed due invalid channel identifier.
-**  \event ChannelID \%u out of range.
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when TO flush command failed for following reasons.
-**
-**    - Channel index not valid (out of range)
-**
-*/
-    PQ_FLUSH_INVALID_CHIDX_ERR_EID = 61,
-
-/** \brief Command to flush a TO channel failed on output queue.
-**  \event ChannelID \%u flush failure on output queue.
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when TO flush command failed for following reasons.
-**
-**    - Output Queue teardown failure
-**
-*/
-    PQ_FLUSH_OQ_ERR_EID = 62,
-
-/** \brief Command to flush a TO channel failed on priority queue wipe all.
-**  \event ChannelID \%u flush failure on priority queue.
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when TO flush command failed for following reasons.
-**
-**    - Priority queue wipe all failure
-**
-*/
-    PQ_FLUSH_PQ_ERR_EID = 63,
-
-/** \brief Command to flush a TO channel failed due to a software bus dequeue failure.
-**  \event ChannelID \%u software bus dequeue failure.
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when TO flush command failed for following reasons.
-**
-**   - Software bus dequeue failure
-**
-*/
-    PQ_FLUSH_DEQUEUE_ERR_EID = 64,
-
-/** \brief Command to flush a TO channel executed successfully.
-**  \event ChannelID \%u flush successful.
-**
-**  \par Type: INFORMATION
-**
-**  \par Cause:
-**
-**  This event message is issued when TO Channel flush command executed successfully.
-**
-*/
-    PQ_FLUSH_SUCCESS_INF_EID = 65,
-
-/** \brief Command to modify a message flow's decimation values executed successfully.
-**  \event Executed Modify Decimation cmd (\%u)
-**
-**  \par Type: INFORMATION
-**
-**  \par Cause:
-**
-**  This event message is issued when TO Command to modify 
-**  message flow decimation scheme executed successfully.
-**
-*/
-    PQ_CMD_MOD_DECIM_MSG_EID = 66,
-
-/** \brief Command to modify a message flow's decimation values has failed.
-**  \event Invalid channel (channel = \%d, but max = \%d).
-**  \event Channel not open.
-**  \event Message flow is not defined.
-**  \event Ground/Onboard Channel: Command inputs for storage location queues must be zero.
-**  \event Ground/Onboard Channel: Command input for Filter Value must be at least 1.
-**  \event Storage Channel: Command input for Filter Value must be 0.
-**  \event Storage: Command inputs for storage location queues are zero - Message flow not changed.
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  These event messages are issued when TO Command Remove a message flow failed
-**  for one of the following reasons:
-**
-**    - Channel index not valid (out of range)
-**    - Channel not open
-**    - Message flow does not exist on the channel
-**    - Ground/Onboard channel command inputs for storage location queues are non-zero
-**    - Ground/Onboard channel command input for filter value is less than one
-**    - Storage channel command input for filter value is non-zero
-**    - Storage channel command inputs for storage location queues are zero
-**
-*/
-    PQ_CMD_MOD_DECIM_MSG_ERR_EID = 67,
-
-/** \brief Command to change anomaly buffer location executed successfully.
-**  \event Updated Anomaly Queue to (\%u) from (\%u)
-**
-**  \par Type: INFORMATION
-**
-**  \par Cause:
-**
-**  This event message is issued when TO Command to change anomaly buffer location executed successfully.
-**
-*/
-    PQ_CMD_UPDATE_ANOMALY_BUFFER_EID = 68,
-
-/** \brief Command to change anomaly buffer location failed due to invalid input not in range.
-**  \event Invalid anomaly queue must be a value from (4 to 15) (input = \%d).
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when TO Command to change anomaly buffer location for following reason.
-**
-**    - Anomaly buffer queue location (out of range)
-**
-*/
-    PQ_CMD_UPDATE_ANOMALY_BUFFER_ERR_EID = 69,
-
-/** \brief Command to update throttling rate executed successfully.
-**  \event Throttling: Channel \%u Write Rate to (\%lu) bytes/second from (\%lu) bytes/second
-**
-**  \par Type: INFORMATION
-**
-**  \par Cause:
-**
-**  This event message is issued when TO Command to update throttling rate executed successfully.
-**
-*/
-    PQ_CMD_UPDATE_CHANNEL_THROTTLING_EID = 70,
-
-/** \brief Command to update throttling rate failed due to rate not changed.
-**  \event Throttling: Channel \%u Write Rate to (\%lu) bytes/second from (\%lu) bytes/second"
-**
-**  \par Type: DEBUG
-**
-**  \par Cause:
-**
-**  This event message is issued when TO Command to update the throttling rate was not
-**  successful because the new rate was the same as the current rate.
-**
-*/
-    PQ_CMD_UPDATE_CHANNEL_THROTTLING_DBG_EID = 71,
-    
-/** \brief Command to update throttling rate failed due to rate not changed.
-**  \event Invalid channel index (index = \%u, but max = \%d).
-**  \event Invalid Channel (input = \%u). Only Ground and Onboard channels are valid for this command
-**  \event Channel (\%u) not open.
-**  \event ConfigTblPtr is NULL, command rejected
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  These event message are issued when TO Command to update the throttling rate failed for the following reasons:
-**
-**  - Channel index not valid
-**  - Channel input was the Storage channel
-**  - Channel not being open
-**  - Channel with a NULL table pointer
-**
-*/
-    PQ_CMD_UPDATE_CHANNEL_THROTTLING_ERR_EID = 72,
-
-/** \brief Wipe priority queue memory pool error - failed to return message back to memory pool.
-**  \event Failed to return message back to memory pool on flush command. (\%ld)
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when there is a failure to return message back to memory pool on flush command.
-**
-*/
-    PQ_WIPE_PQ_MEMPOOL_ERR_EID  = 73,
-
-/** \brief Failed to pop all messages from channel when attempting to wipe all channel priority queues.
-**  \event Failed to pop all messages from channel '\%s' priority queue '\%u'. (\%ld)
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when there is a failure to pop all messages from channel.
-**
-*/
-    PQ_WIPE_PQ_NO_POP_ERR_EID = 74,
-
-/** \brief Channel closed error, failure to process telemetry.
-**  \event Failed to process telemetry from ChannelID \%u
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when the channel closed, can not process telemetry.
-**
-*/
-    PQ_CHANNEL_CLOSED_ERR_EID = 75,
-
-/** \brief Channel identifier value is out of range.
-**  \event ChannelID (\%u) invalid.
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when channel index is out of range.
-**
-*/
-    PQ_CHANNEL_OUT_OF_RANGE_ERR_EID = 76,
-
-/** \brief Channel is not enabled.
-**  \event ChannelID \%u not enabled.
-**
-**  \par Type: DEBUG
-**
-**  \par Cause:
-**
-**  This event message is issued when channel is not enabled
-**
-*/
-    PQ_CHANNEL_NOT_ENABLED_EID = 77,
-
-/** \brief Channel teardown failed - TO channel cleanup failure.
+/** \brief Channel teardown failed - PQ channel cleanup failure.
 **  \event Message Flow Teardown failure \%ld on channel \%u.
 **  \event Priority Queue Teardown failure \%ld on channel \%u.
 **  \event Output Queue Teardown failure \%ld on channel \%u.
@@ -1155,14 +529,14 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  These event messages are issued when TO channel cleanup fails for the following reasons:
+**  These event messages are issued when PQ channel cleanup fails for the following reasons:
 **
 **    - Message flow teardown fails
 **    - Priority queue teardown fails
 **    - Output queue teardown fails
 **
 */
-    PQ_CHANNEL_TEARDOWN_ERR_EID = 78,
+    PQ_CHANNEL_TEARDOWN_ERR_EID = 31 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Channel mutex lock failure - (per-channel event).' </tt
 **  \event Channel lock mutex failure (\%u).
@@ -1171,11 +545,11 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message (per-channel event) is issued when TO channel lock fails due to failure
+**  This event message (per-channel event) is issued when PQ channel lock fails due to failure
 **  returned by call to OS_MutSemTake.
 **
 */
-    PQ_CHANNEL_LOCK_MUTEX_ERR_EID = 79,
+    PQ_CHANNEL_LOCK_MUTEX_ERR_EID = 32 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Channel mutex unlock failure - (per-channel event).
 **  \event Channel unlock mutex failure (\%u).
@@ -1184,25 +558,12 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message (per-channel event) is issued when TO channel unlock fails due to failure
+**  This event message (per-channel event) is issued when PQ channel unlock fails due to failure
 **  returned by call to OS_MutSemGive.
 **
 */
-    PQ_CHANNEL_UNLOCK_MUTEX_ERR_EID = 80,
-    
-/** \brief Software Bus Read Error.
-**  \event Main loop error: SB receive: result = 0x%08X
-**
-**  \par Type: CRITICAL
-**
-**  \par Cause:
-**
-**  This event message is issued by the TO main thread when the application
-**  receives an error reading from the Software Bus
-**
-*/
-    PQ_SB_RECEIVE_ERR_EID = 81,
-    
+    PQ_CHANNEL_UNLOCK_MUTEX_ERR_EID = 33 + PQ_EVENT_ID_OFFSET,
+
 /** \brief Process new configuration table error - (per-channel event).
 **  \event Process New Config Table Failed for channel \%u, (0x%08X)
 **
@@ -1210,13 +571,13 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message is issued when the CFS TO Task has
+**  This event message is issued when the CFS Task has
 **  had an error with processing the configuration table.
 **
 */
-    PQ_CONFIG_PROCESS_CONFIG_TBL_ERR_EID = 82,
+    PQ_CONFIG_PROCESS_CONFIG_TBL_ERR_EID = 34 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO call to OS_QueuePut function failed when trying to queue message.
+/** \brief PQ call to OS_QueuePut function failed when trying to queue message.
 **  \event OS_QueuePut failed: channel=\%d size=\%u error=\%i.
 **
 **  \par Type: ERROR
@@ -1229,9 +590,9 @@ typedef enum {
 **  - OS_ERROR if the OS call to delete the queue fails 
 **
 */
-    PQ_OSQUEUE_PUT_ERROR_EID = 83,
+    PQ_OSQUEUE_PUT_ERROR_EID = 35 + PQ_EVENT_ID_OFFSET,
 
-/** \brief TO call to OS_QueueGet function failed when trying to dequeue message.
+/** \brief PQ call to OS_QueueGet function failed when trying to dequeue message.
 **  \event Failed to pop all messages from channel '\%s' (channel id = \%d) output queue. (\%ld).
 **
 **  \par Type: ERROR
@@ -1247,65 +608,33 @@ typedef enum {
 **  - OS_QUEUE_INVALID_SIZE if the size passed in may be too small for the message
 **
 */
-    PQ_OSQUEUE_GET_ERROR_EID = 84,
+    PQ_OSQUEUE_GET_ERROR_EID = 36 + PQ_EVENT_ID_OFFSET,
 
-/** \brief Custom Init Event failure - Custom EID filters not set.
-**  \event Custom Init Event - Event table index out of range. Custom EID filters not set.
-**  \event Custom Init Event - Event table occupied at starting index. Custom EID filters not set.
-**  \event Custom Init Event - Filter limit reached. Some custom EID filters not set.
-**  \event Custom Init Event - Unknown error.
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when TO has failed to set custom layer EID filters in its event table
-**  for the following reasons:
-**
-**  - PQ_CUSTOM_INITEVENT_BAD_IND_ERR
-**  - PQ_CUSTOM_INITEVENT_INDEX_OCCUPIED
-**  - PQ_CUSTOM_INITEVENT_TOO_MANY_FILTERS
-**
-*/
-    PQ_EVT_CUSTOM_FILTERS_ERR_EID = 85,
-
-/** \brief Init Data Error - Failed to Create TO AppData Mutex.
-**  \event Init Data: Failed to create PQ_AppData mutex: 0x%08lX
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when TO has failed to Create TO AppData Mutex
-**
-*/
-    PQ_CREATE_APPDATA_MUTEX_ERR_EID = 86,
-
-/** \brief Failed to load any of the TO configuration tables - loading a backup tables - (per-channel event).
+/** \brief Failed to load any of the PQ configuration tables - loading a backup tables - (per-channel event).
 **  \event Loaded built-in emergency backup config table! - channel \%u
 **
 **  \par Type: INFORMATION
 **
 **  \par Cause:
 **
-**  This event message (per-channel event) is issued when TO has loaded the built-in emergency backup 
+**  This event message (per-channel event) is issued when PQ has loaded the built-in emergency backup 
 **  configuration table because cFE TBL was not able to provide a table.
 **
 */
-    PQ_BACKUP_TABLE_INF_EID = 87,
+    PQ_BACKUP_TABLE_INF_EID = 37 + PQ_EVENT_ID_OFFSET,
     
-/** \brief TO Classifier failed to process a telemetry message - message too long - (per-channel event).
+/** \brief PQ Classifier failed to process a telemetry message - message too long - (per-channel event).
 **  \event Message too long (size = \%lu > max = \%d) for msgId = (0x%04X) on channel (\%u)
 **
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
-**  This event message (per-channel event) is issued when the CFS TO Task attempts to process a telemetry
+**  This event message (per-channel event) is issued when the CFS Task attempts to process a telemetry
 **  message length that is larger than PQ_MAX_MSG_LENGTH.
 **
 */    
-    PQ_TLM_MSG_LEN_ERR_EID  = 88,
+    PQ_TLM_MSG_LEN_ERR_EID  = 38 + PQ_EVENT_ID_OFFSET,
 
 /** \brief Classifier failed to retrieve a message flow - Message ID in the table - (per-channel event).
 **  \event Classifier Recvd invalid msgId (0x%04X) or message flow was removed on channel (\%u)
@@ -1314,13 +643,13 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message (per-channel event) is issued when the CFS TO Task attempts to retrieve a message flow
+**  This event message (per-channel event) is issued when the CFS Task attempts to retrieve a message flow
 **  and the Message ID is not in the table.
 **
 */    
-    PQ_MF_MSG_ID_ERR_EID = 89,
+    PQ_MF_MSG_ID_ERR_EID = 39 + PQ_EVENT_ID_OFFSET,
 
-/** \brief Failed loading a TO backup configuration table - (per-channel event).
+/** \brief Failed loading a PQ backup configuration table - (per-channel event).
 **  \event Failed to load built-in emergency backup config table! - channel \%u
 **
 **  \par Type: ERROR
@@ -1331,10 +660,7 @@ typedef enum {
 **  built-in emergency backup configuration table.
 **
 */
-    PQ_BACKUP_TABLE_ERR_EID = 90,       
-
-/** \brief This is a count of all the app events and should not be used. */
-    PQ_EVT_CNT
+    PQ_BACKUP_TABLE_ERR_EID = 40 + PQ_EVENT_ID_OFFSET
 } PQ_EventIds_t;
 
 

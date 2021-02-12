@@ -233,6 +233,4 @@ osalbool PQ_MessageFlow_Remove(PQ_ChannelData_t *Channel, CFE_SB_MsgId_t MsgID);
 *************************************************************************/
 osalbool PQ_MessageFlow_Query(PQ_ChannelData_t *Channel, CFE_SB_MsgId_t MsgID);
 
-
-
 #endif

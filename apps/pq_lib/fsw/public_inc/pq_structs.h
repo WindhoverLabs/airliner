@@ -85,7 +85,7 @@ typedef struct
     /** \brief Priority Queue Type (only one type - FIFO) */
     PQ_PriorityQueueType_t  QType;
 
-} PQ_PriorityQueue_t                 OS_ALIGN(2);
+} PQ_PriorityQueue_t OS_ALIGN(2);
 
 /** \brief Definition for Priority Queue Metrics */
 typedef struct
@@ -155,7 +155,7 @@ typedef struct
      */
     uint16          PQueueID;
        
-} PQ_MessageFlow_t                                                        OS_ALIGN(2);
+} PQ_MessageFlow_t OS_ALIGN(2);
 
 
 /** \brief Definition for the metrics collected for a single telemetry message flow entry */
@@ -590,39 +590,5 @@ typedef struct
 
 } PQ_HkTlm_t;
 
-
-///**
-//**  \brief PQ Operational Data Structure
-//*/
-//typedef struct
-//{
-    ///* Task-related */
-    ///** \brief Task Run Status */
-    ////uint32                runStatus;
-
-    ///** \brief Housekeeping Telemetry for downlink */
-    //PQ_HkTlm_t            HkTlm;
-
-    ///** \brief Mutex for PQ AppData */
-    //uint32                MutexID;
-
-    ///** \brief Channel Data */
-    //PQ_ChannelData_t      ChannelData[PQ_MAX_CHANNELS];
-
-    ///** \brief CFE Event Table */
-    ////CFE_EVS_BinFilter_t   EventTbl[CFE_EVS_MAX_EVENT_FILTERS];
-    ///* CFE_EVS_BinFilter_t is two uint16's */
-
-    //uint16                OutMessageSize;
-
-    ///**\brief Scheduling Pipe ID */
-    ////CFE_SB_PipeId_t       SchPipeId;
-
-    ///** \brief Command Pipe ID */
-    ////CFE_SB_PipeId_t       CmdPipeId;
-
-//} PQ_AppData_t;
-
-//extern PQ_AppData_t PQ_AppData;
 
 #endif

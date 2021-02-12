@@ -93,7 +93,7 @@ extern "C" {
 }
 #endif
 
-#endif /* TO_MISSION_CFG_H */
+#endif /* PQ_MISSION_CFG_H */
 
 /************************/
 /*  End of File Comment */

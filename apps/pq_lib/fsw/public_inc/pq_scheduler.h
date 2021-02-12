@@ -67,6 +67,9 @@
 **       has room.  It will move on to the next priority queue when the
 **       output channel is full or the current priority is empty.
 **
+**  \param [in]   Channel       A #PQ_ChannelData_t pointer that
+**                              references the channel data structure
+**
 **  \par Assumptions, External Events, and Notes:
 **       This will raise error events as errors are encountered.
 **
