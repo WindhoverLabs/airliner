@@ -304,10 +304,7 @@ static int Send(SBN_PeerInterface_t *Peer, SBN_MsgType_t MsgType,
 
     printf("MsgSz into queue %u\n", MsgSz);
     /* Push message onto the PQ */
-    PQ_Channel_LockByRef(&SBN_UIO_Mailbox_Data.Channel);
-    PQ_Classifier_Run(&SBN_UIO_Mailbox_Data.Channel, Payload);
-    PQ_Scheduler_Run(&SBN_UIO_Mailbox_Data.Channel);
-    PQ_Channel_UnlockByRef(&SBN_UIO_Mailbox_Data.Channel);
+    PQ_Channel_ProcessTelemetry(&SBN_UIO_Mailbox_Data.Channel, Payload);
 
 end_of_function:
     return Status;

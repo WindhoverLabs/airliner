@@ -84,7 +84,7 @@ extern "C" {
 **       This function should be called only once per channel.
 **
 **
-**  \param   channel    A #PQ_ChannelData_t pointer that 
+**  \param   Channel    A #PQ_ChannelData_t pointer that 
 **                      references the channel data structure
 **
 **  \return
@@ -94,7 +94,7 @@ extern "C" {
 **  \retstmt Return codes from #PQ_AcquireConfigPointer   \endcode
 **
 *************************************************************************/
-int32  PQ_InitTables(PQ_ChannelData_t *channel);
+int32  PQ_InitTables(PQ_ChannelData_t *Channel);
 
 
 /************************************************************************/
@@ -134,14 +134,14 @@ int32  PQ_ValidateConfigTbl(void *configTblPtr);
 **  \par Assumptions, External Events, and Notes:
 **       None
 **
-**  \param   channel    A #PQ_ChannelData_t pointer that 
+**  \param   Channel    A #PQ_ChannelData_t pointer that 
 **                      references the channel data structure
 **
 **  \return
 **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
 **
 *************************************************************************/
-int32 PQ_AcquireConfigPointer(PQ_ChannelData_t *channel);
+int32 PQ_AcquireConfigPointer(PQ_ChannelData_t *Channel);
 
 
 /************************************************************************/
@@ -154,13 +154,13 @@ int32 PQ_AcquireConfigPointer(PQ_ChannelData_t *channel);
 **  \par Assumptions, External Events, and Notes:
 **       None
 **
-**  \param   channel    A #PQ_ChannelData_t pointer that 
+**  \param   Channel    A #PQ_ChannelData_t pointer that 
 **                      references the channel data structure
 **  \return
 **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
 **
 *************************************************************************/
-int32 PQ_ProcessNewConfigTbl(PQ_ChannelData_t *channel);
+int32 PQ_ProcessNewConfigTbl(PQ_ChannelData_t *Channel);
 
 
 /************************************************************************/
@@ -213,7 +213,8 @@ int32 PQ_ValidateConfigGrndTbl(void *configTblPtr);
 **  \param initialManage T=this is the first time to call this function 
 **             at app initialization, F=this is being called in the app main loop
 **
-**  \param ChannelID The index of the channel to manage
+**  \param   Channel    A #PQ_ChannelData_t pointer that 
+**                      references the channel data structure
 **
 *************************************************************************/
 void PQ_ManageChannelTables(osalbool initialManage, PQ_ChannelData_t *Channel);
@@ -230,11 +231,11 @@ void PQ_ManageChannelTables(osalbool initialManage, PQ_ChannelData_t *Channel);
 **  \par Assumptions, External Events, and Notes:
 **       None
 **
-**  \param   channel    A #PQ_ChannelData_t pointer that 
+**  \param   Channel    A #PQ_ChannelData_t pointer that 
 **                      references the channel data structure
 **
 *************************************************************************/
-void PQ_LoadBackupConfigTable(PQ_ChannelData_t *channel);
+void PQ_LoadBackupConfigTable(PQ_ChannelData_t *Channel);
 
 
 #ifdef __cplusplus

@@ -309,6 +309,7 @@ void PQ_Channel_Cleanup(PQ_ChannelData_t *Channel);
 void PQ_Channel_ResetCounts(PQ_ChannelData_t *Channel);
 
 
+void PQ_Channel_ProcessTelemetry(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t DataMsgPtr);
 void PQ_Channel_CopyStats(PQ_HkTlm_t *HkTlm, PQ_ChannelData_t *Channel);
 
 

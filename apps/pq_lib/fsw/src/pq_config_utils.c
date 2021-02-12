@@ -82,14 +82,14 @@
 /* Initialize Config Table                                         */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 PQ_InitTables(PQ_ChannelData_t *channel)
+int32 PQ_InitTables(PQ_ChannelData_t *Channel)
 {
     int32  status = CFE_SUCCESS;
     int result;
 
     /* Register Config tables */
-    status = CFE_TBL_Register(&channel->ConfigTblHdl,
-                               channel->ConfigTableName,
+    status = CFE_TBL_Register(&Channel->ConfigTblHdl,
+                               Channel->ConfigTableName,
                                sizeof(PQ_ChannelTbl_t),
                                CFE_TBL_OPT_DEFAULT,
                                PQ_ValidateConfigTbl);
@@ -101,15 +101,15 @@ int32 PQ_InitTables(PQ_ChannelData_t *channel)
         (void) CFE_EVS_SendEvent(PQ_INIT_CONFIG_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to register Config table (0x%08X) for channel %d",
                                  (unsigned int)status,
-                                 (unsigned int)channel->channelIdx);
+                                 (unsigned int)Channel->channelIdx);
         return status;
     }
 
     /* Register Dump table */
-    status = CFE_TBL_Register(&channel->DumpTblHdl,
-    			       channel->DumpTableName,
-                               sizeof(PQ_ChannelDumpTbl_t),
-			       CFE_TBL_OPT_USR_DEF_ADDR,
+    status = CFE_TBL_Register(&Channel->DumpTblHdl,
+                              Channel->DumpTableName,
+                              sizeof(PQ_ChannelDumpTbl_t),
+                              CFE_TBL_OPT_USR_DEF_ADDR,
                                0);
     if (status != CFE_SUCCESS)
     {
@@ -119,14 +119,14 @@ int32 PQ_InitTables(PQ_ChannelData_t *channel)
                                  CFE_EVS_ERROR,
                                  "Failed to register Dump table (0x%08X) for channel %d",
                                  (unsigned int)status,
-                                 (unsigned int)channel->channelIdx);
+                                 (unsigned int)Channel->channelIdx);
         return status;
     }
 
     /* Load Config table file */
-    status = CFE_TBL_Load(channel->ConfigTblHdl,
+    status = CFE_TBL_Load(Channel->ConfigTblHdl,
                            CFE_TBL_SRC_FILE,
-                           channel->ConfigTableFileName);
+                           Channel->ConfigTableFileName);
     if (status != CFE_SUCCESS)
     {
         /* Note, CFE_SUCCESS is for a successful full table load.  If a partial table
@@ -135,16 +135,16 @@ int32 PQ_InitTables(PQ_ChannelData_t *channel)
                                  CFE_EVS_ERROR,
                                  "Failed to load Config Table (0x%08X) for channel %d",
                                  (unsigned int)status,
-                                 (unsigned int)channel->channelIdx);
+                                 (unsigned int)Channel->channelIdx);
 
         /* Load emergency backup table */
-        PQ_LoadBackupConfigTable(channel);
+        PQ_LoadBackupConfigTable(Channel);
     }
 
     /* Load Dump table */
-    status = CFE_TBL_Load(channel->DumpTblHdl,
+    status = CFE_TBL_Load(Channel->DumpTblHdl,
                            CFE_TBL_SRC_ADDRESS,
-                           &channel->DumpTbl);
+                           &Channel->DumpTbl);
     if (status != CFE_SUCCESS)
     {
         /* Note, CFE_SUCCESS is for a successful full table load.  If a partial table
@@ -153,12 +153,12 @@ int32 PQ_InitTables(PQ_ChannelData_t *channel)
                                  CFE_EVS_ERROR,
                                  "Failed to load Dump Table (0x%08X) for channel %d",
                                  (unsigned int)status,
-                                 (unsigned int)channel->channelIdx);
+                                 (unsigned int)Channel->channelIdx);
         return status;
     }
 
     /* Force a manage on this channel's tables since this is the first time */
-    PQ_ManageChannelTables(TRUE, channel);
+    PQ_ManageChannelTables(TRUE, Channel);
 
     return (status);
 }
@@ -169,28 +169,28 @@ int32 PQ_InitTables(PQ_ChannelData_t *channel)
 /* Load Backup Config Table                                        */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void PQ_LoadBackupConfigTable(PQ_ChannelData_t *channel)
+void PQ_LoadBackupConfigTable(PQ_ChannelData_t *Channel)
 {
     int32  status = CFE_SUCCESS;
 
     /* Load emergency backup TO Config table */
-    status = CFE_TBL_Load(channel->ConfigTblHdl,
+    status = CFE_TBL_Load(Channel->ConfigTblHdl,
                            CFE_TBL_SRC_ADDRESS,
-                           (void*)channel->BackupTblPtr);
+                           (void*)Channel->BackupTblPtr);
 
     if (CFE_SUCCESS == status)
     {
         (void) CFE_EVS_SendEvent(PQ_BACKUP_TABLE_INF_EID,
                                 CFE_EVS_INFORMATION,
                                 "Loaded built-in emergency backup config table! - channel %u",
-                                (unsigned int)channel->channelIdx);
+                                (unsigned int)Channel->channelIdx);
     }
     else
     {
         (void) CFE_EVS_SendEvent(PQ_BACKUP_TABLE_ERR_EID,
                                 CFE_EVS_ERROR,
                                 "Failed to load built-in emergency backup config table! - channel %u",
-                                (unsigned int)channel->channelIdx);    
+                                (unsigned int)Channel->channelIdx);    
     }
 }
 
@@ -406,12 +406,12 @@ int32 PQ_ValidateConfigTbl(void *configTblPtr)
 /* Process New Config Table                                        */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 PQ_ProcessNewConfigTbl(PQ_ChannelData_t* channel)
+int32 PQ_ProcessNewConfigTbl(PQ_ChannelData_t* Channel)
 {
     int32 status = CFE_SUCCESS;
 
     /* Build up the new configuration. */
-    status = PQ_MessageFlow_Buildup(channel);
+    status = PQ_MessageFlow_Buildup(Channel);
     if (status != CFE_SUCCESS)
     {
         /* If this function fails, no message flows were created.
@@ -420,7 +420,7 @@ int32 PQ_ProcessNewConfigTbl(PQ_ChannelData_t* channel)
         return status;
     }
 
-    status = PQ_PriorityQueue_BuildupAll(channel);
+    status = PQ_PriorityQueue_BuildupAll(Channel);
 
     return status;
 }

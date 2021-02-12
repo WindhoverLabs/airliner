@@ -243,10 +243,8 @@ int SBN_UDP_Send(SBN_PeerInterface_t *Peer, SBN_MsgType_t MsgType,
     //return SBN_SUCCESS;
     
     printf("MsgSz into queue %u\n", MsgSz);
-    PQ_Channel_LockByRef(&Channel);
-    PQ_Classifier_Run(&Channel, Payload);
-    PQ_Scheduler_Run(&Channel);
-    PQ_Channel_UnlockByRef(&Channel);
+    /* Push message onto the PQ */
+    PQ_Channel_ProcessTelemetry(&Channel, Payload);
 
     //size_t BufSz = MsgSz + SBN_PACKED_HDR_SZ;
     //uint8 Buf[BufSz];

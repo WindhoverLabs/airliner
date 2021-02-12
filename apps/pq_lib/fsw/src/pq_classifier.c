@@ -43,7 +43,7 @@
 /* Run the Classifier algorithm                                    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr)
+void PQ_Classifier_Run(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t DataMsgPtr)
 {
     int32  status                 = CFE_SUCCESS;
     PQ_PriorityQueue_t *pqueue    = NULL;
@@ -65,9 +65,8 @@ void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr)
                                      totalMsgLength,
                                      PQ_MAX_MSG_LENGTH,
                                      (unsigned short)DataMsgID,
-                                     (unsigned short)channel->channelIdx);
-            //HkTlmPtr->usTotalMsgDropped++;
-            channel->DropMsgCount++;
+                                     (unsigned short)Channel->channelIdx);
+            Channel->DropMsgCount++;
             goto end_of_function;
         }
 
@@ -75,34 +74,33 @@ void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr)
          * Message ID is not in the table at all so we shouldn't have
          * received this message.  Raise an event.
          */
-        msgFlow = PQ_MessageFlow_GetObject(channel, DataMsgID, &msgFlowIndex);
+        msgFlow = PQ_MessageFlow_GetObject(Channel, DataMsgID, &msgFlowIndex);
         if (NULL == msgFlow)
         {
             (void) CFE_EVS_SendEvent(PQ_MF_MSG_ID_ERR_EID,
                                      CFE_EVS_ERROR,
                                      "Classifier Recvd invalid msgId (0x%04X) or message flow was removed on channel (%u)", 
                                      (unsigned short)DataMsgID,
-                                     (unsigned short)channel->channelIdx);
-            //HkTlmPtr->usTotalMsgDropped++;
-            channel->DropMsgCount++;
+                                     (unsigned short)Channel->channelIdx);
+            Channel->DropMsgCount++;
             goto end_of_function;
         }
 
         /* Get the Priority Queue assigned to this Message Flow. */
-        pqueue = PQ_MessageFlow_GetPQueue(channel, msgFlow, &pQueueIndex);
+        pqueue = PQ_MessageFlow_GetPQueue(Channel, msgFlow, &pQueueIndex);
         if (pqueue != NULL)
         {
             /* Queue the message. The else portion will handle all cases where the message 
             *  was not queued for the following reasons: configuration table pointer was not
             *  available, queue is full, or memory full error.
             */
-            status = PQ_PriorityQueue_QueueMsg(channel, DataMsgPtr, pQueueIndex);
+            status = PQ_PriorityQueue_QueueMsg(Channel, DataMsgPtr, pQueueIndex);
 
             if (CFE_SUCCESS == status)
             {
                 /* The message was queued.  Increment counters. */
-                channel->DumpTbl.MessageFlow[msgFlowIndex].QueuedMsgCnt++;
-                channel->QueuedMsgCount++;
+                Channel->DumpTbl.MessageFlow[msgFlowIndex].QueuedMsgCnt++;
+                Channel->QueuedMsgCount++;
             }
             /* The call to PQ_PriorityQueue_QueueMsg may generate the following errors:
              * PQ_PRIORITY_QUEUE_FULL_ERR (OS_QUEUE_FULL), PQ_MEMORY_FULL_ERR, CFE_ES_ERR_MEM_HANDLE,
@@ -110,16 +108,15 @@ void PQ_Classifier_Run(PQ_ChannelData_t *channel, CFE_SB_MsgPtr_t DataMsgPtr)
             else
             {
                 /* Queue is full.  Increment counters and drop the message. */
-                channel->DumpTbl.MessageFlow[msgFlowIndex].DroppedMsgCnt++;
+                Channel->DumpTbl.MessageFlow[msgFlowIndex].DroppedMsgCnt++;
 
-                //HkTlmPtr->usTotalMsgDropped++;
-                channel->DropMsgCount++;
+                Channel->DropMsgCount++;
 
                 (void) CFE_EVS_SendEvent(PQ_MSG_DROP_FROM_FLOW_DBG_EID,
                                          CFE_EVS_DEBUG,
                                          "PQ full (PQ %u, channel %u). Error code (%d) Dropped message 0x%04x",
                                          (unsigned int)pQueueIndex,
-                                         (unsigned int)channel->channelIdx,
+                                         (unsigned int)Channel->channelIdx,
                                          (int)status,
                                          (unsigned int)DataMsgID);
             }

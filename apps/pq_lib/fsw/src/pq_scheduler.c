@@ -41,7 +41,7 @@
 /* Run the Scheduler algorithm                                     */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void PQ_Scheduler_Run(PQ_ChannelData_t *channel)
+void PQ_Scheduler_Run(PQ_ChannelData_t *Channel)
 {
     uint32 i;
     PQ_PriorityQueue_t *pqueue = NULL;
@@ -50,9 +50,9 @@ void PQ_Scheduler_Run(PQ_ChannelData_t *channel)
     void *buffer = NULL;
     uint32 nBytesCopied = 0;
     
-    oqueue = &channel->OutputQueue;
+    oqueue = &Channel->OutputQueue;
     
-    if (NULL == channel->ConfigTblPtr)
+    if (NULL == Channel->ConfigTblPtr)
     {
         /* If there is no table data we can't access a priority queue. */
         return;
@@ -61,22 +61,22 @@ void PQ_Scheduler_Run(PQ_ChannelData_t *channel)
     for (i = 0; i < PQ_MAX_PRIORITY_QUEUES; ++i)
     {
         status = OS_SUCCESS;
-        pqueue = &channel->ConfigTblPtr->PriorityQueue[i];
+        pqueue = &Channel->ConfigTblPtr->PriorityQueue[i];
         
         if (pqueue->State != PQ_PQUEUE_UNUSED)
         {
-            if (channel->DumpTbl.PriorityQueue[i].OSALQueueID != OS_MAX_QUEUES)
+            if (Channel->DumpTbl.PriorityQueue[i].OSALQueueID != OS_MAX_QUEUES)
             {                
                 while ((OS_SUCCESS == status) && (oqueue->CurrentlyQueuedCnt < PQ_OUTPUT_QUEUE_DEPTH))
                 {
                     status =  OS_QueueGet(
-                            channel->DumpTbl.PriorityQueue[i].OSALQueueID,
+                            Channel->DumpTbl.PriorityQueue[i].OSALQueueID,
                             &buffer, sizeof(buffer), &nBytesCopied, OS_CHECK);
                             
                     if (OS_SUCCESS == status)
                     {
-                        channel->DumpTbl.PriorityQueue[i].CurrentlyQueuedCnt--;
-                        status = PQ_OutputQueue_QueueMsg(channel, buffer);
+                        Channel->DumpTbl.PriorityQueue[i].CurrentlyQueuedCnt--;
+                        status = PQ_OutputQueue_QueueMsg(Channel, buffer);
                         if (CFE_SUCCESS == status)
                         {
                             oqueue->CurrentlyQueuedCnt++;

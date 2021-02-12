@@ -71,6 +71,6 @@
 **       This will raise error events as errors are encountered.
 **
 *************************************************************************/
-void PQ_Scheduler_Run(PQ_ChannelData_t *channel);
+void PQ_Scheduler_Run(PQ_ChannelData_t *Channel);
 
 #endif

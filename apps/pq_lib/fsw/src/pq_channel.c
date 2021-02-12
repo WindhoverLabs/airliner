@@ -67,7 +67,6 @@ uint32  PQ_MemPoolDefSize[PQ_MAX_MEMPOOL_BLK_SIZES] =
 /************************************************************************
 ** External Global Variables
 *************************************************************************/
-//extern PQ_AppData_t PQ_AppData;
 
 /************************************************************************
 ** Local Function Definitions
@@ -253,7 +252,7 @@ int32 PQ_Channel_OpenChannel(PQ_ChannelData_t *Channel, const char *ChannelName,
             return Status;
         }
   
-        PQ_Channel_UnlockByRef(Channel);        
+        PQ_Channel_UnlockByRef(Channel);
     }
     return Status;
 }
@@ -275,13 +274,13 @@ int32 PQ_Channel_OpenChannel(PQ_ChannelData_t *Channel, const char *ChannelName,
 //}
 
 
-//void PQ_Channel_ProcessTelemetry(PQ_ChannelData_t *channel)
-//{
-    //PQ_Channel_LockByRef(channel);
-    //PQ_Classifier_Run(channel);
-    //PQ_Scheduler_Run(channel);
-    //PQ_Channel_UnlockByRef(channel);
-//}
+void PQ_Channel_ProcessTelemetry(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t DataMsgPtr)
+{
+    PQ_Channel_LockByRef(Channel);
+    PQ_Classifier_Run(Channel, DataMsgPtr);
+    PQ_Scheduler_Run(Channel);
+    PQ_Channel_UnlockByRef(Channel);
+}
 
 
 //void PQ_Channel_ResetCountsAll(void)

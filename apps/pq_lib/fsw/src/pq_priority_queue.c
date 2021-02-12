@@ -432,9 +432,9 @@ osalbool PQ_PriorityQueue_Query(PQ_ChannelData_t *Channel, uint16 PQueueIdx)
 /* Is this index a valid priority queue?                           */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-osalbool PQ_PriorityQueue_IsValid(PQ_ChannelData_t *channel, uint32 PQueueIdx)
+osalbool PQ_PriorityQueue_IsValid(PQ_ChannelData_t *Channel, uint32 PQueueIdx)
 {
-    if ((NULL == channel) || (NULL == channel->ConfigTblPtr))
+    if ((NULL == Channel) || (NULL == Channel->ConfigTblPtr))
     {
         return FALSE;
     }
@@ -443,7 +443,7 @@ osalbool PQ_PriorityQueue_IsValid(PQ_ChannelData_t *channel, uint32 PQueueIdx)
     {
         return FALSE;
     }
-    else if (channel->ConfigTblPtr->PriorityQueue[PQueueIdx].State != PQ_PQUEUE_ENA)
+    else if (Channel->ConfigTblPtr->PriorityQueue[PQueueIdx].State != PQ_PQUEUE_ENA)
     {
         return FALSE;
     }
