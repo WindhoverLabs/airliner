@@ -2107,49 +2107,49 @@ $(pv_value)</tooltip>
       <row>
         <col>#</col>
         <col>25</col>
-        <col>No</col>
+        <col>Yes</col>
         <col>TEXT</col>
       </row>
       <row>
         <col>Current Q'd</col>
         <col>125</col>
-        <col>No</col>
+        <col>Yes</col>
         <col>TEXT</col>
       </row>
       <row>
         <col>Total Q'd</col>
         <col>125</col>
-        <col>No</col>
+        <col>Yes</col>
         <col>TEXT</col>
       </row>
       <row>
         <col>Dropped</col>
         <col>75</col>
-        <col>No</col>
+        <col>Yes</col>
         <col>TEXT</col>
       </row>
       <row>
         <col>Highwater</col>
         <col>100</col>
-        <col>No</col>
+        <col>Yes</col>
         <col>TEXT</col>
       </row>
       <row>
         <col>Limit</col>
         <col>50</col>
-        <col>No</col>
+        <col>Yes</col>
         <col>TEXT</col>
       </row>
       <row>
         <col>State</col>
         <col>75</col>
-        <col>No</col>
+        <col>Yes</col>
         <col>TEXT</col>
       </row>
       <row>
         <col>Type</col>
         <col>75</col>
-        <col>No</col>
+        <col>Yes</col>
         <col>TEXT</col>
       </row>
     </column_headers>
@@ -2172,55 +2172,14 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts>
-      <path pathString="EmbeddedPy" checkConnect="false" seoe="false">
-        <scriptName>EmbeddedScript</scriptName>
-        <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
-from org.yamcs.studio.data import IPVListener
-from org.csstudio.opibuilder.scriptUtil import ColorFontUtil
-
-myTable = widget.getTable()
-
-PQUEUE_COUNT = 4
-
-class MyPVListener(IPVListener):
-    def __init__(self, index, table): 
-        self.index = index
-        self.table = table
-
-    def valueChanged(self, pv):
-        print("Value changed")
-        self.table.setCellBackground(i, 4, ColorFontUtil.RED)
-        if not pv.isConnected():
-            self.table.setCellText(self.index, 1, "Disconnected")
-        else:
-            self.table.setCellText(self.index, 1, "****")
-    
-    def connectionChanged(self, pv):
-        print("connection changed")
-
-    def writePermissionChanged(self, pv):
-        print("write permission changed")
-
-#Fill PV Name only once
-if widget.getVar("firstTime") == None:
-    widget.setVar("firstTime", True)
-    i=0
-
-    for i in range(PQUEUE_COUNT):
-        pvName = "/cfs/to/TO_ChannelDiagTlm_t.PQueue_%d_.QueuedMsgCnt" % (i)
-        myTable.insertRow(i)
-        myTable.setCellText(i, 0, str(i))
-        pv = PVUtil.createPV(pvName, widget)
-        myTable.setCellText(i, 1, PVUtil.getString(pv))
-        pv.addListener(MyPVListener(i, myTable))
-]]></scriptText>
+      <path pathString="../TO/Scripts/query_diag.py" checkConnect="true" seoe="false">
         <pv trig="true">=1</pv>
       </path>
     </scripts>
     <tooltip></tooltip>
     <visible>true</visible>
     <widget_type>Table</widget_type>
-    <width>709</width>
+    <width>1000</width>
     <wuid>369a9df8:177754b6799:-7efc</wuid>
     <x>18</x>
     <y>354</y>
