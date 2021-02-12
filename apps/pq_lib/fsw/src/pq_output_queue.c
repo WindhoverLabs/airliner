@@ -44,6 +44,14 @@ int32 PQ_OutputQueue_Buildup(PQ_ChannelData_t* Channel)
 {
     int32 status = OS_SUCCESS;
 
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_OutputQueue_Buildup");
+        return -1;
+    }
+
     /*
      * Now that we have the new table, create all the new resources we need
      * starting with queues for the channels and priority queues.
@@ -85,6 +93,14 @@ int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t *Channel)
     void *buffer = NULL;
     uint32 nBytesCopied = 0;    
 
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_OutputQueue_Teardown");
+        return -1;
+    }
+
     if (Channel->OutputQueue.OSALQueueID != OS_MAX_QUEUES)
     {
         while (OS_SUCCESS == status)
@@ -125,8 +141,6 @@ int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t *Channel)
         }
     }
 
-    //status = PQ_OutputChannel_CustomTeardown(channel->channelIdx);
-
     return status;
 }
 
@@ -139,6 +153,14 @@ int32 PQ_OutputQueue_Teardown(PQ_ChannelData_t *Channel)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void PQ_OutputQueue_ResetCounts(PQ_ChannelData_t *Channel)
 {
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_OutputQueue_ResetCounts");
+        return;
+    }
+
     Channel->OutputQueue.SentCount = 0;
     Channel->OutputQueue.HighwaterMark = 0;
     Channel->OutputQueue.SentBytes = 0;
@@ -155,6 +177,14 @@ void PQ_OutputQueue_ResetCounts(PQ_ChannelData_t *Channel)
 int32 PQ_OutputQueue_QueueMsg(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t MsgPtr)
 {
     int32 status = 0;
+
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_OutputQueue_QueueMsg");
+        return -1;
+    }
 
     status = OS_QueuePut(Channel->OutputQueue.OSALQueueID, &MsgPtr, sizeof(MsgPtr), 0);
     if (OS_QUEUE_FULL == status)
@@ -204,6 +234,9 @@ osalbool PQ_OutputChannel_Query(PQ_ChannelData_t *Channel)
 
     if (NULL == Channel)
     {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_OutputChannel_Query");
         return FALSE;
     }
 

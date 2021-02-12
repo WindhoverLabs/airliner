@@ -72,44 +72,24 @@ uint32  PQ_MemPoolDefSize[PQ_MAX_MEMPOOL_BLK_SIZES] =
 ** Local Function Definitions
 *************************************************************************/
 
-/**
- * \brief Forwards a single channel's telemetry data to PQ_Classifier
- *        and PQ_Scheduler
- *
- * \par Assumptions, External Events, and Notes:
- *      Assumes channel pointer is not NULL
- *
- * \param [in]   channel       A #PQ_ChannelData_t pointer that
- *                             references the channel data structures
- */
-//void PQ_Channel_ProcessTelemetry(PQ_ChannelData_t *channel);
-
-
 int32 PQ_Channel_OpenChannel(PQ_ChannelData_t *Channel, const char *ChannelName,
     const char *ConfigTableName, const char *ConfigTableFileName,
     PQ_ChannelTbl_t *BackupTblPtr, const char *DumpTableName,
     const uint32 CfCntSemMax, const char *CfCntSemName)
 {
     int32 Status = PQ_CHANNEL_OPEN_ERR;
-    //char pipeName[OS_MAX_API_NAME];
-    //PQ_ChannelData_t *channel = NULL;
 
-    //if (index >= PQ_MAX_CHANNELS)
-    //{
-        //status = PQ_CHANNEL_OUT_OF_RANGE_ERR;
-        //(void) CFE_EVS_SendEvent(PQ_INIT_APP_ERR_EID,
-                                 //CFE_EVS_ERROR,
-                                 //"Invalid channel index of %u.", (unsigned int)index);
-        //return status;
-    //}
-
-    //channel = &PQ_AppData.ChannelData[index];
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_Channel_OpenChannel");
+        return Status;
+    }
 
     if(Channel->State == PQ_CHANNEL_CLOSED)
     {
         PQ_Channel_LockByRef(Channel);
-
-        //snprintf(pipeName, OS_MAX_API_NAME, "PQ_%s", ChannelName);
 
         strncpy(Channel->ChannelName,
                 ChannelName, sizeof(Channel->ChannelName));
@@ -167,34 +147,7 @@ int32 PQ_Channel_OpenChannel(PQ_ChannelData_t *Channel, const char *ChannelName,
             PQ_Channel_UnlockByRef(Channel);
             return Status;
         }
-        
-        /* TODO commented out. Messages passed in directly no pipes needed. */
-        ///* Init data pipe and subscribe to messages on the data pipe */
-        //status = CFE_SB_CreatePipe(&channel->DataPipeId,
-                                     //PQ_DATA_PIPE_DEPTH,
-                                     //pipeName);
-        //if (status != CFE_SUCCESS)
-        //{
-            ///* This is a critical error for this channel.  No sense in continuing.  Destroy
-             //* the counting semaphore and call the Output queue teardown function before
-             //* returning the error back to the caller.
-             //*/
-            //(void) OS_CountSemDelete(channel->CfCntSemId);
-            //(void) PQ_OutputQueue_Teardown(channel);
 
-            //(void) CFE_EVS_SendEvent(PQ_INIT_DATAPIPE_ERR_EID,
-                                     //CFE_EVS_ERROR,
-                                     //"Failed to create channel (%u) '%s' pipe (0x%08X)",
-                                     //(unsigned int)index,
-                                     //ChannelName,
-                                     //(unsigned int)status);
-
-            //channel->State = PQ_CHANNEL_CLOSED;
-
-            //PQ_Channel_UnlockByRef(channel);
-            //return status;
-        //}
-        
         /* Set channel state: required state to complete table initialization */
         Channel->State = PQ_CHANNEL_OPENED;
 
@@ -207,7 +160,6 @@ int32 PQ_Channel_OpenChannel(PQ_ChannelData_t *Channel, const char *ChannelName,
              */
             (void) OS_CountSemDelete(Channel->CfCntSemId);
             (void) PQ_OutputQueue_Teardown(Channel);
-            //(void) CFE_SB_DeletePipe(channel->DataPipeId);
 
             CFE_EVS_SendEvent(PQ_INIT_CONFIG_ERR_EID,
                               CFE_EVS_ERROR,
@@ -239,7 +191,6 @@ int32 PQ_Channel_OpenChannel(PQ_ChannelData_t *Channel, const char *ChannelName,
              */
             (void) OS_CountSemDelete(Channel->CfCntSemId);
             (void) PQ_OutputQueue_Teardown(Channel);
-            //(void) CFE_SB_DeletePipe(channel->DataPipeId);
 
             (void) CFE_EVS_SendEvent(PQ_CR_POOL_ERR_EID,
                                      CFE_EVS_ERROR,
@@ -258,24 +209,16 @@ int32 PQ_Channel_OpenChannel(PQ_ChannelData_t *Channel, const char *ChannelName,
 }
 
 
-//void PQ_Channel_ProcessTelemetryAll(void)
-//{
-    //uint32 i;
-    //PQ_ChannelData_t *channel = NULL;
-
-    //for (i = 0; i < PQ_MAX_CHANNELS; ++i)
-    //{
-        //channel = &PQ_AppData.ChannelData[i];
-        //if(PQ_CHANNEL_OPENED == channel->State)
-        //{
-            //PQ_Channel_ProcessTelemetry(channel);
-        //}
-    //}
-//}
-
-
 void PQ_Channel_ProcessTelemetry(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t DataMsgPtr)
 {
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_Channel_ProcessTelemetry");
+        return;
+    }
+
     PQ_Channel_LockByRef(Channel);
     PQ_Classifier_Run(Channel, DataMsgPtr);
     PQ_Scheduler_Run(Channel);
@@ -283,22 +226,16 @@ void PQ_Channel_ProcessTelemetry(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t Data
 }
 
 
-//void PQ_Channel_ResetCountsAll(void)
-//{
-    //uint32 i;
-    //PQ_ChannelData_t *channel = NULL;
-
-    //for (i = 0; i < PQ_MAX_CHANNELS; ++i)
-    //{
-        //channel = &PQ_AppData.ChannelData[i];
-        //PQ_Channel_ResetCounts(channel);
-    //}
-//}
-
-
-
 void PQ_Channel_ResetCounts(PQ_ChannelData_t *Channel)
 {
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_Channel_ResetCounts");
+        return;
+    }
+
     PQ_Channel_LockByRef(Channel);
     Channel->PeakMemInUse = 0;
     Channel->MemFullCount = 0;
@@ -314,114 +251,66 @@ void PQ_Channel_ResetCounts(PQ_ChannelData_t *Channel)
 }
 
 
-
-//void PQ_Channel_LockByIndex(uint16 index)
-//{
-    //PQ_ChannelData_t *channel = NULL;
-    
-    //if (index < PQ_MAX_CHANNELS)
-    //{
-        //channel = &PQ_AppData.ChannelData[index];
-        //PQ_Channel_LockByRef(channel);
-    //}
-    //else
-    //{
-        //(void) CFE_EVS_SendEvent(PQ_CHANNEL_OUT_OF_RANGE_ERR_EID,
-                                 //CFE_EVS_ERROR,
-                                 //"Invalid channel index (%u).",
-                                 //index);
-    //}
-//}
-
-
-//void PQ_Channel_UnlockByIndex(uint16 index)
-//{
-    //PQ_ChannelData_t *channel = NULL;
-    
-    //if (index < PQ_MAX_CHANNELS)
-    //{
-        //channel = &PQ_AppData.ChannelData[index];
-        //PQ_Channel_UnlockByRef(channel);
-        
-    //}
-    //else
-    //{
-        //(void) CFE_EVS_SendEvent(PQ_CHANNEL_OUT_OF_RANGE_ERR_EID,
-                                 //CFE_EVS_ERROR,
-                                 //"Invalid channel index (%u).",
-                                 //index);
-    //}
-//}
-
-
 void PQ_Channel_LockByRef(PQ_ChannelData_t *Channel)
 {
     int32 Status = OS_SUCCESS;
-    
-    if (NULL != Channel)
+
+    if (NULL == Channel)
     {
-        Status = OS_MutSemTake(Channel->MutexID);
-        if (OS_SUCCESS != Status) 
-        {
-            (void) CFE_EVS_SendEvent(PQ_CHANNEL_LOCK_MUTEX_ERR_EID,
-                                     CFE_EVS_ERROR,
-                                     "Channel lock mutex failure (%i) on channel %u.",
-                                     (int)Status,
-                                     (unsigned int)Channel->channelIdx);
-        }
-    }    
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_Channel_LockByRef");
+        return;
+    }
+
+    Status = OS_MutSemTake(Channel->MutexID);
+    if (OS_SUCCESS != Status) 
+    {
+        (void) CFE_EVS_SendEvent(PQ_CHANNEL_LOCK_MUTEX_ERR_EID,
+                                 CFE_EVS_ERROR,
+                                 "Channel lock mutex failure (%i) on channel %u.",
+                                 (int)Status,
+                                 (unsigned int)Channel->channelIdx);
+    }
 }
 
 
 void PQ_Channel_UnlockByRef(PQ_ChannelData_t *Channel)
 {
     int32 Status = OS_SUCCESS;
-    
-    if (NULL != Channel)
+
+    if (NULL == Channel)
     {
-        Status = OS_MutSemGive(Channel->MutexID);
-        if (OS_SUCCESS != Status) 
-        {
-            (void) CFE_EVS_SendEvent(PQ_CHANNEL_UNLOCK_MUTEX_ERR_EID,
-                                     CFE_EVS_ERROR,
-                                     "Channel unlock mutex failure (%i) on channel %u.",
-                                     (int)Status,
-                                     (unsigned int)Channel->channelIdx);
-        }        
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_Channel_UnlockByRef");
+        return;
+    }
+
+    Status = OS_MutSemGive(Channel->MutexID);
+    if (OS_SUCCESS != Status) 
+    {
+        (void) CFE_EVS_SendEvent(PQ_CHANNEL_UNLOCK_MUTEX_ERR_EID,
+                                 CFE_EVS_ERROR,
+                                 "Channel unlock mutex failure (%i) on channel %u.",
+                                 (int)Status,
+                                 (unsigned int)Channel->channelIdx);
     }
 }
-
-
-
-//void PQ_Channel_InitAll(void)
-//{
-    //uint32 i;
-
-    //for (i = 0; i < PQ_MAX_CHANNELS; ++i)
-    //{
-        //(void) PQ_Channel_Init(i);
-    //}
-//}
 
 
 int32 PQ_Channel_Init(uint16 Index, PQ_ChannelData_t *Channel)
 {
     int32 Status = CFE_SUCCESS;
     char MutexName[OS_MAX_API_NAME];
-    //PQ_ChannelData_t *channel = NULL;
 
-    //if (index >= PQ_MAX_CHANNELS)
-    //{
-        //status = PQ_CHANNEL_OUT_OF_RANGE_ERR;
-        
-        //(void) CFE_EVS_SendEvent(PQ_CHANNEL_OUT_OF_RANGE_ERR_EID,
-                         //CFE_EVS_ERROR,
-                         //"Invalid channel index (%u).",
-                         //index);
-        //return status;
-    //}
-
-    //channel = &PQ_AppData.ChannelData[index];
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_Channel_Init");
+        return -1;
+    }
 
     snprintf(MutexName, OS_MAX_API_NAME, "PQ_MUT_%u", (unsigned int)Index);
 
@@ -441,34 +330,20 @@ int32 PQ_Channel_Init(uint16 Index, PQ_ChannelData_t *Channel)
 }
 
 
-//void PQ_Channel_CleanupAll(void)
-//{
-    //uint32 i;
-
-    ////PQ_OutputChannel_CustomCleanupAll();
-
-    //for (i = 0; i < PQ_MAX_CHANNELS; ++i)
-    //{
-        //PQ_Channel_Cleanup(i);
-    //}
-//}
-
-
 void PQ_Channel_Cleanup(PQ_ChannelData_t *Channel)
 {
     int32 Status = CFE_SUCCESS;
 
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_Channel_Cleanup");
+        return;
+    }
+
     if(Channel->State != PQ_CHANNEL_UNKNOWN)
     {
-        Status = PQ_MessageFlow_TeardownAll(Channel);
-        if (Status != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(PQ_CHANNEL_TEARDOWN_ERR_EID,
-                                     CFE_EVS_ERROR,
-                                     "Message Flow Teardown failure %ld on channel.",
-                                     Status);
-        }
-
         Status = PQ_PriorityQueue_TeardownAll(Channel);
         if (Status != CFE_SUCCESS)
         {
@@ -494,56 +369,28 @@ void PQ_Channel_Cleanup(PQ_ChannelData_t *Channel)
 
 uint8 PQ_Channel_State(PQ_ChannelData_t *Channel)
 {
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_Channel_State");
+        return 0;
+    }
+
     return Channel->State;
 }
 
 
-//osalbool PQ_Channel_SBPipe_Dequeue_All(uint16 index)
-//{
-    //int32 status = CFE_SUCCESS;
-    //int32 i;
-    //CFE_SB_MsgPtr_t  DataMsgPtr = NULL;
-    //PQ_ChannelData_t *channel = NULL;
-
-    //if (index >= PQ_MAX_CHANNELS)
-    //{
-        //(void) CFE_EVS_SendEvent(PQ_FLUSH_INVALID_CHIDX_ERR_EID, CFE_EVS_ERROR,
-                            //"ChannelID %u out of range in SB pipe dequeue all.", (unsigned int)index);
-        //return FALSE;
-    //}
-
-    //channel = &PQ_AppData.ChannelData[index];
-
-    ///* Dequeue until empty */
-    //for (i = 0; i < PQ_DATA_PIPE_DEPTH; ++i)
-    //{
-        //status = CFE_SB_RcvMsg(&DataMsgPtr, channel->DataPipeId, CFE_SB_POLL);
-        //if (CFE_SUCCESS == status)
-        //{
-            //continue;
-        //}
-        //else if (CFE_SB_NO_MESSAGE == status)
-        //{
-            ///* Break early if empty */
-            //break;
-        //}
-        //else
-        //{
-            //(void) CFE_EVS_SendEvent(PQ_PIPE_READ_ERR_EID,
-                                     //CFE_EVS_ERROR,
-                                     //"Data pipe read error on SBPipe dequeue all (0x%08X) on channel %d",
-                                     //(unsigned int)status,
-                                     //index);
-            //return FALSE;
-        //}  
-    //}
-
-    //return TRUE;
-//}
-
-
 void PQ_Channel_CopyStats(PQ_HkTlm_t *HkTlm, PQ_ChannelData_t *Channel)
 {
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_Channel_CopyStats");
+        return;
+    }
+
     //PQ_Channel_LockByRef(channel);
     HkTlm->QueuedInOutputChannel       = Channel->OutputQueue.CurrentlyQueuedCnt;
     HkTlm->uiSentMsgCountChannel       = Channel->SentMsgCount;

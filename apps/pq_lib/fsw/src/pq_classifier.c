@@ -53,6 +53,14 @@ void PQ_Classifier_Run(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t DataMsgPtr)
     CFE_SB_MsgId_t  DataMsgID;
     uint32 totalMsgLength         = 0;
 
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_Classifier_Run");
+        return;
+    }
+
     if (DataMsgPtr != NULL)
     {
         DataMsgID = CFE_SB_GetMsgId(DataMsgPtr);

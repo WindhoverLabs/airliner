@@ -660,7 +660,9 @@ typedef enum {
 **  built-in emergency backup configuration table.
 **
 */
-    PQ_BACKUP_TABLE_ERR_EID = 40 + PQ_EVENT_ID_OFFSET
+    PQ_BACKUP_TABLE_ERR_EID = 40 + PQ_EVENT_ID_OFFSET,
+
+    PQ_NULL_POINTER_ERR_EID = 41 + PQ_EVENT_ID_OFFSET
 } PQ_EventIds_t;
 
 

@@ -87,6 +87,14 @@ int32 PQ_InitTables(PQ_ChannelData_t *Channel)
     int32  status = CFE_SUCCESS;
     int result;
 
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_InitTables");
+        return -1;
+    }
+
     /* Register Config tables */
     status = CFE_TBL_Register(&Channel->ConfigTblHdl,
                                Channel->ConfigTableName,
@@ -172,6 +180,14 @@ int32 PQ_InitTables(PQ_ChannelData_t *Channel)
 void PQ_LoadBackupConfigTable(PQ_ChannelData_t *Channel)
 {
     int32  status = CFE_SUCCESS;
+
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_LoadBackupConfigTable");
+        return;
+    }
 
     /* Load emergency backup TO Config table */
     status = CFE_TBL_Load(Channel->ConfigTblHdl,
@@ -261,7 +277,7 @@ int32 PQ_ValidateConfigTbl(void *configTblPtr)
             * Check Priority Queue QType
             */
            if ((PQ_ConfigTblPtr->PriorityQueue[PQueueIdx].QType != PQ_PRIORITY_QUEUE_TYPE_SINGLE) &&
-        	   (PQ_ConfigTblPtr->PriorityQueue[PQueueIdx].QType != PQ_PRIORITY_QUEUE_TYPE_FIFO))
+               (PQ_ConfigTblPtr->PriorityQueue[PQueueIdx].QType != PQ_PRIORITY_QUEUE_TYPE_FIFO))
 
            {
                (void) CFE_EVS_SendEvent(PQ_CONFIG_TABLE_PQUEUE_QTYPE_ERR_EID,
@@ -410,14 +426,12 @@ int32 PQ_ProcessNewConfigTbl(PQ_ChannelData_t* Channel)
 {
     int32 status = CFE_SUCCESS;
 
-    /* Build up the new configuration. */
-    status = PQ_MessageFlow_Buildup(Channel);
-    if (status != CFE_SUCCESS)
+    if (NULL == Channel)
     {
-        /* If this function fails, no message flows were created.
-         * No sense in continuing with this channel.
-         */
-        return status;
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_ProcessNewConfigTbl");
+        return -1;
     }
 
     status = PQ_PriorityQueue_BuildupAll(Channel);
@@ -431,27 +445,19 @@ int32 PQ_ProcessNewConfigTbl(PQ_ChannelData_t* Channel)
 /* Manage all tables                                               */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-//void PQ_ManageAllAppTables(void)
-//{
-    //uint32 i;
-
-    //for (i = 0; i < PQ_MAX_CHANNELS; ++i)
-    //{
-        //PQ_ManageChannelTables(FALSE, i);
-    //}
-//}
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Manage all tables                                               */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void PQ_ManageChannelTables(osalbool initialManage, PQ_ChannelData_t *Channel)
 {
     int32 status = CFE_SUCCESS;
 
     osalbool dequeueStatus = TRUE;
+
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_ManageChannelTables");
+        return;
+    }
 
     /* T=call CFE_TBL_Manage() on the config table, since CFE_TBL_GetStatus() might indicate
      * there is no need. TRUE would only be expected when a table is initialized */
@@ -492,20 +498,8 @@ void PQ_ManageChannelTables(osalbool initialManage, PQ_ChannelData_t *Channel)
     }
     else if (CFE_TBL_INFO_UPDATE_PENDING == status)
     {
-        /* Teardown message flows and PQueues*/
-        (void) PQ_MessageFlow_TeardownAll(Channel);
-        (void) PQ_PriorityQueue_TeardownAll(Channel);       
-
-        /* Clear remaining messages from SB data pipe*/
-        //dequeueStatus = PQ_Channel_SBPipe_Dequeue_All(ChannelID);
-        //if (FALSE == dequeueStatus)
-        //{
-            //(void) CFE_EVS_SendEvent(PQ_CONFIG_TABLE_ERR_EID,
-                                     //CFE_EVS_ERROR,
-                                     //"Failed to clear SB data pipe for channel %u, (0x%08X)",
-                                     //ChannelID,
-                                     //(unsigned int)status);
-        //}
+        /* Teardown PQueues*/
+        (void) PQ_PriorityQueue_TeardownAll(Channel);
 
         /* Now null the table pointer, because it is going to be updated.  Also
          * so that if something goes wrong it won't be set to an invalid address.

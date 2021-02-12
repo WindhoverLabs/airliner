@@ -36,102 +36,6 @@
 #include "pq_message_flow.h"
 
 
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Build up all the message flows                                  */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 PQ_MessageFlow_Buildup(PQ_ChannelData_t *Channel)
-{
-    uint32 i;
-    int32 status = CFE_SUCCESS;
-    
-    if (NULL == Channel)
-    {
-        return PQ_MESSAGE_FLOW_BAD_ARG_ERR;
-    }
-
-    if  (NULL == Channel->ConfigTblPtr)
-    {
-        return PQ_MESSAGE_FLOW_NO_TABLE_ERR;
-    }
-    
-    ///*
-     //* Create message flows by subscribing to messages.
-     //*/
-    //for (i = 0; i < PQ_MAX_MESSAGE_FLOWS; ++i)
-    //{
-        //if (channel->ConfigTblPtr->MessageFlow[i].MsgId != 0)
-        //{
-            ///* Subscribe to message. */
-            //status = CFE_SB_SubscribeEx(channel->ConfigTblPtr->MessageFlow[i].MsgId, channel->DataPipeId,
-                                         //CFE_SB_Default_Qos, channel->ConfigTblPtr->MessageFlow[i].MsgLimit);
-            //if (status != CFE_SUCCESS)
-            //{
-                ///* We failed to subscribe to a message.  However, lets just keep going so we can maybe
-                 //* subscribe to at least some of the messages.  Report and keep going.
-                 //*/
-                //(void) CFE_EVS_SendEvent(PQ_SUBSCRIBE_ERR_EID,
-                                         //CFE_EVS_ERROR,
-                                         //"Message flow failed to subscribe to (0x%08X) on channel %d. (%ld)",
-                                         //channel->ConfigTblPtr->MessageFlow[i].MsgId,
-                                         //channel->channelIdx,
-                                         //status);
-            //}
-        //}
-    //}
-    return CFE_SUCCESS;
-}
-
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Teardown all the message flows                                  */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 PQ_MessageFlow_TeardownAll(PQ_ChannelData_t *Channel)
-{
-    uint32 i;
-    int32 status = CFE_SUCCESS;
-    
-    if (NULL == Channel)
-    {
-        return PQ_MESSAGE_FLOW_BAD_ARG_ERR;
-    }
-
-    if (NULL == Channel->ConfigTblPtr)
-    {
-        return PQ_MESSAGE_FLOW_NO_TABLE_ERR;
-    }
-    
-    //for (i = 0; i < PQ_MAX_MESSAGE_FLOWS; ++i)
-    //{
-        //if (channel->ConfigTblPtr->MessageFlow[i].MsgId != 0)
-        //{
-            ///* Unsubscribe from message. */
-            //status = CFE_SB_Unsubscribe(channel->ConfigTblPtr->MessageFlow[i].MsgId,
-                                         //channel->DataPipeId);
-                        
-            //if (status != CFE_SUCCESS)
-            //{
-                ///*  This is not a critical error.  Just continue processing the rest of the messages. 
-                 //*  Will not return the failure back.
-                 //*/
-                //(void) CFE_EVS_SendEvent(PQ_UNSUBSCRIBE_ERR_EID,
-                                         //CFE_EVS_ERROR,
-                                         //"Message flow failed to unsubscribe from 0x%04x on channel %d. (%ld)",
-                                         //channel->ConfigTblPtr->MessageFlow[i].MsgId,
-                                         //channel->channelIdx,
-                                         //status);
-            //}
-        //}
-    //}
-    return CFE_SUCCESS;
-}
-
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Reset all runtime metrics.                                      */
@@ -144,6 +48,9 @@ void PQ_MessageFlow_ResetCountsAll(PQ_ChannelData_t *Channel)
     
     if (NULL == Channel)
     {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_MessageFlow_ResetCountsAll");
         return;
     }
 
@@ -169,6 +76,9 @@ PQ_MessageFlow_t* PQ_MessageFlow_GetObject(PQ_ChannelData_t *Channel, CFE_SB_Msg
 
     if (NULL == Channel)
     {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_MessageFlow_GetObject");
         return NULL;
     }
 
@@ -208,16 +118,25 @@ PQ_PriorityQueue_t* PQ_MessageFlow_GetPQueue(PQ_ChannelData_t *Channel, PQ_Messa
 
     if (NULL == msgFlow)
     {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null msgFlow pointer in PQ_MessageFlow_GetPQueue");
         return NULL;
     }
     
     if (NULL == Channel)
     {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null Channel pointer in PQ_MessageFlow_GetPQueue");
         return NULL;
     }
     
     if (NULL == Channel->ConfigTblPtr)
     {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null ConfigTblPtr pointer in PQ_MessageFlow_GetPQueue");
         return NULL;
     }    
 
@@ -260,6 +179,9 @@ osalbool PQ_MessageFlow_Add(
 
     if (NULL == Channel)
     {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_MessageFlow_GetPQueue");
         return FALSE;
     }
 
@@ -386,6 +308,9 @@ osalbool PQ_MessageFlow_Remove(PQ_ChannelData_t *Channel, CFE_SB_MsgId_t MsgID)
 
     if (NULL == Channel)
     {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_MessageFlow_Remove");
         return FALSE;
     }
 
@@ -469,6 +394,9 @@ osalbool PQ_MessageFlow_Query(PQ_ChannelData_t *Channel, CFE_SB_MsgId_t MsgID)
 
     if (NULL == Channel)
     {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_MessageFlow_Query");
         return FALSE;
     }
 

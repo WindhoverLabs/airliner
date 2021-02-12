@@ -34,6 +34,7 @@
 #include "pq_structs.h"
 #include "pq_scheduler.h"
 #include "pq_output_queue.h"
+#include "pq_events.h"
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -49,11 +50,22 @@ void PQ_Scheduler_Run(PQ_ChannelData_t *Channel)
     int32 status = 0;
     void *buffer = NULL;
     uint32 nBytesCopied = 0;
-    
+
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_Scheduler_Run");
+        return;
+    }
+
     oqueue = &Channel->OutputQueue;
     
     if (NULL == Channel->ConfigTblPtr)
     {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null ConfigTblPtr pointer in PQ_Scheduler_Run");
         /* If there is no table data we can't access a priority queue. */
         return;
     }    

@@ -184,22 +184,6 @@ int32 PQ_ProcessNewConfigTbl(PQ_ChannelData_t *Channel);
 int32 PQ_ValidateConfigGrndTbl(void *configTblPtr);
 
 
-
-/************************************************************************/
-/** \brief This manages all the tables in the app
-**
-**  \par Description
-**       This function performs the table management for each channel's
-**       dump and configuration tables with cFE table services.
-**
-**  \par Assumptions, External Events, and Notes:
-**       All tables have been initialized via PQ_InitCoinfigTbl().
-**       This is called during app cyclic operations.
-**
-*************************************************************************/
-//void PQ_ManageAllAppTables(void);
-
-
 /************************************************************************/
 /** \brief This manages all the tables for a given channel
 **

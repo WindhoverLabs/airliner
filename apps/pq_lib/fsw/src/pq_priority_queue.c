@@ -57,6 +57,14 @@ void PQ_PriorityQueue_ResetCountsAll(PQ_ChannelData_t* Channel)
 {
     uint32 i;
 
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_PriorityQueue_ResetCountsAll");
+        return;
+    }
+
     for (i = 0; i < PQ_MAX_PRIORITY_QUEUES; ++i)
     {
         Channel->DumpTbl.PriorityQueue[i].DroppedMsgCnt = 0;
@@ -150,6 +158,14 @@ int32 PQ_PriorityQueue_TeardownAll(PQ_ChannelData_t *Channel)
     int32 bytesReleased = 0;
     uint32 bufferSize = 0;
     void *buffer = NULL;
+
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_PriorityQueue_TeardownAll");
+        return -1;
+    }
 
     if(NULL != Channel->ConfigTblPtr)
     {
@@ -245,7 +261,15 @@ int32 PQ_PriorityQueue_QueueMsg(
     PQ_PriorityQueueMetrics_t* pqueueDump = NULL;
     void *PQ_CopyBuffer = NULL;
     CFE_SB_MsgId_t  DataMsgID;
-    
+
+    if (NULL == Channel)
+    {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+                      CFE_EVS_ERROR,
+                      "Null pointer in PQ_PriorityQueue_QueueMsg");
+        return -1;
+    }
+
     if (NULL == Channel->ConfigTblPtr)
     {
         (void) CFE_EVS_SendEvent(PQ_PQUEUE_MISSING_TBL_ERR_EID, CFE_EVS_ERROR,
@@ -371,6 +395,9 @@ osalbool PQ_PriorityQueue_Query(PQ_ChannelData_t *Channel, uint16 PQueueIdx)
 
     if (NULL == Channel)
     {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+              CFE_EVS_ERROR,
+              "Null pointer in PQ_PriorityQueue_Query");
         return FALSE;
     }
 
@@ -436,6 +463,9 @@ osalbool PQ_PriorityQueue_IsValid(PQ_ChannelData_t *Channel, uint32 PQueueIdx)
 {
     if ((NULL == Channel) || (NULL == Channel->ConfigTblPtr))
     {
+        CFE_EVS_SendEvent(PQ_NULL_POINTER_ERR_EID,
+              CFE_EVS_ERROR,
+              "Null pointer in PQ_PriorityQueue_IsValid");
         return FALSE;
     }
 

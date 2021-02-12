@@ -93,25 +93,6 @@ void PQ_MessageFlow_ResetCountsAll(PQ_ChannelData_t *Channel);
 *************************************************************************/
 int32 PQ_MessageFlow_TeardownAll(PQ_ChannelData_t *Channel);
 
-
-/************************************************************************/
-/** \brief Buildup all message flows.
-**
-**  \par Description
-**       This function is called at when the application has loaded a new
-**       configuration table.
-**
-**  \param [in]   channel       A #PQ_ChannelData_t pointer that
-**                              references the channel data structure
-**
-**  \return
-**  CFE_SUCCESS if no error occurred.  On error, an OSAL error is returned
-**  indicating what error occured.
-**
-*************************************************************************/
-int32 PQ_MessageFlow_Buildup(PQ_ChannelData_t *Channel);
-
-
 /************************************************************************/
 /** \brief Get the next message flow object.
 **

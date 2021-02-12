@@ -132,36 +132,6 @@ void PQ_Channel_ResetCountsAll(void);
 
 /************************************************************************/
 /**
-** \brief Set's a channel reference based on a valid input index and
-**        calls PQ_Channel_LockByRef.
-**
-** \par Assumptions, External Events, and Notes:
-**      If the input index is out of range, an event is generated
-**      #PQ_CHANNEL_OUT_OF_RANGE_ERR_EID
-**
-** \param[in]   index
-**              Index of the channel
-*************************************************************************/
-//void PQ_Channel_LockByIndex(uint16 index);
-
-
-/************************************************************************/
-/**
-** \brief Set's a channel reference based on a valid input index and
-**        calls PQ_Channel_UnlockByRef.
-**
-** \par Assumptions, External Events, and Notes:
-**      If the input index is out of range, an event is generated
-**      #PQ_CHANNEL_OUT_OF_RANGE_ERR_EID
-**
-** \param[in]   index
-**              Index of the channel
-*************************************************************************/
-//void PQ_Channel_UnlockByIndex(uint16 index);
-
-
-/************************************************************************/
-/**
 ** \brief The mutex object referenced by the channel pointer shall be locked 
 **        by calling this function.
 **
@@ -180,30 +150,6 @@ void PQ_Channel_LockByRef(PQ_ChannelData_t *Channel);
 **      Assumes channel pointer is not NULL
 *************************************************************************/
 void PQ_Channel_UnlockByRef(PQ_ChannelData_t *Channel);
-
-
-/************************************************************************/
-/**
-** \brief Loops through channel less than PQ_MAX_CHANNELS and initializes a 
-**        reference to each channel's channel data, sets the channel's index,
-**        and creates each channel's mutex.
-**
-** \par Assumptions, External Events, and Notes:
-**      None.
-*************************************************************************/
-//void PQ_Channel_InitAll(void);
-
-
-/************************************************************************/
-/**
-** \brief Loops through channel less than PQ_MAX_CHANNELS and calls functions 
-**        to teardown each channel's priority queue, 
-**        output queue, and message flow(s).  It also deletes each channel's mutex.
-**
-** \par Assumptions, External Events, and Notes:
-**      None.
-*************************************************************************/
-//void PQ_Channel_CleanupAll(void);
 
 
 /************************************************************************/
@@ -244,24 +190,6 @@ uint8 PQ_Channel_State(PQ_ChannelData_t *Channel);
 *************************************************************************/
 osalbool PQ_Channel_Flush(uint16 index);
 
-
-/************************************************************************/
-/** \brief Empty all messages in the SB data pipe for this channel
-**
-**  \par Description
-**       This function is called in PQ_Channel_Flush() and also on table switch.
-**
-**  \param[in]   index
-**               Index of the channel
-**
-**  \return
-**  \retcode TRUE  \retdesc The function succeeded \endcode
-**  \retcode FALSE \retdesc The function failed, if index is greater than or equal
-**                          to PQ_MAX_CHANNELS or if #CFE_SB_RcvMsg does not return
-**                          CFE_SUCCESS \endcode  
-**  
-*************************************************************************/
-//osalbool PQ_Channel_SBPipe_Dequeue_All(uint16 index);
 
 /**
  * \brief Initializes a reference channel data, sets the channel's index,
@@ -308,7 +236,16 @@ void PQ_Channel_Cleanup(PQ_ChannelData_t *Channel);
  */
 void PQ_Channel_ResetCounts(PQ_ChannelData_t *Channel);
 
-
+/**
+ * \brief Forwards a single channel's telemetry data to PQ_Classifier
+ *        and PQ_Scheduler
+ *
+ * \par Assumptions, External Events, and Notes:
+ *      Assumes channel pointer is not NULL
+ *
+ * \param [in]   channel       A #PQ_ChannelData_t pointer that
+ *                             references the channel data structures
+ */
 void PQ_Channel_ProcessTelemetry(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t DataMsgPtr);
 void PQ_Channel_CopyStats(PQ_HkTlm_t *HkTlm, PQ_ChannelData_t *Channel);
 
