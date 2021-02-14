@@ -43,16 +43,16 @@
         Reset: 
           cc: 1
           struct: ULR_NoArgCmd_t
-    ULR_SEND_HK_MID: 
-      msgID: 
-      commands: 
-        SendHK: 
-          cc: 0
-          struct: ULR_NoArgCmd_t
     ULR_MEASURE_MID: 
       msgID: 
       commands: 
         Measure: 
+          cc: 0
+          struct: ULR_NoArgCmd_t
+    ULR_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
           cc: 0
           struct: ULR_NoArgCmd_t
   perfids: 
