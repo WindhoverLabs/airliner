@@ -19,7 +19,6 @@ CFE_APP, /cf/apps/SCH.so,       SCH_AppMain,     SCH,       34,  40960, 0x0, 0, 
 CFE_APP, /cf/apps/LC.so,        LC_AppMain,      LC,        178, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/SC.so,        SC_AppMain,      SC,        175, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/FLOW.so,      FLOW_AppMain,     FLOW,      80, 327680, 0x0, 0, 2;
-CFE_APP, /cf/apps/MAVLINK.so,   MAVLINK_AppMain, MAVLINK,       90, 32768, 0x0, 0, 2;
 CFE_APP, /cf/apps/HS.so,        HS_AppMain,      HS,       123, 32768, 0x0, 0, 2;
 !CFE_APP, /cf/apps/ETA.so,     ETA_AppMain,     ETA,      100, 32768, 0x0, 0, 2;
 !CFE_APP, /cf/apps/SBN.so,     SBN_AppMain,     SBN,       37, 32768, 0x0, 0, 2;

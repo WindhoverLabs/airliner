@@ -50,9 +50,9 @@
   perfids: 
     RGBLED_MAIN_TASK_PERF_ID: 
       id: 
-    RGBLED_SEND_PERF_ID: 
-      id: 
     RGBLED_RECEIVE_PERF_ID: 
+      id: 
+    RGBLED_SEND_PERF_ID: 
       id: 
   config: 
     RGBLED_SELFTEST_TASK_FLAGS: 

@@ -757,21 +757,21 @@
           cc: 0
           struct: CF_NoArgsCmd_t
   perfids: 
+    CF_CYCLE_ENG_PERF_ID: 
+      id: 
+    CF_FCLOSE_PERF_ID: 
+      id: 
     CF_FILESIZE_PERF_ID: 
       id: 
     CF_FOPEN_PERF_ID: 
-      id: 
-    CF_FCLOSE_PERF_ID: 
       id: 
     CF_FREAD_PERF_ID: 
       id: 
     CF_FWRITE_PERF_ID: 
       id: 
-    CF_REDLIGHT_PERF_ID: 
-      id: 
-    CF_CYCLE_ENG_PERF_ID: 
-      id: 
     CF_QDIRFILES_PERF_ID: 
+      id: 
+    CF_REDLIGHT_PERF_ID: 
       id: 
   config: 
     CF_PIPE_DEPTH: 

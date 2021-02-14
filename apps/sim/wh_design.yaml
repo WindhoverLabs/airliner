@@ -39,16 +39,16 @@
         Reset: 
           cc: 1
           struct: SIM_NoArgCmd_t
-    SIM_WAKEUP_MID: 
-      msgID: 
-      commands: 
-        WakeUp: 
-          cc: 0
-          struct: SIM_NoArgCmd_t
     SIM_SEND_HK_MID: 
       msgID: 
       commands: 
         SendHK: 
+          cc: 0
+          struct: SIM_NoArgCmd_t
+    SIM_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
           cc: 0
           struct: SIM_NoArgCmd_t
   perfids: 

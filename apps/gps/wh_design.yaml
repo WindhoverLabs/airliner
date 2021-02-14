@@ -45,16 +45,16 @@
         Reset: 
           cc: 1
           struct: GPS_NoArgCmd_t
-    GPS_SEND_HK_MID: 
-      msgID: 
-      commands: 
-        SendHK: 
-          cc: 0
-          struct: GPS_NoArgCmd_t
     GPS_READ_SENSOR_MID: 
       msgID: 
       commands: 
         ReadSensor: 
+          cc: 0
+          struct: GPS_NoArgCmd_t
+    GPS_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
           cc: 0
           struct: GPS_NoArgCmd_t
   perfids: 

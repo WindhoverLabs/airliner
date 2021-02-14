@@ -61,9 +61,7 @@
           struct: QAE_NoArgCmd_t
   perfids: 
     QAE_MAIN_TASK_PERF_ID: 
-      id: 
-    AE_MAIN_TASK_PERF_ID: 
-      id: 
+      id:
   config: 
     AE_SB_TIMEOUT: 
       name: AE_SB_TIMEOUT

@@ -34,12 +34,12 @@
     LD_FLIGHT_DETECTED_EID: 
       id: 16
   telemetry: 
-    LD_HK_TLM_MID: 
-      msgID: 
-      struct: LD_HkTlm_t
     LD_DIAG_TLM_MID: 
       msgID: 
       struct: LD_Diag_t
+    LD_HK_TLM_MID: 
+      msgID: 
+      struct: LD_HkTlm_t
   commands: 
     LD_CMD_MID: 
       msgID: 

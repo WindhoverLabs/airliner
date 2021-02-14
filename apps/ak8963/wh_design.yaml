@@ -38,12 +38,12 @@
     AK8963_CALIBRATE_ERR_EID: 
       id: 18
   telemetry: 
-    AK8963_HK_TLM_MID: 
-      msgID: 
-      struct: AK8963_HkTlm_t
     AK8963_DIAG_TLM_MID: 
       msgID: 
       struct: AK8963_DiagPacket_t
+    AK8963_HK_TLM_MID: 
+      msgID: 
+      struct: AK8963_HkTlm_t
   commands: 
     AK8963_CMD_MID: 
       msgID: 
@@ -60,24 +60,24 @@
         SetCalibration: 
           cc: 3
           struct: AK8963_SetCalibrationCmd_t
-    AK8963_WAKEUP_MID: 
-      msgID: 
-      commands: 
-        WakeUp: 
-          cc: 0
-          struct: AK8963_NoArgCmd
     AK8963_SEND_HK_MID: 
       msgID: 
       commands: 
         SendHK: 
           cc: 0
           struct: AK8963_NoArgCmd
+    AK8963_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: AK8963_NoArgCmd
   perfids: 
+    AK8963_MAIN_TASK_PERF_ID: 
+      id: 
     AK8963_RECEIVE_PERF_ID: 
       id: 
     AK8963_SEND_PERF_ID: 
-      id: 
-    AK8963_MAIN_TASK_PERF_ID: 
       id: 
   config: 
     AK8963_SB_TIMEOUT: 
