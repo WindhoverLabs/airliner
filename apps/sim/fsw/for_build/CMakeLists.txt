@@ -104,7 +104,7 @@ buildliner_add_app_unit_test(sim-ut
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/
-        ${PROJECT_SOURCE_DIR}/mavlink/include/mavlink/v1.0/common/
+        ${_MAVLINK_INCLUDE_DIR}/mavlink/v2.0/common/
         
     VALGRIND_SUPPRESSION_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/valgrind.supp
