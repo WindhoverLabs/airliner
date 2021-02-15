@@ -42,12 +42,12 @@
     HMC5883_CALIBRATE_ERR_EID: 
       id: 20
   telemetry: 
-    HMC5883_HK_TLM_MID: 
-      msgID: 
-      struct: HMC5883_HkTlm_t
     HMC5883_DIAG_TLM_MID: 
       msgID: 
       struct: HMC5883_DiagPacket_t
+    HMC5883_HK_TLM_MID: 
+      msgID: 
+      struct: HMC5883_HkTlm_t
   commands: 
     HMC5883_CMD_MID: 
       msgID: 
@@ -64,16 +64,16 @@
         SetCalibration: 
           cc: 3
           struct: HMC5883_SetCalibrationCmd_t
-    HMC5883_WAKEUP_MID: 
-      msgID: 
-      commands: 
-        WakeUp: 
-          cc: 0
-          struct: HMC5883_NoArgCmd_t
     HMC5883_SEND_HK_MID: 
       msgID: 
       commands: 
         SendHK: 
+          cc: 0
+          struct: HMC5883_NoArgCmd_t
+    HMC5883_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
           cc: 0
           struct: HMC5883_NoArgCmd_t
   perfids: 

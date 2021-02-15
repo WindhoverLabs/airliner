@@ -2,6 +2,10 @@
 #define CFE_MISSION_CFG
 
 
+#define CFE_CMD_MID_BASE (0x1800)
+#define CFE_TLM_MID_BASE (0x0800)
+
+
 /**
 **  \cfemissioncfg Spacecraft ID
 **

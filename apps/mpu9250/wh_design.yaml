@@ -38,12 +38,12 @@
     MPU9250_CALIBRATE_ERR_EID: 
       id: 18
   telemetry: 
-    MPU9250_HK_TLM_MID: 
-      msgID: 
-      struct: MPU9250_HkTlm_t
     MPU9250_DIAG_TLM_MID: 
       msgID: 
       struct: MPU9250_DiagPacket_t
+    MPU9250_HK_TLM_MID: 
+      msgID: 
+      struct: MPU9250_HkTlm_t
   commands: 
     MPU9250_CMD_MID: 
       msgID: 
@@ -60,16 +60,16 @@
         SetCalibration: 
           cc: 3
           struct: MPU9250_SetCalibrationCmd_t
-    MPU9250_SEND_HK_MID: 
-      msgID: 
-      commands: 
-        SendHK: 
-          cc: 0
-          struct: MPU9250_NoArgCmd_t
     MPU9250_MEASURE_MID: 
       msgID: 
       commands: 
         Measure: 
+          cc: 0
+          struct: MPU9250_NoArgCmd_t
+    MPU9250_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
           cc: 0
           struct: MPU9250_NoArgCmd_t
   perfids: 

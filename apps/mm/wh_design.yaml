@@ -282,13 +282,13 @@
   perfids: 
     MM_APPMAIN_PERF_ID: 
       id: 
-    MM_SEGBREAK_PERF_ID: 
-      id: 
-    MM_EEPROM_POKE_PERF_ID: 
-      id: 
     MM_EEPROM_FILELOAD_PERF_ID: 
       id: 
     MM_EEPROM_FILL_PERF_ID: 
+      id: 
+    MM_EEPROM_POKE_PERF_ID: 
+      id: 
+    MM_SEGBREAK_PERF_ID: 
       id: 
   config: 
     MM_LOAD_WID_CRC_TYPE: 

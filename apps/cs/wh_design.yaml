@@ -305,6 +305,12 @@
       msgID: 
       struct: CS_HkPacket_t
   commands: 
+    CS_BACKGROUND_CYCLE_MID: 
+      msgID: 
+      commands: 
+        BackgroundCycle: 
+          cc: 0
+          struct: CS_NoArgsCmd_t
     CS_CMD_MID: 
       msgID: 
       commands: 
@@ -428,12 +434,6 @@
         DisableNameApp: 
           cc: 39
           struct: CS_AppNameCmd_t
-    CS_BACKGROUND_CYCLE_MID: 
-      msgID: 
-      commands: 
-        BackgroundCycle: 
-          cc: 0
-          struct: CS_NoArgsCmd_t
     CS_SEND_HK_MID: 
       msgID: 
       commands: 

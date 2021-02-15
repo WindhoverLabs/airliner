@@ -6,6 +6,8 @@
 */
 #include "cfe_mission_cfg.h"
 
+#define CFE_MSG_CPU_BASE (0x0200)
+
 /*
 ** CPU Id for target Processor
 */
@@ -14,7 +16,7 @@
 /*
 ** CPU Name for target Processor
 */
-#define CFE_CPU_NAME "CPU2"
+#define CFE_CPU_NAME "CPD"
 
 /**
 **  \cfesbcfg Maximum Number of Unique Message IDs SB Routing Table can hold
@@ -30,7 +32,7 @@
 **       This parameter has a lower limit of 1 and an upper limit of 1024.
 **
 */
-#define CFE_SB_MAX_MSG_IDS              256
+#define CFE_SB_MAX_MSG_IDS              1024
 
 
 /**
@@ -477,7 +479,7 @@
 **
 **  \par Limits
 **       There is a lower limit of 6 and an upper limit of 64 on this configuration
-**       paramater. The lower limit corresponds to the cFE internal applications.
+**       parameter. The lower limit corresponds to the cFE internal applications.
 */
 #define CFE_ES_MAX_APPLICATIONS 64
 
@@ -560,7 +562,7 @@
 **  \par Limits
 **       This parameter has a lower limit of 1 and an upper limit of 65535.
 */
-#define CFE_ES_MAX_GEN_COUNTERS    8
+#define CFE_ES_MAX_GEN_COUNTERS    64
 
 
 /**

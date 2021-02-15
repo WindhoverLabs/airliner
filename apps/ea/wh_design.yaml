@@ -57,6 +57,12 @@
         Terminate: 
           cc: 3
           struct: EA_NoArgCmd_t
+    EA_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: EA_NoArgCmd_t
     EA_WAKEUP_MID: 
       msgID: 
       commands: 
