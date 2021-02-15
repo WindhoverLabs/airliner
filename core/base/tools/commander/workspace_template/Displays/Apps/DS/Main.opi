@@ -1646,7 +1646,9 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/ds/SetAppState'(State: 1)');]]></scriptText>
+Yamcs.issueCommand('/cfs/ds/SetAppState',
+				{'EnableState': 1,
+				  'Padding': 0});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -1702,7 +1704,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -1757,7 +1759,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -1812,7 +1814,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -1867,7 +1869,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -1922,7 +1924,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -1977,7 +1979,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2032,7 +2034,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2087,7 +2089,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2142,7 +2144,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2197,7 +2199,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2252,7 +2254,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2307,7 +2309,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2362,7 +2364,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2417,7 +2419,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2472,7 +2474,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2527,7 +2529,9 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/CFS/DS/SetAppState(State: 0)');]]></scriptText>
+Yamcs.issueCommand('/cfs/ds/SetAppState',
+				{'EnableState': 0,
+				  'Padding': 0});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2575,5 +2579,61 @@ $(pv_value)</tooltip>
     <wuid>-736e4684:150ac3c95a1:-71f7</wuid>
     <x>244</x>
     <y>239</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/ds/SendHK', {});]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="34" green="45" blue="75" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="255" green="255" blue="255" />
+    </foreground_color>
+    <height>20</height>
+    <image>../../Resources/send.png</image>
+    <name>NoOp_19</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>SendHK</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>82</width>
+    <wuid>3224b3ef:1778cb22598:-7f83</wuid>
+    <x>378</x>
+    <y>6</y>
   </widget>
 </display>

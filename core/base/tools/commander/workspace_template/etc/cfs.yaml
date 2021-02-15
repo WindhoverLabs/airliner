@@ -1,3 +1,4 @@
+#Configuration tested on YAMCS 5.4.0
 timestampFormat: "CFE_SB_TIME_32_16_SUBS"
 tmHost: "127.0.0.1"
 tmPort: 5011

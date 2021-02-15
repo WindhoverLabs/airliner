@@ -29,23 +29,64 @@
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
   <width>800</width>
-  <wuid>-736e4684:150ac3c95a1:-7247</wuid>
+  <wuid>3224b3ef:1778cb22598:-7099</wuid>
   <x>-1</x>
   <y>-1</y>
-  <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Directory</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>91</width>
+    <wrap_words>false</wrap_words>
+    <wuid>3224b3ef:1778cb22598:-7094</wuid>
+    <x>54</x>
+    <y>54</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
     <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
       <color red="255" green="255" blue="255" />
     </background_color>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
     <border_style>1</border_style>
     <border_width>1</border_width>
-    <buttons_on_left>false</buttons_on_left>
+    <confirm_message></confirm_message>
     <enabled>true</enabled>
     <font>
       <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
@@ -54,19 +95,19 @@
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <format>0</format>
+    <format_type>0</format_type>
     <height>25</height>
-    <horizontal_alignment>1</horizontal_alignment>
-    <horizontal_buttons_layout>false</horizontal_buttons_layout>
-    <limits_from_pv>true</limits_from_pv>
-    <maximum>1.7976931348623157E308</maximum>
-    <minimum>-1.7976931348623157E308</minimum>
-    <name>FilterParmsIndex</name>
-    <page_increment>10.0</page_increment>
-    <precision>3</precision>
-    <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://SetFilterFileFilterParmsIndex</pv_name>
+    <horizontal_alignment>0</horizontal_alignment>
+    <limits_from_pv>false</limits_from_pv>
+    <maximum>Infinity</maximum>
+    <minimum>-Infinity</minimum>
+    <multiline_input>false</multiline_input>
+    <name>Directory</name>
+    <precision>0</precision>
+    <precision_from_pv>true</precision_from_pv>
+    <pv_name>loc://GetDirFileDirectory</pv_name>
     <pv_value />
+    <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -74,18 +115,156 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_text>true</show_text>
-    <step_increment>1.0</step_increment>
+    <selector_type>0</selector_type>
+    <show_units>true</show_units>
+    <style>0</style>
+    <text></text>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <transparent>false</transparent>
+    <visible>true</visible>
+    <widget_type>Text Input</widget_type>
+    <width>100</width>
+    <wuid>3224b3ef:1778cb22598:-7090</wuid>
+    <x>168</x>
+    <y>51</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label_1</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Filename</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
-    <widget_type>Spinner</widget_type>
-    <width>85</width>
-    <wuid>a22d448:177887d8135:-6c00</wuid>
-    <x>174</x>
-    <y>90</y>
+    <widget_type>Label</widget_type>
+    <width>91</width>
+    <wrap_words>false</wrap_words>
+    <wuid>3224b3ef:1778cb22598:-7085</wuid>
+    <x>54</x>
+    <y>87</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color name="Border" red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <confirm_message></confirm_message>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <format_type>0</format_type>
+    <height>25</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <limits_from_pv>false</limits_from_pv>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
+    <multiline_input>false</multiline_input>
+    <name>Filename</name>
+    <precision>0</precision>
+    <precision_from_pv>true</precision_from_pv>
+    <pv_name>loc://GetDirFileFilename</pv_name>
+    <pv_value />
+    <rotation_angle>0.0</rotation_angle>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <selector_type>0</selector_type>
+    <show_units>true</show_units>
+    <style>0</style>
+    <text></text>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <transparent>false</transparent>
+    <visible>true</visible>
+    <widget_type>Text Input</widget_type>
+    <width>100</width>
+    <wuid>3224b3ef:1778cb22598:-7084</wuid>
+    <x>168</x>
+    <y>84</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label_2</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>GetSizeTimeMode</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>121</width>
+    <wrap_words>false</wrap_words>
+    <wuid>3224b3ef:1778cb22598:-707d</wuid>
+    <x>24</x>
+    <y>117</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -95,21 +274,19 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var file_index = VTypeHelper.getDouble(display.getWidget('FileTableIndex').getPropertyValue('pv_value'));
+var directory_arg = VTypeHelper.getString(display.getWidget("Directory").getPropertyValue("pv_value"));
+var filename_arg = VTypeHelper.getString(display.getWidget("Filename").getPropertyValue("pv_value"));
+var timemode_arg =  parseInt(VTypeHelper.getDouble(display.getWidget("GetSizeTimeMode").getPropertyValue("pv_value")));
+ 
 
-var param_index = VTypeHelper.getDouble(display.getWidget('FilterParmsIndex').getPropertyValue('pv_value'));
-
-var msgID = VTypeHelper.getDouble(display.getWidget('MessageID').getPropertyValue('pv_value'));
-
-var cmd = '/cfs/ds/SetFilterFile';
-
-Yamcs.issueCommand(cmd, 
-				  {'MessageID': msgID,
-				    'FilterParmsIndex': param_index,
-				    'FileTableIndex': parseInt(file_index),
-				    'Padding': 0
-				  }
-				 );]]></scriptText>
+Yamcs.issueCommand('/cfs/fm/GetDirFile', 
+                                   {"Directory":directory_arg,
+				     "Filename": filename_arg,
+				      "GetSizeTimeMode": timemode_arg,
+				      "Spare01_0_": 0,
+				       "Spare01_1_": 0,
+					"Spare01_2_": 0});
+]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -133,9 +310,9 @@ Yamcs.issueCommand(cmd,
     <foreground_color>
       <color red="255" green="255" blue="255" />
     </foreground_color>
-    <height>24</height>
+    <height>18</height>
     <image>../../Resources/send.png</image>
-    <name>Action Button_1</name>
+    <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
     <pv_value />
@@ -147,96 +324,16 @@ Yamcs.issueCommand(cmd,
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>SetFilterFile</text>
+    <text>GetDirFile</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>163</width>
-    <wuid>a22d448:177887d8135:-6bff</wuid>
-    <x>72</x>
-    <y>168</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>1</horizontal_alignment>
-    <name>Label</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>FilterParmsIndex</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>121</width>
-    <wrap_words>false</wrap_words>
-    <wuid>a22d448:177887d8135:-6bfe</wuid>
-    <x>24</x>
-    <y>93</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>1</horizontal_alignment>
-    <name>Label_1</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>FileTableIndex</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>103</width>
-    <wrap_words>false</wrap_words>
-    <wuid>a22d448:177887d8135:-6bfd</wuid>
-    <x>24</x>
-    <y>123</y>
+    <width>109</width>
+    <wuid>3224b3ef:1778cb22598:-706b</wuid>
+    <x>120</x>
+    <y>186</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -260,101 +357,6 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <format>2</format>
-    <height>25</height>
-    <horizontal_alignment>1</horizontal_alignment>
-    <horizontal_buttons_layout>false</horizontal_buttons_layout>
-    <limits_from_pv>true</limits_from_pv>
-    <maximum>1.7976931348623157E308</maximum>
-    <minimum>-1.7976931348623157E308</minimum>
-    <name>MessageID</name>
-    <page_increment>10.0</page_increment>
-    <precision>3</precision>
-    <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://SetFilterMsgID</pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <show_text>true</show_text>
-    <step_increment>1.0</step_increment>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <transparent>false</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Spinner</widget_type>
-    <width>85</width>
-    <wuid>a22d448:177887d8135:-6bf1</wuid>
-    <x>174</x>
-    <y>60</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>1</horizontal_alignment>
-    <name>Label_2</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>MessageID</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>121</width>
-    <wrap_words>false</wrap_words>
-    <wuid>a22d448:177887d8135:-6bf0</wuid>
-    <x>24</x>
-    <y>63</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>3</border_style>
-    <border_width>1</border_width>
-    <buttons_on_left>false</buttons_on_left>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
     <format>0</format>
     <height>25</height>
     <horizontal_alignment>1</horizontal_alignment>
@@ -362,11 +364,11 @@ $(pv_value)</tooltip>
     <limits_from_pv>true</limits_from_pv>
     <maximum>Infinity</maximum>
     <minimum>-Infinity</minimum>
-    <name>FileTableIndex</name>
+    <name>GetSizeTimeMode</name>
     <page_increment>10.0</page_increment>
     <precision>3</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://SetFilterFileFileTableIndex</pv_name>
+    <pv_name>loc://GetDirFileGetSizeTimeMode&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -383,9 +385,9 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Spinner</widget_type>
-    <width>85</width>
-    <wuid>a22d448:177887d8135:-6718</wuid>
-    <x>174</x>
-    <y>120</y>
+    <width>100</width>
+    <wuid>3224b3ef:1778cb22598:-705f</wuid>
+    <x>168</x>
+    <y>117</y>
   </widget>
 </display>
