@@ -30,6 +30,28 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 #############################################################################
- 
-set(OSAL ${PROJECT_SOURCE_DIR}/core/osal/posix-fast)
-set(PSP ${PROJECT_SOURCE_DIR}/core/psp/obc-ppd)
+
+# Collect PSP includes and source
+set(PSP_INC_DIRS ${PSP_INC_DIRS} ${CMAKE_CURRENT_LIST_DIR}/../inc)
+    
+# Set compiler flags for apps and the main executable.
+set(COMPILE_FLAGS "-g" )
+set(LINK_FLAGS "")
+
+set(TOOLCHAIN_PREFIX "arm-linux-gnueabihf-")
+
+# which compilers to use for C and C++
+set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
+set(CMAKE_C_FLAGS "-g -O2 -Wno-pointer-to-int-cast")
+set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}g++)
+set(CMAKE_CXX_FLAGS "-g -O2 -std=c++11")
+
+set(PSP_UNIT_TEST_SRC_DIR ${CMAKE_CURRENT_LIST_DIR}/../unit_test)
+
+set(PSP_WB_UT_BSP_SRC ${PSP_UNIT_TEST_SRC_DIR}/bsp_start.c)
+
+set(PSP_BB_UT_BSP_SRC
+    ${PSP_UNIT_TEST_SRC_DIR}/bsp_ut.c
+    ${PSP_UNIT_TEST_SRC_DIR}/bsp_voltab.c 
+)
+
