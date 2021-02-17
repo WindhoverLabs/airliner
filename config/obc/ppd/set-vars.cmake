@@ -31,5 +31,5 @@
 #
 #############################################################################
  
-set(PSP ${PROJECT_SOURCE_DIR}/core/psp/ocpoc-linux)
 set(OSAL ${PROJECT_SOURCE_DIR}/core/osal/posix-fast)
+set(PSP ${PROJECT_SOURCE_DIR}/core/psp/obc-ppd)
