@@ -39,16 +39,16 @@
         Reset: 
           cc: 1
           struct: SENS_NoArgCmd_t
-    SENS_WAKEUP_MID: 
-      msgID: 
-      commands: 
-        WakeUp: 
-          cc: 0
-          struct: SENS_NoArgCmd_t
     SENS_SEND_HK_MID: 
       msgID: 
       commands: 
         SendHK: 
+          cc: 0
+          struct: SENS_NoArgCmd_t
+    SENS_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
           cc: 0
           struct: SENS_NoArgCmd_t
   perfids: 

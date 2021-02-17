@@ -34,12 +34,12 @@
     MS5611_CFGTBL_VALIDATION_ERR_EID: 
       id: 16
   telemetry: 
-    MS5611_HK_TLM_MID: 
-      msgID: 
-      struct: MS5611_HkTlm_t
     MS5611_DIAG_TLM_MID: 
       msgID: 
       struct: MS5611_DiagPacket_t
+    MS5611_HK_TLM_MID: 
+      msgID: 
+      struct: MS5611_HkTlm_t
   commands: 
     MS5611_CMD_MID: 
       msgID: 
@@ -50,16 +50,16 @@
         Reset: 
           cc: 1
           struct: MS5611_NoArgCmd_t
-    MS5611_SEND_HK_MID: 
-      msgID: 
-      commands: 
-        SendHK: 
-          cc: 0
-          struct: MS5611_NoArgCmd_t
     MS5611_MEASURE_MID: 
       msgID: 
       commands: 
         Measure: 
+          cc: 0
+          struct: MS5611_NoArgCmd_t
+    MS5611_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
           cc: 0
           struct: MS5611_NoArgCmd_t
   perfids: 

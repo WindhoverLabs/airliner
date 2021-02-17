@@ -97,6 +97,11 @@
         FIFO:   0
         SINGLE: 1
   telemetry: 
+    TO_DATA_TYPE_MID: 
+      msgID: 
+    TO_DIAG_MSG_FLOW_MID: 
+      msgID: 
+      struct: TO_MsgFlowListPkt_t
     TO_DIAG_TLM_MID: 
       msgID: 
       struct: TO_ChannelDiagTlm_t

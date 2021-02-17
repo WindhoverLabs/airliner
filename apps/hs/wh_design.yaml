@@ -162,9 +162,6 @@
     HS_HK_TLM_MID: 
       msgID: 
       struct: HS_HkPacket_t
-    HS_CUSTOM_HK_TLM_MID: 
-      msgID: 
-      struct: 
   commands: 
     HS_CMD_MID: 
       msgID: 
@@ -227,9 +224,9 @@
           cc: 0
           struct: CFE_SB_CmdHdr_t
   perfids: 
-    HS_IDLETASK_PERF_ID: 
-      id: 
     HS_APPMAIN_PERF_ID: 
+      id: 
+    HS_IDLETASK_PERF_ID: 
       id: 
   config: 
     HS_APP_NAME: 

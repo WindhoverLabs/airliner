@@ -235,6 +235,12 @@
       msgID: 
       struct: SC_HkTlm_t
   commands: 
+    SC_1HZ_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        1HzWakeUp: 
+          cc: 0
+          struct: SC_NoArgsCmd_t
     SC_CMD_MID: 
       msgID: 
       commands: 
@@ -293,12 +299,6 @@
       msgID: 
       commands: 
         SendHK: 
-          cc: 0
-          struct: SC_NoArgsCmd_t
-    SC_1HZ_WAKEUP_MID: 
-      msgID: 
-      commands: 
-        1HzWakeUp: 
           cc: 0
           struct: SC_NoArgsCmd_t
   perfids: 

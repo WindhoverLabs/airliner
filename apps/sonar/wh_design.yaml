@@ -34,9 +34,6 @@
     SONAR_MEASURE_ERR_EID: 
       id: 16
   telemetry: 
-    SONAR_OUT_DATA_MID: 
-      msgID: 
-      struct: 
     SONAR_HK_TLM_MID: 
       msgID: 
       struct: SONAR_HkTlm_t
@@ -50,16 +47,16 @@
         Reset: 
           cc: 1
           struct: SONAR_NoArgCmd_t
-    SONAR_SEND_HK_MID: 
-      msgID: 
-      commands: 
-        SendHK: 
-          cc: 0
-          struct: SONAR_NoArgCmd_t
     SONAR_MEASURE_MID: 
       msgID: 
       commands: 
         Measure: 
+          cc: 0
+          struct: SONAR_NoArgCmd_t
+    SONAR_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
           cc: 0
           struct: SONAR_NoArgCmd_t
   perfids: 

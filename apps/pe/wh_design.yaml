@@ -166,21 +166,21 @@
           cc: 0
           struct: PE_NoArgCmd_t
   perfids: 
+    PE_INVERSE_MAT_PERF_ID: 
+      id: 
     PE_MAIN_TASK_PERF_ID: 
-      id: 
-    PE_UPDATE_TASK_PERF_ID: 
-      id: 
-    PE_SENSOR_GPS_PERF_ID: 
       id: 
     PE_SENSOR_BARO_PERF_ID: 
       id: 
-    PE_SENSOR_LAND_PERF_ID: 
-      id: 
-    PE_INVERSE_MAT_PERF_ID: 
+    PE_SENSOR_DIST_PERF_ID: 
       id: 
     PE_SENSOR_FLOW_PERF_ID: 
       id: 
-    PE_SENSOR_DIST_PERF_ID: 
+    PE_SENSOR_GPS_PERF_ID: 
+      id: 
+    PE_SENSOR_LAND_PERF_ID: 
+      id: 
+    PE_UPDATE_TASK_PERF_ID: 
       id: 
   config: 
     PE_SB_TIMEOUT: 

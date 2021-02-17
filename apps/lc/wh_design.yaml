@@ -164,9 +164,6 @@
     LC_HK_TLM_MID: 
       msgID: 
       struct: LC_HkPacket_t
-    LC_SAMPLE_AP_MID: 
-      msgID: 
-      struct: LC_SampleAP_t
   commands: 
     LC_CMD_MID: 
       msgID: 
@@ -192,6 +189,12 @@
         ResetWPStats: 
           cc: 6
           struct: LC_ResetWPStats_t
+    LC_SAMPLE_AP_MID: 
+      msgID: 
+      commands: 
+        SampleAP: 
+          cc: 0
+          struct: LC_SampleAP_t
     LC_SEND_HK_MID: 
       msgID: 
       commands: 
