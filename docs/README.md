@@ -1,6 +1,28 @@
-### To build.
+## Requirements to build airliner(Tested on Ubuntu18)
+`libgazebo9-dev`  
+`libboost-all-dev`  
+`python3-opencv`  
+`libopencv-dev`  
+`libgstreamer-plugins-base1.0-dev`  
+`default-jre`  
+`python>=3.6`  
+`gcc-multilib`  
+`g++-multilib` 
+`cmake`
 
-This is known to work with Python 3.5
+Must install the following dependencies via pip3:
+`PyYAML==5.3.1`  
+`six==1.15.0`   
+`wheel==0.35.1`  
+`pytest==6.1.1`  
+`sqlite_utils==2.21`  
+`cerberus==1.3.2`  
+`yamlpath==3.4.0`  
+`Jinja2==2.11.2`
+
+### To build docs.
+
+This is known to work with Python 3.6
 
 1. `pip3 install sphinx`
 2. `pip3 install sphinx-rtd-theme`
