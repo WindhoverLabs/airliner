@@ -19,6 +19,7 @@ Must install the following dependencies via pip3:
 `cerberus==1.3.2`  
 `yamlpath==3.4.0`  
 `Jinja2==2.11.2`
+`yamlpath`
 
 ### To build docs.
 
