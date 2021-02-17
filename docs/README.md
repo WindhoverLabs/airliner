@@ -4,16 +4,17 @@
 `python3-opencv`  
 `libopencv-dev`  
 `libgstreamer-plugins-base1.0-dev`  
-`default-jre`  
+`default-jre`    
+`openjdk-8-jdk`  
 `python>=3.6`  
 `gcc-multilib`  
-`g++-multilib` 
-`cmake`
-`libdwarf-dev`
-`libelf-dev`
+`g++-multilib`  
+`cmake`  
+`libdwarf-dev`  
+`libelf-dev`  
 `libsqlite3-dev`
 
-Must install the following dependencies via pip3:
+Must install the following dependencies via pip3:  
 `PyYAML==5.3.1`  
 `six==1.15.0`   
 `wheel==0.35.1`  
@@ -21,7 +22,7 @@ Must install the following dependencies via pip3:
 `sqlite_utils==2.21`  
 `cerberus==1.3.2`  
 `yamlpath==3.4.0`  
-`Jinja2==2.11.2`
+`Jinja2==2.11.2`  
 `yamlpath`
 
 ### To build docs.
