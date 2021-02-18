@@ -45,6 +45,7 @@ buildliner_add_app_def(vm
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/CautionWarningHelper.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Arming.sm
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Navigation.sm
+	${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_symbols.cpp
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
