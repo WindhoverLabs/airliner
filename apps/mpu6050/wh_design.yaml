@@ -38,12 +38,12 @@
     MPU6050_CALIBRATE_ERR_EID: 
       id: 18
   telemetry: 
-    MPU6050_HK_TLM_MID: 
-      msgID: 
-      struct: MPU6050_HkTlm_t
     MPU6050_DIAG_TLM_MID: 
       msgID: 
       struct: MPU6050_DiagPacket_t
+    MPU6050_HK_TLM_MID: 
+      msgID: 
+      struct: MPU6050_HkTlm_t
   commands: 
     MPU6050_CMD_MID: 
       msgID: 
@@ -60,16 +60,16 @@
         SetCalibration: 
           cc: 3
           struct: MPU6050_SetCalibrationCmd_t
-    MPU6050_SEND_HK_MID: 
-      msgID: 
-      commands: 
-        SendHK: 
-          cc: 0
-          struct: MPU6050_NoArgCmd_t
     MPU6050_MEASURE_MID: 
       msgID: 
       commands: 
         Measure: 
+          cc: 0
+          struct: MPU6050_NoArgCmd_t
+    MPU6050_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
           cc: 0
           struct: MPU6050_NoArgCmd_t
   perfids: 

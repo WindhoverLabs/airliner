@@ -59,36 +59,6 @@
     HK_HK_TLM_MID: 
       msgID: 
       struct: HK_HkPacket_t
-    HK_COMBINED_PKT1_MID: 
-      msgID: 
-      struct: 
-    HK_COMBINED_PKT2_MID: 
-      msgID: 
-      struct: 
-    HK_COMBINED_PKT3_MID: 
-      msgID: 
-      struct: 
-    HK_COMBINED_PKT4_MID: 
-      msgID: 
-      struct: 
-    HK_COMBINED_PKT5_MID: 
-      msgID: 
-      struct: 
-    HK_COMBINED_PKT6_MID: 
-      msgID: 
-      struct: 
-    HK_COMBINED_PKT7_MID: 
-      msgID: 
-      struct: 
-    HK_COMBINED_PKT8_MID: 
-      msgID: 
-      struct: 
-    HK_COMBINED_PKT9_MID: 
-      msgID: 
-      struct: 
-    HK_COMBINED_PKT10_MID: 
-      msgID: 
-      struct: 
   commands: 
     HK_CMD_MID: 
       msgID: 
@@ -99,18 +69,18 @@
         Reset: 
           cc: 1
           struct: CFE_SB_CmdHdr_t
-    HK_SEND_HK_MID: 
-      msgID: 
-      commands: 
-        SendHK: 
-          cc: 0
-          struct: CFE_SB_CmdHdr_t
     HK_SEND_COMBINED_PKT_MID: 
       msgID: 
       commands: 
         SendCombinedPkt: 
           cc: 0
           struct: HK_Send_Out_Msg_t
+    HK_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
   perfids: 
     HK_APPMAIN_PERF_ID: 
       id: 

@@ -44,12 +44,12 @@
     MPC_INVLD_PARAM_ERR_EID: 
       id: 21
   telemetry: 
-    MPC_HK_TLM_MID: 
-      msgID: 
-      struct: MPC_HkTlm_t
     MPC_DIAG_TLM_MID: 
       msgID: 
       struct: MPC_DiagPacket_t
+    MPC_HK_TLM_MID: 
+      msgID: 
+      struct: MPC_HkTlm_t
   commands: 
     MPC_CMD_MID: 
       msgID: 
@@ -78,16 +78,16 @@
         SetTKORamp: 
           cc: 7
           struct: MPC_SetTkoRampCmd_t
-    MPC_WAKEUP_MID: 
-      msgID: 
-      commands: 
-        WakeUp: 
-          cc: 0
-          struct: MPC_NoArgCmd_t
     MPC_SEND_HK_MID: 
       msgID: 
       commands: 
         SendHK: 
+          cc: 0
+          struct: MPC_NoArgCmd_t
+    MPC_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
           cc: 0
           struct: MPC_NoArgCmd_t
   perfids: 

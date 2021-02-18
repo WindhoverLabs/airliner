@@ -40,9 +40,8 @@ SPHINX_FSW_BUILD = reference/default
 SHELL := /bin/bash
 
 CONFIG_DIR   := config
-#TARGET_PATHS := $(shell find config -mindepth 1 -maxdepth 5 -type d -path 'config/shared/*' -prune -o -exec expr {} : '[^/]*/\(.*\)' \; )
-TARGET_PATHS :=  $(shell find ${CONFIG_DIR} -mindepth 2 -maxdepth 20 -type f -name 'wh_config.yaml' | sed -r 's,^[^/]*/,,' | sed -r 's|/[^/]+$$||' | sort -u)
-TARGET_NAMES := $(shell echo ${TARGET_PATHS} )
+GENERIC_TARGET_PATHS :=  $(shell find ${CONFIG_DIR} -mindepth 2 -maxdepth 20 -type f -name 'wh_config.yaml' | sed -r 's,^[^/]*/,,' | sed -r 's|/[^/]+$$||' | sort -u)
+GENERIC_TARGET_NAMES := $(shell echo ${GENERIC_TARGET_PATHS} )
 BUILD_TYPES  := host target
 ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
@@ -97,19 +96,45 @@ help::
 	@echo '    docs-sphinx             : Generate the Sphinx documentation from the        '
 	@echo '                              reference build.                                  '
 	
-.PHONY: help Makefile docs
+.PHONY: help Makefile docs obc
 	
 
-$(TARGET_NAMES)::
+$(GENERIC_TARGET_NAMES)::
 	@echo 'Building '$@'.'
 	@idx=1; \
-	for name in $(TARGET_NAMES); do \
+	for name in $(GENERIC_TARGET_NAMES); do \
 		if [ "$$name" == "$@" ] ; then \
 			break; \
 		fi; \
 		((idx++)); \
 	done; \
-	TARGET_PATH=$$(echo ${TARGET_PATHS} | cut -d " " -f $$idx); \
+	TARGET_PATH=$$(echo ${GENERIC_TARGET_PATHS} | cut -d " " -f $$idx); \
+		echo "Generating complete design/configuration definition file, 'wh_defs.yaml'"; \
+	if [ -f "$(CONFIG_DIR)/$$TARGET_PATH/wh_config.yaml" ]; then \
+			mkdir -p build/$$TARGET_PATH/target; \
+			python3 core/base/tools/config/wh_defgen.py $(CONFIG_DIR)/$$TARGET_PATH/ build/$$TARGET_PATH/target/wh_defs.yaml; \
+	fi; \
+		for buildtype in $(BUILD_TYPES); do \
+		if [ -d "$(CONFIG_DIR)/$$TARGET_PATH/$$buildtype" ]; then \
+				mkdir -p build/$$TARGET_PATH/$$buildtype; \
+				(cd build/$$TARGET_PATH/$$buildtype; \
+					cmake -DBUILDNAME:STRING=$$TARGET_PATH -DBUILDTYPE:STRING=$$buildtype -G"Eclipse CDT4 - Unix Makefiles" \
+						-DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); \
+					$(MAKE) --no-print-directory); \
+				fi \
+		done;
+		
+		
+obc::
+	@echo 'Building 'OBC'.'
+	@idx=1; \
+	for name in $(GENERIC_TARGET_NAMES); do \
+		if [ "$$name" == "$@" ] ; then \
+			break; \
+		fi; \
+		((idx++)); \
+	done; \
+	TARGET_PATH=$$(echo ${GENERIC_TARGET_PATHS} | cut -d " " -f $$idx); \
 		echo "Generating complete design/configuration definition file, 'wh_defs.yaml'"; \
 	if [ -f "$(CONFIG_DIR)/$$TARGET_PATH/wh_config.yaml" ]; then \
 			mkdir -p build/$$TARGET_PATH/target; \
@@ -125,10 +150,12 @@ $(TARGET_NAMES)::
 				fi \
 		done;
 	
+	
 docs-doxygen: 
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
 	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} -DBUILDTYPE:STRING=target \
 		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); make docs);
+	
 	
 docs-sphinx: 
 	@echo 'Building $$SPHINX_FSW_BUILD.'
@@ -138,8 +165,10 @@ docs-sphinx:
 	@$(SPHINX_BUILD) -M html "$(SOURCE_DIR)" "$(SPHINX_BUILDDIR)" $(SPHINX_OPTS) -c build/$(SPHINX_FSW_BUILD)/target/docs $(O)
 	@echo 'Completed'
 	
+	
 docs: docs-doxygen docs-sphinx
 	@echo 'Completed'
+
 
 python-env::
 	virtualenv -p python3 venv || exit -1
@@ -152,6 +181,7 @@ python-env::
 	@echo 'Deactivate:                                                                     '
 	@echo '    deactivate                                                                  '
 	@echo '                                                                                '
+	
 	
 submodule-update: 
 	@echo 'Completed'

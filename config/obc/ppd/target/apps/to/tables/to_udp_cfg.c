@@ -86,8 +86,6 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {TO_DIAG_TLM_MID,              1, TO_PQUEUE_HIGH_IDX},
         {TO_DIAG_MSG_FLOW_MID,         1, TO_PQUEUE_HIGH_IDX},
         {GPS_HK_TLM_MID,               1, TO_PQUEUE_HIGH_IDX},
-        {MAVLINK_HK_TLM_MID,           1, TO_PQUEUE_HIGH_IDX},
-        
         {CFE_ES_HK_TLM_MID,            1, TO_PQUEUE_MEDIUM_IDX},
         {CFE_EVS_HK_TLM_MID,           1, TO_PQUEUE_MEDIUM_IDX},
         {CFE_SB_HK_TLM_MID,            1, TO_PQUEUE_MEDIUM_IDX},
@@ -135,8 +133,6 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {SCH_DIAG_TLM_MID,             1, TO_PQUEUE_MEDIUM_IDX},
         {CI_HK_TLM_MID,                1, TO_PQUEUE_MEDIUM_IDX},
         {QAE_HK_TLM_MID,               1, TO_PQUEUE_MEDIUM_IDX},
-        {FLOW_HK_TLM_MID,              1, TO_PQUEUE_MEDIUM_IDX},
-        {FLOW_DIAG_TLM_MID,            1, TO_PQUEUE_MEDIUM_IDX},
         {MPC_DIAG_TLM_MID,             1, TO_PQUEUE_MEDIUM_IDX},
         {LD_DIAG_TLM_MID,              1, TO_PQUEUE_MEDIUM_IDX},
         {PRM_HK_TLM_MID,               1, TO_PQUEUE_MEDIUM_IDX},

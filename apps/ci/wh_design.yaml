@@ -98,24 +98,30 @@
         UpdateCmd: 
           cc: 6
           struct: CI_CmdRegData_t
-    CI_WAKEUP_MID: 
-      msgID: 
-      commands: 
-        WakeUp: 
-          cc: 0
-          struct: CI_NoArgCmd_t
     CI_PROCESS_TIMEOUTS_MID: 
       msgID: 
       commands: 
         ProcessTimeouts: 
           cc: 0
           struct: CI_NoArgCmd_t
+    CI_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: CI_NoArgCmd_t
+    CI_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: CI_NoArgCmd_t
   perfids: 
+    CF_APPMAIN_PERF_ID: 
+      id: 
     CI_MAIN_TASK_PERF_ID: 
       id: 
     CI_SOCKET_RCV_PERF_ID: 
-      id: 
-    CF_APPMAIN_PERF_ID: 
       id: 
   config: 
     CI_SB_TIMEOUT: 

@@ -33,16 +33,16 @@
         Reset: 
           cc: 1
           struct: CFE_SB_CmdHdr_t
-    MAC_SEND_HK_MID: 
-      msgID: 
-      commands: 
-        SendHK: 
-          cc: 0
-          struct: CFE_SB_CmdHdr_t
     MAC_RUN_CONTROLLER_MID: 
       msgID: 
       commands: 
         RunController: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
+    MAC_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
           cc: 0
           struct: CFE_SB_CmdHdr_t
   perfids: 

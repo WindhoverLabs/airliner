@@ -9,7 +9,6 @@ extern "C" {
 #define MAC_SEND_HK_MID                             0x1c43
 #define MAC_RUN_CONTROLLER_MID                      0x1c44
 
-#define MAC_OUT_DATA_MID                            0x0c45
 #define MAC_HK_TLM_MID                              0x0c46
 
 #ifdef __cplusplus
