@@ -115,7 +115,7 @@ int32 SIMLIB_SetDistanceSensor(
 		PX4_SensorOrientation_t  Orientation,
 		uint8  Covariance);
 
-void SIMLIB_SetSocket(int Socket, int Port, char *Address);
+void SIMLIB_SetSocket(int Socket);
 
 
 int32 SIMLIB_SendHeartbeat(void);

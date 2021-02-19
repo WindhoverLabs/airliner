@@ -173,11 +173,9 @@ int32 SIM_LibInit(void)
 }/* End SIM_LibInit */
 
 
-void SIMLIB_SetSocket(int Socket, int Port, char *Address)
+void SIMLIB_SetSocket(int Socket)
 {
 	SIMLIB_LibData.Socket = Socket;
-	SIMLIB_LibData.SendPort = Port;
-	strncpy(SIMLIB_LibData.SendAddress, Address, sizeof(SIMLIB_LibData.SendAddress));
 }
 
 int32 SIMLIB_GetAccel(float *X, float *Y, float *Z)
@@ -696,15 +694,7 @@ int32 SIMLIB_SetActuatorControls(
 
 	if(SIMLIB_LibData.Socket != 0)
 	{
-		struct sockaddr_in simAddr;
-		int len = sizeof(simAddr);
-
-	    bzero((char *) &simAddr, sizeof(simAddr));
-	    simAddr.sin_family      = AF_INET;
-	    simAddr.sin_addr.s_addr = inet_addr(SIMLIB_LibData.SendAddress);
-	    simAddr.sin_port        = htons(SIMLIB_LibData.SendPort);
-
-		sendto(SIMLIB_LibData.Socket, (char *)buffer, length, 0, (const struct sockaddr *)&simAddr, (socklen_t )len);
+		send(SIMLIB_LibData.Socket, (char *)buffer, length, 0);
 	}
 
 	iStatus = SIMLIB_OK;
@@ -834,15 +824,7 @@ int32 SIMLIB_SendHeartbeat(void)
 
 	if(SIMLIB_LibData.Socket != 0)
 	{
-		struct sockaddr_in simAddr;
-		int len = sizeof(simAddr);
-
-	    bzero((char *) &simAddr, sizeof(simAddr));
-	    simAddr.sin_family      = AF_INET;
-	    simAddr.sin_addr.s_addr = inet_addr(SIMLIB_LibData.SendAddress);
-	    simAddr.sin_port        = htons(SIMLIB_LibData.SendPort);
-
-		sendto(SIMLIB_LibData.Socket, (char *)buffer, length, 0, (const struct sockaddr *)&simAddr, (socklen_t )len);
+		send(SIMLIB_LibData.Socket, (char *)buffer, length, 0);
 	}
 
 	iStatus = SIMLIB_OK;

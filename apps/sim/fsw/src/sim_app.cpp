@@ -545,7 +545,7 @@ int32 SIM::ListenerInit()
     int   reuseaddr = 1;
 	struct sockaddr_in address;
 
-    if((Socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
+    if((Socket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
     	//TODO:  Add event
     	//OS_printf("OSAL:  Failed to create sim socket.  errno: %i\n", errno);
@@ -560,13 +560,15 @@ int32 SIM::ListenerInit()
     address.sin_addr.s_addr = htonl (INADDR_ANY);
     address.sin_port        = htons(SIM_PORT);
 
-	if ( (bind(Socket, (struct sockaddr *) &address, sizeof(address)) < 0) )
+	if ( (connect(Socket, (struct sockaddr *) &address, sizeof(address)) < 0) )
 	{
     	//TODO:  Add event
     	//OS_printf("OSAL:  Failed to bind sim socket.  errno: %i\n", errno);
 		Status = -1;
 		goto end_of_function;
 	}
+
+	SIMLIB_SetSocket(Socket);
 
     Status = OS_MutSemCreate(&MutexID, SIM_MUTEX_NAME, 0);
 	if (Status != CFE_SUCCESS)
@@ -633,15 +635,7 @@ void SIM::SetRates(void)
 
 	if(Socket != 0)
 	{
-		struct sockaddr_in simAddr;
-		int len = sizeof(simAddr);
-
-	    bzero((char *) &simAddr, sizeof(simAddr));
-	    simAddr.sin_family      = AF_INET;
-	    simAddr.sin_addr.s_addr = inet_addr(SendAddress);
-	    simAddr.sin_port        = htons(SendPort);
-
-		sendto(Socket, (char *)buffer, length, 0, (const struct sockaddr *)&simAddr, (socklen_t )len);
+		send(Socket, (char *)buffer, length, 0);
 	}
 }
 
@@ -660,20 +654,16 @@ void SIM::ListenerTask(void)
 
 	CFE_ES_RegisterChildTask();
 
+    SetRates();
+
 	while(ChildContinueExec())
 	{
-		struct sockaddr_in client;
-		socklen_t len = sizeof(client);
-
-		size = recvfrom(Socket,
+		size = read(Socket,
 						   (char *)buffer,
-						   (size_t)size, 0,
-						   (struct sockaddr*)&client,
-						   &len);
+						   (size_t)size);
 		if(size <= 0)
 		{
 	    	//TODO:  Add event
-	    	OS_printf("OSAL:  Failed to receive message from sim.  errno = %u\n", errno);
 			OS_TaskDelay(1000);
 		}
 		else
@@ -681,24 +671,11 @@ void SIM::ListenerTask(void)
 			mavlink_message_t msg;
 			mavlink_status_t status;
 			int32 i = 0;
-			char temp;
-			int port = ntohs(client.sin_port);
-			char *addr = inet_ntoa(client.sin_addr);
-
-			if(port != SendPort)
-			{
-				/* This is a new connection.  Set the message rates and inform
-				 * the simlib code. */
-				SetRates();
-
-				strncpy(SendAddress, addr, sizeof(SendAddress));
-				SendPort = port;
-				SIMLIB_SetSocket(Socket, SendPort, SendAddress);
-			}
+			//char temp;
 
 			for (i = 0; i < size; ++i)
 			{
-				temp = buffer[i];
+				//temp = buffer[i];
 				if (mavlink_parse_char(MAVLINK_COMM_0, buffer[i], &msg, &status))
 				{
 					switch(msg.msgid)
@@ -795,7 +772,7 @@ void SIM::ListenerTask(void)
 #endif
 
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x000001a0)
+							if(decodedMsg.fields_updated & 0x000001c0)
 							{
 #endif
 #ifdef SIM_PUBLISH_MAG
@@ -827,21 +804,21 @@ void SIM::ListenerTask(void)
 
 
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x00000600)
+							if(decodedMsg.fields_updated & 0x00000400)
 							{
 #endif
 #ifdef SIM_PUBLISH_BARO
                                 SensorBaro.Timestamp = PX4LIB_GetPX4TimeUs();
                                 SensorBaro.Pressure = decodedMsg.abs_pressure;
 #else
-								SIMLIB_SetPressure(decodedMsg.abs_pressure, decodedMsg.diff_pressure);
+								//SIMLIB_SetPressure(decodedMsg.abs_pressure, decodedMsg.diff_pressure);
 #endif
 #ifdef SIM_CHECK_UPDATED_FIELDS
 						    }
 #endif
 
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x00000800)
+							if(decodedMsg.fields_updated & 0x00001a00)
                             {
 #endif
 #ifdef SIM_PUBLISH_BARO       
