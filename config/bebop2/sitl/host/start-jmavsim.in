@@ -2,7 +2,7 @@
 
 cd "@JMAVSIM_DIR@"
 
-udp_port=14560
+udp_port=4560
 extra_args=
 baudrate=921600
 device=
