@@ -727,6 +727,7 @@ void SIM::ListenerTask(void)
                                 CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&SensorAccel);
                                 CFE_SB_SendMsg((CFE_SB_Msg_t*)&SensorAccel);
 #else
+
 								SIMLIB_SetAccel(decodedMsg.xacc, decodedMsg.yacc, decodedMsg.zacc);
 #endif
 #ifdef SIM_CHECK_UPDATED_FIELDS
@@ -830,6 +831,7 @@ void SIM::ListenerTask(void)
                                 CFE_SB_SendMsg((CFE_SB_Msg_t*)&SensorBaro);
 #else
 								SIMLIB_SetPressureAltitude(decodedMsg.pressure_alt);
+
 #endif
 #ifdef SIM_CHECK_UPDATED_FIELDS
 						    }
@@ -838,7 +840,7 @@ void SIM::ListenerTask(void)
                             /* TODO sitl gazebo mavlink plugin needs to be updated
                              * to set bit 12, TRUE set for now... */
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x00001000 || TRUE)
+							if(decodedMsg.fields_updated & 0x00000800)
 							{
 #endif
 #ifdef SIM_PUBLISH_BARO
@@ -855,7 +857,6 @@ void SIM::ListenerTask(void)
                                 SensorGyro.Temperature = decodedMsg.temperature;
                                 SensorGyro.TemperatureRaw = (int16)((SensorGyro.Temperature -21.0f) * 333.87f);
 #endif
-
 								SIMLIB_SetTemp(decodedMsg.temperature);
 #ifdef SIM_CHECK_UPDATED_FIELDS
 							}
