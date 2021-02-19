@@ -117,7 +117,7 @@ extern "C" {
 #define SIM_LISTENER_TASK_PRIORITY   50
 #define SIM_MUTEX_NAME	"SIM_MUTEX"
 #define SIMLIB_MUTEX_SEM_NAME     "SIMLIB_MUTEX"
-#define SIM_PORT (14560)
+#define SIM_PORT (4560)
 
 
 #ifdef __cplusplus
