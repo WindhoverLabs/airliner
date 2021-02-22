@@ -14,13 +14,29 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel);
 /* Blocking write */
 int MailboxWrite(XMbox *instance, const unsigned int *buffer, unsigned int size)
 {
-    int Status             = 0;
-    unsigned int BytesSent = size;
+    int Status                  = 0;
+    unsigned int BytesSent      = 0;
+    unsigned int TotalBytesSent = 0;
+    unsigned int RequestedBytes = size;
 
-    /* TODO this busy waits */
-    XMbox_WriteBlocking(instance, buffer, size);
-    Status = BytesSent;
+    while(1)
+    {
+        XMbox_Write(instance, buffer[TotalBytesSent], RequestedBytes, &BytesSent);
+        RequestedBytes = RequestedBytes - BytesSent;
+        TotalBytesSent = TotalBytesSent + BytesSent;
+        if(TotalBytesSent < size)
+        {
+			/* Sleep */
+			OS_TaskDelay(SBN_MAILBOX_BLOCKING_DELAY);
+		}
+		else
+		{
+	        break;
+		}
+    }
 
+    Status = TotalBytesSent;
+    
 end_of_function:
     return Status;
 }
