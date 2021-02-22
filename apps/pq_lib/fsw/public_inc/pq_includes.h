@@ -38,5 +38,6 @@
 #include "pq_scheduler.h"
 #include "pq_channel.h"
 #include "pq_platform_cfg.h"
+#include "pq_events.h"
 
 #endif

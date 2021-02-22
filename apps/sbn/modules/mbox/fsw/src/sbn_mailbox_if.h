@@ -3,6 +3,8 @@
 
 #include "mailbox_parser.h"
 #include "xmbox.h"
+#include "pq_includes.h"
+
 
 #define MAILBOX_HEADER_SIZE_BYTES (12)
 #define MAILBOX_WORD_SIZE         (4)

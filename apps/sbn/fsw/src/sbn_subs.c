@@ -21,7 +21,7 @@
 
 #include "sbn_app.h"
 #include <string.h>
-#include <arpa/inet.h>
+//#include <arpa/inet.h>
 #include "cfe_msgids.h"
 #include "sbn_pack.h"
 

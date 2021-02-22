@@ -26,6 +26,13 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cfs_lib/fsw/for_build
 )
 
+buildliner_add_app(
+    pq_lib
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
+    # TODO move this table build to sbn module?
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib
+)
+
 # This is temporarily removed until we can remove the OS dependency
 # in px4lib, i.e. "CLOCK_MONOTONIC"
 #buildliner_add_app(
