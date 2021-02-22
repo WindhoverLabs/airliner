@@ -694,7 +694,7 @@ void SIM::ListenerTask(void)
 							mavlink_msg_hil_sensor_decode(&msg, &decodedMsg);
 
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x00000007)
+							if(decodedMsg.fields_updated & (uint32_t)SensorSource::ACCEL)
 							{
 #endif
 #ifdef SIM_PUBLISH_ACCEL
@@ -735,7 +735,7 @@ void SIM::ListenerTask(void)
 #endif
 
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x00000038)
+							if(decodedMsg.fields_updated & (uint32_t)SensorSource::GYRO)
 							{
 #endif
 #ifdef SIM_PUBLISH_GYRO
@@ -773,7 +773,7 @@ void SIM::ListenerTask(void)
 #endif
 
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x000001c0)
+							if(decodedMsg.fields_updated & (uint32_t)SensorSource::MAG)
 							{
 #endif
 #ifdef SIM_PUBLISH_MAG
@@ -819,7 +819,7 @@ void SIM::ListenerTask(void)
 #endif
 
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x00001a00)
+							if(decodedMsg.fields_updated &  (uint32_t)SensorSource::BARO)
                             {
 #endif
 #ifdef SIM_PUBLISH_BARO       
