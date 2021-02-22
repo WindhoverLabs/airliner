@@ -15,4 +15,4 @@
 	url = https://github.com/mavlink/c_library_v2.git
 [submodule "tools/jMAVSim"]
 	path = tools/jMAVSim
-	url = https://github.com/PX4/jMAVSim.git
+	url = https://github.com/WindhoverLabs/jMAVSim.git
