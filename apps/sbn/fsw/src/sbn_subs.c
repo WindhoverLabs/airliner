@@ -21,9 +21,14 @@
 
 #include "sbn_app.h"
 #include <string.h>
+/* TODO */
 //#include <arpa/inet.h>
 #include "cfe_msgids.h"
 #include "sbn_pack.h"
+
+/* TODO */
+#define htons(x) (x)
+#define ntohs(x) (x)
 
 // TODO: instead of using void * for the buffer for SBN messages, use
 // a struct that has the SBN header in packed bytes.
