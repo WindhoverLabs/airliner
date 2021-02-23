@@ -292,7 +292,8 @@ function(psp_add_executable)
         )
         add_dependencies(${INITRD_TARGET} ${TARGET_BINARY_WITHOUT_SYMTAB}) 
         add_dependencies(${TARGET_BINARY} ${INITRD_TARGET})   
-        add_dependencies(${TARGET_BINARY} build-file-system)   
+        add_dependencies(${TARGET_BINARY} build-file-system)
+        add_dependencies(${INITRD_TARGET} build-file-system)
         target_sources(${TARGET_BINARY} PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${INITRD_SOURCE_FILE})
     endif()
         
@@ -901,7 +902,7 @@ function(psp_buildliner_add_table)
         )
         add_custom_target(${PARSED_ARGS_NAME} ALL
             DEPENDS ${PARSED_ARGS_NAME}.tbl ${PARSED_ARGS_SOURCES}
-        )    
+        )
         add_dependencies(build-file-system ${PARSED_ARGS_NAME})
     endif()
 
@@ -909,6 +910,7 @@ function(psp_buildliner_add_table)
     if(PARSED_ARGS_COPY)
         file(COPY ${PARSED_ARGS_COPY} DESTINATION ${INSTALL_DIR})
     endif()
+
 endfunction(psp_buildliner_add_table)
 
 
