@@ -39,6 +39,7 @@
 #include "px4lib.h"
 #include <time.h>
 #include <errno.h>
+#include "cfs_utils.h"
 
 extern "C" {
 
@@ -87,47 +88,63 @@ int32 PX4LIB_LibInit(void)
 
 
 
+//uint64 PX4LIB_GetPX4TimeUs(void)
+//{
+//    struct timespec ts;
+//    int returnCode = 0;
+//    uint64 outTime = 0;
+//
+//    returnCode = clock_gettime(CLOCK_MONOTONIC, &ts);
+//    if (-1 == returnCode)
+//    {
+//        OS_printf("PX4LIB_GetPX4Time clock_gettime errno: %i", errno);
+//        goto end_of_function;
+//    }
+//
+//    outTime = (uint64)(ts.tv_sec) * 1000000;
+//    outTime += ts.tv_nsec / 1000;
+//
+//end_of_function:
+//    return outTime;
+//}
+//
+//
+//
+//uint64 PX4LIB_GetPX4TimeMs(void)
+//{
+//    struct timespec ts;
+//    int returnCode = 0;
+//    uint64 outTime = 0;
+//
+//    returnCode = clock_gettime(CLOCK_MONOTONIC, &ts);
+//    if (-1 == returnCode)
+//    {
+//        OS_printf("PX4LIB_GetPX4Time clock_gettime errno: %i", errno);
+//        goto end_of_function;
+//    }
+//
+//    outTime = ts.tv_sec * 10000;
+//    outTime += ts.tv_nsec / 1000000;
+//
+//end_of_function:
+//    return outTime;
+//}
+
+
 uint64 PX4LIB_GetPX4TimeUs(void)
 {
-    struct timespec ts;
-    int returnCode = 0;
-    uint64 outTime = 0;
-
-    returnCode = clock_gettime(CLOCK_MONOTONIC, &ts);
-    if (-1 == returnCode)
-    {
-        OS_printf("PX4LIB_GetPX4Time clock_gettime errno: %i", errno);
-        goto end_of_function;
-    }
-
-    outTime = (uint64)(ts.tv_sec) * 1000000;
-    outTime += ts.tv_nsec / 1000;
-
-end_of_function:
-    return outTime;
+    return CFE_TIME_GetTimeInMicros();
 }
 
 
 
 uint64 PX4LIB_GetPX4TimeMs(void)
 {
-    struct timespec ts;
-    int returnCode = 0;
-    uint64 outTime = 0;
+    uint64 result = CFE_TIME_GetTimeInMicros() / 1000;
 
-    returnCode = clock_gettime(CLOCK_MONOTONIC, &ts);
-    if (-1 == returnCode)
-    {
-        OS_printf("PX4LIB_GetPX4Time clock_gettime errno: %i", errno);
-        goto end_of_function;
-    }
-
-    outTime = ts.tv_sec * 10000;
-    outTime += ts.tv_nsec / 1000000;
-
-end_of_function:
-    return outTime;
+    return result;
 }
+
 
 }
 
