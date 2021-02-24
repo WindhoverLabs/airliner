@@ -108,9 +108,9 @@ int32 SBN_ReadModuleFile(void)
     uint32          LineNum = 0;
 
     ModuleFile = OS_open(SBN_NONVOL_MODULE_FILENAME, OS_READ_ONLY, 0);
-
-    if(ModuleFile == OS_ERROR)
+    if(ModuleFile < 0)
     {
+        OS_printf("SBN OS_open error %d\n", ModuleFile);
         return SBN_ERROR;
     }/* end if */
 
@@ -120,7 +120,13 @@ int32 SBN_ReadModuleFile(void)
     /* Parse the lines from the file */
     while(1)
     {
-        OS_read(ModuleFile, &CurrentChar, 1);
+        int32 Status;
+        Status = OS_read(ModuleFile, &CurrentChar, 1);
+        if(Status != 1)
+        {
+            OS_printf("SBN OS_read error %d\n", Status);
+            return SBN_ERROR;
+        }
 
         if (CurrentChar == '!')
         {
