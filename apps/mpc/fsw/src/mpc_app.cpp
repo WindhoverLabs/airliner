@@ -3846,7 +3846,7 @@ void MPC::SetManualAccelerationXY(math::Vector2F &StickXy, const float Dt)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 osalbool MPC::ManualWantsTakeoff()
 {
-    const osalbool ManualControlPresent = m_VehicleControlModeMsg.ControlManualEnabled && m_ManualControlSetpointMsg.Timestamp > 0;
+    const osalbool ManualControlPresent = m_VehicleControlModeMsg.ControlManualEnabled && !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&m_ManualControlSetpointMsg);
 
     /* Manual takeoff is triggered if the throttle stick is above 65%. */
     return (ManualControlPresent && m_ManualControlSetpointMsg.Z > MPC_MANUAL_TAKEOFF_THRESHOLD);

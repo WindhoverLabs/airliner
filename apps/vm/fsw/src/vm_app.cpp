@@ -44,6 +44,7 @@
 #include "px4lib.h"
 #include "px4lib_msgids.h"
 #include "prm_ids.h"
+#include "cfs_utils.h"
 
 
 
@@ -1700,7 +1701,7 @@ void VM::Execute()
     }
 
     /* RC input handle */
-    if(!HkTlm.StatusFlags.RcInputIsTemporarilyBlocked && ManualControlSetpointMsg.Timestamp!=0 && (TimeNow() < ManualControlSetpointMsg.Timestamp + uint64(ConfigTblPtr->COM_RC_LOSS_T * 1e6f)))
+    if(!HkTlm.StatusFlags.RcInputIsTemporarilyBlocked && !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&ManualControlSetpointMsg) && (TimeNow() < CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&ManualControlSetpointMsg) + uint64(ConfigTblPtr->COM_RC_LOSS_T * 1e6f)))
     {
         const osalbool in_armed_state = (VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_ARMED || VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_ARMED_ERROR);
         const osalbool arm_button_pressed = (ConfigTblPtr->COM_ARM_SWISBTN == 1 && ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON);
@@ -1867,7 +1868,7 @@ void VM::Execute()
         }
 
         VehicleStatusMsg.RcSignalLost = true;
-        HkTlm.RCSignalLostTimestamp = ManualControlSetpointMsg.Timestamp;
+        HkTlm.RCSignalLostTimestamp = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&ManualControlSetpointMsg);
     }
 }
 

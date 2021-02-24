@@ -1047,7 +1047,7 @@ osalbool LD::PositionLock()
 osalbool LD::ManualControlPresent()
 {
     return CVT.VehicleControlModeMsg.ControlManualEnabled &&
-           CVT.ManualControlSetpointMsg.Timestamp > 0;
+    		!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.ManualControlSetpointMsg);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -895,7 +895,7 @@ void SENS::ProcessRCInput(void)
 			ManualControlSetpointMsg.ModeSlot = PX4_MODE_SLOT_NONE;
 
 			/* Set the timestamp to the last signal time */
-			ManualControlSetpointMsg.Timestamp = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.InputRcMsg.LastSignal);
+			CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&ManualControlSetpointMsg, CVT.InputRcMsg.LastSignal);
 			ManualControlSetpointMsg.DataSource = PX4_MANUAL_CONTROL_SOURCE_RC;
 
 			/* Limit controls */
