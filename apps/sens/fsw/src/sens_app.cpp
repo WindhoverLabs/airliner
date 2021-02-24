@@ -856,7 +856,7 @@ void SENS::ProcessRCInput(void)
 				RcChannelsMsg.ChannelCount = CVT.InputRcMsg.ChannelCount;
 				RcChannelsMsg.RSSI = CVT.InputRcMsg.RSSI;
 				RcChannelsMsg.SignalLost = signal_lost;
-				RcChannelsMsg.TimestampLastValid = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.InputRcMsg.LastSignal);
+				RcChannelsMsg.TimestampLastValid = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.InputRcMsg.LastSignal);
 				RcChannelsMsg.FrameDropCount = CVT.InputRcMsg.RcLostFrameCount;
 			}
 			else if (CVT.InputRcMsg.Values[i] < (ConfigTblPtr->Trim[i] - ConfigTblPtr->DZ[i]))

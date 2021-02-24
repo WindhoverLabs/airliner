@@ -57,8 +57,6 @@
 #define PX4_ADSB_CALLSIGN_LEN                    (    8 )
 #define PX4_OPTICAL_FLOW_FRAME_SIZE              ( 4096 )
 
-#define PX4_RELATIVE_TIMESTAMP_INVALID           ( 0xffffffff )
-
 typedef enum
 {
     PX4_GPS_NONE0_FIX                            = 0,
@@ -909,7 +907,7 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64  TimestampLastValid;
+    CFE_TIME_SysTime_t TimestampLastValid;
     float   Channels[PX4_RC_INPUT_MAX_CHANNELS];
     uint32  FrameDropCount;
     uint8   ChannelCount;
