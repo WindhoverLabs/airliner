@@ -1036,7 +1036,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     PX4_SubsystemType_t SubsystemType;
     boolean Present;
     boolean Enabled;
@@ -1046,7 +1045,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     uint64 HeartbeatTime;
     uint64 TelemTime;
     uint16 RxErrors;
@@ -1103,7 +1101,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     double Param5;
     double Param6;
     float Param1;
@@ -1346,7 +1343,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     uint8 LedMask;
     uint8 Color;
     uint8 Mode;
@@ -1357,7 +1353,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     uint8 Frame[4096];
 } PX4_OpticalFlowFrameMsg_t;
 
