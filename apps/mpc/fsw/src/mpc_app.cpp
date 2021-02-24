@@ -1191,7 +1191,7 @@ void MPC::Execute(void)
         DoControl(dt);
 
         /* Fill local position, velocity and thrust setpoint */
-        m_VehicleLocalPositionSetpointMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_VehicleLocalPositionSetpointMsg);
         m_VehicleLocalPositionSetpointMsg.X = m_PositionSetpoint[0];
         m_VehicleLocalPositionSetpointMsg.Y = m_PositionSetpoint[1];
         m_VehicleLocalPositionSetpointMsg.Z = m_PositionSetpoint[2];
