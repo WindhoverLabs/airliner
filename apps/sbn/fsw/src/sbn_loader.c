@@ -155,7 +155,10 @@ int32 SBN_ReadModuleFile(void)
             case ';':
                 /* Send the line to the file parser */
                 if (SBN_ParseModuleEntry(SBN_ModuleData, LineNum) == -1)
+                {
+                    OS_printf("SBN ParseModuleEntry failed\n");
                     return SBN_ERROR;
+                }
                 LineNum++;
                 memset(SBN_ModuleData, 0x0, SBN_MODULE_FILE_LINE_SZ);
                 BuffLen = 0;
@@ -217,14 +220,13 @@ int32 SBN_ParseModuleEntry(char *FileEntry, uint32 LineNum)
     }/* end if */
 
     ReturnCode = OS_ModuleLoad(&ModuleID, ModuleName, ModuleFile);
-
     if(ReturnCode != OS_SUCCESS)
     {
+        OS_printf("SBN OS_ModuleLoad failed %d\n", ReturnCode);
         return SBN_ERROR;
     }/* end if */
 
     ReturnCode = OS_SymbolLookup(&StructAddr, StructName);
-
     if(ReturnCode != OS_SUCCESS)
     {
         OS_printf("SBN failed to find symbol %s\n", StructName);
