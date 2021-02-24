@@ -866,14 +866,12 @@ void MAC::RunController(void)
         ControlAttitude(dt);
 
         /* Publish attitude rates setpoint */
-        CVT.VRatesSp.Timestamp = PX4LIB_GetPX4TimeUs();
+        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&CVT.VRatesSp);
         CVT.VRatesSp.Roll = m_AngularRatesSetpoint[0];
         CVT.VRatesSp.Pitch = m_AngularRatesSetpoint[1];
         CVT.VRatesSp.Yaw = m_AngularRatesSetpoint[2];
         CVT.VRatesSp.Thrust = m_ThrustSp;
-        CVT.VRatesSp.Timestamp = PX4LIB_GetPX4TimeUs();
 
-        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&CVT.VRatesSp);
         CFE_SB_SendMsg((CFE_SB_Msg_t*)&CVT.VRatesSp);
     }
     else
@@ -887,13 +885,12 @@ void MAC::RunController(void)
             m_ThrustSp = fmin(CVT.ManualControlSp.Z, MANUAL_THROTTLE_MAX_MULTICOPTER);
 
             /* Publish attitude rates setpoint */
-            CVT.VRatesSp.Timestamp = PX4LIB_GetPX4TimeUs();
+            CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&CVT.VRatesSp);
             CVT.VRatesSp.Roll = m_AngularRatesSetpoint[0];
             CVT.VRatesSp.Pitch = m_AngularRatesSetpoint[1];
             CVT.VRatesSp.Yaw = m_AngularRatesSetpoint[2];
             CVT.VRatesSp.Thrust = m_ThrustSp;
 
-            CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&CVT.VRatesSp);
             CFE_SB_SendMsg((CFE_SB_Msg_t*)&CVT.VRatesSp);
         }
         else
