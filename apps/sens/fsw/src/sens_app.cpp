@@ -849,13 +849,13 @@ void SENS::ProcessRCInput(void)
 			 */
 			if (CVT.InputRcMsg.Values[i] > (ConfigTblPtr->Trim[i] + ConfigTblPtr->DZ[i]))
 			{
+				CFE_SB_CopyMsgTime((CFE_SB_MsgPtr_t)&RcChannelsMsg, (CFE_SB_MsgPtr_t)&CVT.InputRcMsg);
 				RcChannelsMsg.Channels[i] = (CVT.InputRcMsg.Values[i] - ConfigTblPtr->Trim[i] - ConfigTblPtr->DZ[i]) / (float)(
 						ConfigTblPtr->Max[i] - ConfigTblPtr->Trim[i] - ConfigTblPtr->DZ[i]);
 
 				RcChannelsMsg.ChannelCount = CVT.InputRcMsg.ChannelCount;
 				RcChannelsMsg.RSSI = CVT.InputRcMsg.RSSI;
 				RcChannelsMsg.SignalLost = signal_lost;
-				RcChannelsMsg.Timestamp = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.InputRcMsg);
 				RcChannelsMsg.TimestampLastValid = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.InputRcMsg.LastSignal);
 				RcChannelsMsg.FrameDropCount = CVT.InputRcMsg.RcLostFrameCount;
 			}
@@ -882,7 +882,7 @@ void SENS::ProcessRCInput(void)
 		RcChannelsMsg.ChannelCount = CVT.InputRcMsg.ChannelCount;
 		RcChannelsMsg.RSSI = CVT.InputRcMsg.RSSI;
 		RcChannelsMsg.SignalLost = signal_lost;
-		RcChannelsMsg.Timestamp = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.InputRcMsg.LastSignal);
+		CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&RcChannelsMsg, CVT.InputRcMsg.LastSignal);
 		RcChannelsMsg.FrameDropCount = CVT.InputRcMsg.RcLostFrameCount;
 
 		/* Publish rc_channels topic even if signal is invalid, for debug */

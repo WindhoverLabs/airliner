@@ -847,53 +847,53 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    float PixelFlowXIntegral;
-    float PixelFlowYIntegral;
-    float GyroXRateIntegral;
-    float GyroYRateIntegral;
-    float GyroZRateIntegral;
-    float GroundDistance;
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    float  PixelFlowXIntegral;
+    float  PixelFlowYIntegral;
+    float  GyroXRateIntegral;
+    float  GyroYRateIntegral;
+    float  GyroZRateIntegral;
+    float  GroundDistance;
     uint32 IntegrationTimespan;
     uint32 TimeSinceLastSonarUpdate;
     uint16 FrameCountSinceLastReadout;
-    int16 GyroTemperature;
-    uint8 SensorID;
-    uint8 Quality;
+    int16  GyroTemperature;
+    uint8  SensorID;
+    uint8  Quality;
 } PX4_OpticalFlowMsg_t;
 
 typedef struct
 {
-    uint64 Timestamp;
-    double Lat;
-    double Lon;
-    float X;
-    float Y;
-    float Z;
-    float VX;
-    float VY;
-    float VZ;
-    float Alt;
-    float Yaw;
-    float Yawspeed;
-    float LoiterRadius;
-    float PitchMin;
-    float AX;
-    float AY;
-    float AZ;
-    float AcceptanceRadius;
-    float CruisingSpeed;
-    float CruisingThrottle;
+    uint64  Timestamp;
+    double  Lat;
+    double  Lon;
+    float   X;
+    float   Y;
+    float   Z;
+    float   VX;
+    float   VY;
+    float   VZ;
+    float   Alt;
+    float   Yaw;
+    float   Yawspeed;
+    float   LoiterRadius;
+    float   PitchMin;
+    float   AX;
+    float   AY;
+    float   AZ;
+    float   AcceptanceRadius;
+    float   CruisingSpeed;
+    float   CruisingThrottle;
     boolean Valid;
     PX4_SetpointType_t Type;
     boolean PositionValid;
     boolean VelocityValid;
-    uint8 VelocityFrame;
+    uint8   VelocityFrame;
     boolean AltValid;
     boolean YawValid;
     boolean DisableMcYawControl;
     boolean YawspeedValid;
-    int8 LoiterDirection;
+    int8    LoiterDirection;
     boolean AccelerationValid;
     boolean AccelerationIsForce;
 } PX4_PositionSetpoint_t;
@@ -909,7 +909,6 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64  Timestamp;
     uint64  TimestampLastValid;
     float   Channels[PX4_RC_INPUT_MAX_CHANNELS];
     uint32  FrameDropCount;
