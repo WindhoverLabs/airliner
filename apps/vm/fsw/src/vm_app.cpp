@@ -504,7 +504,6 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             case VM_WAKEUP_MID:
             {
             	CFE_TIME_SysTime_t timestamp;
-                uint64 timestamp2;
 
                 CheckParams();
                 ProcessDataPipe();
@@ -516,20 +515,21 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 Execute();
 
                 /* Get a common timestamp. */
-                timestamp2 = PX4LIB_GetPX4TimeUs();
+                timestamp = CFE_TIME_GetTime();
 
                 CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&ActuatorArmedMsg, timestamp);
                 CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&VehicleStatusMsg, timestamp);
                 CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&VehicleManagerStateMsg, timestamp);
-                VehicleControlModeMsg.Timestamp = timestamp2;
+                CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&VehicleControlModeMsg, timestamp);
 
                 /* Execute all stateful behavior. */
                 ArmingSM.DoAction();
                 NavigationSM.DoAction();
 
                 /* Publish the messages. */
-                SendVehicleManagerStateMsg();
-                SendVehicleControlModeMsg();
+                CFE_SB_SendMsg((CFE_SB_Msg_t*) &VehicleManagerStateMsg);
+                CFE_SB_SendMsg((CFE_SB_Msg_t*) &VehicleControlModeMsg);
+
                 break;
             }
 
@@ -1135,19 +1135,6 @@ void VM::SendActuatorArmedMsg()
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/*  Send VehicleManagerStateMsg                                    */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void VM::SendVehicleManagerStateMsg()
-{
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &VehicleManagerStateMsg);
-    CFE_SB_SendMsg((CFE_SB_Msg_t*) &VehicleManagerStateMsg);
-}
-
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
 /*  Send MissionMsg                                                */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1181,20 +1168,6 @@ void VM::SendVehicleStatusMsg()
 {
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &VehicleStatusMsg);
     CFE_SB_SendMsg((CFE_SB_Msg_t*) &VehicleStatusMsg);
-}
-
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/*  Send VehicleControlModeMsg                                     */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void VM::SendVehicleControlModeMsg()
-{
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &VehicleControlModeMsg);
-    CFE_SB_SendMsg((CFE_SB_Msg_t*) &VehicleControlModeMsg);
-
 }
 
 

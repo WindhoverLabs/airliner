@@ -1085,26 +1085,25 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
     double Param5;
     double Param6;
-    float Param1;
-    float Param2;
-    float Param3;
-    float Param4;
-    float Param7;
+    float  Param1;
+    float  Param2;
+    float  Param3;
+    float  Param4;
+    float  Param7;
     PX4_VehicleCmd_t Command;
     uint32 TargetSystem;
     uint32 TargetComponent;
     uint32 SourceSystem;
     uint32 SourceComponent;
-    uint8 Confirmation;
+    uint8  Confirmation;
 } PX4_VehicleCommandMsg_t;
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
     boolean Armed;
     boolean ExternalManualOverrideOk;
     boolean SystemHilEnabled;
@@ -1126,26 +1125,25 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
-    uint64 TimeUtcUsec;
-    double Lat;
-    double Lon;
-    float Alt;
-    double DeltaLatLon[2];
-    float DeltaAlt;
-    uint8 LatLonResetCounter;
-    uint8 AltResetCounter;
-    float VelN;
-    float VelE;
-    float VelD;
-    float Yaw;
-    float EpH;
-    float EpV;
-    float EvH;
-    float EvV;
-    float TerrainAlt;
-    float PressureAlt;
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  TimeUtcUsec;
+    double  Lat;
+    double  Lon;
+    float   Alt;
+    double  DeltaLatLon[2];
+    float   DeltaAlt;
+    uint8   LatLonResetCounter;
+    uint8   AltResetCounter;
+    float   VelN;
+    float   VelE;
+    float   VelD;
+    float   Yaw;
+    float   EpH;
+    float   EpV;
+    float   EvH;
+    float   EvV;
+    float   TerrainAlt;
+    float   PressureAlt;
     boolean TerrainAltValid;
     boolean DeadReckoning;
 } PX4_VehicleGlobalPositionMsg_t;

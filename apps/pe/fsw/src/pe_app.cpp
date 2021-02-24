@@ -1398,7 +1398,12 @@ void PE::SendVehicleGlobalPositionMsg()
 
     if(data_valid)
     {
-        m_VehicleGlobalPositionMsg.Timestamp = m_Timestamp;
+    	CFE_TIME_SysTime_t newTime;
+
+    	newTime.Seconds = m_Timestamp / 1000000;
+    	newTime.Subseconds = CFE_TIME_Micro2SubSecs(m_Timestamp - (newTime.Seconds * 1000000));
+
+    	CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&m_VehicleGlobalPositionMsg, newTime);
         m_VehicleGlobalPositionMsg.TimeUtcUsec = m_VehicleGpsPositionMsg.TimeUtcUsec;
         m_VehicleGlobalPositionMsg.Lat = lat;
         m_VehicleGlobalPositionMsg.Lon = lon;

@@ -698,10 +698,10 @@ void QAE::EstimateAttitude(void)
     }
 
     /* If there is a new GPS message */
-    if(CVT.VehicleGlobalPositionMsg.Timestamp > CVT.LastGlobalPositionTime)
+    if(CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg) > CVT.LastGlobalPositionTime)
     {
         /* Calculate time difference between now and gpos timestamp */
-        delta_time_gps = PX4LIB_GetPX4TimeUs() - CVT.VehicleGlobalPositionMsg.Timestamp;
+        delta_time_gps = CFE_SB_ElapsedMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg);
         if(ConfigTblPtr->ATT_MAG_DECL_A == TRUE &&
            CVT.VehicleGlobalPositionMsg.EpH < QAE_GPS_EPH_MAX &&
            delta_time_gps < QAE_GPS_DT_MAX)
@@ -711,8 +711,8 @@ void QAE::EstimateAttitude(void)
         }
         
         if((ConfigTblPtr->ATT_ACC_COMP == TRUE) &&
-           (CVT.VehicleGlobalPositionMsg.Timestamp != 0) &&
-           (PX4LIB_GetPX4TimeUs() < (CVT.VehicleGlobalPositionMsg.Timestamp + QAE_GPS_DT_THRES)) &&
+           (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg)) &&
+           (CFE_TIME_GetTimeInMicros() < (CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg) + QAE_GPS_DT_THRES)) &&
            (CVT.VehicleGlobalPositionMsg.EpH < QAE_GPS_EPH_THRES) &&
            (HkTlm.EstimatorState == QAE_EST_INITIALIZED))
         {
@@ -723,13 +723,13 @@ void QAE::EstimateAttitude(void)
 
             /* Velocity updated */
             if(m_LastVelocityTime != 0 &&
-               CVT.VehicleGlobalPositionMsg.Timestamp != m_LastVelocityTime)
+            		CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg) != m_LastVelocityTime)
             {
-                delta_time_velocity = (CVT.VehicleGlobalPositionMsg.Timestamp - m_LastVelocityTime) / USEC_IN_SEC_F;
+                delta_time_velocity = (CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg) - m_LastVelocityTime) / USEC_IN_SEC_F;
                 /* Calculate acceleration in body frame */
                 m_PositionAcc = m_Quaternion.ConjugateInversed((vel - m_LastVelocity) / delta_time_velocity);
             }
-            m_LastVelocityTime = CVT.VehicleGlobalPositionMsg.Timestamp;
+            m_LastVelocityTime = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg);
             m_LastVelocity = vel;
         }
         else
@@ -740,7 +740,7 @@ void QAE::EstimateAttitude(void)
             m_LastVelocityTime = 0;
         }
         /* Update last timestamp */
-        CVT.LastGlobalPositionTime = CVT.VehicleGlobalPositionMsg.Timestamp;
+        CVT.LastGlobalPositionTime = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg);
     }
 
     /* Time from previous iteration */

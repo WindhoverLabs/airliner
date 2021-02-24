@@ -371,7 +371,7 @@ int32 NAV::RcvSchPipeMsg(int32 iBlocking)
         {
             case NAV_WAKEUP_MID:
                 /* Check global position availability */
-                if (!CVT.VehicleGlobalPosition.Timestamp == 0)
+                if (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPosition))
                 {
                     Execute();
                 }
