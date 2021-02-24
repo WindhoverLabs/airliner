@@ -638,31 +638,30 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
-    float AccX;
-    float AccY;
-    float AccZ;
-    float VelX;
-    float VelY;
-    float VelZ;
-    float PosX;
-    float PosY;
-    float PosZ;
-    float Airspeed;
-    float VelVariance[3];
-    float PosVariance[3];
-    float Q[4];
-    float DeltaQReset[4];
-    float RollRate;
-    float PitchRate;
-    float YawRate;
-    float HorzAccMag;
-    float RollRateBias;
-    float PitchRateBias;
-    float YawRateBias;
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    float   AccX;
+    float   AccY;
+    float   AccZ;
+    float   VelX;
+    float   VelY;
+    float   VelZ;
+    float   PosX;
+    float   PosY;
+    float   PosZ;
+    float   Airspeed;
+    float   VelVariance[3];
+    float   PosVariance[3];
+    float   Q[4];
+    float   DeltaQReset[4];
+    float   RollRate;
+    float   PitchRate;
+    float   YawRate;
+    float   HorzAccMag;
+    float   RollRateBias;
+    float   PitchRateBias;
+    float   YawRateBias;
     boolean AirspeedValid;
-    uint8 QuatResetCounter;
+    uint8   QuatResetCounter;
 } PX4_ControlStateMsg_t;
 
 

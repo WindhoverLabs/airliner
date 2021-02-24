@@ -794,7 +794,7 @@ void QAE::EstimateAttitude(void)
     SendVehicleAttitudeMsg();
     
     /* Populate control state message */
-    ControlStateMsg.Timestamp       = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorCombinedMsg);
+    CFE_SB_CopyMsgTime((CFE_SB_MsgPtr_t)&ControlStateMsg, (CFE_SB_MsgPtr_t)&CVT.SensorCombinedMsg);
     
     /* Attitude quaternions for control state */
     ControlStateMsg.Q[0]            = m_Quaternion[0];

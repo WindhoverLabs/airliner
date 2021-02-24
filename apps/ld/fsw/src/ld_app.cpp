@@ -741,7 +741,7 @@ osalbool LD::DetectFreeFall()
 {
     osalbool inFreefall = FALSE;
     
-    if (CVT.ControlStateMsg.Timestamp != 0)
+    if (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.ControlStateMsg))
     {
         float net_acc = CVT.ControlStateMsg.AccX * CVT.ControlStateMsg.AccX
                       + CVT.ControlStateMsg.AccY * CVT.ControlStateMsg.AccY
