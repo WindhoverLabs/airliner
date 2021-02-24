@@ -788,7 +788,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     float RollRateInteg;
     float PitchRateInteg;
     float YawRateInteg;
@@ -796,21 +795,21 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    int32 DatamanID;
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    int32  DatamanID;
     uint32 Count;
-    int32 CurrentSeq;
+    int32  CurrentSeq;
 } PX4_MissionMsg_t;
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint32 InstanceCount;
-    uint32 SeqReached;
-    uint32 SeqCurrent;
-    uint32 SeqTotal;
-    uint32 ItemChangedIndex;
-    uint32 ItemDoJumpRemaining;
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint32  InstanceCount;
+    uint32  SeqReached;
+    uint32  SeqCurrent;
+    uint32  SeqTotal;
+    uint32  ItemChangedIndex;
+    uint32  ItemDoJumpRemaining;
     boolean Valid;
     boolean Warning;
     boolean Reached;
