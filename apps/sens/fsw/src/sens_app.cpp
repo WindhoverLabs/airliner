@@ -1083,22 +1083,8 @@ void SENS::CombineSensorInput(void)
             SensorCombinedMsg.Acc[1] = CVT.SensorAccelMsg.Y;
             SensorCombinedMsg.Acc[2] = CVT.SensorAccelMsg.Z;
 
-            /* Now calculate and populate the time relative to the main timestamp. */
-            if(CFE_SB_CompareMsgTime((CFE_SB_MsgPtr_t)&SensorCombinedMsg, (CFE_SB_MsgPtr_t)&CVT.SensorAccelMsg), CFE_TIME_A_GT_B)
-            {
-                /* if gyro is after accel */
-                SensorCombinedMsg.AccTimestampRelative = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&SensorCombinedMsg) - CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorAccelMsg);
-            }
-            else if(CFE_SB_CompareMsgTime((CFE_SB_MsgPtr_t)&SensorCombinedMsg, (CFE_SB_MsgPtr_t)&CVT.SensorMagMsg), CFE_TIME_A_LT_B)
-            {
-                /* if gyro is before accel */
-                SensorCombinedMsg.AccTimestampRelative = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorAccelMsg - CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&SensorCombinedMsg));
-            }
-            else
-            {
-                /* should never get here */
-                SensorCombinedMsg.MagTimestampRelative = 0;
-            }
+            /* Now timestamp the measurement. */
+            SensorCombinedMsg.AccTimestamp = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorAccelMsg);
 
             /* Finally, calculate and pupulate the integral dt field, in seconds.  If the incoming
              * message does not include a integral dt field, estimate the integral by using the delta
@@ -1131,7 +1117,7 @@ void SENS::CombineSensorInput(void)
                 SensorCombinedMsg.AccIntegralDt = CVT.SensorAccelMsg.IntegralDt / 1000000.0f;
             }
 
-            SensorCombinedMsg.AccRelTimeInvalid = false;
+            SensorCombinedMsg.AccInvalid = false;
 
             /* Store the time so we can use it in the next iteration. */
             CVT.PrevAccelTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorAccelMsg);
@@ -1140,7 +1126,7 @@ void SENS::CombineSensorInput(void)
         {
             /* No new measurement was received.  Update the fields accordingly.  */
             //CVT.SensorAccelMsg.Timestamp  = PX4_RELATIVE_TIMESTAMP_INVALID;
-            SensorCombinedMsg.AccRelTimeInvalid = true;
+            SensorCombinedMsg.AccInvalid = true;
         }
 
         /* Mag. */
@@ -1154,24 +1140,10 @@ void SENS::CombineSensorInput(void)
             SensorCombinedMsg.Mag[1] = CVT.SensorMagMsg.Y;
             SensorCombinedMsg.Mag[2] = CVT.SensorMagMsg.Z;
 
-            /* Now calculate and populate the time relative to the main timestamp. */
-            if(CFE_SB_CompareMsgTime((CFE_SB_MsgPtr_t)&SensorCombinedMsg, (CFE_SB_MsgPtr_t)&CVT.SensorMagMsg), CFE_TIME_A_GT_B)
-            {
-                /* if gyro is after mag */
-                SensorCombinedMsg.MagTimestampRelative = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&SensorCombinedMsg) - CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorMagMsg);
-            }
-            else if(CFE_SB_CompareMsgTime((CFE_SB_MsgPtr_t)&SensorCombinedMsg, (CFE_SB_MsgPtr_t)&CVT.SensorMagMsg), CFE_TIME_A_LT_B)
-            {
-                /* if gyro is before mag */
-                SensorCombinedMsg.MagTimestampRelative = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorMagMsg - CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&SensorCombinedMsg));
-            }
-            else
-            {
-                /* should never get here */
-                SensorCombinedMsg.MagTimestampRelative = 0;
-            }
+            /* Now timestamp the measurement */
+            SensorCombinedMsg.MagTimestamp = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorMagMsg);
 
-            SensorCombinedMsg.MagRelTimeInvalid = false;
+            SensorCombinedMsg.MagInvalid = false;
 
             /* Store the time so we can use it in the next iteration. */
             CVT.PrevMagTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorMagMsg);
@@ -1179,13 +1151,11 @@ void SENS::CombineSensorInput(void)
         else
         {
             /* No new measurement was received.  Update the fields accordingly.  */
-            //CVT.SensorMagMsg.Timestamp  = PX4_RELATIVE_TIMESTAMP_INVALID;
-            SensorCombinedMsg.MagRelTimeInvalid = true;
+            SensorCombinedMsg.MagInvalid = true;
         }
 
         /* Baro. */
         /* See if we have a new baro measurement. */
-        //baro_timestamp = sensors.timestamp + sensors.baro_timestamp_relative;
         if(CFE_TIME_Compare(CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorBaroMsg),CVT.PrevBaroTime) != CFE_TIME_EQUAL)
         {
             /* We do have a new measurement.  Update the fields accordingly.
@@ -1194,31 +1164,18 @@ void SENS::CombineSensorInput(void)
             SensorCombinedMsg.BaroAlt = CVT.SensorBaroMsg.Altitude;
             SensorCombinedMsg.BaroTemp = CVT.SensorBaroMsg.Temperature;
 
-            /* Now calculate and populate the time relative to the main timestamp. */
-            if(CFE_SB_CompareMsgTime((CFE_SB_MsgPtr_t)&SensorCombinedMsg, (CFE_SB_MsgPtr_t)&CVT.SensorBaroMsg), CFE_TIME_A_GT_B)
-            {
-                /* if gyro is after baro */
-                SensorCombinedMsg.BaroTimestampRelative = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&SensorCombinedMsg) - CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorBaroMsg);
-            }
-            else if(CFE_SB_CompareMsgTime((CFE_SB_MsgPtr_t)&SensorCombinedMsg, (CFE_SB_MsgPtr_t)&CVT.SensorBaroMsg), CFE_TIME_A_LT_B)
-            {
-                /* if gyro is before baro */
-                SensorCombinedMsg.BaroTimestampRelative = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorBaroMsg - CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&SensorCombinedMsg));
-            }
-            else
-            {
-                /* should never get here */
-                SensorCombinedMsg.BaroTimestampRelative = 0;
-            }
+            /* Now timestamp the measurement */
+            SensorCombinedMsg.BaroTimestamp = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorBaroMsg);
 
-            SensorCombinedMsg.BaroRelTimeInvalid = false;
+            SensorCombinedMsg.BaroInvalid = false;
+
             /* Store the time so we can use it in the next iteration. */
             CVT.PrevBaroTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorBaroMsg);
         }
         else
         {
             /* No new measurement was received.  Update the fields accordingly.  */
-            SensorCombinedMsg.BaroRelTimeInvalid = false;
+            SensorCombinedMsg.BaroInvalid = false;
         }
     }
 

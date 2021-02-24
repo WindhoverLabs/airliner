@@ -670,7 +670,7 @@ void QAE::EstimateAttitude(void)
         m_Gyro[1] = CVT.SensorCombinedMsg.GyroRad[1];
         m_Gyro[2] = CVT.SensorCombinedMsg.GyroRad[2];
 
-        if(CVT.SensorCombinedMsg.AccTimestampRelative != PX4_RELATIVE_TIMESTAMP_INVALID)
+        if(!CVT.SensorCombinedMsg.AccInvalid)
         {
             /* No lowpass filter here, filtering is in the driver */
             m_Accel[0] = CVT.SensorCombinedMsg.Acc[0];
@@ -687,7 +687,7 @@ void QAE::EstimateAttitude(void)
             }
         }
         
-        if(CVT.SensorCombinedMsg.MagTimestampRelative != PX4_RELATIVE_TIMESTAMP_INVALID)
+        if(!CVT.SensorCombinedMsg.MagInvalid)
         {
             /* No lowpass filter here, filtering is in the driver */
             m_Mag[0] = CVT.SensorCombinedMsg.Mag[0];

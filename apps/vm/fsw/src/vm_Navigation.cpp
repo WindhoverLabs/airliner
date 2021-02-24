@@ -535,24 +535,32 @@ osalbool VM_Navigation::IsTransitionPosCtlValid(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 osalbool VM_Navigation::IsTransitionAcrobaticValid(void)
 {
-    osalbool validity = false;
+    osalbool validity = true;
     PX4_NavigationState_t Current_NavState = App.VehicleStatusMsg.NavState;
 
     /* Altitude Hold Requirement Validation */
-    if (App.SensorCombinedMsg.Timestamp > 0
-        && (App.SensorCombinedMsg.MagTimestampRelative
-                != PX4_RELATIVE_TIMESTAMP_INVALID)
-        && (App.SensorCombinedMsg.AccRelTimeInvalid
-                != PX4_RELATIVE_TIMESTAMP_INVALID))
+    osalbool SensorCombinedMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorCombinedMsg);
+    osalbool SensorMagMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorMagMsg);
+
+    if(CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorCombinedMsg))
     {
-        validity = true;
+        CFE_EVS_SendEvent(VM_REQ_ACRO_ERR_EID, CFE_EVS_ERROR,
+            "Acrobatic mode requirement failed. SensorCombinedMsg not received.");
+        validity = false;
     }
 
-    if (!validity)
+    if(App.SensorCombinedMsg.MagInvalid)
     {
-        /* Send event */
         CFE_EVS_SendEvent(VM_REQ_ACRO_ERR_EID, CFE_EVS_ERROR,
-            "Acrobatic mode requirement failed");
+            "Acrobatic mode requirement failed. Mag invalid.");
+        validity = false;
+    }
+
+    if(App.SensorCombinedMsg.AccInvalid)
+    {
+        CFE_EVS_SendEvent(VM_REQ_ACRO_ERR_EID, CFE_EVS_ERROR,
+            "Acrobatic mode requirement failed. Acc invalid.");
+        validity = false;
     }
 
     return validity;

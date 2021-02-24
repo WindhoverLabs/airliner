@@ -40,6 +40,7 @@
 #include "pe_msg.h"
 #include "pe_version.h"
 #include "px4lib_msgids.h"
+#include "cfs_utils.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -853,15 +854,14 @@ osalbool PE::ProcessDataPipe()
 				    if(TRUE == m_BaroFuse)
 				    {
 					    /* If baro is valid */
-					    if(m_SensorCombinedMsg.BaroTimestampRelative != PX4_RELATIVE_TIMESTAMP_INVALID)
+					    if(!m_SensorCombinedMsg.BaroInvalid)
 					    {
 						    /* Get the baro timestamp from the sensor combined timestamp
 						     * (which is the gyro timestamp) plus the baro relative timestamp.
 						     * Baro relative is the difference between the gyro and baro
 						     * when received by the sensors application. If baro is fresh.
 						     */
-						    if((m_SensorCombinedMsg.Timestamp +
-						       m_SensorCombinedMsg.BaroTimestampRelative)
+						    if(CFE_TIME_ConvertTimeToMicros(m_SensorCombinedMsg.BaroTimestamp)
 						       != m_TimeLastBaro)
 						    {
 							    if(m_BaroTimeout)
@@ -873,7 +873,7 @@ osalbool PE::ProcessDataPipe()
 							    	baroCorrect();
 							    }
 							    /* Save the last valid timestamp */
-							    m_TimeLastBaro = m_SensorCombinedMsg.Timestamp + m_SensorCombinedMsg.BaroTimestampRelative;
+							    m_TimeLastBaro = CFE_TIME_ConvertTimeToMicros(m_SensorCombinedMsg.BaroTimestamp);
 						    }
 					    }
 				    }
