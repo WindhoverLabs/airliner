@@ -40,6 +40,7 @@
 *************************************************************************/
 #include <string.h>
 #include "cfe.h"
+#include "cfs_utils.h"
 #include "mpu6050_app.h"
 #include "mpu6050_msg.h"
 #include "mpu6050_version.h"
@@ -707,7 +708,7 @@ boolean MPU6050::ReadDevice(void)
     float calX_f       = 0;
     float calY_f       = 0;
     float calZ_f       = 0;
-    uint64 timeStamp   = 0;
+    CFE_TIME_SysTime_t timeStamp;
     int16 rawTemp      = 0;
     int16 calTemp      = 0;
     boolean returnBool = TRUE;
@@ -727,11 +728,11 @@ boolean MPU6050::ReadDevice(void)
     SensorAccel.ZIntegral = 0;
 
     /* Get a timestamp */
-    timeStamp = PX4LIB_GetPX4TimeUs();
+    timeStamp = CFE_TIME_GetTime();
 
     /* Set measurement timestamps */
-    SensorGyro.Timestamp  = timeStamp;
-    SensorAccel.Timestamp = timeStamp;
+    CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&SensorGyro, timeStamp);
+    CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&SensorAccel, timeStamp);
 
     /* Get a measurement. */
     returnBool = MPU6050_Measure(&MPU6050_SampleQueue);

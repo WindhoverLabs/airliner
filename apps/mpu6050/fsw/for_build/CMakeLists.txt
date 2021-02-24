@@ -78,6 +78,7 @@ buildliner_add_app_unit_test(mpu6050-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mpu6050_version.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mpu6050_config_utils.cpp
         ${PX4LIB_LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

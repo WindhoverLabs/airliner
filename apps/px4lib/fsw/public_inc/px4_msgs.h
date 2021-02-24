@@ -57,6 +57,8 @@
 #define PX4_ADSB_CALLSIGN_LEN                    (    8 )
 #define PX4_OPTICAL_FLOW_FRAME_SIZE              ( 4096 )
 
+#define PX4_RELATIVE_TIMESTAMP_INVALID           ( 0xffffffff )
+
 typedef enum
 {
     PX4_GPS_NONE0_FIX                            = 0,
@@ -761,9 +763,9 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-	uint64 Timestamp;
-	uint8 Severity;
-	char Text[127];
+    uint64 Timestamp;
+    uint8 Severity;
+    char Text[127];
 } PX4_LogMessageMsg_t;
 
 typedef struct
@@ -991,6 +993,7 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     float   GyroRad[3];
     float   GyroIntegralDt;
     uint32  AccTimestampRelative;
@@ -1104,9 +1107,9 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-	uint64 Timestamp;
-	uint16 Command;
-	PX4_VehicleCommandResult_t Result;
+    uint64 Timestamp;
+    uint16 Command;
+    PX4_VehicleCommandResult_t Result;
 } PX4_VehicleCommandAckMsg_t;
 
 
@@ -1181,16 +1184,17 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-	uint64 Timestamp;
-	float VX;
-	float VY;
-	float VZ;
+    uint64 Timestamp;
+    float VX;
+    float VY;
+    float VZ;
 } PX4_VehicleGlobalVelocitySetpointMsg_t;
 
 
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     uint64 TimeUtcUsec;
     int32 Lat;
     int32 Lon;
@@ -1271,17 +1275,17 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-	uint64 Timestamp;
-	float X;
-	float Y;
-	float Z;
-	float Yaw;
-	float VX;
-	float VY;
-	float VZ;
-	float AccX;
-	float AccY;
-	float AccZ;
+    uint64 Timestamp;
+    float X;
+    float Y;
+    float Z;
+    float Yaw;
+    float VX;
+    float VY;
+    float VZ;
+    float AccX;
+    float AccY;
+    float AccZ;
 } PX4_VehicleLocalPositionSetpointMsg_t;
 
 typedef struct

@@ -35,6 +35,7 @@
 #include "vm_events.h"
 #include "vm_app.h"
 #include "px4lib_msgids.h"
+#include "cfs_utils.h"
 
 typedef enum
 {
@@ -413,19 +414,19 @@ osalbool VM_Navigation::AllMessagesReceivedAtLeastOnce()
 {
     osalbool validity = false;
 
-    osalbool SensorMagMsgReady = (App.SensorMagMsg.Timestamp > 0);
-    osalbool SensorGyroMsgReady = (App.SensorGyroMsg.Timestamp > 0);
-    osalbool SensorAccelMsgReady = (App.SensorAccelMsg.Timestamp > 0);
+    osalbool SensorMagMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorMagMsg);
+    osalbool SensorGyroMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorGyroMsg);
+    osalbool SensorAccelMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorAccelMsg);
     osalbool SensorCombinedMsgReady = (App.SensorCombinedMsg.Timestamp > 0);
     osalbool VehicleAttitudeMsgReady = (App.VehicleAttitudeMsg.Timestamp > 0);
-    osalbool VehicleLocalPositionMsg = (App.VehicleLocalPositionMsg.Timestamp > 0);
+    osalbool VehicleLocalPositionMsgReady = (App.VehicleLocalPositionMsg.Timestamp > 0);
     osalbool VehicleLandDetectedMsgReady = (App.VehicleLandDetectedMsg.Timestamp > 0);
     osalbool VehicleGlobalPositionMsgReady = (App.VehicleGlobalPositionMsg.Timestamp > 0);
     osalbool VehicleGpsPositionMsgReady = (App.VehicleGpsPositionMsg.Timestamp > 0);
 
     if (SensorMagMsgReady && SensorGyroMsgReady && SensorAccelMsgReady
         && SensorCombinedMsgReady && VehicleAttitudeMsgReady
-        && VehicleLocalPositionMsg && VehicleLandDetectedMsgReady
+        && VehicleLocalPositionMsgReady && VehicleLandDetectedMsgReady
         && VehicleGlobalPositionMsgReady && VehicleGpsPositionMsgReady)
     {
         validity = true;
@@ -435,7 +436,16 @@ osalbool VM_Navigation::AllMessagesReceivedAtLeastOnce()
     {
         /* Send event */
         CFE_EVS_SendEvent(VM_SEN_NOT_READY_INFO_EID, CFE_EVS_INFORMATION,
-            "Sensors not ready");
+            "Sensors not ready (SM=%u SG=%u SA=%u SC=%u VA=%u VLP=%u VLD=%u VGP=%u VGPSP=%u)\n",
+			SensorMagMsgReady,
+			SensorGyroMsgReady,
+			SensorAccelMsgReady,
+			SensorCombinedMsgReady,
+			VehicleAttitudeMsgReady,
+			VehicleLocalPositionMsgReady,
+			VehicleLandDetectedMsgReady,
+			VehicleGlobalPositionMsgReady,
+			VehicleGpsPositionMsgReady);
     }
 
     return validity;
