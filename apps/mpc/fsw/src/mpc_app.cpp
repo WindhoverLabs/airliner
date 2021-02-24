@@ -20,6 +20,7 @@
 #include <math.h>
 #include "px4lib_msgids.h"
 #include "mpc_tbldefs.h"
+#include "cfs_utils.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -1314,7 +1315,7 @@ void MPC::UpdateRef(void)
 void MPC::UpdateVelocityDerivative(float dt)
 {
     /* Update velocity derivative independent of the current flight mode */
-    if (m_VehicleLocalPositionMsg.Timestamp == 0)
+    if (CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&m_VehicleLocalPositionMsg))
     {
         return;
     }

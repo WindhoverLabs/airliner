@@ -419,7 +419,7 @@ osalbool VM_Navigation::AllMessagesReceivedAtLeastOnce()
     osalbool SensorAccelMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorAccelMsg);
     osalbool SensorCombinedMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorCombinedMsg);
     osalbool VehicleAttitudeMsgReady = (App.VehicleAttitudeMsg.Timestamp > 0);
-    osalbool VehicleLocalPositionMsgReady = (App.VehicleLocalPositionMsg.Timestamp > 0);
+    osalbool VehicleLocalPositionMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleLocalPositionMsg);
     osalbool VehicleLandDetectedMsgReady = (App.VehicleLandDetectedMsg.Timestamp > 0);
     osalbool VehicleGlobalPositionMsgReady = (App.VehicleGlobalPositionMsg.Timestamp > 0);
     osalbool VehicleGpsPositionMsgReady = (App.VehicleGpsPositionMsg.Timestamp > 0);
@@ -477,7 +477,7 @@ osalbool VM_Navigation::IsTransitionAltCtlValid(void)
     PX4_NavigationState_t Current_NavState = App.VehicleStatusMsg.NavState;
 
     /* Altitude Hold Requirement Validation */
-    if (App.VehicleLocalPositionMsg.Timestamp > 0
+    if (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleLocalPositionMsg)
         && App.VehicleLocalPositionMsg.Z_Valid
         && App.VehicleLocalPositionMsg.V_Z_Valid)
     {
@@ -507,7 +507,7 @@ osalbool VM_Navigation::IsTransitionPosCtlValid(void)
     PX4_NavigationState_t Current_NavState = App.VehicleStatusMsg.NavState;
 
     /* Position Hold Requirement Validation */
-    if (App.VehicleLocalPositionMsg.Timestamp > 0
+    if (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleLocalPositionMsg)
         && App.VehicleLocalPositionMsg.XY_Valid
         && App.VehicleLocalPositionMsg.V_XY_Valid
         && App.VehicleLocalPositionMsg.Z_Valid

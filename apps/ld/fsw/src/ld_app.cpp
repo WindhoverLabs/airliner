@@ -1020,9 +1020,9 @@ float LD::MaxAltitude()
 osalbool LD::AltitudeLock()
 {
     osalbool result = FALSE;
-    uint64 dt = PX4LIB_GetPX4TimeUs() - CVT.VehicleLocalPositionMsg.Timestamp;
+    uint64 dt = CFE_SB_ElapsedMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleLocalPositionMsg);
     
-    result = CVT.VehicleLocalPositionMsg.Timestamp != 0 &&
+    result = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.VehicleLocalPositionMsg) &&
              dt < LD_LOCAL_POSITION_TIMEOUT && 
              CVT.VehicleLocalPositionMsg.Z_Valid;
     

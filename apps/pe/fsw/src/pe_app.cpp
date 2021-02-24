@@ -1320,7 +1320,9 @@ void PE::SendVehicleLocalPositionMsg()
 
     if(data_valid)
     {
-        m_VehicleLocalPositionMsg.Timestamp = m_Timestamp;
+        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_VehicleLocalPositionMsg);
+        /* TODO:  Set the time from m_Timestamp */
+        //m_VehicleLocalPositionMsg.Timestamp = m_Timestamp;
         m_VehicleLocalPositionMsg.XY_Valid = m_XyEstValid;
         m_VehicleLocalPositionMsg.Z_Valid = m_ZEstValid;
         m_VehicleLocalPositionMsg.V_XY_Valid = m_XyEstValid;
@@ -1345,7 +1347,6 @@ void PE::SendVehicleLocalPositionMsg()
         m_VehicleLocalPositionMsg.EpH = eph;
         m_VehicleLocalPositionMsg.EpV = epv;
 
-        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_VehicleLocalPositionMsg);
         CFE_SB_SendMsg((CFE_SB_Msg_t*)&m_VehicleLocalPositionMsg);
     }
     else

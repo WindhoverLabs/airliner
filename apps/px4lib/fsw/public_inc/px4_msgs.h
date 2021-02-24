@@ -1210,7 +1210,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     uint64 RefTimestamp;
     double RefLat;
     double RefLon;

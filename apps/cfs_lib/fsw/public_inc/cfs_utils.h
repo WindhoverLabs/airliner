@@ -262,6 +262,7 @@ boolean CFE_TIME_IsTimeZero(CFE_TIME_SysTime_t time);
 void    CFE_TIME_SetTimeEqual(CFE_TIME_SysTime_t *left, CFE_TIME_SysTime_t right);
 CFE_TIME_SysTime_t CFE_TIME_ElapsedTime(CFE_TIME_SysTime_t sinceTime);
 uint64  CFE_TIME_ElapsedTimeInMicros(CFE_TIME_SysTime_t sinceTime);
+uint64  CFE_SB_ElapsedMsgTimeInMicros(const CFE_SB_MsgPtr_t sinceMsg);
 void    CFE_SB_CopyMsgTime(CFE_SB_MsgPtr_t dest, const CFE_SB_MsgPtr_t src);
 boolean CFE_SB_IsMsgTimeZero(const CFE_SB_MsgPtr_t msg);
 uint64  CFE_SB_GetMsgTimeInMicros(const CFE_SB_MsgPtr_t msg);

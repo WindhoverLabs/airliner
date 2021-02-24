@@ -636,6 +636,15 @@ uint64 CFE_TIME_ElapsedTimeInMicros(CFE_TIME_SysTime_t sinceTime)
 }
 
 
+uint64  CFE_SB_ElapsedMsgTimeInMicros(const CFE_SB_MsgPtr_t sinceMsg)
+{
+	CFE_TIME_SysTime_t msgTime;
+
+	msgTime = CFE_SB_GetMsgTime(sinceMsg);
+
+	return CFE_TIME_ElapsedTimeInMicros(msgTime);
+}
+
 
 void CFE_SB_CopyMsgTime(CFE_SB_MsgPtr_t dest, const CFE_SB_MsgPtr_t src)
 {
