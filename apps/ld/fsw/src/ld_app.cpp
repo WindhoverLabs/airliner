@@ -10,6 +10,7 @@
 #include "ld_msg.h"
 #include "ld_version.h"
 #include "px4lib_msgids.h"
+#include "cfs_utils.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -986,7 +987,7 @@ float LD::MaxAltitude()
     float max_alt = ConfigTblPtr->LD_ALT_MAX;
     
     /* If we haven't received this message just use default max */
-    if(0 == CVT.BatteryStatusMsg.Timestamp)
+    if(CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.BatteryStatusMsg))
     {
         max_alt = ConfigTblPtr->LD_ALT_MAX;
     }

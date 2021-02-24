@@ -609,7 +609,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     float IndicatedAirspeed;		/* m/s */
     float TrueAirspeed;				/* m/s */
     float TrueAirspeedUnfiltered;	/* m/s */
@@ -620,7 +619,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     float  Voltage;					/* V */
     float  VoltageFiltered;			/* V */
     float  Current;					/* A */
@@ -675,7 +673,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     uint64 ErrorCount;
     float DifferentialPressureRaw;
     float DifferentialPressureFiltered;
@@ -722,7 +719,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     uint8 Len;
     uint8 Flags;
     char Data[PX4_GPS_INJECT_DATA_MAX];
