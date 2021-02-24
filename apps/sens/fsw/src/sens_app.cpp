@@ -998,7 +998,10 @@ void SENS::ProcessRCInput(void)
             }
 
 			/* Copy from mapped manual control to control group 3 */
-			ActuatorControls3Msg.Timestamp = CVT.InputRcMsg.LastSignal;
+            CFE_TIME_SysTime_t lastSignalTime;
+            lastSignalTime.Seconds = CVT.InputRcMsg.LastSignal / 1000000;
+            lastSignalTime.Subseconds = CFE_TIME_Micro2SubSecs(CVT.InputRcMsg.LastSignal - (lastSignalTime.Seconds * 1000000));
+            CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&ActuatorControls3Msg, lastSignalTime);
 
 			ActuatorControls3Msg.Control[0] = ManualControlSetpointMsg.Y;
 			ActuatorControls3Msg.Control[1] = ManualControlSetpointMsg.X;
@@ -1013,7 +1016,7 @@ void SENS::ProcessRCInput(void)
 			SendManualControlSetpointMsg();
 
 			/* Publish Actuator Controls 3 message */
-			SendActuatorControls3Msg();
+		    CFE_SB_SendMsg((CFE_SB_Msg_t*)&ActuatorControls3Msg);
 		}
 
 		CVT.LastInputRcTime = CVT.InputRcMsg.Timestamp;

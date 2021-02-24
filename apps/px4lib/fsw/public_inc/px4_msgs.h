@@ -591,7 +591,6 @@ typedef struct
 typedef struct
 {
     uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     uint64 SampleTime;
     float  Control[PX4_ACTUATOR_CONTROL_COUNT];
 } PX4_ActuatorControlsMsg_t;

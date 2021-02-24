@@ -908,7 +908,7 @@ void MAC::RunController(void)
         ControlAttitudeRates(dt);
 
         /* Publish actuator controls */
-        m_ActuatorControls0.Timestamp = PX4LIB_GetPX4TimeUs();
+        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_ActuatorControls0);
         m_ActuatorControls0.SampleTime = CVT.ControlState.Timestamp;
         m_ActuatorControls0.Control[0] = (isfinite(m_AttControl[0])) ? m_AttControl[0] : 0.0f;
         m_ActuatorControls0.Control[1] = (isfinite(m_AttControl[1])) ? m_AttControl[1] : 0.0f;
