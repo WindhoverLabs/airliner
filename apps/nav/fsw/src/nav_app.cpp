@@ -554,7 +554,6 @@ void NAV::SendMissionResultMsg()
 
 void NAV::SendPositionSetpointTripletMsg()
 {
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &PositionSetpointTripletMsg);
     CFE_SB_SendMsg((CFE_SB_Msg_t*) &PositionSetpointTripletMsg);
 }
 
@@ -916,13 +915,12 @@ int32 NAV::Execute()
     /* Time stamp out going messages */
     Now2 = PX4LIB_GetPX4TimeUs();
     Now = CFE_TIME_GetTime();
-    PositionSetpointTripletMsg.Timestamp = Now2;
     CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&MissionResultMsg, Now);
 
     if (PositionSetpointTripletUpdated)
     {
-        PositionSetpointTripletMsg.Timestamp = Now2;
-        SendPositionSetpointTripletMsg();
+        CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&PositionSetpointTripletMsg, Now);
+        CFE_SB_SendMsg((CFE_SB_Msg_t*) &PositionSetpointTripletMsg);
         PositionSetpointTripletUpdated = FALSE;
     }
 

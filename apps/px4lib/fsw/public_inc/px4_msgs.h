@@ -912,7 +912,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     PX4_PositionSetpoint_t Previous;
     PX4_PositionSetpoint_t Current;
     PX4_PositionSetpoint_t Next;
@@ -934,7 +933,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     boolean SafetySwitchAvailable;
     boolean SafetyOff;
 } PX4_SafetyMsg_t;
@@ -942,7 +940,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     uint8 Count;
     uint8 SVID[PX4_SAT_INFO_MAX_SATELLITES];
     uint8 Used[PX4_SAT_INFO_MAX_SATELLITES];

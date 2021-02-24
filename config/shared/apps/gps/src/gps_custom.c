@@ -490,7 +490,7 @@ boolean GPS_Custom_Read_and_Parse(const uint32 timeout)
                                     (uint8)(msgIn->numCh[j].svid);
                         }
                         
-                        GPS_AppCustomData.GpsSatInfoMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+                        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&GPS_AppCustomData.GpsSatInfoMsg);
                         
                         OS_MutSemGive(GPS_AppCustomData.MutexSatInfo);
                         break;
