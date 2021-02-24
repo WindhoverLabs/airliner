@@ -1029,7 +1029,6 @@ void SENS::CombineSensorInput(void)
     if(CFE_TIME_Compare(CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorGyroMsg),CVT.PrevGyroTime) != CFE_TIME_EQUAL)
     {
         CFE_SB_CopyMsgTime((CFE_SB_MsgPtr_t)&SensorCombinedMsg, (CFE_SB_MsgPtr_t)&CVT.SensorGyroMsg);
-        SensorCombinedMsg.Timestamp = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorGyroMsg);
 
         /* We do have a new measurement.  Update the fields accordingly.
          * First populate the measurement values.

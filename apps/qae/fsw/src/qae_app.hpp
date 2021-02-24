@@ -121,7 +121,7 @@ typedef struct
     PX4_SensorCombinedMsg_t        SensorCombinedMsg;
     
     /** \brief The last sensor combined message timestamp */
-    uint64                         LastSensorCombinedTime;
+    CFE_TIME_SysTime_t             LastSensorCombinedTime;
     
     /** \brief The vehicle global position message */
     PX4_VehicleGlobalPositionMsg_t VehicleGlobalPositionMsg;

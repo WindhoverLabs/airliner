@@ -993,7 +993,6 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     float   GyroRad[3];
     float   GyroIntegralDt;
     CFE_TIME_SysTime_t  AccTimestamp;

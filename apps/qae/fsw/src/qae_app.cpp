@@ -45,6 +45,7 @@
 #include <math/Limits.hpp>
 #include <px4lib.h>
 #include "px4lib_msgids.h"
+#include "cfs_utils.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -663,7 +664,7 @@ void QAE::EstimateAttitude(void)
     osalbool update_success      = FALSE;
 
     /* If there is a new sensor combined message */
-    if(CVT.SensorCombinedMsg.Timestamp > CVT.LastSensorCombinedTime)
+    if(CFE_TIME_Compare(CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorCombinedMsg), CVT.LastSensorCombinedTime) != CFE_TIME_EQUAL)
     {
         /* No lowpass filter here, filtering is in the driver */
         m_Gyro[0] = CVT.SensorCombinedMsg.GyroRad[0];
@@ -707,7 +708,7 @@ void QAE::EstimateAttitude(void)
         HkTlm.State = QAE_SENSOR_DATA_RCVD;
         
         /* Update last timestamp */
-        CVT.LastSensorCombinedTime = CVT.SensorCombinedMsg.Timestamp;
+        CVT.LastSensorCombinedTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorCombinedMsg);
     }
     else
     {
@@ -780,7 +781,7 @@ void QAE::EstimateAttitude(void)
     }
     
     /* Populate vehicle attitude message */
-    VehicleAttitudeMsg.Timestamp    = CVT.SensorCombinedMsg.Timestamp;
+    VehicleAttitudeMsg.Timestamp    = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorCombinedMsg);
     VehicleAttitudeMsg.RollSpeed    = m_Rates[0];
     VehicleAttitudeMsg.PitchSpeed   = m_Rates[1];
     VehicleAttitudeMsg.YawSpeed     = m_Rates[2];
@@ -793,7 +794,7 @@ void QAE::EstimateAttitude(void)
     SendVehicleAttitudeMsg();
     
     /* Populate control state message */
-    ControlStateMsg.Timestamp       = CVT.SensorCombinedMsg.Timestamp;
+    ControlStateMsg.Timestamp       = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorCombinedMsg);
     
     /* Attitude quaternions for control state */
     ControlStateMsg.Q[0]            = m_Quaternion[0];

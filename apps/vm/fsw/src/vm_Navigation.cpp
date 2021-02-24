@@ -417,7 +417,7 @@ osalbool VM_Navigation::AllMessagesReceivedAtLeastOnce()
     osalbool SensorMagMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorMagMsg);
     osalbool SensorGyroMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorGyroMsg);
     osalbool SensorAccelMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorAccelMsg);
-    osalbool SensorCombinedMsgReady = (App.SensorCombinedMsg.Timestamp > 0);
+    osalbool SensorCombinedMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorCombinedMsg);
     osalbool VehicleAttitudeMsgReady = (App.VehicleAttitudeMsg.Timestamp > 0);
     osalbool VehicleLocalPositionMsgReady = (App.VehicleLocalPositionMsg.Timestamp > 0);
     osalbool VehicleLandDetectedMsgReady = (App.VehicleLandDetectedMsg.Timestamp > 0);
