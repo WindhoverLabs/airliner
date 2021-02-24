@@ -838,7 +838,7 @@ void AMC::ReportHousekeeping(void)
 {
 	uint32 i = 0;
 
-	HkTlm.Timestamp = ActuatorOutputs.Timestamp;
+	HkTlm.Timestamp = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&ActuatorOutputs);
     HkTlm.Count = ActuatorOutputs.Count;
 
     for(i = 0; i < PX4_ACTUATOR_OUTPUTS_MAX; ++i)
@@ -1015,7 +1015,7 @@ void AMC::UpdateMotors(void)
     }
     else if(CVT.ActuatorArmed.Armed)
     {
-        ActuatorOutputs.Timestamp = PX4LIB_GetPX4TimeUs();
+    	CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)& ActuatorOutputs);
 
         /* Do mixing */
         ActuatorOutputs.Count = MixerObject.mix(ActuatorOutputs.Output, 0, 0);
@@ -1046,7 +1046,6 @@ void AMC::UpdateMotors(void)
             SetMotorOutputs(pwm);
         }
 
-        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&ActuatorOutputs);
         CFE_SB_SendMsg((CFE_SB_Msg_t*)&ActuatorOutputs);
     }
     else
