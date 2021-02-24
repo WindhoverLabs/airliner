@@ -508,25 +508,6 @@ void QAE::ReportHousekeeping()
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* Publish Output Data                                             */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void QAE::SendVehicleAttitudeMsg()
-{
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&VehicleAttitudeMsg);
-    CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleAttitudeMsg);
-    return;
-}
-
-void QAE::SendControlStateMsg()
-{
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&ControlStateMsg);
-    CFE_SB_SendMsg((CFE_SB_Msg_t*)&ControlStateMsg);
-    return;
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
 /* Verify Command Length                                           */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -781,7 +762,7 @@ void QAE::EstimateAttitude(void)
     }
     
     /* Populate vehicle attitude message */
-    VehicleAttitudeMsg.Timestamp    = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorCombinedMsg);
+    CFE_SB_CopyMsgTime((CFE_SB_MsgPtr_t)&VehicleAttitudeMsg, (CFE_SB_MsgPtr_t)&CVT.SensorCombinedMsg);
     VehicleAttitudeMsg.RollSpeed    = m_Rates[0];
     VehicleAttitudeMsg.PitchSpeed   = m_Rates[1];
     VehicleAttitudeMsg.YawSpeed     = m_Rates[2];
@@ -791,7 +772,7 @@ void QAE::EstimateAttitude(void)
     VehicleAttitudeMsg.Q[3]         = m_Quaternion[3];
 
     /* Send vehicle attitude message */
-    SendVehicleAttitudeMsg();
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleAttitudeMsg);
     
     /* Populate control state message */
     CFE_SB_CopyMsgTime((CFE_SB_MsgPtr_t)&ControlStateMsg, (CFE_SB_MsgPtr_t)&CVT.SensorCombinedMsg);
@@ -813,7 +794,7 @@ void QAE::EstimateAttitude(void)
     ControlStateMsg.YawRate         = m_Rates[2];
 
     /* Send the control state message */
-    SendControlStateMsg();
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&ControlStateMsg);
     
 end_of_function:
     return;
