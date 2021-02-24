@@ -41,6 +41,7 @@
 #include "nav_version.h"
 #include <math/Limits.hpp>
 #include "px4lib_msgids.h"
+#include "cfs_utils.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -657,7 +658,8 @@ void NAV::AppMain()
 
 int32 NAV::Execute()
 {
-    uint64 Now = 0;
+	CFE_TIME_SysTime_t Now;
+    uint64 Now2 = 0;
     
     /* Set vehicle arming state */
     if (CVT.VehicleStatusMsg.Timestamp != 0 && !VehicleStatusUpdateOnce)
@@ -912,13 +914,14 @@ int32 NAV::Execute()
     }
 
     /* Time stamp out going messages */
-    Now = PX4LIB_GetPX4TimeUs();
-    PositionSetpointTripletMsg.Timestamp = Now;
-    MissionResultMsg.Timestamp = Now;
+    Now2 = PX4LIB_GetPX4TimeUs();
+    Now = CFE_TIME_GetTime();
+    PositionSetpointTripletMsg.Timestamp = Now2;
+    CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&MissionResultMsg, Now);
 
     if (PositionSetpointTripletUpdated)
     {
-        PositionSetpointTripletMsg.Timestamp = Now;
+        PositionSetpointTripletMsg.Timestamp = Now2;
         SendPositionSetpointTripletMsg();
         PositionSetpointTripletUpdated = FALSE;
     }

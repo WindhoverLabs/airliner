@@ -1466,7 +1466,7 @@ void VM::Initialization()
     VehicleStatusMsg.MissionFailure = false;
 
     /* Onboard mission not supported, set default mission and publish */
-    MissionMsg.Timestamp = TimeNow();
+    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&MissionMsg);
     MissionMsg.DatamanID = 0;
     MissionMsg.Count = 0;
     MissionMsg.CurrentSeq = 0;

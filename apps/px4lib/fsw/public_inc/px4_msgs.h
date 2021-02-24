@@ -759,7 +759,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     uint8 Severity;
     char Text[127];
 } PX4_LogMessageMsg_t;
@@ -808,7 +807,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     int32 DatamanID;
     uint32 Count;
     int32 CurrentSeq;
@@ -817,7 +815,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     uint32 InstanceCount;
     uint32 SeqReached;
     uint32 SeqCurrent;
@@ -856,14 +853,12 @@ typedef union
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     PX4_SaturationStatus_t SaturationStatus;
 } PX4_MultirotorMotorLimitsMsg_t;
 
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     float PixelFlowXIntegral;
     float PixelFlowYIntegral;
     float GyroXRateIntegral;
