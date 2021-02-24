@@ -91,6 +91,11 @@ int32 SBN_ReadModuleFile(void)
 
 #else /* ! CFE_ES_CONFLOADER */
 
+//#include "sbn_interfaces.h"
+
+extern SBN_IfOps_t SBN_Mbox_Ops;
+
+
 /**
  * \brief Reads a file describing the interface modules that must be loaded.
  *
@@ -233,9 +238,12 @@ int32 SBN_ParseModuleEntry(char *FileEntry, uint32 LineNum)
         return SBN_ERROR;
     }/* end if */
 
-    OS_printf("SBN found symbol %s in %s (%s)\n", StructName, ModuleName,
-        ModuleFile);
-    SBN.IfOps[ProtocolID] = (SBN_IfOps_t *)StructAddr;
+    OS_printf("SBN found symbol %s (%08x) in %s (%s)\n", StructName, StructAddr, 
+        ModuleName, ModuleFile);
+
+    /* TODO */
+    //SBN.IfOps[ProtocolID] = (SBN_IfOps_t *)StructAddr;
+    SBN.IfOps[ProtocolID] = (SBN_IfOps_t *)&SBN_Mbox_Ops;
     SBN.ModuleIDs[ProtocolID] = ModuleID;
 
     return SBN_SUCCESS;

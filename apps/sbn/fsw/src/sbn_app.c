@@ -149,7 +149,6 @@ static int PeerFileRowCallback(const char *Filename, int LineNum,
     if(ProcessorID == CFE_PSP_GetProcessorId())
     {
         Net->Configured = TRUE;
-
         Net->ProtocolID = ProtocolID;
         Net->IfOps = SBN.IfOps[ProtocolID];
         Net->IfOps->LoadNet(Row + 6, FieldCnt - 6, Net);
@@ -166,9 +165,7 @@ static int PeerFileRowCallback(const char *Filename, int LineNum,
         }/* end if */
 
         SBN_PeerInterface_t *Peer = &Net->Peers[Net->PeerCnt++];
-
         memset(Peer, 0, sizeof(*Peer));
-
         strncpy(Peer->Name, Row[0], sizeof(Peer->Name) - 1);
         Peer->Net = Net;
         Peer->ProcessorID = ProcessorID;
@@ -235,6 +232,7 @@ static int ParseFileEntry(char *FileEntry)
         for(; isspace(*FileEntry); FileEntry++);
 
         Row[FieldCnt++] = FileEntry;
+
         if(FieldCnt >= 16)
         {
             CFE_EVS_SendEvent(SBN_FILE_EID, CFE_EVS_CRITICAL,
@@ -255,7 +253,6 @@ static int ParseFileEntry(char *FileEntry)
         FileEntry = End + 1;
     }/* end while */
 
-    
     return PeerFileRowCallback("unknown", ParseLineNum++, "", Row, FieldCnt,
         NULL);
 }/* end ParseFileEntry */
@@ -277,16 +274,16 @@ int32 SBN_GetPeerFileData(void)
 
     /* First check for the file in RAM */
     PeerFile = OS_open(SBN_VOL_PEER_FILENAME, O_RDONLY, 0);
-    if(PeerFile != OS_ERROR)
+    if(PeerFile >= 0)
     {
         CFE_EVS_SendEvent(SBN_FILE_EID, CFE_EVS_INFORMATION,
-            "opened peer data file '%s'", SBN_VOL_PEER_FILENAME);
+            "opened vol peer data file '%s'", SBN_VOL_PEER_FILENAME);
         FileOpened = TRUE;
     }
     else
     {
         CFE_EVS_SendEvent(SBN_FILE_EID, CFE_EVS_ERROR,
-            "failed to open peer file '%s'", SBN_VOL_PEER_FILENAME);
+            "failed to open vol peer file '%s' error %d", SBN_VOL_PEER_FILENAME, PeerFile);
         FileOpened = FALSE;
     }/* end if */
 
@@ -295,16 +292,16 @@ int32 SBN_GetPeerFileData(void)
     {
         PeerFile = OS_open(SBN_NONVOL_PEER_FILENAME, O_RDONLY, 0);
 
-        if(PeerFile != OS_ERROR)
+        if(PeerFile >= 0)
         {
             CFE_EVS_SendEvent(SBN_FILE_EID, CFE_EVS_INFORMATION,
-                "opened peer data file '%s'", SBN_NONVOL_PEER_FILENAME);
+                "opened nonvol peer data file '%s'", SBN_NONVOL_PEER_FILENAME);
             FileOpened = TRUE;
         }
         else
         {
             CFE_EVS_SendEvent(SBN_FILE_EID, CFE_EVS_ERROR,
-                "peer file '%s' failed to open", SBN_NONVOL_PEER_FILENAME);
+                "nonval peer file '%s' failed to open", SBN_NONVOL_PEER_FILENAME);
             FileOpened = FALSE;
         }/* end if */
     }/* end if */
@@ -314,6 +311,8 @@ int32 SBN_GetPeerFileData(void)
      */
     if(!FileOpened)
     {
+        CFE_EVS_SendEvent(SBN_FILE_EID, CFE_EVS_ERROR,
+            "Error, no peer file was opened");
         return SBN_ERROR;
     }/* end if */
 
@@ -326,7 +325,14 @@ int32 SBN_GetPeerFileData(void)
 
     while(1)
     {
-        OS_read(PeerFile, &c, 1);
+        int32 Status;
+        Status = OS_read(PeerFile, &c, 1);
+        if(Status != 1)
+        {
+            CFE_EVS_SendEvent(SBN_FILE_EID, CFE_EVS_ERROR,
+                "OS_read failed %d", Status);
+            return SBN_ERROR;
+        }
 
         if(c == '!')
         {
@@ -365,6 +371,8 @@ int32 SBN_GetPeerFileData(void)
              */
             if(ParseFileEntry(SBN_PeerData) == SBN_ERROR)
             {
+                CFE_EVS_SendEvent(SBN_FILE_EID, CFE_EVS_ERROR,
+                    "Parse peer file failed");
                 OS_close(PeerFile);
                 return SBN_ERROR;
             }/* end if */
@@ -1266,15 +1274,29 @@ void SBN_AppMain(void)
     uint32  RunStatus = CFE_ES_APP_RUN,
             AppID = 0;
 
-    if(CFE_ES_RegisterApp() != CFE_SUCCESS) return;
-
-    if(CFE_EVS_Register(NULL, 0, CFE_EVS_BINARY_FILTER != CFE_SUCCESS)) return;
-
-    if(CFE_ES_GetAppID(&AppID) != CFE_SUCCESS)
+    Status = CFE_ES_RegisterApp();
+    if(Status != CFE_SUCCESS) 
     {
+        RunStatus = CFE_ES_APP_ERROR;
+        (void) CFE_ES_WriteToSysLog("SBN - Failed to register the app (0x%08X)\n", (unsigned int)Status);
+        goto end_of_function;
+    }
+
+    Status = CFE_EVS_Register(NULL, 0, CFE_EVS_BINARY_FILTER);
+    if(Status != CFE_SUCCESS)
+    {
+        RunStatus = CFE_ES_APP_ERROR;
+        (void) CFE_ES_WriteToSysLog("SBN - Failed to register with EVS (0x%08X)\n", (unsigned int)Status);
+        goto end_of_function;
+    }
+
+    Status = CFE_ES_GetAppID(&AppID);
+    if(Status != CFE_SUCCESS)
+    {
+        RunStatus = CFE_ES_APP_ERROR;
         CFE_EVS_SendEvent(SBN_INIT_EID, CFE_EVS_CRITICAL,
             "unable to get AppID");
-        return;
+        goto end_of_function;
     }
 
     SBN.AppID = AppID;
@@ -1285,71 +1307,78 @@ void SBN_AppMain(void)
 
     if(SBN_ReadModuleFile() == SBN_ERROR)
     {
+        RunStatus = CFE_ES_APP_ERROR;
         CFE_EVS_SendEvent(SBN_FILE_EID, CFE_EVS_ERROR,
             "module file not found or data invalid");
-        return;
+        goto end_of_function;
     }/* end if */
 
     if(SBN_GetPeerFileData() == SBN_ERROR)
     {
+        RunStatus = CFE_ES_APP_ERROR;
         CFE_EVS_SendEvent(SBN_FILE_EID, CFE_EVS_ERROR,
             "peer file not found or data invalid");
-        return;
+        goto end_of_function;
     }/* end if */
 
     #ifdef SBN_SEND_TASK
     /** Create mutex for send tasks */
     Status = OS_MutSemCreate(&(SBN.SendMutex), "sbn_send_mutex", 0);
-    #endif /* SBN_SEND_TASK */
-
     if(Status != OS_SUCCESS)
     {
+        RunStatus = CFE_ES_APP_ERROR;
         CFE_EVS_SendEvent(SBN_INIT_EID, CFE_EVS_ERROR,
             "error creating mutex for send tasks");
-        return;
+        goto end_of_function;
     }
+    #endif /* SBN_SEND_TASK */
 
     if(SBN_InitInterfaces() == SBN_ERROR)
     {
+        RunStatus = CFE_ES_APP_ERROR;
         CFE_EVS_SendEvent(SBN_FILE_EID, CFE_EVS_ERROR,
             "unable to initialize interfaces");
-        return;
+        goto end_of_function;
     }/* end if */
 
     /* Create pipe for subscribes and unsubscribes from SB */
     Status = CFE_SB_CreatePipe(&SBN.SubPipe, SBN_SUB_PIPE_DEPTH, "SBNSubPipe");
     if(Status != CFE_SUCCESS)
     {
+        RunStatus = CFE_ES_APP_ERROR;
         CFE_EVS_SendEvent(SBN_INIT_EID, CFE_EVS_ERROR,
             "failed to create subscription pipe (Status=%d)", (int)Status);
-        return;
+        goto end_of_function;
     }/* end if */
 
     Status = CFE_SB_SubscribeLocal(CFE_SB_ALLSUBS_TLM_MID, SBN.SubPipe,
         SBN_MAX_ALLSUBS_PKTS_ON_PIPE);
     if(Status != CFE_SUCCESS)
     {
+        RunStatus = CFE_ES_APP_ERROR;
         CFE_EVS_SendEvent(SBN_INIT_EID, CFE_EVS_ERROR,
             "failed to subscribe to allsubs (Status=%d)", (int)Status);
-        return;
+        goto end_of_function;
     }/* end if */
 
     Status = CFE_SB_SubscribeLocal(CFE_SB_ONESUB_TLM_MID, SBN.SubPipe,
         SBN_MAX_ONESUB_PKTS_ON_PIPE);
     if(Status != CFE_SUCCESS)
     {
+        RunStatus = CFE_ES_APP_ERROR;
         CFE_EVS_SendEvent(SBN_INIT_EID, CFE_EVS_ERROR,
             "failed to subscribe to sub (Status=%d)", (int)Status);
-        return;
+        goto end_of_function;
     }/* end if */
 
     /* Create pipe for HK requests and gnd commands */
     Status = CFE_SB_CreatePipe(&SBN.CmdPipe, 20, "SBNCmdPipe");
     if(Status != CFE_SUCCESS)
     {
+        RunStatus = CFE_ES_APP_ERROR;
         CFE_EVS_SendEvent(SBN_INIT_EID, CFE_EVS_ERROR,
             "failed to create command pipe (%d)", (int)Status);
-        return;
+        goto end_of_function;
     }/* end if */
 
     Status = CFE_SB_Subscribe(SBN_CMD_MID, SBN.CmdPipe);
@@ -1360,17 +1389,19 @@ void SBN_AppMain(void)
     }
     else
     {
+        RunStatus = CFE_ES_APP_ERROR;
         CFE_EVS_SendEvent(SBN_INIT_EID, CFE_EVS_ERROR,
             "failed to subscribe to command pipe (%d)", (int)Status);
-        return;
+        goto end_of_function;
     }/* end if */
 
     Status = SBN_LoadTbl(&SBN.TblHandle);
     if (Status != CFE_SUCCESS)
     {
+        RunStatus = CFE_ES_APP_ERROR;
         CFE_EVS_SendEvent(SBN_INIT_EID, CFE_EVS_ERROR,
             "SBN failed to load SBN.RemapTbl (%d)", Status);
-        return;
+        goto end_of_function;
     }/* end if */
 
     CFE_TBL_GetAddress((void **)&SBN.RemapTbl, SBN.TblHandle);
@@ -1380,6 +1411,13 @@ void SBN_AppMain(void)
     #endif /* SBN_REMAP_ENABLED */
 
     Status = OS_MutSemCreate(&(SBN.RemapMutex), "sbn_remap_mutex", 0);
+    if(Status != CFE_SUCCESS)
+    {
+        RunStatus = CFE_ES_APP_ERROR;
+        CFE_EVS_SendEvent(SBN_INIT_EID, CFE_EVS_ERROR,
+            "SBN failed to create mutex (%d)", Status);
+        goto end_of_function;
+    }
 
     CFE_EVS_SendEvent(SBN_INIT_EID, CFE_EVS_INFORMATION,
         "initialized (CFE_CPU_NAME='%s' ProcessorID=%lu SpacecraftId=%lu %s "
@@ -1423,6 +1461,7 @@ void SBN_AppMain(void)
 
     /* SBN_UnloadModules(); */
 
+end_of_function:
     CFE_ES_ExitApp(RunStatus);
 }/* end SBN_AppMain */
 
