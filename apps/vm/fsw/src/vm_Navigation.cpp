@@ -414,15 +414,15 @@ osalbool VM_Navigation::AllMessagesReceivedAtLeastOnce()
 {
     osalbool validity = false;
 
-    osalbool SensorMagMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorMagMsg);
-    osalbool SensorGyroMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorGyroMsg);
-    osalbool SensorAccelMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorAccelMsg);
-    osalbool SensorCombinedMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorCombinedMsg);
-    osalbool VehicleAttitudeMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleAttitudeMsg);
-    osalbool VehicleLocalPositionMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleLocalPositionMsg);
-    osalbool VehicleLandDetectedMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleLandDetectedMsg);
+    osalbool SensorMagMsgReady             = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorMagMsg);
+    osalbool SensorGyroMsgReady            = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorGyroMsg);
+    osalbool SensorAccelMsgReady           = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorAccelMsg);
+    osalbool SensorCombinedMsgReady        = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorCombinedMsg);
+    osalbool VehicleAttitudeMsgReady       = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleAttitudeMsg);
+    osalbool VehicleLocalPositionMsgReady  = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleLocalPositionMsg);
+    osalbool VehicleLandDetectedMsgReady   = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleLandDetectedMsg);
     osalbool VehicleGlobalPositionMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleGlobalPositionMsg);
-    osalbool VehicleGpsPositionMsgReady = (App.VehicleGpsPositionMsg.Timestamp > 0);
+    osalbool VehicleGpsPositionMsgReady    = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleGpsPositionMsg);
 
     if (SensorMagMsgReady && SensorGyroMsgReady && SensorAccelMsgReady
         && SensorCombinedMsgReady && VehicleAttitudeMsgReady

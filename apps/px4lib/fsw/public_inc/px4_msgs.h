@@ -1151,7 +1151,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     float VX;
     float VY;
     float VZ;
@@ -1160,30 +1159,29 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
-    uint64 TimeUtcUsec;
-    int32 Lat;
-    int32 Lon;
-    int32 Alt;
-    int32 AltEllipsoid;
-    float SVariance;
-    float CVariance;
-    float EpH;
-    float EpV;
-    float HDOP;
-    float VDOP;
-    int32 NoisePerMs;
-    int32 JammingIndicator;
-    float Vel_m_s;
-    float Vel_n_m_s;
-    float Vel_e_m_s;
-    float Vel_d_m_s;
-    float COG;
-    int32 TimestampTimeRelative;
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  TimeUtcUsec;
+    int32   Lat;
+    int32   Lon;
+    int32   Alt;
+    int32   AltEllipsoid;
+    float   SVariance;
+    float   CVariance;
+    float   EpH;
+    float   EpV;
+    float   HDOP;
+    float   VDOP;
+    int32   NoisePerMs;
+    int32   JammingIndicator;
+    float   Vel_m_s;
+    float   Vel_n_m_s;
+    float   Vel_e_m_s;
+    float   Vel_d_m_s;
+    float   COG;
+    int32   TimestampTimeRelative;
     PX4_GpsFixType_t FixType;
     boolean VelNedValid;
-    uint8 SatellitesUsed;
+    uint8   SatellitesUsed;
 } PX4_VehicleGpsPositionMsg_t;
 
 typedef struct
