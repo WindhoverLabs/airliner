@@ -1058,27 +1058,26 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
-    float RollBody;
-    float PitchBody;
-    float YawBody;
-    float YawSpMoveRate;
-    float Q_D[4];
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    float   RollBody;
+    float   PitchBody;
+    float   YawBody;
+    float   YawSpMoveRate;
+    float   Q_D[4];
     boolean Q_D_Valid;
-    float Thrust;
+    float   Thrust;
     boolean RollResetIntegral;
     boolean PitchResetIntegral;
     boolean YawResetIntegral;
     boolean FwControlYaw;
     boolean DisableMcYawControl;
     boolean ApplyFlaps;
-    float LandingGear;
+    float   LandingGear;
 } PX4_VehicleAttitudeSetpointMsg_t;
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
     uint16 Command;
     PX4_VehicleCommandResult_t Result;
 } PX4_VehicleCommandAckMsg_t;

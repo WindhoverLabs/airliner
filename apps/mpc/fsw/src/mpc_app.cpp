@@ -1145,7 +1145,7 @@ void MPC::Execute(void)
 
         /* Make sure attitude setpoint output "disables" attitude control */
         m_VehicleAttitudeSetpointMsg.Thrust = 0.0f;
-        m_VehicleAttitudeSetpointMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_VehicleAttitudeSetpointMsg);
     }
 
     if (!m_InTakeoff && (!m_VehicleLandDetectedMsg.Landed && m_WasLanded) && m_VehicleControlModeMsg.Armed == PX4_ARMING_STATE_ARMED)
@@ -1518,7 +1518,7 @@ void MPC::GenerateAttitudeSetpoint(float dt)
         m_VehicleAttitudeSetpointMsg.Q_D_Valid = TRUE;
     }
 
-    m_VehicleAttitudeSetpointMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_VehicleAttitudeSetpointMsg);
 }
 
 
@@ -1795,7 +1795,7 @@ void MPC::ControlNonManual(float dt)
         m_VehicleAttitudeSetpointMsg.YawBody = m_Yaw;
         m_VehicleAttitudeSetpointMsg.Thrust = 0.0f;
 
-        m_VehicleAttitudeSetpointMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_VehicleAttitudeSetpointMsg);
     }
     else
     {
@@ -3131,7 +3131,7 @@ void MPC::CalculateThrustSetpoint(float dt)
     m_VehicleLocalPositionSetpointMsg.AccY = ThrustSp[1] * MPC_CONSTANTS_ONE_G;
     m_VehicleLocalPositionSetpointMsg.AccZ = ThrustSp[2] * MPC_CONSTANTS_ONE_G;
 
-    m_VehicleAttitudeSetpointMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_VehicleAttitudeSetpointMsg);
 }
 
 
