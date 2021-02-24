@@ -35,7 +35,7 @@ while getopts ":b:d:p:qr:i:" opt; do
 done
 
 if [ "$device" == "" ]; then
-	device="-udp $ip:$udp_port"
+	device="-tcp $ip:$udp_port"
 else
 	device="-serial $device $baudrate"
 fi

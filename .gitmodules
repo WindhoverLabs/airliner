@@ -13,3 +13,6 @@
 [submodule "tools/mavlink/v2.0"]
 	path = tools/mavlink/v2.0
 	url = https://github.com/mavlink/c_library_v2.git
+[submodule "tools/jMAVSim"]
+	path = tools/jMAVSim
+	url = https://github.com/WindhoverLabs/jMAVSim.git
