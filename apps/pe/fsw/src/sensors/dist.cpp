@@ -32,6 +32,7 @@
 *****************************************************************************/
 
 #include "../pe_app.h"
+#include "cfs_utils.h"
 
 void PE::distInit()
 {
@@ -93,7 +94,7 @@ int32 PE::distMeasure(math::Vector1F &y)
 	y.Zero();
 	m_DistStats.update(d);
 	y[0] = (d + ConfigTblPtr->DIST_OFF_Z) * cosf(m_Euler[0]) * cosf(m_Euler[1]);
-	m_TimeLastDist = m_DistanceSensor.Timestamp;
+	m_TimeLastDist = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&m_DistanceSensor);
 
 distMeasure_Exit_Tag:
 	return Status;

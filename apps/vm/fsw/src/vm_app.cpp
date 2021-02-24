@@ -519,7 +519,7 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
 
                 CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&ActuatorArmedMsg, timestamp);
                 VehicleStatusMsg.Timestamp = timestamp2;
-                VehicleManagerStateMsg.Timestamp = timestamp2;
+                CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&VehicleManagerStateMsg, timestamp);
                 VehicleControlModeMsg.Timestamp = timestamp2;
 
                 /* Execute all stateful behavior. */

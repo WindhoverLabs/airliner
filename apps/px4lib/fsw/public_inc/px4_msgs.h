@@ -590,18 +590,18 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
     uint64 Timestamp;
     uint64 SampleTime;
-    float Control[PX4_ACTUATOR_CONTROL_COUNT];
+    float  Control[PX4_ACTUATOR_CONTROL_COUNT];
 } PX4_ActuatorControlsMsg_t;
 
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
     uint32 Count;
-    float Output[PX4_ACTUATOR_OUTPUTS_MAX];
+    float  Output[PX4_ACTUATOR_OUTPUTS_MAX];
 } PX4_ActuatorOutputsMsg_t;
 
 typedef struct
@@ -616,15 +616,15 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    float  Voltage;					/* V */
-    float  VoltageFiltered;			/* V */
-    float  Current;					/* A */
-    float  CurrentFiltered;			/* A */
-    float  Discharged;				/* mAh */
-    float  Remaining;
-    float  Scale;
-    int32  CellCount;
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    float   Voltage;					/* V */
+    float   VoltageFiltered;			/* V */
+    float   Current;					/* A */
+    float   CurrentFiltered;			/* A */
+    float   Discharged;				/* mAh */
+    float   Remaining;
+    float   Scale;
+    int32   CellCount;
     boolean Connected;
     PX4_BatteryWarningSeverity_t Warning;
 } PX4_BatteryStatusMsg_t;
@@ -633,7 +633,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     PX4_CommanderMainState_t MainState;
 } PX4_CommanderStateMsg_t;
 
@@ -681,7 +680,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     float MinDistance;
     float MaxDistance;
     float CurrentDistance;
@@ -694,18 +692,17 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
-    float States[PX4_ESTIMATOR_STATES_MAX];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    float  States[PX4_ESTIMATOR_STATES_MAX];
     uint32 NumStates;
-    float Vibe[PX4_ESTIMATOR_VIBE_MAX];
-    float Covariances[PX4_ESTIMATOR_COVARIANCES_MAX];
+    float  Vibe[PX4_ESTIMATOR_VIBE_MAX];
+    float  Covariances[PX4_ESTIMATOR_COVARIANCES_MAX];
     uint16 GpsCheckFailFlags;
     uint16 ControlModeFlags;
     uint16 FilterFaultFlags;
-    uint8 NanFlags;
-    uint8 HealthFlags;
-    uint8 TimeoutFlags;
+    uint8  NanFlags;
+    uint8  HealthFlags;
+    uint8  TimeoutFlags;
 } PX4_EstimatorStatusMsg_t;
 
 typedef struct
