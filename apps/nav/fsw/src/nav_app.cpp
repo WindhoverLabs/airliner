@@ -766,7 +766,7 @@ int32 NAV::Execute()
                     PX4_SetpointType_t::PX4_SETPOINT_TYPE_TAKEOFF;
 
             /* Check if home position is valid, set current yaw and previous valid accordingly */
-            if (CVT.HomePositionMsg.Timestamp > 0)
+            if (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.HomePositionMsg))
             {
                 TakeoffTripletMsg.Current.Yaw =
                         CVT.VehicleCommandMsg.Param4;
@@ -2066,7 +2066,7 @@ float NAV::GetTimeInside(NAV_MissionItem_t * Item)
 
 osalbool NAV::HomePositionValid()
 {
-    osalbool HomePosValidFlag = (CVT.HomePositionMsg.Timestamp > 0);
+    osalbool HomePosValidFlag = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.HomePositionMsg);
     
     return HomePosValidFlag;
 }

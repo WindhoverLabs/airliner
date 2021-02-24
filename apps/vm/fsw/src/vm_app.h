@@ -409,19 +409,6 @@ public:
     void SendActuatorArmedMsg(void);
 
     /************************************************************************/
-    /** \brief Sends the HomePositionMsg message.
-     **
-     **  \par Description
-     **       This function publishes the HomePositionMsg message containing
-     **       <TODO>
-     **
-     **  \par Assumptions, External Events, and Notes:
-     **       None
-     **
-     *************************************************************************/
-    void SendHomePositionMsg(void);
-
-    /************************************************************************/
     /** \brief Sends the VehicleManagerStateMsg message.
      **
      **  \par Description

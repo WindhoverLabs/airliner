@@ -1134,19 +1134,6 @@ void VM::SendActuatorArmedMsg()
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/*  Send HomePositionMsg                                           */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void VM::SendHomePositionMsg()
-{
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &HomePositionMsg);
-    CFE_SB_SendMsg((CFE_SB_Msg_t*) &HomePositionMsg);
-}
-
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
 /*  Send VehicleManagerStateMsg                                    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1396,7 +1383,7 @@ void VM::SetHomePosition()
             DistBottom = VehicleLocalPositionMsg.DistBottom;
         }
 
-        HomePositionMsg.Timestamp = TimeNow();
+        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &HomePositionMsg);
         HomePositionMsg.Lat = VehicleGlobalPositionMsg.Lat;
         HomePositionMsg.Lon = VehicleGlobalPositionMsg.Lon;
         HomePositionMsg.Alt = VehicleGlobalPositionMsg.Alt - DistBottom - ConfigTblPtr->HOME_POS_ALT_PADDING;
@@ -1415,7 +1402,7 @@ void VM::SetHomePosition()
                 "Home Position set. [Lat -> %.6f | Lon -> %.6f | Alt ->%.6f]",
                 HomePositionMsg.Lat, HomePositionMsg.Lon, HomePositionMsg.Alt);
 
-        SendHomePositionMsg();
+        CFE_SB_SendMsg((CFE_SB_Msg_t*) &HomePositionMsg);
     }
     else
     {
@@ -1830,7 +1817,8 @@ void VM::Execute()
                 (void) CFE_EVS_SendEvent(VM_RC_KIL_SWTCH_INFO_EID, CFE_EVS_INFORMATION,
                         "Killswitch engaged ");
                 ActuatorArmedMsg.ManualLockdown = true;
-                SendActuatorArmedMsg();
+                CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &ActuatorArmedMsg);
+                CFE_SB_SendMsg((CFE_SB_Msg_t*) &ActuatorArmedMsg);
             }
         }
         else if(ManualControlSetpointMsg.KillSwitch == PX4_SWITCH_POS_OFF)
@@ -1840,7 +1828,8 @@ void VM::Execute()
                 (void) CFE_EVS_SendEvent(VM_RC_KIL_SWTCH_INFO_EID, CFE_EVS_INFORMATION,
                         "killswitch disengaged ");
                 ActuatorArmedMsg.ManualLockdown = false;
-                SendActuatorArmedMsg();
+                CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &ActuatorArmedMsg);
+                CFE_SB_SendMsg((CFE_SB_Msg_t*) &ActuatorArmedMsg);
             }
         }
 
