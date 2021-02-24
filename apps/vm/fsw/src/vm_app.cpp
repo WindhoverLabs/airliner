@@ -518,7 +518,7 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 timestamp2 = PX4LIB_GetPX4TimeUs();
 
                 CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&ActuatorArmedMsg, timestamp);
-                VehicleStatusMsg.Timestamp = timestamp2;
+                CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&VehicleStatusMsg, timestamp);
                 CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&VehicleManagerStateMsg, timestamp);
                 VehicleControlModeMsg.Timestamp = timestamp2;
 

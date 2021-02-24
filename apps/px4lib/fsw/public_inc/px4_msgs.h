@@ -1278,13 +1278,12 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
-    uint32 SystemID;
-    uint32 ComponentID;
-    uint32 OnboardControlSensorsPresent;
-    uint32 OnboardControlSensorsEnabled;
-    uint32 OnboardControlSensorsHealth;
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint32  SystemID;
+    uint32  ComponentID;
+    uint32  OnboardControlSensorsPresent;
+    uint32  OnboardControlSensorsEnabled;
+    uint32  OnboardControlSensorsHealth;
     PX4_NavigationState_t NavState;
     PX4_ArmingState_t ArmingState;
     PX4_HilState_t HilState;
@@ -1297,7 +1296,7 @@ typedef struct
     boolean RcSignalLost;
     PX4_RcInMode_t RcInputMode;
     boolean DataLinkLost;
-    uint8 DataLinkLostCounter;
+    uint8   DataLinkLostCounter;
     boolean EngineFailure;
     boolean EngineFailureCmd;
     boolean MissionFailure;

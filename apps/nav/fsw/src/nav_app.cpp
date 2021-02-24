@@ -661,7 +661,7 @@ int32 NAV::Execute()
     uint64 Now2 = 0;
     
     /* Set vehicle arming state */
-    if (CVT.VehicleStatusMsg.Timestamp != 0 && !VehicleStatusUpdateOnce)
+    if (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.VehicleStatusMsg) && !VehicleStatusUpdateOnce)
     {
         CVT.VehicleStatusMsg.ArmingState = PX4_ArmingState_t::PX4_ARMING_STATE_STANDBY;
         VehicleStatusUpdateOnce = TRUE;
