@@ -1130,7 +1130,7 @@ void LD::Execute()
         (VehicleLandDetectedMsg.GroundContact != Ground) ||
         (fabsf(VehicleLandDetectedMsg.AltMax - prev_altitude_max) > FLT_EPSILON))
     {
-        VehicleLandDetectedMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+    	CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&VehicleLandDetectedMsg);
         VehicleLandDetectedMsg.AltMax = altitude_max;
         VehicleLandDetectedMsg.Freefall = Freefall;
         VehicleLandDetectedMsg.Landed = Land;

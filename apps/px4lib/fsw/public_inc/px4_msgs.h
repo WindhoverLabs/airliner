@@ -913,20 +913,20 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
-    uint64 TimestampLastValid;
-    float Channels[PX4_RC_INPUT_MAX_CHANNELS];
-    uint32 FrameDropCount;
-    uint8 ChannelCount;
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
+    uint64  TimestampLastValid;
+    float   Channels[PX4_RC_INPUT_MAX_CHANNELS];
+    uint32  FrameDropCount;
+    uint8   ChannelCount;
     PX4_RcChannelFunction_t Function[PX4_RC_CHANNELS_FUNCTION_COUNT];
-    uint8 RSSI;
+    uint8   RSSI;
     boolean SignalLost;
 } PX4_RcChannelsMsg_t;
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
     boolean SafetySwitchAvailable;
     boolean SafetyOff;
 } PX4_SafetyMsg_t;
@@ -1086,7 +1086,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     uint16 Command;
     PX4_VehicleCommandResult_t Result;
 } PX4_VehicleCommandAckMsg_t;
@@ -1200,7 +1199,6 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64  Timestamp;
     float   AltMax;
     boolean Landed;
     boolean Freefall;

@@ -420,7 +420,7 @@ osalbool VM_Navigation::AllMessagesReceivedAtLeastOnce()
     osalbool SensorCombinedMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorCombinedMsg);
     osalbool VehicleAttitudeMsgReady = (App.VehicleAttitudeMsg.Timestamp > 0);
     osalbool VehicleLocalPositionMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleLocalPositionMsg);
-    osalbool VehicleLandDetectedMsgReady = (App.VehicleLandDetectedMsg.Timestamp > 0);
+    osalbool VehicleLandDetectedMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleLandDetectedMsg);
     osalbool VehicleGlobalPositionMsgReady = (App.VehicleGlobalPositionMsg.Timestamp > 0);
     osalbool VehicleGpsPositionMsgReady = (App.VehicleGpsPositionMsg.Timestamp > 0);
 
