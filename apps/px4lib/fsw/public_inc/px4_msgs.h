@@ -1306,7 +1306,6 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
     float gyro_offset_0[3];
     float gyro_scale_0[3];
     float gyro_offset_1[3];
