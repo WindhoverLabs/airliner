@@ -214,9 +214,9 @@ modules:
       - parent: CFE_ES_AppNameCmd_Payload_t
         member: Application
         type: string
-      - parent: CFE_EVS_Packet_Payload_t
-        member: Message
-        type: string
+      #- parent: CFE_EVS_Packet_Payload_t
+      # member: Message
+      # type: string
       - parent: CFE_EVS_PacketID_t
         member: AppName
         type: string
@@ -673,7 +673,7 @@ modules:
         struct: CFE_EVS_TlmPkt_t
       CFE_EVS_EVENT_MSG_MID:
         msgID: 0x0808
-        struct: CFE_EVS_Packet_t
+        #struct: CFE_EVS_Packet_t
     commands:
       CFE_EVS_CMD_MID:
        msgID: 0x1801
