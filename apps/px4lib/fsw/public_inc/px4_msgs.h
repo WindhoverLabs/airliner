@@ -714,35 +714,34 @@ typedef struct
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
     uint8 Len;
     uint8 Flags;
-    char Data[PX4_GPS_INJECT_DATA_MAX];
+    char  Data[PX4_GPS_INJECT_DATA_MAX];
 } PX4_GpsInjectDataMsg_t;
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
     double Lat;
     double Lon;
-    float Alt;
-    float X;
-    float Y;
-    float Z;
-    float Yaw;
-    float DirectionX;
-    float DirectionY;
-    float DirectionZ;
+    float  Alt;
+    float  X;
+    float  Y;
+    float  Z;
+    float  Yaw;
+    float  DirectionX;
+    float  DirectionY;
+    float  DirectionZ;
 } PX4_HomePositionMsg_t;
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 Timestamp;
-    uint64 LastSignal;
-    uint32 ChannelCount;
-    int32 RSSI;
-    uint16 RcLostFrameCount;
-    uint16 RcTotalFrameCount;
-    uint16 RcPpmFrameLength;
-    uint16 Values[PX4_RC_INPUT_MAX_CHANNELS];
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    CFE_TIME_SysTime_t LastSignal;
+    uint32  ChannelCount;
+    int32   RSSI;
+    uint16  RcLostFrameCount;
+    uint16  RcTotalFrameCount;
+    uint16  RcPpmFrameLength;
+    uint16  Values[PX4_RC_INPUT_MAX_CHANNELS];
     boolean RcFailsafe;
     boolean RcLost;
     PX4_RcInputSource_t InputSource;
@@ -752,7 +751,7 @@ typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
     uint8 Severity;
-    char Text[127];
+    char  Text[127];
 } PX4_LogMessageMsg_t;
 
 typedef struct

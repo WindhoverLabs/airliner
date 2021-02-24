@@ -932,7 +932,7 @@ void MAC::RunController(void)
         controllerStatus.RollRateInteg = m_AngularRatesIntegralError[0];
         controllerStatus.PitchRateInteg = m_AngularRatesIntegralError[1];
         controllerStatus.YawRateInteg = m_AngularRatesIntegralError[2];
-        controllerStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&controllerStatus);
     }
 }
 

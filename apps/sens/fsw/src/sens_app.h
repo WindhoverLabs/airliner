@@ -78,7 +78,7 @@ typedef struct
     CFE_TIME_SysTime_t            PrevMagTime;
     PX4_ActuatorControlsMsg_t     ActuatorControls0Msg;
     PX4_InputRcMsg_t              InputRcMsg;
-    uint64                        LastInputRcTime;
+    CFE_TIME_SysTime_t            LastInputRcTime;
     PX4_DifferentialPressureMsg_t DifferentialPressureMsg;
     PX4_VehicleControlModeMsg_t   VehicleControlModeMsg;
 } SENS_CurrentValueTable_t;

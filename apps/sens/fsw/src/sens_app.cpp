@@ -769,7 +769,9 @@ void SENS::UpdateRcFunctions()
 
 void SENS::ProcessRCInput(void)
 {
-	if(CVT.InputRcMsg.Timestamp > CVT.LastInputRcTime)
+	CFE_TIME_SysTime_t inputRcMsgTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.InputRcMsg);
+
+	if(CFE_TIME_Compare(inputRcMsgTime, CVT.LastInputRcTime) == CFE_TIME_A_GT_B)
 	{
 		/* Read low-level values from FMU or IO RC inputs (PPM, Spektrum, S.Bus) */
 		//struct rc_input_values rc_input;
@@ -853,8 +855,8 @@ void SENS::ProcessRCInput(void)
 				RcChannelsMsg.ChannelCount = CVT.InputRcMsg.ChannelCount;
 				RcChannelsMsg.RSSI = CVT.InputRcMsg.RSSI;
 				RcChannelsMsg.SignalLost = signal_lost;
-				RcChannelsMsg.Timestamp = CVT.InputRcMsg.Timestamp;
-				RcChannelsMsg.TimestampLastValid = CVT.InputRcMsg.LastSignal;
+				RcChannelsMsg.Timestamp = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.InputRcMsg);
+				RcChannelsMsg.TimestampLastValid = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.InputRcMsg.LastSignal);
 				RcChannelsMsg.FrameDropCount = CVT.InputRcMsg.RcLostFrameCount;
 			}
 			else if (CVT.InputRcMsg.Values[i] < (ConfigTblPtr->Trim[i] - ConfigTblPtr->DZ[i]))
@@ -880,20 +882,20 @@ void SENS::ProcessRCInput(void)
 		RcChannelsMsg.ChannelCount = CVT.InputRcMsg.ChannelCount;
 		RcChannelsMsg.RSSI = CVT.InputRcMsg.RSSI;
 		RcChannelsMsg.SignalLost = signal_lost;
-		RcChannelsMsg.Timestamp = CVT.InputRcMsg.LastSignal;
+		RcChannelsMsg.Timestamp = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.InputRcMsg.LastSignal);
 		RcChannelsMsg.FrameDropCount = CVT.InputRcMsg.RcLostFrameCount;
 
 		/* Publish rc_channels topic even if signal is invalid, for debug */
 		SendRcChannelsMsg();
 
 		/* Only publish manual control if the signal is still present and was present once */
-		if (!signal_lost && CVT.InputRcMsg.LastSignal > 0)
+		if (!signal_lost && !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t&)CVT.InputRcMsg.LastSignal))
 		{
 			/* Set mode slot to unassigned */
 			ManualControlSetpointMsg.ModeSlot = PX4_MODE_SLOT_NONE;
 
 			/* Set the timestamp to the last signal time */
-			ManualControlSetpointMsg.Timestamp = CVT.InputRcMsg.LastSignal;
+			ManualControlSetpointMsg.Timestamp = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.InputRcMsg.LastSignal);
 			ManualControlSetpointMsg.DataSource = PX4_MANUAL_CONTROL_SOURCE_RC;
 
 			/* Limit controls */
@@ -998,10 +1000,7 @@ void SENS::ProcessRCInput(void)
             }
 
 			/* Copy from mapped manual control to control group 3 */
-            CFE_TIME_SysTime_t lastSignalTime;
-            lastSignalTime.Seconds = CVT.InputRcMsg.LastSignal / 1000000;
-            lastSignalTime.Subseconds = CFE_TIME_Micro2SubSecs(CVT.InputRcMsg.LastSignal - (lastSignalTime.Seconds * 1000000));
-            CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&ActuatorControls3Msg, lastSignalTime);
+            CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&ActuatorControls3Msg, CVT.InputRcMsg.LastSignal);
 
 			ActuatorControls3Msg.Control[0] = ManualControlSetpointMsg.Y;
 			ActuatorControls3Msg.Control[1] = ManualControlSetpointMsg.X;
@@ -1019,7 +1018,7 @@ void SENS::ProcessRCInput(void)
 		    CFE_SB_SendMsg((CFE_SB_Msg_t*)&ActuatorControls3Msg);
 		}
 
-		CVT.LastInputRcTime = CVT.InputRcMsg.Timestamp;
+		CVT.LastInputRcTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.InputRcMsg);
 	}
 }
 
