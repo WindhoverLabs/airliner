@@ -671,6 +671,18 @@ CFE_TIME_Compare_t  CFE_SB_CompareMsgTime(const CFE_SB_MsgPtr_t msgA, const CFE_
 }
 
 
+
+void CFE_SB_ClearMsgTime(CFE_SB_MsgPtr_t msg)
+{
+	CFE_TIME_SysTime_t newTime;
+
+	CFE_TIME_ClearTime(&newTime);
+
+	CFE_SB_SetMsgTime(msg, newTime);
+
+}
+
+
 /************************/
 /*  End of File Comment */
 /************************/

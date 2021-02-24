@@ -266,6 +266,7 @@ void    CFE_SB_CopyMsgTime(CFE_SB_MsgPtr_t dest, const CFE_SB_MsgPtr_t src);
 boolean CFE_SB_IsMsgTimeZero(const CFE_SB_MsgPtr_t msg);
 uint64  CFE_SB_GetMsgTimeInMicros(const CFE_SB_MsgPtr_t msg);
 double  CFE_SB_GetMsgTimeInSeconds(const CFE_SB_MsgPtr_t msg);
+void    CFE_SB_ClearMsgTime(CFE_SB_MsgPtr_t msg);
 CFE_TIME_Compare_t  CFE_SB_CompareMsgTime(const CFE_SB_MsgPtr_t msgA, const CFE_SB_MsgPtr_t msgB);
 
 

@@ -579,7 +579,6 @@ typedef enum
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64  Timestamp;
     boolean Armed;
     boolean Prearmed;
     boolean ReadyToArm;

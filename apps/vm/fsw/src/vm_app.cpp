@@ -502,7 +502,8 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
         {
             case VM_WAKEUP_MID:
             {
-                uint64 timestamp;
+            	CFE_TIME_SysTime_t timestamp;
+                uint64 timestamp2;
 
                 CheckParams();
                 ProcessDataPipe();
@@ -514,11 +515,12 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 Execute();
 
                 /* Get a common timestamp. */
-                timestamp = PX4LIB_GetPX4TimeUs();
-                ActuatorArmedMsg.Timestamp = timestamp;
-                VehicleStatusMsg.Timestamp = timestamp;
-                VehicleManagerStateMsg.Timestamp = timestamp;
-                VehicleControlModeMsg.Timestamp = timestamp;
+                timestamp2 = PX4LIB_GetPX4TimeUs();
+
+                CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&ActuatorArmedMsg, timestamp);
+                VehicleStatusMsg.Timestamp = timestamp2;
+                VehicleManagerStateMsg.Timestamp = timestamp2;
+                VehicleControlModeMsg.Timestamp = timestamp2;
 
                 /* Execute all stateful behavior. */
                 ArmingSM.DoAction();
