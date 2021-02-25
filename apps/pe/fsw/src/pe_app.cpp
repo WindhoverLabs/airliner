@@ -361,59 +361,59 @@ void PE::InitData()
             PX4_VEHICLE_GLOBAL_POSITION_MID, sizeof(PX4_VehicleGlobalPositionMsg_t), TRUE);
 
     /* Timestamps */
-    m_Timestamp             = PX4LIB_GetPX4TimeUs();
-    m_TimeLastBaro          = 0;
-    m_TimeLastGps           = 0;
-    m_TimeLastLand          = 0;
-    m_TimeLastDist          = 0;
-    m_TimeLastFlow          = 0;
-    m_Timestamp_Hist        = 0;
-    m_TimestampLastBaro     = 0;
+    HkTlm.Timestamp         = CFE_TIME_GetTime();
+    CFE_TIME_ClearTime(&HkTlm.TimeLastBaro);
+    CFE_TIME_ClearTime(&HkTlm.TimeLastGps);
+    CFE_TIME_ClearTime(&HkTlm.TimeLastLand);
+    CFE_TIME_ClearTime(&HkTlm.TimeLastDist);
+    CFE_TIME_ClearTime(&HkTlm.TimeLastFlow);
+    CFE_TIME_ClearTime(&HkTlm.Timestamp_Hist);
+    CFE_TIME_ClearTime(&HkTlm.TimestampLastBaro);
 
     /* Timeouts */
-    m_BaroTimeout           = TRUE;
-    m_GpsTimeout            = TRUE;
-    m_LandTimeout           = TRUE;
-    m_DistTimeout           = TRUE;
-    m_FlowTimeout           = TRUE;
+    HkTlm.BaroTimeout           = TRUE;
+    HkTlm.GpsTimeout            = TRUE;
+    HkTlm.LandTimeout           = TRUE;
+    HkTlm.DistTimeout           = TRUE;
+    HkTlm.FlowTimeout           = TRUE;
 
     /* Faults */
-    m_BaroFault             = TRUE;
-    m_GpsFault              = TRUE;
-    m_LandFault             = TRUE;
-    m_DistFault             = TRUE;
-    m_FlowFault             = TRUE;
+    HkTlm.BaroFault             = TRUE;
+    HkTlm.GpsFault              = TRUE;
+    HkTlm.LandFault             = TRUE;
+    HkTlm.DistFault             = TRUE;
+    HkTlm.FlowFault             = TRUE;
     
     /* Fuse Flags */
-    m_BaroFuse              = FALSE;
-    m_GpsFuse               = FALSE;
-    m_LandFuse              = FALSE;
-    m_DistFuse              = FALSE;
-    m_FlowFuse              = FALSE;
+    HkTlm.BaroFuse              = FALSE;
+    HkTlm.GpsFuse               = FALSE;
+    HkTlm.LandFuse              = FALSE;
+    HkTlm.DistFuse              = FALSE;
+    HkTlm.FlowFuse              = FALSE;
 
     /* Validity */
-    m_XyEstValid            = FALSE;
-    m_ZEstValid             = FALSE;
-    m_TzEstValid            = FALSE;
+    HkTlm.XyEstValid            = FALSE;
+    HkTlm.ZEstValid             = FALSE;
+    HkTlm.TzEstValid            = FALSE;
 
     /* Reference altitudes */
-    m_AltOrigin             = 0.0f;
-    m_BaroAltOrigin         = 0.0f;
-    m_GpsAltOrigin          = 0.0f;
-    m_DistAltOrigin         = 0.0f;
+    HkTlm.AltOrigin             = 0.0f;
+    HkTlm.BaroAltOrigin         = 0.0f;
+    HkTlm.GpsAltOrigin          = 0.0f;
+    HkTlm.DistAltOrigin         = 0.0f;
 
     /* Status */
-    m_EstimatorLocalInitialized   = FALSE;
-    m_EstimatorGlobalInitialized  = FALSE;
-    m_BaroInitialized             = FALSE;
-    m_GpsInitialized              = FALSE;
-    m_LandInitialized             = FALSE;
-    m_DistInitialized             = FALSE;
-    m_FlowInitialized             = FALSE;
-    m_ReceivedGps                 = FALSE;
-    m_LastArmedState              = FALSE;
-    m_AltOriginInitialized        = FALSE;
-    m_ParamsUpdated               = FALSE;
+    HkTlm.EstimatorLocalInitialized   = FALSE;
+    HkTlm.EstimatorGlobalInitialized  = FALSE;
+    HkTlm.BaroInitialized             = FALSE;
+    HkTlm.GpsInitialized              = FALSE;
+    HkTlm.LandInitialized             = FALSE;
+    HkTlm.DistInitialized             = FALSE;
+    HkTlm.FlowInitialized             = FALSE;
+    HkTlm.ReceivedGps                 = FALSE;
+    HkTlm.LastArmedState              = FALSE;
+    HkTlm.AltOriginInitialized        = FALSE;
+    m_ParamsUpdated                   = FALSE;
 
     /* Matrix/Vector Zero */
     m_RotationMat.Zero();
@@ -782,9 +782,9 @@ osalbool PE::ProcessDataPipe()
 				    CFE_PSP_MemCpy(&m_VehicleGpsPositionMsg, MsgPtr, sizeof(m_VehicleGpsPositionMsg));
 
                     /* Check if fusing distance sensor */
-                    if(TRUE == m_GpsFuse)
+                    if(TRUE == HkTlm.GpsFuse)
 				    {
-					    if(m_GpsTimeout)
+					    if(HkTlm.GpsTimeout)
 					    {
 						    gpsInit();
 					    }
@@ -809,14 +809,14 @@ osalbool PE::ProcessDataPipe()
 		    		CFE_PSP_MemCpy(&m_VehicleLandDetectedMsg, MsgPtr, sizeof(m_VehicleLandDetectedMsg));
 
 				    /* Check if fusing land */
-				    if(TRUE == m_LandFuse)
+				    if(TRUE == HkTlm.LandFuse)
 				    {
 					    if(landed())
 					    {
 						    /* Throttle rate */
-						    if((m_Timestamp - m_TimeLastLand) > 1.0e6f / LAND_RATE)
+						    if((CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastLand)) > 1.0e6f / LAND_RATE)
 						    {
-							    if(m_LandTimeout)
+							    if(HkTlm.LandTimeout)
 							    {
 								    landInit();
 							    }
@@ -851,7 +851,7 @@ osalbool PE::ProcessDataPipe()
 				    CFE_PSP_MemCpy(&m_SensorCombinedMsg, MsgPtr, sizeof(m_SensorCombinedMsg));
 
 				    /* Check if fusing baro */
-				    if(TRUE == m_BaroFuse)
+				    if(TRUE == HkTlm.BaroFuse)
 				    {
 					    /* If baro is valid */
 					    if(!m_SensorCombinedMsg.BaroInvalid)
@@ -861,10 +861,9 @@ osalbool PE::ProcessDataPipe()
 						     * Baro relative is the difference between the gyro and baro
 						     * when received by the sensors application. If baro is fresh.
 						     */
-						    if(CFE_TIME_ConvertTimeToMicros(m_SensorCombinedMsg.BaroTimestamp)
-						       != m_TimeLastBaro)
+						    if(CFE_TIME_Compare(m_SensorCombinedMsg.BaroTimestamp, HkTlm.TimeLastBaro) != CFE_TIME_EQUAL)
 						    {
-							    if(m_BaroTimeout)
+							    if(HkTlm.BaroTimeout)
 							    {
 							    	baroInit();
 							    }
@@ -873,7 +872,7 @@ osalbool PE::ProcessDataPipe()
 							    	baroCorrect();
 							    }
 							    /* Save the last valid timestamp */
-							    m_TimeLastBaro = CFE_TIME_ConvertTimeToMicros(m_SensorCombinedMsg.BaroTimestamp);
+							    HkTlm.TimeLastBaro = m_SensorCombinedMsg.BaroTimestamp;
 						    }
 					    }
 				    }
@@ -896,15 +895,15 @@ osalbool PE::ProcessDataPipe()
 				    if(m_DistanceSensor.Type == DIST_SENSOR_TYPE)
 				    {
 					    /* Check if fusing distance sensor */
-					    if(TRUE == m_DistFuse)
+					    if(TRUE == HkTlm.DistFuse)
 					    {
 						    /* Don't integrate while landed */
 						    if(!landed())
 						    {
 							    /* Throttle rate */
-							    if((m_Timestamp - m_TimeLastLand) > 1.0e6f / DIST_RATE)
+							    if((CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastLand)) > 1.0e6f / DIST_RATE)
 							    {
-								    if(m_DistTimeout)
+								    if(HkTlm.DistTimeout)
 								    {
 									    distInit();
 								    }
@@ -925,9 +924,9 @@ osalbool PE::ProcessDataPipe()
 				    CFE_PSP_MemCpy(&m_OpticalFlowMsg, MsgPtr, sizeof(m_OpticalFlowMsg));
 
 				    /* Check if fusing distance sensor */
-				    if(TRUE == m_FlowFuse)
+				    if(TRUE == HkTlm.FlowFuse)
 				    {
-					    if(m_FlowTimeout)
+					    if(HkTlm.FlowTimeout)
 					    {
 						    flowInit();
 					    }
@@ -992,7 +991,7 @@ void PE::ProcessCmdPipe()
                     /* Bump the command error counter for an unknown command.
                      * (This should only occur if it was subscribed to with this
                      *  pipe, but not handled in this switch-case.) */
-                    HkTlm.usCmdErrCnt++;
+                    HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(PE_MSGID_ERR_EID, CFE_EVS_ERROR,
                                       "Recvd invalid CMD msgId (0x%04X)", (unsigned short)CmdMsgId);
                     break;
@@ -1020,15 +1019,15 @@ void PE::ProcessCmdPipe()
 
 void PE::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 {
-    uint32  uiCmdCode=0;
+    uint32  cmdCode=0;
 
     if (MsgPtr != NULL)
     {
-        uiCmdCode = CFE_SB_GetCmdCode(MsgPtr);
-        switch (uiCmdCode)
+        cmdCode = CFE_SB_GetCmdCode(MsgPtr);
+        switch (cmdCode)
         {
             case PE_NOOP_CC:
-                HkTlm.usCmdCnt++;
+                HkTlm.CmdCnt++;
                 (void) CFE_EVS_SendEvent(PE_CMD_NOOP_EID, CFE_EVS_INFORMATION,
                     "Recvd NOOP. Version %d.%d.%d.%d",
                     PE_MAJOR_VERSION,
@@ -1038,8 +1037,8 @@ void PE::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 break;
 
             case PE_RESET_CC:
-                HkTlm.usCmdCnt = 0;
-                HkTlm.usCmdErrCnt = 0;
+                HkTlm.CmdCnt = 0;
+                HkTlm.CmdErrCnt = 0;
             	HkTlm.WakeupCount = 0;
                 HkTlm.VehicleGpsPositionMsgCount = 0;
                 HkTlm.VehicleStatusMsgCount = 0;
@@ -1053,169 +1052,169 @@ void PE::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 break;
 
             case PE_FUSE_DIST_SENS_CC:
-                if(FALSE == m_DistFuse)
+                if(FALSE == HkTlm.DistFuse)
                 {
-                    m_DistFuse = TRUE;
-                    HkTlm.usCmdCnt++;
+                	HkTlm.DistFuse = TRUE;
+                    HkTlm.CmdCnt++;
                     (void) CFE_EVS_SendEvent(PE_FUSE_DIST_INF_EID, CFE_EVS_INFORMATION,
                                   "Fusing distance sensor into estimation.");
                 }
                 else
                 {
-                    HkTlm.usCmdErrCnt++;
+                    HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(PE_FUSE_DIST_ERR_EID, CFE_EVS_ERROR,
                                   "Already fusing distance sensor into estimation.");
                 }
                 break;
 
             case PE_DISABLE_DIST_SENS_CC:
-                if(TRUE == m_DistFuse)
+                if(TRUE == HkTlm.DistFuse)
                 {
-                    m_DistFuse = FALSE;
-                    HkTlm.usCmdCnt++;
+                	HkTlm.DistFuse = FALSE;
+                    HkTlm.CmdCnt++;
                     (void) CFE_EVS_SendEvent(PE_DISABLE_DIST_INF_EID, CFE_EVS_INFORMATION,
                                   "Disabling distance sensor fusion into estimation.");
                 }
                 else
                 {
-                    HkTlm.usCmdErrCnt++;
+                    HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(PE_DISABLE_DIST_ERR_EID, CFE_EVS_ERROR,
                                   "Failed to disable distance sensor fusion into estimation.");
                 }
                 break;
 
             case PE_FUSE_GPS_CC:
-                if(FALSE == m_GpsFuse)
+                if(FALSE == HkTlm.GpsFuse)
                 {
-                    m_GpsFuse = TRUE;
-                    HkTlm.usCmdCnt++;
+                	HkTlm.GpsFuse = TRUE;
+                    HkTlm.CmdCnt++;
                     (void) CFE_EVS_SendEvent(PE_FUSE_GPS_INF_EID, CFE_EVS_INFORMATION,
                                   "Fusing GPS into estimation.");
                 }
                 else
                 {
-                    HkTlm.usCmdErrCnt++;
+                    HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(PE_FUSE_GPS_ERR_EID, CFE_EVS_ERROR,
                                   "Already fusing GPS into estimation.");
                 }
                 break;
 
             case PE_DISABLE_GPS_CC:
-                if(TRUE == m_GpsFuse)
+                if(TRUE == HkTlm.GpsFuse)
                 {
-                    m_GpsFuse = FALSE;
-                    HkTlm.usCmdCnt++;
+                	HkTlm.GpsFuse = FALSE;
+                    HkTlm.CmdCnt++;
                     (void) CFE_EVS_SendEvent(PE_DISABLE_GPS_INF_EID, CFE_EVS_INFORMATION,
                                   "Disabling GPS fusion into estimation.");
                 }
                 else
                 {
-                    HkTlm.usCmdErrCnt++;
+                    HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(PE_DISABLE_GPS_ERR_EID, CFE_EVS_ERROR,
                                   "Failed to disable GPS fusion into estimation.");
                 }
                 break;
 
             case PE_FUSE_BARO_CC:
-                if(FALSE == m_BaroFuse)
+                if(FALSE == HkTlm.BaroFuse)
                 {
-                    m_BaroFuse = TRUE;
-                    HkTlm.usCmdCnt++;
+                	HkTlm.BaroFuse = TRUE;
+                    HkTlm.CmdCnt++;
                     (void) CFE_EVS_SendEvent(PE_FUSE_BARO_INF_EID, CFE_EVS_INFORMATION,
                                   "Fusing baro into estimation.");
                 }
                 else
                 {
-                    HkTlm.usCmdErrCnt++;
+                    HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(PE_FUSE_BARO_ERR_EID, CFE_EVS_ERROR,
                                   "Already fusing baro into estimation.");
                 }
                 break;
 
             case PE_DISABLE_BARO_CC:
-                if(TRUE == m_BaroFuse)
+                if(TRUE == HkTlm.BaroFuse)
                 {
-                    m_BaroFuse = FALSE;
-                    HkTlm.usCmdCnt++;
+                	HkTlm.BaroFuse = FALSE;
+                    HkTlm.CmdCnt++;
                     (void) CFE_EVS_SendEvent(PE_DISABLE_BARO_INF_EID, CFE_EVS_INFORMATION,
                                   "Disabling baro fusion into estimation.");
                 }
                 else
                 {
-                    HkTlm.usCmdErrCnt++;
+                    HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(PE_DISABLE_BARO_ERR_EID, CFE_EVS_ERROR,
                                   "Failed to disable baro fusion into estimation.");
                 }
                 break;
 
             case PE_FUSE_LAND_CC:
-                if(FALSE == m_LandFuse)
+                if(FALSE == HkTlm.LandFuse)
                 {
-                    m_LandFuse = TRUE;
-                    HkTlm.usCmdCnt++;
+                    HkTlm.LandFuse = TRUE;
+                    HkTlm.CmdCnt++;
                     (void) CFE_EVS_SendEvent(PE_FUSE_LAND_INF_EID, CFE_EVS_INFORMATION,
                                   "Fusing land into estimation.");
                 }
                 else
                 {
-                    HkTlm.usCmdErrCnt++;
+                    HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(PE_FUSE_LAND_ERR_EID, CFE_EVS_ERROR,
                                   "Already fusing land into estimation.");
                 }
                 break;
 
             case PE_DISABLE_LAND_CC:
-                if(TRUE == m_LandFuse)
+                if(TRUE == HkTlm.LandFuse)
                 {
-                    m_LandFuse = FALSE;
-                    HkTlm.usCmdCnt++;
+                    HkTlm.LandFuse = FALSE;
+                    HkTlm.CmdCnt++;
                     (void) CFE_EVS_SendEvent(PE_DISABLE_LAND_INF_EID, CFE_EVS_INFORMATION,
                                   "Disabling land fusion into estimation.");
                 }
                 else
                 {
-                    HkTlm.usCmdErrCnt++;
+                    HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(PE_DISABLE_LAND_ERR_EID, CFE_EVS_ERROR,
                                   "Failed to disable land fusion into estimation.");
                 }
                 break;
 
             case PE_FUSE_FLOW_CC:
-                if(FALSE == m_FlowFuse)
+                if(FALSE == HkTlm.FlowFuse)
                 {
-                    m_FlowFuse = TRUE;
-                    HkTlm.usCmdCnt++;
+                	HkTlm.FlowFuse = TRUE;
+                    HkTlm.CmdCnt++;
                     (void) CFE_EVS_SendEvent(PE_FUSE_FLOW_INF_EID, CFE_EVS_INFORMATION,
                                   "Fusing flow into estimation.");
                 }
                 else
                 {
-                    HkTlm.usCmdErrCnt++;
+                    HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(PE_FUSE_FLOW_ERR_EID, CFE_EVS_ERROR,
                                   "Already fusing flow into estimation.");
                 }
                 break;
 
             case PE_DISABLE_FLOW_CC:
-                if(TRUE == m_FlowFuse)
+                if(TRUE == HkTlm.FlowFuse)
                 {
-                    m_FlowFuse = FALSE;
-                    HkTlm.usCmdCnt++;
+                	HkTlm.FlowFuse = FALSE;
+                    HkTlm.CmdCnt++;
                     (void) CFE_EVS_SendEvent(PE_DISABLE_FLOW_INF_EID, CFE_EVS_INFORMATION,
                                   "Disabling flow fusion into estimation.");
                 }
                 else
                 {
-                    HkTlm.usCmdErrCnt++;
+                    HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(PE_DISABLE_FLOW_ERR_EID, CFE_EVS_ERROR,
                                   "Failed to disable flow fusion into estimation.");
                 }
                 break;
 
             default:
-                HkTlm.usCmdErrCnt++;
+                HkTlm.CmdErrCnt++;
                 (void) CFE_EVS_SendEvent(PE_CC_ERR_EID, CFE_EVS_ERROR,
-                                  "Recvd invalid command code (%u)", (unsigned int)uiCmdCode);
+                                  "Recvd invalid command code (%u)", (unsigned int)cmdCode);
                 break;
         }
     }
@@ -1229,43 +1228,6 @@ void PE::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 
 void PE::ReportHousekeeping()
 {
-    HkTlm.EstimatorLocalInitialized = m_EstimatorLocalInitialized;
-    HkTlm.EstimatorGlobalInitialized = m_EstimatorGlobalInitialized;
-    HkTlm.XyEstValid = m_XyEstValid;
-    HkTlm.ZEstValid = m_ZEstValid;
-    HkTlm.TzEstValid = m_TzEstValid;
-    HkTlm.Timestamp = m_Timestamp;
-    HkTlm.TimeLastBaro = m_TimeLastBaro;
-    HkTlm.TimeLastGps = m_TimeLastGps;
-    HkTlm.TimeLastLand = m_TimeLastLand;
-    HkTlm.BaroTimeout = m_BaroTimeout;
-    HkTlm.GpsTimeout = m_GpsTimeout;
-    HkTlm.LandTimeout = m_LandTimeout;
-    HkTlm.BaroFault = m_BaroFault;
-    HkTlm.GpsFault = m_GpsFault;
-    HkTlm.LandFault = m_LandFault;
-    HkTlm.AltOrigin = m_AltOrigin;
-    HkTlm.AltOriginInitialized = m_AltOriginInitialized;
-    HkTlm.BaroAltOrigin = m_BaroAltOrigin;
-    HkTlm.GpsAltOrigin = m_GpsAltOrigin;
-    HkTlm.GpsInitialized = m_GpsInitialized;
-    HkTlm.BaroInitialized = m_BaroInitialized;
-    HkTlm.LandInitialized = m_LandInitialized;
-    HkTlm.m_DistAltOrigin = m_DistAltOrigin;
-    HkTlm.DistInitialized = m_DistInitialized;
-    HkTlm.DistFault = m_DistFault;
-    HkTlm.DistTimeout = m_DistTimeout;
-    HkTlm.TimeLastDist = m_TimeLastDist;
-    HkTlm.DistFused = m_DistFuse;
-    HkTlm.GpsFused = m_GpsFuse;
-    HkTlm.BaroFused = m_BaroFuse;
-    HkTlm.LandFused = m_LandFuse;
-    HkTlm.FlowFused = m_FlowFuse;
-    HkTlm.FlowInitialized = m_FlowInitialized;
-    HkTlm.FlowFault = m_FlowFault;
-    HkTlm.FlowTimeout = m_FlowTimeout;
-    HkTlm.TimeLastFlow = m_TimeLastFlow;
-
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&HkTlm);
 }
@@ -1290,10 +1252,10 @@ void PE::SendVehicleLocalPositionMsg()
     vxy_stddev = sqrtf(m_StateCov[X_vx][X_vx] + m_StateCov[X_vy][X_vy]);
     epv = sqrt(m_StateCov[X_z][X_z]);
     eph = sqrt(m_StateCov[X_x][X_x] + m_StateCov[X_y][X_y]);
-    dist_bottom_valid = m_DistFuse && 
-                        m_DistInitialized && 
-                        !m_DistTimeout && 
-                        !m_DistFault;
+    dist_bottom_valid = HkTlm.DistFuse &&
+    		            HkTlm.DistInitialized &&
+                        !HkTlm.DistTimeout &&
+                        !HkTlm.DistFault;
 
     if (vxy_stddev < ConfigTblPtr->VXY_PUB_THRESH)
     {
@@ -1323,10 +1285,10 @@ void PE::SendVehicleLocalPositionMsg()
         CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_VehicleLocalPositionMsg);
         /* TODO:  Set the time from m_Timestamp */
         //m_VehicleLocalPositionMsg.Timestamp = m_Timestamp;
-        m_VehicleLocalPositionMsg.XY_Valid = m_XyEstValid;
-        m_VehicleLocalPositionMsg.Z_Valid = m_ZEstValid;
-        m_VehicleLocalPositionMsg.V_XY_Valid = m_XyEstValid;
-        m_VehicleLocalPositionMsg.V_Z_Valid = m_ZEstValid;
+        m_VehicleLocalPositionMsg.XY_Valid = HkTlm.XyEstValid;
+        m_VehicleLocalPositionMsg.Z_Valid = HkTlm.ZEstValid;
+        m_VehicleLocalPositionMsg.V_XY_Valid = HkTlm.XyEstValid;
+        m_VehicleLocalPositionMsg.V_Z_Valid = HkTlm.ZEstValid;
         m_VehicleLocalPositionMsg.X = m_XLowPass[X_x];
         m_VehicleLocalPositionMsg.Y = m_XLowPass[X_y];
         m_VehicleLocalPositionMsg.Z = -m_AglLowPass.m_State;
@@ -1334,15 +1296,24 @@ void PE::SendVehicleLocalPositionMsg()
         m_VehicleLocalPositionMsg.VY = m_XLowPass[X_vy];
         m_VehicleLocalPositionMsg.VZ = m_XLowPass[X_vz];
         m_VehicleLocalPositionMsg.Yaw = m_Euler[2];
-        m_VehicleLocalPositionMsg.XY_Global = m_XyEstValid;
-        m_VehicleLocalPositionMsg.Z_Global = !m_BaroTimeout;
-        m_VehicleLocalPositionMsg.RefTimestamp = m_Timestamp;
+        m_VehicleLocalPositionMsg.XY_Global = HkTlm.XyEstValid;
+        m_VehicleLocalPositionMsg.Z_Global = !HkTlm.BaroTimeout;
+
+        m_VehicleLocalPositionMsg.RefTimestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
+        //m_VehicleLocalPositionMsg.RefTimestamp.Seconds = m_Timestamp / 1000000;
+        //m_VehicleLocalPositionMsg.RefTimestamp.Subseconds = CFE_TIME_Micro2SubSecs(m_Timestamp - (m_VehicleLocalPositionMsg.RefTimestamp.Seconds * 1000000));
+
         m_VehicleLocalPositionMsg.RefLat = m_MapRef.lat_rad * 180/M_PI;
         m_VehicleLocalPositionMsg.RefLon = m_MapRef.lon_rad * 180/M_PI;
-        m_VehicleLocalPositionMsg.RefAlt = m_AltOrigin;
+        m_VehicleLocalPositionMsg.RefAlt = HkTlm.AltOrigin;
         m_VehicleLocalPositionMsg.DistBottom = m_AglLowPass.m_State;
         m_VehicleLocalPositionMsg.DistBottomRate = m_XLowPass[X_vz];
-        m_VehicleLocalPositionMsg.SurfaceBottomTimestamp = m_Timestamp;
+        m_VehicleLocalPositionMsg.SurfaceBottomTimestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
+
+        //m_VehicleLocalPositionMsg.SurfaceBottomTimestamp.Seconds = m_Timestamp / 1000000;
+        //m_VehicleLocalPositionMsg.SurfaceBottomTimestamp.Subseconds = CFE_TIME_Micro2SubSecs(m_Timestamp - (m_VehicleLocalPositionMsg.RefTimestamp.Seconds * 1000000));
+
+
         m_VehicleLocalPositionMsg.DistBottomValid = dist_bottom_valid;
         m_VehicleLocalPositionMsg.EpH = eph;
         m_VehicleLocalPositionMsg.EpV = epv;
@@ -1368,7 +1339,7 @@ void PE::SendVehicleGlobalPositionMsg()
 
     map_projection_reproject(&m_MapRef, m_XLowPass[X_x], m_XLowPass[X_y], &lat, &lon);
 
-    alt = -m_XLowPass[X_z] + m_AltOrigin;
+    alt = -m_XLowPass[X_z] + HkTlm.AltOrigin;
     vxy_stddev = sqrtf(m_StateCov[X_vx][X_vx] + m_StateCov[X_vy][X_vy]);
     epv = sqrt(m_StateCov[X_z][X_z]);
     eph = sqrt(m_StateCov[X_x][X_x] + m_StateCov[X_y][X_y]);
@@ -1398,12 +1369,7 @@ void PE::SendVehicleGlobalPositionMsg()
 
     if(data_valid)
     {
-    	CFE_TIME_SysTime_t newTime;
-
-    	newTime.Seconds = m_Timestamp / 1000000;
-    	newTime.Subseconds = CFE_TIME_Micro2SubSecs(m_Timestamp - (newTime.Seconds * 1000000));
-
-    	CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&m_VehicleGlobalPositionMsg, newTime);
+    	CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&m_VehicleGlobalPositionMsg, HkTlm.Timestamp);
         m_VehicleGlobalPositionMsg.TimeUtcUsec = m_VehicleGpsPositionMsg.TimeUtcUsec;
         m_VehicleGlobalPositionMsg.Lat = lat;
         m_VehicleGlobalPositionMsg.Lon = lon;
@@ -1414,12 +1380,11 @@ void PE::SendVehicleGlobalPositionMsg()
         m_VehicleGlobalPositionMsg.Yaw = m_Euler[2];
         m_VehicleGlobalPositionMsg.EpH = eph;
         m_VehicleGlobalPositionMsg.EpV = epv;
-        m_VehicleGlobalPositionMsg.TerrainAlt = m_AltOrigin - m_XLowPass[X_tz];
-        m_VehicleGlobalPositionMsg.TerrainAltValid = m_TzEstValid;
-        m_VehicleGlobalPositionMsg.DeadReckoning = !m_XyEstValid;
+        m_VehicleGlobalPositionMsg.TerrainAlt = HkTlm.AltOrigin - m_XLowPass[X_tz];
+        m_VehicleGlobalPositionMsg.TerrainAltValid = HkTlm.TzEstValid;
+        m_VehicleGlobalPositionMsg.DeadReckoning = !HkTlm.XyEstValid;
         m_VehicleGlobalPositionMsg.PressureAlt = m_SensorCombinedMsg.BaroAlt;
 
-        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_VehicleGlobalPositionMsg);
         CFE_SB_SendMsg((CFE_SB_Msg_t*)&m_VehicleGlobalPositionMsg);
     }
     else
@@ -1455,7 +1420,7 @@ osalbool PE::VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
                               "Rcvd invalid msgLen: msgId=0x%08X, cmdCode=%d, "
                               "msgLen=%d, expectedLen=%d",
                               MsgId, usCmdCode, usMsgLen, usExpectedLen);
-            HkTlm.usCmdErrCnt++;
+            HkTlm.CmdErrCnt++;
         }
     }
 
@@ -1552,31 +1517,31 @@ void PE::Update()
     osalbool VxyStdDevValid = FALSE;
     float dt = 0.0f;
     float dt_hist = 0.0f;
-    uint64 newTimestamp = PX4LIB_GetPX4TimeUs();
+    CFE_TIME_SysTime_t newTimestamp = CFE_TIME_GetTime();
     
     /* Update timestamps */
-    dt = (newTimestamp - m_Timestamp) / 1.0e6f;
-    m_Timestamp = newTimestamp;
-    dt_hist = 1.0e-6f * (m_Timestamp - m_Timestamp_Hist);
+    dt = (CFE_TIME_ConvertTimeToMicros(newTimestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp)) / 1.0e6f;
+    HkTlm.Timestamp = newTimestamp;
+    dt_hist = 1.0e-6f * (CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp_Hist));
     CheckTimeouts();
 
     /* Check if local initialized */
-    if(!m_EstimatorLocalInitialized &&
-            m_BaroInitialized &&
-            m_LandInitialized)
+    if(!HkTlm.EstimatorLocalInitialized &&
+    		HkTlm.BaroInitialized &&
+			HkTlm.LandInitialized)
     {
-        m_EstimatorLocalInitialized = TRUE;
+    	HkTlm.EstimatorLocalInitialized = TRUE;
         (void) CFE_EVS_SendEvent(PE_LOCAL_ESTIMATOR_INF_EID, CFE_EVS_INFORMATION,
                                  "Local estimation initialized");
     }
 
     /* Check if global initialized */
-    if(!m_EstimatorGlobalInitialized &&
-            m_BaroInitialized &&
-            m_GpsInitialized &&
-            m_LandInitialized)
+    if(!HkTlm.EstimatorGlobalInitialized &&
+    		HkTlm.BaroInitialized &&
+			HkTlm.GpsInitialized &&
+			HkTlm.LandInitialized)
     {
-        m_EstimatorGlobalInitialized = TRUE;
+    	HkTlm.EstimatorGlobalInitialized = TRUE;
         (void) CFE_EVS_SendEvent(PE_GLOBAL_ESTIMATOR_INF_EID, CFE_EVS_INFORMATION,
                                  "Global estimation initialized");
     }
@@ -1589,7 +1554,7 @@ void PE::Update()
     }
 
     /* Update current GPS validity */
-    if(m_GpsInitialized)
+    if(HkTlm.GpsInitialized)
     {
         /* Check if xy is valid */
         if (fmax(m_StateCov[X_vx][X_vx], m_StateCov[X_vy][X_vy]) <
@@ -1598,28 +1563,28 @@ void PE::Update()
             VxyStdDevValid = TRUE;
         }
 
-        if(m_XyEstValid)
+        if(HkTlm.XyEstValid)
         {
-            if(!VxyStdDevValid && m_GpsTimeout)
+            if(!VxyStdDevValid && HkTlm.GpsTimeout)
             {
-                m_XyEstValid = FALSE;
+            	HkTlm.XyEstValid = FALSE;
             }
         }
         else
         {
-            if(VxyStdDevValid && !m_GpsTimeout)
+            if(VxyStdDevValid && !HkTlm.GpsTimeout)
             {
-                m_XyEstValid = TRUE;
+            	HkTlm.XyEstValid = TRUE;
             }
         }
     }
     else
     {
-        m_XyEstValid = FALSE;
+    	HkTlm.XyEstValid = FALSE;
     }
 
     /* Update current baro validity */
-    if(m_BaroInitialized)
+    if(HkTlm.BaroInitialized)
     {
         /* Check if z is valid */
         if(sqrtf(m_StateCov[X_z][X_z]) < ConfigTblPtr->Z_PUB_THRESH)
@@ -1627,28 +1592,28 @@ void PE::Update()
             ZStdDevValid = TRUE;
         }
 
-        if(m_ZEstValid)
+        if(HkTlm.ZEstValid)
         {
-            if(!ZStdDevValid && m_BaroTimeout)
+            if(!ZStdDevValid && HkTlm.BaroTimeout)
             {
-                m_ZEstValid = FALSE;
+                HkTlm.ZEstValid = FALSE;
             }
         }
         else
         {
-            if(ZStdDevValid && !m_BaroTimeout)
+            if(ZStdDevValid && !HkTlm.BaroTimeout)
             {
-                m_ZEstValid = TRUE;
+                HkTlm.ZEstValid = TRUE;
             }
         }
     }
     else
     {
-        m_ZEstValid = FALSE;
+        HkTlm.ZEstValid = FALSE;
     }
 
     /* Update current land validity */
-    if(m_LandInitialized)
+    if(HkTlm.LandInitialized)
     {
         /* Check if terrain is valid */
         if(sqrtf(m_StateCov[X_tz][X_tz]) < ConfigTblPtr->Z_PUB_THRESH)
@@ -1656,40 +1621,40 @@ void PE::Update()
             TzStdDevValid = TRUE;
         }
 
-        if(m_TzEstValid)
+        if(HkTlm.TzEstValid)
         {
             if(!TzStdDevValid)
             {
-                m_TzEstValid = FALSE;
+            	HkTlm.TzEstValid = FALSE;
             }
         }
         else
         {
             if(TzStdDevValid)
             {
-                m_TzEstValid = TRUE;
+            	HkTlm.TzEstValid = TRUE;
             }
         }
     }
     else
     {
-        m_TzEstValid = FALSE;
+    	HkTlm.TzEstValid = FALSE;
     }
 
     /* Initialize map projection to INIT_ORIGIN_LAT, INIT_ORIGIN_LON if we don't
      * have lat, lon data and allowing fake origin */
-    if (!m_MapRef.init_done && m_XyEstValid && ConfigTblPtr->FAKE_ORIGIN)
+    if (!m_MapRef.init_done && HkTlm.XyEstValid && ConfigTblPtr->FAKE_ORIGIN)
     {
         map_projection_init(&m_MapRef,
                             ConfigTblPtr->INIT_ORIGIN_LAT,
                             ConfigTblPtr->INIT_ORIGIN_LON,
-                            m_Timestamp);
+							CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp));
 
         (void) CFE_EVS_SendEvent(PE_GPS_OK_INF_EID, CFE_EVS_INFORMATION,
                                  "GPS fake origin init. Lat: %6.2f Lon: %6.2f Alt: %5.1f m",
                                  ConfigTblPtr->INIT_ORIGIN_LAT,
                                  ConfigTblPtr->INIT_ORIGIN_LON,
-                                 double(m_AltOrigin));
+                                 double(HkTlm.AltOrigin));
     }
 
     /* Check if state vector needs to be reinitialized  */
@@ -1758,7 +1723,7 @@ void PE::Update()
     {
         SendVehicleLocalPositionMsg();
 
-        if(m_XyEstValid && (m_MapRef.init_done || ConfigTblPtr->FAKE_ORIGIN))
+        if(HkTlm.XyEstValid && (m_MapRef.init_done || ConfigTblPtr->FAKE_ORIGIN))
         {
             SendVehicleGlobalPositionMsg();
         }
@@ -1768,11 +1733,11 @@ void PE::Update()
      * delayed state still needs to be propagated with frozen state.
      */
 
-    if (m_Timestamp_Hist == 0 || (dt_hist > HIST_STEP)) 
+    if (CFE_TIME_IsTimeZero(HkTlm.Timestamp_Hist) || (dt_hist > HIST_STEP))
     {
-        m_TDelay.Update(m_Timestamp);
+        m_TDelay.Update(CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp));
         m_XDelay.Update(m_StateVec);
-        m_Timestamp_Hist = m_Timestamp;
+        HkTlm.Timestamp_Hist = HkTlm.Timestamp;
     }
 
     CFE_ES_PerfLogExit(PE_UPDATE_TASK_PERF_ID);
@@ -1781,7 +1746,7 @@ void PE::Update()
 
 osalbool PE::Initialized(void)
 {
-    return m_EstimatorLocalInitialized || m_EstimatorGlobalInitialized;
+    return HkTlm.EstimatorLocalInitialized || HkTlm.EstimatorGlobalInitialized;
 }
 
 
@@ -1815,7 +1780,7 @@ void PE::Predict(float dt)
     m_Predict.dx = (m_Predict.k1 + m_Predict.k2 * 2 + m_Predict.k3 * 2 + 
     m_Predict.k4) * (dt / 6);
     /* Don't integrate position if no valid xy data */
-    if (!m_XyEstValid)
+    if (!HkTlm.XyEstValid)
     {
         m_Predict.dx[X_x]  = 0;
         m_Predict.dx[X_vx] = 0;
@@ -1824,13 +1789,13 @@ void PE::Predict(float dt)
     }
 
     /* Don't integrate z if no valid z data */
-    if (!m_ZEstValid)
+    if (!HkTlm.ZEstValid)
     {
         m_Predict.dx[X_z] = 0;
     }
 
     /* Don't integrate tz if no valid tz data */
-    if (!m_TzEstValid)
+    if (!HkTlm.TzEstValid)
     {
         m_Predict.dx[X_tz] = 0;
     }
@@ -1899,11 +1864,11 @@ void PE::UpdateLocalParams()
     OS_MutSemTake(ConfigMutex);
 
     /* Update all locally stored params with the up to date value in the table */
-    m_BaroFuse = ConfigTblPtr->BARO_FUSE;
-    m_GpsFuse  = ConfigTblPtr->GPS_FUSE;
-    m_LandFuse = ConfigTblPtr->LAND_FUSE;
-    m_DistFuse = ConfigTblPtr->DIST_FUSE;
-    m_FlowFuse = ConfigTblPtr->FLOW_FUSE;
+    HkTlm.BaroFuse = ConfigTblPtr->BARO_FUSE;
+    HkTlm.GpsFuse  = ConfigTblPtr->GPS_FUSE;
+    HkTlm.LandFuse = ConfigTblPtr->LAND_FUSE;
+    HkTlm.DistFuse = ConfigTblPtr->DIST_FUSE;
+    HkTlm.FlowFuse = ConfigTblPtr->FLOW_FUSE;
 
     /* Unlock the mutex */
     OS_MutSemGive(ConfigMutex);
@@ -1917,7 +1882,7 @@ int PE::getDelayPeriods(float delay, uint8 *periods)
 
     for(i_hist = 1; i_hist < HIST_LEN; i_hist++)
     {
-        t_delay = 1.0e-6f * (m_Timestamp - m_TDelay.Get(i_hist));
+        t_delay = 1.0e-6f * (CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - m_TDelay.Get(i_hist));
         if(t_delay > delay)
         {
             break;

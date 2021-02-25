@@ -1262,7 +1262,7 @@ void MPC::UpdateRef(void)
     /* The reference point is only allowed to change when the vehicle is in standby state which is the
     normal state when the estimator origin is set. Changing reference point in flight causes large controller
     setpoint changes. Changing reference point in other arming states is untested and should not be performed. */
-    if ((m_VehicleLocalPositionMsg.RefTimestamp != m_RefTimestamp)
+    if ((CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&m_VehicleLocalPositionMsg.RefTimestamp) != m_RefTimestamp)
         && ((m_VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_STANDBY)
         || (!m_RefAltIsGlobal && m_VehicleLocalPositionMsg.Z_Global)))
     {
@@ -1301,7 +1301,7 @@ void MPC::UpdateRef(void)
             m_PositionSetpoint[2] = -(AltitudeSetpoint - m_RefAlt);
         }
 
-        m_RefTimestamp = m_VehicleLocalPositionMsg.RefTimestamp;
+        m_RefTimestamp = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&m_VehicleLocalPositionMsg.RefTimestamp);
     }
 }
 

@@ -32,6 +32,7 @@
 *****************************************************************************/
 
 #include "../pe_app.h"
+#include "cfs_utils.h"
 
 void PE::gpsInit()
 {
@@ -66,18 +67,18 @@ void PE::gpsInit()
         double gpsLon = m_GpsStats.getMean()[1];
         float gpsAlt = m_GpsStats.getMean()[2];
 
-        m_GpsTimeout = FALSE;
+        HkTlm.GpsTimeout = FALSE;
         m_GpsStats.reset();
 
-        if (!m_ReceivedGps)
+        if (!HkTlm.ReceivedGps)
         {
             /* this is the first time we have received gps */
-            m_ReceivedGps = TRUE;
+        	HkTlm.ReceivedGps = TRUE;
 
             /* note we subtract X_z which is in down directon so it is 
              * an addition
              **/
-            m_GpsAltOrigin = gpsAlt + m_StateVec[X_z];
+        	HkTlm.GpsAltOrigin = gpsAlt + m_StateVec[X_z];
 
             /* find lat, lon of current origin by subtracting x and y
              * if not using vision position since vision will
@@ -88,21 +89,21 @@ void PE::gpsInit()
                 double gpsLatOrigin = 0;
                 double gpsLonOrigin = 0;
                 /* reproject at current coordinates */
-                map_projection_init(&m_MapRef, gpsLat, gpsLon, m_Timestamp);
+                map_projection_init(&m_MapRef, gpsLat, gpsLon, CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp));
                 /* find origin */
                 map_projection_reproject(&m_MapRef, -m_StateVec[X_x], -m_StateVec[X_y], &gpsLatOrigin, &gpsLonOrigin);
                 /* reinit origin */
-                map_projection_init(&m_MapRef, gpsLatOrigin, gpsLonOrigin, m_Timestamp);
+                map_projection_init(&m_MapRef, gpsLatOrigin, gpsLonOrigin, CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp));
 
                 /* always override alt origin on first GPS to fix
                  * possible baro offset in global altitude at init
                  **/
-                m_AltOrigin = m_GpsAltOrigin;
-                m_AltOriginInitialized = TRUE;
+                HkTlm.AltOrigin = HkTlm.GpsAltOrigin;
+                HkTlm.AltOriginInitialized = TRUE;
 
                 (void) CFE_EVS_SendEvent(PE_GPS_OK_INF_EID, CFE_EVS_INFORMATION,
                         "GPS initialized origin. Lat: %6.2f Lon: %6.2f Alt: %5.1f m",
-                        gpsLatOrigin, gpsLonOrigin, double(m_GpsAltOrigin));
+                        gpsLatOrigin, gpsLonOrigin, double(HkTlm.GpsAltOrigin));
             }
 
             (void) CFE_EVS_SendEvent(PE_GPS_OK_INF_EID, CFE_EVS_INFORMATION,
@@ -129,7 +130,7 @@ int PE::gpsMeasure(math::Vector6F &y)
 
     /* increament sums for mean */
     m_GpsStats.update(y);
-    m_TimeLastGps = m_Timestamp;
+    HkTlm.TimeLastGps = HkTlm.Timestamp;
     return CFE_SUCCESS;
 }
 
@@ -152,7 +153,7 @@ void PE::gpsCorrect()
     m_GPS.px = 0;
     m_GPS.py = 0;
 
-    m_GPS.pz = -(m_GPS.alt - m_GpsAltOrigin);
+    m_GPS.pz = -(m_GPS.alt - HkTlm.GpsAltOrigin);
     map_projection_project(&m_MapRef, m_GPS.lat, m_GPS.lon, &m_GPS.px, &m_GPS.py);
 
     m_GPS.y[0] = m_GPS.px;
@@ -237,7 +238,7 @@ void PE::gpsCorrect()
 
     if (m_GPS.beta / BETA_TABLE[n_y_gps] > m_GPS.beta_thresh) 
     {
-        if (!m_GpsFault)
+        if (!HkTlm.GpsFault)
         {
             if(Initialized())
             {
@@ -250,18 +251,18 @@ void PE::gpsCorrect()
                         double(m_GPS.r[4]*m_GPS.r[4] / m_GPS.S_I[4][4]), 
                         double(m_GPS.r[5]*m_GPS.r[5] / m_GPS.S_I[5][5]));
             }
-            m_GpsFault = TRUE;
+            HkTlm.GpsFault = TRUE;
         }
     }
     else
     {
-        if (m_GpsFault)
+        if (HkTlm.GpsFault)
         {
-        	m_GpsFault = FALSE;
+        	HkTlm.GpsFault = FALSE;
             (void) CFE_EVS_SendEvent(PE_GPS_OK_INF_EID, CFE_EVS_INFORMATION,
                     "GPS OK");
 
-            m_GpsInitialized = TRUE;
+            HkTlm.GpsInitialized = TRUE;
         }
     }
 
@@ -284,11 +285,11 @@ end_of_function:
 
 void PE::gpsCheckTimeout()
 {
-	if (m_Timestamp - m_TimeLastGps > GPS_TIMEOUT)
+	if ((CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastGps)) > GPS_TIMEOUT)
 	{
-		if (!m_GpsTimeout)
+		if (!HkTlm.GpsTimeout)
 		{
-			m_GpsTimeout = TRUE;
+			HkTlm.GpsTimeout = TRUE;
 			m_GpsStats.reset();
 			(void) CFE_EVS_SendEvent(PE_GPS_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
 									 "GPS timeout");
