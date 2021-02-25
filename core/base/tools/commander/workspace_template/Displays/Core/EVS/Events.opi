@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display typeId="org.csstudio.opibuilder.Display" version="1.0.0">
+  <actions hook="false" hook_all="false" />
+  <auto_scale_widgets>
+    <auto_scale_widgets>false</auto_scale_widgets>
+    <min_width>-1</min_width>
+    <min_height>-1</min_height>
+  </auto_scale_widgets>
+  <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255" />
+  </background_color>
+  <boy_version>1.5.4.202102122300</boy_version>
+  <foreground_color>
+    <color red="192" green="192" blue="192" />
+  </foreground_color>
+  <grid_space>6</grid_space>
+  <height>600</height>
+  <macros>
+    <include_parent_macros>true</include_parent_macros>
+  </macros>
+  <name></name>
+  <rules />
+  <scripts>
+    <path pathString="EmbeddedJs" checkConnect="true" seoe="false">
+      <scriptName>init</scriptName>
+      <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(org.csstudio.opibuilder.properties);
+importPackage(org.csstudio.opibuilder.model);
+
+var app_name  =       display.getMacroValue("APP");
+var commands = ['Reset'];
+if(app_name != null && app_name!="")
+{
+    display.getWidget("app_name").setPropertyValue("text",app_name);
+    for(var i =0;i<8;i++)
+	{
+	    for(var j =0;j<commands.length;j++)
+	       {
+		   //Create a new Macro Input
+		   var event_id_macro_input = DataUtil.createMacrosInput(true);
+
+		    //Put a macro in the new Macro Input
+		    event_id_macro_input.put("EVENT_ID", i);
+		    event_id_macro_input.put("APP", "TO");
+
+		    var label_widget =            WidgetUtil.createWidgetModel("org.csstudio.opibuilder.widgets.Label");
+		    var button_widget =         WidgetUtil.createWidgetModel("org.csstudio.opibuilder.widgets.ActionButton");
+		    var actions =                    FileUtil.loadXMLFile("/Displays/Core/EVS/XMLScripts/ResetEvent.xml");
+		    var action_property =       new ActionsProperty(AbstractWidgetModel.PROP_ACTIONS, "Actions", WidgetPropertyCategory.Behavior, false);
+		    var xml_input_property = action_property.readValueFromXML(actions);
+
+		    action_property.setPropertyValue(xml_input_property);
+		    button_widget.addProperty(action_property);
+		    button_widget.setPropertyValue("pv_value", i);
+		    button_widget.setPropertyValue("text", commands[j]);
+
+		   display.addChild(label_widget);
+		   display.addChild(button_widget);
+		}
+	}
+
+}]]></scriptText>
+      <pv trig="true">=1</pv>
+    </path>
+  </scripts>
+  <show_close_button>true</show_close_button>
+  <show_edit_range>true</show_edit_range>
+  <show_grid>true</show_grid>
+  <show_ruler>true</show_ruler>
+  <snap_to_geometry>true</snap_to_geometry>
+  <widget_type>Display</widget_type>
+  <width>800</width>
+  <wuid>-193d70a0:177d50fd41f:-7f32</wuid>
+  <x>-1</x>
+  <y>-1</y>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>31</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>ID</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>73</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-193d70a0:177d50fd41f:-7f23</wuid>
+    <x>43</x>
+    <y>132</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>31</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>app_name</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>APP_NAME</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>199</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-193d70a0:177d50fd41f:-7f0e</wuid>
+    <x>144</x>
+    <y>132</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.gridLayout" version="1.0.0">
+    <fill_grids>true</fill_grids>
+    <grid_gap>2</grid_gap>
+    <name>Grid Layout</name>
+    <number_of_columns>2</number_of_columns>
+    <widget_type>Grid Layout</widget_type>
+    <wuid>76586248:177d58c70f5:-7e00</wuid>
+  </widget>
+</display>
