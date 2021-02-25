@@ -1194,10 +1194,10 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    CFE_TIME_SysTime_t RefTimestamp;
+    uint64  RefTimestamp;
     double  RefLat;
     double  RefLon;
-    CFE_TIME_SysTime_t  SurfaceBottomTimestamp;
+    uint64  SurfaceBottomTimestamp;
     float   X;
     float   Y;
     float   Z;

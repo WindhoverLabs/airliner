@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.4</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -4170,7 +4170,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/pe/PE_HkTlm_t.DistFused</pv_name>
+    <pv_name>/cfs/pe/PE_HkTlm_t.DistFuse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -4268,7 +4268,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/pe/PE_HkTlm_t.GpsFused</pv_name>
+    <pv_name>/cfs/pe/PE_HkTlm_t.GpsFuse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -4366,7 +4366,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/pe/PE_HkTlm_t.BaroFused</pv_name>
+    <pv_name>/cfs/pe/PE_HkTlm_t.BaroFuse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -4464,7 +4464,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/pe/PE_HkTlm_t.LandFused</pv_name>
+    <pv_name>/cfs/pe/PE_HkTlm_t.LandFuse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -4562,7 +4562,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/pe/PE_HkTlm_t.FlowFused</pv_name>
+    <pv_name>/cfs/pe/PE_HkTlm_t.FlowFuse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
