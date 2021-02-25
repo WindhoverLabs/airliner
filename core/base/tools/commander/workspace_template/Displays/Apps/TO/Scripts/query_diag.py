@@ -2,6 +2,7 @@ from org.csstudio.opibuilder.scriptUtil import PVUtil, ScriptUtil
 from org.yamcs.studio.data import IPVListener
 from java.lang import Runnable
 from org.eclipse.swt.widgets import Display
+from org.csstudio.opibuilder.scriptUtil import YAMLUtil
 
 """
 There appears to be a difference between the Widget we see in YAMCS Studio as a user and the "widget" that gets
@@ -25,6 +26,10 @@ PQUEUE_FIELDS = ['DroppedMsgCnt', 'QueuedMsgCnt', 'CurrentlyQueuedCnt',
 # FIXME: I really wish we could just access aggregates. Might be possible through the HTTP client API.
 AGGREGATE_PV = "/cfs/to/TO_ChannelDiagTlm_t.PQueue"
 
+# parseYAML returns a LinkedHashMap(a Java type), but it looks like it behaves like a python dict object. Be wary of this nonetheless.
+yaml_data = YAMLUtil.parseYAML("/home/lgomez/airliner/build/bebop2/sitl/target/commander_workspace/etc/yamcs.yaml")
+
+
 class UI_Business(Runnable):
     """
     Any behavior that changes the state of widgets MUST happen inside this runnable function via
@@ -37,16 +42,15 @@ class UI_Business(Runnable):
         self.pv_data = in_pv_data
 
     def run(self):
-        # print('PV Value:', self.pv_data.getValue())
         display.getWidget("Table").getTable().setCellText(self.ui_row,
                                                           self.ui_col,
                                                           str(self.pv_data.getValue()))
+
 
 class MyPVListener(IPVListener):
     def __init__(self, in_row, in_col, table):
         self.row = in_row
         self.col = in_col
-        # print('vector for listener++++++++++++++++++++++++++++++:', (self.vector.getX(), self.vector.getY()))
         self.table = table
 
     def valueChanged(self, pv):
@@ -57,11 +61,11 @@ class MyPVListener(IPVListener):
             ScriptUtil.execInUI(UI_Business(self.row, self.col, pv), widget)
 
     def connectionChanged(self, pv):
-        #FIXME:Figure out a way to log properly
+        # FIXME:Figure out a way to log properly
         print("connection changed")
 
     def writePermissionChanged(self, pv):
-        #FIXME:Figure out a way to log properly
+        # FIXME:Figure out a way to log properly
         print("write permission changed")
 
 
@@ -84,14 +88,15 @@ def main():
         insert_rows(PQUEUE_COUNT, myTable)
         aggregate_index = 0
         for queue_index in range(0, PQUEUE_COUNT, 1):
-        #  This assumes the our array convention of AGGREGATE_{index}_
+            #  This assumes the our array convention of AGGREGATE_{index}_
             for field in range(0, len(PQUEUE_FIELDS), 1):
                 pvName = AGGREGATE_PV + "_{}_.".format(aggregate_index)
                 pvName += PQUEUE_FIELDS[field]
                 pv = PVUtil.createPV(pvName, widget)
-                new_listner = MyPVListener(queue_index, field+1, myTable)
+                new_listner = MyPVListener(queue_index, field + 1, myTable)
                 pv.addListener(new_listner)
 
             aggregate_index = aggregate_index + 1
+
 
 main()
