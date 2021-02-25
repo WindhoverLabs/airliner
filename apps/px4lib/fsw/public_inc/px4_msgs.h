@@ -589,7 +589,7 @@ typedef struct
 typedef struct
 {
     uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 SampleTime;
+    CFE_TIME_SysTime_t SampleTime;
     float  Control[PX4_ACTUATOR_CONTROL_COUNT];
 } PX4_ActuatorControlsMsg_t;
 
@@ -853,7 +853,7 @@ typedef struct
     float  GyroZRateIntegral;
     float  GroundDistance;
     uint32 IntegrationTimespan;
-    uint32 TimeSinceLastSonarUpdate;
+    CFE_TIME_SysTime_t TimeSinceLastSonarUpdate;
     uint16 FrameCountSinceLastReadout;
     int16  GyroTemperature;
     uint8  SensorID;
@@ -862,7 +862,7 @@ typedef struct
 
 typedef struct
 {
-    uint64  Timestamp;
+	CFE_TIME_SysTime_t Timestamp;
     double  Lat;
     double  Lon;
     float   X;
@@ -1031,8 +1031,8 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 HeartbeatTime;
-    uint64 TelemTime;
+    CFE_TIME_SysTime_t HeartbeatTime;
+    CFE_TIME_SysTime_t TelemTime;
     uint16 RxErrors;
     uint16 Fixed;
     PX4_TelemetryStatusRadioType_t Type;
@@ -1124,7 +1124,7 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64  TimeUtcUsec;
+    CFE_TIME_SysTime_t TimeUtc;
     double  Lat;
     double  Lon;
     float   Alt;
@@ -1158,7 +1158,7 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64  TimeUtcUsec;
+    CFE_TIME_SysTime_t TimeUtc;
     int32   Lat;
     int32   Lon;
     int32   Alt;
@@ -1194,10 +1194,10 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64 RefTimestamp;
+    CFE_TIME_SysTime_t RefTimestamp;
     double  RefLat;
     double  RefLon;
-    uint64  SurfaceBottomTimestamp;
+    CFE_TIME_SysTime_t  SurfaceBottomTimestamp;
     float   X;
     float   Y;
     float   Z;

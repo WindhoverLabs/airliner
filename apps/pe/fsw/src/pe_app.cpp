@@ -1282,9 +1282,7 @@ void PE::SendVehicleLocalPositionMsg()
 
     if(data_valid)
     {
-        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_VehicleLocalPositionMsg);
-        /* TODO:  Set the time from m_Timestamp */
-        //m_VehicleLocalPositionMsg.Timestamp = m_Timestamp;
+        CFE_SB_SetMsgTime((CFE_SB_Msg_t*)&m_VehicleLocalPositionMsg, HkTlm.Timestamp);
         m_VehicleLocalPositionMsg.XY_Valid = HkTlm.XyEstValid;
         m_VehicleLocalPositionMsg.Z_Valid = HkTlm.ZEstValid;
         m_VehicleLocalPositionMsg.V_XY_Valid = HkTlm.XyEstValid;
@@ -1298,22 +1296,13 @@ void PE::SendVehicleLocalPositionMsg()
         m_VehicleLocalPositionMsg.Yaw = m_Euler[2];
         m_VehicleLocalPositionMsg.XY_Global = HkTlm.XyEstValid;
         m_VehicleLocalPositionMsg.Z_Global = !HkTlm.BaroTimeout;
-
-        m_VehicleLocalPositionMsg.RefTimestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
-        //m_VehicleLocalPositionMsg.RefTimestamp.Seconds = m_Timestamp / 1000000;
-        //m_VehicleLocalPositionMsg.RefTimestamp.Subseconds = CFE_TIME_Micro2SubSecs(m_Timestamp - (m_VehicleLocalPositionMsg.RefTimestamp.Seconds * 1000000));
-
+        m_VehicleLocalPositionMsg.RefTimestamp = HkTlm.Timestamp;
         m_VehicleLocalPositionMsg.RefLat = m_MapRef.lat_rad * 180/M_PI;
         m_VehicleLocalPositionMsg.RefLon = m_MapRef.lon_rad * 180/M_PI;
         m_VehicleLocalPositionMsg.RefAlt = HkTlm.AltOrigin;
         m_VehicleLocalPositionMsg.DistBottom = m_AglLowPass.m_State;
         m_VehicleLocalPositionMsg.DistBottomRate = m_XLowPass[X_vz];
-        m_VehicleLocalPositionMsg.SurfaceBottomTimestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
-
-        //m_VehicleLocalPositionMsg.SurfaceBottomTimestamp.Seconds = m_Timestamp / 1000000;
-        //m_VehicleLocalPositionMsg.SurfaceBottomTimestamp.Subseconds = CFE_TIME_Micro2SubSecs(m_Timestamp - (m_VehicleLocalPositionMsg.RefTimestamp.Seconds * 1000000));
-
-
+        m_VehicleLocalPositionMsg.SurfaceBottomTimestamp = HkTlm.Timestamp;
         m_VehicleLocalPositionMsg.DistBottomValid = dist_bottom_valid;
         m_VehicleLocalPositionMsg.EpH = eph;
         m_VehicleLocalPositionMsg.EpV = epv;
@@ -1370,7 +1359,7 @@ void PE::SendVehicleGlobalPositionMsg()
     if(data_valid)
     {
     	CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&m_VehicleGlobalPositionMsg, HkTlm.Timestamp);
-        m_VehicleGlobalPositionMsg.TimeUtcUsec = m_VehicleGpsPositionMsg.TimeUtcUsec;
+        m_VehicleGlobalPositionMsg.TimeUtc = m_VehicleGpsPositionMsg.TimeUtc;
         m_VehicleGlobalPositionMsg.Lat = lat;
         m_VehicleGlobalPositionMsg.Lon = lon;
         m_VehicleGlobalPositionMsg.Alt = alt;

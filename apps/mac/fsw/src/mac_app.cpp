@@ -909,7 +909,7 @@ void MAC::RunController(void)
 
         /* Publish actuator controls */
         CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_ActuatorControls0);
-        m_ActuatorControls0.SampleTime = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.ControlState);
+        m_ActuatorControls0.SampleTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.ControlState);
         m_ActuatorControls0.Control[0] = (isfinite(m_AttControl[0])) ? m_AttControl[0] : 0.0f;
         m_ActuatorControls0.Control[1] = (isfinite(m_AttControl[1])) ? m_AttControl[1] : 0.0f;
         m_ActuatorControls0.Control[2] = (isfinite(m_AttControl[2])) ? m_AttControl[2] : 0.0f;
