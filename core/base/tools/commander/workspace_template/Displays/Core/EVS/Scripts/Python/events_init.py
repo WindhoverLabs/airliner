@@ -4,20 +4,11 @@ buttons for each command of each event.
 """
 # import java packages
 from org.csstudio.opibuilder.scriptUtil import PVUtil, ScriptUtil, FileUtil, WidgetUtil
-from org.yamcs.studio.data import IPVListener
-from java.lang import Runnable
-from org.eclipse.swt.widgets import Display
 from org.csstudio.opibuilder.scriptUtil import YAMLUtil
-from  org.csstudio.opibuilder.properties import ActionsProperty, WidgetPropertyCategory
-from org.csstudio.opibuilder.model import AbstractWidgetModel
+from org.eclipse.swt.graphics import RGB
+
 # import python packages
 import logging
-import copy
-
-
-# from  org.csstudio.opibuilder.scriptUtil import
-
-
 
 
 def validate_opi():
@@ -33,8 +24,9 @@ def validate_opi():
     app_name = display.getMacroValue("APP")
     project_name = display.getMacroValue("PROJECT_NAME")
     yaml_path = display.getMacroValue("YAML_PATH")
+    template_opi = display.getMacroValue("TEMPLATE_OPI")
 
-    if app_name is None or project_name is None or yaml_path is None:
+    if app_name is None or project_name is None or yaml_path is None or template_opi is None:
         is_valid = False
 
     return is_valid
@@ -86,39 +78,11 @@ def get_events_from_yaml(module, yaml_path, logger):
     return events
 
 
-def deep_copy_widget(widget):
-    """
-    Makes a deep copy of widget and returns it. Essentially it makes a new widget and copies all of the properties.
-    """
-    # FIXME: widget_id should not be an argument. We should be able to query this from widget object.
-    new_widget = WidgetUtil.createWidgetModel(widget.getTypeID())
-    for property_id in widget.getAllPropertyIDs():
-        new_widget.addProperty((widget.getProperty(property_id)))
-
-    return new_widget
-
-
-def get_new_event_record_container(event_label):
-    template_widget_recdord = display.getWidget("EventRecordTemplate").getWidgetModel()
-    new_event_record_container = WidgetUtil.createWidgetModel(widget.getTypeID())
-    new_event_record_container = deep_copy_widget(template_widget_recdord)
-    for child in template_widget_recdord.getAllDescendants():
-        if child.getPropertyValue("widget_type") == "Label":
-            child.setPropertyValue("text", event_label)
-
-        for
-
-        copy.deepcopy(child)
-        new_event_record_container.addChild(child, False)
-
-    return new_event_record_container
-
-
 def main():
     logging.basicConfig()
     logger = logging.getLogger('events_init')
     if validate_opi() is False:
-        logger.warning("OPI is not valid. Ensure that the APP, PROJECT_NAME and YAML_PATH macros have some kind of "
+        logger.warning("OPI is not valid. Ensure that the APP, PROJECT_NAME, TEMPLATE_OPI and YAML_PATH macros have some kind of "
                        "value.")
         return -1
 
@@ -131,13 +95,22 @@ def main():
     events = get_events_from_yaml(app_name, yaml_path, logger)
 
     for event in events:
-        event_label = "{}({})".format(event, events[event])
-        new_container = get_new_event_record_container(event_label)
+        event_label = "{}:{}".format(event, events[event])
 
-        display.getWidget("EventsTable").addChild(new_container)
+        new_event_record = WidgetUtil.createWidgetModel("org.csstudio.opibuilder.widgets.linkingContainer")
+        # TODO: Use the enumeration values from Studio to avoid magical strings
+        new_event_record.setPropertyValue("opi_file", display.getMacroValue("TEMPLATE_OPI"))
+        new_event_record.setPropertyValue("height", 55)
+        new_event_record.setPropertyValue("width", 685)
+        new_event_record.setPropertyValue("background_color", RGB(255, 255, 255))
+        new_event_record.setPropertyValue("border_color", RGB(240, 240, 240))
+        new_event_record.setPropertyValue("border_style", 1)
+        new_event_record.setPropertyValue("name", event)
 
-    # Cleanup template once we are done.
-    display.getWidget("EventsTable").removeChild(display.getWidget("EventsTable").getWidget("EventRecordTemplate"))
+        display.getWidget("EventsTable").addChild(new_event_record)
+
+        # Access children of new_event_record only AFTER they are added to the display container
+        new_event_record.getChildByName("EventRecordTemplate").getChildByName("EventId").setPropertyValue("text", event_label)
 
 
 main()
