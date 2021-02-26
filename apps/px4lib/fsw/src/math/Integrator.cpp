@@ -44,28 +44,8 @@
 //#include <drivers/drv_hrt.h>
 #include <time.h>
 #include <errno.h>
+#include "cfs_utils.h"
 
-
-/* TODO */
-uint64 CFE_TIME_GetTimeInMicros(void)
-{
-    struct timespec ts;
-    int returnCode = 0;
-    uint64 outTime = 0;
-
-    returnCode = clock_gettime(CLOCK_MONOTONIC, &ts);
-    if (-1 == returnCode)
-    {
-        OS_printf("PX4LIB_GetPX4Time clock_gettime errno: %i", errno);
-        goto end_of_function;
-    }
-
-    outTime = (uint64)(ts.tv_sec) * 1000000;
-    outTime += ts.tv_nsec / 1000;
-
-end_of_function:
-    return outTime;
-}
 
 
 Integrator::Integrator(uint64 auto_reset_interval, boolean coning_compensation) :

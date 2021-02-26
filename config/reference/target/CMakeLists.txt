@@ -52,7 +52,7 @@ buildliner_add_app(
 buildliner_add_app(
     cf
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cf/fsw/for_build
-    )
+)
 
 buildliner_add_app(
     cs
