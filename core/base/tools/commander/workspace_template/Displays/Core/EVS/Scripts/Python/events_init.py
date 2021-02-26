@@ -5,7 +5,7 @@ widgets and uses EventRecord.opi to generates a container widget for each event 
 [1]:https://docs.yamcs.org/yamcs-studio/
 """
 # import java packages
-from org.csstudio.opibuilder.scriptUtil import PVUtil, ScriptUtil, FileUtil, WidgetUtil
+from org.csstudio.opibuilder.scriptUtil import PVUtil, ScriptUtil, FileUtil, WidgetUtil, DataUtil
 from org.csstudio.opibuilder.scriptUtil import YAMLUtil
 from org.eclipse.swt.graphics import RGB
 
@@ -97,7 +97,7 @@ def main():
     events = get_events_from_yaml(app_name, yaml_path, logger)
 
     for event in events:
-        event_label = "{}:{}".format(event, events[event])
+        event_label = "{}:{}".format(event, events[event]['id'])
 
         new_event_record = WidgetUtil.createWidgetModel("org.csstudio.opibuilder.widgets.linkingContainer")
         # TODO: Use the enumeration values from Studio to avoid magical strings
@@ -114,5 +114,12 @@ def main():
         # Access children of new_event_record only AFTER they are added to the display container
         new_event_record.getChildByName("EventRecordTemplate").getChildByName("EventId").setPropertyValue("text", event_label)
 
+        # Create the variables we need to be able to access data from button scripts.
+        new_event_record.getChildByName("EventRecordTemplate").getChildByName("DeleteFilter").setPropertyValue("pv_value",str(events[event]['id']))
+        new_event_record.getChildByName("EventRecordTemplate").getChildByName("ResetFilter").setPropertyValue("pv_value",str(events[event]['id']))
+
+        event_macros = DataUtil.createMacrosInput(False)
+        event_macros.put("EVENTID", str(events[event]['id']))
+        new_event_record.getChildByName("EventRecordTemplate").setPropertyValue("macros", event_macros)
 
 main()
