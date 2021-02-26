@@ -30,7 +30,7 @@ if(app_name != null && app_name!="")
 
 		    action_property.setPropertyValue(xml_input_property);
 		    button_widget.addProperty(action_property);
-		    //The "pv_value" property is used as the event id by "ResetEvent" script. This is becasuse non-container widgets such as ActionButton
+		    //The "pv_value" property is used as the event id by "ResetEvent" script. This is because non-container widgets such as ActionButton
 		    //do not have macros of their own. However they do have pv_values one may use.
 		    button_widget.setPropertyValue("pv_value", i);
 		    button_widget.setPropertyValue("text", commands[j]);
