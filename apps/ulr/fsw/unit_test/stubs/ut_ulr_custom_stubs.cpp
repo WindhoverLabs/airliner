@@ -51,7 +51,6 @@ void Ut_ULR_Custom_SetFunctionHook(uint32 Index, void *FunPtr)
 {
     if      (Index == UT_ULR_CUSTOM_INITDEVICE_INDEX)     { Ut_ULR_Custom_HookTable.InitDevice = (uint32 (*)(void))FunPtr; }
     else if (Index == UT_ULR_CUSTOM_READDEVICE_INDEX)     { Ut_ULR_Custom_HookTable.ReadDevice = (int32  (*)(uint8 *, uint32 *))FunPtr; }
-    else if (Index == UT_ULR_CFE_TIME_GetTimeInMicros_INDEX)   { Ut_ULR_Custom_HookTable.CFE_TIME_GetTimeInMicros = (uint64  (*)(void))FunPtr; }
     else
     {
         printf("Unsupported ULR_CUSTOM Index In SetFunctionHook Call %lu\n", Index);
@@ -116,15 +115,6 @@ int32 ULR::ReadDevice(uint8 *Buffer, uint32 *Size)
     /* Check for Function Hook */
     if (Ut_ULR_Custom_HookTable.ReadDevice)
         return Ut_ULR_Custom_HookTable.ReadDevice(Buffer, Size);
-}
 
-extern "C" uint64 CFE_TIME_GetTimeInMicros(void)
-{
-    /* Check for specified return */
-    if (Ut_ULR_Custom_UseReturnCode(UT_ULR_CFE_TIME_GetTimeInMicros_INDEX))
-        return Ut_ULR_Custom_ReturnCodeTable[UT_ULR_CFE_TIME_GetTimeInMicros_INDEX].Value;
-
-    /* Check for Function Hook */
-    if (Ut_ULR_Custom_HookTable.CFE_TIME_GetTimeInMicros)
-        return Ut_ULR_Custom_HookTable.CFE_TIME_GetTimeInMicros();
+    return 0;
 }

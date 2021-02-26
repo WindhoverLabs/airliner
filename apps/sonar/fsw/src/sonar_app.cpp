@@ -451,7 +451,7 @@ void SONAR::ReportHousekeeping()
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void SONAR::ReportDistance()
 {
-    DistanceSensor.Timestamp = CFE_TIME_GetTimeInMicros();
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&DistanceSensor);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&DistanceSensor);
 }
 

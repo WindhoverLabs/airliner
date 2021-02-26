@@ -43,9 +43,3 @@ int32 UT_ReadDevice(uint8 *Buffer, uint32 *Size)
 {
     return 0;
 }
-
-
-uint64 UT_CFE_TIME_GetTimeInMicros(void)
-{
-    return 0;
-}
