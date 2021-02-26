@@ -114,25 +114,10 @@
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
-        <action type="EXECUTE_JAVASCRIPT">
-          <path></path>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-
-//var yaml_dir =  FileUtil.workspacePathToSysPath(display.getMacroValue("PROJECT_NAME")) + "/Resources/wh_defs.yaml";
-//var yaml_data = YAMLUtil.parseYAML(yaml_dir);
-//VTypeHelper.getString(display.getWidget
-//var appName = VTypeHelper.getString(display.getWidget('AppName').getPropertyValue("pv_value"));
-
-ConsoleUtil.writeInfo("app_name---------->:");
-
-//var eventID = VTypeHelper.getDouble(display.getWidget('EventID').getPropertyValue("pv_value"));
-
-//Yamcs.issueCommand('/cfs/cfe_evs/ResetAppEventFilter', {
-//    'Payload.AppName': appName,
-//    'Payload.EventID': eventID});]]></scriptText>
-          <embedded>true</embedded>
+        <action type="EXECUTE_PYTHONSCRIPT">
+          <path>Scripts/Python/ResetEventFilter.py</path>
+          <scriptText></scriptText>
+          <embedded>false</embedded>
           <description></description>
         </action>
       </actions>
@@ -157,7 +142,7 @@ ConsoleUtil.writeInfo("app_name---------->:");
       </foreground_color>
       <height>28</height>
       <image>../../Resources/send.png</image>
-      <name>Action Button</name>
+      <name>ResetFilter</name>
       <push_action_index>0</push_action_index>
       <pv_name></pv_name>
       <pv_value />
@@ -169,7 +154,7 @@ ConsoleUtil.writeInfo("app_name---------->:");
       </scale_options>
       <scripts />
       <style>0</style>
-      <text>Reset Event</text>
+      <text>Reset Filter</text>
       <toggle_button>false</toggle_button>
       <tooltip>$(pv_name)
 $(pv_value)</tooltip>
@@ -182,18 +167,11 @@ $(pv_value)</tooltip>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
-        <action type="EXECUTE_JAVASCRIPT">
-          <path></path>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-
-ConsoleUtil.writeInfo("reset button");
-
-//appName = VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value'));
-
-//Yamcs.issueCommand('/cfs/cfe_evs/ResetAppEventCounters', {'Payload.AppName': appName});]]></scriptText>
-          <embedded>true</embedded>
+        <action type="EXECUTE_PYTHONSCRIPT">
+          <path>Scripts/Python/DeleteEventFilter.py</path>
+          <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
+]]></scriptText>
+          <embedded>false</embedded>
           <description></description>
         </action>
       </actions>
@@ -218,7 +196,7 @@ ConsoleUtil.writeInfo("reset button");
       </foreground_color>
       <height>28</height>
       <image>../../Resources/send.png</image>
-      <name>Action Button</name>
+      <name>DeleteFilter</name>
       <push_action_index>0</push_action_index>
       <pv_name></pv_name>
       <pv_value />
@@ -230,13 +208,13 @@ ConsoleUtil.writeInfo("reset button");
       </scale_options>
       <scripts />
       <style>0</style>
-      <text>Reset</text>
+      <text>Delete Filter</text>
       <toggle_button>false</toggle_button>
       <tooltip>$(pv_name)
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>90</width>
+      <width>150</width>
       <wuid>-19107c2b:177da1db5df:-48f4</wuid>
       <x>840</x>
       <y>11</y>
