@@ -647,7 +647,7 @@ void Test_PE_Baro_Correct_Nominal(void)
     oPE.baroInit();
 
     /* Input/output data from PX4 */
-    oPE.m_BaroAltOrigin = 0.2648827434f;
+    oPE.HkTlm.BaroAltOrigin = 0.2648827434f;
     oPE.m_SensorCombinedMsg.BaroAlt = 0.2870604694f;
     
     /* Input/output data from PX4 */
@@ -1090,7 +1090,7 @@ void Test_PE_GPS_Correct_Nominal(void)
     oPE.m_VehicleGpsPositionMsg.Lat  = 47.3977419000f / 1e-7;
     oPE.m_VehicleGpsPositionMsg.Lon = 8.5455939000f / 1e-7;
     oPE.m_VehicleGpsPositionMsg.Alt  = 488.269f / 1e-3;
-    oPE.m_GpsAltOrigin               = 488.269f;
+    oPE.HkTlm.GpsAltOrigin               = 488.269f;
     
     /* Set return values for geo map_projection_project */
     Geo_Project_Returns.x = 0.0031080388f;

@@ -47,7 +47,7 @@
 
 
 /* TODO */
-uint64 PX4LIB_GetPX4TimeUs(void)
+uint64 CFE_TIME_GetTimeInMicros(void)
 {
     struct timespec ts;
     int returnCode = 0;
@@ -160,7 +160,7 @@ Integrator::put_with_interval(uint32 interval_us, math::Vector3F &val, math::Vec
 {
 	if (_last_integration_time == 0) {
 		/* this is the first item in the integrator */
-		uint64 now = PX4LIB_GetPX4TimeUs();
+		uint64 now = CFE_TIME_GetTimeInMicros();
 		_last_integration_time = now;
 		_last_reset_time = now;
 		_last_val = val;

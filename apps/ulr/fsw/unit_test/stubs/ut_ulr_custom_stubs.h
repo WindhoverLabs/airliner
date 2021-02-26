@@ -38,7 +38,7 @@ typedef enum
 {
     UT_ULR_CUSTOM_INITDEVICE_INDEX,
     UT_ULR_CUSTOM_READDEVICE_INDEX,
-    UT_ULR_PX4LIB_GETPX4TIMEUS_INDEX,
+    UT_ULR_CFE_TIME_GetTimeInMicros_INDEX,
     UT_ULR_CUSTOM_MAX_INDEX
 } Ut_ULR_Custom_INDEX_t;
 
@@ -46,7 +46,7 @@ typedef struct
 {
     uint32 (*InitDevice)(void);
     int32  (*ReadDevice)(uint8 *Buffer, uint32 *Size);
-    uint64 (*PX4LIB_GetPX4TimeUs)(void);
+    uint64 (*CFE_TIME_GetTimeInMicros)(void);
 } Ut_ULR_Custom_HookTable_t;
 
 typedef struct

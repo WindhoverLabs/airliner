@@ -744,7 +744,7 @@ void QAE::EstimateAttitude(void)
     }
 
     /* Time from previous iteration */
-    time_now = PX4LIB_GetPX4TimeUs();
+    time_now = CFE_TIME_GetTimeInMicros();
     delta_time = (m_TimeLast > 0) ? ((time_now - m_TimeLast) / USEC_IN_SEC_F) : 0.00001f;
     m_TimeLast  = time_now;
     

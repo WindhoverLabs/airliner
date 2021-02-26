@@ -85,11 +85,11 @@ void PwmLimit_Calc(const boolean armed, const boolean pre_armed,
                 if (limit->time_armed == 0)
                 {
                     /* reset arming time, used for ramp timing */
-                    limit->time_armed = PX4LIB_GetPX4TimeUs();
+                    limit->time_armed = CFE_TIME_GetTimeInMicros();
                 }
 
                 /* reset arming time, used for ramp timing */
-                now = PX4LIB_GetPX4TimeUs();
+                now = CFE_TIME_GetTimeInMicros();
 
                 delta = now - limit->time_armed;
 
@@ -107,7 +107,7 @@ void PwmLimit_Calc(const boolean armed, const boolean pre_armed,
             if (armed)
             {
                 /* reset arming time, used for ramp timing */
-                limit->time_armed = PX4LIB_GetPX4TimeUs();
+                limit->time_armed = CFE_TIME_GetTimeInMicros();
 
                 limit->state = PWM_LIMIT_STATE_RAMP;
             }
@@ -293,7 +293,7 @@ uint64 hrt_elapsed_time(uint64 *input)
     uint64 delta = 0;
 
     /* reset arming time, used for ramp timing */
-    delta = PX4LIB_GetPX4TimeUs() - *input;
+    delta = CFE_TIME_GetTimeInMicros() - *input;
 
     return delta;
 }

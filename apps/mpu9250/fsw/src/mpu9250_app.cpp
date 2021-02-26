@@ -788,7 +788,7 @@ void MPU9250::ReadDevice(void)
     math::Vector3F aval_integrated;
 
     /* Get a timestamp */
-    timeStamp = PX4LIB_GetPX4TimeUs();
+    timeStamp = CFE_TIME_GetTimeInMicros();
 
     /* Set measurement timestamps */
     //SensorMag.Timestamp   = timeStamp;

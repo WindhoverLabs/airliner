@@ -68,6 +68,7 @@ buildliner_add_app_unit_test(px4lib-vector1f-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Vector1F_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Vector1F_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -91,6 +92,7 @@ buildliner_add_app_unit_test(px4lib-vector2f-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Vector2F_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Vector2F_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -114,6 +116,7 @@ buildliner_add_app_unit_test(px4lib-vector3f-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Vector3F_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Vector3F_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -138,6 +141,7 @@ buildliner_add_app_unit_test(px4lib-vector4f-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Vector4F_test_utils.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/math/Vector4F.cpp
         ${PX4LIB_PUBLIC_INCLUDE_DIR}/math/Vector4F.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -161,6 +165,7 @@ buildliner_add_app_unit_test(px4lib-vector6f-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Vector6F_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Vector6F_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -184,6 +189,7 @@ buildliner_add_app_unit_test(px4lib-vector10f-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Vector10F_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Vector10F_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -207,6 +213,7 @@ buildliner_add_app_unit_test(px4lib-quaternion-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Quaternion_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Quaternion_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -230,6 +237,7 @@ buildliner_add_app_unit_test(px4lib-matrix1f2-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix1F2_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix1F2_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -252,6 +260,7 @@ buildliner_add_app_unit_test(px4lib-matrix1f3-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix1F3_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix1F3_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -275,6 +284,7 @@ buildliner_add_app_unit_test(px4lib-matrix1f6-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix1F6_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix1F6_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -298,6 +308,7 @@ buildliner_add_app_unit_test(px4lib-matrix2f2-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix2F2_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix2F2_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -321,6 +332,7 @@ buildliner_add_app_unit_test(px4lib-matrix2f10-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix2F10_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix2F10_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -344,6 +356,7 @@ buildliner_add_app_unit_test(px4lib-matrix3f3-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix3F3_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix3F3_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -366,6 +379,7 @@ buildliner_add_app_unit_test(px4lib-matrix3f10-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix3F10_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix3F10_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -389,6 +403,7 @@ buildliner_add_app_unit_test(px4lib-matrix4f4-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix4F4_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix4F4_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -412,6 +427,7 @@ buildliner_add_app_unit_test(px4lib-matrix6f1-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix6F1_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix6F1_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -435,6 +451,7 @@ buildliner_add_app_unit_test(px4lib-matrix6f6-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix6F6_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix6F6_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -459,6 +476,7 @@ buildliner_add_app_unit_test(px4lib-matrix1f10-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix1F10_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix1F10_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -482,6 +500,7 @@ buildliner_add_app_unit_test(px4lib-matrix10f1-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix10F1_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix10F1_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -504,6 +523,7 @@ buildliner_add_app_unit_test(px4lib-matrix1f1-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix1F1_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix1F1_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -527,6 +547,7 @@ buildliner_add_app_unit_test(px4lib-matrix10f2-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix10F2_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix10F2_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -550,6 +571,7 @@ buildliner_add_app_unit_test(px4lib-matrix10f3-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix10F3_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix10F3_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -573,6 +595,7 @@ buildliner_add_app_unit_test(px4lib-matrix10f6-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix10F6_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix10F6_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -596,6 +619,7 @@ buildliner_add_app_unit_test(px4lib-matrix10f10-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix10F10_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix10F10_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -620,6 +644,7 @@ buildliner_add_app_unit_test(px4lib-matrix6f10-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix6F10_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/Matrix6F10_test_utils.hpp
         ${PX4LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

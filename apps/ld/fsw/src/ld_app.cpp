@@ -765,7 +765,7 @@ osalbool LD::DetectFreeFall()
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 osalbool LD::DetectGroundContactState()
 {
-    const uint64 now = PX4LIB_GetPX4TimeUs();
+    const uint64 now = CFE_TIME_GetTimeInMicros();
     osalbool inGroundContact     = FALSE;
     osalbool minimal_thrust      = FALSE;
     osalbool altitude_lock       = FALSE;
@@ -863,7 +863,7 @@ osalbool LD::DetectGroundContactState()
 osalbool LD::DetectLandedState()
 {
     osalbool isLandDetected = FALSE;
-    const uint64 now = PX4LIB_GetPX4TimeUs();
+    const uint64 now = CFE_TIME_GetTimeInMicros();
     float armingThreshFactor = 1.0f;
 
     if (!CVT.ActuatorArmedMsg.Armed)
@@ -914,7 +914,7 @@ osalbool LD::DetectLandedState()
         }
 
         if (!isLandDetected && 
-            (PX4LIB_GetPX4TimeUs() - now) < LAND_DETECTOR_ARM_PHASE_TIME_US) //TODO is this valid?
+            (CFE_TIME_GetTimeInMicros() - now) < LAND_DETECTOR_ARM_PHASE_TIME_US) //TODO is this valid?
         {
             armingThreshFactor = LD_ARMING_THRESH_FACTOR;
         }
@@ -1114,7 +1114,7 @@ void LD::Execute()
         publish_counter += 1;
     }
 
-    uint64 now = PX4LIB_GetPX4TimeUs();
+    uint64 now = CFE_TIME_GetTimeInMicros();
 
     UpdateState();
 

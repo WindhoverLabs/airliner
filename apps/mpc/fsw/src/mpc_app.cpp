@@ -1114,7 +1114,7 @@ void MPC::Execute(void)
 {
     static uint64 t_prev = 0;
 
-    uint64 t = PX4LIB_GetPX4TimeUs();
+    uint64 t = CFE_TIME_GetTimeInMicros();
     float dt = t_prev != 0 ? (t - t_prev) / 1e6f : 0.004f;
     t_prev = t;
 
@@ -1282,7 +1282,7 @@ void MPC::UpdateRef(void)
         }
 
         /* Update local projection reference including altitude. */
-        CurrentTime = PX4LIB_GetPX4TimeUs();
+        CurrentTime = CFE_TIME_GetTimeInMicros();
         map_projection_init(&m_RefPos, m_VehicleLocalPositionMsg.RefLat, m_VehicleLocalPositionMsg.RefLon, CurrentTime);
         m_RefAlt = m_VehicleLocalPositionMsg.RefAlt;
 
@@ -3719,7 +3719,7 @@ void MPC::SetManualAccelerationXY(math::Vector2F &StickXy, const float Dt)
             osalbool StickVelAligned = (VelXyNorm * StickXyNorm > 0.0f);
 
             /* Update manual direction change hysteresis */
-            m_ManualDirectionChangeHysteresis.set_state_and_update(!StickVelAligned, PX4LIB_GetPX4TimeUs());
+            m_ManualDirectionChangeHysteresis.set_state_and_update(!StickVelAligned, CFE_TIME_GetTimeInMicros());
 
             /* Exit direction change if one of the condition is met */
             if (Intention == BRAKE)

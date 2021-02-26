@@ -52,7 +52,6 @@ void Ut_BAT_Custom_SetFunctionHook(uint32 Index, void *FunPtr)
     if      (Index == UT_BAT_CUSTOM_INITDEVICE_INDEX)     { Ut_BAT_Custom_HookTable.InitDevice  = (int32 (*)(void))FunPtr; }
     else if (Index == UT_BAT_CUSTOM_CLOSEDEVICE_INDEX)    { Ut_BAT_Custom_HookTable.CloseDevice = (void  (*)(void))FunPtr; }
     else if (Index == UT_BAT_CUSTOM_READDEVICE_INDEX)     { Ut_BAT_Custom_HookTable.ReadDevice  = (int32 (*)(float &, float &))FunPtr; }
-    else if (Index == UT_BAT_PX4LIB_GETPX4TIMEUS_INDEX)   { Ut_BAT_Custom_HookTable.PX4LIB_GetPX4TimeUs = (uint64  (*)(void))FunPtr; }
     else
     {
         printf("Unsupported BAT_CUSTOM Index In SetFunctionHook Call %lu\n", Index);
@@ -133,14 +132,4 @@ int32 BAT::ReadDevice(float &Voltage, float &Current)
     return 0;
 }
 
-extern "C" uint64 PX4LIB_GetPX4TimeUs(void)
-{
-    /* Check for specified return */
-    if (Ut_BAT_Custom_UseReturnCode(UT_BAT_PX4LIB_GETPX4TIMEUS_INDEX))
-        return Ut_BAT_Custom_ReturnCodeTable[UT_BAT_PX4LIB_GETPX4TIMEUS_INDEX].Value;
-
-    /* Check for Function Hook */
-    if (Ut_BAT_Custom_HookTable.PX4LIB_GetPX4TimeUs)
-        return Ut_BAT_Custom_HookTable.PX4LIB_GetPX4TimeUs();
-}
 

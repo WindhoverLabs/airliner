@@ -40,12 +40,14 @@
  *************************************************************************/
 
 #include "ld_state_history.h"
+#include "cfs_utils.h"
+
 
 void StateHistory::update()
 {
     if (requested_state != state)
     {
-        if ((PX4LIB_GetPX4TimeUs() - time_since_state_change)
+        if ((CFE_TIME_GetTimeInMicros() - time_since_state_change)
                 >= (state ? time_since_true_state : time_since_false_state))
         {
             state = requested_state;
@@ -60,7 +62,7 @@ void StateHistory::setState(const bool new_state)
         if (new_state != requested_state)
         {
             requested_state = new_state;
-            time_since_state_change = PX4LIB_GetPX4TimeUs();
+            time_since_state_change = CFE_TIME_GetTimeInMicros();
         }
     }
     else

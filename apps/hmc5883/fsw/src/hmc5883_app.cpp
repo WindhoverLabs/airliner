@@ -700,7 +700,7 @@ void HMC5883::ReadDevice(void)
     boolean returnBool      = FALSE;
     static uint8 temp_count = 0;
     int16 temp              = 0;
-    uint64 timeStamp        = PX4LIB_GetPX4TimeUs();
+    uint64 timeStamp        = CFE_TIME_GetTimeInMicros();
     float xraw_f            = 0;
     float yraw_f            = 0;
     float zraw_f            = 0;

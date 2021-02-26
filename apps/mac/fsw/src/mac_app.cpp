@@ -834,7 +834,7 @@ void MAC::AppMain()
 void MAC::RunController(void)
 {
     static uint64 last_run = 0;
-    uint64 now = PX4LIB_GetPX4TimeUs();
+    uint64 now = CFE_TIME_GetTimeInMicros();
     float dt = (now - last_run) / MICRO_SEC_TO_SEC_DIV;
     last_run = now;
     uint32 i = 0;

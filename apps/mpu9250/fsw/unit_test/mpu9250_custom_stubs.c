@@ -133,7 +133,7 @@ boolean MPU9250_Read_MagDeviceID(uint8 *Value)
 }
 
 
-uint64 PX4LIB_GetPX4TimeUs(void)
+uint64 CFE_TIME_GetTimeInMicros(void)
 {
     return MPU9250_Custom_Returns.MPU9250_Get_Time_Return;
 }

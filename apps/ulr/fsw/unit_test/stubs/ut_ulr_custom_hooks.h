@@ -38,6 +38,6 @@
 
 uint32 UT_InitDevice(void);
 int32 UT_ReadDevice(uint8 *Buffer, uint32 *Size);
-uint64 UT_PX4LIB_GetPX4TimeUs(void);
+uint64 UT_CFE_TIME_GetTimeInMicros(void);
 
 #endif

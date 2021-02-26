@@ -71,6 +71,7 @@ buildliner_add_app_unit_test(rcin-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/rcin_events.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/rcin_msg.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/rcin_version.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

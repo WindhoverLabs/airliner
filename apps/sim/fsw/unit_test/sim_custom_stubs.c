@@ -32,7 +32,7 @@
 *****************************************************************************/
 #include "cfe.h"
 
-uint64 PX4LIB_GetPX4TimeUs(void)
+uint64 CFE_TIME_GetTimeInMicros(void)
 {
     return 0;
 }

@@ -913,7 +913,7 @@ int32 NAV::Execute()
     }
 
     /* Time stamp out going messages */
-    Now2 = PX4LIB_GetPX4TimeUs();
+    Now2 = CFE_TIME_GetTimeInMicros();
     Now = CFE_TIME_GetTime();
     CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&MissionResultMsg, Now);
 
@@ -1761,7 +1761,7 @@ osalbool NAV::IsMissionItemReached()
         }
     }
 
-    Now = PX4LIB_GetPX4TimeUs();
+    Now = CFE_TIME_GetTimeInMicros();
     if (!CVT.VehicleLandDetectedMsg.Landed && !WaypointPositionReached)
     {
         Dist= -1.0f;

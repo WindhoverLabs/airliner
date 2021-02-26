@@ -1316,7 +1316,7 @@ osalbool VM::IsVehicleArmed()
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 uint64 VM::TimeElapsed(uint64 *TimePtr)
 {
-    uint64 now = PX4LIB_GetPX4TimeUs();
+    uint64 now = CFE_TIME_GetTimeInMicros();
     uint64 delta = now - *TimePtr;
 
     return delta;
@@ -1331,7 +1331,7 @@ uint64 VM::TimeElapsed(uint64 *TimePtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 uint64 VM::TimeNow()
 {
-    uint64 now = PX4LIB_GetPX4TimeUs();
+    uint64 now = CFE_TIME_GetTimeInMicros();
 
     return now;
 }
