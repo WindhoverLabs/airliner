@@ -798,6 +798,8 @@ boolean GPS_Custom_Read_and_Parse(const uint32 timeout)
                     }
                     case GPS_NAV_NAVPVT_MID:
                     {
+                    	CFE_TIME_SysTime_t currentTime;
+
                         //OS_printf("IN GPS_NAV_NAVPVT_MID\n");
                         GPS_NAV_PVT_t *msgIn = (GPS_NAV_PVT_t*) CFE_SB_GetUserData((CFE_SB_Msg_t*)&GPS_AppCustomData.Message);
                         OS_MutSemTake(GPS_AppCustomData.MutexPosition);
@@ -893,16 +895,18 @@ boolean GPS_Custom_Read_and_Parse(const uint32 timeout)
 
                                 //setClock(ts);
 
-                                GPS_AppCustomData.GpsPositionMsg.TimeUtcUsec = ((uint64)epoch) * 1000000ULL;
-                                GPS_AppCustomData.GpsPositionMsg.TimeUtcUsec += msgIn->nano / 1000;
+                                GPS_AppCustomData.GpsPositionMsg.TimeUtc.Seconds = epoch;
+                                GPS_AppCustomData.GpsPositionMsg.TimeUtc.Subseconds = CFE_TIME_Micro2SubSecs(msgIn->nano / 1000);
                             }
                             else
                             {
-                                GPS_AppCustomData.GpsPositionMsg.TimeUtcUsec = 0;
+                            	CFE_TIME_ClearTime(&GPS_AppCustomData.GpsPositionMsg.TimeUtc);
                             }
                         }
-                        
-                        GPS_AppCustomData.GpsPositionMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+
+                        currentTime = CFE_TIME_GetTime();
+                        CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&GPS_AppCustomData.GpsPositionMsg, currentTime);
+                        GPS_AppCustomData.GpsPositionMsg.TimeUtc = CFE_TIME_GetTime();
                         //GPS_AppCustomData.LastTimeStamp = GPS_AppCustomData.GpsPositionMsg.Timestamp;
 
                         /* TODO position and velocity update rate functions
@@ -950,8 +954,8 @@ boolean GPS_Custom_Read_and_Parse(const uint32 timeout)
                             GPS_AppCustomData.GpsSatInfoMsg.SVID[j] =
                                     (uint8)(msgIn->numCh[j].svid);
                         }
-                        
-                        GPS_AppCustomData.GpsSatInfoMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+
+                        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&GPS_AppCustomData.GpsSatInfoMsg);
                         
                         OS_MutSemGive(GPS_AppCustomData.MutexSatInfo);
                         break;
