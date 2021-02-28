@@ -131,7 +131,6 @@ AMC_InitConfigTbl_Exit_Tag:
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int32 AMC::ValidatePwmCfgTbl(void* ConfigTblPtr)
 {
-    uint32 i = 0;
     int32 iStatus=0;
     AMC_PwmConfigTbl_t* AMC_PwmConfigTblPtr =
             (AMC_PwmConfigTbl_t*)(ConfigTblPtr);

@@ -227,16 +227,10 @@ void Test_MPC_InitData(void)
 {
     MPC oMPC;
 
-    /* Set a fail result */
-    int32 expected = CFE_SUCCESS;
-
     oMPC.InitConfigTbl();
 
     /* Execute the function being tested */
     oMPC.InitData();
-
-    /* Verify results */
-    //UtAssert_True (result == expected, "InitData");
 }
 
 

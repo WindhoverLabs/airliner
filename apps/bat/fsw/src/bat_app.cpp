@@ -818,7 +818,6 @@ float BAT::GetFilteredThrottle(float Throttle)
 float BAT::GetDischarged(float Current)
 {
     CFE_TIME_SysTime_t zeroTime;
-    CFE_TIME_SysTime_t msgTime;
     zeroTime.Seconds = 0;
     zeroTime.Subseconds = 0;
 

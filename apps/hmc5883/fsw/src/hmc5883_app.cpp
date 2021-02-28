@@ -790,9 +790,6 @@ boolean HMC5883::SelfCalibrate(HMC5883_CalibrationMsg_t *Calibration)
     boolean returnBool  = FALSE;
     boolean rangeSet    = FALSE;
     boolean configSet   = FALSE;
-    boolean xNeg        = FALSE;
-    boolean yNeg        = FALSE;
-    boolean zNeg        = FALSE;
     
     /* expected axis scaling. The datasheet says that 766 will
      * be places in the X and Y axes and 713 in the Z

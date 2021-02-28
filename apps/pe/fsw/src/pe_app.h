@@ -85,7 +85,6 @@ extern "C" {
 #include "math/Euler.hpp"
 #include "math/Dcm.hpp"
 #include "geo/geo.h"
-#include <poll.h>
 #include <math.h>
 
 

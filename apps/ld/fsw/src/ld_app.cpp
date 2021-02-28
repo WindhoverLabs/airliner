@@ -340,6 +340,8 @@ int32 LD::InitApp()
     int32 iStatus = CFE_SUCCESS;
     int8 hasEvents = 0;
 
+    InitData();
+
     iStatus = InitEvent();
     if (iStatus != CFE_SUCCESS)
     {
@@ -357,8 +359,6 @@ int32 LD::InitApp()
     {
         goto LD_InitApp_Exit_Tag;
     }
-
-    InitData();
 
     iStatus = InitConfigTbl();
     if (iStatus != CFE_SUCCESS)
@@ -1113,8 +1113,6 @@ void LD::Execute()
         VehicleLandDetectedMsg.GroundContact = FALSE;
         publish_counter += 1;
     }
-
-    uint64 now = CFE_TIME_GetTimeInMicros();
 
     UpdateState();
 

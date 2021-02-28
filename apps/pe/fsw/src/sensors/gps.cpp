@@ -138,7 +138,6 @@ int PE::gpsMeasure(math::Vector6F &y)
 void PE::gpsCorrect()
 {
     CFE_ES_PerfLogEntry(PE_SENSOR_GPS_PERF_ID);
-    int i = 0;
 
     /* measure */
     if (gpsMeasure(m_GPS.y_global) != CFE_SUCCESS) 

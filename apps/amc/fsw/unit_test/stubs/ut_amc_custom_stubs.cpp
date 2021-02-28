@@ -108,10 +108,6 @@ int32 AMC::InitDevice(void)
 
 void AMC::SetMotorOutputs(const uint16 *PWM)
 {
-    /* Check for specified return */
-    if (Ut_AMC_Custom_UseReturnCode(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX))
-        Ut_AMC_Custom_ReturnCodeTable[UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX].Value;
-
     /* Check for Function Hook */
     if (Ut_AMC_Custom_HookTable.SetMotorOutputs)
         Ut_AMC_Custom_HookTable.SetMotorOutputs(PWM);

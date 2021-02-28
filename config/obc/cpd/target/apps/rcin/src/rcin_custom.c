@@ -63,7 +63,7 @@ boolean RCIN_Custom_Init(void)
 
 void RCIN_Stream_Task(void)
 {
-    return TRUE;
+    return;
 }
 
 

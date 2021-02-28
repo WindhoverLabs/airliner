@@ -700,7 +700,6 @@ PE_InitApp_Exit_Tag:
 int32 PE::RcvSchPipeMsg(int32 iBlocking)
 {
     int32           iStatus=CFE_SUCCESS;
-    uint64          baroTimestamp = 0;
     CFE_SB_Msg_t*   MsgPtr=NULL;
     CFE_SB_MsgId_t  MsgId;
 
@@ -1240,7 +1239,6 @@ void PE::ReportHousekeeping()
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void PE::SendVehicleLocalPositionMsg()
 {
-    float alt                    = 0.0f;
     float vxy_stddev             = 0.0f;
     float epv                    = 0.0f;
     float eph                    = 0.0f;

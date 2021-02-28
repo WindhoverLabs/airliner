@@ -110,10 +110,6 @@ int32 BAT::InitDevice(void)
 
 void BAT::CloseDevice(void)
 {
-    /* Check for specified return */
-    if (Ut_BAT_Custom_UseReturnCode(UT_BAT_CUSTOM_CLOSEDEVICE_INDEX))
-        Ut_BAT_Custom_ReturnCodeTable[UT_BAT_CUSTOM_CLOSEDEVICE_INDEX].Value;
-
     /* Check for Function Hook */
     if (Ut_BAT_Custom_HookTable.CloseDevice)
         Ut_BAT_Custom_HookTable.InitDevice();
