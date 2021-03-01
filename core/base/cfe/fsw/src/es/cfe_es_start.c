@@ -958,6 +958,10 @@ void  CFE_ES_CreateObjects(void)
                   
                   CFE_ES_UnlockSharedData(__func__,__LINE__);
 
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
                }
             }
             else /* appSlot not found -- This should never happen!*/
@@ -998,6 +1002,10 @@ void  CFE_ES_CreateObjects(void)
 
             case CFE_ES_FUNCTION_CALL: /*----------------------------------------------------------*/
 
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
                if ( CFE_ES_ObjectTable[i].FuncPtrUnion.FunctionPtr != NULL )
                {
                   CFE_ES_WriteToSysLog("ES Startup: Calling %s\n",CFE_ES_ObjectTable[i].ObjectName);
@@ -1027,6 +1035,11 @@ void  CFE_ES_CreateObjects(void)
                {
                   CFE_ES_WriteToSysLog("ES Startup: bad function pointer ( table entry = %d).\n",i);
                }
+
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
                break;
 
             case CFE_ES_NULL_ENTRY: /*-------------------------------------------------------*/
