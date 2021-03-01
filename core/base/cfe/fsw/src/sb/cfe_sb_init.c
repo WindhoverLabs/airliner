@@ -75,6 +75,8 @@
 #include "cfe_error.h"
 #include "cfe_sb_events.h"
 
+#define CFE_ES_START_DEBUG
+
 /*
 **  External Declarations
 */
@@ -157,6 +159,10 @@ int32 CFE_SB_EarlyInit (void) {
                    TRUE);    
 
    CFE_SB.ZeroCopyTail = NULL;
+
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
 
     return Stat;
 

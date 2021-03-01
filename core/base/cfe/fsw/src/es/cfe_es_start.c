@@ -134,6 +134,8 @@
 ** Defines for this module
 */
 
+#define CFE_ES_START_DEBUG
+
 /* 
 ** Number of msecs to delay before exiting cFE. Allows LogMsg to get through 
 */
@@ -171,6 +173,10 @@ void CFE_ES_Main(uint32 StartType, uint32 StartSubtype, uint32 ModeId, const cha
    */
    CFE_ES_Global.SystemState = CFE_ES_SYSTEM_STATE_EARLY_INIT;
 
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
    /*
    ** Initialize the Reset variables. This call is required
    ** Before most of the ES functions can be used including the 
@@ -178,12 +184,20 @@ void CFE_ES_Main(uint32 StartType, uint32 StartSubtype, uint32 ModeId, const cha
    */
    CFE_ES_SetupResetVariables(StartType, StartSubtype, ModeId);
 
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
    /*
    ** Initialize the Logic Perf variables
    ** Because this is in the ES Reset area, it must be called after
    ** CFE_ES_SetupResetVariables.
    */
    CFE_ES_SetupPerfVariables(StartType);
+
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
 
    /*
    ** Announce the startup
@@ -194,11 +208,19 @@ void CFE_ES_Main(uint32 StartType, uint32 StartSubtype, uint32 ModeId, const cha
    ** Create and Mount the filesystems needed
    */
    CFE_ES_InitializeFileSystems(StartType);
-   
+
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
    /*
    ** Install exception Handlers ( Placeholder )
    */
    CFE_PSP_AttachExceptions();
+
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
 
    /*
    ** Initialize the ES Application Table
@@ -248,6 +270,10 @@ void CFE_ES_Main(uint32 StartType, uint32 StartSubtype, uint32 ModeId, const cha
          
    } /* end if */
 
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
    /*
    ** Indicate that the CFE core is now starting up / going multi-threaded
    */
@@ -258,6 +284,10 @@ void CFE_ES_Main(uint32 StartType, uint32 StartSubtype, uint32 ModeId, const cha
    ** Create the tasks, OS objects, and initialize hardware
    */
    CFE_ES_CreateObjects();
+
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
 
    /*
    ** Indicate that the CFE core is ready
@@ -272,6 +302,10 @@ void CFE_ES_Main(uint32 StartType, uint32 StartSubtype, uint32 ModeId, const cha
    */   
    CFE_ES_StartApplications(StartType, StartFilePath );
 
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
    /*
     * Wait for applications to be "running" before declaring as operational.
     * However, if not everything starts up, that is not a fatal error, we will
@@ -283,6 +317,10 @@ void CFE_ES_Main(uint32 StartType, uint32 StartSubtype, uint32 ModeId, const cha
    {
        CFE_ES_WriteToSysLog("ES Startup: Startup Sync failed - Applications may not have all started\n");
    }
+
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
 
    /*
    ** Startup is fully complete
@@ -787,6 +825,10 @@ void  CFE_ES_CreateObjects(void)
     uint16    i;
     uint16    j;
 
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
     CFE_ES_WriteToSysLog("ES Startup: Starting Object Creation calls.\n");
 
     for ( i = 0; i < CFE_ES_OBJECT_TABLE_SIZE; i++ )
@@ -849,8 +891,11 @@ void  CFE_ES_CreateObjects(void)
                */
                CFE_ES_Global.AppTable[j].StateRecord.AppState = CFE_ES_APP_STATE_INITIALIZING;
                ++CFE_ES_Global.AppStartedCount;
-               
-               
+
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
                /*
                ** Create the task
                */
@@ -860,27 +905,26 @@ void  CFE_ES_CreateObjects(void)
                                   NULL,                                          /* stack pointer */
                                   CFE_ES_ObjectTable[i].ObjectSize,              /* stack size */
                                   CFE_ES_ObjectTable[i].ObjectPriority,          /* task priority */
-								  CFE_ES_ObjectTable[i].ObjectFlags);            /* task options */
+                                  CFE_ES_ObjectTable[i].ObjectFlags);            /* task options */
 
                if(ReturnCode != OS_SUCCESS)
                {
                   CFE_ES_Global.AppTable[j].RecordUsed = FALSE;
                   CFE_ES_WriteToSysLog("ES Startup: OS_TaskCreate error creating core App: %s: EC = 0x%08X\n",
                                         CFE_ES_ObjectTable[i].ObjectName, (unsigned int)ReturnCode);
-      
-                                        
+
                   CFE_ES_UnlockSharedData(__func__,__LINE__);
 
                   /*
                   ** Delay to allow the message to be read
                   */
                   OS_TaskDelay(CFE_ES_PANIC_DELAY);
-      
+
                   /* 
                   ** cFE Cannot continue to start up.  
                   */
                   CFE_PSP_Panic(CFE_PSP_PANIC_CORE_APP);
-                                              
+
                }
                else
                {
@@ -913,7 +957,7 @@ void  CFE_ES_CreateObjects(void)
                   CFE_ES_Global.RegisteredCoreApps++;
                   
                   CFE_ES_UnlockSharedData(__func__,__LINE__);
-                                                                                                      
+
                }
             }
             else /* appSlot not found -- This should never happen!*/
@@ -928,7 +972,7 @@ void  CFE_ES_CreateObjects(void)
                ** cFE Cannot continue to start up.  
                */
                CFE_PSP_Panic(CFE_PSP_PANIC_CORE_APP);
-            
+
             }
 
             /*

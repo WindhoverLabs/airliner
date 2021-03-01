@@ -79,6 +79,9 @@
 #include <stdio.h>
 #include <string.h>
 
+
+#define CFE_ES_START_DEBUG
+
 /*******************************************************************
 **
 ** CFE_TBL_EarlyInit
@@ -287,7 +290,11 @@ int32 CFE_TBL_EarlyInit (void)
             Status = CFE_SUCCESS;
         }
     }
-    
+
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
     return Status;
             
 }/* end CFE_TBL_EarlyInit */

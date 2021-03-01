@@ -254,7 +254,10 @@ int32 CFE_ES_CDS_EarlyInit(void)
         return Status;
     }
     
-    
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
     return(CFE_SUCCESS);
     
 }   /* End of CFE_ES_CDS_EarlyInit() */

@@ -49,6 +49,8 @@
 
 #include <string.h>
 
+#define CFE_ES_START_DEBUG
+
 /*
 ** Global data
 ** 
@@ -79,6 +81,10 @@ int32 CFE_FS_EarlyInit (void)
       CFE_ES_WriteToSysLog("FS Shared Data Mutex creation failed! RC=0x%08x\n",(unsigned int)Stat);
       return Stat;
     }/* end if */
+
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
 
     return Stat;
 
