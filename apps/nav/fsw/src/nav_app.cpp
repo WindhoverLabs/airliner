@@ -658,7 +658,6 @@ void NAV::AppMain()
 int32 NAV::Execute()
 {
 	CFE_TIME_SysTime_t Now;
-    uint64 Now2 = 0;
     
     /* Set vehicle arming state */
     if (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.VehicleStatusMsg) && !VehicleStatusUpdateOnce)
@@ -913,7 +912,6 @@ int32 NAV::Execute()
     }
 
     /* Time stamp out going messages */
-    Now2 = CFE_TIME_GetTimeInMicros();
     Now = CFE_TIME_GetTime();
     CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&MissionResultMsg, Now);
 
@@ -1483,9 +1481,6 @@ void NAV::SetRtlItem()
                 MissionItem.Altitude = CVT.VehicleGlobalPosition.Alt;
             }
             MissionItem.Yaw = CVT.HomePositionMsg.Yaw;
-            float d_current = get_distance_to_next_waypoint(
-                    CVT.VehicleGlobalPosition.Lat, CVT.VehicleGlobalPosition.Lon,
-                    MissionItem.Lat, MissionItem.Lon);
             MissionItem.LoiterRadius = ConfigTblPtr->NAV_LOITER_RAD;
             MissionItem.NavCmd = PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_WAYPOINT;
             MissionItem.AcceptanceRadius = ConfigTblPtr->NAV_ACC_RAD;
@@ -1625,8 +1620,6 @@ void NAV::AdvanceRtl()
 
 void NAV::RtlActive()
 {
-    osalbool MissionItemReachedFlag = IsMissionItemReached();
-
     /* Bogus Land */
     if (!CVT.VehicleLandDetectedMsg.Landed
             && !CVT.VehicleLandDetectedMsg.GroundContact

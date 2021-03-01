@@ -5,13 +5,14 @@ using namespace math;
 
 
 Matrix10F2::Matrix10F2(Vector2F m0, Vector2F m1, Vector2F m2, Vector2F m3, Vector2F m4, Vector2F m5, Vector2F m6, Vector2F m7, Vector2F m8, Vector2F m9) :
-	data{m0, m1, m2, m3, m4, m5, m6, m7, m8, m9},
-	nan{NAN,NAN}
+	nan{NAN,NAN},
+	data{m0, m1, m2, m3, m4, m5, m6, m7, m8, m9}
 {
 };
 
 
 Matrix10F2::Matrix10F2() :
+    nan{NAN,NAN},
 	data{
 		{0.0, 0.0},
 		{0.0, 0.0},
@@ -23,8 +24,7 @@ Matrix10F2::Matrix10F2() :
 		{0.0, 0.0},
 		{0.0, 0.0},
 		{0.0, 0.0},
-	},
-    nan{NAN,NAN}
+	}
 {
 };
 

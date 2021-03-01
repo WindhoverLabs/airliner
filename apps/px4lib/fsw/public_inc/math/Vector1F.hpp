@@ -13,11 +13,11 @@ private:
 	/** \brief Size of vector */
 	static const int SIZE = 1;
 
-	/** \brief Data of vector */
-	float data[SIZE];
-
 	/** \brief NaN data */
 	float nan;
+
+	/** \brief Data of vector */
+	float data[SIZE];
 
 public:
 	/************************************************************************/

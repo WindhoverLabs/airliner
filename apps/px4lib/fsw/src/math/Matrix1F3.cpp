@@ -5,17 +5,17 @@ using namespace math;
 
 
 Matrix1F3::Matrix1F3(Vector3F m0) :
-	data{m0},
-	nan{NAN,NAN,NAN}
+	nan{NAN,NAN,NAN},
+	data{m0}
 {
 };
 
 
 Matrix1F3::Matrix1F3() :
+    nan{NAN,NAN,NAN},
 	data{
 		{0.0, 0.0, 0.0}
-    },
-    nan{NAN,NAN,NAN}
+    }
 {
 };
 

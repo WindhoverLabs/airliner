@@ -4,15 +4,15 @@
 using namespace math;
 
 Matrix1F1::Matrix1F1(Vector1F m0) :
-    data{m0},
-    nan(NAN)
+    nan(NAN),
+    data{m0}
 {
 };
 
 
 Matrix1F1::Matrix1F1() :
-    data{0.0},
-    nan(NAN)
+    nan(NAN),
+    data{0.0}
 {
 };
 

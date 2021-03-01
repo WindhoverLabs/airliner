@@ -12,9 +12,6 @@ private:
 	/** \brief Size of vector */
 	static const int SIZE = 6;
 
-	/** \brief Data of vector */
-	float data[SIZE];
-
 	/** \brief NaN data */
 	float nan;
 
@@ -351,6 +348,9 @@ public:
 	const Vector6F EDivide(const Vector6F &v) const;
 
 protected:
+
+	/** \brief Data of vector */
+	float data[SIZE];
 
 };
 

@@ -311,7 +311,6 @@ uint32 SCH_GetOutstandingActivityCount(uint32 Slot)
 void SCH_CheckDeadlines(void)
 {
 	uint32 slot = SCH_AppData.NextSlotNumber;
-	uint32 pendingActivityCount = 0;
 
 	/* Get the previous slot */
     if (slot == 0)
@@ -1200,7 +1199,6 @@ int32 SCH_ValidateScheduleData(void *TableData)
     uint16 Remainder;
     uint16 MessageIndex;
     uint32 GroupData;
-    uint32 Deadline;
 
     int32 GoodCount   = 0;
     int32 BadCount    = 0;
@@ -1214,7 +1212,6 @@ int32 SCH_ValidateScheduleData(void *TableData)
     {
         uint16 SearchMessageIndex;
         uint32 Deadline;
-        uint32 FailCount = 0;
         uint16 SearchMinorFrames = 0;
 
         EnableState  = TableArray[TableIndex].EnableState;
@@ -1548,8 +1545,6 @@ int32 SCH_ChildTaskInit(void)
 
 void SCH_ADChildTask(void)
 {
-	int32 Status = CFE_SUCCESS;
-
     SCH_AppData.ADChildTaskRunStatus = CFE_ES_RegisterChildTask();
 
     while (SCH_AppData.ADChildTaskRunStatus == CFE_SUCCESS)

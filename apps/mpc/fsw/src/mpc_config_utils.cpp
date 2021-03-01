@@ -150,250 +150,296 @@ MPC_AcquireConfigPointers_Exit_Tag:
 int32 MPC::ValidateConfigTbl(void* ConfigTblPtr)
 {
     int32  iStatus=0;
-    osalbool valid_bool = TRUE;
     MPC_ConfigTbl_t* MPC_ConfigTblPtr = (MPC_ConfigTbl_t*)(ConfigTblPtr);
 
     if(!(MPC_ConfigTblPtr->THR_MIN >= THR_MIN_MIN && MPC_ConfigTblPtr->THR_MIN <= THR_MIN_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->THR_HOVER >= THR_HOVER_MIN && MPC_ConfigTblPtr->THR_HOVER <= THR_HOVER_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->THR_MAX >= THR_MAX_MIN && MPC_ConfigTblPtr->THR_MAX <= THR_MAX_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->MANTHR_MIN >= MANTHR_MIN_MIN && MPC_ConfigTblPtr->MANTHR_MIN <= MANTHR_MIN_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->MANTHR_MAX >= MANTHR_MAX_MIN && MPC_ConfigTblPtr->MANTHR_MAX <= MANTHR_MAX_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(MPC::Validate_Z_P(MPC_ConfigTblPtr->Z_P) == FALSE)
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(MPC::Validate_Z_VEL_P(MPC_ConfigTblPtr->Z_VEL_P) == FALSE)
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(MPC::Validate_Z_VEL_I(MPC_ConfigTblPtr->Z_VEL_I) == FALSE)
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(MPC::Validate_Z_VEL_D(MPC_ConfigTblPtr->Z_VEL_D) == FALSE)
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->Z_VEL_MAX_UP >= Z_VEL_MAX_UP_MIN && MPC_ConfigTblPtr->Z_VEL_MAX_UP <= Z_VEL_MAX_UP_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->Z_VEL_MAX_DN >= Z_VEL_MAX_DN_MIN && MPC_ConfigTblPtr->Z_VEL_MAX_DN <= Z_VEL_MAX_DN_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->Z_FF >= Z_FF_MIN && MPC_ConfigTblPtr->Z_FF <= Z_FF_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(MPC::Validate_XY_P(MPC_ConfigTblPtr->XY_P) == FALSE)
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(MPC::Validate_XY_VEL_P(MPC_ConfigTblPtr->XY_VEL_P) == FALSE)
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(MPC::Validate_XY_VEL_I(MPC_ConfigTblPtr->XY_VEL_I) == FALSE)
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(MPC::Validate_XY_VEL_D(MPC_ConfigTblPtr->XY_VEL_D) == FALSE)
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->XY_CRUISE >= XY_CRUISE_MIN && MPC_ConfigTblPtr->XY_CRUISE <= XY_CRUISE_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->TARGET_THRE >= TARGET_THRE_MIN && MPC_ConfigTblPtr->TARGET_THRE <= TARGET_THRE_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->XY_VEL_MAX >= XY_VEL_MAX_MIN && MPC_ConfigTblPtr->XY_VEL_MAX <= XY_VEL_MAX_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->XY_FF >= XY_FF_MIN && MPC_ConfigTblPtr->XY_FF <= XY_FF_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->TILTMAX_AIR >= TILTMAX_AIR_MIN && MPC_ConfigTblPtr->TILTMAX_AIR <= TILTMAX_AIR_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->TILTMAX_LND >= TILTMAX_LND_MIN && MPC_ConfigTblPtr->TILTMAX_LND <= TILTMAX_LND_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->LAND_SPEED >= LAND_SPEED_MIN && MPC_ConfigTblPtr->LAND_SPEED <= LAND_SPEED_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->TKO_SPEED >= TKO_SPEED_MIN && MPC_ConfigTblPtr->TKO_SPEED <= TKO_SPEED_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->MAN_TILT_MAX >= MAN_TILT_MAX_MIN && MPC_ConfigTblPtr->MAN_TILT_MAX <= MAN_TILT_MAX_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->MAN_Y_MAX >= MAN_Y_MAX_MIN && MPC_ConfigTblPtr->MAN_Y_MAX <= MAN_Y_MAX_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(MPC::Validate_HOLD_DZ(MPC_ConfigTblPtr->HOLD_DZ) == FALSE)
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->HOLD_MAX_XY >= HOLD_MAX_XY_MIN && MPC_ConfigTblPtr->HOLD_MAX_XY <= HOLD_MAX_XY_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->HOLD_MAX_Z >= HOLD_MAX_Z_MIN && MPC_ConfigTblPtr->HOLD_MAX_Z <= HOLD_MAX_Z_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->VELD_LP >= VELD_LP_MIN && MPC_ConfigTblPtr->VELD_LP <= VELD_LP_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->ACC_HOR_MAX >= ACC_HOR_MAX_MIN && MPC_ConfigTblPtr->ACC_HOR_MAX <= ACC_HOR_MAX_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->ACC_UP_MAX >= ACC_UP_MAX_MIN && MPC_ConfigTblPtr->ACC_UP_MAX <= ACC_UP_MAX_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->ACC_DOWN_MAX >= ACC_DOWN_MAX_MIN && MPC_ConfigTblPtr->ACC_DOWN_MAX <= ACC_DOWN_MAX_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->ALT_MODE >= ALT_MODE_MIN && MPC_ConfigTblPtr->ALT_MODE <= ALT_MODE_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(MPC::Validate_XY_MAN_EXPO(MPC_ConfigTblPtr->XY_MAN_EXPO) == FALSE)
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(MPC::Validate_Z_MAN_EXPO(MPC_ConfigTblPtr->Z_MAN_EXPO) == FALSE)
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->LAND_ALT1 >= LAND_ALT1_MIN && MPC_ConfigTblPtr->LAND_ALT1 <= LAND_ALT1_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->LAND_ALT2 >= LAND_ALT2_MIN && MPC_ConfigTblPtr->LAND_ALT2 <= LAND_ALT2_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(MPC::Validate_TKO_RAMP_T(MPC_ConfigTblPtr->TKO_RAMP_T) == FALSE)
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->MC_YAWRATE_MAX >= MC_YAWRATE_MAX_MIN && MPC_ConfigTblPtr->MC_YAWRATE_MAX <= MC_YAWRATE_MAX_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->MC_YAW_P >= MC_YAW_P_MIN && MPC_ConfigTblPtr->MC_YAW_P <= MC_YAW_P_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->MPC_CRUISE_90 >= MPC_CRUISE_90_MIN && MPC_ConfigTblPtr->MPC_CRUISE_90 <= MPC_CRUISE_90_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->MPC_JERK_MAX >= MPC_JERK_MAX_MIN && MPC_ConfigTblPtr->MPC_JERK_MAX <= MPC_JERK_MAX_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->MPC_JERK_MIN >= MPC_JERK_MIN_MIN && MPC_ConfigTblPtr->MPC_JERK_MIN <= MPC_JERK_MIN_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->MPC_DEC_HOR_SLOW >= MPC_DEC_HOR_SLOW_MIN && MPC_ConfigTblPtr->MPC_DEC_HOR_SLOW <= MPC_DEC_HOR_SLOW_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->MPC_VEL_MANUAL >= MPC_VEL_MANUAL_MIN && MPC_ConfigTblPtr->MPC_VEL_MANUAL <= MPC_VEL_MANUAL_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->NAV_ACC_RAD >= NAV_ACC_RAD_MIN && MPC_ConfigTblPtr->NAV_ACC_RAD <= NAV_ACC_RAD_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
     if(!(MPC_ConfigTblPtr->NAV_MIS_YAW_ERR >= NAV_MIS_YAW_ERR_MIN && MPC_ConfigTblPtr->NAV_MIS_YAW_ERR <= NAV_MIS_YAW_ERR_MAX))
     {
-        valid_bool = FALSE;
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
+    	iStatus = -1;
     }
 
-MPC_ValidateConfigTbl_Exit_Tag:
     return iStatus;
 }
 

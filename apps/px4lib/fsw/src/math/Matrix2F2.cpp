@@ -4,18 +4,18 @@
 using namespace math;
 
 Matrix2F2::Matrix2F2(Vector2F m0, Vector2F m1) :
-	data{m0, m1},
-	nan{NAN,NAN}
+	nan{NAN,NAN},
+	data{m0, m1}
 {
 };
 
 
 Matrix2F2::Matrix2F2() :
+    nan{NAN,NAN},
 	data{
 		{0.0, 0.0},
 		{0.0, 0.0}
-    },
-    nan{NAN,NAN}
+    }
 {
 };
 

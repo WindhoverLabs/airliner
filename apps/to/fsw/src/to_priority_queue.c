@@ -92,7 +92,7 @@ int32 TO_PriorityQueue_BuildupAll(TO_ChannelData_t *channel)
     {
         (void) CFE_EVS_SendEvent(TO_PQUEUE_MISSING_TBL_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Failed to create priority queues on channel %llu, missing table.",
+                                 "Failed to create priority queues on channel %lu, missing table.",
                                  channel->channelIdx);
         return TO_NO_TABLE_ERR;
     }
@@ -123,7 +123,7 @@ int32 TO_PriorityQueue_BuildupAll(TO_ChannelData_t *channel)
                  */
                 (void) CFE_EVS_SendEvent(TO_PQUEUE_CREATE_ERR_EID,
                                      CFE_EVS_ERROR,
-                                    "Failed to create '%s' priority queue #%llu on channel %llu. (%llu)",
+                                    "Failed to create '%s' priority queue #%lu on channel %lu. (%ld)",
                                     channel->ChannelName,
                                     i,
                                     channel->channelIdx,

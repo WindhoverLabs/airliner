@@ -93,9 +93,9 @@ extern "C" {
 #define XY_FF_MIN            (0.0)
 #define XY_FF_MAX            (1.0)
 #define TILTMAX_AIR_MIN      (0.0)
-#define TILTMAX_AIR_MAX      (3.1415926 / 2.0)
+#define TILTMAX_AIR_MAX      (90.0)
 #define TILTMAX_LND_MIN      (0.0)
-#define TILTMAX_LND_MAX      (3.1415926 / 2.0)
+#define TILTMAX_LND_MAX      (90.0)
 #define LAND_SPEED_MIN       (0.2)
 #define LAND_SPEED_MAX       (122.0)
 #define TKO_SPEED_MIN        (1.0)
@@ -138,7 +138,7 @@ extern "C" {
 #define MPC_CRUISE_90_MAX    (20.0)
 #define MPC_JERK_MAX_MIN     (0.0)
 #define MPC_JERK_MAX_MAX     (15.0)
-#define MPC_JERK_MIN_MIN     (0.5)
+#define MPC_JERK_MIN_MIN     (0.0)
 #define MPC_JERK_MIN_MAX     (10.0)
 #define MPC_DEC_HOR_SLOW_MIN (0.5)
 #define MPC_DEC_HOR_SLOW_MAX (10.0)
@@ -364,7 +364,7 @@ typedef struct
      *  \par Limits:
      *       Min > Max (incr.) #TILTMAX_AIR_MIN > #TILTMAX_AIR_MAX.
      *
-     *  \par Units: radians
+     *  \par Units: degrees
      */
     float TILTMAX_AIR;
 
@@ -375,7 +375,7 @@ typedef struct
      *  \par Limits:
      *       Min > Max (incr.) #TILTMAX_LND_MIN > #TILTMAX_LND_MAX.
      *
-     *  \par Units: radians
+     *  \par Units: degrees
      */
     float TILTMAX_LND;
 
