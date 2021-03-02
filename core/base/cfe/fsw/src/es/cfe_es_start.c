@@ -956,7 +956,9 @@ void  CFE_ES_CreateObjects(void)
     OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
 #endif
                   OS_ConvertToArrayIndex(CFE_ES_Global.AppTable[j].TaskInfo.MainTaskId, &TaskIndex);
-
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
                   /*
                   ** Allocate and populate the CFE_ES_Global.TaskTable entry
                   */
@@ -982,7 +984,9 @@ void  CFE_ES_CreateObjects(void)
                   */
                   CFE_ES_Global.RegisteredTasks++;
                   CFE_ES_Global.RegisteredCoreApps++;
-                  
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
                   CFE_ES_UnlockSharedData(__func__,__LINE__);
 
 #ifdef CFE_ES_START_DEBUG
@@ -1077,10 +1081,17 @@ void  CFE_ES_CreateObjects(void)
             case CFE_ES_NULL_ENTRY: /*-------------------------------------------------------*/
                break;
             default:
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
                break;
        } /* end switch */
 
     } /* end for */
+
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
 
     CFE_ES_WriteToSysLog("ES Startup: Finished ES CreateObject table entries.\n");
 }
