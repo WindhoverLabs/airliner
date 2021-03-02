@@ -13,6 +13,7 @@
 `libdwarf-dev`  
 `libelf-dev`  
 `libsqlite3-dev`
+`libeigen3-dev`
 
 Must install the following dependencies via pip3:  
 `PyYAML==5.3.1`  
