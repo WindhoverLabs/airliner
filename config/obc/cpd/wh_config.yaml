@@ -2,4 +2,9 @@
 config_base: ${PROJECT_SOURCE_DIR}
 
 modules:
-  sch:
+  core:
+    modules:
+      osal:
+        definition: ${PROJECT_SOURCE_DIR}/core/osal/fsw/freertos/wh_design.yaml
+      psp:
+        definition: ${PROJECT_SOURCE_DIR}/core/psp/fsw/obc-cpd/wh_design.yaml

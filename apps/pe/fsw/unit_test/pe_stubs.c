@@ -39,12 +39,6 @@ Geo_Project_Returns_t Geo_Project_Returns = { 0,
                                               0};
 
 
-uint64 PX4LIB_GetPX4TimeUs(void)
-{
-    return 0;
-}
-
-
 struct map_projection_reference_s {
 	double lat_rad;
 	double lon_rad;

@@ -33,47 +33,6 @@
 
 #include "cfe.h"
 #include "lgc_app.h"
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <errno.h>
-
-#define LGC_RCOUT_ZYNQ_PWM_BASE (0x43c00000)
-#define LGC_FREQUENCY_PWM       (400)
-#define LGC_TICK_PER_S          (50000000)
-#define LGC_TICK_PER_US         (50)
-#define LGC_DEVICE_PATH         "/dev/mem"
-#define MOTOR_OUTPUTS_SKIPPED   (8)
-
-
-/* The following struct is used by the LGC_SharedMemCmd_t struct and overlayed
- * over the ocpoc PPM registers to control the PWM hardware.
- */
-typedef struct {
-    uint32 Period;
-    uint32 Hi;
-} LGC_PeriodHi_t;
-
-
-/* The following struct is overlayed over the ocpoc PPM registers to control
- * the PWM hardware.
- */
-typedef struct
-{
-    LGC_PeriodHi_t PeriodHi[MOTOR_OUTPUTS_SKIPPED + LGC_MAX_GEAR_OUTPUTS];
-} LGC_SharedMemCmd_t;
-
-volatile LGC_SharedMemCmd_t *LGC_SharedMemCmd;
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* LGC_Freq2tick function.                                         */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-uint32 LGC_Freq2tick(uint16 FreqHz);
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -83,36 +42,7 @@ uint32 LGC_Freq2tick(uint16 FreqHz);
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int32 LGC::InitDevice(void)
 {
-    uint32 i = 0;
-    int returnVal = 0;
-    int mem_fd = 0;
-
-    /* Initialize just in case we were reloaded and the ctor wasn't called. */
-    LGC_SharedMemCmd = 0;
-
-    mem_fd = open(LGC_DEVICE_PATH, O_RDWR | O_SYNC);
-    LGC_SharedMemCmd = (LGC_SharedMemCmd_t *) mmap(0, 0x1000,
-            PROT_READ | PROT_WRITE, MAP_SHARED, mem_fd,
-            LGC_RCOUT_ZYNQ_PWM_BASE);
-    close(mem_fd);
-
-    if (LGC_SharedMemCmd == 0) 
-    {
-        returnVal = errno;
-        goto end_of_function;
-    }
-
-    // Note: this appears to be required actuators to initialize
-    for (i = MOTOR_OUTPUTS_SKIPPED; i < (MOTOR_OUTPUTS_SKIPPED + LGC_MAX_GEAR_OUTPUTS); ++i) 
-    {
-        LGC_SharedMemCmd->PeriodHi[i].Period =
-                LGC_Freq2tick(LGC_FREQUENCY_PWM);
-        LGC_SharedMemCmd->PeriodHi[i].Hi     =
-                LGC_Freq2tick(LGC_FREQUENCY_PWM) / 2;
-    }
-
-end_of_function:
-    return returnVal;
+    return TRUE;
 }
 
 
@@ -123,14 +53,7 @@ end_of_function:
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LGC::SetMotorOutputs(const uint16 *PWM)
 {
-    uint32 i = 0;
 
-    /* Convert this to duty_cycle in ns */
-    for (i = MOTOR_OUTPUTS_SKIPPED; i < (MOTOR_OUTPUTS_SKIPPED + LGC_MAX_GEAR_OUTPUTS); ++i)
-    {
-        LGC_SharedMemCmd->PeriodHi[i].Hi = LGC_TICK_PER_US * PWM[(i - MOTOR_OUTPUTS_SKIPPED)];
-    }
-    return;
 }
 
 
@@ -141,7 +64,5 @@ void LGC::SetMotorOutputs(const uint16 *PWM)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 uint32 LGC_Freq2tick(uint16 FreqHz)
 {
-    uint32 duty = LGC_TICK_PER_S / (unsigned long)FreqHz;
-
-    return duty;
+    return 0;
 }

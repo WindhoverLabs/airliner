@@ -48,6 +48,7 @@ buildliner_add_app_unit_test(sens-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sens_tbldefs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sens_version.h
         ${PX4LIB_LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

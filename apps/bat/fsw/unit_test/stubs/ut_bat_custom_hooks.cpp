@@ -53,7 +53,3 @@ int32 UT_ReadDevice(float &Voltage, float &Current)
 	return 0;
 }
 
-uint64 UT_PX4LIB_GetPX4TimeUs(void)
-{
-    return 0;
-}

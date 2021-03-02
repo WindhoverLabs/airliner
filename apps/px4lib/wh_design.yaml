@@ -139,7 +139,7 @@
       struct: PX4_MissionResultMsg_t
     PX4_MULTIROTOR_MOTOR_LIMITS_MID: 
       msgID: 
-      struct: PX4_MultirotorMotorLimitsMsg_t
+      #struct: PX4_MultirotorMotorLimitsMsg_t
     PX4_OFFBOARD_CONTROL_MODE_MID: 
       msgID: 
       struct: PX4_OffboardControlModeMsg_t

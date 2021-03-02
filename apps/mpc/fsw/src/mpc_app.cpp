@@ -20,6 +20,7 @@
 #include <math.h>
 #include "px4lib_msgids.h"
 #include "mpc_tbldefs.h"
+#include "cfs_utils.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -1113,7 +1114,7 @@ void MPC::Execute(void)
 {
     static uint64 t_prev = 0;
 
-    uint64 t = PX4LIB_GetPX4TimeUs();
+    uint64 t = CFE_TIME_GetTimeInMicros();
     float dt = t_prev != 0 ? (t - t_prev) / 1e6f : 0.004f;
     t_prev = t;
 
@@ -1144,7 +1145,7 @@ void MPC::Execute(void)
 
         /* Make sure attitude setpoint output "disables" attitude control */
         m_VehicleAttitudeSetpointMsg.Thrust = 0.0f;
-        m_VehicleAttitudeSetpointMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_VehicleAttitudeSetpointMsg);
     }
 
     if (!m_InTakeoff && (!m_VehicleLandDetectedMsg.Landed && m_WasLanded) && m_VehicleControlModeMsg.Armed == PX4_ARMING_STATE_ARMED)
@@ -1155,7 +1156,8 @@ void MPC::Execute(void)
         m_TakeoffVelLimit = -.5f;
     }
 
-    else if (!m_VehicleControlModeMsg.Armed == PX4_ARMING_STATE_ARMED) {
+    else if (m_VehicleControlModeMsg.Armed != PX4_ARMING_STATE_ARMED)
+    {
         /* If we're disarmed and for some reason were in a smooth takeoff, we reset that. */
         m_InTakeoff = FALSE;
     }
@@ -1191,7 +1193,7 @@ void MPC::Execute(void)
         DoControl(dt);
 
         /* Fill local position, velocity and thrust setpoint */
-        m_VehicleLocalPositionSetpointMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_VehicleLocalPositionSetpointMsg);
         m_VehicleLocalPositionSetpointMsg.X = m_PositionSetpoint[0];
         m_VehicleLocalPositionSetpointMsg.Y = m_PositionSetpoint[1];
         m_VehicleLocalPositionSetpointMsg.Z = m_PositionSetpoint[2];
@@ -1261,7 +1263,7 @@ void MPC::UpdateRef(void)
     /* The reference point is only allowed to change when the vehicle is in standby state which is the
     normal state when the estimator origin is set. Changing reference point in flight causes large controller
     setpoint changes. Changing reference point in other arming states is untested and should not be performed. */
-    if ((m_VehicleLocalPositionMsg.RefTimestamp != m_RefTimestamp)
+    if ((CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&m_VehicleLocalPositionMsg.RefTimestamp) != m_RefTimestamp)
         && ((m_VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_STANDBY)
         || (!m_RefAltIsGlobal && m_VehicleLocalPositionMsg.Z_Global)))
     {
@@ -1281,7 +1283,7 @@ void MPC::UpdateRef(void)
         }
 
         /* Update local projection reference including altitude. */
-        CurrentTime = PX4LIB_GetPX4TimeUs();
+        CurrentTime = CFE_TIME_GetTimeInMicros();
         map_projection_init(&m_RefPos, m_VehicleLocalPositionMsg.RefLat, m_VehicleLocalPositionMsg.RefLon, CurrentTime);
         m_RefAlt = m_VehicleLocalPositionMsg.RefAlt;
 
@@ -1300,7 +1302,7 @@ void MPC::UpdateRef(void)
             m_PositionSetpoint[2] = -(AltitudeSetpoint - m_RefAlt);
         }
 
-        m_RefTimestamp = m_VehicleLocalPositionMsg.RefTimestamp;
+        m_RefTimestamp = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&m_VehicleLocalPositionMsg.RefTimestamp);
     }
 }
 
@@ -1314,7 +1316,7 @@ void MPC::UpdateRef(void)
 void MPC::UpdateVelocityDerivative(float dt)
 {
     /* Update velocity derivative independent of the current flight mode */
-    if (m_VehicleLocalPositionMsg.Timestamp == 0)
+    if (CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&m_VehicleLocalPositionMsg))
     {
         return;
     }
@@ -1517,7 +1519,7 @@ void MPC::GenerateAttitudeSetpoint(float dt)
         m_VehicleAttitudeSetpointMsg.Q_D_Valid = TRUE;
     }
 
-    m_VehicleAttitudeSetpointMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_VehicleAttitudeSetpointMsg);
 }
 
 
@@ -1794,7 +1796,7 @@ void MPC::ControlNonManual(float dt)
         m_VehicleAttitudeSetpointMsg.YawBody = m_Yaw;
         m_VehicleAttitudeSetpointMsg.Thrust = 0.0f;
 
-        m_VehicleAttitudeSetpointMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_VehicleAttitudeSetpointMsg);
     }
     else
     {
@@ -3130,7 +3132,7 @@ void MPC::CalculateThrustSetpoint(float dt)
     m_VehicleLocalPositionSetpointMsg.AccY = ThrustSp[1] * MPC_CONSTANTS_ONE_G;
     m_VehicleLocalPositionSetpointMsg.AccZ = ThrustSp[2] * MPC_CONSTANTS_ONE_G;
 
-    m_VehicleAttitudeSetpointMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_VehicleAttitudeSetpointMsg);
 }
 
 
@@ -3718,7 +3720,7 @@ void MPC::SetManualAccelerationXY(math::Vector2F &StickXy, const float Dt)
             osalbool StickVelAligned = (VelXyNorm * StickXyNorm > 0.0f);
 
             /* Update manual direction change hysteresis */
-            m_ManualDirectionChangeHysteresis.set_state_and_update(!StickVelAligned, PX4LIB_GetPX4TimeUs());
+            m_ManualDirectionChangeHysteresis.set_state_and_update(!StickVelAligned, CFE_TIME_GetTimeInMicros());
 
             /* Exit direction change if one of the condition is met */
             if (Intention == BRAKE)
@@ -3765,6 +3767,12 @@ void MPC::SetManualAccelerationXY(math::Vector2F &StickXy, const float Dt)
 
             break;
         }
+
+        /* Fallthru */
+        case NONE:
+        default:
+        	/* Do nothing */
+        	break;
     }
 
     /* Apply acceleration based on state */
@@ -3845,7 +3853,7 @@ void MPC::SetManualAccelerationXY(math::Vector2F &StickXy, const float Dt)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 osalbool MPC::ManualWantsTakeoff()
 {
-    const osalbool ManualControlPresent = m_VehicleControlModeMsg.ControlManualEnabled && m_ManualControlSetpointMsg.Timestamp > 0;
+    const osalbool ManualControlPresent = m_VehicleControlModeMsg.ControlManualEnabled && !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&m_ManualControlSetpointMsg);
 
     /* Manual takeoff is triggered if the throttle stick is above 65%. */
     return (ManualControlPresent && m_ManualControlSetpointMsg.Z > MPC_MANUAL_TAKEOFF_THRESHOLD);

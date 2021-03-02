@@ -209,11 +209,38 @@
       id: 121
     SC_ENARTSGRP_CMD_ERR_EID: 
       id: 122
+  msg_def_overrides:
+    - parent: SC_HkTlm_t
+      member: AtsNumber
+      type: enumeration
+      enumerations:
+        NO_ATS: 0
+        ATS_A:  1
+        ATS_B:  2
+    - parent: SC_HkTlm_t
+      member: AtpState
+      type: enumeration
+      enumerations:
+        EMPTY:           0
+        LOADED:          1
+        IDLE:            2
+        EXECUTED:        3
+        SKIPPED:         4
+        EXECUTING:       5
+        FAILED_CHECKSUM: 6
+        FAILED_DISTRIB:  7
+        STARTING:        8
   telemetry: 
     SC_HK_TLM_MID: 
       msgID: 
       struct: SC_HkTlm_t
   commands: 
+    SC_1HZ_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        1HzWakeUp: 
+          cc: 0
+          struct: SC_NoArgsCmd_t
     SC_CMD_MID: 
       msgID: 
       commands: 
@@ -231,16 +258,16 @@
           struct: SC_NoArgsCmd_t
         StartRts: 
           cc: 4
-          struct: SC_NoArgsCmd_t
+          struct: SC_RtsCmd_t
         StopRts: 
           cc: 5
-          struct: SC_NoArgsCmd_t
+          struct: SC_RtsCmd_t
         DisableRts: 
           cc: 6
-          struct: SC_NoArgsCmd_t
+          struct: SC_RtsCmd_t
         EnableRts: 
           cc: 7
-          struct: SC_NoArgsCmd_t
+          struct: SC_RtsCmd_t
         SwitchAts: 
           cc: 8
           struct: SC_NoArgsCmd_t
@@ -258,26 +285,20 @@
           struct: SC_NoArgsCmd_t
         StartRtsGroup: 
           cc: 13
-          struct: SC_NoArgsCmd_t
+          struct: SC_RtsGrpCmd_t
         StopRtsGroup: 
           cc: 14
-          struct: SC_NoArgsCmd_t
+          struct: SC_RtsGrpCmd_t
         DisableRtsGroup: 
           cc: 15
-          struct: SC_NoArgsCmd_t
+          struct: SC_RtsGrpCmd_t
         EnableRtsGroup: 
           cc: 16
-          struct: SC_NoArgsCmd_t
+          struct: SC_RtsGrpCmd_t
     SC_SEND_HK_MID: 
       msgID: 
       commands: 
         SendHK: 
-          cc: 0
-          struct: SC_NoArgsCmd_t
-    SC_1HZ_WAKEUP_MID: 
-      msgID: 
-      commands: 
-        1HzWakeUp: 
           cc: 0
           struct: SC_NoArgsCmd_t
   perfids: 

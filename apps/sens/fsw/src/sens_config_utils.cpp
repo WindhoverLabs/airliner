@@ -97,11 +97,11 @@ SENS_InitConfigTbl_Exit_Tag:
 int32 SENS::ValidateConfigTbl(void* ConfigTblPtr)
 {
     int32  iStatus=0;
-    SENS_ConfigTbl_t* SENS_ConfigTblPtr = (SENS_ConfigTbl_t*)(ConfigTblPtr);
+    //SENS_ConfigTbl_t* SENS_ConfigTblPtr = (SENS_ConfigTbl_t*)(ConfigTblPtr);
 
     /* TODO:  Add validation code here. */
 
-SENS_ValidateConfigTbl_Exit_Tag:
+    //SENS_ValidateConfigTbl_Exit_Tag:
     return iStatus;
 }
 

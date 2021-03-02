@@ -700,13 +700,13 @@ void HMC5883::ReadDevice(void)
     boolean returnBool      = FALSE;
     static uint8 temp_count = 0;
     int16 temp              = 0;
-    uint64 timeStamp        = PX4LIB_GetPX4TimeUs();
+    CFE_TIME_SysTime_t timeStamp = CFE_TIME_GetTime();
     float xraw_f            = 0;
     float yraw_f            = 0;
     float zraw_f            = 0;
 
     /* Timestamp */
-    SensorMagMsg.Timestamp = timeStamp;
+    CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&SensorMagMsg, timeStamp);
 
     /* Mag */
     returnBool = HMC5883_Custom_Measure(&SensorMagMsg.XRaw, &SensorMagMsg.YRaw, &SensorMagMsg.ZRaw);
@@ -790,9 +790,6 @@ boolean HMC5883::SelfCalibrate(HMC5883_CalibrationMsg_t *Calibration)
     boolean returnBool  = FALSE;
     boolean rangeSet    = FALSE;
     boolean configSet   = FALSE;
-    boolean xNeg        = FALSE;
-    boolean yNeg        = FALSE;
-    boolean zNeg        = FALSE;
     
     /* expected axis scaling. The datasheet says that 766 will
      * be places in the X and Y axes and 713 in the Z

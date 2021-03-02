@@ -5,13 +5,14 @@ using namespace math;
 
 Matrix6F10::Matrix6F10(Vector10F m0, Vector10F m1, Vector10F m2, Vector10F m3,
                        Vector10F m4, Vector10F m5) :
-	data{m0, m1, m2, m3, m4, m5},
-	nan{NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN}
+	nan{NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN},
+	data{m0, m1, m2, m3, m4, m5}
 {
 };
 
 
 Matrix6F10::Matrix6F10() :
+    nan{NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN},
 	data{
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
@@ -19,8 +20,7 @@ Matrix6F10::Matrix6F10() :
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
         {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
         {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
-	},
-	nan{NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN}
+	}
 {
 };
 

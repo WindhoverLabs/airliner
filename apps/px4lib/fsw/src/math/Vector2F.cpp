@@ -5,8 +5,8 @@
 using namespace math;
 
 Vector2F::Vector2F(float X, float Y) :
-    data{X,Y},
-	nan(NAN)
+	nan(NAN),
+    data{X,Y}
 {
 };
 

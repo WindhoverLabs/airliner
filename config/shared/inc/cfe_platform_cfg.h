@@ -6,6 +6,8 @@
 */
 #include "cfe_mission_cfg.h"
 
+#define CFE_MSG_CPU_BASE (0x0000)
+
 /*
 ** CPU Id for target Processor
 */

@@ -18,17 +18,14 @@ CS_Def_Tables_Table_Entry_t      CS_TablesTable[CS_MAX_NUM_TABLES_TABLE_ENTRIES]
     /*   5 */ { CS_STATE_ENABLED,   "DS.FILTER_TBL"   },
     /*   6 */ { CS_STATE_ENABLED,   "FM.FreeSpace"    },
     /*   7 */ { CS_STATE_ENABLED,   "HK.CopyTable"    },
-    /*   8 */ { CS_STATE_ENABLED,   "HS.AppMon_Tbl"   },
-    /*   9 */ { CS_STATE_ENABLED,   "HS.EventMon_Tbl" },
-    /*  10 */ { CS_STATE_ENABLED,   "HS.MsgActs_Tbl"  },
-    /*  11 */ { CS_STATE_ENABLED,   "HS.ExeCount_Tbl" },
-    /*  12 */ { CS_STATE_ENABLED,   "LC.LC_ADT"       },
-    /*  13 */ { CS_STATE_ENABLED,   "LC.LC_WDT"       },
-    /*  14 */ { CS_STATE_ENABLED,   "SCH.MSG_DEFS"    },
-    /*  15 */ { CS_STATE_ENABLED,   "SCH.SCHED_DEF"   },
-    /*  16 */ { CS_STATE_ENABLED,   "TO.UDP_CFG"      },
-    /*  17 */ { CS_STATE_EMPTY,     ""                },
-    /*  18 */ { CS_STATE_EMPTY,     ""                }
+    /*   8 */ { CS_STATE_ENABLED,   "LC.LC_ADT"       },
+    /*   9 */ { CS_STATE_ENABLED,   "LC.LC_WDT"       },
+    /*  10 */ { CS_STATE_ENABLED,   "SCH.MSG_DEFS"    },
+    /*  11 */ { CS_STATE_ENABLED,   "SCH.SCHED_DEF"   },
+    /*  12 */ { CS_STATE_ENABLED,   "TO.UDP_CFG"      },
+    /*  13 */ { CS_STATE_EMPTY,     ""                },
+    /*  14 */ { CS_STATE_EMPTY,     ""                },
+    /*  15 */ { CS_STATE_EMPTY,     ""                }
 
 };
 

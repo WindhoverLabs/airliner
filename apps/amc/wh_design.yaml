@@ -80,9 +80,9 @@
   perfids: 
     AMC_MAIN_TASK_PERF_ID: 
       id: 
-    AMC_SEND_PERF_ID: 
-      id: 
     AMC_RECEIVE_PERF_ID: 
+      id: 
+    AMC_SEND_PERF_ID: 
       id: 
   config: 
     AMC_SB_TIMEOUT: 

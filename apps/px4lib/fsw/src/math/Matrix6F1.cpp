@@ -5,15 +5,15 @@ using namespace math;
 
 
 Matrix6F1::Matrix6F1(Vector1F m0, Vector1F m1, Vector1F m2, Vector1F m3, Vector1F m4, Vector1F m5) :
-	data{m0, m1, m2, m3, m4, m5},
-	nan{NAN, NAN, NAN, NAN, NAN, NAN}
+	nan{NAN, NAN, NAN, NAN, NAN, NAN},
+	data{m0, m1, m2, m3, m4, m5}
 {
 };
 
 
 Matrix6F1::Matrix6F1() :
-    data{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-    nan{NAN, NAN, NAN, NAN, NAN, NAN}
+    nan{NAN, NAN, NAN, NAN, NAN, NAN},
+    data{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
 {
 };
 

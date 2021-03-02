@@ -9,22 +9,7 @@
 ** Note: Include header files that define the message ID's for the
 **       mission specific list of packets that need to be stored.
 */
-#include "cfe_msgids.h"
-#include "ds_msgids.h"
-
-/* #include "ci_lab_msgids.h"  */
-/* #include "to_lab_msgids.h"  */
-
-/* #include "cs_msgids.h"  */
-/* #include "ds_msgids.h"  */
-/* #include "fm_msgids.h"  */
-/* #include "hk_msgids.h"  */
-/* #include "hs_msgids.h"  */
-/* #include "lc_msgids.h"  */
-/* #include "md_msgids.h"  */
-/* #include "mm_msgids.h"  */
-/* #include "sc_msgids.h"  */
-/* #include "sch_msgids.h" */
+#include "msg_ids.h"
 
 
 /*

@@ -135,13 +135,35 @@
       id: 66
     LC_CFCALL_ERR_EID: 
       id: 67
+  msg_def_overrides:
+    - parent: LC_SetLCState_t
+      member: NewLCState
+      type: enumeration
+      enumerations:
+        ACTIVE:   1
+        PASSIVE:  2
+        DISABLED: 3
+        FROM_CDS: 4
+    - parent: LC_SetAPState_t
+      member: NewAPState
+      type: enumeration
+      enumerations:
+        ACTIVE:   1
+        PASSIVE:  2
+        DISABLED: 3
+        PERMOFF:  4
+    - parent: LC_HkPacket_t
+      member: CurrentLCState
+      type: enumeration
+      enumerations:
+        ACTIVE:   1
+        PASSIVE:  2
+        DISABLED: 3
+        FROM_CDS: 4
   telemetry: 
     LC_HK_TLM_MID: 
       msgID: 
       struct: LC_HkPacket_t
-    LC_SAMPLE_AP_MID: 
-      msgID: 
-      struct: LC_SampleAP_t
   commands: 
     LC_CMD_MID: 
       msgID: 
@@ -167,6 +189,12 @@
         ResetWPStats: 
           cc: 6
           struct: LC_ResetWPStats_t
+    LC_SAMPLE_AP_MID: 
+      msgID: 
+      commands: 
+        SampleAP: 
+          cc: 0
+          struct: LC_SampleAP_t
     LC_SEND_HK_MID: 
       msgID: 
       commands: 

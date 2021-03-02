@@ -45,25 +45,25 @@
         StopStreaming: 
           cc: 3
           struct: VC_NoArgCmd_t
-    VC_SEND_HK_MID: 
-      msgID: 
-      commands: 
-        SendHK: 
-          cc: 0
-          struct: VC_NoArgCmd_t
     VC_PROCESS_CMDS_MID: 
       msgID: 
       commands: 
         ProcessCommands: 
           cc: 0
           struct: VC_NoArgCmd_t
-  perfids: 
+    VC_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: VC_NoArgCmd_t
+  perfids:  
+    VC_DEVICE_GET_PERF_ID: 
+      id: 
     VC_MAIN_TASK_PERF_ID: 
       id: 
     VC_SOCKET_SEND_PERF_ID: 
-      id: 
-    VC_DEVICE_GET_PERF_ID: 
-      id: 
+      id:
   config: 
     VC_SB_TIMEOUT: 
       name: VC_SB_TIMEOUT

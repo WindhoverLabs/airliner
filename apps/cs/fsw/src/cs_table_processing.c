@@ -1028,8 +1028,6 @@ int32 CS_HandleTableUpdate (void           * DefinitionTblPtr,
                             uint16           Table,
                             uint16           NumEntries)
 {
-    int32           ReleaseResult1 = CFE_SUCCESS;
-    int32           ManageResult1  = CFE_SUCCESS;
     int32           GetResult1     = CFE_SUCCESS;
     int32           ReleaseResult2 = CFE_SUCCESS;
     int32           ManageResult2  = CFE_SUCCESS;
@@ -1044,10 +1042,10 @@ int32 CS_HandleTableUpdate (void           * DefinitionTblPtr,
     /* This is done so intentionally, as it helps us with Source-Level debugging this functions. */
     
     /* Release the Table Address.  */ 
-    ReleaseResult1 = CFE_TBL_ReleaseAddress (ResultsTableHandle);
+    CFE_TBL_ReleaseAddress (ResultsTableHandle);
     ReleaseResult2 = CFE_TBL_ReleaseAddress (DefinitionTableHandle);
     
-    ManageResult1 = CFE_TBL_Manage (ResultsTableHandle);
+    CFE_TBL_Manage (ResultsTableHandle);
     ManageResult2 = CFE_TBL_Manage (DefinitionTableHandle);
     
     GetResult1 = CFE_TBL_GetAddress ( ResultsTblPtr,

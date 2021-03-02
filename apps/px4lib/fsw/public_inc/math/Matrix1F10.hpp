@@ -27,11 +27,11 @@ private:
     /** \brief Number of columns */
     static const int COLS = 10;
 
-    /** \brief Vectors of row data */
-    Vector10F data[ROWS];
-
     /** \brief Vectors of NaN row data */
     Vector10F nan;
+
+    /** \brief Vectors of row data */
+    Vector10F data[ROWS];
 
 public:
 	/************************************************************************/

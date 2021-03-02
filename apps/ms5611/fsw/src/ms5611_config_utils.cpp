@@ -114,7 +114,6 @@ int32 MS5611::ValidateConfigTbl(void* ConfigTblPtr)
         iStatus = MS5611_ERROR;
     }
 
-MS5611_ValidateConfigTbl_Exit_Tag:
     return (iStatus);
 }
 

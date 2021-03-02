@@ -79,21 +79,21 @@ extern "C"
 typedef struct
 {
     /** \brief The home position message */
-    PX4_HomePositionMsg_t HomePositionMsg;
+    PX4_HomePositionMsg_t          HomePositionMsg;
     /** \brief The mission message */
-    PX4_MissionMsg_t MissionMsg;
+    PX4_MissionMsg_t               MissionMsg;
     /** \brief The position message from GPS */
-    PX4_VehicleGpsPositionMsg_t VehicleGpsPositionMsg;
+    PX4_VehicleGpsPositionMsg_t    VehicleGpsPositionMsg;
     /** \brief The global position message */
     PX4_VehicleGlobalPositionMsg_t VehicleGlobalPosition;
     /** \brief The vehicle status message */
-    PX4_VehicleStatusMsg_t VehicleStatusMsg;
+    PX4_VehicleStatusMsg_t         VehicleStatusMsg;
     /** \brief The land detection message */
-    PX4_VehicleLandDetectedMsg_t VehicleLandDetectedMsg;
+    PX4_VehicleLandDetectedMsg_t   VehicleLandDetectedMsg;
     /** \brief The vehicle local position message */
-    PX4_VehicleLocalPositionMsg_t VehicleLocalPositionMsg;
+    PX4_VehicleLocalPositionMsg_t  VehicleLocalPositionMsg;
     /** \brief The vehicle command message */
-    PX4_VehicleCommandMsg_t VehicleCommandMsg;
+    PX4_VehicleCommandMsg_t        VehicleCommandMsg;
 }NAV_CurrentValueTable_t;
 
 /**

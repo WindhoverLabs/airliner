@@ -70,7 +70,7 @@ void CI_ReadMessage(uint8* buffer, uint32* size)
 	{
 		CI_NoArgCmd_t 	cmd;
 		uint32  		MsgSize = sizeof(cmd);
-		CFE_SB_InitMsg(&cmd, CI_CMD_MID, MsgSize, TRUE);
+		CFE_SB_InitMsg(&ci_noop_buf, CI_CMD_MID, MsgSize, TRUE);
 		*size = MsgSize;
 		int32 i = 0;
 

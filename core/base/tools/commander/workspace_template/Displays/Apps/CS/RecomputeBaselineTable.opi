@@ -35,13 +35,16 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/QueryOneApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
 
 var Name =VTypeHelper.getString(display.getWidget('Name').getPropertyValue('pv_value'));
 
-var cmd = '/CFS/CS/RecomputeBaselineTable(Name: ' + Name + ')';]]></scriptText>
+var cmd = '/cfs/cs/RecomputeBaselineTable';
+
+Yamcs.issueCommand(cmd , {'Name': Name});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -174,7 +177,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Name</name>
-    <pv_name>loc://Name</pv_name>
+    <pv_name>loc://RecomputeBaselineTableName&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>

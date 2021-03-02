@@ -381,87 +381,100 @@ typedef struct
 typedef struct
 {
     /** \brief cFE SB Tlm Msg Hdr */
-    uint8              TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
 
     /** \petlmmnemonic \PE_CMDACPTCNT
         \brief Count of accepted commands */
-    uint8              usCmdCnt;   
+    uint8   CmdCnt;
 
     /** \petlmmnemonic \PE_CMDRJCTCNT
         \brief Count of failed commands */
-    uint8              usCmdErrCnt; 
+    uint8   CmdErrCnt;
 
 	/** \brief Timestamp */
-	uint64 Timestamp;
+    CFE_TIME_SysTime_t Timestamp;
+
+    CFE_TIME_SysTime_t Timestamp_Hist;
+
+    CFE_TIME_SysTime_t TimestampLastBaro;
 
 	/** \brief Timestamp of last baro read */
-	uint64 TimeLastBaro;
+    CFE_TIME_SysTime_t TimeLastBaro;
 
 	/** \brief Timestamp of last gps read */
-	uint64 TimeLastGps;
+    CFE_TIME_SysTime_t TimeLastGps;
 
 	/** \brief Timestamp of last landing read */
-	uint64 TimeLastLand;
+    CFE_TIME_SysTime_t TimeLastLand;
 
 	/** \brief Timestamp of last dist read */
-	uint64 TimeLastDist;
+    CFE_TIME_SysTime_t TimeLastDist;
 
 	/** \brief Timestamp of last flow read */
-	uint64 TimeLastFlow;
+    CFE_TIME_SysTime_t TimeLastFlow;
 
 	/** \brief Origin altitude */
-	float AltOrigin;
+	float   AltOrigin;
 
 	/** \brief Flag for if global estimator is initialized */
     boolean EstimatorGlobalInitialized;
 
 	/** \brief Origin altitude initialized flag */
-	boolean  AltOriginInitialized;
+	boolean AltOriginInitialized;
 
     /** \brief Flag for if baro is initialized */
     boolean BaroInitialized;
 
 	/** \brief Flag for baro fault */
-	boolean   BaroFault;
+	boolean BaroFault;
 
 	/** \brief Origin altitude of baro */
-	float BaroAltOrigin;
+	float   BaroAltOrigin;
 
 	/** \brief Flag for baro timeout */
-	boolean   BaroTimeout;
+	boolean BaroTimeout;
 
     /** \brief Flag for if gps is initialized */
     boolean GpsInitialized;
 
 	/** \brief Flag for GPS fault */
-	boolean   GpsFault;
+	boolean GpsFault;
 
 	/** \brief Flag for GPS timeout */
-	boolean   GpsTimeout;
+	boolean GpsTimeout;
 
 	/** \brief Origin altitude of GPS */
-	float GpsAltOrigin;
+	float   GpsAltOrigin;
 
     /** \brief Flag for if land is initialized */
     boolean LandInitialized;
 
 	/** \brief Flag for landing fault */
-	boolean   LandFault;
+	boolean LandFault;
 
 	/** \brief Flag for landing timeout */
-	boolean   LandTimeout;
+	boolean LandTimeout;
 
     /** \brief Flag for XY estimation validity */
     boolean XyEstValid;
 
     /** \brief Origin altitude of DIST */
-    float m_DistAltOrigin;
+    float   DistAltOrigin;
 
     /** \brief Flag for Z estimation validity */
 	boolean ZEstValid;
 
 	/** \brief Flag for terrain estimation validity */
 	boolean TzEstValid;
+
+    /* TODO */
+    uint16  LandCount;
+
+    /* TODO */
+	boolean ReceivedGps;
+
+    /* TODO */
+	boolean LastArmedState;
 
 	/** \brief Flag for if local estimator is initialized */
 	boolean EstimatorLocalInitialized;
@@ -476,19 +489,19 @@ typedef struct
 	boolean DistTimeout;
 
     /** \brief Flag for if Dist is being integrated into estimation */
-    boolean DistFused;
+    boolean DistFuse;
 
     /** \brief Flag for if Gps is being integrated into estimation */
-    boolean GpsFused;
+    boolean GpsFuse;
 
     /** \brief Flag for if Baro is being integrated into estimation */
-    boolean BaroFused;
+    boolean BaroFuse;
 
     /** \brief Flag for if Land is being integrated into estimation */
-    boolean LandFused;
+    boolean LandFuse;
 
     /** \brief Flag for if Flow is being integrated into estimation */
-	boolean FlowFused;
+	boolean FlowFuse;
 
 	/** \brief Flag for if Flow is initialized */
     boolean FlowInitialized;
@@ -499,16 +512,16 @@ typedef struct
 	/** \brief Flag for Flow timeout */
 	boolean FlowTimeout;
 
-	uint32 WakeupCount;
-    uint32 VehicleGpsPositionMsgCount;
-    uint32 VehicleStatusMsgCount;
-    uint32 VehicleLandDetectedMsgCount;
-    uint32 ActuatorArmedMsgCount;
-    uint32 VehicleAttitudeMsgCount;
-    uint32 SensorCombinedMsgCount;
-    uint32 VehicleAttitudeSetpointMsgCount;
-    uint32 DistanceSensorMsgCount;
-    uint32 OpticalFlowMsgCount;
+	uint32  WakeupCount;
+    uint32  VehicleGpsPositionMsgCount;
+    uint32  VehicleStatusMsgCount;
+    uint32  VehicleLandDetectedMsgCount;
+    uint32  ActuatorArmedMsgCount;
+    uint32  VehicleAttitudeMsgCount;
+    uint32  SensorCombinedMsgCount;
+    uint32  VehicleAttitudeSetpointMsgCount;
+    uint32  DistanceSensorMsgCount;
+    uint32  OpticalFlowMsgCount;
 } PE_HkTlm_t;
 
 

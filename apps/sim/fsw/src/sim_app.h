@@ -76,6 +76,20 @@ extern "C" {
 //#define NEW_SCALE_G_DIGIT   0.732e-3f
 //#define NEW_SCALE_GA_DIGIT  0.479e-3f
 
+/**
+ * Enumeration to use on the bitmask in HIL_SENSOR.
+ * These enumerations were copied from airliner/tools/sitl_gazebo/include/gazebo_mavlink_interface.h.
+ * So please always double check these values after any updates.
+ */
+enum class SensorSource {
+  ACCEL         = 0b111,
+  GYRO          = 0b111000,
+  MAG           = 0b111000000,
+  BARO          = 0b1101000000000,
+  DIFF_PRESS    = 0b10000000000,
+};
+
+
 /************************************************************************
  ** Local Structure Definitions
  *************************************************************************/

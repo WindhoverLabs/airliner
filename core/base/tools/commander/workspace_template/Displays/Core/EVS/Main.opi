@@ -10,14 +10,17 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>460</height>
+  <height>470</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
+    <APP>cfe_evs</APP>
+    <EVENTS_OPI>/Displays/Core/EVS/Events.opi</EVENTS_OPI>
+    <PROJECT_NAME>Displays</PROJECT_NAME>
   </macros>
   <name>CFE-EVS - Main</name>
   <rules />
@@ -28,7 +31,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>430</width>
+  <width>600</width>
   <wuid>45ea5983:1502a6e6386:-7f06</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -2101,5 +2104,127 @@ $(pv_value)</tooltip>
     <wuid>2285957:177658292c4:-6b26</wuid>
     <x>333</x>
     <y>12</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("EVENTS_OPI"));
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>26</height>
+    <image></image>
+    <name>Events</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>Event FIlters (CFE_EVS)</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>187</width>
+    <wuid>-19107c2b:177da1db5df:1eb7</wuid>
+    <x>18</x>
+    <y>437</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath("/Displays/Core/ES/ApplicationControl.opi");
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>26</height>
+    <image></image>
+    <name>AppControl</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>App Control</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>187</width>
+    <wuid>-69f8bd78:177f094d5fe:-248</wuid>
+    <x>18</x>
+    <y>462</y>
   </widget>
 </display>

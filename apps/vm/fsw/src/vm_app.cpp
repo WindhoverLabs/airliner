@@ -44,6 +44,7 @@
 #include "px4lib.h"
 #include "px4lib_msgids.h"
 #include "prm_ids.h"
+#include "cfs_utils.h"
 
 
 
@@ -502,7 +503,7 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
         {
             case VM_WAKEUP_MID:
             {
-                uint64 timestamp;
+            	CFE_TIME_SysTime_t timestamp;
 
                 CheckParams();
                 ProcessDataPipe();
@@ -514,19 +515,21 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 Execute();
 
                 /* Get a common timestamp. */
-                timestamp = PX4LIB_GetPX4TimeUs();
-                ActuatorArmedMsg.Timestamp = timestamp;
-                VehicleStatusMsg.Timestamp = timestamp;
-                VehicleManagerStateMsg.Timestamp = timestamp;
-                VehicleControlModeMsg.Timestamp = timestamp;
+                timestamp = CFE_TIME_GetTime();
+
+                CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&ActuatorArmedMsg, timestamp);
+                CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&VehicleStatusMsg, timestamp);
+                CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&VehicleManagerStateMsg, timestamp);
+                CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&VehicleControlModeMsg, timestamp);
 
                 /* Execute all stateful behavior. */
                 ArmingSM.DoAction();
                 NavigationSM.DoAction();
 
                 /* Publish the messages. */
-                SendVehicleManagerStateMsg();
-                SendVehicleControlModeMsg();
+                CFE_SB_SendMsg((CFE_SB_Msg_t*) &VehicleManagerStateMsg);
+                CFE_SB_SendMsg((CFE_SB_Msg_t*) &VehicleControlModeMsg);
+
                 break;
             }
 
@@ -1132,32 +1135,6 @@ void VM::SendActuatorArmedMsg()
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/*  Send HomePositionMsg                                           */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void VM::SendHomePositionMsg()
-{
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &HomePositionMsg);
-    CFE_SB_SendMsg((CFE_SB_Msg_t*) &HomePositionMsg);
-}
-
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/*  Send VehicleManagerStateMsg                                    */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void VM::SendVehicleManagerStateMsg()
-{
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &VehicleManagerStateMsg);
-    CFE_SB_SendMsg((CFE_SB_Msg_t*) &VehicleManagerStateMsg);
-}
-
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
 /*  Send MissionMsg                                                */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1191,20 +1168,6 @@ void VM::SendVehicleStatusMsg()
 {
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &VehicleStatusMsg);
     CFE_SB_SendMsg((CFE_SB_Msg_t*) &VehicleStatusMsg);
-}
-
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/*  Send VehicleControlModeMsg                                     */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void VM::SendVehicleControlModeMsg()
-{
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &VehicleControlModeMsg);
-    CFE_SB_SendMsg((CFE_SB_Msg_t*) &VehicleControlModeMsg);
-
 }
 
 
@@ -1353,7 +1316,7 @@ osalbool VM::IsVehicleArmed()
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 uint64 VM::TimeElapsed(uint64 *TimePtr)
 {
-    uint64 now = PX4LIB_GetPX4TimeUs();
+    uint64 now = CFE_TIME_GetTimeInMicros();
     uint64 delta = now - *TimePtr;
 
     return delta;
@@ -1368,7 +1331,7 @@ uint64 VM::TimeElapsed(uint64 *TimePtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 uint64 VM::TimeNow()
 {
-    uint64 now = PX4LIB_GetPX4TimeUs();
+    uint64 now = CFE_TIME_GetTimeInMicros();
 
     return now;
 }
@@ -1394,7 +1357,7 @@ void VM::SetHomePosition()
             DistBottom = VehicleLocalPositionMsg.DistBottom;
         }
 
-        HomePositionMsg.Timestamp = TimeNow();
+        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &HomePositionMsg);
         HomePositionMsg.Lat = VehicleGlobalPositionMsg.Lat;
         HomePositionMsg.Lon = VehicleGlobalPositionMsg.Lon;
         HomePositionMsg.Alt = VehicleGlobalPositionMsg.Alt - DistBottom - ConfigTblPtr->HOME_POS_ALT_PADDING;
@@ -1413,7 +1376,7 @@ void VM::SetHomePosition()
                 "Home Position set. [Lat -> %.6f | Lon -> %.6f | Alt ->%.6f]",
                 HomePositionMsg.Lat, HomePositionMsg.Lon, HomePositionMsg.Alt);
 
-        SendHomePositionMsg();
+        CFE_SB_SendMsg((CFE_SB_Msg_t*) &HomePositionMsg);
     }
     else
     {
@@ -1466,7 +1429,7 @@ void VM::Initialization()
     VehicleStatusMsg.MissionFailure = false;
 
     /* Onboard mission not supported, set default mission and publish */
-    MissionMsg.Timestamp = TimeNow();
+    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&MissionMsg);
     MissionMsg.DatamanID = 0;
     MissionMsg.Count = 0;
     MissionMsg.CurrentSeq = 0;
@@ -1711,7 +1674,7 @@ void VM::Execute()
     }
 
     /* RC input handle */
-    if(!HkTlm.StatusFlags.RcInputIsTemporarilyBlocked && ManualControlSetpointMsg.Timestamp!=0 && (TimeNow() < ManualControlSetpointMsg.Timestamp + uint64(ConfigTblPtr->COM_RC_LOSS_T * 1e6f)))
+    if(!HkTlm.StatusFlags.RcInputIsTemporarilyBlocked && !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&ManualControlSetpointMsg) && (TimeNow() < CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&ManualControlSetpointMsg) + uint64(ConfigTblPtr->COM_RC_LOSS_T * 1e6f)))
     {
         const osalbool in_armed_state = (VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_ARMED || VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_ARMED_ERROR);
         const osalbool arm_button_pressed = (ConfigTblPtr->COM_ARM_SWISBTN == 1 && ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON);
@@ -1828,7 +1791,8 @@ void VM::Execute()
                 (void) CFE_EVS_SendEvent(VM_RC_KIL_SWTCH_INFO_EID, CFE_EVS_INFORMATION,
                         "Killswitch engaged ");
                 ActuatorArmedMsg.ManualLockdown = true;
-                SendActuatorArmedMsg();
+                CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &ActuatorArmedMsg);
+                CFE_SB_SendMsg((CFE_SB_Msg_t*) &ActuatorArmedMsg);
             }
         }
         else if(ManualControlSetpointMsg.KillSwitch == PX4_SWITCH_POS_OFF)
@@ -1838,7 +1802,8 @@ void VM::Execute()
                 (void) CFE_EVS_SendEvent(VM_RC_KIL_SWTCH_INFO_EID, CFE_EVS_INFORMATION,
                         "killswitch disengaged ");
                 ActuatorArmedMsg.ManualLockdown = false;
-                SendActuatorArmedMsg();
+                CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &ActuatorArmedMsg);
+                CFE_SB_SendMsg((CFE_SB_Msg_t*) &ActuatorArmedMsg);
             }
         }
 
@@ -1876,7 +1841,7 @@ void VM::Execute()
         }
 
         VehicleStatusMsg.RcSignalLost = true;
-        HkTlm.RCSignalLostTimestamp = ManualControlSetpointMsg.Timestamp;
+        HkTlm.RCSignalLostTimestamp = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&ManualControlSetpointMsg);
     }
 }
 

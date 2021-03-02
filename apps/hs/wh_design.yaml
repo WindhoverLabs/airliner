@@ -133,13 +133,35 @@
       id: 67
     HS_BADEMT_UNSUB_EID: 
       id: 68
+  msg_def_overrides:
+    - parent: HS_HkPacket_t
+      member: CurrentAppMonState
+      type: enumeration
+      enumerations:
+        DISABLED: 0
+        ENABLED: 1
+    - parent: HS_HkPacket_t
+      member: CurrentEventMonState
+      type: enumeration
+      enumerations:
+        DISABLED: 0
+        ENABLED: 1
+    - parent: HS_HkPacket_t
+      member: CurrentAlivenessState
+      type: enumeration
+      enumerations:
+        DISABLED: 0
+        ENABLED: 1
+    - parent: HS_HkPacket_t
+      member: CurrentCPUHogState
+      type: enumeration
+      enumerations:
+        DISABLED: 0
+        ENABLED: 1
   telemetry: 
     HS_HK_TLM_MID: 
       msgID: 
       struct: HS_HkPacket_t
-    HS_CUSTOM_HK_TLM_MID: 
-      msgID: 
-      struct: 
   commands: 
     HS_CMD_MID: 
       msgID: 
@@ -202,9 +224,9 @@
           cc: 0
           struct: CFE_SB_CmdHdr_t
   perfids: 
-    HS_IDLETASK_PERF_ID: 
-      id: 
     HS_APPMAIN_PERF_ID: 
+      id: 
+    HS_IDLETASK_PERF_ID: 
       id: 
   config: 
     HS_APP_NAME: 

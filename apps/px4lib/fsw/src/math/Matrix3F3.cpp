@@ -41,19 +41,19 @@ const Matrix3F3::RotLookup_t Matrix3F3::RotLookup[] = {
 };
 
 Matrix3F3::Matrix3F3(Vector3F m0, Vector3F m1, Vector3F m2) :
-	data{m0, m1, m2},
-	nan{NAN,NAN,NAN}
+	nan{NAN,NAN,NAN},
+	data{m0, m1, m2}
 {
 };
 
 
 Matrix3F3::Matrix3F3() :
+    nan{NAN,NAN,NAN},
 	data{
 		{0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0}
-    },
-    nan{NAN,NAN,NAN}
+    }
 {
 };
 

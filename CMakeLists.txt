@@ -32,7 +32,9 @@
 #############################################################################
  
 # The build system is tested with cmake version 3.5.2
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.5.1)
+
+project(Airliner)
 
 include(CTest)
 find_program( MEMORYCHECK_COMMAND valgrind )
@@ -42,6 +44,7 @@ set( CTEST_VALGRIND_COMMAND_OPTIONS "--tool=memcheck --leak-check=full --show-re
 enable_testing()
 
 set(ELF2CFETBL_BIN ${PROJECT_BINARY_DIR}/../host/tools/elf2cfetbl)
+set(_MAVLINK_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tools)
 
 # Set paths from all 3 major core components:  CFE, OSAL, and PSP.
 include(core/base/cfe/set-paths.cmake)

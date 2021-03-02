@@ -74,14 +74,6 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    hs
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hs
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/config/shared/apps/hs/hs_custom.c
-)
-
-buildliner_add_app(
     lc
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/lc/fsw/for_build
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/lc

@@ -1,4 +1,4 @@
-#TODO: Needs to be updated to work with our custom CFS configuration
+#Configuration tested on YAMCS 5.4.0
 services:
   - class: org.yamcs.http.HttpServer
     args:
@@ -16,9 +16,11 @@ instances:
 # This is used to provide cryptographic signing.
 secretKey: changeme
 
-yamcs-web:
-  displayPath: Displays
 
+#The bucket with name of "displays" must ALWAYS be called "displays". The YAMCS Webapp looks for a bucket with ths exact name when loading displays from the filesystem. 
+#See yamcs/yamcs-web/src/main/java/org/yamcs/web/WebPlugin.java for details.
 buckets:
-  - name: cfdpUp12
+  - name: cfdpUp
     path: cfdp_upload
+  - name: displays
+    path: Displays

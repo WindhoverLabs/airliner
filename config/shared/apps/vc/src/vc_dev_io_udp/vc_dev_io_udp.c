@@ -439,11 +439,9 @@ int32 VC_Send_Buffer(uint8 DeviceID)
                 VC_AppCustomDevice.Channel[DeviceID].Buffer, PX4_OPTICAL_FLOW_FRAME_SIZE, 0);
         if(size == PX4_OPTICAL_FLOW_FRAME_SIZE)
         {
-        	// Copy to message
-        	uint64 timestamp;
-			timestamp = PX4LIB_GetPX4TimeUs();
-			OpticalFlowFrameMsg.Timestamp = timestamp;
 			uint32 i;
+        	// Copy to message
+        	CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&OpticalFlowFrameMsg);
 			for (i=0; i<PX4_OPTICAL_FLOW_FRAME_SIZE;i++){
 				OpticalFlowFrameMsg.Frame[i] = VC_AppCustomDevice.Channel[DeviceID].Buffer[i];
 			}

@@ -8,13 +8,14 @@ Matrix10F6::Matrix10F6(Vector6F m0, Vector6F m1, Vector6F m2,
                        Vector6F m3, Vector6F m4, Vector6F m5, 
                        Vector6F m6, Vector6F m7, Vector6F m8, 
                        Vector6F m9) :
-	data{m0, m1, m2, m3, m4, m5, m6, m7, m8, m9},
-	nan{NAN,NAN,NAN,NAN,NAN,NAN}
+	nan{NAN,NAN,NAN,NAN,NAN,NAN},
+	data{m0, m1, m2, m3, m4, m5, m6, m7, m8, m9}
 {
 };
 
 
 Matrix10F6::Matrix10F6() :
+    nan{NAN,NAN,NAN,NAN,NAN,NAN},
 	data{
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
@@ -26,8 +27,7 @@ Matrix10F6::Matrix10F6() :
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
-	},
-	nan{NAN,NAN,NAN,NAN,NAN,NAN}
+	}
 {
 };
 

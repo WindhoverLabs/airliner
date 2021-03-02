@@ -10,14 +10,17 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>420</height>
+  <height>510</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
+    <APP>cs</APP>
+    <EVENTS_OPI>/Displays/Core/EVS/Events.opi</EVENTS_OPI>
+    <PROJECT_NAME>Displays</PROJECT_NAME>
   </macros>
   <name></name>
   <rules />
@@ -28,7 +31,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>790</width>
+  <width>770</width>
   <wuid>-33cb7c72:150aa4c347f:-76c2</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -2653,11 +2656,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>ReportBaselineEEPROM.opi</path>
+        <path>ReportBaselineApp.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2708,11 +2711,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>RecomputeBaselineEEPROM.opi</path>
+        <path>ReportBaselineApp.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2763,11 +2766,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>ReportBaselineMemory.opi</path>
+        <path>ReportBaselineApp.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2818,11 +2821,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>RecomputeBaselineMemory.opi</path>
+        <path>ReportBaselineApp.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2877,7 +2880,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2928,11 +2931,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>RecomputeBaselineApp.opi</path>
+        <path>ReportBaselineApp.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -2983,11 +2986,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>ReportBaselineTable.opi</path>
+        <path>ReportBaselineApp.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -3038,11 +3041,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>RecomputeBaselineTable.opi</path>
+        <path>ReportBaselineApp.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -3317,11 +3320,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>GetEntryIDEEPROM.opi</path>
+        <path>DisableMemory.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -3372,11 +3375,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>EnableEEPROM.opi</path>
+        <path>DisableMemory.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -3427,11 +3430,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>DisableEEPROM.opi</path>
+        <path>DisableMemory.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -3482,11 +3485,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>GetEntryIDMemory.opi</path>
+        <path>DisableMemory.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -3537,11 +3540,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>EnableMemory.opi</path>
+        <path>DisableMemory.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -3596,7 +3599,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -3647,11 +3650,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>EnableApplication.opi</path>
+        <path>DisableMemory.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -3702,11 +3705,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>DisableApplication.opi</path>
+        <path>DisableMemory.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -3757,11 +3760,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>EnableTable.opi</path>
+        <path>DisableMemory.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -3812,11 +3815,11 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>DisableTable.opi</path>
+        <path>DisableMemory.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -4095,7 +4098,7 @@ $(pv_value)</tooltip>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
-        <mode>0</mode>
+        <mode>1</mode>
         <description></description>
       </action>
     </actions>
@@ -4205,6 +4208,67 @@ $(pv_value)</tooltip>
         <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("EVENTS_OPI"));
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>26</height>
+    <image></image>
+    <name>Events</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>Event FIlters</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>171</width>
+    <wuid>-69f8bd78:177f094d5fe:-24f4</wuid>
+    <x>47</x>
+    <y>414</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
 
 Yamcs.issueCommand('/cfs/cs/SendHK', {});]]></scriptText>
         <embedded>true</embedded>
@@ -4230,7 +4294,7 @@ Yamcs.issueCommand('/cfs/cs/SendHK', {});]]></scriptText>
     <foreground_color>
       <color red="255" green="255" blue="255" />
     </foreground_color>
-    <height>18</height>
+    <height>25</height>
     <image>../../Resources/send.png</image>
     <name>NoOp_47</name>
     <push_action_index>0</push_action_index>
@@ -4250,10 +4314,10 @@ Yamcs.issueCommand('/cfs/cs/SendHK', {});]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>90</width>
-    <wuid>5e28a52b:177681d8a5c:-77da</wuid>
-    <x>464</x>
-    <y>55</y>
+    <width>171</width>
+    <wuid>-69f8bd78:177f094d5fe:-24ec</wuid>
+    <x>47</x>
+    <y>450</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -4286,7 +4350,7 @@ Yamcs.issueCommand('/cfs/cs/BackgroundCycle', {});]]></scriptText>
     <foreground_color>
       <color red="255" green="255" blue="255" />
     </foreground_color>
-    <height>18</height>
+    <height>26</height>
     <image>../../Resources/send.png</image>
     <name>NoOp_48</name>
     <push_action_index>0</push_action_index>
@@ -4306,9 +4370,9 @@ Yamcs.issueCommand('/cfs/cs/BackgroundCycle', {});]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>169</width>
-    <wuid>5e28a52b:177681d8a5c:-77d2</wuid>
-    <x>464</x>
-    <y>72</y>
+    <width>171</width>
+    <wuid>-69f8bd78:177f094d5fe:-24e4</wuid>
+    <x>47</x>
+    <y>474</y>
   </widget>
 </display>

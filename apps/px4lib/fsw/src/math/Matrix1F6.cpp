@@ -4,17 +4,17 @@
 using namespace math;
 
 Matrix1F6::Matrix1F6(Vector6F m0) :
-	data{m0},
-	nan{NAN, NAN, NAN, NAN, NAN, NAN}
+	nan{NAN, NAN, NAN, NAN, NAN, NAN},
+    data{m0}
 {
 };
 
 
 Matrix1F6::Matrix1F6() :
+    nan{NAN, NAN, NAN, NAN, NAN, NAN},
     data{
         {0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
-    },
-    nan{NAN, NAN, NAN, NAN, NAN, NAN}
+    }
 {
 };
 
@@ -26,7 +26,7 @@ Matrix1F6::~Matrix1F6()
 
 Vector6F& Matrix1F6::operator [] (uint32 i)
 {
-    if(i >= COLS)
+    if(i >= ROWS)
     {
         return nan;
     }
@@ -39,7 +39,7 @@ Vector6F& Matrix1F6::operator [] (uint32 i)
 
 Vector6F Matrix1F6::operator [] (uint32 i) const
 {
-    if(i >= COLS)
+    if(i >= ROWS)
     {
         return nan;
     }

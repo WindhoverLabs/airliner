@@ -22,9 +22,6 @@ private:
     /** \brief Number of columns */
     static const int COLS = 6;
 
-    /** \brief Vectors of row data */
-    Vector6F data[ROWS];
-
     /** \brief Vectors of NaN row data */
     Vector6F nan;
 
@@ -135,6 +132,9 @@ public:
     void Zero(void);
 
 protected:
+
+    /** \brief Vectors of row data */
+    Vector6F data[ROWS];
 
 };
 

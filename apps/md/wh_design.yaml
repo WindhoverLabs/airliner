@@ -81,13 +81,17 @@
       id: 51
     MD_DWELL_TBL_INF_EID: 
       id: 52
+  msg_def_overrides:
+    - parent: MD_CmdSetSignature_t
+      member: Signature
+      type: string
   telemetry: 
-    MD_HK_TLM_MID: 
-      msgID: 
-      struct: MD_HkTlm_t
     MD_DWELL_PKT_MID_BASE: 
       msgID: 
       struct: MD_DwellPkt_t
+    MD_HK_TLM_MID: 
+      msgID: 
+      struct: MD_HkTlm_t
   commands: 
     MD_CMD_MID: 
       msgID: 
@@ -110,16 +114,16 @@
         SetSignature: 
           cc: 5
           struct: MD_CmdSetSignature_t
-    MD_WAKEUP_MID: 
-      msgID: 
-      commands: 
-        WakeUp: 
-          cc: 0
-          struct: CFE_SB_CmdHdr_t
     MD_SEND_HK_MID: 
       msgID: 
       commands: 
         SendHK: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
+    MD_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
           cc: 0
           struct: CFE_SB_CmdHdr_t
   perfids: 

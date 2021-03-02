@@ -54,9 +54,9 @@
           cc: 0
           struct: RCIN_NoArgCmd_t
   perfids: 
-    RCIN_MAIN_TASK_PERF_ID: 
-      id: 
     RCIN_DEVICE_GET_PERF_ID: 
+      id: 
+    RCIN_MAIN_TASK_PERF_ID: 
       id: 
   config: 
     RCIN_SB_TIMEOUT: 

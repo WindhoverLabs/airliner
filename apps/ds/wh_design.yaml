@@ -115,13 +115,19 @@
     - parent: DS_DestPathCmd_t
       member: Pathname
       type: string
+    - parent: DS_DestBaseCmd_t
+      member: Basename
+      type: string
+    - parent: DS_DestExtCmd_t
+      member: Extension
+      type: string
   telemetry: 
-    DS_HK_TLM_MID: 
-      msgID: 
-      struct: DS_HkPacket_t
     DS_DIAG_TLM_MID: 
       msgID: 
       struct: DS_FileInfoPkt_t
+    DS_HK_TLM_MID: 
+      msgID: 
+      struct: DS_HkPacket_t
   commands: 
     DS_CMD_MID: 
       msgID: 

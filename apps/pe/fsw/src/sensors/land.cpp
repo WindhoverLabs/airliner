@@ -32,6 +32,7 @@
 *****************************************************************************/
 
 #include "../pe_app.h"
+#include "cfs_utils.h"
 
 boolean PE::landed()
 {
@@ -58,13 +59,13 @@ void PE::landInit()
 
 	if (landMeasure(y) != CFE_SUCCESS)
 	{
-		m_LandCount = 0;
+		HkTlm.LandCount = 0;
 	}
 
 	/* if finished */
-	if (m_LandCount > REQ_LAND_INIT_COUNT)
+	if (HkTlm.LandCount > REQ_LAND_INIT_COUNT)
 	{
-		m_LandTimeout = FALSE;
+		HkTlm.LandTimeout = FALSE;
 
 		(void) CFE_EVS_SendEvent(PE_LAND_OK_INF_EID, CFE_EVS_INFORMATION,
 								 "Land detector initialized");
@@ -73,9 +74,9 @@ void PE::landInit()
 
 int PE::landMeasure(math::Vector3F &y)
 {
-	m_TimeLastLand = m_Timestamp;
+	HkTlm.TimeLastLand = HkTlm.Timestamp;
 	y.Zero();
-	m_LandCount += 1;
+	HkTlm.LandCount += 1;
 	return CFE_SUCCESS;
 }
 
@@ -113,9 +114,9 @@ void PE::landCorrect()
 
 	if (m_Land.beta / BETA_TABLE[n_y_land] > m_Land.beta_thresh)
 	{
-		if (!m_LandFault)
+		if (!HkTlm.LandFault)
 		{
-			m_LandFault = TRUE;
+			HkTlm.LandFault = TRUE;
             if(Initialized())
             {
 			    (void) CFE_EVS_SendEvent(PE_LAND_FAULT_ERR_EID, CFE_EVS_ERROR,
@@ -125,12 +126,12 @@ void PE::landCorrect()
 	}
 	else 
 	{
-	    if (m_LandFault)
+	    if (HkTlm.LandFault)
 	    {
-		    m_LandFault = FALSE;
+	    	HkTlm.LandFault = FALSE;
 		    (void) CFE_EVS_SendEvent(PE_LAND_OK_INF_EID, CFE_EVS_ERROR,
 								     "Land detector OK");
-		    m_LandInitialized = TRUE;
+		    HkTlm.LandInitialized = TRUE;
 		}
 	}
 
@@ -146,12 +147,12 @@ end_of_function:
 
 void PE::landCheckTimeout()
 {
-	if (m_Timestamp - m_TimeLastLand > LAND_TIMEOUT)
+	if (CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastLand) > LAND_TIMEOUT)
 	{
-		if (!m_LandTimeout)
+		if (!HkTlm.LandTimeout)
 		{
-			m_LandTimeout = TRUE;
-			m_LandCount = 0;
+			HkTlm.LandTimeout = TRUE;
+			HkTlm.LandCount = 0;
 			(void) CFE_EVS_SendEvent(PE_LAND_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
 									 "Land detector timeout");
 		}

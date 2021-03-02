@@ -4,18 +4,18 @@
 using namespace math;
 
 Matrix2F10::Matrix2F10(Vector10F m0, Vector10F m1) :
-	data{m0, m1},
-	nan{NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN}
+	nan{NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN},
+	data{m0, m1}
 {
 };
 
 
 Matrix2F10::Matrix2F10() :
+    nan{NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN},
 	data{
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
-	},
-    nan{NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN}
+	}
 {
 };
 

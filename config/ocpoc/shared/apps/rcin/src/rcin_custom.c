@@ -455,7 +455,7 @@ boolean RCIN_Custom_PWM_Translate(uint8 *data, int size)
             & 0x07FF) * RCIN_SBUS_SCALE_FACTOR + .5f) + RCIN_SBUS_SCALE_OFFSET;
 
     /* Timestamp */
-    RCIN_AppCustomData.Measure.Timestamp = PX4LIB_GetPX4TimeUs();
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&RCIN_AppCustomData.Measure);
 
     /* Channel count */
     RCIN_AppCustomData.Measure.ChannelCount = RCIN_SBUS_CHANNEL_COUNT;
@@ -775,7 +775,7 @@ boolean RCIN_Custom_Measure(PX4_InputRcMsg_t *Measure)
         returnBool = FALSE;
     }
 
-    Measure->Timestamp = RCIN_AppCustomData.Measure.Timestamp;
+    CFE_SB_CopyMsgTime((CFE_SB_MsgPtr_t)&Measure, (CFE_SB_MsgPtr_t)&RCIN_AppCustomData.Measure);
     Measure->ChannelCount = RCIN_AppCustomData.Measure.ChannelCount;
     Measure->RSSI = RCIN_AppCustomData.Measure.RSSI;
     Measure->RcLostFrameCount = RCIN_AppCustomData.Measure.RcLostFrameCount;

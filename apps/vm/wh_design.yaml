@@ -126,12 +126,12 @@
     VM_HOMESET_ERROR_EID: 
       id: 62
   telemetry: 
-    VM_HK_TLM_MID: 
-      msgID: 
-      struct: VM_HkTlm_t
     VM_CONFIG_TLM_MID: 
       msgID: 
       struct: VM_ConfigTlm_t
+    VM_HK_TLM_MID: 
+      msgID: 
+      struct: VM_HkTlm_t
   commands: 
     VM_CMD_MID: 
       msgID: 
