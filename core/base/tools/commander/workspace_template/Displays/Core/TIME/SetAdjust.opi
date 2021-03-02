@@ -35,7 +35,7 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
@@ -44,18 +44,19 @@ var Direction =VTypeHelper.getString(display.getWidget('Direction').getPropertyV
 var Frequency =VTypeHelper.getString(display.getWidget('Frequency').getPropertyValue('pv_value'));
 var Seconds =VTypeHelper.getDouble(display.getWidget('Seconds').getPropertyValue('pv_value'));
 var Microseconds =VTypeHelper.getDouble(display.getWidget('Microseconds').getPropertyValue('pv_value'));
-
 var cmd;
 
 if( (Direction == "Add" ) && (Frequency == "One Shot")) {
-    Yamcs.issueCommand('/cfs/cfe_time/AddAdjust(Payload.Seconds: ' + Seconds + ',Payload.Microseconds: ' + Microseconds + ')');
-} if( (Direction == "Subtract" ) && (Frequency == "One Shot")) {
-    Yamcs.issueCommand('/cfs/cfe_time/SubAdjust(Payload.Seconds: ' + Seconds + ',Payload.Microseconds: ' + Microseconds + ')');
-} if( (Direction == "Add" ) && (Frequency == "1 Hz")) {
-    Yamcs.issueCommand('/cfs/cfe_time/Add1HzAdj(Payload.Seconds: ' + Seconds + ',Payload.Subseconds: ' + Microseconds + ')');
-} if( (Direction == "Subtract" ) && (Frequency == "1 Hz")) {
-    Yamcs.issueCommand('/cfs/cfe_time/Sub1HzAdj(Payload.Seconds: ' + Seconds + ',Payload.Subseconds: ' + Microseconds + ')');
+   cmd = '/cfs/cfe_time/AddAdjust(Payload.Seconds:' +  Seconds + ', Payload.MicroSeconds:' +  Microseconds +')';
+} else if( (Direction == "Subtract" ) && (Frequency == "One Shot")) {
+   cmd = '/cfs/cfe_time/SubAdjust(Payload.Seconds:' +  Seconds + ', Payload.MicroSeconds:' +  Microseconds +')';
+} else if( (Direction == "Add" ) && (Frequency == "1 Hz")) {
+   cmd = '/cfs/cfe_time/Add1HzAdjust(Payload.Seconds:' +  Seconds + ', Payload.Subseconds:' +  Microseconds +')';
+} else if( (Direction == "Subtract" ) && (Frequency == "1 Hz")) {
+   cmd = '/cfs/cfe_time/Sub1HzAdjust(Payload.Seconds:' +  Seconds + ', Payload.Subseconds:' +  Microseconds +')';
 }
+Yamcs.issueCommand(cmd);
+
 
 
 ]]></scriptText>
@@ -180,7 +181,7 @@ $(pv_value)</tooltip>
     <name>Seconds</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://Seconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://SetAdjustSeconds&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -277,7 +278,7 @@ $(pv_value)</tooltip>
     <name>Microseconds</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://Microseconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://SetAdjustMicroseconds&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -330,7 +331,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Direction</name>
-    <pv_name>loc://Direction&lt;VString&gt;</pv_name>
+    <pv_name>loc://SetAdjustDirection&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -346,7 +347,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Radio Box</widget_type>
-    <width>160</width>
+    <width>167</width>
     <wuid>35ebaa52:1509cf6a868:-62cf</wuid>
     <x>84</x>
     <y>12</y>
@@ -380,7 +381,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Frequency</name>
-    <pv_name>loc://Frequency&lt;VString&gt;</pv_name>
+    <pv_name>loc://SetAdjustFrequency&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -396,7 +397,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Radio Box</widget_type>
-    <width>160</width>
+    <width>167</width>
     <wuid>35ebaa52:1509cf6a868:-6277</wuid>
     <x>84</x>
     <y>44</y>
@@ -421,7 +422,7 @@ $(pv_value)</tooltip>
     </foreground_color>
     <height>20</height>
     <horizontal_alignment>2</horizontal_alignment>
-    <name>Label_2</name>
+    <name></name>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>

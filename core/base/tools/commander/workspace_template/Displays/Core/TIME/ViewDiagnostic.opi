@@ -32,6 +32,145 @@
   <wuid>35ebaa52:1509cf6a868:-791f</wuid>
   <x>-1</x>
   <y>-1</y>
+  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <bit>0</bit>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <label></label>
+    <name>Text Update_25</name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.Forced2Fly</pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <selected_color>
+      <color red="77" green="77" blue="77" />
+    </selected_color>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Check Box</widget_type>
+    <width>151</width>
+    <wuid>35ebaa52:1509cf6a868:-72bc</wuid>
+    <x>138</x>
+    <y>490</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <format_type>0</format_type>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Text Update_54</name>
+    <precision>0</precision>
+    <precision_from_pv>false</precision_from_pv>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.DataStoreStatus</pv_name>
+    <pv_value />
+    <rotation_angle>0.0</rotation_angle>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_units>true</show_units>
+    <text>######</text>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <transparent>false</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Text Update</widget_type>
+    <width>151</width>
+    <wrap_words>false</wrap_words>
+    <wuid>35ebaa52:1509cf6a868:-7052</wuid>
+    <x>138</x>
+    <y>1186</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label_64</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Data Store Status</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>121</width>
+    <wrap_words>false</wrap_words>
+    <wuid>35ebaa52:1509cf6a868:-6f93</wuid>
+    <x>7</x>
+    <y>1186</y>
+  </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
@@ -39,7 +178,7 @@
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_time/DiagTlm(args: none)');
+Yamcs.issueCommand('/cfs/cfe_time/SendDiag()');
 
 
 ]]></scriptText>
@@ -119,7 +258,7 @@ $(pv_value)</tooltip>
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_AtToneMET_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneMET.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -171,7 +310,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_AtToneMET_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneMET.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -223,7 +362,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_AtToneSTCF_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneSTCF.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -275,7 +414,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_AtToneSTCF_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneSTCF.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -327,7 +466,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_AtToneDelay_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneDelay.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -379,7 +518,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_AtToneDelay_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneDelay.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -431,7 +570,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_AtToneLatch_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneLatch.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -483,7 +622,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_AtToneLatch_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneLatch.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -535,7 +674,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_AtToneLeaps</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneLeaps</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -587,7 +726,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ClockStateAPI</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateAPI</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -639,7 +778,7 @@ $(pv_value)</tooltip>
     <name>Text Update_10</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_TimeSinceTone_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.TimeSinceTone.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -691,7 +830,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_TimeSinceTone_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.TimeSinceTone.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -743,7 +882,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_CurrentLatch_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentLatch.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -795,7 +934,7 @@ $(pv_value)</tooltip>
     <name>Text Update_13</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_CurrentLatch_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentLatch.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -847,7 +986,7 @@ $(pv_value)</tooltip>
     <name>Text Update_14</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_CurrentMET_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -899,7 +1038,7 @@ $(pv_value)</tooltip>
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_CurrentMET_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -951,7 +1090,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_CurrentTAI_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentTAI.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1003,7 +1142,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_CurrentTAI_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentTAI.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1055,7 +1194,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_CurrentUTC_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentUTC.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1107,7 +1246,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_CurrentUTC_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentUTC.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1159,7 +1298,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ClockSetState</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockSetState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1211,7 +1350,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ClockFlyingState</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockFlyState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1263,7 +1402,7 @@ $(pv_value)</tooltip>
     <name>Text Update_22</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ClockSource</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockSource</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1315,7 +1454,7 @@ $(pv_value)</tooltip>
     <name>Text Update_23</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ClockSignal</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockSignal</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1367,7 +1506,7 @@ $(pv_value)</tooltip>
     <name>Text Update_24</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ServerFlyState</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ServerFlyState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1390,53 +1529,6 @@ $(pv_value)</tooltip>
     <wuid>35ebaa52:1509cf6a868:-72bd</wuid>
     <x>138</x>
     <y>510</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <bit>0</bit>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <label></label>
-    <name>Text Update_25</name>
-    <pv_name>/cfs/cfe_time/Diag_Forced2Fly</pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <selected_color>
-      <color red="77" green="77" blue="77" />
-    </selected_color>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Check Box</widget_type>
-    <width>151</width>
-    <wuid>35ebaa52:1509cf6a868:-72bc</wuid>
-    <x>138</x>
-    <y>529</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1472,10 +1564,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>80</width>
+    <width>92</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-721b</wuid>
-    <x>48</x>
+    <x>36</x>
     <y>54</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1512,10 +1604,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>80</width>
+    <width>92</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7213</wuid>
-    <x>48</x>
+    <x>36</x>
     <y>168</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1552,10 +1644,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>80</width>
+    <width>92</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-720c</wuid>
-    <x>48</x>
+    <x>36</x>
     <y>92</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1632,10 +1724,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>98</width>
+    <width>110</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-71f1</wuid>
-    <x>30</x>
+    <x>18</x>
     <y>225</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1672,10 +1764,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>92</width>
+    <width>98</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-71db</wuid>
-    <x>36</x>
+    <x>30</x>
     <y>206</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1712,10 +1804,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>98</width>
+    <width>116</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-71cd</wuid>
-    <x>30</x>
+    <x>12</x>
     <y>244</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1752,10 +1844,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>80</width>
+    <width>104</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-71bd</wuid>
-    <x>48</x>
+    <x>24</x>
     <y>396</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1832,10 +1924,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>80</width>
+    <width>110</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-71af</wuid>
-    <x>48</x>
+    <x>18</x>
     <y>472</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1872,10 +1964,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>80</width>
+    <width>92</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-71a8</wuid>
-    <x>48</x>
+    <x>36</x>
     <y>320</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1952,10 +2044,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>80</width>
+    <width>92</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-719a</wuid>
-    <x>48</x>
+    <x>36</x>
     <y>358</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1992,10 +2084,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>110</width>
+    <width>121</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7193</wuid>
-    <x>18</x>
+    <x>7</x>
     <y>453</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -2032,10 +2124,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>80</width>
+    <width>92</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7175</wuid>
-    <x>48</x>
+    <x>36</x>
     <y>491</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -2112,151 +2204,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>80</width>
+    <width>98</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7167</wuid>
-    <x>48</x>
-    <y>529</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <bit>0</bit>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <label></label>
-    <name>Check Box</name>
-    <pv_name>/cfs/cfe_time/Diag_ClkSet</pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>false</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <selected_color>
-      <color red="77" green="77" blue="77" />
-    </selected_color>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Check Box</widget_type>
-    <width>100</width>
-    <wuid>35ebaa52:1509cf6a868:-712d</wuid>
-    <x>138</x>
-    <y>552</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <bit>0</bit>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <label></label>
-    <name>Check Box_1</name>
-    <pv_name>/cfs/cfe_time/Diag_Flying</pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>false</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <selected_color>
-      <color red="77" green="77" blue="77" />
-    </selected_color>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Check Box</widget_type>
-    <width>100</width>
-    <wuid>35ebaa52:1509cf6a868:-712c</wuid>
-    <x>138</x>
-    <y>571</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <bit>0</bit>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <label></label>
-    <name>Check Box_2</name>
-    <pv_name>/cfs/cfe_time/Diag_SrcInt</pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>false</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <selected_color>
-      <color red="77" green="77" blue="77" />
-    </selected_color>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Check Box</widget_type>
-    <width>100</width>
-    <wuid>35ebaa52:1509cf6a868:-712b</wuid>
-    <x>138</x>
+    <x>27</x>
     <y>590</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
@@ -2284,8 +2235,8 @@ $(pv_value)</tooltip>
     </foreground_color>
     <height>20</height>
     <label></label>
-    <name>Check Box_3</name>
-    <pv_name>/cfs/cfe_time/Diag_SigPri</pv_name>
+    <name>Check Box</name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockSetState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2302,7 +2253,158 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Check Box</widget_type>
     <width>100</width>
+    <wuid>35ebaa52:1509cf6a868:-712d</wuid>
+    <x>138</x>
+    <y>571</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <format_type>0</format_type>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Check Box_3</name>
+    <precision>0</precision>
+    <precision_from_pv>true</precision_from_pv>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockSource</pv_name>
+    <pv_value />
+    <rotation_angle>0.0</rotation_angle>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>false</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_units>true</show_units>
+    <text>######</text>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <transparent>false</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Text Update</widget_type>
+    <width>151</width>
+    <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-712a</wuid>
+    <x>138</x>
+    <y>529</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <format_type>0</format_type>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Check Box_4</name>
+    <precision>0</precision>
+    <precision_from_pv>true</precision_from_pv>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockSignal</pv_name>
+    <pv_value />
+    <rotation_angle>0.0</rotation_angle>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>false</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_units>true</show_units>
+    <text>######</text>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <transparent>false</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Text Update</widget_type>
+    <width>151</width>
+    <wrap_words>false</wrap_words>
+    <wuid>35ebaa52:1509cf6a868:-7129</wuid>
+    <x>138</x>
+    <y>548</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <bit>0</bit>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <label></label>
+    <name>Check Box_6</name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneTimeAdjust</pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>false</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <selected_color>
+      <color red="77" green="77" blue="77" />
+    </selected_color>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Check Box</widget_type>
+    <width>100</width>
+    <wuid>35ebaa52:1509cf6a868:-7127</wuid>
     <x>138</x>
     <y>609</y>
   </widget>
@@ -2331,149 +2433,8 @@ $(pv_value)</tooltip>
     </foreground_color>
     <height>20</height>
     <label></label>
-    <name>Check Box_4</name>
-    <pv_name>/cfs/cfe_time/Diag_SrvFly</pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>false</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <selected_color>
-      <color red="77" green="77" blue="77" />
-    </selected_color>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Check Box</widget_type>
-    <width>100</width>
-    <wuid>35ebaa52:1509cf6a868:-7129</wuid>
-    <x>138</x>
-    <y>628</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <bit>0</bit>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <label></label>
-    <name>Check Box_5</name>
-    <pv_name>/cfs/cfe_time/Diag_CmdFly</pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>false</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <selected_color>
-      <color red="77" green="77" blue="77" />
-    </selected_color>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Check Box</widget_type>
-    <width>100</width>
-    <wuid>35ebaa52:1509cf6a868:-7128</wuid>
-    <x>138</x>
-    <y>647</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <bit>0</bit>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <label></label>
-    <name>Check Box_6</name>
-    <pv_name>/cfs/cfe_time/Diag_AddAdj</pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>false</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <selected_color>
-      <color red="77" green="77" blue="77" />
-    </selected_color>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Check Box</widget_type>
-    <width>100</width>
-    <wuid>35ebaa52:1509cf6a868:-7127</wuid>
-    <x>138</x>
-    <y>685</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <bit>0</bit>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <label></label>
     <name>Check Box_7</name>
-    <pv_name>/cfs/cfe_time/Diag_Add1Hz</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneHzAdjust</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2492,148 +2453,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wuid>35ebaa52:1509cf6a868:-7126</wuid>
     <x>138</x>
-    <y>704</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <bit>0</bit>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <label></label>
-    <name>Check Box_8</name>
-    <pv_name>/cfs/cfe_time/Diag_AddTcl</pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>false</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <selected_color>
-      <color red="77" green="77" blue="77" />
-    </selected_color>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Check Box</widget_type>
-    <width>100</width>
-    <wuid>35ebaa52:1509cf6a868:-7125</wuid>
-    <x>138</x>
-    <y>723</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <bit>0</bit>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <label></label>
-    <name>Check Box_9</name>
-    <pv_name>/cfs/cfe_time/Diag_Server</pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>false</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <selected_color>
-      <color red="77" green="77" blue="77" />
-    </selected_color>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Check Box</widget_type>
-    <width>100</width>
-    <wuid>35ebaa52:1509cf6a868:-7124</wuid>
-    <x>138</x>
-    <y>742</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <bit>0</bit>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <label></label>
-    <name>Check Box_10</name>
-    <pv_name>/cfs/cfe_time/Diag_GoodTone</pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>false</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <selected_color>
-      <color red="77" green="77" blue="77" />
-    </selected_color>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Check Box</widget_type>
-    <width>100</width>
-    <wuid>35ebaa52:1509cf6a868:-7123</wuid>
-    <x>138</x>
-    <y>666</y>
+    <y>628</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2673,87 +2493,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-711b</wuid>
     <x>48</x>
-    <y>552</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>2</horizontal_alignment>
-    <name>Label_18</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>Flying</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>80</width>
-    <wrap_words>false</wrap_words>
-    <wuid>35ebaa52:1509cf6a868:-710f</wuid>
-    <x>48</x>
     <y>571</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>2</horizontal_alignment>
-    <name>Label_19</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>Clock Set</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>80</width>
-    <wrap_words>false</wrap_words>
-    <wuid>35ebaa52:1509cf6a868:-710a</wuid>
-    <x>48</x>
-    <y>590</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2793,7 +2533,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7105</wuid>
     <x>18</x>
-    <y>628</y>
+    <y>548</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2833,47 +2573,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7100</wuid>
     <x>24</x>
-    <y>609</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>2</horizontal_alignment>
-    <name>Label_22</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>Add TCL</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>80</width>
-    <wrap_words>false</wrap_words>
-    <wuid>35ebaa52:1509cf6a868:-70fb</wuid>
-    <x>48</x>
-    <y>723</y>
+    <y>529</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2913,87 +2613,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-70f6</wuid>
     <x>48</x>
-    <y>704</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>2</horizontal_alignment>
-    <name>Label_24</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>Server Flying</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>80</width>
-    <wrap_words>false</wrap_words>
-    <wuid>35ebaa52:1509cf6a868:-70f1</wuid>
-    <x>48</x>
-    <y>647</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>2</horizontal_alignment>
-    <name>Label_25</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>Commanded Flying</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>122</width>
-    <wrap_words>false</wrap_words>
-    <wuid>35ebaa52:1509cf6a868:-70ec</wuid>
-    <x>6</x>
-    <y>664</y>
+    <y>628</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3033,134 +2653,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-70e7</wuid>
     <x>48</x>
-    <y>683</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>2</horizontal_alignment>
-    <name>Label_27</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>Server</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>80</width>
-    <wrap_words>false</wrap_words>
-    <wuid>35ebaa52:1509cf6a868:-70cd</wuid>
-    <x>48</x>
-    <y>742</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>2</horizontal_alignment>
-    <name>Label_28</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>Add TCL</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>80</width>
-    <wrap_words>false</wrap_words>
-    <wuid>35ebaa52:1509cf6a868:-70c8</wuid>
-    <x>48</x>
-    <y>761</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <bit>0</bit>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <label></label>
-    <name>Check Box_11</name>
-    <pv_name>/cfs/cfe_time/Diag_GoodTone</pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>false</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <selected_color>
-      <color red="77" green="77" blue="77" />
-    </selected_color>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Check Box</widget_type>
-    <width>100</width>
-    <wuid>35ebaa52:1509cf6a868:-70ba</wuid>
-    <x>138</x>
-    <y>761</y>
+    <y>609</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3190,7 +2683,7 @@ $(pv_value)</tooltip>
     <name>Text Update_26</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_OneTimeDirection</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneTimeDirection</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3212,7 +2705,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-706e</wuid>
     <x>138</x>
-    <y>786</y>
+    <y>654</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3242,7 +2735,7 @@ $(pv_value)</tooltip>
     <name>Text Update_27</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_OneHzDirection</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneHzDirection</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3264,7 +2757,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-706d</wuid>
     <x>138</x>
-    <y>805</y>
+    <y>673</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3294,7 +2787,7 @@ $(pv_value)</tooltip>
     <name>Text Update_28</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_DelayDirection</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.DelayDirection</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3316,7 +2809,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-706c</wuid>
     <x>138</x>
-    <y>824</y>
+    <y>692</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3346,7 +2839,7 @@ $(pv_value)</tooltip>
     <name>Text Update_29</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_OneTimeAdjust_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneTimeAdjust.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3368,7 +2861,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-706b</wuid>
     <x>138</x>
-    <y>843</y>
+    <y>711</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3398,7 +2891,7 @@ $(pv_value)</tooltip>
     <name>Text Update_30</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_OneTimeAdjust_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneTimeAdjust.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3420,7 +2913,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-706a</wuid>
     <x>138</x>
-    <y>862</y>
+    <y>730</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3450,7 +2943,7 @@ $(pv_value)</tooltip>
     <name>Text Update_31</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_OneHzAdjust_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneHzAdjust.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3472,7 +2965,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7069</wuid>
     <x>138</x>
-    <y>881</y>
+    <y>749</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3502,7 +2995,7 @@ $(pv_value)</tooltip>
     <name>Text Update_32</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_OneHzAdjust_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneHzAdjust.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3524,7 +3017,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7068</wuid>
     <x>138</x>
-    <y>900</y>
+    <y>768</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3554,7 +3047,7 @@ $(pv_value)</tooltip>
     <name>Text Update_33</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ToneSignalLatch_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneSignalLatch.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3576,7 +3069,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7067</wuid>
     <x>138</x>
-    <y>919</y>
+    <y>787</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3606,7 +3099,7 @@ $(pv_value)</tooltip>
     <name>Text Update_34</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ToneSignalLatch_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneSignalLatch.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3628,7 +3121,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7066</wuid>
     <x>138</x>
-    <y>938</y>
+    <y>806</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3658,7 +3151,7 @@ $(pv_value)</tooltip>
     <name>Text Update_35</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ToneDataLatch_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneDataLatch.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3680,7 +3173,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7065</wuid>
     <x>138</x>
-    <y>957</y>
+    <y>825</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3710,7 +3203,7 @@ $(pv_value)</tooltip>
     <name>Text Update_36</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ToneDataLatch_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneDataLatch.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3732,7 +3225,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7064</wuid>
     <x>138</x>
-    <y>976</y>
+    <y>844</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3762,7 +3255,7 @@ $(pv_value)</tooltip>
     <name>Text Update_37</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ToneMatchCount</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneMatchCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3784,7 +3277,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7063</wuid>
     <x>138</x>
-    <y>995</y>
+    <y>863</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3814,7 +3307,7 @@ $(pv_value)</tooltip>
     <name>Text Update_38</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ToneMatchErrors</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneMatchErrors</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3836,7 +3329,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7062</wuid>
     <x>138</x>
-    <y>1014</y>
+    <y>882</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3866,7 +3359,7 @@ $(pv_value)</tooltip>
     <name>Text Update_39</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ToneSignalCount</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneSignalCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3888,7 +3381,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7061</wuid>
     <x>138</x>
-    <y>1033</y>
+    <y>901</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3918,7 +3411,7 @@ $(pv_value)</tooltip>
     <name>Text Update_40</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ToneDataCount</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneDataCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3940,7 +3433,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7060</wuid>
     <x>138</x>
-    <y>1052</y>
+    <y>920</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3970,7 +3463,7 @@ $(pv_value)</tooltip>
     <name>Text Update_41</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ToneIntCount</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneIntCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3992,7 +3485,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-705f</wuid>
     <x>138</x>
-    <y>1071</y>
+    <y>939</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4022,7 +3515,7 @@ $(pv_value)</tooltip>
     <name>Text Update_42</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ToneIntErrors</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneIntErrors</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4044,7 +3537,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-705e</wuid>
     <x>138</x>
-    <y>1090</y>
+    <y>958</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4074,7 +3567,7 @@ $(pv_value)</tooltip>
     <name>Text Update_43</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ToneTaskCount</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneTaskCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4096,7 +3589,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-705d</wuid>
     <x>138</x>
-    <y>1109</y>
+    <y>977</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4126,7 +3619,7 @@ $(pv_value)</tooltip>
     <name>Text Update_44</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_VersionCount</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.VersionCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4148,7 +3641,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-705c</wuid>
     <x>138</x>
-    <y>1128</y>
+    <y>996</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4178,7 +3671,7 @@ $(pv_value)</tooltip>
     <name>Text Update_45</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_LocalIntCount</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.LocalIntCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4200,7 +3693,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-705b</wuid>
     <x>138</x>
-    <y>1147</y>
+    <y>1015</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4230,7 +3723,7 @@ $(pv_value)</tooltip>
     <name>Text Update_46</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_LocalTaskCount</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.LocalTaskCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4252,7 +3745,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-705a</wuid>
     <x>138</x>
-    <y>1166</y>
+    <y>1034</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4282,7 +3775,7 @@ $(pv_value)</tooltip>
     <name>Text Update_47</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_VirtualMET</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.VirtualMET</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4304,7 +3797,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7059</wuid>
     <x>138</x>
-    <y>1185</y>
+    <y>1053</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4334,7 +3827,7 @@ $(pv_value)</tooltip>
     <name>Text Update_48</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_MinElapsed</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.MinElapsed</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4356,7 +3849,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7058</wuid>
     <x>138</x>
-    <y>1204</y>
+    <y>1072</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4386,7 +3879,7 @@ $(pv_value)</tooltip>
     <name>Text Update_49</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_MaxElapsed</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.MaxElapsed</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4408,7 +3901,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7057</wuid>
     <x>138</x>
-    <y>1223</y>
+    <y>1091</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4438,7 +3931,7 @@ $(pv_value)</tooltip>
     <name>Text Update_50</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_MaxLocalClock_Seconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.MaxLocalClock.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4460,7 +3953,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7056</wuid>
     <x>138</x>
-    <y>1242</y>
+    <y>1110</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4490,7 +3983,7 @@ $(pv_value)</tooltip>
     <name>Text Update_51</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_MaxLocalClock_Subseconds</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.MaxLocalClock.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4512,7 +4005,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7055</wuid>
     <x>138</x>
-    <y>1261</y>
+    <y>1129</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4542,7 +4035,7 @@ $(pv_value)</tooltip>
     <name>Text Update_52</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ToneOverLimit</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneOverLimit</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4564,7 +4057,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7054</wuid>
     <x>138</x>
-    <y>1280</y>
+    <y>1148</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4594,7 +4087,7 @@ $(pv_value)</tooltip>
     <name>Text Update_53</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_ToneUnderLimit</pv_name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneUnderLimit</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4616,59 +4109,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7053</wuid>
     <x>138</x>
-    <y>1299</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color red="240" green="240" blue="240" />
-    </border_color>
-    <border_style>1</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <format_type>0</format_type>
-    <height>20</height>
-    <horizontal_alignment>0</horizontal_alignment>
-    <name>Text Update_54</name>
-    <precision>0</precision>
-    <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_time/Diag_DataStoreStatus</pv_name>
-    <pv_value />
-    <rotation_angle>0.0</rotation_angle>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <show_units>true</show_units>
-    <text>######</text>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <transparent>false</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Text Update</widget_type>
-    <width>151</width>
-    <wrap_words>false</wrap_words>
-    <wuid>35ebaa52:1509cf6a868:-7052</wuid>
-    <x>138</x>
-    <y>1318</y>
+    <y>1167</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4704,11 +4145,11 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>122</width>
+    <width>128</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7048</wuid>
-    <x>6</x>
-    <y>786</y>
+    <x>0</x>
+    <y>654</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4748,7 +4189,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7043</wuid>
     <x>18</x>
-    <y>805</y>
+    <y>673</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4788,7 +4229,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-703e</wuid>
     <x>11</x>
-    <y>824</y>
+    <y>692</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4828,7 +4269,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7034</wuid>
     <x>18</x>
-    <y>843</y>
+    <y>711</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4868,7 +4309,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-702f</wuid>
     <x>7</x>
-    <y>919</y>
+    <y>787</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4908,7 +4349,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-702a</wuid>
     <x>48</x>
-    <y>881</y>
+    <y>749</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4948,7 +4389,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7020</wuid>
     <x>12</x>
-    <y>957</y>
+    <y>825</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4988,7 +4429,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7011</wuid>
     <x>11</x>
-    <y>1014</y>
+    <y>882</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5028,7 +4469,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-700c</wuid>
     <x>12</x>
-    <y>995</y>
+    <y>863</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5068,7 +4509,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7007</wuid>
     <x>11</x>
-    <y>1033</y>
+    <y>901</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5108,7 +4549,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7002</wuid>
     <x>18</x>
-    <y>1052</y>
+    <y>920</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5148,7 +4589,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-6ffd</wuid>
     <x>24</x>
-    <y>1071</y>
+    <y>939</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5188,7 +4629,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-6ff8</wuid>
     <x>18</x>
-    <y>1090</y>
+    <y>958</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5228,7 +4669,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-6ff3</wuid>
     <x>24</x>
-    <y>1128</y>
+    <y>996</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5268,7 +4709,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-6fee</wuid>
     <x>18</x>
-    <y>1109</y>
+    <y>977</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5308,7 +4749,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-6fe9</wuid>
     <x>24</x>
-    <y>1147</y>
+    <y>1015</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5344,11 +4785,11 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>104</width>
+    <width>116</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-6fa7</wuid>
-    <x>24</x>
-    <y>1242</y>
+    <x>12</x>
+    <y>1110</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5388,7 +4829,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-6fa2</wuid>
     <x>16</x>
-    <y>1165</y>
+    <y>1033</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5428,47 +4869,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-6f9d</wuid>
     <x>18</x>
-    <y>1280</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>2</horizontal_alignment>
-    <name>Label_64</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>Data Store Status</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>110</width>
-    <wrap_words>false</wrap_words>
-    <wuid>35ebaa52:1509cf6a868:-6f93</wuid>
-    <x>18</x>
-    <y>1318</y>
+    <y>1148</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5508,7 +4909,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-6f8e</wuid>
     <x>12</x>
-    <y>1299</y>
+    <y>1167</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5544,11 +4945,11 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>80</width>
+    <width>98</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-6f89</wuid>
-    <x>48</x>
-    <y>1223</y>
+    <x>30</x>
+    <y>1091</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5588,7 +4989,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-6f84</wuid>
     <x>48</x>
-    <y>1205</y>
+    <y>1073</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5628,6 +5029,53 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-6f7f</wuid>
     <x>48</x>
-    <y>1185</y>
+    <y>1053</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <bit>0</bit>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <label></label>
+    <name>Check Box_12</name>
+    <pv_name>/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.Forced2Fly</pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>false</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <selected_color>
+      <color red="77" green="77" blue="77" />
+    </selected_color>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Check Box</widget_type>
+    <width>100</width>
+    <wuid>59d9b0dc:177f3efc307:-78bd</wuid>
+    <x>138</x>
+    <y>590</y>
   </widget>
 </display>
