@@ -66,11 +66,11 @@ def main():
         logger.warning(project_name)
         yaml_path_macro = display.getMacroValue("YAML_PATH")
         logger.warning(yaml_path_macro)
-        #yaml_path = FileUtil.workspacePathToSysPath(yaml_path_macro)
+        yaml_path = FileUtil.workspacePathToSysPath(yaml_path_macro)
 
-        #yamnl_data = YAMLUtil.parseYAML(yaml_path)
-        #module_data = get_module(module, yamnl_data)
-        #events = None
-        #display.getWidget("app_name").setPropertyValue("text", module_data['long_name'] + " - App Control")
+        yamnl_data = YAMLUtil.parseYAML(yaml_path)
+        module_data = get_module(app_name, yamnl_data)
+
+        display.getWidget("app_name").setPropertyValue("text", module_data['long_name'] + " - App Control")
 
 main()
