@@ -833,11 +833,19 @@ void  CFE_ES_CreateObjects(void)
 
     for ( i = 0; i < CFE_ES_OBJECT_TABLE_SIZE; i++ )
     {
+
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
+
         switch ( CFE_ES_ObjectTable[i].ObjectType )
         {
             case CFE_ES_DRIVER_TASK:
             case CFE_ES_CORE_TASK:
 
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
             /*
             ** Allocate an ES AppTable entry
             */
@@ -851,21 +859,30 @@ void  CFE_ES_CreateObjects(void)
                }
             }
 
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
             /*
             ** If a slot was found, create the application
             */
             if ( AppSlotFound == TRUE )
             {
-            
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
                CFE_ES_LockSharedData(__func__,__LINE__);
-
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
                /*
                ** Allocate and populate the ES_AppTable entry
                */
                CFE_PSP_MemSet ( (void *)&(CFE_ES_Global.AppTable[j]), 0, sizeof(CFE_ES_AppRecord_t));
                CFE_ES_Global.AppTable[j].RecordUsed = TRUE;
                CFE_ES_Global.AppTable[j].Type = CFE_ES_APP_TYPE_CORE;
-               
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
                /*
                ** Fill out the parameters in the AppStartParams sub-structure
                */         
@@ -877,7 +894,9 @@ void  CFE_ES_CreateObjects(void)
                CFE_ES_Global.AppTable[j].StartParams.StartAddress = (cpuaddr)CFE_ES_ObjectTable[i].FuncPtrUnion.VoidPtr;
                CFE_ES_Global.AppTable[j].StartParams.ExceptionAction = CFE_ES_APP_EXCEPTION_PROC_RESTART;
                CFE_ES_Global.AppTable[j].StartParams.Priority = CFE_ES_ObjectTable[i].ObjectPriority;
-               
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
                
                /*
                ** Fill out the Task Info
@@ -885,7 +904,9 @@ void  CFE_ES_CreateObjects(void)
                strncpy((char *)CFE_ES_Global.AppTable[j].TaskInfo.MainTaskName, (char *)CFE_ES_ObjectTable[i].ObjectName, OS_MAX_API_NAME);
                CFE_ES_Global.AppTable[j].TaskInfo.MainTaskName[OS_MAX_API_NAME - 1] = '\0';
                CFE_ES_Global.AppTable[j].TaskInfo.NumOfChildTasks = 0;
-               
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
                /*
                ** Core apps still have the notion of an init/running state
                */
@@ -909,6 +930,9 @@ void  CFE_ES_CreateObjects(void)
 
                if(ReturnCode != OS_SUCCESS)
                {
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
                   CFE_ES_Global.AppTable[j].RecordUsed = FALSE;
                   CFE_ES_WriteToSysLog("ES Startup: OS_TaskCreate error creating core App: %s: EC = 0x%08X\n",
                                         CFE_ES_ObjectTable[i].ObjectName, (unsigned int)ReturnCode);
@@ -928,6 +952,9 @@ void  CFE_ES_CreateObjects(void)
                }
                else
                {
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
                   OS_ConvertToArrayIndex(CFE_ES_Global.AppTable[j].TaskInfo.MainTaskId, &TaskIndex);
 
                   /*
@@ -966,6 +993,9 @@ void  CFE_ES_CreateObjects(void)
             }
             else /* appSlot not found -- This should never happen!*/
             {
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
                CFE_ES_WriteToSysLog("ES Startup: Error, No free application slots available for CORE App!\n");
                /*
                ** Delay to allow the message to be read
@@ -978,7 +1008,9 @@ void  CFE_ES_CreateObjects(void)
                CFE_PSP_Panic(CFE_PSP_PANIC_CORE_APP);
 
             }
-
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
             /*
              * CFE_ES_ApplicationSyncDelay() will delay this thread until the
              * newly-started thread calls CFE_ES_WaitForStartupSync()
