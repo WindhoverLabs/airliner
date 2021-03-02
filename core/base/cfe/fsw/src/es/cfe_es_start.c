@@ -1114,10 +1114,16 @@ int32 CFE_ES_ApplicationSyncDelay(uint32 MinimumSystemState, uint32 TimeOutMilli
 
     Status = CFE_SUCCESS;
     WaitRemaining = TimeOutMilliseconds;
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
     while (CFE_ES_Global.SystemState < MinimumSystemState ||
             (CFE_ES_Global.AppReadyCount != CFE_ES_Global.AppStartedCount &&
                     CFE_ES_SYSTEM_STATE_UNDEFINED == MinimumSystemState))
     {
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
         /* TBD: Very Crude timing here, but not sure if it matters,
          * as this is only done during startup, not real work */
         if (WaitRemaining > CFE_ES_STARTUP_SYNC_POLL_MSEC)
@@ -1133,11 +1139,18 @@ int32 CFE_ES_ApplicationSyncDelay(uint32 MinimumSystemState, uint32 TimeOutMilli
             Status = CFE_ES_OPERATION_TIMED_OUT;
             break;
         }
-
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
         OS_TaskDelay(WaitTime);
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
         WaitRemaining -= WaitTime;
     }
-
+#ifdef CFE_ES_START_DEBUG
+    OS_printf("%s, %s, %u\n", __FILE__, __FUNCTION__, __LINE__);
+#endif
     return Status;
 }
 
