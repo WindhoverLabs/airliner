@@ -10,12 +10,12 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.4.202102122300</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>300</height>
+  <height>320</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
     <APP>md</APP>
@@ -31,7 +31,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>800</width>
+  <width>560</width>
   <wuid>-33cb7c72:150aa4c347f:-76c2</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -45,9 +45,9 @@
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -177,9 +177,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -250,7 +250,7 @@ Yamcs.issueCommand('/cfs/md/Noop', {});]]></scriptText>
     <foreground_color>
       <color red="253" green="255" blue="255" />
     </foreground_color>
-    <height>18</height>
+    <height>20</height>
     <image>../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
@@ -273,7 +273,7 @@ $(pv_value)</tooltip>
     <width>78</width>
     <wuid>-33cb7c72:150aa4c347f:-75fa</wuid>
     <x>223</x>
-    <y>37</y>
+    <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -306,7 +306,7 @@ Yamcs.issueCommand('/cfs/md/Reset', {});]]></scriptText>
     <foreground_color>
       <color red="253" green="255" blue="255" />
     </foreground_color>
-    <height>17</height>
+    <height>20</height>
     <image>../../Resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
@@ -329,7 +329,7 @@ $(pv_value)</tooltip>
     <width>78</width>
     <wuid>-33cb7c72:150aa4c347f:-75f9</wuid>
     <x>223</x>
-    <y>58</y>
+    <y>55</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -405,11 +405,11 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>163</width>
+    <width>97</width>
     <wrap_words>false</wrap_words>
     <wuid>-736e4684:150ac3c95a1:-6f2e</wuid>
-    <x>12</x>
-    <y>96</y>
+    <x>0</x>
+    <y>74</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -421,9 +421,9 @@ $(pv_value)</tooltip>
     </background_color>
     <border_alarm_sensitive>true</border_alarm_sensitive>
     <border_color>
-      <color red="0" green="128" blue="255" />
+      <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>0</border_style>
+    <border_style>1</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -460,8 +460,8 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79b0</wuid>
-    <x>184</x>
-    <y>96</y>
+    <x>108</x>
+    <y>74</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -513,7 +513,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79af</wuid>
     <x>141</x>
-    <y>174</y>
+    <y>192</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -565,7 +565,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79ae</wuid>
     <x>240</x>
-    <y>174</y>
+    <y>192</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -617,7 +617,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79ad</wuid>
     <x>339</x>
-    <y>174</y>
+    <y>192</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -669,7 +669,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79ac</wuid>
     <x>438</x>
-    <y>174</y>
+    <y>192</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -721,7 +721,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79ab</wuid>
     <x>141</x>
-    <y>193</y>
+    <y>211</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -773,7 +773,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79aa</wuid>
     <x>240</x>
-    <y>193</y>
+    <y>211</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -825,7 +825,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79a9</wuid>
     <x>339</x>
-    <y>193</y>
+    <y>211</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -877,7 +877,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79a8</wuid>
     <x>438</x>
-    <y>193</y>
+    <y>211</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -929,7 +929,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79a7</wuid>
     <x>141</x>
-    <y>212</y>
+    <y>230</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -981,7 +981,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79a6</wuid>
     <x>240</x>
-    <y>212</y>
+    <y>230</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1033,7 +1033,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79a5</wuid>
     <x>339</x>
-    <y>212</y>
+    <y>230</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1085,7 +1085,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79a4</wuid>
     <x>438</x>
-    <y>212</y>
+    <y>230</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1137,7 +1137,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79a3</wuid>
     <x>141</x>
-    <y>231</y>
+    <y>249</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1189,7 +1189,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79a2</wuid>
     <x>240</x>
-    <y>231</y>
+    <y>249</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1241,7 +1241,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79a1</wuid>
     <x>339</x>
-    <y>231</y>
+    <y>249</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1293,7 +1293,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-79a0</wuid>
     <x>438</x>
-    <y>231</y>
+    <y>249</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1345,7 +1345,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-799f</wuid>
     <x>141</x>
-    <y>250</y>
+    <y>268</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1397,7 +1397,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-799e</wuid>
     <x>240</x>
-    <y>250</y>
+    <y>268</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1449,7 +1449,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-799d</wuid>
     <x>339</x>
-    <y>250</y>
+    <y>268</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1501,7 +1501,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-799c</wuid>
     <x>438</x>
-    <y>250</y>
+    <y>268</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1553,7 +1553,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-799b</wuid>
     <x>141</x>
-    <y>269</y>
+    <y>287</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1605,7 +1605,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-799a</wuid>
     <x>240</x>
-    <y>269</y>
+    <y>287</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1657,7 +1657,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-7999</wuid>
     <x>338</x>
-    <y>269</y>
+    <y>287</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1709,7 +1709,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-7998</wuid>
     <x>438</x>
-    <y>269</y>
+    <y>287</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1749,7 +1749,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-794a</wuid>
     <x>3</x>
-    <y>174</y>
+    <y>192</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1789,7 +1789,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-77c9</wuid>
     <x>154</x>
-    <y>155</y>
+    <y>173</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1829,7 +1829,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-77b8</wuid>
     <x>447</x>
-    <y>155</y>
+    <y>173</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1869,7 +1869,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-77b3</wuid>
     <x>348</x>
-    <y>155</y>
+    <y>173</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1909,7 +1909,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-77ae</wuid>
     <x>249</x>
-    <y>155</y>
+    <y>173</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1949,7 +1949,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-77a0</wuid>
     <x>3</x>
-    <y>212</y>
+    <y>230</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1989,7 +1989,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-779b</wuid>
     <x>3</x>
-    <y>231</y>
+    <y>249</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2029,7 +2029,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-7796</wuid>
     <x>3</x>
-    <y>250</y>
+    <y>268</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2069,7 +2069,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-7791</wuid>
     <x>3</x>
-    <y>269</y>
+    <y>287</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2109,7 +2109,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>7b256c5c:150b979c7e3:-778c</wuid>
     <x>3</x>
-    <y>193</y>
+    <y>211</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -2338,6 +2338,67 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("EVENTS_OPI"));
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <image></image>
+    <name>Events</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>Event Filters</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>128</width>
+    <wuid>-19107c2b:177da1db5df:d33</wuid>
+    <x>372</x>
+    <y>96</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
 
 Yamcs.issueCommand('/cfs/md/SendHK', {});]]></scriptText>
         <embedded>true</embedded>
@@ -2384,9 +2445,9 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>128</width>
-    <wuid>689e2ae8:1777f312f88:-7a51</wuid>
+    <wuid>-69f8bd78:177f094d5fe:-21fa</wuid>
     <x>372</x>
-    <y>96</y>
+    <y>115</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -2441,69 +2502,8 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>128</width>
-    <wuid>689e2ae8:1777f312f88:-7a49</wuid>
+    <wuid>-69f8bd78:177f094d5fe:-21f2</wuid>
     <x>372</x>
-    <y>115</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
-    <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-importPackage(org.csstudio.opibuilder.runmode)
-
-var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("EVENTS_OPI"));
-var macroInput = DataUtil.createMacrosInput(true);
-
-ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
-        <embedded>true</embedded>
-        <description></description>
-      </action>
-    </actions>
-    <alarm_pulsing>false</alarm_pulsing>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <image></image>
-    <name>Events</name>
-    <push_action_index>0</push_action_index>
-    <pv_name></pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <style>0</style>
-    <text>Events</text>
-    <toggle_button>false</toggle_button>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Action Button</widget_type>
-    <width>127</width>
-    <wuid>-19107c2b:177da1db5df:d33</wuid>
-    <x>642</x>
-    <y>20</y>
+    <y>134</y>
   </widget>
 </display>

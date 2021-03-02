@@ -10,12 +10,12 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.4.202102122300</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>350</height>
+  <height>360</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
     <APP>cfe_sb</APP>
@@ -1921,7 +1921,7 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>20</height>
+    <height>26</height>
     <image></image>
     <name>Events</name>
     <push_action_index>0</push_action_index>
@@ -1935,15 +1935,15 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Events</text>
+    <text>Event Filters</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>127</width>
+    <width>142</width>
     <wuid>-19107c2b:177da1db5df:2196</wuid>
-    <x>462</x>
-    <y>55</y>
+    <x>294</x>
+    <y>268</y>
   </widget>
 </display>

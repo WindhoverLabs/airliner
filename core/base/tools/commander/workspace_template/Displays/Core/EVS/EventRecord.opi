@@ -10,12 +10,12 @@
   <background_color>
     <color red="240" green="240" blue="240" />
   </background_color>
-  <boy_version>1.5.4.202102122300</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>70</height>
+  <height>19</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>1000</width>
+  <width>750</width>
   <wuid>-19107c2b:177da1db5df:-492a</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -50,7 +50,7 @@
     <foreground_color>
       <color red="192" green="192" blue="192" />
     </foreground_color>
-    <height>68</height>
+    <height>19</height>
     <lock_children>false</lock_children>
     <macros>
       <include_parent_macros>true</include_parent_macros>
@@ -68,7 +68,7 @@
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Grouping Container</widget_type>
-    <width>1000</width>
+    <width>751</width>
     <wuid>-19107c2b:177da1db5df:-48f7</wuid>
     <x>0</x>
     <y>0</y>
@@ -90,8 +90,8 @@
       <foreground_color>
         <color name="Send Command" red="34" green="45" blue="75" />
       </foreground_color>
-      <height>20</height>
-      <horizontal_alignment>2</horizontal_alignment>
+      <height>19</height>
+      <horizontal_alignment>0</horizontal_alignment>
       <name>EventId</name>
       <rules />
       <scale_options>
@@ -106,11 +106,11 @@
       <vertical_alignment>1</vertical_alignment>
       <visible>true</visible>
       <widget_type>Label</widget_type>
-      <width>600</width>
+      <width>427</width>
       <wrap_words>false</wrap_words>
       <wuid>-19107c2b:177da1db5df:-48f6</wuid>
-      <x>12</x>
-      <y>15</y>
+      <x>0</x>
+      <y>0</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -140,7 +140,7 @@
       <foreground_color>
         <color red="255" green="255" blue="255" />
       </foreground_color>
-      <height>28</height>
+      <height>18</height>
       <image>../../Resources/send.png</image>
       <name>ResetFilter</name>
       <push_action_index>0</push_action_index>
@@ -154,16 +154,16 @@
       </scale_options>
       <scripts />
       <style>0</style>
-      <text>Reset Filter</text>
+      <text>Reset</text>
       <toggle_button>false</toggle_button>
       <tooltip>$(pv_name)
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>122</width>
-      <wuid>-19107c2b:177da1db5df:-48f5</wuid>
-      <x>684</x>
-      <y>11</y>
+      <width>79</width>
+      <wuid>-69f8bd78:177f094d5fe:-7935</wuid>
+      <x>438</x>
+      <y>1</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -194,7 +194,7 @@ $(pv_value)</tooltip>
       <foreground_color>
         <color red="255" green="255" blue="255" />
       </foreground_color>
-      <height>28</height>
+      <height>18</height>
       <image>../../Resources/send.png</image>
       <name>DeleteFilter</name>
       <push_action_index>0</push_action_index>
@@ -208,22 +208,130 @@ $(pv_value)</tooltip>
       </scale_options>
       <scripts />
       <style>0</style>
-      <text>Delete Filter</text>
+      <text>Set</text>
       <toggle_button>false</toggle_button>
       <tooltip>$(pv_name)
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>150</width>
-      <wuid>-19107c2b:177da1db5df:-48f4</wuid>
-      <x>840</x>
-      <y>11</y>
+      <width>79</width>
+      <wuid>-69f8bd78:177f094d5fe:-792d</wuid>
+      <x>516</x>
+      <y>1</y>
+    </widget>
+    <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+      <actions hook="false" hook_all="false">
+        <action type="EXECUTE_PYTHONSCRIPT">
+          <path>Scripts/Python/DeleteEventFilter.py</path>
+          <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
+]]></scriptText>
+          <embedded>false</embedded>
+          <description></description>
+        </action>
+      </actions>
+      <alarm_pulsing>false</alarm_pulsing>
+      <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+      <background_color>
+        <color red="34" green="45" blue="75" />
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255" />
+      </border_color>
+      <border_style>0</border_style>
+      <border_width>1</border_width>
+      <enabled>true</enabled>
+      <font>
+        <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+      </font>
+      <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+      <foreground_color>
+        <color red="255" green="255" blue="255" />
+      </foreground_color>
+      <height>18</height>
+      <image>../../Resources/send.png</image>
+      <name>DeleteFilter</name>
+      <push_action_index>0</push_action_index>
+      <pv_name></pv_name>
+      <pv_value />
+      <rules />
+      <scale_options>
+        <width_scalable>true</width_scalable>
+        <height_scalable>true</height_scalable>
+        <keep_wh_ratio>false</keep_wh_ratio>
+      </scale_options>
+      <scripts />
+      <style>0</style>
+      <text>Add</text>
+      <toggle_button>false</toggle_button>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <visible>true</visible>
+      <widget_type>Action Button</widget_type>
+      <width>79</width>
+      <wuid>-69f8bd78:177f094d5fe:-7925</wuid>
+      <x>594</x>
+      <y>1</y>
+    </widget>
+    <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+      <actions hook="false" hook_all="false">
+        <action type="EXECUTE_PYTHONSCRIPT">
+          <path>Scripts/Python/DeleteEventFilter.py</path>
+          <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
+]]></scriptText>
+          <embedded>false</embedded>
+          <description></description>
+        </action>
+      </actions>
+      <alarm_pulsing>false</alarm_pulsing>
+      <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+      <background_color>
+        <color red="34" green="45" blue="75" />
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255" />
+      </border_color>
+      <border_style>0</border_style>
+      <border_width>1</border_width>
+      <enabled>true</enabled>
+      <font>
+        <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+      </font>
+      <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+      <foreground_color>
+        <color red="255" green="255" blue="255" />
+      </foreground_color>
+      <height>18</height>
+      <image>../../Resources/send.png</image>
+      <name>DeleteFilter</name>
+      <push_action_index>0</push_action_index>
+      <pv_name></pv_name>
+      <pv_value />
+      <rules />
+      <scale_options>
+        <width_scalable>true</width_scalable>
+        <height_scalable>true</height_scalable>
+        <keep_wh_ratio>false</keep_wh_ratio>
+      </scale_options>
+      <scripts />
+      <style>0</style>
+      <text>Delete</text>
+      <toggle_button>false</toggle_button>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <visible>true</visible>
+      <widget_type>Action Button</widget_type>
+      <width>79</width>
+      <wuid>-69f8bd78:177f094d5fe:-791b</wuid>
+      <x>672</x>
+      <y>1</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.gridLayout" version="1.0.0">
       <fill_grids>true</fill_grids>
-      <grid_gap>4</grid_gap>
+      <grid_gap>1</grid_gap>
       <name>Grid Layout</name>
-      <number_of_columns>3</number_of_columns>
+      <number_of_columns>5</number_of_columns>
       <widget_type>Grid Layout</widget_type>
       <wuid>-19107c2b:177da1db5df:-48f3</wuid>
     </widget>

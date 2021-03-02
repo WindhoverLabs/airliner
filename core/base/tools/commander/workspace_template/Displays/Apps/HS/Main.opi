@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.4.202102122300</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -6968,7 +6968,7 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Events</text>
+    <text>Event Filters</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
@@ -6976,7 +6976,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>127</width>
     <wuid>-19107c2b:177da1db5df:84c</wuid>
-    <x>738</x>
-    <y>37</y>
+    <x>42</x>
+    <y>384</y>
   </widget>
 </display>

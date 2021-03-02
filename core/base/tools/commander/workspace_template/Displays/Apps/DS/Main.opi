@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.4.202102122300</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -2675,7 +2675,7 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>20</height>
+    <height>19</height>
     <image></image>
     <name>Events</name>
     <push_action_index>0</push_action_index>
@@ -2689,15 +2689,15 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Events</text>
+    <text>Event Filters</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>127</width>
+    <width>154</width>
     <wuid>-19107c2b:177da1db5df:1a4</wuid>
-    <x>552</x>
-    <y>38</y>
+    <x>347</x>
+    <y>346</y>
   </widget>
 </display>

@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.4.202102122300</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -84,7 +84,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-33cb7c72:150aa4c347f:-75ff</wuid>
-    <x>108</x>
+    <x>129</x>
     <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -124,7 +124,7 @@ $(pv_value)</tooltip>
     <width>91</width>
     <wrap_words>false</wrap_words>
     <wuid>-33cb7c72:150aa4c347f:-75fe</wuid>
-    <x>6</x>
+    <x>27</x>
     <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -164,7 +164,7 @@ $(pv_value)</tooltip>
     <width>60</width>
     <wrap_words>false</wrap_words>
     <wuid>-33cb7c72:150aa4c347f:-75fd</wuid>
-    <x>37</x>
+    <x>58</x>
     <y>61</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -216,7 +216,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-33cb7c72:150aa4c347f:-75fb</wuid>
-    <x>108</x>
+    <x>129</x>
     <y>61</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -256,7 +256,7 @@ $(pv_value)</tooltip>
     <width>182</width>
     <wrap_words>false</wrap_words>
     <wuid>-33cb7c72:150aa4c347f:-75c9</wuid>
-    <x>63</x>
+    <x>84</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -312,7 +312,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>72</width>
     <wuid>-10b748b0:17773fb054b:-7b9c</wuid>
-    <x>223</x>
+    <x>244</x>
     <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -368,7 +368,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>72</width>
     <wuid>-10b748b0:17773fb054b:-7b94</wuid>
-    <x>223</x>
+    <x>244</x>
     <y>61</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -408,7 +408,7 @@ $(pv_value)</tooltip>
     <width>118</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b8c</wuid>
-    <x>50</x>
+    <x>71</x>
     <y>193</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -460,7 +460,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b82</wuid>
-    <x>179</x>
+    <x>200</x>
     <y>193</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -500,7 +500,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b75</wuid>
-    <x>32</x>
+    <x>53</x>
     <y>212</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -552,7 +552,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b74</wuid>
-    <x>179</x>
+    <x>200</x>
     <y>212</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -592,7 +592,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b54</wuid>
-    <x>32</x>
+    <x>53</x>
     <y>231</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -644,7 +644,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b53</wuid>
-    <x>179</x>
+    <x>200</x>
     <y>231</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -684,7 +684,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b42</wuid>
-    <x>32</x>
+    <x>53</x>
     <y>250</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -736,7 +736,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b41</wuid>
-    <x>179</x>
+    <x>200</x>
     <y>250</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -776,7 +776,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b30</wuid>
-    <x>32</x>
+    <x>53</x>
     <y>269</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -828,7 +828,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b2f</wuid>
-    <x>179</x>
+    <x>200</x>
     <y>269</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -868,7 +868,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b1e</wuid>
-    <x>32</x>
+    <x>53</x>
     <y>115</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -920,7 +920,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b1d</wuid>
-    <x>179</x>
+    <x>200</x>
     <y>115</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -960,7 +960,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b0c</wuid>
-    <x>32</x>
+    <x>53</x>
     <y>288</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -1012,7 +1012,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b0b</wuid>
-    <x>179</x>
+    <x>200</x>
     <y>288</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1052,7 +1052,7 @@ $(pv_value)</tooltip>
     <width>118</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7afd</wuid>
-    <x>50</x>
+    <x>71</x>
     <y>96</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -1104,7 +1104,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7afc</wuid>
-    <x>179</x>
+    <x>200</x>
     <y>96</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1144,7 +1144,7 @@ $(pv_value)</tooltip>
     <width>158</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7ae3</wuid>
-    <x>10</x>
+    <x>31</x>
     <y>134</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -1196,7 +1196,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7ae2</wuid>
-    <x>179</x>
+    <x>200</x>
     <y>134</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1236,7 +1236,7 @@ $(pv_value)</tooltip>
     <width>92</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7ad4</wuid>
-    <x>108</x>
+    <x>129</x>
     <y>174</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1276,7 +1276,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7ac3</wuid>
-    <x>32</x>
+    <x>53</x>
     <y>307</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -1328,7 +1328,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7ac2</wuid>
-    <x>179</x>
+    <x>200</x>
     <y>307</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -1368,7 +1368,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7ab1</wuid>
-    <x>32</x>
+    <x>53</x>
     <y>326</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -1420,7 +1420,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7ab0</wuid>
-    <x>179</x>
+    <x>200</x>
     <y>326</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -1475,7 +1475,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>175</width>
     <wuid>-10b748b0:17773fb054b:-76ff</wuid>
-    <x>66</x>
+    <x>6</x>
     <y>360</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -1530,7 +1530,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>175</width>
     <wuid>-10b748b0:17773fb054b:-76f7</wuid>
-    <x>66</x>
+    <x>6</x>
     <y>379</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -1585,7 +1585,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>175</width>
     <wuid>-10b748b0:17773fb054b:-75ff</wuid>
-    <x>66</x>
+    <x>6</x>
     <y>398</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -1640,7 +1640,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>175</width>
     <wuid>-10b748b0:17773fb054b:-75e5</wuid>
-    <x>66</x>
+    <x>6</x>
     <y>417</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -1695,7 +1695,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>175</width>
     <wuid>-10b748b0:17773fb054b:-75dd</wuid>
-    <x>66</x>
+    <x>6</x>
     <y>436</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -1750,120 +1750,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>175</width>
     <wuid>-10b748b0:17773fb054b:-75d5</wuid>
-    <x>66</x>
-    <y>455</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
-    <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-
-Yamcs.issueCommand('/cfs/to/SendHK', {});]]></scriptText>
-        <embedded>true</embedded>
-        <description></description>
-      </action>
-    </actions>
-    <alarm_pulsing>false</alarm_pulsing>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="34" green="45" blue="75" />
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="253" green="255" blue="255" />
-    </foreground_color>
-    <height>20</height>
-    <image>../../Resources/send.png</image>
-    <name>NoOp_3</name>
-    <push_action_index>0</push_action_index>
-    <pv_name></pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <style>0</style>
-    <text>SendHK</text>
-    <toggle_button>false</toggle_button>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Action Button</widget_type>
-    <width>175</width>
-    <wuid>-10b748b0:17773fb054b:-75cd</wuid>
-    <x>66</x>
-    <y>493</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
-    <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-
-Yamcs.issueCommand('/cfs/to/SendTelemetry', {});]]></scriptText>
-        <embedded>true</embedded>
-        <description></description>
-      </action>
-    </actions>
-    <alarm_pulsing>false</alarm_pulsing>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="34" green="45" blue="75" />
-    </background_color>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="253" green="255" blue="255" />
-    </foreground_color>
-    <height>20</height>
-    <image>../../Resources/send.png</image>
-    <name>NoOp_4</name>
-    <push_action_index>0</push_action_index>
-    <pv_name></pv_name>
-    <pv_value />
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <style>0</style>
-    <text>Send Telemetry</text>
-    <toggle_button>false</toggle_button>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <visible>true</visible>
-    <widget_type>Action Button</widget_type>
-    <width>175</width>
-    <wuid>-10b748b0:17773fb054b:-75c5</wuid>
-    <x>66</x>
-    <y>512</y>
+    <x>192</x>
+    <y>360</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -1924,8 +1812,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>175</width>
     <wuid>-780e3ce9:177d07f82f5:-7d62</wuid>
-    <x>66</x>
-    <y>474</y>
+    <x>192</x>
+    <y>379</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -1977,15 +1865,127 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Events</text>
+    <text>Event Filters</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>127</width>
+    <width>175</width>
     <wuid>-19107c2b:177da1db5df:1958</wuid>
-    <x>450</x>
-    <y>42</y>
+    <x>192</x>
+    <y>398</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/to/SendHK', {});]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="34" green="45" blue="75" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="253" green="255" blue="255" />
+    </foreground_color>
+    <height>20</height>
+    <image>../../Resources/send.png</image>
+    <name>NoOp_3</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>SendHK</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>175</width>
+    <wuid>-69f8bd78:177f094d5fe:-15ed</wuid>
+    <x>192</x>
+    <y>417</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+
+Yamcs.issueCommand('/cfs/to/SendTelemetry', {});]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="34" green="45" blue="75" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="253" green="255" blue="255" />
+    </foreground_color>
+    <height>20</height>
+    <image>../../Resources/send.png</image>
+    <name>NoOp_4</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>Send Telemetry</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>175</width>
+    <wuid>-69f8bd78:177f094d5fe:-15e5</wuid>
+    <x>192</x>
+    <y>436</y>
   </widget>
 </display>

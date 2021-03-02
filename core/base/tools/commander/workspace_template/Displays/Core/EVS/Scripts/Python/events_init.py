@@ -65,6 +65,7 @@ def get_events_from_yaml(module, yaml_path, logger):
     yamnl_data = YAMLUtil.parseYAML(yaml_path)
     module_data = get_module(module, yamnl_data)
     events = None
+    display.getWidget("app_name").setPropertyValue("text", module_data['long_name'] + " - Event Filters")
 
     if module_data:
         if 'events' in module_data:
@@ -92,21 +93,20 @@ def main():
     project_name = display.getMacroValue("PROJECT_NAME")
     yaml_path = FileUtil.workspacePathToSysPath(display.getMacroValue("YAML_PATH"))
 
-    display.getWidget("app_name").setPropertyValue("text", app_name)
 
     events = get_events_from_yaml(app_name, yaml_path, logger)
 
     for event in events:
-        event_label = "{}:{}".format(event, events[event]['id'])
+        event_label = "{}  ({})  ".format(event, events[event]['id'])
 
         new_event_record = WidgetUtil.createWidgetModel("org.csstudio.opibuilder.widgets.linkingContainer")
         # TODO: Use the enumeration values from Studio to avoid magical strings
         new_event_record.setPropertyValue("opi_file", display.getMacroValue("TEMPLATE_OPI"))
-        new_event_record.setPropertyValue("height", 55)
-        new_event_record.setPropertyValue("width", 685)
+        new_event_record.setPropertyValue("height", 20)
+        new_event_record.setPropertyValue("width", 680)
         new_event_record.setPropertyValue("background_color", RGB(255, 255, 255))
         new_event_record.setPropertyValue("border_color", RGB(240, 240, 240))
-        new_event_record.setPropertyValue("border_style", 1)
+        new_event_record.setPropertyValue("border_style", 0)
         new_event_record.setPropertyValue("name", event)
 
         display.getWidget("EventsTable").addChild(new_event_record)
