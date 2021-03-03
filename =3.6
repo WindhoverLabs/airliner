@@ -1,0 +1,42 @@
+Reading package lists...
+Building dependency tree...
+Reading state information...
+python is already the newest version (2.7.15~rc1-1).
+The following packages were automatically installed and are no longer required:
+  gyp libc-ares2 libhttp-parser2.7.1 libjs-async libjs-inherits
+  libjs-node-uuid libjs-underscore libuv1-dev node-abbrev node-ansi
+  node-ansi-color-table node-archy node-async node-balanced-match
+  node-block-stream node-brace-expansion node-builtin-modules
+  node-combined-stream node-concat-map node-cookie-jar node-delayed-stream
+  node-forever-agent node-form-data node-fs.realpath node-fstream
+  node-fstream-ignore node-github-url-from-git node-glob node-graceful-fs
+  node-hosted-git-info node-inflight node-inherits node-ini
+  node-is-builtin-module node-isexe node-json-stringify-safe node-lockfile
+  node-lru-cache node-mime node-minimatch node-mkdirp node-mute-stream
+  node-node-uuid node-nopt node-normalize-package-data node-npmlog node-once
+  node-osenv node-path-is-absolute node-pseudomap node-qs node-read
+  node-read-package-json node-request node-retry node-rimraf node-semver
+  node-sha node-slide node-spdx-correct node-spdx-expression-parse
+  node-spdx-license-ids node-tar node-tunnel-agent node-underscore
+  node-validate-npm-package-license node-which node-wrappy node-yallist nodejs
+  nodejs-doc python-pkg-resources
+Use 'sudo apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 62 not upgraded.
+2 not fully installed or removed.
+After this operation, 0 B of additional disk space will be used.
+Do you want to continue? [Y/n] Setting up grub-efi-amd64-signed (1.93.24+2.02-2ubuntu8.21) ...
+Installing for x86_64-efi platform.
+Could not prepare Boot variable: Invalid argument
+grub-install: error: efibootmgr failed to register the boot entry: Input/output error.
+dpkg: error processing package grub-efi-amd64-signed (--configure):
+ installed grub-efi-amd64-signed package post-installation script subprocess returned error exit status 1
+dpkg: dependency problems prevent configuration of shim-signed:
+ shim-signed depends on grub-efi-amd64-signed | grub-efi-arm64-signed; however:
+  Package grub-efi-amd64-signed is not configured yet.
+  Package grub-efi-arm64-signed is not installed.
+
+dpkg: error processing package shim-signed (--configure):
+ dependency problems - leaving unconfigured
+Errors were encountered while processing:
+ grub-efi-amd64-signed
+ shim-signed

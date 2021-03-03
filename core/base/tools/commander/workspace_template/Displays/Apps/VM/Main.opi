@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103012118</boy_version>
+  <boy_version>1.5.3</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -63,7 +63,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.CmdCnt</pv_name>
+    <pv_name>/cfs/vm/VM_HkTlm_t.usCmdCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -195,7 +195,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.CmdErrCnt</pv_name>
+    <pv_name>/cfs/vm/VM_HkTlm_t.usCmdErrCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -457,7 +457,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>169</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7ae2</wuid>
     <x>168</x>
@@ -568,9 +568,9 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>135</width>
+    <width>134</width>
     <wuid>7565d3e4:177c1ff26c3:-7ed8</wuid>
-    <x>9</x>
+    <x>10</x>
     <y>278</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -753,7 +753,7 @@ $(pv_value)</tooltip>
     <name>Text Update_26</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.BootTimestamp.Seconds</pv_name>
+    <pv_name>/cfs/vm/VM_HkTlm_t.BootTimestamp</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -771,7 +771,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>169</width>
     <wrap_words>false</wrap_words>
     <wuid>7565d3e4:177c1ff26c3:-7c4d</wuid>
     <x>168</x>
@@ -863,7 +863,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>169</width>
     <wrap_words>false</wrap_words>
     <wuid>7565d3e4:177c1ff26c3:-7c43</wuid>
     <x>168</x>
@@ -955,7 +955,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>169</width>
     <wrap_words>false</wrap_words>
     <wuid>7565d3e4:177c1ff26c3:-7c41</wuid>
     <x>168</x>
@@ -1047,7 +1047,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>169</width>
     <wrap_words>false</wrap_words>
     <wuid>7565d3e4:177c1ff26c3:-7c3f</wuid>
     <x>168</x>
@@ -1121,7 +1121,7 @@ $(pv_value)</tooltip>
     <name>Text Update_37</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.RCSignalLostTimestamp.Seconds</pv_name>
+    <pv_name>/cfs/vm/VM_HkTlm_t.RCSignalLostTimestamp</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1139,7 +1139,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>169</width>
     <wrap_words>false</wrap_words>
     <wuid>7565d3e4:177c1ff26c3:-7c37</wuid>
     <x>168</x>
@@ -1173,7 +1173,7 @@ $(pv_value)</tooltip>
     <name>Text Update_42</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.BootTimestamp.Subseconds</pv_name>
+    <pv_name>/cfs/vm/VM_HkTlm_t.BootTimestamp</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1189,9 +1189,9 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <transparent>false</transparent>
     <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
+    <visible>false</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>169</width>
     <wrap_words>false</wrap_words>
     <wuid>7565d3e4:177c1ff26c3:-6532</wuid>
     <x>168</x>
@@ -1243,7 +1243,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>100</width>
+    <width>169</width>
     <wrap_words>false</wrap_words>
     <wuid>7565d3e4:177c1ff26c3:-63c8</wuid>
     <x>168</x>
