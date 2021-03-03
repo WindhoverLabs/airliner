@@ -3884,7 +3884,7 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>ApplicationControl_Generic.opi</path>
+        <path>ApplicationControl_General.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
@@ -3925,7 +3925,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>App Control (Generic)</text>
+    <text>App Control (General)</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
@@ -4055,7 +4055,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/Core/ES/ApplicationControl.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/Core/ES/ApplicationControl_App.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>

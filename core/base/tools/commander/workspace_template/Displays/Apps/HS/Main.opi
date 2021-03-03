@@ -22,7 +22,7 @@
     <PROJECT_NAME>Displays</PROJECT_NAME>
     <EVENTS_OPI>/Displays/Core/EVS/Events.opi</EVENTS_OPI>
   </macros>
-  <name></name>
+  <name>HS</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>

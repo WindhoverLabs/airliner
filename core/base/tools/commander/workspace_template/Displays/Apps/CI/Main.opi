@@ -22,7 +22,7 @@
     <EVENTS_OPI>Displays/Core/EVS/Events.opi</EVENTS_OPI>
     <PROJECT_NAME>Displays</PROJECT_NAME>
   </macros>
-  <name></name>
+  <name>CI</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>

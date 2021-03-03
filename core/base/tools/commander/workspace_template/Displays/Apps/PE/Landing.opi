@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>PE - Landing</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
