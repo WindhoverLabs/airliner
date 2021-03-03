@@ -56,7 +56,7 @@ def get_module(in_module, yaml_data):
 
 def main():
     logging.basicConfig()
-    logger = logging.getLogger('AppControl')
+    logger = logging.getLogger('ReloadApp')
     if is_opi_app_specific() is True:
         app_name = display.getMacroValue("APP")
         logger.warning(app_name)
@@ -69,6 +69,6 @@ def main():
         yaml_data = YAMLUtil.parseYAML(yaml_path)
         module_data = get_module(app_name, yaml_data)
 
-        display.getWidget("app_name").setPropertyValue("text", module_data['short_name'].upper() + " - App Control")
+        display.getWidget("app_name").setPropertyValue("text", module_data["short_name"].upper() + " - Reload App")
 
 main()

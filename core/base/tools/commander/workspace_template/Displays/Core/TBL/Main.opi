@@ -22,7 +22,7 @@
     <EVENTS_OPI>/Displays/Core/EVS/Events.opi</EVENTS_OPI>
     <PROJECT_NAME>Displays</PROJECT_NAME>
   </macros>
-  <name>CFE-TBL - Main</name>
+  <name>CFE-TBL</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
