@@ -35,7 +35,7 @@ SPHINX_OPTS     ?=
 SPHINX_BUILD    ?= sphinx-build
 SPHINX_SOURCEDIR = .
 SPHINX_BUILDDIR  = build/reference/default/target/docs
-SPHINX_FSW_BUILD = reference/default
+SPHINX_FSW_BUILD = reference/target
 
 SHELL := /bin/bash
 
@@ -151,16 +151,16 @@ obc::
 		done;
 	
 	
-docs-doxygen: 
+docs-doxygen:
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
-	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} -DBUILDTYPE:STRING=target \
+	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
 		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); make docs);
 	
 	
 docs-sphinx: 
 	@echo 'Building $$SPHINX_FSW_BUILD.'
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
-	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} -DBUILDTYPE:STRING=target \
+	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
 		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR));
 	@$(SPHINX_BUILD) -M html "$(SOURCE_DIR)" "$(SPHINX_BUILDDIR)" $(SPHINX_OPTS) -c build/$(SPHINX_FSW_BUILD)/target/docs $(O)
 	@echo 'Completed'
