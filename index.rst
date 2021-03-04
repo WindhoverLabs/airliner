@@ -35,6 +35,6 @@ Airliner Documentation
    
    docs/software/Overview.rst
    apps/px4lib/docs/MessageAPI.rst
-   core/README.rst
+   core/base/README.rst
    apps/README.rst
 
