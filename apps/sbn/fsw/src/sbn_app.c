@@ -1136,6 +1136,7 @@ static int32 WaitForWakeup(int32 iTimeOut)
     CFE_SB_MsgPtr_t Msg = 0;
 
     /* Wait for WakeUp messages from scheduler */
+    OS_printf("%u\n", __LINE__);
     Status = CFE_SB_RcvMsg(&Msg, SBN.CmdPipe, iTimeOut);
 
     switch(Status)
