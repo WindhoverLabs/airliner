@@ -26,8 +26,15 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cfs_lib/fsw/for_build
 )
 
-## This is temporarily removed until we can remove the OS dependency
-## in px4lib, i.e. "CLOCK_MONOTONIC"
+
+buildliner_add_app(
+    pq_lib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
+    # TODO move this table build to sbn module?
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib
+)
+
 #buildliner_add_app(
 #    px4lib
 #    EMBEDDED
@@ -111,6 +118,27 @@ buildliner_add_app(
 #
 ## This is temporarily removed until we can remove the OS dependency
 ## in ci, i.e. "arpa/inet.h"
+
+
+buildliner_add_app(
+    sbn
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sbn
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sbn/src/sbn_remap_tbl.c
+)
+
+buildliner_add_app(
+    sbn_mbox
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/mbox/fsw/for_build
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib/tables/pq_backup_cfg.c
+)
+
+# This is temporarily removed until we can remove the OS dependency
+# in ci, i.e. "arpa/inet.h"
 #buildliner_add_app(
 #    ci
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build

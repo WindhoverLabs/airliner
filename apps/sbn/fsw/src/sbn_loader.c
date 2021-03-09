@@ -91,6 +91,11 @@ int32 SBN_ReadModuleFile(void)
 
 #else /* ! CFE_ES_CONFLOADER */
 
+//#include "sbn_interfaces.h"
+
+extern SBN_IfOps_t SBN_Mbox_Ops;
+
+
 /**
  * \brief Reads a file describing the interface modules that must be loaded.
  *
@@ -108,9 +113,9 @@ int32 SBN_ReadModuleFile(void)
     uint32          LineNum = 0;
 
     ModuleFile = OS_open(SBN_NONVOL_MODULE_FILENAME, OS_READ_ONLY, 0);
-
-    if(ModuleFile == OS_ERROR)
+    if(ModuleFile < 0)
     {
+        OS_printf("SBN OS_open error %d\n", ModuleFile);
         return SBN_ERROR;
     }/* end if */
 
@@ -120,7 +125,13 @@ int32 SBN_ReadModuleFile(void)
     /* Parse the lines from the file */
     while(1)
     {
-        OS_read(ModuleFile, &CurrentChar, 1);
+        int32 Status;
+        Status = OS_read(ModuleFile, &CurrentChar, 1);
+        if(Status != 1)
+        {
+            OS_printf("SBN OS_read error %d\n", Status);
+            return SBN_ERROR;
+        }
 
         if (CurrentChar == '!')
         {
@@ -149,7 +160,10 @@ int32 SBN_ReadModuleFile(void)
             case ';':
                 /* Send the line to the file parser */
                 if (SBN_ParseModuleEntry(SBN_ModuleData, LineNum) == -1)
+                {
+                    OS_printf("SBN ParseModuleEntry failed\n");
                     return SBN_ERROR;
+                }
                 LineNum++;
                 memset(SBN_ModuleData, 0x0, SBN_MODULE_FILE_LINE_SZ);
                 BuffLen = 0;
@@ -211,23 +225,25 @@ int32 SBN_ParseModuleEntry(char *FileEntry, uint32 LineNum)
     }/* end if */
 
     ReturnCode = OS_ModuleLoad(&ModuleID, ModuleName, ModuleFile);
-
     if(ReturnCode != OS_SUCCESS)
     {
+        OS_printf("SBN OS_ModuleLoad failed %d\n", ReturnCode);
         return SBN_ERROR;
     }/* end if */
 
     ReturnCode = OS_SymbolLookup(&StructAddr, StructName);
-
     if(ReturnCode != OS_SUCCESS)
     {
         OS_printf("SBN failed to find symbol %s\n", StructName);
         return SBN_ERROR;
     }/* end if */
 
-    OS_printf("SBN found symbol %s in %s (%s)\n", StructName, ModuleName,
-        ModuleFile);
-    SBN.IfOps[ProtocolID] = (SBN_IfOps_t *)StructAddr;
+    OS_printf("SBN found symbol %s (%08x) in %s (%s)\n", StructName, StructAddr, 
+        ModuleName, ModuleFile);
+
+    /* TODO */
+    //SBN.IfOps[ProtocolID] = (SBN_IfOps_t *)StructAddr;
+    SBN.IfOps[ProtocolID] = (SBN_IfOps_t *)&SBN_Mbox_Ops;
     SBN.ModuleIDs[ProtocolID] = ModuleID;
 
     return SBN_SUCCESS;

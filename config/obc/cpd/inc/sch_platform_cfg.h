@@ -247,8 +247,6 @@
 **       The length of each string, including the NULL terminator cannot exceed 
 **       the #OS_MAX_PATH_LEN value.
 */
-
-//#define SCH_SCHEDULE_FILENAME  "/cf/apps/sch_def_schtbl.tbl"
 #define SCH_SCHEDULE_FILENAME "/ram/apps/sch_def_schtbl.tbl"
 
 

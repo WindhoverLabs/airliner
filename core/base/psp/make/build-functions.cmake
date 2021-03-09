@@ -885,23 +885,30 @@ endfunction(psp_get_app_cflags OUTPUT_LIST INPUT_FLAGS)
 
 function(psp_buildliner_add_table)
     set(PARSED_ARGS_TARGET ${ARGV0})
-    cmake_parse_arguments(PARSED_ARGS "" "NAME" "SOURCES;INCLUDES" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "" "NAME" "SOURCES;INCLUDES;COPY" ${ARGN})
 
     psp_get_app_cflags(${PARSED_ARGS_TARGET} TBL_CFLAGS ${CMAKE_C_FLAGS})
 
-    add_custom_command(
-        OUTPUT ${PARSED_ARGS_NAME}.tbl
-        COMMAND ${CMAKE_C_COMPILER} ${TBL_CFLAGS} -c -o ${PARSED_ARGS_NAME}.o ${PARSED_ARGS_SOURCES}
-        COMMAND ${ELF2CFETBL_BIN}/elf2cfetbl ${PARSED_ARGS_NAME}.o
-        COMMAND cp ${PARSED_ARGS_NAME}.tbl ${INSTALL_DIR}
-        BYPRODUCTS ${PARSED_ARGS_NAME}.tbl
-        DEPENDS ${PARSED_ARGS_SOURCES}
-    )
-    add_custom_target(${PARSED_ARGS_NAME} ALL
-        DEPENDS ${PARSED_ARGS_NAME}.tbl ${PARSED_ARGS_SOURCES}
-    )
-    
-    add_dependencies(build-file-system ${PARSED_ARGS_NAME})
+    if(PARSED_ARGS_NAME AND PARSED_ARGS_SOURCES)
+        add_custom_command(
+            OUTPUT ${PARSED_ARGS_NAME}.tbl
+            COMMAND ${CMAKE_C_COMPILER} ${TBL_CFLAGS} -c -o ${PARSED_ARGS_NAME}.o ${PARSED_ARGS_SOURCES}
+            COMMAND ${ELF2CFETBL_BIN}/elf2cfetbl ${PARSED_ARGS_NAME}.o
+            COMMAND cp ${PARSED_ARGS_NAME}.tbl ${INSTALL_DIR}
+            BYPRODUCTS ${PARSED_ARGS_NAME}.tbl
+            DEPENDS ${PARSED_ARGS_SOURCES}
+        )
+        add_custom_target(${PARSED_ARGS_NAME} ALL
+            DEPENDS ${PARSED_ARGS_NAME}.tbl ${PARSED_ARGS_SOURCES}
+        )
+        add_dependencies(build-file-system ${PARSED_ARGS_NAME})
+    endif()
+
+    # Copy any files
+    if(PARSED_ARGS_COPY)
+        file(COPY ${PARSED_ARGS_COPY} DESTINATION ${INSTALL_DIR})
+    endif()
+
 endfunction(psp_buildliner_add_table)
 
 
