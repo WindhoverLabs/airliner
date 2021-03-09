@@ -662,10 +662,11 @@ static void RecvNetTask(void)
  * Receive messages from the specified peer, injecting them onto the local
  * software bus.
  */
+uint8 SBN_Msg[CFE_SB_MAX_SB_MSG_SIZE];
+
 void SBN_RecvNetMsgs(void)
 {
     int Status = 0;
-    uint8 Msg[CFE_SB_MAX_SB_MSG_SIZE];
 
     int NetIdx = 0;
     for(NetIdx = 0; NetIdx < SBN.NetCnt; NetIdx++)
@@ -681,10 +682,10 @@ void SBN_RecvNetMsgs(void)
             // TODO: make configurable
             for(MsgCnt = 0; MsgCnt < 100; MsgCnt++)
             {
-                memset(Msg, 0, sizeof(Msg));
+                memset(SBN_Msg, 0, sizeof(SBN_Msg));
 
                 Status = Net->IfOps->RecvFromNet(
-                    Net, &MsgType, &MsgSz, &CpuID, Msg);
+                    Net, &MsgType, &MsgSz, &CpuID, SBN_Msg);
 
                 if(Status == SBN_IF_EMPTY)
                 {
@@ -701,7 +702,7 @@ void SBN_RecvNetMsgs(void)
                     OS_GetLocalTime(&Peer->LastRecv);
                 }/* end if */
 
-                SBN_ProcessNetMsg(Net, MsgType, CpuID, MsgSz, Msg);
+                SBN_ProcessNetMsg(Net, MsgType, CpuID, MsgSz, SBN_Msg);
             }
         }
         else if(Net->IfOps->RecvFromPeer)
@@ -721,10 +722,10 @@ void SBN_RecvNetMsgs(void)
                     SBN_MsgType_t MsgType = 0;
                     SBN_MsgSz_t MsgSz = 0;
 
-                    memset(Msg, 0, sizeof(Msg));
+                    memset(SBN_Msg, 0, sizeof(SBN_Msg));
 
                     Status = Net->IfOps->RecvFromPeer(Net, Peer,
-                        &MsgType, &MsgSz, &CpuID, Msg);
+                        &MsgType, &MsgSz, &CpuID, SBN_Msg);
 
                     if(Status == SBN_IF_EMPTY)
                     {
@@ -733,7 +734,7 @@ void SBN_RecvNetMsgs(void)
 
                     OS_GetLocalTime(&Peer->LastRecv);
 
-                    SBN_ProcessNetMsg(Net, MsgType, CpuID, MsgSz, Msg);
+                    SBN_ProcessNetMsg(Net, MsgType, CpuID, MsgSz, SBN_Msg);
                 }/* end for */
             }/* end for */
         }
@@ -1136,7 +1137,6 @@ static int32 WaitForWakeup(int32 iTimeOut)
     CFE_SB_MsgPtr_t Msg = 0;
 
     /* Wait for WakeUp messages from scheduler */
-    OS_printf("%u\n", __LINE__);
     Status = CFE_SB_RcvMsg(&Msg, SBN.CmdPipe, iTimeOut);
 
     switch(Status)

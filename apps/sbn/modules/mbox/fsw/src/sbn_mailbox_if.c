@@ -17,7 +17,7 @@ int MailboxWrite(XMbox *instance, const unsigned int *buffer, unsigned int size)
     int Status                  = 0;
     unsigned int BytesSent      = 0;
     unsigned int TotalBytesSent = 0;
-    unsigned int RequestedBytes = size;
+    unsigned int RequestedBytes = size * 4;
 
     while(1)
     {
@@ -47,7 +47,7 @@ int MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size)
     int Status              = 0;
     unsigned int BytesRecvd = 0;
 
-    Status = XMbox_Read(instance, buffer, size, BytesRecvd);
+    Status = XMbox_Read(instance, buffer, size, &BytesRecvd);
 
     if(Status == XST_NO_DATA)
     {
@@ -336,7 +336,7 @@ static int Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
 
     SizeRead = MailboxRead(&SBN_Mailbox_Data.Mbox, 
                            &SBN_Mailbox_Data.InputBuffer[0], 
-                           MAILBOX_MAX_BUFFER_SIZE_WORDS);
+                           sizeof(SBN_Mailbox_Data.InputBuffer));
     if(SizeRead > 0)
     {
         for(i = 0; i < SizeRead; ++i)
