@@ -5,33 +5,19 @@ widgets and uses EventRecord.opi to generates a container widget for each event 
 [1]:https://docs.yamcs.org/yamcs-studio/
 """
 # import java packages
-from org.csstudio.opibuilder.scriptUtil import PVUtil, ScriptUtil, FileUtil, WidgetUtil, DataUtil
+from org.csstudio.opibuilder.scriptUtil import PVUtil, ScriptUtil, FileUtil, WidgetUtil, DataUtil, FileUtil
 from org.csstudio.opibuilder.scriptUtil import YAMLUtil
 from org.eclipse.swt.graphics import RGB
+from com.windhoverlabs.studio import CFSPropertiesPage
 
 # import python packages
 import logging
+import sys
 
-
-def validate_opi():
-    """
-    Validate the OPI. Essentially check that we have all of the macros we need.
-
-    :return bool: True if this opi is valid. False otherwise.
-    """
-    is_valid = True
-
-    # getMacroValue returns a unicode object, NOT an str object. See "5.6.1. String Methods" of the python2.7.18 docs
-    # for details.
-    app_name = display.getMacroValue("APP")
-    project_name = display.getMacroValue("PROJECT_NAME")
-    yaml_path = display.getMacroValue("YAML_PATH")
-    template_opi = display.getMacroValue("TEMPLATE_OPI")
-
-    if app_name is None or project_name is None or yaml_path is None or template_opi is None:
-        is_valid = False
-
-    return is_valid
+# import our own APIs. Not sure if this is the cleanest way of doing this. If we don't do it this way, we might have add
+# an __init__.py to every directory in the project. Don't want to hardcode this path either; open to ideas about this.
+sys.path.append(FileUtil.workspacePathToSysPath("Displays"))
+from Resources.opi_util import util
 
 
 def get_module(in_module, yaml_data):
@@ -84,10 +70,14 @@ def get_events_from_yaml(module, yaml_path, logger):
 def main():
     logging.basicConfig()
     logger = logging.getLogger('events_init')
-    if validate_opi() is False:
+    if util.validate_opi(display) is False:
         logger.warning("OPI is not valid. Ensure that the APP, PROJECT_NAME, TEMPLATE_OPI and YAML_PATH macros have some kind of "
                        "value.")
         return -1
+
+    print(CFSPropertiesPage.getData())
+
+   # CFSPropertiesPage.parseYAML("SOME_PATH")
 
     app_name = display.getMacroValue("APP")
     project_name = display.getMacroValue("PROJECT_NAME")
