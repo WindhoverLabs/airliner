@@ -8,6 +8,7 @@
 #include "Sim.hpp"
 #include <vector>
 #include <string.h>
+#include <unistd.h>
 
 
 
@@ -169,6 +170,11 @@ int main(int argc, char *argv[])
         if(gnd->Start() < 0)
         {
         	return -1;
+        }
+
+        while(1)
+        {
+        	sleep(1);
         }
 
 		return 0;

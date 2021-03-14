@@ -16,6 +16,7 @@ public:
 	int Start(void);
 
     void Listener(void);
+    void SendMsg(char *buffer, uint16_t size);
 
     static void* c_Listener(void *arg);
 

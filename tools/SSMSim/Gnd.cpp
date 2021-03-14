@@ -2,6 +2,7 @@
 #include <arpa/inet.h>
 #include <string.h>
 #include <pthread.h>
+#include <unistd.h>
 
 
 
@@ -74,6 +75,64 @@ void *Gnd::c_Listener(void *arg)
 
 void Gnd::Listener(void)
 {
+	static  uint8_t buffer[32578];
+	uint32_t  size = sizeof(buffer);
+
     std::cout << "GND listener started\n";
+
+    while(1)
+    {
+    	int rc = 0;
+
+    	/* Wait for a command from the ground. */
+    	rc = recv(CmdSocket,
+    					   (char *)buffer,
+    					   (size_t)&size, 0);
+    	if(rc <= 0)
+    	{
+    	    std::cout << "GND recv failed. (" << errno << ") '" << strerror(errno) << "'\n";
+    	    sleep(1);
+    	}
+    	else
+    	{
+    		if(size > 0)
+    		{
+    			/* TODO: Forward to the flight software. */
+    		}
+    	}
+    }
 }
 
+
+
+void Gnd::SendTlm(const uint8_t *buffer, uint16_t size)
+{
+	int rc;
+
+	if(buffer == 0)
+	{
+		/* TODO: Log this. */
+		return;
+	}
+
+	if(size < 0)
+	{
+		/* TODO: Log this. */
+		return;
+	}
+
+	/* Send the command to the flight software. */
+	struct sockaddr_in s_addr;
+	bzero((char *) &s_addr, sizeof(s_addr));
+	s_addr.sin_family      = AF_INET;
+    s_addr.sin_addr.s_addr = inet_addr(TlmIP.c_str());
+    s_addr.sin_port        = htons(TlmPort);
+    rc = sendto(TlmSocket, (char *)buffer, size, 0,
+                (struct sockaddr *) &s_addr,
+                sizeof(s_addr));
+    if (rc < 0)
+    {
+        std::cout << "GND sendto failed. (" << errno << ") '" << strerror(errno) << "'\n";
+        sleep(1);
+	}
+}

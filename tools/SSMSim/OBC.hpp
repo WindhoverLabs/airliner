@@ -25,6 +25,9 @@ public:
     void GndCmdListener(void);
     void SimListener(void);
 
+    void SendCmd(char *buffer, uint16_t size);
+    void SendSimMsg(char *buffer, uint16_t size);
+
     static void* c_FswTlmListener(void *arg);
     static void* c_GndCmdListener(void *arg);
     static void* c_SimListener(void *arg);

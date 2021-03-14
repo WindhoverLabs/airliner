@@ -3,6 +3,7 @@
 #include <error.h>
 #include <string.h>
 #include <pthread.h>
+#include <unistd.h>
 
 
 OBC::OBC()
@@ -145,17 +146,161 @@ void *OBC::c_SimListener(void *arg)
 
 void OBC::FswTlmListener(void)
 {
+	static  uint8_t buffer[32578];
+	uint32_t  size = sizeof(buffer);
+
     std::cout << Name << " FSW:TLM started\n";
+
+    while(1)
+    {
+    	int rc = 0;
+
+    	rc = recv(FswTlmSocket,
+    					   (char *)buffer,
+    					   (size_t)&size, 0);
+    	if(rc <= 0)
+    	{
+    	    std::cout << Name << " FSW:TLM recv failed. (" << errno << ") '" << strerror(errno) << "'\n";
+    	    sleep(1);
+    	}
+    	else
+    	{
+    		if(size > 0)
+    		{
+    			/* TODO:  Forward telemetry. */
+    		}
+    	}
+    }
 }
 
 
 void OBC::GndCmdListener(void)
 {
+	static  uint8_t buffer[32578];
+	uint32_t  size = sizeof(buffer);
+
     std::cout << Name << " GND:CMD started\n";
+
+    while(1)
+    {
+    	int rc = 0;
+
+    	/* Wait for a command from the ground. */
+    	rc = recv(GndCmdSocket,
+    					   (char *)buffer,
+    					   (size_t)&size, 0);
+    	if(rc <= 0)
+    	{
+    	    std::cout << Name << " GND:CMD recv failed. (" << errno << ") '" << strerror(errno) << "'\n";
+    	    sleep(1);
+    	}
+    	else
+    	{
+    		if(size > 0)
+    		{
+    			/* Send the command to the flight software. */
+    		    struct sockaddr_in s_addr;
+    		    bzero((char *) &s_addr, sizeof(s_addr));
+    		    s_addr.sin_family      = AF_INET;
+                s_addr.sin_addr.s_addr = inet_addr(FswCmdIP.c_str());
+                s_addr.sin_port        = htons(FswCmdPort);
+                rc = sendto(FswCmdSocket, (char *)buffer, size, 0,
+                                        (struct sockaddr *) &s_addr,
+                                         sizeof(s_addr));
+                if (rc < 0)
+                {
+            	    std::cout << Name << " GND:CMD sendto failed. (" << errno << ") '" << strerror(errno) << "'\n";
+                }
+    		}
+    	}
+    }
 }
 
 
 void OBC::SimListener(void)
 {
-    std::cout << Name << " SIM started\n";
+	int rc;
+	socklen_t len;
+	struct sockaddr_in s_addr;
+	struct sockaddr_in client;
+    bzero((char *) &s_addr, sizeof(s_addr));
+    s_addr.sin_family      = AF_INET;
+    s_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    s_addr.sin_port        = htons(SimPort);
+
+	/* Wait for the flight software to connect to the "sim". */
+	rc = listen(SimSocket, 1);
+    if (rc < 0)
+    {
+	    std::cout << Name << " SIM listen failed. (" << errno << ") '" << strerror(errno) << "'\n";
+    }
+    else
+    {
+	    std::cout << Name << " Waiting for flight software sim connection.\n";
+	    len = sizeof(client);
+
+    	rc = accept(SimSocket, (struct sockaddr*)&client, &len);
+        if(rc < 0)
+        {
+    	    std::cout << Name << " SIM accept failed. (" << errno << ") '" << strerror(errno) << "'\n";
+        }
+        else
+        {
+            std::cout << Name << " SIM started\n";
+        }
+    }
 }
+
+
+
+void OBC::SendCmd(char *buffer, uint16_t size)
+{
+	int rc;
+
+	if(buffer == 0)
+	{
+		/* TODO: Log this. */
+		return;
+	}
+
+	if(size < 0)
+	{
+		/* TODO: Log this. */
+		return;
+	}
+
+	/* Send the command to the flight software. */
+	struct sockaddr_in s_addr;
+	bzero((char *) &s_addr, sizeof(s_addr));
+	s_addr.sin_family      = AF_INET;
+    s_addr.sin_addr.s_addr = inet_addr(FswCmdIP.c_str());
+    s_addr.sin_port        = htons(FswCmdPort);
+    rc = sendto(FswCmdSocket, (char *)buffer, size, 0,
+                (struct sockaddr *) &s_addr,
+                sizeof(s_addr));
+    if (rc < 0)
+    {
+        std::cout << Name << " CMD sendto failed. (" << errno << ") '" << strerror(errno) << "'\n";
+        sleep(1);
+	}
+}
+
+
+
+void OBC::SendSimMsg(char *buffer, uint16_t size)
+{
+    if(buffer == 0)
+    {
+    	/* TODO: Log this. */
+    	return;
+    }
+
+    if(size == 0)
+    {
+    	/* TODO: Log this. */
+    	return;
+    }
+
+    write(SimSocket, buffer, sizeof(size));
+}
+
