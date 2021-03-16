@@ -24,7 +24,7 @@ int MailboxWrite(XMbox *instance, const unsigned int *buffer, unsigned int size)
         XMbox_Write(instance, buffer[TotalBytesSent], RequestedBytes, &BytesSent);
         RequestedBytes = RequestedBytes - BytesSent;
         TotalBytesSent = TotalBytesSent + BytesSent;
-        if(TotalBytesSent < size)
+        if(TotalBytesSent < RequestedBytes)
         {
 			/* Sleep */
 			OS_TaskDelay(SBN_MAILBOX_BLOCKING_DELAY);
