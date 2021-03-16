@@ -41,7 +41,7 @@ def main():
     logging.basicConfig()
     logger = logging.getLogger('events_init')
     if util.validate_opi(display) is False:
-        logger.warning("OPI is not valid. Ensure that the APP, PROJECT_NAME, TEMPLATE_OPI and YAML_PATH macros have some kind of "
+        logger.warning("OPI is not valid. Ensure that the APP and PROJECT_NAME macros have some kind of "
                        "value.")
         return -1
 
