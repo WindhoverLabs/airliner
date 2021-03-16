@@ -21,16 +21,21 @@ sys.path.append(FileUtil.workspacePathToSysPath("Displays"))
 from Resources.opi_util import util
 
 
-
-def get_events_from_yaml(registry, registry_path):
+def get_events_from_registry(registry, module_path):
     """
-    Fetch the events from the YAML file.
+    Fetch the events from the YAML file. This function assumes that the registry has been loaded.
     :param module(str): The name of the module(or app) from which we want to fetch events from.
     :param logger:
     :return: A dict object that has all of the events.
     """
-    return registry.get(ConfigRegistry.appendPath(registry_path, "events"))
+    return registry.get(ConfigRegistry.appendPath(module_path, "events"))
 
+
+def get_long_name_from_registry(registry, module_path):
+    """
+    This function assumes that the registry has been loaded.
+    """
+    return registry.get(ConfigRegistry.appendPath(module_path, "long_name"))
 
 def main():
     logging.basicConfig()
@@ -47,7 +52,7 @@ def main():
     app_name = display.getMacroValue("APP")
     project_name = display.getMacroValue("PROJECT_NAME")
 
-    events = get_events_from_yaml(registry, registry_path)
+    events = get_events_from_registry(registry, registry_path)
 
     for event in events:
         event_label = "{}  ({})  ".format(event, events[event]['id'])
@@ -74,5 +79,8 @@ def main():
         event_macros = DataUtil.createMacrosInput(False)
         event_macros.put("EVENTID", str(events[event]['id']))
         new_event_record.getChildByName("EventRecordTemplate").setPropertyValue("macros", event_macros)
+
+    long_name = get_long_name_from_registry(registry, registry_path)
+    display.getWidget("app_name").setPropertyValue("text", long_name)
 
 main()
