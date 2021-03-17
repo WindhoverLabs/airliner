@@ -21,22 +21,6 @@ sys.path.append(FileUtil.workspacePathToSysPath("Displays"))
 from Resources.opi_util import util
 
 
-def get_events_from_registry(registry, module_path):
-    """
-    Fetch the events from the YAML file. This function assumes that the registry has been loaded.
-    :param module(str): The name of the module(or app) from which we want to fetch events from.
-    :param logger:
-    :return: A dict object that has all of the events.
-    """
-    return registry.get(ConfigRegistry.appendPath(module_path, "events"))
-
-
-def get_long_name_from_registry(registry, module_path):
-    """
-    This function assumes that the registry has been loaded.
-    """
-    return registry.get(ConfigRegistry.appendPath(module_path, "long_name"))
-
 def main():
     logging.basicConfig()
     logger = logging.getLogger('events_init')
@@ -52,7 +36,7 @@ def main():
     app_name = display.getMacroValue("APP")
     project_name = display.getMacroValue("PROJECT_NAME")
 
-    events = get_events_from_registry(registry, registry_path)
+    events = util.get_events_from_registry(registry, registry_path)
 
     for event in events:
         event_label = "{}  ({})  ".format(event, events[event]['id'])
@@ -70,17 +54,21 @@ def main():
         display.getWidget("EventsTable").addChild(new_event_record)
 
         # Access children of new_event_record only AFTER they are added to the display container
-        new_event_record.getChildByName("EventRecordTemplate").getChildByName("EventId").setPropertyValue("text", event_label)
+        new_event_record.getChildByName("EventRecordTemplate").getChildByName("EventId").setPropertyValue("text",
+                                                                                                          event_label)
 
         # Create the variables we need to be able to access data from button scripts.
-        new_event_record.getChildByName("EventRecordTemplate").getChildByName("DeleteFilter").setPropertyValue("pv_value",str(events[event]['id']))
-        new_event_record.getChildByName("EventRecordTemplate").getChildByName("ResetFilter").setPropertyValue("pv_value",str(events[event]['id']))
+        new_event_record.getChildByName("EventRecordTemplate").getChildByName("DeleteFilter").setPropertyValue(
+            "pv_value", str(events[event]['id']))
+        new_event_record.getChildByName("EventRecordTemplate").getChildByName("ResetFilter").setPropertyValue(
+            "pv_value", str(events[event]['id']))
 
         event_macros = DataUtil.createMacrosInput(False)
         event_macros.put("EVENTID", str(events[event]['id']))
         new_event_record.getChildByName("EventRecordTemplate").setPropertyValue("macros", event_macros)
 
-    long_name = get_long_name_from_registry(registry, registry_path)
+    long_name = util.get_long_name_from_registry(registry, registry_path)
     display.getWidget("app_name").setPropertyValue("text", long_name)
+
 
 main()

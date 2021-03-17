@@ -1,6 +1,7 @@
 """
 utility API for OPI Script authors.
 """
+from com.windhoverlabs.studio.registry import ConfigRegistry
 
 def validate_opi(display):
     """
@@ -19,3 +20,30 @@ def validate_opi(display):
         is_valid = False
 
     return is_valid
+
+
+def get_events_from_registry(registry, module_path):
+    """
+    Fetch the events from the registry. This function assumes that the registry has been loaded.
+    It is also assumed that the module path follows our configuration schema of "/modules/app"
+    :param registry(com.windhoverlabs.studio.registry.ConfigRegistry): The registry object.
+    :param module_path(str):
+    :return: A dict object that has all of the events.
+    """
+    return registry.get(ConfigRegistry.appendPath(module_path, "events"))
+
+
+def get_long_name_from_registry(registry, module_path):
+    """
+    This function assumes that the registry has been loaded.
+    It is also assumed that the module path follows our configuration schema of "/modules/app"
+    """
+    return registry.get(ConfigRegistry.appendPath(module_path, "long_name"))
+
+
+def get_short_name_from_registry(registry, module_path):
+    """
+    This function assumes that the registry has been loaded.
+    It is also assumed that the module path follows our configuration schema of "/modules/app"
+    """
+    return registry.get(ConfigRegistry.appendPath(module_path, "short_name"))
