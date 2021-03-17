@@ -1271,9 +1271,9 @@ static int WaitForSBStartup(void)
 /** \brief SBN Main Routine */
 void SBN_AppMain(void)
 {
-    int     Status = CFE_SUCCESS;
-    uint32  RunStatus = CFE_ES_APP_RUN,
-            AppID = 0;
+    int    Status    = CFE_SUCCESS;
+    uint32 RunStatus = CFE_ES_APP_RUN;
+    uint32 AppID     = 0;
 
     Status = CFE_ES_RegisterApp();
     if(Status != CFE_SUCCESS) 
@@ -1446,12 +1446,16 @@ void SBN_AppMain(void)
     /* Wait for event from SB saying it is initialized OR a response from SB
        to the above messages. TRUE means it needs to re-send subscription
        requests */
-    if(WaitForSBStartup()) SBN_SendSubsRequests();
-
-    if(Status != CFE_SUCCESS) RunStatus = CFE_ES_APP_ERROR;
+    if(WaitForSBStartup()) 
+    {
+        SBN_SendSubsRequests();
+    }
 
     /* Loop Forever */
-    while(CFE_ES_RunLoop(&RunStatus)) WaitForWakeup(SBN_MAIN_LOOP_DELAY);
+    while(CFE_ES_RunLoop(&RunStatus)) 
+    {
+        WaitForWakeup(SBN_MAIN_LOOP_DELAY);
+    }
 
     int NetIdx = 0;
     for(NetIdx = 0; NetIdx < SBN.NetCnt; NetIdx++)
