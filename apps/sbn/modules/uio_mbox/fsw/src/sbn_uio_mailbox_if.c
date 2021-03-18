@@ -388,10 +388,11 @@ static int Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
     int SizeRead            = 0;
     unsigned int i          = 0;
     int ReturnValue         = SBN_IF_EMPTY;
+    boolean MessageComplete = FALSE;
 
-    SizeRead = MailboxRead(SBN_UIO_Mailbox_Data.Instance, 
+    SizeRead = MailboxRead(&SBN_UIO_Mailbox_Data.Instance, 
                            &SBN_UIO_Mailbox_Data.InputBuffer[0], 
-                           MAILBOX_MAX_BUFFER_SIZE_WORDS);
+                           sizeof(SBN_UIO_Mailbox_Data.InputBuffer));
     if(SizeRead > 0)
     {
         for(i = 0; i < SizeRead; ++i)
@@ -403,6 +404,8 @@ static int Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
                                                &Size);
             if(Status == MPS_MESSAGE_COMPLETE)
             {
+                printf("message complete\n");
+                MessageComplete = TRUE;
                 if (SBN_UnpackMsg(&SBN_UIO_Mailbox_Data.ParserBuffer[0], MsgSzPtr, MsgTypePtr, CpuIDPtr, Payload) == false)
                 {
                     OS_printf("Unpack failed.\n");
@@ -412,6 +415,33 @@ static int Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
                 ReturnValue = SBN_SUCCESS;
             }
         }
+    }
+    
+    if(MessageComplete == FALSE)
+    {
+        ReturnValue = SBN_IF_EMPTY;
+        goto end_of_function;
+    }
+
+    CFE_SB_MsgId_t MsgID = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)Payload);
+    printf("Received %u CPUID %u, %x\n", SizeRead, *CpuIDPtr, MsgID);
+
+    SBN_PeerInterface_t *Peer = SBN_GetPeer(Net, *CpuIDPtr);
+    if(Peer == NULL)
+    {
+        ReturnValue = SBN_ERROR;
+        goto end_of_function;
+    }
+
+
+    /* TODO update this flag to peer data. */
+    if(!SBN_UIO_Mailbox_Data.ConnectedFlag)
+    {
+        OS_printf("CPU %d connected", *CpuIDPtr);
+
+        SBN_UIO_Mailbox_Data.ConnectedFlag = TRUE;
+
+        SBN_SendLocalSubsToPeer(Peer);
     }
 
 #ifdef SBN_RECV_TASK
