@@ -2,6 +2,7 @@
 #include "sbn_interfaces.h"
 #include "sbn_platform_cfg.h"
 #include "stdbool.h"
+#include <string.h>
 
 extern PQ_ChannelTbl_t PQ_BackupConfigTbl;
 
@@ -17,12 +18,15 @@ int MailboxWrite(XMbox *instance, const unsigned int *buffer, unsigned int size)
     int Status                  = 0;
     unsigned int BytesSent      = 0;
     unsigned int TotalBytesSent = 0;
+    /* Total size in bytes of data to send. */
     unsigned int RequestedBytes = size * 4;
 
     while(1)
     {
-        XMbox_Write(instance, &buffer[TotalBytesSent], RequestedBytes, &BytesSent);
+        XMbox_Write(instance, &buffer[TotalBytesSent/4], RequestedBytes, &BytesSent);
+        /* Subtract bytes sent. */
         RequestedBytes = RequestedBytes - BytesSent;
+        /* Add bytes sent to total bytes sent. */
         TotalBytesSent = TotalBytesSent + BytesSent;
         if(TotalBytesSent < (size * 4))
         {
@@ -272,7 +276,6 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 /* Blocking write. */
                 (void) MailboxWrite(&SBN_Mailbox_Data.Mbox, &SBN_Mailbox_Data.OutputBuffer[0], SizeInWords + MAILBOX_HEADER_SIZE_WORDS);
 
-                printf("sent %u\n", SizeInWords + MAILBOX_HEADER_SIZE_WORDS);
                 iStatus = CFE_ES_PutPoolBuf(Channel->MemPoolHandle, (uint32 *)buffer);
                 if(iStatus < 0)
                 {
@@ -374,13 +377,13 @@ static int Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
     CFE_SB_MsgId_t MsgID = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)Payload);
     printf("Received %u CPUID %u, %x\n", SizeRead, *CpuIDPtr, MsgID);
 
+    /* TODO move this into the if connected check. */
     SBN_PeerInterface_t *Peer = SBN_GetPeer(Net, *CpuIDPtr);
     if(Peer == NULL)
     {
         ReturnValue = SBN_ERROR;
         goto end_of_function;
     }
-
 
     /* TODO update this flag to peer data. */
     if(!SBN_Mailbox_Data.ConnectedFlag)

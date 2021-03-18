@@ -62,7 +62,9 @@ end_of_function:
 bool MailboxFull(void *instance)
 {
     unsigned int reg = 0;
+
     reg = uio_read(instance, MAILBOX_STATUS_REG);
+
     return reg & MAILBOX_STATUS_FIFO_FULL_BIT;
 }
 
@@ -70,7 +72,9 @@ bool MailboxFull(void *instance)
 bool MailboxEmpty(void *instance)
 {
     unsigned int reg = 0;
+
     reg = uio_read(instance, MAILBOX_STATUS_REG);
+
     return reg & MAILBOX_STATUS_FIFO_EMPTY_BIT;
 }
 
@@ -78,7 +82,9 @@ bool MailboxEmpty(void *instance)
 bool MailboxFullError(void *instance)
 {
     unsigned int reg = 0;
+
     reg = uio_read(instance, MAILBOX_ERROR_REG);
+
     return reg & MAILBOX_ERROR_FULL_BIT;
 }
 
@@ -86,7 +92,9 @@ bool MailboxFullError(void *instance)
 bool MailboxEmptyError(void *instance)
 {
     unsigned int reg = 0;
+
     reg = uio_read(instance, MAILBOX_ERROR_REG);
+
     return reg & MAILBOX_ERROR_EMPTY_BIT;
 }
 
@@ -374,6 +382,7 @@ static int Send(SBN_PeerInterface_t *Peer, SBN_MsgType_t MsgType,
     }
 
     printf("MsgSz into queue %u\n", MsgSz);
+
     /* Push message onto the PQ */
     PQ_Channel_ProcessTelemetry(&SBN_UIO_Mailbox_Data.Channel, Payload);
 
@@ -416,7 +425,7 @@ static int Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
             }
         }
     }
-    
+
     if(MessageComplete == FALSE)
     {
         ReturnValue = SBN_IF_EMPTY;
@@ -426,13 +435,13 @@ static int Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
     CFE_SB_MsgId_t MsgID = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)Payload);
     printf("Received %u CPUID %u, %x\n", SizeRead, *CpuIDPtr, MsgID);
 
+    /* TODO move this into the if connected check. */
     SBN_PeerInterface_t *Peer = SBN_GetPeer(Net, *CpuIDPtr);
     if(Peer == NULL)
     {
         ReturnValue = SBN_ERROR;
         goto end_of_function;
     }
-
 
     /* TODO update this flag to peer data. */
     if(!SBN_UIO_Mailbox_Data.ConnectedFlag)
