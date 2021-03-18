@@ -38,12 +38,9 @@ buildliner_add_app_def(sbn_mbox
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sbn_mailbox_if.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mailbox_parser.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mailbox_parser.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../stubs/xmbox.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../stubs/xmbox.h
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../../fsw/src/
-        ${CMAKE_CURRENT_SOURCE_DIR}/../stubs/
 )
 
