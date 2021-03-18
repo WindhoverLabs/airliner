@@ -2,7 +2,6 @@ from org.csstudio.opibuilder.scriptUtil import PVUtil, ScriptUtil
 from org.yamcs.studio.data import IPVListener
 from java.lang import Runnable
 from org.eclipse.swt.widgets import Display
-from org.csstudio.opibuilder.scriptUtil import YAMLUtil
 
 """
 There appears to be a difference between the Widget we see in YAMCS Studio as a user and the "widget" that gets
@@ -25,9 +24,6 @@ PQUEUE_FIELDS = ['DroppedMsgCnt', 'QueuedMsgCnt', 'CurrentlyQueuedCnt',
 # Hopefully there is a way to alias this stuff in Studio. And then perhaps all of thse python scripts could be auto-generated.
 # FIXME: I really wish we could just access aggregates. Might be possible through the HTTP client API.
 AGGREGATE_PV = "/cfs/to/TO_ChannelDiagTlm_t.PQueue"
-
-# parseYAML returns a LinkedHashMap(a Java type), but it looks like it behaves like a python dict object. Be wary of this nonetheless.
-yaml_data = YAMLUtil.parseYAML("/home/lgomez/airliner/build/bebop2/sitl/target/commander_workspace/etc/yamcs.yaml")
 
 
 class UI_Business(Runnable):
