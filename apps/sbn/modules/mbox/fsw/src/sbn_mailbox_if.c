@@ -21,22 +21,22 @@ int MailboxWrite(XMbox *instance, const unsigned int *buffer, unsigned int size)
 
     while(1)
     {
-        XMbox_Write(instance, buffer[TotalBytesSent], RequestedBytes, &BytesSent);
+        XMbox_Write(instance, &buffer[TotalBytesSent], RequestedBytes, &BytesSent);
         RequestedBytes = RequestedBytes - BytesSent;
         TotalBytesSent = TotalBytesSent + BytesSent;
         if(TotalBytesSent < RequestedBytes)
         {
-			/* Sleep */
-			OS_TaskDelay(SBN_MAILBOX_BLOCKING_DELAY);
-		}
-		else
-		{
-	        break;
-		}
+            /* Sleep */
+            OS_TaskDelay(SBN_MAILBOX_BLOCKING_DELAY);
+        }
+        else
+        {
+            break;
+        }
     }
 
     Status = TotalBytesSent;
-    
+
 end_of_function:
     return Status;
 }
