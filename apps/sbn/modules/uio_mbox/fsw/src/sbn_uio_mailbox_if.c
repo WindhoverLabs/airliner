@@ -98,7 +98,6 @@ bool MailboxEmptyError(void *instance)
     return reg & MAILBOX_ERROR_EMPTY_BIT;
 }
 
-
 /* Blocking write */
 int MailboxWrite(void *instance, const unsigned int *buffer, unsigned int size)
 {
@@ -156,7 +155,7 @@ int MailboxRead(void *instance, unsigned int *buffer, unsigned int size)
         isEmpty = MailboxEmpty(instance);
         if(isEmpty == true)
         {
-            /* break out of the loop and return size read. */
+            /* Break out of the loop and return size read. */
             break;
         }
     }

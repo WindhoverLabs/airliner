@@ -21,27 +21,33 @@ int MailboxWrite(XMbox *instance, const unsigned int *buffer, unsigned int size)
     /* Total size in bytes of data to send. */
     unsigned int RequestedBytes = size * 4;
 
+    /* 
+     * Attempt to write to the mailbox until "size" has been written.
+     */
     while(1)
     {
+        /* Write to the mailbox converting the buffer pointer index to words. */
         XMbox_Write(instance, &buffer[TotalBytesSent/4], RequestedBytes, &BytesSent);
         /* Subtract bytes sent. */
         RequestedBytes = RequestedBytes - BytesSent;
         /* Add bytes sent to total bytes sent. */
         TotalBytesSent = TotalBytesSent + BytesSent;
+        /* If the total size hasn't been written. */
         if(TotalBytesSent < (size * 4))
         {
-            /* Sleep */
+            /* Sleep to allow the receiver to read from the mailbox. */
             OS_TaskDelay(SBN_MAILBOX_BLOCKING_DELAY);
         }
         else
         {
+            /* Break out of the loop and return size written. */
             break;
         }
     }
 
-    printf("MailboxWrite %u\n", TotalBytesSent);
-
     Status = TotalBytesSent;
+
+    printf("MailboxWrite %u\n", Status);
 
 end_of_function:
     return Status;
