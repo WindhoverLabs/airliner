@@ -41,6 +41,13 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    pq_lib
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
+    # TODO move this table build to sbn module?
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib
+)
+
+buildliner_add_app(
     sch
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sch
@@ -147,5 +154,12 @@ buildliner_add_app(
 buildliner_add_app(
     sbn_udp
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/udp/fsw/for_build
+)
+
+buildliner_add_app(
+    sbn_uio_mbox
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/uio_mbox/fsw/for_build
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib/tables/pq_backup_cfg.c
 )
 
