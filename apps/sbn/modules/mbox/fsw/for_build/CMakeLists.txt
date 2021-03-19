@@ -41,6 +41,6 @@ buildliner_add_app_def(sbn_mbox
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../../../fsw/platform_inc/
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../../fsw/src/
 )
 

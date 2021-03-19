@@ -62,7 +62,7 @@ modules:
           cfe_time:
             telemetry:
               CFE_TIME_DIAG_TLM_MID:
-                msgID: 0x0802
+                msgID: 0x0814
               CFE_TIME_HK_TLM_MID:
                 msgID: 0x0813
             commands:

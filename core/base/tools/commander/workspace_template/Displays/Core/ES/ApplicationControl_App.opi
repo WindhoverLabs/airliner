@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103012118</boy_version>
+  <boy_version>1.5.5.202103162101</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -18,7 +18,7 @@
   <height>500</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
-    <CONFIG_REGISTRY>/Displays/Resources/definitions.yaml</CONFIG_REGISTRY>
+    <REGISTRY_PATH>/modules/core/modules/cfe/modules/cfe_es</REGISTRY_PATH>
   </macros>
   <name>App Control</name>
   <rules />
@@ -2011,12 +2011,19 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
+      <action type="EXECUTE_PYTHONSCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil, DataUtil
+from org.yamcs.studio.script import Yamcs
 
-Yamcs.issueCommand('/cfs/cfe_es/Noop', {});]]></scriptText>
+#We assume that the parent has defined this macro
+app_name = display.getMacroValue("APP");
+
+if app_name:
+   app_name = app_name.upper()
+
+Yamcs.issueCommand('/cfs/cfe_es/QueryOneApp', {"Payload.Application": app_name});
+]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

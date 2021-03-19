@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103012118</boy_version>
+  <boy_version>1.5.5.202103162101</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -21,6 +21,7 @@
     <APP>md</APP>
     <EVENTS_OPI>/Displays/Core/EVS/Events.opi</EVENTS_OPI>
     <PROJECT_NAME>Displays</PROJECT_NAME>
+    <REGISTRY_PATH>/modules/md</REGISTRY_PATH>
   </macros>
   <name>MD</name>
   <rules />

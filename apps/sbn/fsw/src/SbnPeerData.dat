@@ -1,5 +1,5 @@
-CPU1, 1, 1, 0x42, 0, 0, 127.0.0.1, 15820;
-CPU2, 2, 1, 0x42, 0, 0, 127.0.0.1, 15820;
+CPU1, 1, 1, 0x42, 0, 0, 0.0.0.0, 15820;
+CPU2, 2, 1, 0x42, 0, 0, 0.0.0.0, 15820;
 !
 ! The '!' is inserted after the last valid peer line,
 ! it is not a comment character.

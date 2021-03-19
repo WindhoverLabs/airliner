@@ -68,7 +68,7 @@ modules:
     short_name: cfe_es
     long_name: Core Flight Executive - Essential Services
     app:
-      - name: CFE_ES    
+      - name: CFE_ES  
     events: 
       CFE_ES_INIT_INF_EID:
         id: 1
@@ -794,7 +794,7 @@ modules:
     short_name: cfe_evs
     long_name: Core Flight Executive - Event Services
     app:
-      - name: CFE_EVS    
+      - name: CFE_EVS  
     events: 
       CFE_EVS_ERR_WRLOGFILE_EID:
         id: 2
@@ -1075,7 +1075,7 @@ modules:
     short_name: cfe_sb
     long_name: Core Flight Executive - Software Bus
     app:
-      - name: CFE_SB    
+      - name: CFE_SB  
     events: 
       CFE_SB_INIT_EID:
         id: 1

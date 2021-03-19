@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103012118</boy_version>
+  <boy_version>1.5.5.202103162101</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -21,6 +21,7 @@
     <APP>cfe_evs</APP>
     <EVENTS_OPI>/Displays/Core/EVS/Events.opi</EVENTS_OPI>
     <PROJECT_NAME>Displays</PROJECT_NAME>
+    <REGISTRY_PATH>/modules/core/modules/cfe/modules/cfe_evs</REGISTRY_PATH>
   </macros>
   <name>CFE-EVS</name>
   <rules />
