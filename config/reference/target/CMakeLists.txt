@@ -263,24 +263,24 @@ buildliner_add_app(
 
 
 
-configure_file(${PROJECT_SOURCE_DIR}/docs/conf.py.in ${CMAKE_CURRENT_BINARY_DIR}/../docs/conf.py)
+configure_file(${PROJECT_SOURCE_DIR}/docs/conf.py.in ${CMAKE_BINARY_DIR}/docs/conf.py)
 
 # Generate the breathe_projects.py file
 get_property(AIRLINER_APPS GLOBAL PROPERTY AIRLINER_APPS_PROPERTY)
-file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/../docs/breathe_projects.py)
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/../docs/breathe_projects.py "breathe_projects = {\n")
-file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/../docs/breathe_projects.py "    \"cfe\": \"${CMAKE_CURRENT_BINARY_DIR}/../docs/html/doxy/cfe/xml\",\n")
+file(REMOVE ${CMAKE_BINARY_DIR}/docs/breathe_projects.py)
+file(WRITE ${CMAKE_BINARY_DIR}/docs/breathe_projects.py "breathe_projects = {\n")
+file(APPEND ${CMAKE_BINARY_DIR}/docs/breathe_projects.py "    \"cfe\": \"${CMAKE_BINARY_DIR}/../docs/html/doxy/cfe/xml\",\n")
 foreach(APP_NAME ${AIRLINER_APPS})
-    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/../docs/breathe_projects.py "    \"${APP_NAME}\": \"${CMAKE_CURRENT_BINARY_DIR}/../docs/html/doxy/apps/${APP_NAME}/xml\",\n")
+    file(APPEND ${CMAKE_BINARY_DIR}/docs/breathe_projects.py "    \"${APP_NAME}\": \"${CMAKE_BINARY_DIR}/../docs/html/doxy/apps/${APP_NAME}/xml\",\n")
 endforeach()
-file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/../docs/breathe_projects.py "}\n")
+file(APPEND ${CMAKE_BINARY_DIR}/docs/breathe_projects.py "}\n")
 
 # Generate the doxylinks_tags.py file
 get_property(AIRLINER_APPS GLOBAL PROPERTY AIRLINER_APPS_PROPERTY)
-file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/../docs/doxylink_tags.py)
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/../docs/doxylink_tags.py "doxylink = {\n")
-file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/../docs/doxylink_tags.py "    \"cfe\": (\"${CMAKE_CURRENT_BINARY_DIR}/../docs/html/doxy/cfe/cfe.tag\", \"${CMAKE_CURRENT_BINARY_DIR}/../docs/html/doxy/cfe/\"),\n")
+file(REMOVE ${CMAKE_BINARY_DIR}/docs/doxylink_tags.py)
+file(WRITE ${CMAKE_BINARY_DIR}/docs/doxylink_tags.py "doxylink = {\n")
+file(APPEND ${CMAKE_BINARY_DIR}/docs/doxylink_tags.py "    \"cfe\": (\"${CMAKE_BINARY_DIR}/../docs/html/doxy/cfe/cfe.tag\", \"${CMAKE_BINARY_DIR}/../docs/html/doxy/cfe/\"),\n")
 foreach(APP_NAME ${AIRLINER_APPS})
-    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/../docs/doxylink_tags.py "    \"${APP_NAME}\": (\"${CMAKE_CURRENT_BINARY_DIR}/../docs/html/doxy/apps/${APP_NAME}/${APP_NAME}.tag\", \"${CMAKE_CURRENT_BINARY_DIR}/../docs/html/doxy/apps/${APP_NAME}/\"),\n")
+    file(APPEND ${CMAKE_BINARY_DIR}/docs/doxylink_tags.py "    \"${APP_NAME}\": (\"${CMAKE_BINARY_DIR}/../docs/html/doxy/apps/${APP_NAME}/${APP_NAME}.tag\", \"${CMAKE_BINARY_DIR}/../docs/html/doxy/apps/${APP_NAME}/\"),\n")
 endforeach()
-file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/../docs/doxylink_tags.py "}\n")
+file(APPEND ${CMAKE_BINARY_DIR}/docs/doxylink_tags.py "}\n")
