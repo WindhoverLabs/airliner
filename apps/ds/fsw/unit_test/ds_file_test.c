@@ -511,6 +511,7 @@ void DS_FileCreateDest_Test_Error(void)
     DS_DestFileTable_t  DestFileTable = {0};
     char                text[500] = {""};
     char                sequence[DS_SEQUENCE_DIGITS+1] = {""};
+    uint32              i = 0;
 
     DS_AppData.DestFileTblPtr = &DestFileTable;
 
@@ -528,7 +529,7 @@ void DS_FileCreateDest_Test_Error(void)
     /* Set to generate error message DS_CREATE_FILE_ERR_EID */
     Ut_OSFILEAPI_SetReturnCode(UT_OSFILEAPI_CREAT_INDEX, -1, 1);
 
-    for(uint32 i = 0; i < DS_SEQUENCE_DIGITS; ++i)
+    for(i = 0; i < DS_SEQUENCE_DIGITS; ++i)
     {
     	strcat(sequence, "0");
     }

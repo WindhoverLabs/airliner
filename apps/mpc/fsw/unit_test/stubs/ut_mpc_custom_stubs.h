@@ -36,13 +36,13 @@
 
 typedef enum
 {
-    UT_MPC_PX4LIB_GETPX4TIMEUS_INDEX,
+	UT_MPC_CFE_TIME_GETTIMEINMACROS_INDEX,
     UT_MPC_CUSTOM_MAX_INDEX
 } Ut_MPC_Custom_INDEX_t;
 
 typedef struct
 {
-    uint64 (*PX4LIB_GetPX4TimeUs)(void);
+    uint64 (*CFE_TIME_GetTimeInMicros)(void);
 } Ut_MPC_Custom_HookTable_t;
 
 typedef struct

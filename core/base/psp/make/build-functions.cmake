@@ -193,8 +193,9 @@ function(psp_add_executable)
     set(TARGET_BINARY ${TARGET_NAME})
     
     # Now build using the various source files that we just parsed.
-    add_executable(${TARGET_BINARY_WITHOUT_SYMTAB} ${PARSED_ARGS_SOURCES})
-    add_executable(${TARGET_BINARY}                ${PARSED_ARGS_SOURCES})
+    add_library(${TARGET_BINARY_WITHOUT_SYMTAB} STATIC ${PARSED_ARGS_SOURCES})
+    add_executable(${TARGET_BINARY} ${PARSED_ARGS_SOURCES})
+    target_link_libraries(${TARGET_BINARY} PUBLIC ${TARGET_BINARY_WITHOUT_SYMTAB})
     
     # Exclude from all, if requested.  Normally, unit tests are excluded.
     if(${PARSED_ARGS_EXCLUDE_FROM_ALL})
@@ -267,23 +268,20 @@ function(psp_add_executable)
             " -Wl,--wrap=${FUNCTION} "
         )
     endforeach()
-        
-    if(EMBED_SYMTAB)
-        file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${NULL_SYMTAB_SOURCE_FILE} "unsigned char OS_DLExportsFile[4] = {};")
-        target_sources(${TARGET_BINARY_WITHOUT_SYMTAB} PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${NULL_SYMTAB_SOURCE_FILE}) 
+ 
+    if(EMBED_SYMTAB)   
         add_custom_target(${TARGET_SYMTAB}
             BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/${SYMTAB_FILE_NAME} ${CMAKE_CURRENT_BINARY_DIR}/${SYMTAB_SOURCE_FILE}
             COMMAND nm $<TARGET_FILE:${TARGET_BINARY_WITHOUT_SYMTAB}> > ${SYMTAB_FILE_NAME}
-            COMMAND bin2c --padd 0 --name OS_DLExportsFile ${SYMTAB_FILE_NAME} > ${SYMTAB_SOURCE_FILE}
-        )
-        add_dependencies(${TARGET_SYMTAB} ${TARGET_BINARY_WITHOUT_SYMTAB}) 
-        add_dependencies(${TARGET_BINARY} ${TARGET_SYMTAB})   
-        target_sources(${TARGET_BINARY} PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${SYMTAB_SOURCE_FILE})
-    endif()
+            COMMAND echo ${PROJECT_SOURCE_DIR}/core/base/tools/symtab/symtab_gen.py -i ${CMAKE_CURRENT_BINARY_DIR}/${SYMTAB_FILE_NAME} -o ${CMAKE_CURRENT_BINARY_DIR}/${SYMTAB_SOURCE_FILE} -t ${PROJECT_SOURCE_DIR}/core/base/tools/symtab/core_symtab.jinja2
+            COMMAND python ${PROJECT_SOURCE_DIR}/core/base/tools/symtab/symtab_gen.py -i ${CMAKE_CURRENT_BINARY_DIR}/${SYMTAB_FILE_NAME} -o ${CMAKE_CURRENT_BINARY_DIR}/${SYMTAB_SOURCE_FILE} -t ${PROJECT_SOURCE_DIR}/core/base/tools/symtab/core_symtab.jinja2
+       )
+       add_dependencies(${TARGET_SYMTAB} ${TARGET_BINARY_WITHOUT_SYMTAB}) 
+       add_dependencies(${TARGET_BINARY} ${TARGET_SYMTAB}) 
+       target_sources(${TARGET_BINARY} PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${SYMTAB_SOURCE_FILE})
+    endif()     
     
     if(EMBED_INITRD)
-        file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${NULL_INITRD_SOURCE_FILE} "unsigned char OS_InitialRamdiskFile[4] = {}; \nunsigned int OS_InitialRamdiskFileSize = 4;")
-        target_sources(${TARGET_BINARY_WITHOUT_SYMTAB} PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${NULL_INITRD_SOURCE_FILE}) 
         add_custom_target(${INITRD_TARGET}
             BYPRODUCTS ${INITRD_FILE_NAME} ${INITRD_SOURCE_FILE}
             COMMAND tar -b 512 -cvf ${INITRD_FILE_NAME} -C ${CFE_INSTALL_DIR}/cf apps
@@ -291,10 +289,11 @@ function(psp_add_executable)
             COMMAND echo "unsigned int OS_InitialRamdiskFileSize = sizeof(OS_InitialRamdiskFile);" >> ${INITRD_SOURCE_FILE} VERBATIM
         )
         add_dependencies(${INITRD_TARGET} ${TARGET_BINARY_WITHOUT_SYMTAB}) 
-        add_dependencies(${TARGET_BINARY} ${INITRD_TARGET})   
-        add_dependencies(${TARGET_BINARY} build-file-system)   
+        add_dependencies(${TARGET_BINARY} ${INITRD_TARGET}) 
         target_sources(${TARGET_BINARY} PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/${INITRD_SOURCE_FILE})
-    endif()
+        add_dependencies(${TARGET_BINARY} build-file-system)  
+        add_dependencies(${INITRD_TARGET} build-file-system)  
+    endif()  
         
 endfunction(psp_add_executable)
 
@@ -886,23 +885,30 @@ endfunction(psp_get_app_cflags OUTPUT_LIST INPUT_FLAGS)
 
 function(psp_buildliner_add_table)
     set(PARSED_ARGS_TARGET ${ARGV0})
-    cmake_parse_arguments(PARSED_ARGS "" "NAME" "SOURCES;INCLUDES" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "" "NAME" "SOURCES;INCLUDES;COPY" ${ARGN})
 
     psp_get_app_cflags(${PARSED_ARGS_TARGET} TBL_CFLAGS ${CMAKE_C_FLAGS})
 
-    add_custom_command(
-        OUTPUT ${PARSED_ARGS_NAME}.tbl
-        COMMAND ${CMAKE_C_COMPILER} ${TBL_CFLAGS} -c -o ${PARSED_ARGS_NAME}.o ${PARSED_ARGS_SOURCES}
-        COMMAND ${ELF2CFETBL_BIN}/elf2cfetbl ${PARSED_ARGS_NAME}.o
-        COMMAND cp ${PARSED_ARGS_NAME}.tbl ${INSTALL_DIR}
-        BYPRODUCTS ${PARSED_ARGS_NAME}.tbl
-        DEPENDS ${PARSED_ARGS_SOURCES}
-    )
-    add_custom_target(${PARSED_ARGS_NAME} ALL
-        DEPENDS ${PARSED_ARGS_NAME}.tbl ${PARSED_ARGS_SOURCES}
-    )
-    
-    add_dependencies(build-file-system ${PARSED_ARGS_NAME})
+    if(PARSED_ARGS_NAME AND PARSED_ARGS_SOURCES)
+        add_custom_command(
+            OUTPUT ${PARSED_ARGS_NAME}.tbl
+            COMMAND ${CMAKE_C_COMPILER} ${TBL_CFLAGS} -c -o ${PARSED_ARGS_NAME}.o ${PARSED_ARGS_SOURCES}
+            COMMAND ${ELF2CFETBL_BIN}/elf2cfetbl ${PARSED_ARGS_NAME}.o
+            COMMAND cp ${PARSED_ARGS_NAME}.tbl ${INSTALL_DIR}
+            BYPRODUCTS ${PARSED_ARGS_NAME}.tbl
+            DEPENDS ${PARSED_ARGS_SOURCES}
+        )
+        add_custom_target(${PARSED_ARGS_NAME} ALL
+            DEPENDS ${PARSED_ARGS_NAME}.tbl ${PARSED_ARGS_SOURCES}
+        )
+        add_dependencies(build-file-system ${PARSED_ARGS_NAME})
+    endif()
+
+    # Copy any files
+    if(PARSED_ARGS_COPY)
+        file(COPY ${PARSED_ARGS_COPY} DESTINATION ${INSTALL_DIR})
+    endif()
+
 endfunction(psp_buildliner_add_table)
 
 

@@ -67,7 +67,191 @@ modules:
   cfe_es:
     short_name: cfe_es
     long_name: Core Flight Executive - Essential Services
-    events: {}
+    app:
+      - name: CFE_ES  
+    events: 
+      CFE_ES_INIT_INF_EID:
+        id: 1
+      CFE_ES_INITSTATS_INF_EID:
+        id: 2
+      CFE_ES_NOOP_INF_EID:
+        id: 3
+      CFE_ES_RESET_INF_EID:
+        id: 4
+      CFE_ES_SHELL_INF_EID:
+        id: 5
+      CFE_ES_START_INF_EID:
+        id: 6
+      CFE_ES_STOP_DBG_EID:
+        id: 7
+      CFE_ES_STOP_INF_EID:
+        id: 8
+      CFE_ES_RESTART_APP_DBG_EID:
+        id: 9
+      CFE_ES_RESTART_APP_INF_EID:
+        id: 10
+      CFE_ES_RELOAD_APP_DBG_EID:
+        id: 11
+      CFE_ES_RELOAD_APP_INF_EID:
+        id: 12
+      CFE_ES_EXIT_APP_INF_EID:
+        id: 13
+      CFE_ES_ERREXIT_APP_INF_EID:
+        id: 14
+      CFE_ES_ONE_APP_EID:
+        id: 15
+      CFE_ES_ALL_APPS_EID:
+        id: 16
+      CFE_ES_SYSLOG1_INF_EID:
+        id: 17
+      CFE_ES_SYSLOG2_EID:
+        id: 18
+      CFE_ES_ERLOG1_INF_EID:
+        id: 19
+      CFE_ES_ERLOG2_EID:
+        id: 20
+      CFE_ES_MID_ERR_EID:
+        id: 21
+      CFE_ES_CC1_ERR_EID:
+        id: 22
+      CFE_ES_LEN_ERR_EID:
+        id: 23
+      CFE_ES_BOOT_ERR_EID:
+        id: 24
+      CFE_ES_SHELL_ERR_EID:
+        id: 25
+      CFE_ES_START_ERR_EID:
+        id: 26
+      CFE_ES_START_INVALID_FILENAME_ERR_EID:
+        id: 27
+      CFE_ES_START_INVALID_ENTRY_POINT_ERR_EID:
+        id: 28
+      CFE_ES_START_NULL_APP_NAME_ERR_EID:
+        id: 29
+      CFE_ES_START_STACK_ERR_EID:
+        id: 30
+      CFE_ES_START_PRIORITY_ERR_EID:
+        id: 31
+      CFE_ES_START_EXC_ACTION_ERR_EID:
+        id: 32
+      CFE_ES_ERREXIT_APP_ERR_EID:
+        id: 33
+      # Removed 34
+      CFE_ES_STOP_ERR1_EID:
+        id: 35
+      CFE_ES_STOP_ERR2_EID:
+        id: 36
+      CFE_ES_STOP_ERR3_EID:
+        id: 37
+      CFE_ES_RESTART_APP_ERR1_EID:
+        id: 38
+      CFE_ES_RESTART_APP_ERR2_EID:
+        id: 39
+      CFE_ES_RESTART_APP_ERR3_EID:
+        id: 40
+      CFE_ES_RESTART_APP_ERR4_EID:
+        id: 41
+      CFE_ES_RELOAD_APP_ERR1_EID:
+        id: 42
+      CFE_ES_RELOAD_APP_ERR2_EID:
+        id: 43
+      CFE_ES_RELOAD_APP_ERR3_EID:
+        id: 44
+      CFE_ES_RELOAD_APP_ERR4_EID:
+        id: 45
+      CFE_ES_EXIT_APP_ERR_EID:
+        id: 46
+      CFE_ES_PCR_ERR1_EID:
+        id: 47
+      CFE_ES_PCR_ERR2_EID:
+        id: 48
+      CFE_ES_ONE_ERR_EID:
+        id: 49
+      CFE_ES_ONE_APPID_ERR_EID:
+        id: 50
+      CFE_ES_OSCREATE_ERR_EID:
+        id: 51
+      CFE_ES_WRHDR_ERR_EID:
+        id: 52
+      CFE_ES_TASKWR_ERR_EID:
+        id: 53
+      # Removed 54
+      CFE_ES_SYSLOG2_ERR_EID:
+        id: 55
+      CFE_ES_ERLOG2_ERR_EID:
+        id: 56
+      CFE_ES_PERF_STARTCMD_EID:
+        id: 57
+      CFE_ES_PERF_STARTCMD_ERR_EID:
+        id: 58
+      CFE_ES_PERF_STARTCMD_TRIG_ERR_EID:
+        id: 59
+      CFE_ES_PERF_STOPCMD_EID:
+        id: 60
+      CFE_ES_PERF_STOPCMD_ERR1_EID:
+        id: 61
+      CFE_ES_PERF_STOPCMD_ERR2_EID:
+        id: 62
+      CFE_ES_PERF_FILTMSKCMD_EID:
+        id: 63 
+      CFE_ES_PERF_FILTMSKERR_EID:
+        id: 64
+      CFE_ES_PERF_TRIGMSKCMD_EID:
+        id: 65
+      CFE_ES_PERF_TRIGMSKERR_EID:
+        id: 66
+      CFE_ES_PERF_LOG_ERR_EID:
+        id: 67
+      CFE_ES_PERF_DATAWRITTEN_EID:
+        id: 68
+      CFE_ES_CDS_REGISTER_ERR_EID:
+        id: 69
+      CFE_ES_SYSLOGMODE_EID:
+        id: 70
+      CFE_ES_ERR_SYSLOGMODE_EID:
+        id: 71
+      CFE_ES_RESET_PR_COUNT_EID:
+        id: 72
+      CFE_ES_SET_MAX_PR_COUNT_EID:
+        id: 73
+      CFE_ES_FILEWRITE_ERR_EID:
+        id: 74
+      CFE_ES_RST_ACCESS_EID:
+        id: 75
+      CFE_ES_CDS_DELETE_ERR_EID:
+        id: 76
+      CFE_ES_CDS_NAME_ERR_EID:
+        id: 77
+      CFE_ES_CDS_DELETED_INFO_EID:
+        id: 78
+      CFE_ES_CDS_DELETE_TBL_ERR_EID:
+        id: 79
+      CFE_ES_CDS_OWNER_ACTIVE_EID:
+        id: 80
+      CFE_ES_TLM_POOL_STATS_INFO_EID:
+        id: 81
+      CFE_ES_INVALID_POOL_HANDLE_ERR_EID:
+        id: 82
+      CFE_ES_CDS_REG_DUMP_INF_EID:
+        id: 83
+      CFE_ES_CDS_DUMP_ERR_EID:
+        id: 84
+      CFE_ES_WRITE_CFE_HDR_ERR_EID:
+        id: 85
+      CFE_ES_CREATING_CDS_DUMP_ERR_EID:
+        id: 86
+      CFE_ES_TASKINFO_EID:
+        id: 87
+      CFE_ES_TASKINFO_OSCREATE_ERR_EID:
+        id: 88
+      CFE_ES_TASKINFO_WRHDR_ERR_EID:
+        id: 89
+      CFE_ES_TASKINFO_WR_ERR_EID:
+        id: 90
+      CFE_ES_VERSION_INF_EID:
+        id: 91
+      CFE_ES_BUILD_INF_EID:
+        id: 92
     type_remaps:
       # CFE_ES_MemHandle_t is a void* that is wrapped in a macro. For now we are assuming 32-bit void*, which is the word size
       # of our machine. You can get this number in linux with the 'getconf WORD_BIT' command.
@@ -214,9 +398,9 @@ modules:
       - parent: CFE_ES_AppNameCmd_Payload_t
         member: Application
         type: string
-      - parent: CFE_EVS_Packet_Payload_t
-        member: Message
-        type: string
+      #- parent: CFE_EVS_Packet_Payload_t
+      # member: Message
+      # type: string
       - parent: CFE_EVS_PacketID_t
         member: AppName
         type: string
@@ -609,7 +793,91 @@ modules:
   cfe_evs:
     short_name: cfe_evs
     long_name: Core Flight Executive - Event Services
-    events: {}
+    app:
+      - name: CFE_EVS  
+    events: 
+      CFE_EVS_ERR_WRLOGFILE_EID:
+        id: 2
+      CFE_EVS_ERR_CRLOGFILE_EID:
+        id: 3
+      # Removed 4
+      CFE_EVS_ERR_MSGID_EID:
+        id: 5
+      CFE_EVS_ERR_EVTIDNOREGS_EID:
+        id: 6
+      CFE_EVS_ERR_APPNOREGS_EID:
+        id: 7
+      CFE_EVS_ERR_ILLAPPIDRANGE_EID:
+        id: 8
+      CFE_EVS_ERR_NOAPPIDFOUND_EID:
+        id: 9
+      CFE_EVS_ERR_ILLEGALFMTMOD_EID:
+        id: 10
+      CFE_EVS_ERR_MAXREGSFILTER_EID:
+        id: 11
+      CFE_EVS_ERR_WRDATFILE_EID:
+        id: 12
+      CFE_EVS_ERR_CRDATFILE_EID:
+        id: 13
+      # Removed 14
+      CFE_EVS_ERR_CC_EID:
+        id: 15
+      CFE_EVS_RSTCNT_EID:
+        id: 16
+      CFE_EVS_SETFILTERMSK_EID:
+        id: 17
+      CFE_EVS_ENAPORT_EID:
+        id: 18
+      CFE_EVS_DISPORT_EID:
+        id: 19
+      CFE_EVS_ENAEVTTYPE_EID:
+        id: 20
+      CFE_EVS_DISEVTTYPE_EID:
+        id: 21
+      CFE_EVS_SETEVTFMTMOD_EID:
+        id: 22
+      CFE_EVS_ENAAPPEVTTYPE_EID:
+        id: 23
+      CFE_EVS_DISAPPENTTYPE_EID:
+        id: 24
+      CFE_EVS_ENAAPPEVT_EID:
+        id: 25
+      CFE_EVS_DISAPPEVT_EID:
+        id: 26
+      CFE_EVS_RSTEVTCNT_EID:
+        id: 27
+      CFE_EVS_RSTFILTER_EID:
+        id: 28
+      CFE_EVS_RSTALLFILTER_EID:
+        id: 29
+      CFE_EVS_ADDFILTER_EID:
+        id: 30
+      CFE_EVS_DELFILTER_EID:
+        id: 31
+      CFE_EVS_WRDAT_EID:
+        id: 32
+      CFE_EVS_WRLOG_EID:
+        id: 33
+      CFE_EVS_NO_LOGSET_EID:
+        id: 34
+      CFE_EVS_NO_LOGCLR_EID:
+        id: 35
+      CFE_EVS_NO_LOGWR_EID:
+        id: 36
+      CFE_EVS_EVT_FILTERED_EID:
+        id: 37
+      CFE_EVS_LOGMODE_EID:
+        id: 38
+      CFE_EVS_ERR_LOGMODE_EID:
+        id: 39
+      CFE_EVS_ERR_INVALID_BITMASK_EID:
+        id: 40
+      CFE_EVS_ERR_UNREGISTERED_EVS_APP:
+        id: 41
+      CFE_EVS_FILTER_MAX_EID:
+        id: 42
+      CFE_EVS_LEN_ERR_EID:
+        id: 43
     msg_def_overrides:
       - parent: CFE_EVS_LogFileCmd_Payload_t
         member: LogFilename
@@ -673,7 +941,7 @@ modules:
         struct: CFE_EVS_TlmPkt_t
       CFE_EVS_EVENT_MSG_MID:
         msgID: 0x0808
-        struct: CFE_EVS_Packet_t
+        #struct: CFE_EVS_Packet_t
     commands:
       CFE_EVS_CMD_MID:
        msgID: 0x1801
@@ -806,7 +1074,116 @@ modules:
   cfe_sb:
     short_name: cfe_sb
     long_name: Core Flight Executive - Software Bus
-    events: {}
+    app:
+      - name: CFE_SB  
+    events: 
+      CFE_SB_INIT_EID:
+        id: 1
+      CFE_SB_CR_PIPE_BAD_ARG_EID:
+        id: 2
+      CFE_SB_MAX_PIPES_MET_EID:
+        id: 3
+      CFE_SB_CR_PIPE_ERR_EID:
+        id: 4
+      CFE_SB_PIPE_ADDED_EID:
+        id: 5
+      CFE_SB_SUB_ARG_ERR_EID:
+        id: 6
+      CFE_SB_DUP_SUBSCRIP_EID:
+        id: 7
+      CFE_SB_MAX_MSGS_MET_EID:
+        id: 8
+      CFE_SB_MAX_DESTS_MET_EID:
+        id: 9
+      CFE_SB_SUBSCRIPTION_RCVD_EID:
+        id: 10
+      CFE_SB_UNSUB_ARG_ERR_EID:
+        id: 11
+      CFE_SB_UNSUB_NO_SUBS_EID:
+        id: 12
+      CFE_SB_SEND_BAD_ARG_EID:
+        id: 13
+      CFE_SB_SEND_NO_SUBS_EID:
+        id: 14
+      CFE_SB_MSG_TOO_BIG_EID:
+        id: 15
+      CFE_SB_GET_BUF_ERR_EID:
+        id: 16
+      CFE_SB_MSGID_LIM_ERR_EID:
+        id: 17
+      CFE_SB_RCV_BAD_ARG_EID:
+        id: 18
+      CFE_SB_BAD_PIPEID_EID:
+        id: 19
+      CFE_SB_DEST_BLK_ERR_EID:
+        id: 20
+      CFE_SB_SEND_INV_MSGID_EID:
+        id: 21
+      CFE_SB_SUBSCRIPTION_RPT_EID:
+        id: 22
+      # Removed 23
+      CFE_SB_UNSUBSCRIPTION_RPT_EID:
+        id: 24
+      CFE_SB_Q_FULL_ERR_EID:
+        id: 25
+      CFE_SB_Q_WR_ERR_EID:
+        id: 26
+      CFE_SB_Q_RD_ERR_EID:
+        id: 27
+      CFE_SB_CMD0_RCVD_EID:
+        id: 28
+      CFE_SB_CMD1_RCVD_EID:
+        id: 29
+      CFE_SB_LSTSNDER_ERR1_EID:
+        id: 30
+      CFE_SB_LSTSNDER_ERR2_EID:
+        id: 31
+      CFE_SB_SND_STATS_EID:
+        id: 32
+      CFE_SB_ENBL_RTE1_EID:
+        id: 33
+      CFE_SB_ENBL_RTE2_EID:
+        id: 34
+      CFE_SB_ENBL_RTE3_EID:
+        id: 35
+      CFE_SB_DSBL_RTE1_EID:
+        id: 36
+      CFE_SB_DSBL_RTE2_EID:
+        id: 37
+      CFE_SB_DSBL_RTE3_EID:
+        id: 38
+      CFE_SB_SND_RTG_EID:
+        id: 39
+      CFE_SB_SND_RTG_ERR1_EID:
+        id: 40
+      CFE_SB_GLS_INV_CALLER_EID:
+        id: 41
+      CFE_SB_BAD_CMD_CODE_EID:
+        id: 42
+      CFE_SB_BAD_MSGID_EID:
+        id: 43
+      CFE_SB_FULL_SUB_PKT_EID:
+        id: 44
+      CFE_SB_PART_SUB_PKT_EID:
+        id: 45
+      CFE_SB_DEL_PIPE_ERR1_EID:
+        id: 46
+      CFE_SB_PIPE_DELETED_EID:
+        id: 47
+      CFE_SB_SUBSCRIPTION_REMOVED_EID:
+        id: 48
+      CFE_SB_FILEWRITE_ERR_EID:
+        id: 49
+      CFE_SB_SUB_INV_PIPE_EID:
+        id: 50
+      CFE_SB_SUB_INV_CALLER_EID:
+        id: 51
+      CFE_SB_UNSUB_INV_PIPE_EID:
+        id: 52
+      CFE_SB_UNSUB_INV_CALLER_EID:
+        id: 53
+      CFE_SB_DEL_PIPE_ERR2_EID:
+        id: 54
     type_remaps:
       CFE_SB_MsgId_t: uint16
       CFE_SB_PipeId_t: uint8
@@ -1074,7 +1451,145 @@ modules:
   cfe_tbl:
     short_name: cfe_tbl
     long_name: Core Flight Executive - Table Services
-    events: {}
+    app:
+      - name: CFE_TBL
+    events: 
+      CFE_TBL_INIT_INF_EID:
+        id: 1
+      # Removed 2-9
+      CFE_TBL_NOOP_INF_EID:
+        id: 10
+      CFE_TBL_RESET_INF_EID:
+        id: 11
+      CFE_TBL_FILE_LOADED_INF_EID:
+        id: 12
+      CFE_TBL_OVERWRITE_DUMP_INF_EID:
+        id: 13
+      CFE_TBL_WRITE_DUMP_INF_EID:
+        id: 14
+      CFE_TBL_OVERWRITE_REG_DUMP_INF_EID:
+        id: 15
+      CFE_TBL_VAL_REQ_MADE_INF_EID:
+        id: 16
+      CFE_TBL_LOAD_PEND_REQ_INF_EID:
+        id: 17
+      CFE_TBL_TLM_REG_CMD_INF_EID:
+        id: 18
+      # Removed 19-20
+      CFE_TBL_LOAD_ABORT_INF_EID:
+        id: 21
+      CFE_TBL_WRITE_REG_DUMP_INF_EID:
+        id: 22
+      CFE_TBL_ASSUMED_VALID_INF_EID:
+        id: 23
+      # Removed 24-34
+      CFE_TBL_LOAD_SUCCESS_INF_EID:
+        id: 35
+      CFE_TBL_VALIDATION_INF_EID:
+        id: 36
+      CFE_TBL_UPDATE_SUCCESS_INF_EID:
+        id: 37
+      CFE_TBL_CDS_DELETED_INFO_EID:
+        id: 38
+      # Removed 39-49
+      CFE_TBL_MID_ERR_EID:
+        id: 50
+      CFE_TBL_CC1_ERR_EID:
+        id: 51
+      CFE_TBL_LEN_ERR_EID:
+        id: 52
+      CFE_TBL_FILE_ACCESS_ERR_EID:
+        id: 53
+      CFE_TBL_FILE_STD_HDR_ERR_EID:
+        id: 54
+      CFE_TBL_FILE_TBL_HDR_ERR_EID:
+        id: 55
+      CFE_TBL_FAIL_HK_SEND_ERR_EID:
+        id: 56
+      CFE_TBL_NO_SUCH_TABLE_ERR_EID:
+        id: 57
+      CFE_TBL_FILE_TYPE_ERR_EID:
+        id: 58
+      CFE_TBL_FILE_SUBTYPE_ERR_EID:
+        id: 59
+      CFE_TBL_NO_WORK_BUFFERS_ERR_EID:
+        id: 60
+      CFE_TBL_INTERNAL_ERROR_ERR_EID:
+        id: 61
+      CFE_TBL_CREATING_DUMP_FILE_ERR_EID:
+        id: 62
+      CFE_TBL_WRITE_CFE_HDR_ERR_EID:
+        id: 63
+      CFE_TBL_WRITE_TBL_HDR_ERR_EID:
+        id: 64
+      CFE_TBL_WRITE_TBL_IMG_ERR_EID:
+        id: 65
+      CFE_TBL_NO_INACTIVE_BUFFER_ERR_EID:
+        id: 66
+      CFE_TBL_TOO_MANY_VALIDATIONS_ERR_EID:
+        id: 67
+      CFE_TBL_WRITE_TBL_REG_ERR_EID:
+        id: 68
+      CFE_TBL_LOAD_ABORT_ERR_EID:
+        id: 69
+      CFE_TBL_ACTIVATE_ERR_EID:
+        id: 70
+      CFE_TBL_FILE_INCOMPLETE_ERR_EID:
+        id: 71
+      CFE_TBL_LOAD_EXCEEDS_SIZE_ERR_EID:
+        id: 72
+      CFE_TBL_ZERO_LENGTH_LOAD_ERR_EID:
+        id: 73
+      CFE_TBL_PARTIAL_LOAD_ERR_EID:
+        id: 74
+      CFE_TBL_FILE_TOO_BIG_ERR_EID:
+        id: 75
+      CFE_TBL_TOO_MANY_DUMPS_ERR_EID:
+        id: 76
+      CFE_TBL_DUMP_PENDING_ERR_EID:
+        id: 77
+      CFE_TBL_ACTIVATE_DUMP_ONLY_ERR_EID:
+        id: 78
+      CFE_TBL_LOADING_A_DUMP_ONLY_ERR_EID:
+        id: 79
+      CFE_TBL_ILLEGAL_BUFF_PARAM_ERR_EID:
+        id: 80
+      CFE_TBL_UNVALIDATED_ERR_EID:
+        id: 81
+      CFE_TBL_IN_REGISTRY_ERR_EID:
+        id: 82
+      CFE_TBL_NOT_CRITICAL_TBL_ERR_EID:
+        id: 83
+      CFE_TBL_NOT_IN_CRIT_REG_ERR_EID:
+        id: 84
+      CFE_TBL_CDS_NOT_FOUND_ERR_EID:
+        id: 85
+      CFE_TBL_CDS_DELETE_ERR_EID:
+        id: 86
+      CFE_TBL_CDS_OWNER_ACTIVE_ERR_EID:
+        id: 87
+      CFE_TBL_LOADING_PENDING_ERR_EID:
+        id: 88
+      CFE_TBL_FAIL_NOTIFY_SEND_ERR_EID:
+        id: 89
+      CFE_TBL_REGISTER_ERR_EID:
+        id: 90
+      CFE_TBL_SHARE_ERR_EID:
+        id: 91
+      CFE_TBL_UNREGISTER_ERR_EID:
+        id: 92
+      CFE_TBL_LOAD_ERR_EID:
+        id: 93
+      CFE_TBL_LOAD_TYPE_ERR_EID:
+        id: 94
+      CFE_TBL_UPDATE_ERR_EID:
+        id: 95
+      CFE_TBL_VALIDATION_ERR_EID:
+        id: 96
+      CFE_TBL_SPACECRAFT_ID_ERR_EID:
+        id: 97
+      CFE_TBL_PROCESSOR_ID_ERR_EID:
+        id: 98
     msg_def_overrides:
       - parent: CFE_TBL_LoadCmd_Payload_t
         member: LoadFilename
@@ -1267,7 +1782,88 @@ modules:
   cfe_time:
     short_name: cfe_time
     long_name: Core Flight Executive - Time Services
-    events: {}
+    app:
+      - name: CFE_TIME
+    events: 
+      CFE_TIME_INIT_EID:
+        id: 1
+      # Removed 2-3
+      CFE_TIME_NOOP_EID:
+        id: 4
+      CFE_TIME_RESET_EID:
+        id: 5
+      CFE_TIME_DIAG_EID:
+        id: 6
+      CFE_TIME_STATE_EID:
+        id: 7
+      CFE_TIME_SOURCE_EID:
+        id: 8
+      CFE_TIME_SIGNAL_EID:
+        id: 9
+      # Removed 10
+      CFE_TIME_DELAY_EID:
+        id: 11
+      CFE_TIME_TIME_EID:
+        id: 12
+      CFE_TIME_MET_EID:
+        id: 13
+      CFE_TIME_STCF_EID:
+        id: 14
+      CFE_TIME_DELTA_EID:
+        id: 15
+      CFE_TIME_1HZ_EID:
+        id: 16
+      CFE_TIME_LEAPS_EID:
+        id: 17
+      # Removed 18-19
+      CFE_TIME_FLY_ON_EID:
+        id: 20
+      CFE_TIME_FLY_OFF_EID:
+        id: 21
+      # Removed 22-24
+      CFE_TIME_EXIT_ERR_EID:
+        id: 25
+      CFE_TIME_ID_ERR_EID:
+        id: 26
+      CFE_TIME_CC_ERR_EID:
+        id: 27
+      # Removed 28-29
+      CFE_TIME_STATE_ERR_EID:
+        id: 30
+      CFE_TIME_SOURCE_ERR_EID:
+        id: 31
+      CFE_TIME_SIGNAL_ERR_EID:
+        id: 32
+      CFE_TIME_DELAY_ERR_EID:
+        id: 33
+      CFE_TIME_TIME_ERR_EID:
+        id: 34
+      CFE_TIME_MET_ERR_EID:
+        id: 35
+      CFE_TIME_STCF_ERR_EID:
+        id: 36
+      CFE_TIME_DELTA_ERR_EID:
+        id: 37
+      CFE_TIME_1HZ_ERR_EID:
+        id: 38
+      CFE_TIME_SOURCE_CFG_EID:
+        id: 40
+      CFE_TIME_SIGNAL_CFG_EID:
+        id: 41
+      CFE_TIME_DELAY_CFG_EID:
+        id: 42
+      CFE_TIME_TIME_CFG_EID:
+        id: 43
+      CFE_TIME_MET_CFG_EID:
+        id: 44
+      CFE_TIME_STCF_CFG_EID:
+        id: 45
+      CFE_TIME_LEAPS_CFG_EID:
+        id: 46
+      CFE_TIME_DELTA_CFG_EID:
+        id: 47
+      CFE_TIME_1HZ_CFG_EID:
+        id: 48
     msg_def_overrides:
       - parent: CFE_TIME_SignalCmd_Payload_t
         member: ToneSource

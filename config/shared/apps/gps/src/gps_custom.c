@@ -44,6 +44,7 @@
 #include "msg_ids.h"
 #include "simlib.h"
 #include "px4lib.h"
+#include "cfs_utils.h"
 #include "gps_platform_cfg.h"
 
 #include "gps_event_driven.h"
@@ -251,8 +252,8 @@ boolean GPS_Custom_Measure_PositionMsg(PX4_VehicleGpsPositionMsg_t *Measure)
     //copyDataPtr = CFE_SB_GetUserData((CFE_SB_MsgPtr_t)Measure);
     //memcpy(copyDataPtr, userDataPtr, userDataLength);
 
-    Measure->Timestamp = GPS_AppCustomData.GpsPositionMsg.Timestamp;
-    Measure->TimeUtcUsec = GPS_AppCustomData.GpsPositionMsg.TimeUtcUsec;
+    CFE_SB_CopyMsgTime((CFE_SB_MsgPtr_t)&Measure, (CFE_SB_MsgPtr_t)&GPS_AppCustomData.GpsPositionMsg);
+    Measure->TimeUtc = GPS_AppCustomData.GpsPositionMsg.TimeUtc;
     Measure->Lat = GPS_AppCustomData.GpsPositionMsg.Lat;
     Measure->Lon = GPS_AppCustomData.GpsPositionMsg.Lon;
     Measure->Alt = GPS_AppCustomData.GpsPositionMsg.Alt;
@@ -338,6 +339,8 @@ boolean GPS_Custom_Read_and_Parse(const uint32 timeout)
                     }
                     case GPS_NAV_NAVPVT_MID:
                     {
+                    	CFE_TIME_SysTime_t currentTime;
+
                         GPS_NAV_PVT_t *msgIn = (GPS_NAV_PVT_t*) CFE_SB_GetUserData((CFE_SB_Msg_t*)&message);
                         OS_MutSemTake(GPS_AppCustomData.MutexPosition);
                         /* Check if position fix flag is good */
@@ -432,17 +435,18 @@ boolean GPS_Custom_Read_and_Parse(const uint32 timeout)
 
                                 //setClock(ts);
 
-                                GPS_AppCustomData.GpsPositionMsg.TimeUtcUsec = ((uint64)epoch) * 1000000ULL;
-                                GPS_AppCustomData.GpsPositionMsg.TimeUtcUsec += msgIn->nano / 1000;
+                                GPS_AppCustomData.GpsPositionMsg.TimeUtc.Seconds = epoch;
+                                GPS_AppCustomData.GpsPositionMsg.TimeUtc.Subseconds = CFE_TIME_Micro2SubSecs(msgIn->nano / 1000);
                             }
                             else
                             {
-                                GPS_AppCustomData.GpsPositionMsg.TimeUtcUsec = 0;
+                            	CFE_TIME_ClearTime(&GPS_AppCustomData.GpsPositionMsg.TimeUtc);
                             }
                         }
                         
-                        GPS_AppCustomData.GpsPositionMsg.Timestamp = PX4LIB_GetPX4TimeUs();
-                        GPS_AppCustomData.GpsPositionMsg.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
+                        currentTime = CFE_TIME_GetTime();
+                        CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&GPS_AppCustomData.GpsPositionMsg, currentTime);
+                        GPS_AppCustomData.GpsPositionMsg.TimeUtc = CFE_TIME_GetTime();
                         //GPS_AppCustomData.LastTimeStamp = GPS_AppCustomData.GpsPositionMsg.Timestamp;
 
                         /* TODO position and velocity update rate functions
@@ -490,7 +494,7 @@ boolean GPS_Custom_Read_and_Parse(const uint32 timeout)
                                     (uint8)(msgIn->numCh[j].svid);
                         }
                         
-                        GPS_AppCustomData.GpsSatInfoMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+                        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&GPS_AppCustomData.GpsSatInfoMsg);
                         
                         OS_MutSemGive(GPS_AppCustomData.MutexSatInfo);
                         break;

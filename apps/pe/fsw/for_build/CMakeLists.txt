@@ -57,6 +57,7 @@ buildliner_add_app_unit_test(pe-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sensors/land.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sensors/dist.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sensors/flow.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
         #${PX4LIB_LIB_SOURCES}
         # Adding lib sources individually so stubs can be used.
         # Math

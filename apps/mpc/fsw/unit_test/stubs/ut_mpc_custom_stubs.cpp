@@ -49,7 +49,7 @@ void Ut_MPC_Custom_Reset(void)
 
 void Ut_MPC_Custom_SetFunctionHook(uint32 Index, void *FunPtr)
 {
-    if (Index == UT_MPC_PX4LIB_GETPX4TIMEUS_INDEX)   { Ut_MPC_Custom_HookTable.PX4LIB_GetPX4TimeUs = (uint64  (*)(void))FunPtr; }
+    if (Index == UT_MPC_PX4LIB_GETPX4TIMEUS_INDEX)   { Ut_MPC_Custom_HookTable.CFE_TIME_GetTimeInMicros = (uint64  (*)(void))FunPtr; }
     else
     {
         printf("Unsupported MPC_CUSTOM Index In SetFunctionHook Call %lu\n", Index);

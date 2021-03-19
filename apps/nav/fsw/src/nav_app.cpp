@@ -41,6 +41,7 @@
 #include "nav_version.h"
 #include <math/Limits.hpp>
 #include "px4lib_msgids.h"
+#include "cfs_utils.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -370,7 +371,7 @@ int32 NAV::RcvSchPipeMsg(int32 iBlocking)
         {
             case NAV_WAKEUP_MID:
                 /* Check global position availability */
-                if (!CVT.VehicleGlobalPosition.Timestamp == 0)
+                if (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPosition))
                 {
                     Execute();
                 }
@@ -553,7 +554,6 @@ void NAV::SendMissionResultMsg()
 
 void NAV::SendPositionSetpointTripletMsg()
 {
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &PositionSetpointTripletMsg);
     CFE_SB_SendMsg((CFE_SB_Msg_t*) &PositionSetpointTripletMsg);
 }
 
@@ -657,10 +657,10 @@ void NAV::AppMain()
 
 int32 NAV::Execute()
 {
-    uint64 Now = 0;
+	CFE_TIME_SysTime_t Now;
     
     /* Set vehicle arming state */
-    if (CVT.VehicleStatusMsg.Timestamp != 0 && !VehicleStatusUpdateOnce)
+    if (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.VehicleStatusMsg) && !VehicleStatusUpdateOnce)
     {
         CVT.VehicleStatusMsg.ArmingState = PX4_ArmingState_t::PX4_ARMING_STATE_STANDBY;
         VehicleStatusUpdateOnce = TRUE;
@@ -765,7 +765,7 @@ int32 NAV::Execute()
                     PX4_SetpointType_t::PX4_SETPOINT_TYPE_TAKEOFF;
 
             /* Check if home position is valid, set current yaw and previous valid accordingly */
-            if (CVT.HomePositionMsg.Timestamp > 0)
+            if (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.HomePositionMsg))
             {
                 TakeoffTripletMsg.Current.Yaw =
                         CVT.VehicleCommandMsg.Param4;
@@ -912,14 +912,13 @@ int32 NAV::Execute()
     }
 
     /* Time stamp out going messages */
-    Now = PX4LIB_GetPX4TimeUs();
-    PositionSetpointTripletMsg.Timestamp = Now;
-    MissionResultMsg.Timestamp = Now;
+    Now = CFE_TIME_GetTime();
+    CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&MissionResultMsg, Now);
 
     if (PositionSetpointTripletUpdated)
     {
-        PositionSetpointTripletMsg.Timestamp = Now;
-        SendPositionSetpointTripletMsg();
+        CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&PositionSetpointTripletMsg, Now);
+        CFE_SB_SendMsg((CFE_SB_Msg_t*) &PositionSetpointTripletMsg);
         PositionSetpointTripletUpdated = FALSE;
     }
 
@@ -1482,9 +1481,6 @@ void NAV::SetRtlItem()
                 MissionItem.Altitude = CVT.VehicleGlobalPosition.Alt;
             }
             MissionItem.Yaw = CVT.HomePositionMsg.Yaw;
-            float d_current = get_distance_to_next_waypoint(
-                    CVT.VehicleGlobalPosition.Lat, CVT.VehicleGlobalPosition.Lon,
-                    MissionItem.Lat, MissionItem.Lon);
             MissionItem.LoiterRadius = ConfigTblPtr->NAV_LOITER_RAD;
             MissionItem.NavCmd = PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_WAYPOINT;
             MissionItem.AcceptanceRadius = ConfigTblPtr->NAV_ACC_RAD;
@@ -1624,8 +1620,6 @@ void NAV::AdvanceRtl()
 
 void NAV::RtlActive()
 {
-    osalbool MissionItemReachedFlag = IsMissionItemReached();
-
     /* Bogus Land */
     if (!CVT.VehicleLandDetectedMsg.Landed
             && !CVT.VehicleLandDetectedMsg.GroundContact
@@ -1760,7 +1754,7 @@ osalbool NAV::IsMissionItemReached()
         }
     }
 
-    Now = PX4LIB_GetPX4TimeUs();
+    Now = CFE_TIME_GetTimeInMicros();
     if (!CVT.VehicleLandDetectedMsg.Landed && !WaypointPositionReached)
     {
         Dist= -1.0f;
@@ -2065,7 +2059,7 @@ float NAV::GetTimeInside(NAV_MissionItem_t * Item)
 
 osalbool NAV::HomePositionValid()
 {
-    osalbool HomePosValidFlag = (CVT.HomePositionMsg.Timestamp > 0);
+    osalbool HomePosValidFlag = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.HomePositionMsg);
     
     return HomePosValidFlag;
 }

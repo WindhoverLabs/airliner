@@ -222,14 +222,8 @@ void Test_AMC_InitData(void)
 {
     AMC oAMC;
 
-    /* Set a fail result */
-    int32 expected = CFE_SUCCESS;
-
     /* Execute the function being tested */
     oAMC.InitData();
-
-    /* Verify results */
-    //UtAssert_True (result == expected, "InitData");
 }
 
 

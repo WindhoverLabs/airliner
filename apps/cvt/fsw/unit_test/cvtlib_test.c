@@ -80,7 +80,6 @@ void Test_CVTLIB_GetContainer_Nominal(void)
 void Test_CVTLIB_GetContainer_ExhaustEntries(void)
 {
 	int32 status = 0;
-	char name[CVT_CONTAINER_NAME_LENGTH];
 	uint32 size = 100;
 	CVT_ContainerID_t id;
 	uint32 i = 0;

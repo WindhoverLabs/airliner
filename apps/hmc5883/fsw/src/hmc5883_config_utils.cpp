@@ -104,11 +104,9 @@ HMC5883_InitConfigTbl_Exit_Tag:
 int32 HMC5883::ValidateConfigTbl(void* ConfigTblPtr)
 {
     int32  iStatus = 0;
-    HMC5883_ConfigTbl_t* HMC5883_ConfigTblPtr = (HMC5883_ConfigTbl_t*)(ConfigTblPtr);
 
     /* TODO:  Add validation code here. */
 
-HMC5883_ValidateConfigTbl_Exit_Tag:
     return (iStatus);
 }
 

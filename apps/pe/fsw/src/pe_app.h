@@ -85,7 +85,6 @@ extern "C" {
 #include "math/Euler.hpp"
 #include "math/Dcm.hpp"
 #include "geo/geo.h"
-#include <poll.h>
 #include <math.h>
 
 
@@ -248,12 +247,6 @@ public:
     Stats1F m_DistStats;
     Stats1F m_FlowQStats;
     Stats6F m_GpsStats;
-    uint16 m_LandCount;
-
-    /* Validity */
-    osalbool m_XyEstValid;
-    osalbool m_ZEstValid;
-    osalbool m_TzEstValid;
 
     /* Map */
     struct map_projection_reference_s m_MapRef;
@@ -270,54 +263,7 @@ public:
     delay::BlockDelay10FLEN10   m_XDelay;
     delay::BlockDelayUINT64LEN10 m_TDelay;
 
-    /* Timestamps */
-    uint64 m_Timestamp;
-    uint64 m_Timestamp_Hist;
-    uint64 m_TimestampLastBaro;
-    uint64 m_TimeLastBaro;
-    uint64 m_TimeLastGps;
-    uint64 m_TimeLastDist;
-    uint64 m_TimeLastLand;
-    uint64 m_TimeLastFlow;
-
-    /* Timeouts */
-    osalbool   m_BaroTimeout;
-    osalbool   m_GpsTimeout;
-    osalbool   m_LandTimeout;
-    osalbool   m_DistTimeout;
-    osalbool   m_FlowTimeout;
-
-    /* Faults */
-    osalbool   m_BaroFault;
-    osalbool   m_GpsFault;
-    osalbool   m_LandFault;
-    osalbool   m_DistFault;
-    osalbool   m_FlowFault;
-
-    /* Fuse Flags */
-    osalbool   m_BaroFuse;
-    osalbool   m_GpsFuse;
-    osalbool   m_LandFuse;
-    osalbool   m_DistFuse;
-    osalbool   m_FlowFuse;
-
-    /* Reference altitudes */
-    float m_AltOrigin;
-    float m_BaroAltOrigin;
-    float m_GpsAltOrigin;
-    float m_DistAltOrigin;
-
     /* Status */
-    osalbool m_ReceivedGps;
-    osalbool m_LastArmedState;
-    osalbool m_EstimatorLocalInitialized;
-    osalbool m_EstimatorGlobalInitialized;
-    osalbool m_BaroInitialized;
-    osalbool m_GpsInitialized;
-    osalbool m_LandInitialized;
-    osalbool m_DistInitialized;
-    osalbool m_FlowInitialized;
-    osalbool m_AltOriginInitialized;
     osalbool m_ParamsUpdated;
 
     /* State space */

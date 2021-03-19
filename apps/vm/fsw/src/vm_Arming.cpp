@@ -37,6 +37,7 @@
 #include "vm_app.h"
 #include "px4lib.h"
 #include "px4lib_msgids.h"
+#include "cfs_utils.h"
 
 
 
@@ -82,7 +83,7 @@ uint32 VM_Arming::GetCurrentStateID()
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void VM_Arming::Init(void)
 {
-    App.ActuatorArmedMsg.Timestamp = 0;
+	CFE_SB_ClearMsgTime((CFE_SB_MsgPtr_t)&App.ActuatorArmedMsg);
     App.ActuatorArmedMsg.Armed = false;
     App.ActuatorArmedMsg.Prearmed = false;
     App.ActuatorArmedMsg.ReadyToArm = false;
@@ -220,7 +221,7 @@ osalbool VM_Arming::PreFlightCheckCleared()
 	osalbool cleared = true;
 
     /* Warn about global position */
-    if (App.VehicleGlobalPositionMsg.Timestamp == 0)
+    if (CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleGlobalPositionMsg))
     {
         (void) CFE_EVS_SendEvent(VM_NOPE_ERR_EID, CFE_EVS_INFORMATION, "Warning: Position estimator not initialized");
     }

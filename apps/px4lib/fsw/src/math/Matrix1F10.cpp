@@ -4,17 +4,17 @@
 using namespace math;
 
 Matrix1F10::Matrix1F10(Vector10F m0) :
-	data{m0},
-	nan{NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN}
+	nan{NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN},
+	data{m0}
 {
 };
 
 
 Matrix1F10::Matrix1F10() :
+    nan{NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN},
     data{
         {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
-    },
-    nan{NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN}
+    }
 {
 };
 
@@ -26,7 +26,7 @@ Matrix1F10::~Matrix1F10()
 
 Vector10F& Matrix1F10::operator [] (uint32 i)
 {
-    if(i >= COLS)
+    if(i >= ROWS)
     {
         return nan;
     }
@@ -39,7 +39,7 @@ Vector10F& Matrix1F10::operator [] (uint32 i)
 
 Vector10F Matrix1F10::operator [] (uint32 i) const
 {
-    if(i >= COLS)
+    if(i >= ROWS)
     {
         return nan;
     }

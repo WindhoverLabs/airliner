@@ -99,6 +99,7 @@ buildliner_add_app_unit_test(amc-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mixer/MultirotorMixer.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/pwm_limit/pwm_limit.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/pwm_limit/pwm_limit.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

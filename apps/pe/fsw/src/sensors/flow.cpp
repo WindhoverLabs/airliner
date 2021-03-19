@@ -32,6 +32,7 @@
 *****************************************************************************/
 
 #include "../pe_app.h"
+#include "cfs_utils.h"
 
 void PE::flowInit()
 {
@@ -52,7 +53,7 @@ void PE::flowInit()
 								 (int)m_FlowQStats.getMean()[0],
 								 (int)m_FlowQStats.getStdDev()[0]);
 
-		m_FlowTimeout = FALSE;
+		HkTlm.FlowTimeout = FALSE;
 	}
 }
 
@@ -80,7 +81,7 @@ int32 PE::flowMeasure(math::Vector2F &y)
 	}
 
 	/* Check if AGL valid */
-	if (m_DistFault) {
+	if (HkTlm.DistFault) {
 		Status = -1;
 		goto flowMeasure_Exit_Tag;
 	}
@@ -92,7 +93,7 @@ int32 PE::flowMeasure(math::Vector2F &y)
 	}
 
 	/* Check if terrain estimate valid */
-	if (!m_TzEstValid) {
+	if (!HkTlm.TzEstValid) {
 		Status = -1;
 		goto flowMeasure_Exit_Tag;
 	}
@@ -118,8 +119,8 @@ int32 PE::flowMeasure(math::Vector2F &y)
 	}
 
 	/* Angular rotation in x, y axis */
-	gyro_x_rad = m_FlowGyroXHighPass.Update(m_OpticalFlowMsg.GyroXRateIntegral, m_TimeLastFlow - m_Timestamp, FLOW_GYRO_HP_CUTOFF);
-	gyro_y_rad = m_FlowGyroYHighPass.Update(m_OpticalFlowMsg.GyroYRateIntegral, m_TimeLastFlow - m_Timestamp, FLOW_GYRO_HP_CUTOFF);
+	gyro_x_rad = m_FlowGyroXHighPass.Update(m_OpticalFlowMsg.GyroXRateIntegral, CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastFlow) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp), FLOW_GYRO_HP_CUTOFF);
+	gyro_y_rad = m_FlowGyroYHighPass.Update(m_OpticalFlowMsg.GyroYRateIntegral, CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastFlow) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp), FLOW_GYRO_HP_CUTOFF);
 
 	/* Compute velocities in body frame using ground distance */
 	/* Note: Integral rates in the optical_flow msg are RH rotations about body axes */
@@ -134,7 +135,7 @@ int32 PE::flowMeasure(math::Vector2F &y)
 	y[Y_flow_vx] = delta_n[0] / dt_flow;
 	y[Y_flow_vy] = delta_n[1] / dt_flow;
 
-	m_TimeLastFlow = m_Timestamp;
+	HkTlm.TimeLastFlow = HkTlm.Timestamp;
 	m_FlowQStats.update(float(m_OpticalFlowMsg.Quality));
 
 flowMeasure_Exit_Tag:
@@ -215,31 +216,31 @@ void PE::flowCorrect()
 
     if (m_Flow.beta > BETA_TABLE[n_y_flow])
     {
-        if (!m_FlowFault)
+        if (!HkTlm.FlowFault)
         {
             if(Initialized())
             {
                 (void) CFE_EVS_SendEvent(PE_FLOW_FAULT_ERR_EID, CFE_EVS_ERROR,
                         "Flow fault, beta %5.2f", m_Flow.beta);
             }
-            m_FlowFault = TRUE;
+            HkTlm.FlowFault = TRUE;
         }
         goto end_of_function;
     }
     else
     {
-        if (m_FlowFault)
+        if (HkTlm.FlowFault)
         {
-        	m_FlowFault = FALSE;
+        	HkTlm.FlowFault = FALSE;
             (void) CFE_EVS_SendEvent(PE_FLOW_OK_INF_EID, CFE_EVS_INFORMATION,
                     "Flow OK, beta %5.2f", m_Flow.beta);
 
-            m_FlowInitialized = TRUE;
+            HkTlm.FlowInitialized = TRUE;
         }
     }
 
     /* Kalman filter correction */
-    if (!m_FlowFault)
+    if (!HkTlm.FlowFault)
     {
 		/* 10x10 * 10x2 * 2x2 */
 		m_Flow.K = (m_StateCov * m_Flow.C.Transpose()) * m_Flow.S_I;
@@ -263,20 +264,20 @@ void PE::flowCheckTimeout()
 {
     uint64 Timestamp = 0;
 
-	if (m_Timestamp > m_TimeLastFlow)
+	if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastFlow) == CFE_TIME_A_GT_B)
 	{
-        Timestamp = m_Timestamp - m_TimeLastFlow;
+        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastFlow);
     }
-	else if (m_Timestamp < m_TimeLastFlow)
+	else if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastFlow) == CFE_TIME_A_LT_B)
 	{
-        Timestamp = m_TimeLastFlow - m_Timestamp;
+        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastFlow) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
     }
 
 	if (Timestamp > FLOW_TIMEOUT)
 	{
-		if (!m_FlowTimeout)
+		if (!HkTlm.FlowTimeout)
 		{
-			m_FlowTimeout = TRUE;
+			HkTlm.FlowTimeout = TRUE;
 			m_FlowQStats.reset();
 			(void) CFE_EVS_SendEvent(PE_FLOW_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
 									 "Flow timeout: %llu us", Timestamp);

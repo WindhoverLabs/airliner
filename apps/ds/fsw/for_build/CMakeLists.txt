@@ -71,7 +71,6 @@ buildliner_add_app_unit_test(ds-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ds_cmds_test.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ds_file_test.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ds_file_test.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ds_msgids.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ds_platform_cfg.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ds_table_test.c 
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/ds_table_test.h 

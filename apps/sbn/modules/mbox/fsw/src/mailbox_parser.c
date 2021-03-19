@@ -1,6 +1,5 @@
-#include "sbn_uio_mailbox_if.h"
+#include "sbn_mailbox_if.h"
 #include "mailbox_parser.h"
-
 
 unsigned int ParseMessage(Mailbox_Parser_Handle_t *Handle, unsigned int Input, unsigned int* Buffer, unsigned int *BufferSize)
 {

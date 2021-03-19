@@ -4,8 +4,8 @@
 using namespace math;
 
 Vector6F::Vector6F(float A, float B, float C, float D, float E, float F):
-    data{A,B,C,D,E,F},
-	nan(NAN)
+	nan(NAN),
+    data{A,B,C,D,E,F}
 {
 };
 

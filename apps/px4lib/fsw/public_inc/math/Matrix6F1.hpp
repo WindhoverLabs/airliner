@@ -16,11 +16,11 @@ private:
 	/** \brief Number of rows and columns */
     static const int SIZE = 6;
 
-    /** \brief Rotation lookup enumeration */
-    Vector1F data[SIZE];
-
     /** \brief Vector of NaN row data */
     Vector1F nan[SIZE];
+
+    /** \brief Rotation lookup enumeration */
+    Vector1F data[SIZE];
 
 public:
 	/************************************************************************/

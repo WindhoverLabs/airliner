@@ -532,17 +532,165 @@ boolean CFS_VerifyString(char *Buffer, int32 BufferSize,
 uint64  CFE_TIME_GetTimeInMicros(void)
 {
 	CFE_TIME_SysTime_t  current;
-	uint32 micros = 0;
 	uint64 timeInMicros = 0;
 
 	current = CFE_TIME_GetTime();
 
-	micros = CFE_TIME_Sub2MicroSecs(current.Subseconds);
-
-	timeInMicros = (current.Seconds * 1000000) + micros;
+	timeInMicros = CFE_TIME_ConvertTimeToMicros(current);
 
 	return timeInMicros;
 }
+
+
+double  CFE_TIME_GetTimeInSeconds(void)
+{
+	CFE_TIME_SysTime_t  current;
+	double seconds = 0.0;
+
+	current = CFE_TIME_GetTime();
+
+	seconds = CFE_TIME_ConvertTimeToSeconds(current);
+
+	return seconds;
+}
+
+
+uint64  CFE_TIME_ConvertTimeToMicros(CFE_TIME_SysTime_t time)
+{
+	uint64 micros = 0;
+	uint64 timeInMicros = 0;
+
+	micros = CFE_TIME_Sub2MicroSecs(time.Subseconds);
+
+	timeInMicros = (((uint64)time.Seconds) * 1000000LLU) + micros;
+
+	return timeInMicros;
+}
+
+
+double  CFE_TIME_ConvertTimeToSeconds(CFE_TIME_SysTime_t time)
+{
+	CFE_TIME_SysTime_t  current;
+	uint64 micros = 0;
+	double timeInSeconds = 0;
+
+	micros = CFE_TIME_Sub2MicroSecs(current.Subseconds);
+
+	timeInSeconds = (time.Seconds) + (micros / 1000000.0);
+
+	return timeInSeconds;
+}
+
+
+void  CFE_TIME_ClearTime(CFE_TIME_SysTime_t *time)
+{
+	time->Seconds = 0;
+	time->Subseconds = 0;
+}
+
+
+boolean  CFE_TIME_IsTimeZero(CFE_TIME_SysTime_t time)
+{
+	if((time.Seconds == 0) && (time.Subseconds == 0))
+	{
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+}
+
+
+CFE_TIME_SysTime_t CFE_TIME_ElapsedTime(CFE_TIME_SysTime_t sinceTime)
+{
+	CFE_TIME_SysTime_t now = CFE_TIME_GetTime();
+	CFE_TIME_SysTime_t elapsedTime;
+
+	elapsedTime = CFE_TIME_Subtract(now, elapsedTime);
+
+	return elapsedTime;
+}
+
+
+void CFE_TIME_SetTimeEqual(CFE_TIME_SysTime_t *left, CFE_TIME_SysTime_t right)
+{
+	if(0 == left)
+	{
+		left->Seconds = right.Seconds;
+		left->Subseconds = right.Subseconds;
+	}
+}
+
+
+uint64 CFE_TIME_ElapsedTimeInMicros(CFE_TIME_SysTime_t sinceTime)
+{
+	CFE_TIME_SysTime_t elapsedTime;
+	uint64 micros;
+
+	elapsedTime = CFE_TIME_ElapsedTime(sinceTime);
+
+	micros = CFE_TIME_ConvertTimeToMicros(elapsedTime);
+
+	return micros;
+}
+
+
+uint64  CFE_SB_ElapsedMsgTimeInMicros(const CFE_SB_MsgPtr_t sinceMsg)
+{
+	CFE_TIME_SysTime_t msgTime;
+
+	msgTime = CFE_SB_GetMsgTime(sinceMsg);
+
+	return CFE_TIME_ElapsedTimeInMicros(msgTime);
+}
+
+
+void CFE_SB_CopyMsgTime(CFE_SB_MsgPtr_t dest, const CFE_SB_MsgPtr_t src)
+{
+	CFE_SB_SetMsgTime(dest, CFE_SB_GetMsgTime(src));
+}
+
+
+
+boolean CFE_SB_IsMsgTimeZero(const CFE_SB_MsgPtr_t msg)
+{
+	return CFE_TIME_IsTimeZero(CFE_SB_GetMsgTime(msg));
+}
+
+
+
+uint64  CFE_SB_GetMsgTimeInMicros(const CFE_SB_MsgPtr_t msg)
+{
+	return CFE_TIME_ConvertTimeToMicros(CFE_SB_GetMsgTime(msg));
+}
+
+
+
+double  CFE_SB_GetMsgTimeInSeconds(const CFE_SB_MsgPtr_t msg)
+{
+	return CFE_TIME_ConvertTimeToSeconds(CFE_SB_GetMsgTime(msg));
+}
+
+
+
+CFE_TIME_Compare_t  CFE_SB_CompareMsgTime(const CFE_SB_MsgPtr_t msgA, const CFE_SB_MsgPtr_t msgB)
+{
+    return CFE_TIME_Compare(CFE_SB_GetMsgTime(msgA), CFE_SB_GetMsgTime(msgB));
+}
+
+
+
+void CFE_SB_ClearMsgTime(CFE_SB_MsgPtr_t msg)
+{
+	CFE_TIME_SysTime_t newTime;
+
+	CFE_TIME_ClearTime(&newTime);
+
+	CFE_SB_SetMsgTime(msg, newTime);
+
+}
+
 
 /************************/
 /*  End of File Comment */

@@ -38,7 +38,6 @@ typedef enum
 {
     UT_AMC_CUSTOM_INITDEVICE_INDEX,
     UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX,
-	UT_AMC_PX4LIB_GETPX4TIMEUS_INDEX,
     UT_AMC_CUSTOM_MAX_INDEX
 } Ut_AMC_Custom_INDEX_t;
 
@@ -46,7 +45,6 @@ typedef struct
 {
     uint32 (*InitDevice)(void);
     void   (*SetMotorOutputs)(const uint16 *PWM);
-    uint64 (*PX4LIB_GetPX4TimeUs)(void);
 } Ut_AMC_Custom_HookTable_t;
 
 typedef struct

@@ -4,8 +4,8 @@
 using namespace math;
 
 Vector1F::Vector1F(float A):
-    data{A},
-	nan(NAN)
+	nan(NAN),
+    data{A}
 {
 };
 

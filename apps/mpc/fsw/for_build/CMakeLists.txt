@@ -35,10 +35,6 @@ buildliner_add_app_unit_test(mpc-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/mpc_testrunner.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/mpc_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/mpc_test_utils.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/ut_mpc_custom_stubs.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/ut_mpc_custom_stubs.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/ut_mpc_custom_hooks.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/ut_mpc_custom_hooks.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/mpc_test_tables.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/mpc_nominal_config.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mpc_app.cpp
@@ -49,6 +45,7 @@ buildliner_add_app_unit_test(mpc-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mpc_tbldefs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mpc_version.h
         ${PX4LIB_LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

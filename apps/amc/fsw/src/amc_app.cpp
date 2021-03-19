@@ -101,7 +101,6 @@ AMC::~AMC()
 int32 AMC::InitEvent(void)
 {
     int32 iStatus=CFE_SUCCESS;
-    uint32 ind = 0;
 
     /* Register the table with CFE */
     iStatus = CFE_EVS_Register(0, 0, CFE_EVS_BINARY_FILTER);
@@ -836,9 +835,9 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void AMC::ReportHousekeeping(void)
 {
-	uint32 i = 0;
+    uint32 i = 0;
 
-	HkTlm.Timestamp = ActuatorOutputs.Timestamp;
+    HkTlm.Timestamp = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&ActuatorOutputs);
     HkTlm.Count = ActuatorOutputs.Count;
 
     for(i = 0; i < PX4_ACTUATOR_OUTPUTS_MAX; ++i)
@@ -997,7 +996,6 @@ void AMC::UpdateMotors(void)
     uint16 min_pwm[AMC_MAX_MOTOR_OUTPUTS];
     uint16 max_pwm[AMC_MAX_MOTOR_OUTPUTS];
     uint16 pwm[AMC_MAX_MOTOR_OUTPUTS];
-    PX4_ActuatorOutputsMsg_t outputs;
 
     for (uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
     {
@@ -1015,7 +1013,7 @@ void AMC::UpdateMotors(void)
     }
     else if(CVT.ActuatorArmed.Armed)
     {
-        ActuatorOutputs.Timestamp = PX4LIB_GetPX4TimeUs();
+    	CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)& ActuatorOutputs);
 
         /* Do mixing */
         ActuatorOutputs.Count = MixerObject.mix(ActuatorOutputs.Output, 0, 0);
@@ -1046,7 +1044,6 @@ void AMC::UpdateMotors(void)
             SetMotorOutputs(pwm);
         }
 
-        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&ActuatorOutputs);
         CFE_SB_SendMsg((CFE_SB_Msg_t*)&ActuatorOutputs);
     }
     else

@@ -222,14 +222,9 @@ void Test_BAT_InitData(void)
 {
     BAT oBAT;
 
-    /* Set a fail result */
-    int32 expected = CFE_SUCCESS;
-
     /* Execute the function being tested */
     oBAT.InitData();
 
-    /* Verify results */
-    //UtAssert_True (result == expected, "InitData");
 }
 
 

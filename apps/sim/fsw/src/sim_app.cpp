@@ -701,7 +701,7 @@ void SIM::ListenerTask(void)
                                 //SensorAccel.Scaling = NEW_SCALE_G_DIGIT * CONSTANTS_ONE_G;
                                 SensorAccel.Scaling = 0;
                                 SensorAccel.Range_m_s2 = 0;
-                                SensorAccel.Timestamp = PX4LIB_GetPX4TimeUs();
+                                SensorAccel.Timestamp = CFE_TIME_GetTimeInMicros();
                                 //SensorAccel.XRaw = (int16)((decodedMsg.xacc / MG2MS2) / SensorAccel.Scaling);
                                 //SensorAccel.YRaw = (int16)((decodedMsg.yacc / MG2MS2) / SensorAccel.Scaling);
                                 //SensorAccel.ZRaw = (int16)((decodedMsg.zacc / MG2MS2) / SensorAccel.Scaling);
@@ -741,7 +741,7 @@ void SIM::ListenerTask(void)
 #ifdef SIM_PUBLISH_GYRO
                                 SensorGyro.Scaling = 0;
                                 SensorGyro.Range = 0;
-                                SensorGyro.Timestamp = PX4LIB_GetPX4TimeUs();
+                                SensorGyro.Timestamp = CFE_TIME_GetTimeInMicros();
                                 //SensorGyro.XRaw = (int16)(decodedMsg.xgyro * 1000.0f);
                                 //SensorGyro.YRaw = (int16)(decodedMsg.ygyro * 1000.0f);
                                 //SensorGyro.ZRaw = (int16)(decodedMsg.zgyro * 1000.0f);
@@ -777,7 +777,7 @@ void SIM::ListenerTask(void)
 							{
 #endif
 #ifdef SIM_PUBLISH_MAG
-                                SensorMag.Timestamp = PX4LIB_GetPX4TimeUs();
+                                SensorMag.Timestamp = CFE_TIME_GetTimeInMicros();
                                 SensorMag.Scaling = 0;
                                 SensorMag.Range = 0;
                                 //SensorMag.XRaw = (int16)((decodedMsg.xmag * 1000.0f) / NEW_SCALE_GA_DIGIT);
@@ -809,7 +809,7 @@ void SIM::ListenerTask(void)
 							{
 #endif
 #ifdef SIM_PUBLISH_BARO
-                                SensorBaro.Timestamp = PX4LIB_GetPX4TimeUs();
+                                SensorBaro.Timestamp = CFE_TIME_GetTimeInMicros();
                                 SensorBaro.Pressure = decodedMsg.abs_pressure;
 #else
 								//SIMLIB_SetPressure(decodedMsg.abs_pressure, decodedMsg.diff_pressure);
@@ -823,7 +823,7 @@ void SIM::ListenerTask(void)
                             {
 #endif
 #ifdef SIM_PUBLISH_BARO       
-                                SensorBaro.Timestamp = PX4LIB_GetPX4TimeUs();
+                                SensorBaro.Timestamp = CFE_TIME_GetTimeInMicros();
                                 SensorBaro.Altitude = decodedMsg.pressure_alt;
                                 /* fake device ID */
                                 //SensorBaro.DeviceID = 478459;
@@ -870,7 +870,7 @@ void SIM::ListenerTask(void)
 							mavlink_hil_gps_t 					decodedMsg;
 							mavlink_msg_hil_gps_decode(&msg, &decodedMsg);
 #ifdef SIM_PUBLISH_GPS
-                            VehicleGps.Timestamp      = PX4LIB_GetPX4TimeUs();
+                            VehicleGps.Timestamp      = CFE_TIME_GetTimeInMicros();
                             VehicleGps.Lat            = decodedMsg.lat;
                             VehicleGps.Lon            = decodedMsg.lon;
                             VehicleGps.Alt            = decodedMsg.alt;
@@ -909,7 +909,7 @@ void SIM::ListenerTask(void)
 							mavlink_msg_hil_optical_flow_decode(&msg, &decodedMsg);
 							
 #ifdef SIM_PUBLISH_OPTICAL_FLOW
-                        	OpticalFlow.Timestamp                       = PX4LIB_GetPX4TimeUs();
+                        	OpticalFlow.Timestamp                       = CFE_TIME_GetTimeInMicros();
 	                        OpticalFlow.PixelFlowXIntegral              = decodedMsg.integrated_x;
 	                        OpticalFlow.PixelFlowYIntegral              = decodedMsg.integrated_y; 
 	                        OpticalFlow.GyroXRateIntegral               = decodedMsg.integrated_xgyro;
@@ -952,7 +952,7 @@ void SIM::ListenerTask(void)
 							sensorType = (PX4_DistanceSensorType_t) decodedMsg.type;
 							sensorOrientation = (PX4_SensorOrientation_t) decodedMsg.orientation;
 #ifdef SIM_PUBLISH_DISTANCE_SENSOR
-                            DistanceSensor.Timestamp = PX4LIB_GetPX4TimeUs();
+                            DistanceSensor.Timestamp = CFE_TIME_GetTimeInMicros();
                             DistanceSensor.MinDistance = decodedMsg.min_distance / 100.0f;
                             DistanceSensor.MaxDistance = decodedMsg.max_distance / 100.0f;
                             DistanceSensor.CurrentDistance = decodedMsg.current_distance / 100.0f;

@@ -23,11 +23,11 @@ private:
 	/** \brief Number of rows */
     static const int SIZE = 10;
 
-    /** \brief Vectors of row data */
-    Vector1F data[SIZE];
-
     /** \brief Vectors of NaN row data */
     Vector1F nan[SIZE];
+
+    /** \brief Vectors of row data */
+    Vector1F data[SIZE];
 
 public:
 

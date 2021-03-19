@@ -27,11 +27,11 @@ private:
 	/** \brief Number of rows and columns */
 	static const int SIZE = 10;
 
-	/** \brief Rotation lookup enumeration */
-	Vector10F data[SIZE];
-
 	/** \brief Vector of NaN row data */
 	Vector10F nan;
+
+	/** \brief Rotation lookup enumeration */
+	Vector10F data[SIZE];
 
 public:
 	/************************************************************************/

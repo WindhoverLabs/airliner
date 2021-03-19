@@ -43,6 +43,7 @@ buildliner_add_app_unit_test(ulr-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ulr_msg.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ulr_version.h
         ${PX4LIB_LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

@@ -1425,11 +1425,12 @@ void Test_TO_ProcessNewAppCmds_QueryOutputChannel_InvalidCmdLength(void)
  */
 void Test_TO_ProcessNewAppCmds_SendDiag_Success(void) {
 
-    TO_NoArgCmd_t               InSchMsg;
-    TO_SendDiagCmd_t            InCmd;
-    int32                       DataPipe;
-    int32                       CmdPipe;
-    uint8  ChannelIdx = 0;
+    TO_NoArgCmd_t    InSchMsg;
+    TO_SendDiagCmd_t InCmd;
+    int32            DataPipe;
+    int32            CmdPipe;
+    uint8            ChannelIdx = 0;
+    int32            i=0;
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and gives it a command to process. */
@@ -1460,7 +1461,7 @@ void Test_TO_ProcessNewAppCmds_SendDiag_Success(void) {
     int32 numMsgFlowPackets = (int32)ceil((double)TO_MAX_MESSAGE_FLOWS/TO_MSG_FLOW_PKT_LIMIT);
     int32 msgFlowPacketCount = 0;
 
-    for(int32 i=0; i<numMsgFlowPackets; ++i)
+    for(i=0; i<numMsgFlowPackets; ++i)
     {
         if(Ut_CFE_SB_PacketSent(TO_DIAG_MSG_FLOW_MID))
         {

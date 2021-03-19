@@ -35,7 +35,7 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
@@ -47,14 +47,16 @@ var Microseconds =VTypeHelper.getDouble(display.getWidget('Microseconds').getPro
 var cmd;
 
 if( Type == "Time" ) {
-    cmd = '/cfs/cfe_time/SetTime(Seconds: ' + Seconds + ', Microseconds: ' + Microseconds + ')';
+    cmd = '/cfs/cfe_time/SetTime';
 } else if( Type == "MET" ) {
-    cmd = '/cfs/cfe_time/SetMET(Seconds: ' + Seconds + ', Microseconds: ' + Microseconds + ')';
+    cmd = '/cfs/cfe_time/SetMET';
 } else if( Type == "STCF" ) {
-    cmd = '/cfs/cfe_time/SetSTCF(Seconds: ' + Seconds + ', Microseconds: ' + Microseconds + ')';
+    cmd = '/cfs/cfe_time/SetSTCF';
 }
 
-Yamcs.issueCommand(cmd);
+Yamcs.issueCommand(cmd, {
+'Payload.Seconds': Seconds,
+'Payload.MicroSeconds': Microseconds});
 
 ]]></scriptText>
         <embedded>true</embedded>
@@ -178,7 +180,7 @@ $(pv_value)</tooltip>
     <name>Seconds</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://Seconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://SetTimeSeconds&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -275,7 +277,7 @@ $(pv_value)</tooltip>
     <name>Microseconds</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://Microseconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://SetTimeMicroseconds&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -329,7 +331,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Type</name>
-    <pv_name>loc://Type&lt;VString&gt;</pv_name>
+    <pv_name>loc://SetTimeType&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>

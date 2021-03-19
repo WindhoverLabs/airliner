@@ -4,8 +4,8 @@
 using namespace math;
 
 Vector10F::Vector10F(float A, float B, float C, float D, float E, float F, float G, float H, float I, float J):
-    data{A,B,C,D,E,F,G,H,I,J},
-	nan(NAN)
+	nan(NAN),
+    data{A,B,C,D,E,F,G,H,I,J}
 {
 };
 

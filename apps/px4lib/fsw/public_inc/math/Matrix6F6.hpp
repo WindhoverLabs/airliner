@@ -14,11 +14,11 @@ private:
 	/** \brief Number of rows and columns */
 	static const int SIZE = 6;
 
-	/** \brief Vectors of row data */
-	Vector6F data[SIZE];
-
 	/** \brief Vectors of NaN row data */
 	Vector6F nan[SIZE];
+
+	/** \brief Vectors of row data */
+	Vector6F data[SIZE];
 
 public:
 	/************************************************************************/

@@ -50,8 +50,6 @@ buildliner_add_app_def(mpu6050
     REFERENCE_CONFIG
         ${PROJECT_SOURCE_DIR}/apps/mpu6050/fsw/mission_inc
         ${PROJECT_SOURCE_DIR}/apps/mpu6050/fsw/platform_inc
-         
-    DESIGN_DEFINITION   ${CMAKE_CURRENT_SOURCE_DIR}/mpu6050_msg_overrides.json
 )
 
 buildliner_add_app_unit_test(mpu6050-ut
@@ -78,6 +76,7 @@ buildliner_add_app_unit_test(mpu6050-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mpu6050_version.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mpu6050_config_utils.cpp
         ${PX4LIB_LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

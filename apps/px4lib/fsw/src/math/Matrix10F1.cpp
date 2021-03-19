@@ -7,15 +7,15 @@ using namespace math;
 Matrix10F1::Matrix10F1(
         Vector1F m0, Vector1F m1, Vector1F m2, Vector1F m3, Vector1F m4, 
         Vector1F m5, Vector1F m6, Vector1F m7, Vector1F m8, Vector1F m9) :
-	data{m0, m1, m2, m3, m4, m5, m6, m7, m8, m9},
-	nan{NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN}
+	nan{NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN},
+	data{m0, m1, m2, m3, m4, m5, m6, m7, m8, m9}
 {
 };
 
 
 Matrix10F1::Matrix10F1() :
-    data{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-    nan{NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN}
+    nan{NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN, NAN},
+    data{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
 {
 };
 
@@ -129,7 +129,7 @@ Matrix10F10 Matrix10F1::operator*(const Matrix1F10 & matIn)
 
 Vector10F Matrix10F1::ToVector(void)
 {
-    math:Vector10F vecOut(
+    math::Vector10F vecOut(
             data[0][0], data[1][0], data[2][0], data[3][0], data[4][0],
             data[5][0], data[6][0], data[7][0], data[8][0], data[9][0]
     );
