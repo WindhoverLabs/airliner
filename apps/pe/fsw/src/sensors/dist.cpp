@@ -32,6 +32,7 @@
 *****************************************************************************/
 
 #include "../pe_app.h"
+#include "cfs_utils.h"
 
 void PE::distInit()
 {
@@ -47,19 +48,19 @@ void PE::distInit()
 	/* If finished */
 	if (m_DistStats.getCount() > REQ_DIST_INIT_COUNT)
 	{
-		m_DistAltOrigin = m_DistStats.getMean()[0];
+		HkTlm.DistAltOrigin = m_DistStats.getMean()[0];
 
 		(void) CFE_EVS_SendEvent(PE_DIST_OK_INF_EID, CFE_EVS_INFORMATION,
 								 "Distance sensor initialized. Mean: (%d) Std dev: (%d) cm",
 								 (int)m_DistStats.getMean()[0],
 								 (int)(100 * m_DistStats.getStdDev()[0]));
 
-		m_DistTimeout = FALSE;
+		HkTlm.DistTimeout = FALSE;
 
-		if (!m_AltOriginInitialized)
+		if (!HkTlm.AltOriginInitialized)
 		{
-			m_AltOriginInitialized = TRUE;
-			m_AltOrigin = m_DistAltOrigin;
+			HkTlm.AltOriginInitialized = TRUE;
+			HkTlm.AltOrigin = HkTlm.DistAltOrigin;
 		}
 	}
 }
@@ -93,7 +94,7 @@ int32 PE::distMeasure(math::Vector1F &y)
 	y.Zero();
 	m_DistStats.update(d);
 	y[0] = (d + ConfigTblPtr->DIST_OFF_Z) * cosf(m_Euler[0]) * cosf(m_Euler[1]);
-	m_TimeLastDist = m_DistanceSensor.Timestamp;
+	HkTlm.TimeLastDist = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&m_DistanceSensor);
 
 distMeasure_Exit_Tag:
 	return Status;
@@ -142,26 +143,26 @@ void PE::distCorrect()
 
     if (m_Dist.beta > DIST_BETA_MAX)
     {
-        if (!m_DistFault)
+        if (!HkTlm.DistFault)
         {
             if(Initialized())
             {
                 (void) CFE_EVS_SendEvent(PE_DIST_FAULT_ERR_EID, CFE_EVS_ERROR,
                         "Dist fault, d %5.2f m r %5.2f m, beta %5.2f", m_DistanceSensor.CurrentDistance, m_Dist.r[0], m_Dist.beta);
             }
-            m_DistFault = TRUE;
+            HkTlm.DistFault = TRUE;
         }
         goto end_of_function;
     }
     else
     {
-        if (m_DistFault)
+        if (HkTlm.DistFault)
         {
-        	m_DistFault = FALSE;
+        	HkTlm.DistFault = FALSE;
             (void) CFE_EVS_SendEvent(PE_DIST_OK_INF_EID, CFE_EVS_INFORMATION,
                     "Dist OK r %5.2f m, beta %5.2f", m_Dist.r[0], m_Dist.beta);
 
-            m_DistInitialized = TRUE;
+            HkTlm.DistInitialized = TRUE;
         }
     }
 
@@ -190,20 +191,20 @@ void PE::distCheckTimeout()
 {
     uint64 Timestamp = 0;
 
-	if (m_Timestamp > m_TimeLastDist)
+	if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastDist) == CFE_TIME_A_GT_B)
 	{
-        Timestamp = m_Timestamp - m_TimeLastDist;
+        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastDist);
     }
-	else if (m_Timestamp < m_TimeLastDist)
+	else if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastDist) == CFE_TIME_A_LT_B)
 	{
-        Timestamp = m_TimeLastDist - m_Timestamp;
+        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastDist) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
     }
 
 	if (Timestamp > DIST_TIMEOUT)
 	{
-		if (!m_DistTimeout)
+		if (!HkTlm.DistTimeout)
 		{
-			m_DistTimeout = TRUE;
+			HkTlm.DistTimeout = TRUE;
 			m_DistStats.reset();
 			(void) CFE_EVS_SendEvent(PE_DIST_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
 									 "Dist timeout: %llu us", Timestamp);

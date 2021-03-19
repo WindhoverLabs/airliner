@@ -97,11 +97,9 @@ MPU9250_InitConfigTbl_Exit_Tag:
 int32 MPU9250::ValidateConfigTbl(void* ConfigTblPtr)
 {
     int32  iStatus=0;
-    MPU9250_ConfigTbl_t* MPU9250_ConfigTblPtr = (MPU9250_ConfigTbl_t*)(ConfigTblPtr);
 
     /* TODO:  Add validation code here. */
 
-MPU9250_ValidateConfigTbl_Exit_Tag:
     return (iStatus);
 }
 

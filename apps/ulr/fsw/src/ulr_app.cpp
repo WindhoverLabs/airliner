@@ -527,7 +527,6 @@ void ULR::ReportHousekeeping()
 void ULR::ReportDistance()
 {
     OS_MutSemTake(Mutex);
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&DistanceSensor);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&DistanceSensor);
     OS_MutSemGive(Mutex);
 }
@@ -793,7 +792,7 @@ void ULR::ListenerTaskMain(void)
                         if(IsChecksumOk())
                         {
                             OS_MutSemTake(Mutex);
-                            DistanceSensor.Timestamp = PX4LIB_GetPX4TimeUs();
+                            CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&DistanceSensor);
                             DistanceSensor.MinDistance = ULR_MIN_DISTANCE;
                             DistanceSensor.MaxDistance = ULR_MAX_DISTANCE;
                             DistanceSensor.CurrentDistance = HeightFilter.apply( ((UartMessage.AltitudeH << 8) + UartMessage.AltitudeL) / 100.0f);

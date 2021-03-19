@@ -5,7 +5,6 @@ using namespace math;
 
 Matrix6F6::Matrix6F6(Vector6F m0, Vector6F m1, Vector6F m2, Vector6F m3,
                        Vector6F m4, Vector6F m5) :
-	data{m0, m1, m2, m3, m4, m5},
 	nan{
         {NAN,NAN,NAN,NAN,NAN,NAN},
         {NAN,NAN,NAN,NAN,NAN,NAN},
@@ -13,12 +12,21 @@ Matrix6F6::Matrix6F6(Vector6F m0, Vector6F m1, Vector6F m2, Vector6F m3,
         {NAN,NAN,NAN,NAN,NAN,NAN},
         {NAN,NAN,NAN,NAN,NAN,NAN},
         {NAN,NAN,NAN,NAN,NAN,NAN}
-    }
+    },
+	data{m0, m1, m2, m3, m4, m5}
 {
 };
 
 
 Matrix6F6::Matrix6F6() :
+	nan{
+	    {NAN,NAN,NAN,NAN,NAN,NAN},
+		{NAN,NAN,NAN,NAN,NAN,NAN},
+		{NAN,NAN,NAN,NAN,NAN,NAN},
+		{NAN,NAN,NAN,NAN,NAN,NAN},
+		{NAN,NAN,NAN,NAN,NAN,NAN},
+		{NAN,NAN,NAN,NAN,NAN,NAN}
+    },
 	data{
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
@@ -26,15 +34,7 @@ Matrix6F6::Matrix6F6() :
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
         {0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
         {0.0, 0.0, 0.0, 0.0, 0.0, 0.0}
-	},
-	nan{
-        {NAN,NAN,NAN,NAN,NAN,NAN},
-        {NAN,NAN,NAN,NAN,NAN,NAN},
-        {NAN,NAN,NAN,NAN,NAN,NAN},
-        {NAN,NAN,NAN,NAN,NAN,NAN},
-        {NAN,NAN,NAN,NAN,NAN,NAN},
-        {NAN,NAN,NAN,NAN,NAN,NAN}
-    }
+	}
 {
 };
 

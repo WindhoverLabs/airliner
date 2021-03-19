@@ -5,13 +5,14 @@
 using namespace math;
 
 Vector3F::Vector3F(float X, float Y, float Z) :
-    data{X,Y,Z},
-	nan(NAN)
+	nan(NAN),
+    data{X,Y,Z}
 {
 };
 
 
 Vector3F::Vector3F() :
+    nan(NAN),
 	data{0.0f, 0.0f, 0.0f}
 {
 };

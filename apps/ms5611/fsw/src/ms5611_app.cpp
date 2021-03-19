@@ -890,7 +890,7 @@ void MS5611::ReadDevice(void)
     else
     {
         /* Stamp time */
-        SensorBaro.Timestamp = PX4LIB_GetPX4TimeUs();
+        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&SensorBaro);
         /* Convert to Celsius */
         SensorBaro.Temperature = temperature / 100.0f;
         /* convert to millibar */

@@ -4,20 +4,20 @@
 using namespace math;
 
 Matrix4F4::Matrix4F4(Vector4F m0, Vector4F m1, Vector4F m2, Vector4F m3) :
-	data{m0, m1, m2, m3},
-	nan{NAN,NAN,NAN,NAN}
+	nan{NAN,NAN,NAN,NAN},
+	data{m0, m1, m2, m3}
 {
 };
 
 
 Matrix4F4::Matrix4F4() :
+	nan{NAN,NAN,NAN,NAN},
 	data{
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0}
-	},
-	nan{NAN,NAN,NAN,NAN}
+	}
 {
 };
 

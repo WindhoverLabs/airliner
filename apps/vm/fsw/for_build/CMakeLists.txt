@@ -45,6 +45,7 @@ buildliner_add_app_def(vm
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/CautionWarningHelper.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Arming.sm
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/VM_Navigation.sm
+	${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_symbols.cpp
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
@@ -95,6 +96,7 @@ buildliner_add_app_unit_test(vm-ut
         ${CMAKE_CURRENT_BINARY_DIR}/sm_src/VM_NavigationContext.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/CautionWarningHelper.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/CautionWarningHelper.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
         #${PX4LIB_LIB_SOURCES}
         # Adding lib sources individually so stubs can be used.
         # Math

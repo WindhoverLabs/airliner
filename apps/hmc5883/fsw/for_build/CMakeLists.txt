@@ -77,6 +77,7 @@ buildliner_add_app_unit_test(hmc5883-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/hmc5883_msg.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/hmc5883_tbldefs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/hmc5883_version.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

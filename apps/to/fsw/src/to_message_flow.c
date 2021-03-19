@@ -73,7 +73,7 @@ int32 TO_MessageFlow_Buildup(TO_ChannelData_t *channel)
                  */
                 (void) CFE_EVS_SendEvent(TO_SUBSCRIBE_ERR_EID,
                                          CFE_EVS_ERROR,
-                                         "Message flow failed to subscribe to (0x%08X) on channel %d. (%ld)",
+                                         "Message flow failed to subscribe to (0x%08X) on channel %lu. (%ld)",
                                          channel->ConfigTblPtr->MessageFlow[i].MsgId,
                                          channel->channelIdx,
                                          status);
@@ -120,7 +120,7 @@ int32 TO_MessageFlow_TeardownAll(TO_ChannelData_t *channel)
                  */
                 (void) CFE_EVS_SendEvent(TO_UNSUBSCRIBE_ERR_EID,
                                          CFE_EVS_ERROR,
-                                         "Message flow failed to unsubscribe from 0x%04x on channel %d. (%ld)",
+                                         "Message flow failed to unsubscribe from 0x%04x on channel %ld. (%ld)",
                                          channel->ConfigTblPtr->MessageFlow[i].MsgId,
                                          channel->channelIdx,
                                          status);

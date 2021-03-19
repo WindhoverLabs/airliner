@@ -97,11 +97,9 @@ GPS_InitConfigTbl_Exit_Tag:
 int32 GPS::ValidateConfigTbl(void* ConfigTblPtr)
 {
     int32  iStatus=0;
-    GPS_ConfigTbl_t* GPS_ConfigTblPtr = (GPS_ConfigTbl_t*)(ConfigTblPtr);
 
     /* TODO:  Add validation code here. */
 
-GPS_ValidateConfigTbl_Exit_Tag:
     return iStatus;
 }
 

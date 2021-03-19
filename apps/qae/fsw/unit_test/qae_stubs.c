@@ -33,8 +33,4 @@
 
 #include "qae_stubs.h"
 
-uint64 PX4LIB_GetPX4TimeUs(void)
-{
-    return 0;
-}
 

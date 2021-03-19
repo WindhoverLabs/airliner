@@ -4,19 +4,19 @@
 using namespace math;
 
 Matrix3F10::Matrix3F10(Vector10F m0, Vector10F m1, Vector10F m2) :
-	data{m0, m1, m2},
-	nan{NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN}
+	nan{NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN},
+	data{m0, m1, m2}
 {
 };
 
 
 Matrix3F10::Matrix3F10() :
+    nan{NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN},
 	data{
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
 		{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-	},
-    nan{NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN,NAN}
+	}
 {
 };
 
@@ -108,7 +108,6 @@ Matrix3F3 Matrix3F10::operator*(const Matrix10F3 &matIn)
 Vector3F Matrix3F10::operator*(const Vector10F &vecIn)
 {
     Vector3F vecOut;
-    float value = 0.0f;
 
     // TODO: verify correct
     for(int i = 0; i < ROWS; i++)

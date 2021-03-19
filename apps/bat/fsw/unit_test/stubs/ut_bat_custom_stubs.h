@@ -39,7 +39,6 @@ typedef enum
     UT_BAT_CUSTOM_INITDEVICE_INDEX,
     UT_BAT_CUSTOM_CLOSEDEVICE_INDEX,
     UT_BAT_CUSTOM_READDEVICE_INDEX,
-	UT_BAT_PX4LIB_GETPX4TIMEUS_INDEX,
     UT_BAT_CUSTOM_MAX_INDEX
 } Ut_BAT_Custom_INDEX_t;
 
@@ -48,7 +47,6 @@ typedef struct
     int32  (*InitDevice)(void);
     void   (*CloseDevice)(void);
     int32  (*ReadDevice)(float &Voltage, float &Current);
-    uint64 (*PX4LIB_GetPX4TimeUs)(void);
 } Ut_BAT_Custom_HookTable_t;
 
 typedef struct

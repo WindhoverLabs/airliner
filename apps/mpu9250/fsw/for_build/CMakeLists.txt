@@ -77,6 +77,7 @@ buildliner_add_app_unit_test(mpu9250-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mpu9250_version.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mpu9250_config_utils.cpp
         ${PX4LIB_LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

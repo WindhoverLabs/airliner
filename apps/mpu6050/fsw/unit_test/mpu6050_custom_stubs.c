@@ -101,12 +101,6 @@ boolean MPU6050_Read_MagDeviceID(uint8 *Value)
 }
 
 
-uint64 PX4LIB_GetPX4TimeUs(void)
-{
-    return MPU6050_Custom_Returns.MPU6050_Get_Time_Return;
-}
-
-
 boolean MPU6050_Apply_Platform_Rotation(float *X, float *Y, float *Z)
 {
     return TRUE;

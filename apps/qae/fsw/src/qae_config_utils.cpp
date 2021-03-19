@@ -142,13 +142,13 @@ int32 QAE::ValidateConfigTbl(void* ConfigTblPtr)
         valid_bool = FALSE;
     }
 
-QAE_ValidateConfigTbl_Exit_Tag:
     if(FALSE == valid_bool)
     {
         (void) CFE_EVS_SendEvent(QAE_CFGTBL_VALIDATION_ERR_EID, CFE_EVS_ERROR,
             "Config params table validation error");
         iStatus = -1;
     }
+
     return (iStatus);
 }
 

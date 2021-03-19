@@ -152,7 +152,7 @@ typedef struct
         \brief Count of failed commands */
     uint8              usCmdErrCnt; 
 
-	uint64             Timestamp;
+    CFE_TIME_SysTime_t Timestamp;
 	uint32             Count;
 	float              Output[PX4_ACTUATOR_OUTPUTS_MAX];
 } AMC_HkTlm_t;

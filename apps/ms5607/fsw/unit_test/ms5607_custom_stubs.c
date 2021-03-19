@@ -138,7 +138,7 @@ int32 MS5607_Custom_Init_EventFilters(int32 ind, CFE_EVS_BinFilter_t *EventTbl)
 }
 
 
-uint64 PX4LIB_GetPX4TimeUs(void)
+uint64 CFE_TIME_GetTimeInMicros(void)
 {
     return 0;
 }

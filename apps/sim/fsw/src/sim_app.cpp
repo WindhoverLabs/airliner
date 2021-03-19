@@ -545,7 +545,7 @@ int32 SIM::ListenerInit()
     int   reuseaddr = 1;
 	struct sockaddr_in address;
 
-    if((Socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
+    if((Socket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
     	//TODO:  Add event
     	//OS_printf("OSAL:  Failed to create sim socket.  errno: %i\n", errno);
@@ -560,13 +560,15 @@ int32 SIM::ListenerInit()
     address.sin_addr.s_addr = htonl (INADDR_ANY);
     address.sin_port        = htons(SIM_PORT);
 
-	if ( (bind(Socket, (struct sockaddr *) &address, sizeof(address)) < 0) )
+	if ( (connect(Socket, (struct sockaddr *) &address, sizeof(address)) < 0) )
 	{
     	//TODO:  Add event
     	//OS_printf("OSAL:  Failed to bind sim socket.  errno: %i\n", errno);
 		Status = -1;
 		goto end_of_function;
 	}
+
+	SIMLIB_SetSocket(Socket);
 
     Status = OS_MutSemCreate(&MutexID, SIM_MUTEX_NAME, 0);
 	if (Status != CFE_SUCCESS)
@@ -633,15 +635,7 @@ void SIM::SetRates(void)
 
 	if(Socket != 0)
 	{
-		struct sockaddr_in simAddr;
-		int len = sizeof(simAddr);
-
-	    bzero((char *) &simAddr, sizeof(simAddr));
-	    simAddr.sin_family      = AF_INET;
-	    simAddr.sin_addr.s_addr = inet_addr(SendAddress);
-	    simAddr.sin_port        = htons(SendPort);
-
-		sendto(Socket, (char *)buffer, length, 0, (const struct sockaddr *)&simAddr, (socklen_t )len);
+		send(Socket, (char *)buffer, length, 0);
 	}
 }
 
@@ -660,20 +654,16 @@ void SIM::ListenerTask(void)
 
 	CFE_ES_RegisterChildTask();
 
+    SetRates();
+
 	while(ChildContinueExec())
 	{
-		struct sockaddr_in client;
-		socklen_t len = sizeof(client);
-
-		size = recvfrom(Socket,
+		size = read(Socket,
 						   (char *)buffer,
-						   (size_t)size, 0,
-						   (struct sockaddr*)&client,
-						   &len);
+						   (size_t)size);
 		if(size <= 0)
 		{
 	    	//TODO:  Add event
-	    	OS_printf("OSAL:  Failed to receive message from sim.  errno = %u\n", errno);
 			OS_TaskDelay(1000);
 		}
 		else
@@ -681,24 +671,11 @@ void SIM::ListenerTask(void)
 			mavlink_message_t msg;
 			mavlink_status_t status;
 			int32 i = 0;
-			char temp;
-			int port = ntohs(client.sin_port);
-			char *addr = inet_ntoa(client.sin_addr);
-
-			if(port != SendPort)
-			{
-				/* This is a new connection.  Set the message rates and inform
-				 * the simlib code. */
-				SetRates();
-
-				strncpy(SendAddress, addr, sizeof(SendAddress));
-				SendPort = port;
-				SIMLIB_SetSocket(Socket, SendPort, SendAddress);
-			}
+			//char temp;
 
 			for (i = 0; i < size; ++i)
 			{
-				temp = buffer[i];
+				//temp = buffer[i];
 				if (mavlink_parse_char(MAVLINK_COMM_0, buffer[i], &msg, &status))
 				{
 					switch(msg.msgid)
@@ -717,14 +694,14 @@ void SIM::ListenerTask(void)
 							mavlink_msg_hil_sensor_decode(&msg, &decodedMsg);
 
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x00000007)
+							if(decodedMsg.fields_updated & (uint32_t)SensorSource::ACCEL)
 							{
 #endif
 #ifdef SIM_PUBLISH_ACCEL
                                 //SensorAccel.Scaling = NEW_SCALE_G_DIGIT * CONSTANTS_ONE_G;
                                 SensorAccel.Scaling = 0;
                                 SensorAccel.Range_m_s2 = 0;
-                                SensorAccel.Timestamp = PX4LIB_GetPX4TimeUs();
+                                SensorAccel.Timestamp = CFE_TIME_GetTimeInMicros();
                                 //SensorAccel.XRaw = (int16)((decodedMsg.xacc / MG2MS2) / SensorAccel.Scaling);
                                 //SensorAccel.YRaw = (int16)((decodedMsg.yacc / MG2MS2) / SensorAccel.Scaling);
                                 //SensorAccel.ZRaw = (int16)((decodedMsg.zacc / MG2MS2) / SensorAccel.Scaling);
@@ -750,6 +727,7 @@ void SIM::ListenerTask(void)
                                 CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&SensorAccel);
                                 CFE_SB_SendMsg((CFE_SB_Msg_t*)&SensorAccel);
 #else
+
 								SIMLIB_SetAccel(decodedMsg.xacc, decodedMsg.yacc, decodedMsg.zacc);
 #endif
 #ifdef SIM_CHECK_UPDATED_FIELDS
@@ -757,13 +735,13 @@ void SIM::ListenerTask(void)
 #endif
 
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x00000038)
+							if(decodedMsg.fields_updated & (uint32_t)SensorSource::GYRO)
 							{
 #endif
 #ifdef SIM_PUBLISH_GYRO
                                 SensorGyro.Scaling = 0;
                                 SensorGyro.Range = 0;
-                                SensorGyro.Timestamp = PX4LIB_GetPX4TimeUs();
+                                SensorGyro.Timestamp = CFE_TIME_GetTimeInMicros();
                                 //SensorGyro.XRaw = (int16)(decodedMsg.xgyro * 1000.0f);
                                 //SensorGyro.YRaw = (int16)(decodedMsg.ygyro * 1000.0f);
                                 //SensorGyro.ZRaw = (int16)(decodedMsg.zgyro * 1000.0f);
@@ -795,11 +773,11 @@ void SIM::ListenerTask(void)
 #endif
 
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x000001a0)
+							if(decodedMsg.fields_updated & (uint32_t)SensorSource::MAG)
 							{
 #endif
 #ifdef SIM_PUBLISH_MAG
-                                SensorMag.Timestamp = PX4LIB_GetPX4TimeUs();
+                                SensorMag.Timestamp = CFE_TIME_GetTimeInMicros();
                                 SensorMag.Scaling = 0;
                                 SensorMag.Range = 0;
                                 //SensorMag.XRaw = (int16)((decodedMsg.xmag * 1000.0f) / NEW_SCALE_GA_DIGIT);
@@ -827,25 +805,25 @@ void SIM::ListenerTask(void)
 
 
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x00000600)
+							if(decodedMsg.fields_updated & 0x00000400)
 							{
 #endif
 #ifdef SIM_PUBLISH_BARO
-                                SensorBaro.Timestamp = PX4LIB_GetPX4TimeUs();
+                                SensorBaro.Timestamp = CFE_TIME_GetTimeInMicros();
                                 SensorBaro.Pressure = decodedMsg.abs_pressure;
 #else
-								SIMLIB_SetPressure(decodedMsg.abs_pressure, decodedMsg.diff_pressure);
+								//SIMLIB_SetPressure(decodedMsg.abs_pressure, decodedMsg.diff_pressure);
 #endif
 #ifdef SIM_CHECK_UPDATED_FIELDS
 						    }
 #endif
 
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x00000800)
+							if(decodedMsg.fields_updated &  (uint32_t)SensorSource::BARO)
                             {
 #endif
 #ifdef SIM_PUBLISH_BARO       
-                                SensorBaro.Timestamp = PX4LIB_GetPX4TimeUs();
+                                SensorBaro.Timestamp = CFE_TIME_GetTimeInMicros();
                                 SensorBaro.Altitude = decodedMsg.pressure_alt;
                                 /* fake device ID */
                                 //SensorBaro.DeviceID = 478459;
@@ -853,6 +831,7 @@ void SIM::ListenerTask(void)
                                 CFE_SB_SendMsg((CFE_SB_Msg_t*)&SensorBaro);
 #else
 								SIMLIB_SetPressureAltitude(decodedMsg.pressure_alt);
+
 #endif
 #ifdef SIM_CHECK_UPDATED_FIELDS
 						    }
@@ -861,7 +840,7 @@ void SIM::ListenerTask(void)
                             /* TODO sitl gazebo mavlink plugin needs to be updated
                              * to set bit 12, TRUE set for now... */
 #ifdef SIM_CHECK_UPDATED_FIELDS
-							if(decodedMsg.fields_updated & 0x00001000 || TRUE)
+							if(decodedMsg.fields_updated & 0x00000800)
 							{
 #endif
 #ifdef SIM_PUBLISH_BARO
@@ -878,7 +857,6 @@ void SIM::ListenerTask(void)
                                 SensorGyro.Temperature = decodedMsg.temperature;
                                 SensorGyro.TemperatureRaw = (int16)((SensorGyro.Temperature -21.0f) * 333.87f);
 #endif
-
 								SIMLIB_SetTemp(decodedMsg.temperature);
 #ifdef SIM_CHECK_UPDATED_FIELDS
 							}
@@ -892,7 +870,7 @@ void SIM::ListenerTask(void)
 							mavlink_hil_gps_t 					decodedMsg;
 							mavlink_msg_hil_gps_decode(&msg, &decodedMsg);
 #ifdef SIM_PUBLISH_GPS
-                            VehicleGps.Timestamp      = PX4LIB_GetPX4TimeUs();
+                            VehicleGps.Timestamp      = CFE_TIME_GetTimeInMicros();
                             VehicleGps.Lat            = decodedMsg.lat;
                             VehicleGps.Lon            = decodedMsg.lon;
                             VehicleGps.Alt            = decodedMsg.alt;
@@ -931,7 +909,7 @@ void SIM::ListenerTask(void)
 							mavlink_msg_hil_optical_flow_decode(&msg, &decodedMsg);
 							
 #ifdef SIM_PUBLISH_OPTICAL_FLOW
-                        	OpticalFlow.Timestamp                       = PX4LIB_GetPX4TimeUs();
+                        	OpticalFlow.Timestamp                       = CFE_TIME_GetTimeInMicros();
 	                        OpticalFlow.PixelFlowXIntegral              = decodedMsg.integrated_x;
 	                        OpticalFlow.PixelFlowYIntegral              = decodedMsg.integrated_y; 
 	                        OpticalFlow.GyroXRateIntegral               = decodedMsg.integrated_xgyro;
@@ -974,7 +952,7 @@ void SIM::ListenerTask(void)
 							sensorType = (PX4_DistanceSensorType_t) decodedMsg.type;
 							sensorOrientation = (PX4_SensorOrientation_t) decodedMsg.orientation;
 #ifdef SIM_PUBLISH_DISTANCE_SENSOR
-                            DistanceSensor.Timestamp = PX4LIB_GetPX4TimeUs();
+                            DistanceSensor.Timestamp = CFE_TIME_GetTimeInMicros();
                             DistanceSensor.MinDistance = decodedMsg.min_distance / 100.0f;
                             DistanceSensor.MaxDistance = decodedMsg.max_distance / 100.0f;
                             DistanceSensor.CurrentDistance = decodedMsg.current_distance / 100.0f;

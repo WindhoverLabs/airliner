@@ -346,10 +346,9 @@ void MD_CopyUpdatedTbl(MD_DwellTableLoad_t *MD_LoadTablePtr, uint8 TblIndex)
 /******************************************************************************/
 void MD_UpdateTableEnabledField (uint16 TableIndex, uint16 FieldValue)
 {
-   int32 GetAddressResult;
    MD_DwellTableLoad_t *MD_LoadTablePtr;
    
-   GetAddressResult = CFE_TBL_GetAddress((void*)&MD_LoadTablePtr, 
+   CFE_TBL_GetAddress((void*)&MD_LoadTablePtr,
                                         MD_AppData.MD_TableHandle[TableIndex]);
                    
    if (FieldValue == MD_DWELL_STREAM_ENABLED)
@@ -376,12 +375,11 @@ void MD_UpdateTableDwellEntry (uint16 TableIndex,
                                uint16 NewDelay,
                                CFS_SymAddr_t NewDwellAddress)
 {
-   int32 GetAddressResult;
    MD_DwellTableLoad_t *MD_LoadTablePtr;
    MD_TableLoadEntry_t *EntryPtr;
    
    /* Get pointer to Table */
-   GetAddressResult = CFE_TBL_GetAddress((void*)&MD_LoadTablePtr, 
+   CFE_TBL_GetAddress((void*)&MD_LoadTablePtr,
                                         MD_AppData.MD_TableHandle[TableIndex]);
    /* Get pointer to specific entry */
    EntryPtr = &MD_LoadTablePtr->Entry[EntryIndex];
@@ -413,11 +411,10 @@ void MD_UpdateTableDwellEntry (uint16 TableIndex,
 void MD_UpdateTableSignature (uint16 TableIndex, 
                                char NewSignature[MD_SIGNATURE_FIELD_LENGTH])
 {
-   int32 GetAddressResult;
    MD_DwellTableLoad_t *MD_LoadTablePtr;
    
    /* Get pointer to Table */
-   GetAddressResult = CFE_TBL_GetAddress((void*)&MD_LoadTablePtr, 
+   CFE_TBL_GetAddress((void*)&MD_LoadTablePtr,
                                         MD_AppData.MD_TableHandle[TableIndex]);
 
    /* Copy Signature to dwell structure */

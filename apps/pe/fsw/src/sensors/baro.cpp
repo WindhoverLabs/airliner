@@ -32,6 +32,7 @@
 *****************************************************************************/
 
 #include "../pe_app.h"
+#include "cfs_utils.h"
 
 void PE::baroInit()
 {
@@ -47,19 +48,19 @@ void PE::baroInit()
 	/* If finished */
 	if (m_BaroStats.getCount() > REQ_BARO_INIT_COUNT)
 	{
-		m_BaroAltOrigin = m_BaroStats.getMean()[0];
+		HkTlm.BaroAltOrigin = m_BaroStats.getMean()[0];
 
 		(void) CFE_EVS_SendEvent(PE_BARO_OK_INF_EID, CFE_EVS_INFORMATION,
 								 "Baro initialized. Mean: (%d) Std dev: (%d) cm",
 								 (int)m_BaroStats.getMean()[0],
 								 (int)(100 * m_BaroStats.getStdDev()[0]));
 
-		m_BaroTimeout = FALSE;
+		HkTlm.BaroTimeout = FALSE;
 
-		if (!m_AltOriginInitialized)
+		if (!HkTlm.AltOriginInitialized)
 		{
-			m_AltOriginInitialized = TRUE;
-			m_AltOrigin = m_BaroAltOrigin;
+			HkTlm.AltOriginInitialized = TRUE;
+			HkTlm.AltOrigin = HkTlm.BaroAltOrigin;
 		}
 	}
 	
@@ -89,7 +90,7 @@ void PE::baroCorrect()
     }
 
     /* subtract baro origin alt */
-    m_Baro.y[0] -= m_BaroAltOrigin;
+    m_Baro.y[0] -= HkTlm.BaroAltOrigin;
 
     /* measured altitude, negative down dir */
     m_Baro.C[Y_baro_z][X_z] = -1.0f;
@@ -111,26 +112,26 @@ void PE::baroCorrect()
 
     if (m_Baro.beta > BETA_TABLE[n_y_baro])
     {
-        if (!m_BaroFault)
+        if (!HkTlm.BaroFault)
         {
             if(Initialized())
             {
                 (void) CFE_EVS_SendEvent(PE_BARO_FAULT_ERR_EID, CFE_EVS_ERROR,
                         "Baro fault, r %5.2f m, beta %5.2f", m_Baro.r[0], m_Baro.beta);
             }
-            m_BaroFault = TRUE;
+            HkTlm.BaroFault = TRUE;
         }
 
     }
     else
     {
-        if (m_BaroFault)
+        if (HkTlm.BaroFault)
         {
-        	m_BaroFault = FALSE;
+        	HkTlm.BaroFault = FALSE;
             (void) CFE_EVS_SendEvent(PE_BARO_OK_INF_EID, CFE_EVS_INFORMATION,
                     "Baro OK");
 
-            m_BaroInitialized = TRUE;
+            HkTlm.BaroInitialized = TRUE;
         }
     }
 
@@ -159,13 +160,13 @@ void PE::baroCheckTimeout()
 {
     uint64 Timestamp = 0;
 
-	if (m_Timestamp > m_TimeLastBaro)
+	if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastBaro) == CFE_TIME_A_GT_B)
 	{
-        Timestamp = m_Timestamp - m_TimeLastBaro;
+        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastBaro);
     }
-	else if (m_Timestamp < m_TimeLastBaro)
+	else if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastBaro) == CFE_TIME_A_LT_B)
 	{
-        Timestamp = m_TimeLastBaro - m_Timestamp;
+        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastBaro) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
     }
     else
     {
@@ -174,9 +175,9 @@ void PE::baroCheckTimeout()
 
 	if (Timestamp > BARO_TIMEOUT)
 	{
-		if (!m_BaroTimeout)
+		if (!HkTlm.BaroTimeout)
 		{
-			m_BaroTimeout = TRUE;
+			HkTlm.BaroTimeout = TRUE;
 			m_BaroStats.reset();
 			(void) CFE_EVS_SendEvent(PE_BARO_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
 									 "Baro timeout: %llu us", Timestamp);

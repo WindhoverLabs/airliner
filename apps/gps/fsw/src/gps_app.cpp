@@ -314,7 +314,6 @@ int32 GPS::RcvSchPipeMsg(int32 iBlocking)
 {
     int32           iStatus = CFE_SUCCESS;
     CFE_SB_Msg_t*   MsgPtr  = NULL;
-    boolean returnBool      = FALSE;
     CFE_SB_MsgId_t  MsgId;
 
     /* Stop Performance Log entry */

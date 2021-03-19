@@ -254,6 +254,22 @@ boolean CFS_VerifyString(char *Buffer, int32 BufferSize,
                          boolean StringIsRequired, boolean NeedCharTest);
 
 uint64  CFE_TIME_GetTimeInMicros(void);
+double  CFE_TIME_GetTimeInSeconds(void);
+uint64  CFE_TIME_ConvertTimeToMicros(CFE_TIME_SysTime_t time);
+double  CFE_TIME_ConvertTimeToSeconds(CFE_TIME_SysTime_t time);
+void    CFE_TIME_ClearTime(CFE_TIME_SysTime_t *time);
+boolean CFE_TIME_IsTimeZero(CFE_TIME_SysTime_t time);
+void    CFE_TIME_SetTimeEqual(CFE_TIME_SysTime_t *left, CFE_TIME_SysTime_t right);
+CFE_TIME_SysTime_t CFE_TIME_ElapsedTime(CFE_TIME_SysTime_t sinceTime);
+uint64  CFE_TIME_ElapsedTimeInMicros(CFE_TIME_SysTime_t sinceTime);
+uint64  CFE_SB_ElapsedMsgTimeInMicros(const CFE_SB_MsgPtr_t sinceMsg);
+void    CFE_SB_CopyMsgTime(CFE_SB_MsgPtr_t dest, const CFE_SB_MsgPtr_t src);
+boolean CFE_SB_IsMsgTimeZero(const CFE_SB_MsgPtr_t msg);
+uint64  CFE_SB_GetMsgTimeInMicros(const CFE_SB_MsgPtr_t msg);
+double  CFE_SB_GetMsgTimeInSeconds(const CFE_SB_MsgPtr_t msg);
+void    CFE_SB_ClearMsgTime(CFE_SB_MsgPtr_t msg);
+CFE_TIME_Compare_t  CFE_SB_CompareMsgTime(const CFE_SB_MsgPtr_t msgA, const CFE_SB_MsgPtr_t msgB);
+
 
 #ifdef __cplusplus
 }

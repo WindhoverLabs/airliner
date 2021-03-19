@@ -222,14 +222,8 @@ void Test_LGC_InitData(void)
 {
     LGC oLGC;
 
-    /* Set a fail result */
-    int32 expected = CFE_SUCCESS;
-
     /* Execute the function being tested */
     oLGC.InitData();
-
-    /* Verify results */
-    //UtAssert_True (result == expected, "InitData");
 }
 
 

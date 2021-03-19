@@ -56,10 +56,12 @@ void Test_Matrix1F6_IndexOutOfBounds(void)
 {
     math::Matrix1F6 matrix({1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f});
 
-
     /* Verify results */
-    UtAssert_True(isnan(matrix[0][6]), "matrix[0][6] == NAN");
-    UtAssert_True(isnan(matrix[1][0]), "matrix[1][0] == NAN");
+    float result = matrix[0][6];
+    UtAssert_True(isnan(result), "matrix[0][6] == NAN");
+
+    result = matrix[1][0];
+    UtAssert_True(isnan(result), "matrix[1][0] == NAN");
 }
 
 

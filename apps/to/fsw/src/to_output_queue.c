@@ -63,7 +63,7 @@ int32 TO_OutputQueue_Buildup(TO_ChannelData_t* channel)
     {
         (void) CFE_EVS_SendEvent(TO_CONFIG_TABLE_ERR_EID,
                                  CFE_EVS_ERROR,
-                                 "Failed to create '%s' output channel queue for channel %d. err=%ld",
+                                 "Failed to create '%s' output channel queue for channel %lu. err=%ld",
                                  channel->ChannelName, channel->channelIdx, status);
 
         channel->OutputQueue.OSALQueueID = OS_MAX_QUEUES;

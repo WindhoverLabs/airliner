@@ -248,7 +248,7 @@ int32 VC_CleanupCustom(void)
             }
         }
     }
-return returnCode;
+    return returnCode;
 }
 
 

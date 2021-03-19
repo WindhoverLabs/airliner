@@ -35,6 +35,7 @@
 #include "vm_events.h"
 #include "vm_app.h"
 #include "px4lib_msgids.h"
+#include "cfs_utils.h"
 
 typedef enum
 {
@@ -413,19 +414,19 @@ osalbool VM_Navigation::AllMessagesReceivedAtLeastOnce()
 {
     osalbool validity = false;
 
-    osalbool SensorMagMsgReady = (App.SensorMagMsg.Timestamp > 0);
-    osalbool SensorGyroMsgReady = (App.SensorGyroMsg.Timestamp > 0);
-    osalbool SensorAccelMsgReady = (App.SensorAccelMsg.Timestamp > 0);
-    osalbool SensorCombinedMsgReady = (App.SensorCombinedMsg.Timestamp > 0);
-    osalbool VehicleAttitudeMsgReady = (App.VehicleAttitudeMsg.Timestamp > 0);
-    osalbool VehicleLocalPositionMsg = (App.VehicleLocalPositionMsg.Timestamp > 0);
-    osalbool VehicleLandDetectedMsgReady = (App.VehicleLandDetectedMsg.Timestamp > 0);
-    osalbool VehicleGlobalPositionMsgReady = (App.VehicleGlobalPositionMsg.Timestamp > 0);
-    osalbool VehicleGpsPositionMsgReady = (App.VehicleGpsPositionMsg.Timestamp > 0);
+    osalbool SensorMagMsgReady             = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorMagMsg);
+    osalbool SensorGyroMsgReady            = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorGyroMsg);
+    osalbool SensorAccelMsgReady           = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorAccelMsg);
+    osalbool SensorCombinedMsgReady        = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorCombinedMsg);
+    osalbool VehicleAttitudeMsgReady       = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleAttitudeMsg);
+    osalbool VehicleLocalPositionMsgReady  = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleLocalPositionMsg);
+    osalbool VehicleLandDetectedMsgReady   = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleLandDetectedMsg);
+    osalbool VehicleGlobalPositionMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleGlobalPositionMsg);
+    osalbool VehicleGpsPositionMsgReady    = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleGpsPositionMsg);
 
     if (SensorMagMsgReady && SensorGyroMsgReady && SensorAccelMsgReady
         && SensorCombinedMsgReady && VehicleAttitudeMsgReady
-        && VehicleLocalPositionMsg && VehicleLandDetectedMsgReady
+        && VehicleLocalPositionMsgReady && VehicleLandDetectedMsgReady
         && VehicleGlobalPositionMsgReady && VehicleGpsPositionMsgReady)
     {
         validity = true;
@@ -435,7 +436,16 @@ osalbool VM_Navigation::AllMessagesReceivedAtLeastOnce()
     {
         /* Send event */
         CFE_EVS_SendEvent(VM_SEN_NOT_READY_INFO_EID, CFE_EVS_INFORMATION,
-            "Sensors not ready");
+            "Sensors not ready (SM=%u SG=%u SA=%u SC=%u VA=%u VLP=%u VLD=%u VGP=%u VGPSP=%u)\n",
+			SensorMagMsgReady,
+			SensorGyroMsgReady,
+			SensorAccelMsgReady,
+			SensorCombinedMsgReady,
+			VehicleAttitudeMsgReady,
+			VehicleLocalPositionMsgReady,
+			VehicleLandDetectedMsgReady,
+			VehicleGlobalPositionMsgReady,
+			VehicleGpsPositionMsgReady);
     }
 
     return validity;
@@ -467,7 +477,7 @@ osalbool VM_Navigation::IsTransitionAltCtlValid(void)
     PX4_NavigationState_t Current_NavState = App.VehicleStatusMsg.NavState;
 
     /* Altitude Hold Requirement Validation */
-    if (App.VehicleLocalPositionMsg.Timestamp > 0
+    if (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleLocalPositionMsg)
         && App.VehicleLocalPositionMsg.Z_Valid
         && App.VehicleLocalPositionMsg.V_Z_Valid)
     {
@@ -497,7 +507,7 @@ osalbool VM_Navigation::IsTransitionPosCtlValid(void)
     PX4_NavigationState_t Current_NavState = App.VehicleStatusMsg.NavState;
 
     /* Position Hold Requirement Validation */
-    if (App.VehicleLocalPositionMsg.Timestamp > 0
+    if (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.VehicleLocalPositionMsg)
         && App.VehicleLocalPositionMsg.XY_Valid
         && App.VehicleLocalPositionMsg.V_XY_Valid
         && App.VehicleLocalPositionMsg.Z_Valid
@@ -525,24 +535,32 @@ osalbool VM_Navigation::IsTransitionPosCtlValid(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 osalbool VM_Navigation::IsTransitionAcrobaticValid(void)
 {
-    osalbool validity = false;
+    osalbool validity = true;
     PX4_NavigationState_t Current_NavState = App.VehicleStatusMsg.NavState;
 
     /* Altitude Hold Requirement Validation */
-    if (App.SensorCombinedMsg.Timestamp > 0
-        && (App.SensorCombinedMsg.MagTimestampRelative
-                != PX4_RELATIVE_TIMESTAMP_INVALID)
-        && (App.SensorCombinedMsg.AccRelTimeInvalid
-                != PX4_RELATIVE_TIMESTAMP_INVALID))
+    osalbool SensorCombinedMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorCombinedMsg);
+    osalbool SensorMagMsgReady = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorMagMsg);
+
+    if(CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&App.SensorCombinedMsg))
     {
-        validity = true;
+        CFE_EVS_SendEvent(VM_REQ_ACRO_ERR_EID, CFE_EVS_ERROR,
+            "Acrobatic mode requirement failed. SensorCombinedMsg not received.");
+        validity = false;
     }
 
-    if (!validity)
+    if(App.SensorCombinedMsg.MagInvalid)
     {
-        /* Send event */
         CFE_EVS_SendEvent(VM_REQ_ACRO_ERR_EID, CFE_EVS_ERROR,
-            "Acrobatic mode requirement failed");
+            "Acrobatic mode requirement failed. Mag invalid.");
+        validity = false;
+    }
+
+    if(App.SensorCombinedMsg.AccInvalid)
+    {
+        CFE_EVS_SendEvent(VM_REQ_ACRO_ERR_EID, CFE_EVS_ERROR,
+            "Acrobatic mode requirement failed. Acc invalid.");
+        validity = false;
     }
 
     return validity;

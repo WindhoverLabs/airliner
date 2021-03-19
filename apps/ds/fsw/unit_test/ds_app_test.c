@@ -818,17 +818,19 @@ void DS_AppProcessCmd_Test_CloseAll(void)
 void DS_AppProcessCmd_Test_InvalidCommandCode(void)
 {
     DS_CloseAllCmd_t   CmdPacket;
+    char               expected[200];
 
     CFE_SB_InitMsg (&CmdPacket, DS_CMD_MID, sizeof(DS_CloseAllCmd_t), TRUE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdPacket, 99);
 
+    sprintf(expected, "Invalid command code: MID = 0x%04X, CC = 99", DS_CMD_MID);
     /* Execute the function being tested */
     DS_AppProcessCmd((CFE_SB_MsgPtr_t)(&CmdPacket));
     
     /* Verify results */
     UtAssert_True
-        (Ut_CFE_EVS_EventSent(DS_CMD_CODE_ERR_EID, CFE_EVS_ERROR, "Invalid command code: MID = 0x18BB, CC = 99"),
-        "Invalid command code: MID = 0x18BB, CC = 99");
+        (Ut_CFE_EVS_EventSent(DS_CMD_CODE_ERR_EID, CFE_EVS_ERROR, expected),
+        expected);
 
     UtAssert_True (DS_AppData.CmdRejectedCounter == 1, "DS_AppData.CmdRejectedCounter == 1");
 

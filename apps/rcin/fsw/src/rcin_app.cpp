@@ -565,8 +565,9 @@ void RCIN::ReadDevice(void)
         }
     }
 
-    InputRcMsg.LastSignal = InputRcMsg.Timestamp;
-    InputRcMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+    InputRcMsg.LastSignal = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&InputRcMsg);
+    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&InputRcMsg);
+
     return;
 }
 
