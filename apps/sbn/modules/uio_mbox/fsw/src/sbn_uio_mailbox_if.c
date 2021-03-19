@@ -39,7 +39,7 @@ void *InitDevice(const char *path)
     fd = open(path, O_RDWR);
     if (fd < 1)
     {
-        /* TODO remove after debug. */
+        /* TODO update to event. */
         OS_printf("Invalid UIO device file:%s.\n", path);
         goto end_of_function;
     }
@@ -47,7 +47,7 @@ void *InitDevice(const char *path)
     mailbox_ptr = mmap(NULL, MAILBOX_SIZE, PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
     if (mailbox_ptr == MAP_FAILED)
     {
-        /* TODO remove after debug. */
+        /* TODO update to event. */
         OS_printf("Mmap call failure. errno %d\n", errno);
         goto end_of_function;
     }
@@ -115,6 +115,8 @@ int MailboxWrite(void *instance, const unsigned int *buffer, unsigned int size)
         uio_write(instance, MAILBOX_WRITE_REG, *buffer++);
     }
 
+    printf("MailboxWrite %u\n", size);
+
 end_of_function:
     return status;
 }
@@ -142,6 +144,8 @@ int MailboxRead(void *instance, unsigned int *buffer, unsigned int size)
             goto end_of_function;
         }
     }
+
+    printf("MailboxRead %u\n", size);
 
 end_of_function:
     return status;
@@ -295,7 +299,7 @@ static int InitNet(SBN_NetInterface_t *Net)
     if (Status != CFE_SUCCESS)
     {
         /* TODO update to event. */
-        OS_printf("PQ_Channel_Init failed%u\n", Status);
+        OS_printf("PQ_Channel_Init failed %u\n", Status);
         Status = SBN_ERROR;
         goto end_of_function;
     }
@@ -332,7 +336,7 @@ static int InitNet(SBN_NetInterface_t *Net)
     if (Status != CFE_SUCCESS)
     {
         /* TODO update to event. */
-        printf("CFE_ES_CreateChildTask failed%u\n", Status);
+        OS_printf("CFE_ES_CreateChildTask failed %u\n", Status);
         Status = SBN_ERROR;
         goto end_of_function;
     }
@@ -417,7 +421,7 @@ static int Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
                 MessageComplete = TRUE;
                 if (SBN_UnpackMsg(&SBN_UIO_Mailbox_Data.ParserBuffer[0], MsgSzPtr, MsgTypePtr, CpuIDPtr, Payload) == false)
                 {
-                    OS_printf("Unpack failed.\n");
+                    printf("Unpack failed.\n");
                     ReturnValue = SBN_ERROR;
                     goto end_of_function;
                 }

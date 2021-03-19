@@ -39,6 +39,8 @@ int MailboxWrite(XMbox *instance, const unsigned int *buffer, unsigned int size)
         }
     }
 
+    printf("MailboxWrite %u\n", TotalBytesSent);
+
     Status = TotalBytesSent;
 
 end_of_function:
@@ -68,7 +70,7 @@ int MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size)
         printf("XMbox_Read Failed %u.\r\n", Status);
     }
 
-    printf("received %u\n", Status);
+    printf("MailboxRead %u\n", Status);
 
 end_of_function:
     return Status;
@@ -86,7 +88,8 @@ static int InitNet(SBN_NetInterface_t *Net)
     SBN_Mailbox_Data.MboxConfigPtr = XMbox_LookupConfig(XPAR_SED_MBOX_MAILBOX_CPD_TO_SED_IF_1_DEVICE_ID);
     if (SBN_Mailbox_Data.MboxConfigPtr == (XMbox_Config *)NULL)
     {
-        printf ("XMbox_LookupConfig Failed.\r\n");
+        /* TODO update to event. */
+        OS_printf("XMbox_LookupConfig Failed %u.\n", Status);
         Status = SBN_ERROR;
         goto end_of_function;
     }
@@ -96,7 +99,8 @@ static int InitNet(SBN_NetInterface_t *Net)
                                  SBN_Mailbox_Data.MboxConfigPtr->BaseAddress);
     if (Status != XST_SUCCESS)
     {
-        printf ("XMbox_CfgInitialize Failed.\r\n");
+        /* TODO update to event. */
+        OS_printf("XMbox_CfgInitialize Failed %u.\n", Status);
         Status = SBN_ERROR;
         goto end_of_function;
     }
@@ -107,7 +111,7 @@ static int InitNet(SBN_NetInterface_t *Net)
     if (Status != CFE_SUCCESS)
     {
         /* TODO update to event. */
-        OS_printf("PQ_Channel_Init failed%u\n", Status);
+        OS_printf("PQ_Channel_Init failed %u\n", Status);
         Status = SBN_ERROR;
         goto end_of_function;
     }
@@ -144,7 +148,7 @@ static int InitNet(SBN_NetInterface_t *Net)
     if (Status != CFE_SUCCESS)
     {
         /* TODO update to event. */
-        printf("CFE_ES_CreateChildTask failed%u\n", Status);
+        OS_printf("CFE_ES_CreateChildTask failed %u\n", Status);
         Status = SBN_ERROR;
         goto end_of_function;
     }

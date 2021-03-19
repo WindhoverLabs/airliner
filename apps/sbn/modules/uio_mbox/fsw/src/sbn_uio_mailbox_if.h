@@ -7,17 +7,17 @@
 #include "cfe.h"
 
 /* Mailbox specific */
-#define MAILBOX_SIZE              (0x10000)
-#define MAILBOX_UIO_PATH          "/dev/uio0"
-#define MAILBOX_HEADER_SIZE_BYTES (12)
-#define MAILBOX_WORD_SIZE         (4)
-#define MAILBOX_HEADER_SIZE_WORDS (MAILBOX_HEADER_SIZE_BYTES/MAILBOX_WORD_SIZE)
-#define MAILBOX_MAX_BUFFER_SIZE_BYTES   (1500)
-#define MAILBOX_MAX_BUFFER_SIZE_WORDS   (MAILBOX_MAX_BUFFER_SIZE_BYTES/MAILBOX_WORD_SIZE)
-#define MAILBOX_SBN_HEADER_SIZE_WORDS   (2)
-#define MAILBOX_SBN_TASK_DELAY_MSEC     (1)
+#define MAILBOX_SIZE                  (0x10000)
+#define MAILBOX_UIO_PATH              "/dev/uio0"
+#define MAILBOX_HEADER_SIZE_BYTES     (12)
+#define MAILBOX_WORD_SIZE             (4)
+#define MAILBOX_MAX_BUFFER_SIZE_WORDS (1500)
+#define MAILBOX_MAX_BUFFER_SIZE_BYTES (MAILBOX_MAX_BUFFER_SIZE_WORDS * MAILBOX_WORD_SIZE)
+#define MAILBOX_HEADER_SIZE_WORDS     (MAILBOX_HEADER_SIZE_BYTES/MAILBOX_WORD_SIZE)
+#define MAILBOX_SBN_HEADER_SIZE_WORDS (2)
+#define MAILBOX_SBN_TASK_DELAY_MSEC   (1)
 
-#define SBN_MAILBOX_BLOCKING_DELAY      (1)
+#define SBN_MAILBOX_BLOCKING_DELAY    (1)
 
 /* PQ specific */
 #define SBN_PQ_CHANNEL_NAME          ("MBOX")
@@ -45,10 +45,10 @@ typedef struct
 typedef struct
 {
     void *Instance;
-    unsigned int OutputBuffer[1500/sizeof(unsigned int)] __attribute__ ((aligned(4)));
-    unsigned int InputBuffer[1500/sizeof(unsigned int)] __attribute__ ((aligned(4)));
-    unsigned int ParserBuffer[1500/sizeof(unsigned int)];
-    unsigned int PackedBuffer[1500/sizeof(unsigned int)];
+    unsigned int OutputBuffer[MAILBOX_MAX_BUFFER_SIZE_WORDS] __attribute__ ((aligned(4)));
+    unsigned int InputBuffer[MAILBOX_MAX_BUFFER_SIZE_WORDS] __attribute__ ((aligned(4)));
+    unsigned int ParserBuffer[MAILBOX_MAX_BUFFER_SIZE_WORDS];
+    unsigned int PackedBuffer[MAILBOX_MAX_BUFFER_SIZE_WORDS];
     Mailbox_Parser_Handle_t Parser;
     /* PQ specific. */
     PQ_ChannelData_t Channel;
@@ -80,7 +80,5 @@ bool MailboxEmptyError(void *instance);
 int MailboxWrite(void *instance, const unsigned int *buffer, unsigned int size);
 /* Read from mailbox. */
 int MailboxRead(void *instance, unsigned int *buffer, unsigned int size);
-
-
 
 #endif
