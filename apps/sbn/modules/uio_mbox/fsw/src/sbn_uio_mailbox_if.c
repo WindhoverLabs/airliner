@@ -137,15 +137,15 @@ int MailboxRead(void *instance, unsigned int *buffer, unsigned int size)
     for(i = 0; i < size; ++i)
     {
         *buffer++ = uio_read(instance, MAILBOX_READ_REG);
-        status = size;
+        status = i + 1;
         isEmpty = MailboxEmpty(instance);
         if(isEmpty == true)
         {
-            goto end_of_function;
+            break;
         }
     }
 
-    printf("MailboxRead %u\n", size);
+    printf("MailboxRead %u\n", status);
 
 end_of_function:
     return status;
@@ -531,5 +531,4 @@ SBN_IfOps_t SBN_UIO_Mbox_Ops =
     UnloadNet, 
     UnloadPeer
 };
-
 
