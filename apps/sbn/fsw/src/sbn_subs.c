@@ -553,10 +553,6 @@ void SBN_ProcessSubsFromPeer(SBN_PeerInterface_t *Peer, void *Msg)
         }
     }
 
-
-
-    
-
 }/* SBN_ProcessSubsFromPeer */
 
 
