@@ -55,8 +55,6 @@ typedef struct
     uint32 ChildTaskID;
     CFE_ES_ChildTaskMainFuncPtr_t SendTask;
     boolean TaskContinueFlag;
-    /* TODO move to peer data. */
-    boolean ConnectedFlag;
 } SBN_Mailbox_Data_t;
 
 

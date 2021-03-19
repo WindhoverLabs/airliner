@@ -160,7 +160,6 @@ end_of_function:
 
 static int InitPeer(SBN_PeerInterface_t *Peer)
 {
-
     return SBN_SUCCESS;
 }
 

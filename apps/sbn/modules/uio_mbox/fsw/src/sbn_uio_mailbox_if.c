@@ -285,7 +285,7 @@ static int InitNet(SBN_NetInterface_t *Net)
 
     SBN_UIO_Mailbox_Data.HkTlm.ChannelMaxMem = PQ_NUM_BYTES_IN_MEM_POOL;
 
-    SBN_UIO_Mailbox_Data.Instance = InitDevice(MAILBOX_UIO_PATH);
+    SBN_UIO_Mailbox_Data.Instance = InitDevice(&SBN_UIO_Mailbox_Data.Filename[0]);
     if(SBN_UIO_Mailbox_Data.Instance == NULL)
     {
         /* TODO update to event. */
@@ -355,6 +355,24 @@ static int InitPeer(SBN_PeerInterface_t *Peer)
 
 static int LoadNet(const char **Row, int FieldCnt, SBN_NetInterface_t *Net)
 {
+    /* Copy default. */
+    strncpy(&SBN_UIO_Mailbox_Data.Filename[0], 
+            MAILBOX_UIO_PATH, 
+            sizeof(SBN_UIO_Mailbox_Data.Filename));
+
+    if(FieldCnt < 1)
+    {
+        OS_printf("Invalid entry (expected %d items, found %d)",
+                1, FieldCnt);
+        return SBN_ERROR;
+    }
+
+    strncpy(&SBN_UIO_Mailbox_Data.Filename[0], 
+            Row[0],
+            sizeof(SBN_UIO_Mailbox_Data.Filename));
+
+    OS_printf("UIO Path set to %s\n", &SBN_UIO_Mailbox_Data.Filename[0]);
+
     return SBN_SUCCESS;
 }
 

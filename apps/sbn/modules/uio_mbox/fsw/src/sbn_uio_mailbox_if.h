@@ -9,6 +9,7 @@
 /* Mailbox specific */
 #define MAILBOX_SIZE                  (0x10000)
 #define MAILBOX_UIO_PATH              "/dev/uio0"
+#define MAILBOX_UIO_PATH_MAX_LEN      (128)
 #define MAILBOX_HEADER_SIZE_BYTES     (12)
 #define MAILBOX_WORD_SIZE             (4)
 #define MAILBOX_MAX_BUFFER_SIZE_WORDS (1500)
@@ -45,6 +46,7 @@ typedef struct
 typedef struct
 {
     void *Instance;
+    char Filename[MAILBOX_UIO_PATH_MAX_LEN];
     unsigned int OutputBuffer[MAILBOX_MAX_BUFFER_SIZE_WORDS] __attribute__ ((aligned(4)));
     unsigned int InputBuffer[MAILBOX_MAX_BUFFER_SIZE_WORDS] __attribute__ ((aligned(4)));
     unsigned int ParserBuffer[MAILBOX_MAX_BUFFER_SIZE_WORDS];
@@ -57,8 +59,6 @@ typedef struct
     uint32 ChildTaskID;
     CFE_ES_ChildTaskMainFuncPtr_t SendTask;
     boolean TaskContinueFlag;
-    /* TODO move to peer data. */
-    boolean ConnectedFlag;
 } SBN_UIO_Mailbox_Data_t;
 
 
