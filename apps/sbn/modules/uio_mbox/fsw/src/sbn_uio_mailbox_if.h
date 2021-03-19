@@ -38,6 +38,12 @@
 
 typedef struct
 {
+    boolean ConnectedFlag;
+} SBN_UIO_Mailbox_Peer_t;
+
+
+typedef struct
+{
     void *Instance;
     unsigned int OutputBuffer[1500/sizeof(unsigned int)] __attribute__ ((aligned(4)));
     unsigned int InputBuffer[1500/sizeof(unsigned int)] __attribute__ ((aligned(4)));

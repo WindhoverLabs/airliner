@@ -35,6 +35,12 @@
 
 typedef struct
 {
+    boolean ConnectedFlag;
+} SBN_Mailbox_Peer_t;
+
+
+typedef struct
+{
     XMbox Mbox;
     XMbox_Config *MboxConfigPtr;
     unsigned int OutputBuffer[1500/sizeof(unsigned int)] __attribute__ ((aligned(4)));

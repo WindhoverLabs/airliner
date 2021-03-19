@@ -432,10 +432,10 @@ static int Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
         goto end_of_function;
     }
 
+    /* TODO remove after debug. */
     CFE_SB_MsgId_t MsgID = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)Payload);
     printf("Received %u CPUID %u, %x\n", SizeRead, *CpuIDPtr, MsgID);
 
-    /* TODO move this into the if connected check. */
     SBN_PeerInterface_t *Peer = SBN_GetPeer(Net, *CpuIDPtr);
     if(Peer == NULL)
     {
@@ -443,12 +443,13 @@ static int Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
         goto end_of_function;
     }
 
-    /* TODO update this flag to peer data. */
-    if(!SBN_UIO_Mailbox_Data.ConnectedFlag)
-    {
-        OS_printf("CPU %d connected", *CpuIDPtr);
+    SBN_UIO_Mailbox_Peer_t *PeerData = (SBN_UIO_Mailbox_Peer_t *)Peer->ModulePvt;
 
-        SBN_UIO_Mailbox_Data.ConnectedFlag = TRUE;
+    if(!PeerData->ConnectedFlag)
+    {
+        OS_printf("CPU %u connected", *CpuIDPtr);
+
+        PeerData->ConnectedFlag = TRUE;
 
         SBN_SendLocalSubsToPeer(Peer);
     }
