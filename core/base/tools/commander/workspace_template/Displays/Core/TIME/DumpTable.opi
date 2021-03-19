@@ -35,7 +35,7 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
-        <path>../scripts/RestartApp.js</path>
+        <path></path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
@@ -47,9 +47,9 @@ var fileName =VTypeHelper.getString(display.getWidget('FileName').getPropertyVal
 var cmd;
 
 if( fileName != 'no value' ) {
-    cmd = '/cfs/cfe_tbl/Dump(FileName: ' + fileName;
+    cmd = '/cfs/cfe_tbl/Dump('FileName: ' + fileName)';
 } else {
-    cmd = '/cfs/cfe_tbl/Dump(FileName: ""';
+    cmd = '/cfs/cfe_tbl/Dump('FileName:' "")';
 }
 
 cmd = cmd + ', TableName: ' + tableName;
@@ -145,10 +145,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>71</width>
+    <width>79</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-78e9</wuid>
-    <x>20</x>
+    <x>12</x>
     <y>72</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -224,7 +224,7 @@ $(pv_value)</tooltip>
     <name>TableName</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://TableName&lt;VString&gt;</pv_name>
+    <pv_name>loc://DumpTableTableName&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -321,7 +321,7 @@ $(pv_value)</tooltip>
     <name>FileName_1</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://FileName&lt;VString&gt;</pv_name>
+    <pv_name>loc://DumpTableFileName&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -374,7 +374,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>TableBuffer</name>
-    <pv_name>loc://TableBuffer&lt;VString&gt;</pv_name>
+    <pv_name>loc://DumpTableTableBuffer&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>

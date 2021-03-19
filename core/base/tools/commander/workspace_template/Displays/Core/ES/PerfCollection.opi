@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103162101</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -8508,31 +8508,28 @@ $(pv_value)</tooltip>
       </widget>
       <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
         <actions hook="false" hook_all="false">
-          <action type="EXECUTE_JAVASCRIPT">
+          <action type="EXECUTE_PYTHONSCRIPT">
             <path></path>
-            <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+            <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
+from org.yamcs.studio.script import Yamcs
+from org.yamcs.studio.data import VTypeHelper
 
-var maskNumber = 0;
-var maskValue = 0;
+import math
 
-for(var i = 1; i <= 31; ++i) {
-    var RequestFilterName = 'FilterRequest' + i;
-    var perfIdValue = VTypeHelper.getDouble(display.getWidget(RequestFilterName).getPropertyValue('pv_value'));
+maskNumber = 0
+maskValue = 0
 
-    if(perfIdValue >= 0) {
-        if(i < 31) {
-            maskValue = Math.pow(2, i - 1) + maskValue;
-        } else {
-            maskValue = maskValue | 0x80000000;
-        }
-    }
-}
+for i in range(1,32):
+    RequestFilterName = 'FilterRequest' + str(i);
+    perfIdValue = VTypeHelper.getDouble(display.getWidget(RequestFilterName).getPropertyValue('pv_value'));
+    if i<31:
+        maskValue = int(math.pow(2, i-1)) + maskValue
+    else:
+        maskValue = int(maskValue) | 0x80000000
 
 Yamcs.issueCommand( '/cfs/cfe_es/PerfSetFilterMask', {
     'Payload.FilterMaskNum': maskNumber,
-    'Payload.FilterMask': '4294967295'});]]></scriptText>
+    'Payload.FilterMask': maskValue});]]></scriptText>
             <embedded>true</embedded>
             <description></description>
           </action>

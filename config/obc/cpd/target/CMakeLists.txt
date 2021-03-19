@@ -26,6 +26,18 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cfs_lib/fsw/for_build
 )
 
+buildliner_add_app(
+    px4lib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
+)
+
+buildliner_add_app(
+    prmlib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/prm
+)
 
 buildliner_add_app(
     pq_lib
@@ -34,19 +46,6 @@ buildliner_add_app(
     # TODO move this table build to sbn module?
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib
 )
-
-#buildliner_add_app(
-#    px4lib
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
-#)
-#
-#buildliner_add_app(
-#    prmlib
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/prm
-#)
 
 buildliner_add_app(
     sch
