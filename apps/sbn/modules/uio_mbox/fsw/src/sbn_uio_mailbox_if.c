@@ -98,24 +98,29 @@ bool MailboxEmptyError(void *instance)
     return reg & MAILBOX_ERROR_EMPTY_BIT;
 }
 
-
 /* Blocking write */
 int MailboxWrite(void *instance, const unsigned int *buffer, unsigned int size)
 {
     int status     = size;
-    bool isFull    = false;
     unsigned int i = 0;
 
+    /* 
+     * Attempt to write to the mailbox until "size" has been written.
+     */
     for(i = 0; i < size; ++i)
     {
+        /* While the mailbox is full. */
         while(MailboxFull(instance))
         {
+            /* Sleep to allow the receiver to read from the mailbox. */
             OS_TaskDelay(SBN_MAILBOX_BLOCKING_DELAY);
         }
+
+        /* Write one word at a time and increment the buffer pointer. */
         uio_write(instance, MAILBOX_WRITE_REG, *buffer++);
     }
 
-    printf("MailboxWrite %u\n", size);
+    printf("MailboxWrite %u\n", status);
 
 end_of_function:
     return status;
@@ -128,27 +133,37 @@ int MailboxRead(void *instance, unsigned int *buffer, unsigned int size)
     bool isEmpty   = false;
     unsigned int i = 0;
 
+    /* Check if mailbox is empty. */
     isEmpty = MailboxEmpty(instance);
     if(isEmpty == true)
     {
+        /* The mailbox is empty return 0. */
         goto end_of_function;
     }
 
+    /* 
+     * Attempt to read the mailbox until the buffer is full or the
+     * mailbox is empty. 
+     */
     for(i = 0; i < size; ++i)
     {
+        /* Read one word and increment the buffer pointer. */
         *buffer++ = uio_read(instance, MAILBOX_READ_REG);
-        status = i;
+        /* Set the return status to the size read so far. */
+        status = i + 1;
+        /* Check if the mailbox is empty. */
         isEmpty = MailboxEmpty(instance);
         if(isEmpty == true)
         {
-            goto end_of_function;
+            /* Break out of the loop and return size read. */
+            break;
         }
     }
 
 end_of_function:
+    printf("MailboxRead %u\n", status);
 
-    printf("MailboxRead2 %u\n", i);
-    return i;
+    return status;
 }
 
 
@@ -531,5 +546,4 @@ SBN_IfOps_t SBN_UIO_Mbox_Ops =
     UnloadNet, 
     UnloadPeer
 };
-
 
