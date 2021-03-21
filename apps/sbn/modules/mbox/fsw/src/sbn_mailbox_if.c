@@ -39,8 +39,6 @@ int MailboxWrite(XMbox *instance, const unsigned int *buffer, unsigned int size)
         }
     }
 
-    printf("MailboxWrite %u\n", TotalBytesSent);
-
     Status = TotalBytesSent;
 
 end_of_function:
@@ -63,14 +61,13 @@ int MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size)
 
     if(Status == XST_SUCCESS)
     {
+    	printf("Received data!!!\n");
         Status = BytesRecvd;
     }
     else
     {
         printf("XMbox_Read Failed %u.\r\n", Status);
     }
-
-    printf("MailboxRead %u\n", Status);
 
 end_of_function:
     return Status;
@@ -81,7 +78,7 @@ static int InitNet(SBN_NetInterface_t *Net)
 {
     int Status = SBN_SUCCESS;
 
-    memset(&SBN_Mailbox_Data, 0x0, sizeof(SBN_Mailbox_Data));
+    //memset(&SBN_Mailbox_Data, 0x0, sizeof(SBN_Mailbox_Data));
 
     SBN_Mailbox_Data.HkTlm.ChannelMaxMem = PQ_NUM_BYTES_IN_MEM_POOL;
 

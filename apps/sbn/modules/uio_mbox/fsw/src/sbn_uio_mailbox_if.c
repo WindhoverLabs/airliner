@@ -37,7 +37,7 @@ void *InitDevice(const char *path)
     void *mailbox_ptr = 0;
 
     fd = open(path, O_RDWR);
-    if (fd < 1)
+    if (fd < 0)
     {
         /* TODO update to event. */
         OS_printf("Invalid UIO device file:%s.\n", path);
@@ -137,7 +137,7 @@ int MailboxRead(void *instance, unsigned int *buffer, unsigned int size)
     for(i = 0; i < size; ++i)
     {
         *buffer++ = uio_read(instance, MAILBOX_READ_REG);
-        status = size;
+        status = i;
         isEmpty = MailboxEmpty(instance);
         if(isEmpty == true)
         {
@@ -145,10 +145,10 @@ int MailboxRead(void *instance, unsigned int *buffer, unsigned int size)
         }
     }
 
-    printf("MailboxRead %u\n", size);
-
 end_of_function:
-    return status;
+
+    printf("MailboxRead2 %u\n", i);
+    return i;
 }
 
 
@@ -281,7 +281,7 @@ static int InitNet(SBN_NetInterface_t *Net)
 {
     int Status = SBN_SUCCESS;
 
-    memset(&SBN_UIO_Mailbox_Data, 0x0, sizeof(SBN_UIO_Mailbox_Data));
+    //memset(&SBN_UIO_Mailbox_Data, 0x0, sizeof(SBN_UIO_Mailbox_Data));
 
     SBN_UIO_Mailbox_Data.HkTlm.ChannelMaxMem = PQ_NUM_BYTES_IN_MEM_POOL;
 
