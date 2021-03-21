@@ -51,9 +51,16 @@ void *InitDevice(const char *path)
         OS_printf("Mmap call failure. errno %d\n", errno);
         goto end_of_function;
     }
+    else
+    {
+        OS_printf("Opened UIO at 0x%08x\n", mailbox_ptr);
+    }
 
     close(fd);
-   
+
+    /* Reset the status registers. */
+    uio_write(mailbox_ptr, MAILBOX_CONTROL_REG, MAILBOX_CONTROL_RESET_SEND_FIFO_BIT | MAILBOX_CONTROL_RESET_RECV_FIFO_BIT);
+
 end_of_function:
     return mailbox_ptr;
 }
@@ -101,7 +108,6 @@ bool MailboxEmptyError(void *instance)
 /* Blocking write */
 int MailboxWrite(void *instance, const unsigned int *buffer, unsigned int size)
 {
-    int status     = size;
     unsigned int i = 0;
 
     /* 
@@ -117,29 +123,20 @@ int MailboxWrite(void *instance, const unsigned int *buffer, unsigned int size)
         }
 
         /* Write one word at a time and increment the buffer pointer. */
+        printf("%s %u\n", __FUNCTION__, __LINE__);
         uio_write(instance, MAILBOX_WRITE_REG, *buffer++);
     }
 
-    printf("MailboxWrite %u\n", status);
+    printf("MailboxWrite %u\n", i);
 
-end_of_function:
-    return status;
+    return i;
 }
 
 /* Non-blocking read */
 int MailboxRead(void *instance, unsigned int *buffer, unsigned int size)
 {
     int status     = 0;
-    bool isEmpty   = false;
     unsigned int i = 0;
-
-    /* Check if mailbox is empty. */
-    isEmpty = MailboxEmpty(instance);
-    if(isEmpty == true)
-    {
-        /* The mailbox is empty return 0. */
-        goto end_of_function;
-    }
 
     /* 
      * Attempt to read the mailbox until the buffer is full or the
@@ -147,17 +144,20 @@ int MailboxRead(void *instance, unsigned int *buffer, unsigned int size)
      */
     for(i = 0; i < size; ++i)
     {
-        /* Read one word and increment the buffer pointer. */
-        *buffer++ = uio_read(instance, MAILBOX_READ_REG);
-        /* Set the return status to the size read so far. */
-        status = i + 1;
-        /* Check if the mailbox is empty. */
+        bool isEmpty   = false;
+
         isEmpty = MailboxEmpty(instance);
         if(isEmpty == true)
         {
             /* Break out of the loop and return size read. */
             break;
         }
+
+        /* Read one word and increment the buffer pointer. */
+        *buffer++ = uio_read(instance, MAILBOX_READ_REG);
+        /* Set the return status to the size read so far. */
+        status = i + 1;
+        /* Check if the mailbox is empty. */
     }
 
 end_of_function:
@@ -309,6 +309,8 @@ static int InitNet(SBN_NetInterface_t *Net)
         goto end_of_function;
     }
 
+    OS_printf("1 Initialized UIO at 0x%08x\n", SBN_UIO_Mailbox_Data.Instance);
+
     /* Initialize PQ channel. */
     Status = PQ_Channel_Init(SBN_PQ_CHANNEL_NUMBER, &SBN_UIO_Mailbox_Data.Channel);
     if (Status != CFE_SUCCESS)
@@ -436,7 +438,7 @@ static int Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
     int ReturnValue         = SBN_IF_EMPTY;
     boolean MessageComplete = FALSE;
 
-    SizeRead = MailboxRead(&SBN_UIO_Mailbox_Data.Instance, 
+    SizeRead = MailboxRead(SBN_UIO_Mailbox_Data.Instance,
                            &SBN_UIO_Mailbox_Data.InputBuffer[0], 
                            sizeof(SBN_UIO_Mailbox_Data.InputBuffer));
     if(SizeRead > 0)

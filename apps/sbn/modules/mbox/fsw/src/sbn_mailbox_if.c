@@ -90,7 +90,7 @@ static int InitNet(SBN_NetInterface_t *Net)
 
     SBN_Mailbox_Data.HkTlm.ChannelMaxMem = PQ_NUM_BYTES_IN_MEM_POOL;
 
-    SBN_Mailbox_Data.MboxConfigPtr = XMbox_LookupConfig(XPAR_SED_MBOX_MAILBOX_CPD_TO_SED_IF_1_DEVICE_ID);
+    SBN_Mailbox_Data.MboxConfigPtr = XMbox_LookupConfig(XPAR_PPD_MAILBOX_CPD_TO_PPD_IF_1_BASEADDR);
     if (SBN_Mailbox_Data.MboxConfigPtr == (XMbox_Config *)NULL)
     {
         /* TODO update to event. */
@@ -110,6 +110,8 @@ static int InitNet(SBN_NetInterface_t *Net)
         goto end_of_function;
     }
 
+    /* Reset the FIFOS. */
+    XMbox_ResetFifos(&SBN_Mailbox_Data.Mbox);
 
     /* Initialize PQ channel. */
     Status = PQ_Channel_Init(SBN_PQ_CHANNEL_NUMBER, &SBN_Mailbox_Data.Channel);
