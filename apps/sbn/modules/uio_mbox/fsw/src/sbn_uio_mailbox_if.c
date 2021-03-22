@@ -105,7 +105,7 @@ bool MailboxEmptyError(void *instance)
     return reg & MAILBOX_ERROR_EMPTY_BIT;
 }
 
-/* Blocking write */
+/* Blocking write, size is in bytes, returns size written in bytes. */
 int MailboxWrite(void *instance, const unsigned int *buffer, unsigned int size)
 {
     unsigned int i = 0;
@@ -113,7 +113,7 @@ int MailboxWrite(void *instance, const unsigned int *buffer, unsigned int size)
     /* 
      * Attempt to write to the mailbox until "size" has been written.
      */
-    for(i = 0; i < size; ++i)
+    for(i = 0; i < size/4; ++i)
     {
         /* While the mailbox is full. */
         while(MailboxFull(instance))
@@ -132,7 +132,7 @@ int MailboxWrite(void *instance, const unsigned int *buffer, unsigned int size)
     return i;
 }
 
-/* Non-blocking read */
+/* Non-blocking read, size in bytes, returns size in bytes. */
 int MailboxRead(void *instance, unsigned int *buffer, unsigned int size)
 {
     int status     = 0;
@@ -142,7 +142,7 @@ int MailboxRead(void *instance, unsigned int *buffer, unsigned int size)
      * Attempt to read the mailbox until the buffer is full or the
      * mailbox is empty. 
      */
-    for(i = 0; i < size; ++i)
+    for(i = 0; i < size/4; ++i)
     {
         bool isEmpty   = false;
 
@@ -155,12 +155,14 @@ int MailboxRead(void *instance, unsigned int *buffer, unsigned int size)
 
         /* Read one word and increment the buffer pointer. */
         *buffer++ = uio_read(instance, MAILBOX_READ_REG);
-        /* Set the return status to the size read so far. */
+        /* Set the return status to the size read so far in bytes. */
         status = i + 1;
         /* Check if the mailbox is empty. */
     }
 
-end_of_function:
+    /* Convert from words to bytes. */
+    status = status * 4;
+
     printf("MailboxRead %u\n", status);
 
     return status;
@@ -256,7 +258,9 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 SBN_UIO_Mailbox_Data.OutputBuffer[SizeInWords + 2] = Checksum;
 
                 /* Blocking write. */
-                (void) MailboxWrite(SBN_UIO_Mailbox_Data.Instance, &SBN_UIO_Mailbox_Data.OutputBuffer[0], SizeInWords + MAILBOX_HEADER_SIZE_WORDS);
+                (void) MailboxWrite(SBN_UIO_Mailbox_Data.Instance, 
+                                    &SBN_UIO_Mailbox_Data.OutputBuffer[0], 
+                                    (SizeInWords + MAILBOX_HEADER_SIZE_WORDS)*4);
 
                 iStatus = CFE_ES_PutPoolBuf(Channel->MemPoolHandle, (uint32 *)buffer);
                 if(iStatus < 0)

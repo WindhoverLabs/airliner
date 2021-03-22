@@ -12,14 +12,14 @@ void SBN_PQ_Output_Task(void);
 void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel);
 
 
-/* Blocking write */
+/* Blocking write, size is in bytes, returns size written in bytes. */
 int MailboxWrite(XMbox *instance, const unsigned int *buffer, unsigned int size)
 {
     int Status                  = 0;
     unsigned int BytesSent      = 0;
     unsigned int TotalBytesSent = 0;
     /* Total size in bytes of data to send. */
-    unsigned int RequestedBytes = size * 4;
+    unsigned int RequestedBytes = size;
 
     /* 
      * Attempt to write to the mailbox until "size" has been written.
@@ -33,7 +33,7 @@ int MailboxWrite(XMbox *instance, const unsigned int *buffer, unsigned int size)
         /* Add bytes sent to total bytes sent. */
         TotalBytesSent = TotalBytesSent + BytesSent;
         /* If the total size hasn't been written. */
-        if(TotalBytesSent < (size * 4))
+        if(TotalBytesSent < size)
         {
             /* Sleep to allow the receiver to read from the mailbox. */
             OS_TaskDelay(SBN_MAILBOX_BLOCKING_DELAY);
@@ -45,6 +45,7 @@ int MailboxWrite(XMbox *instance, const unsigned int *buffer, unsigned int size)
         }
     }
 
+    /* Return bytes written. */
     Status = TotalBytesSent;
 
     printf("MailboxWrite %u\n", Status);
@@ -54,6 +55,7 @@ end_of_function:
 }
 
 
+/* Non-blocking read, size in bytes, returns size in bytes. */
 int MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size)
 {
     int Status              = 0;
@@ -69,7 +71,7 @@ int MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size)
 
     if(Status == XST_SUCCESS)
     {
-    	printf("Received data!!!\n");
+        printf("Received data!!!\n");
         Status = BytesRecvd;
     }
     else
@@ -91,7 +93,7 @@ static int InitNet(SBN_NetInterface_t *Net)
     SBN_Mailbox_Data.HkTlm.ChannelMaxMem = PQ_NUM_BYTES_IN_MEM_POOL;
 
     SBN_Mailbox_Data.MboxConfigPtr = XMbox_LookupConfig(XPAR_PPD_MAILBOX_CPD_TO_PPD_IF_1_DEVICE_ID);
-    if (SBN_Mailbox_Data.MboxConfigPtr == (XMbox_Config *)NULL)
+    if(SBN_Mailbox_Data.MboxConfigPtr == (XMbox_Config *)NULL)
     {
         /* TODO update to event. */
         OS_printf("XMbox_LookupConfig Failed %u.\n", Status);
@@ -284,7 +286,9 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 SBN_Mailbox_Data.OutputBuffer[SizeInWords + 2] = Checksum;
 
                 /* Blocking write. */
-                (void) MailboxWrite(&SBN_Mailbox_Data.Mbox, &SBN_Mailbox_Data.OutputBuffer[0], SizeInWords + MAILBOX_HEADER_SIZE_WORDS);
+                (void) MailboxWrite(&SBN_Mailbox_Data.Mbox, 
+                                    &SBN_Mailbox_Data.OutputBuffer[0], 
+                                    (SizeInWords + MAILBOX_HEADER_SIZE_WORDS)*4);
 
                 iStatus = CFE_ES_PutPoolBuf(Channel->MemPoolHandle, (uint32 *)buffer);
                 if(iStatus < 0)
