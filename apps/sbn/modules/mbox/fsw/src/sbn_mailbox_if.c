@@ -123,16 +123,14 @@ static int InitNet(SBN_NetInterface_t *Net)
     }
 
     /* Open PQ channel. */
-    Status = PQ_Channel_OpenChannel(
-                      &SBN_Mailbox_Data.Channel,
-                      SBN_PQ_CHANNEL_NAME,
-                      SBN_PQ_CONFIG_TABLENAME,
-                      SBN_PQ_CONFIG_TABLE_FILENAME,
-                      &PQ_BackupConfigTbl,
-                      SBN_PQ_DUMP_TABLENAME, 
-                      SBN_PQ_CF_SEM_INIT_VALUE, 
-                      SBN_PQ_CF_THROTTLE_SEM_NAME);
-
+    Status = PQ_Channel_OpenChannel(&SBN_Mailbox_Data.Channel,
+                                    SBN_PQ_CHANNEL_NAME,
+                                    SBN_PQ_CONFIG_TABLENAME,
+                                    SBN_PQ_CONFIG_TABLE_FILENAME,
+                                    &PQ_BackupConfigTbl,
+                                    SBN_PQ_DUMP_TABLENAME, 
+                                    SBN_PQ_CF_SEM_INIT_VALUE, 
+                                    SBN_PQ_CF_THROTTLE_SEM_NAME);
     if (Status != CFE_SUCCESS)
     {
         /* TODO update to event. */
@@ -143,20 +141,18 @@ static int InitNet(SBN_NetInterface_t *Net)
 
     /* Create send task. */
     SBN_Mailbox_Data.SendTask = SBN_PQ_Output_Task;
-    Status = CFE_ES_CreateChildTask(
-        &SBN_Mailbox_Data.ChildTaskID,
-        SBN_PQ_SEND_TASK_NAME,
-        SBN_Mailbox_Data.SendTask,
-        0,
-        SBN_PQ_SEND_TASK_STACK_SIZE,
-        SBN_PQ_SEND_TASK_PRIORITY,
-        SBN_PQ_SEND_TASK_FLAGS);
+    Status = CFE_ES_CreateChildTask(&SBN_Mailbox_Data.ChildTaskID,
+                                    SBN_PQ_SEND_TASK_NAME,
+                                    SBN_Mailbox_Data.SendTask,
+                                    0,
+                                    SBN_PQ_SEND_TASK_STACK_SIZE,
+                                    SBN_PQ_SEND_TASK_PRIORITY,
+                                    SBN_PQ_SEND_TASK_FLAGS);
     if (Status != CFE_SUCCESS)
     {
         /* TODO update to event. */
         OS_printf("CFE_ES_CreateChildTask failed %u\n", Status);
         Status = SBN_ERROR;
-        goto end_of_function;
     }
 
 end_of_function:
@@ -186,12 +182,6 @@ static int LoadPeer(const char **Row, int FieldCnt, SBN_PeerInterface_t *Peer)
 static int PollPeer(SBN_PeerInterface_t *Peer)
 {
     return SBN_SUCCESS;
-}
-
-
-int SBN_MailboxRecv(void *instance, const unsigned int *buffer, unsigned int size)
-{
-    
 }
 
 

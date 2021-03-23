@@ -20,18 +20,19 @@ void SBN_PQ_Output_Task(void);
 void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel);
 
 
+/* Write to shared memory. */
 static void uio_write(void *timer_base, unsigned int offset, unsigned int value)
 {
     *((volatile unsigned *)(timer_base + offset)) = value;
 }
 
-
+/* Read from shared memory. */
 static unsigned int uio_read(void *timer_base, unsigned int offset)
 {
     return *((volatile unsigned *)(timer_base + offset));
 }
 
-
+/* Open and memory map uio. */
 void *InitDevice(const char *path)
 {
     int fd            = 0;
@@ -67,7 +68,7 @@ end_of_function:
     return mailbox_ptr;
 }
 
-
+/* Check if mailbox is full. */
 bool MailboxFull(void *instance)
 {
     unsigned int reg = 0;
@@ -77,7 +78,7 @@ bool MailboxFull(void *instance)
     return reg & MAILBOX_STATUS_FIFO_FULL_BIT;
 }
 
-
+/* Check if mailbox is empty. */
 bool MailboxEmpty(void *instance)
 {
     unsigned int reg = 0;
@@ -87,7 +88,7 @@ bool MailboxEmpty(void *instance)
     return reg & MAILBOX_STATUS_FIFO_EMPTY_BIT;
 }
 
-
+/* Check for full error. */
 bool MailboxFullError(void *instance)
 {
     unsigned int reg = 0;
@@ -97,7 +98,7 @@ bool MailboxFullError(void *instance)
     return reg & MAILBOX_ERROR_FULL_BIT;
 }
 
-
+/* Check for empty error. */
 bool MailboxEmptyError(void *instance)
 {
     unsigned int reg = 0;
@@ -192,10 +193,11 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
         {
             PQ_OutputQueue_t *chQueue = &Channel->OutputQueue;
 
-            iStatus =  OS_QueueGet(
-                    chQueue->OSALQueueID,
-                    &buffer, sizeof(buffer), &msgSize, SBN_PQ_CHANNEL_GET_TIMEOUT);
-
+            iStatus =  OS_QueueGet(chQueue->OSALQueueID,
+                                   &buffer, 
+                                   sizeof(buffer), 
+                                   &msgSize, 
+                                   SBN_PQ_CHANNEL_GET_TIMEOUT);
             if(iStatus == OS_SUCCESS)
             {
                 uint16 actualMessageSize = CFE_SB_GetTotalMsgLength((CFE_SB_MsgPtr_t)buffer);
@@ -223,6 +225,7 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                     MsgType = SBN_APP_MSG;
                 }
 
+                /* Add SBN header. */
                 SBN_PackMsg(&Buf, actualMessageSize, MsgType, CFE_PSP_GetProcessorId(), buffer);
 
                 SizeInBytes = BufSz;
@@ -237,7 +240,7 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 }
                 SizeInWords = SizeInBytes / MAILBOX_WORD_SIZE;
 
-
+                /* TODO remove this check */
                 if(SizeInWords + MAILBOX_HEADER_SIZE_WORDS > MAILBOX_MAX_BUFFER_SIZE_WORDS)
                 {
                     /* TODO update to event. */
@@ -315,6 +318,7 @@ static int InitNet(SBN_NetInterface_t *Net)
         goto end_of_function;
     }
 
+    /* TODO update to event. */
     OS_printf("Initialized UIO at 0x%08x\n", SBN_UIO_Mailbox_Data.Instance);
 
     /* Initialize PQ channel. */
@@ -328,16 +332,14 @@ static int InitNet(SBN_NetInterface_t *Net)
     }
 
     /* Open PQ channel. */
-    Status = PQ_Channel_OpenChannel(
-                      &SBN_UIO_Mailbox_Data.Channel,
-                      SBN_PQ_CHANNEL_NAME,
-                      SBN_PQ_CONFIG_TABLENAME,
-                      SBN_PQ_CONFIG_TABLE_FILENAME,
-                      &PQ_BackupConfigTbl,
-                      SBN_PQ_DUMP_TABLENAME, 
-                      SBN_PQ_CF_SEM_INIT_VALUE, 
-                      SBN_PQ_CF_THROTTLE_SEM_NAME);
-
+    Status = PQ_Channel_OpenChannel(&SBN_UIO_Mailbox_Data.Channel,
+                                    SBN_PQ_CHANNEL_NAME,
+                                    SBN_PQ_CONFIG_TABLENAME,
+                                    SBN_PQ_CONFIG_TABLE_FILENAME,
+                                    &PQ_BackupConfigTbl,
+                                    SBN_PQ_DUMP_TABLENAME, 
+                                    SBN_PQ_CF_SEM_INIT_VALUE, 
+                                    SBN_PQ_CF_THROTTLE_SEM_NAME);
     if (Status != CFE_SUCCESS)
     {
         /* TODO update to event. */
@@ -348,20 +350,18 @@ static int InitNet(SBN_NetInterface_t *Net)
 
     /* Create send task. */
     SBN_UIO_Mailbox_Data.SendTask = SBN_PQ_Output_Task;
-    Status = CFE_ES_CreateChildTask(
-        &SBN_UIO_Mailbox_Data.ChildTaskID,
-        SBN_PQ_SEND_TASK_NAME,
-        SBN_UIO_Mailbox_Data.SendTask,
-        0,
-        SBN_PQ_SEND_TASK_STACK_SIZE,
-        SBN_PQ_SEND_TASK_PRIORITY,
-        SBN_PQ_SEND_TASK_FLAGS);
+    Status = CFE_ES_CreateChildTask(&SBN_UIO_Mailbox_Data.ChildTaskID,
+                                    SBN_PQ_SEND_TASK_NAME,
+                                    SBN_UIO_Mailbox_Data.SendTask,
+                                    0,
+                                    SBN_PQ_SEND_TASK_STACK_SIZE,
+                                    SBN_PQ_SEND_TASK_PRIORITY,
+                                    SBN_PQ_SEND_TASK_FLAGS);
     if (Status != CFE_SUCCESS)
     {
         /* TODO update to event. */
         OS_printf("CFE_ES_CreateChildTask failed %u\n", Status);
         Status = SBN_ERROR;
-        goto end_of_function;
     }
 
 end_of_function:
