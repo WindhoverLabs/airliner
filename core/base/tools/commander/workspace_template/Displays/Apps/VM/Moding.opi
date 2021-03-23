@@ -42,7 +42,7 @@
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/vm/Manual', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/vm/Manual', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -98,7 +98,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/vm/AutoLoiter', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/vm/AutoLoiter', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -154,7 +154,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/vm/AutoRtl', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/vm/AutoRtl', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -210,7 +210,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/vm/AutoTakeoff', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/vm/AutoTakeoff', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -266,7 +266,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/vm/AutoLand', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/vm/AutoLand', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -322,7 +322,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/vm/Acrobatic', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/vm/Acrobatic', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -378,7 +378,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/vm/Rattitude', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/vm/Rattitude', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -434,7 +434,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/vm/Stabilized', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/vm/Stabilized', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -551,7 +551,7 @@ $(pv_value)</tooltip>
     <name>Text Update_41</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.NavState</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.NavState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -693,7 +693,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.PreviousModes.inPosCtl</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inPosCtl</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -791,7 +791,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.PreviousModes.inRtl</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inRtl</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -889,7 +889,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.PreviousModes.inLoiter</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inLoiter</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -987,7 +987,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.PreviousModes.inManual</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inManual</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1085,7 +1085,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.PreviousModes.inTakeoff</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inTakeoff</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1183,7 +1183,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.PreviousModes.inAltCtl</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inAltCtl</pv_name>
     <pv_value />
     <rules />
     <scale_options>

@@ -10,16 +10,16 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>200</height>
+  <height>210</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>MM - Dump Memory to File</name>
+  <name>($(CPUID)) MM - Dump Memory to File</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>260</width>
+  <width>330</width>
   <wuid>-10b748b0:17773fb054b:-7a2f</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -60,16 +60,16 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Dump Memory to File</text>
+    <text>($(CPUID)) MM - Dump Memory to File</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>175</width>
+    <width>283</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7a20</wuid>
-    <x>48</x>
+    <x>12</x>
     <y>6</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -126,7 +126,7 @@ var SymbolName = VTypeHelper.getString(display.getWidget('SymbolName').getProper
 var Offset = VTypeHelper.getString(display.getWidget('Offset').getPropertyValue('pv_value'));
 var FileName = VTypeHelper.getString(display.getWidget('FileName').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/mm/DumpMemToFile', {
+Yamcs.issueCommand('/cfs/$(CPUID)/mm/DumpMemToFile', {
     'MemType': MemType,
     'NumOfBytes': NumofBytes,
     'Padding_0_': 0,
@@ -181,7 +181,7 @@ $(pv_value)</tooltip>
     <width>92</width>
     <wuid>-10b748b0:17773fb054b:-79c7</wuid>
     <x>90</x>
-    <y>168</y>
+    <y>180</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.combo" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -204,7 +204,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>27</height>
+    <height>32</height>
     <items>
       <s>NOMEMTYPE</s>
       <s>EEPROM</s>
@@ -271,7 +271,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>54e87698:1777e01a75d:-6f83</wuid>
     <x>12</x>
-    <y>57</y>
+    <y>69</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -285,7 +285,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -328,7 +328,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wuid>54e87698:1777e01a75d:-6f5d</wuid>
     <x>114</x>
-    <y>57</y>
+    <y>69</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -368,7 +368,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>54e87698:1777e01a75d:-6f53</wuid>
     <x>12</x>
-    <y>83</y>
+    <y>95</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -382,7 +382,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -425,7 +425,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wuid>54e87698:1777e01a75d:-6f49</wuid>
     <x>114</x>
-    <y>83</y>
+    <y>95</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -465,7 +465,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>54e87698:1777e01a75d:-6f41</wuid>
     <x>12</x>
-    <y>107</y>
+    <y>119</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -479,7 +479,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -522,7 +522,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wuid>54e87698:1777e01a75d:-6f37</wuid>
     <x>114</x>
-    <y>107</y>
+    <y>119</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -562,7 +562,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>54e87698:1777e01a75d:-6ef6</wuid>
     <x>12</x>
-    <y>132</y>
+    <y>144</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -576,7 +576,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -616,9 +616,9 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>136</width>
+    <width>200</width>
     <wuid>54e87698:1777e01a75d:-6ef5</wuid>
     <x>114</x>
-    <y>132</y>
+    <y>144</y>
   </widget>
 </display>

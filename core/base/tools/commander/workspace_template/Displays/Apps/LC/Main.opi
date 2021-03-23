@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103162101</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -23,7 +23,7 @@
     <PROJECT_NAME>Displays</PROJECT_NAME>
     <REGISTRY_PATH>/modules/lc</REGISTRY_PATH>
   </macros>
-  <name>LC</name>
+  <name>($(CPUID)) LC</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -64,7 +64,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/lc/LC_HkPacket_t.CmdCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.CmdCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -196,7 +196,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/lc/LC_HkPacket_t.CmdErrCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.CmdErrCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -227,7 +227,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/lc/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/lc/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -283,7 +283,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/lc/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/lc/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -360,7 +360,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Limit Checker</text>
+    <text>($(CPUID)) Limit Checker</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -400,7 +400,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/lc/LC_HkPacket_t.PassiveRTSExecCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.PassiveRTSExecCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -452,7 +452,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/lc/LC_HkPacket_t.WPsInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.WPsInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -504,7 +504,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/lc/LC_HkPacket_t.ActiveAPs</pv_name>
+    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.ActiveAPs</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -556,7 +556,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/lc/LC_HkPacket_t.APSampleCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.APSampleCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -608,7 +608,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/lc/LC_HkPacket_t.MonitoredMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.MonitoredMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -900,7 +900,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/lc/LC_HkPacket_t.RTSExecCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.RTSExecCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1206,7 +1206,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/lc/SendHK', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/lc/SendHK', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -1283,7 +1283,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/lc/LC_HkPacket_t.CurrentLCState</pv_name>
+    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.CurrentLCState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

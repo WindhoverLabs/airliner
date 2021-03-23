@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>600</height>
+  <height>170</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>FM - Get Dir</name>
+  <name>($(CPUID)) FM - Get Dir</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>800</width>
+  <width>450</width>
   <wuid>3224b3ef:1778cb22598:-7099</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -69,8 +69,8 @@
     <width>91</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7094</wuid>
-    <x>54</x>
-    <y>54</y>
+    <x>58</x>
+    <y>39</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -84,7 +84,7 @@
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -124,10 +124,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>100</width>
+    <width>265</width>
     <wuid>3224b3ef:1778cb22598:-7090</wuid>
-    <x>168</x>
-    <y>51</y>
+    <x>163</x>
+    <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -166,8 +166,8 @@ $(pv_value)</tooltip>
     <width>91</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7085</wuid>
-    <x>54</x>
-    <y>87</y>
+    <x>58</x>
+    <y>72</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -181,7 +181,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -221,10 +221,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>100</width>
+    <width>265</width>
     <wuid>3224b3ef:1778cb22598:-7084</wuid>
-    <x>168</x>
-    <y>84</y>
+    <x>163</x>
+    <y>69</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -254,17 +254,17 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>GetSizeTimeMode</text>
+    <text>Get Size Time Mode</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>121</width>
+    <width>140</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-707d</wuid>
-    <x>24</x>
-    <y>117</y>
+    <x>9</x>
+    <y>102</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -279,7 +279,7 @@ var filename_arg = VTypeHelper.getString(display.getWidget("Filename").getProper
 var timemode_arg =  parseInt(VTypeHelper.getDouble(display.getWidget("GetSizeTimeMode").getPropertyValue("pv_value")));
  
 
-Yamcs.issueCommand('/cfs/fm/GetDirFile', 
+Yamcs.issueCommand('/cfs/$(CPUID)/fm/GetDirFile', 
                                    {"Directory":directory_arg,
 				     "Filename": filename_arg,
 				      "GetSizeTimeMode": timemode_arg,
@@ -310,7 +310,7 @@ Yamcs.issueCommand('/cfs/fm/GetDirFile',
     <foreground_color>
       <color red="255" green="255" blue="255" />
     </foreground_color>
-    <height>18</height>
+    <height>25</height>
     <image>../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
@@ -332,8 +332,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>109</width>
     <wuid>3224b3ef:1778cb22598:-706b</wuid>
-    <x>24</x>
-    <y>162</y>
+    <x>96</x>
+    <y>132</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -346,7 +346,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <buttons_on_left>false</buttons_on_left>
     <enabled>true</enabled>
@@ -387,8 +387,8 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>100</width>
     <wuid>3224b3ef:1778cb22598:-705f</wuid>
-    <x>168</x>
-    <y>117</y>
+    <x>163</x>
+    <y>99</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -403,7 +403,7 @@ var filename_arg = VTypeHelper.getString(display.getWidget("Filename").getProper
 var timemode_arg =  parseInt(VTypeHelper.getDouble(display.getWidget("GetSizeTimeMode").getPropertyValue("pv_value")));
  
 
-Yamcs.issueCommand('/cfs/fm/GetDirFile', 
+Yamcs.issueCommand('/cfs/$(CPUID)/fm/GetDirFile', 
                                    {"Directory":directory_arg,
 				     "Filename": filename_arg,
 				      "GetSizeTimeMode": timemode_arg,
@@ -434,7 +434,7 @@ Yamcs.issueCommand('/cfs/fm/GetDirFile',
     <foreground_color>
       <color red="255" green="255" blue="255" />
     </foreground_color>
-    <height>18</height>
+    <height>25</height>
     <image>../../Resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
@@ -456,7 +456,47 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>109</width>
     <wuid>-69f8bd78:177f094d5fe:-2369</wuid>
-    <x>163</x>
-    <y>162</y>
+    <x>219</x>
+    <y>132</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_49</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>($(CPUID)) FM - Get Directory</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>265</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-c05c465:1785c72c4a1:-5aa1</wuid>
+    <x>85</x>
+    <y>6</y>
   </widget>
 </display>

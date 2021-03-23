@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CF - Write Active Trans</name>
+  <name>($(CPUID)) CF - Write Active Trans</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -53,7 +53,7 @@ if( TransferType == 'All' ) {
     pTransferType = 'DOWN';
 }
 
-Yamcs.issueCommand('/cfs/cf/WriteActiveTrans', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cf/WriteActiveTrans', {
     'Type': pTransferType, 
     'Spare': 0, 
     'Filename': Destination});
@@ -322,16 +322,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Write Active Transaction</text>
+    <text>($(CPUID)) CF - Write Active Transaction</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>201</width>
+    <width>307</width>
     <wrap_words>false</wrap_words>
     <wuid>6c5e5e62:1775b7b9abc:-73fa</wuid>
-    <x>68</x>
+    <x>12</x>
     <y>6</y>
   </widget>
 </display>

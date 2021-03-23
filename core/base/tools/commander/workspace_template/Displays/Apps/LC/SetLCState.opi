@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>100</height>
+  <height>110</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>LC - Set LC State</name>
+  <name>($(CPUID)) LC - Set LC State</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>200</width>
+  <width>220</width>
   <wuid>-10b748b0:17773fb054b:-7a2f</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -60,16 +60,16 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Set LC State</text>
+    <text>($(CPUID)) LC - Set LC State</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>175</width>
+    <width>211</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7a20</wuid>
-    <x>12</x>
+    <x>6</x>
     <y>6</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -82,7 +82,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var State = VTypeHelper.getString(display.getWidget('State').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/lc/SetLCState', {
+Yamcs.issueCommand('/cfs/$(CPUID)/lc/SetLCState', {
     'NewLCState': State,
     'Padding': 0 });]]></scriptText>
         <embedded>true</embedded>
@@ -108,7 +108,7 @@ Yamcs.issueCommand('/cfs/lc/SetLCState', {
     <foreground_color>
       <color red="253" green="255" blue="255" />
     </foreground_color>
-    <height>20</height>
+    <height>25</height>
     <image>../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
@@ -130,7 +130,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>92</width>
     <wuid>-10b748b0:17773fb054b:-79c7</wuid>
-    <x>54</x>
+    <x>60</x>
     <y>72</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -170,7 +170,7 @@ $(pv_value)</tooltip>
     <width>37</width>
     <wrap_words>false</wrap_words>
     <wuid>54e87698:1777e01a75d:-6f83</wuid>
-    <x>12</x>
+    <x>18</x>
     <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.combo" version="1.0.0">
@@ -217,7 +217,7 @@ $(pv_value)</tooltip>
     <widget_type>Combo</widget_type>
     <width>127</width>
     <wuid>689e2ae8:1777f312f88:-7910</wuid>
-    <x>60</x>
+    <x>66</x>
     <y>30</y>
   </widget>
 </display>

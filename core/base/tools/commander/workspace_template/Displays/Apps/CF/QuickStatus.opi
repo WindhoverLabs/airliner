@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CF - Quick Status</name>
+  <name>($(CPUID)) CF - Quick Status</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -139,7 +139,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var Transaction =VTypeHelper.getString(display.getWidget('Transaction').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cf/QuickStat', {'Trans': Transaction});
+Yamcs.issueCommand('/cfs/$(CPUID)/cf/QuickStat', {'Trans': Transaction});
 
 ]]></scriptText>
         <embedded>true</embedded>
@@ -218,16 +218,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Quick Status</text>
+    <text>($(CPUID)) CF - Quick Status</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>104</width>
+    <width>231</width>
     <wrap_words>false</wrap_words>
     <wuid>6c5e5e62:1775b7b9abc:-7348</wuid>
-    <x>72</x>
+    <x>10</x>
     <y>12</y>
   </widget>
 </display>

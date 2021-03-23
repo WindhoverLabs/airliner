@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CFE-TBL - Abort</name>
+  <name>($(CPUID)) CFE-TBL - Abort</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -42,7 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var tableName =VTypeHelper.getString(display.getWidget('TableName').getPropertyValue('pv_value'));
 
-var cmd = '/cfs/cfe_tbl/AbortLoad(Payload.TableName: ' + tableName + ')';
+var cmd = '/cfs/$(CPUID)/cfe_tbl/AbortLoad(Payload.TableName: ' + tableName + ')';
 
 Yamcs.issueCommand(cmd);
 
@@ -220,16 +220,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Abort Table Load</text>
+    <text>($(CPUID)) Abort Table Load</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>151</width>
+    <width>249</width>
     <wrap_words>false</wrap_words>
     <wuid>6b3345f4:17760d4a2f0:-7325</wuid>
-    <x>66</x>
+    <x>12</x>
     <y>12</y>
   </widget>
 </display>
