@@ -72,6 +72,7 @@ int MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size)
     if(Status == XST_SUCCESS)
     {
         Status = BytesRecvd;
+        printf("MailboxRead %u\n", Status);
     }
     else
     {
@@ -254,7 +255,14 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
 
                 SizeInBytes = BufSz;
                 /* Ensure word boundary */
-                SizeInBytes = (BufSz + (MAILBOX_WORD_SIZE - (BufSz % MAILBOX_WORD_SIZE)));
+                if(BufSz % MAILBOX_WORD_SIZE)
+                {
+                    SizeInBytes = (BufSz + (MAILBOX_WORD_SIZE - (BufSz % MAILBOX_WORD_SIZE)));
+                }
+                else
+                {
+                    SizeInBytes = BufSz;
+                }
                 SizeInWords = SizeInBytes / MAILBOX_WORD_SIZE;
 
                 //printf("BufSz %u\n", BufSz);
@@ -277,7 +285,7 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
 
                 Checksum = 0;
                 /* Checksum Calculation */
-                for(i = 0; i < SizeInWords - 1; ++i)
+                for(i = 0; i < SizeInWords; ++i)
                 {
                     Checksum += SBN_Mailbox_Data.OutputBuffer[i + 2];
                 }
@@ -354,34 +362,32 @@ static int Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
     int ReturnValue         = SBN_IF_EMPTY;
     boolean MessageComplete = FALSE;
 
-    while(1)
+    for(i = 0; i < sizeof(SBN_Mailbox_Data.ParserBuffer)/MAILBOX_WORD_SIZE; ++i)
     {
+        unsigned int InputBuffer;
         SizeRead = MailboxRead(&SBN_Mailbox_Data.Mbox, 
-                               &SBN_Mailbox_Data.InputBuffer[0], 
+                               &InputBuffer, 
                                MAILBOX_WORD_SIZE);
         if(SizeRead > 0)
         {
-            //for(i = 0; i < SizeRead/MAILBOX_WORD_SIZE; ++i)
-            //{
-                unsigned int Size = MAILBOX_MAX_BUFFER_SIZE_BYTES;
-                unsigned int Status = ParseMessage(&SBN_Mailbox_Data.Parser,
-                                                   SBN_Mailbox_Data.InputBuffer[i],
-                                                   &SBN_Mailbox_Data.ParserBuffer[0],
-                                                   &Size);
-                if(Status == MPS_MESSAGE_COMPLETE)
+            unsigned int Size = MAILBOX_MAX_BUFFER_SIZE_BYTES;
+            unsigned int Status = ParseMessage(&SBN_Mailbox_Data.Parser,
+                                               InputBuffer,
+                                               &SBN_Mailbox_Data.ParserBuffer[0],
+                                               &Size);
+            if(Status == MPS_MESSAGE_COMPLETE)
+            {
+                printf("message complete\n");
+                MessageComplete = TRUE;
+                if (SBN_UnpackMsg(&SBN_Mailbox_Data.ParserBuffer[0], MsgSzPtr, MsgTypePtr, CpuIDPtr, Payload) == false)
                 {
-                    printf("message complete\n");
-                    MessageComplete = TRUE;
-                    if (SBN_UnpackMsg(&SBN_Mailbox_Data.ParserBuffer[0], MsgSzPtr, MsgTypePtr, CpuIDPtr, Payload) == false)
-                    {
-                        printf("Unpack failed.\n");
-                        ReturnValue = SBN_ERROR;
-                        goto end_of_function;
-                    }
-                    ReturnValue = SBN_SUCCESS;
-                    break;
+                    printf("Unpack failed.\n");
+                    ReturnValue = SBN_ERROR;
+                    goto end_of_function;
                 }
-            //}
+                ReturnValue = SBN_SUCCESS;
+                break;
+            }
         }
         else
         {
@@ -411,7 +417,7 @@ static int Recv(SBN_NetInterface_t *Net, SBN_MsgType_t *MsgTypePtr,
 
     if(!PeerData->ConnectedFlag)
     {
-        OS_printf("CPU %u connected", *CpuIDPtr);
+        OS_printf("CPU %u connected\n", *CpuIDPtr);
 
         PeerData->ConnectedFlag = TRUE;
 

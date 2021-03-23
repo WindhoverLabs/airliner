@@ -48,7 +48,7 @@ typedef struct
     void *Instance;
     char Filename[MAILBOX_UIO_PATH_MAX_LEN];
     unsigned int OutputBuffer[MAILBOX_MAX_BUFFER_SIZE_WORDS] __attribute__ ((aligned(4)));
-    unsigned int InputBuffer[MAILBOX_MAX_BUFFER_SIZE_WORDS] __attribute__ ((aligned(4)));
+    //unsigned int InputBuffer[MAILBOX_MAX_BUFFER_SIZE_WORDS] __attribute__ ((aligned(4)));
     unsigned int ParserBuffer[MAILBOX_MAX_BUFFER_SIZE_WORDS];
     unsigned int PackedBuffer[MAILBOX_MAX_BUFFER_SIZE_WORDS];
     Mailbox_Parser_Handle_t Parser;

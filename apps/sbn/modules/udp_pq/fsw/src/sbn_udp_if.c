@@ -40,9 +40,9 @@ PQ_HkTlm_t HkTlm;
 struct sockaddr_in s_addr;
 int Socket;
 /* Mailbox specific */
-unsigned int OutputBuffer[1500/sizeof(unsigned int)] __attribute__ ((aligned(4)));
-unsigned int InputBuffer[1500/sizeof(unsigned int)] __attribute__ ((aligned(4)));
-unsigned int ParserBuffer[1500/sizeof(unsigned int)];
+unsigned int OutputBuffer[1500] __attribute__ ((aligned(4)));
+unsigned int InputBuffer[1500] __attribute__ ((aligned(4)));
+unsigned int ParserBuffer[1500];
 Mailbox_Parser_Handle_t Parser;
 
 
