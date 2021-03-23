@@ -1451,6 +1451,8 @@ void SBN_AppMain(void)
         SBN_SendSubsRequests();
     }
 
+end_of_function:
+
     /* Loop Forever */
     while(CFE_ES_RunLoop(&RunStatus)) 
     {
@@ -1465,8 +1467,6 @@ void SBN_AppMain(void)
     }/* end for */
 
     /* SBN_UnloadModules(); */
-
-end_of_function:
     CFE_ES_ExitApp(RunStatus);
 }/* end SBN_AppMain */
 
