@@ -72,7 +72,6 @@ int MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size)
     if(Status == XST_SUCCESS)
     {
         Status = BytesRecvd;
-        printf("MailboxRead %u\n", Status);
     }
     else
     {
