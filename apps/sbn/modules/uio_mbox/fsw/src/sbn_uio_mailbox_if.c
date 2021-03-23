@@ -19,6 +19,7 @@ SBN_UIO_Mailbox_Data_t SBN_UIO_Mailbox_Data;
 void SBN_PQ_Output_Task(void);
 void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel);
 
+
 static void uio_write(void *timer_base, unsigned int offset, unsigned int value)
 {
     *((volatile unsigned *)(timer_base + offset)) = value;
@@ -53,13 +54,14 @@ void *InitDevice(const char *path)
     }
     else
     {
+        /* TODO update to event. */
         OS_printf("Opened UIO at 0x%08x\n", mailbox_ptr);
     }
 
     close(fd);
 
     /* Reset the status registers. */
-    uio_write(mailbox_ptr, MAILBOX_CONTROL_REG, MAILBOX_CONTROL_RESET_SEND_FIFO_BIT | MAILBOX_CONTROL_RESET_RECV_FIFO_BIT);
+    //uio_write(mailbox_ptr, MAILBOX_CONTROL_REG, MAILBOX_CONTROL_RESET_SEND_FIFO_BIT | MAILBOX_CONTROL_RESET_RECV_FIFO_BIT);
 
 end_of_function:
     return mailbox_ptr;
@@ -199,6 +201,7 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 uint16 actualMessageSize = CFE_SB_GetTotalMsgLength((CFE_SB_MsgPtr_t)buffer);
                 CFE_SB_MsgId_t MsgID = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)buffer);
                 SBN_MsgType_t MsgType;
+                /* Add the SBN header size to the total message size. */
                 size_t BufSz = actualMessageSize + SBN_PACKED_HDR_SZ;
                 /* TODO fix this. */
                 uint8 Buf[BufSz];
@@ -234,9 +237,6 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 }
                 SizeInWords = SizeInBytes / MAILBOX_WORD_SIZE;
 
-                //printf("BufSz %u\n", BufSz);
-                //printf("SizeInBytes %u\n", SizeInBytes);
-                //printf("SizeInWords %u\n", SizeInWords);
 
                 if(SizeInWords + MAILBOX_HEADER_SIZE_WORDS > MAILBOX_MAX_BUFFER_SIZE_WORDS)
                 {
@@ -304,8 +304,6 @@ static int InitNet(SBN_NetInterface_t *Net)
 {
     int Status = SBN_SUCCESS;
 
-    //memset(&SBN_UIO_Mailbox_Data, 0x0, sizeof(SBN_UIO_Mailbox_Data));
-
     SBN_UIO_Mailbox_Data.HkTlm.ChannelMaxMem = PQ_NUM_BYTES_IN_MEM_POOL;
 
     SBN_UIO_Mailbox_Data.Instance = InitDevice(&SBN_UIO_Mailbox_Data.Filename[0]);
@@ -317,7 +315,7 @@ static int InitNet(SBN_NetInterface_t *Net)
         goto end_of_function;
     }
 
-    OS_printf("1 Initialized UIO at 0x%08x\n", SBN_UIO_Mailbox_Data.Instance);
+    OS_printf("Initialized UIO at 0x%08x\n", SBN_UIO_Mailbox_Data.Instance);
 
     /* Initialize PQ channel. */
     Status = PQ_Channel_Init(SBN_PQ_CHANNEL_NUMBER, &SBN_UIO_Mailbox_Data.Channel);
@@ -380,6 +378,8 @@ static int InitPeer(SBN_PeerInterface_t *Peer)
 
 static int LoadNet(const char **Row, int FieldCnt, SBN_NetInterface_t *Net)
 {
+    memset(&SBN_UIO_Mailbox_Data, 0x0, sizeof(SBN_UIO_Mailbox_Data));
+
     /* Copy default. */
     strncpy(&SBN_UIO_Mailbox_Data.Filename[0], 
             MAILBOX_UIO_PATH, 
@@ -387,6 +387,7 @@ static int LoadNet(const char **Row, int FieldCnt, SBN_NetInterface_t *Net)
 
     if(FieldCnt < 1)
     {
+        /* TODO update to event. */
         OS_printf("Invalid entry (expected %d items, found %d)",
                 1, FieldCnt);
         return SBN_ERROR;
@@ -396,6 +397,7 @@ static int LoadNet(const char **Row, int FieldCnt, SBN_NetInterface_t *Net)
             Row[0],
             sizeof(SBN_UIO_Mailbox_Data.Filename));
 
+    /* TODO update to event. */
     OS_printf("UIO Path set to %s\n", &SBN_UIO_Mailbox_Data.Filename[0]);
 
     return SBN_SUCCESS;

@@ -88,8 +88,6 @@ static int InitNet(SBN_NetInterface_t *Net)
 {
     int Status = SBN_SUCCESS;
 
-    //memset(&SBN_Mailbox_Data, 0x0, sizeof(SBN_Mailbox_Data));
-
     SBN_Mailbox_Data.HkTlm.ChannelMaxMem = PQ_NUM_BYTES_IN_MEM_POOL;
 
     SBN_Mailbox_Data.MboxConfigPtr = XMbox_LookupConfig(XPAR_PPD_MAILBOX_CPD_TO_PPD_IF_1_DEVICE_ID);
@@ -175,6 +173,7 @@ static int InitPeer(SBN_PeerInterface_t *Peer)
 
 static int LoadNet(const char **Row, int FieldCnt, SBN_NetInterface_t *Net)
 {
+    memset(&SBN_Mailbox_Data, 0x0, sizeof(SBN_Mailbox_Data));
     return SBN_SUCCESS;
 }
 
@@ -230,6 +229,7 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                 uint16 actualMessageSize = CFE_SB_GetTotalMsgLength((CFE_SB_MsgPtr_t)buffer);
                 CFE_SB_MsgId_t MsgID = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)buffer);
                 SBN_MsgType_t MsgType;
+                /* Add the SBN header size to the total message size. */
                 size_t BufSz = actualMessageSize + SBN_PACKED_HDR_SZ;
                 /* TODO fix this. */
                 uint8 Buf[BufSz];
@@ -264,10 +264,6 @@ void SBN_PQ_ChannelHandler(PQ_ChannelData_t *Channel)
                     SizeInBytes = BufSz;
                 }
                 SizeInWords = SizeInBytes / MAILBOX_WORD_SIZE;
-
-                //printf("BufSz %u\n", BufSz);
-                //printf("SizeInBytes %u\n", SizeInBytes);
-                //printf("SizeInWords %u\n", SizeInWords);
 
                 if(SizeInWords + MAILBOX_HEADER_SIZE_WORDS > MAILBOX_MAX_BUFFER_SIZE_WORDS)
                 {
