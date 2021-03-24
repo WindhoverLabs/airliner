@@ -67,6 +67,11 @@ mdb:
       spec: "mdb/cfs-ccsds.xml"
     - type: "xtce"
       spec: "mdb/cfs.xml"
+      subLoaders:
+      - type: "xtce"
+        spec: "mdb/PPD.xml"
+      - type: "xtce"
+        spec: "mdb/CPD.xml"
 
 # Configuration for streams created at server startup
 streamConfig:

@@ -2,7 +2,7 @@ include(../set-vars.cmake)
 
 buildliner_initialize(
     EMBED_SYMTAB
-    CPUID CPD
+    CPU_ID CPD
     PSP ${PSP}
     OSAL ${OSAL}
     CORE_TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/tools

@@ -1,0 +1,8 @@
+<xtce:SpaceSystem xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xtce="http://www.omg.org/spec/XTCE/20180204" xsi:schemaLocation="http://www.omg.org/spec/XTCE/20180204 SpaceSystem.xsd " name="cfs">
+    <TelemetryMetaData>
+        <ParameterTypeSet/>
+    </TelemetryMetaData>
+    <CommandMetaData>
+        <ArgumentTypeSet/>
+    </CommandMetaData>
+</xtce:SpaceSystem>

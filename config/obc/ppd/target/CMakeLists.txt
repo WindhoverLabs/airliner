@@ -3,7 +3,7 @@ include(../set-vars.cmake)
 buildliner_initialize(
     PSP ${PSP}
     OSAL ${OSAL}
-    CPUID PPD
+    CPU_ID PPD
     CORE_TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/tools
     CONFIG
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
