@@ -236,9 +236,11 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #97 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #98 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   /* SBN Wakeup command code. */
+   { { SCH_FIX_HEADER(SBN_CMD_MID, 0xC000, 0x0001), 0x6400 } },
    /* Command ID #99 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   /* SBN Send HK command code. */
+   { { SCH_FIX_HEADER(SBN_CMD_MID, 0xC000, 0x0001), 0x0A00 } },
    /* Command ID #100 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #101 */
