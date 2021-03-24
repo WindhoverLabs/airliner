@@ -42,7 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var strMode =VTypeHelper.getString(display.getWidget('inMode').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cfe_evs/SetLogMode', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/SetLogMode', {
     'Payload.Mode': strMode, 
     'Payload.Spare': 0
 });]]></scriptText>

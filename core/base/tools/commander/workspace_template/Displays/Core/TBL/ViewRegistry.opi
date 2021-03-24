@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CFE-TBL - Registry</name>
+  <name>($(CPUID)) CFE-TBL - Registry</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -42,7 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var tableName =VTypeHelper.getString(display.getWidget('TableName').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cfe_tbl/TlmReg', {'Payload.TableName': tableName});
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_tbl/TlmReg', {'Payload.TableName': tableName});
 
 ]]></scriptText>
         <embedded>true</embedded>
@@ -218,7 +218,7 @@ $(pv_value)</tooltip>
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.Size</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.Size</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -270,7 +270,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.Crc</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.Crc</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -322,7 +322,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.InactiveBufferAddr</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.InactiveBufferAddr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -374,7 +374,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.ValidationFuncPtr</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.ValidationFuncPtr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -426,7 +426,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.TimeOfLastUpdate.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.TimeOfLastUpdate.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -478,7 +478,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.TimeOfLastUpdate.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.TimeOfLastUpdate.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -530,7 +530,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.FileCreateTimeSecs</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.FileCreateTimeSecs</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -582,7 +582,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.FileCreateTimeSubSecs</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.FileCreateTimeSubSecs</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -634,7 +634,7 @@ $(pv_value)</tooltip>
     <name>Text Update_14</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.Name</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.Name</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -686,7 +686,7 @@ $(pv_value)</tooltip>
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.LastFileLoaded</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.LastFileLoaded</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -738,7 +738,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.OwnerAppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.OwnerAppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1070,7 +1070,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.ActiveBufferAddr</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.ActiveBufferAddr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1160,7 +1160,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box</name>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.TableLoadedOnce</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.TableLoadedOnce</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1207,7 +1207,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_1</name>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.LoadPending</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.LoadPending</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1334,7 +1334,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_4</name>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.DumpOnly</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.DumpOnly</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1381,7 +1381,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_5</name>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.DblBuffered</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.DblBuffered</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1588,7 +1588,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_6</name>
-    <pv_name>/cfs/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.Critical</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_TblRegPacket_t.Payload.Critical</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1677,16 +1677,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Write Map Info to File System</text>
+    <text>($(CPUID)) Write Map Info to File System</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>231</width>
+    <width>357</width>
     <wrap_words>false</wrap_words>
     <wuid>6b3345f4:17760d4a2f0:-736d</wuid>
-    <x>80</x>
+    <x>16</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">

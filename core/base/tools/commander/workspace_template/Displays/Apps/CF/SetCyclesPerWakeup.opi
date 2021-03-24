@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>600</height>
+  <height>120</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CF - Set Cycles</name>
+  <name>($(CPUID)) CF - Set Cycles</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>800</width>
+  <width>300</width>
   <wuid>-10965483:1776e5e5496:-5786</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -42,7 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var cycles = VTypeHelper.getDouble(display.getWidget('Spinner').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cf/SetCyclesPerWakeup', {'NumCyclesPerWakeup': cycles});
+Yamcs.issueCommand('/cfs/$(CPUID)/cf/SetCyclesPerWakeup', {'NumCyclesPerWakeup': cycles});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -160,7 +160,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>NumCyclesPerWakeup </text>
+    <text>Num Cycles Per Wakeup </text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -224,7 +224,7 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>85</width>
     <wuid>-10965483:1776e5e5496:-56b2</wuid>
-    <x>186</x>
+    <x>192</x>
     <y>45</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -255,16 +255,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Set Cycles</text>
+    <text>($(CPUID))  CF - Set Cycles Per Wakeup</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>151</width>
+    <width>283</width>
     <wrap_words>false</wrap_words>
     <wuid>-10965483:1776e5e5496:-54db</wuid>
-    <x>42</x>
+    <x>12</x>
     <y>12</y>
   </widget>
 </display>

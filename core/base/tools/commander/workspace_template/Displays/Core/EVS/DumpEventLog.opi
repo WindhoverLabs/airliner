@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CFE-EVS - Dump Log</name>
+  <name>($(CPUID)) CFE-EVS - Dump Log</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -42,7 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var fileName =VTypeHelper.getString(display.getWidget('inFileName').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cfe_evs/WriteLogData', {'Payload.LogFilename': fileName}); 
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/WriteLogData', {'Payload.LogFilename': fileName}); 
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -160,16 +160,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Write Event Log to File System</text>
+    <text>($(CPUID)) Write Event Log to File System</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>231</width>
+    <width>295</width>
     <wrap_words>false</wrap_words>
     <wuid>72a2bf2b:1508717c835:-76c0</wuid>
-    <x>96</x>
+    <x>60</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">

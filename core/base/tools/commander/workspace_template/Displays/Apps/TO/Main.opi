@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103162101</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -23,7 +23,7 @@
     <EVENTS_OPI>/Displays/Core/EVS/Events.opi</EVENTS_OPI>
     <REGISTRY_PATH>/modules/to</REGISTRY_PATH>
   </macros>
-  <name>TO</name>
+  <name>($(CPUID)) TO</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -48,7 +48,7 @@
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -64,7 +64,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.usCmdCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.usCmdCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -180,7 +180,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Command Button Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -196,7 +196,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.usCmdErrCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.usCmdErrCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -248,16 +248,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Telemetry Output</text>
+    <text>($(CPUID)) Telemetry Output</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>182</width>
+    <width>232</width>
     <wrap_words>false</wrap_words>
     <wuid>-33cb7c72:150aa4c347f:-75c9</wuid>
-    <x>84</x>
+    <x>63</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -267,7 +267,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/to/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/to/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -323,7 +323,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/to/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/to/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -424,7 +424,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Command Button Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -440,7 +440,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.uiSentMsgCountChannel_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiSentMsgCountChannel_0_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -516,7 +516,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Command Button Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -532,7 +532,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.uiQueuedMsgCountChannel_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiQueuedMsgCountChannel_0_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -608,7 +608,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Command Button Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -624,7 +624,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.uiDropMsgCountChannel_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiDropMsgCountChannel_0_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -700,7 +700,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Command Button Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -716,7 +716,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.uiFailedMsgCountChannel_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiFailedMsgCountChannel_0_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -792,7 +792,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Command Button Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -808,7 +808,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.uiBytesSentChannel_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiBytesSentChannel_0_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -884,7 +884,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Command Button Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -900,7 +900,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.usTotalMsgDropped</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.usTotalMsgDropped</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -976,7 +976,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Command Button Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -992,7 +992,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.ChannelMemInfo_0_.MemInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.ChannelMemInfo_0_.MemInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1068,7 +1068,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Command Button Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1084,7 +1084,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.SentBytes</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.SentBytes</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1160,7 +1160,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Command Button Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1176,7 +1176,7 @@ $(pv_value)</tooltip>
     <name>Text Update_10</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.ChannelMaxMem</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.ChannelMaxMem</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1292,7 +1292,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Command Button Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1308,7 +1308,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.ChannelMemInfo_0_.PeakMemInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.ChannelMemInfo_0_.PeakMemInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1384,7 +1384,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Command Button Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1400,7 +1400,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.QueuedInOutputChannel_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.QueuedInOutputChannel_0_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1884,7 +1884,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/to/SendHK', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/to/SendHK', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -1940,7 +1940,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/to/SendTelemetry', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/to/SendTelemetry', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

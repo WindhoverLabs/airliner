@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CS - One Shot</name>
+  <name>($(CPUID)) CS - One Shot</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>250</width>
+  <width>270</width>
   <wuid>72a2bf2b:1508717c835:-7d33</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -44,7 +44,7 @@ var Address =VTypeHelper.getDouble(display.getWidget('Address').getPropertyValue
 var Size =VTypeHelper.getDouble(display.getWidget('Size').getPropertyValue('pv_value'));
 var MaxBytesPerCycle =VTypeHelper.getDouble(display.getWidget('MaxBytesPerCycle').getPropertyValue('pv_value'));
 
-var cmd = '/cfs/cs/OneShot';
+var cmd = '/cfs/$(CPUID)/cs/OneShot';
 
 Yamcs.issueCommand(cmd, 
 				  {'Address': Address,
@@ -97,8 +97,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>125</width>
     <wuid>72a2bf2b:1508717c835:-7cf7</wuid>
-    <x>47</x>
-    <y>96</y>
+    <x>68</x>
+    <y>114</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -138,7 +138,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>72a2bf2b:1508717c835:-7c63</wuid>
     <x>12</x>
-    <y>19</y>
+    <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -195,7 +195,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wuid>-33cb7c72:150aa4c347f:-72cb</wuid>
     <x>150</x>
-    <y>19</y>
+    <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -235,7 +235,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>-33cb7c72:150aa4c347f:-72bb</wuid>
     <x>12</x>
-    <y>38</y>
+    <y>55</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -290,7 +290,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wuid>-33cb7c72:150aa4c347f:-72b3</wuid>
     <x>150</x>
-    <y>38</y>
+    <y>55</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -330,7 +330,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>4d40612f:17772f0c845:-73cc</wuid>
     <x>12</x>
-    <y>56</y>
+    <y>73</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -385,6 +385,46 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wuid>4d40612f:17772f0c845:-73cb</wuid>
     <x>150</x>
-    <y>56</y>
+    <y>73</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_49</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>($(CPUID)) CS - One Shot</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>238</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-c05c465:1785c72c4a1:-5f78</wuid>
+    <x>12</x>
+    <y>6</y>
   </widget>
 </display>

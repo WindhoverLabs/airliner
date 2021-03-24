@@ -10,12 +10,12 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>250</height>
+  <height>270</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
@@ -46,7 +46,7 @@ var STCFSeconds =VTypeHelper.getDouble(display.getWidget('STCFSeconds').getPrope
 var STCFSubseconds =VTypeHelper.getDouble(display.getWidget('STCFSubseconds').getPropertyValue('pv_value'));
 var Leaps =VTypeHelper.getDouble(display.getWidget('Leaps').getPropertyValue('pv_value'));
 var State =VTypeHelper.getDouble(display.getWidget('State').getPropertyValue('pv_value'));
-var cmd = '/cfs/cfe_time/ToneData';
+var cmd = '/cfs/$(CPUID)/cfe_time/ToneData';
 
 Yamcs.issueCommand(cmd, {
 'Payload.AtToneMET.Seconds': METSeconds,
@@ -101,8 +101,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>163</width>
     <wuid>35ebaa52:1509cf6a868:-78ea</wuid>
-    <x>84</x>
-    <y>210</y>
+    <x>82</x>
+    <y>228</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -141,8 +141,8 @@ $(pv_value)</tooltip>
     <width>153</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-78e9</wuid>
-    <x>30</x>
-    <y>12</y>
+    <x>28</x>
+    <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -181,8 +181,8 @@ $(pv_value)</tooltip>
     <width>177</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-657f</wuid>
-    <x>6</x>
-    <y>38</y>
+    <x>4</x>
+    <y>68</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -221,8 +221,8 @@ $(pv_value)</tooltip>
     <width>165</width>
     <wrap_words>false</wrap_words>
     <wuid>-51d98179:177d07182b4:-787a</wuid>
-    <x>18</x>
-    <y>66</y>
+    <x>16</x>
+    <y>96</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -261,8 +261,8 @@ $(pv_value)</tooltip>
     <width>177</width>
     <wrap_words>false</wrap_words>
     <wuid>-51d98179:177d07182b4:-786a</wuid>
-    <x>6</x>
-    <y>96</y>
+    <x>4</x>
+    <y>126</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -301,8 +301,8 @@ $(pv_value)</tooltip>
     <width>147</width>
     <wrap_words>false</wrap_words>
     <wuid>-51d98179:177d07182b4:-785c</wuid>
-    <x>36</x>
-    <y>126</y>
+    <x>34</x>
+    <y>156</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -341,8 +341,8 @@ $(pv_value)</tooltip>
     <width>147</width>
     <wrap_words>false</wrap_words>
     <wuid>-51d98179:177d07182b4:-7852</wuid>
-    <x>36</x>
-    <y>156</y>
+    <x>34</x>
+    <y>186</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -396,8 +396,8 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>137</width>
     <wuid>-51d98179:177d07182b4:e15</wuid>
-    <x>192</x>
-    <y>12</y>
+    <x>190</x>
+    <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -451,8 +451,8 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>137</width>
     <wuid>-51d98179:177d07182b4:e21</wuid>
-    <x>192</x>
-    <y>38</y>
+    <x>190</x>
+    <y>68</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -506,8 +506,8 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>137</width>
     <wuid>-51d98179:177d07182b4:e37</wuid>
-    <x>192</x>
-    <y>66</y>
+    <x>190</x>
+    <y>96</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -561,8 +561,8 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>137</width>
     <wuid>-51d98179:177d07182b4:e47</wuid>
-    <x>192</x>
-    <y>96</y>
+    <x>190</x>
+    <y>126</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -616,8 +616,8 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>137</width>
     <wuid>-51d98179:177d07182b4:e4e</wuid>
-    <x>192</x>
-    <y>126</y>
+    <x>190</x>
+    <y>156</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -671,7 +671,47 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>137</width>
     <wuid>-51d98179:177d07182b4:e55</wuid>
-    <x>192</x>
-    <y>156</y>
+    <x>190</x>
+    <y>186</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_69</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>($(CPUID)) CFE-TIME - Tone Data</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>279</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-c05c465:1785c72c4a1:-6568</wuid>
+    <x>24</x>
+    <y>12</y>
   </widget>
 </display>

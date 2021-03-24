@@ -64,7 +64,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.CmdCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.CmdCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -196,7 +196,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.CmdErrCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.CmdErrCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -267,7 +267,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/pe/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/pe/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -323,7 +323,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/pe/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/pe/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -440,7 +440,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>3</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.AltOrigin</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.AltOrigin</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -532,7 +532,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.Timestamp.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.Timestamp.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -624,7 +624,7 @@ $(pv_value)</tooltip>
     <name>Text Update_10</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.Timestamp_Hist.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.Timestamp_Hist.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -716,7 +716,7 @@ $(pv_value)</tooltip>
     <name>Text Update_22</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.WakeupCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.WakeupCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -768,7 +768,7 @@ $(pv_value)</tooltip>
     <name>Text Update_30</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.Timestamp.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.Timestamp.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -820,7 +820,7 @@ $(pv_value)</tooltip>
     <name>Text Update_37</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.Timestamp_Hist.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.Timestamp_Hist.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1297,7 +1297,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/pe/SendHK', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/pe/SendHK', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -1353,7 +1353,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/pe/Wakeup', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/pe/Wakeup', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

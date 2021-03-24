@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CFE-TBL - Validate</name>
+  <name>($(CPUID)) CFE-TBL - Validate</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -53,7 +53,7 @@ if( tableBuffer != 'Active' ) {
     pBuffer = 'ACTIVE_BUFFER';
 }
 
-Yamcs.issueCommand('/cfs/cfe_tbl/Validate', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_tbl/Validate', {
     'Payload.TableName': tableName,
     'Payload.ActiveTblFlag': pBuffer
 });
@@ -175,7 +175,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Validate Table</text>
+    <text>($(CPUID)) Validate Table</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>

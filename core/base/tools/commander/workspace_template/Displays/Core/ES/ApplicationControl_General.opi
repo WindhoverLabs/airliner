@@ -20,7 +20,7 @@
     <include_parent_macros>true</include_parent_macros>
     <CONFIG_REGISTRY>/Displays/Resources/definitions.yaml</CONFIG_REGISTRY>
   </macros>
-  <name>CFE-ES - App Control</name>
+  <name>($(CPUID)) CFE-ES - App Control</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -101,7 +101,7 @@
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.StartAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.StartAddress</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -193,7 +193,7 @@ $(pv_value)</tooltip>
     <name>inExceptionAction</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.ExceptionAction</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.ExceptionAction</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -285,7 +285,7 @@ $(pv_value)</tooltip>
     <name>inPriority</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.Priority</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -377,7 +377,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.MainTaskId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.MainTaskId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -469,7 +469,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.ExecutionCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.ExecutionCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -561,7 +561,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.MainTaskName</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.MainTaskName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -653,7 +653,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.NumOfChildTasks</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.NumOfChildTasks</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -745,7 +745,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.AppId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.AppId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -837,7 +837,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.Type</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.Type</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -929,7 +929,7 @@ $(pv_value)</tooltip>
     <name>inAppName</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.Name</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.Name</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1021,7 +1021,7 @@ $(pv_value)</tooltip>
     <name>inEntryPoint</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.EntryPoint</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.EntryPoint</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1113,7 +1113,7 @@ $(pv_value)</tooltip>
     <name>inFileName</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1205,7 +1205,7 @@ $(pv_value)</tooltip>
     <name>inStackSize</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.StackSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.StackSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1297,7 +1297,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.ModuleId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.ModuleId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1389,7 +1389,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.AddressesAreValid</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.AddressesAreValid</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1481,7 +1481,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.CodeAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.CodeAddress</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1573,7 +1573,7 @@ $(pv_value)</tooltip>
     <name>Text Update_10</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.CodeSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.CodeSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1665,7 +1665,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.DataAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.DataAddress</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1757,7 +1757,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.DataSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.DataSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1849,7 +1849,7 @@ $(pv_value)</tooltip>
     <name>Text Update_13</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.BSSAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.BSSAddress</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1941,7 +1941,7 @@ $(pv_value)</tooltip>
     <name>Text Update_14</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.BSSSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.BSSSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1993,7 +1993,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Application Control</text>
+    <text>($(CPUID)) Application Control</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>

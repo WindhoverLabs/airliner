@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103162101</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -23,7 +23,7 @@
     <PROJECT_NAME>Displays</PROJECT_NAME>
     <REGISTRY_PATH>/modules/core/modules/cfe/modules/cfe_es</REGISTRY_PATH>
   </macros>
-  <name>CFE-ES - Main</name>
+  <name>($(CPUID)) CFE-ES - Main</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -64,7 +64,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.CmdCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.CmdCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1556,7 +1556,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.ErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.ErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1608,7 +1608,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.CFECoreChecksum</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.CFECoreChecksum</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1660,7 +1660,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.CFEMajorVersion</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.CFEMajorVersion</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1712,7 +1712,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.CFEMinorVersion</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.CFEMinorVersion</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1764,7 +1764,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.CFERevision</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.CFERevision</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1816,7 +1816,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.CFEMissionRevision</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.CFEMissionRevision</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1868,7 +1868,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.OSALMajorVersion</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.OSALMajorVersion</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1920,7 +1920,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.OSALMinorVersion</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.OSALMinorVersion</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1972,7 +1972,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.OSALRevision</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.OSALRevision</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2024,7 +2024,7 @@ $(pv_value)</tooltip>
     <name>Text Update_10</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.OSALMissionRevision</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.OSALMissionRevision</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2076,7 +2076,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.SysLogSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.SysLogSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2128,7 +2128,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.SysLogEntries</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.SysLogEntries</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2180,7 +2180,7 @@ $(pv_value)</tooltip>
     <name>Text Update_13</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.SysLogMode</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.SysLogMode</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2232,7 +2232,7 @@ $(pv_value)</tooltip>
     <name>Text Update_14</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.ERLogIndex</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.ERLogIndex</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2284,7 +2284,7 @@ $(pv_value)</tooltip>
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.ERLogEntries</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.ERLogEntries</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2336,7 +2336,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.RegisteredExternalApps</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.RegisteredExternalApps</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2388,7 +2388,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.RegisteredTasks</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.RegisteredTasks</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2440,7 +2440,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.RegisteredLibs</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.RegisteredLibs</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2492,7 +2492,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.RegisteredCoreApps</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.RegisteredCoreApps</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2544,7 +2544,7 @@ $(pv_value)</tooltip>
     <name>Text Update_29</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.HeapBytesFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.HeapBytesFree</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2596,7 +2596,7 @@ $(pv_value)</tooltip>
     <name>Text Update_30</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.HeapBlocksFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.HeapBlocksFree</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2648,7 +2648,7 @@ $(pv_value)</tooltip>
     <name>Text Update_31</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.HeapMaxBlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.HeapMaxBlockSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2700,7 +2700,7 @@ $(pv_value)</tooltip>
     <name>Text Update_32</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.ResetType</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.ResetType</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2752,7 +2752,7 @@ $(pv_value)</tooltip>
     <name>Text Update_33</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.ResetSubtype</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.ResetSubtype</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2804,7 +2804,7 @@ $(pv_value)</tooltip>
     <name>Text Update_34</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.ProcessorResets</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.ProcessorResets</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2856,7 +2856,7 @@ $(pv_value)</tooltip>
     <name>Text Update_35</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.MaxProcessorResets</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.MaxProcessorResets</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2908,7 +2908,7 @@ $(pv_value)</tooltip>
     <name>Text Update_36</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.BootSource</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.BootSource</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2939,7 +2939,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_es/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2995,7 +2995,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_es/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3051,7 +3051,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_es/Restart', {'Payload.RestartType': 'PROCESSOR_RESET'});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/Restart', {'Payload.RestartType': 'PROCESSOR_RESET'});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3107,7 +3107,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_es/Restart', {'Payload.RestartType': 'POWERON_RESET'});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/Restart', {'Payload.RestartType': 'POWERON_RESET'});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3224,7 +3224,7 @@ $(pv_value)</tooltip>
     <name>Text Update_38</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.SysLogBytesUsed</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.SysLogBytesUsed</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3371,16 +3371,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Core Flight Executive - Essential Services</text>
+    <text>($(CPUID)) Core Flight Executive - Essential Services</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>295</width>
+    <width>475</width>
     <wrap_words>false</wrap_words>
     <wuid>763e00b7:150973f1dd8:-7cf4</wuid>
-    <x>213</x>
+    <x>102</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -3390,7 +3390,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_es/ClearSysLog', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/ClearSysLog', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3611,7 +3611,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_es/ClearERLog', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/ClearERLog', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3667,7 +3667,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_es/ResetPRCount', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/ResetPRCount', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3833,7 +3833,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_es/SendHK', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/SendHK', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

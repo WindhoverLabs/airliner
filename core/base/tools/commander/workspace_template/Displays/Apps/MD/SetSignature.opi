@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -60,16 +60,16 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Set Signature</text>
+    <text>($(CPUID)) MD - Set Signature</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>175</width>
+    <width>238</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7a20</wuid>
-    <x>48</x>
+    <x>12</x>
     <y>6</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -83,7 +83,7 @@ importPackage(Packages.org.yamcs.studio.data);
 var TableID = VTypeHelper.getString(display.getWidget('TableID').getPropertyValue('pv_value'));
 var Signature = VTypeHelper.getString(display.getWidget('Signature').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/md/SetSignature', {
+Yamcs.issueCommand('/cfs/$(CPUID)/md/SetSignature', {
     'TableId': TableID,
     'Signature': Signature,
     'Padding': 0});]]></scriptText>
@@ -187,7 +187,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -284,7 +284,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>

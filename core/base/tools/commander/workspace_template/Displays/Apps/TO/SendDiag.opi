@@ -10,16 +10,16 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>100</height>
+  <height>630</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>TO - Send Diag</name>
+  <name>($(CPUID)) TO - Send Diag</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>220</width>
+  <width>1200</width>
   <wuid>-10b748b0:17773fb054b:-7a2f</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -60,16 +60,16 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Send Diag</text>
+    <text>($(CPUID)) TO - Diagnostics</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>182</width>
+    <width>284</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7a20</wuid>
-    <x>18</x>
+    <x>17</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -82,7 +82,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var ChannelIdx = 0;
 
-Yamcs.issueCommand('/cfs/to/SendDiag', {
+Yamcs.issueCommand('/cfs/$(CPUID)/to/SendDiag', {
     'ChannelIdx': ChannelIdx});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -144,7 +144,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -160,7 +160,7 @@ $(pv_value)</tooltip>
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.ChannelIndex</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.ChannelIndex</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -236,7 +236,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -252,7 +252,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.TableID</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.TableID</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -328,7 +328,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -344,7 +344,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.MemPoolHandle</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.MemPoolHandle</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -420,7 +420,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -436,7 +436,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.MemFullCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.MemFullCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -512,7 +512,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -528,7 +528,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.ChannelName</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.ChannelName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -604,7 +604,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -620,7 +620,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.State</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.State</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -696,7 +696,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -712,7 +712,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.ConfigTableName</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.ConfigTableName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -788,7 +788,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -804,7 +804,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.DumpTableName</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.DumpTableName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -880,7 +880,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -896,7 +896,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.ConfigTableFileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.ConfigTableFileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1252,7 +1252,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1268,7 +1268,7 @@ $(pv_value)</tooltip>
     <name>Text Update_10</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.PQueue_0_.DroppedMsgCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.PQueue_0_.DroppedMsgCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1304,7 +1304,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1320,7 +1320,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.PQueue_0_.QueuedMsgCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.PQueue_0_.QueuedMsgCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1356,7 +1356,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1372,7 +1372,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.PQueue_0_.CurrentlyQueuedCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.PQueue_0_.CurrentlyQueuedCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1408,7 +1408,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1424,7 +1424,7 @@ $(pv_value)</tooltip>
     <name>Text Update_13</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.PQueue_0_.HighwaterMark</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.PQueue_0_.HighwaterMark</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1460,7 +1460,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1476,7 +1476,7 @@ $(pv_value)</tooltip>
     <name>Text Update_14</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.PQueue_0_.MsgLimit</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.PQueue_0_.MsgLimit</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1512,7 +1512,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1528,7 +1528,7 @@ $(pv_value)</tooltip>
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.PQueue_0_.State</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.PQueue_0_.State</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1564,7 +1564,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1580,7 +1580,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.PQueue_0_.QType</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.PQueue_0_.QType</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1816,7 +1816,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1832,7 +1832,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.OQueue.SentCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.OQueue.SentCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1868,7 +1868,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1884,7 +1884,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.OQueue.CurrentlyQueuedCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.OQueue.CurrentlyQueuedCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1920,7 +1920,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1936,7 +1936,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.OQueue.HighwaterMark</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.OQueue.HighwaterMark</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1972,7 +1972,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1988,7 +1988,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_ChannelDiagTlm_t.OQueue.SentBytes</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.OQueue.SentBytes</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

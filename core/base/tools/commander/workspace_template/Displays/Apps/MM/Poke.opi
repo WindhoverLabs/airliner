@@ -10,16 +10,16 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>190</height>
+  <height>210</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>MM - Poke</name>
+  <name>($(CPUID)) MM - Poke</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -60,7 +60,7 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Poke</text>
+    <text>($(CPUID)) MM - Poke</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -126,7 +126,7 @@ var SymbolName = VTypeHelper.getString(display.getWidget('SymbolName').getProper
 var Offset = VTypeHelper.getString(display.getWidget('Offset').getPropertyValue('pv_value'));
 var Data = VTypeHelper.getString(display.getWidget('Data').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/mm/Poke', {
+Yamcs.issueCommand('/cfs/$(CPUID)/mm/Poke', {
     'MemType': MemType,
     'DataSize': NumofBytes,
     'Padding_0_': 0,
@@ -157,7 +157,7 @@ Yamcs.issueCommand('/cfs/mm/Poke', {
     <foreground_color>
       <color red="253" green="255" blue="255" />
     </foreground_color>
-    <height>20</height>
+    <height>28</height>
     <image>../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
@@ -180,7 +180,7 @@ $(pv_value)</tooltip>
     <width>92</width>
     <wuid>-10b748b0:17773fb054b:-79c7</wuid>
     <x>90</x>
-    <y>162</y>
+    <y>171</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.combo" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -203,7 +203,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>27</height>
+    <height>32</height>
     <items>
       <s>NOMEMTYPE</s>
       <s>EEPROM</s>
@@ -270,7 +270,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>54e87698:1777e01a75d:-6f83</wuid>
     <x>12</x>
-    <y>57</y>
+    <y>66</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -284,7 +284,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -327,7 +327,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wuid>54e87698:1777e01a75d:-6f5d</wuid>
     <x>114</x>
-    <y>57</y>
+    <y>66</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -367,7 +367,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>54e87698:1777e01a75d:-6f53</wuid>
     <x>12</x>
-    <y>83</y>
+    <y>92</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -381,7 +381,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -424,7 +424,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wuid>54e87698:1777e01a75d:-6f49</wuid>
     <x>114</x>
-    <y>83</y>
+    <y>92</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -464,7 +464,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>54e87698:1777e01a75d:-6f41</wuid>
     <x>12</x>
-    <y>107</y>
+    <y>116</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -478,7 +478,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -521,7 +521,7 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wuid>54e87698:1777e01a75d:-6f37</wuid>
     <x>114</x>
-    <y>107</y>
+    <y>116</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -561,7 +561,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>54e87698:1777e01a75d:-6e32</wuid>
     <x>12</x>
-    <y>132</y>
+    <y>141</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -575,7 +575,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -618,6 +618,6 @@ $(pv_value)</tooltip>
     <width>136</width>
     <wuid>54e87698:1777e01a75d:-6e31</wuid>
     <x>114</x>
-    <y>132</y>
+    <y>141</y>
   </widget>
 </display>
