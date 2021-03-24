@@ -84,8 +84,6 @@ modules:
                 msgID: 0x1a0b
               CFE_TIME_SEND_CMD_MID:
                 msgID: 0x1a0e
-      osal:
-        definition: ${PROJECT_SOURCE_DIR}/core/osal/posix-fast/wh_design.yaml
     
   ci:
     definition: ${PROJECT_SOURCE_DIR}/apps/ci/wh_design.yaml
