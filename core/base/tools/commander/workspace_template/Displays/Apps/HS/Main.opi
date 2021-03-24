@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103162101</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -23,7 +23,7 @@
     <EVENTS_OPI>/Displays/Core/EVS/Events.opi</EVENTS_OPI>
     <REGISTRY_PATH>/modules/hs</REGISTRY_PATH>
   </macros>
-  <name>HS</name>
+  <name>($(CPUID)) HS</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -64,7 +64,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.CmdCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CmdCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -196,7 +196,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.CmdErrCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CmdErrCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -227,7 +227,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hs/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hs/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -283,7 +283,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hs/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hs/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -360,7 +360,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Health Services</text>
+    <text>($(CPUID)) Health Services</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -398,7 +398,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_4</name>
-    <pv_name>/cfs/hs/HS_HkPacket_t.CurrentAppMonState</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentAppMonState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -445,7 +445,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_5</name>
-    <pv_name>/cfs/hs/HS_HkPacket_t.CurrentEventMonState</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentEventMonState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -492,7 +492,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_6</name>
-    <pv_name>/cfs/hs/HS_HkPacket_t.CurrentAlivenessState</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentAlivenessState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -539,7 +539,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_7</name>
-    <pv_name>/cfs/hs/HS_HkPacket_t.CurrentCPUHogState</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentCPUHogState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -586,7 +586,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_9</name>
-    <pv_name>/CFS/HS/LoadedEMT</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/LoadedEMT</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -633,7 +633,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_10</name>
-    <pv_name>/CFS/HS/LoadedAMT</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/LoadedAMT</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -680,7 +680,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_11</name>
-    <pv_name>/CFS/HS/LoadedMAT</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/LoadedMAT</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -727,7 +727,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_12</name>
-    <pv_name>/CFS/HS/LoadedXCT</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/LoadedXCT</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -776,7 +776,7 @@ $(pv_value)</tooltip>
     <name>Text Update_13</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ResetsPerformed</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ResetsPerformed</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -828,7 +828,7 @@ $(pv_value)</tooltip>
     <name>Text Update_14</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.MaxResets</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.MaxResets</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -880,7 +880,7 @@ $(pv_value)</tooltip>
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.EventsMonitoredCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.EventsMonitoredCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -932,7 +932,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.InvalidEventMonCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.InvalidEventMonCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1582,7 +1582,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_17</name>
-    <pv_name>/CFS/HS/AppMonEnable_0</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_0</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1629,7 +1629,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_18</name>
-    <pv_name>/CFS/HS/AppMonEnable_1</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_1</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1676,7 +1676,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_19</name>
-    <pv_name>/CFS/HS/AppMonEnable_2</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_2</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1723,7 +1723,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_20</name>
-    <pv_name>/CFS/HS/AppMonEnable_3</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_3</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1770,7 +1770,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_21</name>
-    <pv_name>/CFS/HS/AppMonEnable_4</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_4</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1817,7 +1817,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_22</name>
-    <pv_name>/CFS/HS/AppMonEnable_5</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_5</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1864,7 +1864,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_23</name>
-    <pv_name>/CFS/HS/AppMonEnable_6</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_6</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1911,7 +1911,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_24</name>
-    <pv_name>/CFS/HS/AppMonEnable_7</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_7</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1958,7 +1958,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_25</name>
-    <pv_name>/CFS/HS/AppMonEnable_8</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_8</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2005,7 +2005,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_26</name>
-    <pv_name>/CFS/HS/AppMonEnable_9</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_9</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2052,7 +2052,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_27</name>
-    <pv_name>/CFS/HS/AppMonEnable_10</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_10</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2099,7 +2099,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_28</name>
-    <pv_name>/CFS/HS/AppMonEnable_11</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_11</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2146,7 +2146,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_29</name>
-    <pv_name>/CFS/HS/AppMonEnable_12</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_12</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2193,7 +2193,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_30</name>
-    <pv_name>/CFS/HS/AppMonEnable_13</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_13</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2240,7 +2240,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_31</name>
-    <pv_name>/CFS/HS/AppMonEnable_14</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_14</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2287,7 +2287,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_32</name>
-    <pv_name>/CFS/HS/AppMonEnable_15</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_15</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2334,7 +2334,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_33</name>
-    <pv_name>/CFS/HS/AppMonEnable_16</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_16</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2381,7 +2381,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_34</name>
-    <pv_name>/CFS/HS/AppMonEnable_17</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_17</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2428,7 +2428,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_35</name>
-    <pv_name>/CFS/HS/AppMonEnable_18</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_18</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2475,7 +2475,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_36</name>
-    <pv_name>/CFS/HS/AppMonEnable_19</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_19</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2522,7 +2522,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_37</name>
-    <pv_name>/CFS/HS/AppMonEnable_20</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_20</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2569,7 +2569,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_38</name>
-    <pv_name>/CFS/HS/AppMonEnable_21</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_21</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2616,7 +2616,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_39</name>
-    <pv_name>/CFS/HS/AppMonEnable_22</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_22</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2663,7 +2663,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_40</name>
-    <pv_name>/CFS/HS/AppMonEnable_23</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_23</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2710,7 +2710,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_41</name>
-    <pv_name>/CFS/HS/AppMonEnable_24</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_24</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2757,7 +2757,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_42</name>
-    <pv_name>/CFS/HS/AppMonEnable_25</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_25</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2804,7 +2804,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_43</name>
-    <pv_name>/CFS/HS/AppMonEnable_26</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_26</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2851,7 +2851,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_44</name>
-    <pv_name>/CFS/HS/AppMonEnable_27</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_27</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2898,7 +2898,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_45</name>
-    <pv_name>/CFS/HS/AppMonEnable_28</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_28</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2945,7 +2945,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_46</name>
-    <pv_name>/CFS/HS/AppMonEnable_29</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_29</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2992,7 +2992,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_47</name>
-    <pv_name>/CFS/HS/AppMonEnable_30</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_30</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -3039,7 +3039,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_48</name>
-    <pv_name>/CFS/HS/AppMonEnable_31</pv_name>
+    <pv_name>/cfs/$(CPUID)/HS/AppMonEnable_31</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -3088,7 +3088,7 @@ $(pv_value)</tooltip>
     <name>Text Update_49</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.MsgActExec</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.MsgActExec</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3140,7 +3140,7 @@ $(pv_value)</tooltip>
     <name>Text Update_50</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.UtilCpuAvg</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.UtilCpuAvg</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3192,7 +3192,7 @@ $(pv_value)</tooltip>
     <name>Text Update_51</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.UtilCpuPeak</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.UtilCpuPeak</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4684,7 +4684,7 @@ $(pv_value)</tooltip>
     <name>Text Update_52</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_0_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4736,7 +4736,7 @@ $(pv_value)</tooltip>
     <name>Text Update_53</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_1_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_1_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4788,7 +4788,7 @@ $(pv_value)</tooltip>
     <name>Text Update_54</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_2_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_2_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4840,7 +4840,7 @@ $(pv_value)</tooltip>
     <name>Text Update_55</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_3_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_3_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4892,7 +4892,7 @@ $(pv_value)</tooltip>
     <name>Text Update_56</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_4_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_4_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4944,7 +4944,7 @@ $(pv_value)</tooltip>
     <name>Text Update_57</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_5_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_5_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4996,7 +4996,7 @@ $(pv_value)</tooltip>
     <name>Text Update_58</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_6_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_6_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5048,7 +5048,7 @@ $(pv_value)</tooltip>
     <name>Text Update_59</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_7_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_7_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5100,7 +5100,7 @@ $(pv_value)</tooltip>
     <name>Text Update_60</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_8_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_8_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5152,7 +5152,7 @@ $(pv_value)</tooltip>
     <name>Text Update_61</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_9_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_9_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5204,7 +5204,7 @@ $(pv_value)</tooltip>
     <name>Text Update_62</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_10_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_10_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5256,7 +5256,7 @@ $(pv_value)</tooltip>
     <name>Text Update_63</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_11_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_11_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5308,7 +5308,7 @@ $(pv_value)</tooltip>
     <name>Text Update_64</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_12_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_12_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5360,7 +5360,7 @@ $(pv_value)</tooltip>
     <name>Text Update_65</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_13_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_13_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5412,7 +5412,7 @@ $(pv_value)</tooltip>
     <name>Text Update_66</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_14_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_14_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5464,7 +5464,7 @@ $(pv_value)</tooltip>
     <name>Text Update_67</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_15_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_15_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5516,7 +5516,7 @@ $(pv_value)</tooltip>
     <name>Text Update_68</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_16_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_16_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5568,7 +5568,7 @@ $(pv_value)</tooltip>
     <name>Text Update_69</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_17_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_17_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5620,7 +5620,7 @@ $(pv_value)</tooltip>
     <name>Text Update_70</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_18_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_18_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5672,7 +5672,7 @@ $(pv_value)</tooltip>
     <name>Text Update_71</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_19_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_19_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5724,7 +5724,7 @@ $(pv_value)</tooltip>
     <name>Text Update_72</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_20_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_20_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5776,7 +5776,7 @@ $(pv_value)</tooltip>
     <name>Text Update_73</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_21_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_21_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5828,7 +5828,7 @@ $(pv_value)</tooltip>
     <name>Text Update_74</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_22_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_22_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5880,7 +5880,7 @@ $(pv_value)</tooltip>
     <name>Text Update_75</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_23_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_23_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5932,7 +5932,7 @@ $(pv_value)</tooltip>
     <name>Text Update_76</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_24_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_24_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5984,7 +5984,7 @@ $(pv_value)</tooltip>
     <name>Text Update_77</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_25_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_25_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6036,7 +6036,7 @@ $(pv_value)</tooltip>
     <name>Text Update_78</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_26_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_26_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6088,7 +6088,7 @@ $(pv_value)</tooltip>
     <name>Text Update_79</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_27_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_27_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6140,7 +6140,7 @@ $(pv_value)</tooltip>
     <name>Text Update_80</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_28_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_28_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6192,7 +6192,7 @@ $(pv_value)</tooltip>
     <name>Text Update_81</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_29_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_29_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6244,7 +6244,7 @@ $(pv_value)</tooltip>
     <name>Text Update_82</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_30_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_30_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6296,7 +6296,7 @@ $(pv_value)</tooltip>
     <name>Text Update_83</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.ExeCounts_31_</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts_31_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6367,7 +6367,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hs/EnableAppMon', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hs/EnableAppMon', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -6423,7 +6423,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hs/DisableAppMon', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hs/DisableAppMon', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -6479,7 +6479,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hs/EnableEventMon', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hs/EnableEventMon', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -6535,7 +6535,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hs/EnableAliveness', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hs/EnableAliveness', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -6591,7 +6591,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hs/EnableCpuHog', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hs/EnableCpuHog', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -6647,7 +6647,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hs/DisableEventMon', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hs/DisableEventMon', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -6703,7 +6703,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hs/DisableAliveness', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hs/DisableAliveness', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -6759,7 +6759,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hs/DisableCpuHog', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hs/DisableCpuHog', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -6815,7 +6815,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hs/ResetResetsPerformed', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hs/ResetResetsPerformed', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

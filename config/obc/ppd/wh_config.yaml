@@ -1,6 +1,6 @@
 ---
 config_base: ${PROJECT_SOURCE_DIR} 
-  
+cpuid: PPD
 modules:
   core:
     modules:

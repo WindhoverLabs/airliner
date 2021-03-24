@@ -10,12 +10,12 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103162101</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>470</height>
+  <height>500</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
     <APP>cfe_evs</APP>
@@ -23,7 +23,7 @@
     <PROJECT_NAME>Displays</PROJECT_NAME>
     <REGISTRY_PATH>/modules/core/modules/cfe/modules/cfe_evs</REGISTRY_PATH>
   </macros>
-  <name>CFE-EVS</name>
+  <name>($(CPUID)) CFE-EVS</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -64,7 +64,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_evs/CFE_EVS_TlmPkt_t.Payload.CommandCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_evs/CFE_EVS_TlmPkt_t.Payload.CommandCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -636,7 +636,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_evs/CFE_EVS_TlmPkt_t.Payload.CommandErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_evs/CFE_EVS_TlmPkt_t.Payload.CommandErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -688,7 +688,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_evs/CFE_EVS_TlmPkt_t.Payload.MessageFormatMode</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_evs/CFE_EVS_TlmPkt_t.Payload.MessageFormatMode</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -740,7 +740,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_evs/CFE_EVS_TlmPkt_t.Payload.MessageTruncCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_evs/CFE_EVS_TlmPkt_t.Payload.MessageTruncCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -792,7 +792,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_evs/CFE_EVS_TlmPkt_t.Payload.UnregisteredAppCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_evs/CFE_EVS_TlmPkt_t.Payload.UnregisteredAppCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -844,7 +844,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_evs/CFE_EVS_TlmPkt_t.Payload.OutputPort</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_evs/CFE_EVS_TlmPkt_t.Payload.OutputPort</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -896,7 +896,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_evs/CFE_EVS_TlmPkt_t.Payload.LogFullFlag</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_evs/CFE_EVS_TlmPkt_t.Payload.LogFullFlag</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -948,7 +948,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_evs/CFE_EVS_TlmPkt_t.Payload.LogMode</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_evs/CFE_EVS_TlmPkt_t.Payload.LogMode</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1000,7 +1000,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_evs/CFE_EVS_TlmPkt_t.Payload.MessageSendCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_evs/CFE_EVS_TlmPkt_t.Payload.MessageSendCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1052,7 +1052,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_evs/CFE_EVS_TlmPkt_t.Payload.LogOverflowCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_evs/CFE_EVS_TlmPkt_t.Payload.LogOverflowCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1104,7 +1104,7 @@ $(pv_value)</tooltip>
     <name>Text Update_10</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_evs/CFE_EVS_TlmPkt_t.Payload.LogEnabled</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_evs/CFE_EVS_TlmPkt_t.Payload.LogEnabled</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1135,7 +1135,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_evs/NoOp', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/NoOp', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -1190,7 +1190,7 @@ Yamcs.issueCommand('/cfs/cfe_evs/NoOp', {});]]></scriptText>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_evs/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -1267,13 +1267,13 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Core Flight Executive - Event Services</text>
+    <text>($(CPUID)) Core Flight Executive - Event Services</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>295</width>
+    <width>367</width>
     <wrap_words>false</wrap_words>
     <wuid>763e00b7:150973f1dd8:-7cf4</wuid>
     <x>18</x>
@@ -1946,7 +1946,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_evs/ClearLog', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/ClearLog', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2057,7 +2057,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_evs/SendHK', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/SendHK', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2103,7 +2103,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>86</width>
     <wuid>2285957:177658292c4:-6b26</wuid>
-    <x>333</x>
+    <x>406</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">

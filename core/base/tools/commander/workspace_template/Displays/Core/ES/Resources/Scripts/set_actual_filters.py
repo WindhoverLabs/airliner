@@ -15,7 +15,7 @@ for i in range(1, 32):
     else:
         maskValue = int(maskValue) | 0x80000000
 
-Yamcs.issueCommand('/cfs/cfe_es/PerfSetFilterMask', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/PerfSetFilterMask', {
     'Payload.FilterMaskNum': maskNumber,
     'Payload.FilterMask': maskValue})
 

@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CF - Config Data</name>
+  <name>($(CPUID)) CF - Config Data</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -39,7 +39,7 @@
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cf/SendConfigParameters', {});
+Yamcs.issueCommand('/cfs/$(CPUID)/cf/SendConfigParameters', {});
 
 ]]></scriptText>
         <embedded>true</embedded>
@@ -118,7 +118,7 @@ $(pv_value)</tooltip>
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.EngCycPerWakeup</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.EngCycPerWakeup</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -170,7 +170,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.AckLimit</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.AckLimit</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -222,7 +222,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.AckTimeout</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.AckTimeout</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -274,7 +274,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.NakLimit</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.NakLimit</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -326,7 +326,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.NakTimeout</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.NakTimeout</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -378,7 +378,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.InactTimeout</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.InactTimeout</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -430,7 +430,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.DefOutgoingChunkSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.DefOutgoingChunkSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -482,7 +482,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.PipeDepth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.PipeDepth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -534,7 +534,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.MaxSimultaneousTrans</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.MaxSimultaneousTrans</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -586,7 +586,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.IncomingPduBufSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.IncomingPduBufSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -638,7 +638,7 @@ $(pv_value)</tooltip>
     <name>Text Update_10</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.OutgoingPduBufSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.OutgoingPduBufSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -690,7 +690,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.NumInputChannels</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.NumInputChannels</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -742,7 +742,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.MaxPlaybackChans</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.MaxPlaybackChans</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -794,7 +794,7 @@ $(pv_value)</tooltip>
     <name>Text Update_13</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.MaxPollingDirsPerChan</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.MaxPollingDirsPerChan</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -846,7 +846,7 @@ $(pv_value)</tooltip>
     <name>Text Update_14</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.MemPoolBytes</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.MemPoolBytes</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -898,7 +898,7 @@ $(pv_value)</tooltip>
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.DebugCompiledIn</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.DebugCompiledIn</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -950,7 +950,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.SaveIncompleteFiles</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.SaveIncompleteFiles</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1002,7 +1002,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.PipeName</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.PipeName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1054,7 +1054,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.TmpFilePrefix</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.TmpFilePrefix</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1106,7 +1106,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.CfgTblName</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.CfgTblName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1158,7 +1158,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.CfgTbleFilename</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.CfgTbleFilename</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1210,7 +1210,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_ConfigPacket_t.DefQInfoFilename</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.DefQInfoFilename</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2142,16 +2142,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Config Data</text>
+    <text>($(CPUID)) CF - Config Data</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>142</width>
+    <width>265</width>
     <wrap_words>false</wrap_words>
     <wuid>6c5e5e62:1775b7b9abc:-73d1</wuid>
-    <x>131</x>
+    <x>60</x>
     <y>12</y>
   </widget>
 </display>

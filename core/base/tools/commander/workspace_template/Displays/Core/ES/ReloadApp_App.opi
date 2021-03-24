@@ -20,7 +20,7 @@
     <include_parent_macros>true</include_parent_macros>
     <CONFIG_REGISTRY>/Displays/Resources/definitions.yaml</CONFIG_REGISTRY>
   </macros>
-  <name>ReloadApp</name>
+  <name>($(CPUID)) ReloadApp</name>
   <rules />
   <scripts>
     <path pathString="Resources/Scripts/ReloadApplicationInit.py" checkConnect="true" seoe="false">
@@ -48,7 +48,7 @@ importPackage(Packages.org.yamcs.studio.data);
 var appName  = display.getMacroValue("APP");
 var fileName =VTypeHelper.getString(display.getWidget('inFileName').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cfe_es/AppReload', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/AppReload', {
     'Payload.Application': appName,
     'Payload.AppFileName': fileName});]]></scriptText>
         <embedded>true</embedded>
@@ -127,7 +127,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Reload Application</text>
+    <text>($(CPUID)) Reload Application</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>

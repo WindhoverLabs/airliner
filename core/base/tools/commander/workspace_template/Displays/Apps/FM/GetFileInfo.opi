@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>600</height>
+  <height>320</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>FM - Get File Info</name>
+  <name>($(CPUID)) FM - Get File Info</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>800</width>
+  <width>360</width>
   <wuid>3224b3ef:1778cb22598:-7447</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -44,7 +44,7 @@
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -60,7 +60,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_FileInfoPkt_t.FileStatus</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.FileStatus</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -81,8 +81,8 @@ $(pv_value)</tooltip>
     <width>175</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7442</wuid>
-    <x>186</x>
-    <y>186</y>
+    <x>156</x>
+    <y>138</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -112,7 +112,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>FileStatus:</text>
+    <text>File Status:</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -121,8 +121,8 @@ $(pv_value)</tooltip>
     <width>121</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-743e</wuid>
-    <x>54</x>
-    <y>186</y>
+    <x>23</x>
+    <y>138</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -136,7 +136,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -152,7 +152,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_FileInfoPkt_t.CRC_Computed</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.CRC_Computed</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -173,8 +173,8 @@ $(pv_value)</tooltip>
     <width>175</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7433</wuid>
-    <x>186</x>
-    <y>210</y>
+    <x>156</x>
+    <y>162</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -204,7 +204,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>CRC_Computed:</text>
+    <text>CRC Computed:</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -213,8 +213,8 @@ $(pv_value)</tooltip>
     <width>121</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7432</wuid>
-    <x>48</x>
-    <y>210</y>
+    <x>23</x>
+    <y>162</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -228,7 +228,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -244,7 +244,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_FileInfoPkt_t.CRC</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.CRC</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -265,8 +265,8 @@ $(pv_value)</tooltip>
     <width>175</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7410</wuid>
-    <x>186</x>
-    <y>234</y>
+    <x>156</x>
+    <y>186</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -305,8 +305,8 @@ $(pv_value)</tooltip>
     <width>121</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-740f</wuid>
-    <x>48</x>
-    <y>234</y>
+    <x>23</x>
+    <y>186</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -320,7 +320,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -336,7 +336,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_FileInfoPkt_t.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -357,8 +357,8 @@ $(pv_value)</tooltip>
     <width>175</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-73e1</wuid>
-    <x>186</x>
-    <y>258</y>
+    <x>156</x>
+    <y>210</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -388,7 +388,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>FileSize:</text>
+    <text>File Size:</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -397,8 +397,8 @@ $(pv_value)</tooltip>
     <width>121</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-73e0</wuid>
-    <x>48</x>
-    <y>258</y>
+    <x>23</x>
+    <y>210</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -412,7 +412,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -428,7 +428,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_FileInfoPkt_t.LastModifiedTime</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.LastModifiedTime</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -449,8 +449,8 @@ $(pv_value)</tooltip>
     <width>175</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-73cc</wuid>
-    <x>186</x>
-    <y>282</y>
+    <x>156</x>
+    <y>234</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -480,17 +480,17 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>LastModifiedTime:</text>
+    <text>Last Modified Time:</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>121</width>
+    <width>131</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-73cb</wuid>
-    <x>48</x>
-    <y>282</y>
+    <x>13</x>
+    <y>234</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -504,7 +504,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -520,7 +520,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_FileInfoPkt_t.Mode</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.Mode</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -541,8 +541,8 @@ $(pv_value)</tooltip>
     <width>175</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-73aa</wuid>
-    <x>186</x>
-    <y>306</y>
+    <x>156</x>
+    <y>258</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -581,8 +581,8 @@ $(pv_value)</tooltip>
     <width>121</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-73a9</wuid>
-    <x>48</x>
-    <y>306</y>
+    <x>23</x>
+    <y>258</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -596,7 +596,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -612,7 +612,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_FileInfoPkt_t.Filename</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.Filename</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -633,8 +633,8 @@ $(pv_value)</tooltip>
     <width>175</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-739c</wuid>
-    <x>186</x>
-    <y>330</y>
+    <x>156</x>
+    <y>282</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -673,8 +673,8 @@ $(pv_value)</tooltip>
     <width>121</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-739b</wuid>
-    <x>48</x>
-    <y>330</y>
+    <x>23</x>
+    <y>282</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -688,7 +688,7 @@ importPackage(Packages.org.yamcs.studio.data);
 var filename_arg = VTypeHelper.getString(display.getWidget("Filename").getPropertyValue("pv_value"));
 var crc_arg = parseInt(VTypeHelper.getDouble(display.getWidget("FileInfoCRC").getPropertyValue("pv_value")));
 
-Yamcs.issueCommand("/cfs/fm/GetFileInfo",
+Yamcs.issueCommand("/cfs/$(CPUID)/fm/GetFileInfo",
 				  {
 				    "Filename": filename_arg,
 				    "FileInfoCRC": crc_arg
@@ -717,7 +717,7 @@ Yamcs.issueCommand("/cfs/fm/GetFileInfo",
     <foreground_color>
       <color red="255" green="255" blue="255" />
     </foreground_color>
-    <height>18</height>
+    <height>25</height>
     <image>../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
@@ -731,16 +731,16 @@ Yamcs.issueCommand("/cfs/fm/GetFileInfo",
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>GetFileInfo</text>
+    <text>Get File Info</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>175</width>
+    <width>127</width>
     <wuid>3224b3ef:1778cb22598:-736a</wuid>
-    <x>108</x>
-    <y>108</y>
+    <x>72</x>
+    <y>102</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -754,7 +754,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -794,9 +794,9 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>100</width>
+    <width>217</width>
     <wuid>3224b3ef:1778cb22598:-7360</wuid>
-    <x>186</x>
+    <x>126</x>
     <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -836,7 +836,7 @@ $(pv_value)</tooltip>
     <width>80</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-735a</wuid>
-    <x>95</x>
+    <x>42</x>
     <y>39</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -867,16 +867,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text> FileInfoCRC:</text>
+    <text>File Info CRC</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>80</width>
+    <width>109</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7352</wuid>
-    <x>95</x>
+    <x>13</x>
     <y>69</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
@@ -890,7 +890,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color red="0" green="128" blue="255" />
     </border_color>
-    <border_style>3</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <buttons_on_left>false</buttons_on_left>
     <enabled>true</enabled>
@@ -931,7 +931,47 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>85</width>
     <wuid>3224b3ef:1778cb22598:-72d5</wuid>
-    <x>186</x>
+    <x>126</x>
     <y>66</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_49</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>($(CPUID)) FM - Get File Info</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>205</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-c05c465:1785c72c4a1:-5ae4</wuid>
+    <x>54</x>
+    <y>6</y>
   </widget>
 </display>

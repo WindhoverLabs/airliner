@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CF - Playback Dir</name>
+  <name>($(CPUID)) CF - Playback Dir</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -71,7 +71,7 @@ if( Preserve == 'Delete' ) {
     pPreserve = 'KEEP';
 } 
 
-Yamcs.issueCommand('/cfs/cf/PlaybackDirectory', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cf/PlaybackDirectory', {
     'Class': pTransferClass,
     'Chan': pChannel,
     'Priority': Priority,
@@ -812,16 +812,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Playback Directory</text>
+    <text>($(CPUID)) CF - Playback Directory</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>145</width>
+    <width>397</width>
     <wrap_words>false</wrap_words>
     <wuid>6c5e5e62:1775b7b9abc:-72c1</wuid>
-    <x>129</x>
+    <x>12</x>
     <y>12</y>
   </widget>
 </display>

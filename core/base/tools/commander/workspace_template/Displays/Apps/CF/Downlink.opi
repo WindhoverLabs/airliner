@@ -10,16 +10,16 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>610</height>
+  <height>550</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CF - Downlink</name>
+  <name>($(CPUID)) CF - Downlink</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -100,7 +100,7 @@
     <name>Text Update_47</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.PDUsSent</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.PDUsSent</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -152,7 +152,7 @@ $(pv_value)</tooltip>
     <name>Text Update_48</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.FilesSent</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.FilesSent</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -204,7 +204,7 @@ $(pv_value)</tooltip>
     <name>Text Update_49</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.SuccessCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.SuccessCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -256,7 +256,7 @@ $(pv_value)</tooltip>
     <name>Text Update_50</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.FailedCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.FailedCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -308,7 +308,7 @@ $(pv_value)</tooltip>
     <name>Text Update_51</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.PendingQFileCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.PendingQFileCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -360,7 +360,7 @@ $(pv_value)</tooltip>
     <name>Text Update_52</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.ActiveQFileCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.ActiveQFileCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -412,7 +412,7 @@ $(pv_value)</tooltip>
     <name>Text Update_53</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.HistoryQFileCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.HistoryQFileCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -462,7 +462,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_54</name>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -509,7 +509,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_55</name>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -558,7 +558,7 @@ $(pv_value)</tooltip>
     <name>Text Update_56</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.RedLightCntr</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.RedLightCntr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -610,7 +610,7 @@ $(pv_value)</tooltip>
     <name>Text Update_57</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.GreenLightCntr</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.GreenLightCntr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -662,7 +662,7 @@ $(pv_value)</tooltip>
     <name>Text Update_58</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.PollDirsChecked</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.PollDirsChecked</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -714,7 +714,7 @@ $(pv_value)</tooltip>
     <name>Text Update_59</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.PendingQChecked</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.PendingQChecked</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -766,7 +766,7 @@ $(pv_value)</tooltip>
     <name>Text Update_60</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_0_.SemValue</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.SemValue</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1378,7 +1378,7 @@ $(pv_value)</tooltip>
     <name>Text Update_61</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.PDUsSent</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.PDUsSent</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1430,7 +1430,7 @@ $(pv_value)</tooltip>
     <name>Text Update_62</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.FilesSent</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.FilesSent</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1482,7 +1482,7 @@ $(pv_value)</tooltip>
     <name>Text Update_63</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.SuccessCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.SuccessCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1534,7 +1534,7 @@ $(pv_value)</tooltip>
     <name>Text Update_64</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.FailedCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.FailedCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1586,7 +1586,7 @@ $(pv_value)</tooltip>
     <name>Text Update_65</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.PendingQFileCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.PendingQFileCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1638,7 +1638,7 @@ $(pv_value)</tooltip>
     <name>Text Update_66</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.ActiveQFileCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.ActiveQFileCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1690,7 +1690,7 @@ $(pv_value)</tooltip>
     <name>Text Update_67</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.HistoryQFileCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.HistoryQFileCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1740,7 +1740,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_68</name>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1787,7 +1787,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_69</name>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1836,7 +1836,7 @@ $(pv_value)</tooltip>
     <name>Text Update_70</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.RedLightCntr</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.RedLightCntr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1888,7 +1888,7 @@ $(pv_value)</tooltip>
     <name>Text Update_71</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.GreenLightCntr</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.GreenLightCntr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1940,7 +1940,7 @@ $(pv_value)</tooltip>
     <name>Text Update_72</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.PollDirsChecked</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.PollDirsChecked</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1992,7 +1992,7 @@ $(pv_value)</tooltip>
     <name>Text Update_73</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.PendingQChecked</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.PendingQChecked</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2044,7 +2044,7 @@ $(pv_value)</tooltip>
     <name>Text Update_74</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Chan_1_.SemValue</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.SemValue</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2156,7 +2156,7 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-Yamcs.issueCommand('/cfs/cf/ResetCounters', {'Value': 'DOWN', 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
+Yamcs.issueCommand('/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'DOWN', 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -2234,16 +2234,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Downlink</text>
+    <text>($(CPUID)) CF - Downlink</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>164</width>
+    <width>246</width>
     <wrap_words>false</wrap_words>
     <wuid>6c5e5e62:1775b7b9abc:-7b77</wuid>
-    <x>113</x>
+    <x>66</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">

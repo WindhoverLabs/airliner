@@ -8,7 +8,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
 
-Yamcs.issueCommand('/cfs/cfe_evs/ResetAppEventFilter', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/ResetAppEventFilter', {
     'Payload.AppName': display.getMacroValue("APP"),
     'Payload.EventID': VTypeHelper.getDouble(widget.getPropertyValue("pv_value"))});]]></scriptText>
         <embedded>true</embedded>

@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>600</height>
+  <height>160</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>DS - Set Filter Type</name>
+  <name>($(CPUID)) DS - Set Filter Type</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>800</width>
+  <width>290</width>
   <wuid>-736e4684:150ac3c95a1:-7243</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -82,10 +82,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Spinner</widget_type>
-    <width>85</width>
+    <width>115</width>
     <wuid>a22d448:177887d8135:-6aac</wuid>
-    <x>198</x>
-    <y>93</y>
+    <x>150</x>
+    <y>60</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -100,7 +100,7 @@ var param_index   = VTypeHelper.getDouble(display.getWidget('FilterParmsIndex').
 var filter_type    = VTypeHelper.getDouble(display.getWidget('FilterType').getPropertyValue('pv_value'));
 
 
-var cmd = '/cfs/ds/SetFilterType';
+var cmd = '/cfs/$(CPUID)/ds/SetFilterType';
 
 Yamcs.issueCommand(cmd, 
 				  {'MessageID': msgID,
@@ -146,16 +146,16 @@ Yamcs.issueCommand(cmd,
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>SetFilterParams</text>
+    <text>Set</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>163</width>
+    <width>91</width>
     <wuid>a22d448:177887d8135:-6aab</wuid>
-    <x>84</x>
-    <y>174</y>
+    <x>99</x>
+    <y>126</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -176,7 +176,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <height>20</height>
-    <horizontal_alignment>1</horizontal_alignment>
+    <horizontal_alignment>2</horizontal_alignment>
     <name>Label</name>
     <rules />
     <scale_options>
@@ -185,7 +185,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>FilterParmsIndex</text>
+    <text>Filter Param Index</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -194,8 +194,8 @@ $(pv_value)</tooltip>
     <width>121</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-6aaa</wuid>
-    <x>48</x>
-    <y>96</y>
+    <x>12</x>
+    <y>63</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -216,7 +216,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <height>20</height>
-    <horizontal_alignment>1</horizontal_alignment>
+    <horizontal_alignment>2</horizontal_alignment>
     <name>Label_1</name>
     <rules />
     <scale_options>
@@ -225,7 +225,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>FilterType</text>
+    <text>Filter Type</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -234,8 +234,8 @@ $(pv_value)</tooltip>
     <width>103</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-6aa9</wuid>
-    <x>48</x>
-    <y>126</y>
+    <x>30</x>
+    <y>87</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -287,10 +287,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Spinner</widget_type>
-    <width>85</width>
+    <width>115</width>
     <wuid>a22d448:177887d8135:-6aa8</wuid>
-    <x>198</x>
-    <y>63</y>
+    <x>150</x>
+    <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -311,7 +311,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <height>20</height>
-    <horizontal_alignment>1</horizontal_alignment>
+    <horizontal_alignment>2</horizontal_alignment>
     <name>Label_2</name>
     <rules />
     <scale_options>
@@ -320,7 +320,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>MessageID</text>
+    <text>MsgID</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -329,8 +329,8 @@ $(pv_value)</tooltip>
     <width>121</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-6aa7</wuid>
-    <x>48</x>
-    <y>66</y>
+    <x>12</x>
+    <y>39</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -382,9 +382,49 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Spinner</widget_type>
-    <width>85</width>
+    <width>115</width>
     <wuid>a22d448:177887d8135:-6aa2</wuid>
-    <x>198</x>
-    <y>123</y>
+    <x>150</x>
+    <y>84</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_49</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>($(CPUID)) DS - Set Filter Type</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>229</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-c05c465:1785c72c4a1:-5d9e</wuid>
+    <x>30</x>
+    <y>6</y>
   </widget>
 </display>

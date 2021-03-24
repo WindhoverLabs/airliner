@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>80</height>
+  <height>110</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CS - Report Table Base</name>
+  <name>($(CPUID)) CS - Report Table Base</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>200</width>
+  <width>280</width>
   <wuid>-736e4684:150ac3c95a1:-7e23</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -42,7 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var Name =VTypeHelper.getString(display.getWidget('Name').getPropertyValue('pv_value'));
 
-var cmd = '/cfs/cs/ReportBaselineTable';
+var cmd = '/cfs/$(CPUID)/cs/ReportBaselineTable';
 
 Yamcs.issueCommand(cmd, {'Name': Name});]]></scriptText>
         <embedded>true</embedded>
@@ -90,8 +90,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>130</width>
     <wuid>-736e4684:150ac3c95a1:-7e06</wuid>
-    <x>42</x>
-    <y>48</y>
+    <x>75</x>
+    <y>66</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -130,8 +130,8 @@ $(pv_value)</tooltip>
     <width>50</width>
     <wrap_words>false</wrap_words>
     <wuid>-736e4684:150ac3c95a1:-76ae</wuid>
-    <x>12</x>
-    <y>17</y>
+    <x>36</x>
+    <y>35</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.combo" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -192,7 +192,47 @@ $(pv_value)</tooltip>
     <widget_type>Combo</widget_type>
     <width>115</width>
     <wuid>-736e4684:150ac3c95a1:-76ad</wuid>
-    <x>72</x>
-    <y>12</y>
+    <x>96</x>
+    <y>30</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_49</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>($(CPUID)) CS - Report Table Baseline</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>274</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-c05c465:1785c72c4a1:-5fc8</wuid>
+    <x>3</x>
+    <y>6</y>
   </widget>
 </display>
