@@ -5,9 +5,9 @@ modules:
   core:
     modules:
       osal:
-        definition: ${PROJECT_SOURCE_DIR}/core/osal/fsw/freertos/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/../private/core/osal/freertos/wh_design.yaml
       psp:
-        definition: ${PROJECT_SOURCE_DIR}/core/psp/fsw/obc-cpd/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/../private/core/psp/obc-cpd/wh_design.yaml
       cfe:
         definition: ${PROJECT_SOURCE_DIR}/core/base/cfe/wh_design.yaml
         modules:

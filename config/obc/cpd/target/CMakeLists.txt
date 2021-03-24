@@ -2,6 +2,7 @@ include(../set-vars.cmake)
 
 buildliner_initialize(
     EMBED_SYMTAB
+    CPUID CPD
     PSP ${PSP}
     OSAL ${OSAL}
     CORE_TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/tools
@@ -19,7 +20,7 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
         
     COMMANDER_WORKSPACE
-        ${CMAKE_CURRENT_BINARY_DIR}/../../..
+        ${CMAKE_BINARY_DIR}/../../commander_workspace
 )
 
 

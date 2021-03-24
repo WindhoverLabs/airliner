@@ -52,7 +52,7 @@ include(${PROJECT_SOURCE_DIR}/core/tools/auto-yamcs/build-functions.cmake)
 #)
 function(psp_buildliner_initialize)
     # Define the function arguments.
-    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION;COMMANDER_WORKSPACE" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT;CPUID" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION;COMMANDER_WORKSPACE" ${ARGN})
     
     # Create all the target directories the caller requested.
     foreach(dir ${PARSED_ARGS_FILESYS})
@@ -69,6 +69,10 @@ function(psp_buildliner_initialize)
         set(PARSED_COMMANDER_WORKSPACE ${CMAKE_BINARY_DIR}/commander_workspace)
     endif()
     
+    if(NOT PARSED_CPUID)
+        set(PARSED_CPUID cfs)
+    endif()
+    
     # Generate the XTCE file
     commander_initialize_workspace(commander_workspace
         CONFIG_FILE           ${CMAKE_BINARY_DIR}/wh_defs.yaml
@@ -76,7 +80,7 @@ function(psp_buildliner_initialize)
         WORKSPACE_TEMPLATE    ${PROJECT_SOURCE_DIR}/core/base/tools/commander/workspace_template
         WORKSPACE_OUTPUT_PATH ${PARSED_COMMANDER_WORKSPACE}
         OUTPUT_DB_FILE        wh_defs.db
-        OUTPUT_XTCE_FILE      mdb/cfs.xml
+        OUTPUT_XTCE_FILE      mdb/${PARSED_CPUID}.xml
     )
     set_target_properties(commander_workspace PROPERTIES EXCLUDE_FROM_ALL TRUE)
     
