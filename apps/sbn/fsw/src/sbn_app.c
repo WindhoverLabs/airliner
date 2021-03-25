@@ -1051,7 +1051,7 @@ int SBN_InitInterfaces(void)
             /* create a pipe name string similar to SBN_0_CPU2_Pipe */
             snprintf(PipeName, OS_MAX_API_NAME, "SBN_%d_%s_Pipe",
                 NetIdx, Peer->Name);
-            int Status = CFE_SB_CreatePipe(&(Peer->Pipe), 2, PipeName);
+            int Status = CFE_SB_CreatePipe(&(Peer->Pipe), SBN_PEER_PIPE_DEPTH, PipeName);
 
             if(Status != CFE_SUCCESS)
             {   
