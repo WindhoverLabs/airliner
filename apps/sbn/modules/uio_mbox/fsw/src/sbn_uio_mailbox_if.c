@@ -523,7 +523,7 @@ static int ReportModuleStatus(SBN_ModuleStatusPacket_t *Packet)
 {
     PQ_Channel_CopyStats(&SBN_UIO_Mailbox_Data.HkTlm, &SBN_UIO_Mailbox_Data.Channel);
 
-    CFE_SB_InitMsg(&SBN_UIO_Mailbox_Data.HkTlm, SBN_MODULE_HK_MID, 
+    CFE_SB_InitMsg(&SBN_UIO_Mailbox_Data.HkTlm, SBN_MODULE_HK_TLM_MID, 
                    sizeof(SBN_UIO_Mailbox_Data.HkTlm), FALSE);
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *) &SBN_UIO_Mailbox_Data.HkTlm);
     CFE_SB_SendMsg((CFE_SB_Msg_t *) &SBN_UIO_Mailbox_Data.HkTlm);

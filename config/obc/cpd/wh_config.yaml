@@ -891,5 +891,15 @@ modules:
       VM_WAKEUP_MID:
         msgID: 0x1be4
     
-
-    
+  sbn:
+    definition: ${PROJECT_SOURCE_DIR}/apps/sbn/wh_design.yaml
+    telemetry:
+      SBN_TLM_MID:
+        msgID: 0x0bae
+      SBN_MODULE_HK_TLM_MID:
+        msgID: 0x0bb4
+    commands:
+      SBN_CMD_MID:
+        msgID: 0x1baf
+      SBN_WAKEUP_MID:
+        msgID: 0x1bb0

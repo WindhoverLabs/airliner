@@ -388,7 +388,7 @@ int SBN_UDP_ReportModuleStatus(SBN_ModuleStatusPacket_t *Packet)
 {
     PQ_Channel_CopyStats(&HkTlm, &Channel);
 
-    CFE_SB_InitMsg(&HkTlm, SBN_MODULE_HK_MID, 
+    CFE_SB_InitMsg(&HkTlm, SBN_MODULE_HK_TLM_MID, 
                    sizeof(HkTlm), FALSE);
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *) &HkTlm);
     CFE_SB_SendMsg((CFE_SB_Msg_t *) &HkTlm);
