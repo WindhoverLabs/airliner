@@ -1,13 +1,13 @@
 ---
 config_base: ${PROJECT_SOURCE_DIR}
-cpuid: CPD
+cpu_id: CPD
 modules:
   core:
     modules:
       osal:
-        definition: ${PROJECT_SOURCE_DIR}/core/osal/fsw/freertos/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/../private/core/osal/freertos/wh_design.yaml
       psp:
-        definition: ${PROJECT_SOURCE_DIR}/core/psp/fsw/obc-cpd/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/../private/core/psp/obc-cpd/wh_design.yaml
       cfe:
         definition: ${PROJECT_SOURCE_DIR}/core/base/cfe/wh_design.yaml
         modules:
@@ -84,8 +84,6 @@ modules:
                 msgID: 0x1a0b
               CFE_TIME_SEND_CMD_MID:
                 msgID: 0x1a0e
-      osal:
-        definition: ${PROJECT_SOURCE_DIR}/core/osal/posix-fast/wh_design.yaml
     
   ci:
     definition: ${PROJECT_SOURCE_DIR}/apps/ci/wh_design.yaml
