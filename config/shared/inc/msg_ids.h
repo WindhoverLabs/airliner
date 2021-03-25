@@ -30,9 +30,9 @@
 /*
 ** cFE Global Command Message Id's
 */
-#define CFE_TIME_DATA_CMD_MID                     TLM_MSG(   12 )
-#define CFE_TIME_FAKE_CMD_MID                     TLM_MSG(   13 )
-#define CFE_TIME_SEND_CMD_MID                     TLM_MSG(   14 )
+#define CFE_TIME_DATA_CMD_MID                     CMD_MSG(   12 )
+#define CFE_TIME_FAKE_CMD_MID                     CMD_MSG(   13 )
+#define CFE_TIME_SEND_CMD_MID                     CMD_MSG(   14 )
 
 
 /*
