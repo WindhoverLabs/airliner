@@ -50,7 +50,7 @@ PQ_ChannelTbl_t PQ_ConfigTbl =
         /* Ground Queues */
         {SBN_SUB_MID,                 64, PQ_PQUEUE_MEDIUM_IDX},
         {SBN_UNSUB_MID,               64, PQ_PQUEUE_MEDIUM_IDX},
-        {SBN_ALLSUB_MID,               1, PQ_PQUEUE_HIGH_IDX},
+        {SBN_ALLSUB_MID,               1, PQ_PQUEUE_LOW_IDX},
         {CFE_ES_CMD_MID_CPD,           1, PQ_PQUEUE_HIGH_OPS_RSRVD_IDX},
         {AMC_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
         {MAC_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
@@ -78,7 +78,7 @@ PQ_ChannelTbl_t PQ_ConfigTbl =
         {CFE_EVS_HK_TLM_MID,           1, PQ_PQUEUE_LOW_IDX},
         {CFE_SB_HK_TLM_MID,            1, PQ_PQUEUE_LOW_IDX},
         {CFE_TBL_HK_TLM_MID,           1, PQ_PQUEUE_LOW_IDX},
-        {CFE_TIME_HK_TLM_MID,          1, PQ_PQUEUE_LOW_IDX},
+        {CFE_TIME_HK_TLM_MID,          1, PQ_PQUEUE_HIGH_IDX},
         {CFE_TIME_DIAG_TLM_MID,        1, PQ_PQUEUE_LOW_IDX},
         {CFE_EVS_EVENT_MSG_MID,       32, PQ_PQUEUE_LOW_IDX},
         {CFE_SB_STATS_TLM_MID,         1, PQ_PQUEUE_LOW_IDX},

@@ -8,14 +8,14 @@ xtce_config:
   global:
     TelemetryMetaData:
       BaseContainer:
-        container_ref: 'cfs-ccsds'
+        container_ref: 'cfs'
         #size is in bits
         size: 96
 
     CommandMetaData:
       # This is equivalent to a BaseCommand
       BaseContainer:
-        container_ref: 'cfs-ccsds/cfs-cmd'
+        container_ref: 'cfs/cfs-cmd'
         # size is in bits
         size: 64
 

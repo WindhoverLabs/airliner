@@ -52,7 +52,7 @@ include(${PROJECT_SOURCE_DIR}/core/tools/auto-yamcs/build-functions.cmake)
 #)
 function(psp_buildliner_initialize)
     # Define the function arguments.
-    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT;CPU_ID" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION;COMMANDER_WORKSPACE" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_WORKSPACE_OVERLAY" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
     
     # Create all the target directories the caller requested.
     foreach(dir ${PARSED_ARGS_FILESYS})
@@ -83,6 +83,12 @@ function(psp_buildliner_initialize)
         OUTPUT_XTCE_FILE      mdb/${PARSED_ARGS_CPU_ID}.xml
     )
     set_target_properties(commander_workspace PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    
+    if(PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY)
+        add_custom_target(commander_workspace_overlay
+            COMMAND cp -R ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/* ${PARSED_ARGS_COMMANDER_WORKSPACE}/*
+        )
+    endif()
     
     # Add a build target to launch YAMCS with our newly created workspace.
     add_custom_target(start-yamcs 

@@ -11,7 +11,7 @@
 	<variableList>
 		<variable>
 			<name>YAML_PATH</name>
-			<value>$%7BPROJECT_LOC%7D/Resources/definitions.yaml</value>
+			<value>$%7BPROJECT_LOC%7D/Resources/config_registry.yaml</value>
 		</variable>
 	</variableList>
 </projectDescription>

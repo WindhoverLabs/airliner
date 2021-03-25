@@ -20,6 +20,9 @@ buildliner_initialize(
         
     COMMANDER_WORKSPACE
         ${CMAKE_BINARY_DIR}/../../commander_workspace
+        
+    COMMANDER_WORKSPACE_OVERLAY
+        ${CMAKE_CURRENT_SOURCE_DIR}/cdr_workspace_overlay
 )
 
 add_subdirectory(allstop allstop)
