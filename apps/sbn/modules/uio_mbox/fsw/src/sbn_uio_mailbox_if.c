@@ -61,8 +61,8 @@ void *InitDevice(const char *path)
 
     close(fd);
 
-    /* Reset the status registers. */
-    //uio_write(mailbox_ptr, MAILBOX_CONTROL_REG, MAILBOX_CONTROL_RESET_SEND_FIFO_BIT | MAILBOX_CONTROL_RESET_RECV_FIFO_BIT);
+    /* Reset FIFO Q's*/
+    uio_write(mailbox_ptr, MAILBOX_CONTROL_REG, MAILBOX_CONTROL_RESET_SEND_FIFO_BIT | MAILBOX_CONTROL_RESET_RECV_FIFO_BIT);
 
 end_of_function:
     return mailbox_ptr;
