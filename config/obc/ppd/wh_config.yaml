@@ -8,3 +8,31 @@ modules:
         definition: ${PROJECT_SOURCE_DIR}/core/osal/fsw/posix-fast/wh_design.yaml
       psp:
         definition: ${PROJECT_SOURCE_DIR}/core/psp/fsw/obc-ppd/wh_design.yaml
+  to:
+    commands:
+      TO_CMD_MID: 
+        msgID: 0x189f
+        commands: 
+          EnableChannel: 
+            cc: 10
+            struct: TO_EnableChannelCmd_t       
+          DisableChannel: 
+            cc: 11
+            struct: TO_DisableChannelCmd_t
+
+    events: 
+      TO_TLMOUTSOCKET_ERR_EID: 
+        id: 29
+      TO_TLMOUTENA_INF_EID: 
+        id: 30
+      TO_TLMOUTENA_ERR_EID:
+        id: 31
+      TO_TLMOUTDIS_INF_EID:
+        id: 32
+      TO_TLMOUTDIS_ERR_EID:
+        id: 33
+      TO_TLMOUTSEND_ERR_EID:
+        id: 34
+      TO_TLMOUTSTOP_ERR_EID:
+        id: 35
+      
