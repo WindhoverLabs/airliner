@@ -33,7 +33,8 @@ static CFE_TBL_FileDef_t CFE_TBL_FileDef OS_USED =
 #define PQ_PQUEUE_HIGH_OPS_RSRVD_IDX            1
 #define PQ_PQUEUE_HIGH_IDX                      2
 #define PQ_PQUEUE_MEDIUM_IDX                    3
-#define PQ_PQUEUE_LOW_IDX                       4
+#define PQ_PQUEUE_DEFAULT_IDX                   4
+#define PQ_PQUEUE_LOW_IDX                       5
 
 #define CPD_CPU_BASE       (0x0200)
 #define CFE_ES_CMD_MID_CPD (CPD_CPU_BASE + CFE_ES_CMD_MID)
@@ -210,6 +211,8 @@ PQ_ChannelTbl_t PQ_ConfigTbl =
         /* PQ_PQUEUE_HIGH_IDX */
         {PQ_PQUEUE_ENA, 100, PQ_PRIORITY_QUEUE_TYPE_FIFO},
         /* PQ_PQUEUE_MEDIUM_IDX */
+        {PQ_PQUEUE_ENA, 100, PQ_PRIORITY_QUEUE_TYPE_FIFO},
+        /* PQ_PQUEUE_DEFAULT_IDX */
         {PQ_PQUEUE_ENA, 100, PQ_PRIORITY_QUEUE_TYPE_FIFO},
         /* PQ_PQUEUE_LOW_IDX */
         {PQ_PQUEUE_ENA, 100, PQ_PRIORITY_QUEUE_TYPE_FIFO}

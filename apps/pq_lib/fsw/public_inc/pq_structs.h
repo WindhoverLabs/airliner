@@ -72,7 +72,6 @@ typedef enum
 
 } PQ_PriorityQueueType_t;
 
-
 /** \brief Definition for a single priority queue entry. */
 typedef struct
 {
@@ -274,7 +273,7 @@ CompileTimeAssert((PQ_CHANNEL_STATE_COUNT <= 0xff), PQ_ChannelState_t_less_than_
 
 /** \pqtbl PQ Configuration Table 
  *
- * \brief Definition for a TO Configuration table 
+ * \brief Definition for a PQ Configuration table 
  */
 typedef struct
 {
@@ -319,8 +318,7 @@ typedef struct
 
 } PQ_ChannelTbl_t;
 
-
-/** \brief Definition for a single TO dump table entry */
+/** \brief Definition for a single PQ dump table entry */
 typedef struct
 {
     /**
@@ -437,7 +435,7 @@ typedef struct
     uint32               SentMsgCount;
 
     /** \totlm Queued Channel Telemetry
-    \brief Count of telemetry messages queued on the TO channel's Priority Queues.
+    \brief Count of telemetry messages queued on the PQ channel's Priority Queues.
     Counter begins at zero with app initialization and rolls over. */
     uint32               QueuedMsgCount;
 
@@ -507,7 +505,7 @@ typedef struct
 } PQ_ChannelMemoryInfo_t;
 
 /**
-**  \brief TO application housekeeping data
+**  \brief PQ housekeeping data
 */
 typedef struct
 {
@@ -520,16 +518,16 @@ typedef struct
     \totlmmnemonic PQ_STORSENT
     \brief Count of telemetry messages sent out the channel interface.
     Counter begins at zero with app initialization and rolls over.
-    Index of array is equivalent to the relevant TO channel index. */
+    Index of array is equivalent to the relevant PQ channel index. */
     uint32  uiSentMsgCountChannel;
 
     /** \totlm Queued Channel Telemetry
     \totlmmnemonic  PQ_RDOQUEUED
     \totlmmnemonic  PQ_SNKLQUEUED
     \totlmmnemonic  PQ_STORQUEUED
-    \brief Count of telemetry messages queued on the TO channel's Priority Queues.
+    \brief Count of telemetry messages queued on the PQ channel's Priority Queues.
     Counter begins at zero with app initialization and rolls over.
-    Index of array is equivalent to the relevant TO channel index. */
+    Index of array is equivalent to the relevant PQ channel index. */
     uint32  uiQueuedMsgCountChannel;
 
     /** \totlm Dropped Channel Telemetry
@@ -538,7 +536,7 @@ typedef struct
     \totlmmnemonic PQ_STORDROP
     \brief Count of telemetry messages rejected, and not passed into the channel's Priority Queues.
     Counter begins at zero with app initialization and rolls over.
-    Index of array is equivalent to the relevant TO channel index. */
+    Index of array is equivalent to the relevant PQ channel index. */
     uint32  uiDropMsgCountChannel;
 
     /** \totlm Failed Channel Telemetry
@@ -548,7 +546,7 @@ typedef struct
     \brief Count of telemetry messages failed on interface write after being pulled 
     from the output queue, and lost.
     Counter begins at zero with app initialization and rolls over.
-    Index of array is equivalent to the relevant TO channel index. */
+    Index of array is equivalent to the relevant PQ channel index. */
     uint32  uiFailedMsgCountChannel;
 
     /** \totlm Channel Bytes Sent
@@ -557,7 +555,7 @@ typedef struct
     \totlmmnemonic PQ_STORB
     \brief The number of bytes sent out the channel's interface
     Counter begins at zero with app initialization and rolls over.
-    Index of array is equivalent to the relevant TO channel index. */
+    Index of array is equivalent to the relevant PQ channel index. */
     uint32  uiBytesSentChannel;
 
     /** \totlmmnemonic PQ_CMDACPTCNT
