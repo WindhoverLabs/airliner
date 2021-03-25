@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CFE-EVS - Ena/Dis Ports</name>
+  <name>($(CPUID)) CFE-EVS - Ena/Dis Ports</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>230</width>
+  <width>250</width>
   <wuid>763e00b7:150973f1dd8:-7ba3</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -235,7 +235,7 @@ port1 = VTypeHelper.getDouble(display.getWidget('Port1').getPropertyValue('pv_va
 
 var mask = (port4 * 8) + (port3 * 4) + (port2 * 2) + (port1);
 
-Yamcs.issueCommand('/cfs/cfe_evs/EnablePorts', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/EnablePorts', {
     'Payload.BitMask': mask,
     'Payload.Spare': 0
 });]]></scriptText>
@@ -302,7 +302,7 @@ port1 = VTypeHelper.getDouble(display.getWidget('Port1').getPropertyValue('pv_va
 
 var mask = (port4 * 8) + (port3 * 4) + (port2 * 2) + (port1);
 
-Yamcs.issueCommand('/cfs/cfe_evs/DisablePorts', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/DisablePorts', {
     'Payload.BitMask': mask,
     'Payload.Spare': 0
 });]]></scriptText>
@@ -382,16 +382,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Enable / Disable Ports</text>
+    <text>($(CPUID)) Enable / Disable Ports</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>170</width>
+    <width>241</width>
     <wrap_words>false</wrap_words>
     <wuid>6b3345f4:17760d4a2f0:-7ba3</wuid>
-    <x>24</x>
+    <x>6</x>
     <y>12</y>
   </widget>
 </display>

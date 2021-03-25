@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -129,7 +129,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 triggerOn = VTypeHelper.getString(display.getWidget('TriggerOn').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cfe_es/PerfStart', {'Payload.TriggerMode': triggerOn});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/PerfStart', {'Payload.TriggerMode': triggerOn});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -206,13 +206,13 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Start Performance Collection</text>
+    <text>($(CPUID)) Start Performance Collection</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>235</width>
+    <width>300</width>
     <wrap_words>false</wrap_words>
     <wuid>-2dc23c5:177557ff444:-5f3b</wuid>
     <x>13</x>

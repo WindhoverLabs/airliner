@@ -100,7 +100,7 @@
     <name>Text Update</name>
     <precision>2</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/px4lib/PX4_SensorBaroMsg_t.Pressure</pv_name>
+    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Pressure</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -192,7 +192,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>1</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/px4lib/PX4_SensorBaroMsg_t.Temperature</pv_name>
+    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Temperature</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -284,7 +284,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>3</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/px4lib/PX4_SensorBaroMsg_t.Altitude</pv_name>
+    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Altitude</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -376,7 +376,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>3</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/px4lib/PX4_SensorBaroMsg_t.ErrorCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.ErrorCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

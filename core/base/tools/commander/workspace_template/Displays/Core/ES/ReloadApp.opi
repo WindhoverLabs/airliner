@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CFE-ES - Reload App</name>
+  <name>($(CPUID)) CFE-ES - Reload App</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -43,7 +43,7 @@ importPackage(Packages.org.yamcs.studio.data);
 var appName =VTypeHelper.getString(display.getWidget('inAppName').getPropertyValue('pv_value'));
 var fileName =VTypeHelper.getString(display.getWidget('inFileName').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cfe_es/AppReload', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/AppReload', {
     'Payload.Application': appName,
     'Payload.AppFileName': fileName});]]></scriptText>
         <embedded>true</embedded>
@@ -219,7 +219,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Reload Application</text>
+    <text>($(CPUID)) Reload Application</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>

@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103162101</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -23,7 +23,7 @@
     <PROJECT_NAME>Displays</PROJECT_NAME>
     <REGISTRY_PATH>/modules/cs</REGISTRY_PATH>
   </macros>
-  <name>CS</name>
+  <name>($(CPUID)) CS</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -64,7 +64,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.CmdCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CmdCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -236,7 +236,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.CmdErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CmdErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -267,7 +267,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -323,7 +323,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -400,7 +400,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Checksum Services</text>
+    <text>($(CPUID)) Checksum Services</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -440,7 +440,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.ChecksumState</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.ChecksumState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -492,7 +492,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.EepromCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.EepromCSState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -544,7 +544,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.MemoryCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.MemoryCSState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -596,7 +596,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.AppCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.AppCSState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -648,7 +648,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.TablesCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.TablesCSState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -700,7 +700,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.OSCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.OSCSState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -752,7 +752,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.CfeCoreCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CfeCoreCSState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -802,7 +802,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_9</name>
-    <pv_name>/cfs/cs/CS_HkPacket_t.</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -849,7 +849,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Text Update_10</name>
-    <pv_name>/cfs/cs/CS_HkPacket_t.OneShotInProgress</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.OneShotInProgress</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -898,7 +898,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.EepromCSErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.EepromCSErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -950,7 +950,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.MemoryCSErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.MemoryCSErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1002,7 +1002,7 @@ $(pv_value)</tooltip>
     <name>Text Update_13</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.AppCSErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.AppCSErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1054,7 +1054,7 @@ $(pv_value)</tooltip>
     <name>Text Update_14</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.TablesCSErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.TablesCSErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1106,7 +1106,7 @@ $(pv_value)</tooltip>
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.CfeCoreCSErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CfeCoreCSErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1158,7 +1158,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.OSCSErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.OSCSErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1210,7 +1210,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.CurrentCSTable</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CurrentCSTable</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1262,7 +1262,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.CurrentEntryInTable</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CurrentEntryInTable</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1314,7 +1314,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.EepromBaseline</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.EepromBaseline</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1366,7 +1366,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.OSBaseline</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.OSBaseline</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1418,7 +1418,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.CfeCoreBaseline</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CfeCoreBaseline</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1470,7 +1470,7 @@ $(pv_value)</tooltip>
     <name>Text Update_22</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.LastOneShotAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.LastOneShotAddress</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1522,7 +1522,7 @@ $(pv_value)</tooltip>
     <name>Text Update_23</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.LastOneShotSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.LastOneShotSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1574,7 +1574,7 @@ $(pv_value)</tooltip>
     <name>Text Update_24</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.LastOneShotChecksum</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.LastOneShotChecksum</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1626,7 +1626,7 @@ $(pv_value)</tooltip>
     <name>Text Update_25</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.AppCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.AppCSState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2478,7 +2478,7 @@ $(pv_value)</tooltip>
     <name>Text Update_26</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.PassCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.PassCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2549,7 +2549,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/EnableAllCS', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/EnableAllCS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2605,7 +2605,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/DisableAllCS', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/DisableAllCS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3101,7 +3101,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/ReportBaselineOS', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/ReportBaselineOS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3157,7 +3157,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/RecomputeBaselineOS', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/RecomputeBaselineOS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3213,7 +3213,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/ReportBaselineCfeCore', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/ReportBaselineCfeCore', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3269,7 +3269,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/RecomputeBaselineCfeCore', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/RecomputeBaselineCfeCore', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3875,7 +3875,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/EnableOS', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/EnableOS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3931,7 +3931,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/DisableOS', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/DisableOS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3987,7 +3987,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/EnableCfeCore', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/EnableCfeCore', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -4043,7 +4043,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/DisableCfeCore', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/DisableCfeCore', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -4154,7 +4154,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/CancelOneShot', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/CancelOneShot', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -4271,7 +4271,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/SendHK', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/SendHK', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -4327,7 +4327,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/BackgroundCycle', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/BackgroundCycle', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

@@ -2,6 +2,7 @@ include(../set-vars.cmake)
 
 buildliner_initialize(
     EMBED_SYMTAB
+    CPU_ID CPD
     PSP ${PSP}
     OSAL ${OSAL}
     CORE_TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/tools
@@ -17,6 +18,9 @@ buildliner_initialize(
         /ram
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
+        
+    COMMANDER_WORKSPACE
+        ${CMAKE_BINARY_DIR}/../../commander_workspace
 )
 
 
@@ -25,7 +29,6 @@ buildliner_add_app(
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cfs_lib/fsw/for_build
 )
-
 
 buildliner_add_app(
     pq_lib

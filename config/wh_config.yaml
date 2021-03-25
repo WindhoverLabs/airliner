@@ -367,17 +367,14 @@ modules:
     commands:
       TO_CMD_MID:
         msgID: 0x189f
-      TO_SEND_HK_MID:
-        msgID: 0x18a0
-      TO_SEND_TLM_MID:
-        msgID: 0x18a1
-    perfids:
-      TO_MAIN_TASK_PERF_ID:
-        id: 61
-      TO_SOCKET_SEND_PERF_ID:
-        id: 62
-        
-        
+        commands: 
+          Noop: 
+            cc: 10
+            struct: TO_EnableChannelCmd_t
+          Reset: 
+            cc: 11
+            struct: TO_DisableChannelCmd_t      
+
   px4lib:
     definition: ${PROJECT_SOURCE_DIR}/apps/px4lib/wh_design.yaml
     telemetry:

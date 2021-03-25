@@ -1,4 +1,4 @@
 importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_time/Noop', {});
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_time/Noop', {});

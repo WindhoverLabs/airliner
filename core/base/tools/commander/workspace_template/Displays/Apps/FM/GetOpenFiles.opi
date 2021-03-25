@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>1750</height>
+  <height>550</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>FM - Get Open Files</name>
+  <name>($(CPUID)) FM - Get Open Files</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>800</width>
+  <width>460</width>
   <wuid>3224b3ef:1778cb22598:-7a0f</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -40,7 +40,7 @@
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-Yamcs.issueCommand("/cfs/fm/GetOpenFiles",{});
+Yamcs.issueCommand("/cfs/$(CPUID)/fm/GetOpenFiles",{});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -65,7 +65,7 @@ Yamcs.issueCommand("/cfs/fm/GetOpenFiles",{});
     <foreground_color>
       <color red="255" green="255" blue="255" />
     </foreground_color>
-    <height>18</height>
+    <height>25</height>
     <image>../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
@@ -79,7 +79,7 @@ Yamcs.issueCommand("/cfs/fm/GetOpenFiles",{});
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>GetOpenFiles</text>
+    <text>Get Open Files</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
@@ -87,8 +87,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>175</width>
     <wuid>3224b3ef:1778cb22598:-7a04</wuid>
-    <x>174</x>
-    <y>30</y>
+    <x>60</x>
+    <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -109,7 +109,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <height>20</height>
-    <horizontal_alignment>1</horizontal_alignment>
+    <horizontal_alignment>2</horizontal_alignment>
     <name>Label</name>
     <rules />
     <scale_options>
@@ -118,17 +118,17 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>NumOpenFiles:</text>
+    <text>Num Open Files:</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>103</width>
+    <width>121</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-79fe</wuid>
-    <x>174</x>
-    <y>54</y>
+    <x>42</x>
+    <y>71</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -158,7 +158,7 @@ $(pv_value)</tooltip>
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.NumOpenFiles</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.NumOpenFiles</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -179,8 +179,8 @@ $(pv_value)</tooltip>
     <width>61</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-79f4</wuid>
-    <x>288</x>
-    <y>54</y>
+    <x>174</x>
+    <y>71</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -210,7 +210,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>LogicalName</text>
+    <text>Logical Name</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -220,7 +220,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-79e5</wuid>
     <x>72</x>
-    <y>120</y>
+    <y>96</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -250,7 +250,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>AppName</text>
+    <text>App Name</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -260,7 +260,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-79e2</wuid>
     <x>288</x>
-    <y>120</y>
+    <y>96</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -300,7 +300,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-79df</wuid>
     <x>24</x>
-    <y>150</y>
+    <y>126</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -330,7 +330,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_0_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_0_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -352,7 +352,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-79d5</wuid>
     <x>71</x>
-    <y>150</y>
+    <y>126</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -382,7 +382,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_0_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_0_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -404,7 +404,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-79d2</wuid>
     <x>288</x>
-    <y>150</y>
+    <y>126</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -444,7 +444,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-79a0</wuid>
     <x>23</x>
-    <y>180</y>
+    <y>156</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -474,7 +474,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_1_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_1_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -496,7 +496,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-799f</wuid>
     <x>70</x>
-    <y>180</y>
+    <y>156</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -526,7 +526,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_1_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_1_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -548,7 +548,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-799e</wuid>
     <x>287</x>
-    <y>180</y>
+    <y>156</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -588,7 +588,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-78ae</wuid>
     <x>24</x>
-    <y>204</y>
+    <y>180</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -618,7 +618,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_2_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_2_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -640,7 +640,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-78ad</wuid>
     <x>71</x>
-    <y>204</y>
+    <y>180</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -670,7 +670,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_2_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_2_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -692,7 +692,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-78ac</wuid>
     <x>288</x>
-    <y>204</y>
+    <y>180</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -732,7 +732,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-779d</wuid>
     <x>24</x>
-    <y>228</y>
+    <y>204</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -762,7 +762,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_3_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_3_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -784,7 +784,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-779c</wuid>
     <x>71</x>
-    <y>228</y>
+    <y>204</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -814,7 +814,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_3_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_3_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -836,7 +836,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-779b</wuid>
     <x>288</x>
-    <y>228</y>
+    <y>204</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -876,7 +876,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7762</wuid>
     <x>24</x>
-    <y>252</y>
+    <y>228</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -906,7 +906,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_4_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_4_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -928,7 +928,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7761</wuid>
     <x>71</x>
-    <y>252</y>
+    <y>228</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -958,7 +958,7 @@ $(pv_value)</tooltip>
     <name>Text Update_22</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_4_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_4_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -980,7 +980,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7760</wuid>
     <x>288</x>
-    <y>252</y>
+    <y>228</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1020,7 +1020,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-774b</wuid>
     <x>24</x>
-    <y>276</y>
+    <y>252</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1050,7 +1050,7 @@ $(pv_value)</tooltip>
     <name>Text Update_23</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_5_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_5_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1072,7 +1072,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-774a</wuid>
     <x>71</x>
-    <y>276</y>
+    <y>252</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1102,7 +1102,7 @@ $(pv_value)</tooltip>
     <name>Text Update_24</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_5_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_5_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1124,7 +1124,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7749</wuid>
     <x>288</x>
-    <y>276</y>
+    <y>252</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1164,7 +1164,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7728</wuid>
     <x>24</x>
-    <y>300</y>
+    <y>276</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1194,7 +1194,7 @@ $(pv_value)</tooltip>
     <name>Text Update_25</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_6_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_6_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1216,7 +1216,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7727</wuid>
     <x>71</x>
-    <y>300</y>
+    <y>276</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1246,7 +1246,7 @@ $(pv_value)</tooltip>
     <name>Text Update_26</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_6_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_6_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1268,7 +1268,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7726</wuid>
     <x>288</x>
-    <y>300</y>
+    <y>276</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1308,7 +1308,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-76eb</wuid>
     <x>24</x>
-    <y>324</y>
+    <y>300</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1338,7 +1338,7 @@ $(pv_value)</tooltip>
     <name>Text Update_27</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_7_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_7_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1360,7 +1360,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-76ea</wuid>
     <x>71</x>
-    <y>324</y>
+    <y>300</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1390,7 +1390,7 @@ $(pv_value)</tooltip>
     <name>Text Update_28</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_7_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_7_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1412,7 +1412,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-76e9</wuid>
     <x>288</x>
-    <y>324</y>
+    <y>300</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1452,7 +1452,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-76d4</wuid>
     <x>24</x>
-    <y>348</y>
+    <y>324</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1482,7 +1482,7 @@ $(pv_value)</tooltip>
     <name>Text Update_29</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_8_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_8_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1504,7 +1504,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-76d3</wuid>
     <x>71</x>
-    <y>348</y>
+    <y>324</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1534,7 +1534,7 @@ $(pv_value)</tooltip>
     <name>Text Update_30</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_8_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_8_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1556,7 +1556,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-76d2</wuid>
     <x>288</x>
-    <y>348</y>
+    <y>324</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1596,7 +1596,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-76bd</wuid>
     <x>23</x>
-    <y>372</y>
+    <y>348</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1626,7 +1626,7 @@ $(pv_value)</tooltip>
     <name>Text Update_31</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_9_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_9_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1648,7 +1648,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-76bc</wuid>
     <x>70</x>
-    <y>372</y>
+    <y>348</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1678,7 +1678,7 @@ $(pv_value)</tooltip>
     <name>Text Update_32</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_9_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_9_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1700,7 +1700,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-76bb</wuid>
     <x>287</x>
-    <y>372</y>
+    <y>348</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1740,7 +1740,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-76a6</wuid>
     <x>24</x>
-    <y>396</y>
+    <y>372</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1770,7 +1770,7 @@ $(pv_value)</tooltip>
     <name>Text Update_33</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_10_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_10_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1792,7 +1792,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-76a5</wuid>
     <x>71</x>
-    <y>396</y>
+    <y>372</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1822,7 +1822,7 @@ $(pv_value)</tooltip>
     <name>Text Update_34</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_10_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_10_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1844,7 +1844,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-76a4</wuid>
     <x>288</x>
-    <y>396</y>
+    <y>372</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1884,7 +1884,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7690</wuid>
     <x>23</x>
-    <y>420</y>
+    <y>396</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1914,7 +1914,7 @@ $(pv_value)</tooltip>
     <name>Text Update_35</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_11_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_11_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1936,7 +1936,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-768f</wuid>
     <x>70</x>
-    <y>420</y>
+    <y>396</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1966,7 +1966,7 @@ $(pv_value)</tooltip>
     <name>Text Update_36</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_11_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_11_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1988,7 +1988,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-768e</wuid>
     <x>287</x>
-    <y>420</y>
+    <y>396</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2028,7 +2028,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7685</wuid>
     <x>23</x>
-    <y>450</y>
+    <y>426</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2058,7 +2058,7 @@ $(pv_value)</tooltip>
     <name>Text Update_37</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_12_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_12_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2080,7 +2080,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7684</wuid>
     <x>70</x>
-    <y>450</y>
+    <y>426</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2110,7 +2110,7 @@ $(pv_value)</tooltip>
     <name>Text Update_38</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_12_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_12_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2132,7 +2132,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7683</wuid>
     <x>287</x>
-    <y>450</y>
+    <y>426</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2172,7 +2172,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-767a</wuid>
     <x>24</x>
-    <y>504</y>
+    <y>480</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2202,7 +2202,7 @@ $(pv_value)</tooltip>
     <name>Text Update_39</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_14_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_14_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2224,7 +2224,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7679</wuid>
     <x>71</x>
-    <y>504</y>
+    <y>480</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2254,7 +2254,7 @@ $(pv_value)</tooltip>
     <name>Text Update_40</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_14_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_14_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2276,7 +2276,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7678</wuid>
     <x>288</x>
-    <y>504</y>
+    <y>480</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2316,7 +2316,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7664</wuid>
     <x>23</x>
-    <y>480</y>
+    <y>456</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2346,7 +2346,7 @@ $(pv_value)</tooltip>
     <name>Text Update_43</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_13_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_13_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2368,7 +2368,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7663</wuid>
     <x>70</x>
-    <y>480</y>
+    <y>456</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2398,7 +2398,7 @@ $(pv_value)</tooltip>
     <name>Text Update_44</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_13_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_13_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2420,7 +2420,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7662</wuid>
     <x>287</x>
-    <y>480</y>
+    <y>456</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2460,7 +2460,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7659</wuid>
     <x>24</x>
-    <y>534</y>
+    <y>510</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2490,7 +2490,7 @@ $(pv_value)</tooltip>
     <name>Text Update_45</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_15_.LogicalName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_15_.LogicalName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2512,7 +2512,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7658</wuid>
     <x>71</x>
-    <y>534</y>
+    <y>510</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2542,7 +2542,7 @@ $(pv_value)</tooltip>
     <name>Text Update_46</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/fm/FM_OpenFilesPkt_t.OpenFilesList_15_.AppName</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_OpenFilesPkt_t.OpenFilesList_15_.AppName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2564,6 +2564,46 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7657</wuid>
     <x>288</x>
-    <y>534</y>
+    <y>510</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_49</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>($(CPUID)) FM - Get Open Files</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>265</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-c05c465:1785c72c4a1:-5b39</wuid>
+    <x>12</x>
+    <y>6</y>
   </widget>
 </display>

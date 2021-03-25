@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>90</height>
+  <height>110</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CS - Report EEPROM Base</name>
+  <name>($(CPUID)) CS - Report EEPROM Base</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>180</width>
+  <width>320</width>
   <wuid>-736e4684:150ac3c95a1:-7e23</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -42,7 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var EntryID =VTypeHelper.getDouble(display.getWidget('EntryID').getPropertyValue('pv_value'));
 
-var cmd = '/cfs/cs/ReportBaselineEEPROM';
+var cmd = '/cfs/$(CPUID)/cs/ReportBaselineEEPROM';
 
 Yamcs.issueCommand(cmd, {'EntryID': EntryID});]]></scriptText>
         <embedded>true</embedded>
@@ -90,8 +90,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>130</width>
     <wuid>-736e4684:150ac3c95a1:-7e06</wuid>
-    <x>36</x>
-    <y>54</y>
+    <x>97</x>
+    <y>72</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -130,8 +130,8 @@ $(pv_value)</tooltip>
     <width>52</width>
     <wrap_words>false</wrap_words>
     <wuid>-736e4684:150ac3c95a1:-7de8</wuid>
-    <x>12</x>
-    <y>18</y>
+    <x>72</x>
+    <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -185,7 +185,47 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>100</width>
     <wuid>-736e4684:150ac3c95a1:-7de7</wuid>
-    <x>72</x>
-    <y>18</y>
+    <x>132</x>
+    <y>42</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_49</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>($(CPUID)) CS - Report EEPROM Baseline</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>312</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-c05c465:1785c72c4a1:-5fb3</wuid>
+    <x>6</x>
+    <y>12</y>
   </widget>
 </display>

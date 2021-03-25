@@ -10,12 +10,12 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>150</height>
+  <height>170</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
@@ -47,11 +47,11 @@ var Microseconds =VTypeHelper.getDouble(display.getWidget('Microseconds').getPro
 var cmd;
 
 if( Type == "Time" ) {
-    cmd = '/cfs/cfe_time/SetTime';
+    cmd = '/cfs/$(CPUID)/cfe_time/SetTime';
 } else if( Type == "MET" ) {
-    cmd = '/cfs/cfe_time/SetMET';
+    cmd = '/cfs/$(CPUID)/cfe_time/SetMET';
 } else if( Type == "STCF" ) {
-    cmd = '/cfs/cfe_time/SetSTCF';
+    cmd = '/cfs/$(CPUID)/cfe_time/SetSTCF';
 }
 
 Yamcs.issueCommand(cmd, {
@@ -104,8 +104,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>163</width>
     <wuid>35ebaa52:1509cf6a868:-78ea</wuid>
-    <x>54</x>
-    <y>114</y>
+    <x>56</x>
+    <y>133</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -144,8 +144,8 @@ $(pv_value)</tooltip>
     <width>87</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-78e9</wuid>
-    <x>16</x>
-    <y>54</y>
+    <x>18</x>
+    <y>73</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -201,8 +201,8 @@ $(pv_value)</tooltip>
     <widget_type>Text Input</widget_type>
     <width>137</width>
     <wuid>35ebaa52:1509cf6a868:-78e7</wuid>
-    <x>114</x>
-    <y>54</y>
+    <x>116</x>
+    <y>73</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -241,8 +241,8 @@ $(pv_value)</tooltip>
     <width>87</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-657f</wuid>
-    <x>16</x>
-    <y>79</y>
+    <x>18</x>
+    <y>98</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -298,8 +298,8 @@ $(pv_value)</tooltip>
     <widget_type>Text Input</widget_type>
     <width>137</width>
     <wuid>35ebaa52:1509cf6a868:-657e</wuid>
-    <x>114</x>
-    <y>79</y>
+    <x>116</x>
+    <y>98</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.radioBox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -349,7 +349,47 @@ $(pv_value)</tooltip>
     <widget_type>Radio Box</widget_type>
     <width>216</width>
     <wuid>35ebaa52:1509cf6a868:-62cf</wuid>
-    <x>28</x>
+    <x>30</x>
+    <y>31</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_69</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>($(CPUID)) CFE-TIME - Set Time</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>265</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-c05c465:1785c72c4a1:-6559</wuid>
+    <x>6</x>
     <y>12</y>
   </widget>
 </display>

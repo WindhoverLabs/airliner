@@ -10,12 +10,12 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103162101</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>220</height>
+  <height>250</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
     <APP>hk</APP>
@@ -23,7 +23,7 @@
     <PROJECT_NAME>Displays</PROJECT_NAME>
     <REGISTRY_PATH>/modules/hk</REGISTRY_PATH>
   </macros>
-  <name>HK</name>
+  <name>($(CPUID)) HK</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -32,7 +32,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>600</width>
+  <width>300</width>
   <wuid>-33cb7c72:150aa4c347f:-76c2</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -64,7 +64,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hk/HK_HkPacket_t.CmdCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/hk/HK_HkPacket_t.CmdCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -196,7 +196,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hk/HK_HkPacket_t.ErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/hk/HK_HkPacket_t.ErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -227,7 +227,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hk/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hk/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -283,7 +283,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hk/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hk/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -360,7 +360,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Housekeeping</text>
+    <text>($(CPUID)) Housekeeping</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -400,7 +400,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hk/HK_HkPacket_t.CombinedPacketsSent</pv_name>
+    <pv_name>/cfs/$(CPUID)/hk/HK_HkPacket_t.CombinedPacketsSent</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -452,7 +452,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hk/HK_HkPacket_t.MissingDataCtr</pv_name>
+    <pv_name>/cfs/$(CPUID)/hk/HK_HkPacket_t.MissingDataCtr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -504,7 +504,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hk/HK_HkPacket_t.MemPoolHandle</pv_name>
+    <pv_name>/cfs/$(CPUID)/hk/HK_HkPacket_t.MemPoolHandle</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -655,7 +655,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hk/SendHK', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hk/SendHK', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

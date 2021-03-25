@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103162101</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CFE-ES - Perf</name>
+  <name>($(CPUID)) CFE-ES - Perf</name>
   <rules />
   <scripts>
     <path pathString="EmbeddedJs" checkConnect="true" seoe="false">
@@ -38,7 +38,7 @@ for(var i = 1; i <= 32; ++i) {
     }
     display.getWidget(RequestFilterName).setPropertyValue('pv_value', newValue);	
 }]]></scriptText>
-      <pv trig="true">/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfFilterMask_0_</pv>
+      <pv trig="true">/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfFilterMask_0_</pv>
     </path>
   </scripts>
   <show_close_button>true</show_close_button>
@@ -359,16 +359,16 @@ for(var i = 1; i <= 32; ++i) {
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Performance Collection</text>
+    <text>($(CPUID)) Performance Collection</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>193</width>
+    <width>344</width>
     <wrap_words>false</wrap_words>
     <wuid>2b4f25d5:1502b5812fe:-7d80</wuid>
-    <x>243</x>
+    <x>167</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -399,7 +399,7 @@ for(var i = 1; i <= 32; ++i) {
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfState</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -451,7 +451,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfMode</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfMode</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -503,7 +503,7 @@ $(pv_value)</tooltip>
     <name>Text Update_22</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfTriggerCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfTriggerCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -555,7 +555,7 @@ $(pv_value)</tooltip>
     <name>Text Update_25</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataStart</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataStart</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -607,7 +607,7 @@ $(pv_value)</tooltip>
     <name>Text Update_26</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataEnd</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataEnd</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -659,7 +659,7 @@ $(pv_value)</tooltip>
     <name>Text Update_27</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -711,7 +711,7 @@ $(pv_value)</tooltip>
     <name>Text Update_28</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataToWrite</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataToWrite</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -8527,7 +8527,7 @@ for i in range(1,32):
     else:
         maskValue = int(maskValue) | 0x80000000
 
-Yamcs.issueCommand( '/cfs/cfe_es/PerfSetFilterMask', {
+Yamcs.issueCommand( '/cfs/$(CPUID)/cfe_es/PerfSetFilterMask', {
     'Payload.FilterMaskNum': maskNumber,
     'Payload.FilterMask': maskValue});]]></scriptText>
             <embedded>true</embedded>
@@ -8586,7 +8586,7 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var cmdString = '/cfs/cfe_es/PerfSetTriggerMask1(';
+var cmdString = '/cfs/$(CPUID)/cfe_es/PerfSetTriggerMask1(';
 
 for(var i = 1; i <= 32; ++i) {
 	var PerfID = 'PerfTrigger' + i;

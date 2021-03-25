@@ -433,7 +433,7 @@
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.NotInitialized</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.NotInitialized</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -491,7 +491,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.LocalPositionIsValid</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.LocalPositionIsValid</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -549,7 +549,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.PrevLanded</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PrevLanded</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -607,7 +607,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.PrevInFlight</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PrevInFlight</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -665,7 +665,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.LowBatteryVoltageActionsDone</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.LowBatteryVoltageActionsDone</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -723,7 +723,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.EmergencyBatteryVoltageActionsDone</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.EmergencyBatteryVoltageActionsDone</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -781,7 +781,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.CriticalBatteryVoltageActionsDone</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.CriticalBatteryVoltageActionsDone</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -839,7 +839,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.ArmingStateChanged</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.ArmingStateChanged</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -937,7 +937,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.StatusFlags.SensorsInitialized</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.SensorsInitialized</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1035,7 +1035,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.StatusFlags.ReturnToHomeSet</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.ReturnToHomeSet</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1133,7 +1133,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.StatusFlags.HomePositionValid</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.HomePositionValid</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1231,7 +1231,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.StatusFlags.UsbPowerConnected</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.UsbPowerConnected</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1329,7 +1329,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.StatusFlags.RcSignalFoundOnce</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.RcSignalFoundOnce</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1427,7 +1427,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.StatusFlags.RcSignalLostModeIsCmded</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.RcSignalLostModeIsCmded</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1525,7 +1525,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/vm/VM_HkTlm_t.StatusFlags.RcInputIsTemporarilyBlocked</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.RcInputIsTemporarilyBlocked</pv_name>
     <pv_value />
     <rules />
     <scale_options>

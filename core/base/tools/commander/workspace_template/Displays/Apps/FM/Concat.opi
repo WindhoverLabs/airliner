@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>400</height>
+  <height>180</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>FM - Concat</name>
+  <name>($(CPUID)) FM - Concat</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>400</width>
+  <width>380</width>
   <wuid>3224b3ef:1778cb22598:-7c75</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -44,7 +44,7 @@ var source1_arg =  VTypeHelper.getString(display.getWidget("Source1") .getProper
 var source2_arg = VTypeHelper.getString(display.getWidget("Source2").getPropertyValue("pv_value"));
 var target_arg = VTypeHelper.getString(display.getWidget("Target").getPropertyValue("pv_value"));
 
-Yamcs.issueCommand('/cfs/fm/Concat',
+Yamcs.issueCommand('/cfs/$(CPUID)/fm/Concat',
                                    {"Source1": source1_arg,
 				     "Source2": source2_arg,
 				      "Target": target_arg});
@@ -72,7 +72,7 @@ Yamcs.issueCommand('/cfs/fm/Concat',
     <foreground_color>
       <color red="255" green="255" blue="255" />
     </foreground_color>
-    <height>18</height>
+    <height>25</height>
     <image>../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
@@ -94,8 +94,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>109</width>
     <wuid>3224b3ef:1778cb22598:-7c6a</wuid>
-    <x>84</x>
-    <y>168</y>
+    <x>85</x>
+    <y>138</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -109,7 +109,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -149,10 +149,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>100</width>
+    <width>265</width>
     <wuid>3224b3ef:1778cb22598:-7c66</wuid>
-    <x>132</x>
-    <y>81</y>
+    <x>96</x>
+    <y>69</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -173,7 +173,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <height>20</height>
-    <horizontal_alignment>1</horizontal_alignment>
+    <horizontal_alignment>2</horizontal_alignment>
     <name>Label</name>
     <rules />
     <scale_options>
@@ -182,7 +182,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Source2</text>
+    <text>Source 2</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -191,8 +191,8 @@ $(pv_value)</tooltip>
     <width>80</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7c62</wuid>
-    <x>48</x>
-    <y>84</y>
+    <x>6</x>
+    <y>75</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -206,7 +206,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -246,10 +246,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>100</width>
+    <width>265</width>
     <wuid>3224b3ef:1778cb22598:-7c57</wuid>
-    <x>132</x>
-    <y>114</y>
+    <x>96</x>
+    <y>102</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -270,7 +270,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <height>20</height>
-    <horizontal_alignment>1</horizontal_alignment>
+    <horizontal_alignment>2</horizontal_alignment>
     <name>Label_1</name>
     <rules />
     <scale_options>
@@ -288,8 +288,8 @@ $(pv_value)</tooltip>
     <width>80</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7c56</wuid>
-    <x>48</x>
-    <y>114</y>
+    <x>6</x>
+    <y>105</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -310,7 +310,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <height>20</height>
-    <horizontal_alignment>1</horizontal_alignment>
+    <horizontal_alignment>2</horizontal_alignment>
     <name>Label_2</name>
     <rules />
     <scale_options>
@@ -319,7 +319,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Source1</text>
+    <text>Source 1</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -328,8 +328,8 @@ $(pv_value)</tooltip>
     <width>80</width>
     <wrap_words>false</wrap_words>
     <wuid>3224b3ef:1778cb22598:-7c47</wuid>
-    <x>48</x>
-    <y>51</y>
+    <x>6</x>
+    <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -343,7 +343,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -383,9 +383,49 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>100</width>
+    <width>265</width>
     <wuid>3224b3ef:1778cb22598:-7a20</wuid>
-    <x>132</x>
-    <y>48</y>
+    <x>96</x>
+    <y>36</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_49</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>($(CPUID)) FM - Concat</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>187</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-c05c465:1785c72c4a1:-5a98</wuid>
+    <x>54</x>
+    <y>6</y>
   </widget>
 </display>

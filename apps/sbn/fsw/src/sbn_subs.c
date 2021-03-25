@@ -52,28 +52,6 @@ void SBN_SendSubsRequests(void)
     CFE_SB_SendMsg((CFE_SB_MsgPtr_t) &SBCmdMsg);
 }/* end SBN_SendSubsRequests */
 
-/**
- * \brief Sends a local subscription over the wire to a peer.
- *
- * @param[in] SubType Whether this is a subscription or unsubscription.
- * @param[in] MsgID The CCSDS message ID being (un)subscribed.
- * @param[in] QoS The CCSDS quality of service being (un)subscribed.
- * @param[in] Peer The Peer interface
- */
-//static void SendLocalSubToPeer(int SubType, CFE_SB_MsgId_t MsgID,
-    //CFE_SB_Qos_t QoS, SBN_PeerInterface_t *Peer)
-//{
-    //uint8 Buf[SBN_PACKED_SUB_SZ];
-    //Pack_t Pack;
-    //Pack_Init(&Pack, &Buf, SBN_PACKED_SUB_SZ, 0);
-    //Pack_Data(&Pack, SBN_IDENT, SBN_IDENT_LEN);
-    //Pack_UInt16(&Pack, 1);
-
-    //Pack_MsgID(&Pack, MsgID);
-    //Pack_Data(&Pack, &QoS, sizeof(QoS)); /* 2 uint8's */
-
-    //SBN_SendNetMsg(SubType, Pack.BufUsed, Buf, Peer);
-//}/* end SendLocalSubToPeer */
 
 /**
  * \brief Sends a local subscription over the wire to a peer.
@@ -105,30 +83,6 @@ static void SendLocalSubToPeer(int SubType, CFE_SB_MsgId_t MsgID,
 
     SBN_SendNetMsg(SubType, sizeof(Packet), &Packet, Peer);
 }/* end SendLocalSubToPeer */
-
-/**
- * \brief Sends all local subscriptions over the wire to a peer.
- *
- * @param[in] Peer The peer interface.
- */
-//void SBN_SendLocalSubsToPeer(SBN_PeerInterface_t *Peer)
-//{
-    //uint8 Buf[SBN_PACKED_SUB_SZ];
-    //Pack_t Pack;
-    //Pack_Init(&Pack, &Buf, SBN_PACKED_SUB_SZ, 0);
-    //Pack_Data(&Pack, SBN_IDENT, SBN_IDENT_LEN);
-    //Pack_UInt16(&Pack, SBN.SubCnt);
-
-    //int i = 0;
-    //for(i = 0; i < SBN.SubCnt; i++)
-    //{
-        //Pack_MsgID(&Pack, SBN.Subs[i].MsgID);
-        ///* 2 uint8's */
-        //Pack_Data(&Pack, &SBN.Subs[i].QoS, sizeof(SBN.Subs[i].QoS));
-    //}/* end for */
-
-    //SBN_SendNetMsg(SBN_SUBSCRIBE_MSG, Pack.BufUsed, Buf, Peer);
-//}/* end SBN_SendLocalSubsToPeer */
 
 
 /**
@@ -465,44 +419,6 @@ static void ProcessSubFromPeer(SBN_PeerInterface_t *Peer, CFE_SB_MsgId_t MsgID,
  * @param[in] PeerIdx The peer index (in SBN.Peer)
  * @param[in] Msg The subscription SBN message.
  */
-//void SBN_ProcessSubsFromPeer(SBN_PeerInterface_t *Peer, void *Msg)
-//{
-    //Unpack_t Unpack;
-    //char VersionHash[SBN_IDENT_LEN];
-
-    //Unpack_Init(&Unpack, Msg, CFE_SB_MAX_SB_MSG_SIZE);
-
-    //Unpack_Data(&Unpack, VersionHash, SBN_IDENT_LEN);
-
-    //if(strncmp(VersionHash, SBN_IDENT, SBN_IDENT_LEN))
-    //{
-        //CFE_EVS_SendEvent(SBN_PROTO_EID, CFE_EVS_ERROR,
-            //"version number mismatch with peer CpuID %lu",
-            //Peer->ProcessorID);
-    //}
-
-    //uint16 SubCnt;
-    //Unpack_UInt16(&Unpack, &SubCnt);
-
-    //int SubIdx = 0;
-    //for(SubIdx = 0; SubIdx < SubCnt; SubIdx++)
-    //{
-        //CFE_SB_MsgId_t MsgID;
-        //Unpack_MsgID(&Unpack, &MsgID);
-        //CFE_SB_Qos_t QoS;
-        //Unpack_Data(&Unpack, &QoS, sizeof(QoS));
-
-        //ProcessSubFromPeer(Peer, MsgID, QoS);
-    //}/* end for */
-//}/* SBN_ProcessSubsFromPeer */
-
-
-/**
- * \brief Process a subscription message from a peer.
- *
- * @param[in] PeerIdx The peer index (in SBN.Peer)
- * @param[in] Msg The subscription SBN message.
- */
 void SBN_ProcessSubsFromPeer(SBN_PeerInterface_t *Peer, void *Msg)
 {
     SBN_SubsPacket_t AllSubPacket;
@@ -555,7 +471,6 @@ void SBN_ProcessSubsFromPeer(SBN_PeerInterface_t *Peer, void *Msg)
 
 }/* SBN_ProcessSubsFromPeer */
 
-
 static void ProcessUnsubFromPeer(SBN_PeerInterface_t *Peer,
     CFE_SB_MsgId_t MsgID)
 {
@@ -594,96 +509,6 @@ static void ProcessUnsubFromPeer(SBN_PeerInterface_t *Peer,
         return;
     }/* end if */
 }/* end ProcessUnsubFromPeer */
-
-///**
- //* \brief Process an unsubscription message from a peer.
- //*
- //* @param[in] PeerIdx The peer index (in SBN.Peer)
- //* @param[in] Msg The unsubscription SBN message.
- //*/
-//void SBN_ProcessUnsubsFromPeer(SBN_PeerInterface_t *Peer, void *Msg)
-//{
-    //Unpack_t Unpack;
-
-    //Unpack_Init(&Unpack, Msg, CFE_SB_MAX_SB_MSG_SIZE);
-
-    //char VersionHash[SBN_IDENT_LEN];
-
-    //Unpack_Data(&Unpack, VersionHash, SBN_IDENT_LEN);
-
-    //if(strncmp(VersionHash, SBN_IDENT, SBN_IDENT_LEN))
-    //{
-        //CFE_EVS_SendEvent(SBN_PROTO_EID, CFE_EVS_ERROR,
-            //"version number mismatch with peer CpuID %lu",
-            //Peer->ProcessorID);
-    //}
-
-    //uint16 SubCnt;
-    //Unpack_UInt16(&Unpack, &SubCnt);
-
-    //int SubIdx = 0;
-    //for(SubIdx = 0; SubIdx < SubCnt; SubIdx++)
-    //{
-        //CFE_SB_MsgId_t MsgID;
-        //Unpack_MsgID(&Unpack, &MsgID);
-        //CFE_SB_Qos_t QoS;
-        //Unpack_Data(&Unpack, &QoS, sizeof(QoS));
-
-        //int idx, RemappedFlag = 0;
-
-        //if(OS_MutSemTake(SBN.RemapMutex) != OS_SUCCESS)
-        //{
-            //CFE_EVS_SendEvent(SBN_REMAP_EID, CFE_EVS_ERROR,
-                //"unable to take mutex");
-            //continue;
-        //}/* end if */
-
-        ///** If there's a filter, ignore this unsub. */
-        //for(idx = 0; RemappedFlag == 0 && idx < SBN.RemapTbl->EntryCnt; idx++)
-        //{   
-            //if(SBN.RemapTbl->Entries[idx].ProcessorID
-                    //== Peer->ProcessorID
-                //&& SBN.RemapTbl->Entries[idx].FromMID == MsgID
-                //&& SBN.RemapTbl->Entries[idx].ToMID == 0x0000)
-            //{   
-                //RemappedFlag = 1;
-            //}/* end if */
-        //}/* end for */
-
-        ///*****
-         //* If there's a remap that would generate that
-         //* MID, I need to unsubscribe locally to the "from". Usually this will
-         //* only be one "from" but it's possible that multiple "from"s map to
-         //* the same "to".
-         //*/
-        //for(idx = 0; idx < SBN.RemapTbl->EntryCnt; idx++)
-        //{   
-            //if(SBN.RemapTbl->Entries[idx].ProcessorID
-                    //== Peer->ProcessorID
-                //&& SBN.RemapTbl->Entries[idx].ToMID == MsgID)
-            //{   
-                ///* Unsubscribe from each "ToMID" match. */
-                //ProcessUnsubFromPeer(Peer,
-                    //SBN.RemapTbl->Entries[idx].FromMID);
-
-                //RemappedFlag = 1;
-            //}/* end if */
-        //}/* end for */
-
-        ///* if there's no remap ID's, unsubscribe from the original MID. */
-        //if(!RemappedFlag)
-        //{
-            //ProcessUnsubFromPeer(Peer, MsgID);
-        //}/* end if */
-
-        //if(OS_MutSemGive(SBN.RemapMutex) != OS_SUCCESS)
-        //{
-            //CFE_EVS_SendEvent(SBN_REMAP_EID, CFE_EVS_ERROR,
-                //"unable to give mutex");
-        //}/* end if */
-    //}/* end for */
-//}/* end SBN_ProcessUnsubFromPeer */
-
 
 /**
  * \brief Process an unsubscription message from a peer.
@@ -772,7 +597,6 @@ void SBN_ProcessUnsubsFromPeer(SBN_PeerInterface_t *Peer, void *Msg)
         }/* end if */
     }/* end for */
 }/* end SBN_ProcessUnsubFromPeer */
-
 
 /**
  * When SBN starts, it queries for all existing subscriptions. This method

@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CFE-SB - Statistics</name>
+  <name>($(CPUID)) CFE-SB - Statistics</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -39,7 +39,7 @@
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cfe_sb/SendStats', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_sb/SendStats', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -116,7 +116,7 @@ $(pv_value)</tooltip>
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.MsgIdsInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.MsgIdsInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -168,7 +168,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PeakMsgIdsInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PeakMsgIdsInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -220,7 +220,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.MaxMsgIdsAllowed</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.MaxMsgIdsAllowed</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -272,7 +272,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipesInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipesInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -324,7 +324,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PeakPipesInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PeakPipesInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -376,7 +376,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.MaxPipesAllowed</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.MaxPipesAllowed</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -428,7 +428,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.MemInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.MemInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -480,7 +480,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PeakMemInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PeakMemInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -532,7 +532,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.MaxMemAllowed</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.MaxMemAllowed</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -584,7 +584,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.SubscriptionsInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.SubscriptionsInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -636,7 +636,7 @@ $(pv_value)</tooltip>
     <name>Text Update_10</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PeakSubscriptionsInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PeakSubscriptionsInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -688,7 +688,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload..MaxSubscriptionsAllowed</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload..MaxSubscriptionsAllowed</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -740,7 +740,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload..SBBuffersInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload..SBBuffersInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -792,7 +792,7 @@ $(pv_value)</tooltip>
     <name>Text Update_13</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload..PeakSBBuffersInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload..PeakSBBuffersInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -844,7 +844,7 @@ $(pv_value)</tooltip>
     <name>Text Update_14</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload..MaxPipeDepthAllowed</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload..MaxPipeDepthAllowed</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1496,7 +1496,7 @@ $(pv_value)</tooltip>
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_0_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_0_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1628,7 +1628,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_0_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_0_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1758,7 +1758,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_0_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_0_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1807,7 +1807,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_0_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_0_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1899,7 +1899,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1991,7 +1991,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2041,7 +2041,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_1</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2090,7 +2090,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.InUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2142,7 +2142,7 @@ $(pv_value)</tooltip>
     <name>Text Update_23</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_2_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_2_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2234,7 +2234,7 @@ $(pv_value)</tooltip>
     <name>Text Update_24</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2284,7 +2284,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_2</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_2_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_2_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2333,7 +2333,7 @@ $(pv_value)</tooltip>
     <name>Text Update_25</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2385,7 +2385,7 @@ $(pv_value)</tooltip>
     <name>Text Update_27</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_3_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_3_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2477,7 +2477,7 @@ $(pv_value)</tooltip>
     <name>Text Update_28</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_3_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_3_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2527,7 +2527,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_3</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_3_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_3_.PipeId</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2576,7 +2576,7 @@ $(pv_value)</tooltip>
     <name>Text Update_29</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_1_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2628,7 +2628,7 @@ $(pv_value)</tooltip>
     <name>Text Update_31</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_4_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_4_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2720,7 +2720,7 @@ $(pv_value)</tooltip>
     <name>Text Update_32</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_4_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_4_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2770,7 +2770,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_4</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_4_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_4_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2819,7 +2819,7 @@ $(pv_value)</tooltip>
     <name>Text Update_33</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_4_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_4_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2871,7 +2871,7 @@ $(pv_value)</tooltip>
     <name>Text Update_35</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2963,7 +2963,7 @@ $(pv_value)</tooltip>
     <name>Text Update_36</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3013,7 +3013,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_5</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -3062,7 +3062,7 @@ $(pv_value)</tooltip>
     <name>Text Update_37</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3114,7 +3114,7 @@ $(pv_value)</tooltip>
     <name>Text Update_39</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3206,7 +3206,7 @@ $(pv_value)</tooltip>
     <name>Text Update_40</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3256,7 +3256,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_6</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_6_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_6_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -3305,7 +3305,7 @@ $(pv_value)</tooltip>
     <name>Text Update_41</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_5_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3357,7 +3357,7 @@ $(pv_value)</tooltip>
     <name>Text Update_43</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_6_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_6_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3449,7 +3449,7 @@ $(pv_value)</tooltip>
     <name>Text Update_44</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_7_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_7_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3499,7 +3499,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_7</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_7_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_7_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -3548,7 +3548,7 @@ $(pv_value)</tooltip>
     <name>Text Update_45</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_7_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_7_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3600,7 +3600,7 @@ $(pv_value)</tooltip>
     <name>Text Update_47</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_8_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_8_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3692,7 +3692,7 @@ $(pv_value)</tooltip>
     <name>Text Update_48</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_8_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_8_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3742,7 +3742,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_8</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_8_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_8_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -3791,7 +3791,7 @@ $(pv_value)</tooltip>
     <name>Text Update_49</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_8_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_8_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3843,7 +3843,7 @@ $(pv_value)</tooltip>
     <name>Text Update_51</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_9_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_9_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3935,7 +3935,7 @@ $(pv_value)</tooltip>
     <name>Text Update_52</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_9_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_9_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3985,7 +3985,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_9</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_9_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_9_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -4034,7 +4034,7 @@ $(pv_value)</tooltip>
     <name>Text Update_53</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_9_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_9_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4086,7 +4086,7 @@ $(pv_value)</tooltip>
     <name>Text Update_54</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_10_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_10_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4178,7 +4178,7 @@ $(pv_value)</tooltip>
     <name>Text Update_55</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_10_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_10_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4228,7 +4228,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_10</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_10_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_10_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -4277,7 +4277,7 @@ $(pv_value)</tooltip>
     <name>Text Update_56</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_10_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_10_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4329,7 +4329,7 @@ $(pv_value)</tooltip>
     <name>Text Update_57</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4421,7 +4421,7 @@ $(pv_value)</tooltip>
     <name>Text Update_58</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4471,7 +4471,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_11</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -4520,7 +4520,7 @@ $(pv_value)</tooltip>
     <name>Text Update_59</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4572,7 +4572,7 @@ $(pv_value)</tooltip>
     <name>Text Update_60</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_12_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_12_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4664,7 +4664,7 @@ $(pv_value)</tooltip>
     <name>Text Update_61</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_12_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_12_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4714,7 +4714,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_12</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_12_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_12_.PipeId</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -4763,7 +4763,7 @@ $(pv_value)</tooltip>
     <name>Text Update_62</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_12_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_12_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4815,7 +4815,7 @@ $(pv_value)</tooltip>
     <name>Text Update_63</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_13_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_13_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4907,7 +4907,7 @@ $(pv_value)</tooltip>
     <name>Text Update_64</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4957,7 +4957,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_13</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_13_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_13_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -5006,7 +5006,7 @@ $(pv_value)</tooltip>
     <name>Text Update_65</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_13_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_13_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5058,7 +5058,7 @@ $(pv_value)</tooltip>
     <name>Text Update_66</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_14_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_14_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5150,7 +5150,7 @@ $(pv_value)</tooltip>
     <name>Text Update_67</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_14_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_14_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5200,7 +5200,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_14</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_14_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_14_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -5249,7 +5249,7 @@ $(pv_value)</tooltip>
     <name>Text Update_68</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_14_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_14_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5301,7 +5301,7 @@ $(pv_value)</tooltip>
     <name>Text Update_69</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_15_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_15_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5393,7 +5393,7 @@ $(pv_value)</tooltip>
     <name>Text Update_70</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_15_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_15_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5443,7 +5443,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_15</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_15_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_15_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -5492,7 +5492,7 @@ $(pv_value)</tooltip>
     <name>Text Update_71</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_15_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_15_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5544,7 +5544,7 @@ $(pv_value)</tooltip>
     <name>Text Update_72</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_16_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_16_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5636,7 +5636,7 @@ $(pv_value)</tooltip>
     <name>Text Update_73</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_16_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_16_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5686,7 +5686,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_16</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_16_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_16_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -5735,7 +5735,7 @@ $(pv_value)</tooltip>
     <name>Text Update_74</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_16_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_16_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5787,7 +5787,7 @@ $(pv_value)</tooltip>
     <name>Text Update_75</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_17_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_17_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5879,7 +5879,7 @@ $(pv_value)</tooltip>
     <name>Text Update_76</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_17_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_17_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5929,7 +5929,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_17</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_17_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_17_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -5978,7 +5978,7 @@ $(pv_value)</tooltip>
     <name>Text Update_77</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_17_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_17_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6030,7 +6030,7 @@ $(pv_value)</tooltip>
     <name>Text Update_78</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_18_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_18_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6122,7 +6122,7 @@ $(pv_value)</tooltip>
     <name>Text Update_79</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_18_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_18_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6172,7 +6172,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_18</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_18_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_18_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -6221,7 +6221,7 @@ $(pv_value)</tooltip>
     <name>Text Update_80</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_18_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_18_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6273,7 +6273,7 @@ $(pv_value)</tooltip>
     <name>Text Update_81</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_19_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_19_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6365,7 +6365,7 @@ $(pv_value)</tooltip>
     <name>Text Update_82</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_19_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_19_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6415,7 +6415,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_19</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_19_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_19_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -6464,7 +6464,7 @@ $(pv_value)</tooltip>
     <name>Text Update_83</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_19_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_19_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6516,7 +6516,7 @@ $(pv_value)</tooltip>
     <name>Text Update_84</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_20_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_20_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6608,7 +6608,7 @@ $(pv_value)</tooltip>
     <name>Text Update_85</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_20_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_20_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6658,7 +6658,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_20</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_20_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_20_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -6707,7 +6707,7 @@ $(pv_value)</tooltip>
     <name>Text Update_86</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6759,7 +6759,7 @@ $(pv_value)</tooltip>
     <name>Text Update_87</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_21_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_21_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6851,7 +6851,7 @@ $(pv_value)</tooltip>
     <name>Text Update_88</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6901,7 +6901,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_21</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.PipeId</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -6950,7 +6950,7 @@ $(pv_value)</tooltip>
     <name>Text Update_89</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_11_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7002,7 +7002,7 @@ $(pv_value)</tooltip>
     <name>Text Update_90</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_22_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_22_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7094,7 +7094,7 @@ $(pv_value)</tooltip>
     <name>Text Update_91</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_22_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_22_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7144,7 +7144,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_22</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_22_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_22_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -7193,7 +7193,7 @@ $(pv_value)</tooltip>
     <name>Text Update_92</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_22_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_22_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7245,7 +7245,7 @@ $(pv_value)</tooltip>
     <name>Text Update_93</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_23_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_23_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7337,7 +7337,7 @@ $(pv_value)</tooltip>
     <name>Text Update_94</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_23_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_23_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7387,7 +7387,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_23</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_23_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_23_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -7436,7 +7436,7 @@ $(pv_value)</tooltip>
     <name>Text Update_95</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_23_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_23_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7488,7 +7488,7 @@ $(pv_value)</tooltip>
     <name>Text Update_96</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_24_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_24_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7580,7 +7580,7 @@ $(pv_value)</tooltip>
     <name>Text Update_97</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_24_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_24_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7630,7 +7630,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_24</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_24_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_24_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -7679,7 +7679,7 @@ $(pv_value)</tooltip>
     <name>Text Update_98</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_24_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_24_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7731,7 +7731,7 @@ $(pv_value)</tooltip>
     <name>Text Update_99</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_25_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_25_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7823,7 +7823,7 @@ $(pv_value)</tooltip>
     <name>Text Update_100</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_25_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_25_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7873,7 +7873,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_25</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_25_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_25_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -7922,7 +7922,7 @@ $(pv_value)</tooltip>
     <name>Text Update_101</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_25_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_25_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7974,7 +7974,7 @@ $(pv_value)</tooltip>
     <name>Text Update_102</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_26_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_26_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -8066,7 +8066,7 @@ $(pv_value)</tooltip>
     <name>Text Update_103</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_26_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_26_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -8116,7 +8116,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_26</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_26_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_26_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -8165,7 +8165,7 @@ $(pv_value)</tooltip>
     <name>Text Update_104</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_26_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_26_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -8217,7 +8217,7 @@ $(pv_value)</tooltip>
     <name>Text Update_105</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_27_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_27_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -8309,7 +8309,7 @@ $(pv_value)</tooltip>
     <name>Text Update_106</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_27_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_27_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -8359,7 +8359,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_27</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_27_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_27_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -8408,7 +8408,7 @@ $(pv_value)</tooltip>
     <name>Text Update_107</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_27_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_27_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -8460,7 +8460,7 @@ $(pv_value)</tooltip>
     <name>Text Update_108</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_28_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_28_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -8552,7 +8552,7 @@ $(pv_value)</tooltip>
     <name>Text Update_109</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_28_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_28_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -8602,7 +8602,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_28</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_28_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_28_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -8651,7 +8651,7 @@ $(pv_value)</tooltip>
     <name>Text Update_110</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_28_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_28_.InUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -8703,7 +8703,7 @@ $(pv_value)</tooltip>
     <name>Text Update_111</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_29_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_29_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -8795,7 +8795,7 @@ $(pv_value)</tooltip>
     <name>Text Update_112</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_29_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_29_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -8845,7 +8845,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_29</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_29_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_29_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -8894,7 +8894,7 @@ $(pv_value)</tooltip>
     <name>Text Update_113</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_29_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_29_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -8946,7 +8946,7 @@ $(pv_value)</tooltip>
     <name>Text Update_114</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_30_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_30_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -9038,7 +9038,7 @@ $(pv_value)</tooltip>
     <name>Text Update_115</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_30_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_30_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -9088,7 +9088,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_30</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_30_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_30_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -9137,7 +9137,7 @@ $(pv_value)</tooltip>
     <name>Text Update_116</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_30_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_30_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -9189,7 +9189,7 @@ $(pv_value)</tooltip>
     <name>Text Update_117</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_31_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_31_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -9281,7 +9281,7 @@ $(pv_value)</tooltip>
     <name>Text Update_118</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_31_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_31_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -9331,7 +9331,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_31</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_31_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_31_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -9380,7 +9380,7 @@ $(pv_value)</tooltip>
     <name>Text Update_119</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_31_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_31_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -9432,7 +9432,7 @@ $(pv_value)</tooltip>
     <name>Text Update_120</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_32_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_32_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -9524,7 +9524,7 @@ $(pv_value)</tooltip>
     <name>Text Update_121</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_32_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_32_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -9574,7 +9574,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_32</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_32_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_32_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -9623,7 +9623,7 @@ $(pv_value)</tooltip>
     <name>Text Update_122</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_32_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_32_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -9675,7 +9675,7 @@ $(pv_value)</tooltip>
     <name>Text Update_123</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_33_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_33_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -9767,7 +9767,7 @@ $(pv_value)</tooltip>
     <name>Text Update_124</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_33_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_33_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -9817,7 +9817,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_33</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_33_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_33_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -9866,7 +9866,7 @@ $(pv_value)</tooltip>
     <name>Text Update_125</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_33_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_33_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -9918,7 +9918,7 @@ $(pv_value)</tooltip>
     <name>Text Update_126</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_34_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_34_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -10010,7 +10010,7 @@ $(pv_value)</tooltip>
     <name>Text Update_127</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_34_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_34_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -10060,7 +10060,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_34</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_34_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_34_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -10109,7 +10109,7 @@ $(pv_value)</tooltip>
     <name>Text Update_128</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_34_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_34_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -10161,7 +10161,7 @@ $(pv_value)</tooltip>
     <name>Text Update_129</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_35_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_35_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -10253,7 +10253,7 @@ $(pv_value)</tooltip>
     <name>Text Update_130</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_35_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_35_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -10303,7 +10303,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_35</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_35_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_35_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -10352,7 +10352,7 @@ $(pv_value)</tooltip>
     <name>Text Update_131</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_35_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_35_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -10404,7 +10404,7 @@ $(pv_value)</tooltip>
     <name>Text Update_132</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_36_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_36_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -10496,7 +10496,7 @@ $(pv_value)</tooltip>
     <name>Text Update_133</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_36_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_36_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -10546,7 +10546,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_36</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_36_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_36_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -10595,7 +10595,7 @@ $(pv_value)</tooltip>
     <name>Text Update_134</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_36_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_36_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -10647,7 +10647,7 @@ $(pv_value)</tooltip>
     <name>Text Update_135</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_37_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_37_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -10739,7 +10739,7 @@ $(pv_value)</tooltip>
     <name>Text Update_136</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_37_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_37_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -10789,7 +10789,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_37</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_37_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_37_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -10838,7 +10838,7 @@ $(pv_value)</tooltip>
     <name>Text Update_137</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_37_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_37_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -10890,7 +10890,7 @@ $(pv_value)</tooltip>
     <name>Text Update_138</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_38_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_38_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -10982,7 +10982,7 @@ $(pv_value)</tooltip>
     <name>Text Update_139</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_38_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_38_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -11032,7 +11032,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_38</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_38_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_38_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -11081,7 +11081,7 @@ $(pv_value)</tooltip>
     <name>Text Update_140</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_38_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_38_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -11133,7 +11133,7 @@ $(pv_value)</tooltip>
     <name>Text Update_141</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_39_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_39_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -11225,7 +11225,7 @@ $(pv_value)</tooltip>
     <name>Text Update_142</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_39_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_39_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -11275,7 +11275,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_39</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_39_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_39_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -11324,7 +11324,7 @@ $(pv_value)</tooltip>
     <name>Text Update_143</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_39_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_39_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -11376,7 +11376,7 @@ $(pv_value)</tooltip>
     <name>Text Update_144</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_40_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_40_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -11468,7 +11468,7 @@ $(pv_value)</tooltip>
     <name>Text Update_145</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_40_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_40_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -11518,7 +11518,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_40</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_40_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_40_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -11567,7 +11567,7 @@ $(pv_value)</tooltip>
     <name>Text Update_146</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_40_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_40_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -11619,7 +11619,7 @@ $(pv_value)</tooltip>
     <name>Text Update_147</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_41_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_41_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -11711,7 +11711,7 @@ $(pv_value)</tooltip>
     <name>Text Update_148</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_41_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_41_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -11761,7 +11761,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_41</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_41_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_41_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -11810,7 +11810,7 @@ $(pv_value)</tooltip>
     <name>Text Update_149</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_41_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_41_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -11862,7 +11862,7 @@ $(pv_value)</tooltip>
     <name>Text Update_150</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_42_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_42_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -11954,7 +11954,7 @@ $(pv_value)</tooltip>
     <name>Text Update_151</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_42_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_42_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -12004,7 +12004,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_42</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_42_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_42_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -12053,7 +12053,7 @@ $(pv_value)</tooltip>
     <name>Text Update_152</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_42_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_42_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -12105,7 +12105,7 @@ $(pv_value)</tooltip>
     <name>Text Update_153</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_43_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_43_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -12197,7 +12197,7 @@ $(pv_value)</tooltip>
     <name>Text Update_154</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_43_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_43_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -12247,7 +12247,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_43</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_43_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_43_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -12296,7 +12296,7 @@ $(pv_value)</tooltip>
     <name>Text Update_155</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_43_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_43_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -12348,7 +12348,7 @@ $(pv_value)</tooltip>
     <name>Text Update_156</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_44_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_44_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -12440,7 +12440,7 @@ $(pv_value)</tooltip>
     <name>Text Update_157</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_44_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_44_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -12490,7 +12490,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_44</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_44_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_44_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -12539,7 +12539,7 @@ $(pv_value)</tooltip>
     <name>Text Update_158</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_44_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_44_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -12591,7 +12591,7 @@ $(pv_value)</tooltip>
     <name>Text Update_159</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_45_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_45_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -12683,7 +12683,7 @@ $(pv_value)</tooltip>
     <name>Text Update_160</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_45_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_45_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -12733,7 +12733,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_45</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_45_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_45_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -12782,7 +12782,7 @@ $(pv_value)</tooltip>
     <name>Text Update_161</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_45_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_45_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -12834,7 +12834,7 @@ $(pv_value)</tooltip>
     <name>Text Update_162</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_46_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_46_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -12926,7 +12926,7 @@ $(pv_value)</tooltip>
     <name>Text Update_163</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_46_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_46_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -12976,7 +12976,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_46</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_46_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_46_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -13025,7 +13025,7 @@ $(pv_value)</tooltip>
     <name>Text Update_164</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_46_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_46_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -13077,7 +13077,7 @@ $(pv_value)</tooltip>
     <name>Text Update_165</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_47_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_47_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -13169,7 +13169,7 @@ $(pv_value)</tooltip>
     <name>Text Update_166</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_47_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_47_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -13219,7 +13219,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_47</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_47_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_47_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -13268,7 +13268,7 @@ $(pv_value)</tooltip>
     <name>Text Update_167</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_47_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_47_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -13320,7 +13320,7 @@ $(pv_value)</tooltip>
     <name>Text Update_168</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_48_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_48_.InUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -13412,7 +13412,7 @@ $(pv_value)</tooltip>
     <name>Text Update_169</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_48_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_48_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -13462,7 +13462,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_48</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_48_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_48_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -13511,7 +13511,7 @@ $(pv_value)</tooltip>
     <name>Text Update_170</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_48_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_48_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -13563,7 +13563,7 @@ $(pv_value)</tooltip>
     <name>Text Update_171</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_49_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_49_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -13655,7 +13655,7 @@ $(pv_value)</tooltip>
     <name>Text Update_172</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_49_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_49_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -13705,7 +13705,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_49</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_49_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_49_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -13754,7 +13754,7 @@ $(pv_value)</tooltip>
     <name>Text Update_173</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_49_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_49_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -13806,7 +13806,7 @@ $(pv_value)</tooltip>
     <name>Text Update_174</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_50_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_50_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -13898,7 +13898,7 @@ $(pv_value)</tooltip>
     <name>Text Update_175</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_50_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_50_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -13948,7 +13948,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_50</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_50_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_50_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -13997,7 +13997,7 @@ $(pv_value)</tooltip>
     <name>Text Update_176</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_50_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_50_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -14049,7 +14049,7 @@ $(pv_value)</tooltip>
     <name>Text Update_177</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_50_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_50_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -14141,7 +14141,7 @@ $(pv_value)</tooltip>
     <name>Text Update_178</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_51_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_51_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -14191,7 +14191,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_51</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_51_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_51_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -14240,7 +14240,7 @@ $(pv_value)</tooltip>
     <name>Text Update_179</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_51_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_51_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -14292,7 +14292,7 @@ $(pv_value)</tooltip>
     <name>Text Update_180</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_52_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_52_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -14384,7 +14384,7 @@ $(pv_value)</tooltip>
     <name>Text Update_181</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_52_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_52_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -14434,7 +14434,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_52</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_52_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_52_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -14483,7 +14483,7 @@ $(pv_value)</tooltip>
     <name>Text Update_182</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_52_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_52_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -14535,7 +14535,7 @@ $(pv_value)</tooltip>
     <name>Text Update_183</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_53_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_53_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -14627,7 +14627,7 @@ $(pv_value)</tooltip>
     <name>Text Update_184</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_53_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_53_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -14677,7 +14677,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_53</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_53_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_53_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -14726,7 +14726,7 @@ $(pv_value)</tooltip>
     <name>Text Update_185</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_54_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_54_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -14778,7 +14778,7 @@ $(pv_value)</tooltip>
     <name>Text Update_186</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_54_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_54_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -14870,7 +14870,7 @@ $(pv_value)</tooltip>
     <name>Text Update_187</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_54_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_54_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -14920,7 +14920,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_54</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_54_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_54_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -14969,7 +14969,7 @@ $(pv_value)</tooltip>
     <name>Text Update_188</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_54_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_54_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -15021,7 +15021,7 @@ $(pv_value)</tooltip>
     <name>Text Update_189</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_55_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_55_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -15113,7 +15113,7 @@ $(pv_value)</tooltip>
     <name>Text Update_190</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_55_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_55_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -15163,7 +15163,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_55</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_54_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_54_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -15212,7 +15212,7 @@ $(pv_value)</tooltip>
     <name>Text Update_191</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_55_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_55_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -15264,7 +15264,7 @@ $(pv_value)</tooltip>
     <name>Text Update_192</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_56_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_56_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -15356,7 +15356,7 @@ $(pv_value)</tooltip>
     <name>Text Update_193</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_56_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_56_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -15406,7 +15406,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_56</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_56_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_56_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -15455,7 +15455,7 @@ $(pv_value)</tooltip>
     <name>Text Update_194</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_56_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_56_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -15507,7 +15507,7 @@ $(pv_value)</tooltip>
     <name>Text Update_195</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_57_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_57_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -15599,7 +15599,7 @@ $(pv_value)</tooltip>
     <name>Text Update_196</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_57_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_57_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -15649,7 +15649,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_57</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_57_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_57_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -15698,7 +15698,7 @@ $(pv_value)</tooltip>
     <name>Text Update_197</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_57_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_57_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -15750,7 +15750,7 @@ $(pv_value)</tooltip>
     <name>Text Update_198</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_58_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_58_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -15842,7 +15842,7 @@ $(pv_value)</tooltip>
     <name>Text Update_199</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_58_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_58_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -15892,7 +15892,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_58</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_58_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_58_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -15941,7 +15941,7 @@ $(pv_value)</tooltip>
     <name>Text Update_200</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_58_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_58_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -15993,7 +15993,7 @@ $(pv_value)</tooltip>
     <name>Text Update_201</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_59_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_59_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -16085,7 +16085,7 @@ $(pv_value)</tooltip>
     <name>Text Update_202</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_59_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_59_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -16135,7 +16135,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_59</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_59_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_59_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -16184,7 +16184,7 @@ $(pv_value)</tooltip>
     <name>Text Update_203</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_59_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_59_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -16236,7 +16236,7 @@ $(pv_value)</tooltip>
     <name>Text Update_204</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_60_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_60_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -16328,7 +16328,7 @@ $(pv_value)</tooltip>
     <name>Text Update_205</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_60_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_60_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -16378,7 +16378,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_60</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_60_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_60_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -16427,7 +16427,7 @@ $(pv_value)</tooltip>
     <name>Text Update_206</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_60_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_60_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -16479,7 +16479,7 @@ $(pv_value)</tooltip>
     <name>Text Update_207</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_61_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_61_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -16571,7 +16571,7 @@ $(pv_value)</tooltip>
     <name>Text Update_208</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_61_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_61_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -16621,7 +16621,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_61</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_61_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_61_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -16670,7 +16670,7 @@ $(pv_value)</tooltip>
     <name>Text Update_209</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_61_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_61_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -16722,7 +16722,7 @@ $(pv_value)</tooltip>
     <name>Text Update_210</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_62_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_62_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -16814,7 +16814,7 @@ $(pv_value)</tooltip>
     <name>Text Update_211</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_62_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_62_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -16864,7 +16864,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_62</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_62_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_62_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -16913,7 +16913,7 @@ $(pv_value)</tooltip>
     <name>Text Update_212</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_62_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_62_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -16965,7 +16965,7 @@ $(pv_value)</tooltip>
     <name>Text Update_213</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_63_.PipeId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_63_.PipeId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -17057,7 +17057,7 @@ $(pv_value)</tooltip>
     <name>Text Update_214</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_63_.Depth</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_63_.Depth</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -17107,7 +17107,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_63</name>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_63_.InUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_63_.InUse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -17156,7 +17156,7 @@ $(pv_value)</tooltip>
     <name>Text Update_215</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_63_.PeakInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_StatMsg_t.Payload.PipeDepthStats_63_.PeakInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -17208,16 +17208,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Statistics</text>
+    <text>($(CPUID)) Statistics</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>120</width>
+    <width>229</width>
     <wrap_words>false</wrap_words>
     <wuid>6b3345f4:17760d4a2f0:-789d</wuid>
-    <x>97</x>
+    <x>42</x>
     <y>12</y>
   </widget>
 </display>

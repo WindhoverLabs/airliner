@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CFE-TBL - Dump Reg</name>
+  <name>($(CPUID)) CFE-TBL - Dump Reg</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>275</width>
+  <width>310</width>
   <wuid>35ebaa52:1509cf6a868:-791f</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -45,9 +45,9 @@ var fileName =VTypeHelper.getString(display.getWidget('FileName').getPropertyVal
 var cmd;
 
 if( fileName != 'no value' ) {
-    cmd = '/cfs/cfe_tbl/DumpReg(Payload.DumpFilename: ' + fileName + ')';
+    cmd = '/cfs/$(CPUID)/cfe_tbl/DumpReg(Payload.DumpFilename: ' + fileName + ')';
 } else {
-    cmd = '/cfs/cfe_tbl/DumpReg(Payload.DumpFilename: "")';
+    cmd = '/cfs/$(CPUID)/cfe_tbl/DumpReg(Payload.DumpFilename: "")';
 }
 
 Yamcs.issueCommand(cmd);
@@ -169,16 +169,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Write Registry to File System</text>
+    <text>($(CPUID)) Write Registry to File System</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>231</width>
+    <width>307</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-78e8</wuid>
-    <x>24</x>
+    <x>6</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">

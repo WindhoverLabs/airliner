@@ -40,7 +40,7 @@
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var cmd = '/cfs/cs/EnableMemory';
+var cmd = '/cfs/$(CPUID)/cs/EnableMemory';
 
 Yamcs.issueCommand(cmd, {});]]></scriptText>
         <embedded>true</embedded>
@@ -101,7 +101,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var EntryID =VTypeHelper.getDouble(display.getWidget('EntryID').getPropertyValue('pv_value'));
 
-var cmd = '/cfs/cs/EnableEntryMemory';
+var cmd = '/cfs/$(CPUID)/cs/EnableEntryMemory';
 
 Yamcs.issueCommand(cmd, {'EntryID':  EntryID});]]></scriptText>
         <embedded>true</embedded>

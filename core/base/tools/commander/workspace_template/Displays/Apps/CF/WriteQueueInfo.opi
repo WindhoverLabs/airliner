@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CF - Write Queue Info</name>
+  <name>($(CPUID)) CF - Write Queue Info</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -69,7 +69,7 @@ if( Queue == 'Pending' ) {
     pQueue = 'HISTORY';
 } 
 
-Yamcs.issueCommand('/cfs/cf/WriteQueue', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cf/WriteQueue', {
     'Type': pTransferType,
     'Chan': pChannel,
     'Queue': pQueue,
@@ -521,16 +521,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Write Queue Information</text>
+    <text>($(CPUID)) CF - Write Queue Information</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>201</width>
+    <width>283</width>
     <wrap_words>false</wrap_words>
     <wuid>6c5e5e62:1775b7b9abc:-6369</wuid>
-    <x>60</x>
+    <x>12</x>
     <y>12</y>
   </widget>
 </display>

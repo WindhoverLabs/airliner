@@ -52,7 +52,7 @@ include(${PROJECT_SOURCE_DIR}/core/tools/auto-yamcs/build-functions.cmake)
 #)
 function(psp_buildliner_initialize)
     # Define the function arguments.
-    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_WORKSPACE_OVERLAY" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
     
     # Create all the target directories the caller requested.
     foreach(dir ${PARSED_ARGS_FILESYS})
@@ -64,21 +64,35 @@ function(psp_buildliner_initialize)
         message("This is a reference build.")
         set_property(GLOBAL PROPERTY IS_REFERENCE_BUILD true)
     endif()
-
+    
+    if(NOT PARSED_ARGS_COMMANDER_WORKSPACE)
+        set(PARSED_ARGS_COMMANDER_WORKSPACE ${CMAKE_BINARY_DIR}/commander_workspace)
+    endif()
+    
+    if(NOT PARSED_ARGS_CPU_ID)
+        set(PARSED_ARGS_CPU_ID cfs)
+    endif()
+    
     # Generate the XTCE file
     commander_initialize_workspace(commander_workspace
         CONFIG_FILE           ${CMAKE_BINARY_DIR}/wh_defs.yaml
         XTCE_CONFIG_FILE      ${PROJECT_SOURCE_DIR}/core/base/tools/commander/xtce_config.yaml
         WORKSPACE_TEMPLATE    ${PROJECT_SOURCE_DIR}/core/base/tools/commander/workspace_template
-        WORKSPACE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/commander_workspace
+        WORKSPACE_OUTPUT_PATH ${PARSED_ARGS_COMMANDER_WORKSPACE}
         OUTPUT_DB_FILE        wh_defs.db
-        OUTPUT_XTCE_FILE      mdb/cfs.xml
+        OUTPUT_XTCE_FILE      mdb/${PARSED_ARGS_CPU_ID}.xml
     )
     set_target_properties(commander_workspace PROPERTIES EXCLUDE_FROM_ALL TRUE)
     
+    if(PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY)
+        add_custom_target(commander_workspace_overlay
+            COMMAND cp -R ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/* ${PARSED_ARGS_COMMANDER_WORKSPACE}/*
+        )
+    endif()
+    
     # Add a build target to launch YAMCS with our newly created workspace.
     add_custom_target(start-yamcs 
-        COMMAND ${CMAKE_BINARY_DIR}/commander_workspace/bin/yamcs-start /opt/yamcs/ ${CMAKE_BINARY_DIR}/commander_workspace
+        COMMAND ${PARSED_ARGS_COMMANDER_WORKSPACE}/bin/yamcs-start /opt/yamcs/ ${PARSED_ARGS_COMMANDER_WORKSPACE}
     )
         
     # Add the 'build-file-system' target.  This is used to trigger the steps to embed the initial ramdisk 

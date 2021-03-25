@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CF - Faults</name>
+  <name>($(CPUID)) CF - Faults</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -60,7 +60,7 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Faults</text>
+    <text>($(CPUID)) CF - Faults</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -100,7 +100,7 @@
     <name>Text Update_22</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Cond.PosAckNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.PosAckNum</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -152,7 +152,7 @@ $(pv_value)</tooltip>
     <name>Text Update_23</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Cond.FileStoreRejNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.FileStoreRejNum</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -204,7 +204,7 @@ $(pv_value)</tooltip>
     <name>Text Update_24</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Cond.FileChecksumNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.FileChecksumNum</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -256,7 +256,7 @@ $(pv_value)</tooltip>
     <name>Text Update_25</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Cond.FileSizeNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.FileSizeNum</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -308,7 +308,7 @@ $(pv_value)</tooltip>
     <name>Text Update_26</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Cond.NakLimitNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.NakLimitNum</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -360,7 +360,7 @@ $(pv_value)</tooltip>
     <name>Text Update_27</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Cond.InactiveNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.InactiveNum</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -412,7 +412,7 @@ $(pv_value)</tooltip>
     <name>Text Update_28</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Cond.SuspendNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.SuspendNum</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -464,7 +464,7 @@ $(pv_value)</tooltip>
     <name>Text Update_29</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Cond.CancelNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.CancelNum</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -816,7 +816,7 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-Yamcs.issueCommand('/cfs/cf/ResetCounters', {'Value': 'FAULT', 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
+Yamcs.issueCommand('/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'FAULT', 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>

@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>400</height>
+  <height>140</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>DS - Set Dest Path</name>
+  <name>($(CPUID)) DS - Set Dest Path</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>400</width>
+  <width>340</width>
   <wuid>-736e4684:150ac3c95a1:-7233</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -84,7 +84,7 @@ $(pv_value)</tooltip>
     <widget_type>Spinner</widget_type>
     <width>85</width>
     <wuid>a22d448:177887d8135:-6de4</wuid>
-    <x>156</x>
+    <x>120</x>
     <y>30</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -99,7 +99,7 @@ var file_index = VTypeHelper.getDouble(display.getWidget('FileTableIndex').getPr
 
 var extension = VTypeHelper.getString(display.getWidget('Path').getPropertyValue('pv_value'));
 
-var cmd = '/cfs/ds/SetDestPath';
+var cmd = '/cfs/$(CPUID)/ds/SetDestPath';
 
 Yamcs.issueCommand(cmd, 
 				  {'FileTableIndex': file_index,
@@ -144,16 +144,16 @@ Yamcs.issueCommand(cmd,
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>SetDestPath</text>
+    <text>Set</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>163</width>
+    <width>79</width>
     <wuid>a22d448:177887d8135:-6de3</wuid>
-    <x>54</x>
-    <y>114</y>
+    <x>105</x>
+    <y>96</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -174,7 +174,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <height>20</height>
-    <horizontal_alignment>1</horizontal_alignment>
+    <horizontal_alignment>2</horizontal_alignment>
     <name>Label</name>
     <rules />
     <scale_options>
@@ -183,16 +183,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text> FileTableIndex</text>
+    <text> File Table Index</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>115</width>
+    <width>109</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-6de2</wuid>
-    <x>30</x>
+    <x>0</x>
     <y>33</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -214,7 +214,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </foreground_color>
     <height>20</height>
-    <horizontal_alignment>1</horizontal_alignment>
+    <horizontal_alignment>2</horizontal_alignment>
     <name>Label_1</name>
     <rules />
     <scale_options>
@@ -223,16 +223,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Pathname</text>
+    <text>Path Name</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>115</width>
+    <width>91</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-6de1</wuid>
-    <x>30</x>
+    <x>18</x>
     <y>63</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
@@ -289,7 +289,47 @@ $(pv_value)</tooltip>
     <widget_type>Text Input</widget_type>
     <width>211</width>
     <wuid>a22d448:177887d8135:-6de0</wuid>
-    <x>156</x>
+    <x>120</x>
     <y>60</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_49</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>($(CPUID)) DS - Set Dest Path</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>229</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-c05c465:1785c72c4a1:-5ced</wuid>
+    <x>30</x>
+    <y>6</y>
   </widget>
 </display>

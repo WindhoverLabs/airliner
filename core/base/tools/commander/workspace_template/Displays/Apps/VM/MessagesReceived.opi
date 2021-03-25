@@ -143,7 +143,7 @@
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.SensorMagMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorMagMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -235,7 +235,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.SensorGyroMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorGyroMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -327,7 +327,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.BatteryStatusMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.BatteryStatusMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -419,7 +419,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.TelemetryStatusMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.TelemetryStatusMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -511,7 +511,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.SubsystemInfoMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SubsystemInfoMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -603,7 +603,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.VehicleAttitudeMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleAttitudeMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -695,7 +695,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.VehicleLocalPositionMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleLocalPositionMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -787,7 +787,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.VehicleLandDetectedMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleLandDetectedMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -879,7 +879,7 @@ $(pv_value)</tooltip>
     <name>Text Update_13</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.MissionResultMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.MissionResultMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -971,7 +971,7 @@ $(pv_value)</tooltip>
     <name>Text Update_14</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.ManualControlSetpointMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.ManualControlSetpointMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1063,7 +1063,7 @@ $(pv_value)</tooltip>
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.PositionSetpointTripletMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PositionSetpointTripletMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1155,7 +1155,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.SensorAccelMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorAccelMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1247,7 +1247,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.SafetyMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SafetyMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1339,7 +1339,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.SensorCorrectionMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorCorrectionMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1431,7 +1431,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.SensorCombinedMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorCombinedMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1523,7 +1523,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.VehicleCommandMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleCommandMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1615,7 +1615,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.VehicleGlobalPositionMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleGlobalPositionMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1707,7 +1707,7 @@ $(pv_value)</tooltip>
     <name>Text Update_22</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.VehicleGpsPositionMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleGpsPositionMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1799,7 +1799,7 @@ $(pv_value)</tooltip>
     <name>Text Update_23</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.VehicleStatusMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleStatusMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1891,7 +1891,7 @@ $(pv_value)</tooltip>
     <name>Text Update_24</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/vm/VM_HkTlm_t.VehicleControlModeMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleControlModeMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

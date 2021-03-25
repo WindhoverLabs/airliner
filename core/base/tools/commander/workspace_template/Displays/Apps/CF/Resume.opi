@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CF - Resume Transaction</name>
+  <name>($(CPUID)) CF - Resume Transaction</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>250</width>
+  <width>280</width>
   <wuid>31ffe3bf:150a7259bb9:-6563</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -139,7 +139,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var Transaction =VTypeHelper.getString(display.getWidget('Transaction').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cf/Resume', {'Trans': Transaction});
+Yamcs.issueCommand('/cfs/$(CPUID)/cf/Resume', {'Trans': Transaction});
 
 ]]></scriptText>
         <embedded>true</embedded>
@@ -218,16 +218,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Resume Transaction</text>
+    <text>($(CPUID)) CF -Resume Transaction</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>151</width>
+    <width>259</width>
     <wrap_words>false</wrap_words>
     <wuid>6c5e5e62:1775b7b9abc:-7362</wuid>
-    <x>48</x>
+    <x>12</x>
     <y>6</y>
   </widget>
 </display>

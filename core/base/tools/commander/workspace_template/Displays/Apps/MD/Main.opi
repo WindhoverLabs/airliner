@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103162101</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -23,7 +23,7 @@
     <PROJECT_NAME>Displays</PROJECT_NAME>
     <REGISTRY_PATH>/modules/md</REGISTRY_PATH>
   </macros>
-  <name>MD</name>
+  <name>($(CPUID)) MD</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -48,7 +48,7 @@
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -64,7 +64,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.ValidCmdCntr</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.ValidCmdCntr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -180,7 +180,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -196,7 +196,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.InvalidCmdCntr</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.InvalidCmdCntr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -227,7 +227,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/md/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/md/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -283,7 +283,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/md/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/md/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -360,16 +360,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Memory Dwell</text>
+    <text>($(CPUID)) Memory Dwell</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>155</width>
+    <width>187</width>
     <wrap_words>false</wrap_words>
     <wuid>-33cb7c72:150aa4c347f:-75c9</wuid>
-    <x>194</x>
+    <x>162</x>
     <y>6</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -424,7 +424,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -440,7 +440,7 @@ $(pv_value)</tooltip>
     <name>Text Update_26</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.DwellEnabledMask</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.DwellEnabledMask</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -476,7 +476,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -492,7 +492,7 @@ $(pv_value)</tooltip>
     <name>Text Update_27</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.DwellTblAddrCount_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.DwellTblAddrCount_0_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -528,7 +528,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -544,7 +544,7 @@ $(pv_value)</tooltip>
     <name>Text Update_28</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.DwellTblAddrCount_1_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.DwellTblAddrCount_1_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -580,7 +580,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -596,7 +596,7 @@ $(pv_value)</tooltip>
     <name>Text Update_29</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.DwellTblAddrCount_2_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.DwellTblAddrCount_2_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -632,7 +632,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -648,7 +648,7 @@ $(pv_value)</tooltip>
     <name>Text Update_30</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.DwellTblAddrCount_3_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.DwellTblAddrCount_3_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -684,7 +684,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -700,7 +700,7 @@ $(pv_value)</tooltip>
     <name>Text Update_31</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.NumWaitsPerPkt_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.NumWaitsPerPkt_0_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -736,7 +736,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -752,7 +752,7 @@ $(pv_value)</tooltip>
     <name>Text Update_32</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.NumWaitsPerPkt_1_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.NumWaitsPerPkt_1_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -788,7 +788,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -804,7 +804,7 @@ $(pv_value)</tooltip>
     <name>Text Update_33</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.NumWaitsPerPkt_2_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.NumWaitsPerPkt_2_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -840,7 +840,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -856,7 +856,7 @@ $(pv_value)</tooltip>
     <name>Text Update_34</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.NumWaitsPerPkt_3_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.NumWaitsPerPkt_3_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -892,7 +892,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -908,7 +908,7 @@ $(pv_value)</tooltip>
     <name>Text Update_35</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.ByteCount_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.ByteCount_0_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -944,7 +944,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -960,7 +960,7 @@ $(pv_value)</tooltip>
     <name>Text Update_36</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.ByteCount_1_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.ByteCount_1_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -996,7 +996,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1012,7 +1012,7 @@ $(pv_value)</tooltip>
     <name>Text Update_37</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.ByteCount_2_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.ByteCount_2_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1048,7 +1048,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1064,7 +1064,7 @@ $(pv_value)</tooltip>
     <name>Text Update_38</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.ByteCount_3_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.ByteCount_3_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1100,7 +1100,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1116,7 +1116,7 @@ $(pv_value)</tooltip>
     <name>Text Update_39</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.DwellPktOffset_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.DwellPktOffset_0_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1152,7 +1152,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1168,7 +1168,7 @@ $(pv_value)</tooltip>
     <name>Text Update_40</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.DwellPktOffset_1_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.DwellPktOffset_1_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1204,7 +1204,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1220,7 +1220,7 @@ $(pv_value)</tooltip>
     <name>Text Update_41</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.DwellPktOffset_2_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.DwellPktOffset_2_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1256,7 +1256,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1272,7 +1272,7 @@ $(pv_value)</tooltip>
     <name>Text Update_42</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.DwellPktOffset_3_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.DwellPktOffset_3_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1308,7 +1308,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1324,7 +1324,7 @@ $(pv_value)</tooltip>
     <name>Text Update_43</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.DwellTblEntry_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.DwellTblEntry_0_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1360,7 +1360,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1376,7 +1376,7 @@ $(pv_value)</tooltip>
     <name>Text Update_44</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.DwellTblEntry_1_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.DwellTblEntry_1_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1412,7 +1412,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1428,7 +1428,7 @@ $(pv_value)</tooltip>
     <name>Text Update_45</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.DwellTblEntry_2_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.DwellTblEntry_2_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1464,7 +1464,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1480,7 +1480,7 @@ $(pv_value)</tooltip>
     <name>Text Update_46</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.DwellTblEntry_3_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.DwellTblEntry_3_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1516,7 +1516,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1532,7 +1532,7 @@ $(pv_value)</tooltip>
     <name>Text Update_47</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.Countdown_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.Countdown_0_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1568,7 +1568,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1584,7 +1584,7 @@ $(pv_value)</tooltip>
     <name>Text Update_48</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.Countdown_1_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.Countdown_1_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1620,7 +1620,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1636,7 +1636,7 @@ $(pv_value)</tooltip>
     <name>Text Update_49</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.Countdown_2_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.Countdown_2_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1672,7 +1672,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border Color" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <enabled>true</enabled>
     <font>
@@ -1688,7 +1688,7 @@ $(pv_value)</tooltip>
     <name>Text Update_50</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.Countdown_3_</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.Countdown_3_</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2401,7 +2401,7 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-Yamcs.issueCommand('/cfs/md/SendHK', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/md/SendHK', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2458,7 +2458,7 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-Yamcs.issueCommand('/cfs/md/Wakeup', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/md/Wakeup', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

@@ -100,7 +100,7 @@
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.VehicleLandDetectedMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.VehicleLandDetectedMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -192,7 +192,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.ActuatorArmedMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.ActuatorArmedMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -284,7 +284,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.VehicleAttitudeMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.VehicleAttitudeMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -376,7 +376,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.SensorCombinedMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.SensorCombinedMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -468,7 +468,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.VehicleAttitudeSetpointMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.VehicleAttitudeSetpointMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -560,7 +560,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.VehicleGpsPositionMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.VehicleGpsPositionMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -652,7 +652,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.DistanceSensorMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.DistanceSensorMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -744,7 +744,7 @@ $(pv_value)</tooltip>
     <name>Text Update_23</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.VehicleStatusMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.VehicleStatusMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -836,7 +836,7 @@ $(pv_value)</tooltip>
     <name>Text Update_24</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.OpticalFlowMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.OpticalFlowMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

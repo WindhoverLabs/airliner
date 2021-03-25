@@ -62,11 +62,16 @@ help::
 	@echo '                              hosted on the generic quad-X airframe with the    '
 	@echo '                              Aerotenna uLanding landing radar system.          '
 	@echo '                              uLanding landing radar system.                    '
+	@echo '    obc-all                 : This will build flight software for both the      '
+	@echo '                              Performance Processing Domain (PPD) and the       '
+	@echo '                              Critical Processing Domain (CPD) of the           '
+	@echo '                              Windhover On-Board Computer (OBC), as well as the '
+	@echo '                              associated ground products.       cd                '
 	@echo '    obc/ppd                 : This will build flight software for the           '
 	@echo '                              Performance Processing Domain (PPD) of the        '
 	@echo '                              Windhover On-Board Computer (OBC).                '
 	@echo '    obc/cpd                 : This will build flight software for the           '
-	@echo '                              Critical Processing Domain (PPD) of the Windhover '
+	@echo '                              Critical Processing Domain (CPD) of the Windhover '
 	@echo '                              Windhover On-Board Computer (OBC).                '
 	@echo '    clean                   : This will clean all build flight software build   '
 	@echo '                              targets.  This includes the Commander workspace,  '
@@ -96,6 +101,7 @@ help::
 	@echo '    docs-sphinx             : Generate the Sphinx documentation from the        '
 	@echo '                              reference build.                                  '
 	
+	
 .PHONY: help Makefile docs obc
 	
 
@@ -122,33 +128,14 @@ $(GENERIC_TARGET_NAMES)::
 						-DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); \
 					$(MAKE) --no-print-directory); \
 				fi \
-		done;
+		done;	
 		
 		
-obc::
-	@echo 'Building 'OBC'.'
-	@idx=1; \
-	for name in $(GENERIC_TARGET_NAMES); do \
-		if [ "$$name" == "$@" ] ; then \
-			break; \
-		fi; \
-		((idx++)); \
-	done; \
-	TARGET_PATH=$$(echo ${GENERIC_TARGET_PATHS} | cut -d " " -f $$idx); \
-		echo "Generating complete design/configuration definition file, 'wh_defs.yaml'"; \
-	if [ -f "$(CONFIG_DIR)/$$TARGET_PATH/wh_config.yaml" ]; then \
-			mkdir -p build/$$TARGET_PATH/target; \
-			python3 core/base/tools/config/wh_defgen.py $(CONFIG_DIR)/$$TARGET_PATH/ build/$$TARGET_PATH/target/wh_defs.yaml; \
-	fi; \
-		for buildtype in $(BUILD_TYPES); do \
-		if [ -d "$(CONFIG_DIR)/$$TARGET_PATH/$$buildtype" ]; then \
-				mkdir -p build/$$TARGET_PATH/$$buildtype; \
-				(cd build/$$TARGET_PATH/$$buildtype; \
-					cmake -DBUILDNAME:STRING=$$TARGET_PATH -DBUILDTYPE:STRING=$$buildtype -G"Eclipse CDT4 - Unix Makefiles" \
-						-DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); \
-					$(MAKE) --no-print-directory); \
-				fi \
-		done;
+obc-all:: obc/ppd obc/cpd
+	@echo 'Generating ground products.'
+	@make -C build/obc/ppd/target commander_workspace
+	@make -C build/obc/cpd/target commander_workspace
+	@echo 'Done'
 	
 	
 docs-doxygen:

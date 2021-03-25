@@ -16,6 +16,10 @@
 #define PQ_PQUEUE_MEDIUM_IDX                    3
 #define PQ_PQUEUE_LOW_IDX                       4
 
+#define CPD_CPU_BASE       (0x0200)
+#define CFE_ES_CMD_MID_CPD (CPD_CPU_BASE + CFE_ES_CMD_MID)
+
+
 /**
  **  \brief Default TO config table data
  */
@@ -29,6 +33,7 @@ PQ_ChannelTbl_t PQ_BackupConfigTbl =
         {SBN_SUB_MID,                 64, PQ_PQUEUE_MEDIUM_IDX},
         {SBN_UNSUB_MID,               64, PQ_PQUEUE_MEDIUM_IDX},
         {SBN_ALLSUB_MID,               1, PQ_PQUEUE_HIGH_IDX},
+        {CFE_ES_CMD_MID_CPD,           1, PQ_PQUEUE_HIGH_OPS_RSRVD_IDX},
         {CFE_ES_HK_TLM_MID,            1, PQ_PQUEUE_LOW_IDX},
         {CFE_EVS_HK_TLM_MID,           1, PQ_PQUEUE_LOW_IDX},
         {CFE_SB_HK_TLM_MID,            1, PQ_PQUEUE_LOW_IDX},

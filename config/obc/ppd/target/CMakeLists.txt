@@ -3,6 +3,7 @@ include(../set-vars.cmake)
 buildliner_initialize(
     PSP ${PSP}
     OSAL ${OSAL}
+    CPU_ID PPD
     CORE_TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/tools
     CONFIG
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
@@ -16,6 +17,12 @@ buildliner_initialize(
         /ram
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
+        
+    COMMANDER_WORKSPACE
+        ${CMAKE_BINARY_DIR}/../../commander_workspace
+        
+    COMMANDER_WORKSPACE_OVERLAY
+        ${CMAKE_CURRENT_SOURCE_DIR}/cdr_workspace_overlay
 )
 
 add_subdirectory(allstop allstop)

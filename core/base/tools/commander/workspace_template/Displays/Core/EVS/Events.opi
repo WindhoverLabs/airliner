@@ -18,7 +18,7 @@
   <height>800</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
-    <YAML_PATH>/Displays/Resources/definitions.yaml</YAML_PATH>
+    <YAML_PATH>/Displays/Resources/config_registry.yaml</YAML_PATH>
     <TEMPLATE_OPI>EventRecord.opi</TEMPLATE_OPI>
   </macros>
   <name></name>
