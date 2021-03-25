@@ -86,7 +86,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {TO_DIAG_TLM_MID,              1, TO_PQUEUE_HIGH_IDX},
         {TO_DIAG_MSG_FLOW_MID,         1, TO_PQUEUE_HIGH_IDX},
         {GPS_HK_TLM_MID,               1, TO_PQUEUE_HIGH_IDX},
-        {SBN_MODULE_HK_MID,            1, TO_PQUEUE_HIGH_IDX},
+        {SBN_MODULE_HK_TLM_MID,        1, TO_PQUEUE_HIGH_IDX},
         {CFE_ES_HK_TLM_MID,            1, TO_PQUEUE_MEDIUM_IDX},
         {CFE_EVS_HK_TLM_MID,           1, TO_PQUEUE_MEDIUM_IDX},
         {CFE_SB_HK_TLM_MID,            1, TO_PQUEUE_MEDIUM_IDX},
