@@ -1,6 +1,5 @@
 ---
 config_base: ${PROJECT_SOURCE_DIR}
-  
 modules:
   core:
     modules:
@@ -8,4 +7,3 @@ modules:
         definition: ${PROJECT_SOURCE_DIR}/core/osal/fsw/posix-fast/wh_design.yaml
       psp:
         definition: ${PROJECT_SOURCE_DIR}/core/psp/fsw/pc-linux/wh_design.yaml
-
