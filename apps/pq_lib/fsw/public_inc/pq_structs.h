@@ -586,6 +586,8 @@ typedef struct
         \brief Memory information per channel. */
     PQ_ChannelMemoryInfo_t ChannelMemInfo;
 
+    PQ_OutputQueue_t OutputQueue;
+
 } PQ_HkTlm_t;
 
 

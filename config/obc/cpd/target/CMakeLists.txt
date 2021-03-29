@@ -140,6 +140,12 @@ buildliner_add_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib/tables/pq_backup_cfg.c
 )
 
+buildliner_add_app(
+    sed
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sed/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sed
+)
+
 # This is temporarily removed until we can remove the OS dependency
 # in ci, i.e. "arpa/inet.h"
 #buildliner_add_app(
