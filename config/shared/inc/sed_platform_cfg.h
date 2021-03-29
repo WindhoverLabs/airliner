@@ -125,6 +125,11 @@ extern "C" {
 */
 #define SED_STARTUP_TIMEOUT_MSEC        (1000)
 
+#define SED_MBOX_MAX_BUFFER_SIZE_WORDS  (1500)
+
+#define SED_MBOX_WORD_SIZE              (4)
+
+#define SED_MAX_FIFO_MEASUREMENTS       (164)
 
 /** \brief Fake accel device ID */
 #define SED_ACCEL_PX4_DEVICE_ID         (6789478)

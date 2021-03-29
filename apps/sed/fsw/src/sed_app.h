@@ -57,10 +57,14 @@ extern "C" {
 #include "px4_msgs.h"
 #include "math/filters/LowPassFilter2p.hpp"
 #include "math/Integrator.hpp"
+//#include "xmbox.h"
+
 
 /************************************************************************
  ** Local Defines
  *************************************************************************/
+#define IMU_TLM_MSG_ID (0x0803)
+
 
 /************************************************************************
  ** Local Structure Definitions
@@ -97,6 +101,26 @@ typedef struct
 } SED_Params_t;
 
 
+typedef struct
+{
+    int16 GX; 
+    int16 GY; 
+    int16 GZ; 
+    int16 AX; 
+    int16 AY; 
+    int16 AZ; 
+    //int16 Temp;
+} SED_Measurement_t;
+
+
+typedef struct
+{
+    SED_Measurement_t Samples[SED_MAX_FIFO_MEASUREMENTS];
+    uint32 SampleIntervalUs;
+    int16 SampleCount;
+} SED_SampleQueue_t;
+
+
 /**
  **  \brief SED Application Class
  */
@@ -131,6 +155,7 @@ public:
     /** \brief Output Data published at the end of cycle */
     PX4_SensorAccelMsg_t SensorAccel;
     PX4_SensorGyroMsg_t SensorGyro;
+    SED_SampleQueue_t SampleQueue;
 
     /** \brief Housekeeping Telemetry for downlink */
     SED_HkTlm_t HkTlm;
@@ -141,7 +166,16 @@ public:
     /* Params related */
     /** \brief params from the config table */
     SED_Params_t m_Params;
-    
+
+    /* Mailbox related */
+    //XMbox Mbox;
+    //XMbox_Config *MboxConfigPtr;
+    //Mailbox_Parser_Handle_t Parser;
+    unsigned int ParserBuffer[SED_MBOX_MAX_BUFFER_SIZE_WORDS];
+
+    /* FIFO related */
+    float FifoSamplesPerCycle;
+
     /************************************************************************/
     /** \brief SED (SED) application entry point
      **
@@ -502,6 +536,8 @@ private:
     *************************************************************************/
     boolean SED_Apply_Platform_Rotation(float *X, float *Y, float *Z);
 
+    //int SED_MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size);
+
     math::LowPassFilter2p   _accel_filter_x;
     math::LowPassFilter2p   _accel_filter_y;
     math::LowPassFilter2p   _accel_filter_z;
@@ -516,7 +552,7 @@ public:
     /** \brief Validate configuration table
     **
     **  \par Description
-    **       This function validates GPS's configuration table
+    **       This function validates the configuration table
     **
     **  \par Assumptions, External Events, and Notes:
     **       None
@@ -557,6 +593,9 @@ public:
     **
     *************************************************************************/
     int32 UpdateCalibrationValues(SED_SetCalibrationCmd_t* CalibrationMsgPtr);
+
+    boolean GetMeasurements(void);
+    void ProcessMboxMsg(CFE_SB_Msg_t* MsgPtr, uint16 Index);
 
 };
 
