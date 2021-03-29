@@ -66,13 +66,19 @@ help::
 	@echo '                              Performance Processing Domain (PPD) and the       '
 	@echo '                              Critical Processing Domain (CPD) of the           '
 	@echo '                              Windhover On-Board Computer (OBC), as well as the '
-	@echo '                              associated ground products.       cd                '
+	@echo '                              associated ground products.                       '
 	@echo '    obc/ppd                 : This will build flight software for the           '
 	@echo '                              Performance Processing Domain (PPD) of the        '
 	@echo '                              Windhover On-Board Computer (OBC).                '
 	@echo '    obc/cpd                 : This will build flight software for the           '
 	@echo '                              Critical Processing Domain (CPD) of the Windhover '
 	@echo '                              Windhover On-Board Computer (OBC).                '
+	@echo '    obc-sitl                : This will build a SITL versions of both the PPD   '
+	@echo '                              and CPD flight software.                          '
+	@echo '    obc/ppd/sitl            : This will build a SITL version of the PPD flight  '
+	@echo '                              software.                                         '
+	@echo '    obc/cpd/sitl            : This will build a SITL version of the CPD flight  '
+	@echo '                              software.                                         '
 	@echo '    clean                   : This will clean all build flight software build   '
 	@echo '                              targets.  This includes the Commander workspace,  '
 	@echo '                              if one was generated.                             '
@@ -133,8 +139,15 @@ $(GENERIC_TARGET_NAMES)::
 		
 obc-all:: obc/ppd obc/cpd
 	@echo 'Generating ground products.'
-	@make -C build/obc/ppd/target commander_workspace
-	@make -C build/obc/cpd/target commander_workspace
+	@make -C build/obc/ppd/target ground-tools
+	@make -C build/obc/cpd/target ground-tools
+	@echo 'Done'
+		
+		
+obc-sitl:: obc/ppd/sitl obc/cpd/sitl
+	@echo 'Generating ground products.'
+	@make -C build/obc/ppd/sitl/target ground-tools
+	@make -C build/obc/cpd/sitl/target ground-tools
 	@echo 'Done'
 	
 	

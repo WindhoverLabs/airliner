@@ -100,6 +100,10 @@ extern "C" {
 
 #define PQ_EVENT_ID_OFFSET             (100)
 
+
+#define PQ_DEFAULT_QUEUE_MSG_LIMIT     (1)
+#define PQ_DEFAULT_QUEUE_IDX           (4)
+
 #ifdef __cplusplus
 }
 #endif

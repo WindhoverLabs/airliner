@@ -74,7 +74,8 @@ function(psp_buildliner_initialize)
     endif()
     
     # Generate the XTCE file
-    commander_initialize_workspace(commander_workspace
+    add_custom_target(ground-tools)
+    commander_initialize_workspace(commander-workspace
         CONFIG_FILE           ${CMAKE_BINARY_DIR}/wh_defs.yaml
         XTCE_CONFIG_FILE      ${PROJECT_SOURCE_DIR}/core/base/tools/commander/xtce_config.yaml
         WORKSPACE_TEMPLATE    ${PROJECT_SOURCE_DIR}/core/base/tools/commander/workspace_template
@@ -82,12 +83,15 @@ function(psp_buildliner_initialize)
         OUTPUT_DB_FILE        wh_defs.db
         OUTPUT_XTCE_FILE      mdb/${PARSED_ARGS_CPU_ID}.xml
     )
-    set_target_properties(commander_workspace PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(commander-workspace PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    add_dependencies(ground-tools commander-workspace)
     
     if(PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY)
         add_custom_target(commander_workspace_overlay
-            COMMAND cp -R ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/* ${PARSED_ARGS_COMMANDER_WORKSPACE}/*
+            COMMAND cp -R -f ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/* ${PARSED_ARGS_COMMANDER_WORKSPACE}/
         )
+        add_dependencies(ground-tools commander_workspace_overlay)
+        add_dependencies(commander_workspace_overlay commander-workspace)
     endif()
     
     # Add a build target to launch YAMCS with our newly created workspace.
@@ -155,7 +159,7 @@ function(psp_buildliner_initialize)
 
             # Add the executable to the combined design+configuration yaml file
             commander_add_module(core
-                TARGET_WORKSPACE   commander_workspace
+                TARGET_WORKSPACE   commander-workspace
                 TARGET_NAME        core-binary 
             )
         
@@ -571,13 +575,13 @@ function(psp_buildliner_add_app_def)
     if(IS_EMBEDDED) 
         # Add the core binary file to the combined design+configuration yaml file
         commander_add_module(${PARSED_ARGS_TARGET}
-            TARGET_WORKSPACE   commander_workspace
+            TARGET_WORKSPACE   commander-workspace
             TARGET_NAME        core-binary
         )
     else()
         # Add the binary file to the combined design+configuration yaml file
         commander_add_module(${PARSED_ARGS_TARGET}
-            TARGET_WORKSPACE   commander_workspace
+            TARGET_WORKSPACE   commander-workspace
             TARGET_NAME        ${PARSED_ARGS_TARGET}
         )
     endif()

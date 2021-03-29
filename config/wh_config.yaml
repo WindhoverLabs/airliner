@@ -1078,5 +1078,15 @@ modules:
       VM_MAIN_TASK_PERF_ID:
         id: 110
     
-
-    
+  sbn:
+    definition: ${PROJECT_SOURCE_DIR}/apps/sbn/wh_design.yaml
+    telemetry:
+      SBN_TLM_MID:
+        msgID: 0x09ae
+      SBN_MODULE_HK_TLM_MID:
+        msgID: 0x09b4
+    commands:
+      SBN_CMD_MID:
+        msgID: 0x19af
+      SBN_WAKEUP_MID:
+        msgID: 0x19b0
