@@ -257,6 +257,7 @@ modules:
       # of our machine. You can get this number in linux with the 'getconf WORD_BIT' command.
       CFE_ES_MemHandle_t: uint32
       cpuaddr: uint32
+      osalbool: uint8
     msg_def_overrides:
       - parent: CFE_ES_RestartCmd_Payload_t
         member: RestartType
