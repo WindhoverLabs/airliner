@@ -258,6 +258,30 @@ int32 SED::InitApp()
 
     InitData();
 
+    ///* Initialize Mailbox. */
+    //MboxConfigPtr = XMbox_LookupConfig(XPAR_SED_MBOX_MAILBOX_CPD_TO_SED_IF_1_DEVICE_ID);
+    //if(MboxConfigPtr == (XMbox_Config *)NULL)
+    //{
+        ///* TODO update to event. */
+        //OS_printf("XMbox_LookupConfig Failed %u.\n", Status);
+        //iStatus = -1;
+        //goto end_of_function;
+    //}
+
+    //Status = XMbox_CfgInitialize(&Mbox, 
+                                 //MboxConfigPtr, 
+                                 //MboxConfigPtr->BaseAddress);
+    //if (Status != XST_SUCCESS)
+    //{
+        ///* TODO update to event. */
+        //OS_printf("XMbox_CfgInitialize Failed %u.\n", Status);
+        //iStatus = -1;
+        //goto end_of_function;
+    //}
+
+    ///* Reset the FIFOS. */
+    //XMbox_ResetFifos(&SBN_Mailbox_Data.Mbox);
+
     HkTlm.State = SED_INITIALIZED;
 
     /* Register the cleanup callback */
@@ -645,11 +669,20 @@ void SED::ReadDevice(void)
     CFE_TIME_SysTime_t timeStamp;
     uint16 rawTemp     = 0;
     int16 calTemp      = 0;
+    uint16 i           = 0;
     boolean returnBool = TRUE;
     math::Vector3F gval;
     math::Vector3F gval_integrated;
     math::Vector3F aval;
     math::Vector3F aval_integrated;
+
+    /* Set integrals to zero. */
+    SensorGyro.XIntegral  = 0;
+    SensorGyro.YIntegral  = 0;
+    SensorGyro.ZIntegral  = 0;
+    SensorAccel.XIntegral = 0;
+    SensorAccel.YIntegral = 0;
+    SensorAccel.ZIntegral = 0;
 
     /* Get a timestamp */
     timeStamp = CFE_TIME_GetTime();
@@ -658,123 +691,124 @@ void SED::ReadDevice(void)
     CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&SensorGyro, timeStamp);
     CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&SensorAccel, timeStamp);
 
-    /* Gyro */
-    returnBool = SED_Read_Gyro(&SensorGyro.XRaw, &SensorGyro.YRaw, &SensorGyro.ZRaw);
+    returnBool = GetMeasurements();
     if(FALSE == returnBool)
     {
         goto end_of_function;
     }
 
-    rawX_f = SensorGyro.XRaw;
-    rawY_f = SensorGyro.YRaw;
-    rawZ_f = SensorGyro.ZRaw;
-
-    returnBool = SED_Apply_Platform_Rotation(&rawX_f, &rawY_f, &rawZ_f);
-    if(FALSE == returnBool)
+    for(i = 0; i < SampleQueue.SampleCount; ++i)
     {
-        goto end_of_function;
+        SensorGyro.XRaw = SampleQueue.Samples[i].GX;
+        SensorGyro.YRaw = SampleQueue.Samples[i].GY;
+        SensorGyro.ZRaw = SampleQueue.Samples[i].GZ;
+        SensorAccel.XRaw = SampleQueue.Samples[i].AX;
+        SensorAccel.YRaw = SampleQueue.Samples[i].AY;
+        SensorAccel.ZRaw = SampleQueue.Samples[i].AZ;
+        //rawTemp = SED_SampleQueue.Samples[i].Temp;
+
+        rawX_f = SensorGyro.XRaw;
+        rawY_f = SensorGyro.YRaw;
+        rawZ_f = SensorGyro.ZRaw;
+
+        returnBool = SED_Apply_Platform_Rotation(&rawX_f, &rawY_f, &rawZ_f);
+        if(FALSE == returnBool)
+        {
+            goto end_of_function;
+        }
+
+        /* Gyro unit conversion */
+        calX_f = rawX_f * (ConfigTblPtr->GyroUnit / ConfigTblPtr->GyroDivider);
+        calY_f = rawY_f * (ConfigTblPtr->GyroUnit / ConfigTblPtr->GyroDivider);
+        calZ_f = rawZ_f * (ConfigTblPtr->GyroUnit / ConfigTblPtr->GyroDivider); 
+
+        /* Gyro Calibrate */
+        calX_f = (calX_f - ConfigTblPtr->GyroXOffset) * ConfigTblPtr->GyroXScale;
+        calY_f = (calY_f - ConfigTblPtr->GyroYOffset) * ConfigTblPtr->GyroYScale;
+        calZ_f = (calZ_f - ConfigTblPtr->GyroZOffset) * ConfigTblPtr->GyroZScale;
+
+        /* Gyro Filter */
+        SensorGyro.X = _gyro_filter_x.apply(calX_f);
+        SensorGyro.Y = _gyro_filter_y.apply(calY_f);
+        SensorGyro.Z = _gyro_filter_z.apply(calZ_f);
+
+        /* Gyro Integrate */
+        gval[0] = SensorGyro.X;
+        gval[1] = SensorGyro.Y;
+        gval[2] = SensorGyro.Z;
+        gval_integrated[0] = 0.0f;
+        gval_integrated[1] = 0.0f;
+        gval_integrated[2] = 0.0f;
+
+        _gyro_int.put_with_interval(SampleQueue.SampleIntervalUs, 
+                gval, gval_integrated, SensorGyro.IntegralDt);
+
+        /* Sum rotation rate. */
+        SensorGyro.XIntegral += gval_integrated[0];
+        SensorGyro.YIntegral += gval_integrated[1];
+        SensorGyro.ZIntegral += gval_integrated[2];
+
+        /* Gyro Scale, Range, DeviceID */
+        SensorGyro.Scaling = (ConfigTblPtr->GyroUnit / ConfigTblPtr->GyroDivider);
+        SensorGyro.Range   = (ConfigTblPtr->AccScale * ConfigTblPtr->GyroUnit);
+
+        /* TODO deviceID */
+        /* SensorGyro.DeviceID = SED_GYRO_PX4_DEVICE_ID; */
+
+        /* Accel */
+        rawX_f = SensorAccel.XRaw;
+        rawY_f = SensorAccel.YRaw;
+        rawZ_f = SensorAccel.ZRaw;
+
+        returnBool = SED_Apply_Platform_Rotation(&rawX_f, &rawY_f, &rawZ_f);
+        if(FALSE == returnBool)
+        {
+            goto end_of_function;
+        }
+        /* Accel unit conversion */
+        calX_f = rawX_f * (ConfigTblPtr->AccUnit / ConfigTblPtr->AccDivider);
+        calY_f = rawY_f * (ConfigTblPtr->AccUnit / ConfigTblPtr->AccDivider);
+        calZ_f = rawZ_f * (ConfigTblPtr->AccUnit / ConfigTblPtr->AccDivider);
+
+        /* Accel Calibrate */
+        calX_f = (calX_f - ConfigTblPtr->AccXOffset) * ConfigTblPtr->AccXScale;
+        calY_f = (calY_f - ConfigTblPtr->AccYOffset) * ConfigTblPtr->AccYScale;
+        calZ_f = (calZ_f - ConfigTblPtr->AccZOffset) * ConfigTblPtr->AccZScale;
+
+        /* Accel Filter */
+        SensorAccel.X = _accel_filter_x.apply(calX_f);
+        SensorAccel.Y = _accel_filter_y.apply(calY_f);
+        SensorAccel.Z = _accel_filter_z.apply(calZ_f);
+
+        /* Accel Integrate */
+        aval[0] = SensorAccel.X;
+        aval[1] = SensorAccel.Y;
+        aval[2] = SensorAccel.Z;
+        aval_integrated[0] = 0.0f;
+        aval_integrated[1] = 0.0f;
+        aval_integrated[2] = 0.0f;
+
+        _accel_int.put_with_interval(SampleQueue.SampleIntervalUs, 
+                aval, aval_integrated, SensorAccel.IntegralDt);
+
+        /* Sum of velocity. */
+        SensorAccel.XIntegral += aval_integrated[0];
+        SensorAccel.YIntegral += aval_integrated[1];
+        SensorAccel.ZIntegral += aval_integrated[2];
+
+        /* Accel Scale, Range, DeviceID */
+        SensorAccel.Scaling = (ConfigTblPtr->AccUnit / ConfigTblPtr->AccDivider);
+        SensorAccel.Range_m_s2 = (ConfigTblPtr->AccScale * ConfigTblPtr->AccUnit);
+
+        /* TODO deviceID */
+        /* SensorAccel.DeviceID = SED_ACCEL_PX4_DEVICE_ID; */
+
+        /* Temperature */
+        //SensorGyro.TemperatureRaw = SensorAccel.TemperatureRaw = (int16) rawTemp;
+        //calTemp = (SensorAccel.TemperatureRaw / ConfigTblPtr->TempSensitivity) + ConfigTblPtr->TempOffset;
+        SensorGyro.Temperature  = calTemp;
+        SensorAccel.Temperature = calTemp;
     }
-    
-    /* Gyro unit conversion */
-    calX_f = rawX_f * (ConfigTblPtr->GyroUnit / ConfigTblPtr->GyroDivider);
-    calY_f = rawY_f * (ConfigTblPtr->GyroUnit / ConfigTblPtr->GyroDivider);
-    calZ_f = rawZ_f * (ConfigTblPtr->GyroUnit / ConfigTblPtr->GyroDivider); 
-    
-    /* Gyro Calibrate */
-    calX_f = (calX_f - ConfigTblPtr->GyroXOffset) * ConfigTblPtr->GyroXScale;
-    calY_f = (calY_f - ConfigTblPtr->GyroYOffset) * ConfigTblPtr->GyroYScale;
-    calZ_f = (calZ_f - ConfigTblPtr->GyroZOffset) * ConfigTblPtr->GyroZScale;
-
-    /* Gyro Filter */
-    SensorGyro.X = _gyro_filter_x.apply(calX_f);
-    SensorGyro.Y = _gyro_filter_y.apply(calY_f);
-    SensorGyro.Z = _gyro_filter_z.apply(calZ_f);
-
-    /* Gyro Integrate */
-    gval[0] = SensorGyro.X;
-    gval[1] = SensorGyro.Y;
-    gval[2] = SensorGyro.Z;
-    gval_integrated[0] = 0.0f;
-    gval_integrated[1] = 0.0f;
-    gval_integrated[2] = 0.0f;
-
-    _gyro_int.put(CFE_TIME_ConvertTimeToMicros(timeStamp), gval, gval_integrated, SensorGyro.IntegralDt);
-    
-    SensorGyro.XIntegral = gval_integrated[0];
-    SensorGyro.YIntegral = gval_integrated[1];
-    SensorGyro.ZIntegral = gval_integrated[2];
-    
-    /* Gyro Scale, Range, DeviceID */
-    SensorGyro.Scaling = (ConfigTblPtr->GyroUnit / ConfigTblPtr->GyroDivider);
-    SensorGyro.Range   = (ConfigTblPtr->AccScale * ConfigTblPtr->GyroUnit);
-
-    /* TODO deviceID */
-    //SensorGyro.DeviceID = SED_GYRO_PX4_DEVICE_ID;
-
-    /* Accel */
-    returnBool = SED_Read_Accel(&SensorAccel.XRaw, &SensorAccel.YRaw, &SensorAccel.ZRaw);
-    if(FALSE == returnBool)
-    {
-        goto end_of_function;
-    }
-
-    rawX_f = SensorAccel.XRaw;
-    rawY_f = SensorAccel.YRaw;
-    rawZ_f = SensorAccel.ZRaw;
-
-    returnBool = SED_Apply_Platform_Rotation(&rawX_f, &rawY_f, &rawZ_f);
-    if(FALSE == returnBool)
-    {
-        goto end_of_function;
-    }
-    /* Accel unit conversion */
-    calX_f = rawX_f * (Diag.Conversion.AccUnit / Diag.Conversion.AccDivider);
-    calY_f = rawY_f * (Diag.Conversion.AccUnit / Diag.Conversion.AccDivider);
-    calZ_f = rawZ_f * (Diag.Conversion.AccUnit / Diag.Conversion.AccDivider);
-    
-    /* Accel Calibrate */
-    calX_f = (calX_f - m_Params.AccXOffset) * m_Params.AccXScale;
-    calY_f = (calY_f - m_Params.AccYOffset) * m_Params.AccYScale;
-    calZ_f = (calZ_f - m_Params.AccZOffset) * m_Params.AccZScale;
-
-    /* Accel Filter */
-    SensorAccel.X = _accel_filter_x.apply(calX_f);
-    SensorAccel.Y = _accel_filter_y.apply(calY_f);
-    SensorAccel.Z = _accel_filter_z.apply(calZ_f);
-
-    /* Accel Integrate */
-    aval[0] = SensorAccel.X;
-    aval[1] = SensorAccel.Y;
-    aval[2] = SensorAccel.Z;
-    aval_integrated[0] = 0.0f;
-    aval_integrated[1] = 0.0f;
-    aval_integrated[2] = 0.0f;
-
-    _accel_int.put(CFE_TIME_ConvertTimeToMicros(timeStamp), aval, aval_integrated, SensorAccel.IntegralDt);
-    
-    SensorAccel.XIntegral = aval_integrated[0];
-    SensorAccel.YIntegral = aval_integrated[1];
-    SensorAccel.ZIntegral = aval_integrated[2];
-
-    /* Accel Scale, Range, DeviceID */
-    SensorAccel.Scaling = (ConfigTblPtr->AccUnit / ConfigTblPtr->AccDivider);
-    SensorAccel.Range_m_s2 = (ConfigTblPtr->AccScale * ConfigTblPtr->AccUnit);
-
-    /* TODO deviceID */
-    //SensorAccel.DeviceID = SED_ACCEL_PX4_DEVICE_ID;
-
-    /* Temperature */
-    returnBool = SED_Read_Temp(&rawTemp);
-    if(FALSE == returnBool)
-    {
-        goto end_of_function;
-    }
-
-    SensorGyro.TemperatureRaw = SensorAccel.TemperatureRaw = (int16) rawTemp;
-
-    calTemp = (SensorAccel.TemperatureRaw / ConfigTblPtr->TempSensitivity) + ConfigTblPtr->TempOffset;
-    SensorGyro.Temperature  = calTemp;
-    SensorAccel.Temperature = calTemp;
 
 end_of_function:
 
@@ -969,6 +1003,111 @@ void SED::SED_Get_Rotation(uint8 *Rotation)
 end_of_function:
     return;
 }
+
+
+/* Non-blocking read, size in bytes, returns size in bytes. */
+//int SED::SED_MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size)
+//{
+    //int Status              = 0;
+    //unsigned int BytesRecvd = 0;
+
+    //Status = XMbox_Read(instance, buffer, size, &BytesRecvd);
+
+    //if(Status == XST_NO_DATA)
+    //{
+        //Status = 0;
+        //goto end_of_function;
+    //}
+
+    //if(Status == XST_SUCCESS)
+    //{
+        //Status = BytesRecvd;
+    //}
+    //else
+    //{
+        ///* TODO update to event. */
+        //OS_printf("XMbox_Read Failed %u.\r\n", Status);
+    //}
+
+//end_of_function:
+    //return Status;
+//}
+
+
+boolean SED::GetMeasurements(void)
+{
+    int SizeRead            = 0;
+    uint16 i                = 0;
+    uint16 index            = 0;
+    boolean ReturnBool      = FALSE;
+
+    for(i = 0; i < SED_MBOX_MAX_BUFFER_SIZE_WORDS; ++i)
+    {
+        unsigned int InputBuffer = 0;
+        //SizeRead = MailboxRead(&Mbox, &InputBuffer, SED_MBOX_WORD_SIZE);
+
+        if(SizeRead > 0)
+        {
+            unsigned int Size = SED_MBOX_MAX_BUFFER_SIZE_WORDS;
+            //unsigned int Status = ParseMessage(&Parser,
+            //                                   InputBuffer,
+            //                                   &ParserBuffer[0],
+            //                                   &Size);
+            //if(Status == MPS_MESSAGE_COMPLETE)
+            //{
+                ///* Process the mailbox message. */
+                //ProcessMboxMsg((CFE_SB_Msg_t *)&ParserBuffer[0], index++);
+                //continue;
+            //}
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    /* If samples were parsed... */
+    if(index > 0)
+    {
+        ReturnBool = TRUE;
+        /* Calculate filtered fifo samples per cycle. This value should
+         * stay close to 4. */
+        FifoSamplesPerCycle = (0.95f * FifoSamplesPerCycle) + 
+                (0.05f * (index + 1) * sizeof(SED_Measurement_t));
+        /* Calculate the number of samples in the fifo queue. */
+        SampleQueue.SampleCount = index + 1;
+        /* Calculate the sampling interval in micro seconds. */
+        SampleQueue.SampleIntervalUs = round(1000 / FifoSamplesPerCycle);
+    }
+
+    return ReturnBool;
+}
+
+
+void SED::ProcessMboxMsg(CFE_SB_Msg_t* MsgPtr, uint16 Index)
+{
+    CFE_SB_MsgId_t MsgId = CFE_SB_GetMsgId(MsgPtr);
+
+    switch(MsgId)
+    {
+        case IMU_TLM_MSG_ID:
+        {
+            /* TODO check length. */
+            SED_Measurement_t *UserDataPtr = (SED_Measurement_t *)CFE_SB_GetUserData(MsgPtr);
+            SampleQueue.Samples[Index].GX = UserDataPtr->GX;
+            SampleQueue.Samples[Index].GY = UserDataPtr->GY;
+            SampleQueue.Samples[Index].GZ = UserDataPtr->GZ;
+            SampleQueue.Samples[Index].AX = UserDataPtr->AX;
+            SampleQueue.Samples[Index].AY = UserDataPtr->AY;
+            SampleQueue.Samples[Index].AZ = UserDataPtr->AZ;
+        }
+        default:
+        {
+            OS_printf("SED unknown message ID\n");
+        }
+    }
+}
+
 
 /************************/
 /*  End of File Comment */

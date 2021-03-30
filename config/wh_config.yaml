@@ -368,10 +368,10 @@ modules:
       TO_CMD_MID:
         msgID: 0x189f
         commands: 
-          Noop: 
+          EnableChannel:
             cc: 10
             struct: TO_EnableChannelCmd_t
-          Reset: 
+          DisableChannel:
             cc: 11
             struct: TO_DisableChannelCmd_t      
 
