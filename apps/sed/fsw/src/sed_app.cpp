@@ -258,29 +258,29 @@ int32 SED::InitApp()
 
     InitData();
 
-    ///* Initialize Mailbox. */
-    //MboxConfigPtr = XMbox_LookupConfig(XPAR_SED_MBOX_MAILBOX_CPD_TO_SED_IF_1_DEVICE_ID);
-    //if(MboxConfigPtr == (XMbox_Config *)NULL)
-    //{
-        ///* TODO update to event. */
-        //OS_printf("XMbox_LookupConfig Failed %u.\n", Status);
-        //iStatus = -1;
-        //goto end_of_function;
-    //}
+    /* Initialize Mailbox. */
+    MboxConfigPtr = XMbox_LookupConfig(XPAR_SED_MBOX_MAILBOX_CPD_TO_SED_IF_1_DEVICE_ID);
+    if(MboxConfigPtr == (XMbox_Config *)NULL)
+    {
+        /* TODO update to event. */
+        OS_printf("XMbox_LookupConfig Failed %u.\n", Status);
+        iStatus = -1;
+        goto end_of_function;
+    }
 
-    //Status = XMbox_CfgInitialize(&Mbox, 
-                                 //MboxConfigPtr, 
-                                 //MboxConfigPtr->BaseAddress);
-    //if (Status != XST_SUCCESS)
-    //{
-        ///* TODO update to event. */
-        //OS_printf("XMbox_CfgInitialize Failed %u.\n", Status);
-        //iStatus = -1;
-        //goto end_of_function;
-    //}
+    Status = XMbox_CfgInitialize(&Mbox, 
+                                 MboxConfigPtr, 
+                                 MboxConfigPtr->BaseAddress);
+    if (Status != XST_SUCCESS)
+    {
+        /* TODO update to event. */
+        OS_printf("XMbox_CfgInitialize Failed %u.\n", Status);
+        iStatus = -1;
+        goto end_of_function;
+    }
 
-    ///* Reset the FIFOS. */
-    //XMbox_ResetFifos(&SBN_Mailbox_Data.Mbox);
+    /* Reset the FIFOS. */
+    XMbox_ResetFifos(&SBN_Mailbox_Data.Mbox);
 
     HkTlm.State = SED_INITIALIZED;
 
@@ -588,7 +588,7 @@ boolean SED::VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* SED Application C style main entry point.                   */
+/* SED Application C style main entry point.                       */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 extern "C" void SED_AppMain()
@@ -599,7 +599,7 @@ extern "C" void SED_AppMain()
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* SED Application C++ style main entry point.                 */
+/* SED Application C++ style main entry point.                     */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void SED::AppMain()
@@ -675,6 +675,7 @@ void SED::ReadDevice(void)
     math::Vector3F gval_integrated;
     math::Vector3F aval;
     math::Vector3F aval_integrated;
+    static boolean firstReadFlag = FALSE;
 
     /* Set integrals to zero. */
     SensorGyro.XIntegral  = 0;
@@ -691,6 +692,15 @@ void SED::ReadDevice(void)
     CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&SensorGyro, timeStamp);
     CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&SensorAccel, timeStamp);
 
+    /* Discard the first measurements. */
+    if(firstReadFlag == FALSE)
+    {
+        firstReadFlag = TRUE;
+        XMbox_ResetFifos(&SBN_Mailbox_Data.Mbox);
+        goto end_of_function;
+    }
+
+    /* Get measurements. */
     returnBool = GetMeasurements();
     if(FALSE == returnBool)
     {
@@ -765,6 +775,7 @@ void SED::ReadDevice(void)
         {
             goto end_of_function;
         }
+
         /* Accel unit conversion */
         calX_f = rawX_f * (ConfigTblPtr->AccUnit / ConfigTblPtr->AccDivider);
         calY_f = rawY_f * (ConfigTblPtr->AccUnit / ConfigTblPtr->AccDivider);
@@ -806,8 +817,8 @@ void SED::ReadDevice(void)
         /* Temperature */
         //SensorGyro.TemperatureRaw = SensorAccel.TemperatureRaw = (int16) rawTemp;
         //calTemp = (SensorAccel.TemperatureRaw / ConfigTblPtr->TempSensitivity) + ConfigTblPtr->TempOffset;
-        SensorGyro.Temperature  = calTemp;
-        SensorAccel.Temperature = calTemp;
+        //SensorGyro.Temperature  = calTemp;
+        //SensorAccel.Temperature = calTemp;
     }
 
 end_of_function:
@@ -912,60 +923,6 @@ int32 SED::UpdateCalibrationValues(SED_SetCalibrationCmd_t *CalibrationMsgPtr)
 }
 
 
-boolean SED::SED_Read_Gyro(int16 *X, int16 *Y, int16 *Z)
-{
-    boolean returnBool = TRUE;
-
-    /* Null pointer check */
-    if(0 == X || 0 == Y || 0 == Z)
-    {
-        CFE_EVS_SendEvent(SED_DEVICE_ERR_EID, CFE_EVS_ERROR,
-            "SED Read_Gyro Null Pointer");
-        returnBool = FALSE;
-        goto end_of_function;
-    }
-
-end_of_function:
-    return returnBool;
-}
-
-
-boolean SED::SED_Read_Accel(int16 *X, int16 *Y, int16 *Z)
-{
-    boolean returnBool = TRUE;
-
-    /* Null pointer check */
-    if(0 == X || 0 == Y || 0 == Z)
-    {
-        CFE_EVS_SendEvent(SED_DEVICE_ERR_EID, CFE_EVS_ERROR,
-            "SED Read_Accel Null Pointer");
-        returnBool = FALSE;
-        goto end_of_function;
-    }
-
-end_of_function:
-    return returnBool;
-}
-
-
-boolean SED::SED_Read_Temp(uint16 *Temp)
-{
-    boolean returnBool = TRUE;
-
-    /* Null pointer check */
-    if(0 == Temp)
-    {
-        CFE_EVS_SendEvent(SED_DEVICE_ERR_EID, CFE_EVS_ERROR,
-            "SED Read_Temp Null Pointer");
-        returnBool = FALSE;
-        goto end_of_function;
-    }
-
-end_of_function:
-    return returnBool;
-}
-
-
 boolean SED::SED_Apply_Platform_Rotation(float *X, float *Y, float *Z)
 {
     boolean returnBool = TRUE;
@@ -1006,32 +963,32 @@ end_of_function:
 
 
 /* Non-blocking read, size in bytes, returns size in bytes. */
-//int SED::SED_MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size)
-//{
-    //int Status              = 0;
-    //unsigned int BytesRecvd = 0;
+int SED::SED_MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size)
+{
+    int Status              = 0;
+    unsigned int BytesRecvd = 0;
 
-    //Status = XMbox_Read(instance, buffer, size, &BytesRecvd);
+    Status = XMbox_Read(instance, buffer, size, &BytesRecvd);
 
-    //if(Status == XST_NO_DATA)
-    //{
-        //Status = 0;
-        //goto end_of_function;
-    //}
+    if(Status == XST_NO_DATA)
+    {
+        Status = 0;
+        goto end_of_function;
+    }
 
-    //if(Status == XST_SUCCESS)
-    //{
-        //Status = BytesRecvd;
-    //}
-    //else
-    //{
-        ///* TODO update to event. */
-        //OS_printf("XMbox_Read Failed %u.\r\n", Status);
-    //}
+    if(Status == XST_SUCCESS)
+    {
+        Status = BytesRecvd;
+    }
+    else
+    {
+        /* TODO update to event. */
+        OS_printf("XMbox_Read Failed %u.\r\n", Status);
+    }
 
-//end_of_function:
-    //return Status;
-//}
+end_of_function:
+    return Status;
+}
 
 
 boolean SED::GetMeasurements(void)
@@ -1039,26 +996,33 @@ boolean SED::GetMeasurements(void)
     int SizeRead            = 0;
     uint16 i                = 0;
     uint16 index            = 0;
-    boolean ReturnBool      = FALSE;
+    boolean ReturnBool      = TRUE;
+    boolean SuccessFlag     = TRUE;
 
     for(i = 0; i < SED_MBOX_MAX_BUFFER_SIZE_WORDS; ++i)
     {
         unsigned int InputBuffer = 0;
-        //SizeRead = MailboxRead(&Mbox, &InputBuffer, SED_MBOX_WORD_SIZE);
+        SizeRead = MailboxRead(&Mbox, &InputBuffer, SED_MBOX_WORD_SIZE);
 
         if(SizeRead > 0)
         {
             unsigned int Size = SED_MBOX_MAX_BUFFER_SIZE_WORDS;
-            //unsigned int Status = ParseMessage(&Parser,
-            //                                   InputBuffer,
-            //                                   &ParserBuffer[0],
-            //                                   &Size);
-            //if(Status == MPS_MESSAGE_COMPLETE)
-            //{
-                ///* Process the mailbox message. */
-                //ProcessMboxMsg((CFE_SB_Msg_t *)&ParserBuffer[0], index++);
-                //continue;
-            //}
+            unsigned int Status = ParseMessage(&Parser,
+                                               InputBuffer,
+                                               &ParserBuffer[0],
+                                               &Size);
+            if(Status == MPS_MESSAGE_COMPLETE)
+            {
+                boolean ProcessStatus = TRUE;
+
+                /* Process the mailbox message. */
+                ProcessStatus = ProcessMboxMsg((CFE_SB_Msg_t *)&ParserBuffer[0], index++);
+                if(ProcessStatus == FALSE)
+                {
+                    SuccessFlag = FALSE;
+                }
+                continue;
+            }
         }
         else
         {
@@ -1066,46 +1030,73 @@ boolean SED::GetMeasurements(void)
         }
     }
 
+    if(SuccessFlag == FALSE)
+    {
+        ReturnBool = FALSE;
+        goto end_of_function;
+    }
+
     /* If samples were parsed... */
     if(index > 0)
     {
-        ReturnBool = TRUE;
+        uint16 SamplesParsed = index + 1;
         /* Calculate filtered fifo samples per cycle. This value should
          * stay close to 4. */
-        FifoSamplesPerCycle = (0.95f * FifoSamplesPerCycle) + 
-                (0.05f * (index + 1) * sizeof(SED_Measurement_t));
+        Diag.FifoSamplesPerCycle = (0.95f * Diag.FifoSamplesPerCycle) + 
+                (0.05f * SamplesParsed * sizeof(SED_Measurement_t));
         /* Calculate the number of samples in the fifo queue. */
-        SampleQueue.SampleCount = index + 1;
+        SampleQueue.SampleCount = SamplesParsed;
         /* Calculate the sampling interval in micro seconds. */
-        SampleQueue.SampleIntervalUs = round(1000 / FifoSamplesPerCycle);
+        SampleQueue.SampleIntervalUs = round(1000 / Diag.FifoSamplesPerCycle);
+        /* Calculate high water mark. */
+        if(Diag.FifoHighWaterMark < SamplesParsed)
+        {
+            Diag.FifoHighWaterMark = SamplesParsed;
+        }
+    }
+    else
+    {
+        ReturnBool = FALSE;
     }
 
+end_of_function:
     return ReturnBool;
 }
 
 
-void SED::ProcessMboxMsg(CFE_SB_Msg_t* MsgPtr, uint16 Index)
+boolean SED::ProcessMboxMsg(CFE_SB_Msg_t* MsgPtr, uint16 Index)
 {
+    boolean returnBool = TRUE;
     CFE_SB_MsgId_t MsgId = CFE_SB_GetMsgId(MsgPtr);
 
     switch(MsgId)
     {
         case IMU_TLM_MSG_ID:
         {
-            /* TODO check length. */
-            SED_Measurement_t *UserDataPtr = (SED_Measurement_t *)CFE_SB_GetUserData(MsgPtr);
-            SampleQueue.Samples[Index].GX = UserDataPtr->GX;
-            SampleQueue.Samples[Index].GY = UserDataPtr->GY;
-            SampleQueue.Samples[Index].GZ = UserDataPtr->GZ;
-            SampleQueue.Samples[Index].AX = UserDataPtr->AX;
-            SampleQueue.Samples[Index].AY = UserDataPtr->AY;
-            SampleQueue.Samples[Index].AZ = UserDataPtr->AZ;
+            uint16 ExpectedLength = sizeof(SED_Measurement_t);
+            if(VerifyCmdLength(MsgPtr, ExpectedLength))
+            {
+                SED_Measurement_t *UserDataPtr = (SED_Measurement_t *)CFE_SB_GetUserData(MsgPtr);
+                SampleQueue.Samples[Index].GX = UserDataPtr->GX;
+                SampleQueue.Samples[Index].GY = UserDataPtr->GY;
+                SampleQueue.Samples[Index].GZ = UserDataPtr->GZ;
+                SampleQueue.Samples[Index].AX = UserDataPtr->AX;
+                SampleQueue.Samples[Index].AY = UserDataPtr->AY;
+                SampleQueue.Samples[Index].AZ = UserDataPtr->AZ;
+            }
+            else
+            {
+                returnBool = FALSE;
+            }
         }
         default:
         {
             OS_printf("SED unknown message ID\n");
+            returnBool = FALSE;
         }
     }
+
+    return returnBool;
 }
 
 

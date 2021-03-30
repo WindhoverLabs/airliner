@@ -287,6 +287,10 @@ typedef struct
     SED_CalibrationMsg_t          Calibration;
     /*! All conversion info */
     SED_ConversionMsg_t           Conversion;
+    /*! Filtered fifo samples per cycle. */
+    float FifoSamplesPerCycle;
+    /*! Fifo high water mark. */
+    uint16 FifoHighWaterMark;
 } SED_DiagPacket_t;
 
 /** 
@@ -298,6 +302,19 @@ typedef struct
     /*! All calibration info */
     SED_CalibrationMsg_t Calibration;
 } SED_SetCalibrationCmd_t;
+
+typedef struct
+{
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    int16 GX; 
+    int16 GY; 
+    int16 GZ; 
+    int16 AX; 
+    int16 AY; 
+    int16 AZ; 
+    //int16 Temp;
+} SED_Measurement_t;
+
 
 #ifdef __cplusplus
 }

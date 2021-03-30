@@ -41,6 +41,8 @@ buildliner_add_app_def(sed
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sed_symbols.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sed_tbldefs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sed_version.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/mailbox_parser.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/mailbox_parser.h
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

@@ -57,7 +57,8 @@ extern "C" {
 #include "px4_msgs.h"
 #include "math/filters/LowPassFilter2p.hpp"
 #include "math/Integrator.hpp"
-//#include "xmbox.h"
+#include "mailbox_parser.h"
+#include "xmbox.h"
 
 
 /************************************************************************
@@ -99,18 +100,6 @@ typedef struct
     float GyroYOffset;
     float GyroZOffset;
 } SED_Params_t;
-
-
-typedef struct
-{
-    int16 GX; 
-    int16 GY; 
-    int16 GZ; 
-    int16 AX; 
-    int16 AY; 
-    int16 AZ; 
-    //int16 Temp;
-} SED_Measurement_t;
 
 
 typedef struct
@@ -168,13 +157,10 @@ public:
     SED_Params_t m_Params;
 
     /* Mailbox related */
-    //XMbox Mbox;
-    //XMbox_Config *MboxConfigPtr;
-    //Mailbox_Parser_Handle_t Parser;
+    XMbox Mbox;
+    XMbox_Config *MboxConfigPtr;
+    Mailbox_Parser_Handle_t Parser;
     unsigned int ParserBuffer[SED_MBOX_MAX_BUFFER_SIZE_WORDS];
-
-    /* FIFO related */
-    float FifoSamplesPerCycle;
 
     /************************************************************************/
     /** \brief SED (SED) application entry point
@@ -443,65 +429,6 @@ private:
     int32  AcquireConfigPointers(void);
 
     /************************************************************************/
-    /** \brief Read raw gyro data.
-    **
-    **  \par Description
-    **       This function reads raw X-axis, Y-axis, and Z-axis gyro data.
-    **
-    **  \par Assumptions, External Events, and Notes:
-    **       Initialization must be completed before this function is 
-    **       called.
-    **
-    **  \param [out]   X      Raw X-axis value.
-    **
-    **  \param [out]   Y      Raw Y-axis value.
-    **
-    **  \param [out]   Z      Raw Z-axis value.
-    **
-    **  \returns TRUE for success, FALSE for failure.
-    **
-    *************************************************************************/
-    boolean SED_Read_Gyro(int16 *X, int16 *Y, int16 *Z);
-
-    /************************************************************************/
-    /** \brief Read raw accel data.
-    **
-    **  \par Description
-    **       This function reads raw X-axis, Y-axis, and Z-axis accel data.
-    **
-    **  \par Assumptions, External Events, and Notes:
-    **       Initialization must be completed before this function is 
-    **       called. 
-    **
-    **  \param [out]   X      Raw X-axis value.
-    **
-    **  \param [out]   Y      Raw Y-axis value.
-    **
-    **  \param [out]   Z      Raw Z-axis value.
-    **
-    **  \returns TRUE for success, FALSE for failure.
-    **
-    *************************************************************************/
-    boolean SED_Read_Accel(int16 *X, int16 *Y, int16 *Z);
-
-    /************************************************************************/
-    /** \brief Read raw temperature data.
-    **
-    **  \par Description
-    **       This function reads raw temperature data.
-    **
-    **  \par Assumptions, External Events, and Notes:
-    **       Initialization must be completed before this function is 
-    **       called. 
-    **
-    **  \param [out]   Temp    Raw temperature value.
-    **
-    **  \returns TRUE for success, FALSE for failure.
-    **
-    *************************************************************************/
-    boolean SED_Read_Temp(uint16 *Temp);
-
-    /************************************************************************/
     /** \brief Get platform rotation.
     **
     **  \par Description
@@ -536,7 +463,7 @@ private:
     *************************************************************************/
     boolean SED_Apply_Platform_Rotation(float *X, float *Y, float *Z);
 
-    //int SED_MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size);
+    int SED_MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size);
 
     math::LowPassFilter2p   _accel_filter_x;
     math::LowPassFilter2p   _accel_filter_y;
@@ -595,7 +522,7 @@ public:
     int32 UpdateCalibrationValues(SED_SetCalibrationCmd_t* CalibrationMsgPtr);
 
     boolean GetMeasurements(void);
-    void ProcessMboxMsg(CFE_SB_Msg_t* MsgPtr, uint16 Index);
+    boolean ProcessMboxMsg(CFE_SB_Msg_t* MsgPtr, uint16 Index);
 
 };
 
