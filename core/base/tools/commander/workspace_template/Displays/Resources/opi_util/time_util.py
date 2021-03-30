@@ -1,11 +1,28 @@
 """
-Time Utilities
+CFE Time Utilities
 """
+from com.windhoverlabs.studio.registry import ConfigRegistry
+
+# FIXME: This module might get messy if we keep adding functions to it...perhaps we should re-structure it differently.
+
+def get_cfe_time_fs_factor(registry, registry_path):
+    """
+    This function assumes that registry has been loaded by the caller.
+    """
+    fs_factor = registry.get(ConfigRegistry.appendPath(registry_path, "config/CFE_TIME_FS_FACTOR/"))
+
+    return fs_factor['value']
+
+
+def micro_2_seconds(microseconds):
+    seconds = microseconds / 1000000
+
+    return seconds
 
 
 def CFE_TIME_Sub2MicroSecs(SubSeconds):
     """
-    Refer to airliner airliner/core/base/cfe/fsw/src/time/cfe_time_api.c
+    Refer to airliner/core/base/cfe/fsw/src/time/cfe_time_api.c
     """
     MicroSeconds = None
     if SubSeconds > 0xffffdf00:
@@ -24,7 +41,7 @@ def CFE_TIME_Sub2MicroSecs(SubSeconds):
 
 def CFE_TIME_Micro2SubSecs(MicroSeconds):
     """
-    Refere to airliner/core/base/cfe/fsw/src/time/cfe_time_api.c
+    Refer to airliner/core/base/cfe/fsw/src/time/cfe_time_api.c
     """
     SubSeconds = None
 
@@ -38,3 +55,24 @@ def CFE_TIME_Micro2SubSecs(MicroSeconds):
             SubSeconds += 0x1000
 
     return SubSeconds
+
+
+def CFE_TIME_CFE2FSSeconds(SecondsCFE):
+    """
+    Refer to airliner/core/base/cfe/fsw/src/time/cfe_time_api.c
+    """
+
+    # Using a signed integer allows the factor to be negative...
+    registry = YAMLRegistry()
+    # hardcoding the path for now
+    ConvertFactor = get_cfe_time_fs_factor(registry, "/modules/core/modules/cfe/modules/cfe_time")
+
+    # File system time = cFE time + conversion factor...
+    SecondsFS = SecondsCFE + ConvertFactor
+
+    # Prevent file system time from going below zero...
+    if ConvertFactor < 0:
+        if -ConvertFactor > SecondsCFE:
+            SecondsFS = 0
+
+    return SecondsFS
