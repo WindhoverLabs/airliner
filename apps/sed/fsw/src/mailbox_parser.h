@@ -26,7 +26,7 @@ typedef struct
 } Mailbox_Parser_Handle_t;
 
 
-unsigned int ParseMessage(Mailbox_Parser_Handle_t *Handle, unsigned int Input, unsigned int* Buffer, unsigned int *BufferSize);
+unsigned int SED_ParseMessage(Mailbox_Parser_Handle_t *Handle, unsigned int Input, unsigned int* Buffer, unsigned int *BufferSize);
 
 #ifdef __cplusplus
 }

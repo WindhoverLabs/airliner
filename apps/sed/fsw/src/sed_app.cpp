@@ -263,24 +263,24 @@ int32 SED::InitApp()
     if(MboxConfigPtr == (XMbox_Config *)NULL)
     {
         /* TODO update to event. */
-        OS_printf("XMbox_LookupConfig Failed %u.\n", Status);
+        OS_printf("XMbox_LookupConfig Failed %u.\n");
         iStatus = -1;
-        goto end_of_function;
+        goto SED_InitApp_Exit_Tag;
     }
 
-    Status = XMbox_CfgInitialize(&Mbox, 
+    iStatus = XMbox_CfgInitialize(&Mbox, 
                                  MboxConfigPtr, 
                                  MboxConfigPtr->BaseAddress);
-    if (Status != XST_SUCCESS)
+    if (iStatus != XST_SUCCESS)
     {
         /* TODO update to event. */
-        OS_printf("XMbox_CfgInitialize Failed %u.\n", Status);
+        OS_printf("XMbox_CfgInitialize Failed %u.\n");
         iStatus = -1;
-        goto end_of_function;
+        goto SED_InitApp_Exit_Tag;
     }
 
     /* Reset the FIFOS. */
-    XMbox_ResetFifos(&SBN_Mailbox_Data.Mbox);
+    XMbox_ResetFifos(&Mbox);
 
     HkTlm.State = SED_INITIALIZED;
 
@@ -696,7 +696,7 @@ void SED::ReadDevice(void)
     if(firstReadFlag == FALSE)
     {
         firstReadFlag = TRUE;
-        XMbox_ResetFifos(&SBN_Mailbox_Data.Mbox);
+        XMbox_ResetFifos(&Mbox);
         goto end_of_function;
     }
 
@@ -963,10 +963,10 @@ end_of_function:
 
 
 /* Non-blocking read, size in bytes, returns size in bytes. */
-int SED::SED_MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size)
+int SED::SED_MailboxRead(XMbox *instance, u32 *buffer, u32 size)
 {
     int Status              = 0;
-    unsigned int BytesRecvd = 0;
+    u32 BytesRecvd          = 0;
 
     Status = XMbox_Read(instance, buffer, size, &BytesRecvd);
 
@@ -1001,13 +1001,13 @@ boolean SED::GetMeasurements(void)
 
     for(i = 0; i < SED_MBOX_MAX_BUFFER_SIZE_WORDS; ++i)
     {
-        unsigned int InputBuffer = 0;
-        SizeRead = MailboxRead(&Mbox, &InputBuffer, SED_MBOX_WORD_SIZE);
+        u32 InputBuffer = 0;
+        SizeRead = SED_MailboxRead(&Mbox, &InputBuffer, SED_MBOX_WORD_SIZE);
 
         if(SizeRead > 0)
         {
             unsigned int Size = SED_MBOX_MAX_BUFFER_SIZE_WORDS;
-            unsigned int Status = ParseMessage(&Parser,
+            unsigned int Status = SED_ParseMessage(&Parser,
                                                InputBuffer,
                                                &ParserBuffer[0],
                                                &Size);

@@ -463,7 +463,7 @@ private:
     *************************************************************************/
     boolean SED_Apply_Platform_Rotation(float *X, float *Y, float *Z);
 
-    int SED_MailboxRead(XMbox *instance, unsigned int *buffer, unsigned int size);
+    int SED_MailboxRead(XMbox *instance, u32 *buffer, u32 size);
 
     math::LowPassFilter2p   _accel_filter_x;
     math::LowPassFilter2p   _accel_filter_y;
