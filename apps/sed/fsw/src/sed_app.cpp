@@ -348,6 +348,7 @@ int32 SED::RcvSchPipeMsg(int32 iBlocking)
             case SED_MEASURE_MID:
             {
                 ReadDevice();
+                /* TODO move sends to read device*/
                 SendSensorGyro();
                 SendSensorAccel();
                 break;
@@ -1006,6 +1007,7 @@ boolean SED::GetMeasurements(void)
 
         if(SizeRead > 0)
         {
+            printf("read data\n");
             unsigned int Size = SED_MBOX_MAX_BUFFER_SIZE_WORDS;
             unsigned int Status = SED_ParseMessage(&Parser,
                                                InputBuffer,
@@ -1013,8 +1015,8 @@ boolean SED::GetMeasurements(void)
                                                &Size);
             if(Status == MPS_MESSAGE_COMPLETE)
             {
+                printf("Message Complete\n");
                 boolean ProcessStatus = TRUE;
-
                 /* Process the mailbox message. */
                 ProcessStatus = ProcessMboxMsg((CFE_SB_Msg_t *)&ParserBuffer[0], index++);
                 if(ProcessStatus == FALSE)

@@ -485,12 +485,4 @@
 #define VM_WAKEUP_MID                             CMD_MSG(  484 )
 
 
-/* SED                                                       */
-#define SED_SEND_HK_MID                           CMD_MSG(  485 )
-#define SED_HK_TLM_MID                            TLM_MSG(  486 )
-#define SED_DIAG_TLM_MID                          TLM_MSG(  487 )
-#define SED_CMD_MID                               CMD_MSG(  488 )
-#define SED_MEASURE_MID                           CMD_MSG(  489 )
-
-
 #endif
