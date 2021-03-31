@@ -306,14 +306,12 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint32 Seconds;
-    uint32 Subseconds;
-    int16 GX; 
-    int16 GY; 
-    int16 GZ; 
     int16 AX; 
     int16 AY; 
-    int16 AZ; 
+    int16 AZ;
+    int16 GX; 
+    int16 GY; 
+    int16 GZ;
     //int16 Temp;
 } SED_Measurement_t;
 
