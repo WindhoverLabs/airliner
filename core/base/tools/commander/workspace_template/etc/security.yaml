@@ -1,0 +1,8 @@
+authModules:
+  - class: org.yamcs.security.YamlAuthModule
+    args:
+      required: true
+      hasher: org.yamcs.security.PBKDF2PasswordHasher
+
+
+

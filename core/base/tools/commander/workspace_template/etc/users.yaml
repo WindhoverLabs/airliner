@@ -1,0 +1,9 @@
+admin:
+  superuser: true
+  password: root
+
+lorenzo_gomez:
+  displayName: lorenzo_gomez
+  password: guest2
+  roles: ["guest"]
+
