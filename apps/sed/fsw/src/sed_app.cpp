@@ -118,8 +118,6 @@ int32 SED::InitEvent()
         (void) CFE_ES_WriteToSysLog("SED - Failed to register with EVS (0x%08lX)\n", iStatus);
     }
 
-end_of_function:
-
     return (iStatus);
 }
 
@@ -231,7 +229,6 @@ int32 SED::InitApp()
 {
     int32  iStatus   = CFE_SUCCESS;
     int8   hasEvents = 0;
-    boolean returnBool = TRUE;
 
     iStatus = InitEvent();
     if (iStatus != CFE_SUCCESS)
@@ -668,8 +665,8 @@ void SED::ReadDevice(void)
     float calY_f       = 0;
     float calZ_f       = 0;
     CFE_TIME_SysTime_t timeStamp;
-    uint16 rawTemp     = 0;
-    int16 calTemp      = 0;
+    //uint16 rawTemp     = 0;
+    //int16 calTemp      = 0;
     uint16 i           = 0;
     boolean returnBool = TRUE;
     math::Vector3F gval;
@@ -1067,28 +1064,24 @@ end_of_function:
 
 boolean SED::ProcessMboxMsg(CFE_SB_Msg_t* MsgPtr, uint16 Index)
 {
-    boolean returnBool = TRUE;
+    boolean returnBool   = TRUE;
     CFE_SB_MsgId_t MsgId = CFE_SB_GetMsgId(MsgPtr);
 
     switch(MsgId)
     {
         case IMU_1_TLM_MSG_ID:
         {
-            uint16 ExpectedLength = sizeof(SED_Measurement_t);
+            uint16 ExpectedLength = sizeof(SED_MeasurementMsg_t);
             if(VerifyCmdLength(MsgPtr, ExpectedLength))
             {
                 SED_Measurement_t *UserDataPtr = (SED_Measurement_t *)CFE_SB_GetUserData(MsgPtr);
-                SampleQueue.Samples[Index].GX = UserDataPtr->GX;
-                SampleQueue.Samples[Index].GY = UserDataPtr->GY;
-                SampleQueue.Samples[Index].GZ = UserDataPtr->GZ;
-                SampleQueue.Samples[Index].AX = UserDataPtr->AX;
-                SampleQueue.Samples[Index].AY = UserDataPtr->AY;
-                SampleQueue.Samples[Index].AZ = UserDataPtr->AZ;
+                memcpy(&SampleQueue.Samples[Index], UserDataPtr, sizeof(SampleQueue.Samples[Index]));
             }
             else
             {
                 returnBool = FALSE;
             }
+            break;
         }
         default:
         {

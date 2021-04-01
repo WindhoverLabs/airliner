@@ -33,7 +33,7 @@ unsigned int SED_ParseMessage(Mailbox_Parser_Handle_t *Handle, unsigned int Inpu
 	    case MPS_PARSING_MESSAGE:
 	    {
 	    	if(Handle->InputBufferCursor < sizeInWords)
-	    	{
+	    	{   
 	    		Buffer[Handle->InputBufferCursor] = Input;
 	    	}
 	    	Handle->CurrentChecksum += Input;
