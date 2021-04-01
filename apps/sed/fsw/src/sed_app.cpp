@@ -259,7 +259,7 @@ int32 SED::InitApp()
     InitData();
 
     /* Initialize Mailbox. */
-    MboxConfigPtr = XMbox_LookupConfig(XPAR_SED_MBOX_MAILBOX_CPD_TO_SED_IF_1_DEVICE_ID);
+    MboxConfigPtr = XMbox_LookupConfig(XPAR_PPD_MAILBOX_TLM_CPD_IF_1_DEVICE_ID);
     if(MboxConfigPtr == (XMbox_Config *)NULL)
     {
         /* TODO update to event. */
@@ -970,7 +970,6 @@ int SED::SED_MailboxRead(XMbox *instance, u32 *buffer, u32 size)
     u32 BytesRecvd          = 0;
 
     Status = XMbox_Read(instance, buffer, size, &BytesRecvd);
-
     if(Status == XST_NO_DATA)
     {
         Status = 0;
@@ -1007,7 +1006,7 @@ boolean SED::GetMeasurements(void)
 
         if(SizeRead > 0)
         {
-            printf("read data\n");
+            //printf("read data\n");
             unsigned int Size = SED_MBOX_MAX_BUFFER_SIZE_WORDS;
             unsigned int Status = SED_ParseMessage(&Parser,
                                                InputBuffer,
@@ -1073,7 +1072,7 @@ boolean SED::ProcessMboxMsg(CFE_SB_Msg_t* MsgPtr, uint16 Index)
 
     switch(MsgId)
     {
-        case IMU_TLM_MSG_ID:
+        case IMU_1_TLM_MSG_ID:
         {
             uint16 ExpectedLength = sizeof(SED_Measurement_t);
             if(VerifyCmdLength(MsgPtr, ExpectedLength))
@@ -1093,7 +1092,7 @@ boolean SED::ProcessMboxMsg(CFE_SB_Msg_t* MsgPtr, uint16 Index)
         }
         default:
         {
-            OS_printf("SED unknown message ID\n");
+            OS_printf("SED unknown message ID %x\n", MsgId);
             returnBool = FALSE;
         }
     }
