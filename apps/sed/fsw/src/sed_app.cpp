@@ -1131,6 +1131,7 @@ void SED_EventHandler(void)
     Mailbox_Parser_Handle_t EventParser = {};
     boolean TaskContinueFlag = TRUE;
     unsigned int EventParserBuffer[SED_MBOX_MAX_BUFFER_SIZE_WORDS] = {};
+    uint32 uiCount = 0;
 
     /* Initialize Mailbox. */
     EventMboxConfigPtr = XMbox_LookupConfig(XPAR_PPD_MAILBOX_EVENTS_CPD_IF_1_DEVICE_ID);
@@ -1170,15 +1171,27 @@ void SED_EventHandler(void)
                         unsigned int status = SED_ParseMessage(&EventParser, inputWord, &EventParserBuffer[0], &size);
                         if(status == MPS_MESSAGE_COMPLETE)
                         {
-                            OS_printf("Event Message Complete\n");
                             if(size == sizeof(SED_Event_Msg_t))
                             {
                                 SED_Event_Msg_t *eventMsg = (SED_Event_Msg_t*) &EventParserBuffer[0];
                                 /* Raise event */
-                                CFE_EVS_SendEvent(eventMsg->EventID + SED_EVENT_MSG_ID_OFFSET, 
-                                                  eventMsg->Type,
+                                iStatus = CFE_EVS_SendEvent(eventMsg->EventID + SED_EVENT_MSG_ID_OFFSET, 
+                                                  eventMsg->Type + 1,
                                                   "%s Count: %u", 
                                                   eventMsg->Text, eventMsg->Count);
+                                if(iStatus != CFE_SUCCESS)
+                                {
+                                    OS_printf("SED: send event failed (0x%08lX)\n", iStatus);
+                                }
+                                if(eventMsg->Count != uiCount)
+                                {
+                                    (void) CFE_EVS_SendEvent(SED_EVENT_DROPPED_INF_EID, 
+                                                             CFE_EVS_INFORMATION,
+                                                             "Dropped %u event messages", 
+                                                             eventMsg->Count - uiCount);
+                                    uiCount = eventMsg->Count;
+                                }
+                                uiCount ++;
                             }
                             else
                             {
@@ -1198,10 +1211,6 @@ void SED_EventHandler(void)
                     OS_printf("XMbox_Read failed %u\n", iStatus);
                 }
             }
-        }
-        else
-        {
-            OS_printf("Event Mailbox Empty\n");
         }
         OS_TaskDelay(SED_EVENTS_TASK_DELAY_MSEC);
     }

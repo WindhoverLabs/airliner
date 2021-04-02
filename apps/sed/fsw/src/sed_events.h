@@ -323,6 +323,7 @@ typedef enum {
 */
     SED_CALIBRATE_ERR_EID,
     SED_DEVICE_ERR_EID,
+    SED_EVENT_DROPPED_INF_EID,
     
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     SED_EVT_CNT
