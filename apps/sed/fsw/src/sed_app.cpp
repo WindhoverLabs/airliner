@@ -1151,40 +1151,57 @@ void SED_EventHandler(void)
         goto end_of_function;
     }
 
+    CFE_ES_WaitForStartupSync(SED_STARTUP_TIMEOUT_MSEC);
+
     while(TaskContinueFlag)
     {
         if(XMbox_IsEmpty(&EventMbox) == FALSE)
         {
-            u32 inputWord __attribute__ ((aligned(4)));
-            u32 bytesRecvd;
-            iStatus = XMbox_Read(&EventMbox, (u32*)(&inputWord), sizeof(inputWord), &bytesRecvd);
-            if(iStatus == XST_SUCCESS)
+            for(uint16 i = 0; i < sizeof(SED_Event_Msg_t); ++i)
             {
-                unsigned int size = sizeof(EventParserBuffer);
-                unsigned int status = SED_ParseMessage(&EventParser, inputWord, &EventParserBuffer[0], &size);
-                if(status == MPS_MESSAGE_COMPLETE)
+                u32 inputWord __attribute__ ((aligned(4)));
+                u32 bytesRecvd;
+                iStatus = XMbox_Read(&EventMbox, (u32*)(&inputWord), sizeof(inputWord), &bytesRecvd);
+                if(iStatus == XST_SUCCESS)
                 {
-                    if(size == sizeof(SED_Event_Msg_t))
+                    if(bytesRecvd == sizeof(inputWord))
                     {
-                        SED_Event_Msg_t *eventMsg = (SED_Event_Msg_t*) &EventParserBuffer[0];
-                        /* Raise event */
-                        CFE_EVS_SendEvent(eventMsg->EventID + SED_EVENT_MSG_ID_OFFSET, 
-                                          eventMsg->Type,
-                                          "%s Count: %u", 
-                                          eventMsg->Text, eventMsg->Count);
-                    }
-                    else
-                    {
-                        /* TODO update to event. */
-                        OS_printf("Invalid size event message %u\n", size);
+                        unsigned int size = sizeof(EventParserBuffer);
+                        unsigned int status = SED_ParseMessage(&EventParser, inputWord, &EventParserBuffer[0], &size);
+                        if(status == MPS_MESSAGE_COMPLETE)
+                        {
+                            OS_printf("Event Message Complete\n");
+                            if(size == sizeof(SED_Event_Msg_t))
+                            {
+                                SED_Event_Msg_t *eventMsg = (SED_Event_Msg_t*) &EventParserBuffer[0];
+                                /* Raise event */
+                                CFE_EVS_SendEvent(eventMsg->EventID + SED_EVENT_MSG_ID_OFFSET, 
+                                                  eventMsg->Type,
+                                                  "%s Count: %u", 
+                                                  eventMsg->Text, eventMsg->Count);
+                            }
+                            else
+                            {
+                                /* TODO update to event. */
+                                OS_printf("Invalid size event message %u\n", size);
+                            }
+                        }
                     }
                 }
+                else if (iStatus == XST_NO_DATA)
+                {
+                    break;
+                }
+                else
+                {
+                    /* TODO update to event. */
+                    OS_printf("XMbox_Read failed %u\n", iStatus);
+                }
             }
-            else
-            {
-                /* TODO update to event. */
-                OS_printf("XMbox_Read failed %u\n", iStatus);
-            }
+        }
+        else
+        {
+            OS_printf("Event Mailbox Empty\n");
         }
         OS_TaskDelay(SED_EVENTS_TASK_DELAY_MSEC);
     }
