@@ -259,8 +259,9 @@ int32 SED::InitApp()
     MboxConfigPtr = XMbox_LookupConfig(XPAR_PPD_MAILBOX_TLM_CPD_IF_1_DEVICE_ID);
     if(MboxConfigPtr == (XMbox_Config *)NULL)
     {
-        /* TODO update to event. */
-        OS_printf("XMbox_LookupConfig Failed %u.\n");
+        (void) CFE_EVS_SendEvent(SED_INIT_ERR_EID, CFE_EVS_ERROR,
+                         "Failed to lookup Mailbox (0x%08X)",
+                         (unsigned int)iStatus);
         iStatus = -1;
         goto SED_InitApp_Exit_Tag;
     }
@@ -270,8 +271,9 @@ int32 SED::InitApp()
                                  MboxConfigPtr->BaseAddress);
     if (iStatus != XST_SUCCESS)
     {
-        /* TODO update to event. */
-        OS_printf("XMbox_CfgInitialize Failed %u.\n");
+        (void) CFE_EVS_SendEvent(SED_INIT_ERR_EID, CFE_EVS_ERROR,
+                         "Failed to initialize Mailbox (0x%08X)",
+                         (unsigned int)iStatus);
         iStatus = -1;
         goto SED_InitApp_Exit_Tag;
     }
@@ -279,7 +281,7 @@ int32 SED::InitApp()
     /* Reset the FIFOS. */
     XMbox_ResetFifos(&Mbox);
 
-    /* Create send task. */
+    /* Create event task. */
     EventTask = SED_Event_Task;
     iStatus = CFE_ES_CreateChildTask(&ChildTaskID,
                                     SED_EVENTS_TASK_NAME,
@@ -290,8 +292,10 @@ int32 SED::InitApp()
                                     SED_EVENTS_TASK_FLAGS);
     if (iStatus != CFE_SUCCESS)
     {
-        /* TODO update to event. */
-        OS_printf("CFE_ES_CreateChildTask failed %u\n", iStatus);
+        (void) CFE_EVS_SendEvent(SED_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to create child task (0x%08X)",
+                                 (unsigned int)iStatus);
+        goto SED_InitApp_Exit_Tag;
     }
 
     HkTlm.State = SED_INITIALIZED;
@@ -1126,7 +1130,7 @@ void SED_EventHandler(void)
     XMbox_Config *EventMboxConfigPtr;
     Mailbox_Parser_Handle_t EventParser = {};
     boolean TaskContinueFlag = TRUE;
-    unsigned int EventParserBuffer[SED_MBOX_MAX_BUFFER_SIZE_WORDS];
+    unsigned int EventParserBuffer[SED_MBOX_MAX_BUFFER_SIZE_WORDS] = {};
 
     /* Initialize Mailbox. */
     EventMboxConfigPtr = XMbox_LookupConfig(XPAR_PPD_MAILBOX_EVENTS_CPD_IF_1_DEVICE_ID);
