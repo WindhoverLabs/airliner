@@ -154,6 +154,16 @@ extern "C" {
 #define SED_TEMPERATURE_SENS            (326.8f)
 #define SED_ROOM_TEMP_OFFSET            (25.0f)
 
+#define SED_EVENTS_TASK_NAME         ("SED_EVENTS")
+#define SED_EVENTS_TASK_STACK_SIZE   (131072)
+#define SED_EVENTS_TASK_PRIORITY     (50)
+#define SED_EVENTS_TASK_FLAGS        (OS_ENABLE_CORE_0)
+#define SED_EVENTS_TASK_DELAY_MSEC   (500)
+
+#define SED_EVENT_MSG_TEXT_LENGTH    (200)
+
+#define SED_EVENT_MSG_ID_OFFSET      (100)
+
 #ifdef __cplusplus
 }
 #endif

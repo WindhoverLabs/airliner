@@ -166,6 +166,10 @@ public:
     Mailbox_Parser_Handle_t Parser;
     unsigned int ParserBuffer[SED_MBOX_MAX_BUFFER_SIZE_WORDS];
 
+    /* Event task related */
+    uint32 ChildTaskID;
+    CFE_ES_ChildTaskMainFuncPtr_t EventTask;
+
     /************************************************************************/
     /** \brief SED (SED) application entry point
      **
@@ -543,6 +547,11 @@ public:
 **
 *************************************************************************/
 void SED_CleanupCallback(void);
+
+
+void SED_Event_Task(void);
+
+void SED_EventHandler(void);
 
 
 #ifdef __cplusplus

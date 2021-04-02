@@ -319,6 +319,24 @@ typedef struct
     SED_Measurement_t Sample;
 } SED_MeasurementMsg_t;
 
+typedef enum
+{
+    EVENT_DEBUG     = 0,
+    EVENT_INFO      = 1,
+    EVENT_ERROR     = 2,
+    EVENT_CRITICAL  = 3
+} Event_Type_t;
+
+typedef struct
+{
+    uint8        TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint32       EventID;
+    Event_Type_t Type;
+    uint32       Count;
+    char         Text[SED_EVENT_MSG_TEXT_LENGTH];
+    uint32       Checksum;
+} SED_Event_Msg_t;
+
 
 #ifdef __cplusplus
 }

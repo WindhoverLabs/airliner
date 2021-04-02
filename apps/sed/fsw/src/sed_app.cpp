@@ -279,6 +279,21 @@ int32 SED::InitApp()
     /* Reset the FIFOS. */
     XMbox_ResetFifos(&Mbox);
 
+    /* Create send task. */
+    EventTask = SED_Event_Task;
+    iStatus = CFE_ES_CreateChildTask(&ChildTaskID,
+                                    SED_EVENTS_TASK_NAME,
+                                    EventTask,
+                                    0,
+                                    SED_EVENTS_TASK_STACK_SIZE,
+                                    SED_EVENTS_TASK_PRIORITY,
+                                    SED_EVENTS_TASK_FLAGS);
+    if (iStatus != CFE_SUCCESS)
+    {
+        /* TODO update to event. */
+        OS_printf("CFE_ES_CreateChildTask failed %u\n", iStatus);
+    }
+
     HkTlm.State = SED_INITIALIZED;
 
     /* Register the cleanup callback */
@@ -1093,6 +1108,86 @@ boolean SED::ProcessMboxMsg(CFE_SB_Msg_t* MsgPtr, uint16 Index)
     return returnBool;
 }
 
+
+void SED_Event_Task(void)
+{
+    CFE_ES_RegisterChildTask();
+
+    SED_EventHandler();
+
+    CFE_ES_ExitChildTask();
+}
+
+
+void SED_EventHandler(void)
+{
+    int iStatus;
+    XMbox EventMbox;
+    XMbox_Config *EventMboxConfigPtr;
+    Mailbox_Parser_Handle_t EventParser = {};
+    boolean TaskContinueFlag = TRUE;
+    unsigned int EventParserBuffer[SED_MBOX_MAX_BUFFER_SIZE_WORDS];
+
+    /* Initialize Mailbox. */
+    EventMboxConfigPtr = XMbox_LookupConfig(XPAR_PPD_MAILBOX_EVENTS_CPD_IF_1_DEVICE_ID);
+    if(EventMboxConfigPtr == (XMbox_Config *)NULL)
+    {
+        /* TODO update to event. */
+        OS_printf("XMbox_LookupConfig Failed %u.\n");
+        goto end_of_function;
+    }
+
+    iStatus = XMbox_CfgInitialize(&EventMbox, 
+                                  EventMboxConfigPtr, 
+                                  EventMboxConfigPtr->BaseAddress);
+    if (iStatus != XST_SUCCESS)
+    {
+        /* TODO update to event. */
+        OS_printf("XMbox_CfgInitialize Failed %u.\n");
+        goto end_of_function;
+    }
+
+    while(TaskContinueFlag)
+    {
+        if(XMbox_IsEmpty(&EventMbox) == FALSE)
+        {
+            u32 inputWord __attribute__ ((aligned(4)));
+            u32 bytesRecvd;
+            iStatus = XMbox_Read(&EventMbox, (u32*)(&inputWord), sizeof(inputWord), &bytesRecvd);
+            if(iStatus == XST_SUCCESS)
+            {
+                unsigned int size = sizeof(EventParserBuffer);
+                unsigned int status = SED_ParseMessage(&EventParser, inputWord, &EventParserBuffer[0], &size);
+                if(status == MPS_MESSAGE_COMPLETE)
+                {
+                    if(size == sizeof(SED_Event_Msg_t))
+                    {
+                        SED_Event_Msg_t *eventMsg = (SED_Event_Msg_t*) &EventParserBuffer[0];
+                        /* Raise event */
+                        CFE_EVS_SendEvent(eventMsg->EventID + SED_EVENT_MSG_ID_OFFSET, 
+                                          eventMsg->Type,
+                                          "%s Count: %u", 
+                                          eventMsg->Text, eventMsg->Count);
+                    }
+                    else
+                    {
+                        /* TODO update to event. */
+                        OS_printf("Invalid size event message %u\n", size);
+                    }
+                }
+            }
+            else
+            {
+                /* TODO update to event. */
+                OS_printf("XMbox_Read failed %u\n", iStatus);
+            }
+        }
+        OS_TaskDelay(SED_EVENTS_TASK_DELAY_MSEC);
+    }
+
+end_of_function:
+    return;
+}
 
 /************************/
 /*  End of File Comment */
