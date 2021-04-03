@@ -156,10 +156,3 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/udp/fsw/for_build
 )
 
-buildliner_add_app(
-    sbn_uio_mbox
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/uio_mbox/fsw/for_build
-    CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib/tables/pq_backup_cfg.c
-)
-

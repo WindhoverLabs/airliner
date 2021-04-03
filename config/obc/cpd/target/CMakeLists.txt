@@ -128,14 +128,6 @@ buildliner_add_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/sbn/src/sbn_remap_tbl.c
 )
 
-buildliner_add_app(
-    sbn_mbox
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/mbox/fsw/for_build
-    CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib/tables/pq_backup_cfg.c
-)
-
 # This is temporarily removed until we can remove the OS dependency
 # in ci, i.e. "arpa/inet.h"
 #buildliner_add_app(
@@ -304,3 +296,4 @@ buildliner_add_app(
 #    CONFIG_SOURCES
 #        ${CMAKE_CURRENT_SOURCE_DIR}/apps/lgc/lgc_custom.cpp
 #)
+
