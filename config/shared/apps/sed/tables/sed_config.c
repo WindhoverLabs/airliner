@@ -68,13 +68,13 @@ SED_ConfigTbl_t SED_ConfigTbl =
         /* GyroZOffset */
         0.0f,
         /* TempOffset */
-        SED_ROOM_TEMP_OFFSET,
+        25.0f,
         /* TempSensitivity */
-        SED_TEMPERATURE_SENS,
+        326.8f,
         /* AccUnit */
-        SED_ONE_G,
+        9.80665f,
         /* GyroUnit */
-        SED_RADIANS_PER_DEGREE,
+        0.0174532f,
         /* AccDivider */
         2048,
         /* GyroDivider */
