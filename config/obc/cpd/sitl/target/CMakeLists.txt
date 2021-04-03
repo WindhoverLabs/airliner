@@ -122,9 +122,3 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/udp/fsw/for_build
 )
 
-
-buildliner_add_app(
-    sed
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sed/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sed
-)
