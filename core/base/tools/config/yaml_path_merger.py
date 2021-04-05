@@ -1,5 +1,13 @@
 """
+Usage:
+For obc-like builds:
+python3 yaml_path_merger.py --yaml_output final_yaml_ppd.yaml --yaml_input /home/lgomez/airliner/core/base/tools/config/merged_yaml.yaml --yaml_path /modules/cpd
+python3 yaml_path_merger.py --yaml_output final_yaml_ppd.yaml --yaml_input /home/lgomez/airliner/core/base/tools/config/merged_yaml.yaml --yaml_path /modules/ppd --append True
 
+For bebop-like builds:
+Notice how the path is omitted. These configurations tend to be a lot simpler.
+
+python3 yaml_path_merger.py --yaml_output final_yaml_ppd.yaml --yaml_input /home/lgomez/airliner/core/base/tools/config/merged_yaml.yaml
 """
 import argparse
 import subprocess
