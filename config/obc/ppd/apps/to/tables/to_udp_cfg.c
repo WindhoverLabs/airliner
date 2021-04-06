@@ -49,6 +49,9 @@ static CFE_TBL_FileDef_t CFE_TBL_FileDef OS_USED =
 #define CFE_TBL_REG_TLM_MID_CPD     (CPD_CPU_BASE + CFE_TBL_REG_TLM_MID)
 #define CFE_ES_SHELL_TLM_MID_CPD    (CPD_CPU_BASE + CFE_ES_SHELL_TLM_MID)
 #define CFE_ES_MEMSTATS_TLM_MID_CPD (CPD_CPU_BASE + CFE_ES_MEMSTATS_TLM_MID)
+#define PX4_SENSOR_ACCEL_MID_CPD    (CPD_CPU_BASE + PX4_SENSOR_ACCEL_MID)
+#define PX4_SENSOR_GYRO_MID_CPD     (CPD_CPU_BASE + PX4_SENSOR_GYRO_MID)
+
 
 /**
  **  \brief Default TO config table data
@@ -100,7 +103,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {CFE_SB_ONESUB_TLM_MID,        1, TO_PQUEUE_MEDIUM_IDX},
         {CFE_ES_SHELL_TLM_MID,        32, TO_PQUEUE_MEDIUM_IDX},
         {CFE_ES_MEMSTATS_TLM_MID,      1, TO_PQUEUE_MEDIUM_IDX},
-        /* CPD CFE Mids */
+        /* CPD Mids */
         {CFE_ES_HK_TLM_MID_CPD,       1, TO_PQUEUE_MEDIUM_IDX},
         {CFE_EVS_HK_TLM_MID_CPD,      1, TO_PQUEUE_MEDIUM_IDX},
         {CFE_SB_HK_TLM_MID_CPD,       1, TO_PQUEUE_MEDIUM_IDX},
@@ -113,6 +116,9 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {CFE_TBL_REG_TLM_MID_CPD,     1, TO_PQUEUE_MEDIUM_IDX},
         {CFE_ES_SHELL_TLM_MID_CPD,   32, TO_PQUEUE_MEDIUM_IDX},
         {CFE_ES_MEMSTATS_TLM_MID_CPD, 1, TO_PQUEUE_MEDIUM_IDX},
+        {PX4_SENSOR_ACCEL_MID_CPD,    1, TO_PQUEUE_LOW_IDX},
+        {PX4_SENSOR_GYRO_MID_CPD,     1, TO_PQUEUE_LOW_IDX},
+        /* End CPD Mids */
         {CF_HK_TLM_MID,                1, TO_PQUEUE_MEDIUM_IDX},
         {CF_TRANS_TLM_MID,             1, TO_PQUEUE_MEDIUM_IDX},
         {CF_CONFIG_TLM_MID,            1, TO_PQUEUE_MEDIUM_IDX},
