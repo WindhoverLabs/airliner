@@ -342,7 +342,7 @@ static void HKCmd(CFE_SB_MsgPtr_t MsgPtr)
         return;
     }/* end if */
 
-    CFE_EVS_SendEvent(SBN_CMD_EID, CFE_EVS_INFORMATION, "hk command");
+    //CFE_EVS_SendEvent(SBN_CMD_EID, CFE_EVS_INFORMATION, "hk command");
 
     uint8 HKBuf[SBN_HK_LEN];
     Pack_t Pack;
@@ -376,7 +376,7 @@ static void HKCmd(CFE_SB_MsgPtr_t MsgPtr)
             CFE_EVS_SendEvent(SBN_PEER_EID, CFE_EVS_ERROR,
                 "network #%d not configured", NetIdx);
 
-            return SBN_ERROR;
+            return;
         }/* end if */
         
         /* Note: StatusPacket currently unused. */

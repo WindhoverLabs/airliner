@@ -52,6 +52,7 @@ unsigned int ParseMessage(Mailbox_Parser_Handle_t *Handle, unsigned int Input, u
 	    	if(Input != Handle->CurrentChecksum)
 	    	{
 	    		/* Checkum mismatch. */
+                OS_printf("SBN MBOX checksum mismatch error.\n");
 		    	Handle->State = MPS_WAITING_FOR_CADU;
 	    	}
 	    	else
