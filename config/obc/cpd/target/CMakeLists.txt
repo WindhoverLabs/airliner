@@ -38,12 +38,12 @@ buildliner_add_app(
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib
 )
 
-#buildliner_add_app(
-#    px4lib
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
-#)
-#
+buildliner_add_app(
+    px4lib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
+)
+
 #buildliner_add_app(
 #    prmlib
 #    EMBEDDED
@@ -135,14 +135,15 @@ buildliner_add_app(
 buildliner_add_app(
     sbn_mbox
     EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/mbox/fsw/for_build
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_mbox/fsw/for_build
     CONFIG_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib/tables/pq_backup_cfg.c
 )
 
 buildliner_add_app(
     sed
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sed/fsw/for_build
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sed/fsw/for_build
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sed
 )
 

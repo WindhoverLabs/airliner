@@ -116,7 +116,7 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define SED_CONFIG_TABLE_FILENAME      ("/cf/apps/sed_config.tbl")
+#define SED_CONFIG_TABLE_FILENAME      ("/ram/apps/sed_config.tbl")
 
 /** \brief The timeout value, in milliseconds, to wait for ES application startup sync.
 **
@@ -124,30 +124,6 @@ extern "C" {
 **       This parameter must be at least 1000 (ms).
 */
 #define SED_STARTUP_TIMEOUT_MSEC        (1000)
-
-
-/** \brief Fake accel device ID */
-#define SED_ACCEL_PX4_DEVICE_ID         (6789478)
-/** \brief Fake gyro device ID */
-#define SED_GYRO_PX4_DEVICE_ID          (3467548)
-/** \brief Integration publish rate */
-#define SED_ACCEL_INT_PUB_RATE          (1000000 / 400)
-/** \brief Integration publish rate */
-#define SED_GYRO_INT_PUB_RATE           (1000000 / 400)
-/** \brief IMU accelerometer sample rate. */
-#define SED_ACCEL_SAMPLE_RATE           (200)
-/** \brief IMU accelerometer filter cutoff frequency. */
-#define SED_ACCEL_FILTER_CUTOFF_FREQ    (30)
-/** \brief IMU gyroscope sample rate. */
-#define SED_GYRO_SAMPLE_RATE            (200)
-/** \brief IMU gyroscope filter cutoff frequency. */
-#define SED_GYRO_FILTER_CUTOFF_FREQ     (30)
-/** \brief One gravity. */
-#define SED_ONE_G                       (9.80665f)
-/** \brief Radians per degree. */
-#define SED_RADIANS_PER_DEGREE          (0.0174532f)
-#define SED_TEMPERATURE_SENS            (326.8f)
-#define SED_ROOM_TEMP_OFFSET            (25.0f)
 
 #ifdef __cplusplus
 }
