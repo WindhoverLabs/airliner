@@ -15,6 +15,8 @@ def main():
     new_perf_record.setPropertyValue("border_color", RGB(240, 240, 240))
     new_perf_record.setPropertyValue("border_style", 0)
     new_perf_record.setPropertyValue("name", "perf_name")
+    # Refer to org.csstudio.opibuilder.widgets.model for resize_behaviour
+    new_perf_record.setPropertyValue("resize_behaviour", 1)
 
     display.getWidget("PerfRecordContainer").addChild(new_perf_record)
     # newMask = PVUtil.getLong(pvs[0])
