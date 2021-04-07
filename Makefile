@@ -143,7 +143,10 @@ obc-all:: obc/ppd obc/cpd
 	@make -C build/obc/cpd/target ground-tools
 	@echo 'Done'
 		
-		
+workspace::
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/wh_defs.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd;\
+    python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/wh_defs.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+
 obc-sitl:: obc/ppd/sitl obc/cpd/sitl
 	@echo 'Generating ground products.'
 	@make -C build/obc/ppd/sitl/target ground-tools
