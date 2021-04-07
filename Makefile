@@ -144,8 +144,10 @@ obc-all:: obc/ppd obc/cpd
 	@echo 'Done'
 		
 workspace::
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/wh_defs.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd;\
-    python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/wh_defs.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	rm build/obc/commander_workspace/Displays/Resources/definitions.yaml
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/definitions.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/definitions.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+
 
 obc-sitl:: obc/ppd/sitl obc/cpd/sitl
 	@echo 'Generating ground products.'
