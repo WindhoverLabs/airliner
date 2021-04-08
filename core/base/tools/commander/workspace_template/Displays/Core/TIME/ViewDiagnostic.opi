@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.qualifier</boy_version>
+  <boy_version>1.5.5.202104022333</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -5157,9 +5157,9 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts>
       <path pathString="/Displays/Core/TIME/scripts/format_cfe_time.py" checkConnect="true" seoe="false">
-        <pv trig="true">/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET</pv>
-        <pv trig="false">/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Seconds</pv>
-        <pv trig="false">/cfs/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Subseconds</pv>
+        <pv trig="true">/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET</pv>
+        <pv trig="false">/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Seconds</pv>
+        <pv trig="false">/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Subseconds</pv>
       </path>
     </scripts>
     <show_units>true</show_units>
