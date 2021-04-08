@@ -37,6 +37,11 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    mbp_lib
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/mbp_lib/fsw/for_build
+)
+
+buildliner_add_app(
     px4lib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
 )

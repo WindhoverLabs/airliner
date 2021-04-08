@@ -31,6 +31,12 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    mbp_lib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/mbp_lib/fsw/for_build
+)
+
+buildliner_add_app(
     pq_lib
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
@@ -138,13 +144,6 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_mbox/fsw/for_build
     CONFIG_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib/tables/pq_backup_cfg.c
-)
-
-buildliner_add_app(
-    sed
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sed/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sed
 )
 
 # This is temporarily removed until we can remove the OS dependency
