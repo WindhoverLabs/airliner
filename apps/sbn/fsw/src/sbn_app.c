@@ -1051,7 +1051,7 @@ int SBN_InitInterfaces(void)
             /* create a pipe name string similar to SBN_0_CPU2_Pipe */
             snprintf(PipeName, OS_MAX_API_NAME, "SBN_%d_%s_Pipe",
                 NetIdx, Peer->Name);
-            int Status = CFE_SB_CreatePipe(&(Peer->Pipe), 2, PipeName);
+            int Status = CFE_SB_CreatePipe(&(Peer->Pipe), SBN_PEER_PIPE_DEPTH, PipeName);
 
             if(Status != CFE_SUCCESS)
             {   
@@ -1271,9 +1271,9 @@ static int WaitForSBStartup(void)
 /** \brief SBN Main Routine */
 void SBN_AppMain(void)
 {
-    int     Status = CFE_SUCCESS;
-    uint32  RunStatus = CFE_ES_APP_RUN,
-            AppID = 0;
+    int    Status    = CFE_SUCCESS;
+    uint32 RunStatus = CFE_ES_APP_RUN;
+    uint32 AppID     = 0;
 
     Status = CFE_ES_RegisterApp();
     if(Status != CFE_SUCCESS) 
@@ -1446,12 +1446,18 @@ void SBN_AppMain(void)
     /* Wait for event from SB saying it is initialized OR a response from SB
        to the above messages. TRUE means it needs to re-send subscription
        requests */
-    if(WaitForSBStartup()) SBN_SendSubsRequests();
+    if(WaitForSBStartup()) 
+    {
+        SBN_SendSubsRequests();
+    }
 
-    if(Status != CFE_SUCCESS) RunStatus = CFE_ES_APP_ERROR;
+end_of_function:
 
     /* Loop Forever */
-    while(CFE_ES_RunLoop(&RunStatus)) WaitForWakeup(SBN_MAIN_LOOP_DELAY);
+    while(CFE_ES_RunLoop(&RunStatus)) 
+    {
+        WaitForWakeup(SBN_MAIN_LOOP_DELAY);
+    }
 
     int NetIdx = 0;
     for(NetIdx = 0; NetIdx < SBN.NetCnt; NetIdx++)
@@ -1461,8 +1467,6 @@ void SBN_AppMain(void)
     }/* end for */
 
     /* SBN_UnloadModules(); */
-
-end_of_function:
     CFE_ES_ExitApp(RunStatus);
 }/* end SBN_AppMain */
 

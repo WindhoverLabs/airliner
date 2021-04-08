@@ -49,6 +49,22 @@
  */
 #define SBN_HKNET_LEN (CFE_SB_TLM_HDR_SIZE + sizeof(uint8) * 2 + sizeof(char) * SBN_MAX_NET_NAME_LEN + sizeof(uint8) + sizeof(uint16))
 
+
+/**
+**  \brief No Arguments Command
+**
+**  \par
+**   For command details see #SBN_NOOP_CC, #SBN_RESET_CC
+**
+*/
+typedef struct
+{
+    /** \brief message header */
+    uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+} SBN_NoArgCmd_t;
+
+
 /**
  * @brief Module status response packet structure
  */

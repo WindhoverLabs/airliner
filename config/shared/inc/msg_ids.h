@@ -437,7 +437,8 @@
 #define SBN_SUB_MID                               TLM_MSG(  433 ) - CFE_MSG_CPU_BASE
 #define SBN_ALLSUB_MID                            TLM_MSG(  434 ) - CFE_MSG_CPU_BASE
 #define SBN_UNSUB_MID                             TLM_MSG(  435 ) - CFE_MSG_CPU_BASE
-#define SBN_MODULE_HK_MID                         TLM_MSG(  436 )
+
+#define SBN_MODULE_HK_TLM_MID                     TLM_MSG(  436 )
 
 
 /* SENS                                                      */
@@ -482,6 +483,14 @@
 #define VM_CMD_MID                                CMD_MSG(  482 )
 #define VM_SEND_HK_MID                            CMD_MSG(  483 )
 #define VM_WAKEUP_MID                             CMD_MSG(  484 )
+
+
+/* SED                                                       */
+#define SED_SEND_HK_MID                           CMD_MSG(  485 )
+#define SED_HK_TLM_MID                            TLM_MSG(  486 )
+#define SED_DIAG_TLM_MID                          TLM_MSG(  487 )
+#define SED_CMD_MID                               CMD_MSG(  488 )
+#define SED_MEASURE_MID                           CMD_MSG(  489 )
 
 
 #endif
