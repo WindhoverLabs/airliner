@@ -50,6 +50,13 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
 )
 
+buildliner_add_app(
+    sed
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sed/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sed
+)
+
 #buildliner_add_app(
 #    prmlib
 #    EMBEDDED
