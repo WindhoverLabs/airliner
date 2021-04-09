@@ -10,25 +10,31 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202104022333</boy_version>
+  <boy_version>1.6.1.qualifier</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>670</height>
+  <height>700</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
   <name>($(CPUID)) CFE-TIME - Diag</name>
   <rules />
-  <scripts />
+  <scripts>
+    <path pathString="/Displays/Core/TIME/scripts/format_cfe_time.py" checkConnect="true" seoe="false">
+      <pv trig="true">/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET</pv>
+      <pv trig="false">/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Seconds</pv>
+      <pv trig="false">/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Subseconds</pv>
+    </path>
+  </scripts>
   <show_close_button>true</show_close_button>
   <show_edit_range>true</show_edit_range>
   <show_grid>true</show_grid>
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>610</width>
+  <width>630</width>
   <wuid>35ebaa52:1509cf6a868:-791f</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -125,7 +131,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7052</wuid>
     <x>444</x>
@@ -2701,7 +2707,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-706e</wuid>
     <x>444</x>
@@ -2753,7 +2759,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-706d</wuid>
     <x>444</x>
@@ -2805,7 +2811,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-706c</wuid>
     <x>444</x>
@@ -2857,7 +2863,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-706b</wuid>
     <x>444</x>
@@ -2909,7 +2915,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-706a</wuid>
     <x>444</x>
@@ -2961,7 +2967,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7069</wuid>
     <x>444</x>
@@ -3013,7 +3019,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7068</wuid>
     <x>444</x>
@@ -3065,7 +3071,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7067</wuid>
     <x>444</x>
@@ -3117,7 +3123,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7066</wuid>
     <x>444</x>
@@ -3169,7 +3175,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7065</wuid>
     <x>444</x>
@@ -3221,7 +3227,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7064</wuid>
     <x>444</x>
@@ -3273,7 +3279,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7063</wuid>
     <x>444</x>
@@ -3325,7 +3331,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7062</wuid>
     <x>444</x>
@@ -3377,7 +3383,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7061</wuid>
     <x>444</x>
@@ -3429,7 +3435,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7060</wuid>
     <x>444</x>
@@ -3481,7 +3487,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-705f</wuid>
     <x>444</x>
@@ -3533,7 +3539,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-705e</wuid>
     <x>444</x>
@@ -3585,7 +3591,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-705d</wuid>
     <x>444</x>
@@ -3637,7 +3643,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-705c</wuid>
     <x>444</x>
@@ -3689,7 +3695,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-705b</wuid>
     <x>444</x>
@@ -3741,7 +3747,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-705a</wuid>
     <x>444</x>
@@ -3793,7 +3799,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7059</wuid>
     <x>444</x>
@@ -3845,7 +3851,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7058</wuid>
     <x>444</x>
@@ -3897,7 +3903,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7057</wuid>
     <x>444</x>
@@ -3949,7 +3955,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7056</wuid>
     <x>444</x>
@@ -4001,7 +4007,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7055</wuid>
     <x>444</x>
@@ -4053,7 +4059,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7054</wuid>
     <x>444</x>
@@ -4105,7 +4111,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>35ebaa52:1509cf6a868:-7053</wuid>
     <x>444</x>
@@ -5155,13 +5161,7 @@ $(pv_value)</tooltip>
       <height_scalable>true</height_scalable>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
-    <scripts>
-      <path pathString="/Displays/Core/TIME/scripts/format_cfe_time.py" checkConnect="true" seoe="false">
-        <pv trig="true">/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET</pv>
-        <pv trig="false">/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Seconds</pv>
-        <pv trig="false">/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Subseconds</pv>
-      </path>
-    </scripts>
+    <scripts />
     <show_units>true</show_units>
     <text>######</text>
     <tooltip>$(pv_name)
@@ -5170,7 +5170,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>151</width>
+    <width>180</width>
     <wrap_words>false</wrap_words>
     <wuid>-7d13f8de:17894c334a5:-7e2e</wuid>
     <x>444</x>
@@ -5215,5 +5215,189 @@ $(pv_value)</tooltip>
     <wuid>-7d13f8de:17894c334a5:-7e2d</wuid>
     <x>313</x>
     <y>623</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <format_type>0</format_type>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>GPS_Time_Field</name>
+    <precision>0</precision>
+    <precision_from_pv>false</precision_from_pv>
+    <pv_name></pv_name>
+    <pv_value />
+    <rotation_angle>0.0</rotation_angle>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_units>true</show_units>
+    <text>######</text>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <transparent>false</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Text Update</widget_type>
+    <width>180</width>
+    <wrap_words>false</wrap_words>
+    <wuid>69dd6e7:178b7272533:-7f16</wuid>
+    <x>444</x>
+    <y>642</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label_71</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>GPS Time</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>121</width>
+    <wrap_words>false</wrap_words>
+    <wuid>69dd6e7:178b7272533:-7f15</wuid>
+    <x>313</x>
+    <y>642</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <format_type>0</format_type>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>CFS_Time_Field</name>
+    <precision>0</precision>
+    <precision_from_pv>false</precision_from_pv>
+    <pv_name></pv_name>
+    <pv_value />
+    <rotation_angle>0.0</rotation_angle>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_units>true</show_units>
+    <text>######</text>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <transparent>false</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Text Update</widget_type>
+    <width>180</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-48fae9e6:178b87439dc:-7e03</wuid>
+    <x>443</x>
+    <y>661</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label_72</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>CFS Time</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>121</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-48fae9e6:178b87439dc:-7e02</wuid>
+    <x>312</x>
+    <y>661</y>
   </widget>
 </display>
