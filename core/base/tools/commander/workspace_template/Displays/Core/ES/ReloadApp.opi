@@ -44,7 +44,7 @@ var appName =VTypeHelper.getString(display.getWidget('inAppName').getPropertyVal
 var fileName =VTypeHelper.getString(display.getWidget('inFileName').getPropertyValue('pv_value'));
 
 Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/AppReload', {
-    'Payload.Application': appName,
+    'Payload.Application': appName.toUpperCase(),
     'Payload.AppFileName': fileName});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -161,8 +161,8 @@ $(pv_value)</tooltip>
     <height>32</height>
     <horizontal_alignment>0</horizontal_alignment>
     <limits_from_pv>false</limits_from_pv>
-    <maximum>Infinity</maximum>
-    <minimum>-Infinity</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <minimum>-1.7976931348623157E308</minimum>
     <multiline_input>false</multiline_input>
     <name>inAppName</name>
     <precision>0</precision>
