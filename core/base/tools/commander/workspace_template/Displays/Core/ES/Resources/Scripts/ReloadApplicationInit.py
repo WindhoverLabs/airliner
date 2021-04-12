@@ -6,7 +6,7 @@ widgets and uses EventRecord.opi to generates a container widget for each event 
 """
 # import java packages
 from org.csstudio.opibuilder.scriptUtil import PVUtil, ScriptUtil, FileUtil, WidgetUtil, DataUtil
-from org.csstudio.opibuilder.scriptUtil import YAMLUtil
+from com.windhoverlabs.studio.registry import YAMLRegistry, ConfigRegistry
 from org.eclipse.swt.graphics import RGB
 
 # import python packages
@@ -64,11 +64,12 @@ def main():
         logger.warning(project_name)
         yaml_path_macro = display.getMacroValue("CONFIG_REGISTRY")
         logger.warning(yaml_path_macro)
-        yaml_path = FileUtil.workspacePathToSysPath(yaml_path_macro)
 
-        yaml_data = YAMLUtil.parseYAML(yaml_path)
-        module_data = get_module(app_name, yaml_data)
+        registry_path = display.getMacroValue("REGISTRY_PATH")
 
-        display.getWidget("app_name").setPropertyValue("text", module_data["short_name"].upper() + " - Reload App")
+        registry = YAMLRegistry()
+
+        display.getWidget("app_name").setPropertyValue("text",
+                                                       registry.get(registry_path + "/short_name").upper() + " - Reload App")
 
 main()
