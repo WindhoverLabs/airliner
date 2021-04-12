@@ -125,35 +125,6 @@ extern "C" {
 */
 #define SED_STARTUP_TIMEOUT_MSEC        (1000)
 
-#define SED_MBOX_MAX_BUFFER_SIZE_WORDS  (1500)
-
-#define SED_MBOX_WORD_SIZE              (4)
-
-#define SED_MAX_FIFO_MEASUREMENTS       (164)
-
-/** \brief Fake accel device ID */
-#define SED_ACCEL_PX4_DEVICE_ID         (6789478)
-/** \brief Fake gyro device ID */
-#define SED_GYRO_PX4_DEVICE_ID          (3467548)
-/** \brief Integration publish rate */
-#define SED_ACCEL_INT_PUB_RATE          (1000000 / 400)
-/** \brief Integration publish rate */
-#define SED_GYRO_INT_PUB_RATE           (1000000 / 400)
-/** \brief IMU accelerometer sample rate. */
-#define SED_ACCEL_SAMPLE_RATE           (200)
-/** \brief IMU accelerometer filter cutoff frequency. */
-#define SED_ACCEL_FILTER_CUTOFF_FREQ    (30)
-/** \brief IMU gyroscope sample rate. */
-#define SED_GYRO_SAMPLE_RATE            (200)
-/** \brief IMU gyroscope filter cutoff frequency. */
-#define SED_GYRO_FILTER_CUTOFF_FREQ     (30)
-/** \brief One gravity. */
-#define SED_ONE_G                       (9.80665f)
-/** \brief Radians per degree. */
-#define SED_RADIANS_PER_DEGREE          (0.0174532f)
-#define SED_TEMPERATURE_SENS            (326.8f)
-#define SED_ROOM_TEMP_OFFSET            (25.0f)
-
 #ifdef __cplusplus
 }
 #endif
