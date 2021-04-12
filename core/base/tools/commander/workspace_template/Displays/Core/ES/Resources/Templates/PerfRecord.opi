@@ -10,7 +10,7 @@
   <background_color>
     <color red="240" green="240" blue="240" />
   </background_color>
-  <boy_version>1.5.5.202103162101</boy_version>
+  <boy_version>1.5.5.202104022333</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -302,19 +302,11 @@ $(pv_value)</tooltip>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.gridLayout" version="1.0.0">
       <fill_grids>false</fill_grids>
-      <grid_gap>2</grid_gap>
+      <grid_gap>50</grid_gap>
       <name>Grid Layout</name>
       <number_of_columns>5</number_of_columns>
       <widget_type>Grid Layout</widget_type>
       <wuid>7a03ebb6:17840dde0b7:-6415</wuid>
     </widget>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.gridLayout" version="1.0.0">
-    <fill_grids>false</fill_grids>
-    <grid_gap>2</grid_gap>
-    <name>Grid Layout</name>
-    <number_of_columns>3</number_of_columns>
-    <widget_type>Grid Layout</widget_type>
-    <wuid>7a03ebb6:17840dde0b7:-6185</wuid>
   </widget>
 </display>
