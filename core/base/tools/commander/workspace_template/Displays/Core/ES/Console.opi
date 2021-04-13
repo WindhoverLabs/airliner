@@ -410,7 +410,7 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
     <width>763</width>
-    <wrap_words>false</wrap_words>
+    <wrap_words>true</wrap_words>
     <wuid>-e1e6812:1508d3700d4:-7435</wuid>
     <x>18</x>
     <y>36</y>
