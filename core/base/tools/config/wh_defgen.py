@@ -140,6 +140,8 @@ def main():
 
             merge_parent_config(merged_config, abs_config_base, abs_local_dir)
 
+            yaml_merger.merge(local_config, merged_config)
+
             # We don't want to write the configuration to the file system if there is a file
             # already there that contains an identical configuration.  See if there's a file
             # there already.

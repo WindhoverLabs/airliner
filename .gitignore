@@ -6,3 +6,4 @@ build/**
 .project
 venv
 *.class
+*__pycache__

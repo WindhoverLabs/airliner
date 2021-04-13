@@ -52,7 +52,7 @@
 ** Local Structure Declarations
 *************************************************************************/
 
-uint32  PQ_MemPoolDefSize[PQ_MAX_MEMPOOL_BLK_SIZES] =
+uint32 PQ_MemPoolDefSize[PQ_MAX_MEMPOOL_BLK_SIZES] =
 {
     PQ_MAX_BLOCK_SIZE,
     PQ_MEM_BLOCK_SIZE_07,
@@ -405,4 +405,9 @@ void PQ_Channel_CopyStats(PQ_HkTlm_t *HkTlm, PQ_ChannelData_t *Channel)
     //(void) OS_MutSemTake(TO_AppData.MutexID);
     HkTlm->SentBytes                   = Channel->OutputQueue.SentBytes;
     //(void) OS_MutSemGive(TO_AppData.MutexID);
+    HkTlm->OutputQueue.OSALQueueID        = Channel->OutputQueue.OSALQueueID;
+    HkTlm->OutputQueue.SentBytes          = Channel->OutputQueue.SentBytes;
+    HkTlm->OutputQueue.SentCount          = Channel->OutputQueue.SentCount;
+    HkTlm->OutputQueue.CurrentlyQueuedCnt = Channel->OutputQueue.CurrentlyQueuedCnt;
+    HkTlm->OutputQueue.HighwaterMark      = Channel->OutputQueue.HighwaterMark;
 }

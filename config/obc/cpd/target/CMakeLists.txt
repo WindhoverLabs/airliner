@@ -2,6 +2,7 @@ include(../set-vars.cmake)
 
 buildliner_initialize(
     EMBED_SYMTAB
+    CPU_ID CPD
     PSP ${PSP}
     OSAL ${OSAL}
     CORE_TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/tools
@@ -19,7 +20,7 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
         
     COMMANDER_WORKSPACE
-        ${CMAKE_CURRENT_BINARY_DIR}/../../..
+        ${CMAKE_BINARY_DIR}/../../commander_workspace
 )
 
 
@@ -30,16 +31,9 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    px4lib
+    mbp_lib
     EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
-)
-
-buildliner_add_app(
-    prmlib
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/prm
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/mbp_lib/fsw/for_build
 )
 
 buildliner_add_app(
@@ -47,16 +41,36 @@ buildliner_add_app(
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
     # TODO move this table build to sbn module?
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib
 )
+
+buildliner_add_app(
+    px4lib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
+)
+
+buildliner_add_app(
+    sed
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sed/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sed
+)
+
+#buildliner_add_app(
+#    prmlib
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/prm
+#)
 
 buildliner_add_app(
     sch
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sch
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sch
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sch/sch_custom_rt.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sch/sch_custom_rt.c
 )
 
 # This is temporarily removed until we can remove the OS dependency
@@ -126,17 +140,17 @@ buildliner_add_app(
     sbn
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sbn
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sbn/src/sbn_remap_tbl.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn/src/sbn_remap_tbl.c
 )
 
 buildliner_add_app(
     sbn_mbox
     EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/mbox/fsw/for_build
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_mbox/fsw/for_build
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib/tables/pq_backup_cfg.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib/tables/pq_backup_cfg.c
 )
 
 # This is temporarily removed until we can remove the OS dependency
@@ -148,18 +162,17 @@ buildliner_add_app(
 #    CONFIG_SOURCES
 #        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci/ci_custom.c
 #)
-#
-## This is temporarily removed until we can remove the OS dependency
-## in ci, i.e. "arpa/inet.h"
+
 #buildliner_add_app(
-#    to
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/to
-#    CONFIG_SOURCES
-#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/tables/to_backup_cfg.c
-#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/to_custom.c
+    #to
+    #EMBEDDED
+    #DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
+    #CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to
+    #CONFIG_SOURCES
+        #${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/tables/to_backup_cfg.c
+        #${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_custom.c
 #)
-#
+
 #
 ## This is temporarily removed until we can geet px4lib back in
 #buildliner_add_app(

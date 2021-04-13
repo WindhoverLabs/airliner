@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103012118</boy_version>
+  <boy_version>1.6.2.202104092231</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -18,7 +18,7 @@
   <height>150</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
-    <CONFIG_REGISTRY>/Displays/Resources/definitions.yaml</CONFIG_REGISTRY>
+    <CONFIG_REGISTRY>/Displays/Resources/config_registry.yaml</CONFIG_REGISTRY>
   </macros>
   <name>($(CPUID)) ReloadApp</name>
   <rules />
@@ -49,7 +49,7 @@ var appName  = display.getMacroValue("APP");
 var fileName =VTypeHelper.getString(display.getWidget('inFileName').getPropertyValue('pv_value'));
 
 Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/AppReload', {
-    'Payload.Application': appName,
+    'Payload.Application': appName.toUpperCase(),
     'Payload.AppFileName': fileName});]]></scriptText>
         <embedded>true</embedded>
         <description></description>

@@ -1,6 +1,8 @@
 CFE_LIB, /embedded/CFS_LIB.so,   CFS_LibInit,     CFS_LIB,    0,     0, 0x0, 0, 2;
+CFE_LIB, /embedded/MBP_LIB.so,   MBP_LibInit,     MBP_LIB,    0,     0, 0x0, 0, 2;
 CFE_LIB, /embedded/PQ_LIB.so,    PQ_LibInit,      PQ_LIB,     0,       0, 0x0, 0, 2;
 CFE_APP, /embedded/SBN.so,       SBN_AppMain,     SBN,       37, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/SED.so,       SED_AppMain,     SED,       46, 327680, 0x0, 0, 2;
 CFE_APP, /embedded/SCH.so,       SCH_AppMain,     SCH,       34,  40960, 0x0, 0, 2;
 !CFE_LIB, /embedded/PRMLIB.so,    PRMLIB_LibInit,  PRMLIB,      0,     0, 0x0, 0, 2;
 CFE_LIB, /embedded/PX4LIB.so,    PX4LIB_LibInit,  PX4LIB,    0,     0, 0x0, 0, 2;

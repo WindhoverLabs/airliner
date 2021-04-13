@@ -65,8 +65,9 @@ mdb:
     # Valid loaders are: sheet, xtce or fully qualified name of the class
     - type: "xtce"
       spec: "mdb/cfs-ccsds.xml"
-    - type: "xtce"
-      spec: "mdb/cfs.xml"
+      subLoaders:
+        - type: "xtce"
+          spec: "mdb/cfs.xml"
 
 # Configuration for streams created at server startup
 streamConfig:
