@@ -23,7 +23,7 @@ PQUEUE_FIELDS = ['DroppedMsgCnt', 'QueuedMsgCnt', 'CurrentlyQueuedCnt',
 
 # Hopefully there is a way to alias this stuff in Studio. And then perhaps all of thse python scripts could be auto-generated.
 # FIXME: I really wish we could just access aggregates. Might be possible through the HTTP client API.
-AGGREGATE_PV = "/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.PQueue"
+AGGREGATE_PV = "/cfs/"+display.getMacroValue("CPUID")+"/to/TO_ChannelDiagTlm_t.PQueue"
 
 
 class UI_Business(Runnable):

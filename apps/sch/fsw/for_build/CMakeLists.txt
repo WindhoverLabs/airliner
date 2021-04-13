@@ -48,6 +48,8 @@ buildliner_add_app_def(sch
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sch_verify.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/sch_version.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/sch_api.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/sch_symbols.c
+        
    
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

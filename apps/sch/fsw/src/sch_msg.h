@@ -35,6 +35,7 @@
 
 #include "common_types.h"
 #include "sch_msgdefs.h"
+#include "cfe.h"
 
 /*************************************************************************
 **
