@@ -88,13 +88,13 @@ SED_ConfigTbl_t SED_ConfigTbl =
         /* GyroUnit */
         0.0174532f,
         /* MagUnit */
-        1.0f
+        1.0f,
         /* AccDivider */
         2048,
         /* GyroDivider */
         16.4,
         /* MagDivider */
-        820.0f
+        820.0f,
         /* AccScale */
         16,
         /* GyroScale */
