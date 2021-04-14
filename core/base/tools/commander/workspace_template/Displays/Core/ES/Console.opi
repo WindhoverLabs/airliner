@@ -44,7 +44,7 @@ display.getWidget('ConsoleDisplay').setPropertyValue('pv_value', combined);
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>800</width>
+  <width>1000</width>
   <wuid>-e1e6812:1508d3700d4:-75fc</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -409,7 +409,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>0</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>763</width>
+    <width>974</width>
     <wrap_words>true</wrap_words>
     <wuid>-e1e6812:1508d3700d4:-7435</wuid>
     <x>18</x>
