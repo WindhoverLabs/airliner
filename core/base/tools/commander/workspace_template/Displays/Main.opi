@@ -3464,7 +3464,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>-5afbbac6:178cce88c37:1fc1</wuid>
     <x>408</x>
-    <y>331</y>
+    <y>322</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -3520,6 +3520,6 @@ $(pv_value)</tooltip>
     <width>73</width>
     <wuid>-5afbbac6:178cce88c37:1fc2</wuid>
     <x>642</x>
-    <y>329</y>
+    <y>320</y>
   </widget>
 </display>
