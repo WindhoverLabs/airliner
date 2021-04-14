@@ -67,6 +67,18 @@ SED_ConfigTbl_t SED_ConfigTbl =
         0.0f,
         /* GyroZOffset */
         0.0f,
+        /* MagXScale */
+        1.0f,
+        /* MagYScale */
+        1.0f,
+        /* MagZScale */
+        1.0f,
+        /* MagXOffset */
+        0.0f,
+        /* MagYOffset */
+        0.0f,
+        /* MagZOffset */
+        0.0f,
         /* TempOffset */
         25.0f,
         /* TempSensitivity */
@@ -75,14 +87,22 @@ SED_ConfigTbl_t SED_ConfigTbl =
         9.80665f,
         /* GyroUnit */
         0.0174532f,
+        /* MagUnit */
+        1.0f
         /* AccDivider */
         2048,
         /* GyroDivider */
         16.4,
+        /* MagDivider */
+        820.0f
         /* AccScale */
         16,
         /* GyroScale */
-        2000
+        2000,
+        /* MagScale */
+        0.0012195f,
+        /* MagUnit */
+        1.9
 };
 
 /*
