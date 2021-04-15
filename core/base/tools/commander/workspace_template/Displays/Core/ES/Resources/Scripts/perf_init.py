@@ -1,4 +1,4 @@
-from org.csstudio.opibuilder.scriptUtil import PVUtil, WidgetUtil, DataUtil
+from org.csstudio.opibuilder.scriptUtil import PVUtil, WidgetUtil, DataUtil, ScriptUtil
 from org.eclipse.swt.graphics import RGB
 from com.windhoverlabs.studio.registry import YAMLRegistry, ConfigRegistry
 from org.csstudio.opibuilder.script import PVTuple
@@ -22,7 +22,7 @@ def get_all_perf_ids(modules, out_perf_ids):
 
 def get_perf_id(perf_ids, id):
     for perf_id in perf_ids:
-        print('perf_id-->{}'.format(perf_id))
+        # print('perf_id-->{}'.format(perf_id))
         if id == perf_ids[perf_id]['id']:
             return "{}:{}".format(id, str(perf_id))
     return "{}:{}".format(id, "")
@@ -37,18 +37,26 @@ def get_number_of_tabs(registry):
     For more details refer to airliner/core/base/cfe/docs/cFE UsersGuide/Doxygen/cfe__platform__cfg_8h-source.html#l01040.
     """
     registry_path = display.getMacroValue("REGISTRY_PATH")
-    return registry.get(registry_path + '/config/CFE_ES_PERF_MAX_IDS/value')/32
+    out_tabs = registry.get(registry_path + '/config/CFE_ES_PERF_MAX_IDS/value')/32
+
+    # FIXME: At the moment there is a bug in Studio where the amount of tabs has to be 2 or more, otherwise it does
+    # not add any child containers to the tabbed containers.
+    if out_tabs < 2:
+        out_tabs = 2
+
+    return out_tabs
 
 def add_perf_records(tab_number, perf_ids):
     """
 
     """
-    print("-->number of tabs:{}".format(tab_number))
+    # print("-->number of tabs:{}".format(tab_number))
     add_tabbed_container(tab_number)
     current_mask_number = 0
     current_perf_id = 1
     # display.getWidget("PerfTabbedContainer").getWidgetModel().setPropertyValue("tab_count", tab_number)
     for child in display.getWidget("PerfTabbedContainer").getWidgetModel().getChildren():
+        # print("$2")
         #Add header
         new_perf_control = WidgetUtil.createWidgetModel("org.csstudio.opibuilder.widgets.linkingContainer")
         # TODO: Use the enumeration values from Studio to avoid magical strings
@@ -71,8 +79,34 @@ def add_perf_records(tab_number, perf_ids):
         # For the life of me, I cannot figure out why macros don't work with this pattern. I'll ask SpaceApp.
         new_perf_control.getChildByName("Grouping Container").getChildByName("Action Button_2").setPropertyValue(
             "pv_value", current_mask_number)
+
+        print("*****************************")
+        new_perf_control.getChildByName("Grouping Container").getChildByName("FilterRequestAll1").setPropertyValue("pv_name", "loc://FilterRequestAll_AUTO" + str(current_mask_number))
+        # pv_name = new_perf_control.getChildByName("Grouping Container").getChildByName("FilterRequestAll1").getPropertyValue("pv_name")
+        # new_pv = PVTuple(pv_name, True)
+        # print("pv_value:{}".format(new_perf_control.getChildByName("Grouping Container").getChildByName("FilterRequestAll1").getPropertyValue("scripts").getScriptList()[0].getPVList()[0].pvName))
+        new_perf_control.getChildByName("Grouping Container").getChildByName("FilterRequestAll1").getPropertyValue("scripts").getScriptList()[0].getPVList()[0].pvName = "loc://FilterRequestAll_AUTO" + str(current_mask_number)
+            # .addPV(new_pv)
+        pvName = "loc://FilterRequestAll_AUTO" + str(current_mask_number)
+        # print('pv_name-->{}'.format(pvName))
+        pv = PVUtil.createPV(pvName, display)
+        new_listner = MyPVListener2(current_mask_number)
+        pv.addListener(new_listner)
+        # # script.addPV(PVTuple("/cfs/
+        # event_macros = DataUtil.createMacrosInput(True)
+        # event_macros.put("TAB", str("TAB_TITLE"))
+        # new_perf_control.setPropertyValue("macros", event_macros)
+
+        # new_perf_control.getChildByName("Grouping Container").getChildByName("TriggerRequestAll1").setPropertyValue("pv_name", "loc://TriggerRequestAll_AUTO" + str(current_mask_number))
+        # pv_name = new_perf_control.getChildByName("Grouping Container").getChildByName("TriggerRequestAll1").getPropertyValue("pv_name")
+        # new_pv = PVTuple(pv_name, True)
+        # new_perf_control.getChildByName("Grouping Container").getChildByName("TriggerRequestAll1").getPropertyValue("scripts").getScriptList()[0].addPV(new_pv)
+
+
+        # print("+++++{}".format(type()))
         current_mask_number = current_mask_number + 1
         for i in range(PERF_ID_BATCH_COUNT):
+            # print("$3")
             new_perf_record = WidgetUtil.createWidgetModel("org.csstudio.opibuilder.widgets.linkingContainer")
             # TODO: Use the enumeration values from Studio to avoid magical strings
             new_perf_record.setPropertyValue("opi_file", display.getMacroValue("PerfRecordTEMPLATE_OPI"))
@@ -81,18 +115,21 @@ def add_perf_records(tab_number, perf_ids):
             new_perf_record.setPropertyValue("background_color", RGB(255, 255, 255))
             new_perf_record.setPropertyValue("border_color", RGB(240, 240, 240))
             new_perf_record.setPropertyValue("border_style", 0)
-            new_perf_record.setPropertyValue("name", "perf_name")
+            new_perf_record.setPropertyValue("name", "perf_record_link")
             # Refer to org.csstudio.opibuilder.widgets.model for resize_behaviour
             new_perf_record.setPropertyValue("resize_behaviour", 1)
 
             child.getChildByName("PerfRecordContainer").addChild(new_perf_record)
 
             # Access children of new_perf_record only AFTER they are added to the display container
-            new_perf_record.getChildByName("PerfRecordContainer").getChildByName("FilterActual").setPropertyValue("name", "FilterActual" + str(i))
-            new_perf_record.getChildByName("PerfRecordContainer").getChildByName("FilterActual" + str(i)).setPropertyValue("pv_value", 0)
+            new_perf_record.getChildByName("PerfRecord").getChildByName("FilterActual").setPropertyValue("pv_name", "loc://FilterActual_AUTO" + str(current_perf_id))
+            new_perf_record.getChildByName("PerfRecord").getChildByName("FilterActual").setPropertyValue("pv_value", 0)
 
-            new_perf_record.getChildByName("PerfRecordContainer").getChildByName("PerfId").setPropertyValue("text",
-                                                                                                            get_perf_id(perf_ids, current_perf_id))
+            new_perf_record.getChildByName("PerfRecord").getChildByName("FilterRequest").setPropertyValue("pv_name", "loc://FilterRequest_AUTO" + str(current_perf_id))
+            new_perf_record.getChildByName("PerfRecord").getChildByName("FilterRequest").setPropertyValue("pv_value", 0)
+            # new_perf_record.getChildByName("PerfRecord").getChildByName("FilterRequest").setPropertyValue("name", "FilterRequestAUTO" + str(current_perf_id))
+
+            new_perf_record.getChildByName("PerfRecord").getChildByName("PerfId").setPropertyValue("text", get_perf_id(perf_ids, current_perf_id))
 
             current_perf_id = current_perf_id + 1
 
@@ -114,8 +151,9 @@ def add_tabbed_container(tab_number):
     new_tabbed_container.setPropertyValue("tab_count", tab_number)
 
     current_mask_number = 0
+    # print("$1")
     for child in new_tabbed_container.getChildren():
-        print('child tab ')
+        # print('child tab ')
         child.setPropertyValue("background_color", RGB(255, 255, 255))
         # Add the container for perf ids
         new_grouping_container = WidgetUtil.createWidgetModel("org.csstudio.opibuilder.widgets.groupingContainer")
@@ -139,21 +177,86 @@ def add_tabbed_container(tab_number):
         current_mask_number = current_mask_number + 1
 
 
+class UI_FilterAll(Runnable):
+    """
+    Any behavior that changes the state of widgets MUST happen inside this runnable function via
+    ScriptUtil.execInUI.
+    """
+
+    def __init__(self,  in_pv_data, in_tab_count):
+        self.pv_data = in_pv_data
+        self.tab_count = in_tab_count
+
+    def run(self):
+        print('UI_FilterAll')
+        current_tab = None
+        tab_counter = 0
+
+        # Have to do this ugly hack because we can't get the tab by index.
+        for child in display.getWidget("PerfTabbedContainer").getChildren():
+            current_tab = child.getWidgetModel()
+            if tab_counter == self.tab_count:
+                break
+            tab_counter = tab_counter + 1
+
+        for i in range(1, 33):
+            for linking_record in current_tab.getChildByName("PerfRecordContainer").getChildren():
+                # Ensure that we don't touch the GridLayout
+                if linking_record.getPropertyValue("widget_type") == 'Linking Container':
+                    # print(linking_record.getChildren()[0].getPropertyValue("name"))
+                    perf_record = linking_record.getChildByName("PerfRecord")
+                    perf_record.getChildByName("FilterRequest").setPropertyValue('pv_value', int(PVUtil.getLong(self.pv_data)))
+
+
 class UI_Business(Runnable):
     """
     Any behavior that changes the state of widgets MUST happen inside this runnable function via
     ScriptUtil.execInUI.
     """
 
-    def __init__(self, in_row, in_col, in_pv_data):
-        self.ui_col = in_col
-        self.ui_row = in_row
+    def __init__(self,  in_pv_data, in_tab_count):
         self.pv_data = in_pv_data
+        self.tab_count = in_tab_count
+        # print('init value-->{}'.format(self.pv_data.getValue()))
+        # print('init tab-->{}'.format(self.tab_count))
+
 
     def run(self):
-        display.getWidget("Table").getTable().setCellText(self.ui_row,
-                                                          self.ui_col,
-                                                          str(self.pv_data.getValue()))
+        # print('new val:{}'.format(self.pv_data))
+
+        # print('triggered:{}'.format(self.tab_count))
+
+        # Readers should note that getValue() returns org.yamcs.studio.data.yamcs.Uint32VType, NOT a native int.
+        # So when using the value one might find it useful to call PVUtil.getLong(newMask) on it.
+        newMask = self.pv_data
+
+        current_tab = None
+
+        tab_counter = 0
+
+        newValue = 0
+
+        # Have to do this ugly hack because we can't get the tab by index.
+        for child in display.getWidget("PerfTabbedContainer").getChildren():
+            current_tab = child.getWidgetModel()
+            if tab_counter == self.tab_count:
+                break
+            tab_counter = tab_counter + 1
+
+        for i in range(1, 33):
+            for linking_record in current_tab.getChildByName("PerfRecordContainer").getChildren():
+                newValue = 0
+                v = (PVUtil.getLong(newMask)) & (long(math.pow(2, i) - 1))
+
+                if v > 0:
+                    newValue = 1
+                # Ensure that we don't touch the GridLayout
+                if linking_record.getPropertyValue("widget_type") == 'Linking Container':
+                    # print(linking_record.getChildren()[0].getPropertyValue("name"))
+                    perf_record = linking_record.getChildByName("PerfRecord")
+                    # print('widget name:{}'.format(linking_record.getChildByName("PerfRecord").getChildByName("FilterActual")))
+                    linking_record.getChildByName("PerfRecord").getChildByName("FilterActual").setPropertyValue('pv_value', newValue)
+                    # print(' new pv_val--->{}'.format(newValue))
 
 
 class MyPVListener(IPVListener):
@@ -165,35 +268,26 @@ class MyPVListener(IPVListener):
             # FIXME: This will not execute. Must wrap around inside an UI Thread.
             widget.getTable().setCellText(0, 0, "Disconnected")
         else:
-            print('triggered:{}'.format(self.tab_number))
+            ScriptUtil.execInUI(UI_Business(pv, self.tab_number), widget)
 
-            newMask = pv.getValue()
+    def connectionChanged(self, pv):
+        # FIXME:Figure out a way to log properly
+        print("connection changed")
 
-            current_tab = None
+    def writePermissionChanged(self, pv):
+        # FIXME:Figure out a way to log properly
+        print("write permission changed")
 
-            tab_counter = 0
-            for child in display.getWidget("PerfTabbedContainer").getChildren():
-                current_tab = child.getWidgetModel()
-                if tab_counter == self.tab_number:
-                    break
-                tab_counter = tab_counter + 1
+class MyPVListener2(IPVListener):
+    def __init__(self, in_tab_number):
+        self.tab_number = in_tab_number
 
-            print('current:{}'.format(type(current_tab)))
-
-            for i in range(1, PERF_ID_BATCH_COUNT+1):
-                RequestFilterName = 'FilterActual' + str(i)
-                print('i:{}'.format(i))
-                newValue = 0
-                print('#2')
-                print('{}'.format(newMask))
-                if (newMask & int(math.pow(2, i - 1)) )> 0:
-                    print("")
-                    # FIXME: This is crashing here, not sure why.
-                    print("#3:{}".format(int(math.pow(2, i - 1))))
-                # if (newMask & math.pow(2, i - 1)) > 0:
-                #     newValue = 1
-                # current_tab.getWidget(RequestFilterName).setPropertyValue('pv_value', 1)
-            # ScriptUtil.execInUI(UI_Business(self.row, self.col, pv), widget)
+    def valueChanged(self, pv):
+        if not pv.isConnected():
+            # FIXME: This will not execute. Must wrap around inside an UI Thread.
+            widget.getTable().setCellText(0, 0, "Disconnected")
+        else:
+            ScriptUtil.execInUI(UI_FilterAll(pv, self.tab_number), widget)
 
     def connectionChanged(self, pv):
         # FIXME:Figure out a way to log properly
@@ -221,21 +315,16 @@ def main():
     if widget.getVar("firstTime") == None:
         widget.setVar("firstTime", True)
         add_perf_records(tabs, perf_ids)
-
-
-
-        # script = display.getWidgetModel().getPropertyValue('scripts').getScriptList()[0]
-        #
         for tab in range(tabs):
         #     script.addPV(PVTuple(FILTER_MASK_PV_BASE_NAME + "_{}_".format(str(tab)), True))
             pvName = FILTER_MASK_PV_BASE_NAME + "_{}_".format(tab)
-
+            # print('pv_name-->{}'.format(pvName))
             pv = PVUtil.createPV(pvName, display)
             new_listner = MyPVListener(tab)
             pv.addListener(new_listner)
-        # script.addPV(PVTuple("/cfs//cfe_es/CFE_ES_HkPacket_t.Payload.CmdCounter", True))
+        # # script.addPV(PVTuple("/cfs//cfe_es/CFE_ES_HkPacket_t.Payload.CmdCounter", True))
 
-    print('triggered')
+    # print('triggered')
 
 
 

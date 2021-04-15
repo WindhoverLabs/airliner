@@ -55,7 +55,7 @@
     <macros>
       <include_parent_macros>true</include_parent_macros>
     </macros>
-    <name>PerfRecordContainer</name>
+    <name>PerfRecord</name>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>

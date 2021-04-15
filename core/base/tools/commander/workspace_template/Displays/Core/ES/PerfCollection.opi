@@ -900,7 +900,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </tab_1_foreground_color>
     <tab_1_icon_path></tab_1_icon_path>
-    <tab_1_title>2</tab_1_title>
+    <tab_1_title>Tab 1</tab_1_title>
     <tab_2_background_color>
       <color red="255" green="255" blue="255" />
     </tab_2_background_color>
@@ -912,7 +912,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </tab_2_foreground_color>
     <tab_2_icon_path></tab_2_icon_path>
-    <tab_2_title>3</tab_2_title>
+    <tab_2_title>Tab 2</tab_2_title>
     <tab_3_background_color>
       <color red="255" green="255" blue="255" />
     </tab_3_background_color>
@@ -924,7 +924,7 @@ $(pv_value)</tooltip>
       <color red="0" green="0" blue="0" />
     </tab_3_foreground_color>
     <tab_3_icon_path></tab_3_icon_path>
-    <tab_3_title>4</tab_3_title>
+    <tab_3_title>Tab 3</tab_3_title>
     <tab_count>4</tab_count>
     <tooltip></tooltip>
     <visible>true</visible>
@@ -8814,7 +8814,7 @@ $(pv_value)</tooltip>
             <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
-
+ConsoleUtil.writeInfo("logging1");
 var setAllFilterValue = VTypeHelper.getDouble(display.getWidget('FilterRequestAll1').getPropertyValue('pv_value'));
 for(var i = 1; i <= 32; ++i) {
 	var RequestFilterName = 'FilterRequest' + i;
@@ -8922,7 +8922,7 @@ $(pv_value)</tooltip>
       <macros>
         <include_parent_macros>true</include_parent_macros>
       </macros>
-      <name>2</name>
+      <name>Tab 1</name>
       <rules />
       <scale_options>
         <width_scalable>true</width_scalable>
@@ -8936,7 +8936,7 @@ $(pv_value)</tooltip>
       <visible>false</visible>
       <widget_type>Grouping Container</widget_type>
       <width>659</width>
-      <wuid>-35c7bfc1:1509236a393:-7207</wuid>
+      <wuid>476aad2d:178d6801590:-337a</wuid>
       <x>1</x>
       <y>1</y>
     </widget>
@@ -8963,7 +8963,7 @@ $(pv_value)</tooltip>
       <macros>
         <include_parent_macros>true</include_parent_macros>
       </macros>
-      <name>3</name>
+      <name>Tab 2</name>
       <rules />
       <scale_options>
         <width_scalable>true</width_scalable>
@@ -8977,7 +8977,7 @@ $(pv_value)</tooltip>
       <visible>false</visible>
       <widget_type>Grouping Container</widget_type>
       <width>659</width>
-      <wuid>-35c7bfc1:1509236a393:-7206</wuid>
+      <wuid>476aad2d:178d6801590:-3379</wuid>
       <x>1</x>
       <y>1</y>
     </widget>
@@ -9004,7 +9004,7 @@ $(pv_value)</tooltip>
       <macros>
         <include_parent_macros>true</include_parent_macros>
       </macros>
-      <name>4</name>
+      <name>Tab 3</name>
       <rules />
       <scale_options>
         <width_scalable>true</width_scalable>
@@ -9018,7 +9018,7 @@ $(pv_value)</tooltip>
       <visible>false</visible>
       <widget_type>Grouping Container</widget_type>
       <width>659</width>
-      <wuid>-35c7bfc1:1509236a393:-7205</wuid>
+      <wuid>476aad2d:178d6801590:-3378</wuid>
       <x>1</x>
       <y>1</y>
     </widget>
