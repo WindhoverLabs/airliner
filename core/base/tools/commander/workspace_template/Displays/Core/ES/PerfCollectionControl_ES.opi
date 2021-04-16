@@ -343,7 +343,7 @@
       </foreground_color>
       <height>25</height>
       <image>/Displays/Resources/send.png</image>
-      <name>Action Button_2</name>
+      <name>SetFilterButton</name>
       <push_action_index>0</push_action_index>
       <pv_name></pv_name>
       <pv_value />
@@ -368,26 +368,11 @@ $(pv_value)</tooltip>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
-        <action type="EXECUTE_JAVASCRIPT">
-          <path></path>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-
-var cmdString = '/cfs/$(CPUID)/cfe_es/PerfSetTriggerMask1(';
-
-for(var i = 1; i <= 32; ++i) {
-	var PerfID = 'PerfTrigger' + i;
-	var RequestTriggerName = 'TriggerRequest' + i;
-	cmdString = cmdString + PerfID + ': ' + VTypeHelper.getDouble(display.getWidget(RequestTriggerName).getPropertyValue('pv_value'));
-	if(i < 32) {
-		cmdString = cmdString + ', ';
-	}	
-}
-cmdString = cmdString + ')';
-
-Yamcs.issueCommand(cmdString);]]></scriptText>
-          <embedded>true</embedded>
+        <action type="EXECUTE_PYTHONSCRIPT">
+          <path>Resources/Scripts/set_actual_triggers.py</path>
+          <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
+]]></scriptText>
+          <embedded>false</embedded>
           <description></description>
         </action>
       </actions>
@@ -584,7 +569,7 @@ $(pv_value)</tooltip>
       </foreground_color>
       <height>20</height>
       <label></label>
-      <name>FilterRequestAll1</name>
+      <name>FilterRequestAll</name>
       <pv_name></pv_name>
       <pv_value />
       <rules />
@@ -660,8 +645,8 @@ $(pv_value)</tooltip>
       </foreground_color>
       <height>20</height>
       <label></label>
-      <name>TriggerRequestAll1</name>
-      <pv_name>loc://TriggerRequestAll_AUTO0</pv_name>
+      <name>TriggerActualAll</name>
+      <pv_name></pv_name>
       <pv_value />
       <rules />
       <scale_options>
@@ -669,24 +654,7 @@ $(pv_value)</tooltip>
         <height_scalable>false</height_scalable>
         <keep_wh_ratio>false</keep_wh_ratio>
       </scale_options>
-      <scripts>
-        <path pathString="EmbeddedJs" checkConnect="true" seoe="false">
-          <scriptName>EmbeddedScript</scriptName>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-
-ConsoleUtil.writeInfo("logging2");
-
-var setAllTriggerValue = VTypeHelper.getDouble(display.getWidget('TriggerRequestAll1').getPropertyValue('pv_value'));
-for(var i = 1; i <= 32; ++i) {
-	var TriggerFilterName = 'TriggerRequest' + i;
-	display.getWidget(TriggerFilterName).setPropertyValue('pv_value', setAllTriggerValue);
-}
-]]></scriptText>
-          <pv trig="true">loc://TriggerRequestAll_AUTO0</pv>
-        </path>
-      </scripts>
+      <scripts />
       <selected_color>
         <color red="77" green="77" blue="77" />
       </selected_color>
