@@ -163,15 +163,15 @@ buildliner_add_app(
 #        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci/ci_custom.c
 #)
 
-#buildliner_add_app(
-    #to
-    #EMBEDDED
-    #DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
-    #CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to
-    #CONFIG_SOURCES
-        #${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/tables/to_backup_cfg.c
-        #${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_custom.c
-#)
+buildliner_add_app(
+    to
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/tables/to_backup_cfg.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_custom.c
+)
 
 #
 ## This is temporarily removed until we can geet px4lib back in
