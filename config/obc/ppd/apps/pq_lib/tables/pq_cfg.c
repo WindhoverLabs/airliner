@@ -49,9 +49,9 @@ PQ_ChannelTbl_t PQ_ConfigTbl =
     {
         /* Message Flows */
         /* Ground Queues */
-        {SBN_SUB_MID,                 64, PQ_PQUEUE_MEDIUM_IDX},
-        {SBN_UNSUB_MID,               64, PQ_PQUEUE_MEDIUM_IDX},
-        {SBN_ALLSUB_MID,               1, PQ_PQUEUE_LOW_IDX},
+        {SBN_SUB_MID,                199, PQ_PQUEUE_MEDIUM_IDX},
+        {SBN_UNSUB_MID,                1, PQ_PQUEUE_MEDIUM_IDX},
+        {SBN_ALLSUB_MID,               1, PQ_PQUEUE_SINGLE_PASS_IDX},
         {CFE_ES_CMD_MID_CPD,           1, PQ_PQUEUE_HIGH_OPS_RSRVD_IDX},
         {AMC_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
         {MAC_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
@@ -209,13 +209,13 @@ PQ_ChannelTbl_t PQ_ConfigTbl =
         /* PQ_PQUEUE_HIGH_OPS_RSRVD_IDX */
         {PQ_PQUEUE_ENA, 100, PQ_PRIORITY_QUEUE_TYPE_FIFO},
         /* PQ_PQUEUE_HIGH_IDX */
-        {PQ_PQUEUE_ENA, 100, PQ_PRIORITY_QUEUE_TYPE_FIFO},
+        {PQ_PQUEUE_ENA, 200, PQ_PRIORITY_QUEUE_TYPE_FIFO},
         /* PQ_PQUEUE_MEDIUM_IDX */
-        {PQ_PQUEUE_ENA, 100, PQ_PRIORITY_QUEUE_TYPE_FIFO},
+        {PQ_PQUEUE_ENA, 200, PQ_PRIORITY_QUEUE_TYPE_FIFO},
         /* PQ_PQUEUE_DEFAULT_IDX */
-        {PQ_PQUEUE_ENA, 100, PQ_PRIORITY_QUEUE_TYPE_FIFO},
+        {PQ_PQUEUE_ENA, 200, PQ_PRIORITY_QUEUE_TYPE_FIFO},
         /* PQ_PQUEUE_LOW_IDX */
-        {PQ_PQUEUE_ENA, 100, PQ_PRIORITY_QUEUE_TYPE_FIFO}
+        {PQ_PQUEUE_ENA, 200, PQ_PRIORITY_QUEUE_TYPE_FIFO}
   }
 };
 
