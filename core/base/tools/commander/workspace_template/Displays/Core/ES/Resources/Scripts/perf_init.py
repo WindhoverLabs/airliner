@@ -96,6 +96,8 @@ def add_perf_records(tab_number, perf_ids):
         perf_control_macros.put("REQUEST_FILTER_WIDGET_NAME", str(FILTER_REQUEST_BASENAME))
         perf_control_macros.put("REQUEST_TRIGGER_WIDGET_NAME", str(TRIGGER_REQUEST_BASENAME))
 
+        perf_control_macros.put("ACTUAL_FILTER_WIDGET_NAME", str(FILTER_ACTUAL_BASENAME))
+        perf_control_macros.put("ACTUAL_TRIGGER_WIDGET_NAME", str(TRIGGER_ACTUAL_BASENAME))
 
         new_perf_control.getChildByName("Grouping Container").setPropertyValue("macros", perf_control_macros)
 
@@ -178,18 +180,19 @@ def add_tabbed_container(tab_number):
 
     current_mask_number = 0
     for child in new_tabbed_container.getChildren():
-        # print('child tab ')
         child.setPropertyValue("background_color", RGB(255, 255, 255))
         # Add the container for perf ids
         new_grouping_container = WidgetUtil.createWidgetModel("org.csstudio.opibuilder.widgets.groupingContainer")
         new_grouping_container.setPropertyValue("name", "PerfRecordContainer")
         new_grouping_container.setPropertyValue("height", 700)
         new_grouping_container.setPropertyValue("width", 552)
+
         # Don't really like doing this, but if I use a layout Studio will place this widget wherever it wants; we lose
         # control over where this is positioned exactly, which matters a lot in this case.
         new_grouping_container.setPropertyValue("x", 0)
         new_grouping_container.setPropertyValue("y", 96)
         new_grouping_container.setPropertyValue("background_color", RGB(255, 255, 255))
+
 
         # Add a gridLayout the container for perf ids
         new_grouping_container_layout = WidgetUtil.createWidgetModel("org.csstudio.opibuilder.widgets.gridLayout")
@@ -199,6 +202,7 @@ def add_tabbed_container(tab_number):
 
         new_grouping_container.addChild(new_grouping_container_layout)
         child.addChild(new_grouping_container)
+
         current_mask_number = current_mask_number + 1
 
 

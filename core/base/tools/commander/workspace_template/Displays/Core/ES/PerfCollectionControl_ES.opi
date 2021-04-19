@@ -422,19 +422,11 @@ $(pv_value)</tooltip>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
-        <action type="EXECUTE_JAVASCRIPT">
-          <path></path>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-
-for(var i = 1; i <= 32; ++i) {
-	var ActualFilterName = 'FilterActual' + i;
-	var RequestFilterName = 'FilterRequest' + i;
-	var actualFilterValue = VTypeHelper.getDouble(display.getWidget(ActualFilterName).getPropertyValue('pv_value'));
-	display.getWidget(RequestFilterName).setPropertyValue('pv_value', actualFilterValue);
-}]]></scriptText>
-          <embedded>true</embedded>
+        <action type="EXECUTE_PYTHONSCRIPT">
+          <path>Resources/Scripts/reflect_filters.py</path>
+          <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
+]]></scriptText>
+          <embedded>false</embedded>
           <description></description>
         </action>
       </actions>
@@ -484,19 +476,11 @@ $(pv_value)</tooltip>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
-        <action type="EXECUTE_JAVASCRIPT">
-          <path></path>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-
-for(var i = 1; i <= 32; ++i) {
-	var ActualTriggerName = 'TriggerActual' + i;
-	var RequestTriggerName = 'TriggerRequest' + i;
-	var actualTriggerValue = VTypeHelper.getDouble(display.getWidget(ActualTriggerName).getPropertyValue('pv_value'));
-	display.getWidget(RequestTriggerName).setPropertyValue('pv_value', actualTriggerValue);
-}]]></scriptText>
-          <embedded>true</embedded>
+        <action type="EXECUTE_PYTHONSCRIPT">
+          <path>Resources/Scripts/reflect_triggers.py</path>
+          <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
+]]></scriptText>
+          <embedded>false</embedded>
           <description></description>
         </action>
       </actions>

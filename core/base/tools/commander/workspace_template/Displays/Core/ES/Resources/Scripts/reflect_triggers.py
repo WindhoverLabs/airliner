@@ -5,12 +5,12 @@ import math
 
 # maskNumber is essentially the tab number this button belongs to.
 maskNumber = int(widget.getParent().getMacroValue("TAB_NUMBER"))
-widget_name = widget.getParent().getMacroValue("REQUEST_FILTER_WIDGET_NAME")
+source_widget_name = widget.getParent().getMacroValue("ACTUAL_TRIGGER_WIDGET_NAME")
+destination_widget_name = widget.getParent().getMacroValue("REQUEST_TRIGGER_WIDGET_NAME")
 maskValue = 0
 
 i = 0
 
-# FIXME: Maybe make the 32 a macro(?)
 while i < 32:
     perf_record_link = \
     display.getWidget("PerfTabbedContainer").getWidgetModel().getChildren()[maskNumber].getChildByName(
@@ -18,12 +18,11 @@ while i < 32:
 
     # Make sure we avoid the grid layout
     if perf_record_link.getPropertyValue('widget_type') == 'Linking Container':
-        filter_request_widget = perf_record_link.getChildren()[0].getChildByName(widget_name)
-        perfIdValue = int(VTypeHelper.getDouble(filter_request_widget.getPropertyValue('pv_value')))
-        maskValue = int((int(math.pow(2, i)) * perfIdValue) + maskValue)
+        trigger_actual_widget = perf_record_link.getChildren()[0].getChildByName(source_widget_name)
+        trigger_request_widget = perf_record_link.getChildren()[0].getChildByName(destination_widget_name)
+        new_pv_value = trigger_actual_widget.getPropertyValue('pv_value')
+
+        trigger_request_widget.setPropertyValue('pv_value', new_pv_value)
 
         i = i + 1
 
-Yamcs.issueCommand('/cfs/' + display.getMacroValue("CPUID") + '/cfe_es/PerfSetFilterMask', {
-    'Payload.FilterMaskNum': maskNumber,
-    'Payload.FilterMask': maskValue})
