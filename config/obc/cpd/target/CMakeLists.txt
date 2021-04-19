@@ -51,6 +51,12 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    x_lib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}../private/apps/x_lib/fsw/for_build
+)
+
+buildliner_add_app(
     sed
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sed/fsw/for_build
