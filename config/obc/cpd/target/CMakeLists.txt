@@ -137,10 +137,6 @@ buildliner_add_app(
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sc/fsw/for_build
 #    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sc
 #)
-#
-## This is temporarily removed until we can remove the OS dependency
-## in ci, i.e. "arpa/inet.h"
-
 
 buildliner_add_app(
     sbn
@@ -159,15 +155,14 @@ buildliner_add_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib/tables/pq_backup_cfg.c
 )
 
-# This is temporarily removed until we can remove the OS dependency
-# in ci, i.e. "arpa/inet.h"
-#buildliner_add_app(
-#    ci
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci
-#    CONFIG_SOURCES
-#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci/ci_custom.c
-#)
+buildliner_add_app(
+    ci
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci/ci_custom.c
+)
 
 buildliner_add_app(
     to
