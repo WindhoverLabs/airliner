@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.2.202104092231</boy_version>
+  <boy_version>1.6.3.qualifier</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -1145,7 +1145,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>130</width>
+    <width>140</width>
     <wuid>763e00b7:150973f1dd8:-7ba6</wuid>
     <x>360</x>
     <y>144</y>
@@ -2172,7 +2172,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>130</width>
+    <width>140</width>
     <wuid>35ebaa52:1509cf6a868:-7980</wuid>
     <x>360</x>
     <y>169</y>
@@ -2227,7 +2227,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>130</width>
+    <width>140</width>
     <wuid>35ebaa52:1509cf6a868:-7976</wuid>
     <x>360</x>
     <y>194</y>
@@ -2282,7 +2282,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>130</width>
+    <width>140</width>
     <wuid>35ebaa52:1509cf6a868:-796c</wuid>
     <x>360</x>
     <y>219</y>
@@ -2337,7 +2337,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>130</width>
+    <width>140</width>
     <wuid>35ebaa52:1509cf6a868:-7965</wuid>
     <x>360</x>
     <y>244</y>
@@ -2392,7 +2392,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>130</width>
+    <width>140</width>
     <wuid>35ebaa52:1509cf6a868:-794e</wuid>
     <x>360</x>
     <y>269</y>
@@ -2447,7 +2447,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>130</width>
+    <width>140</width>
     <wuid>35ebaa52:1509cf6a868:-7940</wuid>
     <x>360</x>
     <y>294</y>
@@ -2502,7 +2502,7 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>130</width>
+    <width>140</width>
     <wuid>35ebaa52:1509cf6a868:-7936</wuid>
     <x>360</x>
     <y>319</y>
@@ -2563,7 +2563,7 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>129</width>
+    <width>139</width>
     <wuid>-19107c2b:177da1db5df:2519</wuid>
     <x>361</x>
     <y>344</y>
@@ -2619,10 +2619,10 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>129</width>
+    <width>139</width>
     <wuid>-c05c465:1785c72c4a1:-698f</wuid>
     <x>361</x>
-    <y>368</y>
+    <y>393</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -2680,9 +2680,70 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>129</width>
+    <width>139</width>
     <wuid>6f9e12ff:178b8c76299:-7057</wuid>
     <x>361</x>
     <y>119</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/Apps/CI/AuthorizeCommand_App.opi");
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>26</height>
+    <image></image>
+    <name>AppControl_1</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>Authorize Command</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>139</width>
+    <wuid>6f70f6e0:178f6506d71:-6e00</wuid>
+    <x>361</x>
+    <y>368</y>
   </widget>
 </display>
