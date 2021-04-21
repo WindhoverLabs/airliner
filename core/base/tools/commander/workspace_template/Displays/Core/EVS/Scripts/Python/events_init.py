@@ -57,11 +57,7 @@ def main():
         new_event_record.getChildByName("EventRecordTemplate").getChildByName("EventId").setPropertyValue("text",
                                                                                                           event_label)
 
-        # Create the variables we need to be able to access data from button scripts.
-        new_event_record.getChildByName("EventRecordTemplate").getChildByName("DeleteFilter").setPropertyValue(
-            "pv_value", str(events[event]['id']))
-        new_event_record.getChildByName("EventRecordTemplate").getChildByName("ResetFilter").setPropertyValue(
-            "pv_value", str(events[event]['id']))
+        # Create the macros we need to be able to access data from button scripts.
 
         event_macros = DataUtil.createMacrosInput(False)
         event_macros.put("EVENTID", str(events[event]['id']))
