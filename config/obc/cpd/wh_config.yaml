@@ -55,7 +55,7 @@ modules:
           cfe_tbl:
             telemetry:
               CFE_TBL_HK_TLM_MID:
-                msgID: 0x1a02
+                msgID: 0x0a12
               CFE_TBL_REG_TLM_MID:
                 msgID: 0x0a18
             commands:
