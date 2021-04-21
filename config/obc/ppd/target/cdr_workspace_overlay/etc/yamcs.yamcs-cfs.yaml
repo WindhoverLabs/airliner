@@ -44,14 +44,14 @@ services:
         AckLimitReached: suspend
 
 dataLinks:
-  - name: tm_realtime
+  - name: tm_ppd
     class: org.yamcs.tctm.UdpTmDataLink
     stream: tm_realtime
     port: 5011
     maxLength: 32768 #32KB is the default for CCSDS
     packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.PacketPreprocessor
 
-  - name: tc_realtime
+  - name: tc_ppd
     class: org.yamcs.tctm.UdpTcDataLink
     stream: tc_realtime
     host: localhost
@@ -59,6 +59,23 @@ dataLinks:
     commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
     commandPostprocessorArgs:
       swapChecksumFc: true
+
+  - name: tmtc_cpd
+    class: com.windhoverlabs.yamcs.tctm.SerialTmTcDatalink
+    tcStream: tc_realtime
+    tmStream: tm_realtime
+    device: /dev/ttyUSB0
+    packetInputStreamClassName: com.windhoverlabs.yamcs.tctm.CcsdsPacketInputStream
+    packetInputStreamArgs:
+      maxPacketLength: 32768
+      secHdrRequired: true
+      segAllowed: true
+      tlmOnly: true
+    packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.PacketPreprocessor
+    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+    commandPostprocessorArgs:
+      swapChecksumFc: false
+      stream: tc_realtime
 
 mdb:
     # Configuration of the active loaders

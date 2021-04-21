@@ -44,7 +44,7 @@ if [ "x$CLASSPATH" != x ]; then
   CLASSPATH="$CLASSPATH:"
 fi
 
-export CLASSPATH="$CLASSPATH$YAMCS_HOME/lib/*:$YAMCS_HOME/lib/ext/*:$WORKSPACE_PATH/lib/*"
+export CLASSPATH="$CLASSPATH$YAMCS_HOME/lib/*:$YAMCS_HOME/lib/ext/*:${PWD}/lib/*"
 
 if [ -d "$JAVA_HOME" ]; then
   _RUNJAVA="$JAVA_HOME/bin/java"
@@ -55,6 +55,8 @@ fi
 if [ "$JMX" = 1 ]; then
   JMX_OPTS="-Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
 fi
+
+echo $CLASSPATH
 
 exec "$_RUNJAVA" $JAVA_OPTS $JMX_OPTS -Djava.util.logging.manager=org.yamcs.logging.YamcsLogManager -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/ org.yamcs.YamcsServer 
 
