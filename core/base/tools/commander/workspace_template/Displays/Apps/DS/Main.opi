@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.2.202104092231</boy_version>
+  <boy_version>1.6.3.qualifier</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -2413,7 +2413,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>154</width>
     <wuid>-736e4684:150ac3c95a1:-725e</wuid>
-    <x>347</x>
+    <x>348</x>
     <y>292</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2466,9 +2466,9 @@ $(pv_value)</tooltip>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>155</width>
+    <width>154</width>
     <wuid>-736e4684:150ac3c95a1:-7257</wuid>
-    <x>346</x>
+    <x>348</x>
     <y>310</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2583,9 +2583,9 @@ Yamcs.issueCommand(cmd, {});]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>153</width>
+    <width>154</width>
     <wuid>-c05c465:1785c72c4a1:-5d4e</wuid>
-    <x>347</x>
+    <x>348</x>
     <y>328</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2646,7 +2646,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>154</width>
     <wuid>-c05c465:1785c72c4a1:-5d44</wuid>
-    <x>347</x>
+    <x>348</x>
     <y>346</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2700,9 +2700,9 @@ Yamcs.issueCommand('/cfs/$(CPUID)/ds/SendHK', {});]]></scriptText>
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>155</width>
+    <width>154</width>
     <wuid>-c05c465:1785c72c4a1:-5d3a</wuid>
-    <x>347</x>
+    <x>348</x>
     <y>364</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2765,5 +2765,66 @@ $(pv_value)</tooltip>
     <wuid>49c9ccd0:178c6a335db:-6b9f</wuid>
     <x>348</x>
     <y>58</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/Apps/CI/AuthorizeCommand_App.opi");
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>19</height>
+    <image></image>
+    <name>AppControl</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>Authorize Command</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>153</width>
+    <wuid>6f70f6e0:178f6506d71:-787d</wuid>
+    <x>348</x>
+    <y>40</y>
   </widget>
 </display>

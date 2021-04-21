@@ -11,7 +11,5 @@ cmd_code_drop_down = display.getWidget('cmdCodeInput')
 
 msg_key = str(msg_id_drop_down.getPropertyValue('pv_value').getValue())
 
-print(msg_key)
-
 if msg_key in all_messages:
     cmd_code_drop_down.setPropertyValue('items', list(all_messages[msg_key]['commands']))
