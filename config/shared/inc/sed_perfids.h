@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#define SED_MAIN_TASK_PERF_ID (83)
+#include "perf_ids.h"
 
 #ifdef __cplusplus
 }

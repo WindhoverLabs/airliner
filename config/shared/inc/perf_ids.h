@@ -116,7 +116,7 @@
 
 #define VM_MAIN_TASK_PERF_ID        (110)
 
-#define PRM_MAIN_TASK_PERF_ID       (111)
+#define SED_MAIN_TASK_PERF_ID       (111)
 
 #define SBN_PERF_MIN_ID             (112)
 
