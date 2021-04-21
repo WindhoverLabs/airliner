@@ -8,4 +8,22 @@ modules:
         definition: ${PROJECT_SOURCE_DIR}/core/osal/fsw/posix-fast/wh_design.yaml
       psp:
         definition: ${PROJECT_SOURCE_DIR}/core/psp/fsw/pc-linux/wh_design.yaml
+  sed:
+    definition: ${PROJECT_SOURCE_DIR}/../private/apps/sed/wh_design.yaml
+    telemetry:
+      SED_DIAG_TLM_MID:
+        msgID: 0x0b71
+      SED_HK_TLM_MID:
+        msgID: 0x0b72
+    commands:
+      SED_CMD_MID:
+        msgID: 0x1b73
+      SED_MEASURE_MID:
+        msgID: 0x1b74
+      SED_SEND_HK_MID:
+        msgID: 0x1b75
+    perfids:
+      SED_MAIN_TASK_PERF_ID:
+        id: 111
+
 
