@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103012118</boy_version>
+  <boy_version>1.6.4.202104212257</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -268,54 +268,11 @@ $(pv_value)</tooltip>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-
-var msgID =VTypeHelper.getString(display.getWidget('msgIdInput').getPropertyValue('pv_value'));
-var cmdCode =VTypeHelper.getString(display.getWidget('cmdCodeInput').getPropertyValue('pv_value'));
-var Step =VTypeHelper.getString(display.getWidget('Step').getPropertyValue('pv_value'));
-var Log =VTypeHelper.getString(display.getWidget('Log').getPropertyValue('pv_value'));
-
-var StepVal;
-var LogVal;
-
-
-/*
-This might look redundant, but I'm doing it to decouple the UI from the data.
-*/
-if(Step == 'STEP_1')
-{
-	StepVal = 'STEP_1';
-} 
-
-else if(Step == 'STEP_2')
-{
-	StepVal = 'STEP_2';
-}
-
-
-if(Log == 'EXCLUDE')
-{
-	LogVal = 'EXCLUDE_LOG';
-} 
-
-else if(Log == 'LOG')
-{
-	LogVal = 'LOG';
-}
-
-
-Yamcs.issueCommand('/cfs/$(CPUID)/ci/DeregisterCmd', 
-				   {'msgID': msgID,
-				     'cmdCode': cmdCode,
-				      'step': StepVal,
-				      'log': LogVal
-				    }
-				  );]]></scriptText>
-        <embedded>true</embedded>
+      <action type="EXECUTE_PYTHONSCRIPT">
+        <path>scripts/deregister_command_general.py</path>
+        <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
+]]></scriptText>
+        <embedded>false</embedded>
         <description></description>
       </action>
     </actions>
@@ -384,7 +341,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>30</height>
+    <height>32</height>
     <items>
       <s>STEP_1</s>
       <s>STEP_2</s>
@@ -510,7 +467,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>30</height>
+    <height>32</height>
     <items>
       <s>EXCLUDE</s>
       <s>LOG</s>
