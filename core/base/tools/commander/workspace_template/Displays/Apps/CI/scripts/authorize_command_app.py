@@ -25,11 +25,11 @@ if not(display.getWidget('msgIdInput').getPropertyValue('pv_value') is None) and
 	if msg_key in all_commands:
 		msgID = all_commands[msg_key]["msgID"]
 
-	if command_code_key in all_commands[msg_key]['commands']:
-		command_code = all_commands[msg_key]['commands'][command_code_key]['cc']
+		if command_code_key in all_commands[msg_key]['commands']:
+			command_code = all_commands[msg_key]['commands'][command_code_key]['cc']
 
-		Yamcs.issueCommand('/cfs/'+display.getMacroValue('CPUID')+'/ci/AuthorizeCmd',
-						   {'msgID': msgID,
-						     'cmdCode': command_code
-						    }
-						  )
+			Yamcs.issueCommand('/cfs/'+display.getMacroValue('CPUID')+'/ci/AuthorizeCmd',
+							   {'msgID': msgID,
+								 'cmdCode': command_code
+								}
+							  )
