@@ -1,5 +1,6 @@
 """
 General script that is used by all commands that require msg Ids/command codes such as AuthorizeCmd, DeauthorizeCmd, etc.
+This generates a dropdown widgets that maps message ids to command codes.
 """
 
 #import java packages
