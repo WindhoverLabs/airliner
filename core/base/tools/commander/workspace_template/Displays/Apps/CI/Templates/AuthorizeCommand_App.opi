@@ -22,7 +22,7 @@
   <name>($(CPUID)) CI - Auth</name>
   <rules />
   <scripts>
-    <path pathString="../scripts/authorize_command_init.py" checkConnect="true" seoe="false">
+    <path pathString="../scripts/command_management_init.py" checkConnect="true" seoe="false">
       <pv trig="true">=1</pv>
     </path>
   </scripts>
@@ -70,7 +70,7 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts>
-      <path pathString="../scripts/authorize_command_init.py" checkConnect="true" seoe="false">
+      <path pathString="../scripts/command_management_init.py" checkConnect="true" seoe="false">
         <pv trig="true">loc://AuthorizeCommandMsgID_App</pv>
       </path>
     </scripts>

@@ -1,5 +1,5 @@
 """
-Script to send AuthorizeCmd command.
+Script to send DeauthorizeCmd command.
 """
 
 # import java packages
@@ -19,7 +19,7 @@ if not (display.getWidget('msgIdInput').getPropertyValue('pv_value') is None) an
     msg_id = display.getWidget('msgIdInput').getPropertyValue('pv_value').getValue()
     command_code = display.getWidget('cmdCodeInput').getPropertyValue('pv_value').getValue()
 
-    Yamcs.issueCommand('/cfs/' + display.getMacroValue('CPUID') + '/ci/AuthorizeCmd',
+    Yamcs.issueCommand('/cfs/' + display.getMacroValue('CPUID') + '/ci/DeauthorizeCmd',
 					   {'msgID': msg_id,
 						'cmdCode': command_code
 						}
