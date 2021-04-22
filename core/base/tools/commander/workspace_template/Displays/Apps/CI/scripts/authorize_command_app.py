@@ -14,7 +14,6 @@ all_commands = registry.getAllCommands()
 
 msgID = None
 command_code = None
-print('triggered')
 if not(display.getWidget('msgIdInput').getPropertyValue('pv_value') is None) and\
 	not(display.getWidget('cmdCodeInput').getPropertyValue('pv_value') is None):
 	msg_key = display.getWidget('msgIdInput').getPropertyValue('pv_value').getValue()
