@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.2.202104092231</boy_version>
+  <boy_version>1.6.4.202104212257</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -18,6 +18,11 @@
   <height>625</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
+    <AuthorizeCmd_TEMPLATE>/Displays/Apps/CI/Templates/AuthorizeCommand_App.opi</AuthorizeCmd_TEMPLATE>
+    <DeauthorizeCmd_TEMPLATE>/Displays/Apps/CI/Templates/DeauthorizeCommand_App.opi</DeauthorizeCmd_TEMPLATE>
+    <RegisterCmd_TEMPLATE>/Displays/Apps/CI/Templates/RegisterCommand_App.opi</RegisterCmd_TEMPLATE>
+    <DeregisterCmd_TEMPLATE>/Displays/Apps/CI/Templates/DeregisterCommand_App.opi</DeregisterCmd_TEMPLATE>
+    <UpdateCmd_TEMPLATE>/Displays/Apps/CI/Templates/UpdateCommand_App.opi</UpdateCmd_TEMPLATE>
   </macros>
   <name>Main</name>
   <rules />

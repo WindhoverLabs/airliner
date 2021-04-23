@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>150</height>
+  <height>160</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>($(CPUID)) CI - Auth</name>
+  <name>($(CPUID)) CI - Deauth</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -29,7 +29,7 @@
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
   <width>300</width>
-  <wuid>4d40612f:17772f0c845:-7fca</wuid>
+  <wuid>4d40612f:17772f0c845:-7f06</wuid>
   <x>-1</x>
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
@@ -65,7 +65,7 @@
     <name>msgIdInput</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://AuthorizeCommandMsgID&lt;VString&gt;</pv_name>
+    <pv_name>loc://DeauthorizeCommandMsgID&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -85,9 +85,9 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>100</width>
-    <wuid>4d40612f:17772f0c845:-7fc5</wuid>
-    <x>120</x>
-    <y>36</y>
+    <wuid>4d40612f:17772f0c845:-7eef</wuid>
+    <x>114</x>
+    <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -117,16 +117,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>($(APP)) CI - Authorize Command</text>
+    <text>($(APP)) CI - Deauthorize Command</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>265</width>
+    <width>271</width>
     <wrap_words>false</wrap_words>
-    <wuid>4d40612f:17772f0c845:-7fb9</wuid>
-    <x>6</x>
+    <wuid>4d40612f:17772f0c845:-7eee</wuid>
+    <x>12</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -165,9 +165,9 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>80</width>
     <wrap_words>false</wrap_words>
-    <wuid>4d40612f:17772f0c845:-7fad</wuid>
-    <x>36</x>
-    <y>39</y>
+    <wuid>4d40612f:17772f0c845:-7eed</wuid>
+    <x>30</x>
+    <y>45</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -202,7 +202,7 @@ $(pv_value)</tooltip>
     <name>cmdCodeInput</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://AuthorizeCommandCommandCode&lt;VString&gt;</pv_name>
+    <pv_name>loc://DeauthorizeCommandCommandCode&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -222,9 +222,9 @@ $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
     <width>100</width>
-    <wuid>4d40612f:17772f0c845:-7f9d</wuid>
-    <x>120</x>
-    <y>72</y>
+    <wuid>4d40612f:17772f0c845:-7eec</wuid>
+    <x>114</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -262,14 +262,14 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>80</width>
     <wrap_words>false</wrap_words>
-    <wuid>4d40612f:17772f0c845:-7f9c</wuid>
-    <x>36</x>
-    <y>75</y>
+    <wuid>4d40612f:17772f0c845:-7eeb</wuid>
+    <x>30</x>
+    <y>81</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_PYTHONSCRIPT">
-        <path>scripts/deregister_command_general.py</path>
+        <path>scripts/deauthorize_command_general.py</path>
         <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
 ]]></scriptText>
         <embedded>false</embedded>
@@ -309,15 +309,15 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Authorize</text>
+    <text>Deauthorize</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>105</width>
-    <wuid>4d40612f:17772f0c845:-7f4c</wuid>
-    <x>108</x>
-    <y>114</y>
+    <wuid>4d40612f:17772f0c845:-7eea</wuid>
+    <x>95</x>
+    <y>120</y>
   </widget>
 </display>

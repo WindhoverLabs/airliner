@@ -15,11 +15,11 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>150</height>
+  <height>240</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>($(CPUID)) CI - Auth</name>
+  <name>($(CPUID)) CI - Reg</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -29,7 +29,7 @@
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
   <width>300</width>
-  <wuid>4d40612f:17772f0c845:-7fca</wuid>
+  <wuid>4d40612f:17772f0c845:-7ecd</wuid>
   <x>-1</x>
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
@@ -65,7 +65,7 @@
     <name>msgIdInput</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://AuthorizeCommandMsgID&lt;VString&gt;</pv_name>
+    <pv_name>loc://RegisterCommandMsgID_general&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -84,10 +84,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>100</width>
-    <wuid>4d40612f:17772f0c845:-7fc5</wuid>
-    <x>120</x>
-    <y>36</y>
+    <width>134</width>
+    <wuid>4d40612f:17772f0c845:-7e8b</wuid>
+    <x>108</x>
+    <y>42</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -117,16 +117,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>($(APP)) CI - Authorize Command</text>
+    <text>($(APP)) CI - Register Command</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>265</width>
+    <width>277</width>
     <wrap_words>false</wrap_words>
-    <wuid>4d40612f:17772f0c845:-7fb9</wuid>
-    <x>6</x>
+    <wuid>4d40612f:17772f0c845:-7e8a</wuid>
+    <x>12</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -165,9 +165,9 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>80</width>
     <wrap_words>false</wrap_words>
-    <wuid>4d40612f:17772f0c845:-7fad</wuid>
-    <x>36</x>
-    <y>39</y>
+    <wuid>4d40612f:17772f0c845:-7e89</wuid>
+    <x>24</x>
+    <y>45</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -202,7 +202,7 @@ $(pv_value)</tooltip>
     <name>cmdCodeInput</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://AuthorizeCommandCommandCode&lt;VString&gt;</pv_name>
+    <pv_name>loc://RegisterCommandCommandCode_General&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -221,10 +221,10 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>100</width>
-    <wuid>4d40612f:17772f0c845:-7f9d</wuid>
-    <x>120</x>
-    <y>72</y>
+    <width>134</width>
+    <wuid>4d40612f:17772f0c845:-7e88</wuid>
+    <x>108</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -262,14 +262,14 @@ $(pv_value)</tooltip>
     <widget_type>Label</widget_type>
     <width>80</width>
     <wrap_words>false</wrap_words>
-    <wuid>4d40612f:17772f0c845:-7f9c</wuid>
-    <x>36</x>
-    <y>75</y>
+    <wuid>4d40612f:17772f0c845:-7e87</wuid>
+    <x>24</x>
+    <y>81</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_PYTHONSCRIPT">
-        <path>scripts/deregister_command_general.py</path>
+        <path>scripts/register_command_general.py</path>
         <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
 ]]></scriptText>
         <embedded>false</embedded>
@@ -309,15 +309,187 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>Authorize</text>
+    <text>Register</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
     <width>105</width>
-    <wuid>4d40612f:17772f0c845:-7f4c</wuid>
+    <wuid>4d40612f:17772f0c845:-7e86</wuid>
+    <x>93</x>
+    <y>198</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.combo" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color name="Border" red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>32</height>
+    <items>
+      <s>STEP_1</s>
+      <s>STEP_2</s>
+    </items>
+    <items_from_pv>false</items_from_pv>
+    <name>Step</name>
+    <pv_name>loc://RegisterCommandStep_general&lt;VString&gt;</pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Combo</widget_type>
+    <width>134</width>
+    <wuid>4d40612f:17772f0c845:-7e59</wuid>
     <x>108</x>
     <y>114</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label_3</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text> Step</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>80</width>
+    <wrap_words>false</wrap_words>
+    <wuid>4d40612f:17772f0c845:-7e58</wuid>
+    <x>24</x>
+    <y>117</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label_4</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Log</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>80</width>
+    <wrap_words>false</wrap_words>
+    <wuid>4d40612f:17772f0c845:-7e56</wuid>
+    <x>24</x>
+    <y>153</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.combo" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color name="Border" red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>32</height>
+    <items>
+      <s>EXCLUDE</s>
+      <s>LOG</s>
+    </items>
+    <items_from_pv>false</items_from_pv>
+    <name>Log</name>
+    <pv_name>loc://RegisterCommandLog_general&lt;VString&gt;</pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Combo</widget_type>
+    <width>134</width>
+    <wuid>4d40612f:17772f0c845:-7da1</wuid>
+    <x>108</x>
+    <y>153</y>
   </widget>
 </display>
