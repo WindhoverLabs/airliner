@@ -19,7 +19,6 @@ if not(display.getWidget('msgIdInput').getPropertyValue('pv_value') is None) and
 	msg_key = display.getWidget('msgIdInput').getPropertyValue('pv_value').getValue()
 	command_code_key = display.getWidget('cmdCodeInput').getPropertyValue('pv_value').getValue()
 
-	print('msg_key:{}'.format(msg_key))
 	# NOTE: These might be redundant...
 	if msg_key in all_commands:
 		msgID = all_commands[msg_key]["msgID"]
