@@ -23,6 +23,9 @@
     <RegisterCmd_TEMPLATE>/Displays/Apps/CI/Templates/RegisterCommand_App.opi</RegisterCmd_TEMPLATE>
     <DeregisterCmd_TEMPLATE>/Displays/Apps/CI/Templates/DeregisterCommand_App.opi</DeregisterCmd_TEMPLATE>
     <UpdateCmd_TEMPLATE>/Displays/Apps/CI/Templates/UpdateCommand_App.opi</UpdateCmd_TEMPLATE>
+    <AddMessageFlow_TEMPLATE>/Displays/Apps/TO/Templates/AddMessageFlow_App.opi</AddMessageFlow_TEMPLATE>
+    <RemoveMessageFlow_TEMPLATE>/Displays/Apps/TO/Templates/RemoveMessageFlow_App.opi</RemoveMessageFlow_TEMPLATE>
+    <QueryMessageFlow>/Displays/Apps/TO/Templates/QueryMessageFlow_App.opi</QueryMessageFlow>
   </macros>
   <name>Main</name>
   <rules />
