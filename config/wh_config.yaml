@@ -113,7 +113,7 @@ modules:
       CF_HK_TLM_MID: 
         msgID: 0x0839
       CF_INCOMING_PDU_MID: 
-        msgID: 0x083a
+        msgID: 0x183a
       CF_TRANS_TLM_MID:
         msgID: 0x083b
     commands:
@@ -122,7 +122,7 @@ modules:
       CF_SEND_HK_MID: 
         msgID: 0x183d
       CF_SPACE_TO_GND_PDU_MID:
-        msgID: 0x183e
+        msgID: 0x083e
       CF_WAKE_UP_REQ_CMD_MID:
         msgID: 0x183f
     perfids: 
