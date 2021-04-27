@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103012118</boy_version>
+  <boy_version>1.6.4.202104212257</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>280</width>
+  <width>400</width>
   <wuid>-10b748b0:17773fb054b:-7a2f</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -106,11 +106,11 @@
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>85</width>
+    <width>90</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7a0f</wuid>
     <x>30</x>
-    <y>36</y>
+    <y>43</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -150,7 +150,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/to/QueryMessageFlow', {
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image>../../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -171,13 +171,12 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>84</width>
     <wuid>-10b748b0:17773fb054b:-79c7</wuid>
-    <x>91</x>
-    <y>66</y>
+    <x>94</x>
+    <y>78</y>
   </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
+  <widget typeId="org.csstudio.opibuilder.widgets.combo" version="1.0.0">
     <actions hook="false" hook_all="false" />
     <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
       <color red="255" green="255" blue="255" />
@@ -188,7 +187,6 @@ $(pv_value)</tooltip>
     </border_color>
     <border_style>4</border_style>
     <border_width>1</border_width>
-    <confirm_message></confirm_message>
     <enabled>true</enabled>
     <font>
       <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
@@ -197,19 +195,12 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <format_type>0</format_type>
-    <height>20</height>
-    <horizontal_alignment>0</horizontal_alignment>
-    <limits_from_pv>false</limits_from_pv>
-    <maximum>1.7976931348623157E308</maximum>
-    <minimum>-1.7976931348623157E308</minimum>
-    <multiline_input>false</multiline_input>
-    <name>MsgID</name>
-    <precision>0</precision>
-    <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://TO_QueryMessageFlow_MsgID&lt;VString&gt;</pv_name>
+    <height>34</height>
+    <items />
+    <items_from_pv>false</items_from_pv>
+    <name>msgIdInput</name>
+    <pv_name>loc://TO_AddMessageFlow_MsgID_App&lt;VString&gt;</pv_name>
     <pv_value />
-    <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -217,17 +208,12 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <selector_type>0</selector_type>
-    <show_units>true</show_units>
-    <style>0</style>
-    <text></text>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
-    <transparent>false</transparent>
     <visible>true</visible>
-    <widget_type>Text Input</widget_type>
-    <width>103</width>
-    <wuid>-10b748b0:17773fb054b:-78ff</wuid>
+    <widget_type>Combo</widget_type>
+    <width>210</width>
+    <wuid>-43ed692:179158f14d8:-7e55</wuid>
     <x>126</x>
     <y>36</y>
   </widget>
