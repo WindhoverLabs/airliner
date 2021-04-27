@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CF - Set Poll Params</name>
+  <name>($(CPUID)) CF - Set Poll Params</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -71,7 +71,7 @@ if( Preserve == 'Delete' ) {
     pPreserve = 'KEEP';
 } 
 
-Yamcs.issueCommand('/cfs/cf/SetPollParameter', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cf/SetPollParameter', {
     'Chan': pChannel, 
     'Dir': Dir,
     'Class': pTransferClass,
@@ -911,16 +911,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Set Polling Parameters</text>
+    <text>($(CPUID)) CF - Set Polling Parameters</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>189</width>
+    <width>283</width>
     <wrap_words>false</wrap_words>
     <wuid>6c5e5e62:1775b7b9abc:-7388</wuid>
-    <x>106</x>
+    <x>60</x>
     <y>12</y>
   </widget>
 </display>

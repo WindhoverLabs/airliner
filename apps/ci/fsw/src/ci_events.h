@@ -477,6 +477,8 @@ typedef enum {
 */
 	CI_CMD_UPDATE_REG_EID = 33,
 
+	CI_CMD_VALIDATION_FAIL_EID = 34,
+
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     CI_EVT_CNT = 35
 } CI_EventIds_t;

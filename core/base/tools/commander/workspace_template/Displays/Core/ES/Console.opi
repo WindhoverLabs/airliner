@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.6.2.202104092231</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CFE-ES - Console</name>
+  <name>($(CPUID)) CFE-ES - Console</name>
   <rules />
   <scripts>
     <path pathString="EmbeddedJs" checkConnect="true" seoe="false">
@@ -35,7 +35,7 @@ var combined = prevOutput + newOutput;
 
 display.getWidget('ConsoleDisplay').setPropertyValue('pv_value', combined);
 ]]></scriptText>
-      <pv trig="true">/cfs/cfe_es/CFE_ES_ShellPacket_t.Payload.ShellOutput</pv>
+      <pv trig="true">/cfs/$(CPUID)/cfe_es/CFE_ES_ShellPacket_t.Payload.ShellOutput</pv>
     </path>
   </scripts>
   <show_close_button>true</show_close_button>
@@ -44,7 +44,7 @@ display.getWidget('ConsoleDisplay').setPropertyValue('pv_value', combined);
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>800</width>
+  <width>1000</width>
   <wuid>-e1e6812:1508d3700d4:-75fc</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -59,7 +59,7 @@ importPackage(Packages.org.yamcs.studio.data);
 var consoleInput =VTypeHelper.getString(display.getWidget('inConsoleInput').getPropertyValue('pv_value'));
 var fileName =VTypeHelper.getString(display.getWidget('inFileName').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cfe_es/ShellCmd', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/ShellCmd', {
     'Payload.CmdString': consoleInput,
     'Payload.OutputFilename': fileName});
 
@@ -140,7 +140,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Console</text>
+    <text>($(CPUID)) Console</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
@@ -150,7 +150,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>-e1e6812:1508d3700d4:-75c4</wuid>
     <x>276</x>
-    <y>12</y>
+    <y>9</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
     <actions hook="false" hook_all="false" />
@@ -300,7 +300,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>64</width>
+    <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-e1e6812:1508d3700d4:-747d</wuid>
     <x>11</x>
@@ -409,8 +409,8 @@ $(pv_value)</tooltip>
     <vertical_alignment>0</vertical_alignment>
     <visible>true</visible>
     <widget_type>Text Update</widget_type>
-    <width>763</width>
-    <wrap_words>false</wrap_words>
+    <width>974</width>
+    <wrap_words>true</wrap_words>
     <wuid>-e1e6812:1508d3700d4:-7435</wuid>
     <x>18</x>
     <y>36</y>

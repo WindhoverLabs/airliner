@@ -116,10 +116,11 @@
 
 #define VM_MAIN_TASK_PERF_ID        (110)
 
-#define PRM_MAIN_TASK_PERF_ID       (111)
+#define SED_MAIN_TASK_PERF_ID       (111)
 
-#define SBN_PERF_MIN_ID             (112)
+#define PRM_MAIN_TASK_PERF_ID       (112)
 
+#define SBN_PERF_MIN_ID             (113)
 #define SBN_PERF_SEND_ID            (SBN_PERF_MIN_ID)
 #define SBN_PERF_RECV_ID            (SBN_PERF_MIN_ID + 1)
 #define SBN_PERF_MAX_ID             (SBN_PERF_MIN_ID + 100)

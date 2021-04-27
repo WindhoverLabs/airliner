@@ -42,7 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var tableName =VTypeHelper.getString(display.getWidget('TableName').getPropertyValue('pv_value'));
 
-var cmd = '/cfs/cfe_tbl/Activate(Payload.TableName: ' + tableName + ')';
+var cmd = '/cfs/$(CPUID)/cfe_tbl/Activate(Payload.TableName: ' + tableName + ')';
 
 Yamcs.issueCommand(cmd);
 

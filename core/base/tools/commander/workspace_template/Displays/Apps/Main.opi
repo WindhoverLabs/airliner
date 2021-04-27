@@ -60,7 +60,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.CmdCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CmdCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -152,7 +152,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cs/CS_HkPacket_t.CmdErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CmdErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -183,7 +183,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/Noop()');]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/Noop()');]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -239,7 +239,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/cs/Reset()');
+Yamcs.issueCommand('/cfs/$(CPUID)/cs/Reset()');
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -452,7 +452,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.CmdCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.CmdCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -504,7 +504,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.ErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.ErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -534,7 +534,7 @@ $(pv_value)</tooltip>
         <path>CF/scripts/NoOp.js</path>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 
-Yamcs.issueCommand('/cfs/cf/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cf/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -761,7 +761,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/ds/DS_HkPacket_t.CmdAcceptedCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.CmdAcceptedCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -813,7 +813,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/ds/DS_HkPacket_t.CmdRejectedCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.CmdRejectedCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -844,7 +844,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/ds/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/ds/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -900,7 +900,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/ds/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/ds/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -1072,7 +1072,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/fm/FM_HousekeepingPkt_t.CommandCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/fm/FM_HousekeepingPkt_t.CommandCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1124,7 +1124,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hk/HK_HkPacket_t.ErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/hk/HK_HkPacket_t.ErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1155,7 +1155,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/fm/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/fm/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -1211,7 +1211,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/fm/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/fm/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -1383,7 +1383,7 @@ $(pv_value)</tooltip>
     <name>Text Update_10</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hk/HK_HkPacket_t.CmdCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/hk/HK_HkPacket_t.CmdCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1435,7 +1435,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hk/HK_HkPacket_t.ErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/hk/HK_HkPacket_t.ErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1466,7 +1466,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hk/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hk/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -1522,7 +1522,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hk/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hk/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -1694,7 +1694,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/ci/CI_HkTlm_t.usCmdCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/ci/CI_HkTlm_t.usCmdCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1746,7 +1746,7 @@ $(pv_value)</tooltip>
     <name>Text Update_13</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/ci/CI_HkTlm_t.usCmdErrCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/ci/CI_HkTlm_t.usCmdErrCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1777,7 +1777,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/ci/Noop(arg: none)');]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/ci/Noop(arg: none)');]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -1833,7 +1833,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/ci/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/ci/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2005,7 +2005,7 @@ $(pv_value)</tooltip>
     <name>Text Update_14</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.CmdCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CmdCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2057,7 +2057,7 @@ $(pv_value)</tooltip>
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/hs/HS_HkPacket_t.CmdErrCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CmdErrCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2088,7 +2088,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hs/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hs/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2144,7 +2144,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/hs/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/hs/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2316,7 +2316,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/lc/LC_HkPacket_t.CmdCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.CmdCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2368,7 +2368,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/lc/LC_HkPacket_t.CmdErrCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.CmdErrCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2399,7 +2399,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/lc/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/lc/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2455,7 +2455,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/lc/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/lc/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2627,7 +2627,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.ValidCmdCntr</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.ValidCmdCntr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2679,7 +2679,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/md/MD_HkTlm_t.InvalidCmdCntr</pv_name>
+    <pv_name>/cfs/$(CPUID)/md/MD_HkTlm_t.InvalidCmdCntr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2710,7 +2710,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/md/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/md/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2766,7 +2766,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/md/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/md/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2938,7 +2938,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/mm/MM_HkPacket_t.CmdCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/mm/MM_HkPacket_t.CmdCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2990,7 +2990,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/mm/MM_HkPacket_t.ErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/mm/MM_HkPacket_t.ErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3021,7 +3021,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/mm/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/mm/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3077,7 +3077,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/mm/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/mm/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3249,7 +3249,7 @@ $(pv_value)</tooltip>
     <name>Text Update_22</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/sc/SC_HkTlm_t.CmdCtr</pv_name>
+    <pv_name>/cfs/$(CPUID)/sc/SC_HkTlm_t.CmdCtr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3301,7 +3301,7 @@ $(pv_value)</tooltip>
     <name>Text Update_23</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/sc/SC_HkTlm_t.CmdErrCtr</pv_name>
+    <pv_name>/cfs/$(CPUID)/sc/SC_HkTlm_t.CmdErrCtr</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3332,7 +3332,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/sc/Noop',{});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/sc/Noop',{});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3388,7 +3388,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/sc/Reset',{});
+Yamcs.issueCommand('/cfs/$(CPUID)/sc/Reset',{});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -3561,7 +3561,7 @@ $(pv_value)</tooltip>
     <name>Text Update_24</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/sch/SCH_HkPacket_t.CmdCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.CmdCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3613,7 +3613,7 @@ $(pv_value)</tooltip>
     <name>Text Update_25</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/sch/SCH_HkPacket_t.ErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.ErrCounter</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3644,7 +3644,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/sch/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/sch/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3700,7 +3700,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/sch/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/sch/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3872,7 +3872,7 @@ $(pv_value)</tooltip>
     <name>Text Update_26</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.usCmdCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.usCmdCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3924,7 +3924,7 @@ $(pv_value)</tooltip>
     <name>Text Update_27</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/to/TO_HkTlm_t.usCmdErrCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.usCmdErrCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3955,7 +3955,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/to/Noop', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/to/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -4011,7 +4011,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/to/Reset', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/to/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

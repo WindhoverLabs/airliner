@@ -46,5 +46,7 @@ def main():
         display.getWidget("app_name").setPropertyValue("text", util.get_short_name_from_registry(registry,
                                                                                                  registry_path).upper() + " - App Control")
 
+        print('app name:{}'.format(util.get_short_name_from_registry(registry,registry_path).upper()))
+
 
 main()

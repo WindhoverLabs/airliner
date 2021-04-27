@@ -79,19 +79,35 @@ void PQ_Classifier_Run(PQ_ChannelData_t *Channel, CFE_SB_MsgPtr_t DataMsgPtr)
         }
 
         /* Get the first Message Flow object.  If this returns null, the
-         * Message ID is not in the table at all so we shouldn't have
-         * received this message.  Raise an event.
+         * Message ID is not in the table..
          */
         msgFlow = PQ_MessageFlow_GetObject(Channel, DataMsgID, &msgFlowIndex);
         if (NULL == msgFlow)
         {
-            (void) CFE_EVS_SendEvent(PQ_MF_MSG_ID_ERR_EID,
-                                     CFE_EVS_ERROR,
-                                     "Classifier Recvd invalid msgId (0x%04X) or message flow was removed on channel (%u)", 
-                                     (unsigned short)DataMsgID,
-                                     (unsigned short)Channel->channelIdx);
-            Channel->DropMsgCount++;
-            goto end_of_function;
+            osalbool retVal = FALSE;
+
+            /* Add the unknown message to the default pq. */
+            retVal = PQ_MessageFlow_Add(Channel, 
+                                        DataMsgID, 
+                                        PQ_DEFAULT_QUEUE_MSG_LIMIT, 
+                                        PQ_DEFAULT_QUEUE_IDX);
+            if(retVal != TRUE)
+            {
+                Channel->DropMsgCount++;
+                goto end_of_function;
+            }
+
+            msgFlow = PQ_MessageFlow_GetObject(Channel, DataMsgID, &msgFlowIndex);
+            if (NULL == msgFlow)
+            {
+                (void) CFE_EVS_SendEvent(PQ_MF_MSG_ID_ERR_EID,
+                                         CFE_EVS_ERROR,
+                                        "Classifier failed to get message flow object for msgId (0x%04X) on channel (%u)", 
+                                        (unsigned short)DataMsgID,
+                                        (unsigned short)Channel->channelIdx);
+                Channel->DropMsgCount++;
+                goto end_of_function;
+            }
         }
 
         /* Get the Priority Queue assigned to this Message Flow. */

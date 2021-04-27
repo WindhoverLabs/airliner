@@ -4,11 +4,11 @@ xtce_config:
   global:
     TelemetryMetaData:
       BaseContainer:
-        container_ref: 'cfs-ccsds'
+        container_ref: 'cfs'
         size: 96
     CommandMetaData:
       BaseContainer:
-        container_ref: 'cfs-ccsds/cfs-cmd'
+        container_ref: 'cfs/cfs-cmd'
         size: 64
 modules:
   core:

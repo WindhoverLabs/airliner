@@ -96,6 +96,9 @@
       enumerations:
         FIFO:   0
         SINGLE: 1
+    #- parent: TO_EnableChannelCmd_t
+    #  member: DestinationAddress
+    #  type: string
   telemetry: 
     TO_DATA_TYPE_MID: 
       msgID: 

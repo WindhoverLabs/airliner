@@ -3,6 +3,7 @@ include(../set-vars.cmake)
 buildliner_initialize(
     PSP ${PSP}
     OSAL ${OSAL}
+    CPU_ID PPD
     CORE_TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/tools
     CONFIG
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
@@ -16,6 +17,12 @@ buildliner_initialize(
         /ram
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
+        
+    COMMANDER_WORKSPACE
+        ${CMAKE_BINARY_DIR}/../../commander_workspace
+        
+    COMMANDER_WORKSPACE_OVERLAY
+        ${CMAKE_CURRENT_SOURCE_DIR}/cdr_workspace_overlay
 )
 
 add_subdirectory(allstop allstop)
@@ -30,6 +37,11 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    mbp_lib
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/mbp_lib/fsw/for_build
+)
+
+buildliner_add_app(
     px4lib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
 )
@@ -37,28 +49,28 @@ buildliner_add_app(
 buildliner_add_app(
     prmlib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/prm
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/prm
 )
 
 buildliner_add_app(
     pq_lib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
     # TODO move this table build to sbn module?
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib
 )
 
 buildliner_add_app(
     sch
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sch
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sch
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sch/sch_custom_rt.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sch/sch_custom_rt.c
 )
 
 buildliner_add_app(
     cf
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cf/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/cf
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/cf
 )
 
 buildliner_add_app(
@@ -70,7 +82,7 @@ buildliner_add_app(
 buildliner_add_app(
     ds
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ds/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ds
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/ds
 )
 
 buildliner_add_app(
@@ -121,34 +133,34 @@ buildliner_add_app(
 buildliner_add_app(
     ci
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/ci
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci/ci_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/ci/ci_custom.c
 )
 
 buildliner_add_app(
     to
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/to
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/tables/to_backup_cfg.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/to_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to/tables/to_backup_cfg.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to/to_custom.c
 )
 
 buildliner_add_app(
     ea
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ea/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ea
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/ea
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ea/src/ea_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/ea/src/ea_custom.c
 )
 
 buildliner_add_app(
     sbn
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sbn
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sbn/src/sbn_remap_tbl.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn/src/sbn_remap_tbl.c
 )
 
 buildliner_add_app(
@@ -158,8 +170,8 @@ buildliner_add_app(
 
 buildliner_add_app(
     sbn_uio_mbox
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/uio_mbox/fsw/for_build
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_uio_mbox/fsw/for_build
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/pq_lib/tables/pq_backup_cfg.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib/tables/pq_backup_cfg.c
 )
 

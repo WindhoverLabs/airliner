@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>260</width>
+  <width>360</width>
   <wuid>-10b748b0:17773fb054b:-7a2f</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -60,16 +60,16 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Symbol Table to File</text>
+    <text>($(CPUID)) MM - Symbol Table to File</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>175</width>
+    <width>283</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7a20</wuid>
-    <x>48</x>
+    <x>12</x>
     <y>6</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -82,7 +82,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var FileName = VTypeHelper.getString(display.getWidget('FileName').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/mm/SymTblToFile', {
+Yamcs.issueCommand('/cfs/$(CPUID)/mm/SymTblToFile', {
     'FileName': FileName});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -129,7 +129,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>92</width>
     <wuid>-10b748b0:17773fb054b:-79c7</wuid>
-    <x>90</x>
+    <x>96</x>
     <y>66</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -166,10 +166,10 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>97</width>
+    <width>73</width>
     <wrap_words>false</wrap_words>
     <wuid>54e87698:1777e01a75d:-6ef6</wuid>
-    <x>12</x>
+    <x>6</x>
     <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
@@ -184,7 +184,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -224,9 +224,9 @@ $(pv_value)</tooltip>
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Text Input</widget_type>
-    <width>136</width>
+    <width>265</width>
     <wuid>54e87698:1777e01a75d:-6ef5</wuid>
-    <x>114</x>
+    <x>84</x>
     <y>36</y>
   </widget>
 </display>

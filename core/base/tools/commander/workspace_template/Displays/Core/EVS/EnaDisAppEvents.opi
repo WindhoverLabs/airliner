@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CFE-EVS - Ena/dis App Event</name>
+  <name>($(CPUID)) CFE-EVS - Ena/dis App Event</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>250</width>
+  <width>280</width>
   <wuid>763e00b7:150973f1dd8:-7ba3</wuid>
   <x>-1</x>
   <y>130</y>
@@ -42,7 +42,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 appName = VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cfe_evs/EnableAppEvents', {'Payload.AppName': appName});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/EnableAppEvents', {'Payload.AppName': appName});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -101,7 +101,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 appName = VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/cfe_evs/DisableAppEvents', {'Payload.AppName': appName});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/DisableAppEvents', {'Payload.AppName': appName});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -277,16 +277,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Enable / Disable App Events</text>
+    <text>($(CPUID)) Enable / Disable App Events</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>205</width>
+    <width>271</width>
     <wrap_words>false</wrap_words>
     <wuid>6b3345f4:17760d4a2f0:-7b58</wuid>
-    <x>27</x>
+    <x>6</x>
     <y>12</y>
   </widget>
 </display>

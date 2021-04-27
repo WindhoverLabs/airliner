@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>LC - Reset WP Stats</name>
+  <name>($(CPUID)) LC - Reset WP Stats</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -60,13 +60,13 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Reset WP Stats</text>
+    <text>($(CPUID))  LC - Reset WP Stats</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>175</width>
+    <width>241</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7a20</wuid>
     <x>12</x>
@@ -82,7 +82,7 @@ importPackage(Packages.org.yamcs.studio.data);
 
 var WPNumber = VTypeHelper.getString(display.getWidget('WPNumber').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand('/cfs/lc/ResetWPStats', {
+Yamcs.issueCommand('/cfs/$(CPUID)/lc/ResetWPStats', {
     'WPNumber': WPNumber,
     'Padding': 0 });]]></scriptText>
         <embedded>true</embedded>
@@ -130,7 +130,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>92</width>
     <wuid>-10b748b0:17773fb054b:-79c7</wuid>
-    <x>54</x>
+    <x>72</x>
     <y>72</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -170,7 +170,7 @@ $(pv_value)</tooltip>
     <width>61</width>
     <wrap_words>false</wrap_words>
     <wuid>689e2ae8:1777f312f88:-7891</wuid>
-    <x>0</x>
+    <x>18</x>
     <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
@@ -185,7 +185,7 @@ $(pv_value)</tooltip>
     <border_color>
       <color name="Border" red="240" green="240" blue="240" />
     </border_color>
-    <border_style>1</border_style>
+    <border_style>4</border_style>
     <border_width>1</border_width>
     <confirm_message></confirm_message>
     <enabled>true</enabled>
@@ -227,7 +227,7 @@ $(pv_value)</tooltip>
     <widget_type>Text Input</widget_type>
     <width>121</width>
     <wuid>689e2ae8:1777f312f88:-7890</wuid>
-    <x>66</x>
+    <x>84</x>
     <y>36</y>
   </widget>
 </display>

@@ -47,9 +47,9 @@ var fileName =VTypeHelper.getString(display.getWidget('FileName').getPropertyVal
 var cmd;
 
 if( fileName != 'no value' ) {
-    cmd = '/cfs/cfe_tbl/Dump('FileName: ' + fileName)';
+    cmd = '/cfs/$(CPUID)/cfe_tbl/Dump('FileName: ' + fileName)';
 } else {
-    cmd = '/cfs/cfe_tbl/Dump('FileName:' "")';
+    cmd = '/cfs/$(CPUID)/cfe_tbl/Dump('FileName:' "")';
 }
 
 cmd = cmd + ', TableName: ' + tableName;
