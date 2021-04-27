@@ -889,12 +889,18 @@ boolean CI_ValidateCmd(const CFE_SB_Msg_t* MsgPtr, uint32 MsgSize)
     /* Verify CCSDS version */
     if (CCSDS_RD_VERS(MsgPtr->Hdr) != 0)
     {
+        CFE_EVS_SendEvent(CI_CMD_VALIDATION_FAIL_EID,
+                           CFE_EVS_ERROR,
+                           "Command failed validation. Invalid CCSDS version.");
         goto CI_ValidateCmd_Exit_Tag;
     }
 
     /* Verify secondary header present */
     if (CCSDS_RD_SHDR(MsgPtr->Hdr) == 0)
     {
+        CFE_EVS_SendEvent(CI_CMD_VALIDATION_FAIL_EID,
+                           CFE_EVS_ERROR,
+                           "Command failed validation. Secondary header not present.");
         goto CI_ValidateCmd_Exit_Tag;
     }
 
@@ -902,6 +908,9 @@ boolean CI_ValidateCmd(const CFE_SB_Msg_t* MsgPtr, uint32 MsgSize)
     usMsgLen = CFE_SB_GetTotalMsgLength((CFE_SB_Msg_t *) MsgPtr);
     if (usMsgLen != MsgSize)
     {
+        CFE_EVS_SendEvent(CI_CMD_VALIDATION_FAIL_EID,
+                           CFE_EVS_ERROR,
+                           "Command failed validation. Invalid length. Expected %u. Actual %u.", usMsgLen, MsgSize);
         goto CI_ValidateCmd_Exit_Tag;
     }
 
@@ -913,6 +922,9 @@ boolean CI_ValidateCmd(const CFE_SB_Msg_t* MsgPtr, uint32 MsgSize)
         {
             if (CFE_SB_ValidateChecksum((CFE_SB_MsgPtr_t)MsgPtr) != TRUE)
             {
+                CFE_EVS_SendEvent(CI_CMD_VALIDATION_FAIL_EID,
+                                   CFE_EVS_ERROR,
+                                   "Command failed validation. Invalid checksum.");
                 goto CI_ValidateCmd_Exit_Tag;
             }
         }
@@ -922,6 +934,9 @@ boolean CI_ValidateCmd(const CFE_SB_Msg_t* MsgPtr, uint32 MsgSize)
              * macro defined in the mission config */
             if (CI_CHECKSUM_REQUIRED == 1)
             {
+                CFE_EVS_SendEvent(CI_CMD_VALIDATION_FAIL_EID,
+                                   CFE_EVS_ERROR,
+                                   "Command failed validation. Checksum required but not present.");
                 goto CI_ValidateCmd_Exit_Tag;
             }
         }

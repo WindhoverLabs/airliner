@@ -16,6 +16,22 @@ buildliner_initialize(
         /cf/log
         /cf/upload
         /ram
+        /ram/download/ch0/dir0/
+        /ram/download/ch0/dir1/
+        /ram/download/ch0/dir2/
+        /ram/download/ch0/dir3/
+        /ram/download/ch0/dir4/
+        /ram/download/ch0/dir5/
+        /ram/download/ch0/dir6/
+        /ram/download/ch0/dir7/
+        /ram/download/ch1/dir0/
+        /ram/download/ch1/dir1/
+        /ram/download/ch1/dir2/
+        /ram/download/ch1/dir3/
+        /ram/download/ch1/dir4/
+        /ram/download/ch1/dir5/
+        /ram/download/ch1/dir6/
+        /ram/download/ch1/dir7/
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
         
@@ -78,6 +94,48 @@ buildliner_add_app(
     CONFIG_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sch/sch_custom_rt.c
 )
+
+buildliner_add_app(
+    cf
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/cf/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/cf
+)
+
+buildliner_add_app(
+    fm
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fm/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/fm
+)
+
+buildliner_add_app(
+    cs
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/cs/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/cs
+)
+
+buildliner_add_app(
+    md
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/md/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/md
+)
+
+buildliner_add_app(
+    mm
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mm/fsw/for_build
+)
+
+#buildliner_add_app(
+#    hs
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hs
+#    CONFIG_SOURCES
+#        ${PROJECT_SOURCE_DIR}/config/shared/apps/hs/hs_custom.c
+#)
 
 # This is temporarily removed until we can remove the OS dependency
 # in cf, i.e. "arpa/inet.h"

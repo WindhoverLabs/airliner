@@ -66,30 +66,30 @@ cf_config_table_t     CF_ConfigTable =
                 
                 { /* Polling Directory 0 */
                     CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
+		    CF_ENABLED,     /* Enable State */
                     1,              /* Class (1 or 2)*/
-                    5,              /* Priority */                  
-                    CF_KEEP_FILE, /* Preserve files after successful transfer? */                    
+                    0,              /* Priority */
+                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll0/", /* SrcPath, no spaces, fwd slash at end */
-                    "cftesting/",    /* DstPath, no spaces */
+                    "/ram/download/ch0/dir0/", /* SrcPath, no spaces, fwd slash at end */
+                    "ch0/dir0/",    /* DstPath, no spaces */
                 },/* End Polling Directory 0 */
                 
                 { /* Polling Directory 1 */
                     CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
-                    1,              /* Class (1 or 2)*/
+		    CF_ENABLED,     /* Enable State */
+                    2,              /* Class (1 or 2)*/
                     0,              /* Priority */                  
-                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */                    
+                    CF_DELETE_FILE, /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll1/", /* SrcPathname */
-                    "/gnd/",         /* DestPathname */
+                    "/ram/download/ch0/dir1/", /* SrcPathname */
+                    "ch0/dir1/",         /* DestPathname */
                     
                 },/* End Polling Directory 1 */
                 
@@ -104,8 +104,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll2/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "/ram/download/ch0/dir2/", /* SrcPathname */
+                    "ch0/dir2/",    /* DstPathname */
                 },/* End Polling Directory 2 */
                 
                 { /* Polling Directory 3 */
@@ -118,8 +118,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll3/", /* SrcPathname */
-                    "/gnd/",         /* DestPathname */
+                    "/ram/download/ch0/dir3/", /* SrcPathname */
+                    "ch0/dir3/",         /* DestPathname */
                     
                 },/* End Polling Directory 3 */
                 
@@ -133,8 +133,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll4/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "/ram/download/ch0/dir4/", /* SrcPathname */
+                    "ch0/dir4/",    /* DstPathname */
                 },/* End Polling Directory 4 */
                 
                 { /* Polling Directory 5 */
@@ -147,8 +147,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll5/", /* SrcPathname */
-                    "/gnd/",         /* DestPathname */
+                    "/ram/download/ch0/dir5/", /* SrcPathname */
+                    "ch0/dir5/",         /* DestPathname */
                     
                 },/* End Polling Directory 5 */
                 
@@ -162,8 +162,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll6/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "/ram/download/ch0/dir6/", /* SrcPathname */
+                    "ch0/dir6/",    /* DstPathname */
                 },/* End Polling Directory 6 */
                 
                 { /* Polling Directory 7 */
@@ -176,8 +176,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll7/", /* SrcPathname */
-                    "/gnd/",         /* DestPathname */
+                    "/ram/download/ch0/dir7/", /* SrcPathname */
+                    "ch0/dir7/",         /* DestPathname */
                     
                 },/* End Polling Directory 7 */                
                 
@@ -207,8 +207,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll0/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "/ram/download/ch1/dir0/", /* SrcPathname */
+                    "ch1/dir0/",    /* DstPathname */
                 },/* End Polling Directory 0 */
                 
                 { /* Polling Directory 1 */
@@ -221,8 +221,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll1/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "/ram/download/ch1/dir1/", /* SrcPathname */
+                    "ch1/dir1/",    /* DstPathname */
                 }, /* End Polling Directory 1 */
                 
                 { /* Polling Directory 2 */
@@ -235,8 +235,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll2/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "/ram/download/ch1/dir2/", /* SrcPathname */
+                    "ch1/dir2/",    /* DstPathname */
                 },/* End Polling Directory 2 */
                 
                 { /* Polling Directory 3 */
@@ -249,8 +249,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll3/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "/ram/download/ch1/dir3/", /* SrcPathname */
+                    "ch1/dir3/",    /* DstPathname */
                 }, /* End Polling Directory 3 */
                 
                 { /* Polling Directory 4 */
@@ -263,8 +263,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll4/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "/ram/download/ch1/dir4/", /* SrcPathname */
+                    "ch1/dir4/",    /* DstPathname */
                 },/* End Polling Directory 4 */
                 
                 { /* Polling Directory 5 */
@@ -277,8 +277,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll5/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "/ram/download/ch1/dir5/", /* SrcPathname */
+                    "ch1/dir5/",    /* DstPathname */
                 }, /* End Polling Directory 5 */
                 
                 { /* Polling Directory 6 */
@@ -291,8 +291,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll6/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "/ram/download/ch1/dir6/", /* SrcPathname */
+                    "ch1/dir6/",    /* DstPathname */
                 },/* End Polling Directory 6 */
                 
                 { /* Polling Directory 7 */
@@ -305,8 +305,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll7/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "/ram/download/ch1/dir7/", /* SrcPathname */
+                    "ch1/dir7/",    /* DstPathname */
                 }, /* End Polling Directory 7 */                
                 
             }, /* End Polling Directory Array */
