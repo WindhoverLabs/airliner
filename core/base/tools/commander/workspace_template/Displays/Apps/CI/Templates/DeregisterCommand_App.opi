@@ -111,13 +111,13 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>($(APP)) CI - Deregister Command</text>
+    <text>($(CPUID) $(APP)) CI - Deregister Command</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>267</width>
+    <width>333</width>
     <wrap_words>false</wrap_words>
     <wuid>4d40612f:17772f0c845:-7d16</wuid>
     <x>16</x>
