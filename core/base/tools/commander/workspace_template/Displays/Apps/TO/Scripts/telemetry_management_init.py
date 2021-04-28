@@ -9,6 +9,7 @@ from org.csstudio.opibuilder.scriptUtil import PVUtil, ScriptUtil, FileUtil, Wid
 from org.eclipse.swt.graphics import RGB
 
 from com.windhoverlabs.studio.registry import YAMLRegistry, ConfigRegistry
+
 # FIXME: Move this to the plugin as other apps will probably use it.
 def get_all_config(modules, out_config):
     for module in modules:
