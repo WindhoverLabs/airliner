@@ -25,7 +25,7 @@
     <UpdateCmd_TEMPLATE>/Displays/Apps/CI/Templates/UpdateCommand_App.opi</UpdateCmd_TEMPLATE>
     <AddMessageFlow_TEMPLATE>/Displays/Apps/TO/Templates/AddMessageFlow_App.opi</AddMessageFlow_TEMPLATE>
     <RemoveMessageFlow_TEMPLATE>/Displays/Apps/TO/Templates/RemoveMessageFlow_App.opi</RemoveMessageFlow_TEMPLATE>
-    <QueryMessageFlow>/Displays/Apps/TO/Templates/QueryMessageFlow_App.opi</QueryMessageFlow>
+    <QueryMessageFlow_TEMPLATE>/Displays/Apps/TO/Templates/QueryMessageFlow_App.opi</QueryMessageFlow_TEMPLATE>
   </macros>
   <name>Main</name>
   <rules />
