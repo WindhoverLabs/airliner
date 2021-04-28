@@ -279,7 +279,7 @@ $(pv_value)</tooltip>
     <widget_type>Grouping Container</widget_type>
     <width>245</width>
     <wuid>1d0b4c79:178fb6290bd:-5dd9</wuid>
-    <x>350</x>
+    <x>234</x>
     <y>24</y>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
