@@ -2117,7 +2117,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="192" green="192" blue="192" />
     </foreground_color>
-    <height>157</height>
+    <height>140</height>
     <lock_children>true</lock_children>
     <macros>
       <include_parent_macros>true</include_parent_macros>
@@ -2130,15 +2130,15 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>true</show_scrollbar>
+    <show_scrollbar>false</show_scrollbar>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <visible>true</visible>
     <widget_type>Grouping Container</widget_type>
-    <width>245</width>
-    <wuid>1d0b4c79:178fb6290bd:-609e</wuid>
-    <x>612</x>
-    <y>6</y>
+    <width>133</width>
+    <wuid>6cbc123a:179195c8c60:-5971</wuid>
+    <x>564</x>
+    <y>16</y>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="EXECUTE_JAVASCRIPT">
@@ -2195,9 +2195,9 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
-      <wuid>1d0b4c79:178fb6290bd:-609d</wuid>
-      <x>13</x>
+      <width>87</width>
+      <wuid>6cbc123a:179195c8c60:-5970</wuid>
+      <x>26</x>
       <y>18</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2256,9 +2256,9 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
-      <wuid>1d0b4c79:178fb6290bd:-609c</wuid>
-      <x>13</x>
+      <width>87</width>
+      <wuid>6cbc123a:179195c8c60:-596f</wuid>
+      <x>26</x>
       <y>42</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
@@ -2289,16 +2289,16 @@ $(pv_value)</tooltip>
         <keep_wh_ratio>false</keep_wh_ratio>
       </scale_options>
       <scripts />
-      <text>Command Management</text>
+      <text>CMD Management</text>
       <tooltip></tooltip>
       <transparent>true</transparent>
       <vertical_alignment>1</vertical_alignment>
       <visible>true</visible>
       <widget_type>Label</widget_type>
-      <width>165</width>
+      <width>139</width>
       <wrap_words>false</wrap_words>
-      <wuid>1d0b4c79:178fb6290bd:-609b</wuid>
-      <x>42</x>
+      <wuid>6cbc123a:179195c8c60:-596e</wuid>
+      <x>0</x>
       <y>0</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2357,9 +2357,9 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
-      <wuid>1d0b4c79:178fb6290bd:-609a</wuid>
-      <x>13</x>
+      <width>87</width>
+      <wuid>6cbc123a:179195c8c60:-596d</wuid>
+      <x>26</x>
       <y>66</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2418,9 +2418,9 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
-      <wuid>1d0b4c79:178fb6290bd:-6099</wuid>
-      <x>13</x>
+      <width>87</width>
+      <wuid>6cbc123a:179195c8c60:-596c</wuid>
+      <x>26</x>
       <y>90</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2479,9 +2479,9 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
-      <wuid>1d0b4c79:178fb6290bd:-6098</wuid>
-      <x>13</x>
+      <width>87</width>
+      <wuid>6cbc123a:179195c8c60:-596b</wuid>
+      <x>26</x>
       <y>114</y>
     </widget>
   </widget>
@@ -2503,7 +2503,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="192" green="192" blue="192" />
     </foreground_color>
-    <height>105</height>
+    <height>96</height>
     <lock_children>true</lock_children>
     <macros>
       <include_parent_macros>true</include_parent_macros>
@@ -2516,14 +2516,14 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <show_scrollbar>true</show_scrollbar>
+    <show_scrollbar>false</show_scrollbar>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <visible>true</visible>
     <widget_type>Grouping Container</widget_type>
-    <width>245</width>
-    <wuid>6cbc123a:179195c8c60:-6f02</wuid>
-    <x>612</x>
+    <width>122</width>
+    <wuid>6cbc123a:179195c8c60:-596a</wuid>
+    <x>570</x>
     <y>166</y>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -2581,10 +2581,10 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
-      <wuid>6cbc123a:179195c8c60:-6f01</wuid>
-      <x>13</x>
-      <y>19</y>
+      <width>62</width>
+      <wuid>6cbc123a:179195c8c60:-5969</wuid>
+      <x>29</x>
+      <y>18</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -2642,10 +2642,10 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
-      <wuid>6cbc123a:179195c8c60:-6f00</wuid>
-      <x>13</x>
-      <y>43</y>
+      <width>62</width>
+      <wuid>6cbc123a:179195c8c60:-5968</wuid>
+      <x>29</x>
+      <y>42</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
       <actions hook="false" hook_all="false" />
@@ -2675,16 +2675,16 @@ $(pv_value)</tooltip>
         <keep_wh_ratio>false</keep_wh_ratio>
       </scale_options>
       <scripts />
-      <text>Telemetry Management</text>
+      <text>TM Management</text>
       <tooltip></tooltip>
       <transparent>true</transparent>
       <vertical_alignment>1</vertical_alignment>
       <visible>true</visible>
       <widget_type>Label</widget_type>
-      <width>165</width>
+      <width>130</width>
       <wrap_words>false</wrap_words>
-      <wuid>6cbc123a:179195c8c60:-6eff</wuid>
-      <x>42</x>
+      <wuid>6cbc123a:179195c8c60:-5967</wuid>
+      <x>0</x>
       <y>0</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
@@ -2743,10 +2743,10 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
-      <wuid>6cbc123a:179195c8c60:-6efe</wuid>
-      <x>13</x>
-      <y>67</y>
+      <width>62</width>
+      <wuid>6cbc123a:179195c8c60:-5966</wuid>
+      <x>29</x>
+      <y>66</y>
     </widget>
   </widget>
 </display>
