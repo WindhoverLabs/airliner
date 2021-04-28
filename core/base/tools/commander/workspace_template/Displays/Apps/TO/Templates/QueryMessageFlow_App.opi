@@ -64,7 +64,7 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>($(CPUID)) TO - Query Message Flow</text>
+    <text>($(CPUID) - $(APP)) TO - Query Message Flow</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
