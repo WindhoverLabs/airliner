@@ -21,7 +21,7 @@ if not (display.getWidget('msgIdInput').getPropertyValue('pv_value') is None) an
 	msg_key = display.getWidget('msgIdInput').getPropertyValue('pv_value').getValue()
 	msg_limit = display.getWidget('MsgLimit').getPropertyValue('pv_value').getValue()
 	pq_index = display.getWidget('PQueueIdx').getPropertyValue('pv_value').getValue()
-	channel_index = display.getWidget('PQueueIdx').getPropertyValue('pv_value').getValue()
+	channel_index = int(display.getWidget('ChannelIndex').getPropertyValue('pv_value').getValue())
 
 	# NOTE: These might be redundant...
 	if msg_key in all_commands:

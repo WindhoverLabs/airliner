@@ -15,11 +15,15 @@ def get_all_config(modules, out_config):
             out_config.update({module: modules[module]['config']})
 
 
-registry = YAMLRegistry()
+def get_max_to_channels():
+    registry = YAMLRegistry()
+    config = dict()
+    get_all_config(registry.get('/')['modules'], config)
 
-config = dict()
+    return config['to']['TO_MAX_CHANNELS']['value']
 
-get_all_config(registry.get('/')['modules'], config)
 
-display.getWidget('ChannelIndex').setPropertyValue('maximum', config['to']['TO_MAX_CHANNELS']['value']-1)
-
+try:
+    display.getWidget('ChannelIndex').setPropertyValue('maximum', get_max_to_channels()-1)
+except:
+    print('No ChannelIndex on Display')
