@@ -209,7 +209,7 @@ $(pv_value)</tooltip>
     <page_increment>100.0</page_increment>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://TO_QueryOutputQueue_ChannelIndex_App</pv_name>
+    <pv_name>loc://TO_QueryOutputQueue_ChannelIndex</pv_name>
     <pv_value />
     <rules />
     <scale_options>

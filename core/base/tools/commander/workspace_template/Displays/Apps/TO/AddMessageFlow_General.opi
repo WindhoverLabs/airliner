@@ -291,7 +291,7 @@ $(pv_value)</tooltip>
     <name>MsgID</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://TO_AddMessageFlow_MsgID&lt;VString&gt;</pv_name>
+    <pv_name>loc://TO_AddMessageFlow_MsgID_General&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -348,7 +348,7 @@ $(pv_value)</tooltip>
     <name>MsgLimit</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://TO_AddMessageFlow_MsgLimit&lt;VString&gt;</pv_name>
+    <pv_name>loc://TO_AddMessageFlow_MsgLimit_General&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -405,7 +405,7 @@ $(pv_value)</tooltip>
     <name>PQueueIdx</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://TO_AddMessageFlow_PQueueIdx&lt;VString&gt;</pv_name>
+    <pv_name>loc://TO_AddMessageFlow_PQueueIdx_General&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
