@@ -1131,11 +1131,13 @@ void CI_ListenerTaskMain(void)
             /* Receive cmd and gather data on it */
             MsgSize = CI_MAX_CMD_INGEST;
             CI_ReadMessage(CI_AppData.IngestBuffer, &MsgSize);
-            CmdMsgPtr = (CFE_SB_MsgPtr_t)CI_AppData.IngestBuffer;
+            if(MsgSize > 0)
+            {
+                CmdMsgPtr = (CFE_SB_MsgPtr_t)CI_AppData.IngestBuffer;
 
-            /* Process the cmd */
-            CI_ProcessIngestCmd(CmdMsgPtr, MsgSize);
-
+                /* Process the cmd */
+                CI_ProcessIngestCmd(CmdMsgPtr, MsgSize);
+            }
             /* Wait before next iteration */
             OS_TaskDelay(CI_LISTENER_TASK_DELAY);
         }while(CI_AppData.IngestActive == TRUE);
