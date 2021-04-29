@@ -1,6 +1,6 @@
 """
-General script that is used by all commands that require msg Ids/command codes such as AuthorizeCmd, DeauthorizeCmd, etc.
-This generates a dropdown widgets that maps message ids to command codes.
+General script that is used by all commands that require msg Ids such as as AddMessageFlow, QueryMessageFlow, etc.
+This generates dropdown widgets that maps message ids to the dropdown widgets.
 """
 
 #import java packages
