@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display typeId="org.csstudio.opibuilder.Display" version="1.0.0">
+  <actions hook="false" hook_all="false" />
+  <auto_scale_widgets>
+    <auto_scale_widgets>false</auto_scale_widgets>
+    <min_width>-1</min_width>
+    <min_height>-1</min_height>
+  </auto_scale_widgets>
+  <auto_zoom_to_fit_all>false</auto_zoom_to_fit_all>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255" />
+  </background_color>
+  <boy_version>1.6.4.202104212257</boy_version>
+  <foreground_color>
+    <color red="192" green="192" blue="192" />
+  </foreground_color>
+  <grid_space>6</grid_space>
+  <height>600</height>
+  <macros>
+    <include_parent_macros>true</include_parent_macros>
+  </macros>
+  <name></name>
+  <rules />
+  <scripts />
+  <show_close_button>true</show_close_button>
+  <show_edit_range>true</show_edit_range>
+  <show_grid>true</show_grid>
+  <show_ruler>true</show_ruler>
+  <snap_to_geometry>true</snap_to_geometry>
+  <widget_type>Display</widget_type>
+  <width>1500</width>
+  <wuid>38eec03c:177b63c5c3c:-7e77</wuid>
+  <x>-1</x>
+  <y>-1</y>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>X</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>80</width>
+    <wrap_words>false</wrap_words>
+    <wuid>38eec03c:177b63c5c3c:-7df0</wuid>
+    <x>53</x>
+    <y>48</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label_1</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Y</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>97</width>
+    <wrap_words>false</wrap_words>
+    <wuid>38eec03c:177b63c5c3c:-7ddf</wuid>
+    <x>36</x>
+    <y>67</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color name="Border" red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <format_type>0</format_type>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Text Update_1</name>
+    <precision>1</precision>
+    <precision_from_pv>false</precision_from_pv>
+    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.Y</pv_name>
+    <pv_value />
+    <rotation_angle>0.0</rotation_angle>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_units>true</show_units>
+    <text>######</text>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <transparent>false</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Text Update</widget_type>
+    <width>100</width>
+    <wrap_words>false</wrap_words>
+    <wuid>38eec03c:177b63c5c3c:-7dde</wuid>
+    <x>138</x>
+    <y>67</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label_2</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Z</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>97</width>
+    <wrap_words>false</wrap_words>
+    <wuid>38eec03c:177b63c5c3c:-7da1</wuid>
+    <x>36</x>
+    <y>86</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color name="Border" red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <format_type>0</format_type>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Text Update_2</name>
+    <precision>3</precision>
+    <precision_from_pv>false</precision_from_pv>
+    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.Z</pv_name>
+    <pv_value />
+    <rotation_angle>0.0</rotation_angle>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_units>true</show_units>
+    <text>######</text>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <transparent>false</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Text Update</widget_type>
+    <width>100</width>
+    <wrap_words>false</wrap_words>
+    <wuid>38eec03c:177b63c5c3c:-7da0</wuid>
+    <x>138</x>
+    <y>86</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>2</horizontal_alignment>
+    <name>Label_3</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>Errors</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>97</width>
+    <wrap_words>false</wrap_words>
+    <wuid>d1efcc2:1783ce91f6a:-55ca</wuid>
+    <x>36</x>
+    <y>105</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color name="Border" red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <format_type>0</format_type>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Text Update_3</name>
+    <precision>3</precision>
+    <precision_from_pv>false</precision_from_pv>
+    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.ErrorCount</pv_name>
+    <pv_value />
+    <rotation_angle>0.0</rotation_angle>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_units>true</show_units>
+    <text>######</text>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <transparent>false</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Text Update</widget_type>
+    <width>100</width>
+    <wrap_words>false</wrap_words>
+    <wuid>d1efcc2:1783ce91f6a:-55c9</wuid>
+    <x>138</x>
+    <y>105</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_114</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>PX4Lib - Accel</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>237</width>
+    <wrap_words>false</wrap_words>
+    <wuid>d1efcc2:1783ce91f6a:-5599</wuid>
+    <x>35</x>
+    <y>14</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.xyGraph" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <axis_0_auto_scale>true</axis_0_auto_scale>
+    <axis_0_auto_scale_threshold>0.0</axis_0_auto_scale_threshold>
+    <axis_0_axis_color>
+      <color red="0" green="0" blue="0" />
+    </axis_0_axis_color>
+    <axis_0_axis_title>Primary X Axis (0)</axis_0_axis_title>
+    <axis_0_dash_grid_line>true</axis_0_dash_grid_line>
+    <axis_0_grid_color>
+      <color red="200" green="200" blue="200" />
+    </axis_0_grid_color>
+    <axis_0_log_scale>false</axis_0_log_scale>
+    <axis_0_maximum>100.0</axis_0_maximum>
+    <axis_0_minimum>0.0</axis_0_minimum>
+    <axis_0_scale_font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </axis_0_scale_font>
+    <axis_0_scale_format></axis_0_scale_format>
+    <axis_0_show_grid>true</axis_0_show_grid>
+    <axis_0_time_format>3</axis_0_time_format>
+    <axis_0_title_font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </axis_0_title_font>
+    <axis_0_visible>true</axis_0_visible>
+    <axis_1_auto_scale>true</axis_1_auto_scale>
+    <axis_1_auto_scale_threshold>0.0</axis_1_auto_scale_threshold>
+    <axis_1_axis_color>
+      <color red="0" green="0" blue="0" />
+    </axis_1_axis_color>
+    <axis_1_axis_title>Primary Y Axis (1)</axis_1_axis_title>
+    <axis_1_dash_grid_line>true</axis_1_dash_grid_line>
+    <axis_1_grid_color>
+      <color red="200" green="200" blue="200" />
+    </axis_1_grid_color>
+    <axis_1_log_scale>false</axis_1_log_scale>
+    <axis_1_maximum>100.0</axis_1_maximum>
+    <axis_1_minimum>0.0</axis_1_minimum>
+    <axis_1_scale_font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </axis_1_scale_font>
+    <axis_1_scale_format></axis_1_scale_format>
+    <axis_1_show_grid>true</axis_1_show_grid>
+    <axis_1_time_format>0</axis_1_time_format>
+    <axis_1_title_font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </axis_1_title_font>
+    <axis_1_visible>true</axis_1_visible>
+    <axis_count>2</axis_count>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color name="Display Background" red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color name="Border" red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>247</height>
+    <name>XY Graph</name>
+    <plot_area_background_color>
+      <color red="255" green="255" blue="255" />
+    </plot_area_background_color>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_legend>true</show_legend>
+    <show_plot_area_border>false</show_plot_area_border>
+    <show_toolbar>false</show_toolbar>
+    <title>Accelerometer</title>
+    <title_font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </title_font>
+    <tooltip>$(trace_0_y_pv)
+$(trace_0_y_pv_value)</tooltip>
+    <trace_0_anti_alias>true</trace_0_anti_alias>
+    <trace_0_buffer_size>100</trace_0_buffer_size>
+    <trace_0_concatenate_data>true</trace_0_concatenate_data>
+    <trace_0_line_width>1</trace_0_line_width>
+    <trace_0_name>X</trace_0_name>
+    <trace_0_plot_mode>0</trace_0_plot_mode>
+    <trace_0_point_size>4</trace_0_point_size>
+    <trace_0_point_style>0</trace_0_point_style>
+    <trace_0_trace_color>
+      <color red="21" green="21" blue="196" />
+    </trace_0_trace_color>
+    <trace_0_trace_type>0</trace_0_trace_type>
+    <trace_0_update_delay>100</trace_0_update_delay>
+    <trace_0_update_mode>3</trace_0_update_mode>
+    <trace_0_visible>true</trace_0_visible>
+    <trace_0_x_axis_index>0</trace_0_x_axis_index>
+    <trace_0_x_pv></trace_0_x_pv>
+    <trace_0_x_pv_value />
+    <trace_0_y_axis_index>1</trace_0_y_axis_index>
+    <trace_0_y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.X</trace_0_y_pv>
+    <trace_0_y_pv_value />
+    <trace_1_anti_alias>true</trace_1_anti_alias>
+    <trace_1_buffer_size>100</trace_1_buffer_size>
+    <trace_1_concatenate_data>true</trace_1_concatenate_data>
+    <trace_1_line_width>1</trace_1_line_width>
+    <trace_1_name>Y</trace_1_name>
+    <trace_1_plot_mode>0</trace_1_plot_mode>
+    <trace_1_point_size>4</trace_1_point_size>
+    <trace_1_point_style>0</trace_1_point_style>
+    <trace_1_trace_color>
+      <color red="242" green="26" blue="26" />
+    </trace_1_trace_color>
+    <trace_1_trace_type>0</trace_1_trace_type>
+    <trace_1_update_delay>100</trace_1_update_delay>
+    <trace_1_update_mode>0</trace_1_update_mode>
+    <trace_1_visible>true</trace_1_visible>
+    <trace_1_x_axis_index>0</trace_1_x_axis_index>
+    <trace_1_x_pv></trace_1_x_pv>
+    <trace_1_x_pv_value />
+    <trace_1_y_axis_index>1</trace_1_y_axis_index>
+    <trace_1_y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.Y</trace_1_y_pv>
+    <trace_1_y_pv_value />
+    <trace_2_anti_alias>true</trace_2_anti_alias>
+    <trace_2_buffer_size>100</trace_2_buffer_size>
+    <trace_2_concatenate_data>true</trace_2_concatenate_data>
+    <trace_2_line_width>1</trace_2_line_width>
+    <trace_2_name>Z</trace_2_name>
+    <trace_2_plot_mode>0</trace_2_plot_mode>
+    <trace_2_point_size>4</trace_2_point_size>
+    <trace_2_point_style>0</trace_2_point_style>
+    <trace_2_trace_color>
+      <color red="33" green="179" blue="33" />
+    </trace_2_trace_color>
+    <trace_2_trace_type>0</trace_2_trace_type>
+    <trace_2_update_delay>100</trace_2_update_delay>
+    <trace_2_update_mode>0</trace_2_update_mode>
+    <trace_2_visible>true</trace_2_visible>
+    <trace_2_x_axis_index>0</trace_2_x_axis_index>
+    <trace_2_x_pv></trace_2_x_pv>
+    <trace_2_x_pv_value />
+    <trace_2_y_axis_index>1</trace_2_y_axis_index>
+    <trace_2_y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.Z</trace_2_y_pv>
+    <trace_2_y_pv_value />
+    <trace_count>3</trace_count>
+    <transparent>false</transparent>
+    <trigger_pv></trigger_pv>
+    <trigger_pv_value />
+    <visible>true</visible>
+    <widget_type>XY Graph</widget_type>
+    <width>427</width>
+    <wuid>64d08e33:178cc09dc9b:-7cc9</wuid>
+    <x>18</x>
+    <y>162</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.xyGraph" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <axis_0_auto_scale>true</axis_0_auto_scale>
+    <axis_0_auto_scale_threshold>0.0</axis_0_auto_scale_threshold>
+    <axis_0_axis_color>
+      <color red="0" green="0" blue="0" />
+    </axis_0_axis_color>
+    <axis_0_axis_title>Primary X Axis (0)</axis_0_axis_title>
+    <axis_0_dash_grid_line>true</axis_0_dash_grid_line>
+    <axis_0_grid_color>
+      <color red="200" green="200" blue="200" />
+    </axis_0_grid_color>
+    <axis_0_log_scale>false</axis_0_log_scale>
+    <axis_0_maximum>100.0</axis_0_maximum>
+    <axis_0_minimum>0.0</axis_0_minimum>
+    <axis_0_scale_font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </axis_0_scale_font>
+    <axis_0_scale_format></axis_0_scale_format>
+    <axis_0_show_grid>true</axis_0_show_grid>
+    <axis_0_time_format>3</axis_0_time_format>
+    <axis_0_title_font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </axis_0_title_font>
+    <axis_0_visible>true</axis_0_visible>
+    <axis_1_auto_scale>true</axis_1_auto_scale>
+    <axis_1_auto_scale_threshold>0.0</axis_1_auto_scale_threshold>
+    <axis_1_axis_color>
+      <color red="0" green="0" blue="0" />
+    </axis_1_axis_color>
+    <axis_1_axis_title>Primary Y Axis (1)</axis_1_axis_title>
+    <axis_1_dash_grid_line>true</axis_1_dash_grid_line>
+    <axis_1_grid_color>
+      <color red="200" green="200" blue="200" />
+    </axis_1_grid_color>
+    <axis_1_log_scale>false</axis_1_log_scale>
+    <axis_1_maximum>100.0</axis_1_maximum>
+    <axis_1_minimum>0.0</axis_1_minimum>
+    <axis_1_scale_font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </axis_1_scale_font>
+    <axis_1_scale_format></axis_1_scale_format>
+    <axis_1_show_grid>true</axis_1_show_grid>
+    <axis_1_time_format>0</axis_1_time_format>
+    <axis_1_title_font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </axis_1_title_font>
+    <axis_1_visible>true</axis_1_visible>
+    <axis_count>2</axis_count>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color name="Display Background" red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color name="Border" red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>247</height>
+    <name>XY Graph_1</name>
+    <plot_area_background_color>
+      <color red="255" green="255" blue="255" />
+    </plot_area_background_color>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_legend>true</show_legend>
+    <show_plot_area_border>false</show_plot_area_border>
+    <show_toolbar>false</show_toolbar>
+    <title>Accelerometer - Raw</title>
+    <title_font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </title_font>
+    <tooltip>$(trace_0_y_pv)
+$(trace_0_y_pv_value)</tooltip>
+    <trace_0_anti_alias>true</trace_0_anti_alias>
+    <trace_0_buffer_size>100</trace_0_buffer_size>
+    <trace_0_concatenate_data>true</trace_0_concatenate_data>
+    <trace_0_line_width>1</trace_0_line_width>
+    <trace_0_name>XRAW</trace_0_name>
+    <trace_0_plot_mode>0</trace_0_plot_mode>
+    <trace_0_point_size>4</trace_0_point_size>
+    <trace_0_point_style>0</trace_0_point_style>
+    <trace_0_trace_color>
+      <color red="21" green="21" blue="196" />
+    </trace_0_trace_color>
+    <trace_0_trace_type>0</trace_0_trace_type>
+    <trace_0_update_delay>100</trace_0_update_delay>
+    <trace_0_update_mode>3</trace_0_update_mode>
+    <trace_0_visible>true</trace_0_visible>
+    <trace_0_x_axis_index>0</trace_0_x_axis_index>
+    <trace_0_x_pv></trace_0_x_pv>
+    <trace_0_x_pv_value />
+    <trace_0_y_axis_index>1</trace_0_y_axis_index>
+    <trace_0_y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.XRaw</trace_0_y_pv>
+    <trace_0_y_pv_value />
+    <trace_1_anti_alias>true</trace_1_anti_alias>
+    <trace_1_buffer_size>100</trace_1_buffer_size>
+    <trace_1_concatenate_data>true</trace_1_concatenate_data>
+    <trace_1_line_width>1</trace_1_line_width>
+    <trace_1_name>YRAW</trace_1_name>
+    <trace_1_plot_mode>0</trace_1_plot_mode>
+    <trace_1_point_size>4</trace_1_point_size>
+    <trace_1_point_style>0</trace_1_point_style>
+    <trace_1_trace_color>
+      <color red="242" green="26" blue="26" />
+    </trace_1_trace_color>
+    <trace_1_trace_type>0</trace_1_trace_type>
+    <trace_1_update_delay>100</trace_1_update_delay>
+    <trace_1_update_mode>0</trace_1_update_mode>
+    <trace_1_visible>true</trace_1_visible>
+    <trace_1_x_axis_index>0</trace_1_x_axis_index>
+    <trace_1_x_pv></trace_1_x_pv>
+    <trace_1_x_pv_value />
+    <trace_1_y_axis_index>1</trace_1_y_axis_index>
+    <trace_1_y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.YRaw</trace_1_y_pv>
+    <trace_1_y_pv_value />
+    <trace_2_anti_alias>true</trace_2_anti_alias>
+    <trace_2_buffer_size>100</trace_2_buffer_size>
+    <trace_2_concatenate_data>true</trace_2_concatenate_data>
+    <trace_2_line_width>1</trace_2_line_width>
+    <trace_2_name>ZRAW</trace_2_name>
+    <trace_2_plot_mode>0</trace_2_plot_mode>
+    <trace_2_point_size>4</trace_2_point_size>
+    <trace_2_point_style>0</trace_2_point_style>
+    <trace_2_trace_color>
+      <color red="33" green="179" blue="33" />
+    </trace_2_trace_color>
+    <trace_2_trace_type>0</trace_2_trace_type>
+    <trace_2_update_delay>100</trace_2_update_delay>
+    <trace_2_update_mode>0</trace_2_update_mode>
+    <trace_2_visible>true</trace_2_visible>
+    <trace_2_x_axis_index>0</trace_2_x_axis_index>
+    <trace_2_x_pv></trace_2_x_pv>
+    <trace_2_x_pv_value />
+    <trace_2_y_axis_index>1</trace_2_y_axis_index>
+    <trace_2_y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.ZRaw</trace_2_y_pv>
+    <trace_2_y_pv_value />
+    <trace_count>3</trace_count>
+    <transparent>false</transparent>
+    <trigger_pv></trigger_pv>
+    <trigger_pv_value />
+    <visible>true</visible>
+    <widget_type>XY Graph</widget_type>
+    <width>427</width>
+    <wuid>-5afbbac6:178cce88c37:1aa6</wuid>
+    <x>444</x>
+    <y>162</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <alarm_pulsing>false</alarm_pulsing>
+    <auto_size>false</auto_size>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_alarm_sensitive>true</border_alarm_sensitive>
+    <border_color>
+      <color name="Border" red="240" green="240" blue="240" />
+    </border_color>
+    <border_style>1</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <format_type>0</format_type>
+    <height>20</height>
+    <horizontal_alignment>0</horizontal_alignment>
+    <name>Text Update</name>
+    <precision>2</precision>
+    <precision_from_pv>false</precision_from_pv>
+    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.X</pv_name>
+    <pv_value />
+    <rotation_angle>0.0</rotation_angle>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_units>true</show_units>
+    <text>######</text>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <transparent>false</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Text Update</widget_type>
+    <width>100</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-5afbbac6:178cce88c37:1aba</wuid>
+    <x>138</x>
+    <y>48</y>
+  </widget>
+</display>

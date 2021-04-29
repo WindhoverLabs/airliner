@@ -47,9 +47,9 @@ var Microseconds =VTypeHelper.getDouble(display.getWidget('Microseconds').getPro
 var cmd;
 
 if( Direction == 'Add' ) {
-   cmd = '/cfs/cfe_time/AddDelay';
+   cmd = '/cfs/$(CPUID)/cfe_time/AddDelay';
 } else if( Direction == 'Subtract' ) {
-   cmd = '/cfs/cfe_time/SubDelay';
+   cmd = '/cfs/$(CPUID)/cfe_time/SubDelay';
 }
 
 Yamcs.issueCommand(cmd, {

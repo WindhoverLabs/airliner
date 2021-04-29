@@ -51,7 +51,7 @@ modules:
           cfe_tbl:
             telemetry:
               CFE_TBL_HK_TLM_MID:
-                msgID: 0x1802
+                msgID: 0x0812
               CFE_TBL_REG_TLM_MID:
                 msgID: 0x0818
             commands:
@@ -62,7 +62,7 @@ modules:
           cfe_time:
             telemetry:
               CFE_TIME_DIAG_TLM_MID:
-                msgID: 0x0802
+                msgID: 0x0814
               CFE_TIME_HK_TLM_MID:
                 msgID: 0x0813
             commands:
@@ -113,7 +113,7 @@ modules:
       CF_HK_TLM_MID: 
         msgID: 0x0839
       CF_INCOMING_PDU_MID: 
-        msgID: 0x083a
+        msgID: 0x183a
       CF_TRANS_TLM_MID:
         msgID: 0x083b
     commands:
@@ -122,7 +122,7 @@ modules:
       CF_SEND_HK_MID: 
         msgID: 0x183d
       CF_SPACE_TO_GND_PDU_MID:
-        msgID: 0x183e
+        msgID: 0x083e
       CF_WAKE_UP_REQ_CMD_MID:
         msgID: 0x183f
     perfids: 
@@ -367,17 +367,14 @@ modules:
     commands:
       TO_CMD_MID:
         msgID: 0x189f
-      TO_SEND_HK_MID:
-        msgID: 0x18a0
-      TO_SEND_TLM_MID:
-        msgID: 0x18a1
-    perfids:
-      TO_MAIN_TASK_PERF_ID:
-        id: 61
-      TO_SOCKET_SEND_PERF_ID:
-        id: 62
-        
-        
+        #commands: 
+        #  EnableChannel:
+        #    cc: 10
+        #    struct: TO_EnableChannelCmd_t
+        #  DisableChannel:
+        #    cc: 11
+        #    struct: TO_DisableChannelCmd_t      
+
   px4lib:
     definition: ${PROJECT_SOURCE_DIR}/apps/px4lib/wh_design.yaml
     telemetry:
@@ -1081,5 +1078,15 @@ modules:
       VM_MAIN_TASK_PERF_ID:
         id: 110
     
-
-    
+  sbn:
+    definition: ${PROJECT_SOURCE_DIR}/apps/sbn/wh_design.yaml
+    telemetry:
+      SBN_TLM_MID:
+        msgID: 0x09ae
+      SBN_MODULE_HK_TLM_MID:
+        msgID: 0x09b4
+    commands:
+      SBN_CMD_MID:
+        msgID: 0x19af
+      SBN_WAKEUP_MID:
+        msgID: 0x19b0

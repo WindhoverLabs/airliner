@@ -52,7 +52,7 @@ include(${PROJECT_SOURCE_DIR}/core/tools/auto-yamcs/build-functions.cmake)
 #)
 function(psp_buildliner_initialize)
     # Define the function arguments.
-    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_WORKSPACE_OVERLAY" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
     
     # Create all the target directories the caller requested.
     foreach(dir ${PARSED_ARGS_FILESYS})
@@ -64,21 +64,39 @@ function(psp_buildliner_initialize)
         message("This is a reference build.")
         set_property(GLOBAL PROPERTY IS_REFERENCE_BUILD true)
     endif()
-
+    
+    if(NOT PARSED_ARGS_COMMANDER_WORKSPACE)
+        set(PARSED_ARGS_COMMANDER_WORKSPACE ${CMAKE_BINARY_DIR}/commander_workspace)
+    endif()
+    
+    if(NOT PARSED_ARGS_CPU_ID)
+        set(PARSED_ARGS_CPU_ID cfs)
+    endif()
+    
     # Generate the XTCE file
-    commander_initialize_workspace(commander_workspace
+    add_custom_target(ground-tools)
+    commander_initialize_workspace(commander-workspace
         CONFIG_FILE           ${CMAKE_BINARY_DIR}/wh_defs.yaml
         XTCE_CONFIG_FILE      ${PROJECT_SOURCE_DIR}/core/base/tools/commander/xtce_config.yaml
         WORKSPACE_TEMPLATE    ${PROJECT_SOURCE_DIR}/core/base/tools/commander/workspace_template
-        WORKSPACE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/commander_workspace
+        WORKSPACE_OUTPUT_PATH ${PARSED_ARGS_COMMANDER_WORKSPACE}
         OUTPUT_DB_FILE        wh_defs.db
-        OUTPUT_XTCE_FILE      mdb/cfs.xml
+        OUTPUT_XTCE_FILE      mdb/${PARSED_ARGS_CPU_ID}.xml
     )
-    set_target_properties(commander_workspace PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(commander-workspace PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    add_dependencies(ground-tools commander-workspace)
+    
+    if(PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY)
+        add_custom_target(commander_workspace_overlay
+            COMMAND cp -R -f ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/* ${PARSED_ARGS_COMMANDER_WORKSPACE}/
+        )
+        add_dependencies(ground-tools commander_workspace_overlay)
+        add_dependencies(commander_workspace_overlay commander-workspace)
+    endif()
     
     # Add a build target to launch YAMCS with our newly created workspace.
     add_custom_target(start-yamcs 
-        COMMAND ${CMAKE_BINARY_DIR}/commander_workspace/bin/yamcs-start /opt/yamcs/ ${CMAKE_BINARY_DIR}/commander_workspace
+        COMMAND ${PARSED_ARGS_COMMANDER_WORKSPACE}/bin/yamcs-start /opt/yamcs/ ${PARSED_ARGS_COMMANDER_WORKSPACE}
     )
         
     # Add the 'build-file-system' target.  This is used to trigger the steps to embed the initial ramdisk 
@@ -141,7 +159,7 @@ function(psp_buildliner_initialize)
 
             # Add the executable to the combined design+configuration yaml file
             commander_add_module(core
-                TARGET_WORKSPACE   commander_workspace
+                TARGET_WORKSPACE   commander-workspace
                 TARGET_NAME        core-binary 
             )
         
@@ -557,13 +575,13 @@ function(psp_buildliner_add_app_def)
     if(IS_EMBEDDED) 
         # Add the core binary file to the combined design+configuration yaml file
         commander_add_module(${PARSED_ARGS_TARGET}
-            TARGET_WORKSPACE   commander_workspace
+            TARGET_WORKSPACE   commander-workspace
             TARGET_NAME        core-binary
         )
     else()
         # Add the binary file to the combined design+configuration yaml file
         commander_add_module(${PARSED_ARGS_TARGET}
-            TARGET_WORKSPACE   commander_workspace
+            TARGET_WORKSPACE   commander-workspace
             TARGET_NAME        ${PARSED_ARGS_TARGET}
         )
     endif()
@@ -885,23 +903,30 @@ endfunction(psp_get_app_cflags OUTPUT_LIST INPUT_FLAGS)
 
 function(psp_buildliner_add_table)
     set(PARSED_ARGS_TARGET ${ARGV0})
-    cmake_parse_arguments(PARSED_ARGS "" "NAME" "SOURCES;INCLUDES" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "" "NAME" "SOURCES;INCLUDES;COPY" ${ARGN})
 
     psp_get_app_cflags(${PARSED_ARGS_TARGET} TBL_CFLAGS ${CMAKE_C_FLAGS})
 
-    add_custom_command(
-        OUTPUT ${PARSED_ARGS_NAME}.tbl
-        COMMAND ${CMAKE_C_COMPILER} ${TBL_CFLAGS} -c -o ${PARSED_ARGS_NAME}.o ${PARSED_ARGS_SOURCES}
-        COMMAND ${ELF2CFETBL_BIN}/elf2cfetbl ${PARSED_ARGS_NAME}.o
-        COMMAND cp ${PARSED_ARGS_NAME}.tbl ${INSTALL_DIR}
-        BYPRODUCTS ${PARSED_ARGS_NAME}.tbl
-        DEPENDS ${PARSED_ARGS_SOURCES}
-    )
-    add_custom_target(${PARSED_ARGS_NAME} ALL
-        DEPENDS ${PARSED_ARGS_NAME}.tbl ${PARSED_ARGS_SOURCES}
-    )
-    
-    add_dependencies(build-file-system ${PARSED_ARGS_NAME})
+    if(PARSED_ARGS_NAME AND PARSED_ARGS_SOURCES)
+        add_custom_command(
+            OUTPUT ${PARSED_ARGS_NAME}.tbl
+            COMMAND ${CMAKE_C_COMPILER} ${TBL_CFLAGS} -c -o ${PARSED_ARGS_NAME}.o ${PARSED_ARGS_SOURCES}
+            COMMAND ${ELF2CFETBL_BIN}/elf2cfetbl ${PARSED_ARGS_NAME}.o
+            COMMAND cp ${PARSED_ARGS_NAME}.tbl ${INSTALL_DIR}
+            BYPRODUCTS ${PARSED_ARGS_NAME}.tbl
+            DEPENDS ${PARSED_ARGS_SOURCES}
+        )
+        add_custom_target(${PARSED_ARGS_NAME} ALL
+            DEPENDS ${PARSED_ARGS_NAME}.tbl ${PARSED_ARGS_SOURCES}
+        )
+        add_dependencies(build-file-system ${PARSED_ARGS_NAME})
+    endif()
+
+    # Copy any files
+    if(PARSED_ARGS_COPY)
+        file(COPY ${PARSED_ARGS_COPY} DESTINATION ${INSTALL_DIR})
+    endif()
+
 endfunction(psp_buildliner_add_table)
 
 

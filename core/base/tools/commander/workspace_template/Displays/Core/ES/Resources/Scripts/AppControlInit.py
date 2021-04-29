@@ -1,16 +1,22 @@
 """
-This script auto-generates event ids rows for each event id found in the YAML file. It essentially creates LinkingContainer[1]
-widgets and uses EventRecord.opi to generates a container widget for each event in airliner confuration.
+This script auto-generates an instance of the AppControl OPI. It essentially creates LinkingContainer[1]
+widgets and links it to ApplicationControl_App.opi.
 
 [1]:https://docs.yamcs.org/yamcs-studio/
 """
 # import java packages
 from org.csstudio.opibuilder.scriptUtil import PVUtil, ScriptUtil, FileUtil, WidgetUtil, DataUtil
-from org.csstudio.opibuilder.scriptUtil import YAMLUtil
+from com.windhoverlabs.studio.registry import YAMLRegistry
 from org.eclipse.swt.graphics import RGB
 
 # import python packages
 import logging
+import sys
+
+# import our own APIs. Not sure if this is the cleanest way of doing this. If we don't do it this way, we might have add
+# an __init__.py to every directory in the project. Don't want to hardcode this path either; open to ideas about this.
+sys.path.append(FileUtil.workspacePathToSysPath("Displays"))
+from Resources.opi_util import util
 
 
 def is_opi_app_specific():
@@ -21,37 +27,7 @@ def is_opi_app_specific():
     """
     is_specific = True
 
-    # getMacroValue returns a unicode object, NOT an str object. See "5.6.1. String Methods" of the python2.7.18 docs
-    # for details.
-    app_name = display.getMacroValue("APP")
-    project_name = display.getMacroValue("PROJECT_NAME")
-    yaml_path = display.getMacroValue("CONFIG_REGISTRY")
-
-    #if app_name is None or project_name is None or yaml_path is None:
-    #    is_specific = False
-
     return is_specific
-
-
-def get_module(in_module, yaml_data):
-    """
-    Get the module data from yaml_data dict. Especially useful for when the modules are structured in
-    a hierarchical fashion like our config files.
-
-    :param in_module(str): The name of the module to look for.
-    :param yaml_data(dcit): The dictionary that has the configruation data.
-
-    :return dict: The dictionary with the data of module.
-    """
-    module_data = None
-    for module in yaml_data['modules']:
-        # FIXME: More succinct way of doing this?
-        if 'modules' in yaml_data['modules'][module]:
-            module_data = get_module(in_module, yaml_data['modules'][module])
-        if in_module == module:
-            module_data = yaml_data['modules'][in_module]
-
-    return module_data
 
 
 def main():
@@ -62,13 +38,15 @@ def main():
         logger.warning(app_name)
         project_name = display.getMacroValue("PROJECT_NAME")
         logger.warning(project_name)
-        yaml_path_macro = display.getMacroValue("CONFIG_REGISTRY")
-        logger.warning(yaml_path_macro)
-        yaml_path = FileUtil.workspacePathToSysPath(yaml_path_macro)
 
-        yaml_data = YAMLUtil.parseYAML(yaml_path)
-        module_data = get_module(app_name, yaml_data)
+        registry_path = display.getMacroValue("REGISTRY_PATH")
 
-        display.getWidget("app_name").setPropertyValue("text", module_data['short_name'].upper() + " - App Control")
+        registry = YAMLRegistry()
+
+        display.getWidget("app_name").setPropertyValue("text", util.get_short_name_from_registry(registry,
+                                                                                                 registry_path).upper() + " - App Control")
+
+        print('app name:{}'.format(util.get_short_name_from_registry(registry,registry_path).upper()))
+
 
 main()

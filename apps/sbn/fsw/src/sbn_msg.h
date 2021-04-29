@@ -49,6 +49,22 @@
  */
 #define SBN_HKNET_LEN (CFE_SB_TLM_HDR_SIZE + sizeof(uint8) * 2 + sizeof(char) * SBN_MAX_NET_NAME_LEN + sizeof(uint8) + sizeof(uint16))
 
+
+/**
+**  \brief No Arguments Command
+**
+**  \par
+**   For command details see #SBN_NOOP_CC, #SBN_RESET_CC
+**
+*/
+typedef struct
+{
+    /** \brief message header */
+    uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+} SBN_NoArgCmd_t;
+
+
 /**
  * @brief Module status response packet structure
  */
@@ -62,5 +78,31 @@ typedef struct {
     /** @brief The module status as returned by the module. */
     uint8   ModuleStatus[SBN_MOD_STATUS_MSG_SZ];
 } SBN_ModuleStatusPacket_t;
+
+
+typedef struct
+{
+  CFE_SB_MsgId_t    MsgID;
+  CFE_SB_Qos_t      QoS;
+} SBN_Sub_t;
+
+
+typedef struct 
+{
+    uint8           TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8           Ident[SBN_IDENT_LEN];
+    uint16          SubCount;
+    SBN_Sub_t       Sub;
+} SBN_SubPacket_t;
+
+
+typedef struct 
+{
+    uint8           TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8           Ident[SBN_IDENT_LEN];
+    uint16          SubCount;
+    SBN_Sub_t       Subs[SBN_MAX_SUBS_PER_PEER];
+} SBN_SubsPacket_t;
+
 
 #endif /* _sbn_msg_h_ */

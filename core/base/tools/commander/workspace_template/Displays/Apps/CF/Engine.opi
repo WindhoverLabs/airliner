@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="240" green="240" blue="240" />
   </foreground_color>
@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>CF - Engine</name>
+  <name>($(CPUID)) CF - Engine</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -60,16 +60,16 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Engine</text>
+    <text>($(CPUID)) CF - Engine</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>175</width>
+    <width>298</width>
     <wrap_words>false</wrap_words>
     <wuid>763e00b7:150973f1dd8:-7cf4</wuid>
-    <x>72</x>
+    <x>12</x>
     <y>12</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
@@ -100,7 +100,7 @@
     <name>Text Update_30</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.FlightEngineEntityId</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.FlightEngineEntityId</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -190,7 +190,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box</name>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -237,7 +237,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_1</name>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -284,7 +284,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_2</name>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -331,7 +331,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_3</name>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -378,7 +378,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_5</name>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -425,7 +425,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_4</name>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -472,7 +472,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_6</name>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -519,7 +519,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_7</name>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -566,7 +566,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_8</name>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.Flags</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -975,7 +975,7 @@ $(pv_value)</tooltip>
     <name>Text Update_31</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.MachinesAllocated</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.MachinesAllocated</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1027,7 +1027,7 @@ $(pv_value)</tooltip>
     <name>Text Update_32</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.MachinesDeallocated</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.MachinesDeallocated</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1079,7 +1079,7 @@ $(pv_value)</tooltip>
     <name>Text Update_33</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.are_any_partners_frozen</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.are_any_partners_frozen</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1131,7 +1131,7 @@ $(pv_value)</tooltip>
     <name>Text Update_34</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.how_many_senders</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.how_many_senders</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1183,7 +1183,7 @@ $(pv_value)</tooltip>
     <name>Text Update_35</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.how_many_receivers</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.how_many_receivers</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1235,7 +1235,7 @@ $(pv_value)</tooltip>
     <name>Text Update_36</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.how_many_frozen</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.how_many_frozen</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1287,7 +1287,7 @@ $(pv_value)</tooltip>
     <name>Text Update_37</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.how_many_suspended</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.how_many_suspended</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1339,7 +1339,7 @@ $(pv_value)</tooltip>
     <name>Text Update_38</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.total_files_sent</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.total_files_sent</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1391,7 +1391,7 @@ $(pv_value)</tooltip>
     <name>Text Update_39</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.total_files_received</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.total_files_received</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1443,7 +1443,7 @@ $(pv_value)</tooltip>
     <name>Text Update_40</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.total_unsuccessful_senders</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.total_unsuccessful_senders</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1495,7 +1495,7 @@ $(pv_value)</tooltip>
     <name>Text Update_41</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/cf/CF_HkPacket_t.Eng.total_unsuccessful_receivers</pv_name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Eng.total_unsuccessful_receivers</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1967,7 +1967,7 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-Yamcs.issueCommand('/cfs/cf/Freeze', {});
+Yamcs.issueCommand('/cfs/$(CPUID)/cf/Freeze', {});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -2025,7 +2025,7 @@ $(pv_value)</tooltip>
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-Yamcs.issueCommand('/cfs/cf/Thaw', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/cf/Thaw', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

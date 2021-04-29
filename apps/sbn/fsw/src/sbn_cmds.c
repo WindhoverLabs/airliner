@@ -342,7 +342,7 @@ static void HKCmd(CFE_SB_MsgPtr_t MsgPtr)
         return;
     }/* end if */
 
-    CFE_EVS_SendEvent(SBN_CMD_EID, CFE_EVS_INFORMATION, "hk command");
+    //CFE_EVS_SendEvent(SBN_CMD_EID, CFE_EVS_INFORMATION, "hk command");
 
     uint8 HKBuf[SBN_HK_LEN];
     Pack_t Pack;
@@ -363,6 +363,28 @@ static void HKCmd(CFE_SB_MsgPtr_t MsgPtr)
     */
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *) HKBuf);
     CFE_SB_SendMsg((CFE_SB_Msg_t *) HKBuf);
+
+    /******************************************************************/
+    /* For now report module status with HK. */
+    int NetIdx = 0;
+    for(NetIdx = 0; NetIdx < SBN.NetCnt; NetIdx++)
+    {
+        SBN_NetInterface_t *Net = &SBN.Nets[NetIdx];
+
+        if(!Net->Configured)
+        {
+            CFE_EVS_SendEvent(SBN_PEER_EID, CFE_EVS_ERROR,
+                "network #%d not configured", NetIdx);
+
+            return;
+        }/* end if */
+        
+        /* Note: StatusPacket currently unused. */
+        SBN_ModuleStatusPacket_t StatusPacket;
+        Net->IfOps->ReportModuleStatus(&StatusPacket);
+    }
+    /******************************************************************/
+
 }/* end HKCmd */
 
 /** \brief Request for housekeeping for one network.

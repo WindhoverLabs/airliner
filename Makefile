@@ -35,7 +35,7 @@ SPHINX_OPTS     ?=
 SPHINX_BUILD    ?= sphinx-build
 SPHINX_SOURCEDIR = .
 SPHINX_BUILDDIR  = build/reference/default/target/docs
-SPHINX_FSW_BUILD = reference/default
+SPHINX_FSW_BUILD = reference/target
 
 SHELL := /bin/bash
 
@@ -62,12 +62,23 @@ help::
 	@echo '                              hosted on the generic quad-X airframe with the    '
 	@echo '                              Aerotenna uLanding landing radar system.          '
 	@echo '                              uLanding landing radar system.                    '
+	@echo '    obc-all                 : This will build flight software for both the      '
+	@echo '                              Performance Processing Domain (PPD) and the       '
+	@echo '                              Critical Processing Domain (CPD) of the           '
+	@echo '                              Windhover On-Board Computer (OBC), as well as the '
+	@echo '                              associated ground products.                       '
 	@echo '    obc/ppd                 : This will build flight software for the           '
 	@echo '                              Performance Processing Domain (PPD) of the        '
 	@echo '                              Windhover On-Board Computer (OBC).                '
 	@echo '    obc/cpd                 : This will build flight software for the           '
-	@echo '                              Critical Processing Domain (PPD) of the Windhover '
+	@echo '                              Critical Processing Domain (CPD) of the Windhover '
 	@echo '                              Windhover On-Board Computer (OBC).                '
+	@echo '    obc-sitl                : This will build a SITL versions of both the PPD   '
+	@echo '                              and CPD flight software.                          '
+	@echo '    obc/ppd/sitl            : This will build a SITL version of the PPD flight  '
+	@echo '                              software.                                         '
+	@echo '    obc/cpd/sitl            : This will build a SITL version of the CPD flight  '
+	@echo '                              software.                                         '
 	@echo '    clean                   : This will clean all build flight software build   '
 	@echo '                              targets.  This includes the Commander workspace,  '
 	@echo '                              if one was generated.                             '
@@ -96,6 +107,7 @@ help::
 	@echo '    docs-sphinx             : Generate the Sphinx documentation from the        '
 	@echo '                              reference build.                                  '
 	
+	
 .PHONY: help Makefile docs obc
 	
 
@@ -122,45 +134,38 @@ $(GENERIC_TARGET_NAMES)::
 						-DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); \
 					$(MAKE) --no-print-directory); \
 				fi \
-		done;
+		done;	
 		
 		
-obc::
-	@echo 'Building 'OBC'.'
-	@idx=1; \
-	for name in $(GENERIC_TARGET_NAMES); do \
-		if [ "$$name" == "$@" ] ; then \
-			break; \
-		fi; \
-		((idx++)); \
-	done; \
-	TARGET_PATH=$$(echo ${GENERIC_TARGET_PATHS} | cut -d " " -f $$idx); \
-		echo "Generating complete design/configuration definition file, 'wh_defs.yaml'"; \
-	if [ -f "$(CONFIG_DIR)/$$TARGET_PATH/wh_config.yaml" ]; then \
-			mkdir -p build/$$TARGET_PATH/target; \
-			python3 core/base/tools/config/wh_defgen.py $(CONFIG_DIR)/$$TARGET_PATH/ build/$$TARGET_PATH/target/wh_defs.yaml; \
-	fi; \
-		for buildtype in $(BUILD_TYPES); do \
-		if [ -d "$(CONFIG_DIR)/$$TARGET_PATH/$$buildtype" ]; then \
-				mkdir -p build/$$TARGET_PATH/$$buildtype; \
-				(cd build/$$TARGET_PATH/$$buildtype; \
-					cmake -DBUILDNAME:STRING=$$TARGET_PATH -DBUILDTYPE:STRING=$$buildtype -G"Eclipse CDT4 - Unix Makefiles" \
-						-DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); \
-					$(MAKE) --no-print-directory); \
-				fi \
-		done;
+obc-all:: obc/ppd obc/cpd
+	@echo 'Generating ground products.'
+	@make -C build/obc/ppd/target ground-tools
+	@make -C build/obc/cpd/target ground-tools
+	@echo 'Done'
+		
+workspace::
+	rm build/obc/commander_workspace/Displays/Resources/definitions.yaml
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/definitions.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/definitions.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+
+
+obc-sitl:: obc/ppd/sitl obc/cpd/sitl
+	@echo 'Generating ground products.'
+	@make -C build/obc/ppd/sitl/target ground-tools
+	@make -C build/obc/cpd/sitl/target ground-tools
+	@echo 'Done'
 	
 	
-docs-doxygen: 
+docs-doxygen:
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
-	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} -DBUILDTYPE:STRING=target \
+	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
 		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); make docs);
 	
 	
 docs-sphinx: 
 	@echo 'Building $$SPHINX_FSW_BUILD.'
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
-	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} -DBUILDTYPE:STRING=target \
+	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
 		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR));
 	@$(SPHINX_BUILD) -M html "$(SOURCE_DIR)" "$(SPHINX_BUILDDIR)" $(SPHINX_OPTS) -c build/$(SPHINX_FSW_BUILD)/target/docs $(O)
 	@echo 'Completed'

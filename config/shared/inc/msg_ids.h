@@ -66,11 +66,11 @@
 /* CF                                                          */
 #define CF_CONFIG_TLM_MID                         TLM_MSG(   56 )
 #define CF_HK_TLM_MID                             TLM_MSG(   57 )
-#define CF_INCOMING_PDU_MID                       TLM_MSG(   58 )
+#define CF_INCOMING_PDU_MID                       CMD_MSG(   58 )
 #define CF_TRANS_TLM_MID                          TLM_MSG(   59 )
 #define CF_CMD_MID                                CMD_MSG(   60 )
 #define CF_SEND_HK_MID                            CMD_MSG(   61 )
-#define CF_SPACE_TO_GND_PDU_MID                   CMD_MSG(   62 )
+#define CF_SPACE_TO_GND_PDU_MID                   TLM_MSG(   62 )
 #define CF_WAKE_UP_REQ_CMD_MID                    CMD_MSG(   63 )
 
 
@@ -433,6 +433,12 @@
 #define SBN_TLM_MID                               TLM_MSG(  430 )
 #define SBN_CMD_MID                               CMD_MSG(  431 )
 #define SBN_WAKEUP_MID                            CMD_MSG(  432 )
+/* These MIDs must match for SBN to SBN communication. */
+#define SBN_SUB_MID                               TLM_MSG(  433 ) - CFE_MSG_CPU_BASE
+#define SBN_ALLSUB_MID                            TLM_MSG(  434 ) - CFE_MSG_CPU_BASE
+#define SBN_UNSUB_MID                             TLM_MSG(  435 ) - CFE_MSG_CPU_BASE
+
+#define SBN_MODULE_HK_TLM_MID                     TLM_MSG(  436 )
 
 
 /* SENS                                                      */

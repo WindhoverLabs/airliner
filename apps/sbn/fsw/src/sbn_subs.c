@@ -21,9 +21,14 @@
 
 #include "sbn_app.h"
 #include <string.h>
-#include <arpa/inet.h>
+/* TODO */
+//#include <arpa/inet.h>
 #include "cfe_msgids.h"
 #include "sbn_pack.h"
+
+/* TODO */
+#define htons(x) (x)
+#define ntohs(x) (x)
 
 // TODO: instead of using void * for the buffer for SBN messages, use
 // a struct that has the SBN header in packed bytes.
@@ -47,6 +52,7 @@ void SBN_SendSubsRequests(void)
     CFE_SB_SendMsg((CFE_SB_MsgPtr_t) &SBCmdMsg);
 }/* end SBN_SendSubsRequests */
 
+
 /**
  * \brief Sends a local subscription over the wire to a peer.
  *
@@ -58,17 +64,26 @@ void SBN_SendSubsRequests(void)
 static void SendLocalSubToPeer(int SubType, CFE_SB_MsgId_t MsgID,
     CFE_SB_Qos_t QoS, SBN_PeerInterface_t *Peer)
 {
-    uint8 Buf[SBN_PACKED_SUB_SZ];
-    Pack_t Pack;
-    Pack_Init(&Pack, &Buf, SBN_PACKED_SUB_SZ, 0);
-    Pack_Data(&Pack, SBN_IDENT, SBN_IDENT_LEN);
-    Pack_UInt16(&Pack, 1);
+    SBN_SubPacket_t Packet;
 
-    Pack_MsgID(&Pack, MsgID);
-    Pack_Data(&Pack, &QoS, sizeof(QoS)); /* 2 uint8's */
+    if(SubType == SBN_SUBSCRIBE_MSG)
+    {
+        CFE_SB_InitMsg(&Packet, SBN_SUB_MID, sizeof(Packet), TRUE);
+    }
+    else
+    {
+        CFE_SB_InitMsg(&Packet, SBN_UNSUB_MID, sizeof(Packet), TRUE);
+    }
 
-    SBN_SendNetMsg(SubType, Pack.BufUsed, Buf, Peer);
+    memcpy(&Packet.Ident, SBN_IDENT, SBN_IDENT_LEN);
+    Packet.SubCount = 1;
+    Packet.Sub.MsgID = MsgID;
+    Packet.Sub.QoS.Priority = QoS.Priority;
+    Packet.Sub.QoS.Reliability = QoS.Reliability;
+
+    SBN_SendNetMsg(SubType, sizeof(Packet), &Packet, Peer);
 }/* end SendLocalSubToPeer */
+
 
 /**
  * \brief Sends all local subscriptions over the wire to a peer.
@@ -77,22 +92,24 @@ static void SendLocalSubToPeer(int SubType, CFE_SB_MsgId_t MsgID,
  */
 void SBN_SendLocalSubsToPeer(SBN_PeerInterface_t *Peer)
 {
-    uint8 Buf[SBN_PACKED_SUB_SZ];
-    Pack_t Pack;
-    Pack_Init(&Pack, &Buf, SBN_PACKED_SUB_SZ, 0);
-    Pack_Data(&Pack, SBN_IDENT, SBN_IDENT_LEN);
-    Pack_UInt16(&Pack, SBN.SubCnt);
+    SBN_SubsPacket_t Packet;
+
+    CFE_SB_InitMsg(&Packet, SBN_ALLSUB_MID, sizeof(Packet), TRUE);
+
+    memcpy(&Packet.Ident, SBN_IDENT, SBN_IDENT_LEN);
+    Packet.SubCount = SBN.SubCnt;
 
     int i = 0;
     for(i = 0; i < SBN.SubCnt; i++)
     {
-        Pack_MsgID(&Pack, SBN.Subs[i].MsgID);
-        /* 2 uint8's */
-        Pack_Data(&Pack, &SBN.Subs[i].QoS, sizeof(SBN.Subs[i].QoS));
+        Packet.Subs[i].MsgID = SBN.Subs[i].MsgID;
+        Packet.Subs[i].QoS.Priority = SBN.Subs[i].QoS.Priority;
+        Packet.Subs[i].QoS.Reliability = SBN.Subs[i].QoS.Reliability;
     }/* end for */
 
-    SBN_SendNetMsg(SBN_SUBSCRIBE_MSG, Pack.BufUsed, Buf, Peer);
+    SBN_SendNetMsg(SBN_SUBSCRIBE_MSG, sizeof(Packet), &Packet, Peer);
 }/* end SBN_SendLocalSubsToPeer */
+
 
 /**
  * Utility to find the subscription index (SBN.Subs)
@@ -404,33 +421,54 @@ static void ProcessSubFromPeer(SBN_PeerInterface_t *Peer, CFE_SB_MsgId_t MsgID,
  */
 void SBN_ProcessSubsFromPeer(SBN_PeerInterface_t *Peer, void *Msg)
 {
-    Unpack_t Unpack;
-    char VersionHash[SBN_IDENT_LEN];
+    SBN_SubsPacket_t AllSubPacket;
+    SBN_SubPacket_t SubPacket;
+    
+    uint16 SubCnt = 0;
 
-    Unpack_Init(&Unpack, Msg, CFE_SB_MAX_SB_MSG_SIZE);
+    CFE_SB_MsgId_t MsgID = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)Msg);
 
-    Unpack_Data(&Unpack, VersionHash, SBN_IDENT_LEN);
-
-    if(strncmp(VersionHash, SBN_IDENT, SBN_IDENT_LEN))
+    if(MsgID == SBN_SUB_MID)
     {
-        CFE_EVS_SendEvent(SBN_PROTO_EID, CFE_EVS_ERROR,
-            "version number mismatch with peer CpuID %lu",
-            Peer->ProcessorID);
+        /* TODO add size check*/
+        memcpy(&SubPacket, Msg, sizeof(SubPacket));
+
+        if(strncmp(SubPacket.Ident, SBN_IDENT, SBN_IDENT_LEN))
+        {
+            CFE_EVS_SendEvent(SBN_PROTO_EID, CFE_EVS_ERROR,
+                "version number mismatch with peer CpuID %lu",
+                Peer->ProcessorID);
+        }
+
+        CFE_SB_MsgId_t MsgID = SubPacket.Sub.MsgID;
+        CFE_SB_Qos_t QoS = SubPacket.Sub.QoS;
+        ProcessSubFromPeer(Peer, MsgID, QoS);
     }
 
-    uint16 SubCnt;
-    Unpack_UInt16(&Unpack, &SubCnt);
-
-    int SubIdx = 0;
-    for(SubIdx = 0; SubIdx < SubCnt; SubIdx++)
+    if(MsgID == SBN_ALLSUB_MID)
     {
-        CFE_SB_MsgId_t MsgID;
-        Unpack_MsgID(&Unpack, &MsgID);
-        CFE_SB_Qos_t QoS;
-        Unpack_Data(&Unpack, &QoS, sizeof(QoS));
+        /* TODO add size check*/
+        memcpy(&AllSubPacket, Msg, sizeof(AllSubPacket));
 
-        ProcessSubFromPeer(Peer, MsgID, QoS);
-    }/* end for */
+        if(strncmp(AllSubPacket.Ident, SBN_IDENT, SBN_IDENT_LEN))
+        {
+            CFE_EVS_SendEvent(SBN_PROTO_EID, CFE_EVS_ERROR,
+                "version number mismatch with peer CpuID %lu",
+                Peer->ProcessorID);
+        }
+
+        SubCnt = AllSubPacket.SubCount;
+
+        int SubIdx = 0;
+        for(SubIdx = 0; SubIdx < SubCnt; SubIdx++)
+        {
+            CFE_SB_MsgId_t MsgID = AllSubPacket.Subs[SubIdx].MsgID;
+            CFE_SB_Qos_t QoS = AllSubPacket.Subs[SubIdx].QoS;
+
+            ProcessSubFromPeer(Peer, MsgID, QoS);
+        }
+    }
+
 }/* SBN_ProcessSubsFromPeer */
 
 static void ProcessUnsubFromPeer(SBN_PeerInterface_t *Peer,
@@ -480,31 +518,30 @@ static void ProcessUnsubFromPeer(SBN_PeerInterface_t *Peer,
  */
 void SBN_ProcessUnsubsFromPeer(SBN_PeerInterface_t *Peer, void *Msg)
 {
-    Unpack_t Unpack;
+    SBN_SubsPacket_t Packet;
+    uint16 SubCnt = 0;
 
-    Unpack_Init(&Unpack, Msg, CFE_SB_MAX_SB_MSG_SIZE);
+    memcpy(&Packet, Msg, sizeof(SBN_SubPacket_t));
 
-    char VersionHash[SBN_IDENT_LEN];
+    if(Packet.SubCount > 1)
+    {
+        memcpy(&Packet, Msg, sizeof(SBN_SubsPacket_t));
+    }
 
-    Unpack_Data(&Unpack, VersionHash, SBN_IDENT_LEN);
-
-    if(strncmp(VersionHash, SBN_IDENT, SBN_IDENT_LEN))
+    if(strncmp(Packet.Ident, SBN_IDENT, SBN_IDENT_LEN))
     {
         CFE_EVS_SendEvent(SBN_PROTO_EID, CFE_EVS_ERROR,
             "version number mismatch with peer CpuID %lu",
             Peer->ProcessorID);
     }
 
-    uint16 SubCnt;
-    Unpack_UInt16(&Unpack, &SubCnt);
+    SubCnt = Packet.SubCount;
 
     int SubIdx = 0;
     for(SubIdx = 0; SubIdx < SubCnt; SubIdx++)
     {
-        CFE_SB_MsgId_t MsgID;
-        Unpack_MsgID(&Unpack, &MsgID);
-        CFE_SB_Qos_t QoS;
-        Unpack_Data(&Unpack, &QoS, sizeof(QoS));
+        CFE_SB_MsgId_t MsgID = Packet.Subs[SubIdx].MsgID;
+        CFE_SB_Qos_t QoS = Packet.Subs[SubIdx].QoS;
 
         int idx, RemappedFlag = 0;
 

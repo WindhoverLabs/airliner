@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.3</boy_version>
+  <boy_version>1.5.5.202103012118</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>270</width>
+  <width>330</width>
   <wuid>763e00b7:150973f1dd8:-7ba3</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -236,7 +236,7 @@ debugFlag = VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('p
 
 var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
 
-Yamcs.issueCommand('/cfs/cfe_evs/EnableAppEventType', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/EnableAppEventType', {
     'Payload.AppName': appName,
     'Payload.BitMask': mask,
     'Payload.Spare': 0
@@ -305,7 +305,7 @@ debugFlag = VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('p
 
 var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
 
-Yamcs.issueCommand('/cfs/cfe_evs/DisableAppEventType', {
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/DisableAppEventType', {
     'Payload.AppName': appName,
     'Payload.BitMask': mask,
     'Payload.Spare': 0
@@ -485,16 +485,16 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>Enable / Disable App Event Type</text>
+    <text>($(CPUID)) Enable / Disable App Event Type</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>265</width>
+    <width>319</width>
     <wrap_words>false</wrap_words>
     <wuid>6b3345f4:17760d4a2f0:-7b68</wuid>
-    <x>12</x>
+    <x>6</x>
     <y>12</y>
   </widget>
 </display>

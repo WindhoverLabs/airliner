@@ -31,5 +31,5 @@
 #
 #############################################################################
  
-set(PSP ${PROJECT_SOURCE_DIR}/core/psp/obc-cpd)
-set(OSAL ${PROJECT_SOURCE_DIR}/core/osal/freertos)
+set(PSP ${PROJECT_SOURCE_DIR}/../private/core/psp/obc-cpd)
+set(OSAL ${PROJECT_SOURCE_DIR}/../private/core/osal/freertos)

@@ -100,7 +100,7 @@
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.TimeLastFlow.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.TimeLastFlow.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -232,7 +232,7 @@ $(pv_value)</tooltip>
     <name>Text Update_25</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.OpticalFlowMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.OpticalFlowMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -263,7 +263,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/pe/EnableFlow', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/pe/EnableFlow', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -319,7 +319,7 @@ $(pv_value)</tooltip>
         <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(Packages.org.yamcs.studio.script);
 
-Yamcs.issueCommand('/cfs/pe/DisableFlow', {});]]></scriptText>
+Yamcs.issueCommand('/cfs/$(CPUID)/pe/DisableFlow', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -396,7 +396,7 @@ $(pv_value)</tooltip>
     <name>Text Update_36</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/pe/PE_HkTlm_t.TimeLastFlow.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.TimeLastFlow.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

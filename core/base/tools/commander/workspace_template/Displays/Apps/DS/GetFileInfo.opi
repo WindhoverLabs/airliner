@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name>DS - Get File Info</name>
+  <name>($(CPUID)) DS - Get File Info</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -40,7 +40,7 @@
 importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 
-var cmd = '/cfs/ds/GetFileInfo';
+var cmd = '/cfs/$(CPUID)/ds/GetFileInfo';
 
 Yamcs.issueCommand(cmd, {});]]></scriptText>
         <embedded>true</embedded>
@@ -80,7 +80,7 @@ Yamcs.issueCommand(cmd, {});]]></scriptText>
     </scale_options>
     <scripts />
     <style>0</style>
-    <text>GetFileInfo</text>
+    <text>Get File Info</text>
     <toggle_button>false</toggle_button>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
@@ -88,8 +88,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>163</width>
     <wuid>-1c861553:17787873ea6:-7f22</wuid>
-    <x>96</x>
-    <y>30</y>
+    <x>63</x>
+    <y>36</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -128,8 +128,8 @@ $(pv_value)</tooltip>
     <width>80</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7e6c</wuid>
-    <x>173</x>
-    <y>96</y>
+    <x>191</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -168,8 +168,8 @@ $(pv_value)</tooltip>
     <width>80</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7e69</wuid>
-    <x>252</x>
-    <y>96</y>
+    <x>270</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -208,8 +208,8 @@ $(pv_value)</tooltip>
     <width>80</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7e66</wuid>
-    <x>348</x>
-    <y>96</y>
+    <x>366</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -248,8 +248,8 @@ $(pv_value)</tooltip>
     <width>139</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7e63</wuid>
-    <x>427</x>
-    <y>96</y>
+    <x>445</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -288,8 +288,8 @@ $(pv_value)</tooltip>
     <width>80</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7e60</wuid>
-    <x>565</x>
-    <y>96</y>
+    <x>583</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -328,8 +328,8 @@ $(pv_value)</tooltip>
     <width>80</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7e56</wuid>
-    <x>654</x>
-    <y>96</y>
+    <x>672</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -368,8 +368,8 @@ $(pv_value)</tooltip>
     <width>80</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7e4c</wuid>
-    <x>17</x>
-    <y>96</y>
+    <x>35</x>
+    <y>78</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -399,7 +399,7 @@ $(pv_value)</tooltip>
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_0_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_0_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -420,8 +420,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7e46</wuid>
-    <x>17</x>
-    <y>138</y>
+    <x>35</x>
+    <y>103</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -451,7 +451,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_0_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_0_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -472,8 +472,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7e43</wuid>
-    <x>188</x>
-    <y>138</y>
+    <x>206</x>
+    <y>103</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -503,7 +503,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_0_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_0_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -524,8 +524,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7e39</wuid>
-    <x>267</x>
-    <y>138</y>
+    <x>285</x>
+    <y>103</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -555,7 +555,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_0_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_0_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -576,8 +576,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7e34</wuid>
-    <x>355</x>
-    <y>138</y>
+    <x>373</x>
+    <y>103</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -607,7 +607,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_0_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_0_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -628,8 +628,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7e2f</wuid>
-    <x>450</x>
-    <y>138</y>
+    <x>468</x>
+    <y>103</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -657,7 +657,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_0_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_0_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -675,8 +675,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>-1c861553:17787873ea6:-7cdf</wuid>
-    <x>588</x>
-    <y>138</y>
+    <x>606</x>
+    <y>103</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -704,7 +704,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_1</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_0_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_0_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -722,8 +722,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>-1c861553:17787873ea6:-7cd7</wuid>
-    <x>684</x>
-    <y>138</y>
+    <x>702</x>
+    <y>103</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -753,7 +753,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_1_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_1_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -774,8 +774,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7bf5</wuid>
-    <x>17</x>
-    <y>162</y>
+    <x>35</x>
+    <y>127</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -805,7 +805,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_1_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_1_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -826,8 +826,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7bf4</wuid>
-    <x>188</x>
-    <y>162</y>
+    <x>206</x>
+    <y>127</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -857,7 +857,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_1_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_1_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -878,8 +878,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7bf3</wuid>
-    <x>267</x>
-    <y>162</y>
+    <x>285</x>
+    <y>127</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -909,7 +909,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_1_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_1_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -930,8 +930,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7bf2</wuid>
-    <x>355</x>
-    <y>162</y>
+    <x>373</x>
+    <y>127</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -961,7 +961,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_1_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_1_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -982,8 +982,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7bf1</wuid>
-    <x>450</x>
-    <y>162</y>
+    <x>468</x>
+    <y>127</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1011,7 +1011,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_3</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_1_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_1_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1029,8 +1029,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>-1c861553:17787873ea6:-7bef</wuid>
-    <x>684</x>
-    <y>162</y>
+    <x>702</x>
+    <y>127</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1058,7 +1058,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_4</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_1_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_1_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1076,8 +1076,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>-1c861553:17787873ea6:-7b83</wuid>
-    <x>588</x>
-    <y>162</y>
+    <x>606</x>
+    <y>127</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1116,8 +1116,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7b16</wuid>
-    <x>0</x>
-    <y>138</y>
+    <x>18</x>
+    <y>103</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1156,8 +1156,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7ada</wuid>
-    <x>0</x>
-    <y>162</y>
+    <x>18</x>
+    <y>127</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1187,7 +1187,7 @@ $(pv_value)</tooltip>
     <name>Text Update_10</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_2_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_2_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1208,8 +1208,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7a4a</wuid>
-    <x>17</x>
-    <y>186</y>
+    <x>35</x>
+    <y>151</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1239,7 +1239,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_2_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_2_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1260,8 +1260,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7a49</wuid>
-    <x>188</x>
-    <y>186</y>
+    <x>206</x>
+    <y>151</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1291,7 +1291,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_2_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_2_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1312,8 +1312,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7a48</wuid>
-    <x>267</x>
-    <y>186</y>
+    <x>285</x>
+    <y>151</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1343,7 +1343,7 @@ $(pv_value)</tooltip>
     <name>Text Update_13</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_1_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_1_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1364,8 +1364,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7a47</wuid>
-    <x>355</x>
-    <y>186</y>
+    <x>373</x>
+    <y>151</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1395,7 +1395,7 @@ $(pv_value)</tooltip>
     <name>Text Update_14</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_2_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_2_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1416,8 +1416,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7a46</wuid>
-    <x>450</x>
-    <y>186</y>
+    <x>468</x>
+    <y>151</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1445,7 +1445,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_5</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_2_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_2_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1463,8 +1463,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>-1c861553:17787873ea6:-7a45</wuid>
-    <x>684</x>
-    <y>186</y>
+    <x>702</x>
+    <y>151</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1492,7 +1492,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_6</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_2_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_2_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1510,8 +1510,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>-1c861553:17787873ea6:-7a44</wuid>
-    <x>588</x>
-    <y>186</y>
+    <x>606</x>
+    <y>151</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1550,8 +1550,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7a43</wuid>
-    <x>0</x>
-    <y>186</y>
+    <x>18</x>
+    <y>151</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1581,7 +1581,7 @@ $(pv_value)</tooltip>
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_3_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_3_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1602,8 +1602,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-79b7</wuid>
-    <x>17</x>
-    <y>210</y>
+    <x>35</x>
+    <y>175</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1633,7 +1633,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_3_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_3_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1654,8 +1654,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-79b6</wuid>
-    <x>188</x>
-    <y>210</y>
+    <x>206</x>
+    <y>175</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1685,7 +1685,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_3_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_3_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1706,8 +1706,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-79b5</wuid>
-    <x>267</x>
-    <y>210</y>
+    <x>285</x>
+    <y>175</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1737,7 +1737,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_3_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_3_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1758,8 +1758,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-79b4</wuid>
-    <x>355</x>
-    <y>210</y>
+    <x>373</x>
+    <y>175</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1789,7 +1789,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_3_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_3_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1810,8 +1810,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-79b3</wuid>
-    <x>450</x>
-    <y>210</y>
+    <x>468</x>
+    <y>175</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1839,7 +1839,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_7</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_3_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_3_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1857,8 +1857,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>-1c861553:17787873ea6:-79b2</wuid>
-    <x>684</x>
-    <y>210</y>
+    <x>702</x>
+    <y>175</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1886,7 +1886,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_8</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_3_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_3_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -1904,8 +1904,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>-1c861553:17787873ea6:-79b1</wuid>
-    <x>588</x>
-    <y>210</y>
+    <x>606</x>
+    <y>175</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1944,8 +1944,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-79b0</wuid>
-    <x>0</x>
-    <y>210</y>
+    <x>18</x>
+    <y>175</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1975,7 +1975,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1996,8 +1996,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-78f9</wuid>
-    <x>17</x>
-    <y>234</y>
+    <x>35</x>
+    <y>199</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2027,7 +2027,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2048,8 +2048,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-78f8</wuid>
-    <x>188</x>
-    <y>234</y>
+    <x>206</x>
+    <y>199</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2079,7 +2079,7 @@ $(pv_value)</tooltip>
     <name>Text Update_22</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2100,8 +2100,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-78f7</wuid>
-    <x>267</x>
-    <y>234</y>
+    <x>285</x>
+    <y>199</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2131,7 +2131,7 @@ $(pv_value)</tooltip>
     <name>Text Update_23</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2152,8 +2152,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-78f6</wuid>
-    <x>355</x>
-    <y>234</y>
+    <x>373</x>
+    <y>199</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2183,7 +2183,7 @@ $(pv_value)</tooltip>
     <name>Text Update_24</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2204,8 +2204,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-78f5</wuid>
-    <x>450</x>
-    <y>234</y>
+    <x>468</x>
+    <y>199</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2233,7 +2233,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_9</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2251,8 +2251,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>-1c861553:17787873ea6:-78f4</wuid>
-    <x>684</x>
-    <y>234</y>
+    <x>702</x>
+    <y>199</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2280,7 +2280,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_10</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2298,8 +2298,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>-1c861553:17787873ea6:-78f3</wuid>
-    <x>588</x>
-    <y>234</y>
+    <x>606</x>
+    <y>199</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2338,8 +2338,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-78f2</wuid>
-    <x>0</x>
-    <y>234</y>
+    <x>18</x>
+    <y>199</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2369,7 +2369,7 @@ $(pv_value)</tooltip>
     <name>Text Update_25</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2390,8 +2390,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7897</wuid>
-    <x>17</x>
-    <y>258</y>
+    <x>35</x>
+    <y>223</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2421,7 +2421,7 @@ $(pv_value)</tooltip>
     <name>Text Update_26</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2442,8 +2442,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7896</wuid>
-    <x>188</x>
-    <y>258</y>
+    <x>206</x>
+    <y>223</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2473,7 +2473,7 @@ $(pv_value)</tooltip>
     <name>Text Update_27</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2494,8 +2494,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7895</wuid>
-    <x>267</x>
-    <y>258</y>
+    <x>285</x>
+    <y>223</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2525,7 +2525,7 @@ $(pv_value)</tooltip>
     <name>Text Update_28</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2546,8 +2546,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7894</wuid>
-    <x>355</x>
-    <y>258</y>
+    <x>373</x>
+    <y>223</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2577,7 +2577,7 @@ $(pv_value)</tooltip>
     <name>Text Update_29</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2598,8 +2598,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7893</wuid>
-    <x>450</x>
-    <y>258</y>
+    <x>468</x>
+    <y>223</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2627,7 +2627,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_11</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2645,8 +2645,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>-1c861553:17787873ea6:-7892</wuid>
-    <x>684</x>
-    <y>258</y>
+    <x>702</x>
+    <y>223</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2674,7 +2674,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_12</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_4_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_4_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -2692,8 +2692,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>-1c861553:17787873ea6:-7891</wuid>
-    <x>588</x>
-    <y>258</y>
+    <x>606</x>
+    <y>223</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2732,8 +2732,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-7890</wuid>
-    <x>0</x>
-    <y>258</y>
+    <x>18</x>
+    <y>223</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2763,7 +2763,7 @@ $(pv_value)</tooltip>
     <name>Text Update_30</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_5_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_5_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2784,8 +2784,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-77c3</wuid>
-    <x>17</x>
-    <y>282</y>
+    <x>35</x>
+    <y>247</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2815,7 +2815,7 @@ $(pv_value)</tooltip>
     <name>Text Update_31</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_5_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_5_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2836,8 +2836,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-77c2</wuid>
-    <x>188</x>
-    <y>282</y>
+    <x>206</x>
+    <y>247</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2867,7 +2867,7 @@ $(pv_value)</tooltip>
     <name>Text Update_32</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_5_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_5_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2888,8 +2888,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-77c1</wuid>
-    <x>267</x>
-    <y>282</y>
+    <x>285</x>
+    <y>247</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2919,7 +2919,7 @@ $(pv_value)</tooltip>
     <name>Text Update_33</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_5_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_5_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2940,8 +2940,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-77c0</wuid>
-    <x>355</x>
-    <y>282</y>
+    <x>373</x>
+    <y>247</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -2971,7 +2971,7 @@ $(pv_value)</tooltip>
     <name>Text Update_34</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_5_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_5_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -2992,8 +2992,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-77bf</wuid>
-    <x>450</x>
-    <y>282</y>
+    <x>468</x>
+    <y>247</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3021,7 +3021,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_13</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_5_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_5_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -3039,8 +3039,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>-1c861553:17787873ea6:-77be</wuid>
-    <x>684</x>
-    <y>282</y>
+    <x>702</x>
+    <y>247</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3068,7 +3068,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_14</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_5_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_5_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -3086,8 +3086,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>-1c861553:17787873ea6:-77bd</wuid>
-    <x>588</x>
-    <y>282</y>
+    <x>606</x>
+    <y>247</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3126,8 +3126,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>-1c861553:17787873ea6:-77bc</wuid>
-    <x>0</x>
-    <y>282</y>
+    <x>18</x>
+    <y>247</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3157,7 +3157,7 @@ $(pv_value)</tooltip>
     <name>Text Update_35</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3178,8 +3178,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7f21</wuid>
-    <x>17</x>
-    <y>306</y>
+    <x>35</x>
+    <y>271</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3209,7 +3209,7 @@ $(pv_value)</tooltip>
     <name>Text Update_36</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3230,8 +3230,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7f20</wuid>
-    <x>188</x>
-    <y>306</y>
+    <x>206</x>
+    <y>271</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3261,7 +3261,7 @@ $(pv_value)</tooltip>
     <name>Text Update_37</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3282,8 +3282,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7f1f</wuid>
-    <x>267</x>
-    <y>306</y>
+    <x>285</x>
+    <y>271</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3313,7 +3313,7 @@ $(pv_value)</tooltip>
     <name>Text Update_38</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3334,8 +3334,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7f1e</wuid>
-    <x>355</x>
-    <y>306</y>
+    <x>373</x>
+    <y>271</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3365,7 +3365,7 @@ $(pv_value)</tooltip>
     <name>Text Update_39</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3386,8 +3386,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7f1d</wuid>
-    <x>450</x>
-    <y>306</y>
+    <x>468</x>
+    <y>271</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3415,7 +3415,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_15</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -3433,8 +3433,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>a22d448:177887d8135:-7f1c</wuid>
-    <x>684</x>
-    <y>306</y>
+    <x>702</x>
+    <y>271</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3462,7 +3462,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_16</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -3480,8 +3480,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>a22d448:177887d8135:-7f1b</wuid>
-    <x>588</x>
-    <y>306</y>
+    <x>606</x>
+    <y>271</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3520,8 +3520,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7f1a</wuid>
-    <x>0</x>
-    <y>306</y>
+    <x>18</x>
+    <y>271</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3551,7 +3551,7 @@ $(pv_value)</tooltip>
     <name>Text Update_40</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3572,8 +3572,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7e6b</wuid>
-    <x>17</x>
-    <y>330</y>
+    <x>35</x>
+    <y>295</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3603,7 +3603,7 @@ $(pv_value)</tooltip>
     <name>Text Update_41</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3624,8 +3624,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7e6a</wuid>
-    <x>188</x>
-    <y>330</y>
+    <x>206</x>
+    <y>295</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3655,7 +3655,7 @@ $(pv_value)</tooltip>
     <name>Text Update_42</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3676,8 +3676,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7e69</wuid>
-    <x>267</x>
-    <y>330</y>
+    <x>285</x>
+    <y>295</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3707,7 +3707,7 @@ $(pv_value)</tooltip>
     <name>Text Update_43</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3728,8 +3728,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7e68</wuid>
-    <x>355</x>
-    <y>330</y>
+    <x>373</x>
+    <y>295</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3759,7 +3759,7 @@ $(pv_value)</tooltip>
     <name>Text Update_44</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3780,8 +3780,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7e67</wuid>
-    <x>450</x>
-    <y>330</y>
+    <x>468</x>
+    <y>295</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3809,7 +3809,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_17</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -3827,8 +3827,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>a22d448:177887d8135:-7e66</wuid>
-    <x>684</x>
-    <y>330</y>
+    <x>702</x>
+    <y>295</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3856,7 +3856,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_18</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_6_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_6_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -3874,8 +3874,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>a22d448:177887d8135:-7e65</wuid>
-    <x>588</x>
-    <y>330</y>
+    <x>606</x>
+    <y>295</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3914,8 +3914,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7e64</wuid>
-    <x>0</x>
-    <y>330</y>
+    <x>18</x>
+    <y>295</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3945,7 +3945,7 @@ $(pv_value)</tooltip>
     <name>Text Update_45</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_7_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_7_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3966,8 +3966,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7e09</wuid>
-    <x>17</x>
-    <y>354</y>
+    <x>35</x>
+    <y>319</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -3997,7 +3997,7 @@ $(pv_value)</tooltip>
     <name>Text Update_46</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_7_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_7_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4018,8 +4018,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7e08</wuid>
-    <x>188</x>
-    <y>354</y>
+    <x>206</x>
+    <y>319</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4049,7 +4049,7 @@ $(pv_value)</tooltip>
     <name>Text Update_47</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_7_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_7_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4070,8 +4070,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7e07</wuid>
-    <x>267</x>
-    <y>354</y>
+    <x>285</x>
+    <y>319</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4101,7 +4101,7 @@ $(pv_value)</tooltip>
     <name>Text Update_48</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_7_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_7_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4122,8 +4122,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7e06</wuid>
-    <x>355</x>
-    <y>354</y>
+    <x>373</x>
+    <y>319</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4153,7 +4153,7 @@ $(pv_value)</tooltip>
     <name>Text Update_49</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_7_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_7_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4174,8 +4174,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7e05</wuid>
-    <x>450</x>
-    <y>354</y>
+    <x>468</x>
+    <y>319</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4214,8 +4214,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7e02</wuid>
-    <x>0</x>
-    <y>354</y>
+    <x>18</x>
+    <y>319</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4245,7 +4245,7 @@ $(pv_value)</tooltip>
     <name>Text Update_65</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_8_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_8_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4266,8 +4266,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7da1</wuid>
-    <x>17</x>
-    <y>378</y>
+    <x>35</x>
+    <y>343</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4297,7 +4297,7 @@ $(pv_value)</tooltip>
     <name>Text Update_66</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_8_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_8_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4318,8 +4318,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7da0</wuid>
-    <x>188</x>
-    <y>378</y>
+    <x>206</x>
+    <y>343</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4349,7 +4349,7 @@ $(pv_value)</tooltip>
     <name>Text Update_67</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_8_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_8_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4370,8 +4370,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d9f</wuid>
-    <x>267</x>
-    <y>378</y>
+    <x>285</x>
+    <y>343</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4401,7 +4401,7 @@ $(pv_value)</tooltip>
     <name>Text Update_68</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_8_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_8_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4422,8 +4422,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d9e</wuid>
-    <x>355</x>
-    <y>378</y>
+    <x>373</x>
+    <y>343</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4453,7 +4453,7 @@ $(pv_value)</tooltip>
     <name>Text Update_69</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_8_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_8_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4474,8 +4474,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d9d</wuid>
-    <x>450</x>
-    <y>378</y>
+    <x>468</x>
+    <y>343</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4503,7 +4503,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_27</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_8_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_8_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -4521,8 +4521,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>a22d448:177887d8135:-7d9c</wuid>
-    <x>684</x>
-    <y>378</y>
+    <x>702</x>
+    <y>343</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4550,7 +4550,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_28</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_8_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_8_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -4568,8 +4568,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>a22d448:177887d8135:-7d9b</wuid>
-    <x>588</x>
-    <y>378</y>
+    <x>606</x>
+    <y>343</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4608,8 +4608,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d9a</wuid>
-    <x>0</x>
-    <y>378</y>
+    <x>18</x>
+    <y>343</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4637,7 +4637,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_29</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_7_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_7_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -4655,8 +4655,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>a22d448:177887d8135:-7d92</wuid>
-    <x>588</x>
-    <y>354</y>
+    <x>606</x>
+    <y>319</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4684,7 +4684,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_30</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_7_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_7_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -4702,8 +4702,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>a22d448:177887d8135:-7d8a</wuid>
-    <x>684</x>
-    <y>354</y>
+    <x>702</x>
+    <y>319</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4733,7 +4733,7 @@ $(pv_value)</tooltip>
     <name>Text Update_70</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_9_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_9_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4754,8 +4754,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d6d</wuid>
-    <x>17</x>
-    <y>402</y>
+    <x>35</x>
+    <y>367</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4785,7 +4785,7 @@ $(pv_value)</tooltip>
     <name>Text Update_71</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_9_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_9_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4806,8 +4806,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d6c</wuid>
-    <x>188</x>
-    <y>402</y>
+    <x>206</x>
+    <y>367</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4837,7 +4837,7 @@ $(pv_value)</tooltip>
     <name>Text Update_72</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_9_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_9_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4858,8 +4858,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d6b</wuid>
-    <x>267</x>
-    <y>402</y>
+    <x>285</x>
+    <y>367</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4889,7 +4889,7 @@ $(pv_value)</tooltip>
     <name>Text Update_73</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_9_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_9_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4910,8 +4910,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d6a</wuid>
-    <x>355</x>
-    <y>402</y>
+    <x>373</x>
+    <y>367</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4941,7 +4941,7 @@ $(pv_value)</tooltip>
     <name>Text Update_74</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_9_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_9_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -4962,8 +4962,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d69</wuid>
-    <x>450</x>
-    <y>402</y>
+    <x>468</x>
+    <y>367</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -4991,7 +4991,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_31</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_9_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_9_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -5009,8 +5009,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>a22d448:177887d8135:-7d68</wuid>
-    <x>684</x>
-    <y>402</y>
+    <x>702</x>
+    <y>367</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5038,7 +5038,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_32</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_9_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_9_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -5056,8 +5056,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>a22d448:177887d8135:-7d67</wuid>
-    <x>588</x>
-    <y>402</y>
+    <x>606</x>
+    <y>367</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5096,8 +5096,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d66</wuid>
-    <x>0</x>
-    <y>402</y>
+    <x>18</x>
+    <y>367</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5127,7 +5127,7 @@ $(pv_value)</tooltip>
     <name>Text Update_75</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_10_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_10_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5148,8 +5148,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d53</wuid>
-    <x>17</x>
-    <y>426</y>
+    <x>35</x>
+    <y>391</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5179,7 +5179,7 @@ $(pv_value)</tooltip>
     <name>Text Update_76</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_10_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_10_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5200,8 +5200,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d52</wuid>
-    <x>188</x>
-    <y>426</y>
+    <x>206</x>
+    <y>391</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5231,7 +5231,7 @@ $(pv_value)</tooltip>
     <name>Text Update_77</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_10_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_10_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5252,8 +5252,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d51</wuid>
-    <x>267</x>
-    <y>426</y>
+    <x>285</x>
+    <y>391</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5283,7 +5283,7 @@ $(pv_value)</tooltip>
     <name>Text Update_78</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_10_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_10_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5304,8 +5304,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d50</wuid>
-    <x>355</x>
-    <y>426</y>
+    <x>373</x>
+    <y>391</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5335,7 +5335,7 @@ $(pv_value)</tooltip>
     <name>Text Update_79</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_10_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_10_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5356,8 +5356,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d4f</wuid>
-    <x>450</x>
-    <y>426</y>
+    <x>468</x>
+    <y>391</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5385,7 +5385,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_33</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_10_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_10_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -5403,8 +5403,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>a22d448:177887d8135:-7d4e</wuid>
-    <x>684</x>
-    <y>426</y>
+    <x>702</x>
+    <y>391</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5432,7 +5432,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_34</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_10_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_10_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -5450,8 +5450,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>a22d448:177887d8135:-7d4d</wuid>
-    <x>588</x>
-    <y>426</y>
+    <x>606</x>
+    <y>391</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5490,8 +5490,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d4c</wuid>
-    <x>0</x>
-    <y>426</y>
+    <x>18</x>
+    <y>391</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5521,7 +5521,7 @@ $(pv_value)</tooltip>
     <name>Text Update_80</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_11_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_11_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5542,8 +5542,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d39</wuid>
-    <x>17</x>
-    <y>450</y>
+    <x>35</x>
+    <y>415</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5573,7 +5573,7 @@ $(pv_value)</tooltip>
     <name>Text Update_81</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_11_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_11_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5594,8 +5594,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d38</wuid>
-    <x>188</x>
-    <y>450</y>
+    <x>206</x>
+    <y>415</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5625,7 +5625,7 @@ $(pv_value)</tooltip>
     <name>Text Update_82</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_11_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_11_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5646,8 +5646,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d37</wuid>
-    <x>267</x>
-    <y>450</y>
+    <x>285</x>
+    <y>415</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5677,7 +5677,7 @@ $(pv_value)</tooltip>
     <name>Text Update_83</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_11_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_11_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5698,8 +5698,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d36</wuid>
-    <x>355</x>
-    <y>450</y>
+    <x>373</x>
+    <y>415</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5729,7 +5729,7 @@ $(pv_value)</tooltip>
     <name>Text Update_84</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_11_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_11_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5750,8 +5750,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d35</wuid>
-    <x>450</x>
-    <y>450</y>
+    <x>468</x>
+    <y>415</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5779,7 +5779,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_35</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_11_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_11_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -5797,8 +5797,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>a22d448:177887d8135:-7d34</wuid>
-    <x>684</x>
-    <y>450</y>
+    <x>702</x>
+    <y>415</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5826,7 +5826,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_36</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_11_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_11_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -5844,8 +5844,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>a22d448:177887d8135:-7d33</wuid>
-    <x>588</x>
-    <y>450</y>
+    <x>606</x>
+    <y>415</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5884,8 +5884,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d32</wuid>
-    <x>0</x>
-    <y>450</y>
+    <x>18</x>
+    <y>415</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5915,7 +5915,7 @@ $(pv_value)</tooltip>
     <name>Text Update_85</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_12_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_12_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5936,8 +5936,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d1f</wuid>
-    <x>17</x>
-    <y>474</y>
+    <x>35</x>
+    <y>439</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -5967,7 +5967,7 @@ $(pv_value)</tooltip>
     <name>Text Update_86</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_12_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_12_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -5988,8 +5988,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d1e</wuid>
-    <x>188</x>
-    <y>474</y>
+    <x>206</x>
+    <y>439</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6019,7 +6019,7 @@ $(pv_value)</tooltip>
     <name>Text Update_87</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_12_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_12_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6040,8 +6040,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d1d</wuid>
-    <x>267</x>
-    <y>474</y>
+    <x>285</x>
+    <y>439</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6071,7 +6071,7 @@ $(pv_value)</tooltip>
     <name>Text Update_88</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_12_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_12_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6092,8 +6092,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d1c</wuid>
-    <x>355</x>
-    <y>474</y>
+    <x>373</x>
+    <y>439</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6123,7 +6123,7 @@ $(pv_value)</tooltip>
     <name>Text Update_89</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_12_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_12_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6144,8 +6144,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d1b</wuid>
-    <x>450</x>
-    <y>474</y>
+    <x>468</x>
+    <y>439</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6173,7 +6173,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_37</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_12_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_12_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -6191,8 +6191,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>a22d448:177887d8135:-7d1a</wuid>
-    <x>684</x>
-    <y>474</y>
+    <x>702</x>
+    <y>439</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6220,7 +6220,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_38</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_12_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_12_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -6238,8 +6238,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>a22d448:177887d8135:-7d19</wuid>
-    <x>588</x>
-    <y>474</y>
+    <x>606</x>
+    <y>439</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6278,8 +6278,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d18</wuid>
-    <x>0</x>
-    <y>474</y>
+    <x>18</x>
+    <y>439</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6309,7 +6309,7 @@ $(pv_value)</tooltip>
     <name>Text Update_90</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_13_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_13_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6330,8 +6330,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d05</wuid>
-    <x>17</x>
-    <y>498</y>
+    <x>35</x>
+    <y>463</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6361,7 +6361,7 @@ $(pv_value)</tooltip>
     <name>Text Update_91</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_13_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_13_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6382,8 +6382,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d04</wuid>
-    <x>188</x>
-    <y>498</y>
+    <x>206</x>
+    <y>463</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6413,7 +6413,7 @@ $(pv_value)</tooltip>
     <name>Text Update_92</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_13_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_13_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6434,8 +6434,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d03</wuid>
-    <x>267</x>
-    <y>498</y>
+    <x>285</x>
+    <y>463</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6465,7 +6465,7 @@ $(pv_value)</tooltip>
     <name>Text Update_93</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_13_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_13_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6486,8 +6486,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d02</wuid>
-    <x>355</x>
-    <y>498</y>
+    <x>373</x>
+    <y>463</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6517,7 +6517,7 @@ $(pv_value)</tooltip>
     <name>Text Update_94</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_13_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_13_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6538,8 +6538,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7d01</wuid>
-    <x>450</x>
-    <y>498</y>
+    <x>468</x>
+    <y>463</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6567,7 +6567,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_39</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_13_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_13_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -6585,8 +6585,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>a22d448:177887d8135:-7d00</wuid>
-    <x>684</x>
-    <y>498</y>
+    <x>702</x>
+    <y>463</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6614,7 +6614,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_40</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_13_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_13_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -6632,8 +6632,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>a22d448:177887d8135:-7cff</wuid>
-    <x>588</x>
-    <y>498</y>
+    <x>606</x>
+    <y>463</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6672,8 +6672,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7cfe</wuid>
-    <x>0</x>
-    <y>498</y>
+    <x>18</x>
+    <y>463</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6703,7 +6703,7 @@ $(pv_value)</tooltip>
     <name>Text Update_95</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_15_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_15_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6724,8 +6724,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7ceb</wuid>
-    <x>17</x>
-    <y>551</y>
+    <x>35</x>
+    <y>516</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6755,7 +6755,7 @@ $(pv_value)</tooltip>
     <name>Text Update_96</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_15_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_15_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6776,8 +6776,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7cea</wuid>
-    <x>188</x>
-    <y>551</y>
+    <x>206</x>
+    <y>516</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6807,7 +6807,7 @@ $(pv_value)</tooltip>
     <name>Text Update_97</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_15_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_15_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6828,8 +6828,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7ce9</wuid>
-    <x>267</x>
-    <y>551</y>
+    <x>285</x>
+    <y>516</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6859,7 +6859,7 @@ $(pv_value)</tooltip>
     <name>Text Update_98</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_15_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_15_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6880,8 +6880,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7ce8</wuid>
-    <x>355</x>
-    <y>551</y>
+    <x>373</x>
+    <y>516</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6911,7 +6911,7 @@ $(pv_value)</tooltip>
     <name>Text Update_99</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_15_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_15_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -6932,8 +6932,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7ce7</wuid>
-    <x>450</x>
-    <y>551</y>
+    <x>468</x>
+    <y>516</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -6961,7 +6961,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_41</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_15_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_15_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -6979,8 +6979,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>a22d448:177887d8135:-7ce6</wuid>
-    <x>684</x>
-    <y>551</y>
+    <x>702</x>
+    <y>516</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -7008,7 +7008,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_42</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_15_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_15_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -7026,8 +7026,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>a22d448:177887d8135:-7ce5</wuid>
-    <x>588</x>
-    <y>551</y>
+    <x>606</x>
+    <y>516</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -7066,8 +7066,8 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7ce4</wuid>
-    <x>0</x>
-    <y>551</y>
+    <x>18</x>
+    <y>516</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -7097,7 +7097,7 @@ $(pv_value)</tooltip>
     <name>Text Update_100</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_14_.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_14_.FileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7118,8 +7118,8 @@ $(pv_value)</tooltip>
     <width>157</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7cd1</wuid>
-    <x>17</x>
-    <y>526</y>
+    <x>35</x>
+    <y>491</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -7149,7 +7149,7 @@ $(pv_value)</tooltip>
     <name>Text Update_101</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_14_.FileAge</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_14_.FileAge</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7170,8 +7170,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7cd0</wuid>
-    <x>188</x>
-    <y>526</y>
+    <x>206</x>
+    <y>491</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -7201,7 +7201,7 @@ $(pv_value)</tooltip>
     <name>Text Update_102</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_14_.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_14_.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7222,8 +7222,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7ccf</wuid>
-    <x>267</x>
-    <y>526</y>
+    <x>285</x>
+    <y>491</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -7253,7 +7253,7 @@ $(pv_value)</tooltip>
     <name>Text Update_103</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_14_.FileRate</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_14_.FileRate</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7274,8 +7274,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7cce</wuid>
-    <x>355</x>
-    <y>526</y>
+    <x>373</x>
+    <y>491</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -7305,7 +7305,7 @@ $(pv_value)</tooltip>
     <name>Text Update_104</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_14_.SequenceCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_14_.SequenceCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -7326,8 +7326,8 @@ $(pv_value)</tooltip>
     <width>65</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7ccd</wuid>
-    <x>450</x>
-    <y>526</y>
+    <x>468</x>
+    <y>491</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -7355,7 +7355,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_43</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_14_.OpenState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_14_.OpenState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -7373,8 +7373,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>19</width>
     <wuid>a22d448:177887d8135:-7ccc</wuid>
-    <x>684</x>
-    <y>526</y>
+    <x>702</x>
+    <y>491</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.checkbox" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -7402,7 +7402,7 @@ $(pv_value)</tooltip>
     <height>20</height>
     <label></label>
     <name>Check Box_44</name>
-    <pv_name>/cfs/ds/DS_FileInfoPkt_t.FileInfo_14_.EnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/ds/DS_FileInfoPkt_t.FileInfo_14_.EnableState</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -7420,8 +7420,8 @@ $(pv_value)</tooltip>
     <widget_type>Check Box</widget_type>
     <width>18</width>
     <wuid>a22d448:177887d8135:-7ccb</wuid>
-    <x>588</x>
-    <y>526</y>
+    <x>606</x>
+    <y>491</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -7460,7 +7460,47 @@ $(pv_value)</tooltip>
     <width>18</width>
     <wrap_words>false</wrap_words>
     <wuid>a22d448:177887d8135:-7cca</wuid>
-    <x>0</x>
-    <y>526</y>
+    <x>18</x>
+    <y>491</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <auto_size>false</auto_size>
+    <background_color>
+      <color red="255" green="255" blue="255" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>20</height>
+    <horizontal_alignment>1</horizontal_alignment>
+    <name>Label_49</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <text>($(CPUID)) DS - Get File Info</text>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <vertical_alignment>1</vertical_alignment>
+    <visible>true</visible>
+    <widget_type>Label</widget_type>
+    <width>265</width>
+    <wrap_words>false</wrap_words>
+    <wuid>-c05c465:1785c72c4a1:-5c6c</wuid>
+    <x>12</x>
+    <y>6</y>
   </widget>
 </display>

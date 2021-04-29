@@ -5,3 +5,5 @@ build/**
 *.pyc
 .project
 venv
+*.class
+*__pycache__

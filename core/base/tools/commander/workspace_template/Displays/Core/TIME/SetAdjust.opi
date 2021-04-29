@@ -47,13 +47,13 @@ var Microseconds =VTypeHelper.getDouble(display.getWidget('Microseconds').getPro
 var cmd;
 
 if( (Direction == "Add" ) && (Frequency == "One Shot")) {
-   cmd = '/cfs/cfe_time/AddAdjust(Payload.Seconds:' +  Seconds + ', Payload.MicroSeconds:' +  Microseconds +')';
+   cmd = '/cfs/$(CPUID)/cfe_time/AddAdjust(Payload.Seconds:' +  Seconds + ', Payload.MicroSeconds:' +  Microseconds +')';
 } else if( (Direction == "Subtract" ) && (Frequency == "One Shot")) {
-   cmd = '/cfs/cfe_time/SubAdjust(Payload.Seconds:' +  Seconds + ', Payload.MicroSeconds:' +  Microseconds +')';
+   cmd = '/cfs/$(CPUID)/cfe_time/SubAdjust(Payload.Seconds:' +  Seconds + ', Payload.MicroSeconds:' +  Microseconds +')';
 } else if( (Direction == "Add" ) && (Frequency == "1 Hz")) {
-   cmd = '/cfs/cfe_time/Add1HzAdjust(Payload.Seconds:' +  Seconds + ', Payload.Subseconds:' +  Microseconds +')';
+   cmd = '/cfs/$(CPUID)/cfe_time/Add1HzAdjust(Payload.Seconds:' +  Seconds + ', Payload.Subseconds:' +  Microseconds +')';
 } else if( (Direction == "Subtract" ) && (Frequency == "1 Hz")) {
-   cmd = '/cfs/cfe_time/Sub1HzAdjust(Payload.Seconds:' +  Seconds + ', Payload.Subseconds:' +  Microseconds +')';
+   cmd = '/cfs/$(CPUID)/cfe_time/Sub1HzAdjust(Payload.Seconds:' +  Seconds + ', Payload.Subseconds:' +  Microseconds +')';
 }
 Yamcs.issueCommand(cmd);
 
