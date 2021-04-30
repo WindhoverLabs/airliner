@@ -15,7 +15,7 @@
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>600</height>
+  <height>950</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>600</width>
+  <width>800</width>
   <wuid>-10b748b0:17773fb054b:-7a2f</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -142,26 +142,26 @@ $(pv_value)</tooltip>
     <column_header_visible>true</column_header_visible>
     <column_headers>
       <row>
-        <col>Major</col>
-        <col>50</col>
+        <col>Minor</col>
+        <col></col>
         <col>Yes</col>
         <col>TEXT</col>
       </row>
       <row>
-        <col>Minor</col>
-        <col>125</col>
+        <col>Activity</col>
+        <col></col>
         <col>Yes</col>
         <col>TEXT</col>
       </row>
       <row>
         <col>MsgId</col>
-        <col>125</col>
+        <col></col>
         <col>Yes</col>
         <col>TEXT</col>
       </row>
       <row>
         <col>State</col>
-        <col>75</col>
+        <col></col>
         <col>Yes</col>
         <col>TEXT</col>
       </row>
@@ -176,7 +176,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="192" green="192" blue="192" />
     </foreground_color>
-    <height>828</height>
+    <height>600</height>
     <name>SCH_Diag_Table</name>
     <rules />
     <scale_options>
@@ -192,9 +192,9 @@ $(pv_value)</tooltip>
     <tooltip></tooltip>
     <visible>true</visible>
     <widget_type>Table</widget_type>
-    <width>559</width>
+    <width>697</width>
     <wuid>30e0ee73:1791f823d57:-776f</wuid>
-    <x>12</x>
-    <y>174</y>
+    <x>6</x>
+    <y>78</y>
   </widget>
 </display>
