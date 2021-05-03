@@ -21,7 +21,7 @@
 
 #include "cfe.h"
 #include "common_types.h"
-#include "network_includes.h"
+//#include "network_includes.h"
 
 #ifdef _VXWORKS_OS_
 /* For vxworks, include ioLib for ioctl suport */
