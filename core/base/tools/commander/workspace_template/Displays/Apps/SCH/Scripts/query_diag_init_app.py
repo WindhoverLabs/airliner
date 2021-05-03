@@ -17,6 +17,7 @@ all_messages = registry.getAllMessages()
 
 config = registry.getAllConfig()
 
+is_loading_done = False
 
 
 def get_message_macro(msg_id, in_messages):
@@ -64,6 +65,8 @@ class UI_UpdateMessageID(Runnable):
         if self.ui_row + 1 == (
                 config['sch']['SCH_ENTRIES_PER_SLOT']['value'] * config['sch']['SCH_TOTAL_SLOTS']['value']):
             display.getWidget('SCH_Diag_Table').setPropertyValue('visible', True)
+            print('row:{}'.format(self.ui_row))
+            print('LAST message:{}'.format(self.pv_data))
 
 
 class UI_UpdateMessageState(Runnable):
@@ -85,10 +88,17 @@ class UI_UpdateMessageState(Runnable):
                                                                    str(get_sch_entry_state(
                                                                        self.pv_data.getValue().getValue(),
                                                                        self.bit_index)))
+
+        # print('state update:{}'.format(self.pv_data))
         if self.ui_begin_row + 1 == (
                 config['sch']['SCH_ENTRIES_PER_SLOT']['value'] * config['sch']['SCH_TOTAL_SLOTS']['value']):
             display.getWidget('SCH_Diag_Table').setPropertyValue('visible', True)
             display.getWidget("SCH_Diag_Table").getTable().autoSizeColumns()
+            print('display.getWidget("SCH_Diag_Table").getTable():{}'.format(
+                display.getWidget("SCH_Diag_Table").getTable().getContent()))
+            print('row2:{}'.format(self.ui_begin_row))
+            print('LAST state:{}'.format(self.pv_data))
+
 
 def get_sch_entry_state(entry_state, bit_index):
     # Tested on Little endian machine at the moment. Probably not the best way of doing this.
@@ -111,13 +121,16 @@ class MyPVListenerState(IPVListener):
 
     def connectionChanged(self, pv):
         # FIXME:Figure out a way to log properly
-        print("connection changed")
+        pass
+        # print("connection changed")
 
     def writePermissionChanged(self, pv):
         # FIXME:Figure out a way to log properly
-        print("write permission changed")
+        pass
+        # print("write permission changed")
 
     def valueChanged(self, pv):
+        # print(frames_load_counter)
         if not pv.isConnected():
             # FIXME: This will not execute. Must wrap around inside an UI Thread.
             widget.getTable().setCellText(0, 0, "Disconnected")
@@ -138,15 +151,18 @@ class MyPVListener(IPVListener):
             # FIXME: This will not execute. Must wrap around inside an UI Thread.
             widget.getTable().setCellText(0, 0, "Disconnected")
         else:
+            # print('triggered')
             ScriptUtil.execInUI(UI_UpdateMessageID(self.row, self.col, pv, self.messages), widget)
 
     def connectionChanged(self, pv):
         # FIXME:Figure out a way to log properly
-        print("connection changed")
+        pass
+        # print("connection changed")
 
     def writePermissionChanged(self, pv):
         # FIXME:Figure out a way to log properly
-        print("write permission changed")
+        pass
+        # print("write permission changed")
 
 
 def main():
