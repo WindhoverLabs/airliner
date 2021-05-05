@@ -239,13 +239,13 @@ buildliner_add_app(
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc/amc_custom.cpp
 )
 
-## This is temporarily removed until we can geet px4lib back in
-#buildliner_add_app(
-#    mac
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mac/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/mac
-#)
-#
+buildliner_add_app(
+    mac
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mac/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/mac
+)
+
 ## This is temporarily removed until we can geet px4lib back in
 #buildliner_add_app(
 #    ulr
@@ -281,21 +281,21 @@ buildliner_add_app(
 #    CONFIG_SOURCES
 #        ${CMAKE_CURRENT_SOURCE_DIR}/apps/gps/src/gps_custom.c
 #)
-#
-## This is temporarily removed until we can geet px4lib back in
-#buildliner_add_app(
-#    sens
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sens/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sens
-#)
-#
-## This is temporarily removed until we can geet px4lib back in
-#buildliner_add_app(
-#    mpc
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mpc/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/mpc
-#)
-#
+
+buildliner_add_app(
+    sens
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sens/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sens
+)
+
+buildliner_add_app(
+    mpc
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mpc/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/mpc
+)
+
 ## This is temporarily commented out until we can figure out how to 
 # get cmake to generate the SMC files before it does anything else
 #buildliner_add_app(
@@ -304,20 +304,21 @@ buildliner_add_app(
 #    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/vm
 #)
 #
-## This is temporarily removed until we can geet px4lib back in
-#buildliner_add_app(
-#    ld
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ld
-#)
-#
-# This is temporarily removed until we can geet px4lib back in
-#buildliner_add_app(
-#    nav
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/nav/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/app#s/nav
-#)
-#
+
+buildliner_add_app(
+    ld
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/ld
+)
+
+buildliner_add_app(
+    nav
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/nav/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/nav
+)
+
 ## This is temporarily removed until we can geet px4lib back in
 #buildliner_add_app(
 #    rcin
@@ -354,20 +355,21 @@ buildliner_add_app(
 #        ${CMAKE_CURRENT_SOURCE_DIR}/apps/hmc5883/src/hmc5883_custom.c
 #)
 #
-## This is temporarily removed until we can geet px4lib back in
-#buildliner_add_app(
-#    pe
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pe/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/pe
-#)
-#
-## This is temporarily removed until we can geet px4lib back in
-#buildliner_add_app(
-#    qae
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/qae/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/qae
-#)
-#
+
+buildliner_add_app(
+    pe
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pe/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/pe
+)
+
+buildliner_add_app(
+    qae
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/qae/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/qae
+)
+
 ## This is temporarily removed until we can geet px4lib back in
 #buildliner_add_app(
 #    lgc

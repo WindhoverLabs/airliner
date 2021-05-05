@@ -8,6 +8,12 @@ CFE_APP, /embedded/SED.so,       SED_AppMain,     SED,       46, 327680, 0x0, 0,
 CFE_APP, /embedded/CI.so,        CI_AppMain,      CI,        115, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/TO.so,        TO_AppMain,      TO,        124, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/AMC.so,       AMC_AppMain,     AMC,       43, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/SENS.so,      SENS_AppMain,    SENS,      52, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/QAE.so,       QAE_AppMain,     QAE,       58, 32768, 0x0, 0, 4;
+CFE_APP, /embedded/PE.so,        PE_AppMain,      PE,       76, 32768, 0x0, 0, 4;
+CFE_APP, /embedded/NAV.so,       NAV_AppMain,     NAV,       100, 32768, 0x0, 0, 4;
+CFE_APP, /embedded/MAC.so,       MAC_AppMain,     MAC,       55, 32768, 0x0, 0, 4;
+CFE_APP, /embedded/MPC.so,       MPC_AppMain,     MPC,       61, 32768, 0x0, 0, 4;
 CFE_APP, /embedded/CF.so,        CF_AppMain,      CF,        157, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/FM.so,        FM_AppMain,      FM,        163, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/MM.so,        MM_AppMain,      MM,        172, 32768, 0x0, 0, 2;
@@ -16,12 +22,9 @@ CFE_APP, /embedded/SC.so,        SC_AppMain,      SC,        175, 32768, 0x0, 0,
 CFE_APP, /embedded/SCH.so,       SCH_AppMain,     SCH,       34,  40960, 0x0, 0, 2;
 !CFE_LIB, /embedded/PRMLIB.so,    PRMLIB_LibInit,  PRMLIB,      0,     0, 0x0, 0, 2;
 CFE_LIB, /embedded/PX4LIB.so,    PX4LIB_LibInit,  PX4LIB,    0,     0, 0x0, 0, 2;
-CFE_APP, /embedded/AMC.so,       AMC_AppMain,     AMC,       43, 32768, 0x0, 0, 2;
-CFE_APP, /embedded/SENS.so,      SENS_AppMain,    SENS,      52, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/MPU9250.so,   MPU9250_AppMain,     MPU9250,      46, 327680, 0x0, 0, 2;
 CFE_APP, /embedded/HMC5883.so,   HMC5883_AppMain,     HMC5883,      49, 327680, 0x0, 0, 2;
 CFE_APP, /embedded/MS5611.so,    MS5611_AppMain,      MS5611,       82, 327680, 0x0, 0, 2;
-CFE_APP, /embedded/MAC.so,       MAC_AppMain,     MAC,       55, 32768, 0x0, 0, 4;
 CFE_APP, /embedded/GPS.so,       GPS_AppMain,     GPS,       97, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/CI.so,        CI_AppMain,      CI,        115, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/TO.so,        TO_AppMain,      TO,        124, 32768, 0x0, 0, 2;
@@ -32,10 +35,6 @@ CFE_APP, /embedded/LC.so,        LC_AppMain,      LC,        178, 32768, 0x0, 0,
 CFE_APP, /embedded/MM.so,        MM_AppMain,      MM,        172, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/SC.so,        SC_AppMain,      SC,        175, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/MD.so,        MD_AppMain,      MD,        169, 32768, 0x0, 0, 2;
-CFE_APP, /embedded/PE.so,        PE_AppMain,      PE,       76, 32768, 0x0, 0, 4;
-CFE_APP, /embedded/QAE.so,       QAE_AppMain,     QAE,       58, 32768, 0x0, 0, 4;
-CFE_APP, /embedded/MPC.so,       MPC_AppMain,     MPC,       61, 32768, 0x0, 0, 4;
-CFE_APP, /embedded/NAV.so,       NAV_AppMain,     NAV,       100, 32768, 0x0, 0, 4;
 CFE_APP, /embedded/VM.so,        VM_AppMain,      VM,       70, 32768, 0x0, 0, 4;
 CFE_APP, /embedded/CS.so,        CS_AppMain,      CS,        160, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/RCIN.so,      RCIN_AppMain,    RCIN,      88, 32768, 0x0, 0, 2;
