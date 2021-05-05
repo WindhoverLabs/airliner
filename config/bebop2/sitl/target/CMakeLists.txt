@@ -41,6 +41,11 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    io_lib
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/io_lib/fsw/for_build
+)
+
+buildliner_add_app(
     sim
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sim/fsw/for_build
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sim

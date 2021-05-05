@@ -12,26 +12,24 @@ buildliner_initialize(
         ${PROJECT_SOURCE_DIR}/config/shared/inc
     FILESYS
         /ram/apps
-        /cf/download
         /cf/log
-        /cf/upload
-        /ram
-        /ram/download/ch0/dir0/
-        /ram/download/ch0/dir1/
-        /ram/download/ch0/dir2/
-        /ram/download/ch0/dir3/
-        /ram/download/ch0/dir4/
-        /ram/download/ch0/dir5/
-        /ram/download/ch0/dir6/
-        /ram/download/ch0/dir7/
-        /ram/download/ch1/dir0/
-        /ram/download/ch1/dir1/
-        /ram/download/ch1/dir2/
-        /ram/download/ch1/dir3/
-        /ram/download/ch1/dir4/
-        /ram/download/ch1/dir5/
-        /ram/download/ch1/dir6/
-        /ram/download/ch1/dir7/
+        /cf/uplink
+        /cf/downlink/ch0/dir0/
+        /cf/downlink/ch0/dir1/
+        /cf/downlink/ch0/dir2/
+        /cf/downlink/ch0/dir3/
+        /cf/downlink/ch0/dir4/
+        /cf/downlink/ch0/dir5/
+        /cf/downlink/ch0/dir6/
+        /cf/downlink/ch0/dir7/
+        /cf/downlink/ch1/dir0/
+        /cf/downlink/ch1/dir1/
+        /cf/downlink/ch1/dir2/
+        /cf/downlink/ch1/dir3/
+        /cf/downlink/ch1/dir4/
+        /cf/downlink/ch1/dir5/
+        /cf/downlink/ch1/dir6/
+        /cf/downlink/ch1/dir7/
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
         

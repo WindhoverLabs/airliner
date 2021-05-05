@@ -24,9 +24,9 @@ cf_config_table_t     CF_ConfigTable =
 
     "CF Default Table",/* TableIdString */
     2,      /* TableVersion (integer)   */    
-    4,      /* NumEngCyclesPerWakeup    */
-    2,      /* NumWakeupsPerQueueChk    */
-    4,      /* NumWakeupsPerPollDirChk  */
+    1,      /* NumEngCyclesPerWakeup    */
+    1,      /* NumWakeupsPerQueueChk    */
+    1,      /* NumWakeupsPerPollDirChk  */
     100,    /* UplinkHistoryQDepth      */
     0,      /* Reserved1                */
     0,      /* Reserved2                */
@@ -60,7 +60,7 @@ cf_config_table_t     CF_ConfigTable =
             100,                            /* Pending Queue Depth */
             100,                            /* History Queue Depth */
             "OutputChan0",                  /* Playback Channel Name   */
-            "TO_CF_CH0_SEM",                /* Handshake Semaphore Name   */
+            "",                /* Handshake Semaphore Name   */
         
             {   /* Polling Directory Array */
                 
@@ -74,8 +74,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch0/dir0/", /* SrcPath, no spaces, fwd slash at end */
-                    "ch0/dir0/",    /* DstPath, no spaces */
+                    "/ram/downlink/ch0/dir0/", /* SrcPath, no spaces, fwd slash at end */
+                    "",    /* DstPath, no spaces */
                 },/* End Polling Directory 0 */
                 
                 { /* Polling Directory 1 */
@@ -88,8 +88,8 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch0/dir1/", /* SrcPathname */
-                    "ch0/dir1/",         /* DestPathname */
+                    "/ram/downlink/ch0/dir1/", /* SrcPathname */
+                    "",         /* DestPathname */
                     
                 },/* End Polling Directory 1 */
                 
@@ -104,7 +104,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch0/dir2/", /* SrcPathname */
+                    "/ram/downlink/ch0/dir2/", /* SrcPathname */
                     "ch0/dir2/",    /* DstPathname */
                 },/* End Polling Directory 2 */
                 
@@ -118,7 +118,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch0/dir3/", /* SrcPathname */
+                    "/ram/downlink/ch0/dir3/", /* SrcPathname */
                     "ch0/dir3/",         /* DestPathname */
                     
                 },/* End Polling Directory 3 */
@@ -133,7 +133,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch0/dir4/", /* SrcPathname */
+                    "/ram/downlink/ch0/dir4/", /* SrcPathname */
                     "ch0/dir4/",    /* DstPathname */
                 },/* End Polling Directory 4 */
                 
@@ -147,7 +147,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch0/dir5/", /* SrcPathname */
+                    "/ram/downlink/ch0/dir5/", /* SrcPathname */
                     "ch0/dir5/",         /* DestPathname */
                     
                 },/* End Polling Directory 5 */
@@ -162,7 +162,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch0/dir6/", /* SrcPathname */
+                    "/ram/downlink/ch0/dir6/", /* SrcPathname */
                     "ch0/dir6/",    /* DstPathname */
                 },/* End Polling Directory 6 */
                 
@@ -176,7 +176,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch0/dir7/", /* SrcPathname */
+                    "/ram/downlink/ch0/dir7/", /* SrcPathname */
                     "ch0/dir7/",         /* DestPathname */
                     
                 },/* End Polling Directory 7 */                
@@ -207,7 +207,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch1/dir0/", /* SrcPathname */
+                    "/ram/downlink/ch1/dir0/", /* SrcPathname */
                     "ch1/dir0/",    /* DstPathname */
                 },/* End Polling Directory 0 */
                 
@@ -221,7 +221,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch1/dir1/", /* SrcPathname */
+                    "/ram/downlink/ch1/dir1/", /* SrcPathname */
                     "ch1/dir1/",    /* DstPathname */
                 }, /* End Polling Directory 1 */
                 
@@ -235,7 +235,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch1/dir2/", /* SrcPathname */
+                    "/ram/downlink/ch1/dir2/", /* SrcPathname */
                     "ch1/dir2/",    /* DstPathname */
                 },/* End Polling Directory 2 */
                 
@@ -249,7 +249,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch1/dir3/", /* SrcPathname */
+                    "/ram/downlink/ch1/dir3/", /* SrcPathname */
                     "ch1/dir3/",    /* DstPathname */
                 }, /* End Polling Directory 3 */
                 
@@ -263,7 +263,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch1/dir4/", /* SrcPathname */
+                    "/ram/downlink/ch1/dir4/", /* SrcPathname */
                     "ch1/dir4/",    /* DstPathname */
                 },/* End Polling Directory 4 */
                 
@@ -277,7 +277,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch1/dir5/", /* SrcPathname */
+                    "/ram/downlink/ch1/dir5/", /* SrcPathname */
                     "ch1/dir5/",    /* DstPathname */
                 }, /* End Polling Directory 5 */
                 
@@ -291,7 +291,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch1/dir6/", /* SrcPathname */
+                    "/ram/downlink/ch1/dir6/", /* SrcPathname */
                     "ch1/dir6/",    /* DstPathname */
                 },/* End Polling Directory 6 */
                 
@@ -305,7 +305,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/ram/download/ch1/dir7/", /* SrcPathname */
+                    "/ram/downlink/ch1/dir7/", /* SrcPathname */
                     "ch1/dir7/",    /* DstPathname */
                 }, /* End Polling Directory 7 */                
                 

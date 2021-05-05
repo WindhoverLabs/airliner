@@ -302,7 +302,7 @@ function(psp_add_executable)
     if(EMBED_INITRD)
         add_custom_target(${INITRD_TARGET}
             BYPRODUCTS ${INITRD_FILE_NAME} ${INITRD_SOURCE_FILE}
-            COMMAND tar -b 512 -cvf ${INITRD_FILE_NAME} -C ${CFE_INSTALL_DIR}/cf apps
+            COMMAND tar -b 512 -cvf ${INITRD_FILE_NAME} -C ${CFE_INSTALL_DIR}/cf .
             COMMAND bin2c --name OS_InitialRamdiskFile ${INITRD_FILE_NAME} > ${INITRD_SOURCE_FILE}
             COMMAND echo "unsigned int OS_InitialRamdiskFileSize = sizeof(OS_InitialRamdiskFile);" >> ${INITRD_SOURCE_FILE} VERBATIM
         )

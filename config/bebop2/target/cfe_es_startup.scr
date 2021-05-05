@@ -1,6 +1,7 @@
 CFE_LIB, /cf/apps/CFS_LIB.so,   CFS_LibInit,     CFS_LIB,    0,     0, 0x0, 0, 2;
 CFE_LIB, /cf/apps/PRMLIB.so,    PRMLIB_LibInit,  PRMLIB,      0,     0, 0x0, 0, 2;
 CFE_LIB, /cf/apps/PX4LIB.so,    PX4LIB_LibInit,  PX4LIB,    0,     0, 0x0, 0, 2;
+CFE_LIB, /cf/apps/IO_LIB.so,    IO_LibInit,      IOLIB,      0,     0, 0x0, 0, 2;
 CFE_APP, /cf/apps/AMC.so,       AMC_AppMain,     AMC,       43, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/SENS.so,      SENS_AppMain,    SENS,      52, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/MPU6050.so,   MPU6050_AppMain, MPU6050,      46, 327680, 0x0, 0, 2;
