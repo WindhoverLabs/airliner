@@ -296,14 +296,12 @@ buildliner_add_app(
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/mpc
 )
 
-## This is temporarily commented out until we can figure out how to 
-# get cmake to generate the SMC files before it does anything else
-#buildliner_add_app(
-#    vm
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/vm/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/vm
-#)
-#
+buildliner_add_app(
+    vm
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/vm/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/vm
+)
 
 buildliner_add_app(
     ld

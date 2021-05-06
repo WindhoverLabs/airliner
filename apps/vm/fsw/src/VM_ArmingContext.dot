@@ -1,0 +1,64 @@
+digraph VM_Arming {
+
+    node
+        [shape=Mrecord width=1.5];
+
+    subgraph cluster_VM_ArmingMap {
+
+        label="VM_ArmingMap";
+
+        //
+        // States (Nodes)
+        //
+
+        "VM_ArmingMap::Init"
+            [label="{Init}"];
+
+        "VM_ArmingMap::Standby"
+            [label="{Standby}"];
+
+        "VM_ArmingMap::Armed"
+            [label="{Armed}"];
+
+        "VM_ArmingMap::StandbyError"
+            [label="{StandbyError}"];
+
+        "VM_ArmingMap::ArmedError"
+            [label="{ArmedError}"];
+
+        "%start"
+            [label="" shape=circle style=filled fillcolor=black width=0.25];
+
+    }
+
+    //
+    // Transitions (Edges)
+    //
+
+    "VM_ArmingMap::Init" -> "VM_ArmingMap::Standby"
+        [label="InitComplete/\l"];
+
+    "VM_ArmingMap::Init" -> "VM_ArmingMap::Init"
+        [label="Reset/\l"];
+
+    "VM_ArmingMap::Standby" -> "VM_ArmingMap::Armed"
+        [label="Arm/\l"];
+
+    "VM_ArmingMap::Standby" -> "VM_ArmingMap::StandbyError"
+        [label="Error/\l"];
+
+    "VM_ArmingMap::Standby" -> "VM_ArmingMap::Init"
+        [label="Reset/\l"];
+
+    "VM_ArmingMap::Armed" -> "VM_ArmingMap::Standby"
+        [label="Disarm/\l"];
+
+    "VM_ArmingMap::Armed" -> "VM_ArmingMap::ArmedError"
+        [label="Error/\l"];
+
+    "VM_ArmingMap::Armed" -> "VM_ArmingMap::Init"
+        [label="Reset/\l"];
+
+    "%start" -> "VM_ArmingMap::Init"
+
+}
