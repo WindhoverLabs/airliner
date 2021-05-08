@@ -151,6 +151,7 @@ workspace::
 
 obc-sitl:: obc/ppd/sitl obc/cpd/sitl
 	@echo 'Generating ground products.'
+	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram
 	@make -C build/obc/ppd/sitl/target ground-tools
 	@make -C build/obc/cpd/sitl/target ground-tools
 	@echo 'Done'
