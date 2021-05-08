@@ -109,6 +109,13 @@ help::
 	
 	
 .PHONY: help Makefile docs obc
+
+
+obc:: obc/ppd obc/cpd
+	@echo 'Generating ground products.'
+	@make -C build/obc/ppd/target ground-tools
+	@make -C build/obc/cpd/target ground-tools
+	@echo 'Done'
 	
 
 $(GENERIC_TARGET_NAMES)::
@@ -134,21 +141,14 @@ $(GENERIC_TARGET_NAMES)::
 						-DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); \
 					$(MAKE) --no-print-directory); \
 				fi \
-		done;	
-		
-		
-obc:: obc/ppd obc/cpd
-	@echo 'Generating ground products.'
-	@make -C build/obc/ppd/target ground-tools
-	@make -C build/obc/cpd/target ground-tools
-	@echo 'Done'
+		done;
 		
 workspace::
 	rm build/obc/commander_workspace/Displays/Resources/definitions.yaml
 	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/definitions.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
 	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/definitions.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
-
-
+	
+	
 obc-sitl:: obc/ppd/sitl obc/cpd/sitl
 	@echo 'Generating ground products.'
 	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram
