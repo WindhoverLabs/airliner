@@ -62,7 +62,7 @@ help::
 	@echo '                              hosted on the generic quad-X airframe with the    '
 	@echo '                              Aerotenna uLanding landing radar system.          '
 	@echo '                              uLanding landing radar system.                    '
-	@echo '    obc-all                 : This will build flight software for both the      '
+	@echo '    obc                     : This will build flight software for both the      '
 	@echo '                              Performance Processing Domain (PPD) and the       '
 	@echo '                              Critical Processing Domain (CPD) of the           '
 	@echo '                              Windhover On-Board Computer (OBC), as well as the '
@@ -137,7 +137,7 @@ $(GENERIC_TARGET_NAMES)::
 		done;	
 		
 		
-obc-all:: obc/ppd obc/cpd
+obc:: obc/ppd obc/cpd
 	@echo 'Generating ground products.'
 	@make -C build/obc/ppd/target ground-tools
 	@make -C build/obc/cpd/target ground-tools

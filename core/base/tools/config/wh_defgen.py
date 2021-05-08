@@ -80,7 +80,7 @@ def merge_modules(cfg_current: dict, merged_config: dict):
                     merged_config[module]['modules'] = dict()
                 merge_modules(cfg_current[module]['modules'], merged_config[module]['modules'])
 
-            yaml_merger.merge(cfg_current[module], merged_config[module])
+        yaml_merger.merge(cfg_current[module], merged_config[module])
 
 
 def merge_parent_config(merged_config: dict, abs_config_base: str, abs_current_dir: str):
