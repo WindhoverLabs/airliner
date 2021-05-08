@@ -1,5 +1,6 @@
 ---
 config_base: ${PROJECT_SOURCE_DIR}
+cpu_id: CPD
 modules:
   core:
     modules:
