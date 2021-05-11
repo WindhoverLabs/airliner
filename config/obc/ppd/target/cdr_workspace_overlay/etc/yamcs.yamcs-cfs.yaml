@@ -45,11 +45,36 @@ services:
 
 dataLinks:
   - name: tm_ppd
-    class: org.yamcs.tctm.UdpTmDataLink
+    class: org.yamcs.tctm.ccsds.UdpTmFrameLink
     stream: tm_realtime
     port: 5011
-    maxLength: 32768 #32KB is the default for CCSDS
-    packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.PacketPreprocessor
+    frameType: TM
+    #clcwStream:
+    #goodFrameStream:
+    #badFrameStream: 
+    frameHeaderErrorControlPresent: false
+    insertZoneLength: 0
+    spacecraftId: 66
+    errorDetection: NONE
+    frameLength: 1000
+    virtualChannels:
+      - vcId: 0
+        service: PACKET
+        ocfPresent: false
+        maxPacketLength: 32768 #32KB is the default for CCSDS
+        stream: tm_realtime
+        #stripEncapsulationHeader: false
+        #packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.PacketPreprocessor
+        packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+        packetPreprocessorArgs:
+          byteOrder: LITTLE_ENDIAN
+          #errorDetection:
+          #tcoService:
+          timestampFormat: CFE_SB_TIME_32_16_SUBS
+          timeEncoding:
+            epoch: CUSTOM
+            epochUTC: "1970-01-01T00:00:00Z"
+            timeIncludesLeapSeconds: false
 
   - name: tc_ppd
     class: org.yamcs.tctm.UdpTcDataLink

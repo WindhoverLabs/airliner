@@ -47,11 +47,13 @@
 #include <strings.h>
 #include <string.h>
 #include <unistd.h>
+#include "io_lib_utils.h"
+#include "tm_sdlp.h"
 
 /************************************************************************
 ** Local Defines
 *************************************************************************/
-#define TO_CUSTOM_CHANNEL_GET_TIMEOUT (500) /* msec */
+#define TO_CUSTOM_CHANNEL_GET_TIMEOUT (1000) /* msec */
 
 
 /************************************************************************
@@ -62,11 +64,26 @@
 
 TO_AppCustomData_t     TO_AppCustomData;
 
+
 TO_EnableChannelCmd_t  TO_EnableChannelCmd_S;
 TO_DisableChannelCmd_t TO_DisableChannelCmd_S;
 
 extern TO_ChannelTbl_t TO_BackupConfigTbl;
 
+
+/*
+** Local Variables
+*/
+static uint8           idlePattern[32];
+static const uint16    iCaduSize = TO_CUSTOM_TF_SIZE + TM_SYNC_ASM_SIZE;
+
+
+
+/* Set channel config table */
+TM_SDLP_ChannelConfig_t chnlConfig[] =
+{
+    {0, 0, 0, 0, 0, 0, TO_CUSTOM_TF_OVERFLOW_SIZE}
+};
 
 uint8 TO_OutputChannel_Status(uint32 Index)
 {
@@ -87,9 +104,38 @@ int32 TO_Custom_Init(void)
     int32 iStatus = 0;
     uint32 i = 0;
 
-    /*
-     * UDP development interface
-     */
+    /* Initialize Idle pattern as pseudo-random sequence. */
+    IO_LIB_UTIL_GenPseudoRandomSeq(&TO_AppCustomData.idleBuff[0], 0xa9, 0xff);
+
+    /* Initialize Idle packet with repeating idle pattern */
+    TM_SDLP_InitIdlePacket(&TO_AppCustomData.idleBuff[0], &idlePattern[0],
+                           TO_CUSTOM_TF_IDLE_SIZE, 255);
+
+    TO_AppCustomData.mcConfig.scId        = CFE_SPACECRAFT_ID;
+    TO_AppCustomData.mcConfig.frameLength = TO_CUSTOM_TF_SIZE;
+    TO_AppCustomData.mcConfig.hasErrCtrl  = TO_CUSTOM_TF_ERR_CTRL;
+    TO_AppCustomData.mcFrameCnt           = 0;
+
+    CFE_PSP_MemCpy((void *) &TO_AppCustomData.vcConfig, (void *) &chnlConfig[0],
+                   sizeof(TO_AppCustomData.vcConfig));
+
+    if (TM_SDLP_InitChannel(&TO_AppCustomData.frameInfo,
+                            &TO_AppCustomData.buffer[TM_SYNC_ASM_SIZE],
+                            &TO_AppCustomData.ofBuff[0],
+                            &TO_AppCustomData.mcConfig,
+							&TO_AppCustomData.vcConfig) < 0)
+    {
+        iStatus = -1;
+        goto end_of_function;
+    }
+
+    iStatus = TM_SDLP_StartFrame(&TO_AppCustomData.frameInfo);
+    if(iStatus != TM_SDLP_SUCCESS)
+    {
+        iStatus = -1;
+        goto end_of_function;
+    }
+
     TO_AppCustomData.Channel[0].Mode = TO_CHANNEL_ENABLED;
     strncpy(TO_AppCustomData.Channel[0].IP, TO_UDP_CHANNEL_ADDRESS, INET_ADDRSTRLEN);
     TO_AppCustomData.Channel[0].DstPort = TO_UDP_CHANNEL_PORT;
@@ -127,6 +173,7 @@ int32 TO_Custom_Init(void)
         }
     }
 
+end_of_function:
     return iStatus;
 }
 
@@ -137,7 +184,7 @@ int32 TO_Custom_Init(void)
 /* Custom Send.  Send the message out the socket.                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 TO_OutputChannel_Send(uint32 ChannelID, const char* Buffer, uint32 Size)
+int32 TO_OutputChannel_Send(uint32 ChannelID, const uint8* Buffer, uint32 Size)
 {
     struct sockaddr_in s_addr;
     int    status = 0;
@@ -148,7 +195,7 @@ int32 TO_OutputChannel_Send(uint32 ChannelID, const char* Buffer, uint32 Size)
 
     if((Size > 0) && (ChannelID < TO_MAX_CHANNELS))
     {
-        TO_TlmChannels_t *channel = &TO_AppCustomData.Channel[ChannelID];
+        TO_TlmChannel_t *channel = &TO_AppCustomData.Channel[ChannelID];
 
         if(channel->Mode == TO_CHANNEL_ENABLED)
         {
@@ -450,6 +497,12 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
     uint32 msgSize = 0;
     char *buffer;
 
+    /* Start Frame */
+    /*
+    iStatus = TM_SDLP_StartFrame(&TO_AppCustomData.frameInfo);
+    iStatus = TM_SDLP_AddPacket(&TO_AppCustomData.frameInfo, pMsg);
+    */
+
     while(TO_OutputChannel_Status(ChannelIdx) == TO_CHANNEL_ENABLED)
     {
         if(TO_Channel_State(ChannelIdx) == TO_CHANNEL_OPENED)
@@ -462,17 +515,16 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
 
             if(iStatus == OS_SUCCESS)
             {
-                struct sockaddr_in s_addr;
-                uint16  actualMessageSize = CFE_SB_GetTotalMsgLength((CFE_SB_MsgPtr_t)buffer);
-
-                bzero((char *) &s_addr, sizeof(s_addr));
-                s_addr.sin_family      = AF_INET;
-
-                int32 sendResult = TO_OutputChannel_Send(ChannelIdx, (const char*)buffer, actualMessageSize);
-
-                if (sendResult != 0)
+            	/* Add packet to the outgoing frame */
+                iStatus = TM_SDLP_AddPacket(&TO_AppCustomData.frameInfo, (CFE_SB_Msg_t*)buffer);
+                if (iStatus < 0)
                 {
-                	TO_OutputChannel_Disable(ChannelIdx);
+                    /* TODO: React appropriately. */
+                }
+                else if(0 == iStatus)
+                {
+                	/* The frame is full. Send it. */
+                	TO_OutputChannel_FrameSend(ChannelIdx);
                 }
 
                 iStatus = CFE_ES_PutPoolBuf(TO_AppData.ChannelData[ChannelIdx].MemPoolHandle, (uint32 *)buffer);
@@ -494,10 +546,11 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
                     TO_Channel_UnlockByIndex(ChannelIdx);
                 }
 
+            	TO_OutputChannel_FrameSend(ChannelIdx);
             }
             else if(iStatus == OS_QUEUE_TIMEOUT)
             {
-            	/* Do nothing.  Just loop back around and check the guard. */
+            	TO_OutputChannel_FrameSend(ChannelIdx);
             }
             else
             {
@@ -508,6 +561,66 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
                 OS_MutSemGive(TO_AppData.MutexID);
             }
         }
+    }
+}
+
+
+
+void TO_OutputChannel_FrameSend(uint32 ChannelIdx)
+{
+    int32    status = CFE_SUCCESS;
+	osalbool sendMessage = TRUE;
+    int32    caduSize = 0;
+
+	/* The frame isn't full, but go ahead and send it anyway. But,
+	 * first check if there is packets, otherwise, fill with OID. */
+    status = TM_SDLP_FrameHasData(&TO_AppCustomData.frameInfo);
+    if(1 == status)
+    {
+        /* Add an idle packet to fill remaining free space */
+        status = TM_SDLP_AddIdlePacket(&TO_AppCustomData.frameInfo, &TO_AppCustomData.idleBuff[0]);
+    }
+    else if (0 == status)
+    {
+        /* Set frame as Only Idle Data (OID) */
+        status = TM_SDLP_SetOidFrame(&TO_AppCustomData.frameInfo, &TO_AppCustomData.idleBuff[0]);
+    }
+
+	/* int32 TM_SDLP_CompleteFrame(TM_SDLP_FrameInfo_t *pFrameInfo,
+                uint8 *pMcFrameCnt, uint8 *pOcf);*/
+    /* Complete the frame */
+	status = TM_SDLP_CompleteFrame(&TO_AppCustomData.frameInfo, &TO_AppCustomData.mcFrameCnt, &TO_AppCustomData.ocfBuff[0]);
+    if(status != TM_SDLP_SUCCESS)
+	{
+        /* TODO: React appropriately. */
+    	sendMessage = FALSE;
+    }
+
+    /* Synchronize frame into CADU */
+    caduSize = TM_SYNC_Synchronize(&TO_AppCustomData.buffer[0], TM_SYNC_ASM_STR,
+                                    TM_SYNC_ASM_SIZE,
+                                    TO_CUSTOM_TF_SIZE,
+                                    TO_CUSTOM_TF_RANDOMIZE);
+    if (caduSize < 0)
+    {
+        /* TODO: React appropriately. */
+    	sendMessage = FALSE;
+    }
+
+    if(TRUE == sendMessage)
+    {
+        int32 sendResult = TO_OutputChannel_Send(ChannelIdx, &TO_AppCustomData.buffer[TM_SYNC_ASM_SIZE], caduSize - TM_SYNC_ASM_SIZE);
+        if (sendResult != 0)
+        {
+        	TO_OutputChannel_Disable(ChannelIdx);
+        }
+    }
+
+    /* Start a new frame. */
+    status = TM_SDLP_StartFrame(&TO_AppCustomData.frameInfo);
+    if(status != TM_SDLP_SUCCESS)
+    {
+        /* TODO: React appropriately. */
     }
 }
 

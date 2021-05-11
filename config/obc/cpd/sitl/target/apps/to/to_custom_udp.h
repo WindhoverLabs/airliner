@@ -39,6 +39,8 @@
 *************************************************************************/
 #include "to_app.h"
 #include "to_custom.h"
+#include "tm_sync.h"
+#include "tm_sdlp.h"
 #include <arpa/inet.h>
 
 /************************************************************************
@@ -46,6 +48,16 @@
 *************************************************************************/
 #define TO_CUSTOM_RETURN_CODE_NULL_POINTER      (-1)
 #define TO_CUSTOM_RETURN_CODE_MESSAGE_TOO_BIG   (-2)
+
+#define TO_CUSTOM_TF_SIZE   1000
+#define TO_CUSTOM_TF_OVERFLOW_SIZE TO_CUSTOM_TF_SIZE
+#define TO_CUSTOM_TF_IDLE_SIZE TO_CUSTOM_TF_SIZE
+
+#define TO_CUSTOM_TF_SCID       0
+#define TO_CUSTOM_TF_ERR_CTRL   0
+#define TO_CUSTOM_TF_RANDOMIZE  0
+
+
 
 /* TODO:  Add Doxygen markup. */
 #define TO_ENABLE_CHANNEL_CC                    (10)
@@ -97,11 +109,19 @@ typedef struct
     int                             Socket;
     uint32                          ChildTaskID;
     uint32                          TaskFlags;
-} TO_TlmChannels_t;
+} TO_TlmChannel_t;
 
 typedef struct
 {
-    TO_TlmChannels_t                Channel[TO_MAX_CHANNELS];
+    TO_TlmChannel_t                 Channel[TO_MAX_CHANNELS];
+    uint8                           idleBuff[TO_CUSTOM_TF_IDLE_SIZE];
+    TM_SDLP_FrameInfo_t             frameInfo;
+    TM_SDLP_ChannelConfig_t         vcConfig;
+    uint8                           buffer[TO_CUSTOM_TF_SIZE + TM_SYNC_ASM_SIZE];
+    uint8                           ocfBuff[4];
+    uint8                           ofBuff[TO_CUSTOM_TF_OVERFLOW_SIZE];
+    TM_SDLP_GlobalConfig_t          mcConfig;
+    uint8                           mcFrameCnt;
 } TO_AppCustomData_t;
 
 /************************************************************************
@@ -118,10 +138,12 @@ extern TO_AppData_t TO_AppData;
  * The routine to send a buffer out the channel.  This routine
  * abstracts the formatting and output of different channels.
  */
-int32 TO_OutputChannel_Send(uint32 ChannelID, const char* Buffer, uint32 Size);
+int32 TO_OutputChannel_Send(uint32 ChannelID, const uint8* Buffer, uint32 Size);
 
 int32 TO_OutputChannel_Enable(uint32 ChannelID, const char *DestinationAddress, uint16 DestinationPort);
 int32 TO_OutputChannel_Disable(uint32 ChannelID);
+
+void  TO_OutputChannel_FrameSend(uint32 ChannelIdx);
 
 /**
  * The UDP Development Channel Task Entry Point
