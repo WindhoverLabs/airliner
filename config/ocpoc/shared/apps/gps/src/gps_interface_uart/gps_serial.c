@@ -1051,7 +1051,7 @@ boolean GPS_Custom_WaitForAck(const uint16 msg, const uint32 timeout)
         }
         
         /* If we've timed out out set the flag to true */
-        if(timeStamp.Seconds >= startTime.Seconds + (timeout/1000) + 1)
+        if(timeStamp.Seconds >= startTime.Seconds + (timeout/1000) + 2)
         {
             /* TODO remove after debug*/
             //OS_printf("WaitForAck timed out\n");
