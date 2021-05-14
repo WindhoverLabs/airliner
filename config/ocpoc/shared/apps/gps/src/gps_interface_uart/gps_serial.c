@@ -1023,8 +1023,8 @@ boolean GPS_Custom_WaitForAck(const uint16 msg, const uint32 timeout)
     boolean done = FALSE;
     boolean timedOut = FALSE;
     boolean returnBool = FALSE;
-    uint64 timeStamp = 0;
-    uint64 startTime = 0;
+    CFE_TIME_SysTime_t timeStamp = {0};
+    CFE_TIME_SysTime_t startTime = {0};
 
     /* Set the ack state to waiting */
     GPS_AppCustomData.AckState = GPS_ACK_WAITING;
@@ -1034,8 +1034,8 @@ boolean GPS_Custom_WaitForAck(const uint16 msg, const uint32 timeout)
     GPS_AppCustomData.AckWaitingRcvd = FALSE;
 
     /* Get the start time */
-    startTime = PX4LIB_GetPX4TimeUs();
-    if(0 == startTime)
+    startTime = CFE_TIME_GetTime();
+    if(0 == startTime.Seconds || 0 == startTime.Subseconds)
     {
         goto end_of_function;
     }
@@ -1044,14 +1044,14 @@ boolean GPS_Custom_WaitForAck(const uint16 msg, const uint32 timeout)
     while(FALSE == timedOut)
     {
         /* Get the loop iteration time */
-        timeStamp = PX4LIB_GetPX4TimeUs();
-        if(0 == timeStamp)
+        timeStamp = CFE_TIME_GetTime();
+        if(0 == timeStamp.Seconds || 0 == timeStamp.Subseconds)
         {
             goto end_of_function;
         }
         
         /* If we've timed out out set the flag to true */
-        if(timeStamp >= startTime + timeout * 1000)
+        if(timeStamp.Seconds >= startTime.Seconds + timeout)
         {
             /* TODO remove after debug*/
             //OS_printf("WaitForAck timed out\n");
