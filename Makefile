@@ -62,7 +62,7 @@ help::
 	@echo '                              hosted on the generic quad-X airframe with the    '
 	@echo '                              Aerotenna uLanding landing radar system.          '
 	@echo '                              uLanding landing radar system.                    '
-	@echo '    obc-all                 : This will build flight software for both the      '
+	@echo '    obc                     : This will build flight software for both the      '
 	@echo '                              Performance Processing Domain (PPD) and the       '
 	@echo '                              Critical Processing Domain (CPD) of the           '
 	@echo '                              Windhover On-Board Computer (OBC), as well as the '
@@ -109,6 +109,13 @@ help::
 	
 	
 .PHONY: help Makefile docs obc
+
+
+obc:: obc/ppd obc/cpd
+	@echo 'Generating ground products.'
+	@make -C build/obc/ppd/target ground-tools
+	@make -C build/obc/cpd/target ground-tools
+	@echo 'Done'
 	
 
 $(GENERIC_TARGET_NAMES)::
@@ -134,23 +141,17 @@ $(GENERIC_TARGET_NAMES)::
 						-DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); \
 					$(MAKE) --no-print-directory); \
 				fi \
-		done;	
-		
-		
-obc-all:: obc/ppd obc/cpd
-	@echo 'Generating ground products.'
-	@make -C build/obc/ppd/target ground-tools
-	@make -C build/obc/cpd/target ground-tools
-	@echo 'Done'
+		done;
 		
 workspace::
 	rm build/obc/commander_workspace/Displays/Resources/definitions.yaml
 	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/definitions.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
 	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/definitions.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
-
-
+	
+	
 obc-sitl:: obc/ppd/sitl obc/cpd/sitl
 	@echo 'Generating ground products.'
+	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram
 	@make -C build/obc/ppd/sitl/target ground-tools
 	@make -C build/obc/cpd/sitl/target ground-tools
 	@echo 'Done'

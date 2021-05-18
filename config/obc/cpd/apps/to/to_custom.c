@@ -148,7 +148,7 @@ int32 TO_OutputChannel_Send(uint32 ChannelID, const char* Buffer, uint32 Size)
 
     if((Size > 0) && (ChannelID < TO_MAX_CHANNELS))
     {
-        TO_TlmChannels_t *channel = &TO_AppCustomData.Channel[ChannelID];
+        TO_TlmChannel_t *channel = &TO_AppCustomData.Channel[ChannelID];
 
         if(channel->Mode == TO_CHANNEL_ENABLED)
         {
