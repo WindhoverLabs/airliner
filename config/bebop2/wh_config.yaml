@@ -5,9 +5,9 @@ modules:
   core:
     modules:
       osal:
-        definition: ${PROJECT_SOURCE_DIR}/core/osal/fsw/posix-fast/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/core/osal/posix-fast/wh_design.yaml
       psp:
-        definition: ${PROJECT_SOURCE_DIR}/core/psp/fsw/bebop2/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/core/psp/bebop2/wh_design.yaml
       
   amc:
     definition: ${PROJECT_SOURCE_DIR}/apps/amc/wh_design.yaml

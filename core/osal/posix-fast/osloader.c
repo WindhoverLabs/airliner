@@ -39,6 +39,8 @@
 */
 #ifdef OS_INCLUDE_MODULE_LOADER
 
+#define OS_EMBEDDED_MODULE_TAG "/embedded/"
+
 /****************************************************************************************
                                      DEFINES
 ****************************************************************************************/
@@ -182,111 +184,119 @@ int32 OS_SymbolTableDump ( const char *filename, uint32 SizeLimit )
 ---------------------------------------------------------------------------------------*/
 int32 OS_ModuleLoad ( uint32 *module_id, const char *module_name, const char *filename )
 {
-   int         i;
-   uint32      possible_moduleid;
-   char        translated_path[OS_MAX_LOCAL_PATH_LEN] = "";
-   int32       return_code;
-   void       *function_lib;     /*  Handle to shared lib file */
-   const char *dl_error;    /*  Pointer to error string   */
-   sigset_t    previous;
-   sigset_t    mask;
+    int         i;
+    uint32      possible_moduleid;
+    char        translated_path[OS_MAX_LOCAL_PATH_LEN] = "";
+    int32       return_code;
+    void       *function_lib;     /*  Handle to shared lib file */
+    const char *dl_error;    /*  Pointer to error string   */
+    sigset_t    previous;
+    sigset_t    mask;
 
-   /*
-   ** Check parameters
-   */
-   if (( filename == NULL ) || (module_id == NULL ) || (module_name == NULL))
-   {
-      return(OS_INVALID_POINTER);
-   }
+    /*
+    ** Check parameters
+    */
+    if (( filename == NULL ) || (module_id == NULL ) || (module_name == NULL))
+    {
+        return(OS_INVALID_POINTER);
+    }
  
-   OS_InterruptSafeLock(&OS_module_table_mut, &mask, &previous); 
+    OS_InterruptSafeLock(&OS_module_table_mut, &mask, &previous); 
 
-   /*
-   ** Find a free module id
-   */
-   for( possible_moduleid = 0; possible_moduleid < OS_MAX_MODULES; possible_moduleid++)
-   {
-       if (OS_module_table[possible_moduleid].name[0] == '\0')
-       {
-           break;
-       }
-   }
+    /*
+    ** Find a free module id
+    */
+    for( possible_moduleid = 0; possible_moduleid < OS_MAX_MODULES; possible_moduleid++)
+    {
+        if (OS_module_table[possible_moduleid].name[0] == '\0')
+        {
+            break;
+        }
+    }
 
-   /* 
-   ** Check to see if the id is out of bounds 
-   */
-   if( possible_moduleid >= OS_MAX_MODULES || OS_module_table[possible_moduleid].name[0] != '\0')
-   {
-       OS_InterruptSafeUnlock(&OS_module_table_mut, &previous); 
-       return OS_ERR_NO_FREE_IDS;
-   }
+    /* 
+    ** Check to see if the id is out of bounds 
+    */
+    if( possible_moduleid >= OS_MAX_MODULES || OS_module_table[possible_moduleid].name[0] != '\0')
+    {
+        OS_InterruptSafeUnlock(&OS_module_table_mut, &previous); 
+        return OS_ERR_NO_FREE_IDS;
+    }
 
-   /* 
-   ** Check to see if the module file is already loaded 
-   */
-   for (i = 0; i < OS_MAX_MODULES; i++)
-   {
-       if ((OS_module_table[i].name[0] != '\0') &&
-          ( strcmp((char*) module_name, OS_module_table[i].name) == 0)) 
-       {       
-           OS_InterruptSafeUnlock(&OS_module_table_mut, &previous); 
-           return OS_ERR_NAME_TAKEN;
-       }
-   }
+    /* 
+    ** Check to see if the module file is already loaded 
+    */
+    for (i = 0; i < OS_MAX_MODULES; i++)
+    {
+        if ((OS_module_table[i].name[0] != '\0') &&
+           ( strcmp((char*) module_name, OS_module_table[i].name) == 0)) 
+        {       
+            OS_InterruptSafeUnlock(&OS_module_table_mut, &previous); 
+            return OS_ERR_NAME_TAKEN;
+        }
+    }
 
-   /* 
-   ** Set the possible task Id to not free so that
-   ** no other task can try to use it 
-   */
-   OS_module_table[possible_moduleid].name[0] = '\n' ;
-   OS_InterruptSafeUnlock(&OS_module_table_mut, &previous); 
- 
-   /*
-   ** Translate the filename to the Host System
-   */     
-   return_code = OS_TranslatePath((const char *)filename, (char *)translated_path); 
-   if ( return_code != OS_SUCCESS )
-   {
-      OS_module_table[possible_moduleid].name[0] = '\0';
-      return(return_code);
-   }
+    /* 
+    ** Set the possible task Id to not free so that
+    ** no other task can try to use it 
+    */
+    OS_module_table[possible_moduleid].name[0] = '\n' ;
+    OS_InterruptSafeUnlock(&OS_module_table_mut, &previous); 
 
-   /*
-   ** File is ready to load
-   */
+    /* Check to see if this is an embedded path. */
+    if(strncmp(OS_EMBEDDED_MODULE_TAG, filename, strlen(OS_EMBEDDED_MODULE_TAG)) == 0)
+    {
+    	/* This is an embedded path. */
+    }
+    else
+    {
+        /*
+        ** Translate the filename to the Host System
+        */     
+        return_code = OS_TranslatePath((const char *)filename, (char *)translated_path); 
+        if ( return_code != OS_SUCCESS )
+        {
+           OS_module_table[possible_moduleid].name[0] = '\0';
+           return(return_code);
+        }
+
+        /*
+        ** File is ready to load
+        */
    
-   /* 
-   ** Open the loadable bundle .. just opening it loads it into the system.
-   */
-   function_lib = dlopen(translated_path, RTLD_NOW | RTLD_GLOBAL);
-   dl_error = dlerror();
-   if( dl_error )
-   {
-      OS_printf("OSAL:  dlopen() failed.  errno=%u.  %s\n", errno, dl_error);
-      OS_module_table[possible_moduleid].name[0] = '\0';
-      return(OS_ERROR);
-   }
+        /* 
+        ** Open the loadable bundle .. just opening it loads it into the system.
+        */
+        function_lib = dlopen(translated_path, RTLD_NOW | RTLD_GLOBAL);
+        dl_error = dlerror();
+        if( dl_error )
+        {
+            OS_printf("OSAL:  dlopen() failed.  errno=%u.  %s\n", errno, dl_error);
+            OS_module_table[possible_moduleid].name[0] = '\0';
+            return(OS_ERROR);
+        }
+    }
 
-   /*
-   ** fill out the OS_module_table entry for this new module
-   */
-   OS_module_table[possible_moduleid].entry_point = 0; /* Only for certain targets */
-   OS_module_table[possible_moduleid].host_module_id = (uint32) function_lib;
-   strncpy(OS_module_table[possible_moduleid].filename , filename, OS_MAX_PATH_LEN);
-   strncpy(OS_module_table[possible_moduleid].name , module_name, OS_MAX_API_NAME);
+    /*
+    ** fill out the OS_module_table entry for this new module
+    */
+    OS_module_table[possible_moduleid].entry_point = 0; /* Only for certain targets */
+    OS_module_table[possible_moduleid].host_module_id = (uint32) function_lib;
+    strncpy(OS_module_table[possible_moduleid].filename , filename, OS_MAX_PATH_LEN);
+    strncpy(OS_module_table[possible_moduleid].name , module_name, OS_MAX_API_NAME);
  
-   /*
-   ** For now, do not store the module address information
-   ** Let the OS_ModuleInfo function fetch that information and return it.
-   */
-   OS_module_table[possible_moduleid].addr.valid = FALSE;
+    /*
+    ** For now, do not store the module address information
+    ** Let the OS_ModuleInfo function fetch that information and return it.
+    */
+    OS_module_table[possible_moduleid].addr.valid = FALSE;
  
-   /*
-   ** Return the OSAPI Module ID
-   */
-   *module_id = possible_moduleid;
+    /*
+    ** Return the OSAPI Module ID
+    */
+    *module_id = possible_moduleid;
      
-   return(OS_SUCCESS);
+    return(OS_SUCCESS);
    
 }/* end OS_ModuleLoad */
 
