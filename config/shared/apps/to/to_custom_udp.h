@@ -97,11 +97,11 @@ typedef struct
     int                             Socket;
     uint32                          ChildTaskID;
     uint32                          TaskFlags;
-} TO_TlmChannels_t;
+} TO_TlmChannel_t;
 
 typedef struct
 {
-    TO_TlmChannels_t                Channel[TO_MAX_CHANNELS];
+    TO_TlmChannel_t                Channel[TO_MAX_CHANNELS];
 } TO_AppCustomData_t;
 
 /************************************************************************
