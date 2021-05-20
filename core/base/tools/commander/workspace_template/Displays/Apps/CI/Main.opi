@@ -10,12 +10,12 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.4.202104212257</boy_version>
+  <boy_version>1.6.7.202105202042</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>400</height>
+  <height>550</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
     <APP>ci</APP>
@@ -32,7 +32,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>750</width>
+  <width>450</width>
   <wuid>-33cb7c72:150aa4c347f:-76c2</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -686,7 +686,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="192" green="192" blue="192" />
     </foreground_color>
-    <height>250</height>
+    <height>54</height>
     <lock_children>false</lock_children>
     <macros>
       <include_parent_macros>true</include_parent_macros>
@@ -764,7 +764,7 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
+      <width>109</width>
       <wuid>-19107c2b:177da1db5df:-990</wuid>
       <x>0</x>
       <y>0</y>
@@ -825,7 +825,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
+      <width>109</width>
       <wuid>3ad43471:178fa0ca30e:-6730</wuid>
       <x>0</x>
       <y>24</y>
@@ -849,7 +849,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="192" green="192" blue="192" />
     </foreground_color>
-    <height>290</height>
+    <height>271</height>
     <lock_children>false</lock_children>
     <macros>
       <include_parent_macros>true</include_parent_macros>
@@ -867,10 +867,10 @@ $(pv_value)</tooltip>
     <transparent>true</transparent>
     <visible>true</visible>
     <widget_type>Grouping Container</widget_type>
-    <width>245</width>
+    <width>163</width>
     <wuid>3ad43471:178fa0ca30e:-65aa</wuid>
-    <x>516</x>
-    <y>89</y>
+    <x>178</x>
+    <y>246</y>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="EXECUTE_JAVASCRIPT">
@@ -927,10 +927,10 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
+      <width>150</width>
       <wuid>-774f18cb:178f5d0fb78:-7f70</wuid>
-      <x>12</x>
-      <y>36</y>
+      <x>13</x>
+      <y>18</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -988,10 +988,10 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
+      <width>150</width>
       <wuid>-774f18cb:178f5d0fb78:-7f25</wuid>
-      <x>12</x>
-      <y>60</y>
+      <x>13</x>
+      <y>42</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -1049,10 +1049,10 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
+      <width>150</width>
       <wuid>3ad43471:178fa0ca30e:-742e</wuid>
-      <x>12</x>
-      <y>84</y>
+      <x>13</x>
+      <y>66</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -1110,10 +1110,10 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
+      <width>150</width>
       <wuid>3ad43471:178fa0ca30e:-742d</wuid>
-      <x>12</x>
-      <y>108</y>
+      <x>13</x>
+      <y>90</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
       <actions hook="false" hook_all="false" />
@@ -1143,17 +1143,17 @@ $(pv_value)</tooltip>
         <keep_wh_ratio>false</keep_wh_ratio>
       </scale_options>
       <scripts />
-      <text>Command Management</text>
+      <text>CMD Management</text>
       <tooltip></tooltip>
       <transparent>true</transparent>
       <vertical_alignment>1</vertical_alignment>
       <visible>true</visible>
       <widget_type>Label</widget_type>
-      <width>165</width>
+      <width>139</width>
       <wrap_words>false</wrap_words>
       <wuid>3ad43471:178fa0ca30e:-6474</wuid>
-      <x>42</x>
-      <y>6</y>
+      <x>18</x>
+      <y>-1</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -1211,10 +1211,10 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
+      <width>150</width>
       <wuid>3ad43471:178fa0ca30e:-5a49</wuid>
-      <x>12</x>
-      <y>132</y>
+      <x>13</x>
+      <y>114</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -1272,10 +1272,10 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
+      <width>150</width>
       <wuid>3ad43471:178fa0ca30e:-597a</wuid>
-      <x>12</x>
-      <y>156</y>
+      <x>13</x>
+      <y>138</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -1333,10 +1333,10 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
+      <width>150</width>
       <wuid>3ad43471:178fa0ca30e:-5615</wuid>
-      <x>12</x>
-      <y>180</y>
+      <x>13</x>
+      <y>162</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -1394,10 +1394,10 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
+      <width>150</width>
       <wuid>1d0b4c79:178fb6290bd:-7c95</wuid>
-      <x>12</x>
-      <y>204</y>
+      <x>13</x>
+      <y>186</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -1455,10 +1455,10 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
+      <width>150</width>
       <wuid>1d0b4c79:178fb6290bd:-7589</wuid>
-      <x>12</x>
-      <y>228</y>
+      <x>13</x>
+      <y>210</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -1516,10 +1516,335 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
       <visible>true</visible>
       <widget_type>Action Button</widget_type>
-      <width>223</width>
+      <width>150</width>
       <wuid>1d0b4c79:178fb6290bd:-757f</wuid>
-      <x>12</x>
-      <y>252</y>
+      <x>13</x>
+      <y>234</y>
     </widget>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <fc>false</fc>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <height>96</height>
+    <lock_children>true</lock_children>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+    </macros>
+    <name>Grouping Container_4</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <show_scrollbar>false</show_scrollbar>
+    <tooltip></tooltip>
+    <transparent>true</transparent>
+    <visible>true</visible>
+    <widget_type>Grouping Container</widget_type>
+    <width>122</width>
+    <wuid>6cbc123a:179195c8c60:-4f0c</wuid>
+    <x>35</x>
+    <y>246</y>
+    <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+      <actions hook="false" hook_all="false">
+        <action type="EXECUTE_JAVASCRIPT">
+          <path></path>
+          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("AddMessageFlow_TEMPLATE"));
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
+          <embedded>true</embedded>
+          <description></description>
+        </action>
+      </actions>
+      <alarm_pulsing>false</alarm_pulsing>
+      <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+      <background_color>
+        <color red="240" green="240" blue="240" />
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255" />
+      </border_color>
+      <border_style>0</border_style>
+      <border_width>1</border_width>
+      <enabled>true</enabled>
+      <font>
+        <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+      </font>
+      <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+      <foreground_color>
+        <color red="0" green="0" blue="0" />
+      </foreground_color>
+      <height>26</height>
+      <image></image>
+      <name>AppControl_2</name>
+      <push_action_index>0</push_action_index>
+      <pv_name></pv_name>
+      <pv_value />
+      <rules />
+      <scale_options>
+        <width_scalable>true</width_scalable>
+        <height_scalable>true</height_scalable>
+        <keep_wh_ratio>false</keep_wh_ratio>
+      </scale_options>
+      <scripts />
+      <style>0</style>
+      <text>Add</text>
+      <toggle_button>false</toggle_button>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <visible>true</visible>
+      <widget_type>Action Button</widget_type>
+      <width>62</width>
+      <wuid>6cbc123a:179195c8c60:-4f0b</wuid>
+      <x>29</x>
+      <y>18</y>
+    </widget>
+    <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+      <actions hook="false" hook_all="false">
+        <action type="EXECUTE_JAVASCRIPT">
+          <path></path>
+          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("RemoveMessageFlow_TEMPLATE"));
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
+          <embedded>true</embedded>
+          <description></description>
+        </action>
+      </actions>
+      <alarm_pulsing>false</alarm_pulsing>
+      <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+      <background_color>
+        <color red="240" green="240" blue="240" />
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255" />
+      </border_color>
+      <border_style>0</border_style>
+      <border_width>1</border_width>
+      <enabled>true</enabled>
+      <font>
+        <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+      </font>
+      <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+      <foreground_color>
+        <color red="0" green="0" blue="0" />
+      </foreground_color>
+      <height>26</height>
+      <image></image>
+      <name>AppControl_4</name>
+      <push_action_index>0</push_action_index>
+      <pv_name></pv_name>
+      <pv_value />
+      <rules />
+      <scale_options>
+        <width_scalable>true</width_scalable>
+        <height_scalable>true</height_scalable>
+        <keep_wh_ratio>false</keep_wh_ratio>
+      </scale_options>
+      <scripts />
+      <style>0</style>
+      <text>Remove</text>
+      <toggle_button>false</toggle_button>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <visible>true</visible>
+      <widget_type>Action Button</widget_type>
+      <width>62</width>
+      <wuid>6cbc123a:179195c8c60:-4f0a</wuid>
+      <x>29</x>
+      <y>42</y>
+    </widget>
+    <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
+      <actions hook="false" hook_all="false" />
+      <auto_size>false</auto_size>
+      <background_color>
+        <color red="255" green="255" blue="255" />
+      </background_color>
+      <border_color>
+        <color red="0" green="128" blue="255" />
+      </border_color>
+      <border_style>0</border_style>
+      <border_width>1</border_width>
+      <enabled>true</enabled>
+      <font>
+        <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
+      </font>
+      <foreground_color>
+        <color red="0" green="0" blue="0" />
+      </foreground_color>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <name>Label_46</name>
+      <rules />
+      <scale_options>
+        <width_scalable>true</width_scalable>
+        <height_scalable>true</height_scalable>
+        <keep_wh_ratio>false</keep_wh_ratio>
+      </scale_options>
+      <scripts />
+      <text>TM Management</text>
+      <tooltip></tooltip>
+      <transparent>true</transparent>
+      <vertical_alignment>1</vertical_alignment>
+      <visible>true</visible>
+      <widget_type>Label</widget_type>
+      <width>130</width>
+      <wrap_words>false</wrap_words>
+      <wuid>6cbc123a:179195c8c60:-4f09</wuid>
+      <x>0</x>
+      <y>0</y>
+    </widget>
+    <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+      <actions hook="false" hook_all="false">
+        <action type="EXECUTE_JAVASCRIPT">
+          <path></path>
+          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("QueryMessageFlow_TEMPLATE"));
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
+          <embedded>true</embedded>
+          <description></description>
+        </action>
+      </actions>
+      <alarm_pulsing>false</alarm_pulsing>
+      <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+      <background_color>
+        <color red="240" green="240" blue="240" />
+      </background_color>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <border_color>
+        <color red="0" green="128" blue="255" />
+      </border_color>
+      <border_style>0</border_style>
+      <border_width>1</border_width>
+      <enabled>true</enabled>
+      <font>
+        <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+      </font>
+      <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+      <foreground_color>
+        <color red="0" green="0" blue="0" />
+      </foreground_color>
+      <height>26</height>
+      <image></image>
+      <name>AppControl_4</name>
+      <push_action_index>0</push_action_index>
+      <pv_name></pv_name>
+      <pv_value />
+      <rules />
+      <scale_options>
+        <width_scalable>true</width_scalable>
+        <height_scalable>true</height_scalable>
+        <keep_wh_ratio>false</keep_wh_ratio>
+      </scale_options>
+      <scripts />
+      <style>0</style>
+      <text>Query</text>
+      <toggle_button>false</toggle_button>
+      <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+      <visible>true</visible>
+      <widget_type>Action Button</widget_type>
+      <width>62</width>
+      <wuid>6cbc123a:179195c8c60:-4f08</wuid>
+      <x>29</x>
+      <y>66</y>
+    </widget>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
+    <actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("Sch_Table_TEMPLATE"));
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+    </actions>
+    <alarm_pulsing>false</alarm_pulsing>
+    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
+    <foreground_color>
+      <color red="0" green="0" blue="0" />
+    </foreground_color>
+    <height>26</height>
+    <image></image>
+    <name>AppControl_2</name>
+    <push_action_index>0</push_action_index>
+    <pv_name></pv_name>
+    <pv_value />
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts />
+    <style>0</style>
+    <text>Sch Table</text>
+    <toggle_button>false</toggle_button>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+    <visible>true</visible>
+    <widget_type>Action Button</widget_type>
+    <width>109</width>
+    <wuid>-4f5b0176:1798b9f7a0f:-7884</wuid>
+    <x>18</x>
+    <y>204</y>
   </widget>
 </display>

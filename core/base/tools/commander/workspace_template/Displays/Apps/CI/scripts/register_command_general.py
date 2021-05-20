@@ -33,7 +33,7 @@ if not (msgInputWidget.getPropertyValue('pv_value') is None) and \
         step = 'STEP_2'
     if LogInputWidget.getPropertyValue('pv_value').getValue() == "LOG":
         log = 'LOG'
-    elif LogInputWidget.getPropertyValue('pv_value').getValue() == "EXCLUDE_LOG":
+    elif LogInputWidget.getPropertyValue('pv_value').getValue() == "EXCLUDE":
         log = 'EXCLUDE_LOG'
 
     Yamcs.issueCommand('/cfs/' + display.getMacroValue('CPUID') + '/ci/RegisterCmd',

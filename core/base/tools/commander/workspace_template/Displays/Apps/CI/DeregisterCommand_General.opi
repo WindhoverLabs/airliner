@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>300</width>
+  <width>325</width>
   <wuid>4d40612f:17772f0c845:-7d45</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -65,7 +65,7 @@
     <name>msgIdInput</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://DeRegisterCommandMsgID&lt;VString&gt;</pv_name>
+    <pv_name>loc://DeRegisterCommandMsgID_General&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -123,7 +123,7 @@ $(pv_value)</tooltip>
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>267</width>
+    <width>310</width>
     <wrap_words>false</wrap_words>
     <wuid>4d40612f:17772f0c845:-7d16</wuid>
     <x>16</x>
@@ -202,7 +202,7 @@ $(pv_value)</tooltip>
     <name>cmdCodeInput</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://DeregisterCommandCommandCode&lt;VString&gt;</pv_name>
+    <pv_name>loc://DeregisterCommandCommandCode_General&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -348,7 +348,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Step</name>
-    <pv_name>loc://DeregisterCommandStep&lt;VString&gt;</pv_name>
+    <pv_name>loc://DeregisterCommandStep_General&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -474,7 +474,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Log</name>
-    <pv_name>loc://DeregisterCommandLog&lt;VString&gt;</pv_name>
+    <pv_name>loc://DeregisterCommandLog_General&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>

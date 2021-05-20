@@ -10,12 +10,12 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103012118</boy_version>
+  <boy_version>1.6.5.202104291617</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>120</height>
+  <height>950</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>400</width>
+  <width>800</width>
   <wuid>-10b748b0:17773fb054b:-7a2f</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -126,7 +126,75 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>103</width>
     <wuid>-10b748b0:17773fb054b:-79c7</wuid>
-    <x>114</x>
-    <y>84</y>
+    <x>108</x>
+    <y>48</y>
+  </widget>
+  <widget typeId="org.csstudio.opibuilder.widgets.table" version="1.0.0">
+    <actions hook="false" hook_all="false" />
+    <background_color>
+      <color red="240" green="240" blue="240" />
+    </background_color>
+    <border_color>
+      <color red="0" green="128" blue="255" />
+    </border_color>
+    <border_style>0</border_style>
+    <border_width>1</border_width>
+    <column_header_visible>true</column_header_visible>
+    <column_headers>
+      <row>
+        <col>Minor</col>
+        <col></col>
+        <col>Yes</col>
+        <col>TEXT</col>
+      </row>
+      <row>
+        <col>Activity</col>
+        <col></col>
+        <col>Yes</col>
+        <col>TEXT</col>
+      </row>
+      <row>
+        <col>MsgId</col>
+        <col></col>
+        <col>Yes</col>
+        <col>TEXT</col>
+      </row>
+      <row>
+        <col>State</col>
+        <col></col>
+        <col>Yes</col>
+        <col>TEXT</col>
+      </row>
+    </column_headers>
+    <columns_count>4</columns_count>
+    <default_content />
+    <editable>false</editable>
+    <enabled>true</enabled>
+    <font>
+      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
+    </font>
+    <foreground_color>
+      <color red="192" green="192" blue="192" />
+    </foreground_color>
+    <height>600</height>
+    <name>SCH_Diag_Table</name>
+    <rules />
+    <scale_options>
+      <width_scalable>true</width_scalable>
+      <height_scalable>true</height_scalable>
+      <keep_wh_ratio>false</keep_wh_ratio>
+    </scale_options>
+    <scripts>
+      <path pathString="/Displays/Apps/SCH/Scripts/query_diag_init.py" checkConnect="true" seoe="false">
+        <pv trig="true">=1</pv>
+      </path>
+    </scripts>
+    <tooltip></tooltip>
+    <visible>true</visible>
+    <widget_type>Table</widget_type>
+    <width>697</width>
+    <wuid>30e0ee73:1791f823d57:-776f</wuid>
+    <x>6</x>
+    <y>78</y>
   </widget>
 </display>
