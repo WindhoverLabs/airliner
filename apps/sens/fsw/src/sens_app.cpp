@@ -856,7 +856,7 @@ void SENS::ProcessRCInput(void)
 				RcChannelsMsg.ChannelCount = CVT.InputRcMsg.ChannelCount;
 				RcChannelsMsg.RSSI = CVT.InputRcMsg.RSSI;
 				RcChannelsMsg.SignalLost = signal_lost;
-				RcChannelsMsg.TimestampLastValid = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.InputRcMsg.LastSignal);
+				RcChannelsMsg.TimestampLastValid = CVT.InputRcMsg.LastSignal;
 				RcChannelsMsg.FrameDropCount = CVT.InputRcMsg.RcLostFrameCount;
 			}
 			else if (CVT.InputRcMsg.Values[i] < (ConfigTblPtr->Trim[i] - ConfigTblPtr->DZ[i]))
@@ -889,7 +889,7 @@ void SENS::ProcessRCInput(void)
 		SendRcChannelsMsg();
 
 		/* Only publish manual control if the signal is still present and was present once */
-		if (!signal_lost && !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t&)CVT.InputRcMsg.LastSignal))
+		if (!signal_lost && !CFE_TIME_IsTimeZero(CVT.InputRcMsg.LastSignal))
 		{
 			/* Set mode slot to unassigned */
 			ManualControlSetpointMsg.ModeSlot = PX4_MODE_SLOT_NONE;
