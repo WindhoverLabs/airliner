@@ -25,11 +25,7 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/cdr_workspace_overlay
 )
 
-add_subdirectory(allstop allstop)
-set_target_properties(allstop
-  PROPERTIES
-  RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/exe
-)
+add_subdirectory(${PROJECT_SOURCE_DIR}/tools/hitl_bridge hitl_bridge)
 
 buildliner_add_app(
     cfs_lib
