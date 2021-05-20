@@ -171,3 +171,24 @@ buildliner_add_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib/tables/pq_backup_cfg.c
 )
 
+buildliner_add_app(
+    gps
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/gps/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_interface_uart/gps_serial.c
+        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_common.c
+        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_nav.c
+        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_cfg.c
+        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_ack.c
+        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_mon.c
+        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_custom.c
+)
+
+buildliner_add_app(
+    hmc5883
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hmc5883/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hmc5883
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/config/shared/apps/hmc5883/src/hmc5883_custom.c
+)
