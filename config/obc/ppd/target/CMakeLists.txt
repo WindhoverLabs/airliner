@@ -25,7 +25,7 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/cdr_workspace_overlay
 )
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/tools/hitl_bridge hitl_bridge)
+add_subdirectory(${PROJECT_SOURCE_DIR}/../private/tools/hitl_bridge hitl_bridge)
 
 buildliner_add_app(
     cfs_lib
