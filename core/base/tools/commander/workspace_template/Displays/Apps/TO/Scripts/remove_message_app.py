@@ -13,11 +13,11 @@ registry = YAMLRegistry()
 all_messages = registry.getAllTelemetry()
 
 msgID = None
-msg_limit = None
+channel_index = None
 if not (display.getWidget('msgIdInput').getPropertyValue('pv_value') is None) and \
-        not (display.getWidget('MsgLimit').getPropertyValue('pv_value') is None):
+        not (display.getWidget('ChannelIndex').getPropertyValue('pv_value') is None):
 	msg_key = display.getWidget('msgIdInput').getPropertyValue('pv_value').getValue()
-	msg_limit = display.getWidget('MsgLimit').getPropertyValue('pv_value').getValue()
+	channel_index = int(display.getWidget('ChannelIndex').getPropertyValue('pv_value').getValue())
 
 	# NOTE: These might be redundant...
 	if msg_key in all_messages:

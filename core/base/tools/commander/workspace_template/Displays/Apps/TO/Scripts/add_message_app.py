@@ -10,7 +10,7 @@ from org.yamcs.studio.script import Yamcs
 from com.windhoverlabs.studio.registry import YAMLRegistry, ConfigRegistry
 
 registry = YAMLRegistry()
-all_commands = registry.getAllTelemetry()
+all_tlm = registry.getAllTelemetry()
 
 msgID = None
 msg_limit = None
@@ -21,11 +21,11 @@ if not (display.getWidget('msgIdInput').getPropertyValue('pv_value') is None) an
 	msg_key = display.getWidget('msgIdInput').getPropertyValue('pv_value').getValue()
 	msg_limit = display.getWidget('MsgLimit').getPropertyValue('pv_value').getValue()
 	pq_index = display.getWidget('PQueueIdx').getPropertyValue('pv_value').getValue()
-	channel_index = display.getWidget('PQueueIdx').getPropertyValue('pv_value').getValue()
+	channel_index = int(display.getWidget('ChannelIndex').getPropertyValue('pv_value').getValue())
 
 	# NOTE: These might be redundant...
-	if msg_key in all_commands:
-		msgID = all_commands[msg_key]["msgID"]
+	if msg_key in all_tlm:
+		msgID = all_tlm[msg_key]["msgID"]
 
 		Yamcs.issueCommand('/cfs/' + display.getMacroValue('CPUID') + '/to/AddMessageFlow',
                            {	'ChannelIdx': channel_index,

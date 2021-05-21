@@ -1,6 +1,6 @@
 """
-General script that is used by all commands that require msg Ids/command codes such as AuthorizeCmd, DeauthorizeCmd, etc.
-This generates a dropdown widgets that maps message ids to command codes.
+General script that is used by all commands that require msg Ids such as as AddMessageFlow, QueryMessageFlow, etc.
+This generates dropdown widgets that maps message ids to the dropdown widgets.
 """
 
 #import java packages
@@ -15,13 +15,19 @@ msg_id_drop_down = display.getWidget('msgIdInput')
 app_name = display.getMacroValue('APP')
 
 registry = YAMLRegistry()
-all_commands = registry.getAllTelemetry()
+all_messages = registry.getAllTelemetry()
 
-app_commands = []
+app_messages = []
 
-for msg in all_commands:
-    if all_commands[msg]['app'] == app_name:
-        app_commands.append(msg)
+for msg in all_messages:
+    if all_messages[msg]['app'] == app_name:
+        app_messages.append(msg)
+
+try:
+    max_channels = registry.getAllConfig()['to']['TO_MAX_CHANNELS']['value']
+    display.getWidget('ChannelIndex').setPropertyValue('maximum', max_channels-1)
+except:
+    print('No ChannelIndex on Display')
 
 
-msg_id_drop_down.setPropertyValue('items', app_commands)
+msg_id_drop_down.setPropertyValue('items', app_messages)
