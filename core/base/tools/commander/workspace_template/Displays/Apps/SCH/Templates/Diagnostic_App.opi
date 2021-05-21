@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display typeId="org.csstudio.opibuilder.Display" version="1.0.0">
-  <actions hook="false" hook_all="false" />
+  <actions hook="false" hook_all="false">
+    <action type="EXECUTE_PYTHONSCRIPT">
+      <path>../Scripts/send_sch_diag.py</path>
+      <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
+]]></scriptText>
+      <embedded>false</embedded>
+      <description></description>
+    </action>
+  </actions>
   <auto_scale_widgets>
     <auto_scale_widgets>false</auto_scale_widgets>
     <min_width>-1</min_width>
@@ -10,15 +18,16 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.7.202105202042</boy_version>
+  <boy_version>1.6.7.202105211550</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
   <grid_space>6</grid_space>
-  <height>950</height>
+  <height>400</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
-    <CPUID></CPUID>
+    <Record_Template>/Displays/Apps/SCH/Templates/SCH_Table_Record_App.opi</Record_Template>
+    <Header_Template>/Displays/Apps/SCH/Templates/SCH_Table_Header_App.opi</Header_Template>
   </macros>
   <name>($(CPUID)) SCH - Diagnostic</name>
   <rules />
@@ -75,14 +84,11 @@
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-
-Yamcs.issueCommand('/cfs/$(CPUID)/sch/SendDiag', {});]]></scriptText>
-        <embedded>true</embedded>
+      <action type="EXECUTE_PYTHONSCRIPT">
+        <path>../Scripts/send_sch_diag.py</path>
+        <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
+]]></scriptText>
+        <embedded>false</embedded>
         <description></description>
       </action>
     </actions>
@@ -130,55 +136,30 @@ $(pv_value)</tooltip>
     <x>108</x>
     <y>48</y>
   </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.table" version="1.0.0">
+  <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0.0">
     <actions hook="false" hook_all="false" />
     <background_color>
-      <color red="240" green="240" blue="240" />
+      <color name="Display Background" red="255" green="255" blue="255" />
     </background_color>
     <border_color>
       <color red="0" green="128" blue="255" />
     </border_color>
     <border_style>0</border_style>
     <border_width>1</border_width>
-    <column_header_visible>true</column_header_visible>
-    <column_headers>
-      <row>
-        <col>Minor</col>
-        <col></col>
-        <col>Yes</col>
-        <col>TEXT</col>
-      </row>
-      <row>
-        <col>Activity</col>
-        <col></col>
-        <col>Yes</col>
-        <col>TEXT</col>
-      </row>
-      <row>
-        <col>MsgId</col>
-        <col></col>
-        <col>Yes</col>
-        <col>TEXT</col>
-      </row>
-      <row>
-        <col>State</col>
-        <col></col>
-        <col>Yes</col>
-        <col>TEXT</col>
-      </row>
-    </column_headers>
-    <columns_count>4</columns_count>
-    <default_content />
-    <editable>false</editable>
     <enabled>true</enabled>
+    <fc>false</fc>
     <font>
       <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
     </font>
     <foreground_color>
       <color red="192" green="192" blue="192" />
     </foreground_color>
-    <height>600</height>
-    <name>SCH_Diag_Table</name>
+    <height>282</height>
+    <lock_children>false</lock_children>
+    <macros>
+      <include_parent_macros>true</include_parent_macros>
+    </macros>
+    <name>SchTableContainer</name>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -190,52 +171,22 @@ $(pv_value)</tooltip>
         <pv trig="true">=1</pv>
       </path>
     </scripts>
+    <show_scrollbar>true</show_scrollbar>
     <tooltip></tooltip>
-    <visible>false</visible>
-    <widget_type>Table</widget_type>
-    <width>697</width>
-    <wuid>30e0ee73:1791f823d57:-776f</wuid>
-    <x>6</x>
-    <y>78</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>1</horizontal_alignment>
-    <name>LoadLabel</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>Loading SCH Table...</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
+    <transparent>false</transparent>
     <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>145</width>
-    <wrap_words>false</wrap_words>
-    <wuid>52dd91a1:17932be4366:-7c9c</wuid>
-    <x>258</x>
-    <y>264</y>
+    <widget_type>Grouping Container</widget_type>
+    <width>800</width>
+    <wuid>-6648143e:1798f72727e:-7efb</wuid>
+    <x>0</x>
+    <y>102</y>
+    <widget typeId="org.csstudio.opibuilder.widgets.gridLayout" version="1.0.0">
+      <fill_grids>false</fill_grids>
+      <grid_gap>0</grid_gap>
+      <name>Grid Layout</name>
+      <number_of_columns>1</number_of_columns>
+      <widget_type>Grid Layout</widget_type>
+      <wuid>-6648143e:1798f72727e:-7eeb</wuid>
+    </widget>
   </widget>
 </display>
