@@ -23,24 +23,24 @@
 #include "common_types.h"
 //#include "network_includes.h"
 
-#ifdef _VXWORKS_OS_
-/* For vxworks, include ioLib for ioctl suport */
-#include <ioLib.h>
-
-/* In VxWorks inet_aton() returns OK and ERORR
- * in VxWorks ERROR = -1, OK = 0 
- * */
-#define INET_ATON_ERROR ERROR
-
-#else
-/* If not vxworks, include termios and select.h */
-#include <termios.h>
-#include <sys/select.h>
-
-/* In Linux inet_aton() returns 0 for error and non-zero for ok */
-#define INET_ATON_ERROR 0
-
-#endif
+//#ifdef _VXWORKS_OS_
+///* For vxworks, include ioLib for ioctl suport */
+//#include <ioLib.h>
+//
+///* In VxWorks inet_aton() returns OK and ERORR
+// * in VxWorks ERROR = -1, OK = 0
+// * */
+//#define INET_ATON_ERROR ERROR
+//
+//#else
+///* If not vxworks, include termios and select.h */
+//#include <termios.h>
+//#include <sys/select.h>
+//
+///* In Linux inet_aton() returns 0 for error and non-zero for ok */
+//#define INET_ATON_ERROR 0
+//
+//#endif
 
 #include "io_lib_events.h"
 
