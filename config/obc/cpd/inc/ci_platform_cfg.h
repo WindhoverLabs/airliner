@@ -6,6 +6,12 @@ extern "C" {
 #endif
 
 
+
+#define CI_CUSTOM_CLTU_BUFF_SIZE       (1000)
+#define CI_CUSTOM_TF_BUFF_SIZE         (1000)
+#define CI_CUSTOM_BUFFER_SIZE          (1000)
+#define CI_CUSTOM_CLTU_RANDOMIZED      (TRUE)
+
 /*
 ** ci Platform Configuration Parameter Definitions
 */

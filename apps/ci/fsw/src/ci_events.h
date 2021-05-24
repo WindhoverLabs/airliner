@@ -479,8 +479,10 @@ typedef enum {
 
 	CI_CMD_VALIDATION_FAIL_EID = 34,
 
+	CI_CUSTOM_ERR_EID = 35,
+
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
-    CI_EVT_CNT = 35
+    CI_EVT_CNT = 37
 } CI_EventIds_t;
 
 
