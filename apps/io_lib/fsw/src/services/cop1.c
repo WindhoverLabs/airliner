@@ -616,24 +616,29 @@ int32 COP1_ProcessFrame(uint8* toBuffer, COP1_Clcw_t *clcwPtr, TCTF_Hdr_t *tfPtr
     /* Process frame if this is the correct destination service */
     if (TRUE == TCTF_IsValidTf(tfPtr, channelService))
     {
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
         if (TCTF_GetBypassFlag(tfPtr))
         {
+        	printf("%s %u\n", __FUNCTION__, __LINE__);
             /* Process the bypass command */
             retVal = COP1_BypassTf(tfPtr, clcwPtr, toBuffer, channelService);
         }
         else
         {
+        	printf("%s %u\n", __FUNCTION__, __LINE__);
             /* Process the Accept TF. */
             retVal = COP1_AcceptTf(tfPtr, clcwPtr, toBuffer, channelService);
         }
     }
     else
     {
+    	printf("%s %u\n", __FUNCTION__, __LINE__);
         CFE_EVS_SendEvent(IO_LIB_COP1_EID, CFE_EVS_INFORMATION,
                           "COP1 Info: Received invalid transfer frame.");
         retVal = COP1_INVALID_TF_ERR;
     }
 
+	printf("%s %u\n", __FUNCTION__, __LINE__);
     return retVal;
 }
 

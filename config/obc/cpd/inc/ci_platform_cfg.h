@@ -7,9 +7,9 @@ extern "C" {
 
 
 
-#define CI_CUSTOM_CLTU_BUFF_SIZE       (1000)
-#define CI_CUSTOM_TF_BUFF_SIZE         (1000)
-#define CI_CUSTOM_BUFFER_SIZE          (1000)
+#define CI_CUSTOM_CLTU_BUFF_SIZE       (1024)
+#define CI_CUSTOM_TF_BUFF_SIZE         (1024)
+#define CI_CUSTOM_BUFFER_SIZE          (1024)
 #define CI_CUSTOM_CLTU_RANDOMIZED      (TRUE)
 
 /*
@@ -125,16 +125,16 @@ extern "C" {
 **  \note The main ingest loop is a while loop and sleeps for this many  
 **        milliseconds each iteration.
  */
-#define CI_LISTENER_TASK_DELAY         (100)
+#define CI_LISTENER_TASK_DELAY         (10)
 
 /** \brief CI Lister Task Stack Size */
-#define CI_LISTENER_TASK_STACK_SIZE         (160000)
+#define CI_LISTENER_TASK_STACK_SIZE         (CFE_ES_DEFAULT_STACK_SIZE)
 
 /** \brief CI Lister Task Flags for CFE_ES_CreateChildTask() */
-#define CI_LISTENER_TASK_FLAGS              (OS_ENABLE_CORE_0)
+#define CI_LISTENER_TASK_FLAGS              (0)
 
 /** \brief CI Lister Task Priority */
-#define CI_LISTENER_TASK_PRIORITY           (109)
+#define CI_LISTENER_TASK_PRIORITY           (240)
 
 /** \brief The largest size message CI can ingest */
 #define CI_MAX_CMD_INGEST                   (CFE_SB_MAX_SB_MSG_SIZE)
@@ -147,6 +147,14 @@ extern "C" {
 
 /** \brief CI timeout table mutex name */
 #define CI_TIME_TBL_MUTEX_NAME              ("CI_TIME_TBL_MUTEX")
+
+/** \brief CI packet buffer A mutex name */
+#define CI_PACKET_BUFFER_A_MUTEX            ("CI_PKTBUF_A_MUTEX")
+
+/** \brief CI packet buffer B mutex name */
+#define CI_PACKET_BUFFER_B_MUTEX            ("CI_PKTBUF_B_MUTEX")
+
+
 
 #ifdef __cplusplus
 }

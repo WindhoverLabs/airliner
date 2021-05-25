@@ -197,19 +197,6 @@ typedef enum {
 */
     CI_MSGLEN_ERR_EID = 11,
 
-/** \brief <tt> 'CI - Listener child task failed.  CFE_ES_CreateChildTask returned: 0x%08X' </tt>
-**  \event <tt> 'CI - Listener child task failed.  CFE_ES_CreateChildTask returned: 0x%08X' </tt>
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when CI has failed to
-**  create its child listener task.
-**
-*/
-    CI_LISTENER_CREATE_CHDTASK_ERR_EID = 12,
-
 /** \brief <tt> 'CI - L%d, cmd %0x %0x dropped, too long' </tt>
 **  \event <tt> 'CI - L%d, cmd %0x %0x dropped, too long' </tt>
 **
@@ -217,24 +204,11 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message is issued when CI's listener thread
+**  This event message is issued when CI
 **  received a msg greater than the max allowed size.
 **
 */
     CI_CMD_INGEST_ERR_EID = 13,
-
-/** \brief <tt> 'CI - Bind socket failed = %d' </tt>
-**  \event <tt> 'CI - Bind socket failed = %d' </tt>
-**
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when the CI listener
-**  encounters an error connecting to a socket.
-**
-*/
-	CI_SOCKET_ERR_EID = 14,
 
 /** \brief <tt> 'CI - UDP command input enabled on port %u.' </tt>
 **  \event <tt> 'CI - UDP command input enabled on port %u.' </tt>

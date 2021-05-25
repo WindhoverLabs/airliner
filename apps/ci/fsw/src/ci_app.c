@@ -121,13 +121,7 @@ int32 CI_InitEvent()
     CI_AppData.EventTbl[  ind].EventID = CI_CMD_ERR_EID;
     CI_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
 
-    CI_AppData.EventTbl[  ind].EventID = CI_LISTENER_CREATE_CHDTASK_ERR_EID;
-    CI_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
-
     CI_AppData.EventTbl[  ind].EventID = CI_CMD_INGEST_ERR_EID;
-    CI_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
-
-    CI_AppData.EventTbl[  ind].EventID = CI_SOCKET_ERR_EID;
     CI_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
 
     CI_AppData.EventTbl[  ind].EventID = CI_ENA_INF_EID;
@@ -244,6 +238,16 @@ int32 CI_InitPipe(void)
             goto CI_InitPipe_Exit_Tag;
         }
 
+        iStatus = CFE_SB_SubscribeEx(CI_INGEST_COMMANDS_MID, CI_AppData.SchPipeId, CFE_SB_Default_Qos, CI_SCH_PIPE_PROC_TIMEOUT_RESERVED);
+
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,
+                                     "CMD Pipe failed to subscribe to CI_INGEST_COMMANDS_MID. (0x%08X)",
+                                     (unsigned int)iStatus);
+            goto CI_InitPipe_Exit_Tag;
+        }
+
     }
     else
     {
@@ -296,6 +300,33 @@ int32 CI_InitData(void)
     CFE_PSP_MemSet(&CI_AppData.HkTlm, 0x00, sizeof(CI_AppData.HkTlm));
     CFE_SB_InitMsg(&CI_AppData.HkTlm,
                    CI_HK_TLM_MID, sizeof(CI_AppData.HkTlm), TRUE);
+
+
+    /* Create mutex for config table */
+    iStatus = OS_MutSemCreate(&CI_AppData.ConfigTblMutex, CI_CFG_TBL_MUTEX_NAME, 0);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(CI_INIT_ERR_EID,
+                                 CFE_EVS_ERROR,
+                                 "Failed to create config table mutex. OS_MutSemCreate returned: 0x%08lX",
+                                 (long unsigned int)iStatus);
+
+        goto end_of_function;
+    }
+
+    /* Create mutex for timeout dump table */
+    iStatus = OS_MutSemCreate(&CI_AppData.TimeoutTblMutex, CI_TIME_TBL_MUTEX_NAME, 0);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(CI_INIT_ERR_EID,
+                                 CFE_EVS_ERROR,
+                                 "Failed to create timeout table mutex. OS_MutSemCreate returned: 0x%08lX",
+                                 (long unsigned int)iStatus);
+
+        goto end_of_function;
+    }
+
+end_of_function:
 
     return (iStatus);
 }
@@ -367,16 +398,6 @@ int32 CI_InitApp(void)
     {
         (void) CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to init register cleanup callback (0x%08X)",
-                                 (unsigned int)iStatus);
-        goto CI_InitApp_Exit_Tag;
-    }
-
-    /* Initialize listener child task. */
-    iStatus = CI_InitListenerTask();
-    if(iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,
-                                 "CI - Failed to initialize listener child task (0x%08X)",
                                  (unsigned int)iStatus);
         goto CI_InitApp_Exit_Tag;
     }
@@ -910,7 +931,7 @@ boolean CI_ValidateCmd(const CFE_SB_Msg_t* MsgPtr, uint32 MsgSize)
     {
         CFE_EVS_SendEvent(CI_CMD_VALIDATION_FAIL_EID,
                            CFE_EVS_ERROR,
-                           "Command failed validation. Invalid length. Expected %u. Actual %u.", usMsgLen, MsgSize);
+                           "Command failed validation. Invalid length. Expected %lu. Actual %lu.", usMsgLen, MsgSize);
         goto CI_ValidateCmd_Exit_Tag;
     }
 
@@ -1011,54 +1032,6 @@ CI_GetCmdAuthorized_Exit_tag:
     return bResult;
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Spawn Child Task                                                */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 CI_InitListenerTask(void)
-{
-    int32 Status = CFE_SUCCESS;
-
-    /* Create mutex for config table */
-    Status = OS_MutSemCreate(&CI_AppData.ConfigTblMutex, CI_CFG_TBL_MUTEX_NAME, 0);
-    if (Status != CFE_SUCCESS)
-    {
-        goto CI_InitListenerTask_Exit_Tag;
-    }
-
-    /* Create mutex for timeout dump table */
-    Status = OS_MutSemCreate(&CI_AppData.TimeoutTblMutex, CI_TIME_TBL_MUTEX_NAME, 0);
-    if (Status != CFE_SUCCESS)
-    {
-        goto CI_InitListenerTask_Exit_Tag;
-    }
-
-    Status= CFE_ES_CreateChildTask(&CI_AppData.ListenerTaskID,
-                                   CI_LISTENER_TASK_NAME,
-                                   CI_ListenerTaskMain,
-                                   NULL,
-                                   CI_LISTENER_TASK_STACK_SIZE,
-                                   CI_LISTENER_TASK_PRIORITY,
-                                   CI_LISTENER_TASK_FLAGS);
-
-    if (Status != CFE_SUCCESS)
-    {
-        goto CI_InitListenerTask_Exit_Tag;
-    }
-
-CI_InitListenerTask_Exit_Tag:
-    if (Status != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(CI_LISTENER_CREATE_CHDTASK_ERR_EID,
-                                 CFE_EVS_ERROR,
-                                 "Listener child task failed.  CFE_ES_CreateChildTask returned: 0x%08lX",
-                                 (long unsigned int)Status);
-    }
-
-    return Status;
-}
-
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1114,40 +1087,26 @@ void CI_ProcessIngestCmd(CFE_SB_MsgPtr_t CmdMsgPtr, uint32 MsgSize)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* Child Task Listener Main                                           */
+/* Ingest Commands                                                 */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CI_ListenerTaskMain(void)
+void CI_IngestCommands(void)
 {
-    int32           Status = -1;
     uint32          MsgSize = 0;
     CFE_SB_MsgPtr_t CmdMsgPtr = NULL;
 
-    Status = CFE_ES_RegisterChildTask();
-    if (Status == CFE_SUCCESS)
-    {
-        /* Ingest Loop */
-        do{
-            /* Receive cmd and gather data on it */
-            MsgSize = CI_MAX_CMD_INGEST;
-            CI_ReadMessage(CI_AppData.IngestBuffer, &MsgSize);
-            if(MsgSize > 0)
-            {
-                CmdMsgPtr = (CFE_SB_MsgPtr_t)CI_AppData.IngestBuffer;
+    do{
+        /* Receive cmd and gather data on it */
+        MsgSize = CI_MAX_CMD_INGEST;
+        CI_ReadMessage(CI_AppData.IngestBuffer, &MsgSize);
+        if(MsgSize > 0)
+        {
+            CmdMsgPtr = (CFE_SB_MsgPtr_t)CI_AppData.IngestBuffer;
 
-                /* Process the cmd */
-                CI_ProcessIngestCmd(CmdMsgPtr, MsgSize);
-            }
-            /* Wait before next iteration */
-            OS_TaskDelay(CI_LISTENER_TASK_DELAY);
-        }while(CI_AppData.IngestActive == TRUE);
-
-        CFE_ES_ExitChildTask();
-    }
-    else
-    {
-        (void) CFE_ES_WriteToSysLog("CI Listener Child Task Registration failed!\n");
-    }
+            /* Process the cmd */
+            CI_ProcessIngestCmd(CmdMsgPtr, MsgSize);
+        }
+    }while(MsgSize > 0);
 }
     
 
@@ -1186,6 +1145,13 @@ int32 CI_RcvMsg(int32 iBlocking)
 
             case CI_PROCESS_TIMEOUTS_MID:
                 CI_ProcessTimeouts();
+                break;
+
+            case CI_INGEST_COMMANDS_MID:
+            	if(TRUE == CI_AppData.IngestActive)
+            	{
+                    CI_IngestCommands();
+            	}
                 break;
 
             default:
@@ -1423,10 +1389,6 @@ void CI_AppMain(void)
                                      (unsigned int)status);
         }
     }
-    
-    /* Bring down the listener task */
-    CI_AppData.IngestActive = FALSE;
-    OS_TaskDelay(CI_LISTENER_TASK_DELAY * 3);
 
     /* Stop Performance Log entry */
     CFE_ES_PerfLogExit(CI_MAIN_TASK_PERF_ID);

@@ -146,7 +146,7 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #52 */
    { { SCH_FIX_HEADER(CI_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #53 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(CI_INGEST_COMMANDS_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #54 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #55 */

@@ -23,12 +23,8 @@
       id: 10
     CI_MSGLEN_ERR_EID: 
       id: 11
-    CI_LISTENER_CREATE_CHDTASK_ERR_EID: 
-      id: 12
     CI_CMD_INGEST_ERR_EID: 
       id: 13
-    CI_SOCKET_ERR_EID: 
-      id: 14
     CI_ENA_INF_EID: 
       id: 15
     CI_CMD_INVALID_EID: 
@@ -104,6 +100,12 @@
         ProcessTimeouts: 
           cc: 0
           struct: CI_NoArgCmd_t
+    CI_INGEST_COMMANDS_MID: 
+      msgID: 
+      commands: 
+        IngestCommands: 
+          cc: 0
+          struct: CI_NoArgCmd_t
     CI_SEND_HK_MID: 
       msgID: 
       commands: 
@@ -175,21 +177,6 @@
     CI_INGEST_MODE: 
       name: CI_INGEST_MODE
       value: CI_BHV_OPTIMISTIC
-    CI_LISTENER_TASK_DELAY: 
-      name: CI_LISTENER_TASK_DELAY
-      value: 100
-    CI_LISTENER_TASK_STACK_SIZE: 
-      name: CI_LISTENER_TASK_STACK_SIZE
-      value: 160000
-    CI_LISTENER_TASK_PRIORITY: 
-      name: CI_LISTENER_TASK_PRIORITY
-      value: 109
-    CI_SERIAL_LISTENER_TASK_STACK_SIZE: 
-      name: CI_SERIAL_LISTENER_TASK_STACK_SIZE
-      value: 160000
-    CI_SERIAL_LISTENER_TASK_PRIORITY: 
-      name: CI_SERIAL_LISTENER_TASK_PRIORITY
-      value: 112
     CI_MAX_RGST_CMDS: 
       name: CI_MAX_RGST_CMDS
       value: 100

@@ -114,27 +114,8 @@ extern "C" {
 /** \brief CI Ingest Mode */
 #define CI_INGEST_MODE                 (CI_BHV_OPTIMISTIC)
 
-/** \brief CI Listener Task Delay
-**
-**  \note The main ingest loop is a while loop and sleeps for this many  
-**        milliseconds each iteration.
- */
-#define CI_LISTENER_TASK_DELAY         (100)
-
-/** \brief CI Lister Task Stack Size */
-#define CI_LISTENER_TASK_STACK_SIZE         (160000)
-
-/** \brief CI Lister Task Flags for CFE_ES_CreateChildTask() */
-#define CI_LISTENER_TASK_FLAGS              (OS_ENABLE_CORE_0)
-
-/** \brief CI Lister Task Priority */
-#define CI_LISTENER_TASK_PRIORITY           (109)
-
 /** \brief The largest size message CI can ingest */
 #define CI_MAX_CMD_INGEST                   (CFE_SB_MAX_SB_MSG_SIZE)
-
-/** \brief Listener task name */
-#define CI_LISTENER_TASK_NAME               ("CI_LISTENER")
 
 /** \brief CI config table mutex name */
 #define CI_CFG_TBL_MUTEX_NAME               ("CI_CFG_TBL_MUTEX")

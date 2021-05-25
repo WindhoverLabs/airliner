@@ -58,7 +58,7 @@
 #define CI_HK_TLM_MID                             TLM_MSG(   50 )
 #define CI_OUT_DATA_MID                           TLM_MSG(   51 )
 #define CI_CMD_MID                                CMD_MSG(   52 )
-#define CI_PROCESS_TIMEOUTS_MID                   CMD_MSG(   53 )
+#define CI_INGEST_COMMANDS_MID                    CMD_MSG(   53 )
 #define CI_SEND_HK_MID                            CMD_MSG(   54 )
 #define CI_WAKEUP_MID                             CMD_MSG(   55 )
 
@@ -484,5 +484,6 @@
 #define VM_SEND_HK_MID                            CMD_MSG(  483 )
 #define VM_WAKEUP_MID                             CMD_MSG(  484 )
 
+#define CI_PROCESS_TIMEOUTS_MID                   CMD_MSG(  485 )
 
 #endif
