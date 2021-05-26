@@ -7,6 +7,7 @@
 #include "cf_platform_cfg.h"
 #include "cf_msgids.h"
 #include "cf_defs.h"
+#include "to_platform_cfg.h"
 
 static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 {
@@ -60,7 +61,7 @@ cf_config_table_t     CF_ConfigTable =
             100,                            /* Pending Queue Depth */
             100,                            /* History Queue Depth */
             "OutputChan0",                  /* Playback Channel Name   */
-            "",                /* Handshake Semaphore Name   */
+			TO_CF_THROTTLE_SEM_NAME,        /* Handshake Semaphore Name   */
         
             {   /* Polling Directory Array */
                 
