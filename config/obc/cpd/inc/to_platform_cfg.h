@@ -190,7 +190,7 @@ extern "C" {
  * \tocfg Defines the table identification name used for table registration
  *        of the configuration table.
  */
-#define TO_CONFIG_TABLENAME            "CFG"
+#define TO_CONFIG_TABLENAME            "CONFIG"
 
 /**
  * \tocfg Defines the table identification name used for table registration
