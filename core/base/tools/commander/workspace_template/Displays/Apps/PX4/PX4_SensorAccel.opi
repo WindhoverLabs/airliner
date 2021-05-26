@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.2.202104092231</boy_version>
+  <boy_version>1.6.4.202104212257</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -69,8 +69,8 @@
     <width>80</width>
     <wrap_words>false</wrap_words>
     <wuid>38eec03c:177b63c5c3c:-7df0</wuid>
-    <x>378</x>
-    <y>70</y>
+    <x>53</x>
+    <y>48</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -109,8 +109,8 @@
     <width>97</width>
     <wrap_words>false</wrap_words>
     <wuid>38eec03c:177b63c5c3c:-7ddf</wuid>
-    <x>361</x>
-    <y>89</y>
+    <x>36</x>
+    <y>67</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -161,8 +161,8 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>38eec03c:177b63c5c3c:-7dde</wuid>
-    <x>463</x>
-    <y>89</y>
+    <x>138</x>
+    <y>67</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -201,8 +201,8 @@ $(pv_value)</tooltip>
     <width>97</width>
     <wrap_words>false</wrap_words>
     <wuid>38eec03c:177b63c5c3c:-7da1</wuid>
-    <x>361</x>
-    <y>108</y>
+    <x>36</x>
+    <y>86</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -253,8 +253,8 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>38eec03c:177b63c5c3c:-7da0</wuid>
-    <x>463</x>
-    <y>108</y>
+    <x>138</x>
+    <y>86</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -293,8 +293,8 @@ $(pv_value)</tooltip>
     <width>97</width>
     <wrap_words>false</wrap_words>
     <wuid>d1efcc2:1783ce91f6a:-55ca</wuid>
-    <x>361</x>
-    <y>127</y>
+    <x>36</x>
+    <y>105</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -345,8 +345,8 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>d1efcc2:1783ce91f6a:-55c9</wuid>
-    <x>463</x>
-    <y>127</y>
+    <x>138</x>
+    <y>105</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -385,8 +385,8 @@ $(pv_value)</tooltip>
     <width>237</width>
     <wrap_words>false</wrap_words>
     <wuid>d1efcc2:1783ce91f6a:-5599</wuid>
-    <x>360</x>
-    <y>36</y>
+    <x>35</x>
+    <y>14</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.xyGraph" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -514,8 +514,10 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_1_visible>true</trace_1_visible>
     <trace_1_x_axis_index>0</trace_1_x_axis_index>
     <trace_1_x_pv></trace_1_x_pv>
+    <trace_1_x_pv_value />
     <trace_1_y_axis_index>1</trace_1_y_axis_index>
     <trace_1_y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.Y</trace_1_y_pv>
+    <trace_1_y_pv_value />
     <trace_2_anti_alias>true</trace_2_anti_alias>
     <trace_2_buffer_size>100</trace_2_buffer_size>
     <trace_2_concatenate_data>true</trace_2_concatenate_data>
@@ -533,8 +535,10 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_2_visible>true</trace_2_visible>
     <trace_2_x_axis_index>0</trace_2_x_axis_index>
     <trace_2_x_pv></trace_2_x_pv>
+    <trace_2_x_pv_value />
     <trace_2_y_axis_index>1</trace_2_y_axis_index>
     <trace_2_y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.Z</trace_2_y_pv>
+    <trace_2_y_pv_value />
     <trace_count>3</trace_count>
     <transparent>false</transparent>
     <trigger_pv></trigger_pv>
@@ -543,8 +547,8 @@ $(trace_0_y_pv_value)</tooltip>
     <widget_type>XY Graph</widget_type>
     <width>427</width>
     <wuid>64d08e33:178cc09dc9b:-7cc9</wuid>
-    <x>204</x>
-    <y>198</y>
+    <x>18</x>
+    <y>162</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.xyGraph" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -705,8 +709,8 @@ $(trace_0_y_pv_value)</tooltip>
     <widget_type>XY Graph</widget_type>
     <width>427</width>
     <wuid>-5afbbac6:178cce88c37:1aa6</wuid>
-    <x>630</x>
-    <y>198</y>
+    <x>444</x>
+    <y>162</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -757,7 +761,7 @@ $(pv_value)</tooltip>
     <width>100</width>
     <wrap_words>false</wrap_words>
     <wuid>-5afbbac6:178cce88c37:1aba</wuid>
-    <x>463</x>
-    <y>70</y>
+    <x>138</x>
+    <y>48</y>
   </widget>
 </display>

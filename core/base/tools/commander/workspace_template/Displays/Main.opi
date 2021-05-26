@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.4.202104212257</boy_version>
+  <boy_version>1.6.7.202105202042</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -25,7 +25,8 @@
     <UpdateCmd_TEMPLATE>/Displays/Apps/CI/Templates/UpdateCommand_App.opi</UpdateCmd_TEMPLATE>
     <AddMessageFlow_TEMPLATE>/Displays/Apps/TO/Templates/AddMessageFlow_App.opi</AddMessageFlow_TEMPLATE>
     <RemoveMessageFlow_TEMPLATE>/Displays/Apps/TO/Templates/RemoveMessageFlow_App.opi</RemoveMessageFlow_TEMPLATE>
-    <QueryMessageFlow>/Displays/Apps/TO/Templates/QueryMessageFlow_App.opi</QueryMessageFlow>
+    <QueryMessageFlow_TEMPLATE>/Displays/Apps/TO/Templates/QueryMessageFlow_App.opi</QueryMessageFlow_TEMPLATE>
+    <Sch_Table_TEMPLATE>/Displays/Apps/SCH/Templates/Diagnostic_App.opi</Sch_Table_TEMPLATE>
   </macros>
   <name>Main</name>
   <rules />
@@ -3584,6 +3585,6 @@ $(pv_value)</tooltip>
     <width>73</width>
     <wuid>-6985cca4:17915279ba9:-7e1e</wuid>
     <x>276</x>
-    <y>262</y>
+    <y>260</y>
   </widget>
 </display>

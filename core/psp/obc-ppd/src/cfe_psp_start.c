@@ -37,6 +37,9 @@
 #include <limits.h>
 #include <pthread.h>
 #include <sched.h>
+#include <errno.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 
 /*
@@ -60,6 +63,8 @@
 
 #define CFE_PSP_RESET_NAME_LENGTH 10
 #define CFE_PSP_MODE_NAME_LENGTH 10
+
+#define CFE_PSP_REMOTEPROC_CMD_START  "start"
 
 /* Uncomment this define to enable simulated EEPROM support on the desktop machine */
 /* #define CFE_PSP_EEPROM_SUPPORT */
@@ -133,48 +138,80 @@ static const struct option longOpts[] = {
 
 void CFE_PSP_DrawBanner(void)
 {
-	printf("\n");
-	printf("    ___    ________  __    _____   ____________ \n");
-	printf("   /   |  /  _/ __ \\/ /   /  _/ | / / ____/ __ \\\n");
-	printf("  / /| |  / // /_/ / /    / //  |/ / __/ / /_/ /\n");
-	printf(" / ___ |_/ // _, _/ /____/ // /|  / /___/ _, _/ \n");
-	printf("/_/  |_/___/_/ |_/_____/___/_/ |_/_____/_/ |_|  \n");
-	printf("\n");
-	printf("");
-	printf("By Windhover Labs\n");
-	printf("\n");
-	printf("\n");
-	printf("  @@& @@*                                                 \n");
-	printf("@@@@@@@@@@@@@*                                            \n");
-	printf("@@@@@@@@@@@@@@@@@#                                        \n");
-	printf("@@@@@@@@@@@@@@@@@@@@@*                                    \n");
-	printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*                            \n");
-	printf(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@&                           \n");
-	printf(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                     ,*@@@@\n");
-	printf("  &@@@@@@@@@@@@@@@@@@@@@@@@@@@@                 &@@@@     \n");
-	printf("    @@@@@@@@@@@@@@@@@@@@@@@@@@@            %@@@@@         \n");
-	printf("     @@@@@@@@@@@@@@@@@@@@@@@@@     %@@@@@@@@@@@           \n");
-	printf("        @@@@@@@@@@@@@@@@@@@@@@&@@@@@@@@@@@                \n");
-	printf("        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                    \n");
-	printf("        @@@@@@@@@@@@@@@@@@@@@@@@@@@@                      \n");
-	printf("        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                    \n");
-	printf("        @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                  \n");
-	printf("         @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@                  \n");
-	printf("           *@@@@@@@@@@@@@@@@@@@@@@@@@@@@                  \n");
-	printf("            @@@@@@@@@@@@@@@@@@    @@@@@                   \n");
-	printf("            @@@@@@@@@@@@@@        *@@                     \n");
-	printf("           @@@@@@@@@@@@@@                                 \n");
-	printf("          %@@@@@@@@@@@@@@@#                               \n");
-	printf("          @@@@@@@@@@@@@@@@@&                              \n");
-	printf("          @@@@@@@@@@@@@@@@@@@                             \n");
-	printf("          @@@@@@@@@@@@@@@@@@@@*                           \n");
-	printf("          @@@@@@@@@@@@@@@@@@@@@*                          \n");
-	printf("          @@@@@@@@@@@@@@@@@@@@@                           \n");
-	printf("          @@@@@@@@@@@@@@@@@@@                             \n");
-	printf("           @@@@@@@@@@@@@@@@@@                             \n");
-	printf("           @@ @@@@@@@ @@@&                                \n");
-	printf("               @@ @@@  @@                                 \n");
-	printf("\n");
+    printf("\n");
+    printf("    ___    ________  __    _____   ____________ \n");
+    printf("   /   |  /  _/ __ \\/ /   /  _/ | / / ____/ __ \\\n");
+    printf("  / /| |  / // /_/ / /    / //  |/ / __/ / /_/ /\n");
+    printf(" / ___ |_/ // _, _/ /____/ // /|  / /___/ _, _/ \n");
+    printf("/_/  |_/___/_/ |_/_____/___/_/ |_/_____/_/ |_|  \n");
+    printf("\n");
+    printf("\n");
+    printf("By Windhover Labs\n");
+    printf("\n");
+    printf(" sNdyo/:.                                                                   .-/oydNs   \n");
+    printf(".MMMMMMMMNmhs+-                           .                           -+shmNMMMMMMMM.  \n");
+    printf("sMNNNNNNNmmddhhyyo-..                   y:d:y                   ..-oyyhhddmmNNNNNNNMy  \n");
+    printf(":ossyyyyyyhhddmmNNMMN/yh/dNNmdhhysso+/ /so:os/ /+oosyhhdmNNd/hy/NMMNNmmddhhyyyyyysso:  \n");
+    printf(" `/hNMMMMMMMMMMMMMMm/dMMNooNMMMMMMMMMm sMMMMMy mMMMMMMMMMNooNMMd/mMMMMMMMMMMMMMMNh/`   \n");
+    printf("    .+dNMMMMMMMMMMd/mMMMMMd+yMMMMMMMMs::MMMMM::sMMMMMMMMy+dMMMMMm/dMMMMMMMMMMNd+.      \n");
+    printf("       -omMMMMMMMy+NMMMMMMMMy+dMMMMMM/h-mMMMN-h/MMMMMMm+yMMMMMMMMN+yMMMMMMMmo-         \n");
+    printf("         `:smMMMsoMMMMMMMMMMMmosNMMMM.NosMMMsoM.MMMMNsomMMMMMMMMMMMooMMMms:`           \n");
+    printf("            `/y/oNMMMMMMMMMMMMMh+hMMd:Mm-MMM-mM:dMMh+hMMMMMMMMMMMMMNo/y/`              \n");
+    printf("                .--:+osyhdmmNMMMNsomsoMM-mMm-MMosmosNMMMNmmdhyso+:--.                  \n");
+    printf("                         ``..-:/+o+-.hMMsoMssMMd.-+s+/:-..``                           \n");
+    printf("                                  `:o+dMm-M-mMd+o:`                                    \n");
+    printf("                                .odMMNosN:y-NsoNMMmo-                                  \n");
+    printf("                             `/hNMMMMMMh+/`/+hMMMMMMNh/`                               \n");
+    printf("                            -oyyyyyyyyyys- -syyyyyyyyyyo-                              \n");
+    printf("                            `+hNNNNNNNNNNN`NNNNNNNNNNNh+`                              \n");
+    printf("                              `-smMMMMMMMM`MMMMMMMMms-`                                \n");
+    printf("                                 `:yNMMMMM`MMMMMNy:`                                   \n");
+    printf("                                    `/hMMM`MMMh/`                                      \n");
+    printf("                                       .om`mo.                                         \n");
+    printf("\n");
+}
+
+
+void CFE_PSP_StartCPD(char *filename)
+{
+	int fd = 0;
+	ssize_t bytesWritten;
+
+	printf("CFE_PSP: Starting CPD.\n");
+
+	fd = open(CFE_PSP_REMOTEPROC_FIRMWARE, O_WRONLY);
+	if(fd < 0)
+	{
+		printf("CFE_PSP: Failed to open remoteproc (firmware). errno=%i\n", errno);
+		return;
+	}
+
+	bytesWritten = write(fd, filename, strlen(filename));
+	if(bytesWritten< 0)
+	{
+		printf("CFE_PSP: Failed to write to remoteproc (firmware). errno=%i\n", errno);
+		return;
+	}
+
+	close(fd);
+
+	fd = open(CFE_PSP_REMOTEPROC_STATE, O_WRONLY);
+	if(fd < 0)
+	{
+		printf("CFE_PSP: Failed to open remoteproc (state). errno=%i\n", errno);
+		return;
+	}
+
+	bytesWritten = write(fd, CFE_PSP_REMOTEPROC_CMD_START, strlen(CFE_PSP_REMOTEPROC_CMD_START));
+	if(bytesWritten< 0)
+	{
+		printf("CFE_PSP: Failed to write to remoteproc (state). errno=%i\n", errno);
+		return;
+	}
+
+	close(fd);
+
+	printf("CFE_PSP: CPD started.\n");
 }
 
                                                                                                                                                             
@@ -288,6 +325,8 @@ void PSP_Main(int argc, char *argv[])
    ** optional arguments, and check for arguments that are required.
    */
    CFE_PSP_ProcessArgumentDefaults(&CommandData);
+
+   CFE_PSP_StartCPD(CFE_PSP_CPD_FILENAME);
 
    /*
    ** Set the reset type
