@@ -1176,7 +1176,7 @@ void SENS::CombineSensorInput(void)
         else
         {
             /* No new measurement was received.  Update the fields accordingly.  */
-            SensorCombinedMsg.BaroInvalid = false;
+            SensorCombinedMsg.BaroInvalid = true;
         }
     }
 
