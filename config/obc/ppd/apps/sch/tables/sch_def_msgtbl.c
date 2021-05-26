@@ -299,19 +299,6 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    { { SCH_FIX_HEADER(EA_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } }
 };
 
-/*
-** Local Variables
-*/
-
-/*
-** Function Prototypes
-*/
-
-/*
-** Function Definitions
-*/
-
-
 
 /* Table file header */
 CFE_TBL_FILEDEF(SCH_DefaultMessageTable, SCH.MSG_DEFS, SCH message definitions table, sch_def_msgtbl.tbl )
