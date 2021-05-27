@@ -7,10 +7,9 @@ extern "C" {
 
 
 
-#define CI_CUSTOM_CLTU_BUFF_SIZE       (1024)
-#define CI_CUSTOM_TF_BUFF_SIZE         (1024)
-#define CI_CUSTOM_BUFFER_SIZE          (1024)
-#define CI_CUSTOM_CLTU_RANDOMIZED      (TRUE)
+#define CI_CUSTOM_BUFFER_SIZE          (2000)
+#define CI_CUSTOM_CLTU_BUFF_SIZE       (2000)
+#define CI_CUSTOM_TF_BUFF_SIZE         (2000)
 
 /*
 ** ci Platform Configuration Parameter Definitions
