@@ -70,7 +70,7 @@
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <text>($(APP)) SCH - Diagnostic</text>
+    <text>($(CPUID) - $(APP)) SCH - Diagnostic</text>
     <tooltip></tooltip>
     <transparent>true</transparent>
     <vertical_alignment>1</vertical_alignment>
