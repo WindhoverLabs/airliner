@@ -130,8 +130,14 @@ void TO_Classifier_Run(TO_ChannelData_t *channel)
                 {
                     /* The message was queued.  Increment counters. */
                     channel->DumpTbl.MessageFlow[msgFlowIndex].QueuedMsgCnt++;
-                    
                     channel->QueuedMsgCount++;
+                    
+                    /* Check if this is a CFDP message. */
+                    if(CF_SPACE_TO_GND_PDU_MID == DataMsgID)
+                    {
+                    	/* This is a CFDP message. Release the throttling semaphore. */
+                    	OS_CountSemGive(channel->CfCntSemId);
+                    }
                 }
                 /* The call to TO_PriorityQueue_QueueMsg may generate the following errors:
                  * TO_PRIORITY_QUEUE_FULL_ERR (OS_QUEUE_FULL), TO_MEMORY_FULL_ERR, CFE_ES_ERR_MEM_HANDLE,

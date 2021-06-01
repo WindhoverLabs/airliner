@@ -16,7 +16,7 @@ buildliner_initialize(
         /cf/upload
         /ram
     STARTUP_SCRIPT
-        ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
+        ${CMAKE_CURRENT_SOURCE_DIR}/../cfe_es_startup.scr
         
     COMMANDER_WORKSPACE
         ${CMAKE_BINARY_DIR}/../../commander_workspace

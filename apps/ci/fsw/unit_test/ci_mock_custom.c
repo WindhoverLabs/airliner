@@ -54,11 +54,11 @@ int32 CI_InitCustom(void)
     }	
     else if(INIT_CUSTOM_RET == SOCK_ERR)
     {
-    	CFE_EVS_SendEvent(CI_SOCKET_ERR_EID, CFE_EVS_ERROR, "Socket errno");
+    	CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR, "Socket errno");
     }
     else if(INIT_CUSTOM_RET == BIND_ERR)
     {
-    	CFE_EVS_SendEvent(CI_SOCKET_ERR_EID, CFE_EVS_ERROR,"Bind socket failed");
+    	CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,"Bind socket failed");
     }
 
 	return Status;

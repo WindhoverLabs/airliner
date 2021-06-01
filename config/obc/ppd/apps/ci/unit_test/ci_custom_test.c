@@ -66,7 +66,7 @@ void Test_CI_InitCustom_Bad_Socket(void)
 
 	/* Verify results */
 	UtAssert_True(retCode==-1,"Return = -1");
-	UtAssert_EventSent(CI_SOCKET_ERR_EID, CFE_EVS_ERROR, "", "Socket error");
+	UtAssert_EventSent(CI_INIT_ERR_EID, CFE_EVS_ERROR, "", "Socket error");
 	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==1,"Event Count = 1");
 }
 
@@ -86,7 +86,7 @@ void Test_CI_InitCustom_Bad_Bind(void)
 
 	/* Verify results */
 	UtAssert_True(retCode==-1,"Return = -1");
-	UtAssert_EventSent(CI_SOCKET_ERR_EID, CFE_EVS_ERROR, "", "Bind error");
+	UtAssert_EventSent(CI_INIT_ERR_EID, CFE_EVS_ERROR, "", "Bind error");
 	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==1,"Event Count = 1");
 }
 

@@ -47,6 +47,7 @@ extern "C" {
 /*******************************************************************************
 ** Macro Definitions
 *******************************************************************************/
+#define TC_SYNC_PARTIAL_FOUND     2
 #define TC_SYNC_FOUND_TAIL_SEQ    1
 #define TC_SYNC_SUCCESS           0
 #define TC_SYNC_INVALID_POINTER  -1
@@ -141,7 +142,7 @@ int32 TC_SYNC_GetTransferFrame(uint8 *pTfBuff, uint8 *pCltu,
 *   \see 
 *       #TC_SYNC_GetTransferFrame
 *******************************************************************************/
-int32 TC_SYNC_CheckStartSeq(uint8 *pSeq, uint16 *pCltuOffset);
+int32 TC_SYNC_CheckStartSeq(uint8 *pSeq, uint16 bytesRead, uint16 *pCltuOffset);
 
 
 /******************************************************************************/

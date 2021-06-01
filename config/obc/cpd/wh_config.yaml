@@ -99,7 +99,8 @@ modules:
         msgID: 0x1a36
       CI_WAKEUP_MID:
         msgID: 0x1a37
-        
+      CI_INGEST_COMMANDS_MID:
+        msgID: 0x1be5
   cf:
     definition: ${PROJECT_SOURCE_DIR}/apps/cf/wh_design.yaml
     telemetry: 
@@ -903,7 +904,7 @@ modules:
         msgID: 0x1baf
       SBN_WAKEUP_MID:
         msgID: 0x1bb0
-
+        
   sed:
     definition: ${PROJECT_SOURCE_DIR}/../private/apps/sed/wh_design.yaml
     telemetry:
@@ -918,3 +919,6 @@ modules:
         msgID: 0x1b74
       SED_SEND_HK_MID:
         msgID: 0x1b75
+    perfids:
+      SED_MAIN_TASK_PERF_ID:
+        id: 111

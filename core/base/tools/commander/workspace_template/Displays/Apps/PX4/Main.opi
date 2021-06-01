@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.7.202105202042</boy_version>
+  <boy_version>1.6.7.202105211550</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -970,7 +970,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     </foreground_color>
     <height>20</height>
     <image></image>
-    <name>AppControl_2</name>
+    <name>AppControl</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
     <pv_value />

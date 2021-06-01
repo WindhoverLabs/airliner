@@ -125,17 +125,8 @@ typedef struct
 	/** \brief Mutex for CI timeout table */
 	uint32          TimeoutTblMutex;
 
-    /** \brief ID of listener child task */
-    uint32          ListenerTaskID;
-
-    /** \brief ID of serialized listener child task */
-	uint32          SerialListenerTaskID;
-
-    /** \brief Buffer for child task cmd ingest */
+    /** \brief Buffer for cmd ingest */
     uint8           IngestBuffer[CI_MAX_CMD_INGEST];
-
-    /** \brief Buffer for serialized child task cmd ingest */
-    uint8           SerialIngestBuffer[CI_MAX_CMD_INGEST];
 
     /** \brief Run flag for ingest loop */
     boolean			IngestActive;
@@ -351,37 +342,6 @@ void  CI_ReportHousekeeping(void);
 **
 *************************************************************************/
 boolean  CI_VerifyCmdLength(const CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
-
-/************************************************************************/
-/** \brief Init Listener Task
-**
-**  \par Description
-**       This function create a CFs child task for the command
-**       ingest listener.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**	\retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-**  \retstmt Return codes from #CFE_ES_CreateChildTask            \endcode
-**
-*************************************************************************/
-int32  CI_InitListenerTask(void);
-
-/************************************************************************/
-/** \brief Listener Task Main
-**
-**  \par Description
-**       This function opens a socket and ingests all cmds for
-**       CI to process before publishing them to the software bus.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-*************************************************************************/
-void CI_ListenerTaskMain(void);
-
 
 /************************************************************************/
 /** \brief Process Ingest Command

@@ -419,177 +419,177 @@ void Test_CI_AppMain_Nominal_Wakeup(void)
 
 }
 
-/**
- * Test CI_InitListenerTask(), Fail create child task
- */
-void Test_CI_InitListenerTask_FailChild(void)
-{
-	/* Set to generate error message CI_LISTENER_CREATE_CHDTASK_ERR_EID */
-	Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, -1, 1);
-
-	/* Execute the function being tested */
-	CI_InitListenerTask();
-
-	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==1,"Event Count = 1");
-	UtAssert_EventSent(CI_LISTENER_CREATE_CHDTASK_ERR_EID,
-						CFE_EVS_ERROR,
-						"",
-						"Invalid message length");
-}
-
-/**
- * Test CI_InitListenerTask(), Nominal
- */
-void Test_CI_InitListenerTask_Nominal(void)
-{
-	int32 expected = CFE_SUCCESS;
-	int32 ret = -1;
-
-	/* Set to mimic success */
-	Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, 0, 1);
-
-	/* Execute the function being tested */
-	ret = CI_InitListenerTask();
-
-	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==0,"Event Count = 0");
-	UtAssert_True(ret==expected,"Return CFE_SUCCESS");
-}
-
-/**
- * Test CI_ListenerTaskMain(), Fail CFE register
- */
-void Test_CI_ListenerTaskMain_FailRegister(void)
-{
-	/* Set to cause message "CI Listener Child Task Registration failed!" to be printed */
-	Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCHILDTASK_INDEX, -1, 1);
-
-	/* Execute the function being tested */
-	CI_InitListenerTask();
-
-	/* If this occurs no events will be sent because the task isn't registered with CFE */
-	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==0,"Event Count = 0");
-}
-
-/**
- * Test CI_ListenerTaskMain(), Long Cmd
- */
-void Test_CI_ListenerTaskMain_LongCmd(void)
-{
-	/* Prevent more than one loop */
-	CI_AppData.IngestActive = FALSE;
-
-	/* Set to cause to fail */
-	READ_MSG_RET = LONG_CMD;
-
-	/* Execute the function being tested */
-	CI_ListenerTaskMain();
-
-	/* Verify results */
-	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==1,"Event Count = 1");
-	UtAssert_EventSent(CI_CMD_INGEST_ERR_EID, CFE_EVS_ERROR, "", "Cmd dropped, too long");
-}
-
-/**
- * Test CI_ListenerTaskMain(), Invalid Cmd
- */
-void Test_CI_ListenerTaskMain_Inv_Cmd(void)
-{
-	/* Prevent more than one loop */
-	CI_AppData.IngestActive = FALSE;
-
-	/* Set to cause to fail */
-	READ_MSG_RET = INV_CMD;
-
-	/* Execute the function being tested */
-	CI_ListenerTaskMain();
-
-	/* Verify results */
-	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==1,"Event Count = 1");
-	UtAssert_EventSent(CI_CMD_INVALID_EID, CFE_EVS_ERROR, "Rcvd invalid cmd", "Rcvd invalid cmd");
-}
-
-/**
- * Test CI_ListenerTaskMain(), CI Cmd
- */
-void Test_CI_ListenerTaskMain_CI_Cmd(void)
-{
-	/* Prevent more than one loop */
-	CI_AppData.IngestActive = FALSE;
-
-	/* Set to cause to fail */
-	READ_MSG_RET = CI_CMD;
-
-	/* Execute the function being tested */
-	CI_ListenerTaskMain();
-
-	/* Verify results */
-	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==1,"Event Count = 1");
-	UtAssert_EventSent(CI_CMD_INF_EID, CFE_EVS_INFORMATION, "", "Recvd NOOP cmd");
-}
-
-/**
- * Test CI_ListenerTaskMain(), External Cmd Unauthorized
- */
-void Test_CI_ListenerTaskMain_Ext_Cmd_Unauth(void)
-{
-	uint32 actualEventQueueDepth;
-
-	/* Prevent more than one loop */
-	CI_AppData.IngestActive = FALSE;
-
-	/* Set to cause to fail */
-	READ_MSG_RET = EXT_STEP_2;
-
-	/* Execute the function being tested */
-	CI_ListenerTaskMain();
-
-	/* Verify results */
-	actualEventQueueDepth = Ut_CFE_EVS_GetEventQueueDepth();
-	UtAssert_True(actualEventQueueDepth==2,"Event Count = 2");
-	UtAssert_EventSent(CI_CMD_UNAUTHORIZED_EID, CFE_EVS_ERROR, "", "Cmd not authorized");
-	UtAssert_True(CI_AppData.HkTlm.IngestErrorCount==1,"CmdErrCnt = 1");
-}
-
-/**
- * Test CI_ListenerTaskMain(), External Cmd Step 1
- */
-void Test_CI_ListenerTaskMain_Ext_Cmd_Auth_Step_1(void)
-{
-	/* Prevent more than one loop */
-	CI_AppData.IngestActive = FALSE;
-
-	/* Set to cause to pass */
-	READ_MSG_RET = EXT_STEP_1;
-
-	/* Execute the function being tested */
-	CI_ListenerTaskMain();
-
-	/* Verify results */
-	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==1,"Event Count = 1");
-	UtAssert_True(CI_AppData.HkTlm.IngestMsgCount==1,"Ingest Count = 1");
-}
-
-/**
- * Test CI_ListenerTaskMain(), External Cmd Step 2 Authorized
- */
-void Test_CI_ListenerTaskMain_Ext_Cmd_Auth_Step_2(void)
-{
-	CI_CmdData_t		*CmdData = NULL;
-	uint32              i = CI_INVALID_VALUE;
-
-	/* Prevent more than one loop */
-	CI_AppData.IngestActive = FALSE;
-
-	/* Set to cause to pass */
-	READ_MSG_RET = EXT_STEP_2_AUTH;
-
-	/* Execute the function being tested */
-	CI_ListenerTaskMain();
-
-	/* Verify results */
-	CmdData = CI_GetRegisterdCmd(TEST_MSG_ID, TEST_CC, &i);
-	UtAssert_True(CI_AppData.HkTlm.IngestMsgCount==1,"Ingest count = 1");
-}
+///**
+// * Test CI_InitListenerTask(), Fail create child task
+// */
+//void Test_CI_InitListenerTask_FailChild(void)
+//{
+//	/* Set to generate error message CI_LISTENER_CREATE_CHDTASK_ERR_EID */
+//	Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, -1, 1);
+//
+//	/* Execute the function being tested */
+//	CI_InitListenerTask();
+//
+//	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==1,"Event Count = 1");
+//	UtAssert_EventSent(CI_LISTENER_CREATE_CHDTASK_ERR_EID,
+//						CFE_EVS_ERROR,
+//						"",
+//						"Invalid message length");
+//}
+//
+///**
+// * Test CI_InitListenerTask(), Nominal
+// */
+//void Test_CI_InitListenerTask_Nominal(void)
+//{
+//	int32 expected = CFE_SUCCESS;
+//	int32 ret = -1;
+//
+//	/* Set to mimic success */
+//	Ut_CFE_ES_SetReturnCode(UT_CFE_ES_CREATECHILDTASK_INDEX, 0, 1);
+//
+//	/* Execute the function being tested */
+//	ret = CI_InitListenerTask();
+//
+//	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==0,"Event Count = 0");
+//	UtAssert_True(ret==expected,"Return CFE_SUCCESS");
+//}
+//
+///**
+// * Test CI_ListenerTaskMain(), Fail CFE register
+// */
+//void Test_CI_ListenerTaskMain_FailRegister(void)
+//{
+//	/* Set to cause message "CI Listener Child Task Registration failed!" to be printed */
+//	Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERCHILDTASK_INDEX, -1, 1);
+//
+//	/* Execute the function being tested */
+//	CI_InitListenerTask();
+//
+//	/* If this occurs no events will be sent because the task isn't registered with CFE */
+//	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==0,"Event Count = 0");
+//}
+//
+///**
+// * Test CI_ListenerTaskMain(), Long Cmd
+// */
+//void Test_CI_ListenerTaskMain_LongCmd(void)
+//{
+//	/* Prevent more than one loop */
+//	CI_AppData.IngestActive = FALSE;
+//
+//	/* Set to cause to fail */
+//	READ_MSG_RET = LONG_CMD;
+//
+//	/* Execute the function being tested */
+//	CI_ListenerTaskMain();
+//
+//	/* Verify results */
+//	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==1,"Event Count = 1");
+//	UtAssert_EventSent(CI_CMD_INGEST_ERR_EID, CFE_EVS_ERROR, "", "Cmd dropped, too long");
+//}
+//
+///**
+// * Test CI_ListenerTaskMain(), Invalid Cmd
+// */
+//void Test_CI_ListenerTaskMain_Inv_Cmd(void)
+//{
+//	/* Prevent more than one loop */
+//	CI_AppData.IngestActive = FALSE;
+//
+//	/* Set to cause to fail */
+//	READ_MSG_RET = INV_CMD;
+//
+//	/* Execute the function being tested */
+//	CI_ListenerTaskMain();
+//
+//	/* Verify results */
+//	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==1,"Event Count = 1");
+//	UtAssert_EventSent(CI_CMD_INVALID_EID, CFE_EVS_ERROR, "Rcvd invalid cmd", "Rcvd invalid cmd");
+//}
+//
+///**
+// * Test CI_ListenerTaskMain(), CI Cmd
+// */
+//void Test_CI_ListenerTaskMain_CI_Cmd(void)
+//{
+//	/* Prevent more than one loop */
+//	CI_AppData.IngestActive = FALSE;
+//
+//	/* Set to cause to fail */
+//	READ_MSG_RET = CI_CMD;
+//
+//	/* Execute the function being tested */
+//	CI_ListenerTaskMain();
+//
+//	/* Verify results */
+//	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==1,"Event Count = 1");
+//	UtAssert_EventSent(CI_CMD_INF_EID, CFE_EVS_INFORMATION, "", "Recvd NOOP cmd");
+//}
+//
+///**
+// * Test CI_ListenerTaskMain(), External Cmd Unauthorized
+// */
+//void Test_CI_ListenerTaskMain_Ext_Cmd_Unauth(void)
+//{
+//	uint32 actualEventQueueDepth;
+//
+//	/* Prevent more than one loop */
+//	CI_AppData.IngestActive = FALSE;
+//
+//	/* Set to cause to fail */
+//	READ_MSG_RET = EXT_STEP_2;
+//
+//	/* Execute the function being tested */
+//	CI_ListenerTaskMain();
+//
+//	/* Verify results */
+//	actualEventQueueDepth = Ut_CFE_EVS_GetEventQueueDepth();
+//	UtAssert_True(actualEventQueueDepth==2,"Event Count = 2");
+//	UtAssert_EventSent(CI_CMD_UNAUTHORIZED_EID, CFE_EVS_ERROR, "", "Cmd not authorized");
+//	UtAssert_True(CI_AppData.HkTlm.IngestErrorCount==1,"CmdErrCnt = 1");
+//}
+//
+///**
+// * Test CI_ListenerTaskMain(), External Cmd Step 1
+// */
+//void Test_CI_ListenerTaskMain_Ext_Cmd_Auth_Step_1(void)
+//{
+//	/* Prevent more than one loop */
+//	CI_AppData.IngestActive = FALSE;
+//
+//	/* Set to cause to pass */
+//	READ_MSG_RET = EXT_STEP_1;
+//
+//	/* Execute the function being tested */
+//	CI_ListenerTaskMain();
+//
+//	/* Verify results */
+//	UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==1,"Event Count = 1");
+//	UtAssert_True(CI_AppData.HkTlm.IngestMsgCount==1,"Ingest Count = 1");
+//}
+//
+///**
+// * Test CI_ListenerTaskMain(), External Cmd Step 2 Authorized
+// */
+//void Test_CI_ListenerTaskMain_Ext_Cmd_Auth_Step_2(void)
+//{
+//	CI_CmdData_t		*CmdData = NULL;
+//	uint32              i = CI_INVALID_VALUE;
+//
+//	/* Prevent more than one loop */
+//	CI_AppData.IngestActive = FALSE;
+//
+//	/* Set to cause to pass */
+//	READ_MSG_RET = EXT_STEP_2_AUTH;
+//
+//	/* Execute the function being tested */
+//	CI_ListenerTaskMain();
+//
+//	/* Verify results */
+//	CmdData = CI_GetRegisterdCmd(TEST_MSG_ID, TEST_CC, &i);
+//	UtAssert_True(CI_AppData.HkTlm.IngestMsgCount==1,"Ingest count = 1");
+//}
 
 /**
  * Test CI_ValidateCmd(), Bad CCSDS Version
@@ -1752,14 +1752,14 @@ void CI_App_Test_AddTestCases(void)
                "Test_CI_AppMain_Nominal_SendHK");
     UtTest_Add(Test_CI_AppMain_Nominal_Wakeup, CI_Test_Setup, CI_Test_TearDown,
                "Test_CI_AppMain_Nominal_Wakeup");
-    UtTest_Add(Test_CI_InitListenerTask_FailChild, CI_Test_Setup, CI_Test_TearDown,
-               "Test_CI_InitListenerTask_FailChild");
-    UtTest_Add(Test_CI_InitListenerTask_Nominal, CI_Test_Setup, CI_Test_TearDown,
-			   "Test_CI_InitListenerTask_Nominal");
-    UtTest_Add(Test_CI_ListenerTaskMain_FailRegister, CI_Test_Setup_InitTbls, CI_Test_TearDown,
-			   "Test_CI_ListenerTaskMain_FailRegister");
-    UtTest_Add(Test_CI_ListenerTaskMain_LongCmd, CI_Test_Setup_InitTbls, CI_Test_TearDown,
-    			"Test_CI_ListenerTaskMain_LongCmd");
+//    UtTest_Add(Test_CI_InitListenerTask_FailChild, CI_Test_Setup, CI_Test_TearDown,
+//               "Test_CI_InitListenerTask_FailChild");
+//    UtTest_Add(Test_CI_InitListenerTask_Nominal, CI_Test_Setup, CI_Test_TearDown,
+//			   "Test_CI_InitListenerTask_Nominal");
+//    UtTest_Add(Test_CI_ListenerTaskMain_FailRegister, CI_Test_Setup_InitTbls, CI_Test_TearDown,
+//			   "Test_CI_ListenerTaskMain_FailRegister");
+//    UtTest_Add(Test_CI_ListenerTaskMain_LongCmd, CI_Test_Setup_InitTbls, CI_Test_TearDown,
+//    			"Test_CI_ListenerTaskMain_LongCmd");
     UtTest_Add(Test_CI_ValidateCmd_Bad_CCSDS, CI_Test_Setup, CI_Test_TearDown,
     			"Test_CI_ValidateCmd_Bad_CCSDS");
     UtTest_Add(Test_CI_ValidateCmd_No_SecHdr, CI_Test_Setup, CI_Test_TearDown,
@@ -1834,16 +1834,16 @@ void CI_App_Test_AddTestCases(void)
     			"Test_CI_UpdateCmdReg_1_Step_Nominal");
     UtTest_Add(Test_CI_ProcessTimeouts_Nominal, CI_Test_Setup_InitTbls, CI_Test_TearDown,
     			"Test_CI_ProcessTimeouts_Nominal");
-    UtTest_Add(Test_CI_ListenerTaskMain_Inv_Cmd, CI_Test_Setup_InitTbls, CI_Test_TearDown,
-				"Test_CI_ListenerTaskMain_Inv_Cmd");
-    UtTest_Add(Test_CI_ListenerTaskMain_CI_Cmd, CI_Test_Setup_InitTbls, CI_Test_TearDown,
-				"Test_CI_ListenerTaskMain_CI_Cmd");
-    UtTest_Add(Test_CI_ListenerTaskMain_Ext_Cmd_Unauth, CI_Test_Setup_InitTbls, CI_Test_TearDown,
-				"Test_CI_ListenerTaskMain_Ext_Cmd_Unath");
-    UtTest_Add(Test_CI_ListenerTaskMain_Ext_Cmd_Auth_Step_1, CI_Test_Setup_InitTbls, CI_Test_TearDown,
-				"Test_CI_ListenerTaskMain_Ext_Cmd_Auth_Step_1");
-    UtTest_Add(Test_CI_ListenerTaskMain_Ext_Cmd_Auth_Step_2, CI_Test_Setup_InitTbls, CI_Test_TearDown,
-				"Test_CI_ListenerTaskMain_Ext_Cmd_Auth_Step_2");
+//    UtTest_Add(Test_CI_ListenerTaskMain_Inv_Cmd, CI_Test_Setup_InitTbls, CI_Test_TearDown,
+//				"Test_CI_ListenerTaskMain_Inv_Cmd");
+//    UtTest_Add(Test_CI_ListenerTaskMain_CI_Cmd, CI_Test_Setup_InitTbls, CI_Test_TearDown,
+//				"Test_CI_ListenerTaskMain_CI_Cmd");
+//    UtTest_Add(Test_CI_ListenerTaskMain_Ext_Cmd_Unauth, CI_Test_Setup_InitTbls, CI_Test_TearDown,
+//				"Test_CI_ListenerTaskMain_Ext_Cmd_Unath");
+//    UtTest_Add(Test_CI_ListenerTaskMain_Ext_Cmd_Auth_Step_1, CI_Test_Setup_InitTbls, CI_Test_TearDown,
+//				"Test_CI_ListenerTaskMain_Ext_Cmd_Auth_Step_1");
+//    UtTest_Add(Test_CI_ListenerTaskMain_Ext_Cmd_Auth_Step_2, CI_Test_Setup_InitTbls, CI_Test_TearDown,
+//				"Test_CI_ListenerTaskMain_Ext_Cmd_Auth_Step_2");
     UtTest_Add(Test_CI_ProcessTimeouts_Nominal, CI_Test_Setup_InitTbls, CI_Test_TearDown,
 				"Test_CI_ProcessTimeouts_Nominal");
     UtTest_Add(Test_CI_ProcessTimeouts_Update, CI_Test_Setup_InitTbls, CI_Test_TearDown,
