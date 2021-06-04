@@ -9,6 +9,10 @@ modules:
       psp:
         definition: ${PROJECT_SOURCE_DIR}/core/psp/fsw/obc-ppd/wh_design.yaml
   to:
+    msg_def_overrides:
+      - parent: TO_EnableChannelCmd_t
+        member: DestinationAddress
+        type: string
     commands:
       TO_CMD_MID: 
         msgID: 0x189f

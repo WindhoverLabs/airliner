@@ -141,7 +141,6 @@ SONAR_MEASURE_MIDX              10HZ, 1, 26, 51, 76, 101, 126, 151, 176, 201, 22
 #define RGBLED_WAKEUP_MIDX            47
 #define RGBLED_SEND_HK_MIDX           48
 
-#define CI_READ_CMD_MIDX              50
 #define CI_1HZ_PROC_TIMEOUTS_MIDX     51
 #define CI_SEND_HK_MIDX               52
 #define PARAMS_WAKEUP_MIDX            53
