@@ -133,13 +133,14 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/mm/fsw/for_build
 )
 
-#buildliner_add_app(
-#    hs
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hs
-#    CONFIG_SOURCES
-#        ${PROJECT_SOURCE_DIR}/config/shared/apps/hs/hs_custom.c
-#)
+buildliner_add_app(
+    hs
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/hs
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/hs/hs_custom.c
+)
 
 # This is temporarily removed until we can remove the OS dependency
 # in cf, i.e. "arpa/inet.h"
