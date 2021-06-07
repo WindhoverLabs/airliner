@@ -30,27 +30,7 @@ extern "C" {
 **       bytes.
 **
 */
-#define TO_CUSTOM_TASK_STACK_SIZE      (131072)
-
-
-/** \tocfg Default telemetry destination IP address
-**
-**  \par Description:
-**       Default IP address to send the telemetry stream to.  This is default
-**       only and can be changed by command at runtime.
-**
-*/
-#define TO_UDP_CHANNEL_ADDRESS         "127.0.0.1"
-
-
-/** \tocfg Default telemetry destination UDP port
-**
-**  \par Description:
-**       Default UDP port to send the telemetry stream to.  This is default
-**       only and can be changed by command at runtime.
-**
-*/
-#define TO_UDP_CHANNEL_PORT            (5011)
+#define TO_CUSTOM_TASK_STACK_SIZE      (16535)
 
 
 /** \tocfg Message Flow packet limit
@@ -73,28 +53,28 @@ extern "C" {
 */
 #define TO_MAX_MSG_LENGTH              (32767)
 
-/** \tocfg The UDP channel's CF throttling semaphore name
+/** \tocfg The channel's CF throttling semaphore name
 **
 **  \par Limits:
 **       Two channels in CF must not have the same semaphore name. This must be unique
 **       compared to other channels' throttling semaphores.
 */
-#define TO_UDP_CF_THROTTLE_SEM_NAME    "TO_CF_CH0_SEM"
+#define TO_CF_THROTTLE_SEM_NAME    "TO_CF_CH0_SEM"
 
 
-/** \tocfg The UDP channel Name
+/** \tocfg The channel Name
 */
-#define TO_UDP_CHANNEL_NAME             "UDP"
+#define TO_CHANNEL_NAME                "TLM"
 
 
 
-/** \tocfg The UDP channel's default and maximum value for the CF
+/** \tocfg The channel's default and maximum value for the CF
  *         throttling semaphore
 **
 **  \par Limits:
 **       Must not be larger than the TO_DATA_PIPE_DEPTH
 */
-#define TO_UDP_CF_MAX_PDUS    (4)
+#define TO_CF_MAX_PDUS    (4)
 
 
 /** \tocfg Mission specific version number for TO application
@@ -181,7 +161,7 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define TO_UDP_CONFIG_TABLE_FILENAME    ("/ram/apps/to_udp_cfg.tbl")
+#define TO_CONFIG_TABLE_FILENAME    ("/ram/apps/to_config.tbl")
 
 
 #define TO_MAX_MEMPOOL_BLK_SIZES      (8)
@@ -210,13 +190,13 @@ extern "C" {
  * \tocfg Defines the table identification name used for table registration
  *        of the configuration table.
  */
-#define TO_UDP_CONFIG_TABLENAME        "UDP_CFG"
+#define TO_CONFIG_TABLENAME            "CONFIG"
 
 /**
  * \tocfg Defines the table identification name used for table registration
  *        of the dump table.
  */
-#define TO_UDP_DUMP_TABLENAME          "UDP_DMP"
+#define TO_DUMP_TABLENAME              "DMP"
 
 /** \tocfg The timeout value, in milliseconds, to wait for ES application startup sync.
 **
@@ -245,12 +225,11 @@ extern "C" {
 */
 #define TO_OUTPUT_QUEUE_DEPTH     (20)
 
-/** \tocfg Development UDP channel task priority.
+/** \tocfg Development channel task priority.
  *
-**  \par Description:  This defines the priority of the development UDP
-**       child task.
+**  \par Description:  This defines the priority of the child task.
 */
-#define TO_UDP_CHANNEL_TASK_PRIORITY (119)
+#define TO_CHANNEL_TASK_PRIORITY  (119)
 
 /**
 **  \tocfg Number of bytes in the Message Memory Pool

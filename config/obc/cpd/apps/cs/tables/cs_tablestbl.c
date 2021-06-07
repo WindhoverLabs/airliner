@@ -17,7 +17,7 @@ CS_Def_Tables_Table_Entry_t      CS_TablesTable[CS_MAX_NUM_TABLES_TABLE_ENTRIES]
     /*   4 */ { CS_STATE_ENABLED,   "FM.FreeSpace"    },
     /*   5 */ { CS_STATE_ENABLED,   "SCH.MSG_DEFS"    },
     /*   6 */ { CS_STATE_ENABLED,   "SCH.SCHED_DEF"   },
-    /*   7 */ { CS_STATE_ENABLED,   "TO.UDP_CFG"      },
+    /*   7 */ { CS_STATE_ENABLED,   "TO.CONFIG"      },
     /*   8 */ { CS_STATE_EMPTY,     ""                },
     /*   9 */ { CS_STATE_EMPTY,     ""                },
     /*  10 */ { CS_STATE_EMPTY,     ""                },

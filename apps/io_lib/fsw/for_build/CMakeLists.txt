@@ -39,7 +39,7 @@ buildliner_add_app_def(io_lib
 	    ${CMAKE_CURRENT_SOURCE_DIR}/../src/formats/tmtf.c
 	    #${CMAKE_CURRENT_SOURCE_DIR}/../src/services/trans_udp.c
 	    #${CMAKE_CURRENT_SOURCE_DIR}/../src/services/trans_rs422.c
-	    ${CMAKE_CURRENT_SOURCE_DIR}/../src/services/trans_select.c
+	    #${CMAKE_CURRENT_SOURCE_DIR}/../src/services/trans_select.c
 	    ${CMAKE_CURRENT_SOURCE_DIR}/../src/services/tm_sdlp.c
 	    ${CMAKE_CURRENT_SOURCE_DIR}/../src/services/tm_sync.c
 	    ${CMAKE_CURRENT_SOURCE_DIR}/../src/services/cop1.c

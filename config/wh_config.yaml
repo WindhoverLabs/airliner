@@ -97,6 +97,8 @@ modules:
         msgID: 0x1836
       CI_WAKEUP_MID:
         msgID: 0x1837
+      CI_INGEST_COMMANDS_MID:
+        msgID: 0x19e5
     perfids:
       CF_APPMAIN_PERF_ID:
         id: 33

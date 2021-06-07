@@ -55,6 +55,9 @@
 *************************************************************************/
 #define TO_CUSTOM_CHANNEL_GET_TIMEOUT (1000) /* msec */
 
+#define TO_UDP_CHANNEL_ADDRESS        "127.0.0.1"
+#define TO_UDP_CHANNEL_PORT           (5011)
+
 
 /************************************************************************
 ** Local Function Definitions
@@ -139,7 +142,7 @@ int32 TO_Custom_Init(void)
     TO_AppCustomData.Channel[0].Mode = TO_CHANNEL_ENABLED;
     strncpy(TO_AppCustomData.Channel[0].IP, TO_UDP_CHANNEL_ADDRESS, INET_ADDRSTRLEN);
     TO_AppCustomData.Channel[0].DstPort = TO_UDP_CHANNEL_PORT;
-    TO_AppCustomData.Channel[0].Priority = TO_UDP_CHANNEL_TASK_PRIORITY;
+    TO_AppCustomData.Channel[0].Priority = TO_CHANNEL_TASK_PRIORITY;
     TO_AppCustomData.Channel[0].ListenerTask = TO_OutputChannel_UDPChannelTask;
     TO_AppCustomData.Channel[0].Socket = 0;
     TO_AppCustomData.Channel[0].ChildTaskID = 0;
@@ -147,13 +150,13 @@ int32 TO_Custom_Init(void)
     /* Ground dev interface is optional */
     iStatus = TO_Channel_OpenChannel(
                       0,
-                      TO_UDP_CHANNEL_NAME,
-                      TO_UDP_CONFIG_TABLENAME,
-                      TO_UDP_CONFIG_TABLE_FILENAME,
+                      TO_CHANNEL_NAME,
+                      TO_CONFIG_TABLENAME,
+                      TO_CONFIG_TABLE_FILENAME,
                       &TO_BackupConfigTbl,
-                      TO_UDP_DUMP_TABLENAME, 
+                      TO_DUMP_TABLENAME,
                       1, 
-                      TO_UDP_CF_THROTTLE_SEM_NAME);
+                      TO_CF_THROTTLE_SEM_NAME);
 
     for (i=0; i < TO_MAX_CHANNELS; i++)
     {

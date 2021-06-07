@@ -21,7 +21,7 @@ buildliner_initialize(
         ${CMAKE_BINARY_DIR}/../../../sitl_commander_workspace
         
     COMMANDER_WORKSPACE_OVERLAY
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../target/cdr_workspace_overlay
+        ${CMAKE_CURRENT_SOURCE_DIR}/cdr_workspace_overlay
 )
 
 buildliner_add_app(

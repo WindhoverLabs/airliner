@@ -66,7 +66,7 @@ int32 CI_InitCustom(void)
 
     if((CI_AppCustomData.Socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
     {
-    	CFE_EVS_SendEvent(CI_SOCKET_ERR_EID, CFE_EVS_ERROR,
+    	CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,
     		   "Socket errno: %i", errno);
     		Status = -1;
     		goto end_of_function;
@@ -81,7 +81,7 @@ int32 CI_InitCustom(void)
 
     if ( (bind(CI_AppCustomData.Socket, (struct sockaddr *) &address, sizeof(address)) < 0) )
     {
-        CFE_EVS_SendEvent(CI_SOCKET_ERR_EID, CFE_EVS_ERROR,"Bind socket failed = %d", errno);
+        CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,"Bind socket failed = %d", errno);
         Status = -1;
         goto end_of_function;
     }

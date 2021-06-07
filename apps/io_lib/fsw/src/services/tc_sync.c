@@ -52,7 +52,7 @@ int32 TC_SYNC_GetTransferFrame(uint8 *pTfBuff, uint8 *pCltu,
     }
 
     /* Get Start Sequence of CLTU and increment cltuOffset */
-    if (TC_SYNC_CheckStartSeq(pCltu, &cltuOffset) < 0)
+    if (TC_SYNC_CheckStartSeq(pCltu, TC_SYNC_START_SEQ_SIZE, &cltuOffset) < 0)
     {
         iStatus = TC_SYNC_INVALID_CLTU;
         goto end_of_function;
@@ -91,7 +91,7 @@ end_of_function:
 /*****************************************************************************/
 /** \brief TC_SYNC_CheckStartSeq
 ******************************************************************************/
-int32 TC_SYNC_CheckStartSeq(uint8 *pSeq, uint16 *pCltuOffset)
+int32 TC_SYNC_CheckStartSeq(uint8 *pSeq, uint16 bytesRead, uint16 *pCltuOffset)
 {
     int32 iStatus = TC_SYNC_SUCCESS;
     
@@ -101,13 +101,33 @@ int32 TC_SYNC_CheckStartSeq(uint8 *pSeq, uint16 *pCltuOffset)
         goto end_of_function;
     }
 
-    if (pSeq[0] != startSeq[0] || pSeq[1] != startSeq[1])
+    if ((0 == bytesRead) || (bytesRead > 2))
     {
-        iStatus = TC_SYNC_INVALID_CLTU;
+        iStatus = TC_SYNC_INVALID_LENGTH;
+        goto end_of_function;
+    }
+
+    if(bytesRead == 1)
+    {
+        if (pSeq[0] == startSeq[0])
+        {
+            iStatus = TC_SYNC_PARTIAL_FOUND;
+        }
+        else
+        {
+            iStatus = TC_SYNC_INVALID_CLTU;
+        }
     }
     else
     {
-        *pCltuOffset += TC_SYNC_START_SEQ_SIZE;
+        if ((pSeq[0] == startSeq[0]) && (pSeq[1] == startSeq[1]))
+        {
+            *pCltuOffset += TC_SYNC_START_SEQ_SIZE;
+        }
+        else
+        {
+            iStatus = TC_SYNC_INVALID_CLTU;
+        }
     }
 
 end_of_function:
