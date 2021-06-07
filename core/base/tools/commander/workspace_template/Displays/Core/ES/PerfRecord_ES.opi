@@ -10,7 +10,7 @@
   <background_color>
     <color red="240" green="240" blue="240" />
   </background_color>
-  <boy_version>1.6.2.202104092231</boy_version>
+  <boy_version>1.6.7.202105211550</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -28,7 +28,7 @@
   <show_ruler>true</show_ruler>
   <snap_to_geometry>true</snap_to_geometry>
   <widget_type>Display</widget_type>
-  <width>600</width>
+  <width>475</width>
   <wuid>7a03ebb6:17840dde0b7:-6fd0</wuid>
   <x>-1</x>
   <y>-1</y>
@@ -68,7 +68,7 @@
     <transparent>false</transparent>
     <visible>true</visible>
     <widget_type>Grouping Container</widget_type>
-    <width>600</width>
+    <width>475</width>
     <wuid>7a03ebb6:17840dde0b7:-6894</wuid>
     <x>0</x>
     <y>0</y>
