@@ -332,7 +332,7 @@
 **  \par Limits:
 **       Must be HS_STATE_ENABLED or HS_STATE_DISABLED
 */
-#define HS_APPMON_DEFAULT_STATE   HS_STATE_ENABLED
+#define HS_APPMON_DEFAULT_STATE   HS_STATE_DISABLED
 
 /** \hscfg Default State of the Event Monitor
 **
@@ -343,7 +343,7 @@
 **  \par Limits:
 **       Must be HS_STATE_ENABLED or HS_STATE_DISABLED
 */
-#define HS_EVENTMON_DEFAULT_STATE   HS_STATE_ENABLED
+#define HS_EVENTMON_DEFAULT_STATE   HS_STATE_DISABLED
 
 /** \hscfg Default State of the Aliveness Indicator
 **
@@ -354,7 +354,7 @@
 **  \par Limits:
 **       Must be HS_STATE_ENABLED or HS_STATE_DISABLED
 */
-#define HS_ALIVENESS_DEFAULT_STATE   HS_STATE_ENABLED
+#define HS_ALIVENESS_DEFAULT_STATE   HS_STATE_DISABLED
 
 /** \hscfg Default State of the CPU Hogging Indicator
 **
@@ -365,7 +365,7 @@
 **  \par Limits:
 **       Must be HS_STATE_ENABLED or HS_STATE_DISABLED
 */
-#define HS_CPUHOG_DEFAULT_STATE   HS_STATE_ENABLED
+#define HS_CPUHOG_DEFAULT_STATE   HS_STATE_DISABLED
 
 /** \hscfg Application Monitor Table (AMT) filename
 **
