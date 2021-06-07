@@ -321,7 +321,7 @@ $(pv_value)</tooltip>
     <horizontal_buttons_layout>false</horizontal_buttons_layout>
     <limits_from_pv>false</limits_from_pv>
     <maximum>1.7976931348623157E308</maximum>
-    <minimum>-1.7976931348623157E308</minimum>
+    <minimum>0.0</minimum>
     <name>MsgLimit</name>
     <page_increment>10.0</page_increment>
     <precision>0</precision>
@@ -376,7 +376,7 @@ $(pv_value)</tooltip>
     <horizontal_buttons_layout>false</horizontal_buttons_layout>
     <limits_from_pv>false</limits_from_pv>
     <maximum>1.7976931348623157E308</maximum>
-    <minimum>-1.7976931348623157E308</minimum>
+    <minimum>0.0</minimum>
     <name>PQueueIdx</name>
     <page_increment>10.0</page_increment>
     <precision>0</precision>
