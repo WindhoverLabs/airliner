@@ -1,8 +1,4 @@
 """
-This script auto-generates event ids rows for each event id found in the YAML file. It essentially creates LinkingContainer[1]
-widgets and uses EventRecord.opi to generates a container widget for each event in airliner configuration.
-
-[1]:https://docs.yamcs.org/yamcs-studio/
 """
 # import java packages
 from org.csstudio.opibuilder.scriptUtil import PVUtil, ScriptUtil, FileUtil, WidgetUtil, DataUtil

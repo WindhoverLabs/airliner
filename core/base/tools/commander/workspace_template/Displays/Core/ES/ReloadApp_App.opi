@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.2.202104092231</boy_version>
+  <boy_version>1.6.7.202105211550</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -212,7 +212,7 @@ $(pv_value)</tooltip>
     <name>inFileName</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://FileName&lt;VString&gt;("")</pv_name>
+    <pv_name>loc://ReloadApp_AppFileName&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
