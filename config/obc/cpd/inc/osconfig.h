@@ -65,11 +65,11 @@
 #define OS_UTILITY_TASK_ON
 
 
-#ifdef OS_UTILITY_TASK_ON 
-    #define OS_UTILITYTASK_STACK_SIZE 2048
-    /* some room is left for other lower priority tasks */
-    #define OS_UTILITYTASK_PRIORITY   245
-#endif
+//#ifdef OS_UTILITY_TASK_ON
+//    #define OS_UTILITYTASK_STACK_SIZE 2048
+//    /* some room is left for other lower priority tasks */
+//    #define OS_UTILITYTASK_PRIORITY   245
+//#endif
 
 
 /* 

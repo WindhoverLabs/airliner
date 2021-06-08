@@ -7,6 +7,9 @@ extern "C" {
 
 #include "cfe_platform_cfg.h"
 
+#include "priorities.h"
+
+
 /*
 ** Platform Configuration Parameter Definitions
 */
@@ -229,7 +232,7 @@ extern "C" {
  *
 **  \par Description:  This defines the priority of the child task.
 */
-#define TO_CHANNEL_TASK_PRIORITY  (119)
+//#define TO_CHANNEL_TASK_PRIORITY  (119)
 
 /**
 **  \tocfg Number of bytes in the Message Memory Pool
