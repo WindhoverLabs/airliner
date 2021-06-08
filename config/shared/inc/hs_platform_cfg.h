@@ -44,7 +44,7 @@
 **  \par Limits:
 **       This parameter can't be larger than 255.
 */
-#define HS_IDLE_TASK_PRIORITY   255
+//#define HS_IDLE_TASK_PRIORITY   255
 
 /** \hscfg Maximum reported execution counters
 **

@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-
+#include "priorities.h"
 
 #define CI_CUSTOM_BUFFER_SIZE          (2000)
 #define CI_CUSTOM_CLTU_BUFF_SIZE       (2000)
@@ -133,7 +133,7 @@ extern "C" {
 #define CI_LISTENER_TASK_FLAGS              (0)
 
 /** \brief CI Lister Task Priority */
-#define CI_LISTENER_TASK_PRIORITY           (240)
+//#define CI_LISTENER_TASK_PRIORITY           (240)
 
 /** \brief The largest size message CI can ingest */
 #define CI_MAX_CMD_INGEST                   (CFE_SB_MAX_SB_MSG_SIZE)
