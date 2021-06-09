@@ -511,7 +511,8 @@
 **       This parameter can't be larger than an unsigned 32 bit
 **       integer (4294967295).
 */
-#define HS_UTIL_PER_INTERVAL_TOTAL             10000
+#define HS_UTIL_PER_INTERVAL_TOTAL             100
+
 
 /** \hscfg CPU Utilization Hogging Utils Per Interval
 **
@@ -522,7 +523,7 @@
 **  \par Limits:
 **       This parameter can't be larger than #HS_UTIL_PER_INTERVAL_TOTAL.
 */
-#define HS_UTIL_PER_INTERVAL_HOGGING            9900
+#define HS_UTIL_PER_INTERVAL_HOGGING            (90)
 
 /** \hscfg CPU Utilization Conversion Factor Multiplication 1 (custom)
 **
@@ -556,7 +557,7 @@
 **       The result of the conversion must be a 32 bit signed integer 
 **       (between -2147483648 and 2147483647).
 */
-#define HS_UTIL_CONV_DIV                       10000
+#define HS_UTIL_CONV_DIV                       635491
 
 /** \hscfg CPU Utilization Conversion Factor Multiplication 2 (custom)
 **

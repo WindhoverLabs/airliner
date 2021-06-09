@@ -243,7 +243,7 @@ void HS_UtilizationMark(void)
 void HS_MarkIdleCallback(void)
 {
     /*
-    ** Capture the CPU Utilization (at a consistant time)
+    ** Capture the CPU Utilization (at a consistent time)
     */
     HS_UtilizationMark();
 
@@ -374,7 +374,6 @@ void HS_UtilDiagReport(void)
                 j++;
             }
         }
-
     }
 
     /* Calculate the lowest time jumps */
