@@ -2,6 +2,7 @@
 #define FM_PLATFORM_CFG_H
 
 #include "osapi.h"
+#include "priorities.h"
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -307,7 +308,7 @@
 **       parent defeats the purpose of having a child task to run in
 **       the background.
 */
-#define FM_CHILD_TASK_PRIORITY          208
+//#define FM_CHILD_TASK_PRIORITY          208
 
 
 /** \fmcfg Child Task Semaphore Name - cFE object name

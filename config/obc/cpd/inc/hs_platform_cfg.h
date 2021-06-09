@@ -1,5 +1,63 @@
-#ifndef HS_PLATFORM_CFG_H
-#define HS_PLATFORM_CFG_H
+/*************************************************************************
+** File:
+**   $Id: hs_platform_cfg.h 1.3 2016/08/05 09:40:27EDT mdeschu Exp  $
+**
+**   Copyright � 2007-2014 United States Government as represented by the
+**   Administrator of the National Aeronautics and Space Administration.
+**   All Other Rights Reserved.
+**
+**   This software was created at NASA's Goddard Space Flight Center.
+**   This software is governed by the NASA Open Source Agreement and may be
+**   used, distributed and modified only pursuant to the terms of that
+**   agreement.
+**
+** Purpose:
+**   CFS Health and Safety (HS) Application Platform Configuration Header File
+**
+** Notes:
+**
+**   $Log: hs_platform_cfg.h  $
+**   Revision 1.3 2016/08/05 09:40:27EDT mdeschu
+**   Ticket #40: HS hogging initialization
+**   Revision 1.2 2015/11/12 14:25:20EST wmoleski
+**   Checking in changes found with 2010 vs 2009 MKS files for the cFS HS Application
+**   Revision 1.15 2015/05/04 11:59:20EDT lwalling
+**   Change critical event to monitored event
+**   Revision 1.14 2015/05/04 11:00:06EDT lwalling
+**   Change definitions for MAX_CRITICAL to MAX_MONITORED
+**   Revision 1.13 2015/05/01 16:48:50EDT lwalling
+**   Remove critical from application monitor descriptions
+**   Revision 1.12 2015/03/03 12:16:30EST sstrege
+**   Added copyright information
+**   Revision 1.11 2011/10/17 16:50:20EDT aschoeni
+**   updated calibration parameter notes
+**   Revision 1.10 2011/10/13 18:49:51EDT aschoeni
+**   Updated for changes to cpu utilization calibration
+**   Revision 1.9 2011/08/15 15:42:55EDT aschoeni
+**   Updated so application name is configurable
+**   Revision 1.8 2010/11/19 17:58:30EST aschoeni
+**   Added command to enable and disable CPU Hogging Monitoring
+**   Revision 1.7 2010/11/16 16:36:28EST aschoeni
+**   Move HS_MISSION_REV from local header to platform config file
+**   Revision 1.6 2010/10/14 17:45:42EDT aschoeni
+**   Removed assumptions of rate of utilization measurement
+**   Revision 1.5 2010/09/29 18:28:10EDT aschoeni
+**   Added Utilization Monitoring
+**   Revision 1.4 2010/09/13 14:41:39EDT aschoeni
+**   add apps subdir to default table path
+**   Revision 1.3 2009/08/20 16:03:02EDT aschoeni
+**   Changed watchdog timeout to be in milliseconds rather than seconds (to match the new API)
+**   Revision 1.2 2009/05/04 17:44:35EDT aschoeni
+**   Updated based on actions from Code Walkthrough
+**   Revision 1.1 2009/05/01 13:52:03EDT aschoeni
+**   Initial revision
+**   Member added to project c:/MKSDATA/MKS-REPOSITORY/CFS-REPOSITORY/hs/fsw/platform_inc/project.pj
+**
+*************************************************************************/
+#ifndef _hs_platform_cfg_h_
+#define _hs_platform_cfg_h_
+
+#include "priorities.h"
 
 /** \hscfg Application Name
 **
@@ -44,7 +102,7 @@
 **  \par Limits:
 **       This parameter can't be larger than 255.
 */
-//#define HS_IDLE_TASK_PRIORITY   255
+//#define HS_IDLE_TASK_PRIORITY   252
 
 /** \hscfg Maximum reported execution counters
 **
@@ -65,7 +123,7 @@
 **       cFE size limit for a single buffered table set by the
 **       #CFE_TBL_MAX_SNGL_TABLE_SIZE parameter
 */
-#define HS_MAX_EXEC_CNT_SLOTS             32
+#define HS_MAX_EXEC_CNT_SLOTS             50
 
 /** \hscfg Maximum message action types
 **
@@ -329,7 +387,7 @@
 **  \par Limits:
 **       Must be HS_STATE_ENABLED or HS_STATE_DISABLED
 */
-#define HS_APPMON_DEFAULT_STATE   HS_STATE_ENABLED
+#define HS_APPMON_DEFAULT_STATE   HS_STATE_DISABLED
 
 /** \hscfg Default State of the Event Monitor
 **
@@ -340,7 +398,7 @@
 **  \par Limits:
 **       Must be HS_STATE_ENABLED or HS_STATE_DISABLED
 */
-#define HS_EVENTMON_DEFAULT_STATE   HS_STATE_ENABLED
+#define HS_EVENTMON_DEFAULT_STATE   HS_STATE_DISABLED
 
 /** \hscfg Default State of the Aliveness Indicator
 **
@@ -351,7 +409,7 @@
 **  \par Limits:
 **       Must be HS_STATE_ENABLED or HS_STATE_DISABLED
 */
-#define HS_ALIVENESS_DEFAULT_STATE   HS_STATE_ENABLED
+#define HS_ALIVENESS_DEFAULT_STATE   HS_STATE_DISABLED
 
 /** \hscfg Default State of the CPU Hogging Indicator
 **
@@ -362,7 +420,7 @@
 **  \par Limits:
 **       Must be HS_STATE_ENABLED or HS_STATE_DISABLED
 */
-#define HS_CPUHOG_DEFAULT_STATE   HS_STATE_ENABLED
+#define HS_CPUHOG_DEFAULT_STATE   HS_STATE_DISABLED
 
 /** \hscfg Application Monitor Table (AMT) filename
 **
@@ -374,7 +432,7 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define HS_AMT_FILENAME                "/cf/apps/hs_amt.tbl"
+#define HS_AMT_FILENAME                "/ram/apps/hs_amt.tbl"
 
 /** \hscfg Event Monitor Table (EMT) filename
 **
@@ -386,7 +444,7 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define HS_EMT_FILENAME                "/cf/apps/hs_emt.tbl"
+#define HS_EMT_FILENAME                "/ram/apps/hs_emt.tbl"
 
 /** \hscfg Execution Counter Table (XCT) filename
 **
@@ -398,7 +456,7 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define HS_XCT_FILENAME                "/cf/apps/hs_xct.tbl"
+#define HS_XCT_FILENAME                "/ram/apps/hs_xct.tbl"
 
 /** \hscfg Message Actions Table (MAT) filename
 **
@@ -410,7 +468,7 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define HS_MAT_FILENAME                "/cf/apps/hs_mat.tbl"
+#define HS_MAT_FILENAME                "/ram/apps/hs_mat.tbl"
 
 /** \hscfg CPU Utilization Calls per Mark (custom)
 **
@@ -453,7 +511,8 @@
 **       This parameter can't be larger than an unsigned 32 bit
 **       integer (4294967295).
 */
-#define HS_UTIL_PER_INTERVAL_TOTAL             10000
+#define HS_UTIL_PER_INTERVAL_TOTAL             100
+
 
 /** \hscfg CPU Utilization Hogging Utils Per Interval
 **
@@ -464,7 +523,7 @@
 **  \par Limits:
 **       This parameter can't be larger than #HS_UTIL_PER_INTERVAL_TOTAL.
 */
-#define HS_UTIL_PER_INTERVAL_HOGGING            9900
+#define HS_UTIL_PER_INTERVAL_HOGGING            (90)
 
 /** \hscfg CPU Utilization Conversion Factor Multiplication 1 (custom)
 **
@@ -498,7 +557,7 @@
 **       The result of the conversion must be a 32 bit signed integer 
 **       (between -2147483648 and 2147483647).
 */
-#define HS_UTIL_CONV_DIV                       1
+#define HS_UTIL_CONV_DIV                       635491
 
 /** \hscfg CPU Utilization Conversion Factor Multiplication 2 (custom)
 **
@@ -599,7 +658,7 @@
 */
 #define HS_MISSION_REV            0
 
-#endif /*HS_PLATFORM_CFG_H*/
+#endif /*_hs_platform_cfg_h_*/
 
 /************************/
 /*  End of File Comment */

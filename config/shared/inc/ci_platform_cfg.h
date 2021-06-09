@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#include "priorities.h"
+
 
 /*
 ** ci Platform Configuration Parameter Definitions
@@ -128,7 +130,7 @@ extern "C" {
 #define CI_LISTENER_TASK_FLAGS              (OS_ENABLE_CORE_0)
 
 /** \brief CI Lister Task Priority */
-#define CI_LISTENER_TASK_PRIORITY           (109)
+//#define CI_LISTENER_TASK_PRIORITY           (109)
 
 /** \brief The largest size message CI can ingest */
 #define CI_MAX_CMD_INGEST                   (CFE_SB_MAX_SB_MSG_SIZE)

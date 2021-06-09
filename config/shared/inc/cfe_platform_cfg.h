@@ -5,6 +5,7 @@
 ** Allow reference to CFE_SPACECRAFT_ID (see CFE_TBL_VALID_ definitions below)
 */
 #include "cfe_mission_cfg.h"
+#include "priorities.h"
 
 #define CFE_MSG_CPU_BASE (0x0000)
 
@@ -1061,7 +1062,7 @@
 **       Valid range for a child task is 1 to 255 however, the priority cannot
 **       be higher (lower number) than the ES parent application priority.
 */
-#define CFE_ES_PERF_CHILD_PRIORITY                200
+//#define CFE_ES_PERF_CHILD_PRIORITY                200
 
 /**
 **  \cfeescfg Define Performance Analyzer Child Task Stack Size
@@ -1125,7 +1126,7 @@
 **  \par Limits
 **       Not Applicable
 */
-#define CFE_EVS_START_TASK_PRIORITY               61
+//#define CFE_EVS_START_TASK_PRIORITY               61
 
 /**
 **  \cfeescfg Define EVS Task Stack Size
@@ -1150,7 +1151,7 @@
 **  \par Limits
 **       Not Applicable
 */
-#define CFE_SB_START_TASK_PRIORITY                64
+//#define CFE_SB_START_TASK_PRIORITY                64
 
 /**
 **  \cfeescfg Define SB Task Stack Size
@@ -1175,7 +1176,7 @@
 **  \par Limits
 **       Not Applicable
 */
-#define CFE_ES_START_TASK_PRIORITY                68
+//#define CFE_ES_START_TASK_PRIORITY                68
 
 /**
 **  \cfeescfg Define ES Task Stack Size
@@ -1204,9 +1205,9 @@
 **       configuration paramaters.  Remember that the meaning of each task
 **       priority is inverted -- a "lower" number has a "higher" priority.
 */
-#define CFE_TIME_START_TASK_PRIORITY              60
-#define CFE_TIME_TONE_TASK_PRIORITY               25
-#define CFE_TIME_1HZ_TASK_PRIORITY                25
+//#define CFE_TIME_START_TASK_PRIORITY              60
+//#define CFE_TIME_TONE_TASK_PRIORITY               25
+//#define CFE_TIME_1HZ_TASK_PRIORITY                25
 
 /**
 **  \cfetimecfg Define TIME Task Stack Sizes
@@ -1237,7 +1238,7 @@
 **  \par Limits
 **       Not Applicable
 */
-#define CFE_TBL_START_TASK_PRIORITY               70
+//#define CFE_TBL_START_TASK_PRIORITY               70
 
 /**
 **  \cfeescfg Define TBL Task Stack Size
