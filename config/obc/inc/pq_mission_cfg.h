@@ -38,6 +38,8 @@
 extern "C" {
 #endif
 
+#include "osconfig.h"
+
 /*
 ** PQ Mission Configuration Parameter Definitions
 */
@@ -78,7 +80,7 @@ extern "C" {
  *        Another rule of thumb is to limit to small values.
  *  
  */
-#define PQ_MAX_QUEUE_SIZE_LIMIT    (128)
+#define PQ_MAX_QUEUE_SIZE_LIMIT    (OS_MAX_QUEUE_DEPTH)
 
 /**
  * \brief Maximum number of messages in a Message Flow.
@@ -87,7 +89,7 @@ extern "C" {
  *       This maximum number is arbitrary. Minimum is 1.
  *       The maximum MsgLimit is limited by the available memory. 
  */
-#define PQ_MAX_PQ_MSG_SIZE_LIMIT   (64)
+#define PQ_MSGFLOW_MSGLIMIT_MAX   (CFE_SB_MAX_PIPE_DEPTH)
 
 #ifdef __cplusplus
 }

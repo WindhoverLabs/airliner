@@ -371,7 +371,7 @@ int32 PQ_ValidateConfigTbl(void *configTblPtr)
             }
 
             /* Validate Message Flow message limit is in the proper range */
-            if (PQ_ConfigTblPtr->MessageFlow[MFlowIdx].MsgLimit > PQ_MAX_PQ_MSG_SIZE_LIMIT ||
+            if (PQ_ConfigTblPtr->MessageFlow[MFlowIdx].MsgLimit > PQ_MSGFLOW_MSGLIMIT_MAX ||
                 PQ_ConfigTblPtr->MessageFlow[MFlowIdx].MsgLimit < 1)
             {
                 (void) CFE_EVS_SendEvent(PQ_CONFIG_TABLE_MSG_FLOW_MSG_LIMIT_ERR_EID,
