@@ -51,6 +51,7 @@ extern "C" {
 #include <linux/serial_core.h>
 #include <errno.h>
 #include <time.h>
+#include "priorities.h"
 
 /************************************************************************
 ** Local Defines
@@ -161,7 +162,7 @@ extern "C" {
 **  \par Limits:
 **       0 to MAX_PRIORITY (usually 255)
 */
-#define RCIN_STREAMING_TASK_PRIORITY    (85)
+//#define RCIN_STREAMING_TASK_PRIORITY    (85)
 
 /** \brief RCIN shared data mutex name. */
 #define RCIN_MUTEX_NAME                "RCIN_MUTEX"

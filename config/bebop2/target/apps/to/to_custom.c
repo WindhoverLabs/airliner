@@ -93,7 +93,7 @@ int32 TO_Custom_Init(void)
     TO_AppCustomData.Channel[0].Mode = TO_CHANNEL_ENABLED;
     strncpy(TO_AppCustomData.Channel[0].IP, TO_UDP_CHANNEL_ADDRESS, INET_ADDRSTRLEN);
     TO_AppCustomData.Channel[0].DstPort = TO_UDP_CHANNEL_PORT;
-    TO_AppCustomData.Channel[0].Priority = TO_UDP_CHANNEL_TASK_PRIORITY;
+    TO_AppCustomData.Channel[0].Priority = TO_CHANNEL_TASK_PRIORITY;
     TO_AppCustomData.Channel[0].ListenerTask = TO_OutputChannel_UDPChannelTask;
     TO_AppCustomData.Channel[0].Socket = 0;
     TO_AppCustomData.Channel[0].ChildTaskID = 0;

@@ -42,6 +42,7 @@ extern "C" {
 ** Includes
 *************************************************************************/
 #include "rgbled_custom.h"
+#include "priorities.h"
 
 /************************************************************************
 ** Local Defines
@@ -184,7 +185,7 @@ extern "C" {
 **  \par Limits:
 **       0 to MAX_PRIORITY (usually 255)
 */
-#define RGBLED_SELFTEST_TASK_PRIORITY      (50)
+//#define RGBLED_SELFTEST_TASK_PRIORITY      (50)
 
 /** \brief Streaming task name
 **

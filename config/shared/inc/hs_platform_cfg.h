@@ -1,6 +1,8 @@
 #ifndef HS_PLATFORM_CFG_H
 #define HS_PLATFORM_CFG_H
 
+#include "priorities.h"
+
 /** \hscfg Application Name
 **
 **  \par Description:

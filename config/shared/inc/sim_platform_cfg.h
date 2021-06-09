@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#include "priorities.h"
+
 /*
 ** SIM Platform Configuration Parameter Definitions
 */
@@ -114,7 +116,7 @@ extern "C" {
 #define SIM_MAX_MESSAGE_SIZE (1500)
 #define SIM_LISTENER_TASK_NAME "SIM_LISTENER"
 #define SIM_LISTENER_TASK_STACK_SIZE 16378
-#define SIM_LISTENER_TASK_PRIORITY   50
+//#define SIM_LISTENER_TASK_PRIORITY   50
 #define SIM_MUTEX_NAME	"SIM_MUTEX"
 #define SIMLIB_MUTEX_SEM_NAME     "SIMLIB_MUTEX"
 #define SIM_PORT (4560)

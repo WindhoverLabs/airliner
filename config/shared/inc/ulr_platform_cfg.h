@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#include "priorities.h"
+
 #define ULR_LISTENER_TASK_FLAGS            OS_ENABLE_CORE_0
 
 /*
@@ -108,7 +110,7 @@ extern "C" {
 #define ULR_SENS_VARIANCE 		(0.045f * 0.045f)
 
 
-#define ULR_LISTENER_TASK_PRIORITY      (64)
+//#define ULR_LISTENER_TASK_PRIORITY      (64)
 #define ULR_LISTENER_TASK_STACK_SIZE    (16000)
 #define ULR_LISTENER_TASK_NAME          "ULR_LISTENER"
 #define ULR_MUTEX_NAME                  "ULR_MUTEX"
