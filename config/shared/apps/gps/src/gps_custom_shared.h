@@ -39,6 +39,7 @@
 #include "gps_events.h"
 #include "cfe.h"
 #include "px4_msgs.h"
+#include "priorities.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -58,7 +59,7 @@ extern "C" {
 **  \par Limits:
 **       0 to MAX_PRIORITY (usually 255)
 */
-#define GPS_STREAMING_TASK_PRIORITY    (94)
+//#define GPS_STREAMING_TASK_PRIORITY    (94)
 
 /** \brief GPS shared data mutex name. */
 #define GPS_MUTEX_POS                "GPS_MUTEX_POS"

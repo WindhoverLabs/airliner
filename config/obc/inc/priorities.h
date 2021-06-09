@@ -43,3 +43,7 @@
 #define RGBLED_SELFTEST_TASK_PRIORITY    ( 220 )           /* ASYNC */
 #define TO_CHANNEL_TASK_PRIORITY         (  89 )           /* ASYNC */
 #define SCH_AD_CHILD_TASK_PRIORITY		 (  11 )
+
+
+/* PPD Only                                                         */
+#define EA_CHILD_TASK_PRIORITY           ( 187 )

@@ -8,6 +8,7 @@ buildliner_initialize(
     CONFIG
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../inc
         ${PROJECT_SOURCE_DIR}/config/shared/inc
     FILESYS
         /cf/apps
