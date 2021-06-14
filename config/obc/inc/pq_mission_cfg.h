@@ -38,6 +38,8 @@
 extern "C" {
 #endif
 
+#include "osconfig.h"
+
 /*
 ** PQ Mission Configuration Parameter Definitions
 */
@@ -87,7 +89,7 @@ extern "C" {
  *       This maximum number is arbitrary. Minimum is 1.
  *       The maximum MsgLimit is limited by the available memory. 
  */
-#define PQ_MAX_PQ_MSG_SIZE_LIMIT   (CFE_SB_MAX_PIPE_DEPTH)
+#define PQ_MSGFLOW_MSGLIMIT_MAX   (CFE_SB_MAX_PIPE_DEPTH)
 
 #ifdef __cplusplus
 }

@@ -2,6 +2,7 @@
 #define CS_PLATFORM_CFG_H
 
 #include "osapi.h"
+#include "priorities.h"
 
 /*************************************************************************
  ** Macro Definitions
@@ -152,7 +153,7 @@
  **       higher (lower number) than the CS App priority. 
  **
  */
-#define CS_CHILD_TASK_PRIORITY              202
+//#define CS_CHILD_TASK_PRIORITY              202
 
 
 /** \cscfg Delay between checksumming cycles for child task

@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103012118</boy_version>
+  <boy_version>1.6.7.202105211550</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -152,7 +152,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>30</height>
+    <height>32</height>
     <items>
       <s>CF</s>
       <s>CI</s>
@@ -170,7 +170,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>inAppName</name>
-    <pv_name>loc://AppName</pv_name>
+    <pv_name>loc://RestartAppAppName</pv_name>
     <pv_value />
     <rules />
     <scale_options>

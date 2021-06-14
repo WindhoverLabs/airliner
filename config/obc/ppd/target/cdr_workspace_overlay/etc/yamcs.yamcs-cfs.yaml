@@ -44,32 +44,31 @@ services:
         AckLimitReached: suspend
 
 dataLinks:
-  - name: tm_ppd
+  - name: tm_cpd
     class: org.yamcs.tctm.UdpTmDataLink
+    stream: "tm_realtime"
     port: 5011
-    stream: tm_realtime
-    #packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.PacketPreprocessor
+    maxLength: 32768
     packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
     packetPreprocessorArgs:
       byteOrder: LITTLE_ENDIAN
       timestampFormat: CFE_SB_TIME_32_16_SUBS
       timeEncoding:
         epoch: CUSTOM
-        # Normally, the epochUTC value belue should be 1970-01-01T00:00:00Z.
-        # However, until we add the capability of synchronizing and saving
-        # time, set this to system up time for convenience.
-        epochUTC: "2021-05-24T05:19:27Z"
+        epochUTC: "1970-01-01T00:00:00Z"
         timeIncludesLeapSeconds: false
 
   - name: tc_ppd
     class: org.yamcs.tctm.UdpTcDataLink
-    port: 5010
-    host: 192.168.2.185
+    stream: tc_realtime
+    host: 192.168.2.155
     tcMaxRate: 10
     stream: tc_realtime
     commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
     commandPreprocessorArgs:
       swapChecksumFc: true
+
+
       
   - name: tmtc_cpd
     class: com.windhoverlabs.yamcs.tctm.ccsds.SerialTmTcFrameLink
@@ -107,29 +106,29 @@ dataLinks:
               epoch: CUSTOM
               # Normally, the epochUTC value belue should be 1970-01-01T00:00:00Z.
               # However, until we add the capability of synchronizing and saving
-              # time, set this to system up time for convenience.
-              epochUTC: "2021-05-24T05:19:27Z"
+              # time, set this to current wall time for convenience.
+              epochUTC: "1970-01-01T00:00:00Z"
               timeIncludesLeapSeconds: false
-      tc_config:
-        spacecraftId: 66
-        maxFrameLength: 1024
-        cltuEncoding: "BCH"
-        priorityScheme: FIFO
-        randomizeCltu: false
-        cltuStartSequence: "EB90"
-        cltuTailSequence: "C5C5C5C5C5C5C579"
-        errorDetection: NONE
-        virtualChannels:
-          - vcId: 1
-            service: PACKET
-            priority: 1
-            commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
-            commandPostprocessorArgs:
-              swapChecksumFc: true
-            stream: tc_realtime
-            useCop1: false
-            bdAbsolutePriority: false
-  
+    tc_config:
+      spacecraftId: 66
+      maxFrameLength: 1024
+      cltuEncoding: "BCH"
+      priorityScheme: FIFO
+      randomizeCltu: false
+      cltuStartSequence: "EB90"
+      cltuTailSequence: "C5C5C5C5C5C5C579"
+      errorDetection: NONE
+      virtualChannels:
+        - vcId: 1
+          service: PACKET
+          priority: 1
+          commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+          commandPostprocessorArgs:
+            swapChecksumFc: true
+          stream: tc_realtime
+          useCop1: false
+          bdAbsolutePriority: false
+
 #    One Serial port for downlink
 #  - name: tm_cpd
 #    class: org.yamcs.tctm.ccsds.SerialTmFrameLink

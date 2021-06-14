@@ -2,6 +2,8 @@
 #define SCH_PLATFORM_CFG_H
 
 #include "osapi.h"
+#include "priorities.h"
+
 
 
 /*************************************************************************
@@ -20,9 +22,10 @@
 */
 #define SCH_PIPE_DEPTH      12              /**< \brief SCH Command Pipe Depth */
 
-#define SCH_AD_PIPE_DEPTH				3
-#define SCH_AD_CHILD_TASK_PRIORITY		37
-#define SCH_AD_CHILD_TASK_FLAGS         OS_ENABLE_CORE_0
+
+#define SCH_AD_PIPE_DEPTH		(3)
+//#define SCH_AD_CHILD_TASK_PRIORITY		37
+#define SCH_AD_CHILD_TASK_FLAGS         (OS_ENABLE_CORE_0)
 
 /*#define SCH_RTM_SUPPORTED*/
 

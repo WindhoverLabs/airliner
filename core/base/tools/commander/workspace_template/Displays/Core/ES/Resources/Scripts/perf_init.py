@@ -160,6 +160,9 @@ def add_perf_records(tab_number, perf_ids):
                                                                                                    get_perf_id(perf_ids,
                                                                                                                current_perf_id))
 
+            new_perf_record.getChildByName("PerfRecord").getChildByName("PerfId").setPropertyValue("tooltip",
+                                                                                                   get_perf_id(perf_ids,
+                                                                                                               current_perf_id))
             current_perf_id = current_perf_id + 1
 
 
@@ -167,7 +170,7 @@ def add_tabbed_container(tab_number):
     new_tabbed_container = WidgetUtil.createWidgetModel("org.csstudio.opibuilder.widgets.tab")
     new_tabbed_container.setPropertyValue("name", "PerfTabbedContainer")
     new_tabbed_container.setPropertyValue("height", 800)
-    new_tabbed_container.setPropertyValue("width", 564)
+    new_tabbed_container.setPropertyValue("width", 490)
     # Don't really like doing this, but if I use a layout Studio will place this widget wherever it wants; we lose
     # control over where this is positioned exactly, which matters a lot in this case.
     new_tabbed_container.setPropertyValue("x", 19)
@@ -181,11 +184,13 @@ def add_tabbed_container(tab_number):
     current_mask_number = 0
     for child in new_tabbed_container.getChildren():
         child.setPropertyValue("background_color", RGB(255, 255, 255))
+        child.setPropertyValue("show_scrollbar", False)
         # Add the container for perf ids
         new_grouping_container = WidgetUtil.createWidgetModel("org.csstudio.opibuilder.widgets.groupingContainer")
         new_grouping_container.setPropertyValue("name", "PerfRecordContainer")
         new_grouping_container.setPropertyValue("height", 700)
-        new_grouping_container.setPropertyValue("width", 552)
+        new_grouping_container.setPropertyValue("width", 600)
+        new_grouping_container.setPropertyValue("show_scrollbar", False)
 
         # Don't really like doing this, but if I use a layout Studio will place this widget wherever it wants; we lose
         # control over where this is positioned exactly, which matters a lot in this case.
@@ -347,15 +352,12 @@ def main():
         widget.setVar("firstTime", True)
         add_perf_records(tabs, perf_ids)
         for tab in range(tabs):
-            #     script.addPV(PVTuple(FILTER_MASK_PV_BASE_NAME + "_{}_".format(str(tab)), True))
             pvName = FILTER_MASK_PV_BASE_NAME + "_{}_".format(tab)
-            # print('pv_name-->{}'.format(pvName))
             pv = PVUtil.createPV(pvName, display)
             new_listner = MyPVListener(tab, FILTER_ACTUAL_BASENAME)
             pv.addListener(new_listner)
 
             pvName = TRIGGER_MASK_PV_BASE_NAME + "_{}_".format(tab)
-            # print('pv_name-->{}'.format(pvName))
             pv = PVUtil.createPV(pvName, display)
             new_listner = MyPVListener(tab, TRIGGER_ACTUAL_BASENAME)
             pv.addListener(new_listner)

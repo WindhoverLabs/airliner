@@ -43,6 +43,7 @@ extern "C" {
 *************************************************************************/
 #include "rcin_custom.h"
 #include "px4_msgs.h"
+#include "priorities.h"
 
 /************************************************************************
 ** Local Defines
@@ -84,7 +85,7 @@ extern "C" {
 **  \par Limits:
 **       0 to MAX_PRIORITY (usually 255)
 */
-#define RCIN_STREAMING_TASK_PRIORITY    (85)
+//#define RCIN_STREAMING_TASK_PRIORITY    (85)
 
 /** \brief RCIN shared data mutex name. */
 #define RCIN_MUTEX_NAME                "RCIN_MUTEX"
