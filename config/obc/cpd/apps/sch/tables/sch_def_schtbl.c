@@ -143,7 +143,6 @@ VC_PROCESS_CMDS_MIDX                  1Hz, 12
 #define RGBLED_WAKEUP_MIDX            47
 #define RGBLED_SEND_HK_MIDX           48
 
-#define CI_READ_CMD_MIDX              50
 #define CI_1HZ_PROC_TIMEOUTS_MIDX     51
 #define CI_SEND_HK_MIDX               52
 #define CI_INGEST_COMMANDS_MIDX       53

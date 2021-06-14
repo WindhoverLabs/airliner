@@ -44,15 +44,6 @@ services:
         AckLimitReached: suspend
 
 dataLinks:
-  - name: tc_ppd
-    class: org.yamcs.tctm.UdpTcDataLink
-    stream: tc_realtime
-    host: 192.168.2.155
-    port: 5010
-    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
-    commandPostprocessorArgs:
-      swapChecksumFc: true
-
   - name: tm_cpd
     class: org.yamcs.tctm.UdpTmDataLink
     stream: "tm_realtime"
@@ -67,9 +58,21 @@ dataLinks:
         epochUTC: "1970-01-01T00:00:00Z"
         timeIncludesLeapSeconds: false
 
+  - name: tc_ppd
+    class: org.yamcs.tctm.UdpTcDataLink
+    stream: tc_realtime
+    host: 192.168.2.155
+    tcMaxRate: 10
+    stream: tc_realtime
+    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+    commandPreprocessorArgs:
+      swapChecksumFc: true
+
+
+      
   - name: tmtc_cpd
     class: com.windhoverlabs.yamcs.tctm.ccsds.SerialTmTcFrameLink
-    device: /dev/ttyUSB0
+    device: /dev/radio0
     tm_config:
       stream: tm_realtime
       frameType: TM
@@ -101,6 +104,9 @@ dataLinks:
             timestampFormat: CFE_SB_TIME_32_16_SUBS
             timeEncoding:
               epoch: CUSTOM
+              # Normally, the epochUTC value belue should be 1970-01-01T00:00:00Z.
+              # However, until we add the capability of synchronizing and saving
+              # time, set this to current wall time for convenience.
               epochUTC: "1970-01-01T00:00:00Z"
               timeIncludesLeapSeconds: false
     tc_config:
