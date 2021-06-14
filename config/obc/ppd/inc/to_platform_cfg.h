@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 #include "cfe_platform_cfg.h"
+#include "priorities.h"
 
 /*
 ** Platform Configuration Parameter Definitions
@@ -40,7 +41,7 @@ extern "C" {
 **       only and can be changed by command at runtime.
 **
 */
-#define TO_UDP_CHANNEL_ADDRESS         "192.168.2.20"
+#define TO_UDP_CHANNEL_ADDRESS         "192.168.2.96"
 
 
 /** \tocfg Default telemetry destination UDP port
@@ -250,7 +251,7 @@ extern "C" {
 **  \par Description:  This defines the priority of the development UDP
 **       child task.
 */
-#define TO_UDP_CHANNEL_TASK_PRIORITY (119)
+//#define TO_CHANNEL_TASK_PRIORITY (119)
 
 /**
 **  \tocfg Number of bytes in the Message Memory Pool

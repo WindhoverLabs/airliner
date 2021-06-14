@@ -19,8 +19,8 @@ if not (display.getWidget('msgIdInput').getPropertyValue('pv_value') is None) an
         not (display.getWidget('PQueueIdx').getPropertyValue('pv_value') is None) and \
 		not (display.getWidget('ChannelIndex').getPropertyValue('pv_value') is None):
 	msg_key = display.getWidget('msgIdInput').getPropertyValue('pv_value').getValue()
-	msg_limit = display.getWidget('MsgLimit').getPropertyValue('pv_value').getValue()
-	pq_index = display.getWidget('PQueueIdx').getPropertyValue('pv_value').getValue()
+	msg_limit = int(display.getWidget('MsgLimit').getPropertyValue('pv_value').getValue())
+	pq_index = int(display.getWidget('PQueueIdx').getPropertyValue('pv_value').getValue())
 	channel_index = int(display.getWidget('ChannelIndex').getPropertyValue('pv_value').getValue())
 
 	# NOTE: These might be redundant...
