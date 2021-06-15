@@ -226,7 +226,7 @@ extern "C" {
 **  \par Description:  This defines how many messages can be queued into the
 **       channel output queue by the scheduler.
 */
-#define TO_OUTPUT_QUEUE_DEPTH     (20)
+#define TO_OUTPUT_QUEUE_DEPTH     (40)
 
 /** \tocfg Development channel task priority.
  *
