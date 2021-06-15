@@ -17,7 +17,7 @@
 **       The cFE does not place a limit on this configuration paramter.
 **       CCSDS allocates 8 bits for this field in the standard VCDU.
 */
-#define CFE_SPACECRAFT_ID       0x42
+#define CFE_SPACECRAFT_ID       1
 
 
 /**

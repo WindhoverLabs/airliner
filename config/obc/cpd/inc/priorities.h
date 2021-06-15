@@ -20,7 +20,7 @@
 /* TO                                    (  90 ) */        /*  10Hz */
 
 /*   1Hz */
-#define CFE_ES_PERF_CHILD_PRIORITY       ( 150 )           /*   1Hz */
+#define CFE_ES_PERF_CHILD_PRIORITY       ( 240 )           /*   1Hz */
 #define CFE_EVS_START_TASK_PRIORITY      ( 155 )           /*   1Hz */
 #define CFE_SB_START_TASK_PRIORITY       ( 150 )           /*   1Hz */
 #define CFE_ES_START_TASK_PRIORITY       ( 140 )           /*   1Hz */
@@ -36,10 +36,11 @@
 /* SC                                    ( 120 ) */        /*   1Hz */
 
 /* ASYNC */
-#define CI_LISTENER_TASK_PRIORITY        (  79 )           /* ASYNC */
+#define CI_LISTENER_TASK_PRIORITY        ( 230 )           /* ASYNC */
 #define CS_CHILD_TASK_PRIORITY           ( 210 )           /* ASYNC */
 #define FM_CHILD_TASK_PRIORITY           ( 200 )           /* ASYNC */
 #define HS_IDLE_TASK_PRIORITY            ( 254 )           /* ASYNC */
 #define RGBLED_SELFTEST_TASK_PRIORITY    ( 220 )           /* ASYNC */
-#define TO_CHANNEL_TASK_PRIORITY         (  89 )           /* ASYNC */
-#define SCH_AD_CHILD_TASK_PRIORITY		 (  11 )
+#define TO_CHANNEL_TASK_PRIORITY         ( 215 )           /* ASYNC */
+#define SCH_AD_CHILD_TASK_PRIORITY		 (  11 )           /* ASYNC */
+#define SBN_PQ_SEND_TASK_PRIORITY        ( 228 )           /* ASYNC */
