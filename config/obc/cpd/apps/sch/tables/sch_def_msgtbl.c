@@ -280,9 +280,9 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #118 */
    { { SCH_FIX_HEADER(BAT_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #119 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(ZUSUP_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #120 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(ZUSUP_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #121 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #122 */
