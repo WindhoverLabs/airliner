@@ -492,5 +492,6 @@
 #define ZUSUP_SEND_HK_MID                         CMD_MSG(  487 )
 #define ZUSUP_WAKEUP_MID                          CMD_MSG(  488 )
 #define ZUSUP_HK_TLM_MID                          TLM_MSG(  489 )
+#define ZUSUP_DIAG_TLM_MID                        TLM_MSG(  490 )
 
 #endif

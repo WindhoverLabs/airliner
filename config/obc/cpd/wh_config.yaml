@@ -928,6 +928,8 @@ modules:
     telemetry:
       ZUSUP_HK_TLM_MID:
         msgID: 0x0be9
+      ZUSUP_DIAG_TLM_MID:
+        msgID: 0x0bea
     commands:
       ZUSUP_CMD_MID:
         msgID: 0x1be6
