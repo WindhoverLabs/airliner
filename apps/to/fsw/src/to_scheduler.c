@@ -44,14 +44,10 @@
 void TO_Scheduler_Run(TO_ChannelData_t *channel)
 {
     uint32 i;
-    TO_PriorityQueue_t *pqueue = NULL;
-    TO_OutputQueue_t *oqueue   = NULL;
     int32 status = 0;
-    void *buffer = NULL;
+    CFE_SB_MsgPtr_t msgPtr = NULL;
     uint32 nBytesCopied = 0;
-    
-    oqueue = &channel->OutputQueue;
-    
+
     if (NULL == channel->ConfigTblPtr)
     {
         /* If there is no table data we can't access a priority queue. */
@@ -61,33 +57,29 @@ void TO_Scheduler_Run(TO_ChannelData_t *channel)
     for (i = 0; i < TO_MAX_PRIORITY_QUEUES; ++i)
     {
         status = OS_SUCCESS;
-        pqueue = &channel->ConfigTblPtr->PriorityQueue[i];
-        
-        if (pqueue->State != TO_PQUEUE_UNUSED)
+        osalbool term = FALSE;
+
+        while(!term)
         {
-            if (channel->DumpTbl.PriorityQueue[i].OSALQueueID != OS_MAX_QUEUES)
-            {                
-                while ((OS_SUCCESS == status) && (oqueue->CurrentlyQueuedCnt < TO_OUTPUT_QUEUE_DEPTH))
-                {
-                    status =  OS_QueueGet(
-                            channel->DumpTbl.PriorityQueue[i].OSALQueueID,
-                            &buffer, sizeof(buffer), &nBytesCopied, OS_CHECK);
-                            
-                    if (OS_SUCCESS == status)
-                    {
-                        channel->DumpTbl.PriorityQueue[i].CurrentlyQueuedCnt--;
-                        status = TO_OutputQueue_QueueMsg(channel, buffer);
-                        if (CFE_SUCCESS == status)
-                        {
-                            oqueue->CurrentlyQueuedCnt++;
-                            if (oqueue->HighwaterMark < oqueue->CurrentlyQueuedCnt)
-                            {
-                                oqueue->HighwaterMark = oqueue->CurrentlyQueuedCnt;
-                            }
-                        }
-                    }
-                }
-            }
+			if(FALSE == TO_OutputQueue_IsFull(channel))
+			{
+				if (&channel->ConfigTblPtr->PriorityQueue[i].State != TO_PQUEUE_UNUSED)
+				{
+					status = TO_PriorityQueue_Get(channel, i, &msgPtr);
+					if (OS_SUCCESS == status)
+					{
+						TO_OutputQueue_QueueMsg(channel, msgPtr);
+					}
+					else
+					{
+						term = TRUE;
+					}
+				}
+			}
+			else
+			{
+				term = TRUE;
+			}
         }
     }
 }

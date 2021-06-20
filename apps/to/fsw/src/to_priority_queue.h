@@ -120,8 +120,8 @@ typedef struct
     /** \brief Priority Queue State (unused or enabled) */
     uint8  State;
     
-    /** \brief Priority Queue Message Limit.  */
-    uint16 MsgLimit;
+    /** \brief Priority Queue Depth.  */
+    uint16 Depth;
     
     /** \brief Priority Queue Type (only one type - FIFO) */
     TO_PriorityQueueType_t  QType;
@@ -131,26 +131,23 @@ typedef struct
 /** \brief Definition for Priority Queue Metrics */
 typedef struct
 {
-    /** \brief Priority Queue Dropped Message Count */
-    uint32 DroppedMsgCnt;
-    
     /** \brief Priority Queue Queued Message Count */
-    uint32 QueuedMsgCnt;
+    uint32          QueuedMsgCnt;
     
     /** \brief Priority Queue Passed (not filtered) Message Count */
-    uint32 PassCnt;
+    uint32          PassCnt;
     
     /** \brief Priority Queue Filtered (not sent/passed) Message Count */
-    uint32 FilteredCnt;
+    uint32          FilteredCnt;
     
     /** \brief Priority Queue Currently Queued Message Count */     
-    uint16 CurrentlyQueuedCnt;
+    uint16          CurrentlyQueuedCnt;
     
     /** \brief Priority Queue Highest recorded the Queued Message Count */
-    uint16 HighwaterMark;
+    uint16          HighwaterMark;
     
-    /** \brief Priority Queue Queue ID  */ 
-    uint32 OSALQueueID;
+    /** \brief Priority Queue Software Bus Pipe ID  */
+    CFE_SB_PipeId_t SBPipeID;
     
 } TO_PriorityQueueMetrics_t;
 
@@ -193,27 +190,8 @@ void TO_PriorityQueue_ResetCountsAll(TO_ChannelData *channel);
 int32 TO_PriorityQueue_BuildupAll(TO_ChannelData *channel);
 
 
-/************************************************************************/
-/** \brief Queue message.
-**
-**  \par Description
-**       This function is called by the Classifier to queue a message
-**       into a priority queue.
-**
-**  \param [in]   MsgPtr        A #CFE_SB_Msg_t pointer that
-**                              references the software bus message
-
-**
-**  \param [in]   PQueue        A #TO_PriorityQueue_t pointer to
-**                              the priority queue object.
-**
-**  \returns
-**  0 if successful.  OSAL error if unsuccessful.
-**  \endreturns
-**
-*************************************************************************/
-int32 TO_PriorityQueue_QueueMsg(TO_ChannelData *channel, CFE_SB_MsgPtr_t MsgPtr, uint32 PQueueIndex);
-
+int32 TO_PriorityQueue_Buildup(TO_ChannelData *channel, uint32 PQueueIndex);
+int32 TO_PriorityQueue_Teardown(TO_ChannelData *channel, uint32 PQueueIndex);
 
 
 /************************************************************************/
@@ -272,6 +250,10 @@ osalbool TO_PriorityQueue_Query(uint16 ChannelIdx, uint16 PQueueIdx);
 **
 *************************************************************************/
 osalbool TO_PriorityQueue_IsValid(TO_ChannelData *channel, uint32 PQueueIdx);
+
+
+int32 TO_PriorityQueue_Get(TO_ChannelData *Channel, uint16 PQueueIdx,
+		                   CFE_SB_MsgPtr_t  *Msg);
 
 
 #endif

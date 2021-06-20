@@ -34,6 +34,48 @@
 #include "to_app.h"
 #include "to_output_queue.h"
 #include "to_custom.h"
+#include "cfe_evs_msg.h"
+
+
+uint32  TO_MemPoolDefSize[TO_MAX_MEMPOOL_BLK_SIZES] =
+{
+    TO_MAX_BLOCK_SIZE,
+    TO_MEM_BLOCK_SIZE_07,
+    TO_MEM_BLOCK_SIZE_06,
+    TO_MEM_BLOCK_SIZE_05,
+    TO_MEM_BLOCK_SIZE_04,
+    TO_MEM_BLOCK_SIZE_03,
+    TO_MEM_BLOCK_SIZE_02,
+    TO_MEM_BLOCK_SIZE_01
+};
+
+
+int32 TO_OutputQueue_Init(TO_ChannelData_t* channel)
+{
+    int32 status;
+
+    /* Initialize the memory pool */
+    status = CFE_ES_PoolCreateEx(&channel->OutputQueue.MemPoolHandle,
+    		      channel->OutputQueue.MemPoolBuffer,
+                  TO_NUM_BYTES_IN_MEM_POOL,
+                  TO_MAX_MEMPOOL_BLK_SIZES,
+                  &TO_MemPoolDefSize[0],
+                  CFE_ES_USE_MUTEX);
+    if (status != CFE_SUCCESS)
+    {
+        /* This is a critical error for this channel.  No sense in continuing.  Destroy
+         * the counting semaphore, and delete OSAL queue before returning the error
+         * back to the caller.
+         */
+
+        (void) CFE_EVS_SendEvent(TO_CR_POOL_ERR_EID,
+                                 CFE_EVS_ERROR,
+                "Error creating memory pool (0x%08X) for %s",(unsigned int)status,
+				channel->ChannelName);
+    }
+
+    return status;
+}
 
 
 
@@ -42,7 +84,7 @@
 /* Buildup a channel output queue                                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 TO_OutputQueue_Buildup(TO_ChannelData_t* channel)
+int32 TO_OutputQueue_Buildup(TO_ChannelData_t* channel, char* CfCntSemName, uint32 CfCntSemMax)
 {
     int32 status = OS_SUCCESS;
 
@@ -69,6 +111,34 @@ int32 TO_OutputQueue_Buildup(TO_ChannelData_t* channel)
         channel->OutputQueue.OSALQueueID = OS_MAX_QUEUES;
     }
 
+    /* Set up CF Throttling semaphore */
+    channel->OutputQueue.CfCntSemMax = CfCntSemMax;
+    strncpy(channel->OutputQueue.CfCntSemName, CfCntSemName,
+            sizeof(channel->OutputQueue.CfCntSemName));
+    channel->OutputQueue.CfCntSemName[OS_MAX_API_NAME - 1] =  '\0';
+
+    /* Initialize CF Counting Sem to CfCntSemMax */
+    /* NOTE: This will fail if two channels attempt to use the same
+     * CF channel. */
+    status = OS_CountSemCreate(&channel->OutputQueue.CfCntSemId,
+                                channel->OutputQueue.CfCntSemName,
+                                channel->OutputQueue.CfCntSemMax, 0);
+    if (status != OS_SUCCESS)
+    {
+        CFE_EVS_SendEvent(TO_INIT_APP_ERR_EID,
+                          CFE_EVS_ERROR,
+                          "Failed to create counting semaphore "
+                          "for CF channel semaphore:%s for TO channel %s . "
+                          "(OSAL Error:%d)",
+                          channel->OutputQueue.CfCntSemName,
+						  channel->ChannelName, (int)status);
+
+        return status;
+    }
+
+    channel->OutputQueue.CurrentlyQueuedCnt = 0;
+    channel->OutputQueue.MsgScratchPad = 0;
+
     return status;
 }
 
@@ -85,7 +155,26 @@ int32 TO_OutputQueue_Teardown(TO_ChannelData_t *channel)
     int32 status = CFE_SUCCESS;
     int32 putStatus = 0;
     void *buffer = NULL;
-    uint32 nBytesCopied = 0;    
+    uint32 nBytesCopied = 0;
+
+    /* Delete the scratch message, if there is one. */
+    if(channel->OutputQueue.MsgScratchPad != 0)
+    {
+        putStatus = CFE_ES_PutPoolBuf(channel->OutputQueue.MemPoolHandle, (uint32*)channel->OutputQueue.MsgScratchPad);
+        if (putStatus < 0)
+        {
+            /* Failed to return memory back to memory pool.  Not much we can do but report it
+             * and keep processing the queue until its empty.
+             */
+            (void) CFE_EVS_SendEvent(TO_PUT_POOL_ERR_EID,
+                                     CFE_EVS_ERROR,
+                                     "Failed to return message back to memory pool on output queue teardown, channel %d. (%d)",
+                                     (unsigned int)channel->channelIdx,
+                                     (int)putStatus);
+        }
+
+        channel->OutputQueue.MsgScratchPad = 0;
+    }
 
     if (channel->OutputQueue.OSALQueueID != OS_MAX_QUEUES)
     {
@@ -96,7 +185,7 @@ int32 TO_OutputQueue_Teardown(TO_ChannelData_t *channel)
                     &buffer, sizeof(buffer), &nBytesCopied, OS_CHECK);
             if (OS_SUCCESS == status)
             {
-                putStatus = CFE_ES_PutPoolBuf(channel->MemPoolHandle, (uint32*)buffer);
+                putStatus = CFE_ES_PutPoolBuf(channel->OutputQueue.MemPoolHandle, (uint32*)buffer);
                 if (putStatus < 0)
                 {
                     /* Failed to return memory back to memory pool.  Not much we can do but report it
@@ -109,7 +198,7 @@ int32 TO_OutputQueue_Teardown(TO_ChannelData_t *channel)
                                              (int)putStatus);
                 } else {
                     /* Since status is positive, it is safe to cast */
-                    channel->MemInUse -= (uint32)putStatus;
+                    channel->OutputQueue.MemInUse -= (uint32)putStatus;
                 }
             }
       
@@ -126,6 +215,10 @@ int32 TO_OutputQueue_Teardown(TO_ChannelData_t *channel)
                                      (int)status);
         }
     }
+
+    (void) OS_CountSemDelete(channel->OutputQueue.CfCntSemId);
+
+    channel->OutputQueue.CurrentlyQueuedCnt = 0;
 
     status = TO_OutputChannel_CustomTeardown(channel->channelIdx);
 
@@ -144,8 +237,112 @@ void TO_OutputQueue_ResetCounts(TO_ChannelData_t *channel)
     channel->OutputQueue.SentCount = 0;
     channel->OutputQueue.HighwaterMark = 0;
     channel->OutputQueue.SentBytes = 0;
-    channel->OutputQueue.CurrentlyQueuedCnt = 0;
+    channel->OutputQueue.PeakMemInUse = 0;
+    channel->OutputQueue.MemFullCount = 0;
+    channel->OutputQueue.DroppedMsgCnt = 0;
 }
+
+
+osalbool TO_OutputQueue_IsFull(TO_ChannelData_t *channel)
+{
+    osalbool isFull;
+
+    if(channel->OutputQueue.CurrentlyQueuedCnt >= TO_OUTPUT_QUEUE_DEPTH)
+    {
+    	isFull = TRUE;
+    }
+    else
+    {
+    	isFull = FALSE;
+    }
+
+    return isFull;
+}
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Get the CFE EVS Event Message length                            */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+uint32 TO_GetEventMsgLength(CFE_EVS_Packet_t *msgPtr);
+
+
+
+int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, int32 Timeout )
+{
+	int32  status = -1;
+    uint32 nBytesCopied = 0;
+    int32  putStatus;
+
+    /* Delete the scratch message, if there is one. */
+    if(channel->OutputQueue.MsgScratchPad != 0)
+    {
+        putStatus = CFE_ES_PutPoolBuf(channel->OutputQueue.MemPoolHandle, (uint32*)channel->OutputQueue.MsgScratchPad);
+        if (putStatus < 0)
+        {
+            /* Failed to return memory back to memory pool.  Not much we can do but report it
+             * and keep processing the queue until its empty.
+             */
+            (void) CFE_EVS_SendEvent(TO_PUT_POOL_ERR_EID,
+                                     CFE_EVS_ERROR,
+                                     "Failed to return message back to memory pool on TO_OutputQueue_GetMsg, channel %d. (%d)",
+                                     (unsigned int)channel->channelIdx,
+                                     (int)putStatus);
+        }
+        else
+        {
+            TO_Channel_LockByRef(channel);
+            /* Since status is positive, it is safe to cast */
+            channel->OutputQueue.MemInUse -= (uint32)putStatus;
+            TO_Channel_UnlockByRef(channel);
+        }
+
+        channel->OutputQueue.MsgScratchPad = 0;
+    }
+
+    if (channel->OutputQueue.OSALQueueID != OS_MAX_QUEUES)
+    {
+        status = OS_QueueGet(
+                    channel->OutputQueue.OSALQueueID,
+					&channel->OutputQueue.MsgScratchPad, sizeof(channel->OutputQueue.MsgScratchPad), &nBytesCopied, Timeout);
+
+        if(OS_SUCCESS == status)
+        {
+        	uint16 msgID;
+
+   		    *MsgPtr = channel->OutputQueue.MsgScratchPad;
+
+            TO_Channel_LockByRef(channel);
+            channel->OutputQueue.CurrentlyQueuedCnt--;
+            TO_Channel_UnlockByRef(channel);
+
+            msgID = CFE_SB_GetMsgId(&channel->OutputQueue.MsgScratchPad);
+
+            /* Check if this is a CFDP message. */
+            if(CF_SPACE_TO_GND_PDU_MID == msgID)
+            {
+                /* This is a CFDP message. Release the throttling semaphore. */
+                OS_CountSemGive(channel->OutputQueue.CfCntSemId);
+            }
+
+            /* Check if this is an event message. */
+            if (CFE_EVS_EVENT_MSG_MID == msgID)
+            {
+//        		printf("%s %u\n", __FUNCTION__, __LINE__);
+//            	/* It is an event. Adjust the size accordingly. */
+//            	uint32 eventMsgSize = TO_GetEventMsgLength((CFE_EVS_Packet_t *)MsgPtr);
+//
+//        		printf("%s %u\n", __FUNCTION__, __LINE__);
+//                CFE_SB_SetTotalMsgLength((CFE_SB_MsgPtr_t)MsgPtr, eventMsgSize);
+            }
+        }
+    }
+
+    return status;
+}
+
 
 
 
@@ -156,9 +353,47 @@ void TO_OutputQueue_ResetCounts(TO_ChannelData_t *channel)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int32 TO_OutputQueue_QueueMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t MsgPtr)
 {
-    int32 status = 0;
+    int32  status = 0;
+    uint32 *copyBuffer = NULL;
+    uint32 bufferSize;
 
-    status = OS_QueuePut(channel->OutputQueue.OSALQueueID, &MsgPtr, sizeof(MsgPtr), 0);
+    /* Allocate a chunk of memory from the memory pool to store the message
+     * copy.
+     */
+    bufferSize = CFE_SB_GetTotalMsgLength(MsgPtr);
+    status = CFE_ES_GetPoolBuf(&copyBuffer,
+                                channel->OutputQueue.MemPoolHandle, bufferSize);
+    if ((status < 0) || (copyBuffer == NULL))
+    {
+        /* The allocation failed.  There's nothing we can do.  Rather than
+         * treat this as a critical failure, we're going to keep going and try
+         * processing other messages.  We also aren't going to send an event.
+         * Sending an event may make this problem worse since we're
+         * potentially adding more messages to an already full buffer.  So,
+         * let's just increment a counter, and let the caller know the queue
+         * failed.
+         */
+        TO_Channel_LockByRef(channel);
+        channel->OutputQueue.MemFullCount++;
+        channel->OutputQueue.DroppedMsgCnt++;
+        TO_Channel_UnlockByRef(channel);
+        return TO_MEMORY_FULL_ERR;
+    }
+    else
+    {
+        TO_Channel_LockByRef(channel);
+        channel->OutputQueue.MemInUse += (uint32)status;
+        if (channel->OutputQueue.MemInUse > channel->OutputQueue.PeakMemInUse)
+        {
+            channel->OutputQueue.PeakMemInUse = channel->OutputQueue.MemInUse;
+        }
+        TO_Channel_UnlockByRef(channel);
+    }
+
+    /* Copy the message into the temp buffer. */
+    (void) CFE_PSP_MemCpy(copyBuffer, MsgPtr, bufferSize);
+
+    status = OS_QueuePut(channel->OutputQueue.OSALQueueID, &copyBuffer, sizeof(copyBuffer), 0);
     if (OS_QUEUE_FULL == status)
     {
         /* This is not supposed to happen since we only queue when the channel
@@ -166,7 +401,7 @@ int32 TO_OutputQueue_QueueMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t MsgPtr)
          * message will not be sent, deallocate the memory allocated as it 
          * won't be needed
          */
-        status = CFE_ES_PutPoolBuf(channel->MemPoolHandle, (uint32 *)MsgPtr);
+        status = CFE_ES_PutPoolBuf(channel->OutputQueue.MemPoolHandle, (uint32 *)copyBuffer);
         if (status < 0)
         {
             (void) CFE_EVS_SendEvent(TO_PUT_POOL_ERR_EID,
@@ -179,7 +414,9 @@ int32 TO_OutputQueue_QueueMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t MsgPtr)
         }
         
         /* Since status is positive, it is safe to cast */
-        channel->MemInUse -= (uint32)status;
+        TO_Channel_LockByRef(channel);
+        channel->OutputQueue.MemInUse -= (uint32)status;
+        TO_Channel_UnlockByRef(channel);
     }
     else if (status != CFE_SUCCESS)
     {
@@ -189,6 +426,20 @@ int32 TO_OutputQueue_QueueMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t MsgPtr)
                                  (unsigned int)channel->channelIdx, 
                                  sizeof(MsgPtr), 
                                  (int)status);
+    }
+    else
+    {
+        TO_Channel_LockByRef(channel);
+    	channel->OutputQueue.CurrentlyQueuedCnt++;
+
+        if (channel->OutputQueue.HighwaterMark < channel->OutputQueue.CurrentlyQueuedCnt)
+        {
+        	channel->OutputQueue.HighwaterMark = channel->OutputQueue.CurrentlyQueuedCnt;
+        }
+
+        channel->OutputQueue.QueuedMsgCount++;
+
+        TO_Channel_UnlockByRef(channel);
     }
 
     return status;
@@ -239,4 +490,24 @@ osalbool TO_OutputChannel_Query(uint16 ChannelIdx)
                              (unsigned int)channel->OutputQueue.CurrentlyQueuedCnt,
                              (unsigned int)channel->OutputQueue.HighwaterMark);
     return TRUE;
+}
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Get the CFE EVS Event Message length                            */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+uint32 TO_GetEventMsgLength(CFE_EVS_Packet_t *msgPtr)
+{
+//    uint32 msgLen;
+//    uint32 textStart = offsetof(CFE_EVS_Packet_t, Payload) + offsetof(CFE_EVS_Packet_Payload_t, Message);
+//    uint32 textLength = strnlen(msgPtr->Payload.Message, CFE_EVS_MAX_MESSAGE_LENGTH);
+//
+//    msgLen = textStart + textLength + 1;
+//
+//    return msgLen;
+
+	return 20;
 }

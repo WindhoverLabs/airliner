@@ -52,7 +52,6 @@
 #include "to_config_utils.h"
 #include "to_tbldefs.h"
 #include "to_message_flow.h"
-#include "to_classifier.h"
 #include "to_priority_queue.h"
 #include "to_scheduler.h"
 #include "to_output_queue.h"

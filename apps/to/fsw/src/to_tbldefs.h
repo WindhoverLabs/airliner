@@ -166,18 +166,6 @@ typedef struct
      */
     TO_PriorityQueueMetrics_t    PriorityQueue[TO_MAX_PRIORITY_QUEUES];
 
-    /**
-     * \brief  This OutputQueue is a structure which defines the output queue metrics
-     *  to be collected.
-     *
-     * \par
-     * Units: none.
-     *
-     * \par
-     * Limits: none.
-     */
-    TO_OutputQueue_t             OutputQueue;
-
 } TO_ChannelDumpTbl_t;
 
 
