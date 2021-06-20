@@ -6,9 +6,7 @@ extern "C" {
 #endif
 
 #include "cfe_platform_cfg.h"
-
 #include "priorities.h"
-
 
 /*
 ** Platform Configuration Parameter Definitions

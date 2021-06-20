@@ -330,11 +330,9 @@ int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, 
             /* Check if this is an event message. */
             if (CFE_EVS_EVENT_MSG_MID == msgID)
             {
-//        		printf("%s %u\n", __FUNCTION__, __LINE__);
 //            	/* It is an event. Adjust the size accordingly. */
 //            	uint32 eventMsgSize = TO_GetEventMsgLength((CFE_EVS_Packet_t *)MsgPtr);
 //
-//        		printf("%s %u\n", __FUNCTION__, __LINE__);
 //                CFE_SB_SetTotalMsgLength((CFE_SB_MsgPtr_t)MsgPtr, eventMsgSize);
             }
         }
