@@ -447,65 +447,42 @@ void TO_OutputChannel_UDPChannelTask(void)
 void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
 {
     int32 iStatus = CFE_SUCCESS;
-    uint32 msgSize = 0;
     char *buffer;
+    CFE_SB_MsgPtr_t msg;
 
     while(TO_OutputChannel_Status(ChannelIdx) == TO_CHANNEL_ENABLED)
     {
         if(TO_Channel_State(ChannelIdx) == TO_CHANNEL_OPENED)
         {
-            TO_OutputQueue_t *chQueue = &TO_AppData.ChannelData[ChannelIdx].OutputQueue;
-
-            iStatus =  OS_QueueGet(
-                    chQueue->OSALQueueID,
-                    &buffer, sizeof(buffer), &msgSize, TO_CUSTOM_CHANNEL_GET_TIMEOUT);
-
+        	iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[ChannelIdx], &msg, TO_CUSTOM_CHANNEL_GET_TIMEOUT );
             if(iStatus == OS_SUCCESS)
             {
-                struct sockaddr_in s_addr;
-                uint16  actualMessageSize = CFE_SB_GetTotalMsgLength((CFE_SB_MsgPtr_t)buffer);
-
-                bzero((char *) &s_addr, sizeof(s_addr));
-                s_addr.sin_family      = AF_INET;
-
-                int32 sendResult = TO_OutputChannel_Send(ChannelIdx, (const char*)buffer, actualMessageSize);
-
-                if (sendResult != 0)
+            	/* Add packet to the outgoing frame */
+                iStatus = TM_SDLP_AddPacket(&TO_AppCustomData.frameInfo, msg);
+                if (iStatus < 0)
                 {
-                	TO_OutputChannel_Disable(ChannelIdx);
+                    /* TODO: React appropriately. */
+                }
+                else if(0 == iStatus)
+                {
+                	TO_OutputChannel_FrameSend(ChannelIdx);
                 }
 
-                iStatus = CFE_ES_PutPoolBuf(TO_AppData.ChannelData[ChannelIdx].MemPoolHandle, (uint32 *)buffer);
-                if(iStatus < 0)
-                {
-                    (void) CFE_EVS_SendEvent(TO_PUT_POOL_ERR_EID, CFE_EVS_ERROR,
-                                "PutPoolBuf: error=0x%08lx",
-                                    (unsigned long)iStatus);
-                }
-                else
-                {
-                    OS_MutSemTake(TO_AppData.MutexID);
-                    TO_AppData.ChannelData[ChannelIdx].MemInUse -= iStatus;
-                    OS_MutSemGive(TO_AppData.MutexID);
-
-                    TO_Channel_LockByIndex(ChannelIdx);
-                    chQueue->CurrentlyQueuedCnt--;
-                    chQueue->SentCount++;
-                    TO_Channel_UnlockByIndex(ChannelIdx);
-                }
-
+                TO_Channel_LockByIndex(ChannelIdx);
+                TO_AppData.ChannelData[ChannelIdx].OutputQueue.SentCount++;
+                TO_Channel_UnlockByIndex(ChannelIdx);
             }
             else if(iStatus == OS_QUEUE_TIMEOUT)
             {
-            	/* Do nothing.  Just loop back around and check the guard. */
+            	TO_OutputChannel_FrameSend(ChannelIdx);
             }
             else
             {
                 CFE_EVS_SendEvent(TO_OSQUEUE_GET_ERROR_EID, CFE_EVS_ERROR,
                                 "Listener failed to pop message from queue. (%i).", (int)iStatus);
-                OS_MutSemTake(TO_AppData.MutexID);
+                TO_Channel_LockByIndex(ChannelIdx);
                 TO_AppData.ChannelData[ChannelIdx].State = TO_CHANNEL_CLOSED;
-                OS_MutSemGive(TO_AppData.MutexID);
+                TO_Channel_UnlockByIndex(ChannelIdx);
             }
         }
     }
