@@ -486,7 +486,6 @@
 
 #define CI_PROCESS_TIMEOUTS_MID                   CMD_MSG(  485 )
 
-
 /* ZUSUP                                                     */
 #define ZUSUP_CMD_MID                             CMD_MSG(  486 )
 #define ZUSUP_SEND_HK_MID                         CMD_MSG(  487 )
@@ -519,6 +518,7 @@
 #define PX4_SENSOR_BARO_MID_CPD     (CPD_CPU_BASE + PX4_SENSOR_BARO_MID)
 #define HS_HK_TLM_MID_CPD           (CPD_CPU_BASE + HS_HK_TLM_MID)
 #define ZUSUP_HK_TLM_MID_CPD        (CPD_CPU_BASE + ZUSUP_HK_TLM_MID)
+#define PX4_SENSOR_COMBINED_MID_CPD (CPD_CPU_BASE + PX4_SENSOR_COMBINED_MID)
 
 
 
