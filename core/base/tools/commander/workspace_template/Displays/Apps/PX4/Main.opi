@@ -722,7 +722,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <height>20</height>
+    <height>25</height>
     <image></image>
     <name>SchTable</name>
     <push_action_index>0</push_action_index>
@@ -742,9 +742,9 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
 $(pv_value)</tooltip>
     <visible>true</visible>
     <widget_type>Action Button</widget_type>
-    <width>79</width>
+    <width>103</width>
     <wuid>-4f5b0176:1798b9f7a0f:-70c9</wuid>
-    <x>42</x>
+    <x>24</x>
     <y>174</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0.0">
@@ -770,7 +770,7 @@ $(pv_value)</tooltip>
     <macros>
       <include_parent_macros>true</include_parent_macros>
     </macros>
-    <name>Grouping Container</name>
+    <name>AppControl</name>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
