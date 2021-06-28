@@ -357,6 +357,12 @@
 #define MPU6050_MEASURE_MID                       CMD_MSG(  365 )
 #define MPU6050_SEND_HK_MID                       CMD_MSG(  366 )
 
+/* SED                                                       */
+#define SED_DIAG_TLM_MID                          TLM_MSG(  369 )
+#define SED_HK_TLM_MID                            TLM_MSG(  370 )
+#define SED_CMD_MID                               CMD_MSG(  371 )
+#define SED_MEASURE_MID                           CMD_MSG(  372 )
+#define SED_SEND_HK_MID                           CMD_MSG(  373 )
 
 /* MPU9250                                                   */
 #define MPU9250_DIAG_TLM_MID                      TLM_MSG(  369 )
@@ -492,6 +498,9 @@
 #define ZUSUP_WAKEUP_MID                          CMD_MSG(  488 )
 #define ZUSUP_HK_TLM_MID                          TLM_MSG(  489 )
 #define ZUSUP_DIAG_TLM_MID                        TLM_MSG(  490 )
+
+
+
 
 
 
