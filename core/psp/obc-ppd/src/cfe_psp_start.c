@@ -40,6 +40,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include "git_version.h"
 
 
 /*
@@ -286,6 +287,8 @@ void PSP_Main(int argc, char *argv[])
                CFE_PSP_DisplayUsage(argv[0]);
                break;
             }
+
+        	printf("CFE_PSP:  GIT hash = %s", CFE_PSP_GIT_VERSION);
             printf("CFE_PSP: Reset SubType: %d\n",(int)CommandData.SubType);
             CommandData.GotSubType = 1;
             break;
@@ -325,6 +328,8 @@ void PSP_Main(int argc, char *argv[])
    ** optional arguments, and check for arguments that are required.
    */
    CFE_PSP_ProcessArgumentDefaults(&CommandData);
+
+   printf("CFE_PSP:  GIT hash = %s", CFE_PSP_GIT_VERSION);
 
    CFE_PSP_StartCPD(CFE_PSP_CPD_FILENAME);
 
