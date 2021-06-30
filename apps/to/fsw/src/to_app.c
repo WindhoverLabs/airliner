@@ -47,7 +47,6 @@
 #include "to_version.h"
 #include "to_platform_cfg.h"
 #include "to_message_flow.h"
-#include "to_classifier.h"
 #include "to_priority_queue.h"
 #include "to_scheduler.h"
 #include "to_output_queue.h"
@@ -791,9 +790,7 @@ void TO_ReportHousekeeping(void)
         TO_AppData.HkTlm.QueuedInOutputChannel[i] = channel->OutputQueue.CurrentlyQueuedCnt;
         
         TO_AppData.HkTlm.uiSentMsgCountChannel[i] = channel->SentMsgCount;
-        TO_AppData.HkTlm.uiQueuedMsgCountChannel[i] = channel->QueuedMsgCount;
-        TO_AppData.HkTlm.uiDropMsgCountChannel[i] = channel->DropMsgCount;
-        TO_AppData.HkTlm.uiFailedMsgCountChannel[i] = channel->FailedMsgCount;
+        TO_AppData.HkTlm.uiQueuedMsgCountChannel[i] = channel->OutputQueue.QueuedMsgCount;
         TO_AppData.HkTlm.uiBytesSentChannel[i] = channel->BytesSent;
         
         (void) OS_MutSemTake(TO_AppData.MutexID);
@@ -801,8 +798,8 @@ void TO_ReportHousekeeping(void)
         
         (void) OS_MutSemGive(TO_AppData.MutexID);
         
-        TO_AppData.HkTlm.ChannelMemInfo[i].MemInUse = channel->MemInUse;
-        TO_AppData.HkTlm.ChannelMemInfo[i].PeakMemInUse = channel->PeakMemInUse;
+        TO_AppData.HkTlm.ChannelMemInfo[i].MemInUse = channel->OutputQueue.MemInUse;
+        TO_AppData.HkTlm.ChannelMemInfo[i].PeakMemInUse = channel->OutputQueue.PeakMemInUse;
         
         TO_Channel_UnlockByRef(channel);
     }
@@ -867,8 +864,8 @@ osalbool TO_SendDiag(uint16 ChannelIdx)
 
     TO_Channel_LockByRef(channel);
 
-    diagMsg.MemPoolHandle = channel->MemPoolHandle;
-    diagMsg.MemFullCount = channel->MemFullCount;
+    diagMsg.MemPoolHandle = channel->OutputQueue.MemPoolHandle;
+    diagMsg.MemFullCount = channel->OutputQueue.MemFullCount;
     diagMsg.State = channel->State;
 
     strncpy(diagMsg.ConfigTableName, channel->ConfigTableName,
@@ -963,18 +960,12 @@ osalbool TO_SendDiag(uint16 ChannelIdx)
     {
         diagMsg.PQueue[pQueue].State
             = channel->ConfigTblPtr->PriorityQueue[pQueue].State;
-        diagMsg.PQueue[pQueue].MsgLimit
-            = channel->ConfigTblPtr->PriorityQueue[pQueue].MsgLimit;
+        diagMsg.PQueue[pQueue].Depth
+            = channel->ConfigTblPtr->PriorityQueue[pQueue].Depth;
         diagMsg.PQueue[pQueue].QType
             = channel->ConfigTblPtr->PriorityQueue[pQueue].QType;
-        diagMsg.PQueue[pQueue].DroppedMsgCnt
-            = channel->DumpTbl.PriorityQueue[pQueue].DroppedMsgCnt;
-        diagMsg.PQueue[pQueue].QueuedMsgCnt
-            = channel->DumpTbl.PriorityQueue[pQueue].QueuedMsgCnt;
         diagMsg.PQueue[pQueue].CurrentlyQueuedCnt
             = channel->DumpTbl.PriorityQueue[pQueue].CurrentlyQueuedCnt;
-        diagMsg.PQueue[pQueue].HighwaterMark
-            = channel->DumpTbl.PriorityQueue[pQueue].HighwaterMark;
     }
 
     diagMsg.OQueue.SentCount

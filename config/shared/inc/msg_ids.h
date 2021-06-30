@@ -251,7 +251,7 @@
 #define PX4_VEHICLE_FORCE_SETPOINT_MID            TLM_MSG(  240 )
 #define PX4_VEHICLE_GLOBAL_POSITION_MID           TLM_MSG(  241 )
 #define PX4_VEHICLE_GLOBAL_VELOCITY_SETPOINT_MID  TLM_MSG(  242 )
-#define PX4_VEHICLE_GPS_POSITION_MID              TLM_MSG(  243 )
+#define PX4_VEHICLE_GPS_POSITION_MID              TLM_MSG(  243 ) - CFE_MSG_CPU_BASE
 #define PX4_VEHICLE_LAND_DETECTED_MID             TLM_MSG(  244 )
 #define PX4_VEHICLE_LOCAL_POSITION_MID            TLM_MSG(  245 )
 #define PX4_VEHICLE_LOCAL_POSITION_SETPOINT_MID   TLM_MSG(  246 )
@@ -357,6 +357,12 @@
 #define MPU6050_MEASURE_MID                       CMD_MSG(  365 )
 #define MPU6050_SEND_HK_MID                       CMD_MSG(  366 )
 
+/* SED                                                       */
+#define SED_DIAG_TLM_MID                          TLM_MSG(  369 )
+#define SED_HK_TLM_MID                            TLM_MSG(  370 )
+#define SED_CMD_MID                               CMD_MSG(  371 )
+#define SED_MEASURE_MID                           CMD_MSG(  372 )
+#define SED_SEND_HK_MID                           CMD_MSG(  373 )
 
 /* MPU9250                                                   */
 #define MPU9250_DIAG_TLM_MID                      TLM_MSG(  369 )
@@ -485,5 +491,45 @@
 #define VM_WAKEUP_MID                             CMD_MSG(  484 )
 
 #define CI_PROCESS_TIMEOUTS_MID                   CMD_MSG(  485 )
+
+/* ZUSUP                                                     */
+#define ZUSUP_CMD_MID                             CMD_MSG(  486 )
+#define ZUSUP_SEND_HK_MID                         CMD_MSG(  487 )
+#define ZUSUP_WAKEUP_MID                          CMD_MSG(  488 )
+#define ZUSUP_HK_TLM_MID                          TLM_MSG(  489 )
+#define ZUSUP_DIAG_TLM_MID                        TLM_MSG(  490 )
+
+
+
+
+
+
+
+
+
+
+#define CPD_CPU_BASE (0x0200)
+
+#define CFE_ES_HK_TLM_MID_CPD       (CPD_CPU_BASE + CFE_ES_HK_TLM_MID)
+#define CFE_EVS_HK_TLM_MID_CPD      (CPD_CPU_BASE + CFE_EVS_HK_TLM_MID)
+#define CFE_SB_HK_TLM_MID_CPD       (CPD_CPU_BASE + CFE_SB_HK_TLM_MID)
+#define CFE_TBL_HK_TLM_MID_CPD      (CPD_CPU_BASE + CFE_TBL_HK_TLM_MID)
+#define CFE_TIME_HK_TLM_MID_CPD     (CPD_CPU_BASE + CFE_TIME_HK_TLM_MID)
+#define CFE_TIME_DIAG_TLM_MID_CPD   (CPD_CPU_BASE + CFE_TIME_DIAG_TLM_MID)
+#define CFE_EVS_EVENT_MSG_MID_CPD   (CPD_CPU_BASE + CFE_EVS_EVENT_MSG_MID)
+#define CFE_SB_STATS_TLM_MID_CPD    (CPD_CPU_BASE + CFE_SB_STATS_TLM_MID)
+#define CFE_ES_APP_TLM_MID_CPD      (CPD_CPU_BASE + CFE_ES_APP_TLM_MID)
+#define CFE_TBL_REG_TLM_MID_CPD     (CPD_CPU_BASE + CFE_TBL_REG_TLM_MID)
+#define CFE_ES_SHELL_TLM_MID_CPD    (CPD_CPU_BASE + CFE_ES_SHELL_TLM_MID)
+#define CFE_ES_MEMSTATS_TLM_MID_CPD (CPD_CPU_BASE + CFE_ES_MEMSTATS_TLM_MID)
+#define PX4_SENSOR_ACCEL_MID_CPD    (CPD_CPU_BASE + PX4_SENSOR_ACCEL_MID)
+#define PX4_SENSOR_GYRO_MID_CPD     (CPD_CPU_BASE + PX4_SENSOR_GYRO_MID)
+#define PX4_SENSOR_BARO_MID_CPD     (CPD_CPU_BASE + PX4_SENSOR_BARO_MID)
+#define HS_HK_TLM_MID_CPD           (CPD_CPU_BASE + HS_HK_TLM_MID)
+#define ZUSUP_HK_TLM_MID_CPD        (CPD_CPU_BASE + ZUSUP_HK_TLM_MID)
+#define SED_HK_TLM_MID_CPD          (CPD_CPU_BASE + SED_HK_TLM_MID)
+#define PX4_SENSOR_COMBINED_MID_CPD (CPD_CPU_BASE + PX4_SENSOR_COMBINED_MID)
+
+
 
 #endif

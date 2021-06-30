@@ -376,6 +376,13 @@ buildliner_add_app(
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/qae
 )
 
+buildliner_add_app(
+    sc
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sc/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sc
+)
+
 ## This is temporarily removed until we can geet px4lib back in
 #buildliner_add_app(
 #    lgc
@@ -384,3 +391,11 @@ buildliner_add_app(
 #    CONFIG_SOURCES
 #        ${CMAKE_CURRENT_SOURCE_DIR}/apps/lgc/lgc_custom.cpp
 #)
+
+buildliner_add_app(
+    zusup
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/zusup/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/zusup
+)
+

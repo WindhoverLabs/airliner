@@ -6,9 +6,7 @@ extern "C" {
 #endif
 
 #include "cfe_platform_cfg.h"
-
 #include "priorities.h"
-
 
 /*
 ** Platform Configuration Parameter Definitions
@@ -226,7 +224,7 @@ extern "C" {
 **  \par Description:  This defines how many messages can be queued into the
 **       channel output queue by the scheduler.
 */
-#define TO_OUTPUT_QUEUE_DEPTH     (40)
+#define TO_OUTPUT_QUEUE_DEPTH     (200)
 
 /** \tocfg Development channel task priority.
  *

@@ -56,30 +56,6 @@ int32 TO_MessageFlow_Buildup(TO_ChannelData_t *channel)
         return TO_MESSAGE_FLOW_NO_TABLE_ERR;
     }
     
-    /*
-     * Create message flows by subscribing to messages.
-     */
-    for (i = 0; i < TO_MAX_MESSAGE_FLOWS; ++i)
-    {
-        if (channel->ConfigTblPtr->MessageFlow[i].MsgId != 0)
-        {
-            /* Subscribe to message. */
-            status = CFE_SB_SubscribeEx(channel->ConfigTblPtr->MessageFlow[i].MsgId, channel->DataPipeId,
-                                         CFE_SB_Default_Qos, channel->ConfigTblPtr->MessageFlow[i].MsgLimit);
-            if (status != CFE_SUCCESS)
-            {
-                /* We failed to subscribe to a message.  However, lets just keep going so we can maybe
-                 * subscribe to at least some of the messages.  Report and keep going.
-                 */
-                (void) CFE_EVS_SendEvent(TO_SUBSCRIBE_ERR_EID,
-                                         CFE_EVS_ERROR,
-                                         "Message flow failed to subscribe to (0x%08X) on channel %lu. (%ld)",
-                                         channel->ConfigTblPtr->MessageFlow[i].MsgId,
-                                         channel->channelIdx,
-                                         status);
-            }
-        }
-    }
     return CFE_SUCCESS;
 }
 
@@ -105,28 +81,6 @@ int32 TO_MessageFlow_TeardownAll(TO_ChannelData_t *channel)
         return TO_MESSAGE_FLOW_NO_TABLE_ERR;
     }
     
-    for (i = 0; i < TO_MAX_MESSAGE_FLOWS; ++i)
-    {
-        if (channel->ConfigTblPtr->MessageFlow[i].MsgId != 0)
-        {
-            /* Unsubscribe from message. */
-            status = CFE_SB_Unsubscribe(channel->ConfigTblPtr->MessageFlow[i].MsgId,
-                                         channel->DataPipeId);
-                        
-            if (status != CFE_SUCCESS)
-            {
-                /*  This is not a critical error.  Just continue processing the rest of the messages. 
-                 *  Will not return the failure back.
-                 */
-                (void) CFE_EVS_SendEvent(TO_UNSUBSCRIBE_ERR_EID,
-                                         CFE_EVS_ERROR,
-                                         "Message flow failed to unsubscribe from 0x%04x on channel %ld. (%ld)",
-                                         channel->ConfigTblPtr->MessageFlow[i].MsgId,
-                                         channel->channelIdx,
-                                         status);
-            }
-        }
-    }
     return CFE_SUCCESS;
 }
 
@@ -333,22 +287,6 @@ osalbool TO_MessageFlow_Add(
                 return FALSE;
             }
 
-            /* Now subscribe to the message to ensure the message ID is
-             * valid.
-             */
-            status = CFE_SB_SubscribeEx(MsgID, channel->DataPipeId,
-                                         CFE_SB_Default_Qos, MsgLimit);
-            if (status != CFE_SUCCESS)
-            {
-                (void) CFE_EVS_SendEvent(TO_CMD_ADD_MSG_FLOW_ERR_EID,
-                                         CFE_EVS_ERROR,
-                                         "Message flow failed to subscribe to (0x%08X) on channel %d. (%ld)",
-                                         MsgID, ChannelIdx, status);
-                                         
-                TO_Channel_UnlockByRef(channel);
-                return FALSE;
-            }
-
             /* Now that the message was successfully subscribed to, set the
              * message flow definition.
              */
@@ -439,22 +377,6 @@ osalbool TO_MessageFlow_Remove(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID)
                                  CFE_EVS_ERROR,
                                  "Message flow is not defined for channel %d.",
                                  ChannelIdx);
-                                 
-        TO_Channel_UnlockByRef(channel);
-        return FALSE;
-    }
-
-    /* Now that we have the message flow object, unsubscribe from it and clear
-     * the entries. 
-     */
-    status = CFE_SB_Unsubscribe(msgFlow->MsgId, channel->DataPipeId);
-    
-    if (status != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(TO_CMD_REMOVE_MSG_FLOW_ERR_EID,
-                                 CFE_EVS_ERROR,
-                                 "Message flow failed to unsubscribe from 0x%08X on channel %d. (%ld)",
-                                 msgFlow->MsgId, ChannelIdx, status);
                                  
         TO_Channel_UnlockByRef(channel);
         return FALSE;

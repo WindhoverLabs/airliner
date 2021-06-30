@@ -1,0 +1,2 @@
+
+#define CFE_PSP_GIT_VERSION "@GIT_HASH@"

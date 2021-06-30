@@ -73,6 +73,16 @@ function(psp_buildliner_initialize)
         set(PARSED_ARGS_CPU_ID cfs)
     endif()
     
+    # Get the latest abbreviated commit hash of the working branch
+    execute_process(
+        COMMAND git log -1 --format=%h
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+        OUTPUT_VARIABLE GIT_HASH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    
+    configure_file(${PROJECT_SOURCE_DIR}/core/base/psp/fsw/inc/git_version.h.in ${CMAKE_CURRENT_BINARY_DIR}/git_version.h @ONLY)
+    
     # Generate the XTCE file
     add_custom_target(ground-tools)
     commander_initialize_workspace(commander-workspace

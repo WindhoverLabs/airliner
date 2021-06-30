@@ -3,7 +3,7 @@ CFE_LIB, /cf/apps/MBP_LIB.so,   MBP_LibInit,     MBP_LIB,    0,     0, 0x0, 0, 2
 CFE_LIB, /cf/apps/PRMLIB.so,    PRMLIB_LibInit,  PRMLIB,      0,     0, 0x0, 0, 2;
 CFE_LIB, /cf/apps/PX4LIB.so,    PX4LIB_LibInit,  PX4LIB,    0,     0, 0x0, 0, 2;
 CFE_LIB, /cf/apps/PQ_LIB.so,    PQ_LibInit,      PQ_LIB,     0,       0, 0x0, 0, 2;
-CFE_APP, /cf/apps/GPS.so,       GPS_AppMain,     GPS,       97, 327680, 0x0, 0, 2;
+CFE_LIB, /embedded/IO_LIB.so,   IO_LibInit,      IO_LIB,     0,     0, 0x0, 0, 0;
 CFE_APP, /cf/apps/CI.so,        CI_AppMain,      CI,        115, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/TO.so,        TO_AppMain,      TO,        124, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/DS.so,        DS_AppMain,      DS,        190, 327680, 0x0, 0, 2;
@@ -16,6 +16,7 @@ CFE_APP, /cf/apps/EA.so,        EA_AppMain,      EA,        184, 327680, 0x0, 0,
 CFE_APP, /cf/apps/CS.so,        CS_AppMain,      CS,        160, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/SBN.so,       SBN_AppMain,     SBN,       37,  327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/SCH.so,       SCH_AppMain,     SCH,       34,  40960, 0x0, 0, 2;
+CFE_APP, /cf/apps/GPS.so,       GPS_AppMain,     GPS,       97, 327680, 0x0, 0, 2;
 !CFE_LIB, /cf/apps/schlib.so,    SCH_LibInit,     SCH_LIB,    0,     0, 0x0, 0, 2;
 CFE_APP, /cf/apps/CF.so,        CF_AppMain,      CF,        157, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/LC.so,        LC_AppMain,      LC,        178, 327680, 0x0, 0, 2;

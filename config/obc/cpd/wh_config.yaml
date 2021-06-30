@@ -922,3 +922,21 @@ modules:
     perfids:
       SED_MAIN_TASK_PERF_ID:
         id: 111
+    
+  zusup:
+    definition: ${PROJECT_SOURCE_DIR}/../private/apps/zusup/wh_design.yaml
+    telemetry:
+      ZUSUP_HK_TLM_MID:
+        msgID: 0x0be9
+      ZUSUP_DIAG_TLM_MID:
+        msgID: 0x0bea
+    commands:
+      ZUSUP_CMD_MID:
+        msgID: 0x1be6
+      ZUSUP_SEND_HK_MID:
+        msgID: 0x1be7
+      ZUSUP_WAKEUP_MID:
+        msgID: 0x1be8
+    perfids:
+      ZUSUP_MAIN_TASK_PERF_ID:
+        id: 113

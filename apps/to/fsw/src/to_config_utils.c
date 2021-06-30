@@ -271,13 +271,13 @@ int32 TO_ValidateConfigTbl(void *configTblPtr)
                return TO_CONFIG_TABLE_PQUEUE_QTYPE_ERR;
            }
            /* Check Priority Queue MsgLimit */
-           if (TO_ConfigTblPtr->PriorityQueue[PQueueIdx].MsgLimit > TO_MAX_QUEUE_SIZE_LIMIT ||
-               TO_ConfigTblPtr->PriorityQueue[PQueueIdx].MsgLimit < 1)
+           if (TO_ConfigTblPtr->PriorityQueue[PQueueIdx].Depth > TO_MAX_QUEUE_SIZE_LIMIT ||
+               TO_ConfigTblPtr->PriorityQueue[PQueueIdx].Depth < 1)
            {
                (void) CFE_EVS_SendEvent(TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR_EID,
                                         CFE_EVS_ERROR,
-                                        "Priority Queue MsgLimit invalid (%d) for Table ID (%lu) at table index (%d)",
-                                        TO_ConfigTblPtr->PriorityQueue[PQueueIdx].MsgLimit,
+                                        "Priority Queue Depth invalid (%d) for Table ID (%lu) at table index (%d)",
+                                        TO_ConfigTblPtr->PriorityQueue[PQueueIdx].Depth,
                                         TO_ConfigTblPtr->TableID,
                                         PQueueIdx);
 
@@ -490,18 +490,7 @@ void TO_ManageChannelTables(osalbool initialManage, uint16 ChannelID)
     {
         /* Teardown message flows and PQueues*/
         (void) TO_MessageFlow_TeardownAll(&TO_AppData.ChannelData[ChannelID]);
-        (void) TO_PriorityQueue_TeardownAll(&TO_AppData.ChannelData[ChannelID]);       
-
-        /* Clear remaining messages from SB data pipe*/
-        dequeueStatus = TO_Channel_SBPipe_Dequeue_All(ChannelID);
-        if (FALSE == dequeueStatus)
-        {
-            (void) CFE_EVS_SendEvent(TO_CONFIG_TABLE_ERR_EID,
-                                     CFE_EVS_ERROR,
-                                     "Failed to clear SB data pipe for channel %u, (0x%08X)",
-                                     ChannelID,
-                                     (unsigned int)status);
-        }
+        (void) TO_PriorityQueue_TeardownAll(&TO_AppData.ChannelData[ChannelID]);
 
         /* Now null the table pointer, because it is going to be updated.  Also
          * so that if something goes wrong it won't be set to an invalid address.

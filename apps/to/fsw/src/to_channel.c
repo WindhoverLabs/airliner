@@ -47,18 +47,6 @@
 ** Local Structure Declarations
 *************************************************************************/
 
-uint32  TO_MemPoolDefSize[TO_MAX_MEMPOOL_BLK_SIZES] =
-{
-    TO_MAX_BLOCK_SIZE,
-    TO_MEM_BLOCK_SIZE_07,
-    TO_MEM_BLOCK_SIZE_06,
-    TO_MEM_BLOCK_SIZE_05,
-    TO_MEM_BLOCK_SIZE_04,
-    TO_MEM_BLOCK_SIZE_03,
-    TO_MEM_BLOCK_SIZE_02,
-    TO_MEM_BLOCK_SIZE_01
-};
-
 /************************************************************************
 ** External Global Variables
 *************************************************************************/
@@ -167,65 +155,12 @@ int32 TO_Channel_OpenChannel(const uint32 index, const char *ChannelName,
                 DumpTableName, sizeof(channel->DumpTableName));
         channel->DumpTableName[sizeof(channel->DumpTableName) - 1] = '\0';
 
-        /* Set up CF Throttling semaphore */
-        channel->CfCntSemMax = CfCntSemMax;
-        strncpy(channel->CfCntSemName, CfCntSemName,
-                sizeof(channel->CfCntSemName));
-        channel->CfCntSemName[OS_MAX_API_NAME - 1] =  '\0';       
-
-        /* Initialize CF Counting Sem to CfCntSemMax */
-        /* NOTE: This will fail if two channels attempt to use the same
-         * CF channel. */
-        status = OS_CountSemCreate(&channel->CfCntSemId,
-                                    channel->CfCntSemName,
-                                    channel->CfCntSemMax, 0);
+        status = TO_OutputQueue_Buildup(channel, CfCntSemName, CfCntSemMax);
         if (status != OS_SUCCESS)
         {
-            CFE_EVS_SendEvent(TO_INIT_APP_ERR_EID,
-                              CFE_EVS_ERROR,
-                              "Failed to create counting semaphore "
-                              "for CF channel semaphore:%s for TO channel(%u):%s . "
-                              "(OSAL Error:%d)",
-                              channel->CfCntSemName, (unsigned int)index, channel->ChannelName, (int)status);
-                              
-            TO_Channel_UnlockByRef(channel);                                   
-            return status;
-        }
-
-        status = TO_OutputQueue_Buildup(channel);
-        if (status != OS_SUCCESS)
-        {
-            /* This is a critical error for this channel.  No sense in continuing.  Destroy
-             * the counting semaphore we just created, and return the error back to the caller.
+            /* This is a critical error for this channel.  No sense in continuing.
+             * Return the error back to the caller.
              */
-            OS_CountSemDelete(channel->CfCntSemId);
-
-            channel->State = TO_CHANNEL_CLOSED;
-
-            TO_Channel_UnlockByRef(channel);
-            return status;
-        }
-        
-        /* Init data pipe and subscribe to messages on the data pipe */
-        status = CFE_SB_CreatePipe(&channel->DataPipeId,
-                                     TO_DATA_PIPE_DEPTH,
-                                     pipeName);
-        if (status != CFE_SUCCESS)
-        {
-            /* This is a critical error for this channel.  No sense in continuing.  Destroy
-             * the counting semaphore and call the Output queue teardown function before
-             * returning the error back to the caller.
-             */
-            (void) OS_CountSemDelete(channel->CfCntSemId);
-            (void) TO_OutputQueue_Teardown(channel);
-
-            (void) CFE_EVS_SendEvent(TO_INIT_DATAPIPE_ERR_EID,
-                                     CFE_EVS_ERROR,
-                                     "Failed to create channel (%u) '%s' pipe (0x%08X)",
-                                     (unsigned int)index,
-                                     ChannelName,
-                                     (unsigned int)status);
-
             channel->State = TO_CHANNEL_CLOSED;
 
             TO_Channel_UnlockByRef(channel);
@@ -238,13 +173,11 @@ int32 TO_Channel_OpenChannel(const uint32 index, const char *ChannelName,
         status = TO_InitTables(channel);
         if (status != CFE_SUCCESS)
         {
-            /* This is a critical error for this channel.  No sense in continuing.  Destroy
-             * the counting semaphore, call the Output queue teardown function, and delete
-             * the pipe before returning the error back to the caller.
+            /* This is a critical error for this channel.  No sense in continuing.
+             * Call the Output queue teardown function, and return the error back
+             * to the caller.
              */
-            (void) OS_CountSemDelete(channel->CfCntSemId);
             (void) TO_OutputQueue_Teardown(channel);
-            (void) CFE_SB_DeletePipe(channel->DataPipeId);
 
             CFE_EVS_SendEvent(TO_INIT_CONFIG_ERR_EID,
                               CFE_EVS_ERROR,
@@ -255,39 +188,6 @@ int32 TO_Channel_OpenChannel(const uint32 index, const char *ChannelName,
             channel->State = TO_CHANNEL_CLOSED;
 
             TO_Channel_UnlockByRef(channel);
-            return status;
-        }
-
-        /* Initialize the memory pool for the priority queues and output channel
-         * queues.
-         */
-        status = CFE_ES_PoolCreateEx(&channel->MemPoolHandle,
-                      channel->MemPoolBuffer,
-                      TO_NUM_BYTES_IN_MEM_POOL,
-                      TO_MAX_MEMPOOL_BLK_SIZES,
-                      &TO_MemPoolDefSize[0],
-                      CFE_ES_USE_MUTEX);
-        if (status != CFE_SUCCESS)
-        {
-            /* This is a critical error for this channel.  No sense in continuing.  Destroy
-             * the counting semaphore, call the Output queue teardown function, and delete
-             * the pipe before returning the error back to the caller.  Don't need to do
-             * anything with the tables.  They will just be reinitialized the next time
-             * we try opening the channel.
-             */
-            (void) OS_CountSemDelete(channel->CfCntSemId);
-            (void) TO_OutputQueue_Teardown(channel);
-            (void) CFE_SB_DeletePipe(channel->DataPipeId);
-
-            (void) CFE_EVS_SendEvent(TO_CR_POOL_ERR_EID,
-                                     CFE_EVS_ERROR,
-                    "Error creating memory pool (0x%08X) for channel %u",(unsigned int)status,
-                    (unsigned int)index);
-
-            channel->State = TO_CHANNEL_CLOSED;
-
-            TO_Channel_UnlockByRef(channel);
-
             return status;
         }
   
@@ -316,7 +216,6 @@ void TO_Channel_ProcessTelemetryAll(void)
 void TO_Channel_ProcessTelemetry(TO_ChannelData_t *channel)
 {
     TO_Channel_LockByRef(channel);
-    TO_Classifier_Run(channel);
     TO_Scheduler_Run(channel);
     TO_Channel_UnlockByRef(channel);
 }
@@ -339,12 +238,7 @@ void TO_Channel_ResetCountsAll(void)
 void TO_Channel_ResetCounts(TO_ChannelData_t *channel)
 {
     TO_Channel_LockByRef(channel);
-    channel->PeakMemInUse = 0;
-    channel->MemFullCount = 0;
     channel->SentMsgCount = 0;
-    channel->QueuedMsgCount = 0;
-    channel->DropMsgCount = 0;
-    channel->FailedMsgCount = 0;
     channel->BytesSent = 0;
     TO_MessageFlow_ResetCountsAll(channel);
     TO_PriorityQueue_ResetCountsAll(channel);
@@ -474,6 +368,8 @@ int32 TO_Channel_Init(uint16 index)
         channel->channelIdx = index;
         channel->OutputQueue.OSALQueueID = OS_MAX_QUEUES;
         channel->State = TO_CHANNEL_CLOSED;
+
+        status = TO_OutputQueue_Init(channel);
     }
 
     return status;
@@ -559,48 +455,4 @@ uint8 TO_Channel_State(uint16 index)
                                   index);
         return TO_CHANNEL_UNKNOWN;    
     }
-}
-
-
-osalbool TO_Channel_SBPipe_Dequeue_All(uint16 index)
-{
-    int32 status = CFE_SUCCESS;
-    int32 i;
-    CFE_SB_MsgPtr_t  DataMsgPtr = NULL;
-    TO_ChannelData_t *channel = NULL;
-
-    if (index >= TO_MAX_CHANNELS)
-    {
-        (void) CFE_EVS_SendEvent(TO_FLUSH_INVALID_CHIDX_ERR_EID, CFE_EVS_ERROR,
-                            "ChannelID %u out of range in SB pipe dequeue all.", (unsigned int)index);
-        return FALSE;
-    }
-
-    channel = &TO_AppData.ChannelData[index];
-
-    /* Dequeue until empty */
-    for (i = 0; i < TO_DATA_PIPE_DEPTH; ++i)
-    {
-        status = CFE_SB_RcvMsg(&DataMsgPtr, channel->DataPipeId, CFE_SB_POLL);
-        if (CFE_SUCCESS == status)
-        {
-            continue;
-        }
-        else if (CFE_SB_NO_MESSAGE == status)
-        {
-            /* Break early if empty */
-            break;
-        }
-        else
-        {
-            (void) CFE_EVS_SendEvent(TO_PIPE_READ_ERR_EID,
-                                     CFE_EVS_ERROR,
-                                     "Data pipe read error on SBPipe dequeue all (0x%08X) on channel %d",
-                                     (unsigned int)status,
-                                     index);
-            return FALSE;
-        }  
-    }
-
-    return TRUE;
 }
