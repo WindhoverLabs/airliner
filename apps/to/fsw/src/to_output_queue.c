@@ -499,13 +499,11 @@ osalbool TO_OutputChannel_Query(uint16 ChannelIdx)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 uint32 TO_GetEventMsgLength(CFE_EVS_Packet_t *msgPtr)
 {
-//    uint32 msgLen;
-//    uint32 textStart = offsetof(CFE_EVS_Packet_t, Payload) + offsetof(CFE_EVS_Packet_Payload_t, Message);
-//    uint32 textLength = strnlen(msgPtr->Payload.Message, CFE_EVS_MAX_MESSAGE_LENGTH);
-//
-//    msgLen = textStart + textLength + 1;
-//
-//    return msgLen;
+    uint32 msgLen;
+    uint32 textStart = offsetof(CFE_EVS_Packet_t, Payload) + offsetof(CFE_EVS_Packet_Payload_t, Message);
+    uint32 textLength = strnlen(msgPtr->Payload.Message, CFE_EVS_MAX_MESSAGE_LENGTH);
 
-	return 20;
+    msgLen = textStart + textLength + 1;
+
+    return msgLen;
 }
