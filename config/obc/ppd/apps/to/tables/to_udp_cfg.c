@@ -106,7 +106,12 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {HS_HK_TLM_MID_CPD,           1, TO_PQUEUE_HIGH_IDX},
         {ZUSUP_HK_TLM_MID_CPD,        1, TO_PQUEUE_HIGH_IDX},
         {SED_HK_TLM_MID_CPD,          1, TO_PQUEUE_HIGH_IDX},
-//        {PX4_SENSOR_COMBINED_MID_CPD, 1, TO_PQUEUE_HIGH_IDX},
+        {PX4_SENSOR_COMBINED_MID_CPD, 1, TO_PQUEUE_LOW_IDX},
+        {PE_HK_TLM_MID_CPD,          1, TO_PQUEUE_HIGH_IDX},
+        {VM_HK_TLM_MID_CPD,          1, TO_PQUEUE_HIGH_IDX},
+        {BAT_HK_TLM_MID_CPD,          1, TO_PQUEUE_HIGH_IDX},
+        {RCIN_HK_TLM_MID_CPD,          1, TO_PQUEUE_HIGH_IDX},
+        {TO_HK_TLM_MID_CPD,          1, TO_PQUEUE_HIGH_IDX},
         /* End CPD Mids */
         {CF_HK_TLM_MID,                1, TO_PQUEUE_MEDIUM_IDX},
         {CF_TRANS_TLM_MID,             1, TO_PQUEUE_MEDIUM_IDX},
