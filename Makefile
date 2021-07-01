@@ -193,7 +193,22 @@ submodule-update:
 	@echo 'Completed'
 	@echo 'Updating submodules'
 	git submodule update --init --recursive
-	
+
+remote-install::
+	@echo 'Installing onto test flight vehicle at 192.168.2.153'
+	ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "192.168.2.153"
+	ssh windhover@192.168.2.153 rm -Rf exe
+	ssh windhover@192.168.2.153 rm airliner
+	scp -r build/obc/ppd/target/target/exe windhover@192.168.2.153:~
+	scp build/obc/cpd/target/target/exe/airliner windhover@192.168.2.153:~
+	scp config/obc/ppd/target/airliner.service windhover@192.168.2.153:~
+
+local-install::
+	@echo 'Installing onto test flight vehicle at /media/${USER}/'
+	-sudo rm -Rf /media/${USER}/rootfs/opt/airliner
+	sudo cp -R build/obc/ppd/target/target/exe /media/${USER}/rootfs/opt/airliner
+	sudo cp build/obc/cpd/target/target/exe/airliner /media/${USER}/rootfs/lib/firmware
+	sudo cp config/obc/ppd/target/airliner.service /media/${USER}/rootfs/etc/systemd/system
 
 clean::
 	@echo 'Cleaning flight software builds                                                 '
