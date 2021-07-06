@@ -167,7 +167,7 @@ PQ_ChannelTbl_t PQ_ConfigTbl =
 //        {PX4_SATELLITE_INFO_MID,       1, PQ_PQUEUE_LOW_IDX},
 //        {PX4_SENSOR_ACCEL_MID,         1, PQ_PQUEUE_LOW_IDX},
 //        {PX4_SENSOR_BARO_MID,          1, PQ_PQUEUE_LOW_IDX},
-//        {PX4_SENSOR_COMBINED_MID,      1, PQ_PQUEUE_LOW_IDX},
+        {PX4_SENSOR_COMBINED_MID,      1, PQ_PQUEUE_HIGH_IDX},
         {PX4_SENSOR_CORRECTION_MID,    1, PQ_PQUEUE_LOW_IDX},
 //        {PX4_SENSOR_GYRO_MID,          1, PQ_PQUEUE_LOW_IDX},
 //        {PX4_SENSOR_MAG_MID,           1, PQ_PQUEUE_LOW_IDX},

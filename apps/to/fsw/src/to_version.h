@@ -50,7 +50,7 @@ extern "C" {
 **       Must be defined as a numeric value that is greater than
 **       or equal to zero.
 */
-#define TO_MAJOR_VERSION    (0)
+#define TO_MAJOR_VERSION    (1)
 
 /** \brief Minor version number for TO application
 **  
@@ -64,7 +64,7 @@ extern "C" {
 **       Must be defined as a numeric value that is greater than
 **       or equal to zero.
 */
-#define TO_MINOR_VERSION    (0)
+#define TO_MINOR_VERSION    (1)
 
 /** \brief Revision version number for TO application
 **  

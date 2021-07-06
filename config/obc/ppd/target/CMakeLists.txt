@@ -44,6 +44,12 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    io_lib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/io_lib/fsw/for_build
+)
+
+buildliner_add_app(
     prmlib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/prm

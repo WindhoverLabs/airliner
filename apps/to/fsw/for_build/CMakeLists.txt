@@ -38,8 +38,6 @@ buildliner_add_app_def(to
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_app.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_channel.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_channel.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_classifier.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_classifier.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_config_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_config_utils.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_custom.h
@@ -51,8 +49,6 @@ buildliner_add_app_def(to
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_output_queue.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_priority_queue.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_priority_queue.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_private_ids.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_private_types.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_scheduler.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_scheduler.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_symbols.c
@@ -96,8 +92,6 @@ buildliner_add_app_unit_test(to-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_app.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_channel.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_channel.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_classifier.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_classifier.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_message_flow.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_message_flow.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/to_output_queue.c

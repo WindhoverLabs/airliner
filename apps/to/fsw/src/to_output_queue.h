@@ -72,31 +72,46 @@ typedef struct
     /** \brief Count of the number of bytes sent from the output queue */
     uint16                  HighwaterMark;
 
+    /** \brief Memory pool buffer for queued messages. */
+    uint8                   MemPoolBuffer[TO_NUM_BYTES_IN_MEM_POOL];
+
+    /** \totlmmnemonic  TO_MEMPOOLHNDL
+        \brief Memory pool handle for queued messages. */
+    uint32                  MemPoolHandle;
+
+    /** \totlmmnemonic  TO_MEMINUSE
+        \brief The total memory currently in use */
+    uint32                  MemInUse;
+
+    /** \totlmmnemonic  TO_PKMEMINUSE
+        \brief The peak memory in use */
+    uint32                  PeakMemInUse;
+
+    /**\brief  CF Throttling Semaphore ID*/
+    uint32                  CfCntSemId;
+
+    /**\brief  CF Throttling Semaphore Max Count*/
+    uint32                  CfCntSemMax;
+
+    /** \brief CF Throttling Semaphore Name*/
+    char                    CfCntSemName[OS_MAX_API_NAME];
+
+    void                   *MsgScratchPad;
+
+    uint32                  QueuedMsgCount;
+
+
+    /** \brief The number of times a message was not queued due to memory pool being full. */
+    uint32                  MemFullCount;
+
+    uint32					DroppedMsgCnt;
+
 } TO_OutputQueue_t;
 
 
 /************************************************************************
 ** External Global Variables
 *************************************************************************/
-
-
-
-/************************************************************************/
-/** \brief Push a message onto the output channel queue.
-**
-**  \par Description
-**       This function is called by the Scheduler to push a message onto
-**       the output channel for downlink.
-**
-**  \param [in]   ChannelIdx    The index of the channel to push the
-**                              message to.
-**
-**  \param [in]   Buffer        Buffer containing the message to push.
-**
-**  \param [in]   Size          Size of the message, in bytes, to push.
-**
-*************************************************************************/
-int32 TO_OutputQueue_Push(TO_ChannelData_t* channel, const char* Buffer, uint32 Size);
 
 
 
@@ -151,7 +166,8 @@ int32 TO_OutputQueue_Teardown(TO_ChannelData_t* channel);
 **  \endreturns
 **
 *************************************************************************/
-int32 TO_OutputQueue_Buildup(TO_ChannelData_t* channel);
+int32 TO_OutputQueue_Buildup(TO_ChannelData_t* Channel, char* CfCntSemName,
+		                     uint32 CfCntSemMax);
 
 
 
@@ -194,5 +210,10 @@ int32 TO_OutputQueue_QueueMsg(TO_ChannelData_t* channel, CFE_SB_MsgPtr_t MsgPtr)
 **
 *************************************************************************/
 boolean TO_OutputChannel_Query(uint16 ChannelIdx);
+
+
+int32 TO_OutputQueue_Init(TO_ChannelData_t* channel);
+int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, int32 Timeout );
+
 
 #endif

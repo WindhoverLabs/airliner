@@ -145,47 +145,12 @@ struct TO_ChannelData_t
     /** \brief Dump Table Pointer */
     TO_ChannelDumpTbl_t  DumpTbl;
 
-    /** \brief Memory pool buffer for queued messages. */
-    uint8                MemPoolBuffer[TO_NUM_BYTES_IN_MEM_POOL];
-
-    /** \totlmmnemonic  TO_MEMPOOLHNDL
-        \brief Memory pool handle for queued messages. */
-    uint32               MemPoolHandle;
-
-    /** \totlmmnemonic  TO_MEMINUSE
-        \brief The total memory currently in use */
-    uint32               MemInUse;
-
-    /** \totlmmnemonic  TO_PKMEMINUSE
-        \brief The peak memory in use */
-    uint32               PeakMemInUse;
-
-    /** \totlmmnemonic  TO_MEMFULLCNT
-        \brief The number of times a message was not queued due to memory pool being full. */
-    uint32               MemFullCount;
-
     /** \brief Mutex to protect the Channel data*/
     uint32               MutexID;
     
     /** \totlm Sent Channel Telemetry
     \brief Count of telemetry messages sent out the channel interface.
     Counter begins at zero with app initialization and rolls over. */
-    uint32               SentMsgCount;
-
-    /** \totlm Queued Channel Telemetry
-    \brief Count of telemetry messages queued on the TO channel's Priority Queues.
-    Counter begins at zero with app initialization and rolls over. */
-    uint32               QueuedMsgCount;
-
-    /** \totlm Dropped Channel Telemetry
-    \brief Count of telemetry messages rejected, and not passed into the channel's Priority Queues.
-    Counter begins at zero with app initialization and rolls over. */
-    uint32               DropMsgCount;
-
-    /** \totlm Failed Channel Telemetry
-    \brief Count of telemetry messages failed on interface write after being pulled from the output queue, and lost.
-    Counter begins at zero with app initialization and rolls over. */
-    uint32               FailedMsgCount;
 
     /** \totlm Channel Bytes Sent
     \brief The number of bytes sent out the channel's interface
@@ -194,18 +159,9 @@ struct TO_ChannelData_t
 
     /** \brief Struct for single output channel queue entry*/
     TO_OutputQueue_t     OutputQueue;
-
-    /**\brief  CF Throttling Semaphore ID*/
-    uint32               CfCntSemId;
-
-    /**\brief  CF Throttling Semaphore Max Count*/
-    uint32               CfCntSemMax;
     
     /** \brief Channel index */
     uint32               channelIdx;
-
-    /** \brief CF Throttling Semaphore Name*/
-    char                 CfCntSemName[OS_MAX_API_NAME];
 
     /** \brief Config Table Name */
     char                 ConfigTableName[CFE_TBL_MAX_NAME_LENGTH]; 
@@ -219,11 +175,10 @@ struct TO_ChannelData_t
     /** \brief Channel Name */
     char                 ChannelName[OS_MAX_API_NAME];
 
-    /** \brief Data Pipe ID */
-    CFE_SB_PipeId_t      DataPipeId;
-
     /** \brief To hold the value of TO_ChannelState_t */
     uint8                State;
+
+    uint32               SentMsgCount;
 
 };
 
@@ -417,30 +372,10 @@ uint8 TO_Channel_State(uint16 index);
 **  \retcode TRUE  \retdesc The command succeeded \endcode
 **  \retcode FALSE \retdesc The command failed, if index is greater than or equal
 **                          to TO_MAX_CHANNELS or if #TO_PriorityQueue_TeardownAll
-**                          or #TO_OutputQueue_Teardown do not return CFE_SUCCESS or
-**                          if #TO_Channel_SBPipe_Dequeue_All returns FALSE \endcode  
+**                          or #TO_OutputQueue_Teardown do not return CFE_SUCCESS\endcode
 **  
 *************************************************************************/
 osalbool TO_Channel_Flush(uint16 index);
-
-
-/************************************************************************/
-/** \brief Empty all messages in the SB data pipe for this channel
-**
-**  \par Description
-**       This function is called in TO_Channel_Flush() and also on table switch.
-**
-**  \param[in]   index
-**               Index of the channel
-**
-**  \return
-**  \retcode TRUE  \retdesc The function succeeded \endcode
-**  \retcode FALSE \retdesc The function failed, if index is greater than or equal
-**                          to TO_MAX_CHANNELS or if #CFE_SB_RcvMsg does not return
-**                          CFE_SUCCESS \endcode  
-**  
-*************************************************************************/
-osalbool TO_Channel_SBPipe_Dequeue_All(uint16 index);
 
 
 #endif

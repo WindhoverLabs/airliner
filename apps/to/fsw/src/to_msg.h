@@ -503,25 +503,6 @@ typedef struct
     Index of array is equivalent to the relevant TO channel index. */
     uint32  uiQueuedMsgCountChannel[TO_MAX_CHANNELS];
 
-    /** \totlm Dropped Channel Telemetry
-    \totlmmnemonic TO_RDODROP
-    \totlmmnemonic TO_SNKLDROP
-    \totlmmnemonic TO_STORDROP
-    \brief Count of telemetry messages rejected, and not passed into the channel's Priority Queues.
-    Counter begins at zero with app initialization and rolls over.
-    Index of array is equivalent to the relevant TO channel index. */
-    uint32  uiDropMsgCountChannel[TO_MAX_CHANNELS];
-
-    /** \totlm Failed Channel Telemetry
-    \totlmmnemonic  TO_RDOFAILED
-    \totlmmnemonic  TO_SNKLFAILED
-    \totlmmnemonic  TO_STORFAILED
-    \brief Count of telemetry messages failed on interface write after being pulled 
-    from the output queue, and lost.
-    Counter begins at zero with app initialization and rolls over.
-    Index of array is equivalent to the relevant TO channel index. */
-    uint32  uiFailedMsgCountChannel[TO_MAX_CHANNELS];
-
     /** \totlm Channel Bytes Sent
     \totlmmnemonic TO_RDOB
     \totlmmnemonic TO_SNKLB
@@ -613,16 +594,11 @@ typedef struct
      * \brief  Priority Queue currently queued count
      */
     uint16                  CurrentlyQueuedCnt;
-
-    /**
-     * \brief  Priority Queue highest recorded queued count
-     */
-    uint16                  HighwaterMark;
     
     /**
      * \brief  Priority Queue message limit
      */
-    uint16                  MsgLimit;    
+    uint16                  Depth;
 
     /**
      * \brief  Priority Queue current state

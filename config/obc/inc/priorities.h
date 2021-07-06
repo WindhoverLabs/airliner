@@ -35,6 +35,7 @@
 /* MD                                    ( 130 ) */        /*   1Hz */
 /* MM                                    ( 125 ) */        /*   1Hz */
 /* SC                                    ( 120 ) */        /*   1Hz */
+/* ZUSUP                                 ( 190 ) */        /*   1Hz */
 
 /* ASYNC */
 #define CI_LISTENER_TASK_PRIORITY        ( 230 )           /* ASYNC */
