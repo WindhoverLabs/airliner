@@ -49,7 +49,7 @@ extern "C" {
 ** Local Defines
 *************************************************************************/
 /** \brief GPS device path. */
-#define GPS_SERIAL_DEVICE_PATH                    "/dev/ttyS3"
+#define GPS_SERIAL_DEVICE_PATH                    "/dev/ttyS1"
 
 /** \brief IO speed.
 **

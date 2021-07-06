@@ -369,6 +369,7 @@ boolean GPS_Custom_Set_Baud(const uint32 Baud)
     int termios_state = 0;
     boolean returnBool = TRUE;
     struct termios uart_config;
+    int returnCode = 0;
 
     switch (Baud) 
     {
@@ -404,8 +405,14 @@ boolean GPS_Custom_Set_Baud(const uint32 Baud)
     }
     
     /* fill the struct for the new configuration */
-    tcgetattr(GPS_AppCustomData.DeviceFd, &uart_config);
-
+    returnCode = tcgetattr(GPS_AppCustomData.DeviceFd, &uart_config);
+    if(returnCode != 0)
+    {
+        CFE_EVS_SendEvent(GPS_DEVICE_ERR_EID, CFE_EVS_ERROR,
+            "tcgetattr failed errno: %i", errno);
+        returnBool = FALSE;
+        goto end_of_function;
+    }
     /* properly configure the terminal (see also https://en.wikibooks.org/wiki/Serial_Programming/termios ) */
 
     /* Input flags - Turn off input processing
