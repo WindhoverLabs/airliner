@@ -158,8 +158,10 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_1_visible>true</trace_1_visible>
     <trace_1_x_axis_index>0</trace_1_x_axis_index>
     <trace_1_x_pv></trace_1_x_pv>
+    <trace_1_x_pv_value />
     <trace_1_y_axis_index>1</trace_1_y_axis_index>
-    <trace_1_y_pv>/cfs/CPD/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP.Minimum</trace_1_y_pv>
+    <trace_1_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP.Minimum</trace_1_y_pv>
+    <trace_1_y_pv_value />
     <trace_2_anti_alias>true</trace_2_anti_alias>
     <trace_2_buffer_size>100</trace_2_buffer_size>
     <trace_2_concatenate_data>true</trace_2_concatenate_data>
@@ -177,8 +179,10 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_2_visible>true</trace_2_visible>
     <trace_2_x_axis_index>0</trace_2_x_axis_index>
     <trace_2_x_pv></trace_2_x_pv>
+    <trace_2_x_pv_value />
     <trace_2_y_axis_index>1</trace_2_y_axis_index>
-    <trace_2_y_pv>/cfs/CPD/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP.Maximum</trace_2_y_pv>
+    <trace_2_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP.Maximum</trace_2_y_pv>
+    <trace_2_y_pv_value />
     <trace_count>3</trace_count>
     <transparent>false</transparent>
     <trigger_pv></trigger_pv>
@@ -189,47 +193,6 @@ $(trace_0_y_pv_value)</tooltip>
     <wuid>-73a519cf:17a86e234b1:-690e</wuid>
     <x>12</x>
     <y>12</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <background_color>
-      <color red="240" green="240" blue="240" />
-    </background_color>
-    <border_color>
-      <color name="Border" red="240" green="240" blue="240" />
-    </border_color>
-    <border_style>1</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <fc>false</fc>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="192" green="192" blue="192" />
-    </foreground_color>
-    <height>40</height>
-    <lock_children>false</lock_children>
-    <macros>
-      <include_parent_macros>true</include_parent_macros>
-    </macros>
-    <name>Grouping Container</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <show_scrollbar>false</show_scrollbar>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <visible>true</visible>
-    <widget_type>Grouping Container</widget_type>
-    <width>184</width>
-    <wuid>-73a519cf:17a86e234b1:-69d0</wuid>
-    <x>411</x>
-    <y>261</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.xyGraph" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -338,7 +301,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_0_x_pv></trace_0_x_pv>
     <trace_0_x_pv_value />
     <trace_0_y_axis_index>1</trace_0_y_axis_index>
-    <trace_0_y_pv>/cfs/CPD/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP_REMTE.Current</trace_0_y_pv>
+    <trace_0_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP_REMTE.Current</trace_0_y_pv>
     <trace_0_y_pv_value />
     <trace_1_anti_alias>true</trace_1_anti_alias>
     <trace_1_buffer_size>100</trace_1_buffer_size>
@@ -357,8 +320,10 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_1_visible>true</trace_1_visible>
     <trace_1_x_axis_index>0</trace_1_x_axis_index>
     <trace_1_x_pv></trace_1_x_pv>
+    <trace_1_x_pv_value />
     <trace_1_y_axis_index>1</trace_1_y_axis_index>
-    <trace_1_y_pv>/cfs/CPD/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP_REMTE.Minimum</trace_1_y_pv>
+    <trace_1_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP_REMTE.Minimum</trace_1_y_pv>
+    <trace_1_y_pv_value />
     <trace_2_anti_alias>true</trace_2_anti_alias>
     <trace_2_buffer_size>100</trace_2_buffer_size>
     <trace_2_concatenate_data>true</trace_2_concatenate_data>
@@ -376,8 +341,10 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_2_visible>true</trace_2_visible>
     <trace_2_x_axis_index>0</trace_2_x_axis_index>
     <trace_2_x_pv></trace_2_x_pv>
+    <trace_2_x_pv_value />
     <trace_2_y_axis_index>1</trace_2_y_axis_index>
-    <trace_2_y_pv>/cfs/CPD/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP_REMTE.Maximum</trace_2_y_pv>
+    <trace_2_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP_REMTE.Maximum</trace_2_y_pv>
+    <trace_2_y_pv_value />
     <trace_count>3</trace_count>
     <transparent>false</transparent>
     <trigger_pv></trigger_pv>

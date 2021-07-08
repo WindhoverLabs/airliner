@@ -124,7 +124,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_0_buffer_size>10000</trace_0_buffer_size>
     <trace_0_concatenate_data>true</trace_0_concatenate_data>
     <trace_0_line_width>1</trace_0_line_width>
-    <trace_0_name>X</trace_0_name>
+    <trace_0_name>Temp</trace_0_name>
     <trace_0_plot_mode>0</trace_0_plot_mode>
     <trace_0_point_size>4</trace_0_point_size>
     <trace_0_point_style>0</trace_0_point_style>
@@ -139,7 +139,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_0_x_pv></trace_0_x_pv>
     <trace_0_x_pv_value />
     <trace_0_y_axis_index>1</trace_0_y_axis_index>
-    <trace_0_y_pv>/cfs/CPD/zusup/ZUSUP_HkTlm_t.Temperature</trace_0_y_pv>
+    <trace_0_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_HkTlm_t.Temperature</trace_0_y_pv>
     <trace_0_y_pv_value />
     <trace_count>1</trace_count>
     <transparent>false</transparent>
@@ -244,7 +244,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_0_buffer_size>10000</trace_0_buffer_size>
     <trace_0_concatenate_data>true</trace_0_concatenate_data>
     <trace_0_line_width>1</trace_0_line_width>
-    <trace_0_name>X</trace_0_name>
+    <trace_0_name>Vcc</trace_0_name>
     <trace_0_plot_mode>0</trace_0_plot_mode>
     <trace_0_point_size>4</trace_0_point_size>
     <trace_0_point_style>0</trace_0_point_style>
@@ -259,7 +259,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_0_x_pv></trace_0_x_pv>
     <trace_0_x_pv_value />
     <trace_0_y_axis_index>1</trace_0_y_axis_index>
-    <trace_0_y_pv>/cfs/CPD/zusup/ZUSUP_HkTlm_t.Voltage</trace_0_y_pv>
+    <trace_0_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_HkTlm_t.Voltage</trace_0_y_pv>
     <trace_0_y_pv_value />
     <trace_count>1</trace_count>
     <transparent>false</transparent>
