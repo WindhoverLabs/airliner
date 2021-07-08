@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.7.qualifier</boy_version>
+  <boy_version>1.6.8.202107061613</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -61,7 +61,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/yamcs/tmtc_cpd/SerialTmFrame/PacketInputStream_HK.outOfSyncByteCount</pv_name>
+    <pv_name>/yamcs/tmtc_cpd/SerialTmTcFrameLink/SdlpPacketInputStream_HK.outOfSyncByteCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -113,7 +113,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/yamcs/tmtc_cpd/SerialTmFrame/PacketInputStream_HK.inSyncByteCount</pv_name>
+    <pv_name>/yamcs/tmtc_cpd/SerialTmTcFrameLink/SdlpPacketInputStream_HK.inSyncByteCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -165,7 +165,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/yamcs/tmtc_cpd/SerialTmFrame/PacketInputStream_HK.asmCursor</pv_name>
+    <pv_name>/yamcs/tmtc_cpd/SerialTmTcFrameLink/SdlpPacketInputStream_HK.asmCursor</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -217,7 +217,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/yamcs/tmtc_cpd/SerialTmFrame/PacketInputStream_HK.caduLength</pv_name>
+    <pv_name>/yamcs/tmtc_cpd/SerialTmTcFrameLink/SdlpPacketInputStream_HK.caduLength</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -269,7 +269,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/yamcs/tmtc_cpd/SerialTmFrame/PacketInputStream_HK.parserState</pv_name>
+    <pv_name>/yamcs/tmtc_cpd/SerialTmTcFrameLink/SdlpPacketInputStream_HK.parserState</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -321,7 +321,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/yamcs/tmtc_cpd/SerialTmFrame/PacketInputStream_HK.fatFrameBytes</pv_name>
+    <pv_name>/yamcs/tmtc_cpd/SerialTmTcFrameLink/SdlpPacketInputStream_HK.fatFrameBytes</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -373,7 +373,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/yamcs/tmtc_cpd/SerialTmFrame/PacketInputStream_HK.fixedLength</pv_name>
+    <pv_name>/yamcs/tmtc_cpd/SerialTmTcFrameLink/SdlpPacketInputStream_HK.fixedLength</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -425,7 +425,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/yamcs/tmtc_cpd/SerialTmFrame/PacketInputStream_HK.rcvdCaduCount</pv_name>
+    <pv_name>/yamcs/tmtc_cpd/SerialTmTcFrameLink/SdlpPacketInputStream_HK.rcvdCaduCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -477,7 +477,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/yamcs/tmtc_cpd/SerialTmFrame/PacketInputStream_HK.fatFrameCount</pv_name>
+    <pv_name>/yamcs/tmtc_cpd/SerialTmTcFrameLink/SdlpPacketInputStream_HK.fatFrameCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -983,7 +983,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/yamcs/tmtc_cpd/SerialTmFrame/PacketInputStream_HK.packet</pv_name>
+    <pv_name>/yamcs/tmtc_cpd/SerialTmTcFrameLink/SdlpPacketInputStream_HK.packet</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
