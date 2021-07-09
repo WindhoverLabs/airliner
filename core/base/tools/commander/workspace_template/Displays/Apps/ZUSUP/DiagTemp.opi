@@ -19,7 +19,7 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
   </macros>
-  <name></name>
+  <name>$(BLOCK) - TEMP</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>
@@ -114,7 +114,7 @@
     <show_legend>true</show_legend>
     <show_plot_area_border>false</show_plot_area_border>
     <show_toolbar>false</show_toolbar>
-    <title>TEMP</title>
+    <title>$(BLOCK) - TEMP</title>
     <title_font>
       <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
     </title_font>
@@ -139,7 +139,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_0_x_pv></trace_0_x_pv>
     <trace_0_x_pv_value />
     <trace_0_y_axis_index>1</trace_0_y_axis_index>
-    <trace_0_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP.Current</trace_0_y_pv>
+    <trace_0_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.$(BLOCK).TEMP.Current</trace_0_y_pv>
     <trace_0_y_pv_value />
     <trace_1_anti_alias>true</trace_1_anti_alias>
     <trace_1_buffer_size>100</trace_1_buffer_size>
@@ -160,7 +160,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_1_x_pv></trace_1_x_pv>
     <trace_1_x_pv_value />
     <trace_1_y_axis_index>1</trace_1_y_axis_index>
-    <trace_1_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP.Minimum</trace_1_y_pv>
+    <trace_1_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.$(BLOCK).TEMP.Minimum</trace_1_y_pv>
     <trace_1_y_pv_value />
     <trace_2_anti_alias>true</trace_2_anti_alias>
     <trace_2_buffer_size>100</trace_2_buffer_size>
@@ -181,7 +181,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_2_x_pv></trace_2_x_pv>
     <trace_2_x_pv_value />
     <trace_2_y_axis_index>1</trace_2_y_axis_index>
-    <trace_2_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP.Maximum</trace_2_y_pv>
+    <trace_2_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.$(BLOCK).TEMP.Maximum</trace_2_y_pv>
     <trace_2_y_pv_value />
     <trace_count>3</trace_count>
     <transparent>false</transparent>
@@ -276,7 +276,7 @@ $(trace_0_y_pv_value)</tooltip>
     <show_legend>true</show_legend>
     <show_plot_area_border>false</show_plot_area_border>
     <show_toolbar>false</show_toolbar>
-    <title>TEMP_REMTE</title>
+    <title>$(BLOCK) - TEMP_REMTE</title>
     <title_font>
       <opifont.name fontName="Liberation Sans" height="11" style="1" pixels="false">Default Bold</opifont.name>
     </title_font>
@@ -301,7 +301,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_0_x_pv></trace_0_x_pv>
     <trace_0_x_pv_value />
     <trace_0_y_axis_index>1</trace_0_y_axis_index>
-    <trace_0_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP_REMTE.Current</trace_0_y_pv>
+    <trace_0_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.$(BLOCK).TEMP_REMTE.Current</trace_0_y_pv>
     <trace_0_y_pv_value />
     <trace_1_anti_alias>true</trace_1_anti_alias>
     <trace_1_buffer_size>100</trace_1_buffer_size>
@@ -322,7 +322,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_1_x_pv></trace_1_x_pv>
     <trace_1_x_pv_value />
     <trace_1_y_axis_index>1</trace_1_y_axis_index>
-    <trace_1_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP_REMTE.Minimum</trace_1_y_pv>
+    <trace_1_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.$(BLOCK).TEMP_REMTE.Minimum</trace_1_y_pv>
     <trace_1_y_pv_value />
     <trace_2_anti_alias>true</trace_2_anti_alias>
     <trace_2_buffer_size>100</trace_2_buffer_size>
@@ -343,7 +343,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_2_x_pv></trace_2_x_pv>
     <trace_2_x_pv_value />
     <trace_2_y_axis_index>1</trace_2_y_axis_index>
-    <trace_2_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.PsAdcBlock.TEMP_REMTE.Maximum</trace_2_y_pv>
+    <trace_2_y_pv>/cfs/$(CPUID)/zusup/ZUSUP_DiagTlm_t.$(BLOCK).TEMP_REMTE.Maximum</trace_2_y_pv>
     <trace_2_y_pv_value />
     <trace_count>3</trace_count>
     <transparent>false</transparent>

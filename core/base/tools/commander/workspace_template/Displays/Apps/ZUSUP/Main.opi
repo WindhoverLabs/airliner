@@ -1178,7 +1178,7 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>DiagTemp.opi</path>
+        <path>Diag.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
@@ -1227,7 +1227,7 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>110</width>
     <wuid>-73a519cf:17a86e234b1:-6b83</wuid>
-    <x>33</x>
+    <x>34</x>
     <y>158</y>
   </widget>
 </display>
