@@ -342,21 +342,21 @@ int32 TO_PriorityQueue_Get(TO_ChannelData_t *Channel, uint16 PQueueIdx,
     if(CFE_SUCCESS == status)
     {
     	Channel->DumpTbl.PriorityQueue[PQueueIdx].QueuedMsgCnt++;
+
+        msgID = CFE_SB_GetMsgId(*Msg);
+
+        /* Check if this is a CFDP message. */
+        if(CF_SPACE_TO_GND_PDU_MID == msgID)
+        {
+            /* This is a CFDP message. Release the throttling semaphore. */
+            OS_CountSemGive(Channel->OutputQueue.CfCntSemId);
+        }
     }
     else if(status != CFE_SB_NO_MESSAGE)
     {
         (void) CFE_EVS_SendEvent(TO_PQUEUE_SB_ERR_EID,
                                  CFE_EVS_ERROR,
                                  "PQ pipe read error (0x%08X)", (unsigned int)status);
-    }
-
-    msgID = CFE_SB_GetMsgId(*Msg);
-
-    /* Check if this is a CFDP message. */
-    if(CF_SPACE_TO_GND_PDU_MID == msgID)
-    {
-        /* This is a CFDP message. Release the throttling semaphore. */
-        OS_CountSemGive(Channel->OutputQueue.CfCntSemId);
     }
 
     return status;
