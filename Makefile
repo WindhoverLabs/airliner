@@ -45,6 +45,8 @@ GENERIC_TARGET_NAMES := $(shell echo ${GENERIC_TARGET_PATHS} )
 BUILD_TYPES  := host target
 ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
+REMOTE_ADDRESS := '192.168.2.106'
+
 export PROJECT_SOURCE_DIR=${PWD}
 
 help::
@@ -193,7 +195,22 @@ submodule-update:
 	@echo 'Completed'
 	@echo 'Updating submodules'
 	git submodule update --init --recursive
-	
+
+remote-install::
+	@echo 'Installing onto test flight vehicle at $(REMOTE_ADDRESS)'
+	ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "$(REMOTE_ADDRESS)"
+	-ssh windhover@$(REMOTE_ADDRESS) rm -Rf exe
+	-ssh windhover@$(REMOTE_ADDRESS) rm airliner
+	scp -r build/obc/ppd/target/target/exe windhover@$(REMOTE_ADDRESS):~
+	scp build/obc/cpd/target/target/exe/airliner windhover@$(REMOTE_ADDRESS):~
+	scp config/obc/ppd/target/airliner.service windhover@$(REMOTE_ADDRESS):~
+
+local-install::
+	@echo 'Installing onto test flight vehicle at /media/${USER}/'
+	-sudo rm -Rf /media/${USER}/rootfs/opt/airliner
+	sudo cp -R build/obc/ppd/target/target/exe /media/${USER}/rootfs/opt/airliner
+	sudo cp build/obc/cpd/target/target/exe/airliner /media/${USER}/rootfs/lib/firmware
+	sudo cp config/obc/ppd/target/airliner.service /media/${USER}/rootfs/etc/systemd/system
 
 clean::
 	@echo 'Cleaning flight software builds                                                 '

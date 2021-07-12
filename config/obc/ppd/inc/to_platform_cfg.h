@@ -12,7 +12,6 @@ extern "C" {
 ** Platform Configuration Parameter Definitions
 */
 
-
 /** \tocfg Child task flags
 **
 **  \par Description:
