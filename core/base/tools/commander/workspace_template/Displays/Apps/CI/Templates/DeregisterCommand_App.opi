@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.8.202107061613</boy_version>
+  <boy_version>1.6.9.202107092317</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -61,7 +61,7 @@
     <items />
     <items_from_pv>false</items_from_pv>
     <name>msgIdInput</name>
-    <pv_name>loc://$(APP)_DeRegisterCommandMsgID_App&lt;VString&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_DeRegisterCommandMsgID_App&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -71,7 +71,7 @@
     </scale_options>
     <scripts>
       <path pathString="../scripts/command_management_init.py" checkConnect="true" seoe="false">
-        <pv trig="true">loc://$(APP)_DeRegisterCommandMsgID_App</pv>
+        <pv trig="true">loc://$(APP)_$(CPUID)_DeRegisterCommandMsgID_App</pv>
       </path>
     </scripts>
     <tooltip>$(pv_name)
@@ -188,7 +188,7 @@ $(pv_value)</tooltip>
     <items />
     <items_from_pv>false</items_from_pv>
     <name>cmdCodeInput</name>
-    <pv_name>loc://$(APP)_DeregisterCommandCommandCode_App&lt;VString&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_DeregisterCommandCommandCode_App&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -328,7 +328,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Step</name>
-    <pv_name>loc://$(APP)_DeregisterCommandStep_App&lt;VString&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_DeregisterCommandStep_App&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -454,7 +454,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Log</name>
-    <pv_name>loc://$(APP)_DeregisterCommandLog_App&lt;VString&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_DeregisterCommandLog_App&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
