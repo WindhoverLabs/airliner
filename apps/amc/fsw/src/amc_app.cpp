@@ -878,6 +878,8 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     CFE_EVS_SendEvent(AMC_ENGAGE_DEBUG_INF_EID, CFE_EVS_INFORMATION,
                             "Debug mode engaged.");
                     HkTlm.DebugEngaged = TRUE;
+                    HkTlm.DebugArmed = FALSE;
+                    HkTlm.ArmedTimeout = 0;
                 }
                 else
                 {
