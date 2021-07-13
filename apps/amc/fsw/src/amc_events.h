@@ -452,6 +452,14 @@ typedef enum {
 
     AMC_CMD_DEBUG_ERR_EID = 31,
 
+    AMC_ARM_TIMEOUT_ERR_EID = 32,
+
+    AMC_ENGAGE_DEBUG_ERR_EID = 33,
+
+    AMC_DISENGAGE_DEBUG_ERR_EID = 34,
+
+    AMC_DISARM_DEBUG_ERR_EID = 35,
+
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     AMC_EVT_CNT
 } AMC_EventIds_t;

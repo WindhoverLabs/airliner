@@ -176,6 +176,7 @@ typedef struct
     float              Output[PX4_ACTUATOR_OUTPUTS_MAX];
     uint8              DebugArmed;
     uint8              DebugEngaged;
+    int                ArmedTimeout;
 } AMC_HkTlm_t;
 
 
