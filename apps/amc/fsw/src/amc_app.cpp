@@ -802,6 +802,9 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
     if (MsgPtr != NULL)
     {
         uiCmdCode = CFE_SB_GetCmdCode(MsgPtr);
+
+        static uint16 debug_pwm[AMC_MAX_MOTOR_OUTPUTS] = {0};
+
         switch (uiCmdCode)
         {
             case AMC_NOOP_CC:
@@ -880,6 +883,7 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     HkTlm.DebugEngaged = TRUE;
                     HkTlm.DebugArmed = FALSE;
                     HkTlm.ArmedTimeout = 0;
+                    memset(&debug_pwm[0], 0x0, sizeof(debug_pwm));
                 }
                 else
                 {
@@ -900,6 +904,7 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     CFE_EVS_SendEvent(AMC_DISENGAGE_DEBUG_INF_EID, CFE_EVS_INFORMATION,
                             "Debug mode disengaged.");
                     HkTlm.DebugEngaged = FALSE;
+                    memset(&debug_pwm[0], 0x0, sizeof(debug_pwm));
                 }
                 else
                 {
@@ -915,7 +920,6 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             {
                 if(HkTlm.DebugEngaged == TRUE)
                 {
-                    static uint16 debug_pwm[AMC_MAX_MOTOR_OUTPUTS] = {0};
                     AMC_DebugCmd_t debugCmd = {0};
                     CFE_PSP_MemCpy(&debugCmd, MsgPtr, sizeof(debugCmd));
                     CFE_EVS_SendEvent(AMC_CMD_DEBUG_INF_EID, CFE_EVS_INFORMATION,
