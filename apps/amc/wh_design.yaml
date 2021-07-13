@@ -63,6 +63,12 @@
       id: 30
     AMC_CMD_DEBUG_ERR_EID:
       id: 31
+    AMC_ENGAGE_DEBUG_ERR_EID:
+      id: 32
+    AMC_DISENGAGE_DEBUG_ERR_EID:
+      id: 33
+    AMC_DISARM_DEBUG_ERR_EID:
+      id: 34
   telemetry: 
     AMC_HK_TLM_MID: 
       msgID: 
