@@ -845,6 +845,7 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     CFE_EVS_SendEvent(AMC_ARM_DEBUG_INF_EID, CFE_EVS_INFORMATION,
                             "Failed to arm debug mode. Debug mode is already armed.");
                 }
+                break;
             }
 
             case AMC_DISARM_DEBUG_CC:
@@ -865,6 +866,7 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     CFE_EVS_SendEvent(AMC_DISARM_DEBUG_ERR_EID, CFE_EVS_ERROR,
                             "Failed to disarm debug mode. Debug mode is not armed.");
                 }
+                break;
             }
 
             case AMC_ENGAGE_DEBUG_CC:
@@ -884,6 +886,7 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     CFE_EVS_SendEvent(AMC_ENGAGE_DEBUG_ERR_EID, CFE_EVS_ERROR,
                             "Failed to engage debug, debug mode is not armed.");
                 }
+                break;
             }
 
             case AMC_DISENGAGE_DEBUG_CC:
@@ -903,6 +906,7 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     CFE_EVS_SendEvent(AMC_DISENGAGE_DEBUG_ERR_EID, CFE_EVS_ERROR,
                             "Failed to disengage debug mode. Debug is not engaged.");
                 }
+                break;
             }
 
             case AMC_DEBUG_CMD_CC:
@@ -938,6 +942,7 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     /* Increment the error counter. */
                     HkTlm.usCmdErrCnt++;
                 }
+                break;
             }
 
             default:
