@@ -17,16 +17,13 @@ app_name = display.getMacroValue('APP')
 
 registry = YAMLRegistry()
 all_commands = registry.getAllCommands()
-
 app_commands = []
 
 for msg in all_commands:
     if all_commands[msg]['app'] == app_name:
         app_commands.append(msg)
 
-
 msg_id_drop_down.setPropertyValue('items', app_commands)
-
 msg_key = str(pvs[0].getValue().getValue())
 
 if msg_key in all_commands:
