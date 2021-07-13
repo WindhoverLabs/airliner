@@ -661,6 +661,20 @@ void AMC::ProcessDataPipe(void)
     CFE_SB_MsgId_t MsgId;
     bool contProcessing = true;
 
+    if(HkTlm.DebugArmed == TRUE)
+    {
+        if(HkTlm.ArmedTimeout > 0)
+        {
+            --HkTlm.ArmedTimeout;
+            if(HkTlm.ArmedTimeout == 0)
+            {
+                CFE_EVS_SendEvent(AMC_ARM_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
+                            "Debug armed timeout expired.");
+                HkTlm.DebugArmed = FALSE;
+            }
+        }
+    }
+
     /* Process command messages until the pipe is empty */
     while (contProcessing)
     {
@@ -788,6 +802,9 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
     if (MsgPtr != NULL)
     {
         uiCmdCode = CFE_SB_GetCmdCode(MsgPtr);
+
+        static uint16 debug_pwm[AMC_MAX_MOTOR_OUTPUTS] = {0};
+
         switch (uiCmdCode)
         {
             case AMC_NOOP_CC:
@@ -810,6 +827,127 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                  * error counters. */
                 HkTlm.usCmdCnt = 0;
                 HkTlm.usCmdErrCnt = 0;
+                break;
+            }
+
+            case AMC_ARM_DEBUG_CC:
+            {
+                if(HkTlm.DebugArmed == FALSE)
+                {
+                    /* Increment the command counter. */
+                    HkTlm.usCmdCnt++;
+                    CFE_EVS_SendEvent(AMC_ARM_DEBUG_INF_EID, CFE_EVS_INFORMATION,
+                            "Debug mode armed.");
+                    HkTlm.DebugArmed = TRUE;
+                    HkTlm.ArmedTimeout = AMC_ARM_DEBUG_TIMEOUT;
+                }
+                else
+                {
+                    /* Increment the error counter. */
+                    HkTlm.usCmdErrCnt++;
+                    CFE_EVS_SendEvent(AMC_ARM_DEBUG_INF_EID, CFE_EVS_INFORMATION,
+                            "Failed to arm debug mode. Debug mode is already armed.");
+                }
+                break;
+            }
+
+            case AMC_DISARM_DEBUG_CC:
+            {
+                if(HkTlm.DebugArmed == TRUE)
+                {
+                    /* Increment the command counter. */
+                    HkTlm.usCmdCnt++;
+                    CFE_EVS_SendEvent(AMC_DISARM_DEBUG_INF_EID, CFE_EVS_INFORMATION,
+                            "Debug mode disarmed.");
+                    HkTlm.DebugArmed = FALSE;
+                    HkTlm.ArmedTimeout = 0;
+                }
+                else
+                {
+                    /* Increment the error counter. */
+                    HkTlm.usCmdErrCnt++;
+                    CFE_EVS_SendEvent(AMC_DISARM_DEBUG_ERR_EID, CFE_EVS_ERROR,
+                            "Failed to disarm debug mode. Debug mode is not armed.");
+                }
+                break;
+            }
+
+            case AMC_ENGAGE_DEBUG_CC:
+            {
+                if(HkTlm.DebugArmed == TRUE)
+                {
+                    /* Increment the command counter. */
+                    HkTlm.usCmdCnt++;
+                    CFE_EVS_SendEvent(AMC_ENGAGE_DEBUG_INF_EID, CFE_EVS_INFORMATION,
+                            "Debug mode engaged.");
+                    HkTlm.DebugEngaged = TRUE;
+                    HkTlm.DebugArmed = FALSE;
+                    HkTlm.ArmedTimeout = 0;
+                    memset(&debug_pwm[0], 0x0, sizeof(debug_pwm));
+                }
+                else
+                {
+                    /* Increment the error counter. */
+                    HkTlm.usCmdErrCnt++;
+                    CFE_EVS_SendEvent(AMC_ENGAGE_DEBUG_ERR_EID, CFE_EVS_ERROR,
+                            "Failed to engage debug, debug mode is not armed.");
+                }
+                break;
+            }
+
+            case AMC_DISENGAGE_DEBUG_CC:
+            {
+                if(HkTlm.DebugEngaged == TRUE)
+                {
+                    /* Increment the command counter. */
+                    HkTlm.usCmdCnt++;
+                    CFE_EVS_SendEvent(AMC_DISENGAGE_DEBUG_INF_EID, CFE_EVS_INFORMATION,
+                            "Debug mode disengaged.");
+                    HkTlm.DebugEngaged = FALSE;
+                    memset(&debug_pwm[0], 0x0, sizeof(debug_pwm));
+                }
+                else
+                {
+                    /* Increment the error counter. */
+                    HkTlm.usCmdErrCnt++;
+                    CFE_EVS_SendEvent(AMC_DISENGAGE_DEBUG_ERR_EID, CFE_EVS_ERROR,
+                            "Failed to disengage debug mode. Debug is not engaged.");
+                }
+                break;
+            }
+
+            case AMC_DEBUG_CMD_CC:
+            {
+                if(HkTlm.DebugEngaged == TRUE)
+                {
+                    AMC_DebugCmd_t debugCmd = {0};
+                    CFE_PSP_MemCpy(&debugCmd, MsgPtr, sizeof(debugCmd));
+                    CFE_EVS_SendEvent(AMC_CMD_DEBUG_INF_EID, CFE_EVS_INFORMATION,
+                            "Received debug command index %hu value %hu", 
+                            debugCmd.Index, debugCmd.Cmd);
+
+                    if(debugCmd.Index < AMC_MAX_MOTOR_OUTPUTS)
+                    {
+                        debug_pwm[debugCmd.Index] = debugCmd.Cmd;
+                        /* Increment the command counter. */
+                        HkTlm.usCmdCnt++;
+                        SetMotorOutputs(debug_pwm);
+                    }
+                    else
+                    {
+                        CFE_EVS_SendEvent(AMC_CMD_DEBUG_ERR_EID, CFE_EVS_ERROR,
+                                "Invalid index received");
+                        /* Increment the error counter. */
+                        HkTlm.usCmdErrCnt++;
+                    }
+                }
+                else
+                {
+                    CFE_EVS_SendEvent(AMC_CMD_DEBUG_ERR_EID, CFE_EVS_ERROR,
+                            "Debug command received with debug mode disengaged");
+                    /* Increment the error counter. */
+                    HkTlm.usCmdErrCnt++;
+                }
                 break;
             }
 
@@ -842,7 +980,7 @@ void AMC::ReportHousekeeping(void)
 
     for(i = 0; i < PX4_ACTUATOR_OUTPUTS_MAX; ++i)
     {
-    	HkTlm.Output[i] = ActuatorOutputs.Output[i];
+        HkTlm.Output[i] = ActuatorOutputs.Output[i];
     }
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
@@ -1009,11 +1147,14 @@ void AMC::UpdateMotors(void)
      */
     if (CVT.ActuatorArmed.Lockdown || CVT.ActuatorArmed.ManualLockdown)
     {
-        SetMotorOutputs(disarmed_pwm);
+        if(HkTlm.DebugEngaged != TRUE)
+        {
+            SetMotorOutputs(disarmed_pwm);
+        }
     }
     else if(CVT.ActuatorArmed.Armed)
     {
-    	CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)& ActuatorOutputs);
+        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)& ActuatorOutputs);
 
         /* Do mixing */
         ActuatorOutputs.Count = MixerObject.mix(ActuatorOutputs.Output, 0, 0);
@@ -1041,14 +1182,20 @@ void AMC::UpdateMotors(void)
 
         if(!CVT.ActuatorArmed.InEscCalibrationMode)
         {
-            SetMotorOutputs(pwm);
+            if(HkTlm.DebugEngaged != TRUE)
+            {
+                SetMotorOutputs(pwm);
+            }
         }
 
         CFE_SB_SendMsg((CFE_SB_Msg_t*)&ActuatorOutputs);
     }
     else
     {
-        SetMotorOutputs(disarmed_pwm);
+        if(HkTlm.DebugEngaged != TRUE)
+        {
+            SetMotorOutputs(disarmed_pwm);
+        }
     }
 }
 
