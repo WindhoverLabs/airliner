@@ -915,14 +915,14 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             {
                 if(HkTlm.DebugEngaged == TRUE)
                 {
-                    uint16 debug_pwm[AMC_MAX_MOTOR_OUTPUTS] = {0};
+                    static uint16 debug_pwm[AMC_MAX_MOTOR_OUTPUTS] = {0};
                     AMC_DebugCmd_t debugCmd = {0};
                     CFE_PSP_MemCpy(&debugCmd, MsgPtr, sizeof(debugCmd));
                     CFE_EVS_SendEvent(AMC_CMD_DEBUG_INF_EID, CFE_EVS_INFORMATION,
                             "Received debug command index %hu value %hu", 
                             debugCmd.Index, debugCmd.Cmd);
 
-                    if(debugCmd.Index <= AMC_MAX_MOTOR_OUTPUTS)
+                    if(debugCmd.Index < AMC_MAX_MOTOR_OUTPUTS)
                     {
                         debug_pwm[debugCmd.Index] = debugCmd.Cmd;
                         /* Increment the command counter. */
