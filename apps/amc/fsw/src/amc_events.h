@@ -436,9 +436,21 @@ typedef enum {
 **  message is received with one of this applications params and
 **  an error is encountered getting the updated value.
 */
-	AMC_PARAM_UPDATE_ERR_EID = 24,
+    AMC_PARAM_UPDATE_ERR_EID = 24,
 
-	AMC_DELETE_CB_REG_ERR_EID = 25,
+    AMC_DELETE_CB_REG_ERR_EID = 25,
+
+    AMC_ARM_DEBUG_INF_EID = 26,
+
+    AMC_DISARM_DEBUG_INF_EID = 27,
+
+    AMC_ENGAGE_DEBUG_INF_EID = 28,
+
+    AMC_DISENGAGE_DEBUG_INF_EID = 29,
+
+    AMC_CMD_DEBUG_INF_EID = 30,
+
+    AMC_CMD_DEBUG_ERR_EID = 31,
 
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     AMC_EVT_CNT

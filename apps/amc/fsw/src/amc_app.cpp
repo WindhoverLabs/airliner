@@ -813,6 +813,76 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 break;
             }
 
+            case AMC_ARM_DEBUG_CC:
+            {
+                /* Increment the command counter. */
+                HkTlm.usCmdCnt++;
+                CFE_EVS_SendEvent(AMC_ARM_DEBUG_INF_EID, CFE_EVS_INFORMATION,
+                        "Debug mode armed");
+                HkTlm.DebugArmed = TRUE;
+            }
+
+            case AMC_DISARM_DEBUG_CC:
+            {
+                /* Increment the command counter. */
+                HkTlm.usCmdCnt++;
+                CFE_EVS_SendEvent(AMC_DISARM_DEBUG_INF_EID, CFE_EVS_INFORMATION,
+                        "Debug mode disarmed");
+                HkTlm.DebugArmed = FALSE;
+            }
+
+            case AMC_ENGAGE_DEBUG_CC:
+            {
+                /* Increment the command counter. */
+                HkTlm.usCmdCnt++;
+                CFE_EVS_SendEvent(AMC_ENGAGE_DEBUG_INF_EID, CFE_EVS_INFORMATION,
+                        "Debug mode engaged");
+                HkTlm.DebugEngaged = TRUE;
+            }
+
+            case AMC_DISENGAGE_DEBUG_CC:
+            {
+                /* Increment the command counter. */
+                HkTlm.usCmdCnt++;
+                CFE_EVS_SendEvent(AMC_DISENGAGE_DEBUG_INF_EID, CFE_EVS_INFORMATION,
+                        "Debug mode disengaged");
+                HkTlm.DebugEngaged = FALSE;
+            }
+
+            case AMC_DEBUG_CMD_CC:
+            {
+                if(HkTlm.DebugEngaged == TRUE)
+                {
+                    uint16 debug_pwm[AMC_MAX_MOTOR_OUTPUTS];
+                    AMC_DebugCmd_t debugCmd = {0};
+                    CFE_PSP_MemCpy(&debugCmd, MsgPtr, sizeof(debugCmd));
+                    CFE_EVS_SendEvent(AMC_CMD_DEBUG_INF_EID, CFE_EVS_INFORMATION,
+                        "Received debug command index %hu value %hu", debugCmd.Index, debugCmd.Cmd);
+
+                    if(debugCmd.Index <= AMC_MAX_MOTOR_OUTPUTS)
+                    {
+                        debug_pwm[debugCmd.Index] = debugCmd.Cmd;
+                        /* Increment the command counter. */
+                        HkTlm.usCmdCnt++;
+                        SetMotorOutputs(debug_pwm);
+                    }
+                    else
+                    {
+                        CFE_EVS_SendEvent(AMC_CMD_DEBUG_ERR_EID, CFE_EVS_ERROR,
+                                "Invalid index received");
+                        /* Increment the error counter. */
+                        HkTlm.usCmdErrCnt++;
+                    }
+                }
+                else
+                {
+                    CFE_EVS_SendEvent(AMC_CMD_DEBUG_ERR_EID, CFE_EVS_ERROR,
+                            "Debug command received with debug mode disengaged");
+                    /* Increment the error counter. */
+                    HkTlm.usCmdErrCnt++;
+                }
+            }
+
             default:
             {
                 /* An unknown command was received.  Increment the command
@@ -842,7 +912,7 @@ void AMC::ReportHousekeeping(void)
 
     for(i = 0; i < PX4_ACTUATOR_OUTPUTS_MAX; ++i)
     {
-    	HkTlm.Output[i] = ActuatorOutputs.Output[i];
+        HkTlm.Output[i] = ActuatorOutputs.Output[i];
     }
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
@@ -1009,11 +1079,14 @@ void AMC::UpdateMotors(void)
      */
     if (CVT.ActuatorArmed.Lockdown || CVT.ActuatorArmed.ManualLockdown)
     {
-        SetMotorOutputs(disarmed_pwm);
+        if(HkTlm.DebugEngaged != TRUE)
+        {
+            SetMotorOutputs(disarmed_pwm);
+        }
     }
     else if(CVT.ActuatorArmed.Armed)
     {
-    	CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)& ActuatorOutputs);
+        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)& ActuatorOutputs);
 
         /* Do mixing */
         ActuatorOutputs.Count = MixerObject.mix(ActuatorOutputs.Output, 0, 0);
@@ -1041,14 +1114,20 @@ void AMC::UpdateMotors(void)
 
         if(!CVT.ActuatorArmed.InEscCalibrationMode)
         {
-            SetMotorOutputs(pwm);
+            if(HkTlm.DebugEngaged != TRUE)
+            {
+                SetMotorOutputs(pwm);
+            }
         }
 
         CFE_SB_SendMsg((CFE_SB_Msg_t*)&ActuatorOutputs);
     }
     else
     {
-        SetMotorOutputs(disarmed_pwm);
+        if(HkTlm.DebugEngaged != TRUE)
+        {
+            SetMotorOutputs(disarmed_pwm);
+        }
     }
 }
 
