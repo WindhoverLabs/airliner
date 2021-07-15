@@ -199,3 +199,16 @@ buildliner_add_app(
     CONFIG_SOURCES
         ${PROJECT_SOURCE_DIR}/config/shared/apps/hmc5883/src/hmc5883_custom.c
 )
+
+buildliner_add_app(
+    bat
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/bat/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/bat_custom.cpp
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115.cpp
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_custom.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115.h
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_custom.h
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_map.h
+)
