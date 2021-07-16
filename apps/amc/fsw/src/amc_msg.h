@@ -122,6 +122,16 @@ extern "C" {
 */
 #define AMC_RESET_CC                (1)
 
+#define AMC_ARM_DEBUG_CC            (2)
+
+#define AMC_DISARM_DEBUG_CC         (3)
+
+#define AMC_ENGAGE_DEBUG_CC         (4)
+
+#define AMC_DISENGAGE_DEBUG_CC      (5)
+
+#define AMC_DEBUG_CMD_CC            (6)
+
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
@@ -135,6 +145,15 @@ typedef struct
 {
     uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
 } AMC_NoArgCmd_t;
+
+
+typedef struct
+{
+    uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+    uint16 Index;
+    uint16 Cmd;
+} AMC_DebugCmd_t;
+
 
 /** 
 **  \brief AMC application housekeeping data
@@ -153,8 +172,11 @@ typedef struct
     uint8              usCmdErrCnt; 
 
     CFE_TIME_SysTime_t Timestamp;
-	uint32             Count;
-	float              Output[PX4_ACTUATOR_OUTPUTS_MAX];
+    uint32             Count;
+    float              Output[PX4_ACTUATOR_OUTPUTS_MAX];
+    uint8              DebugArmed;
+    uint8              DebugEngaged;
+    int                ArmedTimeout;
 } AMC_HkTlm_t;
 
 
