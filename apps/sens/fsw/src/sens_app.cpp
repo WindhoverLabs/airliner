@@ -240,6 +240,10 @@ void SENS::InitData()
 
 	/* Initialized member attributes */
 	Armed = false;
+
+	SensorCombinedMsg.AccInvalid = true;
+	SensorCombinedMsg.BaroInvalid = true;
+	SensorCombinedMsg.MagInvalid = true;
 }
 
 
@@ -1123,12 +1127,6 @@ void SENS::CombineSensorInput(void)
             /* Store the time so we can use it in the next iteration. */
             CVT.PrevAccelTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorAccelMsg);
         }
-        else
-        {
-            /* No new measurement was received.  Update the fields accordingly.  */
-            //CVT.SensorAccelMsg.Timestamp  = PX4_RELATIVE_TIMESTAMP_INVALID;
-            SensorCombinedMsg.AccInvalid = true;
-        }
 
         /* Mag. */
         /* See if we have a new magnetometer measurement. */
@@ -1149,11 +1147,6 @@ void SENS::CombineSensorInput(void)
             /* Store the time so we can use it in the next iteration. */
             CVT.PrevMagTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorMagMsg);
         }
-        else
-        {
-            /* No new measurement was received.  Update the fields accordingly.  */
-            SensorCombinedMsg.MagInvalid = true;
-        }
 
         /* Baro. */
         /* See if we have a new baro measurement. */
@@ -1172,11 +1165,6 @@ void SENS::CombineSensorInput(void)
 
             /* Store the time so we can use it in the next iteration. */
             CVT.PrevBaroTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorBaroMsg);
-        }
-        else
-        {
-            /* No new measurement was received.  Update the fields accordingly.  */
-            SensorCombinedMsg.BaroInvalid = true;
         }
     }
 

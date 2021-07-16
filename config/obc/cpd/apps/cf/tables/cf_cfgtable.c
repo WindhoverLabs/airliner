@@ -25,7 +25,7 @@ cf_config_table_t     CF_ConfigTable =
 
     "CF Default Table",/* TableIdString */
     2,      /* TableVersion (integer)   */    
-    32,     /* NumEngCyclesPerWakeup    */
+    3,     /* NumEngCyclesPerWakeup    */
     1,      /* NumWakeupsPerQueueChk    */
     1,      /* NumWakeupsPerPollDirChk  */
     100,    /* UplinkHistoryQDepth      */
