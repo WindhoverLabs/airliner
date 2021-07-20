@@ -475,7 +475,7 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
                 	TO_OutputChannel_Disable(ChannelIdx);
                 }
 
-                iStatus = CFE_ES_PutPoolBuf(TO_AppData.ChannelData[ChannelIdx].MemPoolHandle, (uint32 *)buffer);
+                iStatus = CFE_ES_PutPoolBuf(chQueue->MemPoolHandle, (uint32 *)buffer);
                 if(iStatus < 0)
                 {
                     (void) CFE_EVS_SendEvent(TO_PUT_POOL_ERR_EID, CFE_EVS_ERROR,
@@ -485,7 +485,7 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
                 else
                 {
                     OS_MutSemTake(TO_AppData.MutexID);
-                    TO_AppData.ChannelData[ChannelIdx].MemInUse -= iStatus;
+                    chQueue->MemInUse -= iStatus;
                     OS_MutSemGive(TO_AppData.MutexID);
 
                     TO_Channel_LockByIndex(ChannelIdx);

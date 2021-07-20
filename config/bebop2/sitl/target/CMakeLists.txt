@@ -274,10 +274,3 @@ buildliner_add_app(
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/qae
 )
 
-buildliner_add_app(
-    lgc
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/lgc/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/lgc
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/config/shared/apps/lgc/lgc_custom.cpp
-)
