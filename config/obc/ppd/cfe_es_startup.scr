@@ -13,6 +13,7 @@ CFE_APP, /cf/apps/LC.so,        LC_AppMain,      LC,        178, 327680, 0x0, 0,
 CFE_APP, /cf/apps/SC.so,        SC_AppMain,      SC,        175, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/MD.so,        MD_AppMain,      MD,        169, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/EA.so,        EA_AppMain,      EA,        184, 327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/BAT.so,       BAT_AppMain,     BAT,       106, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/CS.so,        CS_AppMain,      CS,        160, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/SBN.so,       SBN_AppMain,     SBN,       37,  327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/SCH.so,       SCH_AppMain,     SCH,       34,  40960, 0x0, 0, 2;

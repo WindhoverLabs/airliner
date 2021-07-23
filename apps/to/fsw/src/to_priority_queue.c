@@ -335,12 +335,22 @@ osalbool TO_PriorityQueue_IsValid(TO_ChannelData_t *channel, uint32 PQueueIdx)
 int32 TO_PriorityQueue_Get(TO_ChannelData_t *Channel, uint16 PQueueIdx,
 		                   CFE_SB_MsgPtr_t  *Msg)
 {
-	int32 status;
+	int32  status;
+	uint16 msgID;
 
     status = CFE_SB_RcvMsg(Msg, Channel->DumpTbl.PriorityQueue[PQueueIdx].SBPipeID, CFE_SB_POLL);
     if(CFE_SUCCESS == status)
     {
     	Channel->DumpTbl.PriorityQueue[PQueueIdx].QueuedMsgCnt++;
+
+        msgID = CFE_SB_GetMsgId(*Msg);
+
+        /* Check if this is a CFDP message. */
+        if(CF_SPACE_TO_GND_PDU_MID == msgID)
+        {
+            /* This is a CFDP message. Release the throttling semaphore. */
+            OS_CountSemGive(Channel->OutputQueue.CfCntSemId);
+        }
     }
     else if(status != CFE_SB_NO_MESSAGE)
     {

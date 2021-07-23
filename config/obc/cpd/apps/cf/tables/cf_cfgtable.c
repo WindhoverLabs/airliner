@@ -25,7 +25,7 @@ cf_config_table_t     CF_ConfigTable =
 
     "CF Default Table",/* TableIdString */
     2,      /* TableVersion (integer)   */    
-    1,      /* NumEngCyclesPerWakeup    */
+    3,     /* NumEngCyclesPerWakeup    */
     1,      /* NumWakeupsPerQueueChk    */
     1,      /* NumWakeupsPerPollDirChk  */
     100,    /* UplinkHistoryQDepth      */
@@ -67,7 +67,7 @@ cf_config_table_t     CF_ConfigTable =
                 
                 { /* Polling Directory 0 */
                     CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
-		    CF_ENABLED,     /* Enable State */
+		            CF_ENABLED,     /* Enable State */
                     1,              /* Class (1 or 2)*/
                     0,              /* Priority */
                     CF_KEEP_FILE,   /* Preserve files after successful transfer? */
@@ -76,12 +76,12 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
                     "/ram/downlink/ch0/dir0/", /* SrcPath, no spaces, fwd slash at end */
-                    "",    /* DstPath, no spaces */
+                    "/",    /* DstPath, no spaces */
                 },/* End Polling Directory 0 */
                 
                 { /* Polling Directory 1 */
                     CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
-		    CF_ENABLED,     /* Enable State */
+		            CF_ENABLED,     /* Enable State */
                     2,              /* Class (1 or 2)*/
                     0,              /* Priority */                  
                     CF_DELETE_FILE, /* Preserve files after successful transfer? */
@@ -90,7 +90,7 @@ cf_config_table_t     CF_ConfigTable =
                     0,              /* Reserved3 */
                     "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
                     "/ram/downlink/ch0/dir1/", /* SrcPathname */
-                    "",         /* DestPathname */
+                    "/",         /* DestPathname */
                     
                 },/* End Polling Directory 1 */
                 
