@@ -155,7 +155,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>Channel</name>
-    <pv_name>loc://PollingChannel</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_PollingChannel</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -249,7 +249,7 @@ $(pv_value)</tooltip>
     <page_increment>10.0</page_increment>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://PollingDir&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_PollingDir&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
