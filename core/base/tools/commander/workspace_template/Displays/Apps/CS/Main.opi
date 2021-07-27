@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.7.202105202042</boy_version>
+  <boy_version>1.6.9.202107142204</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -2712,7 +2712,7 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>ReportBaselineApp.opi</path>
+        <path>RecomputeBaselineEEPROM.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
@@ -2822,7 +2822,7 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>ReportBaselineApp.opi</path>
+        <path>RecomputeBaselineMemory.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
@@ -2932,7 +2932,7 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>ReportBaselineApp.opi</path>
+        <path>RecomputeBaselineApp.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
@@ -3042,7 +3042,7 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>ReportBaselineApp.opi</path>
+        <path>RecomputeBaselineTable.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
