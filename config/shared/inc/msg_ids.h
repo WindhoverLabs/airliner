@@ -446,13 +446,16 @@
 
 #define SBN_MODULE_HK_TLM_MID                     TLM_MSG(  436 )
 
+#define SBND_HK_TLM_MID                           TLM_MSG(  437 )
+#define SBND_CMD_MID                              CMD_MSG(  438 )
+#define SBND_SEND_HK_MID                          CMD_MSG(  439 )
+#define SBND_WAKEUP_MID                           SBN_WAKEUP_MID
 
 /* SENS                                                      */
 #define SENS_HK_TLM_MID                           TLM_MSG(  440 )
 #define SENS_CMD_MID                              CMD_MSG(  441 )
 #define SENS_SEND_HK_MID                          CMD_MSG(  442 )
 #define SENS_WAKEUP_MID                           CMD_MSG(  443 )
-
 
 /* SIM                                                       */
 #define SIM_HK_TLM_MID                            TLM_MSG(  446 )
