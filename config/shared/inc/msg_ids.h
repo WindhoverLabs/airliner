@@ -499,6 +499,26 @@
 #define ZUSUP_HK_TLM_MID                          TLM_MSG(  489 )
 #define ZUSUP_DIAG_TLM_MID                        TLM_MSG(  490 )
 
+/* BARO                                                     */
+#define BARO_CMD_MID                              CMD_MSG(  491 )
+#define BARO_SEND_HK_MID                          CMD_MSG(  492 )
+#define BARO_MEASURE_MID                          CMD_MSG(  493 )
+#define BARO_OUT_DATA_MID                         TLM_MSG(  494 )
+#define BARO_HK_TLM_MID                           TLM_MSG(  495 )
+
+/* IMU                                                      */
+#define IMU_CMD_MID                               CMD_MSG(  496 )
+#define IMU_SEND_HK_MID                           CMD_MSG(  497 )
+#define IMU_MEASURE_MID                           CMD_MSG(  498 )
+#define IMU_OUT_DATA_MID                          TLM_MSG(  499 )
+#define IMU_HK_TLM_MID                            TLM_MSG(  500 )
+
+/* MAG                                                      */
+#define MAG_CMD_MID                               CMD_MSG(  501 )
+#define MAG_SEND_HK_MID                           CMD_MSG(  502 )
+#define MAG_MEASURE_MID                           CMD_MSG(  503 )
+#define MAG_OUT_DATA_MID                          TLM_MSG(  504 )
+#define MAG_HK_TLM_MID                            TLM_MSG(  505 )
 
 
 

@@ -271,16 +271,14 @@ buildliner_add_app(
 #    CONFIG_SOURCES
 #        ${CMAKE_CURRENT_SOURCE_DIR}/apps/rgbled/src/rgbled_custom.c
 #)
-#
-## This is temporarily removed until we can geet px4lib back in
-#buildliner_add_app(
-#    ms5611
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ms5611/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ms5611
-#    CONFIG_SOURCES
-#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ms5611/src/ms5611_custom.c
-#)
-#
+
+# This is temporarily removed until we can geet px4lib back in
+buildliner_add_app(
+    baro
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/baro/fsw/for_build
+)
+
 ## This is temporarily removed until we can geet px4lib back in
 #buildliner_add_app(
 #    gps
@@ -328,12 +326,13 @@ buildliner_add_app(
 ## This is temporarily removed until we can geet px4lib back in
 #buildliner_add_app(
 #    rcin
+#    EMBEDDED
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/rcin/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/rcin
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/rcin
 #    CONFIG_SOURCES
-#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/rcin/src/rcin_custom.c
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/rcin/src/rcin_custom.c
 #)
-#
+
 ## This is temporarily removed until we can geet px4lib back in
 #buildliner_add_app(
 #    bat
@@ -342,25 +341,20 @@ buildliner_add_app(
 #    CONFIG_SOURCES
 #        ${CMAKE_CURRENT_SOURCE_DIR}/apps/bat/bat_custom.cpp
 #)
-#
-## This is temporarily removed until we can geet px4lib back in
-#buildliner_add_app(
-#    mpu9250
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mpu9250/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/mpu9250
-#    CONFIG_SOURCES
-#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/mpu9250/src/mpu9250_custom.c
-#)
-#
-## This is temporarily removed until we can geet px4lib back in
-#buildliner_add_app(
-#    hmc5883
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hmc5883/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/hmc5883
-#    CONFIG_SOURCES
-#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/hmc5883/src/hmc5883_custom.c
-#)
-#
+
+# This is temporarily removed until we can geet px4lib back in
+buildliner_add_app(
+    imu
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/imu/fsw/for_build
+)
+
+# This is temporarily removed until we can geet px4lib back in
+buildliner_add_app(
+    mag
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/mag/fsw/for_build
+)
 
 buildliner_add_app(
     pe
