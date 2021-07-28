@@ -10,24 +10,26 @@ from org.eclipse.swt.graphics import RGB
 
 from com.windhoverlabs.studio.registry import YAMLRegistry, ConfigRegistry
 
+
 # FIXME: Perhaps these widget names should be macros
 msg_id_drop_down = display.getWidget('msgIdInput')
 app_name = display.getMacroValue('APP')
+cpu_id = display.getMacroValue('CPUID')
 
 registry = YAMLRegistry()
-all_messages = registry.getAllTelemetry()
+all_messages = registry.getAllTelemetry('/modules/' + cpu_id.lower() + "/modules")
 
 app_messages = []
 
 for msg in all_messages:
     if all_messages[msg]['app'] == app_name:
-        app_messages.append(msg)
+        app_messages.append("({}){}".format(cpu_id, msg))
 
 try:
-    max_channels = registry.getAllConfig()['to']['TO_MAX_CHANNELS']['value']
+    max_channels = registry.getAllConfig('/modules/' + cpu_id.lower() + "/modules")['to']['TO_MAX_CHANNELS']['value']
     display.getWidget('ChannelIndex').setPropertyValue('maximum', max_channels-1)
 except:
     print('No ChannelIndex on Display')
 
-
 msg_id_drop_down.setPropertyValue('items', app_messages)
+

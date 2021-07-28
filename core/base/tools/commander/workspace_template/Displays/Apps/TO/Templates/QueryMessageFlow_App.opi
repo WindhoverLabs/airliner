@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.9.202107092317</boy_version>
+  <boy_version>1.6.9.qualifier</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -203,7 +203,11 @@ $(pv_value)</tooltip>
       <height_scalable>true</height_scalable>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
-    <scripts />
+    <scripts>
+      <path pathString="/Displays/Apps/TO/Scripts/set_msg_id.py" checkConnect="true" seoe="false">
+        <pv trig="true">loc://$(APP)_$(CPUID)_TO_QueryMessageFlow_MsgID_App&lt;VString&gt;</pv>
+      </path>
+    </scripts>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>

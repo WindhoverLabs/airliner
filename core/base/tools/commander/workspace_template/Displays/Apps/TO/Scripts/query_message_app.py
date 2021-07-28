@@ -9,23 +9,24 @@ from org.eclipse.swt.graphics import RGB
 from org.yamcs.studio.script import Yamcs
 from com.windhoverlabs.studio.registry import YAMLRegistry, ConfigRegistry
 
+cpu_id = display.getMacroValue('CPUID')
 registry = YAMLRegistry()
-all_commands = registry.getAllTelemetry()
+all_telemetry = registry.getAllTelemetry('/modules/' + cpu_id.lower() + "/modules")
 
 msgID = None
 
 if not (display.getWidget('msgIdInput').getPropertyValue('pv_value') is None) and \
-		not (display.getWidget('ChannelIndex').getPropertyValue('pv_value') is None):
-	msg_key = display.getWidget('msgIdInput').getPropertyValue('pv_value').getValue()
-	channel_index = int(display.getWidget('ChannelIndex').getPropertyValue('pv_value').getValue())
+        not (display.getWidget('ChannelIndex').getPropertyValue('pv_value') is None):
+    msg_key = display.getWidget('msgIdInput').getVar("msg_id")
+    channel_index = int(display.getWidget('ChannelIndex').getPropertyValue('pv_value').getValue())
 
-	# NOTE: These might be redundant...
-	if msg_key in all_commands:
-		msgID = all_commands[msg_key]["msgID"]
+    # NOTE: These might be redundant...
+    if msg_key in all_telemetry:
+        msgID = all_telemetry[msg_key]["msgID"]
 
-		Yamcs.issueCommand('/cfs/' + display.getMacroValue('CPUID') + '/to/QueryMessageFlow',
+        Yamcs.issueCommand('/cfs/' + display.getMacroValue('CPUID') + '/to/QueryMessageFlow',
                            {
-							   'ChannelIdx': channel_index,
-							   	'MsgID': msgID
-                            }
+                               'ChannelIdx': channel_index,
+                               'MsgID': msgID
+                           }
                            )

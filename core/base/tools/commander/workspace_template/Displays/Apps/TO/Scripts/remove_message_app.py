@@ -10,13 +10,14 @@ from org.yamcs.studio.script import Yamcs
 from com.windhoverlabs.studio.registry import YAMLRegistry, ConfigRegistry
 
 registry = YAMLRegistry()
-all_messages = registry.getAllTelemetry()
+cpu_id = display.getMacroValue('CPUID')
+all_messages = registry.getAllTelemetry('/modules/' + cpu_id.lower() + "/modules")
 
 msgID = None
 channel_index = None
 if not (display.getWidget('msgIdInput').getPropertyValue('pv_value') is None) and \
         not (display.getWidget('ChannelIndex').getPropertyValue('pv_value') is None):
-	msg_key = display.getWidget('msgIdInput').getPropertyValue('pv_value').getValue()
+	msg_key = display.getWidget('msgIdInput').getVar("msg_id")
 	channel_index = int(display.getWidget('ChannelIndex').getPropertyValue('pv_value').getValue())
 
 	# NOTE: These might be redundant...
