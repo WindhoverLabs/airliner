@@ -46,16 +46,16 @@ extern "C" {
 **       Note, using CFE_SB_PEND_FOREVER may cause an unresponsive
 **       application if no messages arrive on this pipe.
 */
-#define SBND_SCH_PIPE_PEND_TIME         (2000)
+#define SBND_SCH_PIPE_PEND_TIME         (4)
 
 /** \brief The number of WAKEUP messages to reserve on the Scheduler pipe.
 **
 **  \par Limits:
 **       minimum of 1, max limited to CFE_SB_MAX_PIPE_DEPTH-1.  Note the
-**       SBN_WAKEUP_MID_MAX_MSG_COUNT and SBND_SEND_HK_MID_MAX_MSG_COUNT
+**       SBND_WAKEUP_MID_MAX_MSG_COUNT and SBND_SEND_HK_MID_MAX_MSG_COUNT
 **       must be less than SBND_SCH_PIPE_DEPTH.
 */
-#define SBN_WAKEUP_MID_MAX_MSG_COUNT   (1)
+#define SBND_WAKEUP_MID_MAX_MSG_COUNT   (1)
 
 /** \brief The number of SEND_HK messages to reserve on the Scheduler pipe.
 **
