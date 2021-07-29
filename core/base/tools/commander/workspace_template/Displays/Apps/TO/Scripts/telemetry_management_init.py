@@ -28,7 +28,6 @@ for cpu in all_cpus:
             app_messages.append("({}) {}".format(cpu, msg))
 
 try:
-    print('cpud:{}'.format(display.getWidget('msgIdInput').getVar('current_cpuid')))
     max_channels = registry.getAllConfig('/modules/' + display.getWidget('msgIdInput').getVar('current_cpuid') + "/modules")['to']['TO_MAX_CHANNELS']['value']
     display.getWidget('ChannelIndex').setPropertyValue('maximum', max_channels-1)
     max_priority_queues = registry.getAllConfig('/modules/' + display.getWidget('msgIdInput').getVar('current_cpuid') + "/modules")['to']['TO_MAX_PRIORITY_QUEUES']['value']
