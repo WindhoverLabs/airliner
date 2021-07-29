@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.9.202107142204</boy_version>
+  <boy_version>1.6.9.qualifier</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -27,6 +27,7 @@
     <RemoveMessageFlow_TEMPLATE>/Displays/Apps/TO/Templates/RemoveMessageFlow_App.opi</RemoveMessageFlow_TEMPLATE>
     <QueryMessageFlow_TEMPLATE>/Displays/Apps/TO/Templates/QueryMessageFlow_App.opi</QueryMessageFlow_TEMPLATE>
     <Sch_Table_TEMPLATE>/Displays/Apps/SCH/Templates/Diagnostic_App.opi</Sch_Table_TEMPLATE>
+    <ALL_CPUS>{'cpd', 'ppd'}</ALL_CPUS>
   </macros>
   <name>Main</name>
   <rules />
