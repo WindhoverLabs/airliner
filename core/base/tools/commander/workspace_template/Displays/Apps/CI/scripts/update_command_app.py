@@ -10,7 +10,10 @@ from org.yamcs.studio.script import Yamcs
 from com.windhoverlabs.studio.registry import YAMLRegistry, ConfigRegistry
 
 registry = YAMLRegistry()
-all_commands = registry.getAllCommands()
+
+command_cpu_id = display.getMacroValue('CPUID')
+current_cpu_id = display.getWidget('msgIdInput').getVar("current_cpuid")
+all_commands = registry.getAllCommands('/modules/' + current_cpu_id.lower() + "/modules")
 
 msgInputWidget = display.getWidget('msgIdInput')
 cmdCodeInputWidget = display.getWidget('cmdCodeInput')
@@ -22,12 +25,11 @@ command_code = None
 step = None
 log = None
 
-print('triggered')
 if not (msgInputWidget.getPropertyValue('pv_value') is None) and \
         not (cmdCodeInputWidget.getPropertyValue('pv_value') is None) and \
         not (StepInputWidget.getPropertyValue('pv_value') is None) and \
         not (LogInputWidget.getPropertyValue('pv_value') is None):
-    msg_key = msgInputWidget.getPropertyValue('pv_value').getValue()
+    msg_key = display.getWidget('msgIdInput').getVar("msg_id")
     command_code_key = cmdCodeInputWidget.getPropertyValue('pv_value').getValue()
 
     if StepInputWidget.getPropertyValue('pv_value').getValue() == "STEP_1":

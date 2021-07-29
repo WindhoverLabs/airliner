@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.7.202105202042</boy_version>
+  <boy_version>1.6.9.qualifier</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -686,7 +686,7 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="192" green="192" blue="192" />
     </foreground_color>
-    <height>54</height>
+    <height>78</height>
     <lock_children>false</lock_children>
     <macros>
       <include_parent_macros>true</include_parent_macros>
@@ -704,7 +704,7 @@ $(pv_value)</tooltip>
     <transparent>true</transparent>
     <visible>true</visible>
     <widget_type>Grouping Container</widget_type>
-    <width>223</width>
+    <width>121</width>
     <wuid>3ad43471:178fa0ca30e:-740f</wuid>
     <x>18</x>
     <y>156</y>
@@ -1540,8 +1540,8 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="192" green="192" blue="192" />
     </foreground_color>
-    <height>96</height>
-    <lock_children>true</lock_children>
+    <height>126</height>
+    <lock_children>false</lock_children>
     <macros>
       <include_parent_macros>true</include_parent_macros>
     </macros>
@@ -1560,8 +1560,8 @@ $(pv_value)</tooltip>
     <widget_type>Grouping Container</widget_type>
     <width>122</width>
     <wuid>6cbc123a:179195c8c60:-4f0c</wuid>
-    <x>35</x>
-    <y>246</y>
+    <x>12</x>
+    <y>324</y>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="EXECUTE_JAVASCRIPT">
@@ -1620,8 +1620,8 @@ $(pv_value)</tooltip>
       <widget_type>Action Button</widget_type>
       <width>62</width>
       <wuid>6cbc123a:179195c8c60:-4f0b</wuid>
-      <x>29</x>
-      <y>18</y>
+      <x>30</x>
+      <y>42</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -1681,8 +1681,8 @@ $(pv_value)</tooltip>
       <widget_type>Action Button</widget_type>
       <width>62</width>
       <wuid>6cbc123a:179195c8c60:-4f0a</wuid>
-      <x>29</x>
-      <y>42</y>
+      <x>30</x>
+      <y>66</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
       <actions hook="false" hook_all="false" />
@@ -1702,7 +1702,7 @@ $(pv_value)</tooltip>
       <foreground_color>
         <color red="0" green="0" blue="0" />
       </foreground_color>
-      <height>20</height>
+      <height>36</height>
       <horizontal_alignment>1</horizontal_alignment>
       <name>Label_46</name>
       <rules />
@@ -1721,8 +1721,8 @@ $(pv_value)</tooltip>
       <width>130</width>
       <wrap_words>false</wrap_words>
       <wuid>6cbc123a:179195c8c60:-4f09</wuid>
-      <x>0</x>
-      <y>0</y>
+      <x>-4</x>
+      <y>7</y>
     </widget>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
@@ -1782,8 +1782,8 @@ $(pv_value)</tooltip>
       <widget_type>Action Button</widget_type>
       <width>62</width>
       <wuid>6cbc123a:179195c8c60:-4f08</wuid>
-      <x>29</x>
-      <y>66</y>
+      <x>30</x>
+      <y>90</y>
     </widget>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
