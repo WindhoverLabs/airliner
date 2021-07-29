@@ -207,6 +207,9 @@ $(pv_value)</tooltip>
       <path pathString="/Displays/Apps/TO/Scripts/set_msg_id.py" checkConnect="true" seoe="false">
         <pv trig="true">loc://$(APP)_$(CPUID)_TO_QueryMessageFlow_MsgID_App&lt;VString&gt;</pv>
       </path>
+      <path pathString="/Displays/Apps/TO/Scripts/telemetry_management_init.py" checkConnect="true" seoe="false">
+        <pv trig="true">loc://$(APP)_$(CPUID)_TO_QueryMessageFlow_MsgID_App&lt;VString&gt;</pv>
+      </path>
     </scripts>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>

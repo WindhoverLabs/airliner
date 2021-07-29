@@ -10,8 +10,9 @@ from org.yamcs.studio.script import Yamcs
 from com.windhoverlabs.studio.registry import YAMLRegistry, ConfigRegistry
 
 registry = YAMLRegistry()
-cpu_id = display.getMacroValue('CPUID')
-all_messages = registry.getAllTelemetry('/modules/' + cpu_id.lower() + "/modules")
+command_cpu_id = display.getMacroValue("CPUID")
+msg_id_cpu = display.getWidget('msgIdInput').getVar('current_cpuid')
+all_messages = registry.getAllTelemetry('/modules/' + msg_id_cpu.lower() + "/modules")
 
 msgID = None
 channel_index = None
@@ -24,7 +25,7 @@ if not (display.getWidget('msgIdInput').getPropertyValue('pv_value') is None) an
 	if msg_key in all_messages:
 		msgID = all_messages[msg_key]["msgID"]
 
-		Yamcs.issueCommand('/cfs/' + display.getMacroValue('CPUID') + '/to/RemoveMessageFlow',
+		Yamcs.issueCommand('/cfs/' + command_cpu_id.upper() + '/to/RemoveMessageFlow',
                            {	'ChannelIdx': channel_index,
 							   	'MsgID': msgID
                             }

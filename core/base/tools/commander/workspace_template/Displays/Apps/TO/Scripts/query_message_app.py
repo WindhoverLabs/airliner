@@ -9,9 +9,10 @@ from org.eclipse.swt.graphics import RGB
 from org.yamcs.studio.script import Yamcs
 from com.windhoverlabs.studio.registry import YAMLRegistry, ConfigRegistry
 
-cpu_id = display.getMacroValue('CPUID')
+command_cpu_id = display.getMacroValue("CPUID")
+msg_id_cpu = display.getWidget('msgIdInput').getVar('current_cpuid')
 registry = YAMLRegistry()
-all_telemetry = registry.getAllTelemetry('/modules/' + cpu_id.lower() + "/modules")
+all_telemetry = registry.getAllTelemetry('/modules/' + msg_id_cpu.lower() + "/modules")
 
 msgID = None
 
@@ -24,7 +25,7 @@ if not (display.getWidget('msgIdInput').getPropertyValue('pv_value') is None) an
     if msg_key in all_telemetry:
         msgID = all_telemetry[msg_key]["msgID"]
 
-        Yamcs.issueCommand('/cfs/' + display.getMacroValue('CPUID') + '/to/QueryMessageFlow',
+        Yamcs.issueCommand('/cfs/' + command_cpu_id.upper() + '/to/QueryMessageFlow',
                            {
                                'ChannelIdx': channel_index,
                                'MsgID': msgID

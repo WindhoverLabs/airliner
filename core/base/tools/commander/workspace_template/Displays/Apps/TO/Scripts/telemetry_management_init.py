@@ -16,18 +16,24 @@ msg_id_drop_down = display.getWidget('msgIdInput')
 app_name = display.getMacroValue('APP')
 cpu_id = display.getMacroValue('CPUID')
 
-registry = YAMLRegistry()
-all_messages = registry.getAllTelemetry('/modules/' + cpu_id.lower() + "/modules")
+all_cpus = eval(display.getMacroValue('ALL_CPUS'))
 
+registry = YAMLRegistry()
 app_messages = []
 
-for msg in all_messages:
-    if all_messages[msg]['app'] == app_name:
-        app_messages.append("({}){}".format(cpu_id, msg))
+for cpu in all_cpus:
+    all_messages = registry.getAllTelemetry('/modules/' + cpu.lower() + "/modules")
+    for msg in all_messages:
+        if all_messages[msg]['app'] == app_name:
+            app_messages.append("({}) {}".format(cpu, msg))
 
 try:
-    max_channels = registry.getAllConfig('/modules/' + cpu_id.lower() + "/modules")['to']['TO_MAX_CHANNELS']['value']
+    print('cpud:{}'.format(display.getWidget('msgIdInput').getVar('current_cpuid')))
+    max_channels = registry.getAllConfig('/modules/' + display.getWidget('msgIdInput').getVar('current_cpuid') + "/modules")['to']['TO_MAX_CHANNELS']['value']
     display.getWidget('ChannelIndex').setPropertyValue('maximum', max_channels-1)
+    max_priority_queues = registry.getAllConfig('/modules/' + display.getWidget('msgIdInput').getVar('current_cpuid') + "/modules")['to']['TO_MAX_PRIORITY_QUEUES']['value']
+    display.getWidget('PQueueIdx').setPropertyValue('maximum', max_priority_queues - 1)
+
 except:
     print('No ChannelIndex on Display')
 
