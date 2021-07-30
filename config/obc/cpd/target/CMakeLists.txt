@@ -272,13 +272,6 @@ buildliner_add_app(
 #        ${CMAKE_CURRENT_SOURCE_DIR}/apps/rgbled/src/rgbled_custom.c
 #)
 
-# This is temporarily removed until we can geet px4lib back in
-buildliner_add_app(
-    baro
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/baro/fsw/for_build
-)
-
 ## This is temporarily removed until we can geet px4lib back in
 #buildliner_add_app(
 #    gps
@@ -341,20 +334,6 @@ buildliner_add_app(
 #    CONFIG_SOURCES
 #        ${CMAKE_CURRENT_SOURCE_DIR}/apps/bat/bat_custom.cpp
 #)
-
-# This is temporarily removed until we can geet px4lib back in
-buildliner_add_app(
-    imu
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/imu/fsw/for_build
-)
-
-# This is temporarily removed until we can geet px4lib back in
-buildliner_add_app(
-    mag
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/mag/fsw/for_build
-)
 
 buildliner_add_app(
     pe
