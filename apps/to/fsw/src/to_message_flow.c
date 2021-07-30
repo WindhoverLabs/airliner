@@ -206,7 +206,6 @@ osalbool TO_MessageFlow_Add(
     uint32 i;
     uint32 j;
     TO_MessageFlow_t *msgFlow   = NULL;
-    osalbool added              = FALSE;
     int32 status                = CFE_SUCCESS;
     uint8 queueIdx              = 0;
     uint32 decimationFactorsSum = 0;
@@ -287,34 +286,52 @@ osalbool TO_MessageFlow_Add(
                 return FALSE;
             }
 
-            /* Now that the message was successfully subscribed to, set the
-             * message flow definition.
-             */
-            channel->ConfigTblPtr->MessageFlow[i].MsgId = MsgID;
-            channel->ConfigTblPtr->MessageFlow[i].MsgLimit = MsgLimit;
-            channel->ConfigTblPtr->MessageFlow[i].PQueueID = PQueueIdx;
-            channel->DumpTbl.MessageFlow[i].DroppedMsgCnt = 0;
-            channel->DumpTbl.MessageFlow[i].QueuedMsgCnt = 0;
-            channel->DumpTbl.MessageFlow[i].SBMsgCnt = 0;
-            
-            CFE_TBL_Modified(channel->ConfigTblHdl);
+			status = CFE_SB_SubscribeEx(MsgID, channel->DumpTbl.PriorityQueue[PQueueIdx].SBPipeID, CFE_SB_Default_Qos, MsgLimit);
+			if (status != CFE_SUCCESS)
+			{
+				/* We failed to subscribe to a message. */
+				(void) CFE_EVS_SendEvent(TO_SUBSCRIBE_ERR_EID,
+										 CFE_EVS_ERROR,
+										 "Message flow failed to subscribe to (0x%08X) on channel %lu. (%ld)",
+										 MsgID,
+										 ChannelIdx,
+										 status);
 
-            added = TRUE;
+                TO_Channel_UnlockByRef(channel);
+                return FALSE;
+			}
+			else
+			{
+	            /* Now that the message was successfully subscribed to, set the
+	             * message flow definition.
+	             */
+	            channel->ConfigTblPtr->MessageFlow[i].MsgId = MsgID;
+	            channel->ConfigTblPtr->MessageFlow[i].MsgLimit = MsgLimit;
+	            channel->ConfigTblPtr->MessageFlow[i].PQueueID = PQueueIdx;
+	            channel->DumpTbl.MessageFlow[i].DroppedMsgCnt = 0;
+	            channel->DumpTbl.MessageFlow[i].QueuedMsgCnt = 0;
+	            channel->DumpTbl.MessageFlow[i].SBMsgCnt = 0;
+
+                CFE_TBL_Modified(channel->ConfigTblHdl);
+			}
+
             break;
         }
     }
     
-    if (FALSE == added)
+    if (i >= TO_MAX_MESSAGE_FLOWS)
     {
         (void) CFE_EVS_SendEvent(TO_CMD_ADD_MSG_FLOW_ERR_EID, 
                                 CFE_EVS_ERROR,
                                 "Failed to add message flow. No unused slots available on channel %d.",
                                 ChannelIdx);
+        TO_Channel_UnlockByRef(channel);
+        return FALSE;
     }    
 
     TO_Channel_UnlockByRef(channel);
 
-    return added;
+    return TRUE;
 }
 
 
@@ -327,10 +344,11 @@ osalbool TO_MessageFlow_Add(
 osalbool TO_MessageFlow_Remove(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID)
 {
     uint32 msgFlowIndex       = 0;
-    uint32 i                 = 0;
+    uint32 i                  = 0;
     TO_MessageFlow_t *msgFlow = NULL;
     int32 status              = CFE_SUCCESS;
     TO_ChannelData_t *channel = NULL;
+    uint32 pQueueID           = 0;
 
     /* First, check if the channel index is valid. */
     if (ChannelIdx >= TO_MAX_CHANNELS)
@@ -381,6 +399,22 @@ osalbool TO_MessageFlow_Remove(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID)
         TO_Channel_UnlockByRef(channel);
         return FALSE;
     }
+
+    pQueueID = channel->ConfigTblPtr->MessageFlow[msgFlowIndex].PQueueID;
+
+	status = CFE_SB_Unsubscribe(MsgID, pQueueID);
+	if (status != CFE_SUCCESS)
+	{
+		/* We failed to subscribe to a message. */
+		(void) CFE_EVS_SendEvent(TO_UNSUBSCRIBE_ERR_EID,
+								 CFE_EVS_ERROR,
+								 "Message flow (0x%08X) failed to unsubscribe on channel %lu. (%ld)",
+								 MsgID,
+								 ChannelIdx,
+								 status);
+        TO_Channel_UnlockByRef(channel);
+        return FALSE;
+	}
 
     /* Now just clear the entries. */
     channel->ConfigTblPtr->MessageFlow[msgFlowIndex].MsgId = 0;
