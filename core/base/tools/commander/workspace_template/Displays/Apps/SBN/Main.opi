@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.9.202107142204</boy_version>
+  <boy_version>1.6.9.qualifier</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -21,7 +21,7 @@
     <APP>sbn</APP>
     <EVENTS_OPI>/Displays/Core/EVS/Events.opi</EVENTS_OPI>
     <PROJECT_NAME>Displays</PROJECT_NAME>
-    <REGISTRY_PATH>/modules/sbn</REGISTRY_PATH>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
   </macros>
   <name>($(CPUID)) SBN</name>
   <rules />
@@ -430,8 +430,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>92</width>
     <wuid>-6d93a836:177d12fe0d6:-7f45</wuid>
-    <x>360</x>
-    <y>305</y>
+    <x>300</x>
+    <y>286</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
@@ -491,8 +491,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>92</width>
     <wuid>49c9ccd0:178c6a335db:-3581</wuid>
-    <x>360</x>
-    <y>324</y>
+    <x>300</x>
+    <y>305</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1202,8 +1202,8 @@ $(pv_value)</tooltip>
     <widget_type>Action Button</widget_type>
     <width>92</width>
     <wuid>-4f5b0176:1798b9f7a0f:-701e</wuid>
-    <x>360</x>
-    <y>343</y>
+    <x>300</x>
+    <y>324</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0.0">
     <actions hook="false" hook_all="false" />
