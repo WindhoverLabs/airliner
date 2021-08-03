@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.9.202107142204</boy_version>
+  <boy_version>1.7.0.202108031936</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -34,52 +34,11 @@
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-
-var TransferClass =VTypeHelper.getString(display.getWidget('TransferClass').getPropertyValue('pv_value'));
-var Channel =VTypeHelper.getString(display.getWidget('Channel').getPropertyValue('pv_value'));
-var Priority =VTypeHelper.getDouble(display.getWidget('Priority').getPropertyValue('pv_value'));
-var Preserve =VTypeHelper.getString(display.getWidget('Preserve').getPropertyValue('pv_value'));
-var PeerEntityID =VTypeHelper.getString(display.getWidget('PeerEntityID').getPropertyValue('pv_value'));
-var Source =VTypeHelper.getString(display.getWidget('Source').getPropertyValue('pv_value'));
-var Destination =VTypeHelper.getString(display.getWidget('Destination').getPropertyValue('pv_value'));
-
-var pTransferClass = '';
-var pChannel = -1;
-var pPreserve = '';
-
-if( TransferClass == 'Class 1 (Unreliable)' ) {
-    pTransferClass = 'CLASS_1';
-} else if( TransferClass == 'Class 2 (Reliable)' ) {
-    pTransferClass = 'CLASS_2';
-} 
-
-if( Channel == 'Channel 1' ) {
-    pChannel = 0;
-} else if( Channel == 'Channel 2' ) {
-    pChannel = 1;
-} 
-
-if( Preserve == 'Delete' ) {
-    pPreserve = 'DELETE';
-} else if( Preserve == 'Keep' ) {
-    pPreserve = 'KEEP';
-} 
-
-Yamcs.issueCommand('/cfs/$(CPUID)/cf/PlaybackFile', {
-    'Class': pTransferClass,
-    'Channel': pChannel,
-    'Priority': Priority,
-    'Preserve': pPreserve,
-    'PeerEntityId': PeerEntityID,
-    'SrcFilename': Source,
-    'DstFilename': Destination});
+      <action type="EXECUTE_PYTHONSCRIPT">
+        <path>Scripts/playback_file.py</path>
+        <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
 ]]></scriptText>
-        <embedded>true</embedded>
+        <embedded>false</embedded>
         <description></description>
       </action>
     </actions>

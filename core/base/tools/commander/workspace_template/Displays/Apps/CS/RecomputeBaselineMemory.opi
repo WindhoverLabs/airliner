@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.9.202107142204</boy_version>
+  <boy_version>1.7.0.202108031936</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -34,21 +34,11 @@
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-
-var EntryID =VTypeHelper.getDouble(display.getWidget('EntryID').getPropertyValue('pv_value'));
-
-var cmd = '/cfs/$(CPUID)/cs/RecomputeBaselineMemory';
-
-Yamcs.issueCommand(cmd, {'EntryID': EntryID});
-
-
+      <action type="EXECUTE_PYTHONSCRIPT">
+        <path>scripts/recompute_memory_baseline.py</path>
+        <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
 ]]></scriptText>
-        <embedded>true</embedded>
+        <embedded>false</embedded>
         <description></description>
       </action>
     </actions>
