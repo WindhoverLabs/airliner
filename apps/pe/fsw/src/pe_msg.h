@@ -610,6 +610,26 @@ typedef enum
 } PE_DistState_t;
 
 /** 
+**  \brief PE Flow state
+*/
+typedef enum
+{
+    PE_FLOW_STATE_UNKNOWN    = 0,
+    PE_FLOW_STATE_MEASURE    = 1,
+    PE_FLOW_STATE_COUNT      = 2,
+    PE_FLOW_STATE_PITCH_ROLL = 3,
+    PE_FLOW_STATE_AGL_VAL    = 4,
+    PE_FLOW_STATE_AGL_HEIGHT = 5,
+    PE_FLOW_STATE_TERR_VAL   = 6,
+    PE_FLOW_STATE_QUAL       = 7,
+    PE_FLOW_STATE_DT         = 8,
+    PE_FLOW_STATE_CORRECT    = 9,
+    PE_FLOW_STATE_BETA       = 10,
+    PE_FLOW_STATE_INIT       = 11,
+    PE_FLOW_STATE_FILTER     = 12
+} PE_FlowState_t;
+
+/** 
 **  \brief PE application diagnostic data
 */
 typedef struct
@@ -623,6 +643,7 @@ typedef struct
     PE_BaroState_t BaroState;
     PE_LandState_t LandState;
     PE_DistState_t DistState;
+    PE_FlowState_t FlowState;
 } PE_DiagTlm_t;
 
 #ifdef __cplusplus
