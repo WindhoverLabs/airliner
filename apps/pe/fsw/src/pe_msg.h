@@ -545,13 +545,19 @@ typedef struct
     uint32  VehicleAttitudeSetpointMsgCount;
     uint32  DistanceSensorMsgCount;
     uint32  OpticalFlowMsgCount;
+} PE_HkTlm_t;
+
+/** 
+**  \brief PE application diagnostic data
+*/
+typedef struct
+{
     float BaroBeta;
     float GpsBeta;
     float LandBeta;
     float DistBeta;
     float FlowBeta;
-} PE_HkTlm_t;
-
+} PE_DiagTlm_t;
 
 #ifdef __cplusplus
 }
