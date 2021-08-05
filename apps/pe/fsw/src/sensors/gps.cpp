@@ -235,8 +235,8 @@ void PE::gpsCorrect()
      **/ 
     m_GPS.beta_thresh = 1e2f;
 
-    /* Save GPS beta for HK */
-    HkTlm.GpsBeta = m_GPS.beta;
+    /* Save GPS beta for Diag */
+    DiagTlm.GpsBeta = m_GPS.beta;
 
     if (m_GPS.beta / BETA_TABLE[n_y_gps] > m_GPS.beta_thresh) 
     {
