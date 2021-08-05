@@ -595,6 +595,21 @@ typedef enum
 } PE_LandState_t;
 
 /** 
+**  \brief PE Distance state
+*/
+typedef enum
+{
+    PE_DIST_STATE_UNKNOWN = 0,
+    PE_DIST_STATE_MEASURE = 1,
+    PE_DIST_STATE_COUNT   = 2,
+    PE_DIST_STATE_EPS     = 3,
+    PE_DIST_STATE_DIST    = 4,
+    PE_DIST_STATE_CORRECT = 5,
+    PE_DIST_STATE_BETA    = 6,
+    PE_DIST_STATE_INIT    = 7
+} PE_DistState_t;
+
+/** 
 **  \brief PE application diagnostic data
 */
 typedef struct
@@ -607,6 +622,7 @@ typedef struct
     PE_GpsState_t GpsState;
     PE_BaroState_t BaroState;
     PE_LandState_t LandState;
+    PE_DistState_t DistState;
 } PE_DiagTlm_t;
 
 #ifdef __cplusplus
