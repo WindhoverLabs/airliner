@@ -569,6 +569,19 @@ typedef enum
 } PE_GpsState_t;
 
 /** 
+**  \brief PE Baro state
+*/
+typedef enum
+{
+    PE_BARO_STATE_UNKNOWN = 0,
+    PE_BARO_STATE_MEASURE = 1,
+    PE_BARO_STATE_COUNT   = 2,
+    PE_BARO_STATE_INIT    = 3,
+    PE_BARO_STATE_CORRECT = 4,
+    PE_BARO_STATE_BETA    = 5
+} PE_BaroState_t;
+
+/** 
 **  \brief PE application diagnostic data
 */
 typedef struct
@@ -579,6 +592,7 @@ typedef struct
     float DistBeta;
     float FlowBeta;
     PE_GpsState_t GpsState;
+    PE_BaroState_t BaroState;
 } PE_DiagTlm_t;
 
 #ifdef __cplusplus
