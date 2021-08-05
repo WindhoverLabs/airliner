@@ -110,8 +110,8 @@ void PE::baroCorrect()
     /* fault detection 1F * 1x1 * 1F */
     m_Baro.beta = m_Baro.r[0] * m_Baro.S_I[0][0] * m_Baro.r[0];
 
-    /* Save Baro beta for HK */
-    HkTlm.BaroBeta = m_Baro.beta;
+    /* Save Baro beta for Diag */
+    DiagTlm.BaroBeta = m_Baro.beta;
 
     if (m_Baro.beta > BETA_TABLE[n_y_baro])
     {
