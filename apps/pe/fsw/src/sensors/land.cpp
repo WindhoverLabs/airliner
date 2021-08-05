@@ -57,10 +57,14 @@ void PE::landInit()
 	/* measure */
 	math::Vector3F y;
 
+        DiagTlm.LandState = PE_LAND_STATE_MEASURE;
+
 	if (landMeasure(y) != CFE_SUCCESS)
 	{
 		HkTlm.LandCount = 0;
 	}
+
+        DiagTlm.LandState = PE_LAND_STATE_COUNT;
 
 	/* if finished */
 	if (HkTlm.LandCount > REQ_LAND_INIT_COUNT)
@@ -83,6 +87,8 @@ int PE::landMeasure(math::Vector3F &y)
 void PE::landCorrect()
 {
     CFE_ES_PerfLogEntry(PE_SENSOR_LAND_PERF_ID);
+
+        DiagTlm.LandState = PE_LAND_STATE_CORRECT;
 
 	if (landMeasure(m_Land.y) != CFE_SUCCESS)
 	{
@@ -115,6 +121,8 @@ void PE::landCorrect()
 	/* artifically increase beta threshhold to prevent fault during landing */
 	m_Land.beta_thresh = 1e2f;
 
+        DiagTlm.LandState = PE_LAND_STATE_BETA;
+
 	if (m_Land.beta / BETA_TABLE[n_y_land] > m_Land.beta_thresh)
 	{
 		if (!HkTlm.LandFault)
@@ -129,6 +137,8 @@ void PE::landCorrect()
 	}
 	else 
 	{
+            DiagTlm.LandState = PE_LAND_STATE_INIT;
+
 	    if (HkTlm.LandFault)
 	    {
 	    	HkTlm.LandFault = FALSE;
