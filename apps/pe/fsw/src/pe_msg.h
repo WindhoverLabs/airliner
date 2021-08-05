@@ -546,6 +546,27 @@ typedef struct
     uint32  DistanceSensorMsgCount;
     uint32  OpticalFlowMsgCount;
 } PE_HkTlm_t;
+	
+/** 
+**  \brief PE GPS state
+*/
+typedef enum
+{
+    PE_GPS_STATE_UNKNOWN   = 0,
+    PE_GPS_STATE_FIX       = 1,
+    PE_GPS_STATE_NSAT      = 2,
+    PE_GPS_STATE_EPH_EPV   = 3,
+    PE_GPS_STATE_MEASURE   = 4,
+    PE_GPS_STATE_COUNT     = 5,
+    PE_GPS_STATE_RECEIVED  = 6,
+    PE_GPS_STATE_INIT_DONE = 7,
+    PE_GPS_STATE_CORRECT   = 8,
+    PE_GPS_STATE_DELAY     = 9,
+    PE_GPS_STATE_BETA      = 10,
+    PE_GPS_STATE_FAULT     = 11,
+    PE_GPS_STATE_INIT      = 12,
+    PE_GPS_STATE_FILTER    = 13
+} PE_GpsState_t;
 
 /** 
 **  \brief PE application diagnostic data
@@ -557,6 +578,7 @@ typedef struct
     float LandBeta;
     float DistBeta;
     float FlowBeta;
+    PE_GpsState_t GpsState;
 } PE_DiagTlm_t;
 
 #ifdef __cplusplus
