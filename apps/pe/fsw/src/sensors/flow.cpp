@@ -214,8 +214,8 @@ void PE::flowCorrect()
     /* Fault detection 1x2 * 2x2 * 2F */
     m_Flow.beta = (m_Flow.r.Transpose() * (m_Flow.S_I * m_Flow.r));
 
-    /* Save Flow beta for HK */
-    HkTlm.FlowBeta = m_Flow.beta;
+    /* Save Flow beta for Diag */
+    DiagTlm.FlowBeta = m_Flow.beta;
 
     if (m_Flow.beta > BETA_TABLE[n_y_flow])
     {
