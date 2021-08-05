@@ -1210,6 +1210,13 @@ void PE::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 }
                 break;
 
+            case PE_SEND_DIAG_CC:
+                    HkTlm.CmdCnt++;
+                    (void) CFE_EVS_SendEvent(PE_SEND_DIAG_INF_EID, CFE_EVS_INFORMATION,
+                                  "Sending diagnostic telemetry.");
+
+                break;
+
             default:
                 HkTlm.CmdErrCnt++;
                 (void) CFE_EVS_SendEvent(PE_CC_ERR_EID, CFE_EVS_ERROR,
