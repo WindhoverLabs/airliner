@@ -582,6 +582,19 @@ typedef enum
 } PE_BaroState_t;
 
 /** 
+**  \brief PE Land state
+*/
+typedef enum
+{
+    PE_LAND_STATE_UNKNOWN = 0,
+    PE_LAND_STATE_MEASURE = 1,
+    PE_LAND_STATE_COUNT   = 2,
+    PE_LAND_STATE_CORRECT = 3,
+    PE_LAND_STATE_BETA    = 4,
+    PE_LAND_STATE_INIT    = 5
+} PE_LandState_t;
+
+/** 
 **  \brief PE application diagnostic data
 */
 typedef struct
@@ -593,6 +606,7 @@ typedef struct
     float FlowBeta;
     PE_GpsState_t GpsState;
     PE_BaroState_t BaroState;
+    PE_LandState_t LandState;
 } PE_DiagTlm_t;
 
 #ifdef __cplusplus
