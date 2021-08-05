@@ -559,13 +559,11 @@ typedef enum
     PE_GPS_STATE_MEASURE   = 4,
     PE_GPS_STATE_COUNT     = 5,
     PE_GPS_STATE_RECEIVED  = 6,
-    PE_GPS_STATE_INIT_DONE = 7,
-    PE_GPS_STATE_CORRECT   = 8,
-    PE_GPS_STATE_DELAY     = 9,
-    PE_GPS_STATE_BETA      = 10,
-    PE_GPS_STATE_FAULT     = 11,
-    PE_GPS_STATE_INIT      = 12,
-    PE_GPS_STATE_FILTER    = 13
+    PE_GPS_STATE_CORRECT   = 7,
+    PE_GPS_STATE_DELAY     = 8,
+    PE_GPS_STATE_BETA      = 9,
+    PE_GPS_STATE_FAULT     = 10,
+    PE_GPS_STATE_INIT      = 11
 } PE_GpsState_t;
 
 /** 
