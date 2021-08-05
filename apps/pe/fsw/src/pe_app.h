@@ -380,6 +380,9 @@ public:
     /** \brief Housekeeping Telemetry for downlink */
     PE_HkTlm_t HkTlm;
 
+    /** \brief Diagnostic Telemetry for downlink */
+    PE_DiagTlm_t DiagTlm;
+    
     /************************************************************************/
     /** \brief Position Estimator (PE) application entry point
      **
