@@ -400,7 +400,7 @@
 #define PE_CMD_MID                                CMD_MSG(  397 )
 #define PE_SEND_HK_MID                            CMD_MSG(  398 )
 #define PE_WAKEUP_MID                             CMD_MSG(  399 )
-
+#define PE_DIAG_TLM_MID                           TLM_MSG(  400 )
 
 /* PRM                                                       */
 #define PRM_HK_TLM_MID                            TLM_MSG(  402 )
