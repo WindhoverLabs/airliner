@@ -551,6 +551,18 @@ public:
     void ReportHousekeeping(void);
 
     /************************************************************************/
+    /** \brief Sends PE diagnostic telemetry message
+     **
+     **  \par Description
+     **       This function sends the diagnostic telemetry message
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     *************************************************************************/
+    void SendDiag(void);
+
+    /************************************************************************/
     /** \brief Sends the VehicleLocalPositionMsg message.
      **
      **  \par Description
