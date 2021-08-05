@@ -361,6 +361,29 @@ extern "C" {
 */
 #define PE_DISABLE_FLOW_CC            (11)
 
+/** \pecmd Send diagnostic telemetry
+**
+**  \par Description
+**       Command to send diagnostic telemetry
+**
+**  \par Command Structure
+**       #PE_NoArgCmd_t
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - The #PE_SEND_DIAG_INF_EID debug event message will be
+**         generated when the command is executed
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Criticality
+**       None
+*/
+#define PE_SEND_DIAG_CC            (12)
+
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
