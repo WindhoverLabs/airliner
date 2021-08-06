@@ -2,11 +2,13 @@ from org.csstudio.opibuilder.scriptUtil import PVUtil, ScriptUtil, FileUtil, Wid
 from org.eclipse.swt.graphics import RGB
 from org.yamcs.studio.script import Yamcs
 
-
 TableID = int(display.getWidget('TableID').getPropertyValue('pv_value').getValue())
-Signature = int(display.getWidget('Signature').getPropertyValue('pv_value').getValue())
+Signature = str(display.getWidget('Signature').getPropertyValue('pv_value').getValue())
 
-Yamcs.issueCommand('/cfs/$(CPUID)/md/SetSignature', {
+cpu_id = display.getMacroValue('CPUID')
+cmd = '/cfs/' + cpu_id + '/md/SetSignature'
+
+Yamcs.issueCommand(cmd, {
     'TableId': TableID,
     'Signature': Signature,
     'Padding': 0})

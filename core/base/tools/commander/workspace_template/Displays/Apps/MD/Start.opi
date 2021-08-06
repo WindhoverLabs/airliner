@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.9.202107142204</boy_version>
+  <boy_version>1.7.0.202108031936</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -74,17 +74,11 @@
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-
-var TableMask = VTypeHelper.getString(display.getWidget('TableMask').getPropertyValue('pv_value'));
-
-Yamcs.issueCommand('/cfs/$(CPUID)/md/Start', {
-    'TableMask': TableMask});]]></scriptText>
-        <embedded>true</embedded>
+      <action type="EXECUTE_PYTHONSCRIPT">
+        <path>Scripts/start.py</path>
+        <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
+]]></scriptText>
+        <embedded>false</embedded>
         <description></description>
       </action>
     </actions>
@@ -172,10 +166,9 @@ $(pv_value)</tooltip>
     <x>6</x>
     <y>30</y>
   </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.TextInput" version="2.0.0">
+  <widget typeId="org.csstudio.opibuilder.widgets.spinner" version="1.0.0">
     <actions hook="false" hook_all="false" />
     <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
     <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
     <background_color>
       <color red="255" green="255" blue="255" />
@@ -186,7 +179,7 @@ $(pv_value)</tooltip>
     </border_color>
     <border_style>4</border_style>
     <border_width>1</border_width>
-    <confirm_message></confirm_message>
+    <buttons_on_left>false</buttons_on_left>
     <enabled>true</enabled>
     <font>
       <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
@@ -195,19 +188,19 @@ $(pv_value)</tooltip>
     <foreground_color>
       <color red="0" green="0" blue="0" />
     </foreground_color>
-    <format_type>0</format_type>
+    <format>2</format>
     <height>20</height>
     <horizontal_alignment>0</horizontal_alignment>
+    <horizontal_buttons_layout>false</horizontal_buttons_layout>
     <limits_from_pv>false</limits_from_pv>
     <maximum>1.7976931348623157E308</maximum>
     <minimum>-1.7976931348623157E308</minimum>
-    <multiline_input>false</multiline_input>
     <name>TableMask</name>
+    <page_increment>10.0</page_increment>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)MD_Start_TableMask&lt;VString&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)MD_Start_TableMask</pv_name>
     <pv_value />
-    <rotation_angle>0.0</rotation_angle>
     <rules />
     <scale_options>
       <width_scalable>true</width_scalable>
@@ -215,15 +208,14 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts />
-    <selector_type>0</selector_type>
-    <show_units>true</show_units>
-    <style>0</style>
-    <text></text>
+    <show_text>true</show_text>
+    <step_increment>1.0</step_increment>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <transparent>false</transparent>
+    <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
-    <widget_type>Text Input</widget_type>
+    <widget_type>Spinner</widget_type>
     <width>103</width>
     <wuid>54e87698:1777e01a75d:-6f5d</wuid>
     <x>90</x>
