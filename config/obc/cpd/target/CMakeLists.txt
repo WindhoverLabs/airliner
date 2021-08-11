@@ -202,22 +202,22 @@ buildliner_add_app(
 #    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sc
 #)
 
-buildliner_add_app(
-    sbn
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn
-    CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn/src/sbn_remap_tbl.c
-)
+#buildliner_add_app(
+#    sbn
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn
+#    CONFIG_SOURCES
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn/src/sbn_remap_tbl.c
+#)
 
-buildliner_add_app(
-    sbn_mbox
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_mbox/fsw/for_build
-    CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib/tables/pq_backup_cfg.c
-)
+#buildliner_add_app(
+#    sbn_mbox
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_mbox/fsw/for_build
+#    CONFIG_SOURCES
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib/tables/pq_backup_cfg.c
+#)
 
 buildliner_add_app(
     ci
@@ -238,14 +238,14 @@ buildliner_add_app(
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_custom.c
 )
 
-buildliner_add_app(
-    amc
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/amc/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc/amc_custom.cpp
-)
+#buildliner_add_app(
+#    amc
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/amc/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc
+#    CONFIG_SOURCES
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc/amc_custom.cpp
+#)
 
 buildliner_add_app(
     mac
