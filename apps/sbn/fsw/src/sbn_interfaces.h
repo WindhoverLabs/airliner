@@ -69,6 +69,9 @@ void SBN_PackMsg(void *SBNMsgBuf, SBN_MsgSz_t MsgSz,
 boolean SBN_UnpackMsg(void *SBNBuf, SBN_MsgSz_t *MsgSzPtr,
     SBN_MsgType_t *MsgTypePtr, SBN_CpuID_t *CpuIDPtr, void *Msg);
 
+boolean SBN_UnpackHeader(void *SBNBuf, SBN_MsgSz_t *MsgSzPtr,
+    SBN_MsgType_t *MsgTypePtr, SBN_CpuID_t *CpuIDPtr);
+
 typedef struct SBN_IfOps_s SBN_IfOps_t;
 typedef struct SBN_NetInterface_s SBN_NetInterface_t;
 
