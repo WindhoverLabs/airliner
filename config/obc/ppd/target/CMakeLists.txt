@@ -56,6 +56,11 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    ipc_lib
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ipc_lib/fsw/for_build
+)
+
+buildliner_add_app(
     pq_lib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
     # TODO move this table build to sbn module?
