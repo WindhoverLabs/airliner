@@ -16,7 +16,7 @@ CFE_APP, /cf/apps/MD.so,        MD_AppMain,      MD,        169, 327680, 0x0, 0,
 CFE_APP, /cf/apps/EA.so,        EA_AppMain,      EA,        184, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/BAT.so,       BAT_AppMain,     BAT,       106, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/CS.so,        CS_AppMain,      CS,        160, 327680, 0x0, 0, 2;
-CFE_APP, /cf/apps/SBN.so,       SBN_AppMain,     SBN,       37,  327680, 0x0, 0, 2;
+CFE_APP, /cf/apps/SBND.so,      SBND_AppMain,    SBND,      37,  327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/SCH.so,       SCH_AppMain,     SCH,       34,  40960, 0x0, 0, 2;
 CFE_APP, /cf/apps/GPS.so,       GPS_AppMain,     GPS,       97, 327680, 0x0, 0, 2;
 !CFE_LIB, /cf/apps/schlib.so,    SCH_LibInit,     SCH_LIB,    0,     0, 0x0, 0, 2;
