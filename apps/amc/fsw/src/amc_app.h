@@ -81,6 +81,9 @@ typedef struct
 } AMC_CurrentValueTable_t;
 
 
+extern "C" void AMC_AppMain(void);
+
+
 /**
  **  \brief AMC Application Class
  */

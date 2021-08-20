@@ -238,14 +238,14 @@ buildliner_add_app(
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_custom.c
 )
 
-#buildliner_add_app(
-#    amc
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/amc/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc
-#    CONFIG_SOURCES
-#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc/amc_custom.cpp
-#)
+buildliner_add_app(
+    amc
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/amc/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc/amc_custom.cpp
+)
 
 buildliner_add_app(
     mac

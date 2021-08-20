@@ -1038,7 +1038,7 @@ boolean AMC::VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
 /* AMC Application C style main entry point.                       */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void AMC_AppMain(void)
+extern "C" void AMC_AppMain(void)
 {
     oAMC.AppMain();
 }
