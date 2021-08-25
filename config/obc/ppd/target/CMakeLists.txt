@@ -58,6 +58,8 @@ buildliner_add_app(
 buildliner_add_app(
     ipc_lib
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ipc_lib/fsw/for_build
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/ipc_lib/ipc_lib_custom.c
 )
 
 buildliner_add_app(
