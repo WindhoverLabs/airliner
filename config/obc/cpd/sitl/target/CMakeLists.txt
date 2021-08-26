@@ -63,14 +63,6 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    pq_lib
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
-    # TODO move this table build to sbn module?
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/pq_lib
-)
-
-buildliner_add_app(
     prmlib
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
