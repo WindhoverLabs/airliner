@@ -219,30 +219,30 @@ buildliner_add_app(
 #        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn/src/sbn_remap_tbl.c
 #)
 
-buildliner_add_app(
-    sbn_shm
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_shm/fsw/for_build
-)
+#buildliner_add_app(
+#    sbn_shm
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_shm/fsw/for_build
+#)
 
-buildliner_add_app(
-    ci
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci/ci_custom.c
-)
+#buildliner_add_app(
+#    ci
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci
+#    CONFIG_SOURCES
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci/ci_custom.c
+#)
 
-buildliner_add_app(
-    to
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/tables/to_backup_cfg.c
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_custom.c
-)
+#buildliner_add_app(
+#    to
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to
+#    CONFIG_SOURCES
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/tables/to_backup_cfg.c
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_custom.c
+#)
 
 buildliner_add_app(
     amc
