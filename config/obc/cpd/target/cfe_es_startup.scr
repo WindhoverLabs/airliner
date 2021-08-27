@@ -4,6 +4,7 @@ CFE_LIB, /embedded/PQ_LIB.so,    PQ_LibInit,      PQ_LIB,     0,     0, 0x0, 0, 
 CFE_LIB, /embedded/X_LIB.so,     X_LibInit,       X_LIB,      0,     0, 0x0, 0, 0;
 CFE_LIB, /embedded/PRMLIB.so,    PRMLIB_LibInit,  PRMLIB,     0,     0, 0x0, 0, 0;
 CFE_LIB, /embedded/IO_LIB.so,    IO_LibInit,      IO_LIB,     0,     0, 0x0, 0, 0;
+CFE_LIB, /embedded/IPC_LIB.so,   IPC_LibInit,     IPC_LIB,    0,     0, 0x0, 0, 0;
 CFE_APP, /embedded/SED.so,       SED_AppMain,     SED,       15, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/SENS.so,      SENS_AppMain,    SENS,      20, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/LD.so,        LD_AppMain,      LD,        55, 65536, 0x0, 0, 0;
@@ -15,7 +16,7 @@ CFE_APP, /embedded/MAC.so,       MAC_AppMain,     MAC,       30, 65536, 0x0, 0, 
 CFE_APP, /embedded/MPC.so,       MPC_AppMain,     MPC,       35, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/VM.so,        VM_AppMain,      VM,        45, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/HS.so,        HS_AppMain,      HS,       105, 32768, 0x0, 0, 0;
-CFE_APP, /embedded/SBN.so,       SBN_AppMain,     SBN,       60, 32768, 0x0, 0, 0;
+CFE_APP, /embedded/SBND.so,      SBND_AppMain,    SBND,      60, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/FM.so,        FM_AppMain,      FM,       115, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/MM.so,        MM_AppMain,      MM,       125, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/MD.so,        MD_AppMain,      MD,       130, 32768, 0x0, 0, 0;

@@ -78,6 +78,7 @@ extern "C" {
 #define PRM_WAKEUP_MIDX               97
 #define SBN_WAKEUP_MIDX               98
 #define SBN_SEND_HK_MIDX              99
+#define SBND_SEND_HK_MIDX             100
 
 #define CFE_TIME_TONE_CMD_MIDX       110
 #define CFE_TIME_1HZ_CMD_MIDX        111
@@ -164,7 +165,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
     /* slot #4*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBN_WAKEUP_MIDX,          SCH_GROUP_NONE },
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    CI_SEND_HK_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBND_SEND_HK_MIDX,        SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },

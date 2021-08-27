@@ -1092,3 +1092,19 @@ modules:
         msgID: 0x19af
       SBN_WAKEUP_MID:
         msgID: 0x19b0
+
+  sbnd:
+    definition: ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/wh_design.yaml
+    telemetry:
+      SBND_HK_TLM_MID:
+        msgID: 0x09b5
+    commands:
+      SBND_CMD_MID:
+        msgID: 0x19b6
+      SBND_WAKEUP_MID:
+        msgID: 0x19b0
+      SBND_SEND_HK_MID:
+        msgID: 0x19b7
+    perfids:
+      SBND_MAIN_TASK_PERF_ID:
+        id: 114

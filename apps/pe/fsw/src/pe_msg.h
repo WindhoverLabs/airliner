@@ -522,6 +522,11 @@ typedef struct
     uint32  VehicleAttitudeSetpointMsgCount;
     uint32  DistanceSensorMsgCount;
     uint32  OpticalFlowMsgCount;
+    float BaroBeta;
+    float GpsBeta;
+    float LandBeta;
+    float DistBeta;
+    float FlowBeta;
 } PE_HkTlm_t;
 
 

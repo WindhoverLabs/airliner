@@ -6,6 +6,8 @@
 */
 #include "cfe_mission_cfg.h"
 
+#include "priorities.h"
+
 #define CFE_MSG_CPU_BASE (0x0200)
 
 /*

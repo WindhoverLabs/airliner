@@ -141,6 +141,9 @@ void PE::distCorrect()
     /* fault detection 1F * 1x1 * 1F */
     m_Dist.beta = m_Dist.r[0] * m_Dist.S_I[0][0] * m_Dist.r[0];
 
+    /* Save Dist beta for HK */
+    HkTlm.DistBeta = m_Dist.beta;
+
     if (m_Dist.beta > DIST_BETA_MAX)
     {
         if (!HkTlm.DistFault)

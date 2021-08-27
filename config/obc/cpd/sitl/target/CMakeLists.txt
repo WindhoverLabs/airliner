@@ -63,18 +63,17 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    pq_lib
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
-    # TODO move this table build to sbn module?
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/pq_lib
-)
-
-buildliner_add_app(
     prmlib
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/prm
+)
+
+buildliner_add_app(
+    ipc_lib
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ipc_lib/fsw/for_build
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/ipc_lib/ipc_lib_custom.c
 )
 
 buildliner_add_app(
@@ -141,6 +140,11 @@ buildliner_add_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sbn/src/sbn_remap_tbl.c
 )
 
+buildliner_add_app(
+    sbn_uio_shm
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_uio_shm/fsw/for_build
+)
+
 #buildliner_add_app(
 #    sbn_mbox
 #    EMBEDDED
@@ -158,15 +162,15 @@ buildliner_add_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci/ci_custom.c
 )
 
-buildliner_add_app(
-    to
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/tables/to_backup_cfg.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/to_custom.c
-)
+#buildliner_add_app(
+#    to
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to
+#    CONFIG_SOURCES
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/tables/to_backup_cfg.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/to_custom.c
+#)
 
 #buildliner_add_app(
 #    amc

@@ -109,6 +109,9 @@ void PE::landCorrect()
 	/* fault detection */
 	m_Land.beta = (m_Land.r.Transpose() * (m_Land.S_I * m_Land.r));
 
+        /* Save Land beta for HK */
+	HkTlm.LandBeta = m_Land.beta;
+
 	/* artifically increase beta threshhold to prevent fault during landing */
 	m_Land.beta_thresh = 1e2f;
 
