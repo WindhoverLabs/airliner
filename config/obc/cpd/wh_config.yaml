@@ -755,7 +755,7 @@ modules:
     telemetry:
       PE_HK_TLM_MID:
         msgID: 0x0b8c
-      PE_SEND_DIAG_MID:
+      PE_DIAG_TLM_MID:
         msgID: 0x0b90
     commands:
       PE_CMD_MID:
