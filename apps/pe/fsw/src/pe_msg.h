@@ -640,6 +640,26 @@ typedef struct
     PE_LandState_t LandState;
     PE_DistState_t DistState;
     PE_FlowState_t FlowState;
+
+    float Baro_y;
+	float Baro_C[10];
+	float Baro_R;
+	float Baro_S_I;
+	float Baro_r;
+	float Baro_K[10];
+	float Baro_temp[10];
+	float Baro_dx[10];
+	float Baro_beta;
+
+    float Land_y[3];
+    float Land_C[3][10];
+    float Land_R[3][3];
+    float Land_S_I[3][3];
+    float Land_r[3];
+    float Land_K[10][3];
+    float Land_dx[10];
+    float Land_beta;
+    float Land_thresh;
 } PE_DiagTlm_t;
 
 #ifdef __cplusplus

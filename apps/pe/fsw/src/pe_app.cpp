@@ -1248,6 +1248,85 @@ void PE::ReportHousekeeping()
 
 void PE::SendDiag()
 {
+	DiagTlm.Baro_y = m_Baro.y[0];
+
+	for(uint32 i = 0; i < 10; ++i)
+	{
+		DiagTlm.Baro_C[i] = m_Baro.C[0][i];
+	}
+	DiagTlm.Baro_R = m_Baro.R[0][0];
+	DiagTlm.Baro_S_I = m_Baro.S_I[0][0];
+	DiagTlm.Baro_r = m_Baro.r[0];
+
+	for(uint32 i = 0; i < 10; ++i)
+	{
+		DiagTlm.Baro_K[i] = m_Baro.K[i][0];
+	}
+
+	for(uint32 i = 0; i < 10; ++i)
+	{
+		DiagTlm.Baro_temp[i] = m_Baro.temp[i][0];
+	}
+
+	for(uint32 i = 0; i < 10; ++i)
+	{
+		DiagTlm.Baro_dx[i] = m_Baro.dx[i];
+	}
+
+	DiagTlm.Baro_beta = m_Baro.beta;
+
+
+	for(uint32 i = 0; i < 3; ++i)
+	{
+		DiagTlm.Land_y[i] = m_Land.y[i];
+	}
+
+	for(uint32 i = 0; i < 3; ++i)
+	{
+		for(uint32 j = 0; j < 10; ++j)
+		{
+		    DiagTlm.Land_C[i][j] = m_Land.C[i][j];
+		}
+	}
+
+	for(uint32 i = 0; i < 3; ++i)
+	{
+		for(uint32 j = 0; j < 3; ++j)
+		{
+		    DiagTlm.Land_R[i][j] = m_Land.R[i][j];
+		}
+	}
+
+	for(uint32 i = 0; i < 3; ++i)
+	{
+		for(uint32 j = 0; j < 3; ++j)
+		{
+		    DiagTlm.Land_S_I[i][j] = m_Land.S_I[i][j];
+		}
+	}
+
+	for(uint32 i = 0; i < 3; ++i)
+	{
+		DiagTlm.Land_r[i] = m_Land.r[i];
+	}
+
+	for(uint32 i = 0; i < 10; ++i)
+	{
+		for(uint32 j = 0; j < 3; ++j)
+		{
+		    DiagTlm.Land_K[i][j] = m_Land.K[i][j];
+		}
+	}
+
+	for(uint32 i = 0; i < 10; ++i)
+	{
+		DiagTlm.Land_dx[i] = m_Land.dx[i];
+	}
+
+	DiagTlm.Land_beta = m_Land.beta;
+
+	DiagTlm.Land_thresh = m_Land.beta_thresh;
+
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&DiagTlm);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&DiagTlm);
 }
