@@ -419,8 +419,6 @@ typedef struct
 
     CFE_TIME_SysTime_t Timestamp_Hist;
 
-    CFE_TIME_SysTime_t TimestampLastBaro;
-
 	/** \brief Timestamp of last baro read */
     CFE_TIME_SysTime_t TimeLastBaro;
 

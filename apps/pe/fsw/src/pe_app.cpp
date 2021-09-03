@@ -370,7 +370,6 @@ void PE::InitData()
     CFE_TIME_ClearTime(&HkTlm.TimeLastDist);
     CFE_TIME_ClearTime(&HkTlm.TimeLastFlow);
     CFE_TIME_ClearTime(&HkTlm.Timestamp_Hist);
-    CFE_TIME_ClearTime(&HkTlm.TimestampLastBaro);
 
     /* Timeouts */
     HkTlm.BaroTimeout           = TRUE;

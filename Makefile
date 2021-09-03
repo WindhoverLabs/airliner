@@ -45,7 +45,7 @@ GENERIC_TARGET_NAMES := $(shell echo ${GENERIC_TARGET_PATHS} )
 BUILD_TYPES  := host target
 ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
-REMOTE_ADDRESS := '192.168.2.155'
+REMOTE_ADDRESS := '192.168.2.154'
 
 export PROJECT_SOURCE_DIR=${PWD}
 
