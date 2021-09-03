@@ -39,15 +39,21 @@ void PE::baroInit()
     /* Measure */
 	math::Vector1F y;
 
+        DiagTlm.BaroState = PE_BARO_STATE_MEASURE;
+
 	if (baroMeasure(y) != CFE_SUCCESS)
 	{
 		m_BaroStats.reset();
 		goto baroInit_Exit_Tag;
 	}
 
+        DiagTlm.BaroState = PE_BARO_STATE_COUNT;
+
 	/* If finished */
 	if (m_BaroStats.getCount() > REQ_BARO_INIT_COUNT)
 	{
+		DiagTlm.BaroState = PE_BARO_STATE_INIT;
+
 		HkTlm.BaroAltOrigin = m_BaroStats.getMean()[0];
 
 		(void) CFE_EVS_SendEvent(PE_BARO_OK_INF_EID, CFE_EVS_INFORMATION,
@@ -84,6 +90,8 @@ void PE::baroCorrect()
 {
     CFE_ES_PerfLogEntry(PE_SENSOR_BARO_PERF_ID);
 
+    DiagTlm.BaroState = PE_BARO_STATE_CORRECT;
+
     if (baroMeasure(m_Baro.y) != CFE_SUCCESS)
     {
         goto end_of_function;
@@ -110,8 +118,10 @@ void PE::baroCorrect()
     /* fault detection 1F * 1x1 * 1F */
     m_Baro.beta = m_Baro.r[0] * m_Baro.S_I[0][0] * m_Baro.r[0];
 
-    /* Save Baro beta for HK */
-    HkTlm.BaroBeta = m_Baro.beta;
+    /* Save Baro beta for Diag */
+    DiagTlm.BaroBeta = m_Baro.beta;
+
+    DiagTlm.BaroState = PE_BARO_STATE_BETA;
 
     if (m_Baro.beta > BETA_TABLE[n_y_baro])
     {

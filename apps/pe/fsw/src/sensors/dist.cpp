@@ -39,11 +39,15 @@ void PE::distInit()
     /* Measure */
 	math::Vector1F y;
 
+        DiagTlm.DistState = PE_DIST_STATE_MEASURE;
+
 	if (distMeasure(y) != CFE_SUCCESS)
 	{
 		m_DistStats.reset();
 		return;
 	}
+
+        DiagTlm.DistState = PE_DIST_STATE_COUNT;
 
 	/* If finished */
 	if (m_DistStats.getCount() > REQ_DIST_INIT_COUNT)
@@ -74,11 +78,15 @@ int32 PE::distMeasure(math::Vector1F &y)
 	float min_dist = m_DistanceSensor.MinDistance + eps;
 	float max_dist = m_DistanceSensor.MaxDistance - eps;
 
+        DiagTlm.DistState = PE_DIST_STATE_EPS;
+
 	// prevent driver from setting min dist below eps
 	if (min_dist < eps)
 	{
 		min_dist = eps;
 	}
+
+        DiagTlm.DistState = PE_DIST_STATE_DIST;
 
 	// check for bad data
 	if (d > max_dist || d < min_dist)
@@ -105,6 +113,8 @@ void PE::distCorrect()
 {
     CFE_ES_PerfLogEntry(PE_SENSOR_DIST_PERF_ID);
     float cov = 0.0f;
+
+    DiagTlm.DistState = PE_DIST_STATE_CORRECT;
 
     if (distMeasure(m_Dist.y) != CFE_SUCCESS)
     {
@@ -141,8 +151,10 @@ void PE::distCorrect()
     /* fault detection 1F * 1x1 * 1F */
     m_Dist.beta = m_Dist.r[0] * m_Dist.S_I[0][0] * m_Dist.r[0];
 
-    /* Save Dist beta for HK */
-    HkTlm.DistBeta = m_Dist.beta;
+    /* Save Dist beta for Diag */
+    DiagTlm.DistBeta = m_Dist.beta;
+
+    DiagTlm.DistState = PE_DIST_STATE_BETA;
 
     if (m_Dist.beta > DIST_BETA_MAX)
     {
@@ -159,6 +171,8 @@ void PE::distCorrect()
     }
     else
     {
+	DiagTlm.DistState = PE_DIST_STATE_INIT;
+
         if (HkTlm.DistFault)
         {
         	HkTlm.DistFault = FALSE;
