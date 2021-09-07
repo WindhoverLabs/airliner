@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103012118</boy_version>
+  <boy_version>1.6.9.202107142204</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -65,7 +65,7 @@
     <name>AddMidMessaeIDInput</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://AddMidMessageID&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_AddMidMessageID&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

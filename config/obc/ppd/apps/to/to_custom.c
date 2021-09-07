@@ -501,7 +501,6 @@ void TO_OutputChannel_UDPChannelTask(void)
 void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
 {
     int32 iStatus = CFE_SUCCESS;
-    char *buffer;
     CFE_SB_MsgPtr_t msg;
 
     while(TO_OutputChannel_Status(ChannelIdx) == TO_CHANNEL_ENABLED)

@@ -39,7 +39,7 @@ def main():
         project_name = display.getMacroValue("PROJECT_NAME")
         logger.warning(project_name)
 
-        registry_path = display.getMacroValue("REGISTRY_PATH")
+        registry_path = display.getMacroValue("REGISTRY_PATH").lower()
 
         registry = YAMLRegistry()
 

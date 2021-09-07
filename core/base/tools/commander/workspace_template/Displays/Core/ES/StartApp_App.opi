@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.7.202105211550</boy_version>
+  <boy_version>1.7.0.202108031936</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -159,7 +159,7 @@ $(pv_value)</tooltip>
     <name>inAppName</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://StartAppAppName&lt;VString&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_StartAppAppName&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -296,7 +296,7 @@ $(pv_value)</tooltip>
     <name>inEntryPoint</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://StartAppEntryPoint&lt;VString&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_StartAppEntryPoint&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -393,7 +393,7 @@ $(pv_value)</tooltip>
     <name>inFileName</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://StartAppFileName&lt;VString&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_StartAppFileName&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -490,7 +490,7 @@ $(pv_value)</tooltip>
     <name>inStackSize</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://StartApplicationStackSize&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_StartApplicationStackSize&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -587,7 +587,7 @@ $(pv_value)</tooltip>
     <name>inPriority</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://StartApplicationPriority&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_StartApplicationPriority&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -679,7 +679,7 @@ $(pv_value)</tooltip>
     </items>
     <items_from_pv>false</items_from_pv>
     <name>inExceptionAction</name>
-    <pv_name>loc://StartAppExceptionAction&lt;VString&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_StartAppExceptionAction&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>

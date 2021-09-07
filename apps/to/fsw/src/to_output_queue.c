@@ -318,22 +318,15 @@ int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, 
             channel->OutputQueue.CurrentlyQueuedCnt--;
             TO_Channel_UnlockByRef(channel);
 
-            msgID = CFE_SB_GetMsgId(&channel->OutputQueue.MsgScratchPad);
-
-            /* Check if this is a CFDP message. */
-            if(CF_SPACE_TO_GND_PDU_MID == msgID)
-            {
-                /* This is a CFDP message. Release the throttling semaphore. */
-                OS_CountSemGive(channel->OutputQueue.CfCntSemId);
-            }
+            msgID = CFE_SB_GetMsgId(*MsgPtr);
 
             /* Check if this is an event message. */
             if (CFE_EVS_EVENT_MSG_MID == msgID)
             {
-//            	/* It is an event. Adjust the size accordingly. */
-//            	uint32 eventMsgSize = TO_GetEventMsgLength((CFE_EVS_Packet_t *)MsgPtr);
-//
-//                CFE_SB_SetTotalMsgLength((CFE_SB_MsgPtr_t)MsgPtr, eventMsgSize);
+            	/* It is an event. Adjust the size accordingly. */
+            	uint32 eventMsgSize = TO_GetEventMsgLength((CFE_EVS_Packet_t *)*MsgPtr);
+
+                CFE_SB_SetTotalMsgLength((CFE_SB_MsgPtr_t)*MsgPtr, eventMsgSize);
             }
         }
     }

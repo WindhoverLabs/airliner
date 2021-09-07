@@ -12,6 +12,9 @@ extern "C" {
 ** Platform Configuration Parameter Definitions
 */
 
+#define TO_CUSTOM_BURST_LENGTH         (4)
+#define TO_CUSTOM_BURST_DELAY          (1)
+
 
 /** \tocfg Child task flags
 **

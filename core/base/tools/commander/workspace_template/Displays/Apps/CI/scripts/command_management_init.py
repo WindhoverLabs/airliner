@@ -14,20 +14,23 @@ from com.windhoverlabs.studio.registry import YAMLRegistry, ConfigRegistry
 msg_id_drop_down = display.getWidget('msgIdInput')
 cmd_code_drop_down = display.getWidget('cmdCodeInput')
 app_name = display.getMacroValue('APP')
+cpu_id = display.getMacroValue('CPUID')
+
+all_cpus = eval(display.getMacroValue('ALL_CPUS'))
 
 registry = YAMLRegistry()
-all_commands = registry.getAllCommands()
-
 app_commands = []
+all_commands = []
 
-for msg in all_commands:
-    if all_commands[msg]['app'] == app_name:
-        app_commands.append(msg)
-
+for cpu in all_cpus:
+    all_commands = registry.getAllCommands('/modules/' + cpu.lower() + "/modules")
+    for msg in all_commands:
+        if all_commands[msg]['app'] == app_name:
+            app_commands.append("({}) {}".format(cpu, msg))
 
 msg_id_drop_down.setPropertyValue('items', app_commands)
 
-msg_key = str(pvs[0].getValue().getValue())
+msg_key = widget.getVar("msg_id")
 
 if msg_key in all_commands:
     cmd_code_drop_down.setPropertyValue('items', list(all_commands[msg_key]['commands']))

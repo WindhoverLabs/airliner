@@ -28,7 +28,7 @@ extern "C" {
  *       is invalid.
  *       Zero Priority Queue table entries will result in an invalid table.
  */
-#define TO_MAX_PRIORITY_QUEUES     (8)
+#define TO_MAX_PRIORITY_QUEUES     (16)
 
 /**
  * \brief Maximum number of messages in a Priority Queue.

@@ -120,6 +120,7 @@ dataLinks:
           packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
           packetPreprocessorArgs:
             byteOrder: LITTLE_ENDIAN
+            useLocalGenerationTime: true
             #errorDetection:
             #tcoService:
             timestampFormat: CFE_SB_TIME_32_16_SUBS

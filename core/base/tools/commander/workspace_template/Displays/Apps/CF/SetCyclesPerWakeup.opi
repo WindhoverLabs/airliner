@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103012118</boy_version>
+  <boy_version>1.7.0.202108031936</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -34,17 +34,11 @@
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-
-var cycles = VTypeHelper.getDouble(display.getWidget('Spinner').getPropertyValue('pv_value'));
-
-Yamcs.issueCommand('/cfs/$(CPUID)/cf/SetCyclesPerWakeup', {'NumCyclesPerWakeup': cycles});
+      <action type="EXECUTE_PYTHONSCRIPT">
+        <path>Scripts/set_cycles_per_wakeup.py</path>
+        <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
 ]]></scriptText>
-        <embedded>true</embedded>
+        <embedded>false</embedded>
         <description></description>
       </action>
     </actions>
@@ -205,7 +199,7 @@ $(pv_value)</tooltip>
     <page_increment>10.0</page_increment>
     <precision>3</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://SetCyclesPerWakeupNumCyclesPerWakeup&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_SetCyclesPerWakeupNumCyclesPerWakeup&lt;VDouble&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>

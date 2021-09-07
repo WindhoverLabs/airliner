@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103012118</boy_version>
+  <boy_version>1.7.0.202108031936</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -34,29 +34,11 @@
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
-
-var METSeconds =VTypeHelper.getDouble(display.getWidget('METSeconds').getPropertyValue('pv_value'));
-var METSubseconds =VTypeHelper.getDouble(display.getWidget('METSubseconds').getPropertyValue('pv_value'));
-var STCFSeconds =VTypeHelper.getDouble(display.getWidget('STCFSeconds').getPropertyValue('pv_value'));
-var STCFSubseconds =VTypeHelper.getDouble(display.getWidget('STCFSubseconds').getPropertyValue('pv_value'));
-var Leaps =VTypeHelper.getDouble(display.getWidget('Leaps').getPropertyValue('pv_value'));
-var State =VTypeHelper.getDouble(display.getWidget('State').getPropertyValue('pv_value'));
-var cmd = '/cfs/$(CPUID)/cfe_time/ToneData';
-
-Yamcs.issueCommand(cmd, {
-'Payload.AtToneMET.Seconds': METSeconds,
-'Payload.AtToneMET.Subseconds': METSubseconds,
-'Payload.AtToneSTCF.Seconds': STCFSeconds,
-'Payload.AtToneSTCF.Subseconds': STCFSubseconds,
-'Payload.AtToneLeaps': Leaps,
-'Payload.AtToneState': State});
+      <action type="EXECUTE_PYTHONSCRIPT">
+        <path>scripts/set_tone_data.py</path>
+        <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
 ]]></scriptText>
-        <embedded>true</embedded>
+        <embedded>false</embedded>
         <description></description>
       </action>
     </actions>

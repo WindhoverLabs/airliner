@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.4.202104212257</boy_version>
+  <boy_version>1.6.9.qualifier</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -70,7 +70,7 @@
     <vertical_alignment>1</vertical_alignment>
     <visible>true</visible>
     <widget_type>Label</widget_type>
-    <width>283</width>
+    <width>336</width>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7a20</wuid>
     <x>6</x>
@@ -195,7 +195,7 @@ $(pv_value)</tooltip>
     <items />
     <items_from_pv>false</items_from_pv>
     <name>msgIdInput</name>
-    <pv_name>loc://TO_RemoveMessageFlow_MsgID_App&lt;VString&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_TO_RemoveMessageFlow_MsgID_App&lt;VString&gt;</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -203,7 +203,14 @@ $(pv_value)</tooltip>
       <height_scalable>true</height_scalable>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
-    <scripts />
+    <scripts>
+      <path pathString="/Displays/Apps/TO/Scripts/set_msg_id.py" checkConnect="true" seoe="false">
+        <pv trig="true">loc://$(APP)_$(CPUID)_TO_RemoveMessageFlow_MsgID_App&lt;VString&gt;</pv>
+      </path>
+      <path pathString="/Displays/Apps/TO/Scripts/telemetry_management_init.py" checkConnect="true" seoe="false">
+        <pv trig="true">loc://$(APP)_$(CPUID)_TO_RemoveMessageFlow_MsgID_App&lt;VString&gt;</pv>
+      </path>
+    </scripts>
     <tooltip>$(pv_name)
 $(pv_value)</tooltip>
     <visible>true</visible>
@@ -286,7 +293,7 @@ $(pv_value)</tooltip>
     <page_increment>10.0</page_increment>
     <precision>3</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://TO_RemoveMessageFlow_ChannelIndex_App</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_TO_RemoveMessageFlow_ChannelIndex_App</pv_name>
     <pv_value />
     <rules />
     <scale_options>
