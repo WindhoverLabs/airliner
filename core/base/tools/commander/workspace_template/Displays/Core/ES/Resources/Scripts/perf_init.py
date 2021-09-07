@@ -11,12 +11,23 @@ import math
 
 PERF_ID_BATCH_COUNT = 32
 
-FILTER_MASK_PV_BASE_NAME = '/cfs/' + display.getMacroValue("CPUID") + '/cfe_es/CFE_ES_HkPacket_t.Payload.PerfFilterMask'
-TRIGGER_MASK_PV_BASE_NAME = '/cfs/' + display.getMacroValue("CPUID") + '/cfe_es/CFE_ES_HkPacket_t.Payload.PerfTriggerMask'
+cpu_id = display.getMacroValue("CPUID")
+
+FILTER_MASK_PV_BASE_NAME = '/cfs/' + cpu_id + '/cfe_es/CFE_ES_HkPacket_t.Payload.PerfFilterMask'
+TRIGGER_MASK_PV_BASE_NAME = '/cfs/' + cpu_id + '/cfe_es/CFE_ES_HkPacket_t.Payload.PerfTriggerMask'
 FILTER_ACTUAL_BASENAME = "FilterActual"
 FILTER_REQUEST_BASENAME = "FilterRequest"
 TRIGGER_ACTUAL_BASENAME = "TriggerActual"
 TRIGGER_REQUEST_BASENAME = "TriggerRequest"
+
+
+FILTER_REQUEST_ALL_PV_NAME = "loc://FilterRequestAll_AUTO" + "_" + cpu_id
+TRIGGER_REQUEST_ALL_PV_NAME = "loc://TriggerRequestAll_AUTO" + "_" + cpu_id
+FILTER_REQUEST_PV_NAME = "loc://FilterRequest_AUTO" + "_" + cpu_id
+TRIGGER_REQUEST_PV_NAME = "loc://TriggerRequest_AUTO" + "_" + cpu_id
+FILTER_ACTUAL_PV_NAME = "loc://FilterActual_AUTO" + "_" + cpu_id
+TRIGGER_ACTUAL_PV_NAME = "loc://TriggerActual_AUTO" + "_" + cpu_id
+
 
 def get_all_perf_ids(modules, out_perf_ids):
     # Might have to do this the old-fashion way; drill down the yaml(?)
@@ -41,7 +52,7 @@ def get_number_of_tabs(registry):
 
     For more details refer to airliner/core/base/cfe/docs/cFE UsersGuide/Doxygen/cfe__platform__cfg_8h-source.html#l01040.
     """
-    registry_path = display.getMacroValue("REGISTRY_PATH")
+    registry_path = display.getMacroValue("REGISTRY_PATH").lower()
     out_tabs = registry.get(registry_path + '/config/CFE_ES_PERF_MAX_IDS/value') / 32
 
     # FIXME: At the moment there is a bug in Studio where the amount of tabs has to be 2 or more, otherwise it does
@@ -60,7 +71,6 @@ def add_perf_records(tab_number, perf_ids):
     current_mask_number = 0
     current_perf_id = 1
     for child in display.getWidget("PerfTabbedContainer").getWidgetModel().getChildren():
-        # print("$2")
         # Add header
         new_perf_control = WidgetUtil.createWidgetModel("org.csstudio.opibuilder.widgets.linkingContainer")
         # TODO: Use the enumeration values from Studio to avoid magical strings
@@ -85,9 +95,9 @@ def add_perf_records(tab_number, perf_ids):
 
         # FIXME: Enforce these names in code; do not make assumptions with these names.
         new_perf_control.getChildByName("Grouping Container").getChildByName("FilterRequestAll").setPropertyValue(
-            "pv_name", "loc://FilterRequestAll_AUTO" + str(current_mask_number))
+            "pv_name", FILTER_REQUEST_ALL_PV_NAME + str(current_mask_number))
         new_perf_control.getChildByName("Grouping Container").getChildByName("TriggerActualAll").setPropertyValue(
-            "pv_name", "loc://TriggerRequestAll_AUTO" + str(current_mask_number))
+            "pv_name", TRIGGER_REQUEST_ALL_PV_NAME + str(current_mask_number))
 
 
         # Pass some macros to perf_control widget
@@ -101,12 +111,12 @@ def add_perf_records(tab_number, perf_ids):
 
         new_perf_control.getChildByName("Grouping Container").setPropertyValue("macros", perf_control_macros)
 
-        pvName = "loc://FilterRequestAll_AUTO" + str(current_mask_number)
+        pvName = FILTER_REQUEST_ALL_PV_NAME + str(current_mask_number)
         pv = PVUtil.createPV(pvName, display)
         new_listner = MyPVListener2(current_mask_number, "FilterRequest")
         pv.addListener(new_listner)
 
-        pvName = "loc://TriggerRequestAll_AUTO" + str(current_mask_number)
+        pvName = TRIGGER_REQUEST_ALL_PV_NAME + str(current_mask_number)
         pv = PVUtil.createPV(pvName, display)
         new_listner = MyPVListener2(current_mask_number, "TriggerRequest")
         pv.addListener(new_listner)
@@ -135,23 +145,23 @@ def add_perf_records(tab_number, perf_ids):
             new_perf_record.getChildByName("PerfRecord").getChildByName(FILTER_ACTUAL_BASENAME).setPropertyValue("name", FILTER_ACTUAL_BASENAME )
 
             new_perf_record.getChildByName("PerfRecord").getChildByName(filter_actual_widget_name).setPropertyValue("pv_name",
-                                                                                                         "loc://FilterActual_AUTO" + str(
+                                                                                                                    FILTER_ACTUAL_PV_NAME + str(
                                                                                                              current_perf_id))
             new_perf_record.getChildByName("PerfRecord").getChildByName(filter_actual_widget_name).setPropertyValue("pv_value", 0)
 
             new_perf_record.getChildByName("PerfRecord").getChildByName("FilterRequest").setPropertyValue("pv_name",
-                                                                                                          "loc://FilterRequest_AUTO" + str(
+                                                                                                          FILTER_REQUEST_PV_NAME + str(
                                                                                                               current_perf_id))
             new_perf_record.getChildByName("PerfRecord").getChildByName("FilterRequest").setPropertyValue("pv_value", 0)
 
             # Access children of new_perf_record only AFTER they are added to the display container
             new_perf_record.getChildByName("PerfRecord").getChildByName("TriggerActual").setPropertyValue("pv_name",
-                                                                                                          "loc://TriggerActual_AUTO" + str(
+                                                                                                          TRIGGER_ACTUAL_PV_NAME + str(
                                                                                                               current_perf_id))
             new_perf_record.getChildByName("PerfRecord").getChildByName("TriggerActual").setPropertyValue("pv_value", 0)
 
             new_perf_record.getChildByName("PerfRecord").getChildByName("TriggerRequest").setPropertyValue("pv_name",
-                                                                                                           "loc://TriggerRequest_AUTO" + str(
+                                                                                                           TRIGGER_REQUEST_PV_NAME + str(
                                                                                                                current_perf_id))
             new_perf_record.getChildByName("PerfRecord").getChildByName("TriggerRequest").setPropertyValue("pv_value",
                                                                                                            0)
@@ -242,7 +252,6 @@ class UICheckAll(Runnable):
             for linking_record in current_tab.getChildByName("PerfRecordContainer").getChildren():
                 # Ensure that we don't touch the GridLayout
                 if linking_record.getPropertyValue("widget_type") == 'Linking Container':
-                    # print(linking_record.getChildren()[0].getPropertyValue("name"))
                     perf_record = linking_record.getChildByName("PerfRecord")
                     perf_record.getChildByName(self.widget_name).setPropertyValue('pv_value',
                                                                                   int(PVUtil.getLong(self.pv_data)))
@@ -347,7 +356,7 @@ def main():
     perf_ids = dict()
 
     tabs = get_number_of_tabs(registry)
-    get_all_perf_ids(registry.get('/')['modules'], perf_ids)
+    get_all_perf_ids(registry.get('/modules/' + cpu_id.lower())['modules'], perf_ids)
     if widget.getVar("firstTime") == None:
         widget.setVar("firstTime", True)
         add_perf_records(tabs, perf_ids)

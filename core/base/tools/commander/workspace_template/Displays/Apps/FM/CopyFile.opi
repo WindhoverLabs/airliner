@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.7.202105211550</boy_version>
+  <boy_version>1.7.0.202108031936</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -34,24 +34,11 @@
   <y>-1</y>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
-      <action type="EXECUTE_JAVASCRIPT">
-        <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-
-importPackage(Packages.org.yamcs.studio.data);
-
-//TODO: overwrite_arg needs to have some kind of validation. This could be done here on the script, or it could be done with in the GUI by setting min/max.
-var overwrite_arg =  VTypeHelper.getDouble(display.getWidget("Overwrite") .getPropertyValue("pv_value"));
-var source_arg = VTypeHelper.getString(display.getWidget("Source").getPropertyValue("pv_value"));
-var target_arg = VTypeHelper.getString(display.getWidget("Target").getPropertyValue("pv_value"));
-
-Yamcs.issueCommand('/cfs/$(CPUID)/fm/CopyFile', 
-                                   {"Overwrite": parseInt(overwrite_arg),
-				     "Source": source_arg,
-				      "Target": target_arg});
+      <action type="EXECUTE_PYTHONSCRIPT">
+        <path>Scripts/copy_file.py</path>
+        <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
 ]]></scriptText>
-        <embedded>true</embedded>
+        <embedded>false</embedded>
         <description></description>
       </action>
     </actions>
@@ -132,7 +119,7 @@ $(pv_value)</tooltip>
     <name>Source</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://TO_CopyFileSource</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_TO_CopyFileSource</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -229,7 +216,7 @@ $(pv_value)</tooltip>
     <name>Target</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://TO_CopyFileTarget</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_TO_CopyFileTarget</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -324,9 +311,9 @@ $(pv_value)</tooltip>
     <minimum>-1.7976931348623157E308</minimum>
     <name>Overwrite</name>
     <page_increment>10.0</page_increment>
-    <precision>3</precision>
+    <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://TO_CopyFileOverWrite</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_TO_CopyFileOverWrite</pv_name>
     <pv_value />
     <rules />
     <scale_options>

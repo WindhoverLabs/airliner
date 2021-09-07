@@ -6,9 +6,9 @@ from org.yamcs.studio.data import IPVListener
 from java.lang import Runnable
 import math
 
-
 try:
     registry = YAMLRegistry()
+
     max_channels = registry.getAllConfig()['to']['TO_MAX_CHANNELS']['value']
     display.getWidget('ChannelIndex').setPropertyValue('maximum', max_channels-1)
 except:

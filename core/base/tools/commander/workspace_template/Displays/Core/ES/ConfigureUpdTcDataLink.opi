@@ -10,7 +10,7 @@
   <background_color>
     <color red="240" green="240" blue="240" />
   </background_color>
-  <boy_version>1.6.6.qualifier</boy_version>
+  <boy_version>1.7.0.202108031936</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -239,7 +239,7 @@ $(pv_value)</tooltip>
     <name>IP</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://TcDataLinkIpAddressInput&lt;VString&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TcDataLinkIpAddressInput&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -296,7 +296,7 @@ $(pv_value)</tooltip>
     <page_increment>10.0</page_increment>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://TcDataLinkPortInput</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TcDataLinkPortInput</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -391,7 +391,7 @@ $(pv_value)</tooltip>
     <name>Link</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>loc://LinkInput&lt;VString&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_LinkInput&lt;VString&gt;</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

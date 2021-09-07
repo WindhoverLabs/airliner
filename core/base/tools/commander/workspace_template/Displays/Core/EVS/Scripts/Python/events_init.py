@@ -29,12 +29,17 @@ def main():
                        "value.")
         return -1
 
-    registry_path = display.getMacroValue("REGISTRY_PATH")
+    print('path-->' + display.getMacroValue("REGISTRY_PATH"))
+    registry_path = display.getMacroValue("REGISTRY_PATH").lower()
+
+    print('registry path-->{}'.format(registry_path))
 
     registry = YAMLRegistry()
 
     app_name = display.getMacroValue("APP")
     project_name = display.getMacroValue("PROJECT_NAME")
+
+    print('')
 
     events = util.get_events_from_registry(registry, registry_path)
 
@@ -64,7 +69,7 @@ def main():
         new_event_record.getChildByName("EventRecordTemplate").setPropertyValue("macros", event_macros)
 
     long_name = util.get_long_name_from_registry(registry, registry_path)
-    display.getWidget("app_name").setPropertyValue("text", long_name)
+    display.getWidget("app_name").setPropertyValue("text", "({}) - {}".format(display.getMacroValue('CPUID'), long_name))
 
 
 main()

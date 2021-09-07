@@ -10,7 +10,7 @@
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.5.5.202103012118</boy_version>
+  <boy_version>1.6.9.202107142204</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -65,7 +65,7 @@
     <page_increment>10.0</page_increment>
     <precision>3</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://SetDestSizeFileTableIndex</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_SetDestSizeFileTableIndex</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -269,7 +269,7 @@ $(pv_value)</tooltip>
     <page_increment>10.0</page_increment>
     <precision>3</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>loc://SetDestSizeMaxFileSize</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_SetDestSizeMaxFileSize</pv_name>
     <pv_value />
     <rules />
     <scale_options>
