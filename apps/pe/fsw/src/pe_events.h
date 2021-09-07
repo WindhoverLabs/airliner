@@ -771,6 +771,18 @@ typedef enum {
 */
 	PE_TBL_VALIDATE_ERR_EID = 54,
 
+/** \brief Sending diagnostic telemetry.
+**  \event Sending diagnostic telemetry.
+**
+**  \par Type: INFORMATION
+**
+**  \par Cause:
+**
+**  This event message is issued when commanded to send diagnostic telemetry.
+**
+*/
+	PE_SEND_DIAG_INF_EID =  55,
+
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
 	PE_EVT_CNT
 } PE_EventIds_t;

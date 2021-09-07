@@ -56,6 +56,13 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    ipc_lib
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ipc_lib/fsw/for_build
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/ipc_lib/ipc_lib_custom.c
+)
+
+buildliner_add_app(
     pq_lib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
     # TODO move this table build to sbn module?
@@ -172,10 +179,8 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    sbn_uio_mbox
-    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_uio_mbox/fsw/for_build
-    CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib/tables/pq_backup_cfg.c
+    sbn_uio_shm
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_uio_shm/fsw/for_build
 )
 
 buildliner_add_app(
@@ -211,4 +216,12 @@ buildliner_add_app(
         ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115.h
         ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_custom.h
         ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_map.h
+)
+
+buildliner_add_app(
+    sbnd
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/sbnd
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/sbnd/shm/sbnd_custom.cpp
 )

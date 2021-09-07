@@ -361,6 +361,29 @@ extern "C" {
 */
 #define PE_DISABLE_FLOW_CC            (11)
 
+/** \pecmd Send diagnostic telemetry
+**
+**  \par Description
+**       Command to send diagnostic telemetry
+**
+**  \par Command Structure
+**       #PE_NoArgCmd_t
+**
+**  \par Command Verification
+**       Successful execution of this command may be verified with
+**       the following telemetry:
+**       - The #PE_SEND_DIAG_INF_EID debug event message will be
+**         generated when the command is executed
+**
+**  \par Error Conditions
+**       This command may fail for the following reason(s):
+**       - Command packet length not as expected
+**
+**  \par Criticality
+**       None
+*/
+#define PE_SEND_DIAG_CC            (12)
+
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
@@ -395,8 +418,6 @@ typedef struct
     CFE_TIME_SysTime_t Timestamp;
 
     CFE_TIME_SysTime_t Timestamp_Hist;
-
-    CFE_TIME_SysTime_t TimestampLastBaro;
 
 	/** \brief Timestamp of last baro read */
     CFE_TIME_SysTime_t TimeLastBaro;
@@ -523,7 +544,123 @@ typedef struct
     uint32  DistanceSensorMsgCount;
     uint32  OpticalFlowMsgCount;
 } PE_HkTlm_t;
+	
+/** 
+**  \brief PE GPS state
+*/
+typedef enum
+{
+    PE_GPS_STATE_UNKNOWN   = 0,
+    PE_GPS_STATE_FIX       = 1,
+    PE_GPS_STATE_NSAT      = 2,
+    PE_GPS_STATE_EPH_EPV   = 3,
+    PE_GPS_STATE_MEASURE   = 4,
+    PE_GPS_STATE_COUNT     = 5,
+    PE_GPS_STATE_RECEIVED  = 6,
+    PE_GPS_STATE_CORRECT   = 7,
+    PE_GPS_STATE_DELAY     = 8,
+    PE_GPS_STATE_BETA      = 9,
+    PE_GPS_STATE_FAULT     = 10,
+    PE_GPS_STATE_INIT      = 11
+} PE_GpsState_t;
 
+/** 
+**  \brief PE Baro state
+*/
+typedef enum
+{
+    PE_BARO_STATE_UNKNOWN = 0,
+    PE_BARO_STATE_MEASURE = 1,
+    PE_BARO_STATE_COUNT   = 2,
+    PE_BARO_STATE_INIT    = 3,
+    PE_BARO_STATE_CORRECT = 4,
+    PE_BARO_STATE_BETA    = 5
+} PE_BaroState_t;
+
+/** 
+**  \brief PE Land state
+*/
+typedef enum
+{
+    PE_LAND_STATE_UNKNOWN = 0,
+    PE_LAND_STATE_MEASURE = 1,
+    PE_LAND_STATE_COUNT   = 2,
+    PE_LAND_STATE_CORRECT = 3,
+    PE_LAND_STATE_BETA    = 4,
+    PE_LAND_STATE_INIT    = 5
+} PE_LandState_t;
+
+/** 
+**  \brief PE Distance state
+*/
+typedef enum
+{
+    PE_DIST_STATE_UNKNOWN = 0,
+    PE_DIST_STATE_MEASURE = 1,
+    PE_DIST_STATE_COUNT   = 2,
+    PE_DIST_STATE_EPS     = 3,
+    PE_DIST_STATE_DIST    = 4,
+    PE_DIST_STATE_CORRECT = 5,
+    PE_DIST_STATE_BETA    = 6,
+    PE_DIST_STATE_INIT    = 7
+} PE_DistState_t;
+
+/** 
+**  \brief PE Flow state
+*/
+typedef enum
+{
+    PE_FLOW_STATE_UNKNOWN    = 0,
+    PE_FLOW_STATE_MEASURE    = 1,
+    PE_FLOW_STATE_COUNT      = 2,
+    PE_FLOW_STATE_PITCH_ROLL = 3,
+    PE_FLOW_STATE_AGL_VAL    = 4,
+    PE_FLOW_STATE_AGL_HEIGHT = 5,
+    PE_FLOW_STATE_TERR_VAL   = 6,
+    PE_FLOW_STATE_QUAL       = 7,
+    PE_FLOW_STATE_DT         = 8,
+    PE_FLOW_STATE_CORRECT    = 9,
+    PE_FLOW_STATE_BETA       = 10,
+    PE_FLOW_STATE_INIT       = 11,
+    PE_FLOW_STATE_FILTER     = 12
+} PE_FlowState_t;
+
+/** 
+**  \brief PE application diagnostic data
+*/
+typedef struct
+{
+    float BaroBeta;
+    float GpsBeta;
+    float LandBeta;
+    float DistBeta;
+    float FlowBeta;
+    PE_GpsState_t GpsState;
+    PE_BaroState_t BaroState;
+    PE_LandState_t LandState;
+    PE_DistState_t DistState;
+    PE_FlowState_t FlowState;
+
+    float Baro_y;
+	float Baro_C[10];
+	float Baro_R;
+	float Baro_S_I;
+	float Baro_r;
+	float Baro_K[10];
+	float Baro_temp[10];
+	float Baro_dx[10];
+	float Baro_beta;
+
+    float Land_y[3];
+    float Land_C[3][10];
+    float Land_R[3][3];
+    float Land_S_I[3][3];
+    float Land_r[3];
+    float Land_K[10][3];
+    float Land_dx[10];
+    float Land_beta;
+    float Land_thresh;
+} PE_DiagTlm_t;
 
 #ifdef __cplusplus
 }

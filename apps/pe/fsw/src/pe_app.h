@@ -380,6 +380,9 @@ public:
     /** \brief Housekeeping Telemetry for downlink */
     PE_HkTlm_t HkTlm;
 
+    /** \brief Diagnostic Telemetry for downlink */
+    PE_DiagTlm_t DiagTlm;
+    
     /************************************************************************/
     /** \brief Position Estimator (PE) application entry point
      **
@@ -549,6 +552,18 @@ public:
      **
      *************************************************************************/
     void ReportHousekeeping(void);
+
+    /************************************************************************/
+    /** \brief Sends PE diagnostic telemetry message
+     **
+     **  \par Description
+     **       This function sends the diagnostic telemetry message
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     *************************************************************************/
+    void SendDiag(void);
 
     /************************************************************************/
     /** \brief Sends the VehicleLocalPositionMsg message.

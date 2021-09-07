@@ -251,7 +251,7 @@
 #define PX4_VEHICLE_FORCE_SETPOINT_MID            TLM_MSG(  240 )
 #define PX4_VEHICLE_GLOBAL_POSITION_MID           TLM_MSG(  241 )
 #define PX4_VEHICLE_GLOBAL_VELOCITY_SETPOINT_MID  TLM_MSG(  242 )
-#define PX4_VEHICLE_GPS_POSITION_MID              TLM_MSG(  243 )
+#define PX4_VEHICLE_GPS_POSITION_MID              TLM_MSG(  243 ) - CFE_MSG_CPU_BASE
 #define PX4_VEHICLE_LAND_DETECTED_MID             TLM_MSG(  244 )
 #define PX4_VEHICLE_LOCAL_POSITION_MID            TLM_MSG(  245 )
 #define PX4_VEHICLE_LOCAL_POSITION_SETPOINT_MID   TLM_MSG(  246 )
@@ -400,7 +400,7 @@
 #define PE_CMD_MID                                CMD_MSG(  397 )
 #define PE_SEND_HK_MID                            CMD_MSG(  398 )
 #define PE_WAKEUP_MID                             CMD_MSG(  399 )
-
+#define PE_DIAG_TLM_MID                           TLM_MSG(  400 )
 
 /* PRM                                                       */
 #define PRM_HK_TLM_MID                            TLM_MSG(  402 )
@@ -446,13 +446,16 @@
 
 #define SBN_MODULE_HK_TLM_MID                     TLM_MSG(  436 )
 
+#define SBND_HK_TLM_MID                           TLM_MSG(  437 )
+#define SBND_CMD_MID                              CMD_MSG(  438 )
+#define SBND_SEND_HK_MID                          CMD_MSG(  439 )
+#define SBND_WAKEUP_MID                           SBN_WAKEUP_MID
 
 /* SENS                                                      */
 #define SENS_HK_TLM_MID                           TLM_MSG(  440 )
 #define SENS_CMD_MID                              CMD_MSG(  441 )
 #define SENS_SEND_HK_MID                          CMD_MSG(  442 )
 #define SENS_WAKEUP_MID                           CMD_MSG(  443 )
-
 
 /* SIM                                                       */
 #define SIM_HK_TLM_MID                            TLM_MSG(  446 )

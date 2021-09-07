@@ -42,15 +42,33 @@ void PE::gpsInit()
     float epv = m_VehicleGpsPositionMsg.EpV;
     uint8 fix_type = m_VehicleGpsPositionMsg.FixType;
     math::Vector6F y;
+	
+    DiagTlm.GpsState = PE_GPS_STATE_FIX;
 
-    if (nSat < 6 ||
-        eph > ConfigTblPtr->GPS_EPH_MAX ||
-        epv > ConfigTblPtr->GPS_EPV_MAX ||
-        fix_type < 3)
+    if (fix_type < 3)
     {
         m_GpsStats.reset();
         goto gpsInit_Exit_Tag;
     }
+
+    DiagTlm.GpsState = PE_GPS_STATE_NSAT;
+
+    if (nSat < 6)
+    {
+        m_GpsStats.reset();
+        goto gpsInit_Exit_Tag;
+    }
+
+    DiagTlm.GpsState = PE_GPS_STATE_EPH_EPV;
+
+    if (eph > ConfigTblPtr->GPS_EPH_MAX ||
+        epv > ConfigTblPtr->GPS_EPV_MAX)
+    {
+        m_GpsStats.reset();
+        goto gpsInit_Exit_Tag;
+    }
+
+    DiagTlm.GpsState = PE_GPS_STATE_MEASURE;
 
     /* measure */
     if (gpsMeasure(y) != CFE_SUCCESS) 
@@ -58,6 +76,8 @@ void PE::gpsInit()
         m_GpsStats.reset();
         goto gpsInit_Exit_Tag;
     }
+
+    DiagTlm.GpsState = PE_GPS_STATE_COUNT;
 
     /* if finished */
     if (m_GpsStats.getCount() > REQ_GPS_INIT_COUNT)
@@ -69,6 +89,8 @@ void PE::gpsInit()
 
         HkTlm.GpsTimeout = FALSE;
         m_GpsStats.reset();
+
+        DiagTlm.GpsState = PE_GPS_STATE_RECEIVED;
 
         if (!HkTlm.ReceivedGps)
         {
@@ -139,6 +161,8 @@ void PE::gpsCorrect()
 {
     CFE_ES_PerfLogEntry(PE_SENSOR_GPS_PERF_ID);
 
+    DiagTlm.GpsState = PE_GPS_STATE_CORRECT;
+
     /* measure */
     if (gpsMeasure(m_GPS.y_global) != CFE_SUCCESS) 
     {
@@ -207,6 +231,8 @@ void PE::gpsCorrect()
     /* get delayed x */
     m_GPS.i_hist = 0;
 
+    DiagTlm.GpsState = PE_GPS_STATE_DELAY;
+
     if(getDelayPeriods(ConfigTblPtr->GPS_DELAY, &m_GPS.i_hist) < 0)
     {
         goto end_of_function;
@@ -235,8 +261,15 @@ void PE::gpsCorrect()
      **/ 
     m_GPS.beta_thresh = 1e2f;
 
+    /* Save GPS beta for Diag */
+    DiagTlm.GpsBeta = m_GPS.beta;
+
+    DiagTlm.GpsState = PE_GPS_STATE_BETA;
+
     if (m_GPS.beta / BETA_TABLE[n_y_gps] > m_GPS.beta_thresh) 
     {
+        DiagTlm.GpsState = PE_GPS_STATE_FAULT;
+
         if (!HkTlm.GpsFault)
         {
             if(Initialized())
@@ -255,6 +288,8 @@ void PE::gpsCorrect()
     }
     else
     {
+        DiagTlm.GpsState = PE_GPS_STATE_INIT;
+
         if (HkTlm.GpsFault)
         {
         	HkTlm.GpsFault = FALSE;
