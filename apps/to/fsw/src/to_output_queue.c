@@ -37,7 +37,6 @@
 #include "cfe_evs_msg.h"
 #include <stddef.h>
 
-
 uint32  TO_MemPoolDefSize[TO_MAX_MEMPOOL_BLK_SIZES] =
 {
     TO_MAX_BLOCK_SIZE,
