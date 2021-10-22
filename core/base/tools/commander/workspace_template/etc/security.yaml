@@ -2,6 +2,7 @@ authModules:
   - class: org.yamcs.security.YamlAuthModule
     args:
       required: true
+      #Comment out the hasher to use plain-text passwords.
       hasher: org.yamcs.security.PBKDF2PasswordHasher
 
 
