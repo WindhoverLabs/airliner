@@ -45,6 +45,10 @@ const MD_CmdHandlerTblRec_t MD_CmdHandlerTbl[] = {
 {             0,                   0,                 0,       MD_TERM_MSGTYPE}
 };
 
+
+MD_AppData_t MD_AppData;
+
+
 void MD_AppMain ( void )
 {
    CFE_SB_MsgId_t     MessageID;

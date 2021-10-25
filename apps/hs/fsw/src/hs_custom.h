@@ -2,7 +2,7 @@
 ** File:
 **   $Id: hs_custom.h 1.3 2016/05/16 17:40:01EDT czogby Exp  $
 **
-**   Copyright © 2007-2016 United States Government as represented by the 
+**   Copyright ï¿½ 2007-2016 United States Government as represented by the 
 **   Administrator of the National Aeronautics and Space Administration. 
 **   All Other Rights Reserved.  
 **
@@ -270,7 +270,7 @@ typedef struct
  
 } HS_CustomData_t;
 
-HS_CustomData_t HS_CustomData;
+extern HS_CustomData_t HS_CustomData;
 
 /*************************************************************************
 ** Exported Functions

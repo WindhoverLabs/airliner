@@ -104,6 +104,9 @@
 *************************************************************************/
 HS_AppData_t     HS_AppData;
 
+HS_CustomData_t HS_CustomData;
+
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* HS application entry point and main process loop                */
