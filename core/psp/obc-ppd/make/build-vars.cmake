@@ -39,11 +39,12 @@ set(COMPILE_FLAGS "-g" )
 set(LINK_FLAGS "")
 
 set(TOOLCHAIN_PREFIX "arm-linux-gnueabihf-")
+set(TOOLCHAIN_SUFFIX "-7")
 
 # which compilers to use for C and C++
-set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
+set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc${TOOLCHAIN_SUFFIX})
 set(CMAKE_C_FLAGS "-g -O2 -Wno-pointer-to-int-cast")
-set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}g++)
+set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}g++${TOOLCHAIN_SUFFIX})
 set(CMAKE_CXX_FLAGS "-g -O2 -std=c++11")
 
 set(PSP_UNIT_TEST_SRC_DIR ${CMAKE_CURRENT_LIST_DIR}/../unit_test)
