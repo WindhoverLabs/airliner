@@ -584,7 +584,7 @@ void TO_OutputChannel_FrameSend(uint32 ChannelIdx)
 
     if(TRUE == sendMessage)
     {
-        int32 sendResult = TO_OutputChannel_Send(ChannelIdx, &TO_AppCustomData.buffer[TM_SYNC_ASM_SIZE], caduSize - TM_SYNC_ASM_SIZE);
+        int32 sendResult = TO_OutputChannel_Send(ChannelIdx, &TO_AppCustomData.buffer[0], caduSize);
         if (sendResult != 0)
         {
         	TO_OutputChannel_Disable(ChannelIdx);
