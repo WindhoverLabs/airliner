@@ -37,13 +37,11 @@ container:
 		-t -i \
 		${IMAGE_NAME}
 
-deploy-viper:
-	@make image IMAGE_NAME=yamcs-viper:1.0.0
-	#@make container IMAGE_NAME=yamcs-viper:1.0.0 CONTAINER_NAME=rig1 YAMCS_INSTALL_DIR=/opt/yamcs/GDS-3.0.0 YAMCS_WORKSPACE_DIR=/opt/yamcs/workspaces/rig1 YAMCS_PORT=8091 TLM_PORT=1235
-	#@make container IMAGE_NAME=yamcs-viper:1.0.0 CONTAINER_NAME=rig2 YAMCS_INSTALL_DIR=/opt/yamcs/GDS-3.0.0 YAMCS_WORKSPACE_DIR=/opt/yamcs/workspaces/rig2 YAMCS_PORT=8092 TLM_PORT=2232
-	@make container IMAGE_NAME=yamcs-viper:1.0.0 CONTAINER_NAME=rig3 YAMCS_INSTALL_DIR=/opt/yamcs/5.4.3 YAMCS_WORKSPACE_DIR=/etc/yamcs/workspaces/rig3 YAMCS_PORT=8093 TLM_PORT=2233
-	@make container IMAGE_NAME=yamcs-viper:1.0.0 CONTAINER_NAME=rig4 YAMCS_INSTALL_DIR=/opt/yamcs/5.4.3 YAMCS_WORKSPACE_DIR=/etc/yamcs/workspaces/rig4 YAMCS_PORT=8094 TLM_PORT=2234
-	@make container IMAGE_NAME=yamcs-viper:1.0.0 CONTAINER_NAME=rig5 YAMCS_INSTALL_DIR=/opt/yamcs/5.4.3 YAMCS_WORKSPACE_DIR=/etc/yamcs/workspaces/rig5 YAMCS_PORT=8095 TLM_PORT=2235
+deploy-example:
+	@make image IMAGE_NAME=yamcs-example:1.0.0
+	@make container IMAGE_NAME=yamcs-example:1.0.0 CONTAINER_NAME=rig3 YAMCS_INSTALL_DIR=/opt/yamcs/5.4.3 YAMCS_WORKSPACE_DIR=/etc/yamcs/workspaces/rig3 YAMCS_PORT=8093 TLM_PORT=2233
+	@make container IMAGE_NAME=yamcs-example:1.0.0 CONTAINER_NAME=rig4 YAMCS_INSTALL_DIR=/opt/yamcs/5.4.3 YAMCS_WORKSPACE_DIR=/etc/yamcs/workspaces/rig4 YAMCS_PORT=8094 TLM_PORT=2234
+	@make container IMAGE_NAME=yamcs-example:1.0.0 CONTAINER_NAME=rig5 YAMCS_INSTALL_DIR=/opt/yamcs/5.4.3 YAMCS_WORKSPACE_DIR=/etc/yamcs/workspaces/rig5 YAMCS_PORT=8095 TLM_PORT=2235
 
 deploy-airliner:
 	@make image IMAGE_NAME=yamcs-airliner:5.5.4
