@@ -270,7 +270,7 @@ typedef struct
  
 } HS_CustomData_t;
 
-HS_CustomData_t HS_CustomData;
+extern HS_CustomData_t HS_CustomData;
 
 /*************************************************************************
 ** Exported Functions

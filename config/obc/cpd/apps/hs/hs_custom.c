@@ -74,6 +74,10 @@
 #include "hs_monitors.h"
 #include "hs_perfids.h"
 
+
+HS_CustomData_t HS_CustomData;
+
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Idle Task Main Process Loop                                     */
