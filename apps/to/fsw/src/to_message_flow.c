@@ -292,7 +292,7 @@ osalbool TO_MessageFlow_Add(
 				/* We failed to subscribe to a message. */
 				(void) CFE_EVS_SendEvent(TO_SUBSCRIBE_ERR_EID,
 										 CFE_EVS_ERROR,
-										 "Message flow failed to subscribe to (0x%08X) on channel %lu. (%ld)",
+										 "Message flow failed to subscribe to (0x%08X) on channel %d. (%ld)",
 										 MsgID,
 										 ChannelIdx,
 										 status);
@@ -408,7 +408,7 @@ osalbool TO_MessageFlow_Remove(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID)
 		/* We failed to subscribe to a message. */
 		(void) CFE_EVS_SendEvent(TO_UNSUBSCRIBE_ERR_EID,
 								 CFE_EVS_ERROR,
-								 "Message flow (0x%08X) failed to unsubscribe on channel %lu. (%ld)",
+								 "Message flow (0x%08X) failed to unsubscribe on channel %d. (%ld)",
 								 MsgID,
 								 ChannelIdx,
 								 status);

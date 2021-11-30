@@ -60,7 +60,7 @@ extern "C" {
 **       a message flow diagnostic message.
 **
 */
-#define TO_MSG_FLOW_PKT_LIMIT          (200)
+#define TO_MSG_FLOW_PKT_LIMIT          (200UL)
 
 
 /** \tocfg Maximum message length
@@ -243,7 +243,7 @@ extern "C" {
 **  \par Description:  This defines how many messages can be queued into the
 **       channel output queue by the scheduler.
 */
-#define TO_OUTPUT_QUEUE_DEPTH     (200)
+#define TO_OUTPUT_QUEUE_DEPTH     (200U)
 
 /** \tocfg Development UDP channel task priority.
  *

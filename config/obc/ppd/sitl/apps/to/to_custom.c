@@ -510,10 +510,6 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
         	iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[ChannelIdx], &msg, TO_CUSTOM_CHANNEL_GET_TIMEOUT );
             if(iStatus == OS_SUCCESS)
             {
-            	uint16 msgID = CFE_SB_GetMsgId(msg);
-
-                printf("%s %u 0x%04x\n", __FUNCTION__, __LINE__, msgID);
-
             	/* Add packet to the outgoing frame */
                 iStatus = TM_SDLP_AddPacket(&TO_AppCustomData.frameInfo, msg);
                 if (iStatus < 0)
