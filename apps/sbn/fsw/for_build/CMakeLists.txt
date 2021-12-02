@@ -59,4 +59,7 @@ buildliner_add_app_def(sbn
 
     REFERENCE_CONFIG
         ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/platform_inc
+        
+    COMMANDER_DISPLAYS 
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
 )

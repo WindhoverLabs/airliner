@@ -52,7 +52,7 @@ include(${PROJECT_SOURCE_DIR}/core/tools/auto-yamcs/build-functions.cmake)
 #)
 function(psp_buildliner_initialize)
     # Define the function arguments.
-    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_WORKSPACE_OVERLAY" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_DISPLAYS;COMMANDER_WORKSPACE_OVERLAY" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
     
     # Create all the target directories the caller requested.
     foreach(dir ${PARSED_ARGS_FILESYS})
@@ -65,9 +65,14 @@ function(psp_buildliner_initialize)
         set_property(GLOBAL PROPERTY IS_REFERENCE_BUILD true)
     endif()
     
-    if(NOT PARSED_ARGS_COMMANDER_WORKSPACE)
-        set(PARSED_ARGS_COMMANDER_WORKSPACE ${CMAKE_BINARY_DIR}/commander_workspace)
+    if(PARSED_ARGS_COMMANDER_WORKSPACE)
+        set(COMMANDER_WORKSPACE ${CMAKE_BINARY_DIR}/commander_workspace)
+    else()
+        set(COMMANDER_WORKSPACE ${PARSED_ARGS_COMMANDER_WORKSPACE})
     endif()
+    set(COMMANDER_DISPLAYS ${COMMANDER_WORKSPACE}/displays)
+    set_property(GLOBAL PROPERTY COMMANDER_WORKSPACE ${COMMANDER_WORKSPACE})
+    set_property(GLOBAL PROPERTY COMMANDER_DISPLAYS ${COMMANDER_DISPLAYS})
     
     if(NOT PARSED_ARGS_CPU_ID)
         set(PARSED_ARGS_CPU_ID cfs)
@@ -89,7 +94,7 @@ function(psp_buildliner_initialize)
         CONFIG_FILE           ${CMAKE_BINARY_DIR}/wh_defs.yaml
         XTCE_CONFIG_FILE      ${PROJECT_SOURCE_DIR}/core/base/tools/commander/xtce_config.yaml
         WORKSPACE_TEMPLATE    ${PROJECT_SOURCE_DIR}/core/base/tools/commander/workspace_template
-        WORKSPACE_OUTPUT_PATH ${PARSED_ARGS_COMMANDER_WORKSPACE}
+        WORKSPACE_OUTPUT_PATH ${COMMANDER_WORKSPACE}
         OUTPUT_DB_FILE        wh_defs.db
         OUTPUT_XTCE_FILE      mdb/${PARSED_ARGS_CPU_ID}.xml
     )
@@ -98,15 +103,23 @@ function(psp_buildliner_initialize)
     
     if(PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY)
         add_custom_target(commander_workspace_overlay
-            COMMAND cp -R -f ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/* ${PARSED_ARGS_COMMANDER_WORKSPACE}/
+            COMMAND cp -R -f ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/* ${COMMANDER_WORKSPACE}/
         )
         add_dependencies(ground-tools commander_workspace_overlay)
         add_dependencies(commander_workspace_overlay commander-workspace)
     endif()
     
+    # Copy in the Commander CFE displays
+    add_custom_target(cfe_commander_displays
+        COMMAND mkdir -p ${COMMANDER_DISPLAYS}/core
+        COMMAND cp -R -f ${CFE_COMMANDER_DISPLAYS}/* ${COMMANDER_DISPLAYS}/core
+    )
+    add_dependencies(ground-tools cfe_commander_displays)
+    add_dependencies(cfe_commander_displays commander-workspace)
+    
     # Add a build target to launch YAMCS with our newly created workspace.
     add_custom_target(start-yamcs 
-        COMMAND ${PARSED_ARGS_COMMANDER_WORKSPACE}/bin/yamcs-start /opt/yamcs/ ${PARSED_ARGS_COMMANDER_WORKSPACE}
+        COMMAND ${COMMANDER_WORKSPACE}/bin/yamcs-start /opt/yamcs/ ${COMMANDER_WORKSPACE}
     )
         
     # Add the 'build-file-system' target.  This is used to trigger the steps to embed the initial ramdisk 
@@ -509,7 +522,7 @@ endfunction(psp_buildliner_add_app)
 #)
 function(psp_buildliner_add_app_def)
     set(PARSED_ARGS_TARGET ${ARGV0})
-    cmake_parse_arguments(PARSED_ARGS ""  "FILE;DESIGN_DEFINITION" "COMPILE_OPTIONS;SOURCES;LIBS;INCLUDES;PUBLIC_INCLUDES;DESIGN_DOCS;REFERENCE_CONFIG" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS ""  "FILE;DESIGN_DEFINITION" "COMPILE_OPTIONS;SOURCES;LIBS;INCLUDES;PUBLIC_INCLUDES;DESIGN_DOCS;REFERENCE_CONFIG;COMMANDER_DISPLAYS" ${ARGN})
     
     get_property(PUBLIC_APP_INCLUDES GLOBAL PROPERTY PUBLIC_APP_INCLUDES_PROPERTY)
     set(PUBLIC_APP_INCLUDES "${PUBLIC_APP_INCLUDES} ${PARSED_ARGS_PUBLIC_INCLUDES}")
@@ -595,6 +608,19 @@ function(psp_buildliner_add_app_def)
             TARGET_NAME        ${PARSED_ARGS_TARGET}
         )
     endif()
+    
+    # Copy in the Commander displays, if specified
+    if(PARSED_ARGS_COMMANDER_DISPLAYS)
+        get_property(COMMANDER_DISPLAYS GLOBAL PROPERTY COMMANDER_DISPLAYS)
+    
+        add_custom_target(${PARSED_ARGS_TARGET}_commander_displays
+            COMMAND mkdir -p ${COMMANDER_DISPLAYS}/apps/${PARSED_ARGS_TARGET}
+            COMMAND cp -R -f ${PARSED_ARGS_COMMANDER_DISPLAYS}/* ${COMMANDER_DISPLAYS}/apps/${PARSED_ARGS_TARGET}
+        )
+        add_dependencies(ground-tools ${PARSED_ARGS_TARGET}_commander_displays)
+        add_dependencies(${PARSED_ARGS_TARGET}_commander_displays commander-workspace)
+    endif()
+    
 endfunction(psp_buildliner_add_app_def)
 
 

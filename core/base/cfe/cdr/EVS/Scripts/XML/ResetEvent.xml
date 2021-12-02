@@ -1,0 +1,17 @@
+<actions hook="false" hook_all="false">
+      <action type="EXECUTE_JAVASCRIPT">
+        <path></path>
+        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
+
+//This script can be loaded into a widget by using the ActionsProperty object.
+importPackage(Packages.org.yamcs.studio.script);
+importPackage(Packages.org.yamcs.studio.data);
+
+
+Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/ResetAppEventFilter', {
+    'Payload.AppName': display.getMacroValue("APP"),
+    'Payload.EventID': VTypeHelper.getDouble(widget.getPropertyValue("pv_value"))});]]></scriptText>
+        <embedded>true</embedded>
+        <description></description>
+      </action>
+</actions>
