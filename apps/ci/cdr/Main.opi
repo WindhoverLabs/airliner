@@ -19,9 +19,18 @@
   <macros>
     <include_parent_macros>true</include_parent_macros>
     <APP>ci</APP>
-    <EVENTS_OPI>Displays/Core/EVS/Events.opi</EVENTS_OPI>
-    <PROJECT_NAME>Displays</PROJECT_NAME>
-    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+    <AuthorizeCmd_TEMPLATE>/Displays/$(CPUID)/Apps/CI/Templates/AuthorizeCommand_App.opi</AuthorizeCmd_TEMPLATE>
+    <DeauthorizeCmd_TEMPLATE>/Displays/$(CPUID)/Apps/CI/Templates/DeauthorizeCommand_App.opi</DeauthorizeCmd_TEMPLATE>
+    <RegisterCmd_TEMPLATE>/Displays/$(CPUID)/Apps/CI/Templates/RegisterCommand_App.opi</RegisterCmd_TEMPLATE>
+    <DeregisterCmd_TEMPLATE>/Displays/$(CPUID)/Apps/CI/Templates/DeregisterCommand_App.opi</DeregisterCmd_TEMPLATE>
+    <UpdateCmd_TEMPLATE>/Displays/$(CPUID)/Apps/CI/Templates/UpdateCommand_App.opi</UpdateCmd_TEMPLATE>
+    <AddMessageFlow_TEMPLATE>/Displays/$(CPUID)/Apps/TO/Templates/AddMessageFlow_App.opi</AddMessageFlow_TEMPLATE>
+    <RemoveMessageFlow_TEMPLATE>/Displays/$(CPUID)/Apps/TO/Templates/RemoveMessageFlow_App.opi</RemoveMessageFlow_TEMPLATE>
+    <QueryMessageFlow_TEMPLATE>/Displays/$(CPUID)/Apps/TO/Templates/QueryMessageFlow_App.opi</QueryMessageFlow_TEMPLATE>
+    <Sch_Table_TEMPLATE>/Displays/$(CPUID)/Apps/SCH/Templates/Diagnostic_App.opi</Sch_Table_TEMPLATE>
+    <EVENTS_OPI>/Displays/$(CPUID)/Core/EVS/Events.opi</EVENTS_OPI>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
   </macros>
   <name>($(CPUID)) CI</name>
   <rules />
@@ -252,7 +261,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/ci/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image>../../../Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -308,7 +317,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/ci/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image>../../../Resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -588,7 +597,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/ci/ProcessTimeouts', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>26</height>
-    <image>../../Resources/send.png</image>
+    <image>../../../Resources/send.png</image>
     <name>NoOp_3</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -644,7 +653,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/ci/WakeUp', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>26</height>
-    <image>../../Resources/send.png</image>
+    <image>../../../Resources/send.png</image>
     <name>NoOp_2</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -1754,7 +1763,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/Core/ES/ApplicationControl_App.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/@BUILDLINER_CDR_CPUID@/Core/ES/ApplicationControl_App.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>

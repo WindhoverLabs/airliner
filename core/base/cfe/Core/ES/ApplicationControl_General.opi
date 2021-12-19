@@ -18,7 +18,7 @@
   <height>500</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
-    <CONFIG_REGISTRY>/Displays/Resources/config_registry.yaml</CONFIG_REGISTRY>
+    <CONFIG_REGISTRY>/Displays/Resources/registry.yaml</CONFIG_REGISTRY>
   </macros>
   <name>($(CPUID)) CFE-ES - App Control</name>
   <rules />

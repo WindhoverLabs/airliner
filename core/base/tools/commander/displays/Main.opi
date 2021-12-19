@@ -10,7 +10,7 @@
   <background_color>
     <color red="255" green="255" blue="255" />
   </background_color>
-  <boy_version>1.6.9.qualifier</boy_version>
+  <boy_version>1.7.0.202108031936</boy_version>
   <foreground_color>
     <color red="192" green="192" blue="192" />
   </foreground_color>
@@ -18,17 +18,17 @@
   <height>850</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
-    <AuthorizeCmd_TEMPLATE>/Displays/Apps/CI/Templates/AuthorizeCommand_App.opi</AuthorizeCmd_TEMPLATE>
-    <DeauthorizeCmd_TEMPLATE>/Displays/Apps/CI/Templates/DeauthorizeCommand_App.opi</DeauthorizeCmd_TEMPLATE>
-    <RegisterCmd_TEMPLATE>/Displays/Apps/CI/Templates/RegisterCommand_App.opi</RegisterCmd_TEMPLATE>
-    <DeregisterCmd_TEMPLATE>/Displays/Apps/CI/Templates/DeregisterCommand_App.opi</DeregisterCmd_TEMPLATE>
-    <UpdateCmd_TEMPLATE>/Displays/Apps/CI/Templates/UpdateCommand_App.opi</UpdateCmd_TEMPLATE>
-    <AddMessageFlow_TEMPLATE>/Displays/Apps/TO/Templates/AddMessageFlow_App.opi</AddMessageFlow_TEMPLATE>
-    <RemoveMessageFlow_TEMPLATE>/Displays/Apps/TO/Templates/RemoveMessageFlow_App.opi</RemoveMessageFlow_TEMPLATE>
-    <QueryMessageFlow_TEMPLATE>/Displays/Apps/TO/Templates/QueryMessageFlow_App.opi</QueryMessageFlow_TEMPLATE>
-    <Sch_Table_TEMPLATE>/Displays/Apps/SCH/Templates/Diagnostic_App.opi</Sch_Table_TEMPLATE>
+    <AuthorizeCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/AuthorizeCommand_App.opi</AuthorizeCmd_TEMPLATE>
+    <DeauthorizeCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/DeauthorizeCommand_App.opi</DeauthorizeCmd_TEMPLATE>
+    <RegisterCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/RegisterCommand_App.opi</RegisterCmd_TEMPLATE>
+    <DeregisterCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/DeregisterCommand_App.opi</DeregisterCmd_TEMPLATE>
+    <UpdateCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/UpdateCommand_App.opi</UpdateCmd_TEMPLATE>
+    <AddMessageFlow_TEMPLATE>/Displays/PPD/Apps/TO/Templates/AddMessageFlow_App.opi</AddMessageFlow_TEMPLATE>
+    <RemoveMessageFlow_TEMPLATE>/Displays/PPD/Apps/TO/Templates/RemoveMessageFlow_App.opi</RemoveMessageFlow_TEMPLATE>
+    <QueryMessageFlow_TEMPLATE>/Displays/PPD/Apps/TO/Templates/QueryMessageFlow_App.opi</QueryMessageFlow_TEMPLATE>
+    <Sch_Table_TEMPLATE>/Displays/PPD/Apps/SCH/Templates/Diagnostic_App.opi</Sch_Table_TEMPLATE>
     <ALL_CPUS>{'cpd', 'ppd'}</ALL_CPUS>
-    <EVENTS_OPI>Displays/Core/EVS/Events.opi</EVENTS_OPI>
+    <EVENTS_OPI>Displays/PPD/Core/EVS/Events.opi</EVENTS_OPI>
   </macros>
   <name>Main</name>
   <rules />
@@ -504,10 +504,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Core/ES/Main.opi</path>
+          <path>PPD/Core/ES/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -640,10 +639,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Core/EVS/Main.opi</path>
+          <path>PPD/Core/EVS/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -736,10 +734,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Core/SB/Main.opi</path>
+          <path>PPD/Core/SB/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -832,10 +829,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Core/TBL/Main.opi</path>
+          <path>PPD/Core/TBL/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -928,10 +924,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Core/TIME/Main.opi</path>
+          <path>PPD/Core/TIME/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -984,10 +979,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Core/ES/Main.opi</path>
+          <path>CPD/Core/ES/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -1040,10 +1034,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Core/EVS/Main.opi</path>
+          <path>CPD/Core/EVS/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -1096,10 +1089,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Core/SB/Main.opi</path>
+          <path>CPD/Core/SB/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -1152,10 +1144,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Core/TBL/Main.opi</path>
+          <path>CPD/Core/TBL/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -1208,10 +1199,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Core/TIME/Main.opi</path>
+          <path>CPD/Core/TIME/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -1345,10 +1335,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/CF/Main.opi</path>
+          <path>PPD/Apps/CF/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -1481,10 +1470,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/CS/Main.opi</path>
+          <path>PPD/Apps/CS/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -1577,10 +1565,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/DS/Main.opi</path>
+          <path>PPD/Apps/DS/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -1673,10 +1660,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/FM/Main.opi</path>
+          <path>PPD/Apps/FM/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -1769,10 +1755,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/HK/Main.opi</path>
+          <path>PPD/Apps/HK/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -1865,10 +1850,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/CI/Main.opi</path>
+          <path>PPD/Apps/CI/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -1961,10 +1945,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/HS/Main.opi</path>
+          <path>PPD/Apps/HS/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2057,10 +2040,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/LC/Main.opi</path>
+          <path>PPD/Apps/LC/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2153,10 +2135,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/MD/Main.opi</path>
+          <path>PPD/Apps/MD/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2249,10 +2230,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/MM/Main.opi</path>
+          <path>PPD/Apps/MM/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2345,10 +2325,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/SC/Main.opi</path>
+          <path>PPD/Apps/SC/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2441,10 +2420,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/SCH/Main.opi</path>
+          <path>PPD/Apps/SCH/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2537,10 +2515,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/TO/Main.opi</path>
+          <path>PPD/Apps/TO/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2593,10 +2570,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/CF/Main.opi</path>
+          <path>CPD/Apps/CF/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2649,10 +2625,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/CS/Main.opi</path>
+          <path>CPD/Apps/CS/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2705,10 +2680,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/FM/Main.opi</path>
+          <path>CPD/Apps/FM/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2761,10 +2735,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/HS/Main.opi</path>
+          <path>CPD/Apps/HS/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2817,10 +2790,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/LC/Main.opi</path>
+          <path>CPD/Apps/LC/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2873,10 +2845,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/MD/Main.opi</path>
+          <path>CPD/Apps/MD/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2929,10 +2900,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/MM/Main.opi</path>
+          <path>CPD/Apps/MM/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -2985,10 +2955,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/SC/Main.opi</path>
+          <path>CPD/Apps/SC/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -3041,10 +3010,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/SCH/Main.opi</path>
+          <path>CPD/Apps/SCH/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -3097,10 +3065,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/TO/Main.opi</path>
+          <path>CPD/Apps/TO/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -3193,10 +3160,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/PE/Main.opi</path>
+          <path>CPD/Apps/PE/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -3289,10 +3255,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/SENS/Main.opi</path>
+          <path>CPD/Apps/SENS/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -3385,10 +3350,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/VM/Main.opi</path>
+          <path>CPD/Apps/VM/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -3481,10 +3445,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/PX4/Main.opi</path>
+          <path>CPD/Apps/PX4/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -3537,10 +3500,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/CI/Main.opi</path>
+          <path>CPD/Apps/CI/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -3633,10 +3595,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/SED/Main.opi</path>
+          <path>CPD/Apps/SED/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -3689,10 +3650,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/PX4/Main.opi</path>
+          <path>PPD/Apps/PX4/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -3785,10 +3745,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/ZUSUP/Main.opi</path>
+          <path>CPD/Apps/ZUSUP/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -3881,10 +3840,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/SBN/Main.opi</path>
+          <path>CPD/Apps/SBN/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -3937,10 +3895,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/SBN/Main.opi</path>
+          <path>PPD/Apps/SBN/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -4033,10 +3990,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/VC/Main.opi</path>
+          <path>PPD/Apps/VC/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>PPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -4089,10 +4045,9 @@ $(pv_value)</tooltip>
     <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
       <actions hook="false" hook_all="false">
         <action type="OPEN_DISPLAY">
-          <path>Apps/VC/Main.opi</path>
+          <path>CPD/Apps/VC/Main.opi</path>
           <macros>
             <include_parent_macros>true</include_parent_macros>
-            <CPUID>CPD</CPUID>
           </macros>
           <mode>1</mode>
           <description></description>
@@ -4186,10 +4141,9 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>Apps/BAT/Main.opi</path>
+        <path>PPD/Apps/BAT/Main.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
-          <CPUID>PPD</CPUID>
         </macros>
         <mode>1</mode>
         <description></description>
@@ -4242,10 +4196,9 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>Apps/BAT/Main.opi</path>
+        <path>CPD/Apps/BAT/Main.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
-          <CPUID>CPD</CPUID>
         </macros>
         <mode>1</mode>
         <description></description>
