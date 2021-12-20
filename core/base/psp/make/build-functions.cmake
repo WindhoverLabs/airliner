@@ -65,18 +65,20 @@ function(psp_buildliner_initialize)
         set_property(GLOBAL PROPERTY IS_REFERENCE_BUILD true)
     endif()
     
-    if(PARSED_ARGS_COMMANDER_WORKSPACE)
-        set(COMMANDER_WORKSPACE ${CMAKE_BINARY_DIR}/commander_workspace)
-    else()
+    #if(PARSED_ARGS_COMMANDER_WORKSPACE)
+    #    set(COMMANDER_WORKSPACE ${CMAKE_BINARY_DIR}/commander_workspace)
+    #else()
         set(COMMANDER_WORKSPACE ${PARSED_ARGS_COMMANDER_WORKSPACE})
-    endif()
-    set(COMMANDER_DISPLAYS ${COMMANDER_WORKSPACE}/displays)
+    #endif()
+    set(COMMANDER_DISPLAYS ${COMMANDER_WORKSPACE}/Displays)
     set_property(GLOBAL PROPERTY COMMANDER_WORKSPACE ${COMMANDER_WORKSPACE})
     set_property(GLOBAL PROPERTY COMMANDER_DISPLAYS ${COMMANDER_DISPLAYS})
     
     if(NOT PARSED_ARGS_CPU_ID)
         set(PARSED_ARGS_CPU_ID cfs)
     endif()
+    set(BUILDLINER_CDR_CPUID ${PARSED_ARGS_CPU_ID})
+    set_property(GLOBAL PROPERTY BUILDLINER_CDR_CPUID ${BUILDLINER_CDR_CPUID})
     
     # Get the latest abbreviated commit hash of the working branch
     execute_process(
@@ -110,12 +112,21 @@ function(psp_buildliner_initialize)
     endif()
     
     # Copy in the Commander CFE displays
-    add_custom_target(cfe_commander_displays
-        COMMAND mkdir -p ${COMMANDER_DISPLAYS}/core
-        COMMAND cp -R -f ${CFE_COMMANDER_DISPLAYS}/* ${COMMANDER_DISPLAYS}/core
-    )
-    add_dependencies(ground-tools cfe_commander_displays)
-    add_dependencies(cfe_commander_displays commander-workspace)
+    file(GLOB_RECURSE files ${CFE_COMMANDER_DISPLAYS}/*)
+    foreach(inFile ${files})
+        get_filename_component(inFileExt ${inFile} EXT)
+        file(RELATIVE_PATH outFile ${CFE_COMMANDER_DISPLAYS} ${inFile})
+
+        if(${inFileExt} STREQUAL ".opi.in")
+            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
+            get_filename_component(outFileName ${inFile} NAME_WE)
+            set(outFile ${outFilePath}/${outFileName}.opi)
+            configure_file(${inFile} ${outFile} @ONLY)
+        else()
+            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
+            file(COPY ${inFile} DESTINATION "${outFilePath}")
+        endif()
+    endforeach(inFile)
     
     # Add a build target to launch YAMCS with our newly created workspace.
     add_custom_target(start-yamcs 
@@ -612,15 +623,23 @@ function(psp_buildliner_add_app_def)
     # Copy in the Commander displays, if specified
     if(PARSED_ARGS_COMMANDER_DISPLAYS)
         get_property(COMMANDER_DISPLAYS GLOBAL PROPERTY COMMANDER_DISPLAYS)
-    
-        add_custom_target(${PARSED_ARGS_TARGET}_commander_displays
-            COMMAND mkdir -p ${COMMANDER_DISPLAYS}/apps/${PARSED_ARGS_TARGET}
-            COMMAND cp -R -f ${PARSED_ARGS_COMMANDER_DISPLAYS}/* ${COMMANDER_DISPLAYS}/apps/${PARSED_ARGS_TARGET}
-        )
-        add_dependencies(ground-tools ${PARSED_ARGS_TARGET}_commander_displays)
-        add_dependencies(${PARSED_ARGS_TARGET}_commander_displays commander-workspace)
-    endif()
-    
+        get_property(BUILDLINER_CDR_CPUID GLOBAL PROPERTY BUILDLINER_CDR_CPUID)
+        file(GLOB_RECURSE files ${PARSED_ARGS_COMMANDER_DISPLAYS}/*)
+        foreach(inFile ${files})
+            get_filename_component(inFileExt ${inFile} EXT)
+            file(RELATIVE_PATH outFile ${PARSED_ARGS_COMMANDER_DISPLAYS} ${inFile})
+
+            if(${inFileExt} STREQUAL ".opi.in")
+                get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Apps/${PARSED_ARGS_TARGET}/${outFile} DIRECTORY)
+                get_filename_component(outFileName ${inFile} NAME_WE)
+                set(outFile ${outFilePath}/${outFileName}.opi)
+                configure_file(${inFile} ${outFile} @ONLY)
+            else()
+                get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Apps/${PARSED_ARGS_TARGET}/${outFile} DIRECTORY)
+                file(COPY ${inFile} DESTINATION "${outFilePath}")
+            endif()
+        endforeach(inFile)
+    endif()    
 endfunction(psp_buildliner_add_app_def)
 
 
