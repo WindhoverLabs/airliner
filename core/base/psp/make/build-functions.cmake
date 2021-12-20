@@ -103,14 +103,6 @@ function(psp_buildliner_initialize)
     set_target_properties(commander-workspace PROPERTIES EXCLUDE_FROM_ALL TRUE)
     add_dependencies(ground-tools commander-workspace)
     
-    if(PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY)
-        add_custom_target(commander_workspace_overlay
-            COMMAND cp -R -f ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/* ${COMMANDER_WORKSPACE}/
-        )
-        add_dependencies(ground-tools commander_workspace_overlay)
-        add_dependencies(commander_workspace_overlay commander-workspace)
-    endif()
-    
     # Copy in the Commander CFE displays
     file(GLOB_RECURSE files ${CFE_COMMANDER_DISPLAYS}/*)
     foreach(inFile ${files})
@@ -127,6 +119,19 @@ function(psp_buildliner_initialize)
             file(COPY ${inFile} DESTINATION "${outFilePath}")
         endif()
     endforeach(inFile)
+
+    # Copy in the Commander overlay
+    if(PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY)
+        file(GLOB_RECURSE files ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/*)
+        foreach(inFile ${files})
+            file(RELATIVE_PATH outFile ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY} ${inFile})
+
+            get_filename_component(outFilePath ${COMMANDER_WORKSPACE}/${outFile} DIRECTORY)
+            get_filename_component(outFileName ${inFile} NAME)
+            set(outFile ${outFilePath}/${outFileName})
+            configure_file(${inFile} ${outFile} @ONLY)
+        endforeach(inFile)
+    endif()
     
     # Add a build target to launch YAMCS with our newly created workspace.
     add_custom_target(start-yamcs 
