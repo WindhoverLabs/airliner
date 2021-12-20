@@ -104,7 +104,7 @@ function(psp_buildliner_initialize)
     add_dependencies(ground-tools commander-workspace)
     
     # Copy in the Commander CFE displays
-    file(GLOB_RECURSE files ${CFE_COMMANDER_DISPLAYS}/*)
+    file(GLOB_RECURSE files "${CFE_COMMANDER_DISPLAYS}/*")
     foreach(inFile ${files})
         get_filename_component(inFileExt ${inFile} EXT)
         file(RELATIVE_PATH outFile ${CFE_COMMANDER_DISPLAYS} ${inFile})
@@ -122,10 +122,10 @@ function(psp_buildliner_initialize)
 
     # Copy in the Commander overlay
     if(PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY)
-        file(GLOB_RECURSE files ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/*)
+        file(GLOB_RECURSE files "${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/*")
         foreach(inFile ${files})
             file(RELATIVE_PATH outFile ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY} ${inFile})
-
+            message("${inFile}")
             get_filename_component(outFilePath ${COMMANDER_WORKSPACE}/${outFile} DIRECTORY)
             get_filename_component(outFileName ${inFile} NAME)
             set(outFile ${outFilePath}/${outFileName})
