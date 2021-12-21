@@ -180,7 +180,7 @@ docs: docs-doxygen docs-sphinx
 
 python-env::
 	virtualenv -p python3 venv || exit -1
-	(source venv/bin/activate || exit -1; pip install -r core/tools/auto-yamcs/src/requirements.txt || exit -1)
+	(source venv/bin/activate || exit -1; pip install -r core/tools/auto-yamcs/src/requirements.txt || exit -1; pip install pyyaml || exit -1)
 	@echo 'Created python3 virtual environment.                                            '
 	@echo '                                                                                '
 	@echo 'Activate:                                                                       '
