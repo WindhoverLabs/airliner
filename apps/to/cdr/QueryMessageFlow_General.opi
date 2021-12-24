@@ -17,7 +17,12 @@
   <grid_space>6</grid_space>
   <height>100</height>
   <macros>
+    <APP>to</APP>
+    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
   <name>($(CPUID)) TO - Query Msg Flow</name>
   <rules />
@@ -150,7 +155,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/to/QueryMessageFlow', {
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

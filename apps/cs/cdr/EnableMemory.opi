@@ -17,7 +17,12 @@
   <grid_space>6</grid_space>
   <height>150</height>
   <macros>
+    <APP>cs</APP>
     <include_parent_macros>true</include_parent_macros>
+    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
   <name>CS - Enable Memory</name>
   <rules />
@@ -67,7 +72,7 @@ Yamcs.issueCommand(cmd, {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>24</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -121,7 +126,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>24</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>Action Button_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

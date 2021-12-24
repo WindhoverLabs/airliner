@@ -52,7 +52,7 @@ include(${PROJECT_SOURCE_DIR}/core/tools/auto-yamcs/build-functions.cmake)
 #)
 function(psp_buildliner_initialize)
     # Define the function arguments.
-    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_DISPLAYS;COMMANDER_WORKSPACE_OVERLAY" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_DISPLAYS;COMMANDER_WORKSPACE_OVERLAY;COMMANDER_CUSTOM_MACRO_BLOCK" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
     
     # Create all the target directories the caller requested.
     foreach(dir ${PARSED_ARGS_FILESYS})
@@ -103,13 +103,23 @@ function(psp_buildliner_initialize)
     set_target_properties(commander-workspace PROPERTIES EXCLUDE_FROM_ALL TRUE)
     add_dependencies(ground-tools commander-workspace)
     
+    # Read the Commander Macro block
+    file(READ ${PSP_CDR_MACRO_BLOCK_FILE} BUILDLINER_CDR_MACRO_BLOCK)
+    if(PARSED_ARGS_COMMANDER_CUSTOM_MACRO_BLOCK)
+        file(READ ${PARSED_ARGS_COMMANDER_CUSTOM_MACRO_BLOCK} BUILDLINER_CDR_MACRO_BLOCK_CUSTOM)
+    else()
+        set(BUILDLINER_CDR_MACRO_BLOCK_CUSTOM "")
+    endif()
+    set_property(GLOBAL PROPERTY BUILDLINER_CDR_MACRO_BLOCK        ${BUILDLINER_CDR_MACRO_BLOCK})
+    set_property(GLOBAL PROPERTY BUILDLINER_CDR_MACRO_BLOCK_CUSTOM ${BUILDLINER_CDR_MACRO_BLOCK_CUSTOM})
+        
     # Copy in the Commander CFE displays
-    file(GLOB_RECURSE files "${CFE_COMMANDER_DISPLAYS}/*")
+    file(GLOB_RECURSE files "${CFE_COMMANDER_DISPLAYS}/*" "${CFE_COMMANDER_DISPLAYS}/.*")
     foreach(inFile ${files})
         get_filename_component(inFileExt ${inFile} EXT)
         file(RELATIVE_PATH outFile ${CFE_COMMANDER_DISPLAYS} ${inFile})
 
-        if(${inFileExt} STREQUAL ".opi.in")
+        if(${inFileExt} STREQUAL ".opi")
             get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
             get_filename_component(outFileName ${inFile} NAME_WE)
             set(outFile ${outFilePath}/${outFileName}.opi)
@@ -122,7 +132,7 @@ function(psp_buildliner_initialize)
 
     # Copy in the Commander overlay
     if(PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY)
-        file(GLOB_RECURSE files "${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/*")
+        file(GLOB_RECURSE files "${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/*" "${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/.*")
         foreach(inFile ${files})
             file(RELATIVE_PATH outFile ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY} ${inFile})
             message("${inFile}")
@@ -629,12 +639,15 @@ function(psp_buildliner_add_app_def)
     if(PARSED_ARGS_COMMANDER_DISPLAYS)
         get_property(COMMANDER_DISPLAYS GLOBAL PROPERTY COMMANDER_DISPLAYS)
         get_property(BUILDLINER_CDR_CPUID GLOBAL PROPERTY BUILDLINER_CDR_CPUID)
+        get_property(BUILDLINER_CDR_MACRO GLOBAL PROPERTY BUILDLINER_CDR_MACRO)
+        get_property(BUILDLINER_CDR_MACRO_BLOCK GLOBAL PROPERTY BUILDLINER_CDR_MACRO_BLOCK)
+
         file(GLOB_RECURSE files ${PARSED_ARGS_COMMANDER_DISPLAYS}/*)
         foreach(inFile ${files})
             get_filename_component(inFileExt ${inFile} EXT)
             file(RELATIVE_PATH outFile ${PARSED_ARGS_COMMANDER_DISPLAYS} ${inFile})
 
-            if(${inFileExt} STREQUAL ".opi.in")
+            if(${inFileExt} STREQUAL ".opi")
                 get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Apps/${PARSED_ARGS_TARGET}/${outFile} DIRECTORY)
                 get_filename_component(outFileName ${inFile} NAME_WE)
                 set(outFile ${outFilePath}/${outFileName}.opi)

@@ -1,0 +1,12 @@
+    <AuthorizeCmd_TEMPLATE>/Displays/$(CPUID)/Apps/CI/Templates/AuthorizeCommand_App.opi</AuthorizeCmd_TEMPLATE>
+    <DeauthorizeCmd_TEMPLATE>/Displays/$(CPUID)/Apps/CI/Templates/DeauthorizeCommand_App.opi</DeauthorizeCmd_TEMPLATE>
+    <RegisterCmd_TEMPLATE>/Displays/$(CPUID)/Apps/CI/Templates/RegisterCommand_App.opi</RegisterCmd_TEMPLATE>
+    <DeregisterCmd_TEMPLATE>/Displays/$(CPUID)/Apps/CI/Templates/DeregisterCommand_App.opi</DeregisterCmd_TEMPLATE>
+    <UpdateCmd_TEMPLATE>/Displays/$(CPUID)/Apps/CI/Templates/UpdateCommand_App.opi</UpdateCmd_TEMPLATE>
+    <AddMessageFlow_TEMPLATE>/Displays/$(CPUID)/Apps/TO/Templates/AddMessageFlow_App.opi</AddMessageFlow_TEMPLATE>
+    <RemoveMessageFlow_TEMPLATE>/Displays/$(CPUID)/Apps/TO/Templates/RemoveMessageFlow_App.opi</RemoveMessageFlow_TEMPLATE>
+    <QueryMessageFlow_TEMPLATE>/Displays/$(CPUID)/Apps/TO/Templates/QueryMessageFlow_App.opi</QueryMessageFlow_TEMPLATE>
+    <Sch_Table_TEMPLATE>/Displays/$(CPUID)/Apps/SCH/Templates/Diagnostic_App.opi</Sch_Table_TEMPLATE>
+    <PerfRecordTEMPLATE_OPI>/Displays/Core/ES/PerfRecord_ES.opi</PerfRecordTEMPLATE_OPI>
+    <PerfCollectionControlTEMPLATE_OPI>/Displays/Core/ES/PerfCollectionControl_ES.opi</PerfCollectionControlTEMPLATE_OPI>
+    <EVENTS_OPI>/Displays/$(CPUID)/Core/EVS/Events.opi</EVENTS_OPI>

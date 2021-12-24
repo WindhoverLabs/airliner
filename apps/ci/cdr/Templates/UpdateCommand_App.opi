@@ -18,6 +18,9 @@
   <height>240</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
+    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
   <name>($(CPUID)) CI - Update</name>
   <rules />
@@ -279,7 +282,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image>../../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

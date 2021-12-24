@@ -17,10 +17,12 @@
   <grid_space>6</grid_space>
   <height>630</height>
   <macros>
-    <include_parent_macros>true</include_parent_macros>
     <APP>vm</APP>
-    <EVENTS_OPI>/Displays/Core/EVS/Events.opi</EVENTS_OPI>
-    <PROJECT_NAME>Displays</PROJECT_NAME>
+    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
   <name>VM - Arming</name>
   <rules />
@@ -159,7 +161,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/vm/Arm', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>31</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_5</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -215,7 +217,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/vm/Disarm', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>32</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_7</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

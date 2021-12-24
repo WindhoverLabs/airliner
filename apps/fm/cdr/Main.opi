@@ -17,11 +17,12 @@
   <grid_space>6</grid_space>
   <height>320</height>
   <macros>
-    <include_parent_macros>true</include_parent_macros>
     <APP>fm</APP>
-    <EVENTS_OPI>/Displays/Core/EVS/Events.opi</EVENTS_OPI>
-    <PROJECT_NAME>Displays</PROJECT_NAME>
+    <include_parent_macros>true</include_parent_macros>
+    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
   <name>($(CPUID)) FM</name>
   <rules />
@@ -292,7 +293,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/fm/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -348,7 +349,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/fm/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>17</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2014,7 +2015,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/fm/SendHK', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_2</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2047,7 +2048,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/Core/ES/ApplicationControl_App.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Core/ES/Resources/Templates/ApplicationControl_App.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>

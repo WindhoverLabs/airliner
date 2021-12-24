@@ -18,6 +18,9 @@
   <height>500</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
+    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
   <name>($(CPUID)) App Control</name>
   <rules />
@@ -2047,7 +2050,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/QueryOneApp', {"Payload.Application": a
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>28</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2110,7 +2113,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/RestartApp', {"Payload.Application": ap
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>28</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_2</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2143,7 +2146,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/Core/ES/ReloadApp_App.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Core/ES/ReloadApp_App.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("ReloadApp"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
@@ -2289,7 +2292,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/StopApp', {"Payload.Application": app_n
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>28</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

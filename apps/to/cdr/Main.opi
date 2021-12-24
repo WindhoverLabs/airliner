@@ -17,11 +17,12 @@
   <grid_space>6</grid_space>
   <height>600</height>
   <macros>
-    <include_parent_macros>true</include_parent_macros>
     <APP>to</APP>
-    <PROJECT_NAME>Displays</PROJECT_NAME>
-    <EVENTS_OPI>/Displays/Core/EVS/Events.opi</EVENTS_OPI>
+    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+    <include_parent_macros>true</include_parent_macros>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
   <name>($(CPUID)) TO</name>
   <rules />
@@ -292,7 +293,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/to/Noop', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -348,7 +349,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/to/Reset', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -1473,7 +1474,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/Apps/TO/AddMessageFlow_General.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Apps/TO/AddMessageFlow_General.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
@@ -1595,7 +1596,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/Apps/TO/RemoveMessageFlow_General.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Apps/TO/RemoveMessageFlow_General.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
@@ -1757,7 +1758,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/Apps/TO/QueryMessageFlow_General.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Apps/TO/QueryMessageFlow_General.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
@@ -2577,7 +2578,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/to/SendHK', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_3</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2633,7 +2634,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/to/SendTelemetry', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_4</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2666,7 +2667,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/Core/ES/ApplicationControl_App.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Core/ES/Resources/Templates/ApplicationControl_App.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>

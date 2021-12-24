@@ -17,11 +17,12 @@
   <grid_space>6</grid_space>
   <height>535</height>
   <macros>
-    <include_parent_macros>true</include_parent_macros>
     <APP>cfe_time</APP>
-    <EVENTS_OPI>/Displays/Core/EVS/Events.opi</EVENTS_OPI>
-    <PROJECT_NAME>Displays</PROJECT_NAME>
+    <include_parent_macros>true</include_parent_macros>
+    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
   <name></name>
   <rules />
@@ -612,7 +613,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cfe_time/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -667,7 +668,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cfe_time/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2591,7 +2592,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cfe_time/ToneSignal',{});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>26</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>ToneSignal</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2647,7 +2648,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cfe_time/FakeTone',{});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>26</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>Fake Tone</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2703,7 +2704,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cfe_time/1HZCmd',{});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>26</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>1HZ Cmd</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2759,7 +2760,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cfe_time/SendCmd',{});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>26</height>
-    <image>../../Resources/send.png</image>
+    <image>/Displays/Resources/send.png</image>
     <name>Send Cmd</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2900,7 +2901,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/Core/ES/ApplicationControl_App.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Core/ES/Resources/Templates/ApplicationControl_App.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
