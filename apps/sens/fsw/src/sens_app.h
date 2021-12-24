@@ -69,18 +69,21 @@ extern "C" {
 typedef struct
 {
     PX4_SensorAccelMsg_t          SensorAccelMsg;
-    CFE_TIME_SysTime_t            PrevAccelTime;
+    uint64                        LastAccelTime;
     PX4_SensorBaroMsg_t           SensorBaroMsg;
-    CFE_TIME_SysTime_t            PrevBaroTime;
+    uint64                        LastBaroTime;
     PX4_SensorGyroMsg_t           SensorGyroMsg;
-    CFE_TIME_SysTime_t            PrevGyroTime;
+    uint64                        LastGyroTime;
     PX4_SensorMagMsg_t            SensorMagMsg;
-    CFE_TIME_SysTime_t            PrevMagTime;
+    uint64                        LastMagTime;
     PX4_ActuatorControlsMsg_t     ActuatorControls0Msg;
+    uint64                        LastActuatorControls0Time;
     PX4_InputRcMsg_t              InputRcMsg;
-    CFE_TIME_SysTime_t            LastInputRcTime;
+    uint64                        LastInputRcTime;
     PX4_DifferentialPressureMsg_t DifferentialPressureMsg;
+    uint64                        LastDifferentialPressureTime;
     PX4_VehicleControlModeMsg_t   VehicleControlModeMsg;
+    uint64                        LastVehicleControlModeTime;
 } SENS_CurrentValueTable_t;
 
 

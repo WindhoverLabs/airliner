@@ -1358,7 +1358,7 @@ uint32 FLOW::CalculateOpticalFlow()
 		if(quality >= 0)
 		{
 			/* Copy findings to optical flow message */
-			OpticalFlowMsg.Timestamp = CFE_TIME_GetTimeInMicros();
+			OpticalFlowMsg.Timestamp = PX4LIB_GetPX4TimeUs();
 			OpticalFlowMsg.SensorID = FLOW_SENSOR_ID;
 			OpticalFlowMsg.PixelFlowXIntegral = ((quality>=0) ? HkTlm.AngularFlowX : 0.0f);
 			OpticalFlowMsg.PixelFlowYIntegral = ((quality>=0) ? HkTlm.AngularFlowY : 0.0f);

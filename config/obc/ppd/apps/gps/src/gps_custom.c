@@ -157,7 +157,7 @@ boolean GPS_Custom_Measure_PositionMsg(PX4_VehicleGpsPositionMsg_t *Measure)
     //copyDataPtr = CFE_SB_GetUserData((CFE_SB_MsgPtr_t)Measure);
     
     //memcpy(copyDataPtr, userDataPtr, userDataLength);
-    CFE_SB_CopyMsgTime((CFE_SB_MsgPtr_t)Measure, (CFE_SB_MsgPtr_t)&GPS_AppCustomData.GpsPositionMsg);
+    Measure->Timestamp = GPS_AppCustomData.GpsPositionMsg.Timestamp;
     Measure->TimeUtc = GPS_AppCustomData.GpsPositionMsg.TimeUtc;
     Measure->Lat = GPS_AppCustomData.GpsPositionMsg.Lat;
     Measure->Lon = GPS_AppCustomData.GpsPositionMsg.Lon;

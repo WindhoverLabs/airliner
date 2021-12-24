@@ -415,24 +415,24 @@ typedef struct
     uint8   CmdErrCnt;
 
 	/** \brief Timestamp */
-    CFE_TIME_SysTime_t Timestamp;
+    uint64 Timestamp;
 
-    CFE_TIME_SysTime_t Timestamp_Hist;
+    uint64 Timestamp_Hist;
 
 	/** \brief Timestamp of last baro read */
-    CFE_TIME_SysTime_t TimeLastBaro;
+    uint64 TimeLastBaro;
 
 	/** \brief Timestamp of last gps read */
-    CFE_TIME_SysTime_t TimeLastGps;
+    uint64 TimeLastGps;
 
 	/** \brief Timestamp of last landing read */
-    CFE_TIME_SysTime_t TimeLastLand;
+    uint64 TimeLastLand;
 
 	/** \brief Timestamp of last dist read */
-    CFE_TIME_SysTime_t TimeLastDist;
+    uint64 TimeLastDist;
 
 	/** \brief Timestamp of last flow read */
-    CFE_TIME_SysTime_t TimeLastFlow;
+    uint64 TimeLastFlow;
 
 	/** \brief Origin altitude */
 	float   AltOrigin;

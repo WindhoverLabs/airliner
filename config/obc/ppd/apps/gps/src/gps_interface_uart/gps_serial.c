@@ -807,8 +807,6 @@ boolean GPS_Custom_Read_and_Parse(const uint32 timeout)
                     }
                     case GPS_NAV_NAVPVT_MID:
                     {
-                    	CFE_TIME_SysTime_t currentTime;
-
                         //OS_printf("IN GPS_NAV_NAVPVT_MID\n");
                         GPS_NAV_PVT_t *msgIn = (GPS_NAV_PVT_t*) CFE_SB_GetUserData((CFE_SB_Msg_t*)&GPS_AppCustomData.Message);
                         OS_MutSemTake(GPS_AppCustomData.MutexPosition);
@@ -904,18 +902,16 @@ boolean GPS_Custom_Read_and_Parse(const uint32 timeout)
 
                                 //setClock(ts);
 
-                                GPS_AppCustomData.GpsPositionMsg.TimeUtc.Seconds = epoch;
-                                GPS_AppCustomData.GpsPositionMsg.TimeUtc.Subseconds = CFE_TIME_Micro2SubSecs(msgIn->nano / 1000);
+                                GPS_AppCustomData.GpsPositionMsg.TimeUtc = ((uint64)epoch) * 1000000ULL;
+                                GPS_AppCustomData.GpsPositionMsg.TimeUtc += msgIn->nano / 1000;
                             }
                             else
                             {
-                            	CFE_TIME_ClearTime(&GPS_AppCustomData.GpsPositionMsg.TimeUtc);
+                                GPS_AppCustomData.GpsPositionMsg.TimeUtc = 0;
                             }
                         }
-
-                        currentTime = CFE_TIME_GetTime();
-                        CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&GPS_AppCustomData.GpsPositionMsg, currentTime);
-                        GPS_AppCustomData.GpsPositionMsg.TimeUtc = CFE_TIME_GetTime();
+                        
+                        GPS_AppCustomData.GpsPositionMsg.Timestamp = PX4LIB_GetPX4TimeUs();
                         //GPS_AppCustomData.LastTimeStamp = GPS_AppCustomData.GpsPositionMsg.Timestamp;
 
                         /* TODO position and velocity update rate functions
@@ -963,8 +959,8 @@ boolean GPS_Custom_Read_and_Parse(const uint32 timeout)
                             GPS_AppCustomData.GpsSatInfoMsg.SVID[j] =
                                     (uint8)(msgIn->numCh[j].svid);
                         }
-
-                        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&GPS_AppCustomData.GpsSatInfoMsg);
+                        
+                        GPS_AppCustomData.GpsSatInfoMsg.Timestamp = PX4LIB_GetPX4TimeUs();
                         
                         OS_MutSemGive(GPS_AppCustomData.MutexSatInfo);
                         break;
@@ -1033,8 +1029,8 @@ boolean GPS_Custom_WaitForAck(const uint16 msg, const uint32 timeout)
     boolean done = FALSE;
     boolean timedOut = FALSE;
     boolean returnBool = FALSE;
-    CFE_TIME_SysTime_t timeStamp = {0};
-    CFE_TIME_SysTime_t startTime = {0};
+    uint64 timeStamp = 0;
+    uint64 startTime = 0;
 
     /* Set the ack state to waiting */
     GPS_AppCustomData.AckState = GPS_ACK_WAITING;
@@ -1044,8 +1040,8 @@ boolean GPS_Custom_WaitForAck(const uint16 msg, const uint32 timeout)
     GPS_AppCustomData.AckWaitingRcvd = FALSE;
 
     /* Get the start time */
-    startTime = CFE_TIME_GetTime();
-    if(0 == startTime.Seconds || 0 == startTime.Subseconds)
+    startTime = PX4LIB_GetPX4TimeUs();
+    if(0 == startTime)
     {
         goto end_of_function;
     }
@@ -1054,14 +1050,14 @@ boolean GPS_Custom_WaitForAck(const uint16 msg, const uint32 timeout)
     while(FALSE == timedOut)
     {
         /* Get the loop iteration time */
-        timeStamp = CFE_TIME_GetTime();
-        if(0 == timeStamp.Seconds || 0 == timeStamp.Subseconds)
+        timeStamp = PX4LIB_GetPX4TimeUs();
+        if(0 == timeStamp)
         {
             goto end_of_function;
         }
         
         /* If we've timed out out set the flag to true */
-        if(timeStamp.Seconds >= startTime.Seconds + (timeout/1000) + 2)
+        if(timeStamp >= startTime + timeout * 1000)
         {
             /* TODO remove after debug*/
             //OS_printf("WaitForAck timed out\n");

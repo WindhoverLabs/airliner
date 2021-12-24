@@ -577,6 +577,7 @@ typedef enum
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
     boolean Armed;
     boolean Prearmed;
     boolean ReadyToArm;
@@ -589,7 +590,8 @@ typedef struct
 typedef struct
 {
     uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    CFE_TIME_SysTime_t SampleTime;
+    uint64 Timestamp;
+    uint64 SampleTime;
     float  Control[PX4_ACTUATOR_CONTROL_COUNT];
 } PX4_ActuatorControlsMsg_t;
 
@@ -597,23 +599,26 @@ typedef struct
 typedef struct
 {
     uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     uint32 Count;
     float  Output[PX4_ACTUATOR_OUTPUTS_MAX];
 } PX4_ActuatorOutputsMsg_t;
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    float IndicatedAirspeed;		/* m/s */
-    float TrueAirspeed;				/* m/s */
-    float TrueAirspeedUnfiltered;	/* m/s */
-    float AirTemperature;			/* Celsius */
-    float Confidence;
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
+    float  IndicatedAirspeed;		/* m/s */
+    float  TrueAirspeed;				/* m/s */
+    float  TrueAirspeedUnfiltered;	/* m/s */
+    float  AirTemperature;			/* Celsius */
+    float  Confidence;
 } PX4_AirspeedMsg_t;
 
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
     float   Voltage;					/* V */
     float   VoltageFiltered;			/* V */
     float   Current;					/* A */
@@ -629,7 +634,8 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     PX4_CommanderMainState_t MainState;
 } PX4_CommanderStateMsg_t;
 
@@ -637,6 +643,7 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
     float   AccX;
     float   AccY;
     float   AccZ;
@@ -666,6 +673,7 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     uint64 ErrorCount;
     float DifferentialPressureRaw;
     float DifferentialPressureFiltered;
@@ -676,6 +684,7 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     float MinDistance;
     float MaxDistance;
     float CurrentDistance;
@@ -689,6 +698,7 @@ typedef struct
 typedef struct
 {
     uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     float  States[PX4_ESTIMATOR_STATES_MAX];
     uint32 NumStates;
     float  Vibe[PX4_ESTIMATOR_VIBE_MAX];
@@ -710,6 +720,7 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     uint8 Len;
     uint8 Flags;
     char  Data[PX4_GPS_INJECT_DATA_MAX];
@@ -718,6 +729,7 @@ typedef struct
 typedef struct
 {
     uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     double Lat;
     double Lon;
     float  Alt;
@@ -733,7 +745,8 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    CFE_TIME_SysTime_t LastSignal;
+    uint64  Timestamp;
+    uint64  LastSignal;
     uint32  ChannelCount;
     int32   RSSI;
     uint16  RcLostFrameCount;
@@ -747,24 +760,26 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint8 Severity;
-    char  Text[127];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
+    uint8  Severity;
+    char   Text[127];
 } PX4_LogMessageMsg_t;
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    float X;
-    float Y;
-    float Z;
-    float R;
-    float Flaps;
-    float Aux1;
-    float Aux2;
-    float Aux3;
-    float Aux4;
-    float Aux5;
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
+    float  X;
+    float  Y;
+    float  Z;
+    float  R;
+    float  Flaps;
+    float  Aux1;
+    float  Aux2;
+    float  Aux3;
+    float  Aux4;
+    float  Aux5;
     PX4_SwitchPos_t ModeSwitch;
     PX4_SwitchPos_t ReturnSwitch;
     PX4_SwitchPos_t RattitudeSwitch;
@@ -785,15 +800,17 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    float RollRateInteg;
-    float PitchRateInteg;
-    float YawRateInteg;
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
+    float  RollRateInteg;
+    float  PitchRateInteg;
+    float  YawRateInteg;
 } PX4_McAttCtrlStatusMsg_t;
 
 typedef struct
 {
     uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     int32  DatamanID;
     uint32 Count;
     int32  CurrentSeq;
@@ -802,6 +819,7 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
     uint32  InstanceCount;
     uint32  SeqReached;
     uint32  SeqCurrent;
@@ -839,13 +857,15 @@ typedef union
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     PX4_SaturationStatus_t SaturationStatus;
 } PX4_MultirotorMotorLimitsMsg_t;
 
 typedef struct
 {
     uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     float  PixelFlowXIntegral;
     float  PixelFlowYIntegral;
     float  GyroXRateIntegral;
@@ -853,7 +873,7 @@ typedef struct
     float  GyroZRateIntegral;
     float  GroundDistance;
     uint32 IntegrationTimespan;
-    CFE_TIME_SysTime_t TimeSinceLastSonarUpdate;
+    uint32 TimeSinceLastSonarUpdate;
     uint16 FrameCountSinceLastReadout;
     int16  GyroTemperature;
     uint8  SensorID;
@@ -862,7 +882,7 @@ typedef struct
 
 typedef struct
 {
-	CFE_TIME_SysTime_t Timestamp;
+    uint64 Timestamp;
     double  Lat;
     double  Lon;
     float   X;
@@ -898,7 +918,8 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     PX4_PositionSetpoint_t Previous;
     PX4_PositionSetpoint_t Current;
     PX4_PositionSetpoint_t Next;
@@ -907,7 +928,8 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    CFE_TIME_SysTime_t TimestampLastValid;
+    uint64  Timestamp;
+    uint64  TimestampLastValid;
     float   Channels[PX4_RC_INPUT_MAX_CHANNELS];
     uint32  FrameDropCount;
     uint8   ChannelCount;
@@ -919,24 +941,27 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
     boolean SafetySwitchAvailable;
     boolean SafetyOff;
 } PX4_SafetyMsg_t;
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint8 Count;
-    uint8 SVID[PX4_SAT_INFO_MAX_SATELLITES];
-    uint8 Used[PX4_SAT_INFO_MAX_SATELLITES];
-    uint8 Elevation[PX4_SAT_INFO_MAX_SATELLITES];
-    uint8 Azimuth[PX4_SAT_INFO_MAX_SATELLITES];
-    uint8 SNR[PX4_SAT_INFO_MAX_SATELLITES];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
+    uint8  Count;
+    uint8  SVID[PX4_SAT_INFO_MAX_SATELLITES];
+    uint8  Used[PX4_SAT_INFO_MAX_SATELLITES];
+    uint8  Elevation[PX4_SAT_INFO_MAX_SATELLITES];
+    uint8  Azimuth[PX4_SAT_INFO_MAX_SATELLITES];
+    uint8  SNR[PX4_SAT_INFO_MAX_SATELLITES];
 } PX4_SatelliteInfoMsg_t;
 
 typedef struct
 {
     uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     uint64 IntegralDt;
     uint64 ErrorCount;
     float  X;
@@ -958,6 +983,7 @@ typedef struct
 typedef struct
 {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     uint32 ErrorCount;
     float Pressure;
     float Altitude;
@@ -967,16 +993,17 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
     float   GyroRad[3];
     float   GyroIntegralDt;
-    CFE_TIME_SysTime_t  AccTimestamp;
+    uint64  AccTimestamp;
     boolean AccInvalid;
     float   Acc[3];
     float   AccIntegralDt;
-    CFE_TIME_SysTime_t  MagTimestamp;
+    uint64  MagTimestamp;
     boolean MagInvalid;
     float   Mag[3];
-    CFE_TIME_SysTime_t  BaroTimestamp;
+    uint64  BaroTimestamp;
     boolean BaroInvalid;
     float   BaroAlt;
     float   BaroTemp;
@@ -985,6 +1012,7 @@ typedef struct
 typedef struct
 {
     uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     uint64 IntegralDt;
     uint64 ErrorCount;
     float  X;
@@ -1006,6 +1034,7 @@ typedef struct
 typedef struct
 {
     uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     uint64 ErrorCount;
     float  X;
     float  Y;
@@ -1021,7 +1050,8 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
     PX4_SubsystemType_t SubsystemType;
     boolean Present;
     boolean Enabled;
@@ -1030,33 +1060,36 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    CFE_TIME_SysTime_t HeartbeatTime;
-    CFE_TIME_SysTime_t TelemTime;
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
+    uint64 HeartbeatTime;
+    uint64 TelemTime;
     uint16 RxErrors;
     uint16 Fixed;
     PX4_TelemetryStatusRadioType_t Type;
-    uint8 RSSI;
-    uint8 RemoteRSSI;
-    uint8 Noise;
-    uint8 RemoteNoise;
-    uint8 TxBuf;
-    uint8 SystemID;
-    uint8 ComponentID;
+    uint8  RSSI;
+    uint8  RemoteRSSI;
+    uint8  Noise;
+    uint8  RemoteNoise;
+    uint8  TxBuf;
+    uint8  SystemID;
+    uint8  ComponentID;
 } PX4_TelemetryStatusMsg_t;
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    float RollSpeed;
-    float PitchSpeed;
-    float YawSpeed;
-    float Q[4];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
+    float  RollSpeed;
+    float  PitchSpeed;
+    float  YawSpeed;
+    float  Q[4];
 } PX4_VehicleAttitudeMsg_t;
 
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
     float   RollBody;
     float   PitchBody;
     float   YawBody;
@@ -1076,6 +1109,7 @@ typedef struct
 typedef struct
 {
     uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     uint16 Command;
     PX4_VehicleCommandResult_t Result;
 } PX4_VehicleCommandAckMsg_t;
@@ -1084,6 +1118,7 @@ typedef struct
 typedef struct
 {
     uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
     double Param5;
     double Param6;
     float  Param1;
@@ -1102,6 +1137,7 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
     boolean Armed;
     boolean ExternalManualOverrideOk;
     boolean SystemHilEnabled;
@@ -1124,7 +1160,8 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    CFE_TIME_SysTime_t TimeUtc;
+    uint64  Timestamp;
+    uint64  TimeUtc;
     double  Lat;
     double  Lon;
     float   Alt;
@@ -1148,17 +1185,19 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    float VX;
-    float VY;
-    float VZ;
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
+    float  VX;
+    float  VY;
+    float  VZ;
 } PX4_VehicleGlobalVelocitySetpointMsg_t;
 
 
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    CFE_TIME_SysTime_t TimeUtc;
+    uint64  Timestamp;
+    uint64  TimeUtc;
     int32   Lat;
     int32   Lon;
     int32   Alt;
@@ -1176,7 +1215,7 @@ typedef struct
     float   Vel_e_m_s;
     float   Vel_d_m_s;
     float   COG;
-    CFE_TIME_SysTime_t TimestampTimeRelative;
+    int32   TimestampTimeRelative;
     PX4_GpsFixType_t FixType;
     boolean VelNedValid;
     uint8   SatellitesUsed;
@@ -1185,6 +1224,7 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
     float   AltMax;
     boolean Landed;
     boolean Freefall;
@@ -1194,6 +1234,7 @@ typedef struct
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
     uint64  RefTimestamp;
     double  RefLat;
     double  RefLon;
@@ -1235,31 +1276,34 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    float X;
-    float Y;
-    float Z;
-    float Yaw;
-    float VX;
-    float VY;
-    float VZ;
-    float AccX;
-    float AccY;
-    float AccZ;
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
+    float  X;
+    float  Y;
+    float  Z;
+    float  Yaw;
+    float  VX;
+    float  VY;
+    float  VZ;
+    float  AccX;
+    float  AccY;
+    float  AccZ;
 } PX4_VehicleLocalPositionSetpointMsg_t;
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    float Roll;
-    float Pitch;
-    float Yaw;
-    float Thrust;
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
+    float  Roll;
+    float  Pitch;
+    float  Yaw;
+    float  Thrust;
 } PX4_VehicleRatesSetpointMsg_t;
 
 typedef struct
 {
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
     uint32  SystemID;
     uint32  ComponentID;
     uint32  OnboardControlSensorsPresent;
@@ -1285,48 +1329,51 @@ typedef struct
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    float gyro_offset_0[3];
-    float gyro_scale_0[3];
-    float gyro_offset_1[3];
-    float gyro_scale_1[3];
-    float gyro_offset_2[3];
-    float gyro_scale_2[3];
-    float accel_offset_0[3];
-    float accel_scale_0[3];
-    float accel_offset_1[3];
-    float accel_scale_1[3];
-    float accel_offset_2[3];
-    float accel_scale_2[3];
-    float baro_offset_0;
-    float baro_scale_0;
-    float baro_offset_1;
-    float baro_scale_1;
-    float baro_offset_2;
-    float baro_scale_2;
-    uint8 selected_gyro_instance;
-    uint8 selected_accel_instance;
-    uint8 selected_baro_instance;
-    uint8 gyro_mapping[3];
-    uint8 accel_mapping[3];
-    uint8 baro_mapping[3];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
+    float  gyro_offset_0[3];
+    float  gyro_scale_0[3];
+    float  gyro_offset_1[3];
+    float  gyro_scale_1[3];
+    float  gyro_offset_2[3];
+    float  gyro_scale_2[3];
+    float  accel_offset_0[3];
+    float  accel_scale_0[3];
+    float  accel_offset_1[3];
+    float  accel_scale_1[3];
+    float  accel_offset_2[3];
+    float  accel_scale_2[3];
+    float  baro_offset_0;
+    float  baro_scale_0;
+    float  baro_offset_1;
+    float  baro_scale_1;
+    float  baro_offset_2;
+    float  baro_scale_2;
+    uint8  selected_gyro_instance;
+    uint8  selected_accel_instance;
+    uint8  selected_baro_instance;
+    uint8  gyro_mapping[3];
+    uint8  accel_mapping[3];
+    uint8  baro_mapping[3];
 } PX4_SensorCorrectionMsg_t;
 
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint8 LedMask;
-    uint8 Color;
-    uint8 Mode;
-    uint8 NumBlinks;
-    uint8 Priority;
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
+    uint8  LedMask;
+    uint8  Color;
+    uint8  Mode;
+    uint8  NumBlinks;
+    uint8  Priority;
 } PX4_LedControlMsg_t;
 
 typedef struct
 {
-    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint8 Frame[4096];
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64 Timestamp;
+    uint8  Frame[4096];
 } PX4_OpticalFlowFrameMsg_t;
 
 

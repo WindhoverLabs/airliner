@@ -32,7 +32,6 @@
 *****************************************************************************/
 
 #include "../pe_app.h"
-#include "cfs_utils.h"
 
 void PE::gpsInit()
 {
@@ -111,11 +110,11 @@ void PE::gpsInit()
                 double gpsLatOrigin = 0;
                 double gpsLonOrigin = 0;
                 /* reproject at current coordinates */
-                map_projection_init(&m_MapRef, gpsLat, gpsLon, CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp));
+                map_projection_init(&m_MapRef, gpsLat, gpsLon, HkTlm.Timestamp);
                 /* find origin */
                 map_projection_reproject(&m_MapRef, -m_StateVec[X_x], -m_StateVec[X_y], &gpsLatOrigin, &gpsLonOrigin);
                 /* reinit origin */
-                map_projection_init(&m_MapRef, gpsLatOrigin, gpsLonOrigin, CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp));
+                map_projection_init(&m_MapRef, gpsLatOrigin, gpsLonOrigin, HkTlm.Timestamp);
 
                 /* always override alt origin on first GPS to fix
                  * possible baro offset in global altitude at init
@@ -319,7 +318,7 @@ end_of_function:
 
 void PE::gpsCheckTimeout()
 {
-	if ((CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastGps)) > GPS_TIMEOUT)
+	if (HkTlm.Timestamp - HkTlm.TimeLastGps > GPS_TIMEOUT)
 	{
 		if (!HkTlm.GpsTimeout)
 		{

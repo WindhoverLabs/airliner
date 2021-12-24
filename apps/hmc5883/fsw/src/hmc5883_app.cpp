@@ -700,13 +700,13 @@ void HMC5883::ReadDevice(void)
     boolean returnBool      = FALSE;
     static uint8 temp_count = 0;
     int16 temp              = 0;
-    CFE_TIME_SysTime_t timeStamp = CFE_TIME_GetTime();
+    uint64 timeStamp        = PX4LIB_GetPX4TimeUs();
     float xraw_f            = 0;
     float yraw_f            = 0;
     float zraw_f            = 0;
 
     /* Timestamp */
-    CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&SensorMagMsg, timeStamp);
+    SensorMagMsg.Timestamp = timeStamp;
 
     /* Mag */
     returnBool = HMC5883_Custom_Measure(&SensorMagMsg.XRaw, &SensorMagMsg.YRaw, &SensorMagMsg.ZRaw);

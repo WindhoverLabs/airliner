@@ -32,7 +32,6 @@
 *****************************************************************************/
 
 #include "../pe_app.h"
-#include "cfs_utils.h"
 
 void PE::flowInit()
 {
@@ -135,8 +134,8 @@ int32 PE::flowMeasure(math::Vector2F &y)
 	}
 
 	/* Angular rotation in x, y axis */
-	gyro_x_rad = m_FlowGyroXHighPass.Update(m_OpticalFlowMsg.GyroXRateIntegral, CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastFlow) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp), FLOW_GYRO_HP_CUTOFF);
-	gyro_y_rad = m_FlowGyroYHighPass.Update(m_OpticalFlowMsg.GyroYRateIntegral, CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastFlow) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp), FLOW_GYRO_HP_CUTOFF);
+	gyro_x_rad = m_FlowGyroXHighPass.Update(m_OpticalFlowMsg.GyroXRateIntegral, HkTlm.TimeLastFlow - HkTlm.Timestamp, FLOW_GYRO_HP_CUTOFF);
+	gyro_y_rad = m_FlowGyroYHighPass.Update(m_OpticalFlowMsg.GyroYRateIntegral, HkTlm.TimeLastFlow - HkTlm.Timestamp, FLOW_GYRO_HP_CUTOFF);
 
 	/* Compute velocities in body frame using ground distance */
 	/* Note: Integral rates in the optical_flow msg are RH rotations about body axes */
@@ -290,23 +289,23 @@ void PE::flowCheckTimeout()
 {
     uint64 Timestamp = 0;
 
-	if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastFlow) == CFE_TIME_A_GT_B)
-	{
-        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastFlow);
+    if (HkTlm.Timestamp > HkTlm.TimeLastFlow)
+    {
+        Timestamp = HkTlm.Timestamp - HkTlm.TimeLastFlow;
     }
-	else if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastFlow) == CFE_TIME_A_LT_B)
-	{
-        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastFlow) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
+    else if (HkTlm.Timestamp < HkTlm.TimeLastFlow)
+    {
+        Timestamp = HkTlm.TimeLastFlow - HkTlm.Timestamp;
     }
 
-	if (Timestamp > FLOW_TIMEOUT)
-	{
-		if (!HkTlm.FlowTimeout)
-		{
-			HkTlm.FlowTimeout = TRUE;
-			m_FlowQStats.reset();
-			(void) CFE_EVS_SendEvent(PE_FLOW_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
-									 "Flow timeout: %llu us", Timestamp);
-		}
-	}
+    if (Timestamp > FLOW_TIMEOUT)
+    {
+        if (!HkTlm.FlowTimeout)
+        {
+            HkTlm.FlowTimeout = TRUE;
+            m_FlowQStats.reset();
+            (void) CFE_EVS_SendEvent(PE_FLOW_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
+                "Flow timeout: %llu us", Timestamp);
+        }
+    }
 }

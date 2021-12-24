@@ -32,7 +32,6 @@
 *****************************************************************************/
 
 #include "../pe_app.h"
-#include "cfs_utils.h"
 
 void PE::distInit()
 {
@@ -102,7 +101,7 @@ int32 PE::distMeasure(math::Vector1F &y)
 	y.Zero();
 	m_DistStats.update(d);
 	y[0] = (d + ConfigTblPtr->DIST_OFF_Z) * cosf(m_Euler[0]) * cosf(m_Euler[1]);
-	HkTlm.TimeLastDist = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&m_DistanceSensor);
+	HkTlm.TimeLastDist = m_DistanceSensor.Timestamp;
 
 distMeasure_Exit_Tag:
 	return Status;
@@ -175,7 +174,7 @@ void PE::distCorrect()
 
         if (HkTlm.DistFault)
         {
-        	HkTlm.DistFault = FALSE;
+            HkTlm.DistFault = FALSE;
             (void) CFE_EVS_SendEvent(PE_DIST_OK_INF_EID, CFE_EVS_INFORMATION,
                     "Dist OK r %5.2f m, beta %5.2f", m_Dist.r[0], m_Dist.beta);
 
@@ -208,23 +207,23 @@ void PE::distCheckTimeout()
 {
     uint64 Timestamp = 0;
 
-	if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastDist) == CFE_TIME_A_GT_B)
-	{
-        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastDist);
+    if (HkTlm.Timestamp > HkTlm.TimeLastDist)
+    {
+        Timestamp = HkTlm.Timestamp - HkTlm.TimeLastDist;
     }
-	else if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastDist) == CFE_TIME_A_LT_B)
-	{
-        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastDist) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
+    else if (HkTlm.Timestamp < HkTlm.TimeLastDist)
+    {
+        Timestamp = HkTlm.TimeLastDist - HkTlm.Timestamp;
     }
 
-	if (Timestamp > DIST_TIMEOUT)
-	{
-		if (!HkTlm.DistTimeout)
-		{
-			HkTlm.DistTimeout = TRUE;
-			m_DistStats.reset();
-			(void) CFE_EVS_SendEvent(PE_DIST_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
-									 "Dist timeout: %llu us", Timestamp);
-		}
-	}
+    if (Timestamp > DIST_TIMEOUT)
+    {
+        if (!HkTlm.DistTimeout)
+        {
+            HkTlm.DistTimeout = TRUE;
+            m_DistStats.reset();
+            (void) CFE_EVS_SendEvent(PE_DIST_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
+                "Dist timeout: %llu us", Timestamp);
+        }
+    }
 }

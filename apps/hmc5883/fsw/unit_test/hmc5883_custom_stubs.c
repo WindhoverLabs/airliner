@@ -80,6 +80,12 @@ boolean HMC5883_Custom_Measure(int16 *X, int16 *Y, int16 *Z)
 }
 
 
+uint64 PX4LIB_GetPX4TimeUs(void)
+{
+    return 0;
+}
+
+
 boolean HMC5883_Custom_ValidateID(void)
 {
     return TRUE;

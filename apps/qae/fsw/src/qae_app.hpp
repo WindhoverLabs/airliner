@@ -121,7 +121,7 @@ typedef struct
     PX4_SensorCombinedMsg_t        SensorCombinedMsg;
     
     /** \brief The last sensor combined message timestamp */
-    CFE_TIME_SysTime_t             LastSensorCombinedTime;
+    uint64                         LastSensorCombinedTime;
     
     /** \brief The vehicle global position message */
     PX4_VehicleGlobalPositionMsg_t VehicleGlobalPositionMsg;
@@ -345,6 +345,30 @@ public:
      **
      *************************************************************************/
     void ReportHousekeeping(void);
+
+    /************************************************************************/
+    /** \brief Sends the VehicleAttitudeMsg message.
+     **
+     **  \par Description
+     **       This function publishes the VehicleAttitudeMsg message.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     *************************************************************************/
+    void SendVehicleAttitudeMsg(void);
+
+    /************************************************************************/
+    /** \brief Sends the ControlStateMsg message.
+     **
+     **  \par Description
+     **       This function publishes the ControlStateMsg message.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     *************************************************************************/
+    void SendControlStateMsg(void);
 
     /************************************************************************/
     /** \brief Verify Command Length

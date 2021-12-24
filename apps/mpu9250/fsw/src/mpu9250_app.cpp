@@ -47,7 +47,6 @@
 #include "math/Vector3F.hpp"
 #include "px4lib.h"
 #include "px4lib_msgids.h"
-#include "cfs_utils.h"
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -776,7 +775,7 @@ void MPU9250::ReadDevice(void)
     float calX_f       = 0;
     float calY_f       = 0;
     float calZ_f       = 0;
-    CFE_TIME_SysTime_t timeStamp;
+    uint64 timeStamp   = 0;
     uint16 rawTemp     = 0;
     int16 calTemp      = 0;
     boolean returnBool = TRUE;
@@ -789,11 +788,12 @@ void MPU9250::ReadDevice(void)
     math::Vector3F aval_integrated;
 
     /* Get a timestamp */
-    timeStamp = CFE_TIME_GetTime();
+    timeStamp = PX4LIB_GetPX4TimeUs();
 
     /* Set measurement timestamps */
-    CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&SensorGyro, timeStamp);
-    CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&SensorAccel, timeStamp);
+    //SensorMag.Timestamp   = timeStamp;
+    SensorGyro.Timestamp  = timeStamp;
+    SensorAccel.Timestamp = timeStamp;
 
     /* Gyro */
     returnBool = MPU9250_Read_Gyro(&SensorGyro.XRaw, &SensorGyro.YRaw, &SensorGyro.ZRaw);
@@ -835,7 +835,7 @@ void MPU9250::ReadDevice(void)
     gval_integrated[1] = 0.0f;
     gval_integrated[2] = 0.0f;
 
-    _gyro_int.put(CFE_TIME_ConvertTimeToMicros(timeStamp), gval, gval_integrated, SensorGyro.IntegralDt);
+    _gyro_int.put(timeStamp, gval, gval_integrated, SensorGyro.IntegralDt);
     
     SensorGyro.XIntegral = gval_integrated[0];
     SensorGyro.YIntegral = gval_integrated[1];
@@ -887,7 +887,7 @@ void MPU9250::ReadDevice(void)
     aval_integrated[1] = 0.0f;
     aval_integrated[2] = 0.0f;
 
-    _accel_int.put(CFE_TIME_ConvertTimeToMicros(timeStamp), aval, aval_integrated, SensorAccel.IntegralDt);
+    _accel_int.put(timeStamp, aval, aval_integrated, SensorAccel.IntegralDt);
     
     SensorAccel.XIntegral = aval_integrated[0];
     SensorAccel.YIntegral = aval_integrated[1];

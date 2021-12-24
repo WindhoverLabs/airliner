@@ -115,6 +115,12 @@ boolean AK8963_PowerOn(void)
 }
 
 
+uint64 PX4LIB_GetPX4TimeUs(void)
+{
+    return 0;
+}
+
+
 boolean AK8963_RunSelfTest(void)
 {
     return TRUE;

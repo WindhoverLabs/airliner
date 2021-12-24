@@ -409,6 +409,32 @@ public:
     void SendActuatorArmedMsg(void);
 
     /************************************************************************/
+    /** \brief Sends the HomePositionMsg message.
+     **
+     **  \par Description
+     **       This function publishes the HomePositionMsg message containing
+     **       <TODO>
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     *************************************************************************/
+    void SendHomePositionMsg(void);
+
+    /************************************************************************/
+    /** \brief Sends the VehicleManagerStateMsg message.
+     **
+     **  \par Description
+     **       This function publishes the VehicleManagerStateMsg message containing
+     **       <TODO>
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     *************************************************************************/
+    void SendVehicleManagerStateMsg(void);
+
+    /************************************************************************/
     /** \brief Sends the MissionMsg message.
      **
      **  \par Description
@@ -446,6 +472,19 @@ public:
      **
      *************************************************************************/
     void SendVehicleStatusMsg(void);
+
+    /************************************************************************/
+    /** \brief Sends the VehicleControlModeMsg message.
+     **
+     **  \par Description
+     **       This function publishes the VehicleControlModeMsg message
+     **       containing <TODO>
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     *************************************************************************/
+    void SendVehicleControlModeMsg(void);
 
     /************************************************************************/
     /** \brief Sends the VehicleCommandMsg message.

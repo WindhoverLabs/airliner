@@ -40,7 +40,6 @@
 #include "pe_msg.h"
 #include "pe_version.h"
 #include "px4lib_msgids.h"
-#include "cfs_utils.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -363,13 +362,13 @@ void PE::InitData()
             PX4_VEHICLE_GLOBAL_POSITION_MID, sizeof(PX4_VehicleGlobalPositionMsg_t), TRUE);
 
     /* Timestamps */
-    HkTlm.Timestamp         = CFE_TIME_GetTime();
-    CFE_TIME_ClearTime(&HkTlm.TimeLastBaro);
-    CFE_TIME_ClearTime(&HkTlm.TimeLastGps);
-    CFE_TIME_ClearTime(&HkTlm.TimeLastLand);
-    CFE_TIME_ClearTime(&HkTlm.TimeLastDist);
-    CFE_TIME_ClearTime(&HkTlm.TimeLastFlow);
-    CFE_TIME_ClearTime(&HkTlm.Timestamp_Hist);
+    HkTlm.Timestamp             = PX4LIB_GetPX4TimeUs();
+    HkTlm.TimeLastBaro          = 0;
+    HkTlm.TimeLastGps           = 0;
+    HkTlm.TimeLastLand          = 0;
+    HkTlm.TimeLastDist          = 0;
+    HkTlm.TimeLastFlow          = 0;
+    HkTlm.Timestamp_Hist        = 0;
 
     /* Timeouts */
     HkTlm.BaroTimeout           = TRUE;
@@ -814,7 +813,7 @@ osalbool PE::ProcessDataPipe()
 					    if(landed())
 					    {
 						    /* Throttle rate */
-						    if((CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastLand)) > 1.0e6f / LAND_RATE)
+						    if((HkTlm.Timestamp - HkTlm.TimeLastLand) > 1.0e6f / LAND_RATE)
 						    {
 							    if(HkTlm.LandTimeout)
 							    {
@@ -861,7 +860,7 @@ osalbool PE::ProcessDataPipe()
 						     * Baro relative is the difference between the gyro and baro
 						     * when received by the sensors application. If baro is fresh.
 						     */
-						    if(CFE_TIME_Compare(m_SensorCombinedMsg.BaroTimestamp, HkTlm.TimeLastBaro) != CFE_TIME_EQUAL)
+						    if(m_SensorCombinedMsg.BaroTimestamp != HkTlm.TimeLastBaro)
 						    {
 							    if(HkTlm.BaroTimeout)
 							    {
@@ -901,7 +900,7 @@ osalbool PE::ProcessDataPipe()
 						    if(!landed())
 						    {
 							    /* Throttle rate */
-							    if((CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastLand)) > 1.0e6f / DIST_RATE)
+							    if((HkTlm.Timestamp - HkTlm.TimeLastLand) > 1.0e6f / DIST_RATE)
 							    {
 								    if(HkTlm.DistTimeout)
 								    {
@@ -1380,7 +1379,7 @@ void PE::SendVehicleLocalPositionMsg()
 
     if(data_valid)
     {
-        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_VehicleLocalPositionMsg);
+        m_VehicleLocalPositionMsg.Timestamp = HkTlm.Timestamp;
         /* TODO:  Set the time from m_Timestamp */
         //m_VehicleLocalPositionMsg.Timestamp = m_Timestamp;
         m_VehicleLocalPositionMsg.XY_Valid = HkTlm.XyEstValid;
@@ -1396,17 +1395,18 @@ void PE::SendVehicleLocalPositionMsg()
         m_VehicleLocalPositionMsg.Yaw = m_Euler[2];
         m_VehicleLocalPositionMsg.XY_Global = HkTlm.XyEstValid;
         m_VehicleLocalPositionMsg.Z_Global = !HkTlm.BaroTimeout;
-        m_VehicleLocalPositionMsg.RefTimestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
+        m_VehicleLocalPositionMsg.RefTimestamp = HkTlm.Timestamp;
         m_VehicleLocalPositionMsg.RefLat = m_MapRef.lat_rad * 180/M_PI;
         m_VehicleLocalPositionMsg.RefLon = m_MapRef.lon_rad * 180/M_PI;
         m_VehicleLocalPositionMsg.RefAlt = HkTlm.AltOrigin;
         m_VehicleLocalPositionMsg.DistBottom = m_AglLowPass.m_State;
         m_VehicleLocalPositionMsg.DistBottomRate = m_XLowPass[X_vz];
-        m_VehicleLocalPositionMsg.SurfaceBottomTimestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
+        m_VehicleLocalPositionMsg.SurfaceBottomTimestamp = HkTlm.Timestamp;
         m_VehicleLocalPositionMsg.DistBottomValid = dist_bottom_valid;
         m_VehicleLocalPositionMsg.EpH = eph;
         m_VehicleLocalPositionMsg.EpV = epv;
 
+        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_VehicleLocalPositionMsg);
         CFE_SB_SendMsg((CFE_SB_Msg_t*)&m_VehicleLocalPositionMsg);
     }
     else
@@ -1458,7 +1458,7 @@ void PE::SendVehicleGlobalPositionMsg()
 
     if(data_valid)
     {
-    	CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&m_VehicleGlobalPositionMsg, HkTlm.Timestamp);
+        m_VehicleGlobalPositionMsg.Timestamp = HkTlm.Timestamp;
         m_VehicleGlobalPositionMsg.TimeUtc = m_VehicleGpsPositionMsg.TimeUtc;
         m_VehicleGlobalPositionMsg.Lat = lat;
         m_VehicleGlobalPositionMsg.Lon = lon;
@@ -1474,6 +1474,7 @@ void PE::SendVehicleGlobalPositionMsg()
         m_VehicleGlobalPositionMsg.DeadReckoning = !HkTlm.XyEstValid;
         m_VehicleGlobalPositionMsg.PressureAlt = m_SensorCombinedMsg.BaroAlt;
 
+        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_VehicleGlobalPositionMsg);
         CFE_SB_SendMsg((CFE_SB_Msg_t*)&m_VehicleGlobalPositionMsg);
     }
     else
@@ -1606,12 +1607,12 @@ void PE::Update()
     osalbool VxyStdDevValid = FALSE;
     float dt = 0.0f;
     float dt_hist = 0.0f;
-    CFE_TIME_SysTime_t newTimestamp = CFE_TIME_GetTime();
+    uint64 newTimestamp = PX4LIB_GetPX4TimeUs();
     
     /* Update timestamps */
-    dt = (CFE_TIME_ConvertTimeToMicros(newTimestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp)) / 1.0e6f;
+    dt = (newTimestamp - HkTlm.Timestamp) / 1.0e6f;
     HkTlm.Timestamp = newTimestamp;
-    dt_hist = 1.0e-6f * (CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp_Hist));
+    dt_hist = 1.0e-6f * (HkTlm.Timestamp - HkTlm.Timestamp_Hist);
     CheckTimeouts();
 
     /* Check if local initialized */
@@ -1737,7 +1738,7 @@ void PE::Update()
         map_projection_init(&m_MapRef,
                             ConfigTblPtr->INIT_ORIGIN_LAT,
                             ConfigTblPtr->INIT_ORIGIN_LON,
-							CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp));
+                            HkTlm.Timestamp);
 
         (void) CFE_EVS_SendEvent(PE_GPS_OK_INF_EID, CFE_EVS_INFORMATION,
                                  "GPS fake origin init. Lat: %6.2f Lon: %6.2f Alt: %5.1f m",
@@ -1822,9 +1823,9 @@ void PE::Update()
      * delayed state still needs to be propagated with frozen state.
      */
 
-    if (CFE_TIME_IsTimeZero(HkTlm.Timestamp_Hist) || (dt_hist > HIST_STEP))
+    if (HkTlm.Timestamp_Hist == 0 || (dt_hist > HIST_STEP)) 
     {
-        m_TDelay.Update(CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp));
+        m_TDelay.Update(HkTlm.Timestamp);
         m_XDelay.Update(m_StateVec);
         HkTlm.Timestamp_Hist = HkTlm.Timestamp;
     }
@@ -1971,7 +1972,7 @@ int PE::getDelayPeriods(float delay, uint8 *periods)
 
     for(i_hist = 1; i_hist < HIST_LEN; i_hist++)
     {
-        t_delay = 1.0e-6f * (CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - m_TDelay.Get(i_hist));
+        t_delay = 1.0e-6f * (HkTlm.Timestamp - m_TDelay.Get(i_hist));
         if(t_delay > delay)
         {
             break;

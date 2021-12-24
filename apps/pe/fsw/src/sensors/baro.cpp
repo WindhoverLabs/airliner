@@ -32,7 +32,6 @@
 *****************************************************************************/
 
 #include "../pe_app.h"
-#include "cfs_utils.h"
 
 void PE::baroInit()
 {
@@ -173,27 +172,27 @@ void PE::baroCheckTimeout()
 {
     uint64 Timestamp = 0;
 
-	if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastBaro) == CFE_TIME_A_GT_B)
-	{
-        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastBaro);
+    if (HkTlm.Timestamp > HkTlm.TimeLastBaro)
+    {
+        Timestamp = HkTlm.Timestamp - HkTlm.TimeLastBaro;
     }
-	else if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastBaro) == CFE_TIME_A_LT_B)
-	{
-        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastBaro) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
+    else if (HkTlm.Timestamp < HkTlm.TimeLastBaro)
+    {
+        Timestamp = HkTlm.TimeLastBaro - HkTlm.Timestamp;
     }
     else
     {
         Timestamp = 0;
     }
 
-	if (Timestamp > BARO_TIMEOUT)
-	{
-		if (!HkTlm.BaroTimeout)
-		{
-			HkTlm.BaroTimeout = TRUE;
-			m_BaroStats.reset();
-			(void) CFE_EVS_SendEvent(PE_BARO_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
-									 "Baro timeout: %llu us", Timestamp);
-		}
-	}
+    if (Timestamp > BARO_TIMEOUT)
+    {
+        if (!HkTlm.BaroTimeout)
+        {
+            HkTlm.BaroTimeout = TRUE;
+            m_BaroStats.reset();
+            (void) CFE_EVS_SendEvent(PE_BARO_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
+                "Baro timeout: %llu us", Timestamp);
+        }
+    }
 }

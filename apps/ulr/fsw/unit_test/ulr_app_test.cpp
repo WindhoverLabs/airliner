@@ -222,8 +222,14 @@ void Test_ULR_InitData(void)
 {
     ULR oULR;
 
+    /* Set a fail result */
+    int32 expected = CFE_SUCCESS;
+
     /* Execute the function being tested */
     oULR.InitData();
+
+    /* Verify results */
+    //UtAssert_True (result == expected, "InitData");
 }
 
 
