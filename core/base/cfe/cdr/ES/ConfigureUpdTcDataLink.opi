@@ -160,7 +160,7 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_PYTHONSCRIPT">
-        <path>Resources/Scripts/configure_udp_tc_data_link.py</path>
+        <path>resources/scripts/configure_udp_tc_data_link.py</path>
         <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
 ]]></scriptText>
         <embedded>false</embedded>
@@ -187,7 +187,7 @@
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

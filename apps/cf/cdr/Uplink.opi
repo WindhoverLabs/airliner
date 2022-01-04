@@ -71,7 +71,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'UP', 'Spare_0_':
       <color red="240" green="240" blue="240" />
     </foreground_color>
     <height>21</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

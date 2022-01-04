@@ -24,7 +24,7 @@
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
-  <name></name>
+  <name>($(CPUID)) PX4LIB</name>
   <rules />
   <scripts />
   <show_close_button>true</show_close_button>

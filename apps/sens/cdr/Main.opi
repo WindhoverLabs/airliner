@@ -293,7 +293,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/sens/Noop', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -349,7 +349,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/sens/Reset', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -466,7 +466,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/sens/SendHK', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_3</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -522,7 +522,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/sens/WakeUp', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_4</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -775,7 +775,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Core/ES/Resources/Templates/ApplicationControl_App.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Core/ES/resources/templates/ApplicationControl_App.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>

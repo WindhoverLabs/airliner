@@ -67,7 +67,7 @@
       <color name="Display Background" red="255" green="255" blue="255" />
     </foreground_color>
     <height>24</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>Action Button_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

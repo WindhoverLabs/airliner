@@ -27,7 +27,7 @@
   <name>($(CPUID)) ReloadApp</name>
   <rules />
   <scripts>
-    <path pathString="Resources/Scripts/ReloadApplicationInit.py" checkConnect="true" seoe="false">
+    <path pathString="resources/scripts/ReloadApplicationInit.py" checkConnect="true" seoe="false">
       <pv trig="true">=1</pv>
     </path>
   </scripts>
@@ -79,7 +79,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/AppReload', {
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>25</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

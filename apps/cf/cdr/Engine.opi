@@ -1998,7 +1998,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cf/Freeze', {});
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_16</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2055,7 +2055,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cf/Thaw', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_17</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

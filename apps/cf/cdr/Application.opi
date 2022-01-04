@@ -253,7 +253,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cf/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2132,7 +2132,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': 'ENABLE'}
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_2</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2188,7 +2188,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': 'DISABLE'
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_3</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -2267,7 +2267,7 @@ $(pv_value)</tooltip>
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="OPEN_DISPLAY">
-        <path>/Displays/$(CPUID)/Core/ES/Resources/Templates/MemoryPoolViewer.opi</path>
+        <path>/Displays/$(CPUID)/Core/ES/resources/templates/MemoryPoolViewer.opi</path>
         <macros>
           <include_parent_macros>true</include_parent_macros>
         </macros>
@@ -2353,7 +2353,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'CMD', 'Spare_0_'
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_4</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

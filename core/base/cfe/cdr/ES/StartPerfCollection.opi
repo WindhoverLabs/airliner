@@ -159,7 +159,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/PerfStart', {'Payload.TriggerMode': tri
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>29</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>Action Button</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

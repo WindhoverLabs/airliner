@@ -783,7 +783,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/pe/EnableGPS', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_2</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -839,7 +839,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/pe/DisableGPS', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_3</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

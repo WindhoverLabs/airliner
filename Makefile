@@ -130,7 +130,7 @@ $(GENERIC_TARGET_NAMES)::
 		((idx++)); \
 	done; \
 	TARGET_PATH=$$(echo ${GENERIC_TARGET_PATHS} | cut -d " " -f $$idx); \
-		echo "Generating complete design/configuration definition file, 'wh_defs.yaml'"; \
+		echo "Generating complete design/configuration definition file, 'registry.yaml'"; \
 	if [ -f "$(CONFIG_DIR)/$$TARGET_PATH/wh_config.yaml" ]; then \
 			mkdir -p build/$$TARGET_PATH/target; \
 			python3 core/base/tools/config/wh_defgen.py $(CONFIG_DIR)/$$TARGET_PATH/ build/$$TARGET_PATH/target/wh_defs.yaml; \

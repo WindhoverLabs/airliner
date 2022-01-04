@@ -155,7 +155,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/to/QueryPriorityQueue', {
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>20</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
