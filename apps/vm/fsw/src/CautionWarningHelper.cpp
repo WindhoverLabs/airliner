@@ -71,6 +71,7 @@ void CautionWarningHelper::InitCAWS(void)
     m_LedControlMsg.Mode        = LED_MODE_OFF;
     m_LedControlMsg.NumBlinks   = 0;
     m_LedControlMsg.Priority    = 0;
+    m_LedControlMsg.Timestamp   = 0;
     /* Set state to initialized */
     m_State = CAWS_INITIALIZED;
     InitRGBLED();
@@ -103,7 +104,7 @@ void CautionWarningHelper::InitRGBLED(void)
 {
     CFE_SB_InitMsg(&m_LedControlMsg, PX4_LED_CONTROL_MID, 
             sizeof(m_LedControlMsg), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_LedControlMsg);
+    m_LedControlMsg.Timestamp = PX4LIB_GetPX4TimeUs();
     m_LedControlMsg.LedMask = 0xFF;
     m_LedControlMsg.Color = LED_COLOR_OFF;
     m_LedControlMsg.Mode = LED_MODE_OFF;
@@ -455,13 +456,14 @@ end_of_function:
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CautionWarningHelper::RGBLedSetColorAndMode(LED_Colors_t color, LED_Modes_t mode, uint8 blinks, uint8 prio)
 {
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_LedControlMsg);
+    m_LedControlMsg.Timestamp = PX4LIB_GetPX4TimeUs();
     m_LedControlMsg.Color = color;
     m_LedControlMsg.Mode = mode;
     m_LedControlMsg.NumBlinks = blinks;
     m_LedControlMsg.Priority = prio;
 
     /* Send the LED control message */
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_LedControlMsg);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&m_LedControlMsg);
 } /* End CautionWarningHelper::RGBLedSetColorAndMode() */
 

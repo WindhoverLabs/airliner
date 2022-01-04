@@ -31,11 +31,13 @@
 *
 *****************************************************************************/
 
+#include "to_platform_cfg.h"
 #include "to_app.h"
 #include "to_output_queue.h"
 #include "to_custom.h"
 #include "cfe_evs_msg.h"
 #include <stddef.h>
+#include <string.h>
 
 uint32  TO_MemPoolDefSize[TO_MAX_MEMPOOL_BLK_SIZES] =
 {
@@ -84,7 +86,7 @@ int32 TO_OutputQueue_Init(TO_ChannelData_t* channel)
 /* Buildup a channel output queue                                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 TO_OutputQueue_Buildup(TO_ChannelData_t* channel, char* CfCntSemName, uint32 CfCntSemMax)
+int32 TO_OutputQueue_Buildup(TO_ChannelData_t* channel, const char *CfCntSemName, uint32 CfCntSemMax)
 {
     int32 status = OS_SUCCESS;
 
@@ -245,15 +247,11 @@ void TO_OutputQueue_ResetCounts(TO_ChannelData_t *channel)
 
 osalbool TO_OutputQueue_IsFull(TO_ChannelData_t *channel)
 {
-    osalbool isFull;
+    osalbool isFull = FALSE;
 
     if(channel->OutputQueue.CurrentlyQueuedCnt >= TO_OUTPUT_QUEUE_DEPTH)
     {
     	isFull = TRUE;
-    }
-    else
-    {
-    	isFull = FALSE;
     }
 
     return isFull;

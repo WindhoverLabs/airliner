@@ -54,6 +54,9 @@ buildliner_add_app_def(px4lib
     REFERENCE_CONFIG
         ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/mission_inc
         ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/platform_inc
+        
+    COMMANDER_DISPLAYS 
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
 )
 
 buildliner_add_app_unit_test(px4lib-vector1f-ut

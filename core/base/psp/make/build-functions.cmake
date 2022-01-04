@@ -52,7 +52,7 @@ include(${PROJECT_SOURCE_DIR}/core/tools/auto-yamcs/build-functions.cmake)
 #)
 function(psp_buildliner_initialize)
     # Define the function arguments.
-    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_WORKSPACE_OVERLAY" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_DISPLAYS;COMMANDER_WORKSPACE_OVERLAY;COMMANDER_CUSTOM_MACRO_BLOCK" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
     
     # Create all the target directories the caller requested.
     foreach(dir ${PARSED_ARGS_FILESYS})
@@ -65,13 +65,20 @@ function(psp_buildliner_initialize)
         set_property(GLOBAL PROPERTY IS_REFERENCE_BUILD true)
     endif()
     
-    if(NOT PARSED_ARGS_COMMANDER_WORKSPACE)
-        set(PARSED_ARGS_COMMANDER_WORKSPACE ${CMAKE_BINARY_DIR}/commander_workspace)
-    endif()
+    #if(PARSED_ARGS_COMMANDER_WORKSPACE)
+    #    set(COMMANDER_WORKSPACE ${CMAKE_BINARY_DIR}/commander_workspace)
+    #else()
+        set(COMMANDER_WORKSPACE ${PARSED_ARGS_COMMANDER_WORKSPACE})
+    #endif()
+    set(COMMANDER_DISPLAYS ${COMMANDER_WORKSPACE}/Displays)
+    set_property(GLOBAL PROPERTY COMMANDER_WORKSPACE ${COMMANDER_WORKSPACE})
+    set_property(GLOBAL PROPERTY COMMANDER_DISPLAYS ${COMMANDER_DISPLAYS})
     
     if(NOT PARSED_ARGS_CPU_ID)
         set(PARSED_ARGS_CPU_ID cfs)
     endif()
+    set(BUILDLINER_CDR_CPUID ${PARSED_ARGS_CPU_ID})
+    set_property(GLOBAL PROPERTY BUILDLINER_CDR_CPUID ${BUILDLINER_CDR_CPUID})
     
     # Get the latest abbreviated commit hash of the working branch
     execute_process(
@@ -89,24 +96,56 @@ function(psp_buildliner_initialize)
         CONFIG_FILE           ${CMAKE_BINARY_DIR}/wh_defs.yaml
         XTCE_CONFIG_FILE      ${PROJECT_SOURCE_DIR}/core/base/tools/commander/xtce_config.yaml
         WORKSPACE_TEMPLATE    ${PROJECT_SOURCE_DIR}/core/base/tools/commander/workspace_template
-        WORKSPACE_OUTPUT_PATH ${PARSED_ARGS_COMMANDER_WORKSPACE}
+        WORKSPACE_OUTPUT_PATH ${COMMANDER_WORKSPACE}
         OUTPUT_DB_FILE        wh_defs.db
         OUTPUT_XTCE_FILE      mdb/${PARSED_ARGS_CPU_ID}.xml
     )
     set_target_properties(commander-workspace PROPERTIES EXCLUDE_FROM_ALL TRUE)
     add_dependencies(ground-tools commander-workspace)
     
+    # Read the Commander Macro block
+    file(READ ${PSP_CDR_MACRO_BLOCK_FILE} BUILDLINER_CDR_MACRO_BLOCK)
+    if(PARSED_ARGS_COMMANDER_CUSTOM_MACRO_BLOCK)
+        file(READ ${PARSED_ARGS_COMMANDER_CUSTOM_MACRO_BLOCK} BUILDLINER_CDR_MACRO_BLOCK_CUSTOM)
+    else()
+        set(BUILDLINER_CDR_MACRO_BLOCK_CUSTOM "")
+    endif()
+    set_property(GLOBAL PROPERTY BUILDLINER_CDR_MACRO_BLOCK        ${BUILDLINER_CDR_MACRO_BLOCK})
+    set_property(GLOBAL PROPERTY BUILDLINER_CDR_MACRO_BLOCK_CUSTOM ${BUILDLINER_CDR_MACRO_BLOCK_CUSTOM})
+        
+    # Copy in the Commander CFE displays
+    file(GLOB_RECURSE files "${CFE_COMMANDER_DISPLAYS}/*" "${CFE_COMMANDER_DISPLAYS}/.*")
+    foreach(inFile ${files})
+        get_filename_component(inFileExt ${inFile} EXT)
+        file(RELATIVE_PATH outFile ${CFE_COMMANDER_DISPLAYS} ${inFile})
+
+        if(${inFileExt} STREQUAL ".opi")
+            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
+            get_filename_component(outFileName ${inFile} NAME_WE)
+            set(outFile ${outFilePath}/${outFileName}.opi)
+            configure_file(${inFile} ${outFile} @ONLY)
+        else()
+            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
+            file(COPY ${inFile} DESTINATION "${outFilePath}")
+        endif()
+    endforeach(inFile)
+
+    # Copy in the Commander overlay
     if(PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY)
-        add_custom_target(commander_workspace_overlay
-            COMMAND cp -R -f ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/* ${PARSED_ARGS_COMMANDER_WORKSPACE}/
-        )
-        add_dependencies(ground-tools commander_workspace_overlay)
-        add_dependencies(commander_workspace_overlay commander-workspace)
+        file(GLOB_RECURSE files "${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/*" "${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/.*")
+        foreach(inFile ${files})
+            file(RELATIVE_PATH outFile ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY} ${inFile})
+            message("${inFile}")
+            get_filename_component(outFilePath ${COMMANDER_WORKSPACE}/${outFile} DIRECTORY)
+            get_filename_component(outFileName ${inFile} NAME)
+            set(outFile ${outFilePath}/${outFileName})
+            configure_file(${inFile} ${outFile} @ONLY)
+        endforeach(inFile)
     endif()
     
     # Add a build target to launch YAMCS with our newly created workspace.
     add_custom_target(start-yamcs 
-        COMMAND ${PARSED_ARGS_COMMANDER_WORKSPACE}/bin/yamcs-start /opt/yamcs/ ${PARSED_ARGS_COMMANDER_WORKSPACE}
+        COMMAND ${COMMANDER_WORKSPACE}/bin/yamcs-start /opt/yamcs/ ${COMMANDER_WORKSPACE}
     )
         
     # Add the 'build-file-system' target.  This is used to trigger the steps to embed the initial ramdisk 
@@ -509,7 +548,7 @@ endfunction(psp_buildliner_add_app)
 #)
 function(psp_buildliner_add_app_def)
     set(PARSED_ARGS_TARGET ${ARGV0})
-    cmake_parse_arguments(PARSED_ARGS ""  "FILE;DESIGN_DEFINITION" "COMPILE_OPTIONS;SOURCES;LIBS;INCLUDES;PUBLIC_INCLUDES;DESIGN_DOCS;REFERENCE_CONFIG" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS ""  "FILE;DESIGN_DEFINITION" "COMPILE_OPTIONS;SOURCES;LIBS;INCLUDES;PUBLIC_INCLUDES;DESIGN_DOCS;REFERENCE_CONFIG;COMMANDER_DISPLAYS" ${ARGN})
     
     get_property(PUBLIC_APP_INCLUDES GLOBAL PROPERTY PUBLIC_APP_INCLUDES_PROPERTY)
     set(PUBLIC_APP_INCLUDES "${PUBLIC_APP_INCLUDES} ${PARSED_ARGS_PUBLIC_INCLUDES}")
@@ -595,6 +634,30 @@ function(psp_buildliner_add_app_def)
             TARGET_NAME        ${PARSED_ARGS_TARGET}
         )
     endif()
+    
+    # Copy in the Commander displays, if specified
+    if(PARSED_ARGS_COMMANDER_DISPLAYS)
+        get_property(COMMANDER_DISPLAYS GLOBAL PROPERTY COMMANDER_DISPLAYS)
+        get_property(BUILDLINER_CDR_CPUID GLOBAL PROPERTY BUILDLINER_CDR_CPUID)
+        get_property(BUILDLINER_CDR_MACRO GLOBAL PROPERTY BUILDLINER_CDR_MACRO)
+        get_property(BUILDLINER_CDR_MACRO_BLOCK GLOBAL PROPERTY BUILDLINER_CDR_MACRO_BLOCK)
+
+        file(GLOB_RECURSE files ${PARSED_ARGS_COMMANDER_DISPLAYS}/*)
+        foreach(inFile ${files})
+            get_filename_component(inFileExt ${inFile} EXT)
+            file(RELATIVE_PATH outFile ${PARSED_ARGS_COMMANDER_DISPLAYS} ${inFile})
+
+            if(${inFileExt} STREQUAL ".opi")
+                get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Apps/${PARSED_ARGS_TARGET}/${outFile} DIRECTORY)
+                get_filename_component(outFileName ${inFile} NAME_WE)
+                set(outFile ${outFilePath}/${outFileName}.opi)
+                configure_file(${inFile} ${outFile} @ONLY)
+            else()
+                get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Apps/${PARSED_ARGS_TARGET}/${outFile} DIRECTORY)
+                file(COPY ${inFile} DESTINATION "${outFilePath}")
+            endif()
+        endforeach(inFile)
+    endif()    
 endfunction(psp_buildliner_add_app_def)
 
 

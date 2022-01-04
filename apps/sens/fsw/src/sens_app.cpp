@@ -12,7 +12,6 @@
 #include <math.h>
 #include "px4lib.h"
 #include "px4lib_msgids.h"
-#include "cfs_utils.h"
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -549,6 +548,12 @@ void SENS::SendManualControlSetpointMsg()
 //    CFE_SB_SendMsg((CFE_SB_Msg_t*)&SensorPreflightMsg);
 //}
 
+void SENS::SendSensorCombinedMsg()
+{
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&SensorCombinedMsg);
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&SensorCombinedMsg);
+}
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -773,9 +778,7 @@ void SENS::UpdateRcFunctions()
 
 void SENS::ProcessRCInput(void)
 {
-	CFE_TIME_SysTime_t inputRcMsgTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.InputRcMsg);
-
-	if(CFE_TIME_Compare(inputRcMsgTime, CVT.LastInputRcTime) == CFE_TIME_A_GT_B)
+	if(CVT.InputRcMsg.Timestamp > CVT.LastInputRcTime)
 	{
 		/* Read low-level values from FMU or IO RC inputs (PPM, Spektrum, S.Bus) */
 		//struct rc_input_values rc_input;
@@ -853,13 +856,13 @@ void SENS::ProcessRCInput(void)
 			 */
 			if (CVT.InputRcMsg.Values[i] > (ConfigTblPtr->Trim[i] + ConfigTblPtr->DZ[i]))
 			{
-				CFE_SB_CopyMsgTime((CFE_SB_MsgPtr_t)&RcChannelsMsg, (CFE_SB_MsgPtr_t)&CVT.InputRcMsg);
 				RcChannelsMsg.Channels[i] = (CVT.InputRcMsg.Values[i] - ConfigTblPtr->Trim[i] - ConfigTblPtr->DZ[i]) / (float)(
 						ConfigTblPtr->Max[i] - ConfigTblPtr->Trim[i] - ConfigTblPtr->DZ[i]);
 
 				RcChannelsMsg.ChannelCount = CVT.InputRcMsg.ChannelCount;
 				RcChannelsMsg.RSSI = CVT.InputRcMsg.RSSI;
 				RcChannelsMsg.SignalLost = signal_lost;
+				RcChannelsMsg.Timestamp = CVT.InputRcMsg.Timestamp;
 				RcChannelsMsg.TimestampLastValid = CVT.InputRcMsg.LastSignal;
 				RcChannelsMsg.FrameDropCount = CVT.InputRcMsg.RcLostFrameCount;
 			}
@@ -886,20 +889,20 @@ void SENS::ProcessRCInput(void)
 		RcChannelsMsg.ChannelCount = CVT.InputRcMsg.ChannelCount;
 		RcChannelsMsg.RSSI = CVT.InputRcMsg.RSSI;
 		RcChannelsMsg.SignalLost = signal_lost;
-		CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&RcChannelsMsg, CVT.InputRcMsg.LastSignal);
+		RcChannelsMsg.Timestamp = CVT.InputRcMsg.LastSignal;
 		RcChannelsMsg.FrameDropCount = CVT.InputRcMsg.RcLostFrameCount;
 
 		/* Publish rc_channels topic even if signal is invalid, for debug */
 		SendRcChannelsMsg();
 
 		/* Only publish manual control if the signal is still present and was present once */
-		if (!signal_lost && !CFE_TIME_IsTimeZero(CVT.InputRcMsg.LastSignal))
+		if (!signal_lost && CVT.InputRcMsg.LastSignal > 0)
 		{
 			/* Set mode slot to unassigned */
 			ManualControlSetpointMsg.ModeSlot = PX4_MODE_SLOT_NONE;
 
 			/* Set the timestamp to the last signal time */
-			CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&ManualControlSetpointMsg, CVT.InputRcMsg.LastSignal);
+			ManualControlSetpointMsg.Timestamp = CVT.InputRcMsg.LastSignal;
 			ManualControlSetpointMsg.DataSource = PX4_MANUAL_CONTROL_SOURCE_RC;
 
 			/* Limit controls */
@@ -1004,7 +1007,7 @@ void SENS::ProcessRCInput(void)
             }
 
 			/* Copy from mapped manual control to control group 3 */
-            CFE_SB_SetMsgTime((CFE_SB_MsgPtr_t)&ActuatorControls3Msg, CVT.InputRcMsg.LastSignal);
+			ActuatorControls3Msg.Timestamp = CVT.InputRcMsg.LastSignal;
 
 			ActuatorControls3Msg.Control[0] = ManualControlSetpointMsg.Y;
 			ActuatorControls3Msg.Control[1] = ManualControlSetpointMsg.X;
@@ -1019,157 +1022,190 @@ void SENS::ProcessRCInput(void)
 			SendManualControlSetpointMsg();
 
 			/* Publish Actuator Controls 3 message */
-		    CFE_SB_SendMsg((CFE_SB_Msg_t*)&ActuatorControls3Msg);
+			SendActuatorControls3Msg();
 		}
 
-		CVT.LastInputRcTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.InputRcMsg);
+		CVT.LastInputRcTime = CVT.InputRcMsg.Timestamp;
 	}
 }
 
 
 void SENS::CombineSensorInput(void)
 {
+    SensorCombinedMsg.Timestamp = CVT.SensorGyroMsg.Timestamp;
+
     /* Gyro */
-    /* See if we have a new gyro measurement.  Gyro is a required sensor, so we only
-     * publish a new message if there is a new gyro measurement. */
-    if(CFE_TIME_Compare(CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorGyroMsg),CVT.PrevGyroTime) != CFE_TIME_EQUAL)
+	/* See if we have a new gyro measurement.  Gyro is a required sensor, so we only
+	 * publish a new message if there is a new gyro measurement. */
+    if(CVT.SensorGyroMsg.Timestamp > CVT.LastGyroTime)
     {
-        CFE_SB_CopyMsgTime((CFE_SB_MsgPtr_t)&SensorCombinedMsg, (CFE_SB_MsgPtr_t)&CVT.SensorGyroMsg);
+    	/* We do have a new measurement.  Update the fields accordingly.
+    	 * First populate the measurement values.
+    	 */
+    	SensorCombinedMsg.GyroRad[0] = CVT.SensorGyroMsg.X;
+    	SensorCombinedMsg.GyroRad[1] = CVT.SensorGyroMsg.Y;
+    	SensorCombinedMsg.GyroRad[2] = CVT.SensorGyroMsg.Z;
 
-        /* We do have a new measurement.  Update the fields accordingly.
-         * First populate the measurement values.
-         */
-        SensorCombinedMsg.GyroRad[0] = CVT.SensorGyroMsg.X;
-        SensorCombinedMsg.GyroRad[1] = CVT.SensorGyroMsg.Y;
-        SensorCombinedMsg.GyroRad[2] = CVT.SensorGyroMsg.Z;
+    	/* Finally, calculate and populate the integral dt field, in seconds.  If the incoming
+    	 * message does not include a integral dt field, estimate the integral by using the delta
+    	 * from the previously received message that we calculated above.
+    	 */
+		if(CVT.SensorGyroMsg.IntegralDt == 0)
+		{
+			/* Calculate an estimate from the previous value.  But use
+			 * an even less accurate estimate if we don't yet have a
+			 * previous time.
+			 */
+	    	uint32 deltaTimeUs = 0;
 
-        /* Finally, calculate and populate the integral dt field, in seconds.  If the incoming
-         * message does not include a integral dt field, estimate the integral by using the delta
-         * from the previously received message that we calculated above.
-         */
-        if(CVT.SensorGyroMsg.IntegralDt == 0)
-        {
-            /* Calculate an estimate from the previous value.  But use
-             * an even less accurate estimate if we don't yet have a
-             * previous time.
-             */
-            uint32 deltaTimeUs = 0;
+	    	if(CVT.LastGyroTime == 0)
+	    	{
+	    		deltaTimeUs = CVT.SensorGyroMsg.Timestamp - 1000;
+	    	}
+	    	else
+	    	{
+	    		deltaTimeUs = CVT.SensorGyroMsg.Timestamp - CVT.LastGyroTime;
+	    	}
 
-            if(CFE_TIME_IsTimeZero(CVT.PrevGyroTime))
-            {
-                deltaTimeUs = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorGyroMsg) - 1000;
-            }
+			SensorCombinedMsg.GyroIntegralDt = deltaTimeUs / 1000000.0f;
+		}
+		else
+		{
+			/* The sample includes an integral dt time.  Use this but
+			 * convert it to seconds.
+			 */
+			SensorCombinedMsg.GyroIntegralDt = CVT.SensorGyroMsg.IntegralDt / 1000000.0f;
+		}
+
+		/* Store the time so we can use it in the next iteration. */
+    	CVT.LastGyroTime = CVT.SensorGyroMsg.Timestamp;
+
+		/* Accelerometer. */
+		/* See if we have a new accelerometer measurement. */
+		if(CVT.SensorAccelMsg.Timestamp > CVT.LastAccelTime)
+		{
+			/* We do have a new measurement.  Update the fields accordingly.
+			 * First populate the new values.
+			 */
+			SensorCombinedMsg.Acc[0] = CVT.SensorAccelMsg.X;
+			SensorCombinedMsg.Acc[1] = CVT.SensorAccelMsg.Y;
+			SensorCombinedMsg.Acc[2] = CVT.SensorAccelMsg.Z;
+
+			/* Now calculate and populate the time relative to the main timestamp. */
+			SensorCombinedMsg.AccTimestamp = CVT.SensorAccelMsg.Timestamp;
+
+			/* Finally, calculate and pupulate the integral dt field, in seconds.  If the incoming
+			 * message does not include a integral dt field, estimate the integral by using the delta
+			 * from the previously received message that we calculated above.
+			 */
+			if(CVT.SensorAccelMsg.IntegralDt == 0)
+			{
+				/* Calculate an estimate from the previous value.  But use
+				 * an even less accurate estimate if we don't yet have a
+				 * previous time.
+				 */
+				uint32 deltaTimeUs = 0;
+
+				if(CVT.LastAccelTime == 0)
+				{
+					deltaTimeUs = CVT.SensorAccelMsg.Timestamp - 1000;
+				}
+				else
+				{
+					deltaTimeUs = CVT.SensorAccelMsg.Timestamp - CVT.LastAccelTime;
+				}
+
+				SensorCombinedMsg.AccIntegralDt = deltaTimeUs / 1000000.0f;
+			}
+			else
+			{
+				/* The sample includes an integral dt time.  Use this but
+				 * convert it to seconds.
+				 */
+				SensorCombinedMsg.AccIntegralDt = CVT.SensorAccelMsg.IntegralDt / 1000000.0f;
+			}
+
+			SensorCombinedMsg.AccInvalid = false;
+
+			/* Store the time so we can use it in the next iteration. */
+			CVT.LastAccelTime = CVT.SensorAccelMsg.Timestamp;
+		}
+		else
+		{
+			/* No new measurement was received.  Update the fields accordingly.  */
+			//CVT.SensorAccelMsg.Timestamp  = PX4_RELATIVE_TIMESTAMP_INVALID;
+			SensorCombinedMsg.AccInvalid = true;
+		}
+
+		/* Mag. */
+		/* See if we have a new magnetometer measurement. */
+		if(CVT.SensorMagMsg.Timestamp > CVT.LastMagTime)
+		{
+			/* We do have a new measurement.  Update the fields accordingly.
+			 * First populate the new values.
+			 */
+			SensorCombinedMsg.Mag[0] = CVT.SensorMagMsg.X;
+			SensorCombinedMsg.Mag[1] = CVT.SensorMagMsg.Y;
+			SensorCombinedMsg.Mag[2] = CVT.SensorMagMsg.Z;
+
+			/* Now calculate and populate the time relative to the main timestamp. */
+			SensorCombinedMsg.MagTimestamp = CVT.SensorMagMsg.Timestamp;
+
+			SensorCombinedMsg.MagInvalid = false;
+
+			/* Store the time so we can use it in the next iteration. */
+			CVT.LastMagTime = CVT.SensorMagMsg.Timestamp;
+		}
+		else
+		{
+			/* No new measurement was received.  Update the fields accordingly.  */
+			//CVT.SensorMagMsg.Timestamp  = PX4_RELATIVE_TIMESTAMP_INVALID;
+			SensorCombinedMsg.MagInvalid = true;
+		}
+
+		/* Baro. */
+		/* See if we have a new baro measurement. */
+		//baro_timestamp = sensors.timestamp + sensors.baro_timestamp_relative;
+		if(CVT.SensorBaroMsg.Timestamp > CVT.LastBaroTime)
+		{
+			/* We do have a new measurement.  Update the fields accordingly.
+			 * First populate the new values.
+			 */
+			SensorCombinedMsg.BaroAlt = CVT.SensorBaroMsg.Altitude;
+			SensorCombinedMsg.BaroTemp = CVT.SensorBaroMsg.Temperature;
+
+			/* Now calculate and populate the time relative to the main timestamp. */
+			if(SensorCombinedMsg.Timestamp > CVT.SensorBaroMsg.Timestamp)
+			{
+                /* if gyro is after baro */
+                SensorCombinedMsg.BaroTimestamp = CVT.SensorBaroMsg.Timestamp;
+			}
+			else if (SensorCombinedMsg.Timestamp < CVT.SensorBaroMsg.Timestamp)
+			{
+                /* if gyro is before baro */
+                SensorCombinedMsg.BaroTimestamp = CVT.SensorBaroMsg.Timestamp;
+			}
             else
             {
-                deltaTimeUs = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorGyroMsg) - CFE_TIME_ConvertTimeToMicros(CVT.PrevGyroTime);
+                /* should never get here */
+                SensorCombinedMsg.BaroTimestamp = 0;
             }
 
-            SensorCombinedMsg.GyroIntegralDt = deltaTimeUs / 1000000.0f;
-        }
-        else
-        {
-            /* The sample includes an integral dt time.  Use this but
-             * convert it to seconds.
-             */
-            SensorCombinedMsg.GyroIntegralDt = CVT.SensorGyroMsg.IntegralDt / 1000000.0f;
-        }
+			SensorCombinedMsg.BaroInvalid = false;
 
-        /* Store the time so we can use it in the next iteration. */
-        CVT.PrevGyroTime =  CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorGyroMsg);
+			/* Store the time so we can use it in the next iteration. */
+			CVT.LastBaroTime = CVT.SensorBaroMsg.Timestamp;
+		}
+		else
+		{
+			/* No new measurement was received.  Update the fields accordingly.  */
+			//CVT.SensorBaroMsg.Timestamp  = PX4_RELATIVE_TIMESTAMP_INVALID;
+			SensorCombinedMsg.BaroInvalid = true;
+		}
 
-        /* Accelerometer. */
-        /* See if we have a new accelerometer measurement. */
-        if(CFE_TIME_Compare(CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorAccelMsg),CVT.PrevAccelTime) != CFE_TIME_EQUAL)
-        {
-            /* We do have a new measurement.  Update the fields accordingly.
-             * First populate the new values.
-             */
-            SensorCombinedMsg.Acc[0] = CVT.SensorAccelMsg.X;
-            SensorCombinedMsg.Acc[1] = CVT.SensorAccelMsg.Y;
-            SensorCombinedMsg.Acc[2] = CVT.SensorAccelMsg.Z;
-
-            /* Now timestamp the measurement. */
-            SensorCombinedMsg.AccTimestamp = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorAccelMsg);
-
-            /* Finally, calculate and pupulate the integral dt field, in seconds.  If the incoming
-             * message does not include a integral dt field, estimate the integral by using the delta
-             * from the previously received message that we calculated above.
-             */
-            if(CVT.SensorAccelMsg.IntegralDt == 0)
-            {
-                /* Calculate an estimate from the previous value.  But use
-                 * an even less accurate estimate if we don't yet have a
-                 * previous time.
-                 */
-                uint32 deltaTimeUs = 0;
-
-                if(CFE_TIME_IsTimeZero(CVT.PrevAccelTime))
-                {
-                    deltaTimeUs = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorAccelMsg) - 1000;
-                }
-                else
-                {
-                    deltaTimeUs = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.SensorAccelMsg) - CFE_TIME_ConvertTimeToMicros(CVT.PrevAccelTime);
-                }
-
-                SensorCombinedMsg.AccIntegralDt = deltaTimeUs / 1000000.0f;
-            }
-            else
-            {
-                /* The sample includes an integral dt time.  Use this but
-                 * convert it to seconds.
-                 */
-                SensorCombinedMsg.AccIntegralDt = CVT.SensorAccelMsg.IntegralDt / 1000000.0f;
-            }
-
-            SensorCombinedMsg.AccInvalid = false;
-
-            /* Store the time so we can use it in the next iteration. */
-            CVT.PrevAccelTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorAccelMsg);
-        }
-
-        /* Mag. */
-        /* See if we have a new magnetometer measurement. */
-        if(CFE_TIME_Compare(CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorMagMsg),CVT.PrevMagTime) != CFE_TIME_EQUAL)
-        {
-            /* We do have a new measurement.  Update the fields accordingly.
-             * First populate the new values.
-             */
-            SensorCombinedMsg.Mag[0] = CVT.SensorMagMsg.X;
-            SensorCombinedMsg.Mag[1] = CVT.SensorMagMsg.Y;
-            SensorCombinedMsg.Mag[2] = CVT.SensorMagMsg.Z;
-
-            /* Now timestamp the measurement */
-            SensorCombinedMsg.MagTimestamp = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorMagMsg);
-
-            SensorCombinedMsg.MagInvalid = false;
-
-            /* Store the time so we can use it in the next iteration. */
-            CVT.PrevMagTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorMagMsg);
-        }
-
-        /* Baro. */
-        /* See if we have a new baro measurement. */
-        if(CFE_TIME_Compare(CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorBaroMsg),CVT.PrevBaroTime) != CFE_TIME_EQUAL)
-        {
-            /* We do have a new measurement.  Update the fields accordingly.
-             * First populate the new values.
-             */
-            SensorCombinedMsg.BaroAlt = CVT.SensorBaroMsg.Altitude;
-            SensorCombinedMsg.BaroTemp = CVT.SensorBaroMsg.Temperature;
-
-            /* Now timestamp the measurement */
-            SensorCombinedMsg.BaroTimestamp = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorBaroMsg);
-
-            SensorCombinedMsg.BaroInvalid = false;
-
-            /* Store the time so we can use it in the next iteration. */
-            CVT.PrevBaroTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorBaroMsg);
-        }
-    }
-
-    /* The message is ready for publishing.  Push it out the door. */
-    CFE_SB_SendMsg((CFE_SB_Msg_t*)&SensorCombinedMsg);
+		/* The message is ready for publishing.  Push it out the door. */
+		SendSensorCombinedMsg();
+	}
 }
 
 

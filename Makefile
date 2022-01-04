@@ -146,9 +146,9 @@ $(GENERIC_TARGET_NAMES)::
 		done;
 		
 workspace::
-	rm build/obc/commander_workspace/Displays/Resources/definitions.yaml
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/definitions.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/definitions.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	-rm build/obc/commander_workspace/Displays/Resources/registry.yaml
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
 	
 	
 obc-sitl:: obc/ppd/sitl obc/cpd/sitl
@@ -180,7 +180,7 @@ docs: docs-doxygen docs-sphinx
 
 python-env::
 	virtualenv -p python3 venv || exit -1
-	(source venv/bin/activate || exit -1; pip install -r core/tools/auto-yamcs/src/requirements.txt || exit -1)
+	(source venv/bin/activate || exit -1; pip install -r core/tools/auto-yamcs/src/requirements.txt || exit -1; pip install pyyaml || exit -1)
 	@echo 'Created python3 virtual environment.                                            '
 	@echo '                                                                                '
 	@echo 'Activate:                                                                       '
@@ -210,7 +210,6 @@ local-install::
 	-sudo rm -Rf /media/${USER}/rootfs/opt/airliner
 	sudo cp -R build/obc/ppd/target/target/exe /media/${USER}/rootfs/opt/airliner
 	sudo cp build/obc/cpd/target/target/exe/airliner /media/${USER}/rootfs/lib/firmware
-	sudo cp config/obc/ppd/target/airliner.service /media/${USER}/rootfs/etc/systemd/system
 	-sudo cp build/obc/ppd/target/target/hitl_bridge/hitl_bridge /media/${USER}/rootfs/usr/local/bin/
 
 clean::

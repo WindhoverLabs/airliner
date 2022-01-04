@@ -32,7 +32,6 @@
 *****************************************************************************/
 
 #include "../pe_app.h"
-#include "cfs_utils.h"
 
 boolean PE::landed()
 {
@@ -160,7 +159,7 @@ end_of_function:
 
 void PE::landCheckTimeout()
 {
-	if (CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastLand) > LAND_TIMEOUT)
+	if (HkTlm.Timestamp - HkTlm.TimeLastLand > LAND_TIMEOUT)
 	{
 		if (!HkTlm.LandTimeout)
 		{

@@ -133,6 +133,12 @@ boolean MPU9250_Read_MagDeviceID(uint8 *Value)
 }
 
 
+uint64 PX4LIB_GetPX4TimeUs(void)
+{
+    return MPU9250_Custom_Returns.MPU9250_Get_Time_Return;
+}
+
+
 boolean MPU9250_Apply_Platform_Rotation(float *X, float *Y, float *Z)
 {
     return TRUE;

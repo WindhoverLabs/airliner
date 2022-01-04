@@ -33,7 +33,7 @@
 
 #include "prm_msg.h"
 
-PRM_NoArgCmd_t           PRM_Noop;
-PRM_HkTlm_t              PRM_HkTlm;
-PRM_SetParameterCmd_t    PRM_SetParam;
-PRM_GetParameterCmd_t    PRM_GetParam;
+PRM_NoArgCmd_t           PRM_Noop_s;
+PRM_HkTlm_t              PRM_HkTlm_s;
+PRM_SetParameterCmd_t    PRM_SetParam_s;
+PRM_GetParameterCmd_t    PRM_GetParam_s;

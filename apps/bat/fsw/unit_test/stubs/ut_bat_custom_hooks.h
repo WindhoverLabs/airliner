@@ -39,6 +39,6 @@
 int32 UT_InitDevice(void);
 void  UT_CloseDevice(void);
 int32 UT_ReadDevice(float &Voltage, float &Current);
-
+uint64 UT_PX4LIB_GetPX4TimeUs(void);
 
 #endif

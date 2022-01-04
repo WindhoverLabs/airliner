@@ -1,4 +1,4 @@
 #include "cvt_msg.h"
 
-CVT_NoArgCmd_t CVT_Noop;
-CVT_HkTlm_t    CVT_HkTlm;
+CVT_NoArgCmd_t CVT_Noop_s;
+CVT_HkTlm_t    CVT_HkTlm_s;

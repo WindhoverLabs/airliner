@@ -72,6 +72,8 @@ typedef struct
     uint64 time_armed;
 } PwmLimit_Data_t;
 
+uint64 hrt_elapsed_time(uint64 *input);
+
 void PwmLimit_Init(PwmLimit_Data_t *limit);
 
 void PwmLimit_Calc(const boolean armed, const boolean pre_armed, const unsigned num_channels, const uint16 reverse_mask,

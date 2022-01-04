@@ -109,6 +109,9 @@ buildliner_add_app_def(cf
     REFERENCE_CONFIG
         ${PROJECT_SOURCE_DIR}/apps/cf/fsw/mission_inc
         ${PROJECT_SOURCE_DIR}/apps/cf/fsw/platform_inc
+        
+    COMMANDER_DISPLAYS 
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
 )
 
 

@@ -171,7 +171,7 @@ typedef struct
         \brief Count of failed commands */
     uint8              usCmdErrCnt; 
 
-    CFE_TIME_SysTime_t Timestamp;
+    uint64             Timestamp;
     uint32             Count;
     float              Output[PX4_ACTUATOR_OUTPUTS_MAX];
     uint8              DebugArmed;

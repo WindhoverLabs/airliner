@@ -552,6 +552,13 @@ void AK8963::ReportHousekeeping()
 /* Publish Output Data                                             */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void AK8963::SendSensorMag()
+{
+
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&SensorMag);
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&SensorMag);
+    return;
+}
 
 
 void AK8963::SendDiag()
@@ -678,7 +685,7 @@ void AK8963::ReadDevice(void)
     float magZAdj_f = Diag.Conversion.MagZAdj;
 
     /* Set measurement timestamps */
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&SensorMag);
+    SensorMag.Timestamp   = PX4LIB_GetPX4TimeUs();
 
     /* Read mag, read can fail since device uses continuous measure
      * mode and data may not be ready. */
@@ -711,7 +718,7 @@ void AK8963::ReadDevice(void)
     //SensorMag.DeviceID = AK8963_PX4_DEVICE_ID;
 
     /* Send the sensor data */
-    CFE_SB_SendMsg((CFE_SB_Msg_t*)&SensorMag);
+    SendSensorMag();
 
 end_of_function:
 

@@ -305,6 +305,19 @@ public:
     void ReportHousekeeping(void);
 
     /************************************************************************/
+    /** \brief Sends the SensorMag message.
+     **
+     **  \par Description
+     **       This function publishes the SensorMag message containing
+     **       <TODO>
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     *************************************************************************/
+    void SendSensorMag(void);
+
+    /************************************************************************/
     /** \brief Sends a diagnostic message.
      **
      **  \par Description

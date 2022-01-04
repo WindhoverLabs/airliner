@@ -834,7 +834,7 @@ void MAC::AppMain()
 void MAC::RunController(void)
 {
     static uint64 last_run = 0;
-    uint64 now = CFE_TIME_GetTimeInMicros();
+    uint64 now = PX4LIB_GetPX4TimeUs();
     float dt = (now - last_run) / MICRO_SEC_TO_SEC_DIV;
     last_run = now;
     uint32 i = 0;
@@ -866,12 +866,14 @@ void MAC::RunController(void)
         ControlAttitude(dt);
 
         /* Publish attitude rates setpoint */
-        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&CVT.VRatesSp);
+        CVT.VRatesSp.Timestamp = PX4LIB_GetPX4TimeUs();
         CVT.VRatesSp.Roll = m_AngularRatesSetpoint[0];
         CVT.VRatesSp.Pitch = m_AngularRatesSetpoint[1];
         CVT.VRatesSp.Yaw = m_AngularRatesSetpoint[2];
         CVT.VRatesSp.Thrust = m_ThrustSp;
+        CVT.VRatesSp.Timestamp = PX4LIB_GetPX4TimeUs();
 
+        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&CVT.VRatesSp);
         CFE_SB_SendMsg((CFE_SB_Msg_t*)&CVT.VRatesSp);
     }
     else
@@ -885,12 +887,13 @@ void MAC::RunController(void)
             m_ThrustSp = fmin(CVT.ManualControlSp.Z, MANUAL_THROTTLE_MAX_MULTICOPTER);
 
             /* Publish attitude rates setpoint */
-            CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&CVT.VRatesSp);
+            CVT.VRatesSp.Timestamp = PX4LIB_GetPX4TimeUs();
             CVT.VRatesSp.Roll = m_AngularRatesSetpoint[0];
             CVT.VRatesSp.Pitch = m_AngularRatesSetpoint[1];
             CVT.VRatesSp.Yaw = m_AngularRatesSetpoint[2];
             CVT.VRatesSp.Thrust = m_ThrustSp;
 
+            CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&CVT.VRatesSp);
             CFE_SB_SendMsg((CFE_SB_Msg_t*)&CVT.VRatesSp);
         }
         else
@@ -908,8 +911,8 @@ void MAC::RunController(void)
         ControlAttitudeRates(dt);
 
         /* Publish actuator controls */
-        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&m_ActuatorControls0);
-        m_ActuatorControls0.SampleTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.ControlState);
+        m_ActuatorControls0.Timestamp = PX4LIB_GetPX4TimeUs();
+        m_ActuatorControls0.SampleTime = CVT.ControlState.Timestamp;
         m_ActuatorControls0.Control[0] = (isfinite(m_AttControl[0])) ? m_AttControl[0] : 0.0f;
         m_ActuatorControls0.Control[1] = (isfinite(m_AttControl[1])) ? m_AttControl[1] : 0.0f;
         m_ActuatorControls0.Control[2] = (isfinite(m_AttControl[2])) ? m_AttControl[2] : 0.0f;
@@ -932,7 +935,7 @@ void MAC::RunController(void)
         controllerStatus.RollRateInteg = m_AngularRatesIntegralError[0];
         controllerStatus.PitchRateInteg = m_AngularRatesIntegralError[1];
         controllerStatus.YawRateInteg = m_AngularRatesIntegralError[2];
-        CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&controllerStatus);
+        controllerStatus.Timestamp = PX4LIB_GetPX4TimeUs();
     }
 }
 

@@ -19,6 +19,9 @@ buildliner_add_app_def(bat
     REFERENCE_CONFIG
         ${PROJECT_SOURCE_DIR}/apps/bat/fsw/mission_inc
         ${PROJECT_SOURCE_DIR}/apps/bat/fsw/platform_inc
+        
+    COMMANDER_DISPLAYS 
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
 )
 
 buildliner_add_app_unit_test(bat-ut

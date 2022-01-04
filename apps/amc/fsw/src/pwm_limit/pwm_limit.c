@@ -40,8 +40,6 @@
  * @author Lorenz Meier <lorenz@px4.io>
  */
 
-#include "cfe.h"
-#include "cfs_utils.h"
 #include "pwm_limit.h"
 #include <math.h>
 #include <float.h>
@@ -78,6 +76,8 @@ void PwmLimit_Calc(const boolean armed, const boolean pre_armed,
         {
             if (armed)
             {
+                uint32 sec = 0;
+                uint32 ms = 0;
                 uint64 now = 0;
                 uint64 delta = 0;
 
@@ -85,11 +85,11 @@ void PwmLimit_Calc(const boolean armed, const boolean pre_armed,
                 if (limit->time_armed == 0)
                 {
                     /* reset arming time, used for ramp timing */
-                    limit->time_armed = CFE_TIME_GetTimeInMicros();
+                    limit->time_armed = PX4LIB_GetPX4TimeUs();
                 }
 
                 /* reset arming time, used for ramp timing */
-                now = CFE_TIME_GetTimeInMicros();
+                now = PX4LIB_GetPX4TimeUs();
 
                 delta = now - limit->time_armed;
 
@@ -107,7 +107,7 @@ void PwmLimit_Calc(const boolean armed, const boolean pre_armed,
             if (armed)
             {
                 /* reset arming time, used for ramp timing */
-                limit->time_armed = CFE_TIME_GetTimeInMicros();
+                limit->time_armed = PX4LIB_GetPX4TimeUs();
 
                 limit->state = PWM_LIMIT_STATE_RAMP;
             }
@@ -117,13 +117,11 @@ void PwmLimit_Calc(const boolean armed, const boolean pre_armed,
 
         case PWM_LIMIT_STATE_RAMP:
         {
-            uint64 delta = CFE_TIME_GetTimeInMicros() - limit->time_armed;
-
             if (!armed)
             {
                 limit->state = PWM_LIMIT_STATE_OFF;
             }
-            else if (delta >= RAMP_TIME_US)
+            else if (hrt_elapsed_time(&limit->time_armed) >= RAMP_TIME_US)
             {
                 limit->state = PWM_LIMIT_STATE_ON;
             }
@@ -182,7 +180,7 @@ void PwmLimit_Calc(const boolean armed, const boolean pre_armed,
         case PWM_LIMIT_STATE_RAMP:
         {
             uint32 i = 0;
-            uint64 diff = CFE_TIME_GetTimeInMicros() - limit->time_armed;
+            hrt_abstime diff = hrt_elapsed_time(&limit->time_armed);
 
             progress = diff * PROGRESS_INT_SCALING / RAMP_TIME_US;
 
@@ -290,3 +288,12 @@ void PwmLimit_Calc(const boolean armed, const boolean pre_armed,
     }
 }
 
+uint64 hrt_elapsed_time(uint64 *input)
+{
+    uint64 delta = 0;
+
+    /* reset arming time, used for ramp timing */
+    delta = PX4LIB_GetPX4TimeUs() - *input;
+
+    return delta;
+}

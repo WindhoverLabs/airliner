@@ -10,7 +10,6 @@
 #include "ld_msg.h"
 #include "ld_version.h"
 #include "px4lib_msgids.h"
-#include "cfs_utils.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -741,7 +740,7 @@ osalbool LD::DetectFreeFall()
 {
     osalbool inFreefall = FALSE;
     
-    if (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.ControlStateMsg))
+    if (CVT.ControlStateMsg.Timestamp != 0)
     {
         float net_acc = CVT.ControlStateMsg.AccX * CVT.ControlStateMsg.AccX
                       + CVT.ControlStateMsg.AccY * CVT.ControlStateMsg.AccY
@@ -765,7 +764,7 @@ osalbool LD::DetectFreeFall()
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 osalbool LD::DetectGroundContactState()
 {
-    const uint64 now = CFE_TIME_GetTimeInMicros();
+    const uint64 now = PX4LIB_GetPX4TimeUs();
     osalbool inGroundContact     = FALSE;
     osalbool minimal_thrust      = FALSE;
     osalbool altitude_lock       = FALSE;
@@ -863,7 +862,7 @@ osalbool LD::DetectGroundContactState()
 osalbool LD::DetectLandedState()
 {
     osalbool isLandDetected = FALSE;
-    const uint64 now = CFE_TIME_GetTimeInMicros();
+    const uint64 now = PX4LIB_GetPX4TimeUs();
     float armingThreshFactor = 1.0f;
 
     if (!CVT.ActuatorArmedMsg.Armed)
@@ -914,7 +913,7 @@ osalbool LD::DetectLandedState()
         }
 
         if (!isLandDetected && 
-            (CFE_TIME_GetTimeInMicros() - now) < LAND_DETECTOR_ARM_PHASE_TIME_US) //TODO is this valid?
+            (PX4LIB_GetPX4TimeUs() - now) < LAND_DETECTOR_ARM_PHASE_TIME_US) //TODO is this valid?
         {
             armingThreshFactor = LD_ARMING_THRESH_FACTOR;
         }
@@ -987,7 +986,7 @@ float LD::MaxAltitude()
     float max_alt = ConfigTblPtr->LD_ALT_MAX;
     
     /* If we haven't received this message just use default max */
-    if(CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.BatteryStatusMsg))
+    if(0 == CVT.BatteryStatusMsg.Timestamp)
     {
         max_alt = ConfigTblPtr->LD_ALT_MAX;
     }
@@ -1020,9 +1019,9 @@ float LD::MaxAltitude()
 osalbool LD::AltitudeLock()
 {
     osalbool result = FALSE;
-    uint64 dt = CFE_SB_ElapsedMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleLocalPositionMsg);
+    uint64 dt = PX4LIB_GetPX4TimeUs() - CVT.VehicleLocalPositionMsg.Timestamp;
     
-    result = !CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.VehicleLocalPositionMsg) &&
+    result = CVT.VehicleLocalPositionMsg.Timestamp != 0 &&
              dt < LD_LOCAL_POSITION_TIMEOUT && 
              CVT.VehicleLocalPositionMsg.Z_Valid;
     
@@ -1047,7 +1046,7 @@ osalbool LD::PositionLock()
 osalbool LD::ManualControlPresent()
 {
     return CVT.VehicleControlModeMsg.ControlManualEnabled &&
-    		!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.ManualControlSetpointMsg);
+           CVT.ManualControlSetpointMsg.Timestamp > 0;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1114,6 +1113,8 @@ void LD::Execute()
         publish_counter += 1;
     }
 
+    uint64 now = PX4LIB_GetPX4TimeUs();
+
     UpdateState();
 
     float prev_altitude_max = altitude_max;
@@ -1128,7 +1129,7 @@ void LD::Execute()
         (VehicleLandDetectedMsg.GroundContact != Ground) ||
         (fabsf(VehicleLandDetectedMsg.AltMax - prev_altitude_max) > FLT_EPSILON))
     {
-    	CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&VehicleLandDetectedMsg);
+        VehicleLandDetectedMsg.Timestamp = PX4LIB_GetPX4TimeUs();
         VehicleLandDetectedMsg.AltMax = altitude_max;
         VehicleLandDetectedMsg.Freefall = Freefall;
         VehicleLandDetectedMsg.Landed = Land;

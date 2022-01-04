@@ -56,6 +56,9 @@ buildliner_add_app_def(vm
     REFERENCE_CONFIG
         ${PROJECT_SOURCE_DIR}/apps/vm/fsw/mission_inc
         ${PROJECT_SOURCE_DIR}/apps/vm/fsw/platform_inc
+        
+    COMMANDER_DISPLAYS 
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
 )
 
 #add_dependencies(vm
