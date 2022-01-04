@@ -253,7 +253,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/hs/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -309,7 +309,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/hs/Reset', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>17</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -6393,7 +6393,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/hs/EnableAppMon', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_2</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -6449,7 +6449,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/hs/DisableAppMon', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_3</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -6505,7 +6505,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/hs/EnableEventMon', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_4</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -6561,7 +6561,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/hs/EnableAliveness', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_5</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -6617,7 +6617,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/hs/EnableCpuHog', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_6</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -6673,7 +6673,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/hs/DisableEventMon', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_7</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -6729,7 +6729,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/hs/DisableAliveness', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_8</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -6785,7 +6785,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/hs/DisableCpuHog', {});]]></scriptText>
       <color red="253" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_9</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -6841,7 +6841,7 @@ Yamcs.issueCommand('/cfs/$(CPUID)/hs/ResetResetsPerformed', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_11</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -9408,7 +9408,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Core/ES/Resources/Templates/ApplicationControl_App.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Core/ES/resources/templates/ApplicationControl_App.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>

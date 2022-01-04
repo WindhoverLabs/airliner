@@ -27,7 +27,7 @@
   <name>($(CPUID)) CFE-ES - Perf</name>
   <rules />
   <scripts>
-    <path pathString="/Displays/Core/ES/Resources/Scripts/perf_init.py" checkConnect="true" seoe="false">
+    <path pathString="/Displays/Core/ES/resources/scripts/perf_init.py" checkConnect="true" seoe="false">
       <pv trig="true">=1</pv>
     </path>
   </scripts>

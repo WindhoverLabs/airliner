@@ -253,7 +253,7 @@ Yamcs.issueCommand('/cfs/ci/Noop', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>18</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -309,7 +309,7 @@ Yamcs.issueCommand('/cfs/ci/Reset', {});]]></scriptText>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>17</height>
-    <image>/Displays/Resources/send.png</image>
+    <image>/Displays/resources/send.png</image>
     <name>NoOp_1</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
