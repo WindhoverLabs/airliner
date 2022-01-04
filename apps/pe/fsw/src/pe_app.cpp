@@ -1459,7 +1459,7 @@ void PE::SendVehicleGlobalPositionMsg()
     if(data_valid)
     {
         m_VehicleGlobalPositionMsg.Timestamp = HkTlm.Timestamp;
-        m_VehicleGlobalPositionMsg.TimeUtc = m_VehicleGpsPositionMsg.TimeUtc;
+        m_VehicleGlobalPositionMsg.TimeUtcUsec = m_VehicleGpsPositionMsg.TimeUtcUsec;
         m_VehicleGlobalPositionMsg.Lat = lat;
         m_VehicleGlobalPositionMsg.Lon = lon;
         m_VehicleGlobalPositionMsg.Alt = alt;

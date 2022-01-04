@@ -902,12 +902,12 @@ boolean GPS_Custom_Read_and_Parse(const uint32 timeout)
 
                                 //setClock(ts);
 
-                                GPS_AppCustomData.GpsPositionMsg.TimeUtc = ((uint64)epoch) * 1000000ULL;
-                                GPS_AppCustomData.GpsPositionMsg.TimeUtc += msgIn->nano / 1000;
+                                GPS_AppCustomData.GpsPositionMsg.TimeUtcUsec = ((uint64)epoch) * 1000000ULL;
+                                GPS_AppCustomData.GpsPositionMsg.TimeUtcUsec += msgIn->nano / 1000;
                             }
                             else
                             {
-                                GPS_AppCustomData.GpsPositionMsg.TimeUtc = 0;
+                                GPS_AppCustomData.GpsPositionMsg.TimeUtcUsec = 0;
                             }
                         }
                         
