@@ -26,14 +26,10 @@
   <height>400</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
-    <Record_Template>/Displays/Apps/SCH/Templates/SCH_Table_Record_App.opi</Record_Template>
-    <Header_Template>/Displays/Apps/SCH/Templates/SCH_Table_Header_App.opi</Header_Template>
-  </macros>
-  <macros>
     <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <include_parent_macros>true</include_parent_macros>
-    <Record_Template>/Displays/$(CPUID)/Apps/SCH/Templates/SCH_Table_Record_App.opi</Record_Template>
-    <Header_Template>/Displays/$(CPUID)/Apps/SCH/Templates/SCH_Table_Header_App.opi</Header_Template>
+    <Record_Template>/Displays/$(CPUID)/Apps/sch/resources/templates/SCH_Table_Record_App.opi</Record_Template>
+    <Header_Template>/Displays/$(CPUID)/Apps/sch/resources/templates/SCH_Table_Header_App.opi</Header_Template>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>

@@ -23,7 +23,7 @@
   <name>($(CPUID)) TO - Add Msg Flow</name>
   <rules />
   <scripts>
-    <path pathString="/Displays/$(CPUID)/Apps/to/resources/scripts/telemetry_management_init.py" checkConnect="true" seoe="false">
+    <path pathString="../scripts/telemetry_management_init.py" checkConnect="true" seoe="false">
       <pv trig="true">=1</pv>
     </path>
   </scripts>
@@ -200,7 +200,7 @@
   <widget typeId="org.csstudio.opibuilder.widgets.ActionButton" version="2.0.0">
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_PYTHONSCRIPT">
-        <path>../Scripts/add_message_app.py</path>
+        <path>../scripts/add_message_app.py</path>
         <scriptText><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil
 ]]></scriptText>
         <embedded>false</embedded>
@@ -285,10 +285,10 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts>
-      <path pathString="/Displays/$(CPUID)/Apps/to/resources/scripts/set_msg_id.py" checkConnect="true" seoe="false">
+      <path pathString="../scripts/set_msg_id.py" checkConnect="true" seoe="false">
         <pv trig="true">loc://$(APP)_$(CPUID)_TO_AddMessageFlow_MsgID_App&lt;VString&gt;</pv>
       </path>
-      <path pathString="/Displays/$(CPUID)/Apps/to/resources/scripts/telemetry_management_init.py" checkConnect="true" seoe="false">
+      <path pathString="../scripts/telemetry_management_init.py" checkConnect="true" seoe="false">
         <pv trig="true">loc://$(APP)_$(CPUID)_TO_AddMessageFlow_MsgID_App&lt;VString&gt;</pv>
       </path>
     </scripts>
