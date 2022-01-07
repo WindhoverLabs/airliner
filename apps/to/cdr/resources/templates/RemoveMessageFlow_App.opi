@@ -22,7 +22,7 @@
   <name>($(CPUID)) TO - Remove Msg Flow</name>
   <rules />
   <scripts>
-    <path pathString="/Displays/Apps/TO/Scripts/telemetry_management_init.py" checkConnect="true" seoe="false">
+    <path pathString="/Displays/$(CPUID)/Apps/to/resources/scripts/telemetry_management_init.py" checkConnect="true" seoe="false">
       <pv trig="true">=1</pv>
     </path>
   </scripts>
@@ -204,10 +204,10 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts>
-      <path pathString="/Displays/Apps/TO/Scripts/set_msg_id.py" checkConnect="true" seoe="false">
+      <path pathString="/Displays/$(CPUID)/Apps/to/resources/scripts//set_msg_id.py" checkConnect="true" seoe="false">
         <pv trig="true">loc://$(APP)_$(CPUID)_TO_RemoveMessageFlow_MsgID_App&lt;VString&gt;</pv>
       </path>
-      <path pathString="/Displays/Apps/TO/Scripts/telemetry_management_init.py" checkConnect="true" seoe="false">
+      <path pathString="/Displays/$(CPUID)/Apps/to/resources/scripts/telemetry_management_init.py" checkConnect="true" seoe="false">
         <pv trig="true">loc://$(APP)_$(CPUID)_TO_RemoveMessageFlow_MsgID_App&lt;VString&gt;</pv>
       </path>
     </scripts>

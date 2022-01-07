@@ -27,7 +27,7 @@
   <name>($(CPUID)) TO - Query Output</name>
   <rules />
   <scripts>
-    <path pathString="/Displays/Apps/TO/Scripts/query_output_channel_init.py" checkConnect="true" seoe="false">
+    <path pathString="/Displays/$(CPUID)/Apps/to/resources/scripts/query_output_channel_init.py" checkConnect="true" seoe="false">
       <pv trig="true">=1</pv>
     </path>
   </scripts>
