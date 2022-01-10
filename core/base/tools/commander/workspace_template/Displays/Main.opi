@@ -295,7 +295,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>Resources/send.png</image>
+    <image>resources/send.png</image>
     <name>NoOp_44</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>

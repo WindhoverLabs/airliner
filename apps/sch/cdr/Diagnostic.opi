@@ -190,7 +190,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts>
-      <path pathString="/Displays/Apps/SCH/Scripts/query_diag_init.py" checkConnect="true" seoe="false">
+      <path pathString="resources/scripts/query_diag_init.py" checkConnect="true" seoe="false">
         <pv trig="true">=1</pv>
       </path>
     </scripts>

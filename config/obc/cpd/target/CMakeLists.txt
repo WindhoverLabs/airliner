@@ -386,3 +386,19 @@ buildliner_add_app(
     CONFIG_SOURCES
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd/shm/sbnd_custom.cpp
 )
+
+buildliner_add_app(
+    sbn_shm
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_shm/fsw/for_build
+)
+
+
+buildliner_add_app(
+    sbn
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn/src/sbn_remap_tbl.c
+)

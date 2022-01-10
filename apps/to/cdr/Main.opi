@@ -441,7 +441,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiSentMsgCountChannel_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiSentMsgCountChannel[0]</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -533,7 +533,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiQueuedMsgCountChannel_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiQueuedMsgCountChannel[0]</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -669,98 +669,6 @@ $(pv_value)</tooltip>
     </foreground_color>
     <height>20</height>
     <horizontal_alignment>2</horizontal_alignment>
-    <name>Label_53</name>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <text>Failed Msg Count</text>
-    <tooltip></tooltip>
-    <transparent>true</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Label</widget_type>
-    <width>136</width>
-    <wrap_words>false</wrap_words>
-    <wuid>-10b748b0:17773fb054b:-7b42</wuid>
-    <x>53</x>
-    <y>250</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <alarm_pulsing>false</alarm_pulsing>
-    <auto_size>false</auto_size>
-    <backcolor_alarm_sensitive>false</backcolor_alarm_sensitive>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_alarm_sensitive>true</border_alarm_sensitive>
-    <border_color>
-      <color name="Command Button Border" red="240" green="240" blue="240" />
-    </border_color>
-    <border_style>4</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <forecolor_alarm_sensitive>false</forecolor_alarm_sensitive>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <format_type>1</format_type>
-    <height>20</height>
-    <horizontal_alignment>0</horizontal_alignment>
-    <name>Text Update_5</name>
-    <precision>0</precision>
-    <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiFailedMsgCountChannel_0_</pv_name>
-    <pv_value />
-    <rotation_angle>0.0</rotation_angle>
-    <rules />
-    <scale_options>
-      <width_scalable>true</width_scalable>
-      <height_scalable>true</height_scalable>
-      <keep_wh_ratio>false</keep_wh_ratio>
-    </scale_options>
-    <scripts />
-    <show_units>true</show_units>
-    <text>######</text>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-    <transparent>false</transparent>
-    <vertical_alignment>1</vertical_alignment>
-    <visible>true</visible>
-    <widget_type>Text Update</widget_type>
-    <width>100</width>
-    <wrap_words>false</wrap_words>
-    <wuid>-10b748b0:17773fb054b:-7b41</wuid>
-    <x>200</x>
-    <y>250</y>
-  </widget>
-  <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
-    <actions hook="false" hook_all="false" />
-    <auto_size>false</auto_size>
-    <background_color>
-      <color red="255" green="255" blue="255" />
-    </background_color>
-    <border_color>
-      <color red="0" green="128" blue="255" />
-    </border_color>
-    <border_style>0</border_style>
-    <border_width>1</border_width>
-    <enabled>true</enabled>
-    <font>
-      <opifont.name fontName="Liberation Sans" height="11" style="0" pixels="false">Default</opifont.name>
-    </font>
-    <foreground_color>
-      <color red="0" green="0" blue="0" />
-    </foreground_color>
-    <height>20</height>
-    <horizontal_alignment>2</horizontal_alignment>
     <name>Label_54</name>
     <rules />
     <scale_options>
@@ -779,7 +687,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b30</wuid>
     <x>53</x>
-    <y>269</y>
+    <y>250</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -809,7 +717,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiBytesSentChannel_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiBytesSentChannel[0]</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -831,7 +739,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b2f</wuid>
     <x>200</x>
-    <y>269</y>
+    <y>250</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -963,7 +871,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b0c</wuid>
     <x>53</x>
-    <y>288</y>
+    <y>269</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -993,7 +901,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.ChannelMemInfo_0_.MemInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.ChannelMemInfo[0].MemInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1015,7 +923,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7b0b</wuid>
     <x>200</x>
-    <y>288</y>
+    <y>269</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1279,7 +1187,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7ac3</wuid>
     <x>53</x>
-    <y>307</y>
+    <y>288</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1309,7 +1217,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.ChannelMemInfo_0_.PeakMemInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.ChannelMemInfo[0].PeakMemInUse</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1331,7 +1239,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7ac2</wuid>
     <x>200</x>
-    <y>307</y>
+    <y>288</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.Label" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1371,7 +1279,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7ab1</wuid>
     <x>53</x>
-    <y>326</y>
+    <y>307</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.TextUpdate" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1401,7 +1309,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.QueuedInOutputChannel_0_</pv_name>
+    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.QueuedInOutputChannel[0]</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1423,7 +1331,7 @@ $(pv_value)</tooltip>
     <wrap_words>false</wrap_words>
     <wuid>-10b748b0:17773fb054b:-7ab0</wuid>
     <x>200</x>
-    <y>326</y>
+    <y>307</y>
   </widget>
   <widget typeId="org.csstudio.opibuilder.widgets.groupingContainer" version="1.0.0">
     <actions hook="false" hook_all="false" />
@@ -1474,7 +1382,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Apps/TO/AddMessageFlow_General.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Apps/to/AddMessageFlow_General.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
@@ -1596,7 +1504,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Apps/TO/RemoveMessageFlow_General.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Apps/to/RemoveMessageFlow_General.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
@@ -1758,7 +1666,7 @@ importPackage(Packages.org.yamcs.studio.script);
 importPackage(Packages.org.yamcs.studio.data);
 importPackage(org.csstudio.opibuilder.runmode)
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Apps/TO/QueryMessageFlow_General.opi");
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Apps/to/QueryMessageFlow_General.opi");
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></scriptText>
