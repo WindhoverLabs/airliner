@@ -502,8 +502,12 @@
 #define ZUSUP_HK_TLM_MID                          TLM_MSG(  489 )
 #define ZUSUP_DIAG_TLM_MID                        TLM_MSG(  490 )
 
-
-
+/* EM91X                                                     */
+#define EM91X_CMD_MID                             CMD_MSG(  491 )
+#define EM91X_SEND_HK_MID                         CMD_MSG(  492 )
+#define EM91X_WAKEUP_MID                          CMD_MSG(  493 )
+#define EM91X_OUT_DATA_MID                        TLM_MSG(  494 )
+#define EM91X_HK_TLM_MID                          TLM_MSG(  495 )
 
 
 

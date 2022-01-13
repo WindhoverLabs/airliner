@@ -1,0 +1,152 @@
+  short_name: em91x
+  long_name: EM9191 Driver
+  events: 
+    EM91X_INF_EID : 
+      id: 1
+    EM91X_INIT_INF_EID : 
+      id: 2
+    EM91X_CONFIG_TABLE_INF_EID : 
+      id: 3
+    EM91X_CDS_INF_EID : 
+      id: 4
+    EM91X_CMD_INF_EID : 
+      id: 5
+    EM91X_ERR_EID : 
+      id: 6
+    EM91X_INIT_ERR_EID : 
+      id: 7
+    EM91X_CONFIG_TABLE_ERR_EID : 
+      id: 8
+    EM91X_CDS_ERR_EID : 
+      id: 9
+    EM91X_CMD_ERR_EID : 
+      id: 10
+    EM91X_PIPE_ERR_EID : 
+      id: 11
+    EM91X_MSGID_ERR_EID : 
+      id: 12
+    EM91X_MSGLEN_ERR_EID : 
+      id: 13
+  msg_def_overrides:
+    - parent: EM91X_PasswordCmd_t
+      member: Password
+      type: string
+    - parent: EM91X_AntSelCmd_t
+      member: TechNum
+      type: enumeration
+      enumerations:
+        WCDMA: 3
+        LTE:   4
+        5G_NR: 5
+    - parent: EM91X_AntSelCmd_t
+      member: GPIO1
+      type: enumeration
+      enumerations:
+        LOW:    0
+        HIGH:   1
+        UNUSED: 2
+    - parent: EM91X_AntSelCmd_t
+      member: GPIO2
+      type: enumeration
+      enumerations:
+        LOW:    0
+        HIGH:   1
+        UNUSED: 2
+    - parent: EM91X_AntSelCmd_t
+      member: GPIO3
+      type: enumeration
+      enumerations:
+        LOW:    0
+        HIGH:   1
+        UNUSED: 2
+    - parent: EM91X_AntSelCmd_t
+      member: GPIO4
+      type: enumeration
+      enumerations:
+        LOW:    0
+        HIGH:   1
+        UNUSED: 2
+        
+  telemetry: 
+    EM91X_OUT_DATA_MID: 
+      msgID: 
+      struct: EM91X_OutData_t
+    EM91X_HK_TLM_MID: 
+      msgID: 
+      struct: EM91X_HkTlm_t
+  commands: 
+    EM91X_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: EM91X_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: EM91X_NoArgCmd_t
+    EM91X_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: EM91X_NoArgCmd_t
+  perfids: 
+    CF_CYCLE_ENG_PERF_ID: 
+      id: 
+    CF_FCLOSE_PERF_ID: 
+      id: 
+    CF_FILESIZE_PERF_ID: 
+      id: 
+    CF_FOPEN_PERF_ID: 
+      id: 
+    CF_FREAD_PERF_ID: 
+      id: 
+    CF_FWRITE_PERF_ID: 
+      id: 
+    CF_QDIRFILES_PERF_ID: 
+      id: 
+    CF_REDLIGHT_PERF_ID: 
+      id: 
+  config: 
+    EM91X_SB_TIMEOUT: 
+      name: EM91X_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    EM91X_MISSION_REV: 
+      name: EM91X_MISSION_REV
+      value: 0
+    EM91X_SCH_PIPE_DEPTH: 
+      name: EM91X_SCH_PIPE_DEPTH
+      value: 2
+    EM91X_SCH_PIPE_NAME: 
+      name: EM91X_SCH_PIPE_NAME
+      value: "EM91X_SCH_PIPE"
+    EM91X_SCH_PIPE_PEND_TIME: 
+      name: EM91X_SCH_PIPE_PEND_TIME
+      value: 2000
+    EM91X_SCH_PIPE_WAKEUP_RESERVED: 
+      name: EM91X_SCH_PIPE_WAKEUP_RESERVED
+      value: 1
+    EM91X_SCH_PIPE_SEND_HK_RESERVED: 
+      name: EM91X_SCH_PIPE_SEND_HK_RESERVED
+      value: 1
+    EM91X_CMD_PIPE_DEPTH: 
+      name: EM91X_CMD_PIPE_DEPTH
+      value: 4
+    EM91X_CMD_PIPE_NAME: 
+      name: EM91X_CMD_PIPE_NAME
+      value: "EM91X_CMD_PIPE"
+    EM91X_DATA_PIPE_DEPTH: 
+      name: EM91X_DATA_PIPE_DEPTH
+      value: 4
+    EM91X_DATA_PIPE_NAME: 
+      name: EM91X_DATA_PIPE_NAME
+      value: "EM91X_DATA_PIPE"
+    EM91X_CONFIG_TABLE_FILENAME: 
+      name: EM91X_CONFIG_TABLE_FILENAME
+      value: "/cf/apps/em91x_config.tbl"
+    EM91X_STARTUP_TIMEOUT_MSEC: 
+      name: EM91X_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    EM91X_CUSTOM_DEV_PATH: 
+      name: EM91X_CUSTOM_DEV_PATH
+      value: "/tmp/ttyS0"

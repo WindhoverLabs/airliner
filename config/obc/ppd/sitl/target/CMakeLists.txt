@@ -165,3 +165,12 @@ buildliner_add_app(
     sbn_udp
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/udp/fsw/for_build
 )
+
+
+buildliner_add_app(
+    em91x
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/em91x/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/em91x
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/em91x/em91x_custom.cpp
+)

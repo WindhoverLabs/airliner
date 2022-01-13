@@ -1,0 +1,41 @@
+{
+    "Airliner": {
+        "apps": {
+            "EM91X": {
+                "operations": {
+                    "Noop":             { "airliner_cc":  0, "macro": "EM91X_CMD_MID", "airliner_msg": "EM91X_NoArgCmd_t" },
+                    "Reset":            { "airliner_cc":  1, "macro": "EM91X_CMD_MID", "airliner_msg": "EM91X_NoArgCmd_t" },
+                    "EM91X_HkTlm_t":      {                    "macro": "EM91X_HK_TLM_MID", "airliner_msg": "EM91X_HkTlm_t" },
+                    "SendHk":           { "airliner_cc":  0, "macro": "EM91X_SEND_HK_MID", "airliner_msg": "EM91X_NoArgCmd_t"},
+                    "Wakeup":           { "airliner_cc":  0, "macro": "EM91X_WAKEUP_MID", "airliner_msg": "EM91X_NoArgCmd_t"}
+                },    
+                "scheduler": {
+                    "activities": [
+                        "EM91X_SEND_HK_MID",
+                        "EM91X_WAKEUP_MID"
+                    ]
+                },
+                "events": [
+                    {"macro": "EM91X_INF_EID",              "id": 1},
+                    {"macro": "EM91X_INIT_INF_EID",         "id": 2},
+                    {"macro": "EM91X_CONFIG_TABLE_INF_EID", "id": 3},
+                    {"macro": "EM91X_CDS_INF_EID",          "id": 4},
+                    {"macro": "EM91X_CMD_INF_EID",          "id": 5},
+                    {"macro": "EM91X_ERR_EID",              "id": 6},
+                    {"macro": "EM91X_INIT_ERR_EID",         "id": 7},
+                    {"macro": "EM91X_CONFIG_TABLE_ERR_EID", "id": 8},
+                    {"macro": "EM91X_CDS_ERR_EID",          "id": 9},
+                    {"macro": "EM91X_CMD_ERR_EID",          "id": 10},
+                    {"macro": "EM91X_PIPE_ERR_EID",         "id": 11},
+                    {"macro": "EM91X_MSGID_ERR_EID",        "id": 12},
+                    {"macro": "EM91X_MSGLEN_ERR_EID",       "id": 13}
+                ],
+                "config": {
+                },
+                "tables": [
+                    {"id": "CONFIG_TBL",  "title": "EM91X Configuration",  "isDumpTable": false}
+                ]
+            }
+        }
+    }
+}
