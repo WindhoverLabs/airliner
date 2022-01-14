@@ -77,7 +77,7 @@ dataLinks:
         packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.cfs.CfsPacketPreprocessor
         packetPreprocessorArgs:
           byteOrder: LITTLE_ENDIAN
-          useLocalGenerationTime: true
+          useLocalGenerationTime: false
           #errorDetection:
           #tcoService: org.yamcs.time.TimeCorrelationService
           timestampFormat: CFE_SB_TIME_32_16_SUBS
