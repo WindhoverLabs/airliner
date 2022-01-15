@@ -81,13 +81,12 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-fileName = VTypeHelper.getString(display.getWidget('FileName').getPropertyValue('pv_value'));
+var fileName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'FileName')));
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/PerfStop', {'Payload.DataFileName': fileName});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/PerfStop', {'Payload.DataFileName': fileName});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

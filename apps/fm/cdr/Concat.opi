@@ -41,18 +41,17 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var source1_arg =  VTypeHelper.getString(display.getWidget("Source1") .getPropertyValue("pv_value"));
-var source2_arg = VTypeHelper.getString(display.getWidget("Source2").getPropertyValue("pv_value"));
-var target_arg = VTypeHelper.getString(display.getWidget("Target").getPropertyValue("pv_value"));
+var Source1 = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Source1')));
+var Source2 = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Source2')));
+var Target = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Target')));
 
-Yamcs.issueCommand('/cfs/$(CPUID)/fm/Concat',
-                                   {"Source1": source1_arg,
-				     "Source2": source2_arg,
-				      "Target": target_arg});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/fm/Concat',
+                                   {"Source1": Source1,
+				     "Source2": Source2,
+				      "Target": Target});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>

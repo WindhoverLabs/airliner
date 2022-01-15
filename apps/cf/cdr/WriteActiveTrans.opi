@@ -41,12 +41,11 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var TransferType =VTypeHelper.getString(display.getWidget('TransType').getPropertyValue('pv_value'));
-var Destination =VTypeHelper.getString(display.getWidget('Destination').getPropertyValue('pv_value'));
+var TransferType = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TransferType')));
+var Destination = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Destination')));
 
 var pTransferType = '';
 
@@ -58,7 +57,7 @@ if( TransferType == 'All' ) {
     pTransferType = 'DOWN';
 }
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cf/WriteActiveTrans', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/WriteActiveTrans', {
     'Type': pTransferType, 
     'Spare': 0, 
     'Filename': Destination});

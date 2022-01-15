@@ -41,21 +41,20 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var toneSource =VTypeHelper.getString(display.getWidget('ToneSource').getPropertyValue('pv_value'));
+var toneSource = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'ToneSource')));
 
-var cmd;
+var args;
 
 if( toneSource == 'Primary' ) {
-    cmd = '/cfs/$(CPUID)/cfe_time/SetSignal(Payload.ToneSource: "PRIMARY")';
+    args = {'Payload.ToneSource': 'PRIMARY'};
 } else if (toneSource == 'Redundant' ) {
-    cmd = '/cfs/$(CPUID)/cfe_time/SetSignal(Payload.ToneSource: "REDUNDANT")';
+    args = {'Payload.ToneSource': 'REDUNDANT'};
 }
 
-Yamcs.issueCommand(cmd);
+Yamcs.issueCommand(widget, /cfs/$(CPUID)/cfe_time/SetSignal');
 
 ]]></scriptText>
         <embedded>true</embedded>

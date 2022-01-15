@@ -41,27 +41,26 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var Type =VTypeHelper.getString(display.getWidget('Type').getPropertyValue('pv_value'));
-var Seconds =VTypeHelper.getDouble(display.getWidget('Seconds').getPropertyValue('pv_value'));
-var Microseconds =VTypeHelper.getDouble(display.getWidget('Microseconds').getPropertyValue('pv_value'));
+var Type = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Type')));
+var Seconds = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Seconds')));
+var Microseconds = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Microseconds')));
 
 var cmd;
 
-if( Type == "Time" ) {
+if( Type == 'Time' ) {
     cmd = '/cfs/$(CPUID)/cfe_time/SetTime';
-} else if( Type == "MET" ) {
+} else if( Type == 'MET' ) {
     cmd = '/cfs/$(CPUID)/cfe_time/SetMET';
-} else if( Type == "STCF" ) {
+} else if( Type == 'STCF' ) {
     cmd = '/cfs/$(CPUID)/cfe_time/SetSTCF';
 }
 
-Yamcs.issueCommand(cmd, {
-'Payload.Seconds': Seconds,
-'Payload.MicroSeconds': Microseconds});
+Yamcs.issueCommand(widget, cmd, {
+    'Payload.Seconds': Seconds,
+    'Payload.MicroSeconds': Microseconds});
 
 ]]></scriptText>
         <embedded>true</embedded>

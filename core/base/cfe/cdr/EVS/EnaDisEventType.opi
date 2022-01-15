@@ -229,19 +229,17 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var cmdString = '/cfs/$(CPUID)/cfe_evs/EnableEventType(';
-critFlag = VTypeHelper.getDouble(display.getWidget('Critical').getPropertyValue('pv_value'));
-errorFlag = VTypeHelper.getDouble(display.getWidget('Error').getPropertyValue('pv_value'));
-infoFlag = VTypeHelper.getDouble(display.getWidget('Information').getPropertyValue('pv_value'));
-debugFlag = VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('pv_value'));
+var critFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Critical')));
+var errorFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Error')));
+var infoFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Information')));
+var debugFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Debug')));
 
 var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/EnableEventType', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/EnableEventType', {
     'Payload.BitMask': mask,
     'Payload.Spare': 0
 });]]></scriptText>
@@ -297,19 +295,17 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var cmdString = '/cfs/$(CPUID)/cfe_evs/EnableEventType(';
-critFlag = VTypeHelper.getDouble(display.getWidget('Critical').getPropertyValue('pv_value'));
-errorFlag = VTypeHelper.getDouble(display.getWidget('Error').getPropertyValue('pv_value'));
-infoFlag = VTypeHelper.getDouble(display.getWidget('Information').getPropertyValue('pv_value'));
-debugFlag = VTypeHelper.getDouble(display.getWidget('Debug').getPropertyValue('pv_value'));
+var critFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Critical')));
+var errorFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Error')));
+var infoFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Information')));
+var debugFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Debug')));
 
 var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/DisableEventType', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisableEventType', {
     'Payload.BitMask': mask,
     'Payload.Spare': 0
 });]]></scriptText>

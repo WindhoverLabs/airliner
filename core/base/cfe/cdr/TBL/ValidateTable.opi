@@ -41,12 +41,11 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var tableBuffer =VTypeHelper.getString(display.getWidget('TableBuffer').getPropertyValue('pv_value'));
-var tableName =VTypeHelper.getString(display.getWidget('TableName').getPropertyValue('pv_value'));
+var tableBuffer = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TableBuffer')));
+var tableName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TableName')));
 
 var cmd;
 
@@ -58,7 +57,7 @@ if( tableBuffer != 'Active' ) {
     pBuffer = 'ACTIVE_BUFFER';
 }
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cfe_tbl/Validate', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Validate', {
     'Payload.TableName': tableName,
     'Payload.ActiveTblFlag': pBuffer
 });

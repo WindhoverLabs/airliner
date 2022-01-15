@@ -96,20 +96,18 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var file_index = VTypeHelper.getDouble(display.getWidget('FileTableIndex').getPropertyValue('pv_value'));
-
-var seq_count = VTypeHelper.getDouble(display.getWidget('Basename').getPropertyValue('pv_value'));
+var FileTableIndex = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'FileTableIndex')));
+var SequenceCount = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'SequenceCount')));
 
 var cmd = '/cfs/$(CPUID)/ds/SetDestCount';
 
-Yamcs.issueCommand(cmd, 
-				  {'FileTableIndex': file_index,
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/SetDestCount', 
+				  {'FileTableIndex': FileTableIndex,
 				    'Padding': 0,
-				    'SequenceCount': seq_count
+				    'SequenceCount': SequenceCount
 				  }
 				 );]]></scriptText>
         <embedded>true</embedded>

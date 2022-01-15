@@ -265,10 +265,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/Noop', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -321,10 +320,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/Reset', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2547,10 +2545,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/EnableAllCS', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableAllCS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -2603,10 +2600,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/DisableAllCS', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableAllCS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3099,10 +3095,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/ReportBaselineOS', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/ReportBaselineOS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3155,10 +3150,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/RecomputeBaselineOS', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/RecomputeBaselineOS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3211,10 +3205,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/ReportBaselineCfeCore', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/ReportBaselineCfeCore', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3267,10 +3260,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/RecomputeBaselineCfeCore', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/RecomputeBaselineCfeCore', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3873,10 +3865,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/EnableOS', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableOS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3929,10 +3920,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/DisableOS', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableOS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3985,10 +3975,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/EnableCfeCore', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableCfeCore', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -4041,10 +4030,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/DisableCfeCore', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableCfeCore', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -4152,10 +4140,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/CancelOneShot', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/CancelOneShot', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -4208,9 +4195,8 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
 var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("EVENTS_OPI"));
@@ -4269,10 +4255,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/SendHK', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/SendHK', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -4325,10 +4310,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/BackgroundCycle', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/BackgroundCycle', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -4381,9 +4365,8 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
 var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Core/ES/resources/templates/ApplicationControl_App.opi");
@@ -4482,9 +4465,8 @@ $(pv_value)</tooltip>
       <actions hook="false" hook_all="false">
         <action type="EXECUTE_JAVASCRIPT">
           <path></path>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+          <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
 var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("AuthorizeCmd_TEMPLATE"));
@@ -4543,9 +4525,8 @@ $(pv_value)</tooltip>
       <actions hook="false" hook_all="false">
         <action type="EXECUTE_JAVASCRIPT">
           <path></path>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+          <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
 var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("DeauthorizeCmd_TEMPLATE"));
@@ -4644,9 +4625,8 @@ $(pv_value)</tooltip>
       <actions hook="false" hook_all="false">
         <action type="EXECUTE_JAVASCRIPT">
           <path></path>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+          <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
 var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("RegisterCmd_TEMPLATE"));
@@ -4705,9 +4685,8 @@ $(pv_value)</tooltip>
       <actions hook="false" hook_all="false">
         <action type="EXECUTE_JAVASCRIPT">
           <path></path>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+          <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
 var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("DeregisterCmd_TEMPLATE"));
@@ -4766,9 +4745,8 @@ $(pv_value)</tooltip>
       <actions hook="false" hook_all="false">
         <action type="EXECUTE_JAVASCRIPT">
           <path></path>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+          <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
 var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("UpdateCmd_TEMPLATE"));
@@ -4868,9 +4846,8 @@ $(pv_value)</tooltip>
       <actions hook="false" hook_all="false">
         <action type="EXECUTE_JAVASCRIPT">
           <path></path>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+          <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
 var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("AddMessageFlow_TEMPLATE"));
@@ -4929,9 +4906,8 @@ $(pv_value)</tooltip>
       <actions hook="false" hook_all="false">
         <action type="EXECUTE_JAVASCRIPT">
           <path></path>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+          <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
 var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("RemoveMessageFlow_TEMPLATE"));
@@ -5030,9 +5006,8 @@ $(pv_value)</tooltip>
       <actions hook="false" hook_all="false">
         <action type="EXECUTE_JAVASCRIPT">
           <path></path>
-          <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+          <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
 var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("QueryMessageFlow_TEMPLATE"));
@@ -5092,9 +5067,8 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
 var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("Sch_Table_TEMPLATE"));

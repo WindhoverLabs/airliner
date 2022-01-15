@@ -186,10 +186,9 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path>../scripts/RestartApp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cfe_time/SendDiag()');
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
 
 
 ]]></scriptText>

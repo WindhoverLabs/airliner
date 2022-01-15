@@ -41,9 +41,8 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path>../scripts/RestartApp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var fileName =VTypeHelper.getString(display.getWidget('FileName').getPropertyValue('pv_value'));
 
@@ -55,7 +54,7 @@ if( fileName != 'no value' ) {
     cmd = '/cfs/$(CPUID)/cfe_tbl/DumpReg(Payload.DumpFilename: "")';
 }
 
-Yamcs.issueCommand(cmd);
+Yamcs.issueCommand(widget, cmd);
 
 ]]></scriptText>
         <embedded>true</embedded>

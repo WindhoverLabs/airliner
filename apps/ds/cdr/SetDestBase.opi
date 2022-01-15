@@ -96,20 +96,16 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var file_index = VTypeHelper.getDouble(display.getWidget('FileTableIndex').getPropertyValue('pv_value'));
+var FileTableIndex = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'FileTableIndex')));
+var Basename = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Basename')));
 
-var base_name = VTypeHelper.getString(display.getWidget('Basename').getPropertyValue('pv_value'));
-
-var cmd = '/cfs/$(CPUID)/ds/SetDestBase';
-
-Yamcs.issueCommand(cmd, 
-				  {'FileTableIndex': file_index,
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/SetDestBase', 
+				  {'FileTableIndex': FileTableIndex,
 				    'Padding': 0,
-				    'Basename': base_name
+				    'Basename': Basename
 				  }
 				 );]]></scriptText>
         <embedded>true</embedded>

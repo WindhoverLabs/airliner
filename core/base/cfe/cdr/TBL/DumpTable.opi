@@ -41,31 +41,28 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var tableBuffer =VTypeHelper.getString(display.getWidget('TableBuffer').getPropertyValue('pv_value'));
-var tableName =VTypeHelper.getString(display.getWidget('TableName').getPropertyValue('pv_value'));
-var fileName =VTypeHelper.getString(display.getWidget('FileName').getPropertyValue('pv_value'));
-
-var cmd;
-cmd = '/cfs/$(CPUID)/cfe_tbl/Dump';
+var tableBuffer = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TableBuffer')));
+var tableName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TableName')));
+var fileName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'FileName')));
 
 var args;
 
 if( fileName != 'no value' ) {
-  args = {'Payload.DumpFilename':fileName,
-		'Payload.TableName': tableName,
-		'Payload.ActiveTblFlag':tableBuffer };
-}
+  args = {
+        'Payload.DumpFilename': fileName,
+		'Payload.TableName':      tableName,
+		'Payload.ActiveTblFlag':  tableBuffer };
+  }
 else {
   //    args = {"Payload.DumpFilename":"",
 //		"Payload.TableName":''",
 //		"Payload.ActiveTblFlag":"" };
 }
 
-Yamcs.issueCommand(cmd, args);]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Dump', args);]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

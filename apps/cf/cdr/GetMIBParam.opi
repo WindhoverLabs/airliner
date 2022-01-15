@@ -41,13 +41,12 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path>../scripts/RestartApp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var Parameter =VTypeHelper.getString(display.getWidget('Parameter').getPropertyValue('pv_value'));
+var Parameter = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Parameter')));
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cf/GetMIBParameter', {'Param': Parameter});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/GetMIBParameter', {'Param': Parameter});
 
 ]]></scriptText>
         <embedded>true</embedded>

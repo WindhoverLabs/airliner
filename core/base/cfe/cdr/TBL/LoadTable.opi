@@ -41,21 +41,20 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path>../scripts/RestartApp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var fileName =VTypeHelper.getString(display.getWidget('FileName').getPropertyValue('pv_value'));
+var fileName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'FileName')));
 
-var cmd;
+var args;
 
 if( fileName != 'no value' ) {
-    cmd = '/cfs/$(CPUID)/cfe_tbl/Load(Payload.LoadFilename: ' + fileName + ')';
+    args = {'Payload.LoadFilename': fileName};
 } else {
-    cmd = '/cfs/$(CPUID)/cfe_tbl/Load(Payload.LoadFilename: "")';
+    args = {'Payload.LoadFilename': fileName};
 }
 
-Yamcs.issueCommand(cmd);
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Load', args);
 
 ]]></scriptText>
         <embedded>true</embedded>

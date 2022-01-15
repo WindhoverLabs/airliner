@@ -41,15 +41,12 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path>../scripts/RestartApp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var tableName =VTypeHelper.getString(display.getWidget('TableName').getPropertyValue('pv_value'));
+var tableName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TableName')));
 
-var cmd = '/cfs/$(CPUID)/cfe_tbl/AbortLoad(Payload.TableName: ' + tableName + ')';
-
-Yamcs.issueCommand(cmd);
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/AbortLoad', {'Payload.Tablename': tableName});
 
 ]]></scriptText>
         <embedded>true</embedded>

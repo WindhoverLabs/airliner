@@ -41,14 +41,13 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var TransferType =VTypeHelper.getString(display.getWidget('TransferType').getPropertyValue('pv_value'));
-var Channel =VTypeHelper.getString(display.getWidget('Channel').getPropertyValue('pv_value'));
-var Queue =VTypeHelper.getString(display.getWidget('Queue').getPropertyValue('pv_value'));
-var Filename =VTypeHelper.getString(display.getWidget('Filename').getPropertyValue('pv_value'));
+var TransferType = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TransferType')));
+var Channel = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Channel')));
+var Queue = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Queue')));
+var Filename = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Filename')));
 
 var pTransferType = '';
 var pChannel = -1;
@@ -74,7 +73,7 @@ if( Queue == 'Pending' ) {
     pQueue = 'HISTORY';
 } 
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cf/WriteQueue', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/WriteQueue', {
     'Type': pTransferType,
     'Chan': pChannel,
     'Queue': pQueue,

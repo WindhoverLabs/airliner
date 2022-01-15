@@ -41,13 +41,12 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var strMode =VTypeHelper.getString(display.getWidget('inMode').getPropertyValue('pv_value'));
+var strMode = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inMode')));
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/SetLogMode', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetLogMode', {
     'Payload.Mode': strMode, 
     'Payload.Spare': 0
 });]]></scriptText>

@@ -29,9 +29,8 @@
   <scripts>
     <path pathString="EmbeddedJs" checkConnect="true" seoe="false">
       <scriptName>EmbeddedScript</scriptName>
-      <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+      <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var prevOutput = VTypeHelper.getString(display.getWidget('ConsoleDisplay').getPropertyValue('pv_value'));
 var newOutput =PVUtil.getString(pvs[0])
@@ -57,14 +56,13 @@ display.getWidget('ConsoleDisplay').setPropertyValue('pv_value', combined);
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script)
 
-var consoleInput =VTypeHelper.getString(display.getWidget('inConsoleInput').getPropertyValue('pv_value'));
-var fileName =VTypeHelper.getString(display.getWidget('inFileName').getPropertyValue('pv_value'));
+var consoleInput = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inConsoleInput')));
+var fileName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inFileName')));
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cfe_es/ShellCmd', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/ShellCmd', {
     'Payload.CmdString': consoleInput,
     'Payload.OutputFilename': fileName});
 
@@ -315,9 +313,8 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 display.getWidget('ConsoleDisplay').setPropertyValue('pv_value', '');]]></scriptText>
         <embedded>true</embedded>

@@ -121,16 +121,15 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var MemType = VTypeHelper.getString(display.getWidget('MemType').getPropertyValue('pv_value'));
-var NumofBytes = VTypeHelper.getString(display.getWidget('NumofBytes').getPropertyValue('pv_value'));
-var SymbolName = VTypeHelper.getString(display.getWidget('SymbolName').getPropertyValue('pv_value'));
-var Offset = VTypeHelper.getString(display.getWidget('Offset').getPropertyValue('pv_value'));
+var MemType = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'MemType')));
+var NumofBytes = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'NumofBytes')));
+var SymbolName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'SymbolName')));
+var Offset = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Offset')));
 
-Yamcs.issueCommand('/cfs/$(CPUID)/mm/DumpInEvent', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/mm/DumpInEvent', {
     'MemType': MemType,
     'NumOfBytes': NumofBytes,
     'Padding': 0,

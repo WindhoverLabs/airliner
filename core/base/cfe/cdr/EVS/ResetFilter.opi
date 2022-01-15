@@ -41,14 +41,13 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-appName = VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value'));
-eventID = VTypeHelper.getDouble(display.getWidget('EventID').getPropertyValue('pv_value'));
+var appName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AppName')));
+var eventID = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'EventID')));
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/ResetAppEventFilter', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/ResetAppEventFilter', {
     'Payload.AppName': appName,
     'Payload.EventID': eventID});]]></scriptText>
         <embedded>true</embedded>
@@ -299,13 +298,12 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-appName = VTypeHelper.getString(display.getWidget('AppName').getPropertyValue('pv_value'));
+var appName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AppName')));
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cfe_evs/ResetAppFilters', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/ResetAppFilters', {
     'Payload.AppName': appName});]]></scriptText>
         <embedded>true</embedded>
         <description></description>

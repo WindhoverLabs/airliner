@@ -41,13 +41,12 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var counters =VTypeHelper.getString(display.getWidget('Counters').getPropertyValue('pv_value'));
+var counters = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Counters')));
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cf/ResetCounters', {'Value': counters, 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/ResetCounters', {'Value': counters, 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>

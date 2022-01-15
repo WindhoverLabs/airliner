@@ -1968,11 +1968,10 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cf/Freeze', {});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/Freeze', {});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -2026,11 +2025,10 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cf/Thaw', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/Thaw', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

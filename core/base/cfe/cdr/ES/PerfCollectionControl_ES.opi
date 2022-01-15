@@ -574,7 +574,7 @@ $(pv_value)</tooltip>
 from org.eclipse.swt.graphics import RGB
 from com.windhoverlabs.studio.registry import YAMLRegistry, ConfigRegistry
 from org.csstudio.opibuilder.script import PVTuple
-from org.yamcs.studio.data import IPVListener
+from org.csstudio.display.builder.runtime.script import IPVListener
 from java.lang import Runnable
 import math
 
