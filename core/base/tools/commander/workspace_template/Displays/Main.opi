@@ -18,17 +18,6 @@
   <height>850</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
-    <AuthorizeCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/AuthorizeCommand_App.opi</AuthorizeCmd_TEMPLATE>
-    <DeauthorizeCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/DeauthorizeCommand_App.opi</DeauthorizeCmd_TEMPLATE>
-    <RegisterCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/RegisterCommand_App.opi</RegisterCmd_TEMPLATE>
-    <DeregisterCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/DeregisterCommand_App.opi</DeregisterCmd_TEMPLATE>
-    <UpdateCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/UpdateCommand_App.opi</UpdateCmd_TEMPLATE>
-    <AddMessageFlow_TEMPLATE>/Displays/PPD/Apps/TO/Templates/AddMessageFlow_App.opi</AddMessageFlow_TEMPLATE>
-    <RemoveMessageFlow_TEMPLATE>/Displays/PPD/Apps/TO/Templates/RemoveMessageFlow_App.opi</RemoveMessageFlow_TEMPLATE>
-    <QueryMessageFlow_TEMPLATE>/Displays/PPD/Apps/TO/Templates/QueryMessageFlow_App.opi</QueryMessageFlow_TEMPLATE>
-    <Sch_Table_TEMPLATE>/Displays/PPD/Apps/SCH/Templates/Diagnostic_App.opi</Sch_Table_TEMPLATE>
-    <ALL_CPUS>{'cpd', 'ppd'}</ALL_CPUS>
-    <EVENTS_OPI>Displays/PPD/Core/EVS/Events.opi</EVENTS_OPI>
   </macros>
   <name>Main</name>
   <rules />

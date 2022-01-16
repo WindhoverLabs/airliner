@@ -1,13 +1,6 @@
-    <AuthorizeCmd_TEMPLATE>/Displays/$(CPUID)/Apps/ci/resources/templates/AuthorizeCommand_App.opi</AuthorizeCmd_TEMPLATE>
-    <DeauthorizeCmd_TEMPLATE>/Displays/$(CPUID)/Apps/ci/resources/templates/DeauthorizeCommand_App.opi</DeauthorizeCmd_TEMPLATE>
-    <RegisterCmd_TEMPLATE>/Displays/$(CPUID)/Apps/ci/resources/templates/RegisterCommand_App.opi</RegisterCmd_TEMPLATE>
-    <DeregisterCmd_TEMPLATE>/Displays/$(CPUID)/Apps/ci/resources/templates/DeregisterCommand_App.opi</DeregisterCmd_TEMPLATE>
-    <UpdateCmd_TEMPLATE>/Displays/$(CPUID)/Apps/ci/resources/templates/UpdateCommand_App.opi</UpdateCmd_TEMPLATE>
-    <AddMessageFlow_TEMPLATE>/Displays/$(CPUID)/Apps/to/resources/templates/AddMessageFlow_App.opi</AddMessageFlow_TEMPLATE>
-    <RemoveMessageFlow_TEMPLATE>/Displays/$(CPUID)/Apps/to/resources/templates/RemoveMessageFlow_App.opi</RemoveMessageFlow_TEMPLATE>
-    <QueryMessageFlow_TEMPLATE>/Displays/$(CPUID)/Apps/to/resources/templates/QueryMessageFlow_App.opi</QueryMessageFlow_TEMPLATE>
-    <Sch_Table_TEMPLATE>/Displays/$(CPUID)/Apps/sch/resources/templates/Diagnostic_App.opi</Sch_Table_TEMPLATE>
-    <PerfRecordTEMPLATE_OPI>/Displays/Core/ES/resources/templates/PerfRecord_ES.opi</PerfRecordTEMPLATE_OPI>
-    <PerfCollectionControlTEMPLATE_OPI>/Displays/Core/ES/resources/templates/PerfCollectionControl_ES.opi</PerfCollectionControlTEMPLATE_OPI>
-    <ALL_CPUS>{'cpd', 'ppd'}</ALL_CPUS>
-    <EVENTS_OPI>/Displays/$(CPUID)/Core/EVS/resources/templates/Events.opi</EVENTS_OPI>
+<ALL_CPUS>{'cpd', 'ppd'}</ALL_CPUS>
+<CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+<CMD_MANAGEMENT_CONTAINER>$(DISPLAYS_ROOT_DIR)/$(CPUID)/Apps/ci/resources/containers/cmd_management.bob</CMD_MANAGEMENT_CONTAINER>\
+<TLM_MANAGEMENT_CONTAINER>$(DISPLAYS_ROOT_DIR)/$(CPUID)/Apps/to/resources/containers/tlm_management.bob</TLM_MANAGEMENT_CONTAINER>\
+<EVENT_MANAGEMENT_CONTAINER>$(DISPLAYS_ROOT_DIR)/$(CPUID)/Apps/to/resources/containers/event_management.bob</EVENT_MANAGEMENT_CONTAINER>\
+<EVENT_MANAGEMENT_TEMPLATE>$(DISPLAYS_ROOT_DIR)/$(CPUID)/Core/EVS/resources/templates/Events.bob</EVENT_MANAGEMENT_TEMPLATE>
