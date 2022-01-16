@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>($(CPUID)) CI - Deauth</name>
+  <macros>
+    <include_parent_macros>true</include_parent_macros>
+    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>420</width>
+  <height>180</height>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <scripts>
+    <script file="../scripts/command_management_init.py">
+      <pv_name>=1</pv_name>
+    </script>
+  </scripts>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="combo" version="2.0.0">
+    <name>msgIdInput</name>
+    <pv_name>loc://$(APP)_$(CPUID)_DeauthorizeCommandMsgID_App&lt;VString&gt;</pv_name>
+    <x>114</x>
+    <y>42</y>
+    <width>259</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <scripts>
+      <script file="../scripts/set_msg_id.py">
+        <pv_name>loc://$(APP)_$(CPUID)_DeauthorizeCommandMsgID_App</pv_name>
+      </script>
+      <script file="../scripts/command_management_init.py">
+        <pv_name>loc://$(APP)_$(CPUID)_DeauthorizeCommandMsgID_App</pv_name>
+      </script>
+    </scripts>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <items_from_pv>false</items_from_pv>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_49</name>
+    <text>($(CPUID) - $(APP))  CI - Deauthorize Command</text>
+    <x>12</x>
+    <y>12</y>
+    <width>372</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>Msg</text>
+    <x>30</x>
+    <y>45</y>
+    <width>80</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>cmdCodeInput</name>
+    <pv_name>loc://$(APP)_$(CPUID)_DeauthorizeCommandCommandCode_App&lt;VString&gt;</pv_name>
+    <x>114</x>
+    <y>90</y>
+    <width>259</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <items_from_pv>false</items_from_pv>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_2</name>
+    <text>Cmd Code</text>
+    <x>30</x>
+    <y>93</y>
+    <width>80</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <actions>
+      <action type="execute">
+        <script file="../scripts/deauthorize_command_app.py">
+        </script>
+      </action>
+    </actions>
+    <text>Deauthorize</text>
+    <x>150</x>
+    <y>138</y>
+    <width>105</width>
+    <height>25</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+</display>
