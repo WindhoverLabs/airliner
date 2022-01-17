@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
-  <name>($(CPUID)) CFE-ES - Start App</name>
-
+  <name>($(CPUID) - $(APP)) CFE-ES - Start App</name>
   <macros>
     <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
 @BUILDLINER_CDR_MACRO_BLOCK@
@@ -17,13 +16,32 @@
     <name>Action Button</name>
     <actions>
       <action type="execute">
-        <script file="../scripts/start_app.py">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var appName  = widget.getEffectiveMacros().getValue("APP").toUpperCase();
+var cpu_id = widget.getEffectiveMacros().getValue("CPUID");
+var entryPoint = ScriptUtil.getWidgetValueByName(widget, 'inEntryPoint').getValue();
+var fileName = ScriptUtil.getWidgetValueByName(widget, 'inFileName').getValue();
+var stackSize = ScriptUtil.getWidgetValueByName(widget, 'inStackSize').getValue().intValue();
+var exceptionAction = ScriptUtil.getWidgetValueByName(widget, 'inExceptionAction').getValue();
+var priority = ScriptUtil.getWidgetValueByName(widget, 'inPriority').getValue().intValue();
+
+Yamcs.issueCommand(widget, '/cfs/'+ cpu_id + '/cfe_es/StartApp', {
+    'Payload.Application':        appName,
+    'Payload.AppEntryPoint':   entryPoint,
+    'Payload.AppFileName':     fileName,
+    'Payload.StackSize':           stackSize,
+    'Payload.ExceptionAction': exceptionAction,
+    'Payload.Priority':               priority});
+]]></text>
         </script>
       </action>
     </actions>
     <text>Start</text>
-    <x>144</x>
-    <y>234</y>
+    <x>147</x>
+    <y>205</y>
     <width>73</width>
     <height>25</height>
     <foreground_color>
@@ -38,43 +56,8 @@
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>Label</name>
-    <text>App Name</text>
-    <x>29</x>
-    <y>41</y>
-    <width>80</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>inAppName</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_StartAppAppName&lt;VString&gt;</pv_name>
-    <x>144</x>
-    <y>37</y>
-    <width>219</width>
-    <height>23</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
     <name>Label_1</name>
-    <text>($(CPUID)) Start Application</text>
+    <text>($(CPUID) - $(APP)) Start Application</text>
     <x>65</x>
     <y>12</y>
     <width>231</width>
@@ -95,8 +78,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_2</name>
     <text>Entry Point</text>
-    <x>29</x>
-    <y>66</y>
+    <x>54</x>
+    <y>43</y>
     <width>80</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -111,8 +94,8 @@
   <widget type="textentry" version="3.0.0">
     <name>inEntryPoint</name>
     <pv_name>loc://$(APP)_$(CPUID)_$(DID)_StartAppEntryPoint&lt;VString&gt;</pv_name>
-    <x>145</x>
-    <y>65</y>
+    <x>148</x>
+    <y>42</y>
     <width>219</width>
     <height>23</height>
     <background_color>
@@ -131,8 +114,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_3</name>
     <text>File Name</text>
-    <x>29</x>
-    <y>97</y>
+    <x>54</x>
+    <y>71</y>
     <width>80</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -147,8 +130,8 @@
   <widget type="textentry" version="3.0.0">
     <name>inFileName</name>
     <pv_name>loc://$(APP)_$(CPUID)_$(DID)_StartAppFileName&lt;VString&gt;</pv_name>
-    <x>145</x>
-    <y>93</y>
+    <x>148</x>
+    <y>70</y>
     <width>219</width>
     <height>23</height>
     <background_color>
@@ -167,8 +150,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_4</name>
     <text>Stack Size</text>
-    <x>27</x>
-    <y>125</y>
+    <x>52</x>
+    <y>99</y>
     <width>80</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -183,8 +166,8 @@
   <widget type="textentry" version="3.0.0">
     <name>inStackSize</name>
     <pv_name>loc://$(APP)_$(CPUID)_$(DID)_StartApplicationStackSize&lt;VDouble&gt;</pv_name>
-    <x>144</x>
-    <y>121</y>
+    <x>147</x>
+    <y>98</y>
     <width>219</width>
     <height>23</height>
     <background_color>
@@ -205,8 +188,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_5</name>
     <text>Priority</text>
-    <x>29</x>
-    <y>153</y>
+    <x>54</x>
+    <y>126</y>
     <width>80</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -221,7 +204,7 @@
   <widget type="label" version="2.0.0">
     <name>Label_6</name>
     <text>Exception Action</text>
-    <y>185</y>
+    <y>157</y>
     <width>134</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -236,10 +219,10 @@
   <widget type="combo" version="2.0.0">
     <name>inExceptionAction</name>
     <pv_name>loc://$(APP)_$(CPUID)_$(DID)_StartAppExceptionAction&lt;VString&gt;</pv_name>
-    <x>144</x>
-    <y>176</y>
+    <x>147</x>
+    <y>153</y>
     <width>221</width>
-    <height>34</height>
+    <height>29</height>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
@@ -255,8 +238,8 @@
   <widget type="spinner" version="2.0.0">
     <name>inPriority</name>
     <pv_name>loc://$(APP)_$(CPUID)_$(DID)_StartApplicationPriority&lt;VDouble&gt;</pv_name>
-    <x>145</x>
-    <y>149</y>
+    <x>148</x>
+    <y>126</y>
     <width>219</width>
     <height>23</height>
     <precision>0</precision>
