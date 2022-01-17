@@ -6,122 +6,80 @@
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
-  <widget type="label" version="2.0.0">
-    <name>Label_50</name>
-    <text>CMD Management</text>
-    <width>139</width>
-    <font>
-      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
+  <width>160</width>
+  <height>150</height>
   <widget type="action_button" version="3.0.0">
-    <name>AppControl_11</name>
+    <name>Action Button_11</name>
     <actions>
       <action type="open_display">
-        <file>$(AuthorizeCmd_TEMPLATE)</file>
+        <file>../templates/AuthorizeCommand_App.bob</file>
         <target>window</target>
         <description>Open Display</description>
       </action>
     </actions>
     <text>Authorize</text>
-    <y>20</y>
-    <width>139</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
+    <width>140</width>
+    <height>20</height>
     <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>AppControl_12</name>
+    <name>Action Button_12</name>
     <actions>
       <action type="open_display">
-        <file>$(DeauthorizeCmd_TEMPLATE)</file>
+        <file>../templates/DeauthorizeCommand_App.bob</file>
         <target>window</target>
         <description>Open Display</description>
       </action>
     </actions>
     <text>Deauthorize</text>
-    <y>46</y>
-    <width>139</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
+    <y>20</y>
+    <width>140</width>
+    <height>20</height>
     <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>AppControl_16</name>
+    <name>Action Button_13</name>
     <actions>
       <action type="open_display">
-        <file>$(UpdateCmd_TEMPLATE)</file>
-        <target>window</target>
-        <description>Open Display</description>
-      </action>
-    </actions>
-    <text>Update</text>
-    <y>124</y>
-    <width>139</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>AppControl_17</name>
-    <actions>
-      <action type="open_display">
-        <file>$(DeregisterCmd_TEMPLATE)</file>
-        <target>window</target>
-        <description>Open Display</description>
-      </action>
-    </actions>
-    <text>Deregister</text>
-    <y>98</y>
-    <width>139</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>AppControl_18</name>
-    <actions>
-      <action type="open_display">
-        <file>$(RegisterCmd_TEMPLATE)</file>
+        <file>../templates/RegisterCommand_App.bob</file>
         <target>window</target>
         <description>Open Display</description>
       </action>
     </actions>
     <text>Register</text>
-    <y>72</y>
-    <width>139</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
+    <y>40</y>
+    <width>140</width>
+    <height>20</height>
     <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_14</name>
+    <actions>
+      <action type="open_display">
+        <file>../templates/DeregisterCommand_App.bob</file>
+        <target>window</target>
+        <description>Open Display</description>
+      </action>
+    </actions>
+    <text>Deregister</text>
+    <y>60</y>
+    <width>140</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_15</name>
+    <actions>
+      <action type="open_display">
+        <file>../templates/UpdateCommand_App.bob</file>
+        <target>window</target>
+        <description>Open Display</description>
+      </action>
+    </actions>
+    <text>Update</text>
+    <y>80</y>
+    <width>140</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
   </widget>
 </display>

@@ -6,82 +6,50 @@
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
-  <widget type="label" version="2.0.0">
-    <name>Label_51</name>
-    <text>TLM Management</text>
-    <width>139</width>
-    <font>
-      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
+  <width>160</width>
+  <height>100</height>
   <widget type="action_button" version="3.0.0">
-    <name>AppControl_21</name>
+    <name>Action Button_11</name>
     <actions>
       <action type="open_display">
-        <file>$(AddMessageFlow_TEMPLATE)</file>
+        <file>../templates/AddMessageFlow_App.bob</file>
         <target>window</target>
         <description>Open Display</description>
       </action>
     </actions>
     <text>Add</text>
-    <y>20</y>
-    <width>139</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
+    <width>140</width>
+    <height>20</height>
     <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>AppControl_22</name>
+    <name>Action Button_12</name>
     <actions>
       <action type="open_display">
-        <file>$(QueryMessageFlow_TEMPLATE)</file>
-        <target>window</target>
-        <description>Open Display</description>
-      </action>
-    </actions>
-    <text>Query</text>
-    <y>72</y>
-    <width>139</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>AppControl_23</name>
-    <actions>
-      <action type="open_display">
-        <file>$(RemoveMessageFlow_TEMPLATE)</file>
+        <file>../templates/RemoveMessageFlow_App.bob</file>
         <target>window</target>
         <description>Open Display</description>
       </action>
     </actions>
     <text>Remove</text>
-    <y>46</y>
-    <width>139</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
+    <y>20</y>
+    <width>140</width>
+    <height>20</height>
     <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_13</name>
+    <actions>
+      <action type="open_display">
+        <file>../templates/QueryMessageFlow_App.bob</file>
+        <target>window</target>
+        <description>Open Display</description>
+      </action>
+    </actions>
+    <text>Query</text>
+    <y>40</y>
+    <width>140</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
   </widget>
 </display>
