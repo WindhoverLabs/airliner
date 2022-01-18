@@ -17,7 +17,7 @@
   <grid_step_y>6</grid_step_y>
   <widget type="checkbox" version="2.0.0">
     <name>Critical</name>
-    <pv_name>loc://Critical</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Critical&lt;VLong&gt;(0)</pv_name>
     <label>Critical</label>
     <x>30</x>
     <y>84</y>
@@ -26,7 +26,7 @@
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Error</name>
-    <pv_name>loc://Error</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Error&lt;VLong&gt;(0)</pv_name>
     <label>Error</label>
     <x>30</x>
     <y>103</y>
@@ -35,7 +35,7 @@
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Information</name>
-    <pv_name>loc://Information</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Information&lt;VLong&gt;(0)</pv_name>
     <label>Information</label>
     <x>30</x>
     <y>122</y>
@@ -44,7 +44,7 @@
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Debug</name>
-    <pv_name>loc://Debug</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Debug&lt;VLong&gt;(0)</pv_name>
     <label>Debug</label>
     <x>30</x>
     <y>141</y>
@@ -69,8 +69,8 @@ var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
 
 Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/EnableAppEventType', {
     'Payload.AppName': appName,
-    'Payload.BitMask': mask,
-    'Payload.Spare': 0
+    'Payload.BitMask': mask.toFixed(0),
+    'Payload.Spare': '0'
 });]]></text>
         </script>
       </action>
@@ -109,8 +109,8 @@ var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
 
 Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisableAppEventType', {
     'Payload.AppName': appName,
-    'Payload.BitMask': mask,
-    'Payload.Spare': 0
+    'Payload.BitMask': mask.toFixed(0),
+    'Payload.Spare': '0'
 });]]></text>
         </script>
       </action>
@@ -147,38 +147,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisableAppEventType', {
       </color>
     </border_color>
   </widget>
-  <widget type="combo" version="2.0.0">
-    <name>AppName</name>
-    <pv_name>loc://AppName&lt;VString&gt;</pv_name>
-    <x>102</x>
-    <y>40</y>
-    <width>163</width>
-    <height>20</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <items>
-      <item>CF</item>
-      <item>CI</item>
-      <item>CS</item>
-      <item>DS</item>
-      <item>EIM</item>
-      <item>HS</item>
-      <item>FM</item>
-      <item>HK</item>
-      <item>LC</item>
-      <item>MM</item>
-      <item>SCH</item>
-      <item>TO</item>
-      <item>SBN</item>
-      <item>CFE_EVS</item>
-      <item>CFE_ES</item>
-    </items>
-    <items_from_pv>false</items_from_pv>
-  </widget>
   <widget type="label" version="2.0.0">
     <name>Label_49</name>
     <text>($(CPUID)) Enable / Disable App Event Type</text>
@@ -196,6 +164,25 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisableAppEventType', {
     </actions>
     <border_color>
       <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>AppName</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AppName&lt;VString&gt;("")</pv_name>
+    <x>102</x>
+    <y>40</y>
+    <width>163</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>6</format>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
       </color>
     </border_color>
   </widget>

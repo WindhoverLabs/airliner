@@ -84,11 +84,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/WriteLogData', {'Payload.LogFi
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>inFileName</name>
-    <pv_name>loc://FileName</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_FileName&lt;VString&gt;</pv_name>
     <x>97</x>
-    <y>49</y>
+    <y>48</y>
     <width>305</width>
-    <height>18</height>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>

@@ -199,7 +199,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/Reset', {});]]></text>
       <actions>
         <action type="open_display">
           <file>EnaDisEventType.bob</file>
-          <target>tab</target>
+          <target>window</target>
         </action>
       </actions>
       <text>Ena/Dis Event Type</text>
@@ -214,7 +214,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/Reset', {});]]></text>
       <actions>
         <action type="open_display">
           <file>EnaDisAppEventType.bob</file>
-          <target>tab</target>
+          <target>window</target>
         </action>
       </actions>
       <text>Ena/Dis App Event Type</text>
@@ -229,7 +229,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/Reset', {});]]></text>
       <actions>
         <action type="open_display">
           <file>EnaDisAppEvents.bob</file>
-          <target>tab</target>
+          <target>window</target>
         </action>
       </actions>
       <text>Ena/Dis App Events</text>
@@ -244,7 +244,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/Reset', {});]]></text>
       <actions>
         <action type="open_display">
           <file>ResetAppCounter.bob</file>
-          <target>tab</target>
+          <target>window</target>
         </action>
       </actions>
       <text>Reset App Counter</text>
@@ -259,7 +259,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/Reset', {});]]></text>
       <actions>
         <action type="open_display">
           <file>AddFilter.bob</file>
-          <target>tab</target>
+          <target>window</target>
         </action>
       </actions>
       <text>Add Filter</text>
@@ -274,7 +274,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/Reset', {});]]></text>
       <actions>
         <action type="open_display">
           <file>EnaDisPorts.bob</file>
-          <target>tab</target>
+          <target>window</target>
         </action>
       </actions>
       <text>Ena/Dis Ports</text>
@@ -290,7 +290,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/Reset', {});]]></text>
       <actions>
         <action type="open_display">
           <file>DumpAppData.bob</file>
-          <target>tab</target>
+          <target>window</target>
         </action>
       </actions>
       <text>Dump App Data</text>
@@ -306,11 +306,11 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/Reset', {});]]></text>
       <actions>
         <action type="open_display">
           <file>$(EVENTS_OPI)</file>
-          <target>replace</target>
+          <target>tab</target>
           <description>Open Display</description>
         </action>
       </actions>
-      <text>Event FIlters (CFE_EVS)</text>
+      <text>Event Filters (CFE_EVS)</text>
       <y>101</y>
       <width>187</width>
       <height>20</height>
@@ -339,7 +339,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/Reset', {});]]></text>
       <actions>
         <action type="open_display">
           <file>DeleteFilter.bob</file>
-          <target>tab</target>
+          <target>window</target>
         </action>
       </actions>
       <text>Delete Filter</text>
@@ -355,7 +355,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/Reset', {});]]></text>
       <actions>
         <action type="open_display">
           <file>ResetFilter.bob</file>
-          <target>tab</target>
+          <target>window</target>
         </action>
       </actions>
       <text>Reset Filter</text>
@@ -371,7 +371,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/Reset', {});]]></text>
       <actions>
         <action type="open_display">
           <file>SetFilter.bob</file>
-          <target>tab</target>
+          <target>window</target>
         </action>
       </actions>
       <text>Set Filter</text>

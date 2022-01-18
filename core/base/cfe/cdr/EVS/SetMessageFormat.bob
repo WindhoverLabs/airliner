@@ -23,11 +23,13 @@
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var strFormat = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inFormat')));
+//var strFormat = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inFormat')));
+
+var strFormat = ScriptUtil.getWidgetValueByName(widget, 'inFormat').getValue();
 
 Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetEventFormatMode', {
     'Payload.Mode': strFormat,
-    'Payload.Spare': 0});
+    'Payload.Spare': '0'});
 ]]></text>
         </script>
       </action>
@@ -64,25 +66,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetEventFormatMode', {
       </color>
     </border_color>
   </widget>
-  <widget type="combo" version="2.0.0">
-    <name>inFormat</name>
-    <pv_name>loc://Format</pv_name>
-    <x>72</x>
-    <y>40</y>
-    <width>157</width>
-    <height>20</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <items>
-      <item>SHORT</item>
-      <item>LONG</item>
-    </items>
-    <items_from_pv>false</items_from_pv>
-  </widget>
   <widget type="label" version="2.0.0">
     <name>Label_1</name>
     <text>($(CPUID)) Set Message Format</text>
@@ -102,5 +85,24 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetEventFormatMode', {
       <color red="0" green="128" blue="255">
       </color>
     </border_color>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>inFormat</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_StartAppExceptionAction&lt;VString&gt;("")</pv_name>
+    <x>72</x>
+    <y>40</y>
+    <width>157</width>
+    <height>20</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <items>
+      <item>SHORT</item>
+      <item>LONG</item>
+    </items>
+    <items_from_pv>false</items_from_pv>
   </widget>
 </display>

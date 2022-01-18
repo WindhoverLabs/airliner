@@ -23,7 +23,6 @@
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
-    <TEMPLATE_OPI>EventRecord.opi</TEMPLATE_OPI>
   </macros>
   <name></name>
   <rules />

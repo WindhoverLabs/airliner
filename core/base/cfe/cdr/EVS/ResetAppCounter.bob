@@ -61,38 +61,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/ResetAppEventCounters', {'Payl
       </color>
     </border_color>
   </widget>
-  <widget type="combo" version="2.0.0">
-    <name>AppName</name>
-    <pv_name>loc://AppName&lt;VString&gt;</pv_name>
-    <x>102</x>
-    <y>40</y>
-    <width>134</width>
-    <height>20</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <items>
-      <item>CF</item>
-      <item>CI</item>
-      <item>CS</item>
-      <item>DS</item>
-      <item>EIM</item>
-      <item>HS</item>
-      <item>FM</item>
-      <item>HK</item>
-      <item>LC</item>
-      <item>MM</item>
-      <item>SCH</item>
-      <item>TO</item>
-      <item>SBN</item>
-      <item>CFE_ES</item>
-      <item>CFE_EVS</item>
-    </items>
-    <items_from_pv>false</items_from_pv>
-  </widget>
   <widget type="label" version="2.0.0">
     <name>Label_49</name>
     <text>($(CPUID)) Reset App Counter</text>
@@ -110,6 +78,25 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/ResetAppEventCounters', {'Payl
     </actions>
     <border_color>
       <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>AppName</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AppName&lt;VString&gt;("")</pv_name>
+    <x>102</x>
+    <y>40</y>
+    <width>134</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>6</format>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
       </color>
     </border_color>
   </widget>

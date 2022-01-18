@@ -17,7 +17,7 @@
   <grid_step_y>6</grid_step_y>
   <widget type="checkbox" version="2.0.0">
     <name>Critical</name>
-    <pv_name>loc://Critical</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Critical&lt;VLong&gt;(0)</pv_name>
     <label>Critical</label>
     <x>30</x>
     <y>42</y>
@@ -26,7 +26,7 @@
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Error</name>
-    <pv_name>loc://Error</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Error&lt;VLong&gt;(0)</pv_name>
     <label>Error</label>
     <x>30</x>
     <y>61</y>
@@ -35,7 +35,7 @@
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Information</name>
-    <pv_name>loc://Information</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Information&lt;VLong&gt;(0)</pv_name>
     <label>Information</label>
     <x>30</x>
     <y>80</y>
@@ -44,7 +44,7 @@
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Debug</name>
-    <pv_name>loc://Debug</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Debug&lt;VLong&gt;(0)</pv_name>
     <label>Debug</label>
     <x>30</x>
     <y>99</y>
@@ -67,8 +67,8 @@ var debugFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetBy
 var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
 
 Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/EnableEventType', {
-    'Payload.BitMask': mask,
-    'Payload.Spare': 0
+    'Payload.BitMask': mask.toFixed(0),
+    'Payload.Spare': '0'
 });]]></text>
         </script>
       </action>
@@ -105,8 +105,8 @@ var debugFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetBy
 var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
 
 Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisableEventType', {
-    'Payload.BitMask': mask,
-    'Payload.Spare': 0
+    'Payload.BitMask': mask.toFixed(0),
+    'Payload.Spare': '0'
 });]]></text>
         </script>
       </action>

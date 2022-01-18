@@ -24,8 +24,8 @@
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AppName')));
-var eventID = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'EventID')));
-var mask = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Mask')));
+var eventID = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'EventID')));
+var mask = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Mask')));
 
 Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetAppEventFilter', {
     'Payload.AppName': appName,
@@ -36,7 +36,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetAppEventFilter', {
     </actions>
     <text>Set Filter</text>
     <x>85</x>
-    <y>127</y>
+    <y>131</y>
     <width>90</width>
     <height>28</height>
     <foreground_color>
@@ -86,43 +86,11 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetAppEventFilter', {
       </color>
     </border_color>
   </widget>
-  <widget type="combo" version="2.0.0">
-    <name>AppName</name>
-    <pv_name>loc://AppName&lt;VString&gt;</pv_name>
-    <x>96</x>
-    <y>40</y>
-    <width>134</width>
-    <height>20</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <items>
-      <item>CF</item>
-      <item>CI</item>
-      <item>CS</item>
-      <item>DS</item>
-      <item>EIM</item>
-      <item>HS</item>
-      <item>FM</item>
-      <item>HK</item>
-      <item>LC</item>
-      <item>MM</item>
-      <item>SCH</item>
-      <item>TO</item>
-      <item>SBN</item>
-      <item>CFE_ES</item>
-      <item>CFE_EVS</item>
-    </items>
-    <items_from_pv>false</items_from_pv>
-  </widget>
   <widget type="label" version="2.0.0">
     <name>Label_4</name>
     <text>Event ID</text>
     <x>12</x>
-    <y>60</y>
+    <y>62</y>
     <width>69</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -136,9 +104,9 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetAppEventFilter', {
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>EventID</name>
-    <pv_name>loc://EventID&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_EventID&lt;VLong&gt;(0)</pv_name>
     <x>97</x>
-    <y>60</y>
+    <y>62</y>
     <width>132</width>
     <background_color>
       <color red="255" green="255" blue="255">
@@ -158,7 +126,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetAppEventFilter', {
     <name>Label_5</name>
     <text>Mask</text>
     <x>30</x>
-    <y>80</y>
+    <y>84</y>
     <width>51</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -172,18 +140,38 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetAppEventFilter', {
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>Mask</name>
-    <pv_name>loc://Mask&lt;VDouble&gt;(0)</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Mask&lt;VLong&gt;(0)</pv_name>
     <x>97</x>
-    <y>80</y>
+    <y>84</y>
     <width>132</width>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
     </background_color>
-    <precision>0</precision>
+    <format>4</format>
+    <precision>8</precision>
     <actions>
     </actions>
     <border_alarm_sensitive>false</border_alarm_sensitive>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>AppName</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AppName&lt;VString&gt;("")</pv_name>
+    <x>96</x>
+    <y>40</y>
+    <width>134</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>6</format>
+    <actions>
+    </actions>
     <border_width>1</border_width>
     <border_color>
       <color red="240" green="240" blue="240">

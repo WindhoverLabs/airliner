@@ -27,7 +27,7 @@ var strMode = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByNa
 
 Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetLogMode', {
     'Payload.Mode': strMode, 
-    'Payload.Spare': 0
+    'Payload.Spare': '0'
 });]]></text>
         </script>
       </action>
@@ -66,7 +66,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetLogMode', {
   </widget>
   <widget type="combo" version="2.0.0">
     <name>inMode</name>
-    <pv_name>loc://Mode</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Mode&lt;VString&gt;("")</pv_name>
     <x>66</x>
     <y>40</y>
     <width>157</width>

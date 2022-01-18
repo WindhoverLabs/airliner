@@ -24,7 +24,7 @@
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AppName')));
-var eventID = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'EventID')));
+var eventID = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'EventID')));
 
 Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DeleteAppEventFilter', {
     'Payload.AppName': appName,
@@ -34,7 +34,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DeleteAppEventFilter', {
     </actions>
     <text>Delete</text>
     <x>83</x>
-    <y>96</y>
+    <y>98</y>
     <width>80</width>
     <height>28</height>
     <foreground_color>
@@ -64,43 +64,11 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DeleteAppEventFilter', {
       </color>
     </border_color>
   </widget>
-  <widget type="combo" version="2.0.0">
-    <name>AppName</name>
-    <pv_name>loc://AppName&lt;VString&gt;</pv_name>
-    <x>102</x>
-    <y>40</y>
-    <width>134</width>
-    <height>20</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <items>
-      <item>CF</item>
-      <item>CI</item>
-      <item>CS</item>
-      <item>DS</item>
-      <item>EIM</item>
-      <item>HS</item>
-      <item>FM</item>
-      <item>HK</item>
-      <item>LC</item>
-      <item>MM</item>
-      <item>SCH</item>
-      <item>TO</item>
-      <item>SBN</item>
-      <item>CFE_ES</item>
-      <item>CFE_EVS</item>
-    </items>
-    <items_from_pv>false</items_from_pv>
-  </widget>
   <widget type="label" version="2.0.0">
     <name>Label_4</name>
     <text>Event ID</text>
     <x>7</x>
-    <y>60</y>
+    <y>62</y>
     <width>80</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -114,9 +82,9 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DeleteAppEventFilter', {
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>EventID</name>
-    <pv_name>loc://EventID&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_EventID&lt;VLong&gt;(0)</pv_name>
     <x>103</x>
-    <y>60</y>
+    <y>62</y>
     <width>132</width>
     <background_color>
       <color red="255" green="255" blue="255">
@@ -149,6 +117,25 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DeleteAppEventFilter', {
     </actions>
     <border_color>
       <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>AppName</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AppName&lt;VString&gt;("")</pv_name>
+    <x>102</x>
+    <y>40</y>
+    <width>134</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>6</format>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
       </color>
     </border_color>
   </widget>

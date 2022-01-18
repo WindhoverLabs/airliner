@@ -84,11 +84,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/WriteAppData', {'Payload.AppDa
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>inFileName</name>
-    <pv_name>loc://FileName</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_FileName&lt;VString&gt;("")</pv_name>
     <x>91</x>
-    <y>43</y>
+    <y>42</y>
     <width>311</width>
-    <height>18</height>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
