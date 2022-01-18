@@ -2,7 +2,7 @@
 <display version="2.0.0">
   <name>($(CPUID)) CFE-TBL</name>
   <macros>
-    <APP>cfe_sb</APP>
+    <APP>cfe_tbl</APP>
     <include_parent_macros>true</include_parent_macros>
     <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
@@ -907,7 +907,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
         <action type="open_display">
           <file>DumpRegistry.opi</file>
-          <target>tab</target>
+          <target>window</target>
         </action>
       </actions>
       <text>Dump Registry</text>
@@ -938,7 +938,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <name>Action Button_7</name>
       <actions>
         <action type="open_display">
-          <file>DeleteCDS.opi</file>
+          <file>DeleteCDS.bob</file>
           <target>window</target>
         </action>
       </actions>

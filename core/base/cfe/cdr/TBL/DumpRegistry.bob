@@ -2,7 +2,7 @@
 <display version="2.0.0">
   <name>($(CPUID)) CFE-TBL - Dump Reg</name>
   <macros>
-    <APP>cfe_sb</APP>
+    <APP>cfe_tbl</APP>
     <include_parent_macros>true</include_parent_macros>
     <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
@@ -23,17 +23,17 @@
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var fileName =VTypeHelper.getString(display.getWidget('FileName').getPropertyValue('pv_value'));
+var fileName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'FileName')));
 
-var cmd;
+var args;
 
 if( fileName != 'no value' ) {
-    cmd = '/cfs/$(CPUID)/cfe_tbl/DumpReg(Payload.DumpFilename: ' + fileName + ')';
+    args = {'Payload.DumpFilename': fileName};
 } else {
-    cmd = '/cfs/$(CPUID)/cfe_tbl/DumpReg(Payload.DumpFilename: "")';
+    args = {'Payload.DumpFilename': ''};
 }
 
-Yamcs.issueCommand(widget, cmd);
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/DumpReg', args);
 
 ]]></text>
         </script>

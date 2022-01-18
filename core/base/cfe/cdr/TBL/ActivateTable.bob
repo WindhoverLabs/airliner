@@ -2,7 +2,7 @@
 <display version="2.0.0">
   <name>($(CPUID)) CFE-TBL - Activate</name>
   <macros>
-    <APP>cfe_sb</APP>
+    <APP>cfe_tbl</APP>
     <include_parent_macros>true</include_parent_macros>
     <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
@@ -25,7 +25,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var tableName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TableName')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Activate', {'Payload.Tablename': tableName});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Activate', {'Payload.TableName': tableName});
 
 ]]></text>
         </script>
@@ -67,9 +67,8 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Activate', {'Payload.Tablename
     <name>TableName</name>
     <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TableName&lt;VString&gt;("")</pv_name>
     <x>109</x>
-    <y>40</y>
+    <y>39</y>
     <width>151</width>
-    <height>18</height>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>

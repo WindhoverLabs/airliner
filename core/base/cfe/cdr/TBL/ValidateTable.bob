@@ -2,7 +2,7 @@
 <display version="2.0.0">
   <name>($(CPUID)) CFE-TBL - Validate</name>
   <macros>
-    <APP>cfe_sb</APP>
+    <APP>cfe_tbl</APP>
     <include_parent_macros>true</include_parent_macros>
     <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
@@ -101,9 +101,8 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Validate', {
     <name>TableName</name>
     <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TableName&lt;VString&gt;("")</pv_name>
     <x>103</x>
-    <y>80</y>
+    <y>79</y>
     <width>151</width>
-    <height>18</height>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
@@ -120,9 +119,9 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Validate', {
   <widget type="radio" version="2.0.0">
     <name>TableBuffer</name>
     <pv_name>loc://TableBuffer&lt;VString&gt;</pv_name>
-    <x>28</x>
-    <y>38</y>
-    <width>216</width>
+    <x>71</x>
+    <y>42</y>
+    <width>163</width>
     <height>33</height>
     <actions>
     </actions>
