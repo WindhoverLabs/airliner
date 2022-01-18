@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
   <macros>
-    <APP>cfe_sb</APP>
+    <APP>cfe_time</APP>
     <include_parent_macros>true</include_parent_macros>
     <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
@@ -18,13 +18,33 @@
     <name>Action Button</name>
     <actions>
       <action type="execute">
-        <script file="scripts/set_tone_data.py">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var METSeconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'METSeconds')));
+var METSubseconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'METSubseconds')));
+var STCFSeconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'STCFSeconds')));
+var STCFSubseconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'STCFSubseconds')));
+var Leaps = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Leaps')));
+var State = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'State')));
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/ToneData', {
+    'Payload.AtToneMET.Seconds': METSeconds,
+    'Payload.AtToneMET.Subseconds': METSubseconds,
+    'Payload.AtToneSTCF.Seconds': STCFSeconds,
+    'Payload.AtToneSTCF.Subseconds': STCFSubseconds,
+    'Payload.AtToneLeaps': Leaps,
+    'Payload.AtToneState': State})
+
+
+]]></text>
         </script>
       </action>
     </actions>
     <text>Tone Data</text>
     <x>82</x>
-    <y>228</y>
+    <y>207</y>
     <width>163</width>
     <height>25</height>
     <foreground_color>
@@ -42,7 +62,7 @@
     <name>Label</name>
     <text>At Tone MET Seconds </text>
     <x>28</x>
-    <y>42</y>
+    <y>40</y>
     <width>153</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -58,7 +78,7 @@
     <name>Label_1</name>
     <text>At Tone MET Subseconds</text>
     <x>4</x>
-    <y>68</y>
+    <y>65</y>
     <width>177</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -74,7 +94,7 @@
     <name>Label_2</name>
     <text>At Tone STCF Seconds</text>
     <x>16</x>
-    <y>96</y>
+    <y>90</y>
     <width>165</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -90,7 +110,7 @@
     <name>Label_3</name>
     <text>At Tone STCF Subseconds</text>
     <x>4</x>
-    <y>126</y>
+    <y>115</y>
     <width>177</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -106,7 +126,7 @@
     <name>Label_4</name>
     <text>At Tone Leaps</text>
     <x>34</x>
-    <y>156</y>
+    <y>140</y>
     <width>147</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -122,7 +142,7 @@
     <name>Label_5</name>
     <text>At Tone State</text>
     <x>34</x>
-    <y>186</y>
+    <y>165</y>
     <width>147</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -136,104 +156,98 @@
   </widget>
   <widget type="spinner" version="2.0.0">
     <name>METSeconds</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AtToneMETSeconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AtToneMETSeconds&lt;VLong&gt;(0)</pv_name>
     <x>190</x>
-    <y>42</y>
+    <y>40</y>
     <width>137</width>
     <format>0</format>
-    <precision>3</precision>
+    <precision>0</precision>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
     </background_color>
     <actions>
     </actions>
-    <minimum>-1.7976931348623157E308</minimum>
     <maximum>1.7976931348623157E308</maximum>
   </widget>
   <widget type="spinner" version="2.0.0">
     <name>METSubseconds</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_ToneDataAtToneMETSubseconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_ToneDataAtToneMETSubseconds&lt;VLong&gt;(0)</pv_name>
     <x>190</x>
-    <y>68</y>
+    <y>65</y>
     <width>137</width>
     <format>0</format>
-    <precision>3</precision>
+    <precision>0</precision>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
     </background_color>
     <actions>
     </actions>
-    <minimum>-1.7976931348623157E308</minimum>
     <maximum>1.7976931348623157E308</maximum>
   </widget>
   <widget type="spinner" version="2.0.0">
     <name>STCFSeconds</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_ToneDataAtToneSTCFSeconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_ToneDataAtToneSTCFSeconds&lt;VLong&gt;(0)</pv_name>
     <x>190</x>
-    <y>96</y>
+    <y>90</y>
     <width>137</width>
     <format>0</format>
-    <precision>3</precision>
+    <precision>0</precision>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
     </background_color>
     <actions>
     </actions>
-    <minimum>-1.7976931348623157E308</minimum>
     <maximum>1.7976931348623157E308</maximum>
   </widget>
   <widget type="spinner" version="2.0.0">
     <name>STCFSubseconds</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_ToneDataAtToneSTCFSubseconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_ToneDataAtToneSTCFSubseconds&lt;VLong&gt;(0)</pv_name>
     <x>190</x>
-    <y>126</y>
+    <y>115</y>
     <width>137</width>
     <format>0</format>
-    <precision>3</precision>
+    <precision>0</precision>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
     </background_color>
     <actions>
     </actions>
-    <minimum>-1.7976931348623157E308</minimum>
     <maximum>1.7976931348623157E308</maximum>
   </widget>
   <widget type="spinner" version="2.0.0">
     <name>Leaps</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_ToneDataAtToneLeaps&lt;VDouble&gt;&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_ToneDataAtToneLeaps&lt;VLong&gt;(0)</pv_name>
     <x>190</x>
-    <y>156</y>
+    <y>140</y>
     <width>137</width>
     <format>0</format>
-    <precision>3</precision>
+    <precision>0</precision>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
     </background_color>
     <actions>
     </actions>
-    <minimum>-1.7976931348623157E308</minimum>
     <maximum>1.7976931348623157E308</maximum>
   </widget>
   <widget type="spinner" version="2.0.0">
     <name>State</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_ToneDataAtToneState&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_ToneDataAtToneState&lt;VLong&gt;(0)</pv_name>
     <x>190</x>
-    <y>186</y>
+    <y>165</y>
     <width>137</width>
     <format>0</format>
-    <precision>3</precision>
+    <precision>0</precision>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
     </background_color>
     <actions>
     </actions>
-    <minimum>-1.7976931348623157E308</minimum>
     <maximum>1.7976931348623157E308</maximum>
   </widget>
   <widget type="label" version="2.0.0">

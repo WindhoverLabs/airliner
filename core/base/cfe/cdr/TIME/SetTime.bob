@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
   <macros>
-    <APP>cfe_sb</APP>
+    <APP>cfe_time</APP>
     <include_parent_macros>true</include_parent_macros>
     <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
@@ -23,8 +23,8 @@
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Type = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Type')));
-var Seconds = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Seconds')));
-var Microseconds = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Microseconds')));
+var Seconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Seconds')));
+var Microseconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Microseconds')));
 
 var cmd;
 
@@ -78,7 +78,7 @@ Yamcs.issueCommand(widget, cmd, {
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>Seconds</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_SetTimeSeconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_SetTimeSeconds&lt;VLong&gt;(0)</pv_name>
     <x>117</x>
     <y>78</y>
     <width>135</width>
@@ -114,7 +114,7 @@ Yamcs.issueCommand(widget, cmd, {
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>Microseconds</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_SetTimeMicroseconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_SetTimeMicroseconds&lt;VLong&gt;(0)</pv_name>
     <x>117</x>
     <y>103</y>
     <width>135</width>
@@ -134,7 +134,7 @@ Yamcs.issueCommand(widget, cmd, {
   </widget>
   <widget type="radio" version="2.0.0">
     <name>Type</name>
-    <pv_name>loc://SetTimeType&lt;VString&gt;</pv_name>
+    <pv_name>loc://SetTimeType&lt;VString&gt;('')</pv_name>
     <x>30</x>
     <y>41</y>
     <width>216</width>

@@ -2,7 +2,7 @@
 <display version="2.0.0">
   <name>($(CPUID)) CFE-TIME</name>
   <macros>
-    <APP>cfe_sb</APP>
+    <APP>cfe_time</APP>
     <include_parent_macros>true</include_parent_macros>
     <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
@@ -584,7 +584,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_10</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateAPI</pv_name>
+      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateAPI</pv_name>
       <x>134</x>
       <y>6</y>
       <width>98</width>

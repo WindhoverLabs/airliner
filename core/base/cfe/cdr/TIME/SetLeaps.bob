@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
   <macros>
-    <APP>cfe_sb</APP>
+    <APP>cfe_time</APP>
     <include_parent_macros>true</include_parent_macros>
     <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
@@ -22,8 +22,8 @@
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var Seconds = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Seconds')));
-var Microseconds = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Microseconds')));
+var Seconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Seconds')));
+var Microseconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Microseconds')));
 
 var cmd = '/cfs/$(CPUID)/cfe_time/SetLeapSeconds';
 
@@ -71,11 +71,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SetLeapSeconds',
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>Seconds</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Seconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Seconds&lt;VLong&gt;(0)</pv_name>
     <x>115</x>
-    <y>54</y>
+    <y>53</y>
     <width>135</width>
-    <height>18</height>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
@@ -108,11 +107,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SetLeapSeconds',
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>Microseconds</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_SetLeapsMicroseconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_SetLeapsMicroseconds&lt;VLong&gt;(0)</pv_name>
     <x>115</x>
-    <y>79</y>
+    <y>78</y>
     <width>135</width>
-    <height>18</height>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>

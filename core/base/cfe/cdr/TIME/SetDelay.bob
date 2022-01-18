@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
   <macros>
-    <APP>cfe_sb</APP>
+    <APP>cfe_time</APP>
     <include_parent_macros>true</include_parent_macros>
     <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
@@ -23,8 +23,8 @@
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Direction = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Direction')));
-var Seconds = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Seconds')));
-var Microseconds = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Microseconds')));
+var Seconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Seconds')));
+var Microseconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Microseconds')));
 var cmd;
 
 if( Direction == 'Add' ) {
@@ -41,7 +41,7 @@ Yamcs.issueCommand(widget, cmd, {'Payload.Seconds': Seconds, 'Payload.MicroSecon
     </actions>
     <text>Set Delay</text>
     <x>50</x>
-    <y>114</y>
+    <y>125</y>
     <width>163</width>
     <height>25</height>
     <foreground_color>
@@ -59,7 +59,7 @@ Yamcs.issueCommand(widget, cmd, {'Payload.Seconds': Seconds, 'Payload.MicroSecon
     <name>Label</name>
     <text>Seconds</text>
     <x>16</x>
-    <y>53</y>
+    <y>64</y>
     <width>87</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -73,11 +73,10 @@ Yamcs.issueCommand(widget, cmd, {'Payload.Seconds': Seconds, 'Payload.MicroSecon
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>Seconds</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Seconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Seconds&lt;VLong&gt;(0)</pv_name>
     <x>115</x>
-    <y>54</y>
+    <y>64</y>
     <width>135</width>
-    <height>18</height>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
@@ -96,7 +95,7 @@ Yamcs.issueCommand(widget, cmd, {'Payload.Seconds': Seconds, 'Payload.MicroSecon
     <name>Direction</name>
     <pv_name>loc://Direction&lt;VString&gt;</pv_name>
     <x>24</x>
-    <y>12</y>
+    <y>27</y>
     <width>216</width>
     <height>33</height>
     <actions>
@@ -111,7 +110,7 @@ Yamcs.issueCommand(widget, cmd, {'Payload.Seconds': Seconds, 'Payload.MicroSecon
     <name>Label_1</name>
     <text>Microseconds</text>
     <x>16</x>
-    <y>78</y>
+    <y>89</y>
     <width>87</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -125,11 +124,10 @@ Yamcs.issueCommand(widget, cmd, {'Payload.Seconds': Seconds, 'Payload.MicroSecon
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>Microseconds</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Microseconds&lt;VDouble&gt;</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Microseconds&lt;VLong&gt;(0)</pv_name>
     <x>115</x>
-    <y>79</y>
+    <y>89</y>
     <width>135</width>
-    <height>18</height>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
@@ -141,6 +139,24 @@ Yamcs.issueCommand(widget, cmd, {'Payload.Seconds': Seconds, 'Payload.MicroSecon
     <border_width>1</border_width>
     <border_color>
       <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_69</name>
+    <text>($(CPUID)) CFE-TIME - Set Delay</text>
+    <width>265</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
       </color>
     </border_color>
   </widget>

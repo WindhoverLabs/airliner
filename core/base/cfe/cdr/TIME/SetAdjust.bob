@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
   <macros>
-    <APP>cfe_sb</APP>
+    <APP>cfe_time</APP>
     <include_parent_macros>true</include_parent_macros>
     <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
@@ -24,8 +24,8 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Direction = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Direction')));
 var Frequency = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Frequency')));
-var Seconds = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Seconds')));
-var Microseconds = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Microseconds')));
+var Seconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Seconds')));
+var Microseconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Microseconds')));
 var cmd;
 var args;
 
@@ -52,8 +52,8 @@ Yamcs.issueCommand(widget, cmd, args);
       </action>
     </actions>
     <text>Set Adjustment</text>
-    <x>54</x>
-    <y>150</y>
+    <x>65</x>
+    <y>174</y>
     <width>163</width>
     <height>25</height>
     <foreground_color>
@@ -70,8 +70,8 @@ Yamcs.issueCommand(widget, cmd, args);
   <widget type="label" version="2.0.0">
     <name>Label</name>
     <text>Seconds</text>
-    <x>16</x>
-    <y>90</y>
+    <x>27</x>
+    <y>107</y>
     <width>87</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -85,11 +85,10 @@ Yamcs.issueCommand(widget, cmd, args);
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>Seconds</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_SetAdjustSeconds&lt;VString&gt;</pv_name>
-    <x>115</x>
-    <y>91</y>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_SetAdjustSeconds&lt;VLong&gt;(0)</pv_name>
+    <x>126</x>
+    <y>107</y>
     <width>135</width>
-    <height>18</height>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
@@ -107,8 +106,8 @@ Yamcs.issueCommand(widget, cmd, args);
   <widget type="label" version="2.0.0">
     <name>Label_1</name>
     <text>Microseconds</text>
-    <x>16</x>
-    <y>115</y>
+    <x>27</x>
+    <y>132</y>
     <width>87</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -122,11 +121,10 @@ Yamcs.issueCommand(widget, cmd, args);
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>Microseconds</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_SetAdjustMicroseconds&lt;VString&gt;</pv_name>
-    <x>115</x>
-    <y>116</y>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_SetAdjustMicroseconds&lt;VLong&gt;(0)</pv_name>
+    <x>126</x>
+    <y>132</y>
     <width>135</width>
-    <height>18</height>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
@@ -143,10 +141,10 @@ Yamcs.issueCommand(widget, cmd, args);
   </widget>
   <widget type="radio" version="2.0.0">
     <name>Direction</name>
-    <pv_name>loc://SetAdjustDirection&lt;VString&gt;</pv_name>
-    <x>84</x>
-    <y>12</y>
-    <width>167</width>
+    <pv_name>loc://SetAdjustDirection&lt;VString&gt;('')</pv_name>
+    <x>95</x>
+    <y>30</y>
+    <width>181</width>
     <height>33</height>
     <actions>
     </actions>
@@ -158,10 +156,10 @@ Yamcs.issueCommand(widget, cmd, args);
   </widget>
   <widget type="radio" version="2.0.0">
     <name>Frequency</name>
-    <pv_name>loc://SetAdjustFrequency&lt;VString&gt;</pv_name>
-    <x>84</x>
-    <y>44</y>
-    <width>167</width>
+    <pv_name>loc://SetAdjustFrequency&lt;VString&gt;('')</pv_name>
+    <x>95</x>
+    <y>65</y>
+    <width>197</width>
     <height>33</height>
     <actions>
     </actions>
@@ -173,8 +171,8 @@ Yamcs.issueCommand(widget, cmd, args);
   </widget>
   <widget type="label" version="2.0.0">
     <text>Direction</text>
-    <x>16</x>
-    <y>19</y>
+    <x>26</x>
+    <y>30</y>
     <width>61</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -189,9 +187,29 @@ Yamcs.issueCommand(widget, cmd, args);
   <widget type="label" version="2.0.0">
     <name>Label_3</name>
     <text>Frequency</text>
-    <y>51</y>
+    <x>11</x>
+    <y>65</y>
     <width>77</width>
     <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_69</name>
+    <text>($(CPUID)) CFE-TIME - Set Adjust</text>
+    <x>11</x>
+    <width>265</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
     <wrap_words>false</wrap_words>
     <actions>
