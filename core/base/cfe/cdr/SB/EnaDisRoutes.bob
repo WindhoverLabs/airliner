@@ -24,19 +24,19 @@
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var MsgID = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'MsgID')));
-var PipeID = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PipeID')));
+var PipeID = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PipeID')));
 
 Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/EnableRoute', {
     'Payload.MsgId': MsgID,
     'Payload.Pipe': PipeID,
-    'Payload.Spare': 0});
+    'Payload.Spare': '0'});
     ]]></text>
         </script>
       </action>
     </actions>
     <text>Enable</text>
     <x>68</x>
-    <y>116</y>
+    <y>109</y>
     <width>85</width>
     <height>24</height>
     <foreground_color>
@@ -53,7 +53,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/EnableRoute', {
   <widget type="label" version="2.0.0">
     <name>Label_3</name>
     <text>Msg ID</text>
-    <x>42</x>
+    <x>27</x>
     <y>45</y>
     <width>50</width>
     <horizontal_alignment>2</horizontal_alignment>
@@ -68,8 +68,8 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/EnableRoute', {
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>MsgID</name>
-    <pv_name>loc://MsgID&lt;VString&gt;</pv_name>
-    <x>103</x>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_MsgID&lt;VString&gt;("")</pv_name>
+    <x>88</x>
     <y>45</y>
     <width>245</width>
     <background_color>
@@ -90,8 +90,8 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/EnableRoute', {
   <widget type="label" version="2.0.0">
     <name>Label_1</name>
     <text>Pipe ID</text>
-    <x>42</x>
-    <y>77</y>
+    <x>27</x>
+    <y>70</y>
     <width>50</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -105,9 +105,9 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/EnableRoute', {
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>PipeID</name>
-    <pv_name>loc://PipeID&lt;VString&gt;</pv_name>
-    <x>103</x>
-    <y>77</y>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PipeID&lt;VLong&gt;(0)</pv_name>
+    <x>88</x>
+    <y>70</y>
     <width>245</width>
     <background_color>
       <color red="255" green="255" blue="255">
@@ -153,19 +153,19 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/EnableRoute', {
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var MsgID = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'MsgID')));
-var PipeID = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PipeID')));
+var PipeID = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PipeID')));
 
 Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/DisableRoute', {
     'Payload.MsgId': MsgID,
     'Payload.Pipe': PipeID,
-    'Payload.Spare': 0});
+    'Payload.Spare': '0'});
     ]]></text>
         </script>
       </action>
     </actions>
     <text>Disable</text>
     <x>164</x>
-    <y>116</y>
+    <y>109</y>
     <width>85</width>
     <height>24</height>
     <foreground_color>
