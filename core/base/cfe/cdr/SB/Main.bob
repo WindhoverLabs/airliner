@@ -9,522 +9,12 @@
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
-  <height>360</height>
+  <width>650</width>
+  <height>500</height>
   <actions>
   </actions>
   <grid_step_x>6</grid_step_x>
   <grid_step_y>6</grid_step_y>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.CommandCnt</pv_name>
-    <x>170</x>
-    <y>56</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label</name>
-    <text>Cmd Count</text>
-    <x>52</x>
-    <y>55</y>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_1</name>
-    <text>Err Count</text>
-    <x>52</x>
-    <y>74</y>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_2</name>
-    <text>No Subscribers</text>
-    <x>6</x>
-    <y>121</y>
-    <width>146</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_3</name>
-    <text>Msg Send Errors</text>
-    <x>6</x>
-    <y>140</y>
-    <width>146</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_4</name>
-    <text>Msg Receive Errors</text>
-    <x>6</x>
-    <y>159</y>
-    <width>146</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_5</name>
-    <text>Internal Errors</text>
-    <x>6</x>
-    <y>178</y>
-    <width>146</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_6</name>
-    <text>Create Pipe Errors</text>
-    <x>6</x>
-    <y>197</y>
-    <width>146</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_7</name>
-    <text>Subscribe Errors</text>
-    <x>6</x>
-    <y>216</y>
-    <width>146</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_8</name>
-    <text>Dup Subscriptions</text>
-    <x>6</x>
-    <y>235</y>
-    <width>146</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_9</name>
-    <text>Pipe Overflow Errors</text>
-    <x>6</x>
-    <y>254</y>
-    <width>146</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_10</name>
-    <text>Msg Limit Errors</text>
-    <x>6</x>
-    <y>273</y>
-    <width>146</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_40</name>
-    <text>Misc</text>
-    <x>81</x>
-    <y>102</y>
-    <width>133</width>
-    <font>
-      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_46</name>
-    <text>Commanding</text>
-    <x>66</x>
-    <y>36</y>
-    <width>164</width>
-    <font>
-      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.CmdErrCnt</pv_name>
-    <x>170</x>
-    <y>75</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.NoSubscribersCnt</pv_name>
-    <x>170</x>
-    <y>122</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_3</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MsgSendErrCnt</pv_name>
-    <x>170</x>
-    <y>141</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_4</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MsgReceiveErrCnt</pv_name>
-    <x>170</x>
-    <y>160</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_5</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.InternalErrCnt</pv_name>
-    <x>170</x>
-    <y>179</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_6</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.CreatePipeErrCnt</pv_name>
-    <x>170</x>
-    <y>198</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_7</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.SubscribeErrCnt</pv_name>
-    <x>170</x>
-    <y>217</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_8</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.DupSubscriptionsCnt</pv_name>
-    <x>170</x>
-    <y>236</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_9</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.PipeOverflowErrCnt</pv_name>
-    <x>170</x>
-    <y>255</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_10</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MsgLimErrCnt</pv_name>
-    <x>170</x>
-    <y>274</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/NoOp', {});]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>NoOp</text>
-    <x>276</x>
-    <y>55</y>
-    <width>85</width>
-    <height>20</height>
-    <foreground_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="34" green="45" blue="75">
-      </color>
-    </background_color>
-    <tooltip>This command performs no other function than to increment the command execution counter.  The command may be used to verify general aliveness of the Event Services task.</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_1</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/Reset', {});]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Reset</text>
-    <x>276</x>
-    <y>74</y>
-    <width>85</width>
-    <height>20</height>
-    <foreground_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="34" green="45" blue="75">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
   <widget type="label" version="2.0.0">
     <name>Label_49</name>
     <text>($(CPUID)) Core Flight Executive - Software Bus</text>
@@ -545,227 +35,297 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/Reset', {});]]></text>
       </color>
     </border_color>
   </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_50</name>
-    <text>Memory In Use</text>
-    <x>6</x>
-    <y>311</y>
-    <width>146</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
+  <widget type="group" version="2.0.0">
+    <name>Commanding</name>
+    <x>10</x>
+    <y>36</y>
+    <width>242</width>
+    <height>240</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.CommandCnt</pv_name>
+      <x>102</x>
+      <y>7</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Cmd Count</text>
+      <x>5</x>
+      <y>6</y>
+      <width>79</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>Err Count</text>
+      <x>5</x>
+      <y>25</y>
+      <width>79</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_1</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.CmdErrCnt</pv_name>
+      <x>102</x>
+      <y>26</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/NoOp', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>NoOp</text>
+      <x>25</x>
+      <y>57</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>This command performs no other function than to increment the command execution counter.  The command may be used to verify general aliveness of the Event Services task.</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_1</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/Reset', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Reset</text>
+      <x>25</x>
+      <y>76</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_2</name>
+      <file>$(CMD_MANAGEMENT_CONTAINER)</file>
+      <x>25</x>
+      <y>96</y>
+      <width>140</width>
+      <height>100</height>
+    </widget>
   </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_11</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MemInUse</pv_name>
-    <x>170</x>
-    <y>312</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
+  <widget type="group" version="2.0.0">
+    <name>Telemetry</name>
+    <x>10</x>
+    <y>280</y>
+    <width>242</width>
+    <height>125</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_3</name>
+      <file>$(TLM_MANAGEMENT_CONTAINER)</file>
+      <x>25</x>
+      <y>25</y>
+      <width>140</width>
+      <height>60</height>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_34</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/SendHK', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Send HK</text>
+      <x>25</x>
+      <y>5</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
   </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_51</name>
-    <text>Unmarked Memory</text>
-    <x>6</x>
-    <y>330</y>
-    <width>146</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_12</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.UnmarkedMem</pv_name>
-    <x>170</x>
-    <y>331</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button_4</name>
-    <actions>
-      <action type="open_display">
-        <file>EnaDisRoutes.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Ena/Dis Routes</text>
-    <x>294</x>
-    <y>118</y>
-    <width>142</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_52</name>
-    <text>Mem Pool Handle</text>
-    <x>6</x>
-    <y>292</y>
-    <width>146</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_13</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MemPoolHandle</pv_name>
-    <x>170</x>
-    <y>293</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>4</format>
-    <precision>8</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button</name>
-    <actions>
-      <action type="open_display">
-        <file>ViewStatistics.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>View Statistics</text>
-    <x>294</x>
-    <y>159</y>
-    <width>142</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button_1</name>
-    <actions>
-      <action type="open_display">
-        <file>DumpRoutingInfo.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Dump Routing Info</text>
-    <x>294</x>
-    <y>184</y>
-    <width>142</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button_2</name>
-    <actions>
-      <action type="open_display">
-        <file>DumpPipeInfo.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Dump Pipe Info</text>
-    <x>294</x>
-    <y>209</y>
-    <width>142</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button_3</name>
-    <actions>
-      <action type="open_display">
-        <file>/Displays/Core/SB/DumpMapInfo.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Dump Map Info</text>
-    <x>294</x>
-    <y>232</y>
-    <width>142</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Events</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+  <widget type="group" version="2.0.0">
+    <name>Misc</name>
+    <x>252</x>
+    <y>316</y>
+    <width>330</width>
+    <height>128</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_4</name>
+      <actions>
+        <action type="open_display">
+          <file>EnaDisRoutes.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Ena/Dis Routes</text>
+      <x>5</x>
+      <y>5</y>
+      <width>142</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button</name>
+      <actions>
+        <action type="open_display">
+          <file>ViewStatistics.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>View Statistics</text>
+      <x>5</x>
+      <y>25</y>
+      <width>142</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_1</name>
+      <actions>
+        <action type="open_display">
+          <file>DumpRoutingInfo.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Dump Routing Info</text>
+      <x>5</x>
+      <y>45</y>
+      <width>142</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_2</name>
+      <actions>
+        <action type="open_display">
+          <file>DumpPipeInfo.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Dump Pipe Info</text>
+      <x>5</x>
+      <y>65</y>
+      <width>142</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_3</name>
+      <actions>
+        <action type="open_display">
+          <file>DumpMapInfo.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Dump Map Info</text>
+      <x>147</x>
+      <y>5</y>
+      <width>142</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Events</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
@@ -773,54 +333,23 @@ var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("EV
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Event Filters</text>
-    <x>294</x>
-    <y>257</y>
-    <width>142</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_34</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/SendHK', {});]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>SendHK</text>
-    <x>294</x>
-    <y>332</y>
-    <width>142</width>
-    <height>26</height>
-    <foreground_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="34" green="45" blue="75">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>AppControl</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+          </script>
+        </action>
+      </actions>
+      <text>Event Filters</text>
+      <x>147</x>
+      <y>25</y>
+      <width>142</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
@@ -828,27 +357,23 @@ var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.get
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>App Control</text>
-    <x>294</x>
-    <y>282</y>
-    <width>142</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>AppControl_2</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+          </script>
+        </action>
+      </actions>
+      <text>App Control</text>
+      <x>147</x>
+      <y>45</y>
+      <width>142</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_2</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 importPackage(org.csstudio.opibuilder.runmode)
 
@@ -856,35 +381,473 @@ var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("Sc
 var macroInput = DataUtil.createMacrosInput(true);
 
 ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Sch Table</text>
-    <x>294</x>
-    <y>307</y>
-    <width>142</width>
-    <height>26</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
+          </script>
+        </action>
+      </actions>
+      <text>Sch Table</text>
+      <x>147</x>
+      <y>65</y>
+      <width>142</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
   </widget>
-  <widget type="embedded" version="2.0.0">
-    <name>Embedded Display</name>
-    <file>$(CMD_MANAGEMENT_CONTAINER)</file>
-    <x>462</x>
-    <y>24</y>
-    <width>144</width>
-    <height>153</height>
-  </widget>
-  <widget type="embedded" version="2.0.0">
-    <name>Embedded Display_1</name>
-    <file>$(TLM_MANAGEMENT_CONTAINER)</file>
-    <x>462</x>
-    <y>195</y>
-    <width>144</width>
-    <height>99</height>
+  <widget type="group" version="2.0.0">
+    <name>Houskeeping</name>
+    <x>252</x>
+    <y>36</y>
+    <width>330</width>
+    <height>280</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>No Subscribers</text>
+      <x>5</x>
+      <y>5</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_3</name>
+      <text>Msg Send Errors</text>
+      <x>5</x>
+      <y>24</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_4</name>
+      <text>Msg Receive Errors</text>
+      <x>5</x>
+      <y>43</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_5</name>
+      <text>Internal Errors</text>
+      <x>5</x>
+      <y>62</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>Create Pipe Errors</text>
+      <x>5</x>
+      <y>81</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_7</name>
+      <text>Subscribe Errors</text>
+      <x>5</x>
+      <y>100</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_8</name>
+      <text>Dup Subscriptions</text>
+      <x>5</x>
+      <y>119</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_9</name>
+      <text>Pipe Overflow Errors</text>
+      <x>5</x>
+      <y>138</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_10</name>
+      <text>Msg Limit Errors</text>
+      <x>5</x>
+      <y>157</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_2</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.NoSubscribersCnt</pv_name>
+      <x>169</x>
+      <y>5</y>
+      <width>98</width>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_3</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MsgSendErrCnt</pv_name>
+      <x>169</x>
+      <y>24</y>
+      <width>98</width>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_4</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MsgReceiveErrCnt</pv_name>
+      <x>169</x>
+      <y>43</y>
+      <width>98</width>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_5</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.InternalErrCnt</pv_name>
+      <x>169</x>
+      <y>62</y>
+      <width>98</width>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_6</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.CreatePipeErrCnt</pv_name>
+      <x>169</x>
+      <y>81</y>
+      <width>98</width>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_7</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.SubscribeErrCnt</pv_name>
+      <x>169</x>
+      <y>100</y>
+      <width>98</width>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_8</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.DupSubscriptionsCnt</pv_name>
+      <x>169</x>
+      <y>119</y>
+      <width>98</width>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_9</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.PipeOverflowErrCnt</pv_name>
+      <x>169</x>
+      <y>138</y>
+      <width>98</width>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_10</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MsgLimErrCnt</pv_name>
+      <x>169</x>
+      <y>157</y>
+      <width>98</width>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_50</name>
+      <text>Memory In Use</text>
+      <x>5</x>
+      <y>195</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_11</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MemInUse</pv_name>
+      <x>169</x>
+      <y>195</y>
+      <width>98</width>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_51</name>
+      <text>Unmarked Memory</text>
+      <x>5</x>
+      <y>214</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_12</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.UnmarkedMem</pv_name>
+      <x>169</x>
+      <y>214</y>
+      <width>98</width>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_52</name>
+      <text>Mem Pool Handle</text>
+      <x>5</x>
+      <y>176</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_13</name>
+      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MemPoolHandle</pv_name>
+      <x>169</x>
+      <y>176</y>
+      <width>98</width>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>4</format>
+      <precision>8</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
+    </widget>
   </widget>
 </display>
