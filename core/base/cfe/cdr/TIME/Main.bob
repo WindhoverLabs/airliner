@@ -1142,7 +1142,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <actions>
         <action type="open_display">
           <file>$(APP_CONTROL_TEMPLATE)</file>
-          <target>window</target>
+          <target>tab</target>
           <description>Open Display</description>
         </action>
       </actions>

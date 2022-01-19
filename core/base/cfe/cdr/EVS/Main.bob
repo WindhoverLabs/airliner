@@ -322,7 +322,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/Reset', {});]]></text>
       <actions>
         <action type="open_display">
           <file>$(APP_CONTROL_TEMPLATE)</file>
-          <target>window</target>
+          <target>tab</target>
           <description>Open Display</description>
         </action>
       </actions>

@@ -979,7 +979,7 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
       <actions>
         <action type="open_display">
           <file>$(APP_CONTROL_TEMPLATE)</file>
-          <target>window</target>
+          <target>tab</target>
           <description>Open Display</description>
         </action>
       </actions>
