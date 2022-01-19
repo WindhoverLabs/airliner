@@ -321,7 +321,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/Reset', {});]]></text>
       <name>AppControl_3</name>
       <actions>
         <action type="open_display">
-          <file>resources/templates/ApplicationControl_App.opi</file>
+          <file>$(APP_CONTROL_TEMPLATE)</file>
           <target>window</target>
           <description>Open Display</description>
         </action>

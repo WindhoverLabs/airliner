@@ -969,24 +969,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
       </color>
     </border_color>
   </widget>
-  <widget type="checkbox" version="2.0.0">
-    <name>Check Box_6</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneTimeAdjust</pv_name>
-    <label></label>
-    <x>133</x>
-    <y>629</y>
-    <actions>
-    </actions>
-  </widget>
-  <widget type="checkbox" version="2.0.0">
-    <name>Check Box_7</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneHzAdjust</pv_name>
-    <label></label>
-    <x>133</x>
-    <y>648</y>
-    <actions>
-    </actions>
-  </widget>
   <widget type="label" version="2.0.0">
     <name>Label_17</name>
     <text>Clock Set</text>
@@ -1025,38 +1007,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
     <x>19</x>
     <y>550</y>
     <width>104</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_23</name>
-    <text>Add 1Hz</text>
-    <x>43</x>
-    <y>649</y>
-    <width>80</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_26</name>
-    <text>Add Adj</text>
-    <x>43</x>
-    <y>630</y>
-    <width>80</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
     <wrap_words>false</wrap_words>
@@ -2189,5 +2139,320 @@ $(pv_value)</tooltip>
       <color red="0" green="128" blue="255">
       </color>
     </border_color>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>State</name>
+    <x>9</x>
+    <y>634</y>
+    <width>354</width>
+    <height>158</height>
+    <widget type="label" version="2.0.0">
+      <name>Label_18</name>
+      <text>Clock Set</text>
+      <x>6</x>
+      <y>2</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_19</name>
+      <text>Flywheeling</text>
+      <x>6</x>
+      <y>21</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_22</name>
+      <text>Source Internal</text>
+      <x>6</x>
+      <y>40</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_24</name>
+      <text>Signal Primary</text>
+      <x>6</x>
+      <y>59</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_25</name>
+      <text>Server Flywheeling</text>
+      <x>6</x>
+      <y>78</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_27</name>
+      <text>Commanded Flywheel</text>
+      <x>6</x>
+      <y>97</y>
+      <width>146</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_28</name>
+      <text>Add Adjust</text>
+      <x>198</x>
+      <y>2</y>
+      <width>78</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_50</name>
+      <text>Add 1Hz</text>
+      <x>198</x>
+      <y>21</y>
+      <width>78</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_51</name>
+      <text>Server</text>
+      <x>208</x>
+      <y>59</y>
+      <width>68</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_52</name>
+      <text>Good Tone</text>
+      <x>198</x>
+      <y>78</y>
+      <width>78</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>Check Box_1</name>
+      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <bit>15</bit>
+      <label></label>
+      <x>164</x>
+      <y>2</y>
+      <width>34</width>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>Check Box_2</name>
+      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <bit>14</bit>
+      <label></label>
+      <x>164</x>
+      <y>21</y>
+      <width>34</width>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>Check Box_5</name>
+      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <bit>13</bit>
+      <label></label>
+      <x>164</x>
+      <y>40</y>
+      <width>34</width>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>Check Box_8</name>
+      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <bit>12</bit>
+      <label></label>
+      <x>164</x>
+      <y>59</y>
+      <width>34</width>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>Check Box_9</name>
+      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <bit>11</bit>
+      <label></label>
+      <x>164</x>
+      <y>78</y>
+      <width>34</width>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>Check Box_10</name>
+      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <bit>10</bit>
+      <label></label>
+      <x>164</x>
+      <y>97</y>
+      <width>34</width>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>Check Box_11</name>
+      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <bit>9</bit>
+      <label></label>
+      <x>288</x>
+      <y>2</y>
+      <width>34</width>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>Check Box_13</name>
+      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <bit>8</bit>
+      <label></label>
+      <x>288</x>
+      <y>21</y>
+      <width>34</width>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>Check Box_14</name>
+      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <bit>8</bit>
+      <label></label>
+      <x>288</x>
+      <y>21</y>
+      <width>34</width>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>Check Box_15</name>
+      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <bit>6</bit>
+      <label></label>
+      <x>288</x>
+      <y>59</y>
+      <width>34</width>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>Check Box_16</name>
+      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <bit>5</bit>
+      <label></label>
+      <x>288</x>
+      <y>78</y>
+      <width>34</width>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_63</name>
+      <text>Add TCL</text>
+      <x>208</x>
+      <y>40</y>
+      <width>68</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>Check Box_17</name>
+      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <bit>7</bit>
+      <label></label>
+      <x>288</x>
+      <y>40</y>
+      <width>34</width>
+      <actions>
+      </actions>
+    </widget>
   </widget>
 </display>
