@@ -146,9 +146,9 @@ workspace::
 	@echo 'Generating ground products.'
 	@make -C build/obc/ppd/target ground-tools
 	@make -C build/obc/cpd/target ground-tools
-	-rm build/obc/commander_workspace/Displays/resources/registry.yaml
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/resources/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/resources/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	-rm build/obc/commander_workspace/etc/registry.yaml
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
 	
 		
 workspace-sitl::
@@ -156,9 +156,9 @@ workspace-sitl::
 	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram
 	@make -C build/obc/ppd/sitl/target ground-tools
 	@make -C build/obc/cpd/sitl/target ground-tools
-	-rm build/obc/sitl_commander_workspace/Displays/resources/registry.yaml
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/Displays/resources/registry.yaml --yaml_input build/obc/cpd/sitl/target/wh_defs.yaml --yaml_path /modules/cpd
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/Displays/resources/registry.yaml --yaml_input build/obc/ppd/sitl/target/wh_defs.yaml --yaml_path /modules/ppd
+	-rm build/obc/sitl_commander_workspace/etc/registry.yaml
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/sitl/target/wh_defs.yaml --yaml_path /modules/cpd
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/sitl/target/wh_defs.yaml --yaml_path /modules/ppd
 	
 	
 obc-sitl:: obc/ppd/sitl obc/cpd/sitl
