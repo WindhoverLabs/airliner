@@ -12,7 +12,7 @@
 /* SED                                   (  15 ) */        /* 250Hz */
 /* SENS                                  (  20 ) */        /* 250Hz */
 /* VM                                    (  45 ) */        /* 250Hz */
-/* SIM                                           */        
+/* SIM                                           */
 #define SIM_LISTENER_TASK_PRIORITY       (  50 )
 
 /* 125Hz */

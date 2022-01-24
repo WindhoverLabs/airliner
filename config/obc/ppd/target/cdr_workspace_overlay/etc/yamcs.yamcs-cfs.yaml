@@ -65,7 +65,7 @@ dataLinks:
     frameType: TM
     maxFrameLength: 1024
     #packetInputStreamClassName: com.windhoverlabs.yamcs.tctm.ccsds.SdlpPacketInputStream
-    packetInputStreamClassName: org.yamcs.tctm.ccsds.SdlpPacketInputStreamasdf
+    packetInputStreamClassName: org.yamcs.tctm.ccsds.SdlpPacketInputStream
     packetPreprocessorArgs:
       asm: "1ACFFC1D"
       minLength: 1024

@@ -168,10 +168,13 @@ function(psp_buildliner_initialize)
     add_subdirectory(${PARSED_ARGS_OSAL} core/osal)
                 
     set(TARGET_INCLUDES 
-        ${PSP_SHARED_INC} 
+        ${PARSED_ARGS_CONFIG}
         ${CMAKE_CURRENT_BINARY_DIR} 
-        ${OSAL_INCS})  
-
+        ${CFE_INC_DIRS}
+        ${OSAL_INC_DIRS}
+        ${PSP_INC_DIRS}
+        ${PSP_SHARED_INC})
+        
     # Set a higher priority set of includes, if this is a reference build.
     if(PARSED_ARGS_REFERENCE_INCLUDES)
         set(TARGET_INCLUDES 
@@ -181,6 +184,8 @@ function(psp_buildliner_initialize)
             ${TARGET_INCLUDES}
         )
     endif()
+    
+    include_directories(${TARGET_INCLUDES})
 
     if(NOT docs)        
         add_custom_target(docs)
@@ -211,9 +216,6 @@ function(psp_buildliner_initialize)
                     ${OSAL_SRC}
                     ${PSP_PLATFORM_SRC}
                     ${PSP_SHARED_SRC}
-                
-                INCLUDES
-                    ${TARGET_INCLUDES}
  
                 INSTALL_PATH ${CFE_INSTALL_DIR}
             )
@@ -847,10 +849,10 @@ endfunction(psp_buildliner_add_app_unit_test)
 
 
 function(buildliner_set_global_includes)
-    include_directories(${CFE_INC_DIRS})
-    include_directories(${OSAL_INC_DIRS})
-    include_directories(${PSP_INC_DIRS})
-    include_directories(${PARSED_ARGS_CONFIG})
+    #include_directories(${CFE_INC_DIRS})
+    #include_directories(${OSAL_INC_DIRS})
+    #include_directories(${PSP_INC_DIRS})
+    #include_directories(${PARSED_ARGS_CONFIG})
 endfunction(buildliner_set_global_includes)
 
 
@@ -996,6 +998,12 @@ function(psp_buildliner_add_table)
     cmake_parse_arguments(PARSED_ARGS "" "NAME" "SOURCES;INCLUDES;COPY" ${ARGN})
 
     psp_get_app_cflags(${PARSED_ARGS_TARGET} TBL_CFLAGS ${CMAKE_C_FLAGS})
+    
+    # Get the target includes used by all the CMake managed targets
+    #    get_property(TARGET_INCLUDES DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+    #    foreach(INC ${TARGET_INCLUDES})
+    #        list(APPEND FLAGLIST "-I${INC}")
+    #    endforeach(INC ${TARGET_INCLUDES})
 
     if(PARSED_ARGS_NAME AND PARSED_ARGS_SOURCES)
         add_custom_command(
