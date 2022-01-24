@@ -1,6 +1,7 @@
 ---
   short_name: cfs_lib
   long_name: CFS Library
+  app_name: CFS_LIB
   events: 
   msg_def_overrides:
     - parent: CFS_SymAddr_t

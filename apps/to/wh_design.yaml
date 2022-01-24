@@ -1,5 +1,6 @@
   short_name: to
   long_name: Telemetry Output
+  app_name: TO
   events: 
     TO_INF_EID: 
       id: 1

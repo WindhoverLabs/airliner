@@ -1,5 +1,6 @@
   short_name: ms5611
   long_name: 
+  app_name: MS5611
   events: 
     MS5611_INIT_INF_EID: 
       id: 1

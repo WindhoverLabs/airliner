@@ -1,5 +1,6 @@
   short_name: ds
   long_name: Data Storage
+  app_name: DS
   events: 
     DS_INIT_EID: 
       id: 1

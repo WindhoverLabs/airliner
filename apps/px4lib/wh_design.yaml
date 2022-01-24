@@ -1,5 +1,6 @@
   short_name: px4lib
   long_name: PX4 Library
+  app_name: PX4LIB
   events: 
   telemetry: 
     PX4_ACTUATOR_ARMED_MID: 

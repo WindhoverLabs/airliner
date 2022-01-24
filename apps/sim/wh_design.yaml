@@ -1,5 +1,6 @@
   short_name: sim
   long_name: Simulation Application
+  app_name: SIM
   events: 
     SIM_INIT_INF_EID: 
       id: 1

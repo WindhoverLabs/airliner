@@ -1,5 +1,6 @@
   short_name: md
   long_name: Memory Dwell
+  app_name: MD
   events: 
     MD_INIT_INF_EID: 
       id: 1

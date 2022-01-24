@@ -1,6 +1,7 @@
 ---
   short_name: pq_lib
   long_name: PQ Library
+  app_name: PQ_LIB
   events: 
   telemetry: 
   commands: 

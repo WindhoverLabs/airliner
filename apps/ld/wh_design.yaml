@@ -1,5 +1,6 @@
   short_name: ld
   long_name: Landing Determination
+  app_name: LD
   events: 
     LD_INIT_INF_EID: 
       id: 1

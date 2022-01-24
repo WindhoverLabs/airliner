@@ -1,5 +1,6 @@
   short_name: mpc
   long_name: Multicopter Position Controller
+  app_name: MPC
   events: 
     MPC_INIT_INF_EID: 
       id: 1

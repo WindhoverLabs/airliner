@@ -1,5 +1,6 @@
   short_name: lgc
   long_name: Landing Gear Control
+  app_name: LGC
   events: 
     LGC_INIT_INF_EID: 
       id: 1

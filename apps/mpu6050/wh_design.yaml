@@ -1,5 +1,6 @@
   short_name: mpu6050
   long_name: 
+  app_name: MPU6050
   events: 
     MPU6050_INIT_INF_EID: 
       id: 1

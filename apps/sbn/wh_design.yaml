@@ -1,5 +1,6 @@
   short_name: sbn
   long_name: Software Bus Network
+  app_name: SBN
   events: 
     SBN_SB_EID: 
       id: 1

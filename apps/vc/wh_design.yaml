@@ -1,5 +1,6 @@
   short_name: vc
   long_name: Video Control
+  app_name: VC
   events: 
     VC_INIT_INF_EID: 
       id: 1

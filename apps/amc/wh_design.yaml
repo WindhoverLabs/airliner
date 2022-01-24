@@ -1,5 +1,6 @@
   short_name: amc
   long_name: Actuator Motor Control
+  app_name: AMC
   events: 
     AMC_INIT_INF_EID: 
       id: 1

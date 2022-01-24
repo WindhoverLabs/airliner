@@ -1,5 +1,6 @@
   short_name: sonar
   long_name: Sonar Driver
+  app_name: SONAR
   events: 
     SONAR_INIT_INF_EID: 
       id: 1

@@ -1,5 +1,6 @@
   short_name: hk
   long_name: Housekeeping
+  app_name: HK
   events: 
     HK_INIT_EI: 
       id: 1

@@ -1,5 +1,6 @@
   short_name: hs
   long_name: Heath Services
+  app_name: HS
   events: 
     HS_INIT_EID: 
       id: 1

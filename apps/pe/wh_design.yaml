@@ -1,5 +1,6 @@
   short_name: pe
   long_name: Position Estimator
+  app_name: PE
   events: 
     PE_INIT_INF_EID: 
       id: 1

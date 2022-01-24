@@ -1,5 +1,6 @@
   short_name: lc
   long_name: Limits Checker
+  app_name: LC
   events: 
     LC_TASK_EXIT_EID: 
       id: 1
