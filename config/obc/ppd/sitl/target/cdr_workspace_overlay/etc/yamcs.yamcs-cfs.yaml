@@ -64,6 +64,7 @@ dataLinks:
     maxLength: 32768 #32KB is the default for CCSDS
     packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
     packetPreprocessorArgs:
+      checkSequence: false
       byteOrder: LITTLE_ENDIAN
       #errorDetection:
       #tcoService:
