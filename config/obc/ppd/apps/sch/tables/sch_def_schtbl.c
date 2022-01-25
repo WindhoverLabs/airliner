@@ -269,7 +269,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #10*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBN_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    CFE_TIME_FAKE_CMD_MIDX,   SCH_GROUP_NONE },
+    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    BAT_SEND_HK_MIDX,         SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -779,7 +779,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #40*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBN_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    CFE_TIME_TONE_CMD_MIDX,   SCH_GROUP_NONE },
+    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    BAT_WAKEUP_MIDX,          SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -796,7 +796,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #41*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBN_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    CFE_TIME_1HZ_CMD_MIDX,    SCH_GROUP_NONE },
+    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -1766,7 +1766,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #98*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBN_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
+	{ SCH_ENABLED,	  SCH_ACTIVITY_SEND_MSG,	1,	  0,	CFE_TIME_FAKE_CMD_MIDX,   SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
