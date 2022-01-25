@@ -165,3 +165,9 @@ buildliner_add_app(
     sbn_udp
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/udp/fsw/for_build
 )
+
+buildliner_add_app(
+    adsbr
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/adsbr/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/adsbr
+)

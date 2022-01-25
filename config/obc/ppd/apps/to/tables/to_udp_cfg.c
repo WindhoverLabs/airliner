@@ -158,6 +158,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {TO_HK_TLM_MID,                          1, TO_PQUEUE_PPD_HK_IDX},
         {VC_HK_TLM_MID,                          1, TO_PQUEUE_PPD_HK_IDX},
         {SBND_HK_TLM_MID,                        1, TO_PQUEUE_PPD_HK_IDX},
+		{ADSBR_HK_TLM_MID,                       1, TO_PQUEUE_PPD_HK_IDX},
 
 //        {PX4_ACTUATOR_ARMED_MID,       1, TO_PQUEUE_LOW_IDX},
 		{FROM_CPD(PX4_ACTUATOR_CONTROLS_0_MID),  1, TO_PQUEUE_CPD_PX4LOW_IDX},
