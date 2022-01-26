@@ -274,6 +274,7 @@ int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, 
     uint32 nBytesCopied = 0;
     int32  putStatus;
 
+    TO_Channel_LockByRef(channel);
     /* Delete the scratch message, if there is one. */
     if(channel->OutputQueue.MsgScratchPad != 0)
     {
@@ -291,10 +292,8 @@ int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, 
         }
         else
         {
-            TO_Channel_LockByRef(channel);
             /* Since status is positive, it is safe to cast */
             channel->OutputQueue.MemInUse -= (uint32)putStatus;
-            TO_Channel_UnlockByRef(channel);
         }
 
         channel->OutputQueue.MsgScratchPad = 0;
@@ -302,6 +301,7 @@ int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, 
 
     if (channel->OutputQueue.OSALQueueID != OS_MAX_QUEUES)
     {
+        TO_Channel_UnlockByRef(channel);
         status = OS_QueueGet(
                     channel->OutputQueue.OSALQueueID,
 					&channel->OutputQueue.MsgScratchPad, sizeof(channel->OutputQueue.MsgScratchPad), &nBytesCopied, Timeout);
@@ -310,11 +310,14 @@ int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, 
         {
         	uint16 msgID;
 
+            TO_Channel_LockByRef(channel);
+
    		    *MsgPtr = channel->OutputQueue.MsgScratchPad;
 
-            TO_Channel_LockByRef(channel);
-            channel->OutputQueue.CurrentlyQueuedCnt--;
-            TO_Channel_UnlockByRef(channel);
+            if(channel->OutputQueue.CurrentlyQueuedCnt >= 1)
+            {
+                channel->OutputQueue.CurrentlyQueuedCnt--;
+            }
 
             msgID = CFE_SB_GetMsgId(*MsgPtr);
 
@@ -326,6 +329,8 @@ int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, 
 
                 CFE_SB_SetTotalMsgLength((CFE_SB_MsgPtr_t)*MsgPtr, eventMsgSize);
             }
+
+            TO_Channel_UnlockByRef(channel);
         }
     }
 

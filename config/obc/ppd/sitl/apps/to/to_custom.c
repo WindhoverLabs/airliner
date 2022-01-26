@@ -247,7 +247,7 @@ void TO_OutputChannel_ProcessNewCustomCmds(CFE_SB_Msg_t* MsgPtr)
                 /* Validate arguments. */
                 if(inSize != sizeof(TO_EnableChannelCmd_t))
                 {
-                    TO_AppData.HkTlm.usCmdErrCnt++;
+                    TO_AppData.HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR,
                                       "Invalid message length.  Received %u.  Expected %u.",
                                       (unsigned int)inSize, sizeof(TO_EnableChannelCmd_t));
@@ -256,11 +256,11 @@ void TO_OutputChannel_ProcessNewCustomCmds(CFE_SB_Msg_t* MsgPtr)
 
                 if(TO_OutputChannel_Enable(cmd->ChannelID, cmd->DestinationAddress, cmd->DestinationPort))
                 {
-                    TO_AppData.HkTlm.usCmdErrCnt++;
+                    TO_AppData.HkTlm.CmdErrCnt++;
                     break;
                 }
 
-                TO_AppData.HkTlm.usCmdCnt++;
+                TO_AppData.HkTlm.CmdCnt++;
                 (void) CFE_EVS_SendEvent(TO_TLMOUTENA_INF_EID, CFE_EVS_INFORMATION,
                                   "Enabled channel %u to %s:%u.",
                                   cmd->ChannelID,
@@ -275,7 +275,7 @@ void TO_OutputChannel_ProcessNewCustomCmds(CFE_SB_Msg_t* MsgPtr)
                 /* Validate arguments. */
                 if(inSize != sizeof(TO_DisableChannelCmd_t))
                 {
-                    TO_AppData.HkTlm.usCmdErrCnt++;
+                    TO_AppData.HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR,
                                       "Invalid message length.  Received %u.  Expected %u.",
                                       (unsigned int)inSize, sizeof(TO_DisableChannelCmd_t));
@@ -284,16 +284,16 @@ void TO_OutputChannel_ProcessNewCustomCmds(CFE_SB_Msg_t* MsgPtr)
 
                 if(TO_OutputChannel_Disable(cmd->ChannelID))
                 {
-                    TO_AppData.HkTlm.usCmdErrCnt++;
+                    TO_AppData.HkTlm.CmdErrCnt++;
                     break;
                 }
 
-                TO_AppData.HkTlm.usCmdCnt++;
+                TO_AppData.HkTlm.CmdCnt++;
                 break;
             }
 
             default:
-                TO_AppData.HkTlm.usCmdErrCnt++;
+                TO_AppData.HkTlm.CmdErrCnt++;
                 (void) CFE_EVS_SendEvent(TO_CC_ERR_EID, CFE_EVS_ERROR,
                                   "Recvd invalid cmdId (%u)", (unsigned int)uiCmdCode);
                 break;
@@ -467,6 +467,7 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
                 {
                     TO_Channel_LockByIndex(ChannelIdx);
                     TO_AppData.ChannelData[ChannelIdx].OutputQueue.SentCount++;
+                    TO_AppData.ChannelData[ChannelIdx].OutputQueue.SentBytes += size;
                     TO_Channel_UnlockByIndex(ChannelIdx);
                 }
             }

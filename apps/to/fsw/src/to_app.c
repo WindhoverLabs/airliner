@@ -511,7 +511,7 @@ void TO_ProcessNewCmds(void)
                     /* Bump the command error counter for an unknown command.
                      * (This should only occur if it was subscribed to with this
                      *  pipe, but not handled in this switch-case.) */
-                    TO_AppData.HkTlm.usCmdErrCnt++;
+                    TO_AppData.HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(TO_MSG_ID_ERR_EID,
                                              CFE_EVS_ERROR,
                                              "Recvd invalid CMD msgId (0x%04X)",
@@ -556,7 +556,7 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                 if (TRUE == sizeOk)
                 {
                     (void) OS_MutSemTake(TO_AppData.MutexID);
-                    TO_AppData.HkTlm.usCmdCnt++;
+                    TO_AppData.HkTlm.CmdCnt++;
                     (void) OS_MutSemGive(TO_AppData.MutexID);
                     (void) CFE_EVS_SendEvent(TO_CMD_NOOP_INF_EID, CFE_EVS_INFORMATION,
                                       "Executed NOOP cmd (%u), Version %d.%d.%d.%d",
@@ -577,10 +577,11 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                 if (TRUE == sizeOk)
                 {
                     (void) OS_MutSemTake(TO_AppData.MutexID);
-                    TO_AppData.HkTlm.usCmdCnt = 0;
-                    TO_AppData.HkTlm.usCmdErrCnt = 0;
-                    TO_AppData.HkTlm.usTotalMsgDropped = 0;
+                    TO_AppData.HkTlm.CmdCnt = 0;
+                    TO_AppData.HkTlm.CmdErrCnt = 0;
+                    TO_AppData.HkTlm.TotalMsgDropped = 0;
                     TO_AppData.HkTlm.SentBytes = 0;
+
                     (void) OS_MutSemGive(TO_AppData.MutexID);
 
                     TO_Channel_ResetCountsAll();
@@ -604,13 +605,13 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                     if (FALSE == isCmdOk)
                     {
                         (void) OS_MutSemTake(TO_AppData.MutexID);
-                        TO_AppData.HkTlm.usCmdErrCnt++;
+                        TO_AppData.HkTlm.CmdErrCnt++;
                         (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                     else
                     {
                         (void) OS_MutSemTake(TO_AppData.MutexID);
-                        TO_AppData.HkTlm.usCmdCnt++;
+                        TO_AppData.HkTlm.CmdCnt++;
                         (void) OS_MutSemGive(TO_AppData.MutexID);
                         (void) CFE_EVS_SendEvent(TO_CMD_ADD_MSG_FLOW_EID,
                                                  CFE_EVS_INFORMATION,
@@ -634,13 +635,13 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                     if (FALSE == isCmdOk)
                     {
                         (void) OS_MutSemTake(TO_AppData.MutexID);
-                        TO_AppData.HkTlm.usCmdErrCnt++;
+                        TO_AppData.HkTlm.CmdErrCnt++;
                         (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                     else
                     {
                         (void) OS_MutSemTake(TO_AppData.MutexID);
-                        TO_AppData.HkTlm.usCmdCnt++;
+                        TO_AppData.HkTlm.CmdCnt++;
                         (void) OS_MutSemGive(TO_AppData.MutexID);
                         (void) CFE_EVS_SendEvent(TO_CMD_REMOVE_MSG_FLOW_EID,
                                                  CFE_EVS_INFORMATION,
@@ -664,13 +665,13 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                     if (FALSE == isCmdOk)
                     {
                         (void) OS_MutSemTake(TO_AppData.MutexID);
-                        TO_AppData.HkTlm.usCmdErrCnt++;
+                        TO_AppData.HkTlm.CmdErrCnt++;
                         (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                     else
                     {
                         (void) OS_MutSemTake(TO_AppData.MutexID);
-                        TO_AppData.HkTlm.usCmdCnt++;
+                        TO_AppData.HkTlm.CmdCnt++;
                         (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                 }
@@ -690,13 +691,13 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                     if (FALSE == isCmdOk)
                     {
                         (void) OS_MutSemTake(TO_AppData.MutexID);
-                        TO_AppData.HkTlm.usCmdErrCnt++;
+                        TO_AppData.HkTlm.CmdErrCnt++;
                         (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                     else
                     {
                         (void) OS_MutSemTake(TO_AppData.MutexID);
-                        TO_AppData.HkTlm.usCmdCnt++;
+                        TO_AppData.HkTlm.CmdCnt++;
                         (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                 }
@@ -716,13 +717,13 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                     if (FALSE == isCmdOk)
                     {
                         (void) OS_MutSemTake(TO_AppData.MutexID);
-                        TO_AppData.HkTlm.usCmdErrCnt++;
+                        TO_AppData.HkTlm.CmdErrCnt++;
                         (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                     else
                     {
                         (void) OS_MutSemTake(TO_AppData.MutexID);
-                        TO_AppData.HkTlm.usCmdCnt++;
+                        TO_AppData.HkTlm.CmdCnt++;
                         (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                 }
@@ -742,13 +743,13 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                     if (FALSE == isCmdOk)
                     {
                         (void) OS_MutSemTake(TO_AppData.MutexID);
-                        TO_AppData.HkTlm.usCmdErrCnt++;
+                        TO_AppData.HkTlm.CmdErrCnt++;
                         (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                     else
                     {
                         (void) OS_MutSemTake(TO_AppData.MutexID);
-                        TO_AppData.HkTlm.usCmdCnt++;
+                        TO_AppData.HkTlm.CmdCnt++;
                         (void) OS_MutSemGive(TO_AppData.MutexID);
                         (void) CFE_EVS_SendEvent(TO_CMD_SEND_DIAG_EID, CFE_EVS_INFORMATION,
                                           "Successfully executed send diagnostics (%u) on channel %d", (unsigned int)cmdCode,
@@ -779,33 +780,23 @@ void TO_ReportHousekeeping(void)
 
     (void) OS_MutSemTake(TO_AppData.MutexID);
     TO_AppData.HkTlm.SentBytes = 0;
-    (void) OS_MutSemGive(TO_AppData.MutexID);
 
     for (i = 0; i < TO_MAX_CHANNELS; ++i)
     {
         channel = &TO_AppData.ChannelData[i];
 
-        TO_Channel_LockByRef(channel);
+        TO_AppData.HkTlm.ChannelInfo[i].CurrentlyQueuedCnt = channel->OutputQueue.CurrentlyQueuedCnt;
+        TO_AppData.HkTlm.ChannelInfo[i].MessagesSent = channel->SentMsgCount;
+        TO_AppData.HkTlm.ChannelInfo[i].TotalQueued = channel->OutputQueue.QueuedMsgCount;
+        TO_AppData.HkTlm.ChannelInfo[i].SentBytes = channel->BytesSent;
+        TO_AppData.HkTlm.ChannelInfo[i].MemInUse = channel->OutputQueue.MemInUse;
+        TO_AppData.HkTlm.ChannelInfo[i].PeakMemInUse = channel->OutputQueue.PeakMemInUse;
 
-        TO_AppData.HkTlm.QueuedInOutputChannel[i] = channel->OutputQueue.CurrentlyQueuedCnt;
-        
-        TO_AppData.HkTlm.uiSentMsgCountChannel[i] = channel->SentMsgCount;
-        TO_AppData.HkTlm.uiQueuedMsgCountChannel[i] = channel->OutputQueue.QueuedMsgCount;
-        TO_AppData.HkTlm.uiBytesSentChannel[i] = channel->BytesSent;
-        
-        (void) OS_MutSemTake(TO_AppData.MutexID);
         TO_AppData.HkTlm.SentBytes += channel->OutputQueue.SentBytes;
-        
-        (void) OS_MutSemGive(TO_AppData.MutexID);
-        
-        TO_AppData.HkTlm.ChannelMemInfo[i].MemInUse = channel->OutputQueue.MemInUse;
-        TO_AppData.HkTlm.ChannelMemInfo[i].PeakMemInUse = channel->OutputQueue.PeakMemInUse;
-        
-        TO_Channel_UnlockByRef(channel);
+
     }
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&TO_AppData.HkTlm);
-    (void) OS_MutSemTake(TO_AppData.MutexID);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&TO_AppData.HkTlm);
     (void) OS_MutSemGive(TO_AppData.MutexID);
 }
@@ -1034,7 +1025,7 @@ osalbool TO_VerifyCmdLength(CFE_SB_Msg_t* msgPtr, uint16 expectedLen)
                                      MsgId, cmdCode, msgLen, expectedLen);
                               
             (void) OS_MutSemTake(TO_AppData.MutexID);
-            TO_AppData.HkTlm.usCmdErrCnt++;
+            TO_AppData.HkTlm.CmdErrCnt++;
             (void) OS_MutSemGive(TO_AppData.MutexID);
             return FALSE;
         }

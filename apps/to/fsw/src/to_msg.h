@@ -474,7 +474,19 @@ typedef struct
     /** \brief Peak channel memory usage */ 
     uint32         PeakMemInUse;
 
-} TO_ChannelMemoryInfo_t;
+    /** \brief Number of messages queued */
+    uint32         TotalQueued;
+
+    /** \brief Number of messages sent */
+    uint32         MessagesSent;
+
+    /** \brief Bytes sent */
+    uint32         SentBytes;
+
+    /** \brief Number of messages currently queued for output */
+    uint32         CurrentlyQueuedCnt;
+
+} TO_ChannelInfo_t;
 
 
 /**
@@ -485,52 +497,21 @@ typedef struct
     /** \brief cFE SB Tlm Msg Hdr */
     uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
 
-    /** \totlm Sent Channel Telemetry
-    \totlmmnemonic TO_RDOSENT
-    \totlmmnemonic TO_SNKLSENT
-    \totlmmnemonic TO_STORSENT
-    \brief Count of telemetry messages sent out the channel interface.
-    Counter begins at zero with app initialization and rolls over.
-    Index of array is equivalent to the relevant TO channel index. */
-    uint32  uiSentMsgCountChannel[TO_MAX_CHANNELS];
-
-    /** \totlm Queued Channel Telemetry
-    \totlmmnemonic  TO_RDOQUEUED
-    \totlmmnemonic  TO_SNKLQUEUED
-    \totlmmnemonic  TO_STORQUEUED
-    \brief Count of telemetry messages queued on the TO channel's Priority Queues.
-    Counter begins at zero with app initialization and rolls over.
-    Index of array is equivalent to the relevant TO channel index. */
-    uint32  uiQueuedMsgCountChannel[TO_MAX_CHANNELS];
-
-    /** \totlm Channel Bytes Sent
-    \totlmmnemonic TO_RDOB
-    \totlmmnemonic TO_SNKLB
-    \totlmmnemonic TO_STORB
-    \brief The number of bytes sent out the channel's interface
-    Counter begins at zero with app initialization and rolls over.
-    Index of array is equivalent to the relevant TO channel index. */
-    uint32  uiBytesSentChannel[TO_MAX_CHANNELS];
-
     /** \totlmmnemonic TO_CMDACPTCNT
         \brief Count of accepted commands */
-    uint8   usCmdCnt;
+    uint8   CmdCnt;
 
     /** \totlmmnemonic TO_CMDRJCTCNT
         \brief Count of failed commands */
-    uint8   usCmdErrCnt;
+    uint8   CmdErrCnt;
 
     /** \totlmmnemonic TO_TTLMSGDROP
         \brief Count of all messages dropped */
-    uint16  usTotalMsgDropped;
+    uint16  TotalMsgDropped;
 
     /** \totlmmnemonic TO_SENTBYTES
         \brief Count of all bytes sent on all output channels */
     uint32  SentBytes;
-
-    /** \totlmmnemonic TO_QDINOUTCHN
-        \brief Currently queued count for each Channel */
-    uint16  QueuedInOutputChannel[TO_MAX_CHANNELS];
 
     /** \totlmmnemonic TO_CHMAXMEM
         \brief Maximum memory available for each channel. */
@@ -538,7 +519,7 @@ typedef struct
 
     /** \totlmmnemonic TO_CHMEMINFO
         \brief Memory information per channel. */
-    TO_ChannelMemoryInfo_t ChannelMemInfo[TO_MAX_CHANNELS];
+    TO_ChannelInfo_t ChannelInfo[TO_MAX_CHANNELS];
 
 } TO_HkTlm_t;
 

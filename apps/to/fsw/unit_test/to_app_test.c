@@ -673,9 +673,9 @@ void Test_TO_ProcessNewAppCmds_Reset_Nominal(void)
     /* Now give all the counters we're going to clear a value to ensure that
      * the reset command actually clears them.
      */
-    TO_AppData.HkTlm.usCmdCnt = 1;
-    TO_AppData.HkTlm.usCmdErrCnt = 2;
-    TO_AppData.HkTlm.usTotalMsgDropped = 3;
+    TO_AppData.HkTlm.CmdCnt = 1;
+    TO_AppData.HkTlm.CmdErrCnt = 2;
+    TO_AppData.HkTlm.TotalMsgDropped = 3;
 
     for(i = 0; i < TO_MAX_CHANNELS; ++i)
     {
@@ -709,9 +709,9 @@ void Test_TO_ProcessNewAppCmds_Reset_Nominal(void)
     /* Verify results */
     UtAssert_EventSent(TO_CMD_RESET_INF_EID, CFE_EVS_INFORMATION, "", "RESET Cmd Event Sent");
 
-    UtAssert_True(TO_AppData.HkTlm.usCmdCnt == 0, "TO_AppData.HkTlm.usCmdCnt == 0");
-    UtAssert_True(TO_AppData.HkTlm.usCmdErrCnt == 0, "TO_AppData.HkTlm.usCmdErrCnt == 0");
-    UtAssert_True(TO_AppData.HkTlm.usTotalMsgDropped == 0, "TO_AppData.HkTlm.usTotalMsgDropped == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdCnt == 0, "TO_AppData.HkTlm.CmdCnt == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdErrCnt == 0, "TO_AppData.HkTlm.CmdErrCnt == 0");
+    UtAssert_True(TO_AppData.HkTlm.TotalMsgDropped == 0, "TO_AppData.HkTlm.TotalMsgDropped == 0");
 
     for(i = 0; i < TO_MAX_CHANNELS; ++i)
     {
@@ -779,9 +779,9 @@ void Test_TO_ProcessNewAppCmds_Reset_InvalidCmdLength(void)
     UtAssert_EventNotSent(TO_CMD_RESET_INF_EID, CFE_EVS_INFORMATION, "", "RESET Cmd Not Event Sent");
     UtAssert_EventSent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR, "", "Message Length Error Event Sent");
 
-    UtAssert_True(TO_AppData.HkTlm.usCmdCnt == 0, "TO_AppData.HkTlm.usCmdCnt == 0");
-    UtAssert_True(TO_AppData.HkTlm.usCmdErrCnt == 1, "TO_AppData.HkTlm.usCmdErrCnt == 1");
-    UtAssert_True(TO_AppData.HkTlm.usTotalMsgDropped == 0, "TO_AppData.HkTlm.usTotalMsgDropped == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdCnt == 0, "TO_AppData.HkTlm.CmdCnt == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdErrCnt == 1, "TO_AppData.HkTlm.CmdErrCnt == 1");
+    UtAssert_True(TO_AppData.HkTlm.TotalMsgDropped == 0, "TO_AppData.HkTlm.TotalMsgDropped == 0");
 }
 
 /**
@@ -957,9 +957,9 @@ void Test_TO_ProcessNewAppCmds_AddMessageFlow_InvalidCmdLength(void)
     UtAssert_EventNotSent(TO_CMD_ADD_MSG_FLOW_EID, CFE_EVS_INFORMATION, "", "ADD MSG FLOW Cmd Not Event Sent");
     UtAssert_EventSent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR, "", "Message Length Error Event Sent");
 
-    UtAssert_True(TO_AppData.HkTlm.usCmdCnt == 0, "TO_AppData.HkTlm.usCmdCnt == 0");
-    UtAssert_True(TO_AppData.HkTlm.usCmdErrCnt == 1, "TO_AppData.HkTlm.usCmdErrCnt == 1");
-    UtAssert_True(TO_AppData.HkTlm.usTotalMsgDropped == 0, "TO_AppData.HkTlm.usTotalMsgDropped == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdCnt == 0, "TO_AppData.HkTlm.CmdCnt == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdErrCnt == 1, "TO_AppData.HkTlm.CmdErrCnt == 1");
+    UtAssert_True(TO_AppData.HkTlm.TotalMsgDropped == 0, "TO_AppData.HkTlm.TotalMsgDropped == 0");
 }
 
 ///**
@@ -1156,9 +1156,9 @@ void Test_TO_ProcessNewAppCmds_RemoveMessageFlow_InvalidCmdLength(void)
     UtAssert_EventNotSent(TO_MSG_FLOW_INFO_EID, CFE_EVS_INFORMATION, "", "REMOVE MSG FLOW Cmd Not Event Sent");
     UtAssert_EventSent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR, "", "Message Length Error Event Sent");
 
-    UtAssert_True(TO_AppData.HkTlm.usCmdCnt == 0, "TO_AppData.HkTlm.usCmdCnt == 0");
-    UtAssert_True(TO_AppData.HkTlm.usCmdErrCnt == 1, "TO_AppData.HkTlm.usCmdErrCnt == 1");
-    UtAssert_True(TO_AppData.HkTlm.usTotalMsgDropped == 0, "TO_AppData.HkTlm.usTotalMsgDropped == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdCnt == 0, "TO_AppData.HkTlm.CmdCnt == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdErrCnt == 1, "TO_AppData.HkTlm.CmdErrCnt == 1");
+    UtAssert_True(TO_AppData.HkTlm.TotalMsgDropped == 0, "TO_AppData.HkTlm.TotalMsgDropped == 0");
 }
 
 
@@ -1243,9 +1243,9 @@ void Test_TO_ProcessNewAppCmds_QueryMessageFlow_InvalidCmdLength(void)
     UtAssert_EventNotSent(TO_MSG_FLOW_INFO_EID, CFE_EVS_INFORMATION, "", "QUERY MSG FLOW Cmd Not Event Sent");
     UtAssert_EventSent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR, "", "Message Length Error Event Sent");
 
-    UtAssert_True(TO_AppData.HkTlm.usCmdCnt == 0, "TO_AppData.HkTlm.usCmdCnt == 0");
-    UtAssert_True(TO_AppData.HkTlm.usCmdErrCnt == 1, "TO_AppData.HkTlm.usCmdErrCnt == 1");
-    UtAssert_True(TO_AppData.HkTlm.usTotalMsgDropped == 0, "TO_AppData.HkTlm.usTotalMsgDropped == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdCnt == 0, "TO_AppData.HkTlm.CmdCnt == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdErrCnt == 1, "TO_AppData.HkTlm.CmdErrCnt == 1");
+    UtAssert_True(TO_AppData.HkTlm.TotalMsgDropped == 0, "TO_AppData.HkTlm.TotalMsgDropped == 0");
 }
 
 /**
@@ -1330,9 +1330,9 @@ void Test_TO_ProcessNewAppCmds_QueryPriorityQueue_InvalidCmdLength(void)
     UtAssert_EventNotSent(TO_PQUEUE_INFO_EID, CFE_EVS_INFORMATION, "", "REMOVE MSG FLOW Cmd Not Event Sent");
     UtAssert_EventSent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR, "", "Message Length Error Event Sent");
 
-    UtAssert_True(TO_AppData.HkTlm.usCmdCnt == 0, "TO_AppData.HkTlm.usCmdCnt == 0");
-    UtAssert_True(TO_AppData.HkTlm.usCmdErrCnt == 1, "TO_AppData.HkTlm.usCmdErrCnt == 1");
-    UtAssert_True(TO_AppData.HkTlm.usTotalMsgDropped == 0, "TO_AppData.HkTlm.usTotalMsgDropped == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdCnt == 0, "TO_AppData.HkTlm.CmdCnt == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdErrCnt == 1, "TO_AppData.HkTlm.CmdErrCnt == 1");
+    UtAssert_True(TO_AppData.HkTlm.TotalMsgDropped == 0, "TO_AppData.HkTlm.TotalMsgDropped == 0");
 }
 
 
@@ -1415,9 +1415,9 @@ void Test_TO_ProcessNewAppCmds_QueryOutputChannel_InvalidCmdLength(void)
                        CFE_EVS_INFORMATION, "", "Query Output Queue Cmd Event Not Sent");
     UtAssert_EventSent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR, "", "Message Length Error Event Sent");
 
-    UtAssert_True(TO_AppData.HkTlm.usCmdCnt == 0, "TO_AppData.HkTlm.usCmdCnt == 0");
-    UtAssert_True(TO_AppData.HkTlm.usCmdErrCnt == 1, "TO_AppData.HkTlm.usCmdErrCnt == 1");
-    UtAssert_True(TO_AppData.HkTlm.usTotalMsgDropped == 0, "TO_AppData.HkTlm.usTotalMsgDropped == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdCnt == 0, "TO_AppData.HkTlm.CmdCnt == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdErrCnt == 1, "TO_AppData.HkTlm.CmdErrCnt == 1");
+    UtAssert_True(TO_AppData.HkTlm.TotalMsgDropped == 0, "TO_AppData.HkTlm.TotalMsgDropped == 0");
 }
 
 /**
@@ -1455,7 +1455,7 @@ void Test_TO_ProcessNewAppCmds_SendDiag_Success(void) {
     TO_AppMain();
 
     /* Verify results */
-    UtAssert_True(TO_AppData.HkTlm.usCmdCnt == 1, "Send Diag Success - Command Accept Count bumped");
+    UtAssert_True(TO_AppData.HkTlm.CmdCnt == 1, "Send Diag Success - Command Accept Count bumped");
     UtAssert_True(Ut_CFE_SB_PacketSent(TO_DIAG_TLM_MID), "Send Diag Success - Channel Diag Packet sent");
 
     int32 numMsgFlowPackets = (int32)ceil((double)TO_MAX_MESSAGE_FLOWS/TO_MSG_FLOW_PKT_LIMIT);
@@ -1504,9 +1504,9 @@ void Test_TO_ProcessNewAppCmds_SendDiag_InvalidCmdLength(void)
     UtAssert_True(Ut_CFE_SB_PacketSent(TO_DIAG_MSG_FLOW_MID) == FALSE, "Send Diag Reject - Channel MsgFlow Diag Packets Not sent");
     UtAssert_EventSent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR, "", "Message Length Error Event Sent");
 
-    UtAssert_True(TO_AppData.HkTlm.usCmdCnt == 0, "TO_AppData.HkTlm.usCmdCnt == 0");
-    UtAssert_True(TO_AppData.HkTlm.usCmdErrCnt == 1, "TO_AppData.HkTlm.usCmdErrCnt == 1");
-    UtAssert_True(TO_AppData.HkTlm.usTotalMsgDropped == 0, "TO_AppData.HkTlm.usTotalMsgDropped == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdCnt == 0, "TO_AppData.HkTlm.CmdCnt == 0");
+    UtAssert_True(TO_AppData.HkTlm.CmdErrCnt == 1, "TO_AppData.HkTlm.CmdErrCnt == 1");
+    UtAssert_True(TO_AppData.HkTlm.TotalMsgDropped == 0, "TO_AppData.HkTlm.TotalMsgDropped == 0");
 }
 
 /**************************************************************************
@@ -4780,7 +4780,7 @@ void Test_TO_Classifier_MessageTooLong(void)
     groundChannel->DataPipeId = (CFE_SB_PipeId_t)messagePipeId;
 
     /* Setup test counts*/
-    expectedAppMsgsDropped = TO_AppData.HkTlm.usTotalMsgDropped + 1;
+    expectedAppMsgsDropped = TO_AppData.HkTlm.TotalMsgDropped + 1;
     expectedChannelMsgsDropped = groundChannel->DropMsgCount + 1;
 
     /* Execute the function being tested */
@@ -4789,7 +4789,7 @@ void Test_TO_Classifier_MessageTooLong(void)
     /* Verify results */
     UtAssert_EventSent(TO_TLM_MSG_LEN_ERR_EID, CFE_EVS_ERROR,
                        expectedEvent, "Test_TO_Classifier Message Too Long - error event correct");
-    UtAssert_True(TO_AppData.HkTlm.usTotalMsgDropped == expectedAppMsgsDropped,
+    UtAssert_True(TO_AppData.HkTlm.TotalMsgDropped == expectedAppMsgsDropped,
             "Test_TO_Classifier Message Too Long - app dropped count correct");
     UtAssert_True(groundChannel->DropMsgCount == expectedChannelMsgsDropped,
                   "Test_TO_Classifier Message Too Long - app dropped count correct");
@@ -4881,7 +4881,7 @@ void Test_TO_Classifier_NoMsgFlow(void)
     groundChannel->DataPipeId = (CFE_SB_PipeId_t)messagePipeId;
 
     /* Setup test counts*/
-    expectedAppMsgsDropped = TO_AppData.HkTlm.usTotalMsgDropped + 1;
+    expectedAppMsgsDropped = TO_AppData.HkTlm.TotalMsgDropped + 1;
     expectedChannelMsgsDropped = groundChannel->DropMsgCount + 1;
 
     /* Execute the function being tested */
@@ -4890,7 +4890,7 @@ void Test_TO_Classifier_NoMsgFlow(void)
     /* Verify results */
     UtAssert_EventSent(TO_MF_MSG_ID_ERR_EID, CFE_EVS_ERROR,
                        expectedEvent, "Test_TO_Classifier No MsgFlow - error event correct");
-    UtAssert_True(TO_AppData.HkTlm.usTotalMsgDropped == expectedAppMsgsDropped,
+    UtAssert_True(TO_AppData.HkTlm.TotalMsgDropped == expectedAppMsgsDropped,
                   "Test_TO_Classifier No MsgFlow - app dropped count correct");
     UtAssert_True(groundChannel->DropMsgCount == expectedChannelMsgsDropped,
                   "Test_TO_Classifier No MsgFlow - app dropped count correct");
