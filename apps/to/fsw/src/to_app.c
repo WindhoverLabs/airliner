@@ -555,9 +555,7 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
 
                 if (TRUE == sizeOk)
                 {
-                    (void) OS_MutSemTake(TO_AppData.MutexID);
                     TO_AppData.HkTlm.CmdCnt++;
-                    (void) OS_MutSemGive(TO_AppData.MutexID);
                     (void) CFE_EVS_SendEvent(TO_CMD_NOOP_INF_EID, CFE_EVS_INFORMATION,
                                       "Executed NOOP cmd (%u), Version %d.%d.%d.%d",
                                       (unsigned int)cmdCode,
@@ -579,7 +577,6 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                     (void) OS_MutSemTake(TO_AppData.MutexID);
                     TO_AppData.HkTlm.CmdCnt = 0;
                     TO_AppData.HkTlm.CmdErrCnt = 0;
-                    TO_AppData.HkTlm.TotalMsgDropped = 0;
                     TO_AppData.HkTlm.SentBytes = 0;
 
                     (void) OS_MutSemGive(TO_AppData.MutexID);
@@ -601,18 +598,13 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                     TO_AddMessageFlowCmd_t *cmd = (TO_AddMessageFlowCmd_t*)msgPtr;
 
                     isCmdOk = TO_MessageFlow_Add(cmd->ChannelIdx, cmd->MsgID, cmd->MsgLimit, cmd->PQueueIdx);
-
                     if (FALSE == isCmdOk)
                     {
-                        (void) OS_MutSemTake(TO_AppData.MutexID);
                         TO_AppData.HkTlm.CmdErrCnt++;
-                        (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                     else
                     {
-                        (void) OS_MutSemTake(TO_AppData.MutexID);
                         TO_AppData.HkTlm.CmdCnt++;
-                        (void) OS_MutSemGive(TO_AppData.MutexID);
                         (void) CFE_EVS_SendEvent(TO_CMD_ADD_MSG_FLOW_EID,
                                                  CFE_EVS_INFORMATION,
                                                  "Executed ADD_MESSAGE cmd (%u) on channel %d", (unsigned int)cmdCode,
@@ -631,18 +623,13 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                     TO_RemoveMessageFlowCmd_t *cmd = (TO_RemoveMessageFlowCmd_t*)msgPtr;
 
                     isCmdOk = TO_MessageFlow_Remove(cmd->ChannelIdx, cmd->MsgID);
-
                     if (FALSE == isCmdOk)
                     {
-                        (void) OS_MutSemTake(TO_AppData.MutexID);
                         TO_AppData.HkTlm.CmdErrCnt++;
-                        (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                     else
                     {
-                        (void) OS_MutSemTake(TO_AppData.MutexID);
                         TO_AppData.HkTlm.CmdCnt++;
-                        (void) OS_MutSemGive(TO_AppData.MutexID);
                         (void) CFE_EVS_SendEvent(TO_CMD_REMOVE_MSG_FLOW_EID,
                                                  CFE_EVS_INFORMATION,
                                                  "Executed remove message flow cmd (%u) on channel %d", (unsigned int)cmdCode,
@@ -661,18 +648,13 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                     TO_QueryMessageFlowCmd_t *cmd = (TO_QueryMessageFlowCmd_t*)msgPtr;
 
                     isCmdOk = TO_MessageFlow_Query(cmd->ChannelIdx, cmd->MsgID);
-
                     if (FALSE == isCmdOk)
                     {
-                        (void) OS_MutSemTake(TO_AppData.MutexID);
                         TO_AppData.HkTlm.CmdErrCnt++;
-                        (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                     else
                     {
-                        (void) OS_MutSemTake(TO_AppData.MutexID);
                         TO_AppData.HkTlm.CmdCnt++;
-                        (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                 }
                 break;
@@ -687,18 +669,13 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                     TO_QueryPriorityQueueCmd_t *cmd = (TO_QueryPriorityQueueCmd_t*)msgPtr;
 
                     isCmdOk = TO_PriorityQueue_Query(cmd->ChannelIdx, cmd->PQueueIndex);
-
                     if (FALSE == isCmdOk)
                     {
-                        (void) OS_MutSemTake(TO_AppData.MutexID);
                         TO_AppData.HkTlm.CmdErrCnt++;
-                        (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                     else
                     {
-                        (void) OS_MutSemTake(TO_AppData.MutexID);
                         TO_AppData.HkTlm.CmdCnt++;
-                        (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                 }
                 break;
@@ -713,18 +690,13 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                     TO_QueryOutputChannelCmd_t *cmd = (TO_QueryOutputChannelCmd_t*)msgPtr;
 
                     isCmdOk = TO_OutputChannel_Query(cmd->ChannelIdx);
-
                     if (FALSE == isCmdOk)
                     {
-                        (void) OS_MutSemTake(TO_AppData.MutexID);
                         TO_AppData.HkTlm.CmdErrCnt++;
-                        (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                     else
                     {
-                        (void) OS_MutSemTake(TO_AppData.MutexID);
                         TO_AppData.HkTlm.CmdCnt++;
-                        (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                 }
                 break;
@@ -739,18 +711,13 @@ void TO_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr)
                     TO_SendDiagCmd_t *cmd = (TO_SendDiagCmd_t*)msgPtr;
 
                     isCmdOk = TO_SendDiag(cmd->ChannelIdx);
-
                     if (FALSE == isCmdOk)
                     {
-                        (void) OS_MutSemTake(TO_AppData.MutexID);
                         TO_AppData.HkTlm.CmdErrCnt++;
-                        (void) OS_MutSemGive(TO_AppData.MutexID);
                     }
                     else
                     {
-                        (void) OS_MutSemTake(TO_AppData.MutexID);
                         TO_AppData.HkTlm.CmdCnt++;
-                        (void) OS_MutSemGive(TO_AppData.MutexID);
                         (void) CFE_EVS_SendEvent(TO_CMD_SEND_DIAG_EID, CFE_EVS_INFORMATION,
                                           "Successfully executed send diagnostics (%u) on channel %d", (unsigned int)cmdCode,
                                           cmd->ChannelIdx);
@@ -895,8 +862,6 @@ osalbool TO_SendDiag(uint16 ChannelIdx)
             = channel->ConfigTblPtr->MessageFlow[messageFlow].MsgLimit;
         msgFlowDiagPkt.MessageFlow[msgFlowPkt].PQueueID
             = channel->ConfigTblPtr->MessageFlow[messageFlow].PQueueID;
-        msgFlowDiagPkt.MessageFlow[msgFlowPkt].DroppedMsgCnt
-            = channel->DumpTbl.MessageFlow[messageFlow].DroppedMsgCnt;
         msgFlowDiagPkt.MessageFlow[msgFlowPkt].QueuedMsgCnt
             = channel->DumpTbl.MessageFlow[messageFlow].QueuedMsgCnt;
 
@@ -908,15 +873,14 @@ osalbool TO_SendDiag(uint16 ChannelIdx)
 
 #ifdef TO_DEBUG_MODE
             OS_printf("TO: DIAG diagMsg.MessageFlow: ChannelID: %u Offset: %lu\n", msgFlowDiagPkt.ChannelIndex, msgFlowDiagPkt.Offset);
-            OS_printf("TO: DIAG MsgId, MsgLimit, PQueueID, DroppedCnt, QueuedCnt, FailedCnt, SentCnt\n");
+            OS_printf("TO: DIAG MsgId, MsgLimit, PQueueID, QueuedCnt\n");
             for (uint32 i = 0; i <= msgFlowPkt; ++i)
             {
-                OS_printf("TO: DIAG %d: %0xX, %u, %u, %u, %u\n",
+                OS_printf("TO: DIAG %d: %0xX, %u, %u, %u\n",
                    (int)i,
                     msgFlowDiagPkt.MessageFlow[i].MsgId,
                     msgFlowDiagPkt.MessageFlow[i].MsgLimit,
                     msgFlowDiagPkt.MessageFlow[i].PQueueID,
-                    msgFlowDiagPkt.MessageFlow[i].DroppedMsgCnt,
                     msgFlowDiagPkt.MessageFlow[i].QueuedMsgCnt);
             }
 #endif
@@ -936,12 +900,11 @@ osalbool TO_SendDiag(uint16 ChannelIdx)
 #ifdef TO_DEBUG_MODE
         for (uint32 k = 0; k <= msgFlowPkt; ++k)
         {
-          OS_printf("TO: DIAG %d: %0xX, %u, %u, %u, %lu\n",
+          OS_printf("TO: DIAG %d: %0xX, %u, %u, %lu\n",
             (int)k,
             msgFlowDiagPkt.MessageFlow[k].MsgId,
             msgFlowDiagPkt.MessageFlow[k].MsgLimit,
             msgFlowDiagPkt.MessageFlow[k].PQueueID,
-            msgFlowDiagPkt.MessageFlow[k].DroppedMsgCnt,
             msgFlowDiagPkt.MessageFlow[k].QueuedMsgCnt);
         }
 #endif
@@ -979,13 +942,12 @@ osalbool TO_SendDiag(uint16 ChannelIdx)
     OS_printf("TO: DIAG ChannelName = %s\n", diagMsg.ChannelName);
     OS_printf("TO: DIAG TableID = %lu\n", diagMsg.TableID);
     OS_printf("TO: DIAG diagMsg.PQueue:\n");
-    OS_printf("TO: DIAG State, MsgLimit, QType, DroppedCnt, QueuedCnt, CurrQCnt, High, PassedCnt\n");
+    OS_printf("TO: DIAG State, MsgLimit, QType, QueuedCnt, CurrQCnt, High, PassedCnt\n");
     for(pQueue = 0; pQueue < TO_MAX_PRIORITY_QUEUES; ++pQueue) {
-        OS_printf("TO: DIAG %d: %d, %d, %d, %lu, %lu, %lu, %lu, %lu, %lu\n", (int)pQueue,
+        OS_printf("TO: DIAG %d: %d, %d, %d, %lu, %lu, %lu, %lu, %lu\n", (int)pQueue,
                   diagMsg.PQueue[pQueue].State,
                   diagMsg.PQueue[pQueue].MsgLimit,
                   diagMsg.PQueue[pQueue].QType,
-                  diagMsg.PQueue[pQueue].DroppedMsgCnt,
                   diagMsg.PQueue[pQueue].QueuedMsgCnt,
                   diagMsg.PQueue[pQueue].CurrentlyQueuedCnt,
                   diagMsg.PQueue[pQueue].HighwaterMark);

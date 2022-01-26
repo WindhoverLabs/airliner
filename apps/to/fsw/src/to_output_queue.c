@@ -241,7 +241,6 @@ void TO_OutputQueue_ResetCounts(TO_ChannelData_t *channel)
     channel->OutputQueue.SentBytes = 0;
     channel->OutputQueue.PeakMemInUse = 0;
     channel->OutputQueue.MemFullCount = 0;
-    channel->OutputQueue.DroppedMsgCnt = 0;
 }
 
 
@@ -369,7 +368,6 @@ int32 TO_OutputQueue_QueueMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t MsgPtr)
          */
         TO_Channel_LockByRef(channel);
         channel->OutputQueue.MemFullCount++;
-        channel->OutputQueue.DroppedMsgCnt++;
         TO_Channel_UnlockByRef(channel);
         return TO_MEMORY_FULL_ERR;
     }

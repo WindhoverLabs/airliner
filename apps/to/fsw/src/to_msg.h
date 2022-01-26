@@ -505,10 +505,6 @@ typedef struct
         \brief Count of failed commands */
     uint8   CmdErrCnt;
 
-    /** \totlmmnemonic TO_TTLMSGDROP
-        \brief Count of all messages dropped */
-    uint16  TotalMsgDropped;
-
     /** \totlmmnemonic TO_SENTBYTES
         \brief Count of all bytes sent on all output channels */
     uint32  SentBytes;
@@ -544,11 +540,6 @@ typedef struct
     uint16                  PQueueID;
 
     /**
-     * \brief  Message Flow Dropped Message Count
-     */
-    uint32                  DroppedMsgCnt;
-
-    /**
      * \brief  Message Flow Queued Message Count
      */
     uint32                  QueuedMsgCnt;
@@ -561,11 +552,6 @@ typedef struct
 */
 typedef struct
 {
-    /**
-     * \brief  Priority Queue dropped message Count
-     */
-    uint32                  DroppedMsgCnt;
-
     /**
      * \brief  Priority Queue queued message Count
      */
