@@ -153,7 +153,7 @@ workspace::
 		
 workspace-sitl::
 	@echo 'Generating ground products.'
-	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram
+	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram || /bin/true
 	@make -C build/obc/ppd/sitl/target ground-tools
 	@make -C build/obc/cpd/sitl/target ground-tools
 	-rm build/obc/sitl_commander_workspace/etc/registry.yaml

@@ -37,6 +37,7 @@ buildliner_add_app_unit_test(mpc-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/mpc_test_utils.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/mpc_test_tables.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/mpc_nominal_config.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/ut_mpc_custom_stubs.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mpc_app.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mpc_app.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mpc_config_utils.cpp
