@@ -207,6 +207,7 @@ osalbool TO_MessageFlow_Add(
     TO_MessageFlow_t *msgFlow   = NULL;
     int32 status                = CFE_SUCCESS;
     uint32 decimationFactorsSum = 0;
+    osalbool isTblModified = FALSE;
 
     TO_ChannelData_t *channel = NULL;
 
@@ -308,13 +309,18 @@ osalbool TO_MessageFlow_Add(
 	            channel->DumpTbl.MessageFlow[i].QueuedMsgCnt = 0;
 	            channel->DumpTbl.MessageFlow[i].SBMsgCnt = 0;
 
-                CFE_TBL_Modified(channel->ConfigTblHdl);
+	            isTblModified = TRUE;
 			}
 
             break;
         }
     }
     
+    if(TRUE == isTblModified)
+    {
+        CFE_TBL_Modified(channel->ConfigTblHdl);
+    }
+
     if (i >= TO_MAX_MESSAGE_FLOWS)
     {
         (void) CFE_EVS_SendEvent(TO_CMD_ADD_MSG_FLOW_ERR_EID, 
