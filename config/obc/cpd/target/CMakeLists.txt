@@ -231,7 +231,7 @@ buildliner_add_app(
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
 #    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci
 #    CONFIG_SOURCES
-#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci/ci_custom.c
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci/ci_ppp_uart.c
 #)
 
 #buildliner_add_app(
@@ -241,7 +241,7 @@ buildliner_add_app(
 #    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to
 #    CONFIG_SOURCES
 #        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/tables/to_backup_cfg.c
-#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_custom.c
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_ppp_uart.c
 #)
 
 buildliner_add_app(
