@@ -186,6 +186,8 @@ function(psp_buildliner_initialize)
     endif()
     
     include_directories(${TARGET_INCLUDES})
+    
+    set_property(GLOBAL PROPERTY TARGET_INCLUDES_PROP ${TARGET_INCLUDES})
 
     if(NOT docs)        
         add_custom_target(docs)
@@ -849,10 +851,10 @@ endfunction(psp_buildliner_add_app_unit_test)
 
 
 function(buildliner_set_global_includes)
-    #include_directories(${CFE_INC_DIRS})
-    #include_directories(${OSAL_INC_DIRS})
-    #include_directories(${PSP_INC_DIRS})
-    #include_directories(${PARSED_ARGS_CONFIG})
+    include_directories(${CFE_INC_DIRS})
+    include_directories(${OSAL_INC_DIRS})
+    include_directories(${PSP_INC_DIRS})
+    include_directories(${PARSED_ARGS_CONFIG})
 endfunction(buildliner_set_global_includes)
 
 
@@ -866,7 +868,9 @@ function(psp_buildliner_add_cfe_unit_test)
             ${PARSED_ARGS_SOURCES}
             ${PSP_BB_UT_BSP_SRC}
                 
-        INCLUDES ${PARSED_ARGS_INCLUDES}
+        INCLUDES 
+            ${PARSED_ARGS_INCLUDES}
+            ${TARGET_INCLUDES}
     )
     if(${GCOV_SUPPORTED})
         psp_add_executable(${TEST_NAME}-gcov
