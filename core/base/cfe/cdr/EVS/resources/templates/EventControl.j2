@@ -599,7 +599,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/ResetAppFilters', {
     </widget>
     <widget type="label" version="2.0.0">
       <name>Event_Label_{{ events[event].id }}</name>
-      <text>{{ event }}</text>
+      <text>({{ events[event].id }}) {{ event }}</text>
       <width>370</width>
       <vertical_alignment>1</vertical_alignment>
     </widget>
