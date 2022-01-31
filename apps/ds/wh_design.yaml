@@ -1,6 +1,7 @@
   short_name: ds
   long_name: Data Storage
   app_name: DS
+  module_type: CFE_APP
   events: 
     DS_INIT_EID: 
       id: 1

@@ -1092,20 +1092,13 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     <widget type="action_button" version="3.0.0">
       <name>Events_1</name>
       <actions>
-        <action type="execute">
-          <script file="EmbeddedJs">
-            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-importPackage(Packages.org.csstudio.display.builder.runtime.script);
-importPackage(org.csstudio.opibuilder.runmode)
-
-var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("EVENTS_OPI"));
-var macroInput = DataUtil.createMacrosInput(true);
-
-ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
-          </script>
+        <action type="open_display">
+          <file>EventControl.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
         </action>
       </actions>
-      <text>Event Filters</text>
+      <text>Event Filtering</text>
       <x>5</x>
       <y>25</y>
       <width>130</width>

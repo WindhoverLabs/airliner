@@ -1577,12 +1577,12 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/ResetPRCount', {});]]></text>
       <name>Action Button_9</name>
       <actions>
         <action type="open_display">
-          <file>$(EVENTS_OPI)</file>
-          <target>window</target>
+          <file>EventControl.bob</file>
+          <target>tab</target>
           <description>Open Display</description>
         </action>
       </actions>
-      <text>Event Filters</text>
+      <text>Event Filtering</text>
       <x>2</x>
       <y>48</y>
       <width>164</width>

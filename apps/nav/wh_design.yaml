@@ -1,6 +1,7 @@
   short_name: nav
   long_name: Navigation
   app_name: NAV
+  module_type: CFE_APP
   events: 
     NAV_INIT_INF_EID: 
       id: 1

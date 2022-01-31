@@ -1,6 +1,7 @@
   short_name: ms5611
   long_name: 
   app_name: MS5611
+  module_type: CFE_APP
   events: 
     MS5611_INIT_INF_EID: 
       id: 1

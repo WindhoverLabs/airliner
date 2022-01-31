@@ -1,6 +1,7 @@
   short_name: ea
   long_name: External Application
   app_name: EA
+  module_type: CFE_APP
   events: 
     EA_INF_EID: 
       id: 1

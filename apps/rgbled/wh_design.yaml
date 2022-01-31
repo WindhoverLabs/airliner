@@ -1,6 +1,7 @@
   short_name: rgbled
   long_name: RGB LED Control
   app_name: RGBLED
+  module_type: CFE_APP
   events: 
     RGBLED_INIT_INF_EID: 
       id: 1

@@ -1,6 +1,7 @@
   short_name: mpu9250
   long_name: 
   app_name: MPU9250
+  module_type: CFE_APP
   events: 
     MPU9250_INIT_INF_EID: 
       id: 1

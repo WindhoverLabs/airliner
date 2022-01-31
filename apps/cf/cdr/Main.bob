@@ -292,7 +292,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/WakeUp', {});]]></text>
     <name>Telemetry</name>
     <y>418</y>
     <width>240</width>
-    <height>125</height>
+    <height>140</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -338,7 +338,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendHK', {});]]></text>
     <x>245</x>
     <y>40</y>
     <width>408</width>
-    <height>503</height>
+    <height>518</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -1205,6 +1205,23 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
       <text>App Control</text>
       <x>5</x>
       <y>433</y>
+      <width>142</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Events_1</name>
+      <actions>
+        <action type="open_display">
+          <file>EventControl.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Event Filtering</text>
+      <x>5</x>
+      <y>453</y>
       <width>142</width>
       <height>20</height>
       <tooltip>$(actions)</tooltip>

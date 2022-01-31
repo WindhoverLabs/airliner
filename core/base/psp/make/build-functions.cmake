@@ -65,11 +65,11 @@ function(psp_buildliner_initialize)
         set_property(GLOBAL PROPERTY IS_REFERENCE_BUILD true)
     endif()
     
-    #if(PARSED_ARGS_COMMANDER_WORKSPACE)
-    #    set(COMMANDER_WORKSPACE ${CMAKE_BINARY_DIR}/commander_workspace)
-    #else()
+    if(PARSED_ARGS_COMMANDER_WORKSPACE)
         set(COMMANDER_WORKSPACE ${PARSED_ARGS_COMMANDER_WORKSPACE})
-    #endif()
+    else()
+        set(COMMANDER_WORKSPACE ${CMAKE_BINARY_DIR}/commander_workspace)
+    endif()
     set(COMMANDER_DISPLAYS ${COMMANDER_WORKSPACE}/Displays)
     set_property(GLOBAL PROPERTY COMMANDER_WORKSPACE ${COMMANDER_WORKSPACE})
     set_property(GLOBAL PROPERTY COMMANDER_DISPLAYS ${COMMANDER_DISPLAYS})
@@ -159,6 +159,17 @@ function(psp_buildliner_initialize)
     add_custom_target(start-yamcs 
         COMMAND ${COMMANDER_WORKSPACE}/bin/yamcs-start /opt/yamcs/ ${COMMANDER_WORKSPACE}
     )
+    
+    # Generate the templated code
+    set_property(GLOBAL PROPERTY BASELINER_CONFIG_FILE_PROPERTY ${CMAKE_BINARY_DIR}/wh_defs.yaml)
+    set_property(GLOBAL PROPERTY BASELINER_GENERATED_CODE_DIR_PROPERTY ${CMAKE_CURRENT_BINARY_DIR}/generated_code)
+			        
+    execute_process(
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	    COMMAND ${CMAKE_COMMAND} -E make_directory generated_code
+	    COMMAND python ${PROJECT_SOURCE_DIR}/core/base/psp/make/parse_configuration.py ${CMAKE_BINARY_DIR}/wh_defs.yaml generated_code ${COMMANDER_WORKSPACE}/Displays/${PARSED_ARGS_CPU_ID}
+	    #COMMAND ${CMAKE_COMMAND} ${CMAKE_CURRENT_BINARY_DIR}/generated_code
+	)
         
     # Add the 'build-file-system' target.  This is used to trigger the steps to embed the initial ramdisk 
     # after all the build products have been built.

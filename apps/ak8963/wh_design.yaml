@@ -1,6 +1,7 @@
   short_name: ak8963
   long_name: TBD
   app_name: AK8963
+  module_type: CFE_APP
   events: 
     AK8963_INIT_INF_EID: 
       id: 1

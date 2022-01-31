@@ -43,7 +43,7 @@
     <x>5</x>
     <y>25</y>
     <width>235</width>
-    <height>346</height>
+    <height>365</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -458,7 +458,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/SendHK', {});]]></text>
     <x>240</x>
     <y>300</y>
     <width>197</width>
-    <height>71</height>
+    <height>90</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -475,6 +475,23 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/SendHK', {});]]></text>
       <text>App Control</text>
       <x>5</x>
       <y>5</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Events_1</name>
+      <actions>
+        <action type="open_display">
+          <file>EventControl.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Event Filtering</text>
+      <x>5</x>
+      <y>25</y>
       <width>140</width>
       <height>20</height>
       <tooltip>$(actions)</tooltip>

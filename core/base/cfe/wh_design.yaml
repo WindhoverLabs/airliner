@@ -67,7 +67,8 @@ modules:
   cfe_es:
     short_name: cfe_es
     long_name: Core Flight Executive - Essential Services
-    app_name: CFE_ES  
+    app_name: CFE_ES
+    module_type: CFE_CORE
     events: 
       CFE_ES_INIT_INF_EID:
         id: 1
@@ -792,7 +793,13 @@ modules:
   cfe_evs:
     short_name: cfe_evs
     long_name: Core Flight Executive - Event Services
-    app_name: CFE_EVS  
+    app_name: CFE_EVS
+    module_type: CFE_CORE
+    commander_templates:
+      _EVENT_CONTROL:
+        template: "cdr/EVS/resources/templates/EventControl.j2"
+        output: "EventControl.bob"
+        scope: GLOBAL
     events: 
       CFE_EVS_ERR_WRLOGFILE_EID:
         id: 2
@@ -1072,7 +1079,8 @@ modules:
   cfe_sb:
     short_name: cfe_sb
     long_name: Core Flight Executive - Software Bus
-    app_name: CFE_SB  
+    app_name: CFE_SB
+    module_type: CFE_CORE
     events: 
       CFE_SB_INIT_EID:
         id: 1
@@ -1449,6 +1457,7 @@ modules:
     short_name: cfe_tbl
     long_name: Core Flight Executive - Table Services
     app_name: CFE_TBL
+    module_type: CFE_CORE
     events: 
       CFE_TBL_INIT_INF_EID:
         id: 1
@@ -1779,6 +1788,7 @@ modules:
     short_name: cfe_time
     long_name: Core Flight Executive - Time Services
     app_name: CFE_TIME
+    module_type: CFE_CORE
     events: 
       CFE_TIME_INIT_EID:
         id: 1
