@@ -20,8 +20,8 @@
  */
 static CFE_TBL_FileDef_t CFE_TBL_FileDef OS_USED =
 {
-  "TO_ConfigTbl", "TO.UDP_CFG", "TO ground dev udp table",
-  "to_udp_cfg.tbl", (sizeof(TO_ChannelTbl_t))
+  "TO_ConfigTbl", "TO.CONFIG", "TO downlink table",
+  "to_config.tbl", (sizeof(TO_ChannelTbl_t))
 };
 
 

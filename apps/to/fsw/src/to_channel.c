@@ -208,6 +208,7 @@ void TO_Channel_ProcessTelemetryAll(void)
         if(TO_CHANNEL_OPENED == channel->State)
         {
             TO_Channel_ProcessTelemetry(channel);
+            TO_OutputChannel_SendTelemetry(i);
         }
     }
 }
@@ -457,3 +458,8 @@ uint8 TO_Channel_State(uint16 index)
         return TO_CHANNEL_UNKNOWN;    
     }
 }
+
+
+
+
+

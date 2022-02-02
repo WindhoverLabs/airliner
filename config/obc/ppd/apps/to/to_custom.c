@@ -499,3 +499,9 @@ void TO_PrintCustomVersion(void)
 {
 
 }
+
+
+void TO_OutputChannel_SendTelemetry(uint32 index)
+{
+}
+

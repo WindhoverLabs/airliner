@@ -2,8 +2,8 @@ set(APP_NAME to)
 
 buildliner_add_table(
     ${APP_NAME}
-    NAME to_udp_cfg
-    SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/tables/to_udp_cfg.c
+    NAME to_config
+    SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/tables/to_config.c
     INCLUDES ${CMAKE_CURRENT_SOURCE_DIR}/src/
 )
 
@@ -23,8 +23,8 @@ buildliner_add_app_unit_test(to-custom-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/unit_test/to_platform_stubs.c
         ${CMAKE_CURRENT_SOURCE_DIR}/unit_test/to_platform_stubs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/tables/to_backup_cfg.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/to_custom.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/to_custom_udp.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/to_slip_sed.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/to_slip_sed.h
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/

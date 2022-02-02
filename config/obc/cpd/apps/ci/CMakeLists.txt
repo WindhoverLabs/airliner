@@ -17,7 +17,7 @@ buildliner_add_app_unit_test(ci-custom-ut
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/unit_test/ci_testrunner.c
         ${CMAKE_CURRENT_SOURCE_DIR}/unit_test/ci_custom_test.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/ci_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/ci_slip_sed.c
         ${PROJECT_SOURCE_DIR}/apps/ci/fsw/src/ci_app.c
         ${PROJECT_SOURCE_DIR}/apps/ci/fsw/src/ci_config_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/unit_test/ci_mock_os_calls.c
