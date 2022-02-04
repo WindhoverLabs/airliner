@@ -48,6 +48,38 @@ services:
       file: "etc/registry.yaml"
 
 dataLinks:
+  - name: tmtc_cpd
+    class: com.windhoverlabs.yamcs.tctm.SerialATTmTcDatalink
+    device: /dev/ttyUSB0
+    tm_config:
+      stream: tm_realtime
+      packetInputStreamClassName: com.windhoverlabs.yamcs.tctm.RFC1055PacketInputStream
+      packetInputStreamArgs:
+        asm: "1ACFFC1D"
+        minLength: 1024
+        maxLength: 1024
+        dropMalformed: false
+      spacecraftId: 1
+      maxPacketLength: 32768
+      packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+      packetPreprocessorArgs:
+        byteOrder: LITTLE_ENDIAN
+        #            useLocalGenerationTime: true
+        #errorDetection:
+        #tcoService:
+        timestampFormat: CFE_SB_TIME_32_16_SUBS
+        timeEncoding:
+          useLocalGenerationTime: false
+          epoch: CUSTOM
+          epochUTC: "1970-01-01T00:00:00Z"
+          timeIncludesLeapSeconds: false
+    tc_config:
+      spacecraftId: 1
+      commandPostprocessorClassName: com.windhoverlabs.yamcs.tctm.ccsds.CfsCommandPostprocessorRFC1055
+      commandPostprocessorArgs:
+        swapChecksumFc: true
+      stream: tc_realtime
+      
   - name: tc_ppd
     class: org.yamcs.tctm.UdpTcDataLink
     stream: tc_realtime
@@ -66,6 +98,7 @@ dataLinks:
     packetPreprocessorArgs:
       checkSequence: false
       byteOrder: LITTLE_ENDIAN
+      useLocalGenerationTime: false
       #errorDetection:
       #tcoService:
       timestampFormat: CFE_SB_TIME_32_16_SUBS
