@@ -129,7 +129,12 @@ int32 CI_InitCustom(void)
     CI_AppCustomData.SlipOutCursor = 0;
     CI_AppCustomData.ParserState   = CI_SLIP_STATE_PARSING_MESSAGE;
 
-    Status = X_Lib_MsgPort_Init(UART_STATUS_MSGPORT_ADDRESS, sizeof(UART_StatusTlm_t), &CI_AppCustomData.MsgPortHandle);
+    Status = X_Lib_MsgPort_Init(
+    		UART_STATUS_MSGPORT_ADDRESS,
+			sizeof(UART_StatusTlm_t),
+			UART_STATUS_MSGPORT_MUTEX_DEVICE_ID,
+			UART_STATUS_MSGPORT_MUTEX_NUM,
+			&CI_AppCustomData.MsgPortHandle);
     if(Status != CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,

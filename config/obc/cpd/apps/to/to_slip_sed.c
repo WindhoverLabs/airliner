@@ -52,7 +52,7 @@ typedef enum
 {
 	TO_QUEUE_MSG_OK                      = 0,
 	TO_QUEUE_MSG_BUFFER_FULL_OK          = 1,
-	TO_QUEUE_MSG_BUFFER_FULL_MSG_PENDING = 2
+	TO_QUEUE_MSG_BUFFER_FULL_MSG_DEFERRED = 2
 } TO_QueueMsgReturnCode_t;
 
 #define UART_NOOP_CC              (0)
@@ -107,7 +107,12 @@ int32 TO_Custom_Init(void)
     TO_AppCustomData.Channel[0].MsgPortAddress = UART_CMD_MSGPORT_ADDRESS;
     TO_AppCustomData.Channel[0].UartQueueDataCmd.Version = 1;
 
-    status = X_Lib_MsgPort_Init(TO_AppCustomData.Channel[0].MsgPortAddress, sizeof(UART_QueueDataCmd_t), &TO_AppCustomData.Channel[0].MsgPortHandle);
+    status = X_Lib_MsgPort_Init(
+    		TO_AppCustomData.Channel[0].MsgPortAddress,
+			sizeof(UART_QueueDataCmd_t),
+			UART_CMD_MSGPORT_MUTEX_DEVICE_ID,
+			UART_CMD_MSGPORT_MUTEX_NUM,
+			&TO_AppCustomData.Channel[0].MsgPortHandle);
     if(status != CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(TO_INIT_APP_ERR_EID, CFE_EVS_ERROR,
@@ -169,7 +174,7 @@ TO_QueueMsgReturnCode_t TO_OutputChannel_QueueMsg(uint32 ChannelID, const char* 
 			 * we got to the end of the message. Let the caller know there is
 			 * still a message pending.
 			 */
-			returnCode = TO_QUEUE_MSG_BUFFER_FULL_MSG_PENDING;
+			returnCode = TO_QUEUE_MSG_BUFFER_FULL_MSG_DEFERRED;
 			cont = FALSE;
 		}
 		else
@@ -539,7 +544,7 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 
 				queueStatus = TO_OutputChannel_QueueMsg(index, (const char*)TO_AppCustomData.Channel[index].InWorkMsg, size);
 
-				if(TO_QUEUE_MSG_BUFFER_FULL_MSG_PENDING == queueStatus)
+				if(TO_QUEUE_MSG_BUFFER_FULL_MSG_DEFERRED == queueStatus)
 				{
 					/* The buffer is full but we were not able to fully
 					 * process the current message. Some of it is still
@@ -559,6 +564,9 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 
 					/* Break out of the loop. */
 					cont = FALSE;
+
+					/* Take credit for the message send. */
+					TO_AppData.ChannelData[index].SentMsgCount++;
 				}
 				else
 				{
@@ -567,6 +575,9 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 					 */
 					TO_AppCustomData.Channel[index].InputCursor = 0;
 					TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
+
+					/* Take credit for the message send. */
+					TO_AppData.ChannelData[index].SentMsgCount++;
 				}
 			}
 		}
