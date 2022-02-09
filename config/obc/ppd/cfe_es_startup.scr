@@ -20,7 +20,7 @@ CFE_APP, /cf/apps/SBND.so,      SBND_AppMain,    SBND,       37, 327680, 0x0, 0,
 CFE_APP, /cf/apps/SCH.so,       SCH_AppMain,     SCH,        34,  40960, 0x0, 0, 2;
 CFE_APP, /cf/apps/GPS.so,       GPS_AppMain,     GPS,        97, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/ADSBR.so,     ADSBR_AppMain,   ADSBR,     150,  32768, 0x0, 0, 2;
-CFE_APP, /cf/apps/SBN.so,       SBN_AppMain,     SBN,       40,   32768, 0x0, 0, 2;
+!CFE_APP, /cf/apps/SBN.so,       SBN_AppMain,     SBN,       40,   32768, 0x0, 0, 2;
 !CFE_LIB, /cf/apps/schlib.so,    SCH_LibInit,     SCH_LIB,    0,     0, 0x0, 0, 2;
 CFE_APP, /cf/apps/CF.so,        CF_AppMain,      CF,        157, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/LC.so,        LC_AppMain,      LC,        178, 327680, 0x0, 0, 2;
