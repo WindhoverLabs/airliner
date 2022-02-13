@@ -42,7 +42,7 @@
 #include "to_slip_sed.h"
 #include "to_platform_cfg.h"
 #include "to_events.h"
-#include "x_lib.h"
+#include "sedlib.h"
 
 /************************************************************************
 ** Local Defines
@@ -91,6 +91,7 @@ uint8 TO_OutputChannel_Status(uint32 index)
 int32 TO_Custom_Init(void)
 {
     int32 status = 0;
+    SEDLIB_ReturnCode_t rc;
     uint32 i = 0;
 
     CFE_PSP_MemSet(&TO_AppCustomData, 0, sizeof(TO_AppCustomData));
@@ -104,14 +105,11 @@ int32 TO_Custom_Init(void)
      * Msg Port Interface
      */
     TO_AppCustomData.Channel[0].Mode = TO_CHANNEL_ENABLED;
-    TO_AppCustomData.Channel[0].MsgPortAddress = UART_CMD_MSGPORT_ADDRESS;
     TO_AppCustomData.Channel[0].UartQueueDataCmd.Version = 1;
 
-    status = X_Lib_MsgPort_Init(
-    		TO_AppCustomData.Channel[0].MsgPortAddress,
+    status = SEDLIB_GetPipe(
+    		"UART1_CMD",
 			sizeof(UART_QueueDataCmd_t),
-			UART_CMD_MSGPORT_MUTEX_DEVICE_ID,
-			UART_CMD_MSGPORT_MUTEX_NUM,
 			&TO_AppCustomData.Channel[0].MsgPortHandle);
     if(status != CFE_SUCCESS)
     {
@@ -589,7 +587,7 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 			CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
 			TO_AppCustomData.Channel[0].UartQueueDataCmd.BytesInBuffer = TO_AppCustomData.Channel[index].BytesQueued;
 			TO_AppCustomData.Channel[index].UartQueueDataCmd.FrameID++;
-			X_Lib_MsgPort_WriteMsg(
+			SEDLIB_SendMsg(
 					TO_AppCustomData.Channel[index].MsgPortHandle,
 					(CFE_SB_MsgPtr_t)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
 

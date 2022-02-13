@@ -35,8 +35,7 @@
 #include "ci_platform_cfg.h"
 #include "ci_events.h"
 #include <strings.h>
-#include "x_lib.h"
-#include "memory_map.h"
+#include "sedlib.h"
 
 #define CI_CUSTOM_RETURN_CODE_NULL_POINTER      (-1)
 
@@ -129,11 +128,9 @@ int32 CI_InitCustom(void)
     CI_AppCustomData.SlipOutCursor = 0;
     CI_AppCustomData.ParserState   = CI_SLIP_STATE_PARSING_MESSAGE;
 
-    Status = X_Lib_MsgPort_Init(
-    		UART_STATUS_MSGPORT_ADDRESS,
+    Status = SEDLIB_GetPipe(
+    		"UART1_STATUS",
 			sizeof(UART_StatusTlm_t),
-			UART_STATUS_MSGPORT_MUTEX_DEVICE_ID,
-			UART_STATUS_MSGPORT_MUTEX_NUM,
 			&CI_AppCustomData.MsgPortHandle);
     if(Status != CFE_SUCCESS)
     {
@@ -172,13 +169,13 @@ void CI_ReadMessage(uint8* buffer, uint32* size)
 
         	CI_AppCustomData.SlipInCursor  = 0;
 
-            rc = X_Lib_MsgPort_ReadMsg(CI_AppCustomData.MsgPortHandle, (CFE_SB_MsgPtr_t)&CI_AppCustomData.UartStatusTlm);
-            if(X_LIB_SUCCESS == rc)
+            rc = SEDLIB_ReadMsg(CI_AppCustomData.MsgPortHandle, (CFE_SB_MsgPtr_t)&CI_AppCustomData.UartStatusTlm);
+            if(SEDLIB_MSG_FRESH_OK == rc)
             {
             	CI_AppCustomData.BufferState = CI_BUFFER_PARSE_INPROGRESS;
             	parseBuffer = TRUE;
             }
-            else if(X_LIB_NO_NEW_MSG_AVAILABLE == rc)
+            else if(SEDLIB_MSG_STALE_OK == rc)
             {
             	/* There was no message waiting for us. */
             	parseBuffer = FALSE;
