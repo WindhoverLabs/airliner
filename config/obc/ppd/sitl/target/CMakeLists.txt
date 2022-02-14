@@ -139,10 +139,10 @@ buildliner_add_app(
 buildliner_add_app(
     to
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to/tables/to_backup_cfg.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to/to_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/tables/to_backup_cfg.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/to_custom.c
 )
 
 buildliner_add_app(
