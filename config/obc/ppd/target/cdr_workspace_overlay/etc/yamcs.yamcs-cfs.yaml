@@ -48,10 +48,43 @@ services:
       file: "etc/registry.yaml"
 
 dataLinks:
+  - name: tmtc_cpd
+    class: com.windhoverlabs.yamcs.tctm.SerialATTmTcDatalink
+    device: /dev/ttyUSB0
+    tm_config:
+      stream: tm_realtime
+      packetInputStreamClassName: com.windhoverlabs.yamcs.tctm.RFC1055PacketInputStream
+      packetInputStreamArgs:
+        asm: "1ACFFC1D"
+        minLength: 1024
+        maxLength: 1024
+        dropMalformed: false
+      spacecraftId: 1
+      maxPacketLength: 32768
+      packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.cfs.CfsPacketPreprocessor
+      packetPreprocessorArgs:
+        checkForSequenceDiscontinuity: false
+        byteOrder: LITTLE_ENDIAN
+        #            useLocalGenerationTime: true
+        #errorDetection:
+        #tcoService:
+        timestampFormat: CFE_SB_TIME_32_16_SUBS
+        timeEncoding:
+          useLocalGenerationTime: false
+          epoch: CUSTOM
+          epochUTC: "1970-01-01T00:00:00Z"
+          timeIncludesLeapSeconds: false
+    tc_config:
+      spacecraftId: 1
+      commandPostprocessorClassName: com.windhoverlabs.yamcs.tctm.ccsds.CfsCommandPostprocessorRFC1055
+      commandPostprocessorArgs:
+        swapChecksumFc: true
+      stream: tc_realtime
+
   - name: tc_ppd
     class: org.yamcs.tctm.UdpTcDataLink
     stream: tc_realtime
-    host: 192.168.2.153
+    host: 10.42.0.1
     port: 5010
     commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
     commandPostprocessorArgs:
@@ -62,10 +95,11 @@ dataLinks:
     stream: tm_realtime
     port: 5011
     maxLength: 32768 #32KB is the default for CCSDS
-    packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+    packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.cfs.CfsPacketPreprocessor
     packetPreprocessorArgs:
-      checkSequence: false
+      checkForSequenceDiscontinuity: false
       byteOrder: LITTLE_ENDIAN
+      useLocalGenerationTime: false
       #errorDetection:
       #tcoService:
       timestampFormat: CFE_SB_TIME_32_16_SUBS
@@ -73,6 +107,33 @@ dataLinks:
         epoch: CUSTOM
         epochUTC: "1970-01-01T00:00:00Z"
         timeIncludesLeapSeconds: false
+
+
+#  - name: tc_ppd
+#    class: org.yamcs.tctm.UdpTcDataLink
+#    stream: tc_realtime
+#    host: 192.168.2.153
+#    port: 5010
+#    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+#    commandPostprocessorArgs:
+#      swapChecksumFc: true
+#
+#  - name: tm_ppd
+#    class: org.yamcs.tctm.UdpTmDataLink
+#    stream: tm_realtime
+#    port: 5011
+#    maxLength: 32768 #32KB is the default for CCSDS
+#    packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+#    packetPreprocessorArgs:
+#      checkSequence: false
+#      byteOrder: LITTLE_ENDIAN
+#      #errorDetection:
+#      #tcoService:
+#      timestampFormat: CFE_SB_TIME_32_16_SUBS
+#      timeEncoding:
+#        epoch: CUSTOM
+#        epochUTC: "1970-01-01T00:00:00Z"
+#        timeIncludesLeapSeconds: false
 
 mdb:
     # Configuration of the active loaders
