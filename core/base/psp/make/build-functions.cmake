@@ -52,7 +52,7 @@ include(${PROJECT_SOURCE_DIR}/core/tools/auto-yamcs/build-functions.cmake)
 #)
 function(psp_buildliner_initialize)
     # Define the function arguments.
-    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_DISPLAYS;COMMANDER_WORKSPACE_OVERLAY;COMMANDER_CUSTOM_MACRO_BLOCK" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;CORE_BINARY_NAME;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_DISPLAYS;COMMANDER_WORKSPACE_OVERLAY;COMMANDER_CUSTOM_MACRO_BLOCK" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
     
     # Create all the target directories the caller requested.
     foreach(dir ${PARSED_ARGS_FILESYS})
@@ -214,7 +214,11 @@ function(psp_buildliner_initialize)
             # Do the things that we only do when we build the core binary from source.
         
             # Set what we're going to call the executable file.
-            set(CFE_EXEC_FILE airliner)
+            if(PARSED_ARGS_CORE_BINARY_NAME)
+                set(CFE_EXEC_FILE ${PARSED_ARGS_CORE_BINARY_NAME})
+            else()
+                set(CFE_EXEC_FILE airliner)
+            endif()
         
             # Parse the OSAL CMake files that will specify the various source files.
             if(NOT EXISTS ${PARSED_ARGS_OSAL})

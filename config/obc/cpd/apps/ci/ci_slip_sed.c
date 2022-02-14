@@ -47,7 +47,7 @@
 #define SLIP_ESC_ESC         0xDD    /* ESC ESC_ESC means ESC data byte */
 
 
-#define UART_BUFFER_SIZE        (5000)
+#define UART_BUFFER_SIZE        (1000)
 
 typedef enum
 {
@@ -138,9 +138,11 @@ int32 CI_InitCustom(void)
                                  "Failed to initialize UART MsgPort. (0x%08lX)",
                                  Status);
     }
-
-    CFE_EVS_SendEvent(CI_INIT_INF_EID, CFE_EVS_INFORMATION,
-                      "CI command input initialized.");
+    else
+    {
+        CFE_EVS_SendEvent(CI_INIT_INF_EID, CFE_EVS_INFORMATION,
+                          "CI command input initialized.");
+    }
 
 end_of_function:
     return Status;

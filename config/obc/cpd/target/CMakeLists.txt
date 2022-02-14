@@ -3,6 +3,7 @@ include(../set-vars.cmake)
 buildliner_initialize(
     EMBED_SYMTAB
     CPU_ID CPD
+    CORE_BINARY_NAME airliner.elf
     PSP ${PSP}
     OSAL ${OSAL}
     CORE_TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/tools
