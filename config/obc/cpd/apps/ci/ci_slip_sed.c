@@ -47,7 +47,7 @@
 #define SLIP_ESC_ESC         0xDD    /* ESC ESC_ESC means ESC data byte */
 
 
-#define UART_BUFFER_SIZE        (1000)
+#define UART_BUFFER_SIZE        (76)
 
 typedef enum
 {
@@ -88,8 +88,9 @@ typedef struct
 	uint16          ReceiveParityErrors;	/**< Number of receive parity errors */
 	uint16          ReceiveFramingErrors;	/**< Number of receive framing errors */
 	uint16          ReceiveBreakDetected;	/**< Number of receive breaks */
+	uint32          LastCmdCode;
 	uint32          LastCmdResponse;
-	uint32          FrameID;
+	uint32          RxFrameID;
 	uint32          BytesInBuffer;
     uint8           RxBuffer[UART_BUFFER_SIZE];
 } UART_StatusTlm_t;
@@ -167,7 +168,7 @@ void CI_ReadMessage(uint8* buffer, uint32* size)
              * set the new state to INPROGRESS, and try to read the next
              * message.
         	 */
-	    	int32 rc;
+	    	SEDLIB_ReturnCode_t rc;
 
         	CI_AppCustomData.SlipInCursor  = 0;
 
@@ -312,7 +313,7 @@ CI_SlipParserReturnCode_t CI_ProcessMessage(uint8* inBuffer, uint32 inSize, uint
 		}
 
 		/* Break out of the loop if we're about to overrun the output buffer. */
-		if(CI_AppCustomData.SlipInCursor >= *inOutSize)
+		if(CI_AppCustomData.SlipOutCursor >= *inOutSize)
 		{
 			returnCode = CI_SLIP_PARSER_BUFFER_OVERFLOW;
 			cont = FALSE;
@@ -339,8 +340,8 @@ CI_SlipParserReturnCode_t CI_ProcessMessage(uint8* inBuffer, uint32 inSize, uint
 						{
 							/* We found the end of a message. Skip over this
 							 * byte and break out of the loop. */
-							CI_AppCustomData.SlipInCursor++;
 							*inOutSize = CI_AppCustomData.SlipOutCursor;
+							CI_AppCustomData.SlipInCursor++;
 							returnCode = CI_SLIP_PARSER_MESSAGE_FOUND;
 							CI_AppCustomData.ParserState = CI_SLIP_STATE_MESSAGE_FOUND;
 							cont = FALSE;

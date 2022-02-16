@@ -51,7 +51,7 @@
 **  \par Limits
 **       Must be at least one
 */
-#define SCH_ENTRIES_PER_SLOT    15
+#define SCH_ENTRIES_PER_SLOT    30
 
 
 /**

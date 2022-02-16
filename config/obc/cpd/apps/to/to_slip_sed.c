@@ -586,7 +586,7 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 			/* Yes we do. Send it. */
 			CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
 			TO_AppCustomData.Channel[0].UartQueueDataCmd.BytesInBuffer = TO_AppCustomData.Channel[index].BytesQueued;
-			TO_AppCustomData.Channel[index].UartQueueDataCmd.FrameID++;
+			TO_AppCustomData.Channel[index].UartQueueDataCmd.TxFrameID++;
 			SEDLIB_SendMsg(
 					TO_AppCustomData.Channel[index].MsgPortHandle,
 					(CFE_SB_MsgPtr_t)&TO_AppCustomData.Channel[index].UartQueueDataCmd);

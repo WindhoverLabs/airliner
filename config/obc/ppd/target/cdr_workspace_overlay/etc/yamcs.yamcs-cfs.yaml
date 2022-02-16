@@ -77,7 +77,7 @@ dataLinks:
       spacecraftId: 1
       commandPostprocessorClassName: com.windhoverlabs.yamcs.tctm.ccsds.CfsCommandPostprocessorRFC1055
       commandPostprocessorArgs:
-        swapChecksumFc: true
+        swapChecksumFc: false
       stream: tc_realtime
       
   - name: tc_ppd
