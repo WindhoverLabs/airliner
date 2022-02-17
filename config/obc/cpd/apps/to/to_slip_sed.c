@@ -504,99 +504,119 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 {
 	if(TO_AppCustomData.Channel[index].Mode == TO_CHANNEL_ENABLED)
 	{
-		osalbool cont = TRUE;
+		osalbool                cont = TRUE;
+		SEDLIB_MsgReadStatus_t  readStatus;
+		SEDLIB_MsgWriteStatus_t writeStatus;
+		SEDLIB_ReturnCode_t     rc;
 
-		while(cont)
+		/* Check to see if we the previous message has already been
+		 * received and acknowledged. */
+		rc = SEDLIB_GetMessageStatus(TO_AppCustomData.Channel[index].MsgPortHandle, &readStatus, &writeStatus);
+		if(SEDLIB_OK != rc)
 		{
-			int32 status = OS_SUCCESS;
-
-			if(FALSE == TO_AppCustomData.Channel[index].MsgProcessInProgress)
-			{
-				/* Read in a new message first. */
-				TO_AppCustomData.Channel[index].InputCursor = 0;
-
-				status = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[index], &TO_AppCustomData.Channel[index].InWorkMsg, OS_CHECK );
-				TO_AppCustomData.Channel[index].MsgProcessInProgress = TRUE;
-				if(status == OS_QUEUE_EMPTY)
-				{
-					/* We have no more messages to queue.  Break out of the
-					 * loop. */
-					cont = FALSE;
-					TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
-				}
-				else if(status != OS_SUCCESS)
-				{
-					CFE_EVS_SendEvent(TO_OSQUEUE_GET_ERROR_EID, CFE_EVS_ERROR,
-									"Failed to pop message from queue. (%i).", (int)status);
-
-					/* Break out of the loop. */
-					cont = FALSE;
-					TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
-				}
-			}
-
-			if(TRUE == cont)
-			{
-				TO_QueueMsgReturnCode_t queueStatus;
-				uint32 size = CFE_SB_GetTotalMsgLength(TO_AppCustomData.Channel[index].InWorkMsg);
-
-				queueStatus = TO_OutputChannel_QueueMsg(index, (const char*)TO_AppCustomData.Channel[index].InWorkMsg, size);
-
-				if(TO_QUEUE_MSG_BUFFER_FULL_MSG_DEFERRED == queueStatus)
-				{
-					/* The buffer is full but we were not able to fully
-					 * process the current message. Some of it is still
-					 * in the input buffer and will have to be processed
-					 * in the next frame. */
-					TO_AppCustomData.Channel[index].MsgProcessInProgress = TRUE;
-
-					/* Break out of the loop. */
-					cont = FALSE;
-				}
-				else if(TO_QUEUE_MSG_BUFFER_FULL_OK == queueStatus)
-				{
-					/* The buffer is full but the current message just barely
-					 * fit.  We do need to go to the next frame but we don't
-					 * need to process a partial message. */
-					TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
-
-					/* Break out of the loop. */
-					cont = FALSE;
-
-					/* Take credit for the message send. */
-					TO_AppData.ChannelData[index].SentMsgCount++;
-				}
-				else
-				{
-					/* The message was fully processed and there is still
-					 * room left in the outgoing buffer.  Keep going.
-					 */
-					TO_AppCustomData.Channel[index].InputCursor = 0;
-					TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
-
-					/* Take credit for the message send. */
-					TO_AppData.ChannelData[index].SentMsgCount++;
-				}
-			}
+			/* We can't read the status.  Abort. */
+			/* TODO */
+			return;
 		}
 
-		/* Do we have anything in the buffer to send? */
-		if(TO_AppCustomData.Channel[0].BytesQueued > 0)
+		if(SEDLIB_MSG_READ_PENDING_ACKNOWLEDGE != readStatus)
 		{
-			/* Yes we do. Send it. */
-			CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
-			TO_AppCustomData.Channel[0].UartQueueDataCmd.BytesInBuffer = TO_AppCustomData.Channel[index].BytesQueued;
-			TO_AppCustomData.Channel[index].UartQueueDataCmd.TxFrameID++;
-			SEDLIB_SendMsg(
-					TO_AppCustomData.Channel[index].MsgPortHandle,
-					(CFE_SB_MsgPtr_t)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
+			/* No.  Either there is nothing there to be received yet, or
+			 * the receiver has already acknowledged it.  Go ahead and
+			 * process some messages. */
 
-			/* Update metrics. */
-			TO_AppData.ChannelData[index].OutputQueue.SentCount++;
-			TO_AppData.ChannelData[index].OutputQueue.SentBytes += TO_AppCustomData.Channel[index].BytesQueued;
+			while(cont)
+			{
+				int32 status = OS_SUCCESS;
 
-			/* Reset queue */
-			TO_AppCustomData.Channel[index].BytesQueued = 0;
+				if(FALSE == TO_AppCustomData.Channel[index].MsgProcessInProgress)
+				{
+					/* Read in a new message first. */
+					TO_AppCustomData.Channel[index].InputCursor = 0;
+
+					status = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[index], &TO_AppCustomData.Channel[index].InWorkMsg, OS_CHECK );
+					TO_AppCustomData.Channel[index].MsgProcessInProgress = TRUE;
+					if(status == OS_QUEUE_EMPTY)
+					{
+						/* We have no more messages to queue.  Break out of the
+						 * loop. */
+						cont = FALSE;
+						TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
+					}
+					else if(status != OS_SUCCESS)
+					{
+						CFE_EVS_SendEvent(TO_OSQUEUE_GET_ERROR_EID, CFE_EVS_ERROR,
+										"Failed to pop message from queue. (%i).", (int)status);
+
+						/* Break out of the loop. */
+						cont = FALSE;
+						TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
+					}
+				}
+
+				if(TRUE == cont)
+				{
+					TO_QueueMsgReturnCode_t queueStatus;
+					uint32 size = CFE_SB_GetTotalMsgLength(TO_AppCustomData.Channel[index].InWorkMsg);
+
+					queueStatus = TO_OutputChannel_QueueMsg(index, (const char*)TO_AppCustomData.Channel[index].InWorkMsg, size);
+
+					if(TO_QUEUE_MSG_BUFFER_FULL_MSG_DEFERRED == queueStatus)
+					{
+						/* The buffer is full but we were not able to fully
+						 * process the current message. Some of it is still
+						 * in the input buffer and will have to be processed
+						 * in the next frame. */
+						TO_AppCustomData.Channel[index].MsgProcessInProgress = TRUE;
+
+						/* Break out of the loop. */
+						cont = FALSE;
+					}
+					else if(TO_QUEUE_MSG_BUFFER_FULL_OK == queueStatus)
+					{
+						/* The buffer is full but the current message just barely
+						 * fit.  We do need to go to the next frame but we don't
+						 * need to process a partial message. */
+						TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
+
+						/* Break out of the loop. */
+						cont = FALSE;
+
+						/* Take credit for the message send. */
+						TO_AppData.ChannelData[index].SentMsgCount++;
+					}
+					else
+					{
+						/* The message was fully processed and there is still
+						 * room left in the outgoing buffer.  Keep going.
+						 */
+						TO_AppCustomData.Channel[index].InputCursor = 0;
+						TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
+
+						/* Take credit for the message send. */
+						TO_AppData.ChannelData[index].SentMsgCount++;
+					}
+				}
+			}
+
+			/* Do we have anything in the buffer to send? */
+			if(TO_AppCustomData.Channel[0].BytesQueued > 0)
+			{
+				/* Yes we do. Send it. */
+				CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
+				TO_AppCustomData.Channel[0].UartQueueDataCmd.BytesInBuffer = TO_AppCustomData.Channel[index].BytesQueued;
+				TO_AppCustomData.Channel[index].UartQueueDataCmd.TxFrameID++;
+				SEDLIB_SendMsg(
+						TO_AppCustomData.Channel[index].MsgPortHandle,
+						(CFE_SB_MsgPtr_t)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
+
+				/* Update metrics. */
+				TO_AppData.ChannelData[index].OutputQueue.SentCount++;
+				TO_AppData.ChannelData[index].OutputQueue.SentBytes += TO_AppCustomData.Channel[index].BytesQueued;
+
+				/* Reset queue */
+				TO_AppCustomData.Channel[index].BytesQueued = 0;
+			}
 		}
 	}
 }

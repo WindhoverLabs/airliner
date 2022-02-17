@@ -53,7 +53,7 @@
 #define TO_ENABLE_CHANNEL_CC                    (10)
 #define TO_DISABLE_CHANNEL_CC                   (11)
 
-#define UART_BUFFER_SIZE                        (76)
+#define UART_BUFFER_SIZE                        (1500)
 #define UART_CMD_MSG_ID                         (0x1822)
 
 

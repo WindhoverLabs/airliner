@@ -47,7 +47,7 @@
 #define SLIP_ESC_ESC         0xDD    /* ESC ESC_ESC means ESC data byte */
 
 
-#define UART_BUFFER_SIZE        (76)
+#define UART_BUFFER_SIZE        (1500)
 
 typedef enum
 {
