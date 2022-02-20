@@ -1,6 +1,8 @@
 ---
-config_base: ${PROJECT_SOURCE_DIR} 
-cpu_id: PPD
+config_base: ${PROJECT_SOURCE_DIR}
+cpu_id: ppd
+commander:
+  server_overlay: ${PROJECT_SOURCE_DIR}/config/obc/ppd/server_overlay
 modules:
   core:
     modules:
@@ -14,20 +16,20 @@ modules:
         member: DestinationAddress
         type: string
     commands:
-      TO_CMD_MID: 
+      TO_CMD_MID:
         msgID: 0x189f
-        commands: 
-          EnableChannel: 
+        commands:
+          EnableChannel:
             cc: 10
-            struct: TO_EnableChannelCmd_t       
-          DisableChannel: 
+            struct: TO_EnableChannelCmd_t
+          DisableChannel:
             cc: 11
             struct: TO_DisableChannelCmd_t
 
-    events: 
-      TO_TLMOUTSOCKET_ERR_EID: 
+    events:
+      TO_TLMOUTSOCKET_ERR_EID:
         id: 29
-      TO_TLMOUTENA_INF_EID: 
+      TO_TLMOUTENA_INF_EID:
         id: 30
       TO_TLMOUTENA_ERR_EID:
         id: 31
@@ -39,4 +41,3 @@ modules:
         id: 34
       TO_TLMOUTSTOP_ERR_EID:
         id: 35
-      

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+
+  <macros>
+    <CPUID>{{ cpu_id }}</CPUID>
+    <APP>cfe_es</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>475</width>
+  <height>18</height>
+  <background_color>
+    <color red="240" green="240" blue="240">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="group" version="2.0.0">
+    <name>PerfRecord</name>
+    <width>475</width>
+    <height>20</height>
+    <style>3</style>
+    <foreground_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="checkbox" version="2.0.0">
+      <name>FilterActual</name>
+      <pv_name>loc://FilterActual</pv_name>
+      <label></label>
+      <x>241</x>
+      <width>18</width>
+      <height>18</height>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>FilterRequest</name>
+      <pv_name>loc://FilterRequest</pv_name>
+      <label></label>
+      <x>303</x>
+      <width>18</width>
+      <height>18</height>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>TriggerActual</name>
+      <pv_name>loc://TriggerActual</pv_name>
+      <label></label>
+      <x>383</x>
+      <width>18</width>
+      <height>18</height>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>TriggerRequest</name>
+      <pv_name>loc://TriggerRequest</pv_name>
+      <label></label>
+      <x>445</x>
+      <width>18</width>
+      <height>18</height>
+      <actions>
+      </actions>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>PerfId</name>
+      <text>$PERFORMANCE_ID</text>
+      <width>230</width>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+  </widget>
+</display>

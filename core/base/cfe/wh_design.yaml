@@ -69,7 +69,7 @@ modules:
     long_name: Core Flight Executive - Essential Services
     app_name: CFE_ES
     module_type: CFE_CORE
-    events: 
+    events:
       CFE_ES_INIT_INF_EID:
         id: 1
       CFE_ES_INITSTATS_INF_EID:
@@ -193,7 +193,7 @@ modules:
       CFE_ES_PERF_STOPCMD_ERR2_EID:
         id: 62
       CFE_ES_PERF_FILTMSKCMD_EID:
-        id: 63 
+        id: 63
       CFE_ES_PERF_FILTMSKERR_EID:
         id: 64
       CFE_ES_PERF_TRIGMSKCMD_EID:
@@ -306,8 +306,8 @@ modules:
         type: string
       - parent: CFE_ES_DumpCDSRegCmd_Payload_t
         member: DumpFilename
-        type: string    
-    
+        type: string
+
       - parent: CFE_ES_AppInfo_t
         member: Type
         type: enumeration
@@ -795,12 +795,13 @@ modules:
     long_name: Core Flight Executive - Event Services
     app_name: CFE_EVS
     module_type: CFE_CORE
-    commander_templates:
-      _EVENT_CONTROL:
-        template: "cdr/EVS/resources/templates/EventControl.j2"
-        output: "EventControl.bob"
-        scope: GLOBAL
-    events: 
+    commander:
+      templates:
+        _EVENT_CONTROL:
+          template: "cdr/cfe_evs/resources/templates/EventControl.j2"
+          output: "EventControl.bob"
+          scope: GLOBAL
+    events:
       CFE_EVS_ERR_WRLOGFILE_EID:
         id: 2
       CFE_EVS_ERR_CRLOGFILE_EID:
@@ -939,7 +940,7 @@ modules:
           CRITICAL: 4
       - parent: CFE_EVS_Packet_Payload_t
         member: Message
-        type: string  
+        type: string
     telemetry:
       CFE_EVS_HK_TLM_MID:
         msgID: 0x0801
@@ -1081,7 +1082,7 @@ modules:
     long_name: Core Flight Executive - Software Bus
     app_name: CFE_SB
     module_type: CFE_CORE
-    events: 
+    events:
       CFE_SB_INIT_EID:
         id: 1
       CFE_SB_CR_PIPE_BAD_ARG_EID:
@@ -1213,7 +1214,7 @@ modules:
         type: enumeration
         enumerations:
           SUBSCRIPTION:   0
-          UNSUBSCRIPTION: 1      
+          UNSUBSCRIPTION: 1
     telemetry:
       CFE_SB_HK_TLM_MID:
         msgID: 0x0803
@@ -1458,7 +1459,7 @@ modules:
     long_name: Core Flight Executive - Table Services
     app_name: CFE_TBL
     module_type: CFE_CORE
-    events: 
+    events:
       CFE_TBL_INIT_INF_EID:
         id: 1
       # Removed 2-9
@@ -1789,7 +1790,7 @@ modules:
     long_name: Core Flight Executive - Time Services
     app_name: CFE_TIME
     module_type: CFE_CORE
-    events: 
+    events:
       CFE_TIME_INIT_EID:
         id: 1
       # Removed 2-3
@@ -1954,7 +1955,7 @@ modules:
           ERROR:    1
           BAD:      2
           NEW:      3
-          EXISTING: 4          
+          EXISTING: 4
     telemetry:
       CFE_TIME_DIAG_TLM_MID:
         msgID: 0x0806
