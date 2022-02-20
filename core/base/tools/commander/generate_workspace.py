@@ -50,38 +50,75 @@ import shutil
 import errno
 
 
-def copyanything(src, dst):
-  files = next(os.walk(scr_path))[2]
-  folders = next(os.walk(scr_path))[1]
-  for file in files: # Copy the files
-    scr_file = scr_path + "/" + file
-    dir_file = dir_path + "/" + file
-    if os.path.exists(dir_file): # Delete the old files if already exist
-      os.remove(dir_file)
-    shutil.copy(scr_file, dir_file)
-  for folder in folders: # Merge again with the subdirectories
-    scr_folder = scr_path + "/" + folder
-    dir_folder = dir_path + "/" + folder
-    if not os.path.exists(dir_folder): # Create the subdirectories if dont already exist
-      os.mkdir(dir_folder)
-    merge(scr_folder, dir_folder)
+
+def copyAll(src_path, dst_path, is_templated=False, rootModule=None, targetModule=None, modPath=None):
+    os.makedirs(dst_path, exist_ok=True)
+    files = next(os.walk(src_path))[2]
+    folders = next(os.walk(src_path))[1]
+    for file in files: # Copy the files
+        src_file = src_path + "/" + file
+        dst_file = dst_path + "/" + file
+        if os.path.exists(dst_file): # Delete the old files if already exist
+            os.remove(dst_file)
+        if not is_templated:
+            shutil.copy(src_file, dst_file)
+        else:              
+            cpuID = getCpuId(rootModule, modPath)
+            
+            data = {'module': targetModule, 'root': rootModule, "cpu_id": cpuID}
+            if 'module_type' in targetModule:
+                module_type = targetModule['module_type']
+            else:
+                module_type = 'NOT_SUPPORTED' 
+            
+            j2Env = jinja2.Environment(loader=jinja2.FileSystemLoader(src_path))  
+            output = j2Env.get_template(file).render(data)
+                
+            # If there is an existing file, only write the file if the contents have changed.
+            writeFile = True
+    
+            if os.path.exists(dst_file):
+                # It does exist.  Now load it.
+                with open(dst_file, 'r') as outFile:
+                    oldData = outFile.read()
+                    if oldData == output:
+                        writeFile = False
+                        
+            if writeFile:
+                # Save the results
+                with open(dst_file, "w") as dst_file:
+                    dst_file.write(output)
+
+    for folder in folders: # Merge again with the subdirectories
+        scr_folder = src_path + "/" + folder
+        dst_folder = dst_path + "/" + folder
+        copyAll(scr_folder, dst_folder, is_templated, rootModule, targetModule, modPath)
+        
+    
+        
+def getCpuId(rootModule, modPath):
+    cpuID = modPath.split("/")[0]
+    
+    return cpuID
+        
 
 
 def generateCommanderDisplay(rootModule, targetModule, templateDir, templateFile, outputName, cdrBasePath, modPath):    
     if 'app_name' in targetModule.keys():
         app_name = targetModule['app_name']
         shortName = targetModule['short_name']
-        outPath = os.path.join(cdrBasePath, modPath)
+        outPath = os.path.join(cdrBasePath, "Displays", modPath)
         
-        data = {'module': targetModule, 'root': rootModule}
+        cpuID = getCpuId(rootModule, modPath)
+        
+        data = {'module': targetModule, 'root': rootModule, "cpu_id": cpuID}
         if 'module_type' in targetModule:
             module_type = targetModule['module_type']
         else:
             module_type = 'NOT_SUPPORTED'            
 
         outFileName = os.path.join(outPath, outputName)
-        if not os.path.exists(outPath):
-            os.makedirs(outPath)
+        os.makedirs(outPath, exist_ok=True)
         
         j2Env = jinja2.Environment(loader=jinja2.FileSystemLoader(templateDir))  
         output = j2Env.get_template(templateFile).render(data)
@@ -108,83 +145,61 @@ def generateCommanderDisplay(rootModule, targetModule, templateDir, templateFile
     
              
 
-def parseModulePhase2(rootModule, currentModule, currentModuleName, dirBase, cdrBasePath, modPath):    
+def parseModule(rootModule, currentModule, currentModuleName, dirBase, cdrBasePath, modPath):    
     if 'definition' in currentModule:
         dirBase = os.path.abspath(os.path.dirname(currentModule['definition']))
         
     if 'commander' in currentModule.keys():
+                
+        if 'server_overlay' in currentModule['commander']:
+            srcPath = os.path.join(dirBase, currentModule['commander']['server_overlay'])
+            
+            if os.path.isdir(srcPath):
+                copyAll(srcPath, cdrBasePath)
+            else:
+                print("Cannot apply server overlay '/" + modPath + "'.  'server_overlay' '" + srcPath + "' not found.  Skipping.")
+                
+        if 'displays' in currentModule['commander']:
+            srcPath = os.path.join(dirBase, currentModule['commander']['displays'])
+            dstPath = os.path.join(cdrBasePath, "Displays", modPath)
+            
+            if os.path.isdir(srcPath):
+                copyAll(srcPath, dstPath, True, rootModule, currentModule, modPath)
+            else:
+                print("Cannot populate displays for '/" + modPath + "'.  'displays' '" + srcPath + "' not found.  Skipping.")
+                
         if 'templates' in currentModule['commander']:           
             for cdrTypeName in currentModule['commander']['templates']:
                 objDisplayType = currentModule['commander']['templates'][cdrTypeName]
     
                 # Get the template directory
                 cdrDirectory = os.path.dirname(os.path.join(dirBase, objDisplayType['template']))
-    
+                
                 # Get the template filename
                 cdrFileName = os.path.basename(objDisplayType['template'])
-        
-                outFileName = objDisplayType['output']
-        
-                if 'scope' in objDisplayType.keys():
-                    if objDisplayType['scope'] == 'GLOBAL':  
-                        generateCommanderDisplay(rootModule, rootModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath, "")
-                    else:
-                        generateCommanderDisplay(rootModule, currentModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath, modPath)
-                else:
-                    generateCommanderDisplay(rootModule, currentModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath, modPath)  
-            
-                    parseModuleCommanderTemplates(rootModule, currentModule, dirBase, cdrBasePath, modPath)
-    
-    if 'modules' in currentModule.keys():
-        for moduleName in currentModule['modules']:    
-            newModPath = modPath + moduleName + "/"
-            parseModulePhase2(rootModule, currentModule['modules'][moduleName], moduleName, dirBase, cdrBasePath, newModPath)    
-    
-             
-
-def parseModulePhase1(rootModule, currentModule, currentModuleName, dirBase, cdrBasePath, modPath):    
-    if 'definition' in currentModule:
-        dirBase = os.path.abspath(os.path.dirname(currentModule['definition']))
-        
-    if 'commander' in currentModule.keys():
-        if 'displays' in currentModule['commander']:
-            srcPath = os.path.join(dirBase, currentModule['commander']['displays'])
-            dstPath = os.path.join(cdrBasePath, "Displays", modPath)
-            
-            if os.path.isdir(srcPath):
-                copyanything(srcPath, dstPath)
-            else:
-                print("Cannot populate displays for '/" + modPath + "'.  'displays' '" + srcPath + "' not found.  Skipping.")
                 
-        if 'server_overlay' in currentModule['commander']:
-            srcPath = os.path.join(dirBase, currentModule['commander']['server_overlay'])
+                if not os.path.isfile(cdrDirectory + "/" + cdrFileName):
+                    print("Cannot generate from template '/" + modPath + cdrTypeName + "'.  File '" + cdrDirectory + "/" + cdrFileName + "' not found.  Skipping.")
+                else:
+                    outFileName = objDisplayType['output']
             
-            if os.path.isdir(srcPath):
-                copyanything(srcPath, cdrBasePath)
-            else:
-                print("Cannot apply server overlay '" + modPath + "'.  'server_overlay' '" + srcPath + "' not found.  Skipping.")
+                    if 'scope' in objDisplayType.keys():
+                        if objDisplayType['scope'] == 'GLOBAL':  
+                            generateCommanderDisplay(rootModule, rootModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath, "")
+                        else:
+                            generateCommanderDisplay(rootModule, currentModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath, modPath)
+                    else:
+                        generateCommanderDisplay(rootModule, currentModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath, modPath)  
+                
+                        #parseModuleCommanderTemplates(rootModule, currentModule, dirBase, cdrBasePath, modPath)
     
     if 'modules' in currentModule.keys():
         for moduleName in currentModule['modules']:    
             newModPath = modPath + moduleName + "/"
-            parseModulePhase1(rootModule, currentModule['modules'][moduleName], moduleName, dirBase, cdrBasePath, newModPath)       
+            parseModule(rootModule, currentModule['modules'][moduleName], moduleName, dirBase, cdrBasePath, newModPath)       
     
              
 
-def parseModuleForMsgIDs(rootModule, currentModule, currentModuleName, modPath):         
-    if 'commander' in currentModule.keys():
-        if 'base_path' in currentModule['commander']:
-            srcPath = os.path.join(dirBase, currentModule['commander']['base_path'])
-            dstPath = os.path.join(cdrBasePath, modPath)
-            shutil.copyanything(srcPath, dstPath)
-    
-    if 'modules' in currentModule.keys():
-        for moduleName in currentModule['modules']:    
-            newModPath = modPath + moduleName + "/"
-            parseModulePhase1(rootModule, currentModule['modules'][moduleName], moduleName, dirBase, cdrBasePath, newModPath)    
-        
-        
-  
 # Load the local configuration file
 if len(sys.argv) == 3:
     configFileName = sys.argv[1]
@@ -194,9 +209,10 @@ if len(sys.argv) == 3:
         
         config = yaml.load(configFile, Loader=yaml.FullLoader)
         
-        dirBase = ""
-        os.makedirs(cdrBasePath + "/Displays", exist_ok=True)
-        #parseModuleForMsgIDs(config, config, "", "")
-        parseModulePhase1(config, config, "", dirBase, cdrBasePath, "")
-        parseModulePhase2(config, config, "", dirBase, cdrBasePath, "")
+        # Copy in the workspace template
+        src_path = os.path.join(os.path.dirname(__file__), "workspace_template")
+        copyAll(src_path, cdrBasePath)
+        
+        # Now parse the root module
+        parseModule(config, config, "", "", cdrBasePath, "")
                 

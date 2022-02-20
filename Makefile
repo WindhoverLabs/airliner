@@ -111,10 +111,6 @@ help::
 	
 	
 .PHONY: help Makefile docs obc
-
-
-obc:: obc/ppd obc/cpd
-	@echo 'Done'
 	
 
 $(GENERIC_TARGET_NAMES)::
@@ -142,13 +138,25 @@ $(GENERIC_TARGET_NAMES)::
 				fi \
 		done;
 		
+		
+obc:: obc/ppd obc/cpd
+	@rm -Rf build/obc/target
+	@echo 'Done'
+	
+	
 workspace::
-	@echo 'Generating ground products.'
+	@echo 'Generating PPD message definitions.'
 	@make -C build/obc/ppd/target ground-tools
+	@echo 'Generating CPD message definitions.'
 	@make -C build/obc/cpd/target ground-tools
-	-rm build/obc/commander_workspace/etc/registry.yaml
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	@echo 'Generating combined registry.'
+	@rm -Rf build/obc/registry.yaml >/dev/null
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	@echo 'Generating Commander workspace.'
+	@rm -Rf build/obc/commander_workspace >/dev/null
+	@mkdir -p build/obc/commander_workspace
+	@python3 core/base/tools/commander/generate_workspace.py build/obc/registry.yaml build/obc/commander_workspace/
 	
 		
 workspace-sitl::
@@ -202,6 +210,7 @@ submodule-update:
 	@echo 'Updating submodules'
 	git submodule update --init --recursive
 
+
 remote-install::
 	@echo 'Installing onto test flight vehicle at $(REMOTE_ADDRESS)'
 	ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "$(REMOTE_ADDRESS)"
@@ -211,12 +220,14 @@ remote-install::
 	scp build/obc/cpd/target/target/exe/airliner windhover@$(REMOTE_ADDRESS):~
 	scp config/obc/ppd/target/airliner.service windhover@$(REMOTE_ADDRESS):~
 
+
 local-install::
 	@echo 'Installing onto test flight vehicle at /media/${USER}/'
 	-sudo rm -Rf /media/${USER}/rootfs/opt/airliner
 	sudo cp -R build/obc/ppd/target/target/exe /media/${USER}/rootfs/opt/airliner
 	sudo cp build/obc/cpd/target/target/exe/airliner /media/${USER}/rootfs/lib/firmware
 	-sudo cp build/obc/ppd/target/target/hitl_bridge/hitl_bridge /media/${USER}/rootfs/usr/local/bin/
+
 
 clean::
 	@echo 'Cleaning flight software builds                                                 '

@@ -800,7 +800,7 @@ modules:
     commander:
       templates:
         _EVENT_CONTROL:
-          template: "cdr/EVS/resources/templates/EventControl.j2"
+          template: "cdr/cfe_evs/resources/templates/EventControl.j2"
           output: "EventControl.bob"
           scope: GLOBAL
     events: 
