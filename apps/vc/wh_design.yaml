@@ -2,6 +2,8 @@
   long_name: Video Control
   app_name: VC
   module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     VC_INIT_INF_EID: 
       id: 1

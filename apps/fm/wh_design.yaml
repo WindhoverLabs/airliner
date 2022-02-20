@@ -2,6 +2,8 @@
   long_name: File Management
   app_name: FM
   module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     FM_STARTUP_EID: 
       id: 1

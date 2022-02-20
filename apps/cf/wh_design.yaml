@@ -2,6 +2,8 @@
   long_name: CFDP File Delivery
   app_name: CF
   module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     CF_INIT_EID : 
       id: 1

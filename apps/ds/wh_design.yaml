@@ -2,6 +2,8 @@
   long_name: Data Storage
   app_name: DS
   module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     DS_INIT_EID: 
       id: 1

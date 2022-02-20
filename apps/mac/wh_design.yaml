@@ -2,6 +2,8 @@
   long_name: Multicopter Attitude Controller
   app_name: MAC
   module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     MAC_INF_EID: 
       id: 1
