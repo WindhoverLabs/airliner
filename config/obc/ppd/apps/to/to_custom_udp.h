@@ -94,24 +94,16 @@ typedef struct
     TO_TLM_ChannelMode_t            Mode;
     char                            IP[INET_ADDRSTRLEN];
     uint16                          DstPort;
-//    uint8                           Priority;
-//    CFE_ES_ChildTaskMainFuncPtr_t   ListenerTask;
+    uint8                           Priority;
+    CFE_ES_ChildTaskMainFuncPtr_t   ListenerTask;
     int                             Socket;
-//    uint32                          ChildTaskID;
-//    uint32                          TaskFlags;
+    uint32                          ChildTaskID;
+    uint32                          TaskFlags;
 } TO_TlmChannel_t;
 
 typedef struct
 {
     TO_TlmChannel_t                Channel[TO_MAX_CHANNELS];
-//    uint8                           idleBuff[TO_CUSTOM_TF_IDLE_SIZE];
-//    TM_SDLP_FrameInfo_t             frameInfo;
-//    TM_SDLP_ChannelConfig_t         vcConfig;
-//    uint8                           buffer[TO_CUSTOM_TF_SIZE + TM_SYNC_ASM_SIZE];
-//    uint8                           ocfBuff[4];
-//    uint8                           ofBuff[TO_CUSTOM_TF_OVERFLOW_SIZE];
-//    TM_SDLP_GlobalConfig_t          mcConfig;
-//    uint8                           mcFrameCnt;
 } TO_AppCustomData_t;
 
 /************************************************************************
