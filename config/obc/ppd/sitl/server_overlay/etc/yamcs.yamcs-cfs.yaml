@@ -47,11 +47,11 @@ services:
     args:
       file: "etc/registry.yaml"
 
-dataLinks:
+dataLinks:    
   - name: tc_ppd
     class: org.yamcs.tctm.UdpTcDataLink
     stream: tc_realtime
-    host: localhost
+    host: 127.0.0.1
     port: 5010
     commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
     commandPostprocessorArgs:
@@ -66,6 +66,7 @@ dataLinks:
     packetPreprocessorArgs:
       checkSequence: false
       byteOrder: LITTLE_ENDIAN
+      useLocalGenerationTime: false
       #errorDetection:
       #tcoService:
       timestampFormat: CFE_SB_TIME_32_16_SUBS
@@ -81,9 +82,9 @@ mdb:
       spec: "mdb/cfs-ccsds.xml"
       subLoaders:
       - type: "xtce"
-        spec: "mdb/PPD.xml"
+        spec: "mdb/ppd.xml"
       - type: "xtce"
-        spec: "mdb/CPD.xml"
+        spec: "mdb/cpd.xml"
 
 # Configuration for streams created at server startup
 streamConfig:

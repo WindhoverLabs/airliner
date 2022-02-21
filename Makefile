@@ -145,29 +145,48 @@ obc:: obc/ppd obc/cpd
 	
 	
 workspace::
-	@echo 'Generating PPD message definitions.'
+	@echo 'Generating PPD ground tools data.'
 	@make -C build/obc/ppd/target ground-tools
-	@echo 'Generating CPD message definitions.'
+	@echo 'Generating CPD ground tools data.'
 	@make -C build/obc/cpd/target ground-tools
+	@echo 'Adding XTCE configuration to registries.'
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/cpd/target/wh_defs.yaml --overwrite build/obc/cpd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/ppd/target/wh_defs.yaml --overwrite build/obc/ppd/target/wh_defs.yaml
 	@echo 'Generating combined registry.'
-	@rm -Rf build/obc/registry.yaml >/dev/null
-	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
-	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
-	@echo 'Generating Commander workspace.'
 	@rm -Rf build/obc/commander_workspace >/dev/null
-	@mkdir -p build/obc/commander_workspace
-	@python3 core/base/tools/commander/generate_workspace.py build/obc/registry.yaml build/obc/commander_workspace/
+	@mkdir -p build/obc/commander_workspace/etc
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	@echo 'Generating Commander workspace.'
+	@python3 core/base/tools/commander/generate_workspace.py build/obc/commander_workspace/etc/registry.yaml build/obc/commander_workspace/
+	@echo 'Generating CPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/cpd/target/wh_defs.yaml ${PWD}/build/obc/cpd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/cpd.xml
+	@echo 'Generating PPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/ppd/target/wh_defs.yaml ${PWD}/build/obc/ppd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/ppd.xml
 	
-		
+	
 workspace-sitl::
-	@echo 'Generating ground products.'
+	@echo 'Generating PPD ground tools data.'
 	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram || /bin/true
 	@make -C build/obc/ppd/sitl/target ground-tools
+	@echo 'Generating CPD ground tools data.'
 	@make -C build/obc/cpd/sitl/target ground-tools
-	-rm build/obc/sitl_commander_workspace/etc/registry.yaml
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/sitl/target/wh_defs.yaml --yaml_path /modules/cpd
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/sitl/target/wh_defs.yaml --yaml_path /modules/ppd
+	@echo 'Adding XTCE configuration to registries.'
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/cpd/sitl/target/wh_defs.yaml --overwrite build/obc/cpd/sitl/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/ppd/sitl/target/wh_defs.yaml --overwrite build/obc/ppd/sitl/target/wh_defs.yaml
+	@echo 'Generating combined registry.'
+	@rm -Rf build/obc/sitl_commander_workspace >/dev/null
+	@mkdir -p build/obc/sitl_commander_workspace/etc
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/sitl/target/wh_defs.yaml --yaml_path /modules/cpd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/sitl/target/wh_defs.yaml --yaml_path /modules/ppd
+	@echo 'Generating Commander workspace.'
+	@python3 core/base/tools/commander/generate_workspace.py build/obc/sitl_commander_workspace/etc/registry.yaml build/obc/sitl_commander_workspace/
+	@echo 'Generating CPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/cpd/sitl/target/wh_defs.yaml ${PWD}/build/obc/cpd/sitl/target/wh_defs.db ${PWD}/build/obc/sitl_commander_workspace/mdb/cpd.xml
+	@echo 'Generating PPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/ppd/sitl/target/wh_defs.yaml ${PWD}/build/obc/ppd/sitl/target/wh_defs.db ${PWD}/build/obc/sitl_commander_workspace/mdb/ppd.xml
 	
+		
 	
 obc-sitl:: obc/ppd/sitl obc/cpd/sitl
 	@echo 'Done'

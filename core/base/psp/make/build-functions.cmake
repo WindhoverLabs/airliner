@@ -91,7 +91,7 @@ function(psp_buildliner_initialize)
     configure_file(${PROJECT_SOURCE_DIR}/core/base/psp/fsw/inc/git_version.h.in ${CMAKE_CURRENT_BINARY_DIR}/git_version.h @ONLY)
     
     # Generate the XTCE file
-#    add_custom_target(ground-tools)
+    add_custom_target(ground-tools)
 #    commander_initialize_workspace(commander-workspace
 #        CONFIG_FILE           ${CMAKE_BINARY_DIR}/wh_defs.yaml
 #        XTCE_CONFIG_FILE      ${PROJECT_SOURCE_DIR}/core/base/tools/commander/xtce_config.yaml
@@ -164,12 +164,12 @@ function(psp_buildliner_initialize)
     set_property(GLOBAL PROPERTY BASELINER_CONFIG_FILE_PROPERTY ${CMAKE_BINARY_DIR}/wh_defs.yaml)
     set_property(GLOBAL PROPERTY BASELINER_GENERATED_CODE_DIR_PROPERTY ${CMAKE_CURRENT_BINARY_DIR}/generated_code)
 			        
-#    execute_process(
-#        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-#	    COMMAND ${CMAKE_COMMAND} -E make_directory generated_code
-#	    COMMAND python ${PROJECT_SOURCE_DIR}/core/base/psp/make/parse_configuration.py ${CMAKE_BINARY_DIR}/wh_defs.yaml generated_code ${COMMANDER_WORKSPACE}/Displays/${PARSED_ARGS_CPU_ID}
-#	    #COMMAND ${CMAKE_COMMAND} ${CMAKE_CURRENT_BINARY_DIR}/generated_code
-#	)
+    execute_process(
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	    COMMAND ${CMAKE_COMMAND} -E make_directory generated_code
+	    COMMAND python ${PROJECT_SOURCE_DIR}/core/base/psp/make/parse_configuration.py ${CMAKE_BINARY_DIR}/wh_defs.yaml generated_code ${COMMANDER_WORKSPACE}/Displays/${PARSED_ARGS_CPU_ID}
+	    #COMMAND ${CMAKE_COMMAND} ${CMAKE_CURRENT_BINARY_DIR}/generated_code
+	)
         
     # Add the 'build-file-system' target.  This is used to trigger the steps to embed the initial ramdisk 
     # after all the build products have been built.
@@ -237,11 +237,12 @@ function(psp_buildliner_initialize)
                 INSTALL_PATH ${CFE_INSTALL_DIR}
             )
 
- #           # Add the executable to the combined design+configuration yaml file
- #           commander_add_module(core
- #               TARGET_WORKSPACE   commander-workspace
- #               TARGET_NAME        core-binary 
- #           )
+            # Add the executable to the combined design+configuration yaml file
+            commander_add_module(core
+                OUTPUT_FILE        ${CMAKE_BINARY_DIR}/wh_defs.yaml
+                YAML_PATH          modules.core
+                TARGET_NAME        core-binary 
+            )
         
             ## Generate documentation
             find_package(Doxygen)
@@ -609,9 +610,9 @@ function(psp_buildliner_add_app_def)
 	    
 	    add_custom_target(${PARSED_ARGS_TARGET})
 	    add_dependencies(core-binary ${PARSED_ARGS_TARGET})
-	    if(${PARSED_ARGS_TARGET}_yaml)
-	        add_dependencies(${PARSED_ARGS_TARGET}_yaml ${PARSED_ARGS_TARGET})
-	    endif()
+	    #if(${PARSED_ARGS_TARGET}_yaml)
+	    #    add_dependencies(${PARSED_ARGS_TARGET}_yaml ${PARSED_ARGS_TARGET})
+	    #endif()
     else()
 	    add_library(${PARSED_ARGS_TARGET} MODULE ${PARSED_ARGS_SOURCES})
 	    add_dependencies(build-file-system ${PARSED_ARGS_TARGET})
@@ -652,20 +653,22 @@ function(psp_buildliner_add_app_def)
 	    endif()
 	endif()
 
-#    if(IS_EMBEDDED) 
-#        # Add the core binary file to the combined design+configuration yaml file
-#        commander_add_module(${PARSED_ARGS_TARGET}
-#            TARGET_WORKSPACE   commander-workspace
-#            TARGET_NAME        core-binary
-#        )
-#    else()
-#        # Add the binary file to the combined design+configuration yaml file
-#        commander_add_module(${PARSED_ARGS_TARGET}
-#            TARGET_WORKSPACE   commander-workspace
-#            TARGET_NAME        ${PARSED_ARGS_TARGET}
-#        )
-#    endif()
-#    
+    if(IS_EMBEDDED) 
+        # Add the core binary file to the combined design+configuration yaml file
+        commander_add_module(${PARSED_ARGS_TARGET}
+            OUTPUT_FILE        ${CMAKE_BINARY_DIR}/wh_defs.yaml
+            YAML_PATH          modules.apps.modules.${PARSED_ARGS_TARGET}
+            TARGET_NAME        core-binary 
+        )
+    else()
+        # Add the binary file to the combined design+configuration yaml file
+        commander_add_module(${PARSED_ARGS_TARGET}
+            OUTPUT_FILE        ${CMAKE_BINARY_DIR}/wh_defs.yaml
+            YAML_PATH          modules.apps.modules.${PARSED_ARGS_TARGET}
+            TARGET_NAME        ${PARSED_ARGS_TARGET}
+        )
+    endif()
+    
 #    # Copy in the Commander displays, if specified
 #    if(PARSED_ARGS_COMMANDER_DISPLAYS)
 #        get_property(COMMANDER_DISPLAYS GLOBAL PROPERTY COMMANDER_DISPLAYS)
