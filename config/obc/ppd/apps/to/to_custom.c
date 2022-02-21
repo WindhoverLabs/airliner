@@ -92,10 +92,7 @@ int32 TO_Custom_Init(void)
     TO_AppCustomData.Channel[0].Mode = TO_CHANNEL_ENABLED;
     strncpy(TO_AppCustomData.Channel[0].IP, TO_UDP_CHANNEL_ADDRESS, INET_ADDRSTRLEN);
     TO_AppCustomData.Channel[0].DstPort = TO_UDP_CHANNEL_PORT;
-    TO_AppCustomData.Channel[0].Priority = TO_CHANNEL_TASK_PRIORITY;
-    TO_AppCustomData.Channel[0].ListenerTask = TO_OutputChannel_UDPChannelTask;
     TO_AppCustomData.Channel[0].Socket = 0;
-    TO_AppCustomData.Channel[0].ChildTaskID = 0;
 
     /* Ground dev interface is optional */
     iStatus = TO_Channel_OpenChannel(
@@ -369,18 +366,6 @@ int32 TO_OutputChannel_Enable(uint32 ChannelID, const char *DestinationAddress, 
 
     /* Enable the channel for transmission. */
     TO_AppCustomData.Channel[ChannelID].Mode = TO_CHANNEL_ENABLED;
-
-    /* Create the child listener task. */
-    char TaskName[OS_MAX_API_NAME];
-    snprintf(TaskName, OS_MAX_API_NAME, "TO_OUTCH_%u", (unsigned int)ChannelID);
-    returnCode = CFE_ES_CreateChildTask(
-            &TO_AppCustomData.Channel[ChannelID].ChildTaskID,
-            (const char *)TaskName,
-            TO_AppCustomData.Channel[ChannelID].ListenerTask,
-            0,
-			TO_CUSTOM_TASK_STACK_SIZE,
-            TO_AppCustomData.Channel[ChannelID].Priority,
-			TO_CUSTOM_CHILD_TASK_FLAGS);
 
 end_of_function:
     return returnCode;
