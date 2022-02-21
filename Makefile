@@ -45,7 +45,7 @@ GENERIC_TARGET_NAMES := $(shell echo ${GENERIC_TARGET_PATHS} )
 BUILD_TYPES  := host target
 ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
-REMOTE_ADDRESS := '192.168.2.154'
+REMOTE_ADDRESS := '192.168.2.156'
 
 export PROJECT_SOURCE_DIR=${PWD}
 
@@ -215,7 +215,7 @@ local-install::
 	@echo 'Installing onto test flight vehicle at /media/${USER}/'
 	-sudo rm -Rf /media/${USER}/rootfs/opt/airliner
 	sudo cp -R build/obc/ppd/target/target/exe /media/${USER}/rootfs/opt/airliner
-	sudo cp build/obc/cpd/target/target/exe/airliner /media/${USER}/rootfs/lib/firmware
+	sudo cp build/obc/cpd/target/target/exe/airliner.elf /media/${USER}/rootfs/lib/firmware
 	-sudo cp build/obc/ppd/target/target/hitl_bridge/hitl_bridge /media/${USER}/rootfs/usr/local/bin/
 
 clean::

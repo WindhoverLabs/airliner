@@ -109,13 +109,23 @@ buildliner_add_app(
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/prm
 )
 
+
+# sch_custom_v1.c:  Traditional platform independent layer that uses OS_Timer 
+#                   to drive minor frames.
+# sch_custom_v2.c:  SED specific layer that uses 250Hz minor frame interrupts
+#                   to drive minor frames.  This assumes you are using the
+#                   Windhover Labs avionics platform with the major and minor
+#                   frame timers controlled by the Sensor and Effector Domain 
+#                   (SED).  The interrupt handler included in this file does
+#                   not clear the interrupt.  The SED clears the interrupt
+#                   automatically.
 buildliner_add_app(
     sch
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sch
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sch/sch_custom_rt.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sch/sch_custom_v1.c
 )
 
 buildliner_add_app(
