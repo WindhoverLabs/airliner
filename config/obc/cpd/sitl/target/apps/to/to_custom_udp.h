@@ -39,8 +39,6 @@
 *************************************************************************/
 #include "to_app.h"
 #include "to_custom.h"
-#include "tm_sync.h"
-#include "tm_sdlp.h"
 #include <arpa/inet.h>
 
 /************************************************************************
@@ -115,8 +113,6 @@ typedef struct
 {
     TO_TlmChannel_t                 Channel[TO_MAX_CHANNELS];
     uint8                           idleBuff[TO_CUSTOM_TF_IDLE_SIZE];
-    TM_SDLP_FrameInfo_t             frameInfo;
-    TM_SDLP_ChannelConfig_t         vcConfig;
     uint8                           buffer[TO_CUSTOM_TF_SIZE + TM_SYNC_ASM_SIZE];
     uint8                           ocfBuff[4];
     uint8                           ofBuff[TO_CUSTOM_TF_OVERFLOW_SIZE];
