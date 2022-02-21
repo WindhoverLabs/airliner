@@ -18,12 +18,6 @@ buildliner_initialize(
         /ram
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/../cfe_es_startup.scr
-        
-    COMMANDER_WORKSPACE
-        ${CMAKE_BINARY_DIR}/../../commander_workspace
-        
-    COMMANDER_WORKSPACE_OVERLAY
-        ${CMAKE_CURRENT_SOURCE_DIR}/cdr_workspace_overlay
 )
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/../private/tools/hitl_bridge hitl_bridge)

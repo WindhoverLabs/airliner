@@ -46,76 +46,6 @@ import yaml
 import os
 import jinja2
 import filecmp
-
-
-def generateCommanderDisplay(rootModule, targetModule, templateDir, templateFile, outputName, cdrBasePath):
-    if 'app_name' in targetModule.keys():
-        app_name = targetModule['app_name']
-        shortName = targetModule['short_name']
-        
-        print("Generating display '" + templateDir + "/" + templateFile + "' for '" + app_name +"'")
-        
-        data = {'module': targetModule, 'root': rootModule}
-        if 'module_type' in targetModule:
-            module_type = targetModule['module_type']
-        else:
-            module_type = 'NOT_SUPPORTED'
-            
-        outPath = 'NOT_SUPPORTED'
-        
-        if (module_type == 'CFE_APP') or (module_type == 'CFE_LIB'):
-            outPath = os.path.join(cdrBasePath, 'Apps', shortName)
-        elif module_type == 'CFE_CORE':
-            outPath = os.path.join(cdrBasePath, 'Core', app_name.split("_")[1])
-        
-        if outPath != "NOT_SUPPORTED":
-            outFileName = os.path.join(outPath, outputName)
-            if not os.path.exists(outPath):
-                os.makedirs(outPath)
-        
-            j2Env = jinja2.Environment(loader=jinja2.FileSystemLoader(templateDir))  
-            output = j2Env.get_template(templateFile).render(data)
-            
-            # If there is an existing file, only write the file if the contents have changed.
-            writeFile = True
-
-            if os.path.exists(outFileName):
-                # It does exist.  Now load it.
-                with open(outFileName, 'r') as outFile:
-                    oldData = outFile.read()
-                    if oldData == output:
-                        writeFile = False
-                    
-            if writeFile:
-                # Save the results
-                with open(outFileName, "w") as outputFile:
-                    outputFile.write(output)
-    
-    if 'modules' in targetModule.keys():
-        for moduleName in targetModule['modules']:
-            generateCommanderDisplay(rootModule, targetModule['modules'][moduleName], templateDir, templateFile, outputName, cdrBasePath)    
-            
-            
-
-def parseModuleCommanderTemplates(rootModule, currentModule, dirBase, cdrBasePath):
-    for cdrTypeName in currentModule['commander_templates']:
-        objDisplayType = currentModule['commander_templates'][cdrTypeName]
-    
-        # Get the template directory
-        cdrDirectory = os.path.dirname(os.path.join(dirBase, objDisplayType['template']))
-    
-        # Get the template filename
-        cdrFileName = os.path.basename(objDisplayType['template'])
-        
-        outFileName = objDisplayType['output']
-        
-        if 'scope' in objDisplayType.keys():
-            if objDisplayType['scope'] == 'GLOBAL':  
-                generateCommanderDisplay(rootModule, rootModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath)
-            else:
-                generateCommanderDisplay(rootModule, currentModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath)
-        else:
-            generateCommanderDisplay(rootModule, currentModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath) 
             
             
 
@@ -247,9 +177,6 @@ def parseModule(rootModule, currentModule, dirBase, codeBasePath, cdrBasePath):
         
     if 'app_name' in currentModule.keys():
         app_name = currentModule['app_name']
-        
-        if 'commander_templates' in currentModule.keys():
-            parseModuleCommanderTemplates(rootModule, currentModule, dirBase, cdrBasePath)
             
         if 'code_templates' in currentModule.keys():
             parseModuleCodeTemplates(currentModule, dirBase, codeBasePath)

@@ -2,6 +2,8 @@
   long_name: Command Ingest
   app_name: CI
   module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     CI_INIT_INF_EID: 
       id: 1

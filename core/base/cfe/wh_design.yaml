@@ -1,6 +1,8 @@
 ---
 short_name: cfe
 long_name: Core Flight Executive
+commander:
+   displays: cdr
 config:
     CFE_SPACECRAFT_ID:
       name: CFE_SPACECRAFT_ID
@@ -795,11 +797,12 @@ modules:
     long_name: Core Flight Executive - Event Services
     app_name: CFE_EVS
     module_type: CFE_CORE
-    commander_templates:
-      _EVENT_CONTROL:
-        template: "cdr/EVS/resources/templates/EventControl.j2"
-        output: "EventControl.bob"
-        scope: GLOBAL
+    commander:
+      templates:
+        _EVENT_CONTROL:
+          template: "cdr/cfe_evs/resources/templates/EventControl.j2"
+          output: "EventControl.bob"
+          scope: GLOBAL
     events: 
       CFE_EVS_ERR_WRLOGFILE_EID:
         id: 2

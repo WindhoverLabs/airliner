@@ -1,1 +1,1 @@
-<CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+<CPUID>{{ cpu_id }}</CPUID>

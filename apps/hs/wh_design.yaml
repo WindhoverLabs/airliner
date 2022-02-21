@@ -2,6 +2,8 @@
   long_name: Heath Services
   app_name: HS
   module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     HS_INIT_EID: 
       id: 1
