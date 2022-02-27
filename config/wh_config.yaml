@@ -689,3 +689,19 @@ modules:
         perfids:
           ADSBR_MAIN_TASK_PERF_ID:
             id: 114
+            
+      ublox_m8n:
+        definition: /home/mbenson/git/squeaky-weasel/software/airliner/public/apps/gps/simlink/ublox_m8n/wh_design.yaml
+
+      hmc5883:
+        definition: /home/mbenson/git/squeaky-weasel/software/airliner/public/apps/hmc5883/simlink/wh_design.yaml
+
+      icm20689:
+        definition: /home/mbenson/git/squeaky-weasel/software/airliner/public/apps/icm20689/simlink/wh_design.yaml
+
+      ms5611:
+        definition: /home/mbenson/git/squeaky-weasel/software/airliner/public/apps/ms5611/simlink/wh_design.yaml
+
+      rfd900x:
+        definition: /home/mbenson/git/squeaky-weasel/software/airliner/public/apps/rfd900x/simlink/wh_design.yaml
+

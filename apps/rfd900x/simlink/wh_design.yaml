@@ -1,0 +1,124 @@
+  short_name: rfd900x
+  long_name: UBlox M8N Simlink
+  app_name: UBlox M8N
+  module_type: CFE_APP
+  commander:
+    displays: cdr
+  events: 
+    RFD900X_INIT_INF_EID: 
+      id: 1
+    RFD900X_CMD_NOOP_EID: 
+      id: 2
+    RFD900X_SUBSCRIBE_ERR_EID: 
+      id: 3
+    RFD900X_PIPE_INIT_ERR_EID: 
+      id: 4
+    RFD900X_CFGTBL_MANAGE_ERR_EID: 
+      id: 5
+    RFD900X_CFGTBL_GETADDR_ERR_EID: 
+      id: 6
+    RFD900X_RCVMSG_ERR_EID: 
+      id: 7
+    RFD900X_MSGID_ERR_EID: 
+      id: 8
+    RFD900X_CC_ERR_EID: 
+      id: 9
+    RFD900X_MSGLEN_ERR_EID: 
+      id: 10
+    RFD900X_CFGTBL_REG_ERR_EID: 
+      id: 11
+    RFD900X_CFGTBL_LOAD_ERR_EID: 
+      id: 12
+  telemetry: 
+    RFD900X_HK_TLM_MID: 
+      msgID: 
+      struct: RFD900X_HkTlm_t
+  commands: 
+    RFD900X_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: RFD900X_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: RFD900X_NoArgCmd_t
+    RFD900X_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: RFD900X_NoArgCmd_t
+    RFD900X_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: RFD900X_NoArgCmd_t
+  perfids: 
+    RFD900X_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    RFD900X_LISTENER_TASK_FLAGS: 
+      name: RFD900X_LISTENER_TASK_FLAGS
+      value: OS_ENABLE_CORE_0
+    RFD900X_SB_TIMEOUT: 
+      name: RFD900X_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    RFD900X_MISSION_REV: 
+      name: RFD900X_MISSION_REV
+      value: 0
+    RFD900X_SCH_PIPE_DEPTH: 
+      name: RFD900X_SCH_PIPE_DEPTH
+      value: 2
+    RFD900X_SCH_PIPE_NAME: 
+      name: RFD900X_SCH_PIPE_NAME
+      value: RFD900X_SCH_PIPE
+    RFD900X_SCH_PIPE_PEND_TIME: 
+      name: RFD900X_SCH_PIPE_PEND_TIME
+      value: 2000
+    RFD900X_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: RFD900X_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    RFD900X_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: RFD900X_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    RFD900X_CMD_PIPE_DEPTH: 
+      name: RFD900X_CMD_PIPE_DEPTH
+      value: 4
+    RFD900X_CMD_PIPE_NAME: 
+      name: RFD900X_CMD_PIPE_NAME
+      value: RFD900X_CMD_PIPE
+    RFD900X_DATA_PIPE_DEPTH: 
+      name: RFD900X_DATA_PIPE_DEPTH
+      value: 4
+    RFD900X_DATA_PIPE_NAME: 
+      name: RFD900X_DATA_PIPE_NAME
+      value: RFD900X_DATA_PIPE
+    RFD900X_CONFIG_TABLE_FILENAME: 
+      name: RFD900X_CONFIG_TABLE_FILENAME
+      value: /cf/apps/sim_config.tbl
+    RFD900X_STARTUP_TIMEOUT_MSEC: 
+      name: RFD900X_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    RFD900X_MAX_MESSAGE_SIZE: 
+      name: RFD900X_MAX_MESSAGE_SIZE
+      value: 1500
+    RFD900X_LISTENER_TASK_NAME: 
+      name: RFD900X_LISTENER_TASK_NAME
+      value: RFD900X_LISTENER
+    RFD900X_LISTENER_TASK_STACK_SIZE: 
+      name: RFD900X_LISTENER_TASK_STACK_SIZE
+      value: 16378
+    RFD900X_LISTENER_TASK_PRIORITY: 
+      name: RFD900X_LISTENER_TASK_PRIORITY
+      value: 50
+    RFD900X_MUTEX_NAME: 
+      name: RFD900X_MUTEX_NAME
+      value: RFD900X_MUTEX
+    RFD900XLIB_MUTEX_SEM_NAME: 
+      name: RFD900XLIB_MUTEX_SEM_NAME
+      value: RFD900XLIB_MUTEX
+    RFD900X_PORT: 
+      name: RFD900X_PORT
+      value: 14560

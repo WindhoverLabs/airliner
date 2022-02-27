@@ -171,24 +171,30 @@ workspace-sitl::
 	@make -C build/obc/ppd/sitl/target ground-tools
 	@echo 'Generating CPD ground tools data.'
 	@make -C build/obc/cpd/sitl/target ground-tools
+	@echo 'Generating Simlink ground tools data.'
+	@make -C build/obc/simlink/target ground-tools
 	@echo 'Adding XTCE configuration to registries.'
 	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/cpd/sitl/target/wh_defs.yaml --overwrite build/obc/cpd/sitl/target/wh_defs.yaml
 	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/ppd/sitl/target/wh_defs.yaml --overwrite build/obc/ppd/sitl/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/simlink/target/wh_defs.yaml --overwrite build/obc/simlink/target/wh_defs.yaml
 	@echo 'Generating combined registry.'
 	@rm -Rf build/obc/sitl_commander_workspace >/dev/null
 	@mkdir -p build/obc/sitl_commander_workspace/etc
 	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/sitl/target/wh_defs.yaml --yaml_path /modules/cpd
 	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/sitl/target/wh_defs.yaml --yaml_path /modules/ppd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/simlink/target/wh_defs.yaml --yaml_path /modules/simlink
 	@echo 'Generating Commander workspace.'
 	@python3 core/base/tools/commander/generate_workspace.py build/obc/sitl_commander_workspace/etc/registry.yaml build/obc/sitl_commander_workspace/
 	@echo 'Generating CPD XTCE'
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/cpd/sitl/target/wh_defs.yaml ${PWD}/build/obc/cpd/sitl/target/wh_defs.db ${PWD}/build/obc/sitl_commander_workspace/mdb/cpd.xml
 	@echo 'Generating PPD XTCE'
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/ppd/sitl/target/wh_defs.yaml ${PWD}/build/obc/ppd/sitl/target/wh_defs.db ${PWD}/build/obc/sitl_commander_workspace/mdb/ppd.xml
+	@echo 'Generating Simlink XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/simlink/target/wh_defs.yaml ${PWD}/build/obc/simlink/target/wh_defs.db ${PWD}/build/obc/sitl_commander_workspace/mdb/simlink.xml
 	
 		
 	
-obc-sitl:: obc/ppd/sitl obc/cpd/sitl
+obc-sitl:: obc/ppd/sitl obc/cpd/sitl obc/simlink
 	@echo 'Done'
 	
 	
