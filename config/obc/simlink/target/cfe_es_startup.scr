@@ -2,7 +2,6 @@ CFE_LIB, /cf/apps/CFS_LIB.so,   CFS_LibInit,       CFS_LIB,     0,      0, 0x0, 
 CFE_LIB, /cf/apps/CVTLIB.so,    CVT_LibInit,       CVTLIB,      0,      0, 0x0, 0, 2;
 CFE_APP, /cf/apps/CI.so,        CI_AppMain,        CI,        115, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/TO.so,        TO_AppMain,        TO,        124, 327680, 0x0, 0, 2;
-CFE_APP, /cf/apps/CVT.so,       CVT_AppMain,       CVT,       103,  32768, 0x0, 0, 2;
 CFE_APP, /cf/apps/GPS.so,       GPS_AppMain,       GPS,        97,  32768, 0x0, 0, 2;
 CFE_APP, /cf/apps/UBLOX_M8N.so, UBLOX_M8N_AppMain, UBLOX_M8N,  50,  40960, 0x0, 0, 2;
 CFE_APP, /cf/apps/HMC5883.so,   HMC5883_AppMain,   HMC5883,    53,  40960, 0x0, 0, 2;

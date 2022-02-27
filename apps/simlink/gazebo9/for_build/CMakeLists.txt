@@ -38,6 +38,9 @@ buildliner_add_app_def(simlink
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/simlink_cds_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/simlink_config_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/simlink_symbols.c
+        
+    PUBLIC_INCLUDES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../public_inc/
    
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

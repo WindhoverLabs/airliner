@@ -62,12 +62,12 @@ int32 CVT_LibInit(void)
 
 
 
-int32 CVT_GetContainer(uint16 ID, uint32 Size, CVT_ContainerID_t *ContainerID)
+int32 CVT_GetContainer(char *Name, uint32 Size, CVT_ContainerID_t *ContainerID)
 {
 	int32  status = CVT_SUCCESS;
 	uint32 i = 0;
 
-	if(ID == 0)
+	if(Name == 0)
 	{
 		status = CVT_INVALID_ID;
 		goto end_of_function;
@@ -77,7 +77,7 @@ int32 CVT_GetContainer(uint16 ID, uint32 Size, CVT_ContainerID_t *ContainerID)
 	for(i = 0; i < CVT_MAX_REGISTRATIONS; ++i)
 	{
 		/* Is this entry the same name? */
-		if(ID == CVT_DataStoreTable.Registry.Registration[i].ID)
+		if(strcmp(Name, CVT_DataStoreTable.Registry.Registration[i].Name) == 0)
 		{
 			/* It is the same name.  Is the registered size the same size? */
 			if(Size != CVT_DataStoreTable.Registry.Registration[i].Size)
@@ -135,7 +135,7 @@ int32 CVT_GetContainer(uint16 ID, uint32 Size, CVT_ContainerID_t *ContainerID)
 	}
 
 	/* Now store the name and size. */
-	CVT_DataStoreTable.Registry.Registration[i].ID = ID;
+	strncpy(CVT_DataStoreTable.Registry.Registration[i].Name, Name, CVT_CONTAINER_NAME_MAX_LENGTH);
 	CVT_DataStoreTable.Registry.Registration[i].Size = Size;
 	*ContainerID = i;
 	status = CVT_SUCCESS;

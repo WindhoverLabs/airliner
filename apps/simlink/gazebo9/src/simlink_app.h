@@ -53,6 +53,8 @@
 #include "simlink_events.h"
 #include "simlink_config_utils.h"
 #include "simlink_cds_utils.h"
+#include "simlink.h"
+#include "cvt_lib.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -113,12 +115,24 @@ typedef struct
     SIMLINK_OutData_t  OutData;
 
     /** \brief Housekeeping Telemetry for downlink */
-    SIMLINK_HkTlm_t  HkTlm;
+    SIMLINK_HkTlm_t    HkTlm;
 
     /* TODO */
-    uint32           ListenerTaskID;
-    osalbool         ChildContinueFlag;
-    int              Socket;
+    uint32             ListenerTaskID;
+    osalbool           ChildContinueFlag;
+    int                Socket;
+
+    CVT_ContainerID_t  GpsContainer[SIMLINK_GPS_DEVICE_COUNT];
+    CVT_ContainerID_t  GyroContainer[SIMLINK_GYRO_DEVICE_COUNT];
+    CVT_ContainerID_t  AccelContainer[SIMLINK_ACCEL_DEVICE_COUNT];
+    CVT_ContainerID_t  MagContainer[SIMLINK_MAG_DEVICE_COUNT];
+    CVT_ContainerID_t  BaroContainer[SIMLINK_BARO_DEVICE_COUNT];
+
+    SIMLINK_GPS_Msg_t  GpsMsg[SIMLINK_GPS_DEVICE_COUNT];
+    SIMLINK_Gyro_Msg_t  GyroMsg[SIMLINK_GYRO_DEVICE_COUNT];
+    SIMLINK_Accel_Msg_t  AccelMsg[SIMLINK_ACCEL_DEVICE_COUNT];
+    SIMLINK_Mag_Msg_t  MagMsg[SIMLINK_MAG_DEVICE_COUNT];
+    SIMLINK_Baro_Msg_t  BaroMsg[SIMLINK_BARO_DEVICE_COUNT];
 
 } SIMLINK_AppData_t;
 

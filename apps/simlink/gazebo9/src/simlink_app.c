@@ -51,6 +51,7 @@
 #include <netdb.h>
 #include "mavlink.h"
 #include <unistd.h>
+#include "cvt_lib.h"
 
 /************************************************************************
 ** Local Defines
@@ -59,6 +60,14 @@
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
+typedef enum
+{
+	SIMLINK_ACCEL         = 0b111,
+	SIMLINK_GYRO          = 0b111000,
+	SIMLINK_MAG           = 0b111000000,
+	SIMLINK_BARO          = 0b1101000000000,
+	SIMLINK_DIFF_PRESS    = 0b10000000000
+} SIMLINK_SensorSource_t;
 
 /************************************************************************
 ** External Global Variables
@@ -77,7 +86,163 @@ SIMLINK_AppData_t  SIMLINK_AppData;
 ** Local Function Definitions
 *************************************************************************/
 int32 SIMLINK_InitListener(void);
-void SIMLINK_ListenerTaskMain(void);
+void  SIMLINK_ListenerTaskMain(void);
+int32 SIMLINK_SendHeartbeat(void);
+
+
+int32 SIMLINK_InitCVT(void)
+{
+	int32 status;
+
+	for(uint32 i = 0; i < SIMLINK_GPS_DEVICE_COUNT; ++i)
+	{
+		uint32 updateCount = 0;
+		char name[CVT_CONTAINER_NAME_MAX_LENGTH];
+		uint32 size = sizeof(SIMLINK_GPS_Msg_t);
+
+		sprintf(name, SIMLINK_GPS_CONTAINER_NAME_SPEC, i);
+
+		status = CVT_GetContainer(name, sizeof(SIMLINK_GPS_Msg_t), &SIMLINK_AppData.GpsContainer[i]);
+		if(CVT_SUCCESS != status)
+		{
+	        (void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
+	                                 "Failed to get GPS %ld container. (%li)",
+									 i,
+	                                 status);
+	        goto end_of_function;
+		}
+
+    	status = CVT_GetContent(SIMLINK_AppData.GpsContainer[i], &updateCount, &SIMLINK_AppData.GpsMsg[i], &size);
+    	if(CVT_SUCCESS != status)
+    	{
+            (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get GPS %ld container. (%li)",
+									 i,
+                                     status);
+	        goto end_of_function;
+    	}
+	}
+
+	for(uint32 i = 0; i < SIMLINK_GYRO_DEVICE_COUNT; ++i)
+	{
+		uint32 updateCount = 0;
+		char name[CVT_CONTAINER_NAME_MAX_LENGTH];
+		uint32 size = sizeof(SIMLINK_Gyro_Msg_t);
+
+		sprintf(name, SIMLINK_GYRO_CONTAINER_NAME_SPEC, i);
+
+		status = CVT_GetContainer(name, sizeof(SIMLINK_Gyro_Msg_t), &SIMLINK_AppData.GyroContainer[i]);
+		if(CVT_SUCCESS != status)
+		{
+	        (void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
+	                                 "Failed to get GYRO %ld container. (%li)",
+									 i,
+	                                 status);
+	        goto end_of_function;
+		}
+
+    	status = CVT_GetContent(SIMLINK_AppData.GyroContainer[i], &updateCount, &SIMLINK_AppData.GyroMsg[i], &size);
+    	if(CVT_SUCCESS != status)
+    	{
+            (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get GYRO %ld container. (%li)",
+									 i,
+                                     status);
+	        goto end_of_function;
+    	}
+	}
+
+	for(uint32 i = 0; i < SIMLINK_ACCEL_DEVICE_COUNT; ++i)
+	{
+		uint32 updateCount = 0;
+		char name[CVT_CONTAINER_NAME_MAX_LENGTH];
+		uint32 size = sizeof(SIMLINK_Accel_Msg_t);
+
+		sprintf(name, SIMLINK_ACCEL_CONTAINER_NAME_SPEC, i);
+
+		status = CVT_GetContainer(name, sizeof(SIMLINK_Accel_Msg_t), &SIMLINK_AppData.AccelContainer[i]);
+		if(CVT_SUCCESS != status)
+		{
+	        (void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
+	                                 "Failed to get ACCEL %ld container. (%li)",
+									 i,
+	                                 status);
+	        goto end_of_function;
+		}
+
+    	status = CVT_GetContent(SIMLINK_AppData.AccelContainer[0], &updateCount, &SIMLINK_AppData.AccelMsg[i], &size);
+    	if(CVT_SUCCESS != status)
+    	{
+            (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get ACCEL %ld container. (%li)",
+									 i,
+                                     status);
+	        goto end_of_function;
+    	}
+	}
+
+	for(uint32 i = 0; i < SIMLINK_MAG_DEVICE_COUNT; ++i)
+	{
+		uint32 updateCount = 0;
+		char name[CVT_CONTAINER_NAME_MAX_LENGTH];
+		uint32 size = sizeof(SIMLINK_Mag_Msg_t);
+
+		sprintf(name, SIMLINK_MAG_CONTAINER_NAME_SPEC, i);
+
+		status = CVT_GetContainer(name, sizeof(SIMLINK_Mag_Msg_t), &SIMLINK_AppData.MagContainer[i]);
+		if(CVT_SUCCESS != status)
+		{
+	        (void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
+	                                 "Failed to get Mag %ld container. (%li)",
+									 i,
+	                                 status);
+	        goto end_of_function;
+		}
+
+    	status = CVT_GetContent(SIMLINK_AppData.MagContainer[0], &updateCount, &SIMLINK_AppData.MagMsg[i], &size);
+    	if(CVT_SUCCESS != status)
+    	{
+            (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get Mag %ld container. (%li)",
+									 i,
+                                     status);
+	        goto end_of_function;
+    	}
+	}
+
+	for(uint32 i = 0; i < SIMLINK_BARO_DEVICE_COUNT; ++i)
+	{
+		uint32 updateCount = 0;
+		char name[CVT_CONTAINER_NAME_MAX_LENGTH];
+		uint32 size = sizeof(SIMLINK_Baro_Msg_t);
+
+		sprintf(name, SIMLINK_BARO_CONTAINER_NAME_SPEC, i);
+
+		status = CVT_GetContainer(name, sizeof(SIMLINK_Baro_Msg_t), &SIMLINK_AppData.BaroContainer[i]);
+		if(CVT_SUCCESS != status)
+		{
+	        (void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
+	                                 "Failed to get Baro %ld container. (%li)",
+									 i,
+	                                 status);
+	        goto end_of_function;
+		}
+
+    	status = CVT_GetContent(SIMLINK_AppData.BaroContainer[0], &updateCount, &SIMLINK_AppData.MagMsg[i], &size);
+    	if(CVT_SUCCESS != status)
+    	{
+            (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get Baro %ld container. (%li)",
+									 i,
+                                     status);
+	        goto end_of_function;
+    	}
+	}
+
+end_of_function:
+
+    return status;
+}
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -307,6 +472,15 @@ int32 SIMLINK_InitApp()
     {
         (void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to init CDS table (0x%08X)",
+                                 (unsigned int)iStatus);
+        goto SIMLINK_InitApp_Exit_Tag;
+    }
+
+    iStatus = SIMLINK_InitCVT();
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to init CVT (0x%08X)",
                                  (unsigned int)iStatus);
         goto SIMLINK_InitApp_Exit_Tag;
     }
@@ -794,6 +968,35 @@ end_of_function:
 }
 
 
+int32 SIMLINK_SendHeartbeat(void)
+{
+    int32  status = 0;
+    mavlink_message_t msg = {};
+    uint8  buffer[MAVLINK_MAX_PACKET_LEN];
+    mavlink_heartbeat_t heartbeatMsg = {};
+    uint32  length = 0;
+
+    heartbeatMsg.type = MAV_TYPE_GENERIC;
+    heartbeatMsg.autopilot = MAV_AUTOPILOT_GENERIC;
+    heartbeatMsg.base_mode = 0; //MAV_MODE_FLAG_DECODE_POSITION_SAFETY + MAV_MODE_FLAG_DECODE_POSITION_CUSTOM_MODE;
+    heartbeatMsg.custom_mode = 0;
+    heartbeatMsg.system_status = MAV_STATE_ACTIVE;
+    heartbeatMsg.mavlink_version = 1;
+
+    mavlink_msg_heartbeat_encode(1, 1, &msg, &heartbeatMsg);
+    length = mavlink_msg_to_send_buffer(buffer, &msg);
+
+    if(SIMLINK_AppData.Socket != 0)
+    {
+        send(SIMLINK_AppData.Socket, (char *)buffer, length, 0);
+    }
+
+    status = 0;
+
+    return status;
+}
+
+
 void SIMLINK_ListenerTaskMain(void)
 {
 	SIMLINK_AppData.ChildContinueFlag = TRUE;
@@ -834,22 +1037,120 @@ void SIMLINK_ListenerTaskMain(void)
 
                         case MAVLINK_MSG_ID_HIL_SENSOR:
                         {
-                        	OS_printf("MAVLINK_MSG_ID_HIL_SENSOR\n");
-
-                            mavlink_hil_sensor_t                 decodedMsg;
+                            mavlink_hil_sensor_t  decodedMsg;
 
                             mavlink_msg_hil_sensor_decode(&msg, &decodedMsg);
+
+                            if(decodedMsg.fields_updated & (uint32_t)SIMLINK_ACCEL)
+                            {
+                                int32 rc;
+
+                                SIMLINK_AppData.AccelMsg[0].TimeUsec = decodedMsg.time_usec;
+                                SIMLINK_AppData.AccelMsg[0].X = decodedMsg.xacc;
+                                SIMLINK_AppData.AccelMsg[0].Y = decodedMsg.yacc;
+                                SIMLINK_AppData.AccelMsg[0].Z = decodedMsg.zacc;
+
+                            	rc = CVT_SetContent(SIMLINK_AppData.AccelContainer[0], &SIMLINK_AppData.AccelMsg[0], sizeof(SIMLINK_Accel_Msg_t));
+                            	if(CVT_SUCCESS != rc)
+                            	{
+                                    (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
+                                                             "Failed to set Accel %d container. (%li)",
+                        									 i,
+                                                             rc);
+                            	}
+                            }
+
+                            if(decodedMsg.fields_updated & (uint32_t)SIMLINK_GYRO)
+                            {
+                                int32 rc;
+
+                                SIMLINK_AppData.GyroMsg[0].TimeUsec = decodedMsg.time_usec;
+                                SIMLINK_AppData.GyroMsg[0].X = decodedMsg.xgyro;
+                                SIMLINK_AppData.GyroMsg[0].Y = decodedMsg.ygyro;
+                                SIMLINK_AppData.GyroMsg[0].Z = decodedMsg.zgyro;
+
+                            	rc = CVT_SetContent(SIMLINK_AppData.GyroContainer[0], &SIMLINK_AppData.GyroMsg[0], sizeof(SIMLINK_Gyro_Msg_t));
+                            	if(CVT_SUCCESS != rc)
+                            	{
+                                    (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
+                                                             "Failed to set Gyro %d container. (%li)",
+                        									 i,
+                                                             rc);
+                            	}
+                            }
+
+                            if(decodedMsg.fields_updated & (uint32_t)SIMLINK_MAG)
+                            {
+                                int32 rc;
+
+                                SIMLINK_AppData.MagMsg[0].TimeUsec = decodedMsg.time_usec;
+                                SIMLINK_AppData.MagMsg[0].X = decodedMsg.xmag;
+                                SIMLINK_AppData.MagMsg[0].Y = decodedMsg.ymag;
+                                SIMLINK_AppData.MagMsg[0].Z = decodedMsg.zmag;
+
+                            	rc = CVT_SetContent(SIMLINK_AppData.MagContainer[0], &SIMLINK_AppData.MagMsg[0], sizeof(SIMLINK_Mag_Msg_t));
+                            	if(CVT_SUCCESS != rc)
+                            	{
+                                    (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
+                                                             "Failed to set Mag %d container. (%li)",
+                        									 i,
+                                                             rc);
+                            	}
+                            }
+
+                            if(decodedMsg.fields_updated & (uint32_t)SIMLINK_BARO)
+                            {
+                                int32 rc;
+
+                                SIMLINK_AppData.BaroMsg[0].TimeUsec = decodedMsg.time_usec;
+                                SIMLINK_AppData.BaroMsg[0].Pressure = decodedMsg.abs_pressure;
+                                SIMLINK_AppData.BaroMsg[0].Temperature = decodedMsg.temperature;
+                                SIMLINK_AppData.BaroMsg[0].BarometricAltitude = decodedMsg.pressure_alt;
+
+                            	rc = CVT_SetContent(SIMLINK_AppData.BaroContainer[0], &SIMLINK_AppData.BaroMsg[0], sizeof(SIMLINK_Baro_Msg_t));
+                            	if(CVT_SUCCESS != rc)
+                            	{
+                                    (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
+                                                             "Failed to set Baro %d container. (%li)",
+                        									 i,
+                                                             rc);
+                            	}
+                            }
 
                             break;
                         }
 
                         case MAVLINK_MSG_ID_HIL_GPS:
                         {
-                        	OS_printf("MAVLINK_MSG_ID_HIL_GPS\n");
+                        	int32 rc;
 
                             mavlink_hil_gps_t decodedMsg;
 
                             mavlink_msg_hil_gps_decode(&msg, &decodedMsg);
+
+                            SIMLINK_AppData.GpsMsg[0].TimeUsec = decodedMsg.time_usec;
+                            SIMLINK_AppData.GpsMsg[0].Latitude = decodedMsg.lat;
+                            SIMLINK_AppData.GpsMsg[0].Longitude = decodedMsg.lon;
+                            SIMLINK_AppData.GpsMsg[0].Altitude = decodedMsg.alt;
+                            SIMLINK_AppData.GpsMsg[0].EpH = decodedMsg.eph;
+                            SIMLINK_AppData.GpsMsg[0].EpV = decodedMsg.epv;
+                            SIMLINK_AppData.GpsMsg[0].Speed = decodedMsg.vel;
+                            SIMLINK_AppData.GpsMsg[0].VelocityNorth = decodedMsg.vn;
+                            SIMLINK_AppData.GpsMsg[0].VelocityEast = decodedMsg.ve;
+                            SIMLINK_AppData.GpsMsg[0].VelocityDown = decodedMsg.vd;
+                            SIMLINK_AppData.GpsMsg[0].COG = decodedMsg.cog;
+                            SIMLINK_AppData.GpsMsg[0].FixType = (SIMLINK_GpsFixType_t)decodedMsg.fix_type;
+                            SIMLINK_AppData.GpsMsg[0].SatellitesVisible = decodedMsg.satellites_visible;
+                            SIMLINK_AppData.GpsMsg[0].Yaw = decodedMsg.yaw;
+
+                        	rc = CVT_SetContent(SIMLINK_AppData.GpsContainer[0], &SIMLINK_AppData.GpsMsg[0], sizeof(SIMLINK_GPS_Msg_t));
+                        	if(CVT_SUCCESS != rc)
+                        	{
+                                (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
+                                                         "Failed to set GPS %d container. (0x%08X)",
+                    									 i,
+                                                         (unsigned int)rc);
+                        	}
 
                             break;
                         }
@@ -867,8 +1168,6 @@ void SIMLINK_ListenerTaskMain(void)
 
                         case MAVLINK_MSG_ID_HIL_STATE_QUATERNION:
                         {
-                        	OS_printf("MAVLINK_MSG_ID_HIL_STATE_QUATERNION\n");
-
                             mavlink_hil_state_quaternion_t         decodedMsg;
 
                             mavlink_msg_hil_state_quaternion_decode(&msg, &decodedMsg);
@@ -900,9 +1199,7 @@ void SIMLINK_ListenerTaskMain(void)
 
                         case MAVLINK_MSG_ID_HEARTBEAT:
                         {
-                        	OS_printf("MAVLINK_MSG_ID_HEARTBEAT\n");
-
-                            //SendHeartbeat();
+                            SIMLINK_SendHeartbeat();
 
                             break;
                         }

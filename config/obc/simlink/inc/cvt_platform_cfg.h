@@ -107,11 +107,12 @@ extern "C" {
 **  \par Limits:
 **       This parameter must be at least 1000 (ms).
 */
-#define CVT_STARTUP_TIMEOUT_MSEC    (1000)
+#define CVT_STARTUP_TIMEOUT_MSEC      (1000)
 
 /* TODO:  Add Doxygen markup. */
-#define CVT_MAX_REGISTRATIONS       (100)
-#define CVT_DATA_STORE_SIZE         (10000000)
+#define CVT_MAX_REGISTRATIONS         (100)
+#define CVT_DATA_STORE_SIZE           (10000000)
+#define CVT_CONTAINER_NAME_MAX_LENGTH (40)
 
 
 #ifdef __cplusplus

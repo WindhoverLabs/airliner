@@ -20,7 +20,7 @@ typedef CVT_ContainerID_t *CVT_ContainerIDPtr_t;
 #define CVT_DATASTORE_FULL        (-5)
 
 
-int32 CVT_GetContainer(uint16 ContentID, uint32 Size, CVT_ContainerID_t *ContainerID);
+int32 CVT_GetContainer(char *Name, uint32 Size, CVT_ContainerID_t *ContainerID);
 int32 CVT_GetContent(const CVT_ContainerID_t ContainerID, uint32 *UpdateCount, void* Buffer, uint32 *Size);
 int32 CVT_SetContent(const CVT_ContainerID_t ContainerID, void* Buffer, uint32 Size);
 
