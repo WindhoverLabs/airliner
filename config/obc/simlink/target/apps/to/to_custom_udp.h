@@ -94,11 +94,11 @@ typedef struct
     TO_TLM_ChannelMode_t            Mode;
     char                            IP[INET_ADDRSTRLEN];
     uint16                          DstPort;
-//    uint8                           Priority;
-//    CFE_ES_ChildTaskMainFuncPtr_t   ListenerTask;
+    uint8                           Priority;
+    CFE_ES_ChildTaskMainFuncPtr_t   ListenerTask;
     int                             Socket;
-//    uint32                          ChildTaskID;
-//    uint32                          TaskFlags;
+    uint32                          ChildTaskID;
+    uint32                          TaskFlags;
 } TO_TlmChannel_t;
 
 typedef struct

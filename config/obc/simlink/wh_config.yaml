@@ -242,83 +242,115 @@ modules:
           TO_SOCKET_SEND_PERF_ID: 
             id: 47
 
+      simlink:
+        definition: ${PROJECT_SOURCE_DIR}/apps/simlink/gazebo9/wh_design.yaml
+        telemetry:
+          SIMLINK_HK_TLM_MID:
+            msgID: 0x0848
+        commands:
+          RFD900X_CMD_MID:
+            msgID: 0x1844
+          RFD900X_SEND_HK_MID:
+            msgID: 0x1845
+          RFD900X_WAKEUP_MID:
+            msgID: 0x1846
+        perfids:
+          RFD900X_MAIN_TASK_PERF_ID:
+            id: 63
+
+      cvt:
+        definition: ${PROJECT_SOURCE_DIR}/apps/cvt/wh_design.yaml
+        telemetry:
+          CVT_HK_TLM_MID:
+            msgID: 0x084d
+        commands:
+          CVT_CMD_MID:
+            msgID: 0x1849
+          CVT_SEND_HK_MID:
+            msgID: 0x184a
+          CVT_WAKEUP_MID:
+            msgID: 0x184b
+        perfids:
+          CVT_MAIN_TASK_PERF_ID:
+            id: 64
+
       ublox_m8n:
         definition: ${PROJECT_SOURCE_DIR}/apps/gps/simlink/ublox_m8n/wh_design.yaml
         telemetry:
           UBLOX_M8N_HK_TLM_MID:
-            msgID: 0x0847
+            msgID: 0x0852
         commands:
           UBLOX_M8N_CMD_MID:
-            msgID: 0x1843
+            msgID: 0x184e
           UBLOX_M8N_SEND_HK_MID:
-            msgID: 0x1844
+            msgID: 0x184f
           UBLOX_M8N_WAKEUP_MID:
-            msgID: 0x1845
+            msgID: 0x1850
         perfids:
           UBLOX_M8N_MAIN_TASK_PERF_ID:
-            id: 63
+            id: 65
 
       hmc5883:
         definition: ${PROJECT_SOURCE_DIR}/apps/hmc5883/simlink/wh_design.yaml
         telemetry:
           HMC5883_HK_TLM_MID:
-            msgID: 0x084c
+            msgID: 0x0857
         commands:
           HMC5883_CMD_MID:
-            msgID: 0x1848
+            msgID: 0x1853
           HMC5883_SEND_HK_MID:
-            msgID: 0x1849
+            msgID: 0x1854
           HMC5883_WAKEUP_MID:
-            msgID: 0x184a
+            msgID: 0x1855
         perfids:
           HMC5883_MAIN_TASK_PERF_ID:
-            id: 64
+            id: 66
 
       icm20689:
         definition: ${PROJECT_SOURCE_DIR}/apps/icm20689/simlink/wh_design.yaml
         telemetry:
           ICM20689_HK_TLM_MID:
-            msgID: 0x0851
+            msgID: 0x085c
         commands:
           ICM20689_CMD_MID:
-            msgID: 0x184d
+            msgID: 0x1858
           ICM20689_SEND_HK_MID:
-            msgID: 0x184e
+            msgID: 0x1859
           ICM20689_WAKEUP_MID:
-            msgID: 0x184f
+            msgID: 0x185a
         perfids:
           ICM20689_MAIN_TASK_PERF_ID:
-            id: 65
+            id: 67
 
       ms5611:
         definition: ${PROJECT_SOURCE_DIR}/apps/ms5611/simlink/wh_design.yaml
         telemetry:
           MS5611_HK_TLM_MID:
-            msgID: 0x0856
+            msgID: 0x0861
         commands:
           MS5611_CMD_MID:
-            msgID: 0x1852
+            msgID: 0x185d
           MS5611_SEND_HK_MID:
-            msgID: 0x1853
+            msgID: 0x185e
           MS5611_WAKEUP_MID:
-            msgID: 0x1854
+            msgID: 0x185f
         perfids:
           MS5611_MAIN_TASK_PERF_ID:
-            id: 66
+            id: 68
 
       rfd900x:
         definition: ${PROJECT_SOURCE_DIR}/apps/rfd900x/simlink/wh_design.yaml
         telemetry:
           RFD900X_HK_TLM_MID:
-            msgID: 0x085b
+            msgID: 0x0866
         commands:
           RFD900X_CMD_MID:
-            msgID: 0x1857
+            msgID: 0x1862
           RFD900X_SEND_HK_MID:
-            msgID: 0x1858
+            msgID: 0x1863
           RFD900X_WAKEUP_MID:
-            msgID: 0x1859
+            msgID: 0x1864
         perfids:
           RFD900X_MAIN_TASK_PERF_ID:
-            id: 67
+            id: 69
 

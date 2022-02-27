@@ -25,6 +25,12 @@ buildliner_add_app(
 
 
 buildliner_add_app(
+    cvt
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/cvt/fsw/for_build
+)
+
+
+buildliner_add_app(
     sch
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sch
@@ -92,4 +98,11 @@ buildliner_add_app(
     rfd900x
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/rfd900x/simlink/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/rfd900x
+)
+
+
+buildliner_add_app(
+    simlink
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/simlink/gazebo9/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/simlink
 )

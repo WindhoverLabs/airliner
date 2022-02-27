@@ -29,12 +29,12 @@ static CFE_TBL_FileDef_t CFE_TBL_FileDef OS_USED =
  ** Defines
  *************************************************************************/
 
-#define TO_PQUEUE_SINGLE_PASS_IDX               8
-#define TO_PQUEUE_HIGH_OPS_RSRVD_IDX            9
-#define TO_PQUEUE_HIGH_IDX                     10
-#define TO_PQUEUE_EVENTS_IDX                   11
-#define TO_PQUEUE_HK_IDX                       13
-#define TO_PQUEUE_SHELL_IDX                    14
+#define TO_PQUEUE_SINGLE_PASS_IDX               0
+#define TO_PQUEUE_HIGH_OPS_RSRVD_IDX            1
+#define TO_PQUEUE_HIGH_IDX                      2
+#define TO_PQUEUE_EVENTS_IDX                    3
+#define TO_PQUEUE_HK_IDX                        4
+#define TO_PQUEUE_SHELL_IDX                     5
 
 /**
  **  \brief Default TO config table data
@@ -69,11 +69,13 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {TO_DIAG_MSG_FLOW_MID,                   1, TO_PQUEUE_HK_IDX},
         {TO_DIAG_TLM_MID,                        1, TO_PQUEUE_HK_IDX},
         {TO_HK_TLM_MID,                          1, TO_PQUEUE_HK_IDX},
+        {SIMLINK_HK_TLM_MID,                     1, TO_PQUEUE_HK_IDX},
         {UBLOX_M8N_HK_TLM_MID,                   1, TO_PQUEUE_HK_IDX},
         {HMC5883_HK_TLM_MID,                     1, TO_PQUEUE_HK_IDX},
         {ICM20689_HK_TLM_MID,                    1, TO_PQUEUE_HK_IDX},
         {MS5611_HK_TLM_MID,                      1, TO_PQUEUE_HK_IDX},
-        {RFD900X_HK_TLM_MID,                     1, TO_PQUEUE_HK_IDX}
+        {RFD900X_HK_TLM_MID,                     1, TO_PQUEUE_HK_IDX},
+        {CVT_HK_TLM_MID,                         1, TO_PQUEUE_HK_IDX}
   },{
         /* Priority Queues */
         /* TO_PQUEUE_SINGLE_PASS_IDX */

@@ -50,7 +50,7 @@ extern "C" {
 **       only and can be changed by command at runtime.
 **
 */
-#define TO_UDP_CHANNEL_PORT            (5011)
+#define TO_UDP_CHANNEL_PORT            (5211)
 
 
 /** \tocfg Message Flow packet limit

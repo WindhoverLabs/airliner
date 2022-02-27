@@ -31,6 +31,8 @@ extern "C" {
 #define CFE_TIME_TONE_CMD_MIDX         7
 #define CFE_TIME_1HZ_CMD_MIDX          8
 
+#define SIMLINK_SEND_HK_MIDX          10
+
 #define SCH_SEND_HK_MIDX              15
 #define TO_SEND_HK_MIDX               16
 
@@ -61,6 +63,8 @@ extern "C" {
 #define CI_1HZ_PROC_TIMEOUTS_MIDX     51
 #define CI_SEND_HK_MIDX               52
 #define CI_INGEST_COMMANDS_MIDX       53
+
+#define CVT_SEND_HK_MIDX              56
 
 #define MM_SEND_HK_MIDX               70
 
@@ -279,7 +283,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_2,
 	    SCH_25HZ_GROUP_2,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SIMLINK_SEND_HK_MIDX,     SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },

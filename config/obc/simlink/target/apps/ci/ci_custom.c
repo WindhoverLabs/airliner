@@ -49,7 +49,7 @@ typedef struct
     uint16 Port;
 } CI_AppCustomData_t;
 
-CI_AppCustomData_t CI_AppCustomData = {0, 5010};
+CI_AppCustomData_t CI_AppCustomData = {0, 5210};
 
 
 osalbool CI_AddCustomEventFilters(uint32 *count)

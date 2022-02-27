@@ -1,0 +1,124 @@
+  short_name: simlink
+  long_name: Simlink
+  app_name: Simlink
+  module_type: CFE_APP
+  commander:
+    displays: cdr
+  events: 
+    SIMLINK_INIT_INF_EID: 
+      id: 1
+    SIMLINK_CMD_NOOP_EID: 
+      id: 2
+    SIMLINK_SUBSCRIBE_ERR_EID: 
+      id: 3
+    SIMLINK_PIPE_INIT_ERR_EID: 
+      id: 4
+    SIMLINK_CFGTBL_MANAGE_ERR_EID: 
+      id: 5
+    SIMLINK_CFGTBL_GETADDR_ERR_EID: 
+      id: 6
+    SIMLINK_RCVMSG_ERR_EID: 
+      id: 7
+    SIMLINK_MSGID_ERR_EID: 
+      id: 8
+    SIMLINK_CC_ERR_EID: 
+      id: 9
+    SIMLINK_MSGLEN_ERR_EID: 
+      id: 10
+    SIMLINK_CFGTBL_REG_ERR_EID: 
+      id: 11
+    SIMLINK_CFGTBL_LOAD_ERR_EID: 
+      id: 12
+  telemetry: 
+    SIMLINK_HK_TLM_MID: 
+      msgID: 
+      struct: SIMLINK_HkTlm_t
+  commands: 
+    SIMLINK_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: SIMLINK_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: SIMLINK_NoArgCmd_t
+    SIMLINK_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: SIMLINK_NoArgCmd_t
+    SIMLINK_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: SIMLINK_NoArgCmd_t
+  perfids: 
+    SIMLINK_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    SIMLINK_LISTENER_TASK_FLAGS: 
+      name: SIMLINK_LISTENER_TASK_FLAGS
+      value: OS_ENABLE_CORE_0
+    SIMLINK_SB_TIMEOUT: 
+      name: SIMLINK_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    SIMLINK_MISSION_REV: 
+      name: SIMLINK_MISSION_REV
+      value: 0
+    SIMLINK_SCH_PIPE_DEPTH: 
+      name: SIMLINK_SCH_PIPE_DEPTH
+      value: 2
+    SIMLINK_SCH_PIPE_NAME: 
+      name: SIMLINK_SCH_PIPE_NAME
+      value: SIMLINK_SCH_PIPE
+    SIMLINK_SCH_PIPE_PEND_TIME: 
+      name: SIMLINK_SCH_PIPE_PEND_TIME
+      value: 2000
+    SIMLINK_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: SIMLINK_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    SIMLINK_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: SIMLINK_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    SIMLINK_CMD_PIPE_DEPTH: 
+      name: SIMLINK_CMD_PIPE_DEPTH
+      value: 4
+    SIMLINK_CMD_PIPE_NAME: 
+      name: SIMLINK_CMD_PIPE_NAME
+      value: SIMLINK_CMD_PIPE
+    SIMLINK_DATA_PIPE_DEPTH: 
+      name: SIMLINK_DATA_PIPE_DEPTH
+      value: 4
+    SIMLINK_DATA_PIPE_NAME: 
+      name: SIMLINK_DATA_PIPE_NAME
+      value: SIMLINK_DATA_PIPE
+    SIMLINK_CONFIG_TABLE_FILENAME: 
+      name: SIMLINK_CONFIG_TABLE_FILENAME
+      value: /cf/apps/sim_config.tbl
+    SIMLINK_STARTUP_TIMEOUT_MSEC: 
+      name: SIMLINK_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    SIMLINK_MAX_MESSAGE_SIZE: 
+      name: SIMLINK_MAX_MESSAGE_SIZE
+      value: 1500
+    SIMLINK_LISTENER_TASK_NAME: 
+      name: SIMLINK_LISTENER_TASK_NAME
+      value: SIMLINK_LISTENER
+    SIMLINK_LISTENER_TASK_STACK_SIZE: 
+      name: SIMLINK_LISTENER_TASK_STACK_SIZE
+      value: 16378
+    SIMLINK_LISTENER_TASK_PRIORITY: 
+      name: SIMLINK_LISTENER_TASK_PRIORITY
+      value: 50
+    SIMLINK_MUTEX_NAME: 
+      name: SIMLINK_MUTEX_NAME
+      value: SIMLINK_MUTEX
+    SIMLINKLIB_MUTEX_SEM_NAME: 
+      name: SIMLINKLIB_MUTEX_SEM_NAME
+      value: SIMLINKLIB_MUTEX
+    SIMLINK_PORT: 
+      name: SIMLINK_PORT
+      value: 14560

@@ -110,47 +110,64 @@
 #define TO_SEND_TLM_MID                           CMD_MSG(   66 )  /* 0x42 */
 
 
+#define CF_SPACE_TO_GND_PDU_MID                   TLM_MSG(   67 )  /* 0x43 */
+
+
+/* SIMLINK                                                   */
+#define SIMLINK_CMD_MID                           CMD_MSG(   68 )  /* 0x44 */
+#define SIMLINK_SEND_HK_MID                       CMD_MSG(   69 )  /* 0x45 */
+#define SIMLINK_WAKEUP_MID                        CMD_MSG(   70 )  /* 0x46 */
+#define SIMLINK_OUT_DATA_MID                      TLM_MSG(   71 )  /* 0x47 */
+#define SIMLINK_HK_TLM_MID                        TLM_MSG(   72 )  /* 0x48 */
+
+
+/* CVT                                                      */
+#define CVT_CMD_MID                               CMD_MSG(   73 )  /* 0x49 */
+#define CVT_SEND_HK_MID                           CMD_MSG(   74 )  /* 0x4a */
+#define CVT_WAKEUP_MID                            CMD_MSG(   75 )  /* 0x4b */
+#define CVT_OUT_DATA_MID                          TLM_MSG(   76 )  /* 0x4c */
+#define CVT_HK_TLM_MID                            TLM_MSG(   77 )  /* 0x4d */
+
+
 /* UBLOX_M8N                                                 */
-#define UBLOX_M8N_CMD_MID                         CMD_MSG(   67 )  /* 0x43 */
-#define UBLOX_M8N_SEND_HK_MID                     CMD_MSG(   68 )  /* 0x44 */
-#define UBLOX_M8N_WAKEUP_MID                      CMD_MSG(   69 )  /* 0x45 */
-#define UBLOX_M8N_OUT_DATA_MID                    TLM_MSG(   70 )  /* 0x46 */
-#define UBLOX_M8N_HK_TLM_MID                      TLM_MSG(   71 )  /* 0x47 */
+#define UBLOX_M8N_CMD_MID                         CMD_MSG(   78 )  /* 0x4e */
+#define UBLOX_M8N_SEND_HK_MID                     CMD_MSG(   79 )  /* 0x4f */
+#define UBLOX_M8N_WAKEUP_MID                      CMD_MSG(   80 )  /* 0x50 */
+#define UBLOX_M8N_OUT_DATA_MID                    TLM_MSG(   81 )  /* 0x51 */
+#define UBLOX_M8N_HK_TLM_MID                      TLM_MSG(   82 )  /* 0x52 */
 
 
 /* HMC5883                                                   */
-#define HMC5883_CMD_MID                           CMD_MSG(   72 )  /* 0x48 */
-#define HMC5883_SEND_HK_MID                       CMD_MSG(   73 )  /* 0x49 */
-#define HMC5883_WAKEUP_MID                        CMD_MSG(   74 )  /* 0x4a */
-#define HMC5883_OUT_DATA_MID                      TLM_MSG(   75 )  /* 0x4b */
-#define HMC5883_HK_TLM_MID                        TLM_MSG(   76 )  /* 0x4c */
+#define HMC5883_CMD_MID                           CMD_MSG(   83 )  /* 0x53 */
+#define HMC5883_SEND_HK_MID                       CMD_MSG(   84 )  /* 0x54 */
+#define HMC5883_WAKEUP_MID                        CMD_MSG(   85 )  /* 0x55 */
+#define HMC5883_OUT_DATA_MID                      TLM_MSG(   86 )  /* 0x56 */
+#define HMC5883_HK_TLM_MID                        TLM_MSG(   87 )  /* 0x57 */
 
 
 /* ICM20689                                                  */
-#define ICM20689_CMD_MID                          CMD_MSG(   77 )  /* 0x4d */
-#define ICM20689_SEND_HK_MID                      CMD_MSG(   78 )  /* 0x4e */
-#define ICM20689_WAKEUP_MID                       CMD_MSG(   79 )  /* 0x4f */
-#define ICM20689_OUT_DATA_MID                     TLM_MSG(   80 )  /* 0x50 */
-#define ICM20689_HK_TLM_MID                       TLM_MSG(   81 )  /* 0x51 */
-
+#define ICM20689_CMD_MID                          CMD_MSG(   88 )  /* 0x58 */
+#define ICM20689_SEND_HK_MID                      CMD_MSG(   89 )  /* 0x59 */
+#define ICM20689_WAKEUP_MID                       CMD_MSG(   90 )  /* 0x5a */
+#define ICM20689_OUT_DATA_MID                     TLM_MSG(   91 )  /* 0x5b */
+#define ICM20689_HK_TLM_MID                       TLM_MSG(   92 )  /* 0x5c */
 
 /* MS5611                                                    */
-#define MS5611_CMD_MID                            CMD_MSG(   82 )  /* 0x52 */
-#define MS5611_SEND_HK_MID                        CMD_MSG(   83 )  /* 0x53 */
-#define MS5611_WAKEUP_MID                         CMD_MSG(   84 )  /* 0x54 */
-#define MS5611_OUT_DATA_MID                       TLM_MSG(   85 )  /* 0x55 */
-#define MS5611_HK_TLM_MID                         TLM_MSG(   86 )  /* 0x56 */
+#define MS5611_CMD_MID                            CMD_MSG(   93 )  /* 0x5d */
+#define MS5611_SEND_HK_MID                        CMD_MSG(   94 )  /* 0x5e */
+#define MS5611_WAKEUP_MID                         CMD_MSG(   95 )  /* 0x5f */
+#define MS5611_OUT_DATA_MID                       TLM_MSG(   96 )  /* 0x60 */
+#define MS5611_HK_TLM_MID                         TLM_MSG(   97 )  /* 0x61 */
 
 
 /* RFD900X                                                   */
-#define RFD900X_CMD_MID                           CMD_MSG(   87 )  /* 0x57 */
-#define RFD900X_SEND_HK_MID                       CMD_MSG(   88 )  /* 0x58 */
-#define RFD900X_WAKEUP_MID                        CMD_MSG(   89 )  /* 0x59 */
-#define RFD900X_OUT_DATA_MID                      TLM_MSG(   90 )  /* 0x5a */
-#define RFD900X_HK_TLM_MID                        TLM_MSG(   91 )  /* 0x5b */
+#define RFD900X_CMD_MID                           CMD_MSG(   98 )  /* 0x62 */
+#define RFD900X_SEND_HK_MID                       CMD_MSG(   99 )  /* 0x63 */
+#define RFD900X_WAKEUP_MID                        CMD_MSG(  100 )  /* 0x64 */
+#define RFD900X_OUT_DATA_MID                      TLM_MSG(  101 )  /* 0x65 */
+#define RFD900X_HK_TLM_MID                        TLM_MSG(  102 )  /* 0x66 */
 
 
-#define CF_SPACE_TO_GND_PDU_MID                   TLM_MSG(  100 )  /* 0x48 */
 
 
 
