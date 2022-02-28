@@ -53,6 +53,8 @@
 #include "hmc5883_events.h"
 #include "hmc5883_config_utils.h"
 #include "hmc5883_cds_utils.h"
+#include "cvt_lib.h"
+#include "simlink.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -114,6 +116,12 @@ typedef struct
 
     /** \brief Housekeeping Telemetry for downlink */
     HMC5883_HkTlm_t  HkTlm;
+
+    CVT_ContainerID_t  MagContainer[HMC5883_MAG_DEVICE_COUNT];
+
+    SIMLINK_Mag_Msg_t  MagMsg[HMC5883_MAG_DEVICE_COUNT];
+
+    uint32             MagUpdateCount;
 
 } HMC5883_AppData_t;
 
@@ -338,6 +346,8 @@ void  HMC5883_SendOutData(void);
 **
 *************************************************************************/
 boolean  HMC5883_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
+
+
 
 #ifdef __cplusplus
 }

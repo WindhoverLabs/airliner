@@ -170,7 +170,7 @@ int32 SIMLINK_InitCVT(void)
 	        goto end_of_function;
 		}
 
-    	status = CVT_GetContent(SIMLINK_AppData.AccelContainer[0], &updateCount, &SIMLINK_AppData.AccelMsg[i], &size);
+    	status = CVT_GetContent(SIMLINK_AppData.AccelContainer[i], &updateCount, &SIMLINK_AppData.AccelMsg[i], &size);
     	if(CVT_SUCCESS != status)
     	{
             (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
@@ -199,7 +199,7 @@ int32 SIMLINK_InitCVT(void)
 	        goto end_of_function;
 		}
 
-    	status = CVT_GetContent(SIMLINK_AppData.MagContainer[0], &updateCount, &SIMLINK_AppData.MagMsg[i], &size);
+    	status = CVT_GetContent(SIMLINK_AppData.MagContainer[i], &updateCount, &SIMLINK_AppData.MagMsg[i], &size);
     	if(CVT_SUCCESS != status)
     	{
             (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
@@ -228,7 +228,7 @@ int32 SIMLINK_InitCVT(void)
 	        goto end_of_function;
 		}
 
-    	status = CVT_GetContent(SIMLINK_AppData.BaroContainer[0], &updateCount, &SIMLINK_AppData.MagMsg[i], &size);
+    	status = CVT_GetContent(SIMLINK_AppData.BaroContainer[i], &updateCount, &SIMLINK_AppData.BaroMsg[i], &size);
     	if(CVT_SUCCESS != status)
     	{
             (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,

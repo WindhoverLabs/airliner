@@ -102,6 +102,7 @@ extern "C" {
 **       the #OS_MAX_PATH_LEN value.
 */
 #define HMC5883_CONFIG_TABLE_FILENAME      ("/cf/apps/hmc5883_cfg.tbl")
+
 /** \brief The timeout value, in milliseconds, to wait for ES application startup sync.
 **
 **  \par Limits:
@@ -109,8 +110,8 @@ extern "C" {
 */
 #define HMC5883_STARTUP_TIMEOUT_MSEC    (1000)
 
-/* TODO:  Add Doxygen markup. */
-#define HMC5883_CUSTOM_DEV_PATH       "/tmp/ttyS0"
+/* TODO */
+#define HMC5883_MAG_DEVICE_COUNT           (4)
 
 
 #ifdef __cplusplus

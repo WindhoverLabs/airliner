@@ -23,10 +23,13 @@ extern "C" {
 **       Must be defined as a numeric value that is greater than
 **       or equal to zero.
 */
-#define SEDLIB_MISSION_REV                (0)
+#define SEDLIB_MISSION_REV                 (0)
 
-#define SEDLIB_PIPE_MAX_INSTANCES         (100)
-#define SEDLIB_PIPE_NAME_MAX_LENGTH       (40)
+#define SEDLIB_PIPE_MAX_INSTANCES          (100)
+#define SEDLIB_PIPE_NAME_MAX_LENGTH        (40)
+#define SEDLIB_SHMEM_KEY_FILE_ENV_VAR_NAME "SEDLIB_SHMEM_KEY_FILE"
+#define SEDLIB_DEFAULT_SHMEM_KEY_FILE      ".sedlib_shmem"
+#define SEDLIB_SHM_SIZE                    (131072)
 
 #ifdef __cplusplus
 }

@@ -1,5 +1,6 @@
 CFE_LIB, /cf/apps/CFS_LIB.so,   CFS_LibInit,       CFS_LIB,     0,      0, 0x0, 0, 2;
 CFE_LIB, /cf/apps/CVTLIB.so,    CVT_LibInit,       CVTLIB,      0,      0, 0x0, 0, 2;
+CFE_LIB, /cf/apps/SED_LIB.so,   SEDLIB_LibInit,    SED_LIB,     0,      0, 0x0, 0, 2;
 CFE_APP, /cf/apps/CI.so,        CI_AppMain,        CI,        115, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/TO.so,        TO_AppMain,        TO,        124, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/GPS.so,       GPS_AppMain,       GPS,        97,  32768, 0x0, 0, 2;

@@ -45,6 +45,7 @@
 #include "hmc5883_app.h"
 #include "hmc5883_msg.h"
 #include "hmc5883_version.h"
+#include "simlink.h"
 
 /************************************************************************
 ** Local Defines
@@ -70,6 +71,47 @@ HMC5883_AppData_t  HMC5883_AppData;
 /************************************************************************
 ** Local Function Definitions
 *************************************************************************/
+int32 HMC5883_InitCVT(void);
+
+
+int32 HMC5883_InitCVT(void)
+{
+	int32 status = CFE_SUCCESS;
+
+	for(uint32 i = 0; i < HMC5883_MAG_DEVICE_COUNT; ++i)
+	{
+		uint32 updateCount = 0;
+		char name[CVT_CONTAINER_NAME_MAX_LENGTH];
+		uint32 size = sizeof(SIMLINK_Mag_Msg_t);
+
+		sprintf(name, SIMLINK_MAG_CONTAINER_NAME_SPEC, i);
+
+		status = CVT_GetContainer(name, sizeof(SIMLINK_Mag_Msg_t), &HMC5883_AppData.MagContainer[i]);
+		if(CVT_SUCCESS != status)
+		{
+	        (void) CFE_EVS_SendEvent(HMC5883_INIT_ERR_EID, CFE_EVS_ERROR,
+	                                 "Failed to get Mag %ld container. (%li)",
+									 i,
+	                                 status);
+	        goto end_of_function;
+		}
+
+    	status = CVT_GetContent(HMC5883_AppData.MagContainer[i], &updateCount, &HMC5883_AppData.MagMsg[i], &size);
+    	if(CVT_SUCCESS != status)
+    	{
+            (void) CFE_EVS_SendEvent(HMC5883_CVT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get Mag %ld container. (%li)",
+									 i,
+                                     status);
+	        goto end_of_function;
+    	}
+	}
+
+end_of_function:
+
+    return status;
+}
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -302,6 +344,15 @@ int32 HMC5883_InitApp()
         goto HMC5883_InitApp_Exit_Tag;
     }
 
+    iStatus = HMC5883_InitCVT();
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(HMC5883_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to init CVT (0x%08X)",
+                                 (unsigned int)iStatus);
+        goto HMC5883_InitApp_Exit_Tag;
+    }
+
 HMC5883_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
@@ -411,45 +462,38 @@ int32 HMC5883_RcvMsg(int32 iBlocking)
 
 void HMC5883_ProcessNewData()
 {
-    int iStatus = CFE_SUCCESS;
+    int32 status = CFE_SUCCESS;
     CFE_SB_Msg_t*   DataMsgPtr=NULL;
     CFE_SB_MsgId_t  DataMsgId;
+    uint32          updateCount;
+    uint32          size = sizeof(HMC5883_AppData.MagMsg[0]);
 
-    /* Process telemetry messages till the pipe is empty */
-    while (1)
-    {
-        iStatus = CFE_SB_RcvMsg(&DataMsgPtr, HMC5883_AppData.DataPipeId, CFE_SB_POLL);
-        if (iStatus == CFE_SUCCESS)
-        {
-            DataMsgId = CFE_SB_GetMsgId(DataMsgPtr);
-            switch (DataMsgId)
-            {
-                /* TODO:  Add code to process all subscribed data here
-                **
-                ** Example:
-                **     case NAV_OUT_DATA_MID:
-                **         HMC5883_ProcessNavData(DataMsgPtr);
-                **         break;
-                */
+	status = CVT_GetContent(HMC5883_AppData.MagContainer[0], &updateCount, &HMC5883_AppData.MagMsg[0], &size);
+	if(CVT_SUCCESS != status)
+	{
+        (void) CFE_EVS_SendEvent(HMC5883_CVT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to get Mag content. (%li)",
+                                 status);
+        goto end_of_function;
+	}
 
-                default:
-                    (void) CFE_EVS_SendEvent(HMC5883_MSGID_ERR_EID, CFE_EVS_ERROR,
-                                      "Recvd invalid data msgId (0x%04X)", (unsigned short)DataMsgId);
-                    break;
-            }
-        }
-        else if (iStatus == CFE_SB_NO_MESSAGE)
-        {
-            break;
-        }
-        else
-        {
-            (void) CFE_EVS_SendEvent(HMC5883_PIPE_ERR_EID, CFE_EVS_ERROR,
-                  "Data pipe read error (0x%08X)", (unsigned int)iStatus);
-            HMC5883_AppData.uiRunStatus = CFE_ES_APP_ERROR;
-            break;
-        }
-    }
+	if(updateCount != HMC5883_AppData.MagUpdateCount)
+	{
+		/* We received new data.  Store this update count and act on the new data. */
+		HMC5883_AppData.MagUpdateCount = updateCount;
+
+		/* TODO */
+		OS_printf("Time: %llu   X: %f   Y: %f   Z: %f\n",
+			HMC5883_AppData.MagMsg[0].TimeUsec,
+			HMC5883_AppData.MagMsg[0].X,
+			HMC5883_AppData.MagMsg[0].Y,
+			HMC5883_AppData.MagMsg[0].Z);
+	}
+
+end_of_function:
+
+    return;
+
 }
 
 

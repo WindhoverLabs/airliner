@@ -222,6 +222,9 @@ typedef enum {
     HMC5883_MSGLEN_ERR_EID,
 
 
+	HMC5883_CVT_ERR_EID,
+
+
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     HMC5883_EVT_CNT
 } HMC5883_EventIds_t;

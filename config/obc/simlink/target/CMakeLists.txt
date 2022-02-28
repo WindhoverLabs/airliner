@@ -31,6 +31,13 @@ buildliner_add_app(
 
 
 buildliner_add_app(
+    simlink
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/simlink/gazebo9/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/simlink
+)
+
+
+buildliner_add_app(
     sch
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sch
@@ -63,6 +70,7 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedlib/fsw/for_build
     CONFIG_SOURCES
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sedlib/sedlib_config.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sedlib/sedlib_shmem.c
 )
 
 
@@ -98,11 +106,4 @@ buildliner_add_app(
     rfd900x
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/rfd900x/simlink/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/rfd900x
-)
-
-
-buildliner_add_app(
-    simlink
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/simlink/gazebo9/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/simlink
 )
