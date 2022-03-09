@@ -1,7 +1,7 @@
 # How to Run SITL Mode
-1. ```make obc-sitl```
+1. ```make obc-sitl```  
  This will build the "obc/ppd", "obc/cpd", and "obc/simlink" builds, as well as the Gazebo plugins.
-2. ```make workspace-sitl```
+2. ```make workspace-sitl```  
  This will build the combined registry, XTCE, and ground displays for the "ppd", "cpd", and "simlink" builds.
  The next steps will require 5 different shells. Make sure to *always* create a python virtual environment by running ```make python-env``` from the root directory of the repo.  
  **Shell 1**
@@ -19,7 +19,7 @@
  **Shell 4**
 9. ```cd build/obc/ppd/sitl/target/target/exe```
 10. ```sudo SEDLIB_SHMEM_KEY_FILE=../../../../../simlink/target/target/exe/.sedlib_shmem ./airliner```
- This should launch the PPD instance of Airliner with SEDLIB remapped to the registers managed by Simlink.  	
+ This should launch the PPD instance of Airliner with SEDLIB remapped to the registers managed by Simlink.  
  **Shell 5**
 11. ```cd build/obc/cpd/sitl/target/target/exe```
 12. ```sudo SEDLIB_SHMEM_KEY_FILE=../../../../../simlink/target/target/exe/.sedlib_shmem ./airliner```
