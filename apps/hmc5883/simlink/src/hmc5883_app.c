@@ -483,11 +483,11 @@ void HMC5883_ProcessNewData()
 		HMC5883_AppData.MagUpdateCount = updateCount;
 
 		/* TODO */
-		OS_printf("Time: %llu   X: %f   Y: %f   Z: %f\n",
-			HMC5883_AppData.MagMsg[0].TimeUsec,
-			HMC5883_AppData.MagMsg[0].X,
-			HMC5883_AppData.MagMsg[0].Y,
-			HMC5883_AppData.MagMsg[0].Z);
+		//OS_printf("Time: %llu   X: %f   Y: %f   Z: %f\n",
+		//	HMC5883_AppData.MagMsg[0].TimeUsec,
+		//	HMC5883_AppData.MagMsg[0].X,
+		//	HMC5883_AppData.MagMsg[0].Y,
+		//	HMC5883_AppData.MagMsg[0].Z);
 	}
 
 end_of_function:

@@ -45,6 +45,10 @@
 #include "rfd900x_app.h"
 #include "rfd900x_msg.h"
 #include "rfd900x_version.h"
+#include "sedlib.h"
+#include <arpa/inet.h>
+#include <fcntl.h>
+#include <errno.h>
 
 /************************************************************************
 ** Local Defines
@@ -67,9 +71,31 @@ RFD900X_AppData_t  RFD900X_AppData;
 ** Local Variables
 *************************************************************************/
 
+#define UART_NOOP_CC              (0)
+#define UART_RESET_CC             (1)
+#define UART_QUEUE_DATA_FOR_TX_CC (2)
+#define UART_FLUSH_CC             (3)
+#define UART_CONFIGURE_CC         (4)
+
+/* SLIP special character codes
+ */
+#define SLIP_END        	 0xC0    /* Indicates end of packet */
+#define SLIP_ESC             0xDB    /* Indicates byte stuffing */
+#define SLIP_ESC_END         0xDC    /* ESC ESC_END means END data byte */
+#define SLIP_ESC_ESC         0xDD    /* ESC ESC_ESC means ESC data byte */
+
+
+
+
+
 /************************************************************************
 ** Local Function Definitions
 *************************************************************************/
+void RFD900X_SendMessage(void);
+int32 RFD900X_InitSockets(void);
+int32 RFD900X_BindTxSocket(void);
+int32 RFD900X_BindRxSocket(void);
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -228,17 +254,29 @@ int32 RFD900X_InitData()
     int32  iStatus=CFE_SUCCESS;
 
     /* Init input data */
-    memset((void*)&RFD900X_AppData.InData, 0x00, sizeof(RFD900X_AppData.InData));
+    memset((void*)&RFD900X_AppData.InData,
+    		0x00,
+			sizeof(RFD900X_AppData.InData));
 
     /* Init output data */
-    memset((void*)&RFD900X_AppData.OutData, 0x00, sizeof(RFD900X_AppData.OutData));
     CFE_SB_InitMsg(&RFD900X_AppData.OutData,
-                   RFD900X_OUT_DATA_MID, sizeof(RFD900X_AppData.OutData), TRUE);
+                   RFD900X_OUT_DATA_MID,
+				   sizeof(RFD900X_AppData.OutData),
+				   TRUE);
 
     /* Init housekeeping packet */
-    memset((void*)&RFD900X_AppData.HkTlm, 0x00, sizeof(RFD900X_AppData.HkTlm));
     CFE_SB_InitMsg(&RFD900X_AppData.HkTlm,
-                   RFD900X_HK_TLM_MID, sizeof(RFD900X_AppData.HkTlm), TRUE);
+                   RFD900X_HK_TLM_MID,
+				   sizeof(RFD900X_AppData.HkTlm),
+				   TRUE);
+
+
+    CFE_SB_InitMsg(&RFD900X_AppData.UART_StatusTlm,
+    		        RFD900X_UART_TLM_MID,
+					sizeof(RFD900X_AppData.UART_StatusTlm),
+					TRUE);
+
+	RFD900X_AppData.UART_StatusTlm.Version = 1;
 
     return (iStatus);
 }
@@ -302,6 +340,37 @@ int32 RFD900X_InitApp()
         goto RFD900X_InitApp_Exit_Tag;
     }
 
+    iStatus = RFD900X_InitSockets();
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(RFD900X_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to initialize socket (0x%08X)",
+                                 (unsigned int)iStatus);
+        goto RFD900X_InitApp_Exit_Tag;
+    }
+
+    iStatus = SEDLIB_GetPipe(
+    		"UART1_CMD",
+			sizeof(UART_QueueDataCmd_t),
+			&RFD900X_AppData.TxMsgPortHandle);
+    if(iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(RFD900X_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to initialize UART TxMsgPort. (0x%08lX)",
+                                 iStatus);
+    }
+
+    iStatus = SEDLIB_GetPipe(
+    		"UART1_STATUS",
+			sizeof(UART_StatusTlm_t),
+			&RFD900X_AppData.RxMsgPortHandle);
+    if(iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(RFD900X_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to initialize UART RxMsgPort. (0x%08lX)",
+                                 iStatus);
+    }
+
 RFD900X_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
@@ -346,6 +415,8 @@ int32 RFD900X_RcvMsg(int32 iBlocking)
     /* Wait for WakeUp messages from scheduler */
     iStatus = CFE_SB_RcvMsg(&MsgPtr, RFD900X_AppData.SchPipeId, iBlocking);
 
+    RFD900X_ProcessNewData();
+
     /* Start Performance Log entry */
     CFE_ES_PerfLogEntry(RFD900X_MAIN_TASK_PERF_ID);
 
@@ -353,7 +424,7 @@ int32 RFD900X_RcvMsg(int32 iBlocking)
     {
         MsgId = CFE_SB_GetMsgId(MsgPtr);
         switch (MsgId)
-	{
+	    {
             case RFD900X_WAKEUP_MID:
                 RFD900X_ProcessNewCmds();
                 RFD900X_ProcessNewData();
@@ -411,46 +482,225 @@ int32 RFD900X_RcvMsg(int32 iBlocking)
 
 void RFD900X_ProcessNewData()
 {
-    int iStatus = CFE_SUCCESS;
-    CFE_SB_Msg_t*   DataMsgPtr=NULL;
-    CFE_SB_MsgId_t  DataMsgId;
+	SEDLIB_ReturnCode_t rc;
+    uint32 bytesRemaining = 0;
+    int32 recvSize;
+    SEDLIB_MsgReadStatus_t readStatus;
+    SEDLIB_MsgWriteStatus_t writeStatus;
 
-    /* Process telemetry messages till the pipe is empty */
-    while (1)
+	/* Process UART commands */
+    rc = SEDLIB_ReadMsg(RFD900X_AppData.TxMsgPortHandle, (CFE_SB_MsgPtr_t)&RFD900X_AppData.UART_QueueDataCmd);
+
+    /* Did we just receive fresh data? */
+    if(SEDLIB_MSG_FRESH_OK == rc)
     {
-        iStatus = CFE_SB_RcvMsg(&DataMsgPtr, RFD900X_AppData.DataPipeId, CFE_SB_POLL);
-        if (iStatus == CFE_SUCCESS)
-        {
-            DataMsgId = CFE_SB_GetMsgId(DataMsgPtr);
-            switch (DataMsgId)
-            {
-                /* TODO:  Add code to process all subscribed data here
-                **
-                ** Example:
-                **     case NAV_OUT_DATA_MID:
-                **         RFD900X_ProcessNavData(DataMsgPtr);
-                **         break;
-                */
+        /* Yes we did.  Get the command code. */
+    	RFD900X_AppData.UART_StatusTlm.LastCmdCode = CFE_SB_GetCmdCode((CFE_SB_MsgPtr_t)&RFD900X_AppData.UART_QueueDataCmd);
 
-                default:
-                    (void) CFE_EVS_SendEvent(RFD900X_MSGID_ERR_EID, CFE_EVS_ERROR,
-                                      "Recvd invalid data msgId (0x%04X)", (unsigned short)DataMsgId);
-                    break;
+        /* Act on the command code. */
+        switch(RFD900X_AppData.UART_StatusTlm.LastCmdCode)
+        {
+            case UART_NOOP_CC:
+            {
+                break;
+            }
+
+            case UART_RESET_CC:
+            {
+                break;
+            }
+
+            case UART_QUEUE_DATA_FOR_TX_CC:
+            {
+            	/* Loop through each byte to queue data or send a message out when the
+                 * end symbol was found. */
+            	for(uint32 i = 0; i < RFD900X_AppData.UART_QueueDataCmd.BytesInBuffer; ++i)
+            	{
+            		/* Queue the next byte. */
+            		RFD900X_AppData.TxInBuffer[RFD900X_AppData.TxInBufferCursor] =
+            				RFD900X_AppData.UART_QueueDataCmd.Buffer[i];
+
+            		/* Was this byte the SLIP_END symbol? */
+            		if(SLIP_END == RFD900X_AppData.TxInBuffer[RFD900X_AppData.TxInBufferCursor])
+            		{
+            		    /* Yes it was.  Send the message out, reset the cursor, and
+            		     * keep going. */
+            			RFD900X_SendMessage();
+            			RFD900X_AppData.TxInBufferCursor = 0;
+            		}
+            		else
+            		{
+                		RFD900X_AppData.TxInBufferCursor++;
+            		}
+            	}
+
+        		RFD900X_SendMessage();
+        		RFD900X_AppData.TxInBufferCursor = 0;
+
+                break;
+            }
+
+            case UART_FLUSH_CC:
+            {
+                break;
+            }
+
+            case UART_CONFIGURE_CC:
+            {
+                break;
             }
         }
-        else if (iStatus == CFE_SB_NO_MESSAGE)
-        {
-            break;
-        }
-        else
-        {
-            (void) CFE_EVS_SendEvent(RFD900X_PIPE_ERR_EID, CFE_EVS_ERROR,
-                  "Data pipe read error (0x%08X)", (unsigned int)iStatus);
-            RFD900X_AppData.uiRunStatus = CFE_ES_APP_ERROR;
-            break;
-        }
+    }
+
+    /* Is the receiver ready to receive a new response? */
+    rc = SEDLIB_GetMessageStatus(RFD900X_AppData.RxMsgPortHandle, &readStatus, &writeStatus);
+    if(readStatus == SEDLIB_MSG_READ_ACKNOWLEDGED)
+    {
+		/* Process UART responses.  First see if we received any data. */
+		bytesRemaining = sizeof(RFD900X_AppData.RxBuffer) - RFD900X_AppData.BytesInRxBuffer;
+		recvSize = recv(RFD900X_AppData.RxSocket,
+						(char *)&RFD900X_AppData.RxBuffer[RFD900X_AppData.BytesInRxBuffer],
+						(size_t)bytesRemaining, 0);
+		/* Did we receive any data? */
+		if(recvSize > 0)
+		{
+			uint32 bytesToCopy;
+
+			RFD900X_AppData.BytesInRxBuffer += recvSize;
+
+			/* Yes we did.  Put as much of it in the status response as will fit. */
+			if(RFD900X_AppData.BytesInRxBuffer > sizeof(RFD900X_AppData.UART_StatusTlm.RxBuffer))
+			{
+				bytesToCopy = sizeof(RFD900X_AppData.UART_StatusTlm.RxBuffer);
+			}
+			else
+			{
+				bytesToCopy = RFD900X_AppData.BytesInRxBuffer;
+			}
+
+			memcpy(RFD900X_AppData.UART_StatusTlm.RxBuffer, RFD900X_AppData.RxBuffer, bytesToCopy);
+
+			RFD900X_AppData.UART_StatusTlm.BytesInBuffer = bytesToCopy;
+			RFD900X_AppData.UART_StatusTlm.RxFrameID++;
+
+			rc = SEDLIB_SendMsg(RFD900X_AppData.RxMsgPortHandle, (CFE_SB_MsgPtr_t)&RFD900X_AppData.UART_StatusTlm);
+            if(rc != SEDLIB_OK)
+            {
+                (void) CFE_EVS_SendEvent(RFD900X_SENDMSG_ERR_EID,
+                		                 CFE_EVS_ERROR,
+                                         "SEDLIB_SendMsg error %i", rc);
+            }
+
+			/* We're going to assume that the message went out.  Nothing we can
+			 * do if it didn't.  Is there any data left in the RxBuffer? */
+            if(RFD900X_AppData.BytesInRxBuffer >  bytesToCopy)
+            {
+            	/* Yes, there is still data left.  Shift the data to the left. */
+            	for(uint32 i = bytesToCopy; i < RFD900X_AppData.BytesInRxBuffer; ++i)
+            	{
+            		RFD900X_AppData.RxBuffer[i - bytesToCopy] = RFD900X_AppData.RxBuffer[i];
+            	}
+
+            	/* No set the new bytes in buffer count. */
+            	RFD900X_AppData.BytesInRxBuffer = RFD900X_AppData.BytesInRxBuffer - bytesToCopy;
+            }
+		}
     }
 }
+
+
+
+void RFD900X_SendMessage(void)
+{
+	ssize_t sentSize;
+    struct sockaddr_in s_addr;
+    int    status = 0;
+    uint32 outCursor = 0;
+
+//    /* Send the message out */
+//    printf("%u   ", __LINE__);
+//    for(uint32 i = 0; i < RFD900X_AppData.TxInBufferCursor; ++i)
+//    {
+//        printf("%02x ", RFD900X_AppData.TxInBuffer[i]);
+//    }
+//    printf("\n");
+
+    for(uint32 i = 0; i < RFD900X_AppData.TxInBufferCursor; ++i)
+    {
+    	const uint8 inByte = (const uint8) RFD900X_AppData.TxInBuffer[i];
+
+    	switch(inByte)
+    	{
+    	    case SLIP_ESC:
+    	    {
+    	    	++i;
+
+    	    	const uint8 inByte2 = (const uint8) RFD900X_AppData.TxInBuffer[i];
+
+    	    	switch(inByte2)
+    	    	{
+    	    	    case SLIP_ESC_END:
+    	    	    {
+    	    	    	RFD900X_AppData.TxOutBuffer[outCursor] = SLIP_END;
+    	    	    	outCursor++;
+    	    	    	break;
+    	    	    }
+
+    	    	    case SLIP_ESC_ESC:
+    	    	    {
+    	    	    	RFD900X_AppData.TxOutBuffer[outCursor] = SLIP_ESC;
+    	    	    	outCursor++;
+    	    	    	break;
+    	    	    }
+
+    	    	    default:
+    	    	    {
+    	    	    	RFD900X_AppData.TxOutBuffer[outCursor] = inByte2;
+    	    	    	outCursor++;
+    	    	    	break;
+    	    	    }
+    	    	}
+
+    	    	break;
+    	    }
+
+    	    default:
+    	    {
+    	    	RFD900X_AppData.TxOutBuffer[outCursor] = inByte;
+    	    	outCursor++;
+    	    }
+    	}
+    }
+
+//    /* Send the message out */
+//    printf("%u   ", __LINE__);
+//    for(uint32 i = 0; i < outCursor; ++i)
+//    {
+//        printf("%02x ", RFD900X_AppData.TxOutBuffer[i]);
+//    }
+//    printf("\n");
+
+    bzero((char *) &s_addr, sizeof(s_addr));
+    s_addr.sin_family      = AF_INET;
+
+    /* Send message via UDP socket */
+    s_addr.sin_addr.s_addr = inet_addr(RFD900X_AppData.ConfigTblPtr->Address);
+    s_addr.sin_port = htons(RFD900X_AppData.ConfigTblPtr->TxPort);
+
+    status = sendto(RFD900X_AppData.TxSocket,
+    		        (char *)RFD900X_AppData.TxOutBuffer,
+					outCursor,
+					0,
+                    (struct sockaddr *) &s_addr,
+                    sizeof(s_addr));
+    if (status < 0)
+    {
+        CFE_EVS_SendEvent(RFD900X_TX_SEND_ERR_EID,
+        		          CFE_EVS_ERROR,
+                          "send errno %d.", errno);
+    }
+}
+
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -693,6 +943,121 @@ void RFD900X_AppMain()
     /* Exit the application */
     CFE_ES_ExitApp(RFD900X_AppData.uiRunStatus);
 }
+
+
+
+int32 RFD900X_InitSockets(void)
+{
+	int32  returnCode = CFE_SUCCESS;
+    int    reuseaddr = 1;
+    struct sockaddr_in servaddr;
+    int    status;
+
+    /* Initialize the RX and TX sockets */
+    RFD900X_AppData.RxSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    if(RFD900X_AppData.RxSocket < 0)
+    {
+        CFE_EVS_SendEvent(RFD900X_SOCKET_ERR_EID, CFE_EVS_ERROR,
+                "RX socket errno %i", errno);
+        returnCode = -1;
+        goto end_of_function;
+    }
+
+    RFD900X_AppData.TxSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+    if(RFD900X_AppData.TxSocket < 0)
+    {
+        CFE_EVS_SendEvent(RFD900X_SOCKET_ERR_EID, CFE_EVS_ERROR,
+                "TX socket errno %i", errno);
+        returnCode = -1;
+        goto end_of_function;
+    }
+
+    /* Set the Reuse Address flag for each socket.  If we don't set this flag,
+     * the socket will lock the port on termination and the kernel won't
+     * unlock it until it times out after a minute or so.
+     */
+    setsockopt(RFD900X_AppData.RxSocket, SOL_SOCKET, SO_REUSEADDR, &reuseaddr, sizeof(reuseaddr));
+    setsockopt(RFD900X_AppData.TxSocket, SOL_SOCKET, SO_REUSEADDR, &reuseaddr, sizeof(reuseaddr));
+
+    returnCode = RFD900X_BindTxSocket();
+    if(returnCode != CFE_SUCCESS)
+    {
+    	goto end_of_function;
+    }
+
+    returnCode = RFD900X_BindRxSocket();
+
+end_of_function:
+
+    return returnCode;
+
+}
+
+
+
+int32 RFD900X_BindTxSocket(void)
+{
+	int32  returnCode = CFE_SUCCESS;
+    struct sockaddr_in servaddr;
+    int    status;
+
+	/* Bind the TX socket. */
+    bzero((void*)&servaddr,sizeof(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    servaddr.sin_port = 0;
+    status = bind(RFD900X_AppData.TxSocket,
+                  (struct sockaddr *)&servaddr,
+				  sizeof(servaddr));
+    if(status < 0)
+    {
+        CFE_EVS_SendEvent(RFD900X_SOCKET_ERR_EID, CFE_EVS_ERROR,
+                "TX bind errno %i", errno);
+        returnCode = -1;
+    }
+
+    return returnCode;
+}
+
+
+
+int32 RFD900X_BindRxSocket(void)
+{
+	int32  returnCode = CFE_SUCCESS;
+    struct sockaddr_in servaddr;
+    int    status;
+
+	/* Bind the RX socket. */
+    bzero((void*)&servaddr,sizeof(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    servaddr.sin_port = htons(RFD900X_AppData.ConfigTblPtr->RxPort);
+    status = bind(RFD900X_AppData.RxSocket,
+                  (struct sockaddr *)&servaddr,
+				  sizeof(servaddr));
+    if(status < 0)
+    {
+        CFE_EVS_SendEvent(RFD900X_SOCKET_ERR_EID, CFE_EVS_ERROR,
+                "RX bind errno %i", errno);
+        returnCode = -1;
+        goto end_of_function;
+    }
+
+    /* Put the socket in non-blocking mode: */
+    status = fcntl(RFD900X_AppData.RxSocket, F_SETFL, fcntl(RFD900X_AppData.RxSocket, F_GETFL) | O_NONBLOCK);
+    if(status)
+    {
+        CFE_EVS_SendEvent(RFD900X_SOCKET_ERR_EID, CFE_EVS_ERROR,
+                "RX fcntl errno %i", errno);
+        returnCode = -1;
+    }
+
+end_of_function:
+
+    return returnCode;
+}
+
+
 
 /************************/
 /*  End of File Comment */

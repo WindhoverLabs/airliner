@@ -31,81 +31,52 @@
 *
 *****************************************************************************/
 
-#include "ci_custom.h"
-#include "ci_platform_cfg.h"
-#include <fcntl.h>
-#include <errno.h>
-#include <arpa/inet.h>
-#include "ci_events.h"
-#include <strings.h>
-#include <unistd.h>
+#ifndef TO_APP_STUBS_H
+#define TO_APP_STUBS_H
 
-#define CI_CUSTOM_RETURN_CODE_NULL_POINTER      (-1)
+#ifdef __cplusplus
+extern "C" {
+#endif
 
+/************************************************************************
+** Includes
+*************************************************************************/
+#include "cfe.h"
+#include "to_custom_test_utils.h"
 
+/************************************************************************
+** Structure Declarations
+*************************************************************************/
 typedef struct
 {
-    int  Socket;
-    uint16 Port;
-} CI_AppCustomData_t;
+    int32 TO_Channel_OpenChannel_Return; 
+    uint8 TO_Channel_State_Return;
+    uint8 TO_Channel_State_Return1;
+    uint8 TO_Channel_State_CallCount;
+} TO_App_Returns_t;
 
-CI_AppCustomData_t CI_AppCustomData = {0, 5010};
+/************************************************************************
+** External Global Variables
+*************************************************************************/
+extern TO_App_Returns_t TO_App_Return;
+
+/************************************************************************
+** Function Prototypes (Stubs)
+*************************************************************************/
+int32 TO_Channel_OpenChannel(uint32 index, const char *ChannelName,
+        const char *ConfigTableName, const char *ConfigTableFileName,
+        TO_ChannelTbl_t *BackupTblPtr, const char *DumpTableName,
+        const uint32 CfCntSemMax, const char *CfCntSemName);
+
+void  TO_Channel_LockByIndex(uint16 index);
+
+void  TO_Channel_UnlockByIndex(uint16 index);
+
+uint8 TO_Channel_State(uint16 index);
 
 
-osalbool CI_AddCustomEventFilters(uint32 *count)
-{	
-    return TRUE;
+#ifdef __cplusplus
 }
+#endif
 
-
-int32 CI_InitCustom(void)
-{
-    int32 Status = CFE_SUCCESS;
-    int reuseaddr = 1;
-    struct sockaddr_in address;
-
-    if((CI_AppCustomData.Socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) < 0)
-    {
-    	CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,
-    		   "Socket errno: %i", errno);
-    		Status = -1;
-    		goto end_of_function;
-    }
-
-    setsockopt(CI_AppCustomData.Socket, SOL_SOCKET, SO_REUSEADDR, &reuseaddr, sizeof(reuseaddr));
-
-    bzero((char *) &address, sizeof(address));
-    address.sin_family      = AF_INET;
-    address.sin_addr.s_addr = htonl (INADDR_ANY);
-    address.sin_port        = htons(CI_AppCustomData.Port);
-
-    if ( (bind(CI_AppCustomData.Socket, (struct sockaddr *) &address, sizeof(address)) < 0) )
-    {
-        CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,"Bind socket failed = %d", errno);
-        Status = -1;
-        goto end_of_function;
-    }
-
-    CFE_EVS_SendEvent(CI_ENA_INF_EID, CFE_EVS_INFORMATION,
-                      "UDP command input enabled on port %u.",
-                      CI_AppCustomData.Port);
-
-end_of_function:
-    return Status;
-
-}
-
-
-void CI_ReadMessage(uint8* buffer, uint32* size)
-{
-	*size = recv(CI_AppCustomData.Socket,
-					   (char *)buffer,
-					   (size_t)size, 0);
-}
-
-
-void CI_CleanupCustom(void)
-{
-    close(CI_AppCustomData.Socket);
-}
-
+#endif /* TO_APP_STUBS_H */

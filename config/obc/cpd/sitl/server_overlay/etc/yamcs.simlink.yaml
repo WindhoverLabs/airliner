@@ -48,46 +48,19 @@ services:
       file: "etc/registry.yaml"
 
 dataLinks:    
-  - name: tc_cpd
+  - name: tc_simlink
     class: org.yamcs.tctm.UdpTcDataLink
     stream: tc_realtime
     host: 127.0.0.1
-    port: 5110
+    port: 5210
     commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
     commandPostprocessorArgs:
       swapChecksumFc: true
 
-  - name: tm_cpd
+  - name: tm_simlink
     class: org.yamcs.tctm.UdpTmDataLink
     stream: tm_realtime
-    port: 5111
-    maxLength: 32768 #32KB is the default for CCSDS
-    packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
-    packetPreprocessorArgs:
-      checkSequence: false
-      byteOrder: LITTLE_ENDIAN
-      useLocalGenerationTime: false
-      #errorDetection:
-      #tcoService:
-      timestampFormat: CFE_SB_TIME_32_16_SUBS
-      timeEncoding:
-        epoch: CUSTOM
-        epochUTC: "1970-01-01T00:00:00Z"
-        timeIncludesLeapSeconds: false
-        
-  - name: tc_ppd
-    class: org.yamcs.tctm.UdpTcDataLink
-    stream: tc_realtime
-    host: 127.0.0.1
-    port: 5010
-    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
-    commandPostprocessorArgs:
-      swapChecksumFc: true
-
-  - name: tm_ppd
-    class: org.yamcs.tctm.UdpTmDataLink
-    stream: tm_realtime
-    port: 5011
+    port: 5211
     maxLength: 32768 #32KB is the default for CCSDS
     packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
     packetPreprocessorArgs:
@@ -109,9 +82,7 @@ mdb:
       spec: "mdb/cfs-ccsds.xml"
       subLoaders:
       - type: "xtce"
-        spec: "mdb/ppd.xml"
-      - type: "xtce"
-        spec: "mdb/cpd.xml"
+        spec: "mdb/simlink.xml"
 
 # Configuration for streams created at server startup
 streamConfig:

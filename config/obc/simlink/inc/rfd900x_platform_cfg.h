@@ -110,7 +110,13 @@ extern "C" {
 #define RFD900X_STARTUP_TIMEOUT_MSEC    (1000)
 
 /* TODO:  Add Doxygen markup. */
-#define RFD900X_CUSTOM_DEV_PATH       "/tmp/ttyS0"
+#define RFD900X_TX_BUFFER_SIZE          (32768)
+#define RFD900X_RX_BUFFER_SIZE          (32768)
+#define RFD900X_ADDRESS_MAX_LENGTH      (16)
+
+
+#define RFD900X_UART_CMD_MID            (0x1822)
+#define RFD900X_UART_TLM_MID            (0x0823)
 
 
 #ifdef __cplusplus

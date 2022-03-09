@@ -1,17 +1,17 @@
-include(../set-vars.cmake)
+
 
 buildliner_initialize(
     EMBED_SYMTAB
     CPU_ID CPD
-    PSP ${PSP}
-    OSAL ${OSAL}
+    CORE_BINARY_NAME airliner.elf
+    PSP        ${PROJECT_SOURCE_DIR}/core/psp/pc-linux-wh
+    OSAL       ${PROJECT_SOURCE_DIR}/core/osal/posix-fast
     CORE_TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/tools
     CONFIG
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../inc
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../../inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../inc
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../../../inc
         ${PROJECT_SOURCE_DIR}/config/shared/inc
     FILESYS
         /ram/apps
@@ -34,10 +34,10 @@ buildliner_initialize(
         /cf/downlink/ch1/dir6/
         /cf/downlink/ch1/dir7/
     STARTUP_SCRIPT
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../target/cfe_es_startup.scr
+        ${CMAKE_CURRENT_SOURCE_DIR}/../cfe_es_startup.scr
         
     COMMANDER_WORKSPACE
-        ${CMAKE_BINARY_DIR}/../../commander_workspace
+        ${CMAKE_BINARY_DIR}/../../../commander_workspace
 )
 
 
@@ -78,7 +78,6 @@ buildliner_add_app(
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedlib/fsw/for_build
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../../simlink/target/apps/sedlib/sedlib_shmem.c
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sedlib/sedlib_config.c
 )
 
@@ -86,6 +85,21 @@ buildliner_add_app(
     io_lib
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/io_lib/fsw/for_build
+)
+
+buildliner_add_app(
+    ipc_lib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ipc_lib/fsw/for_build
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ipc_lib/ipc_lib_custom.c
+)
+
+buildliner_add_app(
+    sed
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sed/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sed
 )
 
 buildliner_add_app(
@@ -235,19 +249,19 @@ buildliner_add_app(
     ci
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/ci
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/ci
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/ci/ci_slip_sed.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/ci/ci_slip_sed.c
 )
 
 buildliner_add_app(
     to
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/to_slip_sed.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/tables/to_backup_cfg.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to/to_slip_sed.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to/tables/to_backup_cfg.c
 )
 
 #buildliner_add_app(
@@ -383,14 +397,14 @@ buildliner_add_app(
 #    CONFIG_SOURCES
 #        ${CMAKE_CURRENT_SOURCE_DIR}/apps/lgc/lgc_custom.cpp
 #)
-#
-#buildliner_add_app(
-#    zusup
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/zusup/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/zusup
-#)
-#
+
+buildliner_add_app(
+    zusup
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/zusup/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/zusup
+)
+
 #buildliner_add_app(
 #    sbnd
 #    EMBEDDED

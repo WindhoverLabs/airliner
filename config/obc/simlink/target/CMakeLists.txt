@@ -1,3 +1,5 @@
+set(EMBED_SYMTAB true)
+set(EMBED_INITRD true)
 
 buildliner_initialize(
     CPU_ID     SIMLINK
@@ -69,7 +71,7 @@ buildliner_add_app(
     sedlib
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedlib/fsw/for_build
     CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sedlib/sedlib_config.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sedlib/sedlib_config.c
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/sedlib/sedlib_shmem.c
 )
 

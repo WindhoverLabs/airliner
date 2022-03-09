@@ -63,6 +63,50 @@ extern "C" {
 *************************************************************************/
 #define RFD900X_TIMEOUT_MSEC             	(1000)
 
+
+
+
+
+#define UART_BUFFER_SIZE                        (1500)
+
+
+/* UART In message */
+#pragma pack(push, 1)
+typedef struct
+{
+    uint8           CmdHeader[CFE_SB_TLM_HDR_SIZE];
+    uint32          Version;
+	uint32          TxFrameID;
+	uint32          BytesInBuffer;
+    uint8           Buffer[UART_BUFFER_SIZE];
+} UART_QueueDataCmd_t;
+#pragma pack(pop)
+
+/* UART In message */
+#pragma pack(push, 1)
+typedef struct
+{
+    uint8           TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint32          Version;
+	uint16          TransmitInterrupts;		/**< Number of transmit interrupts */
+	uint16          ReceiveInterrupts;		/**< Number of receive interrupts */
+	uint16          StatusInterrupts;		/**< Number of status interrupts */
+	uint16          ModemInterrupts;		/**< Number of modem interrupts */
+	uint16          CharactersTransmitted; 	/**< Number of characters transmitted */
+	uint16          CharactersReceived;		/**< Number of characters received */
+	uint16          ReceiveOverrunErrors;	/**< Number of receive overruns */
+	uint16          ReceiveParityErrors;	/**< Number of receive parity errors */
+	uint16          ReceiveFramingErrors;	/**< Number of receive framing errors */
+	uint16          ReceiveBreakDetected;	/**< Number of receive breaks */
+	uint32          LastCmdCode;
+	uint32          LastCmdResponse;
+	uint32          RxFrameID;
+	uint32          BytesInBuffer;
+    uint8           RxBuffer[UART_BUFFER_SIZE];
+} UART_StatusTlm_t;
+#pragma pack(pop)
+
+
 /************************************************************************
 ** Local Structure Definitions
 *************************************************************************/
@@ -114,6 +158,22 @@ typedef struct
 
     /** \brief Housekeeping Telemetry for downlink */
     RFD900X_HkTlm_t  HkTlm;
+
+    uint32                   TxMsgPortHandle;
+    uint32                   RxMsgPortHandle;
+
+    UART_QueueDataCmd_t      UART_QueueDataCmd;
+    UART_StatusTlm_t         UART_StatusTlm;
+
+    uint8            TxInBuffer[RFD900X_TX_BUFFER_SIZE];
+    uint8            TxOutBuffer[RFD900X_TX_BUFFER_SIZE];
+    uint32           TxInBufferCursor;
+
+    uint8            RxBuffer[RFD900X_RX_BUFFER_SIZE];
+    uint32           BytesInRxBuffer;
+
+    int              TxSocket;
+    int              RxSocket;
 
 } RFD900X_AppData_t;
 

@@ -60,7 +60,9 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 */
 RFD900X_ConfigTblEntry_t RFD900X_ConfigTbl =
 {
-    123
+    "127.0.0.1",
+	5111,
+	5110
 };
 
 /************************************************************************

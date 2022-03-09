@@ -127,7 +127,6 @@ typedef struct
     UART_QueueDataCmd_t             UartQueueDataCmd;
     uint32                          MsgPortAddress;
     uint32                          InputCursor;
-    uint32                          BytesQueued;
     TO_SlipEncoderState_t           EncoderState;
     osalbool                        MsgProcessInProgress;
     CFE_SB_MsgPtr_t                 InWorkMsg;

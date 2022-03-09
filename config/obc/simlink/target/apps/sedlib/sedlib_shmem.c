@@ -1,3 +1,5 @@
+#define _SVID_SOURCE
+
 #include "sedlib_custom.h"
 #include <sys/types.h>
 #include <sys/ipc.h>
@@ -12,7 +14,7 @@
 #include <fcntl.h>
 #include <errno.h>
 
-
+//sudo SEDLIB_SHMEM_KEY_FILE=/home/mbenson/git/squeaky-weasel/software/airliner/public/build/obc/cpd/sitl/target/target/exe/.sedlib_shmem ./simlink
 extern SEDLIB_ConfigTable_t SEDLIB_ConfigTable;
 
 
@@ -56,6 +58,10 @@ int32 SEDLIB_CustomInit(void)
 	{
 		OS_printf("SEDLIB:  shmat failed (%i)\n", errno);
 	    exit(-1);
+	}
+	else
+	{
+		OS_printf("SEDLIB:  Using shared memory at 0x%08x\n", SEDLIB_ConfigTable.BaseAddress);
 	}
 
 end_of_function:

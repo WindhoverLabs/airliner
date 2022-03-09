@@ -52,7 +52,13 @@ include(${PROJECT_SOURCE_DIR}/core/tools/auto-yamcs/build-functions.cmake)
 #)
 function(psp_buildliner_initialize)
     # Define the function arguments.
-    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "CORE_BINARY;CORE_BINARY_NAME;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_DISPLAYS;COMMANDER_WORKSPACE_OVERLAY;COMMANDER_CUSTOM_MACRO_BLOCK" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "INSTALL_DIR;CORE_BINARY;CORE_BINARY_NAME;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_DISPLAYS;COMMANDER_WORKSPACE_OVERLAY;COMMANDER_CUSTOM_MACRO_BLOCK" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
+    
+    # Set the location to put applications and tables, if specified. 
+    if(PARSED_ARGS_INSTALL_DIR)
+        set(INSTALL_DIR ${PARSED_ARGS_INSTALL_DIR})
+    endif()
+    set_property(GLOBAL PROPERTY INSTALL_DIR_PROPERTY ${INSTALL_DIR})
     
     # Create all the target directories the caller requested.
     foreach(dir ${PARSED_ARGS_FILESYS})
@@ -207,7 +213,7 @@ function(psp_buildliner_initialize)
     if(NOT ${PARSED_ARGS_APPS_ONLY})
         # Copy the startup script into the default location.
         if(EXISTS ${PARSED_ARGS_STARTUP_SCRIPT})
-            file(COPY ${PARSED_ARGS_STARTUP_SCRIPT} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/exe/cf/apps)
+            file(COPY ${PARSED_ARGS_STARTUP_SCRIPT} DESTINATION ${INSTALL_DIR})
         endif()
 
         if(${BUILD_CORE_FROM_SOURCE})
@@ -1020,6 +1026,8 @@ function(psp_buildliner_add_table)
     cmake_parse_arguments(PARSED_ARGS "" "NAME" "SOURCES;INCLUDES;COPY" ${ARGN})
 
     psp_get_app_cflags(${PARSED_ARGS_TARGET} TBL_CFLAGS ${CMAKE_C_FLAGS})
+    
+    get_property(INSTALL_DIR GLOBAL PROPERTY INSTALL_DIR_PROPERTY)
     
     # Get the target includes used by all the CMake managed targets
     #    get_property(TARGET_INCLUDES DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)

@@ -1,0 +1,77 @@
+CFE_LIB, /embedded/CFS_LIB.so,   CFS_LibInit,     CFS_LIB,    0,     0, 0x0, 0, 0;
+CFE_LIB, /embedded/MBP_LIB.so,   MBP_LibInit,     MBP_LIB,    0,     0, 0x0, 0, 0;
+CFE_LIB, /embedded/PQ_LIB.so,    PQ_LibInit,      PQ_LIB,     0,     0, 0x0, 0, 0;
+CFE_LIB, /embedded/SED_LIB.so,   SEDLIB_LibInit,  SED_LIB,    0,     0, 0x0, 0, 0;
+CFE_LIB, /embedded/PRMLIB.so,    PRMLIB_LibInit,  PRMLIB,     0,     0, 0x0, 0, 0;
+CFE_LIB, /embedded/IO_LIB.so,    IO_LibInit,      IO_LIB,     0,     0, 0x0, 0, 0;
+CFE_LIB, /embedded/IPC_LIB.so,   IPC_LibInit,     IPC_LIB,    0,     0, 0x0, 0, 0;
+CFE_APP, /embedded/HS.so,        HS_AppMain,      HS,       105, 32768, 0x0, 0, 0;
+CFE_APP, /embedded/SENS.so,      SENS_AppMain,    SENS,      20, 65536, 0x0, 0, 0;
+CFE_APP, /embedded/LD.so,        LD_AppMain,      LD,        55, 65536, 0x0, 0, 0;
+CFE_APP, /embedded/QAE.so,       QAE_AppMain,     QAE,       25, 65536, 0x0, 0, 0;
+CFE_APP, /embedded/PE.so,        PE_AppMain,      PE,        70, 65536, 0x0, 0, 0;
+CFE_APP, /embedded/AMC.so,       AMC_AppMain,     AMC,       40, 65536, 0x0, 0, 0;
+CFE_APP, /embedded/NAV.so,       NAV_AppMain,     NAV,       50, 65536, 0x0, 0, 0;
+CFE_APP, /embedded/MAC.so,       MAC_AppMain,     MAC,       30, 65536, 0x0, 0, 0;
+CFE_APP, /embedded/MPC.so,       MPC_AppMain,     MPC,       35, 65536, 0x0, 0, 0;
+CFE_APP, /embedded/VM.so,        VM_AppMain,      VM,        45, 65536, 0x0, 0, 0;
+CFE_APP, /embedded/SBND.so,      SBND_AppMain,    SBND,      60, 32768, 0x0, 0, 0;
+CFE_APP, /embedded/FM.so,        FM_AppMain,      FM,       115, 32768, 0x0, 0, 0;
+CFE_APP, /embedded/MM.so,        MM_AppMain,      MM,       125, 32768, 0x0, 0, 0;
+CFE_APP, /embedded/MD.so,        MD_AppMain,      MD,       130, 32768, 0x0, 0, 0;
+CFE_APP, /embedded/SC.so,        SC_AppMain,      SC,       120, 32768, 0x0, 0, 0;
+CFE_APP, /embedded/ZUSUP.so,     ZUSUP_AppMain,   ZUSUP,    240, 32768, 0x0, 0, 0;
+CFE_APP, /embedded/CF.so,        CF_AppMain,      CF,       110, 32768, 0x0, 0, 0;
+CFE_LIB, /embedded/SED.so,       SED_AppMain,     SED,      127, 32768, 0x0, 0, 0;
+CFE_APP, /embedded/CI.so,        CI_AppMain,      CI,      115, 32768, 0x0, 0, 0;
+CFE_APP, /embedded/TO.so,        TO_AppMain,      TO,        124, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/SCH.so,       SCH_AppMain,     SCH,       10, 40960, 0x0, 0, 0;
+!CFE_APP, /embedded/SBN.so,       SBN_AppMain,     SBN,       37, 32768, 0x0, 0, 2;
+!CFE_LIB, /embedded/PRMLIB.so,    PRMLIB_LibInit,  PRMLIB,      0,     0, 0x0, 0, 2;
+CFE_LIB, /embedded/PX4LIB.so,    PX4LIB_LibInit,  PX4LIB,    0,     0, 0x0, 0, 2;
+CFE_APP, /embedded/MPU9250.so,   MPU9250_AppMain,     MPU9250,      46, 327680, 0x0, 0, 2;
+CFE_APP, /embedded/HMC5883.so,   HMC5883_AppMain,     HMC5883,      49, 327680, 0x0, 0, 2;
+CFE_APP, /embedded/MS5611.so,    MS5611_AppMain,      MS5611,       82, 327680, 0x0, 0, 2;
+CFE_APP, /embedded/GPS.so,       GPS_AppMain,     GPS,       97, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/TO.so,        TO_AppMain,      TO,        124, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/CF.so,        CF_AppMain,      CF,        157, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/BAT.so,       BAT_AppMain,     BAT,       106, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/FM.so,        FM_AppMain,      FM,        163, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/LC.so,        LC_AppMain,      LC,        178, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/MM.so,        MM_AppMain,      MM,        172, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/SC.so,        SC_AppMain,      SC,        175, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/MD.so,        MD_AppMain,      MD,        169, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/CS.so,        CS_AppMain,      CS,        160, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/RCIN.so,      RCIN_AppMain,    RCIN,      88, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/RGBLED.so,    RGBLED_AppMain,  RGBLED,   151, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/SCH.so,       SCH_AppMain,     SCH,       34,  40960, 0x0, 0, 2;
+!CFE_LIB, /embedded/schlib.so,    SCH_LibInit,     SCH_LIB,    0,     0, 0x0, 0, 2;
+CFE_APP, /embedded/VC.so,        VC_AppMain,      VC,       181, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/FLOW.so,      FLOW_AppMain,    FLOW,      80, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/HS.so,        HS_AppMain,      HS,       123, 32768, 0x0, 0, 2;
+!CFE_APP, /embedded/ETA.so,     ETA_AppMain,     ETA,      100, 32768, 0x0, 0, 2;
+!CFE_APP, /embedded/SBN.so,     SBN_AppMain,     SBN,       37, 32768, 0x0, 0, 2;
+!
+! Startup script fields:
+! 1. Object Type      -- CFE_APP for an Application, or CFE_LIB for a library.
+! 2. Path/Filename    -- This is a cFE Virtual filename, not a vxWorks device/pathname
+! 3. Entry Point      -- This is the "main" function for Apps.
+! 4. CFE Name         -- The cFE name for the the APP or Library
+! 5. Priority         -- This is the Priority of the App, not used for Library
+! 6. Stack Size       -- This is the Stack size for the App, not used for the Library
+! 7. Load Address     -- This is the Optional Load Address for the App or Library. Currently not implemented
+!                        so keep it at 0x0.
+! 8. Exception Action -- This is the Action the cFE should take if the App has an exception.
+!                        0        = Just restart the Application 
+!                        Non-Zero = Do a cFE Processor Reset
+!
+! Other  Notes:
+! 1. The software will not try to parse anything after the first '!' character it sees. That
+!    is the End of File marker.
+! 2. Common Application file extensions: 
+!    Linux = .so  ( ci.so )
+!    OS X  = .bundle  ( ci.bundle )
+!    Cygwin = .dll ( ci.dll )
+!    vxWorks = .o ( ci.o )
+!    RTEMS with S-record Loader = .s3r ( ci.s3r )
+!    RTEMS with CEXP Loader = .o ( ci.o )
