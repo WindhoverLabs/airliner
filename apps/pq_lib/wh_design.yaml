@@ -1,6 +1,8 @@
 ---
   short_name: pq_lib
   long_name: PQ Library
+  app_name: PQ_LIB
+  module_type: CFE_LIB
   events: 
   telemetry: 
   commands: 

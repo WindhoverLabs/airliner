@@ -102,7 +102,6 @@ void TO_MessageFlow_ResetCountsAll(TO_ChannelData_t *channel)
     
     for (i = 0; i < TO_MAX_MESSAGE_FLOWS; ++i)
     {
-        channel->DumpTbl.MessageFlow[i].DroppedMsgCnt = 0;
         channel->DumpTbl.MessageFlow[i].QueuedMsgCnt = 0;
         channel->DumpTbl.MessageFlow[i].SBMsgCnt = 0;
     }
@@ -207,8 +206,8 @@ osalbool TO_MessageFlow_Add(
     uint32 j;
     TO_MessageFlow_t *msgFlow   = NULL;
     int32 status                = CFE_SUCCESS;
-    uint8 queueIdx              = 0;
     uint32 decimationFactorsSum = 0;
+    osalbool isTblModified = FALSE;
 
     TO_ChannelData_t *channel = NULL;
 
@@ -286,20 +285,19 @@ osalbool TO_MessageFlow_Add(
                 return FALSE;
             }
 
-			status = CFE_SB_SubscribeEx(MsgID, channel->DumpTbl.PriorityQueue[PQueueIdx].SBPipeID, CFE_SB_Default_Qos, MsgLimit);
-			if (status != CFE_SUCCESS)
-			{
-				/* We failed to subscribe to a message. */
-				(void) CFE_EVS_SendEvent(TO_SUBSCRIBE_ERR_EID,
-										 CFE_EVS_ERROR,
-										 "Message flow failed to subscribe to (0x%08X) on channel %d. (%ld)",
-										 MsgID,
-										 ChannelIdx,
-										 status);
-
+        	status = TO_PriorityQueue_Subscribe(channel, PQueueIdx, MsgID, MsgLimit);
+        	if (status != CFE_SUCCESS)
+        	{
+        		/* We failed to subscribe to a message. */
+        		(void) CFE_EVS_SendEvent(TO_UNSUBSCRIBE_ERR_EID,
+        								 CFE_EVS_ERROR,
+        								 "Message flow (0x%08X) failed to unsubscribe on channel %d. (%ld)",
+        								 MsgID,
+        								 ChannelIdx,
+        								 status);
                 TO_Channel_UnlockByRef(channel);
                 return FALSE;
-			}
+        	}
 			else
 			{
 	            /* Now that the message was successfully subscribed to, set the
@@ -308,17 +306,21 @@ osalbool TO_MessageFlow_Add(
 	            channel->ConfigTblPtr->MessageFlow[i].MsgId = MsgID;
 	            channel->ConfigTblPtr->MessageFlow[i].MsgLimit = MsgLimit;
 	            channel->ConfigTblPtr->MessageFlow[i].PQueueID = PQueueIdx;
-	            channel->DumpTbl.MessageFlow[i].DroppedMsgCnt = 0;
 	            channel->DumpTbl.MessageFlow[i].QueuedMsgCnt = 0;
 	            channel->DumpTbl.MessageFlow[i].SBMsgCnt = 0;
 
-                CFE_TBL_Modified(channel->ConfigTblHdl);
+	            isTblModified = TRUE;
 			}
 
             break;
         }
     }
     
+    if(TRUE == isTblModified)
+    {
+        CFE_TBL_Modified(channel->ConfigTblHdl);
+    }
+
     if (i >= TO_MAX_MESSAGE_FLOWS)
     {
         (void) CFE_EVS_SendEvent(TO_CMD_ADD_MSG_FLOW_ERR_EID, 
@@ -402,7 +404,7 @@ osalbool TO_MessageFlow_Remove(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID)
 
     pQueueID = channel->ConfigTblPtr->MessageFlow[msgFlowIndex].PQueueID;
 
-	status = CFE_SB_Unsubscribe(MsgID, pQueueID);
+	status = TO_PriorityQueue_Unsubscribe(channel, pQueueID, MsgID);
 	if (status != CFE_SUCCESS)
 	{
 		/* We failed to subscribe to a message. */
@@ -420,7 +422,6 @@ osalbool TO_MessageFlow_Remove(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID)
     channel->ConfigTblPtr->MessageFlow[msgFlowIndex].MsgId = 0;
     channel->ConfigTblPtr->MessageFlow[msgFlowIndex].MsgLimit = 0;
     channel->ConfigTblPtr->MessageFlow[msgFlowIndex].PQueueID = 0;
-    channel->DumpTbl.MessageFlow[msgFlowIndex].DroppedMsgCnt = 0;
     channel->DumpTbl.MessageFlow[msgFlowIndex].QueuedMsgCnt = 0;
     channel->DumpTbl.MessageFlow[msgFlowIndex].SBMsgCnt = 0;
 
@@ -486,12 +487,11 @@ osalbool TO_MessageFlow_Query(uint16 ChannelIdx, CFE_SB_MsgId_t MsgID)
         {
             (void) CFE_EVS_SendEvent(TO_MSG_FLOW_INFO_EID,
                                      CFE_EVS_INFORMATION,
-                                     "CHANNEL=%d MID=0x%04x ML=%u PQI=%u D=%lu Q=%lu SB=%lu",
+                                     "CHANNEL=%d MID=0x%04x ML=%u PQI=%u Q=%lu SB=%lu",
                                      ChannelIdx,
                                      channel->ConfigTblPtr->MessageFlow[i].MsgId,
                                      channel->ConfigTblPtr->MessageFlow[i].MsgLimit,
                                      channel->ConfigTblPtr->MessageFlow[i].PQueueID,
-                                     channel->DumpTbl.MessageFlow[i].DroppedMsgCnt,
                                      channel->DumpTbl.MessageFlow[i].QueuedMsgCnt,
                                      channel->DumpTbl.MessageFlow[i].SBMsgCnt);
             found = TRUE;

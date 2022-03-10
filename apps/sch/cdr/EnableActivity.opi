@@ -161,14 +161,13 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var SlotNumber = VTypeHelper.getString(display.getWidget('Slot').getPropertyValue('pv_value'));
-var EntryNumber = VTypeHelper.getString(display.getWidget('Entry').getPropertyValue('pv_value'));
+var SlotNumber = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Slot')));
+var EntryNumber = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Entry')));
 
-Yamcs.issueCommand('/cfs/$(CPUID)/sch/Enable', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Enable', {
     'SlotNumber': SlotNumber,
     'EntryNumber': EntryNumber});]]></scriptText>
         <embedded>true</embedded>

@@ -81,11 +81,10 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/sch/SendDiag', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/SendDiag', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -190,7 +189,7 @@ $(pv_value)</tooltip>
       <keep_wh_ratio>false</keep_wh_ratio>
     </scale_options>
     <scripts>
-      <path pathString="/Displays/Apps/SCH/Scripts/query_diag_init.py" checkConnect="true" seoe="false">
+      <path pathString="resources/scripts/query_diag_init.py" checkConnect="true" seoe="false">
         <pv trig="true">=1</pv>
       </path>
     </scripts>

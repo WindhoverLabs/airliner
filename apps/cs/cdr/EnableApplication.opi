@@ -41,13 +41,10 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var cmd = '/cfs/$(CPUID)/cs/EnableApps';
-
-Yamcs.issueCommand(cmd, {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableApps', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -100,16 +97,12 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
+var Name = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Name')));
 
-var Name =VTypeHelper.getString(display.getWidget('Name').getPropertyValue('pv_value'));
-
-var cmd = '/cfs/$(CPUID)/cs/EnableNameApp';
-
-Yamcs.issueCommand(cmd, {'Name': Name});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableNameApp', {'Name': Name});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

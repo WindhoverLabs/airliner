@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <macros>
+    <APP>cfe_time</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>275</width>
+  <height>140</height>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var clockState = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'ClockState')));
+
+var args;
+
+if( clockState == 'Invalid' ) {
+    args = {'Payload.ClockState': 'INVALID'};
+} else if (clockState == 'Valid' ) {
+    args = {'Payload.ClockState': 'VALID'};
+} else if (clockState == 'Flywheel' ) {
+    args = {'Payload.ClockState': 'FLYWHEEL'};
+}
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SetState', args);
+
+]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Set State</text>
+    <x>54</x>
+    <y>78</y>
+    <width>163</width>
+    <height>25</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>Clock state</text>
+    <x>15</x>
+    <y>40</y>
+    <width>83</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>ClockState</name>
+    <pv_name>loc://ClockState&lt;VString&gt;</pv_name>
+    <x>110</x>
+    <y>40</y>
+    <width>135</width>
+    <height>20</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <items>
+      <item>Invalid</item>
+      <item>Valid</item>
+      <item>Flywheel</item>
+    </items>
+    <items_from_pv>false</items_from_pv>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_69</name>
+    <text>($(CPUID)) CFE-TIME - Set State</text>
+    <x>6</x>
+    <y>12</y>
+    <width>265</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+</display>

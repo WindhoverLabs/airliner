@@ -1,5 +1,7 @@
   short_name: ms5607
   long_name: 
+  app_name: MS5607
+  module_type: CFE_APP
   events: 
     MS5607_INIT_INF_EID: 
       id: 1

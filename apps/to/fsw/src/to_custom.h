@@ -236,6 +236,10 @@ uint32 TO_GetCustomVersion(void);
  */
 void TO_PrintCustomVersion(void);
 
+
+void TO_OutputChannel_SendTelemetry(uint32 index);
+
+
 /************************************************************************/
 /** \brief Resets channel HK counters
 **

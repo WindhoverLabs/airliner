@@ -2,6 +2,7 @@
 #define FM_PLATFORM_CFG_H
 
 #include "osapi.h"
+#include "priorities.h"
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

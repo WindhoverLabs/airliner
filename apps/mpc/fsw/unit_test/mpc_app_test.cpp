@@ -56,6 +56,8 @@
 int32 hookCalledCount = 0;
 
 
+uint64 PX4LIB_GetPX4TimeUs(void);
+
 /**************************************************************************
  * Tests for MPC_InitEvent()
  **************************************************************************/
@@ -277,23 +279,23 @@ void Test_MPC_InitApp_Fail_InitPipe(void)
 }
 
 
-/**
- * Test MPC_InitApp(), fail init data.
- * NOTE: no current way to fail MPC_InitData() in default
- */
-void Test_MPC_InitApp_Fail_InitData(void)
-{
-    MPC oMPC;
-
-    int32 result = CFE_SUCCESS;
-    int32 expected = CFE_SUCCESS;
-
-    /* Execute the function being tested */
-    result = oMPC.InitApp();
-
-    /* Verify results */
-    UtAssert_True (result == expected, "InitApp, fail init data");
-}
+///**
+// * Test MPC_InitApp(), fail init data.
+// * NOTE: no current way to fail MPC_InitData() in default
+// */
+//void Test_MPC_InitApp_Fail_InitData(void)
+//{
+//    MPC oMPC;
+//
+//    int32 result = CFE_SUCCESS;
+//    int32 expected = CFE_SUCCESS;
+//
+//    /* Execute the function being tested */
+//    result = oMPC.InitApp();
+//
+//    /* Verify results */
+//    UtAssert_True (result == expected, "InitApp, fail init data");
+//}
 
 
 /**
@@ -865,7 +867,7 @@ void Test_MPC_AppMain_Nominal_CalculateVelocitySetpoint(void)
     oMPC.m_ResetPositionSetpoint = false;
     oMPC.m_ResetAltitudeSetpoint = false;
 
-    Ut_MPC_Custom_SetReturnCode(UT_MPC_PX4LIB_GETPX4TIMEUS_INDEX, 1, 1);
+    Ut_MPC_Custom_SetReturnCode(UT_MPC_PX4LIB_GETPX4TIMEUS_INDEX, 1L, 1UL);
     oMPC.CalculateVelocitySetpoint(0.009890);
 
     UtAssert_DoubleCmpAbs(oMPC.m_VelocitySetpoint[0], 0.000000, FLT_EPSILON, "oMPC.m_VelocitySetpoint[0]");
@@ -4245,5 +4247,7 @@ void MPC_App_Test_AddTestCases(void)
     UtTest_Add(Test_MPC_AppMain_Nominal_ControlManual, MPC_Test_Setup, MPC_Test_TearDown,
                "Test_MPC_AppMain_Nominal_ControlManual");
 }
+
+
 
 

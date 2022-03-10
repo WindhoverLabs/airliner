@@ -121,13 +121,12 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var RtsId = VTypeHelper.getString(display.getWidget('RtsId').getPropertyValue('pv_value'));
+var RtsId = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'RtsId')));
 
-Yamcs.issueCommand('/cfs/$(CPUID)/sc/StartRts', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sc/StartRts', {
     'RtsId': RtsId});]]></scriptText>
         <embedded>true</embedded>
         <description></description>

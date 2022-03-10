@@ -30,9 +30,9 @@
 /*
 ** cFE Global Command Message Id's
 */
-#define CFE_TIME_DATA_CMD_MID                     TLM_MSG(   12 )
-#define CFE_TIME_FAKE_CMD_MID                     TLM_MSG(   13 )
-#define CFE_TIME_SEND_CMD_MID                     TLM_MSG(   14 )
+#define CFE_TIME_DATA_CMD_MID                     CMD_MSG(   12 )
+#define CFE_TIME_FAKE_CMD_MID                     CMD_MSG(   13 )
+#define CFE_TIME_SEND_CMD_MID                     CMD_MSG(   14 )
 
 
 /*
@@ -501,6 +501,13 @@
 #define ZUSUP_WAKEUP_MID                          CMD_MSG(  488 )
 #define ZUSUP_HK_TLM_MID                          TLM_MSG(  489 )
 #define ZUSUP_DIAG_TLM_MID                        TLM_MSG(  490 )
+
+/* ADSBR                                                     */
+#define ADSBR_CMD_MID                             CMD_MSG(  491 )
+#define ADSBR_SEND_HK_MID                         CMD_MSG(  492 )
+#define ADSBR_WAKEUP_MID                          CMD_MSG(  493 )
+#define ADSBR_OUT_DATA_MID                        TLM_MSG(  494 )
+#define ADSBR_HK_TLM_MID                          TLM_MSG(  495 )
 
 
 

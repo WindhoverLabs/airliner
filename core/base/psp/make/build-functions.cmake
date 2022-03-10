@@ -65,11 +65,11 @@ function(psp_buildliner_initialize)
         set_property(GLOBAL PROPERTY IS_REFERENCE_BUILD true)
     endif()
     
-    #if(PARSED_ARGS_COMMANDER_WORKSPACE)
-    #    set(COMMANDER_WORKSPACE ${CMAKE_BINARY_DIR}/commander_workspace)
-    #else()
+    if(PARSED_ARGS_COMMANDER_WORKSPACE)
         set(COMMANDER_WORKSPACE ${PARSED_ARGS_COMMANDER_WORKSPACE})
-    #endif()
+    else()
+        set(COMMANDER_WORKSPACE ${CMAKE_BINARY_DIR}/commander_workspace)
+    endif()
     set(COMMANDER_DISPLAYS ${COMMANDER_WORKSPACE}/Displays)
     set_property(GLOBAL PROPERTY COMMANDER_WORKSPACE ${COMMANDER_WORKSPACE})
     set_property(GLOBAL PROPERTY COMMANDER_DISPLAYS ${COMMANDER_DISPLAYS})
@@ -104,15 +104,17 @@ function(psp_buildliner_initialize)
     add_dependencies(ground-tools commander-workspace)
     
     # Read the Commander Macro block
-    file(READ ${PSP_CDR_MACRO_BLOCK_FILE} BUILDLINER_CDR_MACRO_BLOCK)
+    configure_file(${PSP_CDR_MACRO_BLOCK_FILE} ${CMAKE_CURRENT_BINARY_DIR}/CDR_MACRO_BLOCK_FILE @ONLY)
+    file(READ ${CMAKE_CURRENT_BINARY_DIR}/CDR_MACRO_BLOCK_FILE BUILDLINER_CDR_MACRO_BLOCK)
     if(PARSED_ARGS_COMMANDER_CUSTOM_MACRO_BLOCK)
-        file(READ ${PARSED_ARGS_COMMANDER_CUSTOM_MACRO_BLOCK} BUILDLINER_CDR_MACRO_BLOCK_CUSTOM)
+        configure_file(${PARSED_ARGS_COMMANDER_CUSTOM_MACRO_BLOCK} ${CMAKE_CURRENT_BINARY_DIR}/CDR_CUSTOM_MACRO_BLOCK_FILE @ONLY)
+        file(READ ${CMAKE_CURRENT_BINARY_DIR}/CDR_CUSTOM_MACRO_BLOCK_FILE BUILDLINER_CDR_MACRO_BLOCK_CUSTOM)
     else()
         set(BUILDLINER_CDR_MACRO_BLOCK_CUSTOM "")
     endif()
     set_property(GLOBAL PROPERTY BUILDLINER_CDR_MACRO_BLOCK        ${BUILDLINER_CDR_MACRO_BLOCK})
     set_property(GLOBAL PROPERTY BUILDLINER_CDR_MACRO_BLOCK_CUSTOM ${BUILDLINER_CDR_MACRO_BLOCK_CUSTOM})
-        
+
     # Copy in the Commander CFE displays
     file(GLOB_RECURSE files "${CFE_COMMANDER_DISPLAYS}/*" "${CFE_COMMANDER_DISPLAYS}/.*")
     foreach(inFile ${files})
@@ -123,6 +125,16 @@ function(psp_buildliner_initialize)
             get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
             get_filename_component(outFileName ${inFile} NAME_WE)
             set(outFile ${outFilePath}/${outFileName}.opi)
+            configure_file(${inFile} ${outFile} @ONLY)
+        elseif(${inFileExt} STREQUAL ".bob")
+            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
+            get_filename_component(outFileName ${inFile} NAME_WE)
+            set(outFile ${outFilePath}/${outFileName}.bob)
+            configure_file(${inFile} ${outFile} @ONLY)
+        elseif(${inFileExt} STREQUAL ".ini")
+            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
+            get_filename_component(outFileName ${inFile} NAME_WE)
+            set(outFile ${outFilePath}/${outFileName}.ini)
             configure_file(${inFile} ${outFile} @ONLY)
         else()
             get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
@@ -147,6 +159,17 @@ function(psp_buildliner_initialize)
     add_custom_target(start-yamcs 
         COMMAND ${COMMANDER_WORKSPACE}/bin/yamcs-start /opt/yamcs/ ${COMMANDER_WORKSPACE}
     )
+    
+    # Generate the templated code
+    set_property(GLOBAL PROPERTY BASELINER_CONFIG_FILE_PROPERTY ${CMAKE_BINARY_DIR}/wh_defs.yaml)
+    set_property(GLOBAL PROPERTY BASELINER_GENERATED_CODE_DIR_PROPERTY ${CMAKE_CURRENT_BINARY_DIR}/generated_code)
+			        
+    execute_process(
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	    COMMAND ${CMAKE_COMMAND} -E make_directory generated_code
+	    COMMAND python ${PROJECT_SOURCE_DIR}/core/base/psp/make/parse_configuration.py ${CMAKE_BINARY_DIR}/wh_defs.yaml generated_code ${COMMANDER_WORKSPACE}/Displays/${PARSED_ARGS_CPU_ID}
+	    #COMMAND ${CMAKE_COMMAND} ${CMAKE_CURRENT_BINARY_DIR}/generated_code
+	)
         
     # Add the 'build-file-system' target.  This is used to trigger the steps to embed the initial ramdisk 
     # after all the build products have been built.
@@ -156,10 +179,13 @@ function(psp_buildliner_initialize)
     add_subdirectory(${PARSED_ARGS_OSAL} core/osal)
                 
     set(TARGET_INCLUDES 
-        ${PSP_SHARED_INC} 
+        ${PARSED_ARGS_CONFIG}
         ${CMAKE_CURRENT_BINARY_DIR} 
-        ${OSAL_INCS})  
-
+        ${CFE_INC_DIRS}
+        ${OSAL_INC_DIRS}
+        ${PSP_INC_DIRS}
+        ${PSP_SHARED_INC})
+        
     # Set a higher priority set of includes, if this is a reference build.
     if(PARSED_ARGS_REFERENCE_INCLUDES)
         set(TARGET_INCLUDES 
@@ -169,6 +195,10 @@ function(psp_buildliner_initialize)
             ${TARGET_INCLUDES}
         )
     endif()
+    
+    include_directories(${TARGET_INCLUDES})
+    
+    set_property(GLOBAL PROPERTY TARGET_INCLUDES_PROP ${TARGET_INCLUDES})
 
     if(NOT docs)        
         add_custom_target(docs)
@@ -199,9 +229,6 @@ function(psp_buildliner_initialize)
                     ${OSAL_SRC}
                     ${PSP_PLATFORM_SRC}
                     ${PSP_SHARED_SRC}
-                
-                INCLUDES
-                    ${TARGET_INCLUDES}
  
                 INSTALL_PATH ${CFE_INSTALL_DIR}
             )
@@ -652,6 +679,11 @@ function(psp_buildliner_add_app_def)
                 get_filename_component(outFileName ${inFile} NAME_WE)
                 set(outFile ${outFilePath}/${outFileName}.opi)
                 configure_file(${inFile} ${outFile} @ONLY)
+            elseif(${inFileExt} STREQUAL ".bob")
+                get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Apps/${PARSED_ARGS_TARGET}/${outFile} DIRECTORY)
+                get_filename_component(outFileName ${inFile} NAME_WE)
+                set(outFile ${outFilePath}/${outFileName}.bob)
+                configure_file(${inFile} ${outFile} @ONLY)
             else()
                 get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Apps/${PARSED_ARGS_TARGET}/${outFile} DIRECTORY)
                 file(COPY ${inFile} DESTINATION "${outFilePath}")
@@ -847,7 +879,9 @@ function(psp_buildliner_add_cfe_unit_test)
             ${PARSED_ARGS_SOURCES}
             ${PSP_BB_UT_BSP_SRC}
                 
-        INCLUDES ${PARSED_ARGS_INCLUDES}
+        INCLUDES 
+            ${PARSED_ARGS_INCLUDES}
+            ${TARGET_INCLUDES}
     )
     if(${GCOV_SUPPORTED})
         psp_add_executable(${TEST_NAME}-gcov
@@ -979,6 +1013,12 @@ function(psp_buildliner_add_table)
     cmake_parse_arguments(PARSED_ARGS "" "NAME" "SOURCES;INCLUDES;COPY" ${ARGN})
 
     psp_get_app_cflags(${PARSED_ARGS_TARGET} TBL_CFLAGS ${CMAKE_C_FLAGS})
+    
+    # Get the target includes used by all the CMake managed targets
+    #    get_property(TARGET_INCLUDES DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+    #    foreach(INC ${TARGET_INCLUDES})
+    #        list(APPEND FLAGLIST "-I${INC}")
+    #    endforeach(INC ${TARGET_INCLUDES})
 
     if(PARSED_ARGS_NAME AND PARSED_ARGS_SOURCES)
         add_custom_command(

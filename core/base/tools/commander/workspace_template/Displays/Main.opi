@@ -18,17 +18,6 @@
   <height>850</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
-    <AuthorizeCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/AuthorizeCommand_App.opi</AuthorizeCmd_TEMPLATE>
-    <DeauthorizeCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/DeauthorizeCommand_App.opi</DeauthorizeCmd_TEMPLATE>
-    <RegisterCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/RegisterCommand_App.opi</RegisterCmd_TEMPLATE>
-    <DeregisterCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/DeregisterCommand_App.opi</DeregisterCmd_TEMPLATE>
-    <UpdateCmd_TEMPLATE>/Displays/PPD/Apps/CI/Templates/UpdateCommand_App.opi</UpdateCmd_TEMPLATE>
-    <AddMessageFlow_TEMPLATE>/Displays/PPD/Apps/TO/Templates/AddMessageFlow_App.opi</AddMessageFlow_TEMPLATE>
-    <RemoveMessageFlow_TEMPLATE>/Displays/PPD/Apps/TO/Templates/RemoveMessageFlow_App.opi</RemoveMessageFlow_TEMPLATE>
-    <QueryMessageFlow_TEMPLATE>/Displays/PPD/Apps/TO/Templates/QueryMessageFlow_App.opi</QueryMessageFlow_TEMPLATE>
-    <Sch_Table_TEMPLATE>/Displays/PPD/Apps/SCH/Templates/Diagnostic_App.opi</Sch_Table_TEMPLATE>
-    <ALL_CPUS>{'cpd', 'ppd'}</ALL_CPUS>
-    <EVENTS_OPI>Displays/PPD/Core/EVS/Events.opi</EVENTS_OPI>
   </macros>
   <name>Main</name>
   <rules />
@@ -295,7 +284,7 @@ $(pv_value)</tooltip>
       <color red="255" green="255" blue="255" />
     </foreground_color>
     <height>23</height>
-    <image>Resources/send.png</image>
+    <image>resources/send.png</image>
     <name>NoOp_44</name>
     <push_action_index>0</push_action_index>
     <pv_name></pv_name>
@@ -323,9 +312,8 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 for(var i = 1; i <= 32; ++i) {
     var ActualTriggerName = 'TriggerActual' + i;

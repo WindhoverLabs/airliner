@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>($(CPUID)) CF - Disable Polling Directory</name>
+  <macros>
+    <APP>cf</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>350</width>
+  <height>160</height>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <actions>
+      <action type="execute">
+        <script file="Scripts/disable_polling_directory.py">
+        </script>
+      </action>
+    </actions>
+    <text>Send</text>
+    <x>136</x>
+    <y>120</y>
+    <width>80</width>
+    <height>25</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_1</name>
+    <text>Channel</text>
+    <x>26</x>
+    <y>43</y>
+    <width>59</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="radio" version="2.0.0">
+    <name>Channel</name>
+    <pv_name>loc://$(APP)_$(CPUID)_PollingChannel</pv_name>
+    <x>98</x>
+    <y>42</y>
+    <width>307</width>
+    <height>22</height>
+    <actions>
+    </actions>
+    <items>
+      <item>Channel 1</item>
+      <item>Channel 2</item>
+    </items>
+    <items_from_pv>false</items_from_pv>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_7</name>
+    <text>Directory Index</text>
+    <x>13</x>
+    <y>77</y>
+    <width>108</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="spinner" version="2.0.0">
+    <name>Dir</name>
+    <pv_name>loc://$(APP)_$(CPUID)_PollingDir&lt;VLong&gt;(0)</pv_name>
+    <x>128</x>
+    <y>72</y>
+    <width>135</width>
+    <height>29</height>
+    <format>0</format>
+    <precision>0</precision>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <minimum>-1.7976931348623157E308</minimum>
+    <maximum>1.7976931348623157E308</maximum>
+    <limits_from_pv>false</limits_from_pv>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_8</name>
+    <text>($(CPUID)) CF - Disable Polling Directory</text>
+    <x>26</x>
+    <y>12</y>
+    <width>305</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+</display>

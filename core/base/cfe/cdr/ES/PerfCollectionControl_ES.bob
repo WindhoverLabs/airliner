@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+
+  <macros>
+    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+    <APP>cfe_es</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>270</width>
+  <height>83</height>
+  <background_color>
+    <color red="240" green="240" blue="240">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="group" version="2.0.0">
+    <name>Grouping Container</name>
+    <width>270</width>
+    <height>83</height>
+    <style>3</style>
+    <foreground_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </foreground_color>
+    <actions>
+    </actions>
+    <widget type="label" version="2.0.0">
+      <name>Label_44</name>
+      <text>Actual</text>
+      <x>142</x>
+      <y>19</y>
+      <width>50</width>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_42</name>
+      <text>Request</text>
+      <x>53</x>
+      <y>19</y>
+      <width>79</width>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_45</name>
+      <text>Request</text>
+      <x>195</x>
+      <y>19</y>
+      <width>75</width>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_41</name>
+      <text>Actual</text>
+      <y>19</y>
+      <width>50</width>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_43</name>
+      <text>Trigger</text>
+      <x>173</x>
+      <width>50</width>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Filter</text>
+      <x>31</x>
+      <width>49</width>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>SetFilterButton</name>
+      <actions>
+        <action type="execute">
+          <script file="resources/scripts/set_actual_filters.py">
+          </script>
+        </action>
+      </actions>
+      <text>Set</text>
+      <x>1</x>
+      <y>38</y>
+      <width>55</width>
+      <height>25</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_3</name>
+      <actions>
+        <action type="execute">
+          <script file="resources/scripts/set_actual_triggers.py">
+          </script>
+        </action>
+      </actions>
+      <text>Set</text>
+      <x>143</x>
+      <y>38</y>
+      <width>55</width>
+      <height>25</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_2</name>
+      <actions>
+        <action type="execute">
+          <script file="resources/scripts/reflect_filters.py">
+          </script>
+        </action>
+      </actions>
+      <text>Reflect</text>
+      <x>58</x>
+      <y>38</y>
+      <width>65</width>
+      <height>25</height>
+      <background_color>
+        <color name="TM_label_text" red="197" green="211" blue="236">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_2</name>
+      <actions>
+        <action type="execute">
+          <script file="resources/scripts/reflect_triggers.py">
+          </script>
+        </action>
+      </actions>
+      <text>Reflect</text>
+      <x>200</x>
+      <y>38</y>
+      <width>65</width>
+      <height>25</height>
+      <background_color>
+        <color name="TM_label_text" red="197" green="211" blue="236">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>FilterRequestAll</name>
+      <label></label>
+      <x>80</x>
+      <y>63</y>
+      <width>22</width>
+      <actions execute_as_one="true">
+      </actions>
+      <scripts>
+        <script file="EmbeddedPy" check_connections="false">
+          <text><![CDATA[from org.csstudio.opibuilder.scriptUtil import PVUtil, WidgetUtil, DataUtil, ScriptUtil
+from org.eclipse.swt.graphics import RGB
+from com.windhoverlabs.studio.registry import YAMLRegistry, ConfigRegistry
+from org.csstudio.opibuilder.script import PVTuple
+from org.csstudio.display.builder.runtime.script import IPVListener
+from java.lang import Runnable
+import math
+
+
+
+if widget.getVar("firstTime") is None:
+	widget.setVar("firstTime", True)
+	print('first time log')
+	print("Macro value---->",widget.getVar("TAB"))
+	#ConsoleUtil.writeInfo("logging first time");
+	#widget.setPropertyValue("pv_name", )
+
+#var setAllFilterValue = VTypeHelper.getDouble(display.getWidget('FilterRequestAll1').getPropertyValue('pv_value'));
+#for(var i = 1; i <= 32; ++i) {
+#	var RequestFilterName = 'FilterRequestAUTO' + i;
+#	display.getWidget(RequestFilterName).setPropertyValue('pv_value', setAllFilterValue);
+#	ConsoleUtil.writeInfo("logging");
+#}
+]]></text>
+          <pv_name>=1</pv_name>
+        </script>
+      </scripts>
+    </widget>
+    <widget type="checkbox" version="2.0.0">
+      <name>TriggerActualAll</name>
+      <label></label>
+      <x>222</x>
+      <y>63</y>
+      <width>22</width>
+      <actions>
+      </actions>
+    </widget>
+  </widget>
+</display>

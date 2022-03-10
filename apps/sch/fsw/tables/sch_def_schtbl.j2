@@ -1,0 +1,91 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+{% set GRPIDX_NAME_WIDTH  = 30 %}
+{% set MSGIDX_NAME_WIDTH  = 30 %}
+{% set ENABLE_STATE_WIDTH = 13 %}
+{% set TYPE_WIDTH         = 21 %}
+
+{%- set counter = { 'idx': 0 } -%}
+{%- macro increment(dct, key, inc=1) -%}
+    {%- if dct.update({key: dct[key] + inc}) -%} {%- endif -%}
+{%- endmacro -%}
+
+
+
+/*
+** Pragmas
+*/
+
+/*
+** Include Files
+*/
+#include "cfe.h"
+#include "cfe_tbl_filedef.h"
+#include "sch_platform_cfg.h"
+#include "sch_msgdefs.h"
+#include "sch_tbldefs.h"
+
+
+/*
+** Schedule Table "group" definitions
+*/
+#define SCH_GROUP_NONE         (0)
+
+
+/* Message Indices */
+{%- for idx in range(1, data.config.SCH_MAX_MESSAGES.value) %}
+{%-   set msgKey =  idx|string %}
+{%-   set MSG = data.tables._MSG_DEFS[instance][msgKey] %}
+{%-   if MSG.msgid|length %}
+#define {{ "%-*s" % (MSGIDX_NAME_WIDTH, MSG.msgid ~ "X") }} ({{ idx }})
+{%-   endif %}
+{%- endfor %}
+
+
+SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] = 
+{
+  {%- for slotID in range(0, data.config.SCH_TOTAL_SLOTS.value|int) %}
+    {%- set slotKey =  slotID|string %}
+  /* Slot #{{ slotKey }} */
+    {%- for actID in range(0, data.config.SCH_ENTRIES_PER_SLOT.value|int) %}
+      {%- set actKey =  actID|string %}
+      {%- set activity = data.tables._SCHED_DEF[instance].schedule[slotKey][actKey] %}
+      {%- if activity.EnableState|length %}
+        {%- if activity.MessageIndex|int %}
+          {%- set msgKey =  activity.MessageIndex|string %}
+          {%- set MSG = data.tables._MSG_DEFS[instance][msgKey] %}
+          {%- set msgIdx = MSG.msgid ~ "X" %}
+        {%- else %}
+          {%- set msgIdx = "0" %}
+        {%- endif %}
+    { {{ "%-*s" % (ENABLE_STATE_WIDTH, activity.EnableState) }}, {{ "%-*s" % (TYPE_WIDTH, activity.Type) }}, {{ activity.Frequency }}, {{ activity.Remainder }}, {{ "%-*s" % (MSGIDX_NAME_WIDTH, msgIdx) }}, {{ "%-*s" % (GRPIDX_NAME_WIDTH, activity.GroupData) }} 
+        {%- if 'Deadline' in activity -%}
+            , {{ activity.Deadline }}
+        {%- endif %} }
+      {%- else %}
+    { {{ "%-*s" % (ENABLE_STATE_WIDTH, "SCH_UNUSED") }}, {{ "%-*s" % (TYPE_WIDTH, "SCH_ACTIVITY_NONE") }}, {{ 0 }}, {{ 0 }}, {{ "%-*s" % (MSGIDX_NAME_WIDTH, 0) }}, {{ "%-*s" % (GRPIDX_NAME_WIDTH, "SCH_GROUP_NONE") }} 
+        {%- if 'Deadline' in activity -%}
+            , {{ 0 }}
+        {%- endif %} }
+      {%- endif %}
+      {{- ", /* idx: {} */".format(actID) if not loop.last else "" }}
+    {%- endfor -%}
+    {{- ", /* idx: {} */".format(data.config.SCH_ENTRIES_PER_SLOT.value|int - 1) if not loop.last else "  /* idx: {} */".format(data.config.SCH_ENTRIES_PER_SLOT.value|int - 1) }}
+  {% endfor %}
+};
+
+
+/* Table file header */
+CFE_TBL_FILEDEF(SCH_DefaultScheduleTable, SCH.SCHED_DEF, {{data.tables._SCHED_DEF[instance].description}}, {{data.tables._SCHED_DEF[instance].file_name}}.tbl )
+
+
+#ifdef __cplusplus
+}
+#endif
+
+/*=======================================================================================
+** End of file {{data.tables._SCHED_DEF[instance].file_name}}}}.c
+**=====================================================================================*/
+    

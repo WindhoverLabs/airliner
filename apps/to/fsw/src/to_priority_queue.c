@@ -51,7 +51,6 @@ void TO_PriorityQueue_ResetCountsAll(TO_ChannelData_t* channel)
 
     for (i = 0; i < TO_MAX_PRIORITY_QUEUES; ++i)
     {
-//        channel->DumpTbl.PriorityQueue[i].DroppedMsgCnt = 0;
 //        channel->DumpTbl.PriorityQueue[i].QueuedMsgCnt = 0;
 //        channel->DumpTbl.PriorityQueue[i].HighwaterMark = 0;
     }
@@ -101,6 +100,26 @@ int32 TO_PriorityQueue_BuildupAll(TO_ChannelData_t *channel)
     return status;
 }
 
+
+int32 TO_PriorityQueue_Subscribe(TO_ChannelData_t *channel, uint32 PQueueIndex, uint32 MsgID, uint16 MsgLimit)
+{
+	int32 status;
+
+	status = CFE_SB_SubscribeEx(MsgID, channel->DumpTbl.PriorityQueue[PQueueIndex].SBPipeID,
+								 CFE_SB_Default_Qos, MsgID);
+
+    return status;
+}
+
+
+int32 TO_PriorityQueue_Unsubscribe(TO_ChannelData_t *channel, uint32 PQueueIndex, uint32 MsgID)
+{
+	int32 status;
+
+    status = CFE_SB_Unsubscribe(MsgID, channel->DumpTbl.PriorityQueue[PQueueIndex].SBPipeID);
+
+    return status;
+}
 
 
 int32 TO_PriorityQueue_Buildup(TO_ChannelData_t *channel, uint32 PQueueIndex)

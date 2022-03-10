@@ -1,5 +1,7 @@
   short_name: sim
   long_name: Simulation Application
+  app_name: SIM
+  module_type: CFE_APP
   events: 
     SIM_INIT_INF_EID: 
       id: 1
