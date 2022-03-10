@@ -153,7 +153,7 @@ typedef struct
     uint8              usCmdErrCnt; 
 
     /** \brief Timestamp of sampled battery status */
-    CFE_TIME_SysTime_t Timestamp;
+    uint64             Timestamp;
     
     /** \brief Sampled voltage */
     float              Voltage;                    /* V */

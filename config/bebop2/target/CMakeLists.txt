@@ -129,17 +129,6 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    vc
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/vc/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc
-    CONFIG_SOURCES
-    	${CMAKE_CURRENT_SOURCE_DIR}/apps/vc/src/vc_dev_io_i2c/vc_dev_io_i2c.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc/src/vc_dev_io_v4l/vc_dev_io_v4l.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc/src/vc_transmit_udp/vc_transmit_udp.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/vc/src/vc_custom.c
-)
-
-buildliner_add_app(
     amc
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/amc/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/amc
@@ -255,14 +244,6 @@ buildliner_add_app(
     qae
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/qae/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/qae
-)
-
-buildliner_add_app(
-    lgc
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/lgc/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/lgc
-    CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/lgc/lgc_custom.cpp
 )
 
 buildliner_add_app(

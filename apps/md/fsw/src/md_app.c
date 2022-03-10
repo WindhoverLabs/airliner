@@ -30,6 +30,8 @@
 #include "md_perfids.h"
 #include "md_version.h"
 
+MD_AppData_t MD_AppData;
+
 /* Constant Data */
 
 const MD_CmdHandlerTblRec_t MD_CmdHandlerTbl[] = {

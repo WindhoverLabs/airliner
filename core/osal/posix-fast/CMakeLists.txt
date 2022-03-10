@@ -78,7 +78,7 @@ osal_add_whitebox_unit_test(
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/shared/ut_os_stubs.c
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/shared
-        ${OSAL_INCS}
+        ${OSAL_INC_DIRS}
         
     VALGRIND_SUPPRESSION_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/oscore-test/valgrind.supp
@@ -100,7 +100,7 @@ osal_add_whitebox_unit_test(
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/shared/ut_os_stubs.c
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/shared
-        ${OSAL_INCS}
+        ${OSAL_INC_DIRS}
         
     VALGRIND_SUPPRESSION_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/osfile-test/valgrind.supp
@@ -122,7 +122,7 @@ osal_add_whitebox_unit_test(
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/shared/ut_os_stubs.c
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/shared
-        ${OSAL_INCS}
+        ${OSAL_INC_DIRS}
         
     FILESYS
         /ram4
@@ -149,7 +149,7 @@ osal_add_whitebox_unit_test(
         
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/shared
-        ${OSAL_INCS}
+        ${OSAL_INC_DIRS}
     
     VALGRIND_SUPPRESSION_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/osloader-test/valgrind.supp
@@ -185,7 +185,7 @@ osal_add_whitebox_unit_test(
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/shared/ut_os_stubs.c
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/shared
-        ${OSAL_INCS}
+        ${OSAL_INC_DIRS}
     
     VALGRIND_SUPPRESSION_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/osnetwork-test/valgrind.supp
@@ -244,7 +244,7 @@ osal_add_whitebox_unit_test(
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/shared/ut_os_stubs.c
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/shared
-        ${OSAL_INCS}
+        ${OSAL_INC_DIRS}
     
     VALGRIND_SUPPRESSION_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/unit-tests/ostimer-test/valgrind.supp
@@ -252,4 +252,4 @@ osal_add_whitebox_unit_test(
 
 
 set(OSAL_SRC ${OSAL_SRC} PARENT_SCOPE)
-set(OSAL_INCS ${OSAL_INCS} PARENT_SCOPE)
+set(OSAL_INC_DIRS ${OSAL_INC_DIRS} PARENT_SCOPE)

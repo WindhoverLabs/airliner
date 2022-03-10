@@ -1,5 +1,9 @@
   short_name: mm
   long_name: Memory Manager
+  app_name: MM
+  module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     MM_INIT_INF_EID: 
       id: 1

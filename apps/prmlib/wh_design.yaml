@@ -1,5 +1,9 @@
   short_name: prmlib
   long_name: Parameters
+  app_name: PRMLIB
+  module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
   telemetry: 
     PRMLIB_PARAM_UPDATED_MID: 

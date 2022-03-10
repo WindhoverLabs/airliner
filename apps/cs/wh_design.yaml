@@ -1,5 +1,9 @@
   short_name: cs
   long_name: Checksum Services
+  app_name: CS
+  module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     CS_INIT_INF_EID: 
       id: 1

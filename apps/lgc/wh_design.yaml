@@ -1,5 +1,9 @@
   short_name: lgc
   long_name: Landing Gear Control
+  app_name: LGC
+  module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     LGC_INIT_INF_EID: 
       id: 1

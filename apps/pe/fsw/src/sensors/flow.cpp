@@ -32,18 +32,21 @@
 *****************************************************************************/
 
 #include "../pe_app.h"
-#include "cfs_utils.h"
 
 void PE::flowInit()
 {
     /* Measure */
 	math::Vector2F y;
 
+        DiagTlm.FlowState = PE_FLOW_STATE_MEASURE;
+
 	if (flowMeasure(y) != CFE_SUCCESS)
 	{
 		m_FlowQStats.reset();
 		return;
 	}
+
+        DiagTlm.FlowState = PE_FLOW_STATE_COUNT;
 
 	/* If finished */
 	if (m_FlowQStats.getCount() > REQ_FLOW_INIT_COUNT)
@@ -74,11 +77,15 @@ int32 PE::flowMeasure(math::Vector2F &y)
 	delta_b.Zero();
 	delta_n.Zero();
 
+	DiagTlm.FlowState = PE_FLOW_STATE_PITCH_ROLL;
+	
 	/* Check for sane pitch/roll */
 	if (m_Euler[0] > 0.5f || m_Euler[1] > 0.5f) {
 		Status = -1;
 		goto flowMeasure_Exit_Tag;
 	}
+
+	DiagTlm.FlowState = PE_FLOW_STATE_AGL_VAL;
 
 	/* Check if AGL valid */
 	if (HkTlm.DistFault) {
@@ -86,17 +93,23 @@ int32 PE::flowMeasure(math::Vector2F &y)
 		goto flowMeasure_Exit_Tag;
 	}
 
+	DiagTlm.FlowState = PE_FLOW_STATE_AGL_HEIGHT;
+
 	/* Check for AGL height */
 	if (m_AglLowPass.m_State < ConfigTblPtr->FLOW_MIN_AGL) {
 		Status = -1;
 		goto flowMeasure_Exit_Tag;
 	}
 
+	DiagTlm.FlowState = PE_FLOW_STATE_TERR_VAL;
+
 	/* Check if terrain estimate valid */
 	if (!HkTlm.TzEstValid) {
 		Status = -1;
 		goto flowMeasure_Exit_Tag;
 	}
+
+	DiagTlm.FlowState = PE_FLOW_STATE_QUAL;
 
 	/* Check reported quality */
 	if (m_OpticalFlowMsg.Quality < ConfigTblPtr->FLOW_QUALITY_MIN) {
@@ -113,14 +126,16 @@ int32 PE::flowMeasure(math::Vector2F &y)
 	flow_y_rad = m_OpticalFlowMsg.PixelFlowYIntegral * ConfigTblPtr->FLOW_SCALE;
 	dt_flow = m_OpticalFlowMsg.IntegrationTimespan / 1.0e6f;
 
+        DiagTlm.FlowState = PE_FLOW_STATE_DT;
+
 	if (dt_flow > 0.5f || dt_flow < 1.0e-6f) {
 		Status = -1;
 		goto flowMeasure_Exit_Tag;
 	}
 
 	/* Angular rotation in x, y axis */
-	gyro_x_rad = m_FlowGyroXHighPass.Update(m_OpticalFlowMsg.GyroXRateIntegral, CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastFlow) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp), FLOW_GYRO_HP_CUTOFF);
-	gyro_y_rad = m_FlowGyroYHighPass.Update(m_OpticalFlowMsg.GyroYRateIntegral, CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastFlow) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp), FLOW_GYRO_HP_CUTOFF);
+	gyro_x_rad = m_FlowGyroXHighPass.Update(m_OpticalFlowMsg.GyroXRateIntegral, HkTlm.TimeLastFlow - HkTlm.Timestamp, FLOW_GYRO_HP_CUTOFF);
+	gyro_y_rad = m_FlowGyroYHighPass.Update(m_OpticalFlowMsg.GyroYRateIntegral, HkTlm.TimeLastFlow - HkTlm.Timestamp, FLOW_GYRO_HP_CUTOFF);
 
 	/* Compute velocities in body frame using ground distance */
 	/* Note: Integral rates in the optical_flow msg are RH rotations about body axes */
@@ -159,6 +174,8 @@ void PE::flowCorrect()
     /* Polynomial noise model, found using least squares fit
 	** h, h**2, v, v*h, v*h**2  */
 	const float p[5] = {0.04005232f, -0.00656446f, -0.26265873f,  0.13686658f, -0.00397357f};
+
+    DiagTlm.FlowState = PE_FLOW_STATE_CORRECT;
 
     if (flowMeasure(m_Flow.y) != CFE_SUCCESS)
     {
@@ -214,10 +231,17 @@ void PE::flowCorrect()
     /* Fault detection 1x2 * 2x2 * 2F */
     m_Flow.beta = (m_Flow.r.Transpose() * (m_Flow.S_I * m_Flow.r));
 
+    /* Save Flow beta for Diag */
+    DiagTlm.FlowBeta = m_Flow.beta;
+
+    DiagTlm.FlowState = PE_FLOW_STATE_BETA;
+
     if (m_Flow.beta > BETA_TABLE[n_y_flow])
     {
         if (!HkTlm.FlowFault)
         {
+            DiagTlm.FlowState = PE_FLOW_STATE_INIT;
+
             if(Initialized())
             {
                 (void) CFE_EVS_SendEvent(PE_FLOW_FAULT_ERR_EID, CFE_EVS_ERROR,
@@ -242,6 +266,7 @@ void PE::flowCorrect()
     /* Kalman filter correction */
     if (!HkTlm.FlowFault)
     {
+                DiagTlm.FlowState = PE_FLOW_STATE_FILTER;
 		/* 10x10 * 10x2 * 2x2 */
 		m_Flow.K = (m_StateCov * m_Flow.C.Transpose()) * m_Flow.S_I;
 
@@ -264,23 +289,23 @@ void PE::flowCheckTimeout()
 {
     uint64 Timestamp = 0;
 
-	if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastFlow) == CFE_TIME_A_GT_B)
-	{
-        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastFlow);
+    if (HkTlm.Timestamp > HkTlm.TimeLastFlow)
+    {
+        Timestamp = HkTlm.Timestamp - HkTlm.TimeLastFlow;
     }
-	else if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastFlow) == CFE_TIME_A_LT_B)
-	{
-        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastFlow) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
+    else if (HkTlm.Timestamp < HkTlm.TimeLastFlow)
+    {
+        Timestamp = HkTlm.TimeLastFlow - HkTlm.Timestamp;
     }
 
-	if (Timestamp > FLOW_TIMEOUT)
-	{
-		if (!HkTlm.FlowTimeout)
-		{
-			HkTlm.FlowTimeout = TRUE;
-			m_FlowQStats.reset();
-			(void) CFE_EVS_SendEvent(PE_FLOW_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
-									 "Flow timeout: %llu us", Timestamp);
-		}
-	}
+    if (Timestamp > FLOW_TIMEOUT)
+    {
+        if (!HkTlm.FlowTimeout)
+        {
+            HkTlm.FlowTimeout = TRUE;
+            m_FlowQStats.reset();
+            (void) CFE_EVS_SendEvent(PE_FLOW_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
+                "Flow timeout: %llu us", Timestamp);
+        }
+    }
 }

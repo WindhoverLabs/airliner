@@ -45,6 +45,8 @@ GENERIC_TARGET_NAMES := $(shell echo ${GENERIC_TARGET_PATHS} )
 BUILD_TYPES  := host target
 ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
+REMOTE_ADDRESS := '192.168.2.156'
+
 export PROJECT_SOURCE_DIR=${PWD}
 
 help::
@@ -109,13 +111,6 @@ help::
 	
 	
 .PHONY: help Makefile docs obc
-
-
-obc:: obc/ppd obc/cpd
-	@echo 'Generating ground products.'
-	@make -C build/obc/ppd/target ground-tools
-	@make -C build/obc/cpd/target ground-tools
-	@echo 'Done'
 	
 
 $(GENERIC_TARGET_NAMES)::
@@ -128,7 +123,7 @@ $(GENERIC_TARGET_NAMES)::
 		((idx++)); \
 	done; \
 	TARGET_PATH=$$(echo ${GENERIC_TARGET_PATHS} | cut -d " " -f $$idx); \
-		echo "Generating complete design/configuration definition file, 'wh_defs.yaml'"; \
+		echo "Generating complete design/configuration definition file, wh_defs.yaml"; \
 	if [ -f "$(CONFIG_DIR)/$$TARGET_PATH/wh_config.yaml" ]; then \
 			mkdir -p build/$$TARGET_PATH/target; \
 			python3 core/base/tools/config/wh_defgen.py $(CONFIG_DIR)/$$TARGET_PATH/ build/$$TARGET_PATH/target/wh_defs.yaml; \
@@ -137,36 +132,82 @@ $(GENERIC_TARGET_NAMES)::
 		if [ -d "$(CONFIG_DIR)/$$TARGET_PATH/$$buildtype" ]; then \
 				mkdir -p build/$$TARGET_PATH/$$buildtype; \
 				(cd build/$$TARGET_PATH/$$buildtype; \
-					cmake -DBUILDNAME:STRING=$$TARGET_PATH -DBUILDTYPE:STRING=$$buildtype -G"Eclipse CDT4 - Unix Makefiles" \
+					/usr/bin/cmake -DBUILDNAME:STRING=$$TARGET_PATH -DBUILDTYPE:STRING=$$buildtype -G"Eclipse CDT4 - Unix Makefiles" \
 						-DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); \
 					$(MAKE) --no-print-directory); \
 				fi \
 		done;
 		
+		
+obc:: obc/ppd obc/cpd
+	@rm -Rf build/obc/target
+	@echo 'Done'
+	
+	
 workspace::
-	rm build/obc/commander_workspace/Displays/Resources/definitions.yaml
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/definitions.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/Resources/definitions.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	@echo 'Generating PPD ground tools data.'
+	@make -C build/obc/ppd/target ground-tools
+	@echo 'Generating CPD ground tools data.'
+	@make -C build/obc/cpd/target ground-tools
+	@echo 'Adding XTCE configuration to registries.'
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/cpd/target/wh_defs.yaml --overwrite build/obc/cpd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/ppd/target/wh_defs.yaml --overwrite build/obc/ppd/target/wh_defs.yaml
+	@echo 'Generating combined registry.'
+	@rm -Rf build/obc/commander_workspace >/dev/null
+	@mkdir -p build/obc/commander_workspace/etc
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	@echo 'Generating Commander workspace.'
+	@python3 core/base/tools/commander/generate_workspace.py build/obc/commander_workspace/etc/registry.yaml build/obc/commander_workspace/
+	@echo 'Generating CPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/cpd/target/wh_defs.yaml ${PWD}/build/obc/cpd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/cpd.xml
+	@echo 'Generating PPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/ppd/target/wh_defs.yaml ${PWD}/build/obc/ppd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/ppd.xml
 	
 	
-obc-sitl:: obc/ppd/sitl obc/cpd/sitl
-	@echo 'Generating ground products.'
-	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram
+workspace-sitl::
+	@echo 'Generating PPD ground tools data.'
+	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram || /bin/true
 	@make -C build/obc/ppd/sitl/target ground-tools
+	@echo 'Generating CPD ground tools data.'
 	@make -C build/obc/cpd/sitl/target ground-tools
+	@echo 'Generating Simlink ground tools data.'
+	@make -C build/obc/simlink/target ground-tools
+	@echo 'Adding XTCE configuration to registries.'
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/cpd/sitl/target/wh_defs.yaml --overwrite build/obc/cpd/sitl/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/ppd/sitl/target/wh_defs.yaml --overwrite build/obc/ppd/sitl/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/simlink/target/wh_defs.yaml --overwrite build/obc/simlink/target/wh_defs.yaml
+	@echo 'Generating combined registry.'
+	@rm -Rf build/obc/sitl_commander_workspace >/dev/null
+	@mkdir -p build/obc/sitl_commander_workspace/etc
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/sitl/target/wh_defs.yaml --yaml_path /modules/cpd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/sitl/target/wh_defs.yaml --yaml_path /modules/ppd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/simlink/target/wh_defs.yaml --yaml_path /modules/simlink
+	@echo 'Generating Commander workspace.'
+	@python3 core/base/tools/commander/generate_workspace.py build/obc/sitl_commander_workspace/etc/registry.yaml build/obc/sitl_commander_workspace/
+	@echo 'Generating CPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/cpd/sitl/target/wh_defs.yaml ${PWD}/build/obc/cpd/sitl/target/wh_defs.db ${PWD}/build/obc/sitl_commander_workspace/mdb/cpd.xml
+	@echo 'Generating PPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/ppd/sitl/target/wh_defs.yaml ${PWD}/build/obc/ppd/sitl/target/wh_defs.db ${PWD}/build/obc/sitl_commander_workspace/mdb/ppd.xml
+	@echo 'Generating Simlink XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/simlink/target/wh_defs.yaml ${PWD}/build/obc/simlink/target/wh_defs.db ${PWD}/build/obc/sitl_commander_workspace/mdb/simlink.xml
+	
+		
+	
+obc-sitl:: obc/ppd/sitl obc/cpd/sitl obc/simlink
 	@echo 'Done'
 	
 	
 docs-doxygen:
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
-	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
+	(cd build/${SPHINX_FSW_BUILD}/target; /usr/bin/cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
 		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); make docs);
 	
 	
 docs-sphinx: 
 	@echo 'Building $$SPHINX_FSW_BUILD.'
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
-	(cd build/${SPHINX_FSW_BUILD}/target; cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
+	(cd build/${SPHINX_FSW_BUILD}/target; /usr/bin/cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
 		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR));
 	@$(SPHINX_BUILD) -M html "$(SOURCE_DIR)" "$(SPHINX_BUILDDIR)" $(SPHINX_OPTS) -c build/$(SPHINX_FSW_BUILD)/target/docs $(O)
 	@echo 'Completed'
@@ -178,7 +219,7 @@ docs: docs-doxygen docs-sphinx
 
 python-env::
 	virtualenv -p python3 venv || exit -1
-	(source venv/bin/activate || exit -1; pip install -r core/tools/auto-yamcs/src/requirements.txt || exit -1)
+	(source venv/bin/activate || exit -1; pip install -r core/tools/auto-yamcs/src/requirements.txt || exit -1; pip install pyyaml || exit -1; pip install numpy || exit)
 	@echo 'Created python3 virtual environment.                                            '
 	@echo '                                                                                '
 	@echo 'Activate:                                                                       '
@@ -193,7 +234,25 @@ submodule-update:
 	@echo 'Completed'
 	@echo 'Updating submodules'
 	git submodule update --init --recursive
-	
+
+
+remote-install::
+	@echo 'Installing onto test flight vehicle at $(REMOTE_ADDRESS)'
+	ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "$(REMOTE_ADDRESS)"
+	-ssh windhover@$(REMOTE_ADDRESS) rm -Rf exe
+	-ssh windhover@$(REMOTE_ADDRESS) rm airliner
+	scp -r build/obc/ppd/target/target/exe windhover@$(REMOTE_ADDRESS):~
+	scp build/obc/cpd/target/target/exe/airliner windhover@$(REMOTE_ADDRESS):~
+	scp config/obc/ppd/target/airliner.service windhover@$(REMOTE_ADDRESS):~
+
+
+local-install::
+	@echo 'Installing onto test flight vehicle at /media/${USER}/'
+	-sudo rm -Rf /media/${USER}/rootfs/opt/airliner
+	sudo cp -R build/obc/ppd/target/target/exe /media/${USER}/rootfs/opt/airliner
+	sudo cp build/obc/cpd/target/target/exe/airliner.elf /media/${USER}/rootfs/lib/firmware
+	-sudo cp build/obc/ppd/target/target/hitl_bridge/hitl_bridge /media/${USER}/rootfs/usr/local/bin/
+
 
 clean::
 	@echo 'Cleaning flight software builds                                                 '

@@ -45,7 +45,6 @@
 #include <math/Limits.hpp>
 #include <px4lib.h>
 #include "px4lib_msgids.h"
-#include "cfs_utils.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -508,6 +507,25 @@ void QAE::ReportHousekeeping()
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
+/* Publish Output Data                                             */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void QAE::SendVehicleAttitudeMsg()
+{
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&VehicleAttitudeMsg);
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleAttitudeMsg);
+    return;
+}
+
+void QAE::SendControlStateMsg()
+{
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&ControlStateMsg);
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&ControlStateMsg);
+    return;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
 /* Verify Command Length                                           */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -645,7 +663,7 @@ void QAE::EstimateAttitude(void)
     osalbool update_success      = FALSE;
 
     /* If there is a new sensor combined message */
-    if(CFE_TIME_Compare(CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorCombinedMsg), CVT.LastSensorCombinedTime) != CFE_TIME_EQUAL)
+    if(CVT.SensorCombinedMsg.Timestamp > CVT.LastSensorCombinedTime)
     {
         /* No lowpass filter here, filtering is in the driver */
         m_Gyro[0] = CVT.SensorCombinedMsg.GyroRad[0];
@@ -689,7 +707,7 @@ void QAE::EstimateAttitude(void)
         HkTlm.State = QAE_SENSOR_DATA_RCVD;
         
         /* Update last timestamp */
-        CVT.LastSensorCombinedTime = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&CVT.SensorCombinedMsg);
+        CVT.LastSensorCombinedTime = CVT.SensorCombinedMsg.Timestamp;
     }
     else
     {
@@ -698,10 +716,10 @@ void QAE::EstimateAttitude(void)
     }
 
     /* If there is a new GPS message */
-    if(CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg) > CVT.LastGlobalPositionTime)
+    if(CVT.VehicleGlobalPositionMsg.Timestamp > CVT.LastGlobalPositionTime)
     {
         /* Calculate time difference between now and gpos timestamp */
-        delta_time_gps = CFE_SB_ElapsedMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg);
+        delta_time_gps = PX4LIB_GetPX4TimeUs() - CVT.VehicleGlobalPositionMsg.Timestamp;
         if(ConfigTblPtr->ATT_MAG_DECL_A == TRUE &&
            CVT.VehicleGlobalPositionMsg.EpH < QAE_GPS_EPH_MAX &&
            delta_time_gps < QAE_GPS_DT_MAX)
@@ -711,8 +729,8 @@ void QAE::EstimateAttitude(void)
         }
         
         if((ConfigTblPtr->ATT_ACC_COMP == TRUE) &&
-           (!CFE_SB_IsMsgTimeZero((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg)) &&
-           (CFE_TIME_GetTimeInMicros() < (CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg) + QAE_GPS_DT_THRES)) &&
+           (CVT.VehicleGlobalPositionMsg.Timestamp != 0) &&
+           (PX4LIB_GetPX4TimeUs() < (CVT.VehicleGlobalPositionMsg.Timestamp + QAE_GPS_DT_THRES)) &&
            (CVT.VehicleGlobalPositionMsg.EpH < QAE_GPS_EPH_THRES) &&
            (HkTlm.EstimatorState == QAE_EST_INITIALIZED))
         {
@@ -723,13 +741,13 @@ void QAE::EstimateAttitude(void)
 
             /* Velocity updated */
             if(m_LastVelocityTime != 0 &&
-            		CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg) != m_LastVelocityTime)
+               CVT.VehicleGlobalPositionMsg.Timestamp != m_LastVelocityTime)
             {
-                delta_time_velocity = (CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg) - m_LastVelocityTime) / USEC_IN_SEC_F;
+                delta_time_velocity = (CVT.VehicleGlobalPositionMsg.Timestamp - m_LastVelocityTime) / USEC_IN_SEC_F;
                 /* Calculate acceleration in body frame */
                 m_PositionAcc = m_Quaternion.ConjugateInversed((vel - m_LastVelocity) / delta_time_velocity);
             }
-            m_LastVelocityTime = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg);
+            m_LastVelocityTime = CVT.VehicleGlobalPositionMsg.Timestamp;
             m_LastVelocity = vel;
         }
         else
@@ -740,11 +758,11 @@ void QAE::EstimateAttitude(void)
             m_LastVelocityTime = 0;
         }
         /* Update last timestamp */
-        CVT.LastGlobalPositionTime = CFE_SB_GetMsgTimeInMicros((CFE_SB_MsgPtr_t)&CVT.VehicleGlobalPositionMsg);
+        CVT.LastGlobalPositionTime = CVT.VehicleGlobalPositionMsg.Timestamp;
     }
 
     /* Time from previous iteration */
-    time_now = CFE_TIME_GetTimeInMicros();
+    time_now = PX4LIB_GetPX4TimeUs();
     delta_time = (m_TimeLast > 0) ? ((time_now - m_TimeLast) / USEC_IN_SEC_F) : 0.00001f;
     m_TimeLast  = time_now;
     
@@ -762,7 +780,7 @@ void QAE::EstimateAttitude(void)
     }
     
     /* Populate vehicle attitude message */
-    CFE_SB_CopyMsgTime((CFE_SB_MsgPtr_t)&VehicleAttitudeMsg, (CFE_SB_MsgPtr_t)&CVT.SensorCombinedMsg);
+    VehicleAttitudeMsg.Timestamp    = CVT.SensorCombinedMsg.Timestamp;
     VehicleAttitudeMsg.RollSpeed    = m_Rates[0];
     VehicleAttitudeMsg.PitchSpeed   = m_Rates[1];
     VehicleAttitudeMsg.YawSpeed     = m_Rates[2];
@@ -772,10 +790,10 @@ void QAE::EstimateAttitude(void)
     VehicleAttitudeMsg.Q[3]         = m_Quaternion[3];
 
     /* Send vehicle attitude message */
-    CFE_SB_SendMsg((CFE_SB_Msg_t*)&VehicleAttitudeMsg);
+    SendVehicleAttitudeMsg();
     
     /* Populate control state message */
-    CFE_SB_CopyMsgTime((CFE_SB_MsgPtr_t)&ControlStateMsg, (CFE_SB_MsgPtr_t)&CVT.SensorCombinedMsg);
+    ControlStateMsg.Timestamp       = CVT.SensorCombinedMsg.Timestamp;
     
     /* Attitude quaternions for control state */
     ControlStateMsg.Q[0]            = m_Quaternion[0];
@@ -794,7 +812,7 @@ void QAE::EstimateAttitude(void)
     ControlStateMsg.YawRate         = m_Rates[2];
 
     /* Send the control state message */
-    CFE_SB_SendMsg((CFE_SB_Msg_t*)&ControlStateMsg);
+    SendControlStateMsg();
     
 end_of_function:
     return;

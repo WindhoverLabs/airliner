@@ -1,5 +1,9 @@
   short_name: lc
   long_name: Limits Checker
+  app_name: LC
+  module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     LC_TASK_EXIT_EID: 
       id: 1

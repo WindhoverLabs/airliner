@@ -18,12 +18,6 @@ buildliner_initialize(
         /ram
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/../cfe_es_startup.scr
-        
-    COMMANDER_WORKSPACE
-        ${CMAKE_BINARY_DIR}/../../commander_workspace
-        
-    COMMANDER_WORKSPACE_OVERLAY
-        ${CMAKE_CURRENT_SOURCE_DIR}/cdr_workspace_overlay
 )
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/../private/tools/hitl_bridge hitl_bridge)
@@ -53,6 +47,13 @@ buildliner_add_app(
     prmlib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/prm
+)
+
+buildliner_add_app(
+    ipc_lib
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ipc_lib/fsw/for_build
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/ipc_lib/ipc_lib_custom.c
 )
 
 buildliner_add_app(
@@ -172,24 +173,22 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    sbn_uio_mbox
-    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_uio_mbox/fsw/for_build
-    CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib/tables/pq_backup_cfg.c
+    sbn_uio_shm
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_uio_shm/fsw/for_build
 )
 
 buildliner_add_app(
     gps
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/gps/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps
     CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_interface_uart/gps_serial.c
-        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_common.c
-        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_nav.c
-        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_cfg.c
-        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_ack.c
-        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_parser_ubx/gps_parser_ubx_mon.c
-        ${PROJECT_SOURCE_DIR}/config/ocpoc/shared/apps/gps/src/gps_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_interface_uart/gps_serial.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_common.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_nav.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_cfg.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_ack.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_mon.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_custom.c
 )
 
 buildliner_add_app(
@@ -198,4 +197,25 @@ buildliner_add_app(
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hmc5883
     CONFIG_SOURCES
         ${PROJECT_SOURCE_DIR}/config/shared/apps/hmc5883/src/hmc5883_custom.c
+)
+
+buildliner_add_app(
+    bat
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/bat/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/bat_custom.cpp
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115.cpp
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_custom.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115.h
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_custom.h
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_map.h
+)
+
+buildliner_add_app(
+    sbnd
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/sbnd
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/sbnd/shm/sbnd_custom.cpp
 )

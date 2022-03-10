@@ -1,5 +1,7 @@
   short_name: gps
   long_name: GPS Driver
+  app_name: GPS
+  module_type: CFE_APP
   events: 
     GPS_INIT_INF_EID: 
       id: 1

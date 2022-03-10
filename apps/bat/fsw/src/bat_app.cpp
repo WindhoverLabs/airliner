@@ -220,7 +220,7 @@ void BAT::InitData()
     /* Init output messages */
     CFE_SB_InitMsg(&BatteryStatusMsg,
               PX4_BATTERY_STATUS_MID, sizeof(PX4_BatteryStatusMsg_t), TRUE);
-    CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&BatteryStatusMsg);
+    BatteryStatusMsg.Timestamp = PX4LIB_GetPX4TimeUs();
     BatteryStatusMsg.CurrentFiltered = BAT_CURRENT_FILTER_INIT_VALUE;
     BatteryStatusMsg.VoltageFiltered = BAT_VOLTAGE_FILTER_INIT_VALUE;
     m_ThrottleFiltered = BAT_THROTTLE_FILTER_INIT_VALUE;
@@ -522,7 +522,7 @@ void BAT::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 void BAT::ReportHousekeeping()
 {
     OS_MutSemTake(BatteryMutex);
-    HkTlm.Timestamp = CFE_SB_GetMsgTime((CFE_SB_MsgPtr_t)&BatteryStatusMsg);
+    HkTlm.Timestamp = BatteryStatusMsg.Timestamp;
     HkTlm.Voltage = BatteryStatusMsg.Voltage;
     HkTlm.VoltageFiltered = BatteryStatusMsg.VoltageFiltered;
     HkTlm.Current = BatteryStatusMsg.Current;
@@ -727,7 +727,7 @@ void BAT::ListenerTaskMain(void)
             voltage = voltage * ConfigTblPtr->VoltageScale;
             current = current * ConfigTblPtr->CurrentScale;
 
-            CFE_SB_TimeStampMsg((CFE_SB_MsgPtr_t)&BatteryStatusMsg);
+            BatteryStatusMsg.Timestamp = PX4LIB_GetPX4TimeUs();
             BatteryStatusMsg.Voltage = voltage;
             BatteryStatusMsg.VoltageFiltered = GetFilteredVoltage(voltage);
             BatteryStatusMsg.Current = current;
@@ -818,6 +818,7 @@ float BAT::GetFilteredThrottle(float Throttle)
 float BAT::GetDischarged(float Current)
 {
     CFE_TIME_SysTime_t zeroTime;
+    CFE_TIME_SysTime_t msgTime;
     zeroTime.Seconds = 0;
     zeroTime.Subseconds = 0;
 

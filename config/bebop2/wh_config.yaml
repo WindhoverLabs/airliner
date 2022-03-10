@@ -8,11 +8,12 @@ modules:
         definition: ${PROJECT_SOURCE_DIR}/core/osal/posix-fast/wh_design.yaml
       psp:
         definition: ${PROJECT_SOURCE_DIR}/core/psp/bebop2/wh_design.yaml
-      
-  amc:
-    definition: ${PROJECT_SOURCE_DIR}/apps/amc/wh_design.yaml
-    telemetry:
-      AMC_OUT_DATA_MID: 
-        msgID: 0x0919
-        struct: AMC_BebopObservationMsg_t
-    command:
+  apps:
+    modules:
+      amc:
+        definition: ${PROJECT_SOURCE_DIR}/apps/amc/wh_design.yaml
+        telemetry:
+          AMC_OUT_DATA_MID: 
+            msgID: 0x0919
+            struct: AMC_BebopObservationMsg_t
+        commands:

@@ -1,5 +1,9 @@
   short_name: amc
   long_name: Actuator Motor Control
+  app_name: AMC
+  module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     AMC_INIT_INF_EID: 
       id: 1
@@ -51,6 +55,24 @@
       id: 24
     AMC_DELETE_CB_REG_ERR_EID: 
       id: 25
+    AMC_ARM_DEBUG_INF_EID:
+      id: 26
+    AMC_DISARM_DEBUG_INF_EID:
+      id: 27
+    AMC_ENGAGE_DEBUG_INF_EID:
+      id: 28
+    AMC_DISENGAGE_DEBUG_INF_EID:
+      id: 29
+    AMC_CMD_DEBUG_INF_EID:
+      id: 30
+    AMC_CMD_DEBUG_ERR_EID:
+      id: 31
+    AMC_ENGAGE_DEBUG_ERR_EID:
+      id: 32
+    AMC_DISENGAGE_DEBUG_ERR_EID:
+      id: 33
+    AMC_DISARM_DEBUG_ERR_EID:
+      id: 34
   telemetry: 
     AMC_HK_TLM_MID: 
       msgID: 
@@ -65,6 +87,21 @@
         Reset: 
           cc: 1
           struct: AMC_NoArgCmd_t
+        ArmDebug: 
+          cc: 2
+          struct: AMC_NoArgCmd_t
+        DisarmDebug: 
+          cc: 3
+          struct: AMC_NoArgCmd_t
+        EngageDebug: 
+          cc: 4
+          struct: AMC_NoArgCmd_t
+        DisengageDebug: 
+          cc: 5
+          struct: AMC_NoArgCmd_t
+        DebugCmd: 
+          cc: 6
+          struct: AMC_DebugCmd_t
     AMC_SEND_HK_MID: 
       msgID: 
       commands: 

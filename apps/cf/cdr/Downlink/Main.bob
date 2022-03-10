@@ -1,0 +1,1138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>($(CPUID)) CF - Downlink</name>
+  <macros>
+    <APP>cf</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <CPUID>{{ cpu_id }}</CPUID>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>400</width>
+  <height>550</height>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Label_81</name>
+    <text>0</text>
+    <x>198</x>
+    <y>59</y>
+    <width>24</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_47</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.PDUsSent</pv_name>
+    <x>161</x>
+    <y>78</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_48</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.FilesSent</pv_name>
+    <x>161</x>
+    <y>97</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_49</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.SuccessCounter</pv_name>
+    <x>162</x>
+    <y>116</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_50</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.FailedCounter</pv_name>
+    <x>162</x>
+    <y>135</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_51</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.PendingQFileCnt</pv_name>
+    <x>162</x>
+    <y>154</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_52</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.ActiveQFileCnt</pv_name>
+    <x>162</x>
+    <y>173</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_53</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.HistoryQFileCnt</pv_name>
+    <x>162</x>
+    <y>192</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Text Update_54</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.Flags</pv_name>
+    <label></label>
+    <x>161</x>
+    <y>211</y>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Text Update_55</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
+    <label></label>
+    <x>161</x>
+    <y>230</y>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_56</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.RedLightCntr</pv_name>
+    <x>162</x>
+    <y>251</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_57</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.GreenLightCntr</pv_name>
+    <x>162</x>
+    <y>270</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_58</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.PollDirsChecked</pv_name>
+    <x>162</x>
+    <y>289</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_59</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.PendingQChecked</pv_name>
+    <x>162</x>
+    <y>308</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_60</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.SemValue</pv_name>
+    <x>162</x>
+    <y>327</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_115</name>
+    <text>PDUs Sent</text>
+    <x>53</x>
+    <y>78</y>
+    <width>98</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_116</name>
+    <text>History Q File Count</text>
+    <x>29</x>
+    <y>192</y>
+    <width>124</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_117</name>
+    <text>Pending Q File Count</text>
+    <x>22</x>
+    <y>155</y>
+    <width>131</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_118</name>
+    <text>Failed Counter</text>
+    <x>55</x>
+    <y>135</y>
+    <width>98</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_119</name>
+    <text>Green Light Counter</text>
+    <x>22</x>
+    <y>270</y>
+    <width>131</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_120</name>
+    <text>Pending Q Checked</text>
+    <x>15</x>
+    <y>308</y>
+    <width>138</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_121</name>
+    <text>Pool Dirs Checked</text>
+    <x>15</x>
+    <y>289</y>
+    <width>138</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_122</name>
+    <text>Active Q File Count</text>
+    <x>29</x>
+    <y>173</y>
+    <width>124</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_123</name>
+    <text>Files Sent</text>
+    <x>55</x>
+    <y>97</y>
+    <width>98</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_124</name>
+    <text>Success Counter</text>
+    <x>35</x>
+    <y>116</y>
+    <width>118</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_125</name>
+    <text>Blast</text>
+    <x>55</x>
+    <y>230</y>
+    <width>98</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_126</name>
+    <text>Red Light Counter</text>
+    <x>22</x>
+    <y>251</y>
+    <width>131</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_127</name>
+    <text>Dequeue</text>
+    <x>55</x>
+    <y>211</y>
+    <width>98</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_129</name>
+    <text>Sem Value</text>
+    <x>55</x>
+    <y>327</y>
+    <width>98</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_61</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.PDUsSent</pv_name>
+    <x>276</x>
+    <y>78</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_62</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.FilesSent</pv_name>
+    <x>276</x>
+    <y>97</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_63</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.SuccessCounter</pv_name>
+    <x>277</x>
+    <y>116</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_64</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.FailedCounter</pv_name>
+    <x>277</x>
+    <y>135</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_65</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.PendingQFileCnt</pv_name>
+    <x>277</x>
+    <y>154</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_66</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.ActiveQFileCnt</pv_name>
+    <x>277</x>
+    <y>173</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_67</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.HistoryQFileCnt</pv_name>
+    <x>277</x>
+    <y>192</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Text Update_68</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
+    <label></label>
+    <x>276</x>
+    <y>211</y>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Text Update_69</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
+    <label></label>
+    <x>276</x>
+    <y>230</y>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_70</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.RedLightCntr</pv_name>
+    <x>277</x>
+    <y>251</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_71</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.GreenLightCntr</pv_name>
+    <x>277</x>
+    <y>270</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_72</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.PollDirsChecked</pv_name>
+    <x>277</x>
+    <y>289</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_73</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.PendingQChecked</pv_name>
+    <x>277</x>
+    <y>308</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_74</name>
+    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.SemValue</pv_name>
+    <x>277</x>
+    <y>327</y>
+    <width>98</width>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_130</name>
+    <text>1</text>
+    <x>311</x>
+    <y>59</y>
+    <width>24</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_131</name>
+    <text>Channels</text>
+    <x>185</x>
+    <y>40</y>
+    <width>164</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_16</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'DOWN', 'Spare_0_': '0', 'Spare_1_': '0', 'Spare_2_': '0'});
+]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Reset Counts</text>
+    <x>201</x>
+    <y>354</y>
+    <width>130</width>
+    <height>23</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_132</name>
+    <text>($(CPUID)) CF - Downlink</text>
+    <x>66</x>
+    <y>12</y>
+    <width>246</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_2</name>
+    <actions>
+      <action type="open_display">
+        <file>PlaybackFile.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Playback File</text>
+    <x>22</x>
+    <y>396</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_4</name>
+    <actions>
+      <action type="open_display">
+        <file>SetPollParam.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Set Polling Directory</text>
+    <x>22</x>
+    <y>415</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_13</name>
+    <actions>
+      <action type="open_display">
+        <file>Kickstart.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Kickstart</text>
+    <x>22</x>
+    <y>434</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_6</name>
+    <actions>
+      <action type="open_display">
+        <file>EnableDequeue.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Enable Dequeue</text>
+    <x>22</x>
+    <y>453</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_8</name>
+    <actions>
+      <action type="open_display">
+        <file>EnablePollingDirectory.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Enable Dir Polling</text>
+    <x>22</x>
+    <y>472</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_10</name>
+    <actions>
+      <action type="open_display">
+        <file>DeleteQueueNode.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Delete Queue Node</text>
+    <x>22</x>
+    <y>491</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_14</name>
+    <actions>
+      <action type="open_display">
+        <file>QuickStatus.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Quick Status</text>
+    <x>22</x>
+    <y>510</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_3</name>
+    <actions>
+      <action type="open_display">
+        <file>PlaybackDirectory.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Playback Directory</text>
+    <x>210</x>
+    <y>396</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_12</name>
+    <actions>
+      <action type="open_display">
+        <file>WriteActiveTrans.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Write Active Trans</text>
+    <x>210</x>
+    <y>415</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_5</name>
+    <actions>
+      <action type="open_display">
+        <file>WriteQueueInfo.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Write Queue Info</text>
+    <x>210</x>
+    <y>434</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_17</name>
+    <actions>
+      <action type="open_display">
+        <file>DisableDequeue.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Disable Dequeue</text>
+    <x>210</x>
+    <y>453</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_9</name>
+    <actions>
+      <action type="open_display">
+        <file>DisablePollingDirectory.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Disable Dir Polling</text>
+    <x>210</x>
+    <y>472</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_11</name>
+    <actions>
+      <action type="open_display">
+        <file>PurgeQueue.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Purge Queue</text>
+    <x>210</x>
+    <y>491</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_15</name>
+    <actions>
+      <action type="open_display">
+        <file>GiveTake.bob</file>
+        <target>window</target>
+      </action>
+    </actions>
+    <text>Give / Take</text>
+    <x>210</x>
+    <y>510</y>
+    <width>159</width>
+    <height>20</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+</display>

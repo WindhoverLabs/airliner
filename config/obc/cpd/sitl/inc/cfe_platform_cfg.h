@@ -6,6 +6,8 @@
 */
 #include "cfe_mission_cfg.h"
 
+#include "priorities.h"
+
 #define CFE_MSG_CPU_BASE (0x0200)
 
 /*
@@ -782,7 +784,7 @@
 **       The length of each string, including the NULL terminator cannot exceed the
 **       #OS_MAX_PATH_LEN value.
 */
-#define CFE_ES_NONVOL_STARTUP_FILE    "/cf/apps/cfe_es_startup.scr"
+#define CFE_ES_NONVOL_STARTUP_FILE    "/ram/apps/cfe_es_startup.scr"
 
 
 /**
@@ -797,7 +799,7 @@
 **       The length of each string, including the NULL terminator cannot exceed the
 **       #OS_MAX_PATH_LEN value.
 */
-#define CFE_ES_VOLATILE_STARTUP_FILE  "/cf/apps/cfe_es_startup.scr"
+#define CFE_ES_VOLATILE_STARTUP_FILE  "/ram/apps/cfe_es_startup.scr"
 
 /**
 **  \cfeescfg Default Shell Filename
@@ -1496,7 +1498,7 @@
 **  \par Limits
 **       The cFE does not place a limit on the size of this parameter.
 */
-#define CFE_TBL_BUF_MEMORY_BYTES        1048576
+#define CFE_TBL_BUF_MEMORY_BYTES        2097152
 
 /**
 **  \cfetblcfg Maximum Size Allowed for a Double Buffered Table
@@ -1508,7 +1510,7 @@
 **       The cFE does not place a limit on the size of this parameter but it must be
 **       less than half of #CFE_TBL_BUF_MEMORY_BYTES.
 */
-#define CFE_TBL_MAX_DBL_TABLE_SIZE    65535
+#define CFE_TBL_MAX_DBL_TABLE_SIZE    131070
 
 /**
 **  \cfetblcfg Maximum Size Allowed for a Single Buffered Table
@@ -1524,7 +1526,7 @@
 **       small enough to allow for #CFE_TBL_MAX_SIMULTANEOUS_LOADS number of tables
 **       to fit into #CFE_TBL_BUF_MEMORY_BYTES.
 */
-#define CFE_TBL_MAX_SNGL_TABLE_SIZE   65535
+#define CFE_TBL_MAX_SNGL_TABLE_SIZE   131070
 
 /**
 **  \cfetblcfg Maximum Number of Tables Allowed to be Registered

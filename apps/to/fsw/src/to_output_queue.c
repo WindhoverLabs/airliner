@@ -31,12 +31,12 @@
 *
 *****************************************************************************/
 
+#include "to_platform_cfg.h"
 #include "to_app.h"
 #include "to_output_queue.h"
 #include "to_custom.h"
 #include "cfe_evs_msg.h"
 #include "stddef.h"
-
 
 uint32  TO_MemPoolDefSize[TO_MAX_MEMPOOL_BLK_SIZES] =
 {
@@ -85,7 +85,7 @@ int32 TO_OutputQueue_Init(TO_ChannelData_t* channel)
 /* Buildup a channel output queue                                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 TO_OutputQueue_Buildup(TO_ChannelData_t* channel, char* CfCntSemName, uint32 CfCntSemMax)
+int32 TO_OutputQueue_Buildup(TO_ChannelData_t* channel, const char *CfCntSemName, uint32 CfCntSemMax)
 {
     int32 status = OS_SUCCESS;
 
@@ -240,21 +240,16 @@ void TO_OutputQueue_ResetCounts(TO_ChannelData_t *channel)
     channel->OutputQueue.SentBytes = 0;
     channel->OutputQueue.PeakMemInUse = 0;
     channel->OutputQueue.MemFullCount = 0;
-    channel->OutputQueue.DroppedMsgCnt = 0;
 }
 
 
 osalbool TO_OutputQueue_IsFull(TO_ChannelData_t *channel)
 {
-    osalbool isFull;
+    osalbool isFull = FALSE;
 
     if(channel->OutputQueue.CurrentlyQueuedCnt >= TO_OUTPUT_QUEUE_DEPTH)
     {
     	isFull = TRUE;
-    }
-    else
-    {
-    	isFull = FALSE;
     }
 
     return isFull;
@@ -277,6 +272,7 @@ int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, 
     uint32 nBytesCopied = 0;
     int32  putStatus;
 
+    TO_Channel_LockByRef(channel);
     /* Delete the scratch message, if there is one. */
     if(channel->OutputQueue.MsgScratchPad != 0)
     {
@@ -294,10 +290,8 @@ int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, 
         }
         else
         {
-            TO_Channel_LockByRef(channel);
             /* Since status is positive, it is safe to cast */
             channel->OutputQueue.MemInUse -= (uint32)putStatus;
-            TO_Channel_UnlockByRef(channel);
         }
 
         channel->OutputQueue.MsgScratchPad = 0;
@@ -305,6 +299,7 @@ int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, 
 
     if (channel->OutputQueue.OSALQueueID != OS_MAX_QUEUES)
     {
+        TO_Channel_UnlockByRef(channel);
         status = OS_QueueGet(
                     channel->OutputQueue.OSALQueueID,
 					&channel->OutputQueue.MsgScratchPad, sizeof(channel->OutputQueue.MsgScratchPad), &nBytesCopied, Timeout);
@@ -313,29 +308,27 @@ int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, 
         {
         	uint16 msgID;
 
+            TO_Channel_LockByRef(channel);
+
    		    *MsgPtr = channel->OutputQueue.MsgScratchPad;
 
-            TO_Channel_LockByRef(channel);
-            channel->OutputQueue.CurrentlyQueuedCnt--;
-            TO_Channel_UnlockByRef(channel);
-
-            msgID = CFE_SB_GetMsgId(&channel->OutputQueue.MsgScratchPad);
-
-            /* Check if this is a CFDP message. */
-            if(CF_SPACE_TO_GND_PDU_MID == msgID)
+            if(channel->OutputQueue.CurrentlyQueuedCnt >= 1)
             {
-                /* This is a CFDP message. Release the throttling semaphore. */
-                OS_CountSemGive(channel->OutputQueue.CfCntSemId);
+                channel->OutputQueue.CurrentlyQueuedCnt--;
             }
+
+            msgID = CFE_SB_GetMsgId(*MsgPtr);
 
             /* Check if this is an event message. */
             if (CFE_EVS_EVENT_MSG_MID == msgID)
             {
-//            	/* It is an event. Adjust the size accordingly. */
-//            	uint32 eventMsgSize = TO_GetEventMsgLength((CFE_EVS_Packet_t *)MsgPtr);
-//
-//                CFE_SB_SetTotalMsgLength((CFE_SB_MsgPtr_t)MsgPtr, eventMsgSize);
+            	/* It is an event. Adjust the size accordingly. */
+            	uint32 eventMsgSize = TO_GetEventMsgLength((CFE_EVS_Packet_t *)*MsgPtr);
+
+                CFE_SB_SetTotalMsgLength((CFE_SB_MsgPtr_t)*MsgPtr, eventMsgSize);
             }
+
+            TO_Channel_UnlockByRef(channel);
         }
     }
 
@@ -374,7 +367,6 @@ int32 TO_OutputQueue_QueueMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t MsgPtr)
          */
         TO_Channel_LockByRef(channel);
         channel->OutputQueue.MemFullCount++;
-        channel->OutputQueue.DroppedMsgCnt++;
         TO_Channel_UnlockByRef(channel);
         return TO_MEMORY_FULL_ERR;
     }

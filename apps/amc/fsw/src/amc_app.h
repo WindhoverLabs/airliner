@@ -68,6 +68,7 @@ extern "C" {
  *************************************************************************/
 #define AMC_DATA_PIPE_DEPTH    (2)
 #define AMC_DATA_PIPE_NAME     "AMC_DATA_PIPE"
+#define AMC_ARM_DEBUG_TIMEOUT  (2500)
 
 /************************************************************************
  ** Local Structure Definitions
@@ -78,6 +79,9 @@ typedef struct
     PX4_ActuatorArmedMsg_t    ActuatorArmed;
     PX4_ActuatorControlsMsg_t ActuatorControls0;
 } AMC_CurrentValueTable_t;
+
+
+extern "C" void AMC_AppMain(void);
 
 
 /**

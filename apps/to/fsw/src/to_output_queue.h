@@ -104,8 +104,6 @@ typedef struct
     /** \brief The number of times a message was not queued due to memory pool being full. */
     uint32                  MemFullCount;
 
-    uint32					DroppedMsgCnt;
-
 } TO_OutputQueue_t;
 
 
@@ -166,7 +164,7 @@ int32 TO_OutputQueue_Teardown(TO_ChannelData_t* channel);
 **  \endreturns
 **
 *************************************************************************/
-int32 TO_OutputQueue_Buildup(TO_ChannelData_t* Channel, char* CfCntSemName,
+int32 TO_OutputQueue_Buildup(TO_ChannelData_t* Channel, const char* CfCntSemName,
 		                     uint32 CfCntSemMax);
 
 
@@ -211,9 +209,10 @@ int32 TO_OutputQueue_QueueMsg(TO_ChannelData_t* channel, CFE_SB_MsgPtr_t MsgPtr)
 *************************************************************************/
 boolean TO_OutputChannel_Query(uint16 ChannelIdx);
 
-
-int32 TO_OutputQueue_Init(TO_ChannelData_t* channel);
-int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, int32 Timeout );
+/* TODO:  Add Doxygen */
+osalbool TO_OutputQueue_IsFull(TO_ChannelData_t *channel);
+int32    TO_OutputQueue_Init(TO_ChannelData_t* channel);
+int32    TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, int32 Timeout );
 
 
 #endif

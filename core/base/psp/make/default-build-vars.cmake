@@ -47,9 +47,9 @@ set(CMAKE_SYSTEM_NAME Linux)
 # which compilers to use for C and C++
 set(TOOLCHAIN_PREFIX "")
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
-set(CMAKE_C_FLAGS "-m32 -g -O3 -Wno-pointer-to-int-cast")
+set(CMAKE_C_FLAGS "-m32 -g -O0 -Wno-pointer-to-int-cast")
 set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}g++)
-set(CMAKE_CXX_FLAGS "-m32 -g -fstack-protector-all -O3 -std=c++11")
+set(CMAKE_CXX_FLAGS "-m32 -g -fstack-protector-all -O0 -std=c++11")
 
 set(INSTALL_DIR	      ${CMAKE_CURRENT_BINARY_DIR}/exe/cf/apps)
 set(CFE_INSTALL_DIR   ${CMAKE_CURRENT_BINARY_DIR}/exe)

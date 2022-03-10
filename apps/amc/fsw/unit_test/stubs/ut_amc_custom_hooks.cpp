@@ -45,3 +45,8 @@ void UT_SetMotorOutputs(const uint16 *PWM)
 
 }
 
+
+uint64 UT_PX4LIB_GetPX4TimeUs(void)
+{
+    return 0;
+}

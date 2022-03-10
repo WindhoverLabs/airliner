@@ -1,5 +1,9 @@
   short_name: rcin
   long_name: Radio Control Input
+  app_name: RCIN
+  module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     RCIN_INIT_INF_EID: 
       id: 1

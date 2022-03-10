@@ -499,6 +499,30 @@ boolean SBN_UnpackMsg(void *SBNBuf, SBN_MsgSz_t *MsgSzPtr,
     return TRUE;
 }/* end SBN_UnpackMsg */
 
+
+boolean SBN_UnpackHeader(void *SBNBuf, SBN_MsgSz_t *MsgSzPtr,
+    SBN_MsgType_t *MsgTypePtr, SBN_CpuID_t *CpuIDPtr)
+{
+    Unpack_t Unpack; Unpack_Init(&Unpack, SBNBuf, SBN_MAX_PACKED_MSG_SZ);
+    Unpack_UInt16(&Unpack, MsgSzPtr);
+    Unpack_UInt8(&Unpack, MsgTypePtr);
+    Unpack_UInt32(&Unpack, CpuIDPtr);
+
+    if(MsgSzPtr == NULL)
+    {
+        return FALSE;
+    }/* end if */
+
+    if(*MsgSzPtr > CFE_SB_MAX_SB_MSG_SIZE)
+    {
+        return FALSE;
+    }/* end if */
+
+    return TRUE;
+}/* end SBN_UnpackMsg */
+
+
+
 #ifdef SBN_RECV_TASK
 
 /* Use a struct for all local variables in the task so we can specify exactly

@@ -1,6 +1,7 @@
 include(../set-vars.cmake)
 
 buildliner_initialize(
+    EMBED_SYMTAB
     CPU_ID CPD
     PSP ${PSP}
     OSAL ${OSAL}
@@ -9,10 +10,10 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../../inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../../inc
         ${PROJECT_SOURCE_DIR}/config/shared/inc
     FILESYS
-        /cf/apps
-        /cf/download
         /cf/log
         /cf/uplink
         /cf/downlink/ch0/dir0/
@@ -35,8 +36,9 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../target/cfe_es_startup.scr
         
     COMMANDER_WORKSPACE
-        ${PROJECT_SOURCE_DIR}/build/obc/sitl_commander_workspace
+        ${CMAKE_BINARY_DIR}/../../commander_workspace
 )
+
 
 buildliner_add_app(
     cfs_lib
@@ -51,9 +53,32 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    pq_lib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
+    # TODO move this table build to sbn module?
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/pq_lib
+)
+
+buildliner_add_app(
     px4lib
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
+)
+
+#buildliner_add_app(
+#    x_lib
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/x_lib/fsw/for_build
+#)
+
+buildliner_add_app(
+    sedlib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedlib/fsw/for_build
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../simlink/target/apps/sedlib/sedlib_shmem.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sedlib/sedlib_config.c
 )
 
 buildliner_add_app(
@@ -63,27 +88,29 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    pq_lib
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
-    # TODO move this table build to sbn module?
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/pq_lib
-)
-
-buildliner_add_app(
     prmlib
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/prm
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/prm
 )
 
+
+# sch_custom_v1.c:  Traditional platform independent layer that uses OS_Timer 
+#                   to drive minor frames.
+# sch_custom_v2.c:  SED specific layer that uses 250Hz minor frame interrupts
+#                   to drive minor frames.  This assumes you are using the
+#                   Windhover Labs avionics platform with the major and minor
+#                   frame timers controlled by the Sensor and Effector Domain 
+#                   (SED).  The interrupt handler included in this file does
+#                   not clear the interrupt.  The SED clears the interrupt
+#                   automatically.
 buildliner_add_app(
     sch
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch/sch_custom_rt.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch/sch_custom_v1.c
 )
 
 buildliner_add_app(
@@ -94,13 +121,6 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    cs
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/cs/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/cs
-)
-
-buildliner_add_app(
     fm
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/fm/fsw/for_build
@@ -108,64 +128,125 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    hk
+    cs
     EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hk/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hk
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/cs/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/cs
+)
+
+buildliner_add_app(
+    md
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/md/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/md
+)
+
+buildliner_add_app(
+    mm
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mm/fsw/for_build
 )
 
 buildliner_add_app(
     hs
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hs
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/hs
     CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/config/shared/apps/hs/hs_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/hs/hs_custom.c
 )
 
-buildliner_add_app(
-    lc
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/lc/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/lc
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/config/shared/apps/lc/src/lc_custom.c
-)
-
-buildliner_add_app(
-    sbn
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sbn
-    CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sbn/src/sbn_remap_tbl.c
-)
+# This is temporarily removed until we can remove the OS dependency
+# in cf, i.e. "arpa/inet.h"
+#buildliner_add_app(
+#    cf
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/cf/fsw/for_build
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/cf
+#)
+#
+#buildliner_add_app(
+#    cs
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/cs/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/cs
+#)
+#
+#buildliner_add_app(
+#    fm
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fm/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/fm
+#)
+#
+#buildliner_add_app(
+#    hk
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hk/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hk
+#)
+#
+#buildliner_add_app(
+#    hs
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hs
+#    CONFIG_SOURCES
+#        ${PROJECT_SOURCE_DIR}/config/shared/apps/hs/hs_custom.c
+#)
+#
+#buildliner_add_app(
+#    lc
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/lc/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/lc
+#    CONFIG_SOURCES
+#        ${PROJECT_SOURCE_DIR}/config/shared/apps/lc/src/lc_custom.c
+#)
+#
+#buildliner_add_app(
+#    md
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/md/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/md
+#)
+#
+#buildliner_add_app(
+#    mm
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mm/fsw/for_build
+#)
+#
+#buildliner_add_app(
+#    sc
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sc/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sc
+#)
 
 #buildliner_add_app(
-#    sbn_mbox
+#    sbn
 #    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_mbox/fsw/for_build
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn
 #    CONFIG_SOURCES
-#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib/tables/pq_backup_cfg.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn/src/sbn_remap_tbl.c
+#)
+
+#buildliner_add_app(
+#    sbn_shm
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_shm/fsw/for_build
 #)
 
 buildliner_add_app(
     ci
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/ci
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci/ci_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/ci/ci_slip_sed.c
 )
 
 buildliner_add_app(
     to
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to
     CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/tables/to_backup_cfg.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/to_custom.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/to_slip_sed.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/tables/to_backup_cfg.c
 )
 
 #buildliner_add_app(
@@ -174,32 +255,162 @@ buildliner_add_app(
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/amc/fsw/for_build
 #    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc
 #    CONFIG_SOURCES
-#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/amc/amc_custom.cpp
-#)
-#
-#buildliner_add_app(
-#    md
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/md/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/md
-#)
-#
-#buildliner_add_app(
-#    mm
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mm/fsw/for_build
-#)
-#
-#buildliner_add_app(
-#    sc
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sc/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sc
-#)
-#
-#buildliner_add_app(
-#    sbn_udp
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/udp/fsw/for_build
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc/amc_custom.cpp
 #)
 
+buildliner_add_app(
+    mac
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mac/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/mac
+)
+
+## This is temporarily removed until we can geet px4lib back in
+#buildliner_add_app(
+#    ulr
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ulr/fsw/for_build
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ulr
+#    CONFIG_SOURCES
+#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ulr/ulr_custom.cpp
+#)
+#
+## This is temporarily removed until we can geet px4lib back in
+#buildliner_add_app(
+#    rgbled
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/rgbled/fsw/for_build
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/rgbled
+#    CONFIG_SOURCES
+#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/rgbled/src/rgbled_custom.c
+#)
+
+# This is temporarily removed until we can geet px4lib back in
+#buildliner_add_app(
+#    gps
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/gps/fsw/for_build
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps
+#    CONFIG_SOURCES
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_interface_uart/gps_sed.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_common.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_nav.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_cfg.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_ack.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_mon.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_custom.c
+#)
+
+buildliner_add_app(
+    sens
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sens/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sens
+)
+
+buildliner_add_app(
+    mpc
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mpc/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/mpc
+)
+
+buildliner_add_app(
+    vm
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/vm/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/vm
+)
+
+buildliner_add_app(
+    ld
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/ld
+)
+
+buildliner_add_app(
+    nav
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/nav/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/nav
+)
+
+## This is temporarily removed until we can geet px4lib back in
+#buildliner_add_app(
+#    rcin
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/rcin/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/rcin
+#    CONFIG_SOURCES
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/rcin/src/rcin_custom.c
+#)
+
+## This is temporarily removed until we can geet px4lib back in
+#buildliner_add_app(
+#    bat
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/bat/fsw/for_build
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/bat
+#    CONFIG_SOURCES
+#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/bat/bat_custom.cpp
+#)
+
+buildliner_add_app(
+    pe
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pe/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/pe
+)
+
+buildliner_add_app(
+    qae
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/qae/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/qae
+)
+
+buildliner_add_app(
+    sc
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sc/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sc
+)
+
+## This is temporarily removed until we can geet px4lib back in
+#buildliner_add_app(
+#    lgc
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/lgc/fsw/for_build
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/lgc
+#    CONFIG_SOURCES
+#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/lgc/lgc_custom.cpp
+#)
+#
+#buildliner_add_app(
+#    zusup
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/zusup/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/zusup
+#)
+#
+#buildliner_add_app(
+#    sbnd
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd
+#    CONFIG_SOURCES
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd/shm/sbnd_custom.cpp
+#)
+#
+#buildliner_add_app(
+#    sbn_shm
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_shm/fsw/for_build
+#)
+#
+#
+#buildliner_add_app(
+#    sbn
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn
+#    CONFIG_SOURCES
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn/src/sbn_remap_tbl.c
+#)

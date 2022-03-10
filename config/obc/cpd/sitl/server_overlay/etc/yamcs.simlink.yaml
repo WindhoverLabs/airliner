@@ -1,0 +1,97 @@
+#Configuration tested on YAMCS 5.4.0
+services:
+  - class: org.yamcs.archive.XtceTmRecorder
+  - class: org.yamcs.archive.ParameterRecorder
+  - class: org.yamcs.archive.AlarmRecorder
+  - class: org.yamcs.archive.EventRecorder
+  - class: org.yamcs.archive.ReplayServer
+  - class: org.yamcs.parameter.SystemParametersCollector
+    args:
+      provideJvmVariables: true
+      provideFsVariables: true
+  - class: org.yamcs.ProcessorCreatorService
+    args:
+      name: realtime
+      type: realtime
+  - class: org.yamcs.archive.CommandHistoryRecorder
+  - class: org.yamcs.parameterarchive.ParameterArchive
+    args:
+      realtimeFiller:
+        enabled: false
+      backFiller:
+        enabled: true
+        warmupTime: 60
+  - class: org.yamcs.tctm.cfs.CfsEventDecoder
+    args:
+      msgIds: [0x0815, 0x0a15] #Always confirm this ID with CFE_EVS configuration
+      byteOrder: LITTLE_ENDIAN
+      appNameMax: 40
+      eventMsgMax: 122
+  - class: org.yamcs.cfdp.CfdpService
+    name: cfdp0
+    args:
+      inStream: cfdp_in
+      outStream: cfdp_out
+      localEntities:
+        - name: "0.23"
+          id: 23
+          bucket: cfdpUp
+      remoteEntities:
+        - name: "0.24"
+          id: 24
+          bucket: cfdpDown
+      receiverFaultHandlers:
+        AckLimitReached: suspend
+  - class: com.windhoverlabs.yamcs.RegistryService
+    name: fsw
+    args:
+      file: "etc/registry.yaml"
+
+dataLinks:    
+  - name: tc_simlink
+    class: org.yamcs.tctm.UdpTcDataLink
+    stream: tc_realtime
+    host: 127.0.0.1
+    port: 5210
+    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+    commandPostprocessorArgs:
+      swapChecksumFc: true
+
+  - name: tm_simlink
+    class: org.yamcs.tctm.UdpTmDataLink
+    stream: tm_realtime
+    port: 5211
+    maxLength: 32768 #32KB is the default for CCSDS
+    packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.cfs.CfsPacketPreprocessor
+    packetPreprocessorArgs:
+      checkForSequenceDiscontinuity: false
+      byteOrder: LITTLE_ENDIAN
+      useLocalGenerationTime: false
+      #errorDetection:
+      #tcoService:
+      timestampFormat: CFE_SB_TIME_32_16_SUBS
+      timeEncoding:
+        epoch: CUSTOM
+        epochUTC: "1970-01-01T00:00:00Z"
+        timeIncludesLeapSeconds: false
+
+mdb:
+    # Configuration of the active loaders
+    # Valid loaders are: sheet, xtce or fully qualified name of the class
+    - type: "xtce"
+      spec: "mdb/cfs-ccsds.xml"
+      subLoaders:
+      - type: "xtce"
+        spec: "mdb/simlink.xml"
+
+# Configuration for streams created at server startup
+streamConfig:
+  tm:
+    - name: "tm_realtime"
+    - name: "tm_dump"
+  cmdHist: ["cmdhist_realtime", "cmdhist_dump"]
+  event: ["events_realtime", "events_dump"]
+  param: ["pp_realtime", "sys_param", "proc_param"]
+  parameterAlarm: ["alarms_realtime"]
+  tc: ["tc_realtime"]
+  sqlFile: "etc/extra_streams.sql"

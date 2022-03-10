@@ -162,8 +162,7 @@ typedef struct
 **
 **  \par Description
 **       This function is called at when the Reset command is received.
-**       It resets all metrics, which include the Dropped Message Counts,
-**       and Queued Message Counts.
+**       It resets all metrics, which include Queued Message Counts.
 **
 **  \param [in]   channel       A #TO_ChannelData_t pointer that
 **                              references the channel data structure
@@ -220,7 +219,7 @@ int32 TO_PriorityQueue_TeardownAll(TO_ChannelData *channel);
 **       This function is called when a ground command is received to
 **       query a message flow.  An event is raised with the following
 **       text format:
-**       "PQI=<PQueueIndex> CI=<ChannelID> S=<State> ML=<MsgLimit> QT=<QueueType> D=<DroppedMsgCnt> Q=<QueuedMsgCnt> CQ=<CurrentlyQueuedCnt> HWM=<HighwaterMark>"
+**       "PQI=<PQueueIndex> CI=<ChannelID> S=<State> ML=<MsgLimit> QT=<QueueType> Q=<QueuedMsgCnt> CQ=<CurrentlyQueuedCnt> HWM=<HighwaterMark>"
 **
 **  \param [in]   ChannelIdx    Index for a given channel
 **
@@ -254,6 +253,13 @@ osalbool TO_PriorityQueue_IsValid(TO_ChannelData *channel, uint32 PQueueIdx);
 
 int32 TO_PriorityQueue_Get(TO_ChannelData *Channel, uint16 PQueueIdx,
 		                   CFE_SB_MsgPtr_t  *Msg);
+
+
+int32 TO_PriorityQueue_Subscribe(TO_ChannelData *channel, uint32 PQueueIndex,
+		                         uint32 MsgID, uint16 MsgLimit);
+
+int32 TO_PriorityQueue_Unsubscribe(TO_ChannelData *channel,
+		                           uint32 PQueueIndex, uint32 MsgID);
 
 
 #endif

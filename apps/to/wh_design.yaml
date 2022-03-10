@@ -1,5 +1,9 @@
   short_name: to
   long_name: Telemetry Output
+  app_name: TO
+  module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     TO_INF_EID: 
       id: 1

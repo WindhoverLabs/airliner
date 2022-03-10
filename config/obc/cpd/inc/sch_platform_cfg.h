@@ -25,6 +25,8 @@
 //#define SCH_AD_CHILD_TASK_PRIORITY		37
 #define SCH_AD_CHILD_TASK_FLAGS         OS_ENABLE_CORE_0
 
+#define SCH_MINOR_FRAME_INTERRUPT_ID    (XPAR_FABRIC_AXI_MINOR_FRAME_TIMER_INTERRUPT_INTR)
+
 /*#define SCH_RTM_SUPPORTED*/
 
 /*
@@ -51,7 +53,7 @@
 **  \par Limits
 **       Must be at least one
 */
-#define SCH_ENTRIES_PER_SLOT    15
+#define SCH_ENTRIES_PER_SLOT    30
 
 
 /**

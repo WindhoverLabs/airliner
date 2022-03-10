@@ -30,7 +30,7 @@ function(osal_set_blackbox_unit_test)
         INCLUDES
             ${OSAL_UT_ASSERT_DIR}/inc/
             ${CMAKE_CURRENT_SOURCE_DIR}/shared
-            ${OSAL_INCS}
+            ${OSAL_INC_DIRS}
         
         VALGRIND_SUPPRESSION_FILE
             ${PARSED_ARGS_VALGRIND_SUPPRESSION_FILE}

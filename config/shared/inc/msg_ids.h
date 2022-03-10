@@ -8,7 +8,7 @@
 
 #define CMD_MSG(X)  (CFE_MSG_CPU_BASE + CFE_CMD_MID_BASE + X)
 #define TLM_MSG(X)  (CFE_MSG_CPU_BASE + CFE_TLM_MID_BASE + X)
-
+#define FROM_CPD(X) (CPD_CPU_BASE + X)
 
 
 #define CFE_EVS_CMD_MID                           CMD_MSG(    0 )
@@ -30,9 +30,9 @@
 /*
 ** cFE Global Command Message Id's
 */
-#define CFE_TIME_DATA_CMD_MID                     TLM_MSG(   12 )
-#define CFE_TIME_FAKE_CMD_MID                     TLM_MSG(   13 )
-#define CFE_TIME_SEND_CMD_MID                     TLM_MSG(   14 )
+#define CFE_TIME_DATA_CMD_MID                     CMD_MSG(   12 )
+#define CFE_TIME_FAKE_CMD_MID                     CMD_MSG(   13 )
+#define CFE_TIME_SEND_CMD_MID                     CMD_MSG(   14 )
 
 
 /*
@@ -400,7 +400,7 @@
 #define PE_CMD_MID                                CMD_MSG(  397 )
 #define PE_SEND_HK_MID                            CMD_MSG(  398 )
 #define PE_WAKEUP_MID                             CMD_MSG(  399 )
-
+#define PE_DIAG_TLM_MID                           TLM_MSG(  400 )
 
 /* PRM                                                       */
 #define PRM_HK_TLM_MID                            TLM_MSG(  402 )
@@ -446,13 +446,16 @@
 
 #define SBN_MODULE_HK_TLM_MID                     TLM_MSG(  436 )
 
+#define SBND_HK_TLM_MID                           TLM_MSG(  437 )
+#define SBND_CMD_MID                              CMD_MSG(  438 )
+#define SBND_SEND_HK_MID                          CMD_MSG(  439 )
+#define SBND_WAKEUP_MID                           SBN_WAKEUP_MID
 
 /* SENS                                                      */
 #define SENS_HK_TLM_MID                           TLM_MSG(  440 )
 #define SENS_CMD_MID                              CMD_MSG(  441 )
 #define SENS_SEND_HK_MID                          CMD_MSG(  442 )
 #define SENS_WAKEUP_MID                           CMD_MSG(  443 )
-
 
 /* SIM                                                       */
 #define SIM_HK_TLM_MID                            TLM_MSG(  446 )
@@ -499,6 +502,13 @@
 #define ZUSUP_HK_TLM_MID                          TLM_MSG(  489 )
 #define ZUSUP_DIAG_TLM_MID                        TLM_MSG(  490 )
 
+/* ADSBR                                                     */
+#define ADSBR_CMD_MID                             CMD_MSG(  491 )
+#define ADSBR_SEND_HK_MID                         CMD_MSG(  492 )
+#define ADSBR_WAKEUP_MID                          CMD_MSG(  493 )
+#define ADSBR_OUT_DATA_MID                        TLM_MSG(  494 )
+#define ADSBR_HK_TLM_MID                          TLM_MSG(  495 )
+
 
 
 
@@ -529,7 +539,10 @@
 #define ZUSUP_HK_TLM_MID_CPD        (CPD_CPU_BASE + ZUSUP_HK_TLM_MID)
 #define SED_HK_TLM_MID_CPD          (CPD_CPU_BASE + SED_HK_TLM_MID)
 #define PX4_SENSOR_COMBINED_MID_CPD (CPD_CPU_BASE + PX4_SENSOR_COMBINED_MID)
-
-
+#define PE_HK_TLM_MID_CPD           (CPD_CPU_BASE + PE_HK_TLM_MID)
+#define VM_HK_TLM_MID_CPD           (CPD_CPU_BASE + VM_HK_TLM_MID)
+#define BAT_HK_TLM_MID_CPD          (CPD_CPU_BASE + BAT_HK_TLM_MID)
+#define RCIN_HK_TLM_MID_CPD         (CPD_CPU_BASE + RCIN_HK_TLM_MID)
+#define TO_HK_TLM_MID_CPD           (CPD_CPU_BASE + TO_HK_TLM_MID)
 
 #endif

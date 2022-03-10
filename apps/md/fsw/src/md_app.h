@@ -164,7 +164,7 @@ typedef struct
 **
 */
 
-MD_AppData_t MD_AppData;
+extern MD_AppData_t MD_AppData;
 
 /************************************************************************
 ** Exported Functions

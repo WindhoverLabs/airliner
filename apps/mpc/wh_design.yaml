@@ -1,5 +1,11 @@
   short_name: mpc
   long_name: Multicopter Position Controller
+  app_name: MPC
+  module_type: CFE_APP
+  commander:
+    displays: cdr
+  commander:
+    displays: cdr
   events: 
     MPC_INIT_INF_EID: 
       id: 1

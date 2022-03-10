@@ -208,6 +208,7 @@ void TO_Channel_ProcessTelemetryAll(void)
         if(TO_CHANNEL_OPENED == channel->State)
         {
             TO_Channel_ProcessTelemetry(channel);
+            TO_OutputChannel_SendTelemetry(i);
         }
     }
 }
@@ -240,6 +241,7 @@ void TO_Channel_ResetCounts(TO_ChannelData_t *channel)
     TO_Channel_LockByRef(channel);
     channel->SentMsgCount = 0;
     channel->BytesSent = 0;
+    channel->OutputQueue.QueuedMsgCount = 0;
     TO_MessageFlow_ResetCountsAll(channel);
     TO_PriorityQueue_ResetCountsAll(channel);
     TO_OutputQueue_ResetCounts(channel);
@@ -456,3 +458,8 @@ uint8 TO_Channel_State(uint16 index)
         return TO_CHANNEL_UNKNOWN;    
     }
 }
+
+
+
+
+

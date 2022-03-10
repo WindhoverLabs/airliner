@@ -191,7 +191,7 @@ int32 AMC::ValidateMixerCfgTbl(void* ConfigTblPtr)
     }
 
     if((TblPtr->RotorCount < 1) ||
-            (TblPtr->RotorCount < AMC_MAX_MOTOR_OUTPUTS))
+            (TblPtr->RotorCount > AMC_MAX_MOTOR_OUTPUTS))
     {
         invalidRotorCount = TRUE;
     }

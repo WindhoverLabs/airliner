@@ -1,5 +1,9 @@
   short_name: bat
   long_name: Battery Manager
+  app_name: BAT
+  module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     BAT_INIT_INF_EID: 
       id: 1

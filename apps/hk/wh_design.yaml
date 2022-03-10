@@ -1,5 +1,9 @@
   short_name: hk
   long_name: Housekeeping
+  app_name: HK
+  module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     HK_INIT_EI: 
       id: 1

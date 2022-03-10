@@ -380,25 +380,6 @@ typedef enum {
 */
     TO_CREATE_CHDTASK_ERR_EID = 24,
 
-/** \brief Message Dropped on Priority Queue.
-**  \event PQ full (PQ \%lu, channel \%u). Error code (\%ld) Dropped message 0x%04x
-**
-**  \par Type: DEBUG
-**
-**  \par Cause:
-**
-**  This event message is issued when one of the following errors is generated:
-**
-**    - TO_PRIORITY_QUEUE_FULL_ERR (OS_QUEUE_FULL)
-**    - TO_MEMORY_FULL_ERR
-**    - CFE_ES_ERR_MEM_HANDLE
-**    - OS_ERR_INVALID_ID 
-**    - OS_INVALID_POINTER
-**    - OS_ERROR  are all handled by this else clause
-**
-*/
-    TO_MSG_DROP_FROM_FLOW_DBG_EID = 25,
-
 /** \brief TO Create memory pool failed.
 **  \event Error creating memory pool (0x%08X)
 **
@@ -445,7 +426,6 @@ typedef enum {
 **    - Priority Queue Id
 **    - Filter value (decimation)
 **    - Anomaly Queue Position
-**    - Dropped Message Count
 **    - Queued Message Count
 **    - Software Bus Message Count
 **    - Filtered Message Count

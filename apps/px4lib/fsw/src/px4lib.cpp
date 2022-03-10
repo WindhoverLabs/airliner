@@ -39,7 +39,6 @@
 #include "px4lib.h"
 #include <time.h>
 #include <errno.h>
-#include "cfs_utils.h"
 
 extern "C" {
 
@@ -77,6 +76,47 @@ int32 PX4LIB_LibInit(void)
 }/* End PX4LIB_LibInit */
 
 
+//int32 PX4LIB_MixerCallback(cpuaddr Handle,
+//                        uint8 ControlGroup,
+//                        uint8 ControlIndex,
+//                        float &Control)
+//{
+//    Control = 0.0;
+//    return 0;
+//}
+
+
+
+uint64 PX4LIB_GetPX4TimeUs(void)
+{
+    uint64 outTime = 0;
+    OS_time_t localTime = {};
+
+    CFE_PSP_GetTime(&localTime);
+
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds) 
+              * static_cast<uint64>(1000000)) 
+              + static_cast<uint64>(localTime.microsecs);
+
+    return outTime;
+}
+
+
+
+uint64 PX4LIB_GetPX4TimeMs(void)
+{
+    uint64 outTime = 0;
+    OS_time_t localTime = {};
+
+    CFE_PSP_GetTime(&localTime);
+
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000)) 
+              + static_cast<uint64>(static_cast<uint64>(localTime.microsecs) 
+              % static_cast<uint64>(1000));
+
+    return outTime;
+}
 
 }
 

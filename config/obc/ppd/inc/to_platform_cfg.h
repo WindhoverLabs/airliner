@@ -12,7 +12,6 @@ extern "C" {
 ** Platform Configuration Parameter Definitions
 */
 
-
 /** \tocfg Child task flags
 **
 **  \par Description:
@@ -41,7 +40,7 @@ extern "C" {
 **       only and can be changed by command at runtime.
 **
 */
-#define TO_UDP_CHANNEL_ADDRESS         "192.168.2.96"
+#define TO_UDP_CHANNEL_ADDRESS         "192.168.2.97"
 
 
 /** \tocfg Default telemetry destination UDP port
@@ -51,7 +50,7 @@ extern "C" {
 **       only and can be changed by command at runtime.
 **
 */
-#define TO_UDP_CHANNEL_PORT            (5011)
+#define TO_UDP_CHANNEL_PORT            (5012)
 
 
 /** \tocfg Message Flow packet limit

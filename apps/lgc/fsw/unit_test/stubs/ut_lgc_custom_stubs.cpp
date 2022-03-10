@@ -51,7 +51,7 @@ void Ut_LGC_Custom_SetFunctionHook(uint32 Index, void *FunPtr)
 {
     if      (Index == UT_LGC_CUSTOM_INITDEVICE_INDEX)     { Ut_LGC_Custom_HookTable.InitDevice = (uint32 (*)(void))FunPtr; }
     else if (Index == UT_LGC_CUSTOM_SETMOTOROUTPUTS_INDEX)     { Ut_LGC_Custom_HookTable.SetMotorOutputs = (void(*)(const uint16 *))FunPtr; }
-    else if (Index == UT_LGC_CFE_TIME_GetTimeInMicros_INDEX)   { Ut_LGC_Custom_HookTable.CFE_TIME_GetTimeInMicros = (uint64  (*)(void))FunPtr; }
+    else if (Index == UT_LGC_PX4LIB_GETPX4TIMEUS_INDEX)   { Ut_LGC_Custom_HookTable.PX4LIB_GetPX4TimeUs = (uint64  (*)(void))FunPtr; }
     else
     {
         printf("Unsupported LGC_CUSTOM Index In SetFunctionHook Call %lu\n", Index);
@@ -118,13 +118,13 @@ void LGC::SetMotorOutputs(const uint16 *PWM)
         Ut_LGC_Custom_HookTable.SetMotorOutputs(PWM);
 }
 
-extern "C" uint64 CFE_TIME_GetTimeInMicros(void)
+extern "C" uint64 PX4LIB_GetPX4TimeUs(void)
 {
     /* Check for specified return */
-    if (Ut_LGC_Custom_UseReturnCode(UT_LGC_CFE_TIME_GetTimeInMicros_INDEX))
-        return Ut_LGC_Custom_ReturnCodeTable[UT_LGC_CFE_TIME_GetTimeInMicros_INDEX].Value;
+    if (Ut_LGC_Custom_UseReturnCode(UT_LGC_PX4LIB_GETPX4TIMEUS_INDEX))
+        return Ut_LGC_Custom_ReturnCodeTable[UT_LGC_PX4LIB_GETPX4TIMEUS_INDEX].Value;
 
     /* Check for Function Hook */
-    if (Ut_LGC_Custom_HookTable.CFE_TIME_GetTimeInMicros)
-        return Ut_LGC_Custom_HookTable.CFE_TIME_GetTimeInMicros();
+    if (Ut_LGC_Custom_HookTable.PX4LIB_GetPX4TimeUs)
+        return Ut_LGC_Custom_HookTable.PX4LIB_GetPX4TimeUs();
 }

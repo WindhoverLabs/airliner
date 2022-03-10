@@ -1,12 +1,15 @@
 include(../set-vars.cmake)
 
 buildliner_initialize(
+    CPU_ID PPD
     PSP ${PSP}
     OSAL ${OSAL}
-    CPU_ID PPD
     CORE_TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/tools
     CONFIG
+        ${CMAKE_CURRENT_SOURCE_DIR}/inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../../inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../inc
         ${PROJECT_SOURCE_DIR}/config/shared/inc
     FILESYS
         /cf/apps
@@ -16,13 +19,8 @@ buildliner_initialize(
         /ram
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/../../cfe_es_startup.scr
-        
-    COMMANDER_WORKSPACE
-        ${CMAKE_BINARY_DIR}/../../../sitl_commander_workspace
-        
-    COMMANDER_WORKSPACE_OVERLAY
-        ${CMAKE_CURRENT_SOURCE_DIR}/cdr_workspace_overlay
 )
+
 
 buildliner_add_app(
     cfs_lib
@@ -35,16 +33,21 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    pq_lib
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
-    # TODO move this table build to sbn module?
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/pq_lib
+    io_lib
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/io_lib/fsw/for_build
 )
 
 buildliner_add_app(
     prmlib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/prm
+)
+
+buildliner_add_app(
+    pq_lib
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
+    # TODO move this table build to sbn module?
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/pq_lib
 )
 
 buildliner_add_app(
@@ -119,6 +122,23 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    ci
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/ci
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/ci/ci_custom.c
+)
+
+buildliner_add_app(
+    to
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/tables/to_backup_cfg.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/to_custom.c
+)
+
+buildliner_add_app(
     ea
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ea/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/ea
@@ -137,4 +157,10 @@ buildliner_add_app(
 buildliner_add_app(
     sbn_udp
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/udp/fsw/for_build
+)
+
+buildliner_add_app(
+    adsbr
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/adsbr/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/adsbr
 )

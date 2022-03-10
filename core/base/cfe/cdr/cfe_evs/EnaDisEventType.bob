@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>($(CPUID)) CFE-EVS - Ena/Dis Event</name>
+  <macros>
+    <APP>cfe_evs</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <CPUID>{{ cpu_id }}</CPUID>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>300</width>
+  <height>200</height>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="checkbox" version="2.0.0">
+    <name>Critical</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Critical&lt;VLong&gt;(0)</pv_name>
+    <label>Critical</label>
+    <x>30</x>
+    <y>42</y>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Error</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Error&lt;VLong&gt;(0)</pv_name>
+    <label>Error</label>
+    <x>30</x>
+    <y>61</y>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Information</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Information&lt;VLong&gt;(0)</pv_name>
+    <label>Information</label>
+    <x>30</x>
+    <y>80</y>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Debug</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Debug&lt;VLong&gt;(0)</pv_name>
+    <label>Debug</label>
+    <x>30</x>
+    <y>99</y>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var critFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Critical')));
+var errorFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Error')));
+var infoFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Information')));
+var debugFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Debug')));
+
+var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/EnableEventType', {
+    'Payload.BitMask': mask.toFixed(0),
+    'Payload.Spare': '0'
+});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Enable</text>
+    <x>144</x>
+    <y>42</y>
+    <width>80</width>
+    <height>28</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_1</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var critFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Critical')));
+var errorFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Error')));
+var infoFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Information')));
+var debugFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Debug')));
+
+var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisableEventType', {
+    'Payload.BitMask': mask.toFixed(0),
+    'Payload.Spare': '0'
+});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Disable</text>
+    <x>144</x>
+    <y>80</y>
+    <width>80</width>
+    <height>28</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_49</name>
+    <text>($(CPUID)) Enable / Disable Event</text>
+    <x>6</x>
+    <y>12</y>
+    <width>247</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+</display>

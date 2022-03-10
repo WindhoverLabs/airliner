@@ -790,7 +790,7 @@ void MS5607::ReadDevice(void)
     else
     {
         /* Stamp time */
-        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&SensorBaro);
+        SensorBaro.Timestamp = PX4LIB_GetPX4TimeUs();
         /* Convert to Celsius */
         SensorBaro.Temperature = temperature / 100.0f;
         /* convert to millibar */
@@ -827,6 +827,7 @@ void MS5607::ReadDevice(void)
         Diag.Altitude = SensorBaro.Altitude;
         
         /* Send the SensorBaro message */
+        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&SensorBaro);
         CFE_SB_SendMsg((CFE_SB_Msg_t*)&SensorBaro);
     }
 

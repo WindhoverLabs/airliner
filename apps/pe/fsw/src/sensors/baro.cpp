@@ -32,12 +32,13 @@
 *****************************************************************************/
 
 #include "../pe_app.h"
-#include "cfs_utils.h"
 
 void PE::baroInit()
 {
     /* Measure */
 	math::Vector1F y;
+
+        DiagTlm.BaroState = PE_BARO_STATE_MEASURE;
 
 	if (baroMeasure(y) != CFE_SUCCESS)
 	{
@@ -45,9 +46,13 @@ void PE::baroInit()
 		goto baroInit_Exit_Tag;
 	}
 
+        DiagTlm.BaroState = PE_BARO_STATE_COUNT;
+
 	/* If finished */
 	if (m_BaroStats.getCount() > REQ_BARO_INIT_COUNT)
 	{
+		DiagTlm.BaroState = PE_BARO_STATE_INIT;
+
 		HkTlm.BaroAltOrigin = m_BaroStats.getMean()[0];
 
 		(void) CFE_EVS_SendEvent(PE_BARO_OK_INF_EID, CFE_EVS_INFORMATION,
@@ -84,6 +89,8 @@ void PE::baroCorrect()
 {
     CFE_ES_PerfLogEntry(PE_SENSOR_BARO_PERF_ID);
 
+    DiagTlm.BaroState = PE_BARO_STATE_CORRECT;
+
     if (baroMeasure(m_Baro.y) != CFE_SUCCESS)
     {
         goto end_of_function;
@@ -109,6 +116,11 @@ void PE::baroCorrect()
 
     /* fault detection 1F * 1x1 * 1F */
     m_Baro.beta = m_Baro.r[0] * m_Baro.S_I[0][0] * m_Baro.r[0];
+
+    /* Save Baro beta for Diag */
+    DiagTlm.BaroBeta = m_Baro.beta;
+
+    DiagTlm.BaroState = PE_BARO_STATE_BETA;
 
     if (m_Baro.beta > BETA_TABLE[n_y_baro])
     {
@@ -160,27 +172,27 @@ void PE::baroCheckTimeout()
 {
     uint64 Timestamp = 0;
 
-	if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastBaro) == CFE_TIME_A_GT_B)
-	{
-        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp) - CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastBaro);
+    if (HkTlm.Timestamp > HkTlm.TimeLastBaro)
+    {
+        Timestamp = HkTlm.Timestamp - HkTlm.TimeLastBaro;
     }
-	else if (CFE_TIME_Compare(HkTlm.Timestamp, HkTlm.TimeLastBaro) == CFE_TIME_A_LT_B)
-	{
-        Timestamp = CFE_TIME_ConvertTimeToMicros(HkTlm.TimeLastBaro) - CFE_TIME_ConvertTimeToMicros(HkTlm.Timestamp);
+    else if (HkTlm.Timestamp < HkTlm.TimeLastBaro)
+    {
+        Timestamp = HkTlm.TimeLastBaro - HkTlm.Timestamp;
     }
     else
     {
         Timestamp = 0;
     }
 
-	if (Timestamp > BARO_TIMEOUT)
-	{
-		if (!HkTlm.BaroTimeout)
-		{
-			HkTlm.BaroTimeout = TRUE;
-			m_BaroStats.reset();
-			(void) CFE_EVS_SendEvent(PE_BARO_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
-									 "Baro timeout: %llu us", Timestamp);
-		}
-	}
+    if (Timestamp > BARO_TIMEOUT)
+    {
+        if (!HkTlm.BaroTimeout)
+        {
+            HkTlm.BaroTimeout = TRUE;
+            m_BaroStats.reset();
+            (void) CFE_EVS_SendEvent(PE_BARO_TIMEOUT_ERR_EID, CFE_EVS_ERROR,
+                "Baro timeout: %llu us", Timestamp);
+        }
+    }
 }

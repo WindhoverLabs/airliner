@@ -1,5 +1,9 @@
   short_name: pe
   long_name: Position Estimator
+  app_name: PE
+  module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     PE_INIT_INF_EID: 
       id: 1
@@ -109,10 +113,15 @@
       id: 53
     PE_TBL_VALIDATE_ERR_EID: 
       id: 54
+    PE_SEND_DIAG_INF_EID: 
+      id: 55
   telemetry: 
     PE_HK_TLM_MID: 
       msgID: 
       struct: PE_HkTlm_t
+    PE_DIAG_TLM_MID: 
+      msgID: 
+      struct: PE_DiagTlm_t
   commands: 
     PE_CMD_MID: 
       msgID: 
@@ -152,6 +161,9 @@
           struct: PE_NoArgCmd_t
         DisableFlow: 
           cc: 11
+          struct: PE_NoArgCmd_t
+        SendDiag: 
+          cc: 12
           struct: PE_NoArgCmd_t
     PE_SEND_HK_MID: 
       msgID: 

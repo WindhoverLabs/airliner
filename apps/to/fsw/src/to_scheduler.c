@@ -61,7 +61,13 @@ void TO_Scheduler_Run(TO_ChannelData_t *channel)
 
         while(!term)
         {
-			if(FALSE == TO_OutputQueue_IsFull(channel))
+        	osalbool isFull = TO_OutputQueue_IsFull(channel);
+
+			if(isFull)
+			{
+				term = TRUE;
+			}
+			else
 			{
 				if (&channel->ConfigTblPtr->PriorityQueue[i].State != TO_PQUEUE_UNUSED)
 				{
@@ -75,10 +81,6 @@ void TO_Scheduler_Run(TO_ChannelData_t *channel)
 						term = TRUE;
 					}
 				}
-			}
-			else
-			{
-				term = TRUE;
 			}
         }
     }

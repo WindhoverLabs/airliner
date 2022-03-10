@@ -5,8 +5,8 @@ modules:
   core:
     modules:
       osal:
-        definition: ${PROJECT_SOURCE_DIR}/core/osal/fsw/posix-fast/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/core/osal/posix-fast/wh_design.yaml
       psp:
-        definition: ${PROJECT_SOURCE_DIR}/core/psp/fsw/pc-linux/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/core/psp/pc-linux-wh/wh_design.yaml
 
 

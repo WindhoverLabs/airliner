@@ -37,6 +37,7 @@ set(CFE_FSW ${CFE_DIR}/fsw)
 set(CFE_CORE_SRC ${CFE_FSW}/src)
 set(CFE_TOOLS ${CFE_DIR}/tools)
 set(CFE_UNIT_TEST ${CFE_FSW}/unit-test)
+set(CFE_COMMANDER_DISPLAYS ${CFE_DIR}/cdr)
  
 set(CFE_INC_DIRS
     ${CFE_CORE_SRC}/inc

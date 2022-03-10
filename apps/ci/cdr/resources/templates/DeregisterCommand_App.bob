@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>($(CPUID)) CI - Dereg</name>
+  <macros>
+    <CPUID>{{ cpu_id }}</CPUID>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>450</width>
+  <height>250</height>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <scripts>
+    <script file="../scripts/command_management_init.py">
+      <pv_name>=1</pv_name>
+    </script>
+  </scripts>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="combo" version="2.0.0">
+    <name>msgIdInput</name>
+    <pv_name>loc://$(APP)_$(CPUID)_DeRegisterCommandMsgID_App&lt;VString&gt;</pv_name>
+    <x>128</x>
+    <y>62</y>
+    <width>259</width>
+    <height>20</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <scripts>
+      <script file="../scripts/set_msg_id.py">
+        <pv_name>loc://$(APP)_$(CPUID)_DeRegisterCommandMsgID_App</pv_name>
+      </script>
+      <script file="../scripts/command_management_init.py">
+        <pv_name>loc://$(APP)_$(CPUID)_DeRegisterCommandMsgID_App</pv_name>
+      </script>
+    </scripts>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <items_from_pv>false</items_from_pv>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_49</name>
+    <text>($(CPUID) - $(APP)) CI - Deregister Command</text>
+    <x>44</x>
+    <y>32</y>
+    <width>338</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>MsgID</text>
+    <x>44</x>
+    <y>65</y>
+    <width>80</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>cmdCodeInput</name>
+    <pv_name>loc://$(APP)_$(CPUID)_DeregisterCommandCommandCode_App&lt;VString&gt;</pv_name>
+    <x>128</x>
+    <y>84</y>
+    <width>259</width>
+    <height>20</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <items_from_pv>false</items_from_pv>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_2</name>
+    <text>Cmd Code</text>
+    <x>44</x>
+    <y>84</y>
+    <width>80</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <actions>
+      <action type="execute">
+        <script file="../scripts/deregister_command_app.py">
+        </script>
+      </action>
+    </actions>
+    <text>Deregister</text>
+    <x>158</x>
+    <y>164</y>
+    <width>105</width>
+    <height>25</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>Step</name>
+    <pv_name>loc://$(APP)_$(CPUID)_DeregisterCommandStep_App&lt;VString&gt;</pv_name>
+    <x>128</x>
+    <y>106</y>
+    <width>259</width>
+    <height>20</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <items>
+      <item>STEP_1</item>
+      <item>STEP_2</item>
+    </items>
+    <items_from_pv>false</items_from_pv>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_3</name>
+    <text> Step</text>
+    <x>44</x>
+    <y>106</y>
+    <width>80</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_4</name>
+    <text>Log</text>
+    <x>44</x>
+    <y>126</y>
+    <width>80</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>Log</name>
+    <pv_name>loc://$(APP)_$(CPUID)_DeregisterCommandLog_App&lt;VString&gt;</pv_name>
+    <x>128</x>
+    <y>128</y>
+    <width>259</width>
+    <height>20</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <items>
+      <item>EXCLUDE</item>
+      <item>LOG</item>
+    </items>
+    <items_from_pv>false</items_from_pv>
+  </widget>
+</display>
