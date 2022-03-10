@@ -6,7 +6,7 @@
   <actions>
   </actions>
   <macros>
-    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+    <CPUID>{{ cpu_id }}</CPUID>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>

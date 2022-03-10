@@ -2,6 +2,8 @@
   long_name: Sensor Application
   app_name: SENS
   module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     SENS_INIT_INF_EID: 
       id: 1

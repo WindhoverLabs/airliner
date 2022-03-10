@@ -3,6 +3,8 @@
   long_name: CFS Library
   app_name: CFS_LIB
   module_type: CFE_LIB
+  commander:
+    displays: cdr
   events: 
   msg_def_overrides:
     - parent: CFS_SymAddr_t

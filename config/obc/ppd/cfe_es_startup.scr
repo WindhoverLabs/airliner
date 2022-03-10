@@ -3,7 +3,7 @@ CFE_LIB, /cf/apps/MBP_LIB.so,   MBP_LibInit,     MBP_LIB,    0,     0, 0x0, 0, 2
 CFE_LIB, /cf/apps/PRMLIB.so,    PRMLIB_LibInit,  PRMLIB,      0,     0, 0x0, 0, 2;
 CFE_LIB, /cf/apps/PX4LIB.so,    PX4LIB_LibInit,  PX4LIB,    0,     0, 0x0, 0, 2;
 CFE_LIB, /cf/apps/PQ_LIB.so,    PQ_LibInit,      PQ_LIB,     0,       0, 0x0, 0, 2;
-CFE_LIB, /embedded/IO_LIB.so,   IO_LibInit,      IO_LIB,     0,     0, 0x0, 0, 0;
+CFE_LIB, /cf/apps/IO_LIB.so,   IO_LibInit,      IO_LIB,     0,     0, 0x0, 0, 0;
 CFE_LIB, /cf/apps/IPC_LIB.so,   IPC_LibInit,     IPC_LIB,    0,     0, 0x0, 0, 0;
 CFE_APP, /cf/apps/CI.so,        CI_AppMain,      CI,        115, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/TO.so,        TO_AppMain,      TO,        124, 327680, 0x0, 0, 2;

@@ -2,6 +2,8 @@
   long_name: Vehicle Manager
   app_name: VM
   module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     VM_INIT_INF_EID: 
       id: 1

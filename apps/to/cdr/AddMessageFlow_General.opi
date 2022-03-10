@@ -18,7 +18,7 @@
   <height>130</height>
   <macros>
     <APP>to</APP>
-    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+    <CPUID>{{ cpu_id }}</CPUID>
     <include_parent_macros>true</include_parent_macros>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@

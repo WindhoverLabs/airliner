@@ -94,7 +94,9 @@ uint64 PX4LIB_GetPX4TimeUs(void)
 
     CFE_PSP_GetTime(&localTime);
 
-    outTime = (localTime.seconds * 1000000) + localTime.microsecs;
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds) 
+              * static_cast<uint64>(1000000)) 
+              + static_cast<uint64>(localTime.microsecs);
 
     return outTime;
 }
@@ -108,7 +110,10 @@ uint64 PX4LIB_GetPX4TimeMs(void)
 
     CFE_PSP_GetTime(&localTime);
 
-    outTime = (localTime.seconds * 1000) + (localTime.microsecs % 1000);
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000)) 
+              + static_cast<uint64>(static_cast<uint64>(localTime.microsecs) 
+              % static_cast<uint64>(1000));
 
     return outTime;
 }

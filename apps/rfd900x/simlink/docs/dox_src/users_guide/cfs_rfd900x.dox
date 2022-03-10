@@ -1,0 +1,372 @@
+/*==========================================================================*/
+/* NOTE:                                                                    */
+/*      Additional notes to the Author can be found in comment blocks such  */
+/*      as this one.  These comment blocks will not appear in the doxygen   */
+/*      output and do not need to be removed but can be if so desired.      */
+/*      All text found within the pages that is surrounded by "()" is       */
+/*      merely a suggestion as to the appropriate content the Author should */
+/*      insert at that location.                                            */
+/*==========================================================================*/
+/**
+    \mainpage RFD900X cFS Application (RFD900X) User's Guide    
+
+       <UL>
+           <LI> \subpage cfsrfd900xrevhist
+           <LI> \subpage cfsrfd900xintro
+           <LI> \subpage cfsrfd900xovr
+           <LI> \subpage cfsrfd900xopr
+           <LI> \subpage cfsrfd900xreq
+           <LI> \subpage cfsrfd900xdg
+           <LI> \subpage cfsrfd900xcmds
+           <LI> \subpage cfsrfd900xtlm
+           <LI> \subpage cfsrfd900xtbl
+           <LI> \subpage cfsrfd900xcfg
+           <LI> \subpage cfsrfd900xcons
+           <LI> \subpage cfsrfd900xfaqs
+           <LI> \subpage rfd900x_events.h "RFD900X Application Event Message Reference" <BR>
+       </UL>
+**/
+
+/**
+  \page cfsrfd900xrevhist RFD900X Application User's Guide Revision History
+
+  This document is generated against #RFD900X_MAJOR_VERSION #RFD900X_MINOR_VERSION #RFD900X_REVISION.
+  
+  Next: \ref cfsrfd900xintro
+
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author may wish to examine the Acronym list and ensure the     */
+/*       Application's abbreviation is put in alphabetical order.           */
+/*==========================================================================*/
+/**
+  \page cfsrfd900xintro RFD900X Application Introduction
+	
+  <H2> Scope </H2>
+
+  This document provides a complete specification for the commands and telemetry associated
+  with the RFD900X Application (RFD900X) software.  The document is intended primarily 
+  for users of the software (operations personal, test engineers, and maintenance personnel).  
+  The last section of the document, the deployment guide section, is intended for mission 
+  developers when deploying and configuring this application software for a mission 
+  flight software build environment. 
+
+  <H2> Applicable Documents </H2>
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%">
+  <TR><TD WIDTH="20%"> <B>Document ID</B> </TD> 
+      <TD WIDTH="40%"> <B>Document Title</B> </TD>
+  <TR><TD WIDTH="20%"> TBD       </TD> 
+      <TD WIDTH="40%"> RFD900X Application Requirements Document </TD>
+  <TR><TD WIDTH="20%"> TBD       </TD> 
+      <TD WIDTH="40%"> RFD900X Application Design Document </TD>
+  </TABLE>
+
+
+  <H2> Acronyms </H2>
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%">
+  <TR><TD WIDTH="20%"> <B>Acronym</B> </TD> <TD WIDTH="40%"> <B>Description</B>                       </TD>
+  <TR><TD WIDTH="20%"> API     </TD> <TD WIDTH="40%"> Application Programming Interface               </TD>
+  <TR><TD WIDTH="20%"> CCSDS   </TD> <TD WIDTH="40%"> Consultative Committee for Space Data Systems   </TD>
+  <TR><TD WIDTH="20%"> C&DH    </TD> <TD WIDTH="40%"> Command and Data Handling                       </TD>
+  <TR><TD WIDTH="20%"> CFE     </TD> <TD WIDTH="40%"> Core Flight Executive                           </TD>
+  <TR><TD WIDTH="20%"> CFS     </TD> <TD WIDTH="40%"> Core Flight System                              </TD>
+  <TR><TD WIDTH="20%"> Cmd     </TD> <TD WIDTH="40%"> Command                                         </TD>
+  <TR><TD WIDTH="20%"> CPU     </TD> <TD WIDTH="40%"> Central Processing Unit                         </TD>
+  <TR><TD WIDTH="20%"> FSW     </TD> <TD WIDTH="40%"> Flight Software                                 </TD>
+  <TR><TD WIDTH="20%"> HK      </TD> <TD WIDTH="40%"> Housekeeping telemetry, or CFS Housekeeping Application</TD>
+  <TR><TD WIDTH="20%"> HW, H/W </TD> <TD WIDTH="40%"> Hardware                                        </TD>
+  <TR><TD WIDTH="20%"> ICD     </TD> <TD WIDTH="40%"> Interface Control Document                      </TD>
+  <TR><TD WIDTH="20%"> ISR     </TD> <TD WIDTH="40%"> Interrupt Service Routine                       </TD>
+  <TR><TD WIDTH="20%"> OS      </TD> <TD WIDTH="40%"> Operating System                                </TD>
+  <TR><TD WIDTH="20%"> OSAL    </TD> <TD WIDTH="40%"> Operating System Abstraction Layer              </TD>
+  <TR><TD WIDTH="20%"> Pkts    </TD> <TD WIDTH="40%"> Packets                                         </TD>
+  <TR><TD WIDTH="20%"> RAM     </TD> <TD WIDTH="40%"> Random-Access Memory                            </TD>
+  <TR><TD WIDTH="20%"> RTOS    </TD> <TD WIDTH="40%"> Real Time Operating System                      </TD>
+  <TR><TD WIDTH="20%"> SB      </TD> <TD WIDTH="40%"> Software Bus Service                            </TD>
+  <TR><TD WIDTH="20%"> SW, S/W </TD> <TD WIDTH="40%"> Software                                        </TD>
+  <TR><TD WIDTH="20%"> TBD     </TD> <TD WIDTH="40%"> To Be Determined                                </TD>
+  <TR><TD WIDTH="20%"> TBL     </TD> <TD WIDTH="40%"> Table                                           </TD>
+  <TR><TD WIDTH="20%"> TLM     </TD> <TD WIDTH="40%"> Telemetry                                       </TD>
+  <TR><TD WIDTH="20%"> UTC     </TD> <TD WIDTH="40%"> Universal Coordinated Time (time scale)         </TD>
+  </TABLE>
+
+  Prev: \ref cfsrfd900xrevhist <BR>
+  Next: \ref cfsrfd900xovr
+**/
+
+/**
+  \page cfsrfd900xovr RFD900X Application Overview
+	
+  The RFD900X Application (RFD900X) application does some cool stuff.
+
+  (Insert paragraph providing application purpose and a high level description of 
+  application capabilites)
+	
+  RFD900X Design Overview
+  ====
+
+  (Insert text and/or diagrams to describe high-level design.  Remember your audience is
+  not necessarily going to be a software engineer!)
+
+  (Inserting Diagrams)
+  ----
+
+  (Diagrams can be inserted using the following formatting:
+    \image html My_Diagram_Image_Filename.jpg "My Diagram Label" <BR>
+  The referenced jpg file should be put into the same directory as this file.)
+	
+  Prev: \ref cfsrfd900xintro <BR>
+  Next: \ref cfsrfd900xopr
+**/
+
+/**
+    \page cfsrfd900xopr RFD900X Application Operation
+   
+  (Insert intended operational scenarios.  This should include references to appropriate commands
+   and telemetry points as needed.  Detailed explanation of telemetry could also be useful.)
+
+    1. The application version number
+    ----
+  
+    The application version number is displayed in the initialization event and the
+    no-op event.
+
+    2. Table Handling
+    ----
+
+    TODO High-level stuff on tables goes here.
+
+    3. Sending the No-op Command
+    ----
+
+    TODO Discuss the No-Op command here.
+    
+    4. Sending the reset counters command
+    ----
+
+    TODO Discuss the reset counters command here.
+
+    5. Monitoring the command counter
+    ----
+
+    TODO Discuss the counter here.
+
+    6. Monitoring the command error counter
+    ----
+
+    TODO Discuss the counter behavior here.
+    
+    Next: \ref cfsrfd900xreq <BR>
+    Prev: \ref cfsrfd900xovr
+**/
+
+/**
+    \page cfsrfd900xreq RFD900X Application Requirements
+    
+    The following are RFD900X application requirements.
+
+  (Insert high level requirements and add a reference to where detailed requirements can be found)
+    
+    Next: \ref cfsrfd900xdg <BR>
+    Prev: \ref cfsrfd900xopr 
+**/
+
+/**
+    \page cfsrfd900xdg  RFD900X Application Deployment Guide
+
+  (Basic Instructions to the Author)
+  ====  
+
+  (Insert text describing steps required to integrate the application with a CFS system.  This should
+   include:
+     1) References to message IDs that need to be inserted into a CFS Scheduler table
+     2) References to telemetry that can be generated
+     3) Additional description of application configuration parameters that may need to be modified.
+        For example, questions that a systems integrator needs to have answered before the application
+        can be successfully integrated
+     4) References to the application's performance ID)
+
+  Initial Integration
+  ====
+
+    The first step in deploying the RFD900X application is to do stuff.
+
+  Application Tailoring to the Mission
+  ----
+    
+    The rfd900x_mission_cfg.h file, the rfd900x_msgids.h, and the rfd900x_perfids.h files
+    are tailored for the mission.  These are built into the application during
+    compilation.
+
+  Application Tailoring to the Platform
+  ----
+
+    In the rfd900x_platform_cfg.h file, there are configuration parameters that control
+    RFD900X application behavior.  This should be tailored to the specific platform
+    needs.  This behavior is built into the application during compilation.
+
+  CFS Scheduler Support
+  ----
+
+    TODO Discuss any commands that must be included in the CFS Scheduler Table
+    and any related tailoring/configuration.
+     
+    Next: \ref cfsrfd900xcmds <BR>
+    Prev: \ref cfsrfd900xreq
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+    \page cfsrfd900xcmds RFD900X Application Commands
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsrfd900xtlm</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsrfd900xtbl</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsrfd900xcfg</B></TD>
+    </TABLE>
+  
+    The following is a list of commands that are processed by the RFD900X Application: 
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+    \page cfsrfd900xtlm  RFD900X Application Telemetry
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsrfd900xcmds</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsrfd900xtbl</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsrfd900xcfg</B></TD>
+    </TABLE>
+  
+    The following is a list of telemetry that is generated by the RFD900X Application: 
+**/
+
+/**
+    \page cfsrfd900xtbl RFD900X Application Table Definitions
+
+    <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsrfd900xcmds</B></TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsrfd900xtlm</B> </TD> 
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsrfd900xcfg</B></TD>
+    </TABLE>
+
+  (Include text describing data structures used in application tables.  Further text can be used to
+   describe the process of populating the table if necessary.  Default values may also be described)
+
+**/
+
+/*==========================================================================*/
+/* NOTE: The Author does not need to add any material to the following page.*/
+/*       It is filled automatically by doxygen.                             */
+/*==========================================================================*/
+/**
+  \page cfsrfd900xcfg RFD900X Application Configuration Parameters
+
+  <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
+  <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsrfd900xcmds</B></TD>
+      <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsrfd900xtlm</B> </TD> 
+      <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsrfd900xtbl</B></TD>
+  </TABLE>
+  
+  The following are configuration parameters used to configure the RFD900X
+  Application either for each platform or for a mission as a whole.
+
+**/
+
+/**
+    \page cfsrfd900xcons RFD900X Application Operational Constraints
+  
+  (Instructions to the author)
+  ====
+
+  (Insert text that describes:
+    1) situations that would prevent the application from starting
+    2) causes for the application to terminate prematurely
+    3) commands that cannot be issued either out of order or without sufficient wait time, etc) 
+
+  Application Termination
+  ====
+
+    Potential causes for RFD900X to terminate prematurely are an error return from the 
+    software bus in the application main loop or error return from one of the cFE table
+    services functions when RFD900X tries to do table management (check for updates, dump 
+    requests etc.) during each housekeeping cycle. 
+
+  Critical Data Store Operation
+  ====
+    
+    When using the Critical Data Store (CDS), the results tables and housekeeping data
+    will only be restored if the application was shut down through cFE Executive Services 
+    and exited clean. If this is not the case, default values will be used 
+    (see \ref cfsrfd900xfaqs). 
+    
+    Next: \ref cfsrfd900xfaqs <BR>
+    Prev: \ref cfsrfd900xtbl
+**/
+
+/**
+    \page cfsrfd900xfaqs RFD900X Application Frequently Asked Questions
+
+ (Insert text that categorizes a group of questions, if necessary, here.
+  For example, "General".)
+
+  General
+  ====
+
+  <B> (Q)
+     What is the basic flow of the application?
+  </B> <BR> <BR> <I>
+     The RFD900X application uses a common application format. When the app starts, 
+     initialization is performed, then the app enters an infinite loop waiting for
+     commands from the software bus.
+  </I>
+
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  (Insert text that categorizes another group of questions, if necessary, here)
+  ====
+    
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+  
+  <B> (Q)
+     (Insert text of frequently asked question here)
+  </B> <BR> <BR> <I>
+     (Insert text of answer to question above here)
+  </I>
+
+**/
