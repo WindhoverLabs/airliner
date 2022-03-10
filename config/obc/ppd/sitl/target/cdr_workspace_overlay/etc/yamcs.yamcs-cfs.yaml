@@ -1,4 +1,7 @@
-#Configuration tested on YAMCS 5.4.0
+#Configuration tested on
+#yamcs 5.5.4-SNAPSHOT, build 628d7310c4c1f6434842301a674c41ea98cf14ab
+#yamcs-web 5.5.4-SNAPSHOT
+#yamcs-tse 5.5.4-SNAPSHOT
 services:
   - class: org.yamcs.archive.XtceTmRecorder
   - class: org.yamcs.archive.ParameterRecorder
