@@ -350,7 +350,7 @@ extern "C" {
 **  \par Limits:
 **       0 to MAX_PRIORITY (usually 255)
 */
-//#define GPS_STREAMING_TASK_PRIORITY    (94)
+#define GPS_STREAMING_TASK_PRIORITY    (94)
 
 /** \brief GPS shared data mutex name. */
 #define GPS_MUTEX_POS                "GPS_MUTEX_POS"
