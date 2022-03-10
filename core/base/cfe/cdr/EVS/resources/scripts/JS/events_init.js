@@ -4,7 +4,7 @@ importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 importPackage(org.csstudio.opibuilder.properties);
 importPackage(org.csstudio.opibuilder.model);
 
-var app_name  =       display.getMacroValue("APP");
+var app_name  =       widget.getEffectiveMacros().getValue("APP");
 
 //If you want to add more commands(another column), just add the name of the command to this array. Do note that
 //you'll need special logic for adding another XML script to the button that fires that command. Hopefully the pattern below

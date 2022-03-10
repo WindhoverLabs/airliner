@@ -1,5 +1,7 @@
   short_name: ulr
   long_name: uLanding Radar Driver
+  app_name: ULR
+  module_type: CFE_APP
   events: 
     ULR_INIT_INF_EID: 
       id: 1

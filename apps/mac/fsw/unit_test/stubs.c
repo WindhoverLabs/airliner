@@ -39,7 +39,3 @@ uint64 PX4LIB_GetPX4TimeUs(void)
 	return 0;
 }
 
-uint64  CFE_TIME_GetTimeInMicros(void)
-{
-	return 0;
-}

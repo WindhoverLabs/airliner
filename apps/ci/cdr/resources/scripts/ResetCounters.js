@@ -1,4 +1,3 @@
-importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/ci/Reset(arg: none)');
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ci/Reset(arg: none)');

@@ -41,13 +41,10 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path>../scripts/QueryOneApp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var cmd = '/cfs/$(CPUID)/cs/DisableTables';
-
-Yamcs.issueCommand(cmd, {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableTables', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -100,15 +97,12 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var Name =VTypeHelper.getString(display.getWidget('Name').getPropertyValue('pv_value'));
+var Name = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Name')));
 
-var cmd = '/cfs/$(CPUID)/cs/DisableNameTable';
-
-Yamcs.issueCommand(cmd, {'Name': Name});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableNameTable', {'Name': Name});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

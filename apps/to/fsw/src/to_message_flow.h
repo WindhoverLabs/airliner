@@ -109,18 +109,6 @@ typedef struct
 typedef struct
 {
     /**
-     * \brief  Dropped message count is a count of number of times a specific message was 
-     *  dropped.  
-     *
-     * \par
-     * Units: none.
-     *
-     * \par
-     * Limits: none.
-     */
-    uint32          DroppedMsgCnt;
-
-    /**
      * \brief  Queued message count is a count of number of times a specific message was queued for sending.  
      *
      * \par

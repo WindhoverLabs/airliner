@@ -231,17 +231,13 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var file_index = VTypeHelper.getDouble(display.getWidget('FileTableIndex').getPropertyValue('pv_value'));
+var file_index = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'FileTableIndex')));
+var file_age = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'MaxFileAge')));
 
-var file_age = VTypeHelper.getDouble(display.getWidget('MaxFileAge').getPropertyValue('pv_value'));
-
-var cmd = '/cfs/$(CPUID)/ds/SetDestAge';
-
-Yamcs.issueCommand(cmd, 
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/SetDestAge', 
 				  {'FileTableIndex': file_index,
 				    'Padding': 0,
 				    'MaxFileAge': file_age}

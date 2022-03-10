@@ -41,14 +41,12 @@
 
 #include "to_custom_udp.h"
 #include "to_platform_cfg.h"
+#include <fcntl.h>
+#include <errno.h>
 #include "to_events.h"
-#include "io_lib_utils.h"
-#include "tm_sdlp.h"
 #include <strings.h>
 #include <string.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
 
 /************************************************************************
 ** Local Defines
@@ -70,29 +68,10 @@ TO_DisableChannelCmd_t TO_DisableChannelCmd_S;
 extern TO_ChannelTbl_t TO_BackupConfigTbl;
 
 
-/*
-** Local Variables
-*/
-static uint8           idlePattern[32];
-static const uint16    iCaduSize = TO_CUSTOM_TF_SIZE + TM_SYNC_ASM_SIZE;
 
-
-
-/* Set channel config table */
-TM_SDLP_ChannelConfig_t chnlConfig[] =
+uint8 TO_OutputChannel_Status(uint32 index)
 {
-    {0, 0, 0, 0, 0, 0, TO_CUSTOM_TF_OVERFLOW_SIZE}
-};
-
-
-void TO_OutputChannel_FrameSend(uint32 ChannelIdx);
-
-
-uint8 TO_OutputChannel_Status(uint32 Index)
-{
-    /* Use Index, instead of index, because vxworks-6.9/target/h/string.h:100
-     * has a global named "index". */
-    return TO_AppCustomData.Channel[Index].Mode;
+    return TO_AppCustomData.Channel[index].Mode;
 }
 
 
@@ -106,38 +85,6 @@ int32 TO_Custom_Init(void)
 {
     int32 iStatus = 0;
     uint32 i = 0;
-
-    /* Initialize Idle pattern as pseudo-random sequence. */
-    IO_LIB_UTIL_GenPseudoRandomSeq(TO_AppCustomData.idleBuff, 0xa9, 0xff);
-
-    /* Initialize Idle packet with repeating idle pattern */
-    TM_SDLP_InitIdlePacket((CFE_SB_MsgPtr_t)TO_AppCustomData.idleBuff, idlePattern,
-                           TO_CUSTOM_TF_IDLE_SIZE, 255);
-
-    TO_AppCustomData.mcConfig.scId        = CFE_SPACECRAFT_ID;
-    TO_AppCustomData.mcConfig.frameLength = TO_CUSTOM_TF_SIZE;
-    TO_AppCustomData.mcConfig.hasErrCtrl  = TO_CUSTOM_TF_ERR_CTRL;
-    TO_AppCustomData.mcFrameCnt           = 0;
-
-    CFE_PSP_MemCpy((void *) &TO_AppCustomData.vcConfig, (void *) &chnlConfig,
-                   sizeof(TO_AppCustomData.vcConfig));
-
-    if (TM_SDLP_InitChannel(&TO_AppCustomData.frameInfo,
-                            &TO_AppCustomData.buffer[TM_SYNC_ASM_SIZE],
-                            TO_AppCustomData.ofBuff,
-                            &TO_AppCustomData.mcConfig,
-                            &TO_AppCustomData.vcConfig) < 0)
-    {
-        iStatus = -1;
-        goto end_of_function;
-    }
-
-    iStatus = TM_SDLP_StartFrame(&TO_AppCustomData.frameInfo);
-    if(iStatus != TM_SDLP_SUCCESS)
-    {
-        iStatus = -1;
-        goto end_of_function;
-    }
 
     /*
      * UDP development interface
@@ -300,7 +247,7 @@ void TO_OutputChannel_ProcessNewCustomCmds(CFE_SB_Msg_t* MsgPtr)
                 /* Validate arguments. */
                 if(inSize != sizeof(TO_EnableChannelCmd_t))
                 {
-                    TO_AppData.HkTlm.usCmdErrCnt++;
+                    TO_AppData.HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR,
                                       "Invalid message length.  Received %u.  Expected %u.",
                                       (unsigned int)inSize, sizeof(TO_EnableChannelCmd_t));
@@ -309,11 +256,11 @@ void TO_OutputChannel_ProcessNewCustomCmds(CFE_SB_Msg_t* MsgPtr)
 
                 if(TO_OutputChannel_Enable(cmd->ChannelID, cmd->DestinationAddress, cmd->DestinationPort))
                 {
-                    TO_AppData.HkTlm.usCmdErrCnt++;
+                    TO_AppData.HkTlm.CmdErrCnt++;
                     break;
                 }
 
-                TO_AppData.HkTlm.usCmdCnt++;
+                TO_AppData.HkTlm.CmdCnt++;
                 (void) CFE_EVS_SendEvent(TO_TLMOUTENA_INF_EID, CFE_EVS_INFORMATION,
                                   "Enabled channel %u to %s:%u.",
                                   cmd->ChannelID,
@@ -328,7 +275,7 @@ void TO_OutputChannel_ProcessNewCustomCmds(CFE_SB_Msg_t* MsgPtr)
                 /* Validate arguments. */
                 if(inSize != sizeof(TO_DisableChannelCmd_t))
                 {
-                    TO_AppData.HkTlm.usCmdErrCnt++;
+                    TO_AppData.HkTlm.CmdErrCnt++;
                     (void) CFE_EVS_SendEvent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR,
                                       "Invalid message length.  Received %u.  Expected %u.",
                                       (unsigned int)inSize, sizeof(TO_DisableChannelCmd_t));
@@ -337,16 +284,16 @@ void TO_OutputChannel_ProcessNewCustomCmds(CFE_SB_Msg_t* MsgPtr)
 
                 if(TO_OutputChannel_Disable(cmd->ChannelID))
                 {
-                    TO_AppData.HkTlm.usCmdErrCnt++;
+                    TO_AppData.HkTlm.CmdErrCnt++;
                     break;
                 }
 
-                TO_AppData.HkTlm.usCmdCnt++;
+                TO_AppData.HkTlm.CmdCnt++;
                 break;
             }
 
             default:
-                TO_AppData.HkTlm.usCmdErrCnt++;
+                TO_AppData.HkTlm.CmdErrCnt++;
                 (void) CFE_EVS_SendEvent(TO_CC_ERR_EID, CFE_EVS_ERROR,
                                   "Recvd invalid cmdId (%u)", (unsigned int)uiCmdCode);
                 break;
@@ -507,27 +454,26 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
     {
         if(TO_Channel_State(ChannelIdx) == TO_CHANNEL_OPENED)
         {
-        	iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[ChannelIdx], &msg, TO_CUSTOM_CHANNEL_GET_TIMEOUT );
+            iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[ChannelIdx], &msg, TO_CUSTOM_CHANNEL_GET_TIMEOUT );
             if(iStatus == OS_SUCCESS)
             {
-            	/* Add packet to the outgoing frame */
-                iStatus = TM_SDLP_AddPacket(&TO_AppCustomData.frameInfo, msg);
-                if (iStatus < 0)
+                uint32 size = CFE_SB_GetTotalMsgLength(msg);
+                int32 sendResult = TO_OutputChannel_Send(ChannelIdx, (const char*)msg, size);
+                if (sendResult != 0)
                 {
-                    /* TODO: React appropriately. */
+        	    TO_OutputChannel_Disable(ChannelIdx);
                 }
-                else if(0 == iStatus)
+                else
                 {
-                	TO_OutputChannel_FrameSend(ChannelIdx);
+                    TO_Channel_LockByIndex(ChannelIdx);
+                    TO_AppData.ChannelData[ChannelIdx].OutputQueue.SentCount++;
+                    TO_AppData.ChannelData[ChannelIdx].OutputQueue.SentBytes += size;
+                    TO_Channel_UnlockByIndex(ChannelIdx);
                 }
-
-                TO_Channel_LockByIndex(ChannelIdx);
-                TO_AppData.ChannelData[ChannelIdx].OutputQueue.SentCount++;
-                TO_Channel_UnlockByIndex(ChannelIdx);
             }
             else if(iStatus == OS_QUEUE_TIMEOUT)
             {
-            	TO_OutputChannel_FrameSend(ChannelIdx);
+            	/* Do nothing.  Just loop back around and check the guard. */
             }
             else
             {
@@ -543,63 +489,6 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
 
 
 
-void TO_OutputChannel_FrameSend(uint32 ChannelIdx)
-{
-    int32    status = CFE_SUCCESS;
-	osalbool sendMessage = TRUE;
-    int32    caduSize = 0;
-
-	/* The frame isn't full, but go ahead and send it anyway. But,
-	 * first check if there is packets, otherwise, fill with OID. */
-    status = TM_SDLP_FrameHasData(&TO_AppCustomData.frameInfo);
-    if(1 == status)
-    {
-        /* Add an idle packet to fill remaining free space */
-        status = TM_SDLP_AddIdlePacket(&TO_AppCustomData.frameInfo, (CFE_SB_MsgPtr_t)TO_AppCustomData.idleBuff);
-    }
-    else if (0 == status)
-    {
-        /* Set frame as Only Idle Data (OID) */
-        status = TM_SDLP_SetOidFrame(&TO_AppCustomData.frameInfo, (CFE_SB_MsgPtr_t)TO_AppCustomData.idleBuff);
-    }
-
-    /* Complete the frame */
-	status = TM_SDLP_CompleteFrame(&TO_AppCustomData.frameInfo, &TO_AppCustomData.mcFrameCnt, &TO_AppCustomData.ocfBuff[0]);
-    if(status != TM_SDLP_SUCCESS)
-	{
-        /* TODO: React appropriately. */
-    	sendMessage = FALSE;
-    }
-
-    /* Synchronize frame into CADU */
-    caduSize = TM_SYNC_Synchronize(&TO_AppCustomData.buffer[0], TM_SYNC_ASM_STR,
-                                    TM_SYNC_ASM_SIZE,
-                                    TO_CUSTOM_TF_SIZE,
-                                    TO_CUSTOM_TF_RANDOMIZE);
-    if (caduSize < 0)
-    {
-        /* TODO: React appropriately. */
-    	sendMessage = FALSE;
-    }
-
-    if(TRUE == sendMessage)
-    {
-        int32 sendResult = TO_OutputChannel_Send(ChannelIdx, &TO_AppCustomData.buffer[TM_SYNC_ASM_SIZE], caduSize - TM_SYNC_ASM_SIZE);
-        if (sendResult != 0)
-        {
-        	TO_OutputChannel_Disable(ChannelIdx);
-        }
-    }
-
-    /* Start a new frame. */
-    status = TM_SDLP_StartFrame(&TO_AppCustomData.frameInfo);
-    if(status != TM_SDLP_SUCCESS)
-    {
-        /* TODO: React appropriately. */
-    }
-}
-
-
 int32 TO_Custom_InitEvent(int32 *ind)
 {
     return 0;
@@ -610,3 +499,9 @@ void TO_PrintCustomVersion(void)
 {
 
 }
+
+
+void TO_OutputChannel_SendTelemetry(uint32 index)
+{
+}
+

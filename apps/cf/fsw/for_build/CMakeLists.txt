@@ -107,8 +107,8 @@ buildliner_add_app_def(cf
     DESIGN_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in  
     
     REFERENCE_CONFIG
-        ${PROJECT_SOURCE_DIR}/apps/cf/fsw/mission_inc
-        ${PROJECT_SOURCE_DIR}/apps/cf/fsw/platform_inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../mission_inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../platform_inc
         
     COMMANDER_DISPLAYS 
         ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr

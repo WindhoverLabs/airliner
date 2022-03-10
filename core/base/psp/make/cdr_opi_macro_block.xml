@@ -1,13 +1,1 @@
-    <AuthorizeCmd_TEMPLATE>/Displays/$(CPUID)/Apps/ci/resources/templates/AuthorizeCommand_App.opi</AuthorizeCmd_TEMPLATE>
-    <DeauthorizeCmd_TEMPLATE>/Displays/$(CPUID)/Apps/ci/resources/templates/DeauthorizeCommand_App.opi</DeauthorizeCmd_TEMPLATE>
-    <RegisterCmd_TEMPLATE>/Displays/$(CPUID)/Apps/ci/resources/templates/RegisterCommand_App.opi</RegisterCmd_TEMPLATE>
-    <DeregisterCmd_TEMPLATE>/Displays/$(CPUID)/Apps/ci/resources/templates/DeregisterCommand_App.opi</DeregisterCmd_TEMPLATE>
-    <UpdateCmd_TEMPLATE>/Displays/$(CPUID)/Apps/ci/resources/templates/UpdateCommand_App.opi</UpdateCmd_TEMPLATE>
-    <AddMessageFlow_TEMPLATE>/Displays/$(CPUID)/Apps/to/resources/templates/AddMessageFlow_App.opi</AddMessageFlow_TEMPLATE>
-    <RemoveMessageFlow_TEMPLATE>/Displays/$(CPUID)/Apps/to/resources/templates/RemoveMessageFlow_App.opi</RemoveMessageFlow_TEMPLATE>
-    <QueryMessageFlow_TEMPLATE>/Displays/$(CPUID)/Apps/to/resources/templates/QueryMessageFlow_App.opi</QueryMessageFlow_TEMPLATE>
-    <Sch_Table_TEMPLATE>/Displays/$(CPUID)/Apps/sch/resources/templates/Diagnostic_App.opi</Sch_Table_TEMPLATE>
-    <PerfRecordTEMPLATE_OPI>/Displays/Core/ES/resources/templates/PerfRecord_ES.opi</PerfRecordTEMPLATE_OPI>
-    <PerfCollectionControlTEMPLATE_OPI>/Displays/Core/ES/resources/templates/PerfCollectionControl_ES.opi</PerfCollectionControlTEMPLATE_OPI>
-    <ALL_CPUS>{'cpd', 'ppd'}</ALL_CPUS>
-    <EVENTS_OPI>/Displays/$(CPUID)/Core/EVS/resources/templates/Events.opi</EVENTS_OPI>
+<CPUID>@BUILDLINER_CDR_CPUID@</CPUID>

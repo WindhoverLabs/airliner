@@ -1,5 +1,7 @@
   short_name: hs
   long_name: Heath Services
+  app_name: HS
+  module_type: CFE_APP
   events: 
     HS_INIT_EID: 
       id: 1

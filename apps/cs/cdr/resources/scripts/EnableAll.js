@@ -1,4 +1,3 @@
-importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cfs/EnableApps', {});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfs/EnableApps', {});

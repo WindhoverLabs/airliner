@@ -80,7 +80,7 @@ extern "C" {
 */
 #define SBND_CMD_PIPE_NAME              ("SBND_CMD_PIPE")
 
-#define SBND_CONFIG_MAX_MIDS            (16)
+#define SBND_CONFIG_MAX_MIDS            (32)
 
 #define SBND_DATA_MID_MAX_MSG_COUNT      (1)
 

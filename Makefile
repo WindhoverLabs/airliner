@@ -114,9 +114,6 @@ help::
 
 
 obc:: obc/ppd obc/cpd
-	@echo 'Generating ground products.'
-	@make -C build/obc/ppd/target ground-tools
-	@make -C build/obc/cpd/target ground-tools
 	@echo 'Done'
 	
 
@@ -130,7 +127,7 @@ $(GENERIC_TARGET_NAMES)::
 		((idx++)); \
 	done; \
 	TARGET_PATH=$$(echo ${GENERIC_TARGET_PATHS} | cut -d " " -f $$idx); \
-		echo "Generating complete design/configuration definition file, 'registry.yaml'"; \
+		echo "Generating complete design/configuration definition file, wh_defs.yaml"; \
 	if [ -f "$(CONFIG_DIR)/$$TARGET_PATH/wh_config.yaml" ]; then \
 			mkdir -p build/$$TARGET_PATH/target; \
 			python3 core/base/tools/config/wh_defgen.py $(CONFIG_DIR)/$$TARGET_PATH/ build/$$TARGET_PATH/target/wh_defs.yaml; \
@@ -146,16 +143,25 @@ $(GENERIC_TARGET_NAMES)::
 		done;
 		
 workspace::
-	-rm build/obc/commander_workspace/Displays/resources/registry.yaml
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/resources/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/Displays/resources/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	@echo 'Generating ground products.'
+	@make -C build/obc/ppd/target ground-tools
+	@make -C build/obc/cpd/target ground-tools
+	-rm build/obc/commander_workspace/etc/registry.yaml
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	
+		
+workspace-sitl::
+	@echo 'Generating ground products.'
+	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram || /bin/true
+	@make -C build/obc/ppd/sitl/target ground-tools
+	@make -C build/obc/cpd/sitl/target ground-tools
+	-rm build/obc/sitl_commander_workspace/etc/registry.yaml
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/sitl/target/wh_defs.yaml --yaml_path /modules/cpd
+	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/sitl/target/wh_defs.yaml --yaml_path /modules/ppd
 	
 	
 obc-sitl:: obc/ppd/sitl obc/cpd/sitl
-	@echo 'Generating ground products.'
-	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram
-	@make -C build/obc/ppd/sitl/target ground-tools
-	@make -C build/obc/cpd/sitl/target ground-tools
 	@echo 'Done'
 	
 	

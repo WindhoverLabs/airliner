@@ -41,13 +41,10 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 
-var cmd = '/cfs/$(CPUID)/cs/EnableEEPROM';
-
-Yamcs.issueCommand(cmd, {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableEEPROM', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

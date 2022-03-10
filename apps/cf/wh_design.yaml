@@ -1,5 +1,7 @@
   short_name: cf
   long_name: CFDP File Delivery
+  app_name: CF
+  module_type: CFE_APP
   events: 
     CF_INIT_EID : 
       id: 1

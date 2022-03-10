@@ -104,8 +104,6 @@ typedef struct
     /** \brief The number of times a message was not queued due to memory pool being full. */
     uint32                  MemFullCount;
 
-    uint32					DroppedMsgCnt;
-
 } TO_OutputQueue_t;
 
 

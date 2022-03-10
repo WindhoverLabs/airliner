@@ -1,5 +1,7 @@
   short_name: hmc5883
   long_name: 
+  app_name: HMC5883
+  module_type: CFE_APP
   events: 
     HMC5883_INIT_INF_EID: 
       id: 1

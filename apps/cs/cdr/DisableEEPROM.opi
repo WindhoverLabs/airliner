@@ -41,12 +41,9 @@
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path>../scripts/QueryOneApp.js</path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-var cmd = '/cfs/$(CPUID)/cs/DisableEEPROM';
-
-Yamcs.issueCommand(cmd, {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableEEPROM', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

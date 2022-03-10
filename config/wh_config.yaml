@@ -670,4 +670,20 @@ modules:
         msgID: 0x19b7
     perfids:
       SBND_MAIN_TASK_PERF_ID:
+        id: 115
+
+  adsbr:
+    definition: ${PROJECT_SOURCE_DIR}/apps/adsbr/wh_design.yaml
+    telemetry:
+      ADSBR_HK_TLM_MID:
+        msgID: 0x09ef
+    commands:
+      ADSBR_CMD_MID:
+        msgID: 0x11eb
+      ADSBR_WAKEUP_MID:
+        msgID: 0x19ed
+      ADSBR_SEND_HK_MID:
+        msgID: 0x19ec
+    perfids:
+      ADSBR_MAIN_TASK_PERF_ID:
         id: 114

@@ -384,22 +384,21 @@ $(pv_value)</tooltip>
     <actions hook="false" hook_all="false">
       <action type="EXECUTE_JAVASCRIPT">
         <path></path>
-        <scriptText><![CDATA[importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
-importPackage(Packages.org.yamcs.studio.data);
+        <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var directory_arg = VTypeHelper.getString(display.getWidget("Directory").getPropertyValue("pv_value"));
-var filename_arg = VTypeHelper.getString(display.getWidget("Filename").getPropertyValue("pv_value"));
-var timemode_arg =  parseInt(VTypeHelper.getDouble(display.getWidget("GetSizeTimeMode").getPropertyValue("pv_value")));
+var Directory = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Directory')));
+var Filename = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Filename')));
+var GetSizeTimeMode = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'GetSizeTimeMode')));
  
 
-Yamcs.issueCommand('/cfs/$(CPUID)/fm/GetDirFile', 
-                                   {"Directory":directory_arg,
-				     "Filename": filename_arg,
-				      "GetSizeTimeMode": timemode_arg,
-				      "Spare01_0_": 0,
-				       "Spare01_1_": 0,
-					"Spare01_2_": 0});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/fm/GetDirFile', 
+                                  {"Directory": Directory,
+                                   "Filename": Filename,
+                                   "GetSizeTimeMode": GetSizeTimeMode,
+                                   "Spare01_0_": 0,
+                                   "Spare01_1_": 0,
+                                   "Spare01_2_": 0});
 ]]></scriptText>
         <embedded>true</embedded>
         <description></description>

@@ -1,4 +1,3 @@
-importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
-importPackage(Packages.org.yamcs.studio.script);
+importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand('/cfs/$(CPUID)/cs/RecomputeBaselineCfeCore', {});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/RecomputeBaselineCfeCore', {});
