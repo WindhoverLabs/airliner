@@ -14,7 +14,6 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../../inc
         ${PROJECT_SOURCE_DIR}/config/shared/inc
     FILESYS
-        /ram/apps
         /cf/log
         /cf/uplink
         /cf/downlink/ch0/dir0/
