@@ -1,0 +1,27 @@
+.info {
+  -fx-text-fill: black;
+}
+
+.warning {
+  -fx-text-fill: red;
+}
+
+.error {
+  -fx-text-fill: red;
+}
+
+.watch {
+  -fx-text-fill: black;
+}
+
+.distress {
+  -fx-text-fill: black;
+}
+
+.critical {
+  -fx-text-fill: black;
+}
+
+.severe {
+  -fx-text-fill: black;
+}
