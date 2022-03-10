@@ -19,12 +19,6 @@ buildliner_initialize(
         /ram
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/../../cfe_es_startup.scr
-        
-    COMMANDER_WORKSPACE
-        ${CMAKE_BINARY_DIR}/../../../sitl_commander_workspace
-        
-    COMMANDER_WORKSPACE_OVERLAY
-        ${CMAKE_CURRENT_SOURCE_DIR}/cdr_workspace_overlay
 )
 
 
@@ -40,7 +34,6 @@ buildliner_add_app(
 
 buildliner_add_app(
     io_lib
-    EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/io_lib/fsw/for_build
 )
 

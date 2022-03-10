@@ -2,6 +2,8 @@
   long_name: 
   app_name: HMC5883
   module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     HMC5883_INIT_INF_EID: 
       id: 1

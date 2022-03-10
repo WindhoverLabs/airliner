@@ -26,7 +26,7 @@
   <height>400</height>
   <macros>
     <include_parent_macros>true</include_parent_macros>
-    <CPUID>@BUILDLINER_CDR_CPUID@</CPUID>
+    <CPUID>{{ cpu_id }}</CPUID>
     <include_parent_macros>true</include_parent_macros>
     <Record_Template>/Displays/$(CPUID)/Apps/sch/resources/templates/SCH_Table_Record_App.opi</Record_Template>
     <Header_Template>/Displays/$(CPUID)/Apps/sch/resources/templates/SCH_Table_Header_App.opi</Header_Template>

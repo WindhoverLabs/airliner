@@ -1,0 +1,124 @@
+  short_name: ublox_m8n
+  long_name: UBlox M8N Simlink
+  app_name: UBlox M8N
+  module_type: CFE_APP
+  commander:
+    displays: cdr
+  events: 
+    UBLOX_M8N_INIT_INF_EID: 
+      id: 1
+    UBLOX_M8N_CMD_NOOP_EID: 
+      id: 2
+    UBLOX_M8N_SUBSCRIBE_ERR_EID: 
+      id: 3
+    UBLOX_M8N_PIPE_INIT_ERR_EID: 
+      id: 4
+    UBLOX_M8N_CFGTBL_MANAGE_ERR_EID: 
+      id: 5
+    UBLOX_M8N_CFGTBL_GETADDR_ERR_EID: 
+      id: 6
+    UBLOX_M8N_RCVMSG_ERR_EID: 
+      id: 7
+    UBLOX_M8N_MSGID_ERR_EID: 
+      id: 8
+    UBLOX_M8N_CC_ERR_EID: 
+      id: 9
+    UBLOX_M8N_MSGLEN_ERR_EID: 
+      id: 10
+    UBLOX_M8N_CFGTBL_REG_ERR_EID: 
+      id: 11
+    UBLOX_M8N_CFGTBL_LOAD_ERR_EID: 
+      id: 12
+  telemetry: 
+    UBLOX_M8N_HK_TLM_MID: 
+      msgID: 
+      struct: UBLOX_M8N_HkTlm_t
+  commands: 
+    UBLOX_M8N_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: UBLOX_M8N_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: UBLOX_M8N_NoArgCmd_t
+    UBLOX_M8N_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: UBLOX_M8N_NoArgCmd_t
+    UBLOX_M8N_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: UBLOX_M8N_NoArgCmd_t
+  perfids: 
+    UBLOX_M8N_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    UBLOX_M8N_LISTENER_TASK_FLAGS: 
+      name: UBLOX_M8N_LISTENER_TASK_FLAGS
+      value: OS_ENABLE_CORE_0
+    UBLOX_M8N_SB_TIMEOUT: 
+      name: UBLOX_M8N_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    UBLOX_M8N_MISSION_REV: 
+      name: UBLOX_M8N_MISSION_REV
+      value: 0
+    UBLOX_M8N_SCH_PIPE_DEPTH: 
+      name: UBLOX_M8N_SCH_PIPE_DEPTH
+      value: 2
+    UBLOX_M8N_SCH_PIPE_NAME: 
+      name: UBLOX_M8N_SCH_PIPE_NAME
+      value: UBLOX_M8N_SCH_PIPE
+    UBLOX_M8N_SCH_PIPE_PEND_TIME: 
+      name: UBLOX_M8N_SCH_PIPE_PEND_TIME
+      value: 2000
+    UBLOX_M8N_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: UBLOX_M8N_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    UBLOX_M8N_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: UBLOX_M8N_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    UBLOX_M8N_CMD_PIPE_DEPTH: 
+      name: UBLOX_M8N_CMD_PIPE_DEPTH
+      value: 4
+    UBLOX_M8N_CMD_PIPE_NAME: 
+      name: UBLOX_M8N_CMD_PIPE_NAME
+      value: UBLOX_M8N_CMD_PIPE
+    UBLOX_M8N_DATA_PIPE_DEPTH: 
+      name: UBLOX_M8N_DATA_PIPE_DEPTH
+      value: 4
+    UBLOX_M8N_DATA_PIPE_NAME: 
+      name: UBLOX_M8N_DATA_PIPE_NAME
+      value: UBLOX_M8N_DATA_PIPE
+    UBLOX_M8N_CONFIG_TABLE_FILENAME: 
+      name: UBLOX_M8N_CONFIG_TABLE_FILENAME
+      value: /cf/apps/sim_config.tbl
+    UBLOX_M8N_STARTUP_TIMEOUT_MSEC: 
+      name: UBLOX_M8N_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    UBLOX_M8N_MAX_MESSAGE_SIZE: 
+      name: UBLOX_M8N_MAX_MESSAGE_SIZE
+      value: 1500
+    UBLOX_M8N_LISTENER_TASK_NAME: 
+      name: UBLOX_M8N_LISTENER_TASK_NAME
+      value: UBLOX_M8N_LISTENER
+    UBLOX_M8N_LISTENER_TASK_STACK_SIZE: 
+      name: UBLOX_M8N_LISTENER_TASK_STACK_SIZE
+      value: 16378
+    UBLOX_M8N_LISTENER_TASK_PRIORITY: 
+      name: UBLOX_M8N_LISTENER_TASK_PRIORITY
+      value: 50
+    UBLOX_M8N_MUTEX_NAME: 
+      name: UBLOX_M8N_MUTEX_NAME
+      value: UBLOX_M8N_MUTEX
+    UBLOX_M8NLIB_MUTEX_SEM_NAME: 
+      name: UBLOX_M8NLIB_MUTEX_SEM_NAME
+      value: UBLOX_M8NLIB_MUTEX
+    UBLOX_M8N_PORT: 
+      name: UBLOX_M8N_PORT
+      value: 14560

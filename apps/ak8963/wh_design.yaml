@@ -2,6 +2,8 @@
   long_name: TBD
   app_name: AK8963
   module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     AK8963_INIT_INF_EID: 
       id: 1

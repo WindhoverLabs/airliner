@@ -1,0 +1,124 @@
+  short_name: icm20689
+  long_name: UBlox M8N Simlink
+  app_name: UBlox M8N
+  module_type: CFE_APP
+  commander:
+    displays: cdr
+  events: 
+    ICM20689_INIT_INF_EID: 
+      id: 1
+    ICM20689_CMD_NOOP_EID: 
+      id: 2
+    ICM20689_SUBSCRIBE_ERR_EID: 
+      id: 3
+    ICM20689_PIPE_INIT_ERR_EID: 
+      id: 4
+    ICM20689_CFGTBL_MANAGE_ERR_EID: 
+      id: 5
+    ICM20689_CFGTBL_GETADDR_ERR_EID: 
+      id: 6
+    ICM20689_RCVMSG_ERR_EID: 
+      id: 7
+    ICM20689_MSGID_ERR_EID: 
+      id: 8
+    ICM20689_CC_ERR_EID: 
+      id: 9
+    ICM20689_MSGLEN_ERR_EID: 
+      id: 10
+    ICM20689_CFGTBL_REG_ERR_EID: 
+      id: 11
+    ICM20689_CFGTBL_LOAD_ERR_EID: 
+      id: 12
+  telemetry: 
+    ICM20689_HK_TLM_MID: 
+      msgID: 
+      struct: ICM20689_HkTlm_t
+  commands: 
+    ICM20689_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: ICM20689_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: ICM20689_NoArgCmd_t
+    ICM20689_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: ICM20689_NoArgCmd_t
+    ICM20689_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: ICM20689_NoArgCmd_t
+  perfids: 
+    ICM20689_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    ICM20689_LISTENER_TASK_FLAGS: 
+      name: ICM20689_LISTENER_TASK_FLAGS
+      value: OS_ENABLE_CORE_0
+    ICM20689_SB_TIMEOUT: 
+      name: ICM20689_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    ICM20689_MISSION_REV: 
+      name: ICM20689_MISSION_REV
+      value: 0
+    ICM20689_SCH_PIPE_DEPTH: 
+      name: ICM20689_SCH_PIPE_DEPTH
+      value: 2
+    ICM20689_SCH_PIPE_NAME: 
+      name: ICM20689_SCH_PIPE_NAME
+      value: ICM20689_SCH_PIPE
+    ICM20689_SCH_PIPE_PEND_TIME: 
+      name: ICM20689_SCH_PIPE_PEND_TIME
+      value: 2000
+    ICM20689_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: ICM20689_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    ICM20689_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: ICM20689_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    ICM20689_CMD_PIPE_DEPTH: 
+      name: ICM20689_CMD_PIPE_DEPTH
+      value: 4
+    ICM20689_CMD_PIPE_NAME: 
+      name: ICM20689_CMD_PIPE_NAME
+      value: ICM20689_CMD_PIPE
+    ICM20689_DATA_PIPE_DEPTH: 
+      name: ICM20689_DATA_PIPE_DEPTH
+      value: 4
+    ICM20689_DATA_PIPE_NAME: 
+      name: ICM20689_DATA_PIPE_NAME
+      value: ICM20689_DATA_PIPE
+    ICM20689_CONFIG_TABLE_FILENAME: 
+      name: ICM20689_CONFIG_TABLE_FILENAME
+      value: /cf/apps/sim_config.tbl
+    ICM20689_STARTUP_TIMEOUT_MSEC: 
+      name: ICM20689_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    ICM20689_MAX_MESSAGE_SIZE: 
+      name: ICM20689_MAX_MESSAGE_SIZE
+      value: 1500
+    ICM20689_LISTENER_TASK_NAME: 
+      name: ICM20689_LISTENER_TASK_NAME
+      value: ICM20689_LISTENER
+    ICM20689_LISTENER_TASK_STACK_SIZE: 
+      name: ICM20689_LISTENER_TASK_STACK_SIZE
+      value: 16378
+    ICM20689_LISTENER_TASK_PRIORITY: 
+      name: ICM20689_LISTENER_TASK_PRIORITY
+      value: 50
+    ICM20689_MUTEX_NAME: 
+      name: ICM20689_MUTEX_NAME
+      value: ICM20689_MUTEX
+    ICM20689LIB_MUTEX_SEM_NAME: 
+      name: ICM20689LIB_MUTEX_SEM_NAME
+      value: ICM20689LIB_MUTEX
+    ICM20689_PORT: 
+      name: ICM20689_PORT
+      value: 14560

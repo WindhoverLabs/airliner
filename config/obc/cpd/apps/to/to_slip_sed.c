@@ -42,7 +42,7 @@
 #include "to_slip_sed.h"
 #include "to_platform_cfg.h"
 #include "to_events.h"
-#include "x_lib.h"
+#include "sedlib.h"
 
 /************************************************************************
 ** Local Defines
@@ -91,6 +91,7 @@ uint8 TO_OutputChannel_Status(uint32 index)
 int32 TO_Custom_Init(void)
 {
     int32 status = 0;
+    SEDLIB_ReturnCode_t rc;
     uint32 i = 0;
 
     CFE_PSP_MemSet(&TO_AppCustomData, 0, sizeof(TO_AppCustomData));
@@ -104,14 +105,11 @@ int32 TO_Custom_Init(void)
      * Msg Port Interface
      */
     TO_AppCustomData.Channel[0].Mode = TO_CHANNEL_ENABLED;
-    TO_AppCustomData.Channel[0].MsgPortAddress = UART_CMD_MSGPORT_ADDRESS;
     TO_AppCustomData.Channel[0].UartQueueDataCmd.Version = 1;
 
-    status = X_Lib_MsgPort_Init(
-    		TO_AppCustomData.Channel[0].MsgPortAddress,
+    status = SEDLIB_GetPipe(
+    		"UART1_CMD",
 			sizeof(UART_QueueDataCmd_t),
-			UART_CMD_MSGPORT_MUTEX_DEVICE_ID,
-			UART_CMD_MSGPORT_MUTEX_NUM,
 			&TO_AppCustomData.Channel[0].MsgPortHandle);
     if(status != CFE_SUCCESS)
     {
@@ -159,7 +157,7 @@ end_of_function:
 
 
 
-TO_QueueMsgReturnCode_t TO_OutputChannel_QueueMsg(uint32 ChannelID, const char* Buffer, uint32 Size)
+TO_QueueMsgReturnCode_t TO_OutputChannel_QueueMsg(uint32 ChannelID, const uint8* Buffer, uint32 Size)
 {
 	osalbool cont = TRUE;
 	TO_TlmChannel_t *channel = &TO_AppCustomData.Channel[ChannelID];
@@ -167,8 +165,8 @@ TO_QueueMsgReturnCode_t TO_OutputChannel_QueueMsg(uint32 ChannelID, const char* 
 
 	while(cont)
 	{
-	    /* Before we continue, check to see if we have room for more data. */
-		if(channel->BytesQueued >= sizeof(channel->UartQueueDataCmd.Buffer))
+        /* Before we continue, check to see if we have room for more data. */
+		if(channel->UartQueueDataCmd.BytesInBuffer >= sizeof(channel->UartQueueDataCmd.Buffer))
 		{
 			/* No we don't. If we got to this point, we ran out of room before
 			 * we got to the end of the message. Let the caller know there is
@@ -202,8 +200,8 @@ TO_QueueMsgReturnCode_t TO_OutputChannel_QueueMsg(uint32 ChannelID, const char* 
 								/* This is a special byte that needs to be
 								 * properly encoded.
 								 */
-								channel->UartQueueDataCmd.Buffer[channel->BytesQueued] = SLIP_ESC;
-								channel->BytesQueued++;
+								channel->UartQueueDataCmd.Buffer[channel->UartQueueDataCmd.BytesInBuffer] = SLIP_ESC;
+								channel->UartQueueDataCmd.BytesInBuffer++;
 								channel->InputCursor++;
 								channel->EncoderState = TO_SLIP_ENCODING_ESC_END;
 								break;
@@ -214,8 +212,8 @@ TO_QueueMsgReturnCode_t TO_OutputChannel_QueueMsg(uint32 ChannelID, const char* 
 								/* This is a special byte that needs to be
 								 * properly encoded.
 								 */
-								channel->UartQueueDataCmd.Buffer[channel->BytesQueued] = SLIP_ESC;
-								channel->BytesQueued++;
+								channel->UartQueueDataCmd.Buffer[channel->UartQueueDataCmd.BytesInBuffer] = SLIP_ESC;
+								channel->UartQueueDataCmd.BytesInBuffer++;
 								channel->InputCursor++;
 								channel->EncoderState = TO_SLIP_ENCODING_ESC_ESC;
 								break;
@@ -226,8 +224,8 @@ TO_QueueMsgReturnCode_t TO_OutputChannel_QueueMsg(uint32 ChannelID, const char* 
 								/* There is nothing special about this byte.
 								 * Just queue it.
 								 */
-								channel->UartQueueDataCmd.Buffer[channel->BytesQueued] = Buffer[channel->InputCursor];
-								channel->BytesQueued++;
+								channel->UartQueueDataCmd.Buffer[channel->UartQueueDataCmd.BytesInBuffer] = Buffer[channel->InputCursor];
+								channel->UartQueueDataCmd.BytesInBuffer++;
 								channel->InputCursor++;
 							}
 						}
@@ -241,13 +239,13 @@ TO_QueueMsgReturnCode_t TO_OutputChannel_QueueMsg(uint32 ChannelID, const char* 
 					/* Queue the END byte and transition back to the NOMINAL
 					 * state.
 					 */
-					channel->UartQueueDataCmd.Buffer[channel->BytesQueued] = SLIP_END;
-					channel->BytesQueued++;
+					channel->UartQueueDataCmd.Buffer[channel->UartQueueDataCmd.BytesInBuffer] = SLIP_END;
+					channel->UartQueueDataCmd.BytesInBuffer++;
 					channel->EncoderState = TO_SLIP_NOMINAL;
 					cont = FALSE;
 
 					/* Is the output buffer full? */
-					if(channel->BytesQueued >= sizeof(channel->UartQueueDataCmd.Buffer))
+					if(channel->UartQueueDataCmd.BytesInBuffer >= sizeof(channel->UartQueueDataCmd.Buffer))
 					{
 						/* Yes it is full. Let the caller know we
 						 * successfully queued this message but only just
@@ -275,8 +273,8 @@ TO_QueueMsgReturnCode_t TO_OutputChannel_QueueMsg(uint32 ChannelID, const char* 
 					/* Queue the ESC_ESC byte and transition back to the NOMINAL
 					 * state.
 					 */
-					channel->UartQueueDataCmd.Buffer[channel->BytesQueued] = SLIP_ESC_ESC;
-					channel->BytesQueued++;
+					channel->UartQueueDataCmd.Buffer[channel->UartQueueDataCmd.BytesInBuffer] = SLIP_ESC_ESC;
+					channel->UartQueueDataCmd.BytesInBuffer++;
 					channel->EncoderState = TO_SLIP_NOMINAL;
 
 					break;
@@ -287,8 +285,8 @@ TO_QueueMsgReturnCode_t TO_OutputChannel_QueueMsg(uint32 ChannelID, const char* 
 					/* Queue the ESC_END byte and transition back to the NOMINAL
 					 * state.
 					 */
-					channel->UartQueueDataCmd.Buffer[channel->BytesQueued] = SLIP_ESC_END;
-					channel->BytesQueued++;
+					channel->UartQueueDataCmd.Buffer[channel->UartQueueDataCmd.BytesInBuffer] = SLIP_ESC_END;
+					channel->UartQueueDataCmd.BytesInBuffer++;
 					channel->EncoderState = TO_SLIP_NOMINAL;
 
 					break;
@@ -506,99 +504,165 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 {
 	if(TO_AppCustomData.Channel[index].Mode == TO_CHANNEL_ENABLED)
 	{
-		osalbool cont = TRUE;
+		osalbool                cont = TRUE;
+		SEDLIB_MsgReadStatus_t  readStatus;
+		SEDLIB_MsgWriteStatus_t writeStatus;
+		SEDLIB_ReturnCode_t     rc;
 
-		while(cont)
+		/* Check to see if we the previous message has already been
+		 * received and acknowledged. */
+//		rc = SEDLIB_GetMessageStatus(TO_AppCustomData.Channel[index].MsgPortHandle, &readStatus, &writeStatus);
+//		if(SEDLIB_OK != rc)
+//		{
+//			/* We can't read the status.  Abort. */
+//			/* TODO */
+//			return;
+//		}
+
+		if(SEDLIB_MSG_READ_PENDING_ACKNOWLEDGE != readStatus)
 		{
-			int32 status = OS_SUCCESS;
+			/* No.  Either there is nothing there to be received yet, or
+			 * the receiver has already acknowledged it.  Go ahead and
+			 * process some messages. */
 
-			if(FALSE == TO_AppCustomData.Channel[index].MsgProcessInProgress)
+			while(cont)
 			{
-				/* Read in a new message first. */
-				TO_AppCustomData.Channel[index].InputCursor = 0;
+				int32 status = OS_SUCCESS;
 
-				status = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[index], &TO_AppCustomData.Channel[index].InWorkMsg, OS_CHECK );
-				TO_AppCustomData.Channel[index].MsgProcessInProgress = TRUE;
-				if(status == OS_QUEUE_EMPTY)
+				if(FALSE == TO_AppCustomData.Channel[index].MsgProcessInProgress)
 				{
-					/* We have no more messages to queue.  Break out of the
-					 * loop. */
-					cont = FALSE;
-					TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
-				}
-				else if(status != OS_SUCCESS)
-				{
-					CFE_EVS_SendEvent(TO_OSQUEUE_GET_ERROR_EID, CFE_EVS_ERROR,
-									"Failed to pop message from queue. (%i).", (int)status);
-
-					/* Break out of the loop. */
-					cont = FALSE;
-					TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
-				}
-			}
-
-			if(TRUE == cont)
-			{
-				TO_QueueMsgReturnCode_t queueStatus;
-				uint32 size = CFE_SB_GetTotalMsgLength(TO_AppCustomData.Channel[index].InWorkMsg);
-
-				queueStatus = TO_OutputChannel_QueueMsg(index, (const char*)TO_AppCustomData.Channel[index].InWorkMsg, size);
-
-				if(TO_QUEUE_MSG_BUFFER_FULL_MSG_DEFERRED == queueStatus)
-				{
-					/* The buffer is full but we were not able to fully
-					 * process the current message. Some of it is still
-					 * in the input buffer and will have to be processed
-					 * in the next frame. */
-					TO_AppCustomData.Channel[index].MsgProcessInProgress = TRUE;
-
-					/* Break out of the loop. */
-					cont = FALSE;
-				}
-				else if(TO_QUEUE_MSG_BUFFER_FULL_OK == queueStatus)
-				{
-					/* The buffer is full but the current message just barely
-					 * fit.  We do need to go to the next frame but we don't
-					 * need to process a partial message. */
-					TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
-
-					/* Break out of the loop. */
-					cont = FALSE;
-
-					/* Take credit for the message send. */
-					TO_AppData.ChannelData[index].SentMsgCount++;
-				}
-				else
-				{
-					/* The message was fully processed and there is still
-					 * room left in the outgoing buffer.  Keep going.
-					 */
+					/* Read in a new message first. */
 					TO_AppCustomData.Channel[index].InputCursor = 0;
-					TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
 
-					/* Take credit for the message send. */
-					TO_AppData.ChannelData[index].SentMsgCount++;
+					status = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[index], &TO_AppCustomData.Channel[index].InWorkMsg, OS_CHECK );
+
+					uint32 size = CFE_SB_GetTotalMsgLength(TO_AppCustomData.Channel[index].InWorkMsg);
+
+//					msg[0] = 0x0a;
+//					msg[1] = 0xef;
+//					msg[2] = 0xc0;
+//					msg[3] = 0xb5;
+//					msg[4] = 0x00;
+//					msg[5] = 0x21;
+//					msg[6] = 0x2b;
+//					msg[7] = 0x46;
+//					msg[8] = 0x0f;
+//					msg[9] = 0x00;
+//					msg[10] = 0x5d;
+//					msg[11] = 0xb8;
+//					msg[12] = 0xdb;
+//					msg[13] = 0xfe;
+//					msg[14] = 0xfa;
+//					msg[15] = 0x19;
+//					msg[16] = 0x8e;
+//					msg[17] = 0xd9;
+//					msg[18] = 0x05;
+//					msg[19] = 0x00;
+//					msg[20] = 0x01;
+//					msg[21] = 0x00;
+//					msg[22] = 0x00;
+//					msg[23] = 0x01;
+//					msg[24] = 0x00;
+//					msg[25] = 0x00;
+//					msg[26] = 0x01;
+//					msg[27] = 0x01;
+//					msg[28] = 0x00;
+//					msg[29] = 0x00;
+//					msg[30] = 0x00;
+//					msg[31] = 0x00;
+//					msg[32] = 0x00;
+//					msg[33] = 0x00;
+//					msg[34] = 0x00;
+//					msg[35] = 0x00;
+//					msg[36] = 0x00;
+//					msg[37] = 0x00;
+//					msg[38] = 0x00;
+//					msg[39] = 0x00;
+
+					TO_AppCustomData.Channel[index].MsgProcessInProgress = TRUE;
+					if(status == OS_QUEUE_EMPTY)
+					{
+						/* We have no more messages to queue.  Break out of the
+						 * loop. */
+						cont = FALSE;
+						TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
+					}
+					else if(status != OS_SUCCESS)
+					{
+						CFE_EVS_SendEvent(TO_OSQUEUE_GET_ERROR_EID, CFE_EVS_ERROR,
+										"Failed to pop message from queue. (%i).", (int)status);
+
+						/* Break out of the loop. */
+						cont = FALSE;
+						TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
+					}
+				}
+
+				if(TRUE == cont)
+				{
+					TO_QueueMsgReturnCode_t queueStatus;
+					uint32 size = CFE_SB_GetTotalMsgLength(TO_AppCustomData.Channel[index].InWorkMsg);
+
+					uint8 *msg = (uint8*)TO_AppCustomData.Channel[index].InWorkMsg;
+
+					queueStatus = TO_OutputChannel_QueueMsg(index, (const uint8*)TO_AppCustomData.Channel[index].InWorkMsg, size);
+
+					if(TO_QUEUE_MSG_BUFFER_FULL_MSG_DEFERRED == queueStatus)
+					{
+						/* The buffer is full but we were not able to fully
+						 * process the current message. Some of it is still
+						 * in the input buffer and will have to be processed
+						 * in the next frame. */
+						TO_AppCustomData.Channel[index].MsgProcessInProgress = TRUE;
+
+						/* Break out of the loop. */
+						cont = FALSE;
+					}
+					else if(TO_QUEUE_MSG_BUFFER_FULL_OK == queueStatus)
+					{
+						/* The buffer is full but the current message just barely
+						 * fit.  We do need to go to the next frame but we don't
+						 * need to process a partial message. */
+						TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
+
+						/* Break out of the loop. */
+						cont = FALSE;
+
+						/* Take credit for the message send. */
+						TO_AppData.ChannelData[index].SentMsgCount++;
+					}
+					else
+					{
+						/* The message was fully processed and there is still
+						 * room left in the outgoing buffer.  Keep going.
+						 */
+						TO_AppCustomData.Channel[index].InputCursor = 0;
+						TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
+
+						/* Take credit for the message send. */
+						TO_AppData.ChannelData[index].SentMsgCount++;
+					}
 				}
 			}
-		}
 
-		/* Do we have anything in the buffer to send? */
-		if(TO_AppCustomData.Channel[0].BytesQueued > 0)
-		{
-			/* Yes we do. Send it. */
-			CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
-			TO_AppCustomData.Channel[0].UartQueueDataCmd.BytesInBuffer = TO_AppCustomData.Channel[index].BytesQueued;
-			TO_AppCustomData.Channel[index].UartQueueDataCmd.FrameID++;
-			X_Lib_MsgPort_WriteMsg(
-					TO_AppCustomData.Channel[index].MsgPortHandle,
-					(CFE_SB_MsgPtr_t)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
+			/* Do we have anything in the buffer to send? */
+			if(TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer > 0)
+			{
+				/* Yes we do. Send it. */
+				CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
+				TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer = TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer;
+				TO_AppCustomData.Channel[index].UartQueueDataCmd.TxFrameID++;
+				SEDLIB_SendMsg(
+						TO_AppCustomData.Channel[index].MsgPortHandle,
+						(CFE_SB_MsgPtr_t)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
 
-			/* Update metrics. */
-			TO_AppData.ChannelData[index].OutputQueue.SentCount++;
-			TO_AppData.ChannelData[index].OutputQueue.SentBytes += TO_AppCustomData.Channel[index].BytesQueued;
+				/* Update metrics. */
+				TO_AppData.ChannelData[index].OutputQueue.SentCount++;
+				TO_AppData.ChannelData[index].OutputQueue.SentBytes += TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer;
 
-			/* Reset queue */
-			TO_AppCustomData.Channel[index].BytesQueued = 0;
+				/* Reset queue */
+				TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer = 0;
+			}
 		}
 	}
 }

@@ -2,4 +2,5 @@
 config_base: ${PROJECT_SOURCE_DIR} 
 
 modules:
-  sch:
+  apps:
+    sch:

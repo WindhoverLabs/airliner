@@ -19,7 +19,7 @@
 #include "common_types.h"
 
 
-#define CFE_PSP_CPD_FILENAME          "airliner"
+#define CFE_PSP_CPD_FILENAME          "airliner.elf"
 #define CFE_PSP_REMOTEPROC_FIRMWARE   "/sys/class/remoteproc/remoteproc0/firmware"
 #define CFE_PSP_REMOTEPROC_STATE      "/sys/class/remoteproc/remoteproc0/state"
 

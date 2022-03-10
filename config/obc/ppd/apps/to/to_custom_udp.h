@@ -39,8 +39,6 @@
 *************************************************************************/
 #include "to_app.h"
 #include "to_custom.h"
-#include "tm_sync.h"
-#include "tm_sdlp.h"
 #include <arpa/inet.h>
 
 /************************************************************************
@@ -49,14 +47,6 @@
 #define TO_CUSTOM_RETURN_CODE_NULL_POINTER      (-1)
 #define TO_CUSTOM_RETURN_CODE_MESSAGE_TOO_BIG   (-2)
 
-
-#define TO_CUSTOM_TF_SIZE   1024
-#define TO_CUSTOM_TF_OVERFLOW_SIZE TO_CUSTOM_TF_SIZE
-#define TO_CUSTOM_TF_IDLE_SIZE TO_CUSTOM_TF_SIZE
-
-#define TO_CUSTOM_TF_SCID       0
-#define TO_CUSTOM_TF_ERR_CTRL   0
-#define TO_CUSTOM_TF_RANDOMIZE  0
 
 
 /* TODO:  Add Doxygen markup. */
@@ -114,14 +104,6 @@ typedef struct
 typedef struct
 {
     TO_TlmChannel_t                Channel[TO_MAX_CHANNELS];
-    uint8                           idleBuff[TO_CUSTOM_TF_IDLE_SIZE];
-    TM_SDLP_FrameInfo_t             frameInfo;
-    TM_SDLP_ChannelConfig_t         vcConfig;
-    uint8                           buffer[TO_CUSTOM_TF_SIZE + TM_SYNC_ASM_SIZE];
-    uint8                           ocfBuff[4];
-    uint8                           ofBuff[TO_CUSTOM_TF_OVERFLOW_SIZE];
-    TM_SDLP_GlobalConfig_t          mcConfig;
-    uint8                           mcFrameCnt;
 } TO_AppCustomData_t;
 
 /************************************************************************

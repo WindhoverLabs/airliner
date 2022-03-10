@@ -39,7 +39,6 @@
 *************************************************************************/
 #include "to_app.h"
 #include "to_custom.h"
-#include "memory_map.h"
 
 
 /************************************************************************
@@ -54,8 +53,8 @@
 #define TO_ENABLE_CHANNEL_CC                    (10)
 #define TO_DISABLE_CHANNEL_CC                   (11)
 
-#define UART_BUFFER_SIZE                        (5000)
-#define UART_CMD_MSG_ID                         (0x1810)
+#define UART_BUFFER_SIZE                        (1500)
+#define UART_CMD_MSG_ID                         (0x1822)
 
 
 /* SLIP special character codes
@@ -107,7 +106,7 @@ typedef struct
 {
     uint8           CmdHeader[CFE_SB_TLM_HDR_SIZE];
     uint32          Version;
-	uint32          FrameID;
+	uint32          TxFrameID;
 	uint32          BytesInBuffer;
     uint8           Buffer[UART_BUFFER_SIZE];
 } UART_QueueDataCmd_t;
@@ -128,7 +127,6 @@ typedef struct
     UART_QueueDataCmd_t             UartQueueDataCmd;
     uint32                          MsgPortAddress;
     uint32                          InputCursor;
-    uint32                          BytesQueued;
     TO_SlipEncoderState_t           EncoderState;
     osalbool                        MsgProcessInProgress;
     CFE_SB_MsgPtr_t                 InWorkMsg;

@@ -55,3 +55,5 @@ set(PSP_BB_UT_BSP_SRC
     ${PSP_UNIT_TEST_SRC_DIR}/bsp_voltab.c 
 )
 
+set(EMBED_SYMTAB true)
+set(EMBED_INITRD true)

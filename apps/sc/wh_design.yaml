@@ -2,6 +2,8 @@
   long_name: Stored Command
   app_name: SC
   module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     SC_APP_EXIT_ERR_EID: 
       id: 1

@@ -35,8 +35,7 @@
 #include "ci_platform_cfg.h"
 #include "ci_events.h"
 #include <strings.h>
-#include "x_lib.h"
-#include "memory_map.h"
+#include "sedlib.h"
 
 #define CI_CUSTOM_RETURN_CODE_NULL_POINTER      (-1)
 
@@ -48,7 +47,7 @@
 #define SLIP_ESC_ESC         0xDD    /* ESC ESC_ESC means ESC data byte */
 
 
-#define UART_BUFFER_SIZE        (5000)
+#define UART_BUFFER_SIZE        (1500)
 
 typedef enum
 {
@@ -89,8 +88,9 @@ typedef struct
 	uint16          ReceiveParityErrors;	/**< Number of receive parity errors */
 	uint16          ReceiveFramingErrors;	/**< Number of receive framing errors */
 	uint16          ReceiveBreakDetected;	/**< Number of receive breaks */
+	uint32          LastCmdCode;
 	uint32          LastCmdResponse;
-	uint32          FrameID;
+	uint32          RxFrameID;
 	uint32          BytesInBuffer;
     uint8           RxBuffer[UART_BUFFER_SIZE];
 } UART_StatusTlm_t;
@@ -129,11 +129,9 @@ int32 CI_InitCustom(void)
     CI_AppCustomData.SlipOutCursor = 0;
     CI_AppCustomData.ParserState   = CI_SLIP_STATE_PARSING_MESSAGE;
 
-    Status = X_Lib_MsgPort_Init(
-    		UART_STATUS_MSGPORT_ADDRESS,
+    Status = SEDLIB_GetPipe(
+    		"UART1_STATUS",
 			sizeof(UART_StatusTlm_t),
-			UART_STATUS_MSGPORT_MUTEX_DEVICE_ID,
-			UART_STATUS_MSGPORT_MUTEX_NUM,
 			&CI_AppCustomData.MsgPortHandle);
     if(Status != CFE_SUCCESS)
     {
@@ -141,9 +139,11 @@ int32 CI_InitCustom(void)
                                  "Failed to initialize UART MsgPort. (0x%08lX)",
                                  Status);
     }
-
-    CFE_EVS_SendEvent(CI_INIT_INF_EID, CFE_EVS_INFORMATION,
-                      "CI command input initialized.");
+    else
+    {
+        CFE_EVS_SendEvent(CI_INIT_INF_EID, CFE_EVS_INFORMATION,
+                          "CI command input initialized.");
+    }
 
 end_of_function:
     return Status;
@@ -168,17 +168,17 @@ void CI_ReadMessage(uint8* buffer, uint32* size)
              * set the new state to INPROGRESS, and try to read the next
              * message.
         	 */
-	    	int32 rc;
+	    	SEDLIB_ReturnCode_t rc;
 
         	CI_AppCustomData.SlipInCursor  = 0;
 
-            rc = X_Lib_MsgPort_ReadMsg(CI_AppCustomData.MsgPortHandle, (CFE_SB_MsgPtr_t)&CI_AppCustomData.UartStatusTlm);
-            if(X_LIB_SUCCESS == rc)
+            rc = SEDLIB_ReadMsg(CI_AppCustomData.MsgPortHandle, (CFE_SB_MsgPtr_t)&CI_AppCustomData.UartStatusTlm);
+            if(SEDLIB_MSG_FRESH_OK == rc)
             {
             	CI_AppCustomData.BufferState = CI_BUFFER_PARSE_INPROGRESS;
             	parseBuffer = TRUE;
             }
-            else if(X_LIB_NO_NEW_MSG_AVAILABLE == rc)
+            else if(SEDLIB_MSG_STALE_OK == rc)
             {
             	/* There was no message waiting for us. */
             	parseBuffer = FALSE;
@@ -313,7 +313,7 @@ CI_SlipParserReturnCode_t CI_ProcessMessage(uint8* inBuffer, uint32 inSize, uint
 		}
 
 		/* Break out of the loop if we're about to overrun the output buffer. */
-		if(CI_AppCustomData.SlipInCursor >= *inOutSize)
+		if(CI_AppCustomData.SlipOutCursor >= *inOutSize)
 		{
 			returnCode = CI_SLIP_PARSER_BUFFER_OVERFLOW;
 			cont = FALSE;
@@ -340,8 +340,8 @@ CI_SlipParserReturnCode_t CI_ProcessMessage(uint8* inBuffer, uint32 inSize, uint
 						{
 							/* We found the end of a message. Skip over this
 							 * byte and break out of the loop. */
-							CI_AppCustomData.SlipInCursor++;
 							*inOutSize = CI_AppCustomData.SlipOutCursor;
+							CI_AppCustomData.SlipInCursor++;
 							returnCode = CI_SLIP_PARSER_MESSAGE_FOUND;
 							CI_AppCustomData.ParserState = CI_SLIP_STATE_MESSAGE_FOUND;
 							cont = FALSE;

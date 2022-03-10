@@ -97,6 +97,9 @@ int32 TO_Custom_Init(void)
     TO_AppCustomData.Channel[0].Socket = 0;
     TO_AppCustomData.Channel[0].ChildTaskID = 0;
 
+
+	printf("******************************** %s %u\n", __FILE__, __LINE__);
+
     /* Ground dev interface is optional */
     iStatus = TO_Channel_OpenChannel(
                       0,
@@ -449,6 +452,8 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
 {
     int32 iStatus = CFE_SUCCESS;
     CFE_SB_MsgPtr_t msg;
+
+	printf("%s %u\n", __FILE__, __LINE__);
 
     while(TO_OutputChannel_Status(ChannelIdx) == TO_CHANNEL_ENABLED)
     {

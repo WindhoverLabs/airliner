@@ -2,6 +2,8 @@
   long_name: 
   app_name: MS5611
   module_type: CFE_APP
+  commander:
+    displays: cdr
   events: 
     MS5611_INIT_INF_EID: 
       id: 1
