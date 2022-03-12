@@ -42,6 +42,7 @@
 ** Includes
 *************************************************************************/
 #include "cfe.h"
+#include "sedlib.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -175,7 +176,12 @@ typedef struct
 
     /** \ms5611tlmmnemonic \MS5611_CMDRJCTCNT
         \brief Count of failed commands */
-    uint8              usCmdErrCnt; 
+    uint8              usCmdErrCnt;
+
+//    SPI_TransferAction_t  SPI_TransferAction;
+
+    SEDLIB_ReturnCode_t                 SED_RC;
+
 
 } MS5611_HkTlm_t;
 

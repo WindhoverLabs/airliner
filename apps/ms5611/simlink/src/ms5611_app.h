@@ -53,6 +53,8 @@
 #include "ms5611_events.h"
 #include "ms5611_config_utils.h"
 #include "ms5611_cds_utils.h"
+#include "sedlib.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -114,6 +116,21 @@ typedef struct
 
     /** \brief Housekeeping Telemetry for downlink */
     MS5611_HkTlm_t  HkTlm;
+
+    /** \brief Status port handle. */
+    uint32                 StatusPortHandle;
+    /** \brief Command port handle. */
+    uint32                 CmdPortHandle;
+    /** \brief Status buffer. */
+    SPI_TransferResponse_t TransferResp;
+    /** \brief Command buffer. */
+    SPI_TransferCmd_t      TransferCmd;
+    /** \brief At least one response has been received. */
+    boolean                ResponseReceived;
+    /** \brief Sequence count for reads. */
+    uint8                  ReadCount;
+    /** \brief Sequence count for writes. */
+    uint8                  WriteCount;
 
 } MS5611_AppData_t;
 

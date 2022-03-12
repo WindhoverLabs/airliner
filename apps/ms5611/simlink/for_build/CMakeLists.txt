@@ -41,6 +41,8 @@ buildliner_add_app_def(ms5611
    
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fsw
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../../config/shared/apps/ms5611/src/
 
     DESIGN_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
     
@@ -48,6 +50,8 @@ buildliner_add_app_def(ms5611
         ${CMAKE_CURRENT_SOURCE_DIR}/../mission_inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../platform_inc
 )
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../../config/shared/apps/ms5611/src/ ${CMAKE_CURRENT_SOURCE_DIR}/../src/)
 
 buildliner_add_app_unit_test(MS5611-UT
     UTASSERT 
