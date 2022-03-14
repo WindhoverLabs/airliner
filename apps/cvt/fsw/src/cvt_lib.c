@@ -211,8 +211,8 @@ int32 CVT_SetContent(const CVT_ContainerID_t ContainerID, void* Buffer, uint32 S
 	}
 
 	OS_MutSemTake(CVT_DataStoreTable.Registry.Registration[ContainerID].MutexID);
-	CVT_DataStoreTable.Registry.Registration[ContainerID].UpdateCount++;
 	CFE_PSP_MemCpy(&CVT_DataStoreTable.DataStore[CVT_DataStoreTable.Registry.Registration[i].Offset], Buffer, Size);
+	CVT_DataStoreTable.Registry.Registration[ContainerID].UpdateCount++;
 	OS_MutSemGive(CVT_DataStoreTable.Registry.Registration[ContainerID].MutexID);
 
 	status = CVT_SUCCESS;

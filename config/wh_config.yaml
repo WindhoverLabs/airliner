@@ -691,13 +691,13 @@ modules:
             id: 114
             
       ublox_m8n:
-        definition: ${PROJECT_SOURCE_DIR}/apps/gps/simlink/ublox_m8n/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/../private/apps/gps/simlink/ublox_m8n/wh_design.yaml
 
       hmc5883:
-        definition: ${PROJECT_SOURCE_DIR}/apps/hmc5883/simlink/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/../private/apps/hmc5883/simlink/wh_design.yaml
 
       icm20689:
-        definition: ${PROJECT_SOURCE_DIR}/apps/icm20689/simlink/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/../private/apps/icm20689/simlink/wh_design.yaml
 
       ms5611:
         definition: ${PROJECT_SOURCE_DIR}/apps/ms5611/simlink/wh_design.yaml

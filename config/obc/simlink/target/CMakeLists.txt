@@ -20,6 +20,9 @@ buildliner_initialize(
 )
 
 
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/term-sitl.cfg DESTINATION ${CMAKE_BINARY_DIR}/../..)
+
+
 buildliner_add_app(
     cfs_lib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cfs_lib/fsw/for_build
@@ -78,21 +81,21 @@ buildliner_add_app(
 
 buildliner_add_app(
     ublox_m8n
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/gps/simlink/ublox_m8n/for_build
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/gps/simlink/ublox_m8n/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ublox_m8n
 )
 
 
 buildliner_add_app(
     hmc5883
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hmc5883/simlink/for_build
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/hmc5883/simlink/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/hmc5883
 )
 
 
 buildliner_add_app(
     icm20689
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/icm20689/simlink/for_build
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/icm20689/simlink/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/icm20689
 )
 

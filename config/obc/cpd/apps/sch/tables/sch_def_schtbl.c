@@ -173,6 +173,8 @@ VC_PROCESS_CMDS_MIDX            1Hz
 #define HMC5883_SEND_HK_MIDX          82
 #define AK8963_SEND_HK_MIDX           83
 #define AK8963_WAKEUP_MIDX            84
+#define ICM20689_MEASURE_MIDX         85
+#define ICM20689_SEND_HK_MIDX         86
 
 #define HMC5883_WAKEUP_MIDX           88
 
@@ -233,7 +235,7 @@ VC_PROCESS_CMDS_MIDX            1Hz
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	TO_SEND_TLM_MIDX,         SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	ULR_MEASURE_MIDX,         SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	VM_WAKEUP_MIDX,           SCH_GROUP_NONE }, \
-     { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
+     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	ICM20689_MEASURE_MIDX,	  SCH_GROUP_NONE }, \
      { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
      { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
      { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
@@ -804,7 +806,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_1,
 	    SCH_25HZ_GROUP_6,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	ICM20689_SEND_HK_MIDX,    SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },

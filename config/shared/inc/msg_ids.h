@@ -371,6 +371,13 @@
 #define MPU9250_MEASURE_MID                       CMD_MSG(  372 )
 #define MPU9250_SEND_HK_MID                       CMD_MSG(  373 )
 
+/* ICM20689                                                  */
+#define ICM20689_DIAG_TLM_MID                     TLM_MSG(  369 )
+#define ICM20689_HK_TLM_MID                       TLM_MSG(  370 )
+#define ICM20689_CMD_MID                          CMD_MSG(  371 )
+#define ICM20689_MEASURE_MID                      CMD_MSG(  372 )
+#define ICM20689_SEND_HK_MID                      CMD_MSG(  373 )
+
 
 /* MS5607                                                    */
 #define MS5607_DIAG_TLM_MID                       TLM_MSG(  376 )

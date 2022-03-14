@@ -23,6 +23,11 @@ CFE_APP, /embedded/SC.so,        SC_AppMain,      SC,       120, 32768, 0x0, 0, 
 CFE_APP, /embedded/ZUSUP.so,     ZUSUP_AppMain,   ZUSUP,    240, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/CF.so,        CF_AppMain,      CF,       110, 32768, 0x0, 0, 0;
 CFE_LIB, /embedded/SED.so,       SED_AppMain,     SED,      127, 32768, 0x0, 0, 0;
+CFE_APP, /embedded/ICM20689.so,  ICM20689_AppMain, ICM20689, 48, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/HMC5883.so,   HMC5883_AppMain, HMC5883,   53, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/MS5611.so,    MS5611_AppMain,  MS5611,    57, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/RCIN.so,      RCIN_AppMain,    RCIN,      63, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/GPS.so,       GPS_AppMain,     GPS,       67, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/CI.so,        CI_AppMain,      CI,      115, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/TO.so,        TO_AppMain,      TO,        124, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/SCH.so,       SCH_AppMain,     SCH,       10, 40960, 0x0, 0, 0;

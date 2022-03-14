@@ -112,6 +112,7 @@ extern "C" {
 /* TODO:  Add Doxygen markup. */
 #define ICM20689_CUSTOM_DEV_PATH       "/tmp/ttyS0"
 
+#define ICM20689_DEVICE_COUNT          (4)
 
 #ifdef __cplusplus
 }

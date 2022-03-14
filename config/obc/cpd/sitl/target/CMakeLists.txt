@@ -414,3 +414,43 @@ buildliner_add_app(
 #    CONFIG_SOURCES
 #        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbn/src/sbn_remap_tbl.c
 #)
+
+
+buildliner_add_app(
+    icm20689
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/icm20689/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/icm20689
+)
+
+
+#buildliner_add_app(
+#    hmc5883
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/hmc5883/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/hmc5883
+#)
+
+
+#buildliner_add_app(
+#    ms5611
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ms5611/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ms5611
+#)
+
+
+#buildliner_add_app(
+#    rcin
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/rcin/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/rcin
+#)
+
+
+#buildliner_add_app(
+#    gps
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/gps/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps
+#)
