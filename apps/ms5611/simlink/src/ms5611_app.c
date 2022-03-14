@@ -58,6 +58,10 @@
 #define MS5611_SED_CMD_PIPE_NAME             ("SPI0_CMD")
 /* Response (status) pipe name. */
 #define MS5611_SED_STATUS_PIPE_NAME          ("SPI0_STATUS")
+
+/* Message IDs. */
+#define SPI_CMD_MSG_ID                       (0x182c)
+#define SPI_RESPONSE_MSG_ID                  (0x082d)
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
@@ -465,6 +469,7 @@ int32 MS5611_RcvMsg(int32 iBlocking)
             case MS5611_WAKEUP_MID:
                 MS5611_ProcessNewCmds();
                 MS5611_ProcessNewData();
+                MS5611_SED_ParseCommand();
 
                 /* TODO:  Add more code here to handle other things when app wakes up */
 
