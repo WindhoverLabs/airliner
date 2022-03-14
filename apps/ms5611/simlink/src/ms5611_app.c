@@ -591,7 +591,7 @@ void MS5611_SED_ParseCommand(void)
 
     MS5611_AppData.HkTlm.SED_RC = returnCode;
 
-    if(returnCode < SEDLIB_MSG_FRESH_OK)
+    if(returnCode == SEDLIB_MSG_FRESH_OK)
     {
         /* Process command messages till the pipe is empty */
 
