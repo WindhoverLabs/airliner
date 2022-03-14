@@ -54,6 +54,8 @@
 #include "ms5611_config_utils.h"
 #include "ms5611_cds_utils.h"
 #include "sedlib.h"
+#include "cvt_lib.h"
+#include "simlink.h"
 
 
 #ifdef __cplusplus
@@ -117,6 +119,13 @@ typedef struct
     /** \brief Housekeeping Telemetry for downlink */
     MS5611_HkTlm_t  HkTlm;
 
+    CVT_ContainerID_t   BaroContainer[SIMLINK_BARO_DEVICE_COUNT];
+
+
+} MS5611_AppData_t;
+
+typedef struct
+{
     /** \brief Status port handle. */
     uint32                 StatusPortHandle;
     /** \brief Command port handle. */
@@ -131,8 +140,7 @@ typedef struct
     uint8                  ReadCount;
     /** \brief Sequence count for writes. */
     uint8                  WriteCount;
-
-} MS5611_AppData_t;
+} MS5611_AppSpiData_t;
 
 /************************************************************************
 ** External Global Variables
@@ -355,6 +363,14 @@ void  MS5611_SendOutData(void);
 **
 *************************************************************************/
 boolean  MS5611_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
+
+int32    MS5611_InitCVT(void);
+
+void     MS5611_SED_ParseCommand(void);
+void     MS5611_SED_ExecuteCommand(void);
+boolean  MS5611_InitSedPipes(void);
+boolean  MS5611_ApplyPlatformRotation(float *X, float *Y, float *Z);
+
 
 #ifdef __cplusplus
 }

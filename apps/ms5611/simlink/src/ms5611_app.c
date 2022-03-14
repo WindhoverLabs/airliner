@@ -47,6 +47,9 @@
 #include "ms5611_version.h"
 #include "sedlib.h"
 #include "ms5611_map.h"
+#include "cvt_lib.h"
+#include "simlink.h"
+#include "ms5611_events.h"
 
 
 /************************************************************************
@@ -66,6 +69,7 @@
 ** Global Variables
 *************************************************************************/
 MS5611_AppData_t  MS5611_AppData;
+MS5611_AppSpiData_t MS5611_AppSpiData;
 
 /************************************************************************
 ** Local Variables
@@ -220,7 +224,7 @@ int32 MS5611_InitPipe()
     iStatus = SEDLIB_GetPipe(
             MS5611_SED_CMD_PIPE_NAME,
             sizeof(SPI_TransferCmd_t),
-            &MS5611_AppData.CmdPortHandle);
+            &MS5611_AppSpiData.CmdPortHandle);
     if(iStatus != CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(MS5611_INIT_ERR_EID, CFE_EVS_ERROR,
@@ -231,13 +235,24 @@ int32 MS5611_InitPipe()
     iStatus = SEDLIB_GetPipe(
             MS5611_SED_STATUS_PIPE_NAME,
             sizeof(SPI_TransferResponse_t),
-            &MS5611_AppData.StatusPortHandle);
+            &MS5611_AppSpiData.StatusPortHandle);
     if(iStatus != CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(MS5611_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to initialize SPI StatusPortHandle. (0x%08lX)",
                                  iStatus);
     }
+
+    iStatus = MS5611_InitCVT();
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(MS5611_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to init CVT (0x%08X)",
+                                 (unsigned int)iStatus);
+        goto MS5611_InitPipe_Exit_Tag;
+    }
+
+
 
 MS5611_InitPipe_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
@@ -282,18 +297,17 @@ int32 MS5611_InitData()
     CFE_SB_InitMsg(&MS5611_AppData.HkTlm,
                    MS5611_HK_TLM_MID, sizeof(MS5611_AppData.HkTlm), TRUE);
 
-    iStatus = MS5611_InitEvent();
     if (iStatus != CFE_SUCCESS)
     {
-        (void) CFE_ES_WriteToSysLog("MS5611 - Failed to init events (0x%08X)\n", (unsigned int)iStatus);
-        goto MS5611_InitApp_Exit_Tag;
+        (void) CFE_ES_WriteToSysLog("MS5611 - Failed to initialize app data (0x%08X)\n", (unsigned int)iStatus);
+        goto MS5611_InitData_Exit_Tag;
     }
 
-MS5611_InitApp_Exit_Tag:
+MS5611_InitData_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(MS5611_INIT_INF_EID, CFE_EVS_INFORMATION,
-                                 "Initialized.  Version %d.%d.%d.%d",
+                                 "Initialized Data.  Version %d.%d.%d.%d",
                                  MS5611_MAJOR_VERSION,
                                  MS5611_MINOR_VERSION,
                                  MS5611_REVISION,
@@ -301,127 +315,51 @@ MS5611_InitApp_Exit_Tag:
     }
     else
     {
-        (void) CFE_ES_WriteToSysLog("MS5611 - Application failed to initialize\n");
+        (void) CFE_ES_WriteToSysLog("MS5611 - Application failed to initialize App data\n");
     }
 
     return (iStatus);
 }
 
-//int32 MS5611_ResetDevice(void)
-//{
-//    int32 iStatus = 0;
-
-//    iStatus = MS5611_SendWaitVerify(MS5611_SPI_CMD_RESET, 2);
-//    if(iStatus != SEDLIB_OK)
-//    {
-//        (void) CFE_EVS_SendEvent(MS5611_DEVICE_ERR_EID, CFE_EVS_ERROR,
-//                                 "Reset failed SendWaitVerify error (0x%08lX)",
-//                                 iStatus);
-//        goto end_of_function;
-//    }
-
-//    /* Wait for reset to complete (milliseconds). */
-//    (void) OS_TaskDelay(100);
-
-//end_of_function:
-//    return iStatus;
-//}
-
-
-int32 MS5611_ReadWaitVerify()
+int32 MS5611_InitCVT(void)
 {
-    int32               iStatus    = SEDLIB_OK;
-    SEDLIB_ReturnCode_t returnCode = SEDLIB_OK;
-    CFE_SB_MsgId_t      msgID;
+    int32 status;
 
-//    /* Set the sequence count. */
-//    MS5611_AppCustomData.TransferCmd.Action[0].Count = MS5611_AppCustomData.WriteCount++;
-//    /* Set the address. */
-//    MS5611_AppCustomData.TransferCmd.Action[0].Buffer[0] = Address;
-//    /* Set the size. */
-//    MS5611_AppCustomData.TransferCmd.Action[0].TransferByteCount = Size;
-
-    /* Read the message. */
-    returnCode = SEDLIB_ReadMsg(MS5611_AppData.CmdPortHandle,
-                                (CFE_SB_MsgPtr_t)&MS5611_AppData.TransferCmd);
-    if(returnCode != SEDLIB_OK)
+    for(uint32 i = 0; i < MS5611_DEVICE_COUNT; ++i)
     {
-        (void) CFE_EVS_SendEvent(SEDLIB_ReadMsg, CFE_EVS_ERROR,
-                                 "SEDLIB_ReadMsg error (0x%08lX).",
-                                 returnCode);
-        iStatus = -1;
-        goto end_of_function;
+        char name[CVT_CONTAINER_NAME_MAX_LENGTH];
+        uint32 size;
+
+        /* Baro */
+        size = sizeof(SIMLINK_Baro_Msg_t);
+        sprintf(name, SIMLINK_BARO_CONTAINER_NAME_SPEC, i);
+        status = CVT_GetContainer(name, sizeof(SIMLINK_Baro_Msg_t), &MS5611_AppData.BaroContainer[i]);
+        if(CVT_SUCCESS != status)
+        {
+            (void) CFE_EVS_SendEvent(MS5611_INIT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get BARO %ld container. (%li)",
+                                     i,
+                                     status);
+            goto end_of_function;
+        }
+
+        status = CVT_GetContent(MS5611_AppData.BaroContainer[i], &MS5611_AppData.HkTlm.BaroUpdateCount[i], &MS5611_AppData.HkTlm.BaroMsg[i], &size);
+        if(CVT_SUCCESS != status)
+        {
+            (void) CFE_EVS_SendEvent(MS5611_CVT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get Baro %ld container. (%li)",
+                                     i,
+                                     status);
+            goto end_of_function;
+        }
     }
 
-//    CFE_PSP_MemCpy(&MS5611_AppData.HkTlm.SPI_TransferAction, &MS5611_AppData.TransferCmd.Action[0], sizeof(SPI_TransferAction_t));
-
-    //Do some awesome emulated config(magic)
-
-//    if(returnCode != SEDLIB_MSG_FRESH_OK)
-//    {
-//        /* A response was never received. */
-//        (void) CFE_EVS_SendEvent(MS5611_DEVICE_ERR_EID, CFE_EVS_ERROR,
-//                                 "SEDLIB_WaitForResponse error (0x%08lX).",
-//                                 returnCode);
-//        iStatus = -1;
-//        goto end_of_function;
-//    }
-
-//    /* Verify the return message ID. */
-//    msgID = CFE_SB_GetMsgId(&MS5611_AppCustomData.TransferResp);
-//    if(msgID != SPI_RESPONSE_MSG_ID)
-//    {
-//        /* Unknown message ID. */
-//        (void) CFE_EVS_SendEvent(MS5611_DEVICE_ERR_EID, CFE_EVS_ERROR,
-//                                 "Response message ID error.");
-//        iStatus = -1;
-//        goto end_of_function;
-//    }
-
-//    /* Verify the return status code. */
-//    if(MS5611_AppCustomData.TransferResp.Response[0].Status != SEDLIB_OK)
-//    {
-//        /* An error return status code was received. */
-//        (void) CFE_EVS_SendEvent(MS5611_DEVICE_ERR_EID, CFE_EVS_ERROR,
-//                                 "Response return status error %d.",
-//                                 MS5611_AppCustomData.TransferResp.Response[0].Status);
-//        iStatus = -1;
-//        goto end_of_function;
-//    }
-
-//    /* TODO verify the first byte of the response. */
-//    if(MS5611_AppCustomData.TransferResp.Response[0].Buffer[0] != 0xFE)
-//    {
-//        (void) CFE_EVS_SendEvent(MS5611_DEVICE_ERR_EID, CFE_EVS_ERROR,
-//                                 "Response return buffer status error %u.",
-//                                 MS5611_AppCustomData.TransferResp.Response[0].Buffer[0]);
-//        //iStatus = -1;
-//        //goto end_of_function;
-//    }
-
-//    /* Check the sequence count. */
-//    if(MS5611_AppCustomData.ResponseReceived)
-//    {
-//        if(MS5611_AppCustomData.TransferResp.Response[0].Count == MS5611_AppCustomData.ReadCount)
-//        {
-//            (void) CFE_EVS_SendEvent(MS5611_DEVICE_ERR_EID, CFE_EVS_ERROR,
-//                                 "Sequence count error.");
-//            iStatus = -1;
-//            goto end_of_function;
-//        }
-//    }
-//    else
-//    {
-//        MS5611_AppCustomData.ResponseReceived = TRUE;
-//    }
-
-//    /* Set the last sequence count. */
-//    MS5611_AppCustomData.ReadCount = MS5611_AppCustomData.TransferResp.Response[0].Count;
-
 end_of_function:
-     MS5611_AppData.HkTlm.SED_RC = returnCode;
-    return iStatus;
+
+    return status;
 }
+
+
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -476,9 +414,6 @@ int32 MS5611_InitApp()
                                  (unsigned int)iStatus);
         goto MS5611_InitApp_Exit_Tag;
     }
-
-    MS5611_ReadWaitVerify();
-
 
 
 MS5611_InitApp_Exit_Tag:
@@ -588,6 +523,25 @@ void MS5611_ProcessNewData()
     CFE_SB_Msg_t*   DataMsgPtr=NULL;
     CFE_SB_MsgId_t  DataMsgId;
 
+    for(uint32 i = 0; i < MS5611_DEVICE_COUNT; ++i)
+    {
+        char name[CVT_CONTAINER_NAME_MAX_LENGTH];
+        uint32 size;
+
+        /* Baro */
+        size = sizeof(SIMLINK_Baro_Msg_t);
+        iStatus = CVT_GetContent(MS5611_AppData.BaroContainer[i], &MS5611_AppData.HkTlm.BaroUpdateCount[i], &MS5611_AppData.HkTlm.BaroMsg[i], &size);
+        if(CVT_SUCCESS != iStatus)
+        {
+            (void) CFE_EVS_SendEvent(MS5611_CVT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get GYRO %ld container. (%ui)",
+                                     i,
+                                     iStatus);
+            goto end_of_function;
+        }
+        //TODO:Mat conversions
+    }
+
     /* Process telemetry messages till the pipe is empty */
     while (1)
     {
@@ -623,6 +577,39 @@ void MS5611_ProcessNewData()
             break;
         }
     }
+
+end_of_function:
+    return;
+}
+
+void MS5611_SED_ParseCommand(void)
+{
+    SEDLIB_ReturnCode_t returnCode  = SEDLIB_OK;
+
+    returnCode = SEDLIB_ReadMsg(MS5611_AppSpiData.CmdPortHandle,
+                                (CFE_SB_MsgPtr_t)&MS5611_AppSpiData.TransferCmd);
+
+    MS5611_AppData.HkTlm.SED_RC = returnCode;
+
+    if(returnCode < SEDLIB_MSG_FRESH_OK)
+    {
+        /* Process command messages till the pipe is empty */
+
+        CFE_SB_MsgId_t  msgID  = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)&MS5611_AppSpiData.TransferCmd);
+        uint16          cmdCode;
+
+        if(SPI_TRANSFER_CC != msgID)
+        {
+            (void) CFE_EVS_SendEvent(MS5611_SEDLIB_ERR_EID, CFE_EVS_ERROR,
+                                     "Received invalid message from SED. MsgID: 0x%04x",
+                                     msgID);
+//            ICM20689_AppData.ExecutionMode = ICM20689_MODE_IDLE;
+            goto end_of_function;
+        }
+    }
+
+end_of_function:
+    return;
 }
 
 
