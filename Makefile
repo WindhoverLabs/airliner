@@ -167,7 +167,6 @@ workspace::
 	
 workspace-sitl::
 	@echo 'Generating PPD ground tools data.'
-	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram || /bin/true
 	@make -C build/obc/ppd/sitl/target ground-tools
 	@echo 'Generating CPD ground tools data.'
 	@make -C build/obc/cpd/sitl/target ground-tools
@@ -195,6 +194,7 @@ workspace-sitl::
 		
 	
 obc-sitl:: obc/ppd/sitl obc/cpd/sitl obc/simlink
+	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram || /bin/true
 	@echo 'Done'
 	
 	
