@@ -59,6 +59,17 @@
 /* Response (status) pipe name. */
 #define MS5611_SED_STATUS_PIPE_NAME          ("SPI0_STATUS")
 
+#define MS5611_SPI_CMD_PROM_READ_MASK0  (MS5611_SPI_CMD_PROM_READ_MASK + (0 << MS5611_SPI_CMD_PROM_ADDR_SHIFT))
+#define MS5611_SPI_CMD_PROM_READ_MASK1  (MS5611_SPI_CMD_PROM_READ_MASK + (1 << MS5611_SPI_CMD_PROM_ADDR_SHIFT))
+#define MS5611_SPI_CMD_PROM_READ_MASK2  (MS5611_SPI_CMD_PROM_READ_MASK + (2 << MS5611_SPI_CMD_PROM_ADDR_SHIFT))
+#define MS5611_SPI_CMD_PROM_READ_MASK3  (MS5611_SPI_CMD_PROM_READ_MASK + (3 << MS5611_SPI_CMD_PROM_ADDR_SHIFT))
+#define MS5611_SPI_CMD_PROM_READ_MASK4  (MS5611_SPI_CMD_PROM_READ_MASK + (4 << MS5611_SPI_CMD_PROM_ADDR_SHIFT))
+#define MS5611_SPI_CMD_PROM_READ_MASK5  (MS5611_SPI_CMD_PROM_READ_MASK + (5 << MS5611_SPI_CMD_PROM_ADDR_SHIFT))
+#define MS5611_SPI_CMD_PROM_READ_MASK6  (MS5611_SPI_CMD_PROM_READ_MASK + (6 << MS5611_SPI_CMD_PROM_ADDR_SHIFT))
+#define MS5611_SPI_CMD_PROM_READ_MASK7  (MS5611_SPI_CMD_PROM_READ_MASK + (7 << MS5611_SPI_CMD_PROM_ADDR_SHIFT))
+
+#define MS5611_BYTE_RESPONSE  (0xFE)
+
 /* Message IDs. */
 #define SPI_CMD_MSG_ID                       (0x182c)
 #define SPI_RESPONSE_MSG_ID                  (0x082d)
@@ -474,7 +485,22 @@ int32 MS5611_RcvMsg(int32 iBlocking)
                 MS5611_ProcessNewData();
                 if(MS5611_SED_ParseCommand() == SEDLIB_MSG_FRESH_OK)
                 {
-                    MS5611_SED_ExecuteCommand();
+                    SEDLIB_MsgReadStatus_t ReadStatus;
+                    SEDLIB_MsgWriteStatus_t WriteStatus;
+                    SEDLIB_ReturnCode_t rc = SEDLIB_GetMessageStatus(MS5611_AppSpiData.StatusPortHandle, &ReadStatus, &WriteStatus);
+                    if(SEDLIB_OK != rc)
+                    {
+                        (void) CFE_EVS_SendEvent(MS5611_SEDLIB_ERR_EID, CFE_EVS_ERROR,
+                                          "SEDLIB_GetMessageStatus Failed:%d", rc);
+                    }
+
+                    else
+                    {
+                        if(SEDLIB_MSG_READ_ACKNOWLEDGED == ReadStatus)
+                        {
+                            MS5611_SED_ExecuteCommand();
+                        }
+                    }
                 }
 
                 /* TODO:  Add more code here to handle other things when app wakes up */
@@ -689,16 +715,124 @@ void MS5611_SED_ExecuteCommand(void)
         case(MS5611_SPI_CMD_RESET):
         {
             //Magical Reset
-            MS5611_AppData.HkTlm.SPI_ADDR = addr;
-            MS5611_AppSpiData.TransferResp.Response[0].Status = SEDLIB_OK;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[0] = 0xFE;
-            (void) CFE_EVS_SendEvent(MS5611_CDS_INF_EID, CFE_EVS_INFORMATION,
-                                     "Seq Count Before%d",
-                                     MS5611_AppSpiData.TransferResp.Response[0].Count);
-            (void) CFE_EVS_SendEvent(MS5611_CDS_INF_EID, CFE_EVS_INFORMATION,
-                                     "Seq Count After %d",
-                                     MS5611_AppSpiData.TransferResp.Response[0].Count);
+            MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
+            break;
+        }
+        case(MS5611_SPI_CMD_PROM_READ_MASK0):
+        {
+            printf("MS5611_SPI_CMD_PROM_READ_MASK0\n");
+            //Magical PROM Calculations
+            MS5611_SetSEDResponse(addr);
+            sendMsg = TRUE;
+            break;
+        }
+
+        case(MS5611_SPI_CMD_PROM_READ_MASK1):
+        {
+            printf("MS5611_SPI_CMD_PROM_READ_MASK1\n");
+            //Magical PROM Calculations
+            MS5611_SetSEDResponse(addr);
+            sendMsg = TRUE;
+            break;
+        }
+
+        case(MS5611_SPI_CMD_PROM_READ_MASK2):
+        {
+            printf("MS5611_SPI_CMD_PROM_READ_MASK2\n");
+            //Magical PROM Calculations
+            MS5611_SetSEDResponse(addr);
+            sendMsg = TRUE;
+            break;
+        }
+
+        case(MS5611_SPI_CMD_PROM_READ_MASK3):
+        {
+            printf("MS5611_SPI_CMD_PROM_READ_MASK3\n");
+            //Magical PROM Calculations
+            MS5611_SetSEDResponse(addr);
+            sendMsg = TRUE;
+            break;
+        }
+        case(MS5611_SPI_CMD_PROM_READ_MASK4):
+        {
+            printf("MS5611_SPI_CMD_PROM_READ_MASK4\n");
+            //Magical PROM Calculations
+            MS5611_SetSEDResponse(addr);
+            sendMsg = TRUE;
+            break;
+        }
+
+        case(MS5611_SPI_CMD_PROM_READ_MASK5):
+        {
+            printf("MS5611_SPI_CMD_PROM_READ_MASK5\n");
+            //Magical PROM Calculations
+            MS5611_SetSEDResponse(addr);
+            sendMsg = TRUE;
+            break;
+        }
+        case(MS5611_SPI_CMD_PROM_READ_MASK6):
+        {
+            printf("MS5611_SPI_CMD_PROM_READ_MASK6\n");
+            //Magical PROM Calculations
+            MS5611_SetSEDResponse(addr);
+            sendMsg = TRUE;
+            break;
+        }
+        case(MS5611_SPI_CMD_PROM_READ_MASK7):
+        {
+            printf("MS5611_SPI_CMD_PROM_READ_MASK7\n");
+            //Magical PROM Calculations
+            MS5611_SetSEDResponse(addr);
+            sendMsg = TRUE;
+            break;
+        }
+        case(MS5611_SPI_CMD_CONVERT_D1):
+        {
+            printf("MS5611_SPI_CMD_CONVERT_D1\n");
+            MS5611_SetSEDResponse(addr);
+            //TODO:Set values here
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[3] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[4] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[5] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[6] = 4;
+            sendMsg = TRUE;
+            break;
+        }
+        case(MS5611_SPI_CMD_ADC_READ):
+        {
+            printf("MS5611_SPI_CMD_ADC_READ\n");
+            MS5611_SetSEDResponse(addr);
+            //TODO:Set values here
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[3] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[4] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[5] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[6] = 4;
+            sendMsg = TRUE;
+            break;
+        }
+
+        case(MS5611_SPI_CMD_CONVERT_D2):
+        {
+            printf("MS5611_SPI_CMD_CONVERT_D2\n");
+            MS5611_SetSEDResponse(addr);
+            //TODO:Set values here
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[3] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[4] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[5] = 4;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[6] = 4;
+            sendMsg = TRUE;
+            break;
+        }
+        default:
+        {
+            printf("DEFAULT\n");
             break;
         }
     }
@@ -710,8 +844,8 @@ void MS5611_SED_ExecuteCommand(void)
         returnCode = SEDLIB_SendMsg(MS5611_AppSpiData.StatusPortHandle, (CFE_SB_MsgPtr_t)&MS5611_AppSpiData.TransferResp);
         MS5611_AppSpiData.TransferResp.Response[0].Count = MS5611_AppSpiData.TransferResp.Response[0].Count+1;
         MS5611_AppSpiData.WriteCount = MS5611_AppSpiData.TransferResp.Response[0].Count;
+        printf("SEDLIB_SendMsg\n");
 
-        (void) OS_TaskDelay(100);
         if(returnCode < SEDLIB_OK)
         {
             (void) CFE_EVS_SendEvent(MS5611_SEDLIB_ERR_EID, CFE_EVS_ERROR,
@@ -725,6 +859,29 @@ end_of_function:
     return;
 }
 
+/**
+ * @brief MS5611_SetSEDResponse
+ *Set all the necessary fields(such as status and Buffer(s)) that can be sent
+ * via SEDLib.
+ */
+void MS5611_SetSEDResponse(uint8 addr)
+{
+    MS5611_AppData.HkTlm.SPI_ADDR = addr;
+    MS5611_AppSpiData.TransferResp.Response[0].Status = SEDLIB_OK;
+    MS5611_AppSpiData.TransferResp.Response[0].Buffer[0] = MS5611_BYTE_RESPONSE;
+    (void) CFE_EVS_SendEvent(MS5611_CDS_INF_EID, CFE_EVS_INFORMATION,
+                             "Seq Count Before%d",
+                             MS5611_AppSpiData.TransferResp.Response[0].Count);
+    (void) CFE_EVS_SendEvent(MS5611_CDS_INF_EID, CFE_EVS_INFORMATION,
+                             "Seq Count After %d",
+                             MS5611_AppSpiData.TransferResp.Response[0].Count);
+}
+
+void MS5611_SetSEDResponseD1()
+{
+    //Some more magic
+//    MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = 1;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */

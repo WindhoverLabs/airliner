@@ -370,6 +370,7 @@ SEDLIB_ReturnCode_t     MS5611_SED_ParseCommand(void);
 void     MS5611_SED_ExecuteCommand(void);
 boolean  MS5611_InitSedPipes(void);
 boolean  MS5611_ApplyPlatformRotation(float *X, float *Y, float *Z);
+void MS5611_SetSEDResponse(uint8 addr);
 
 
 #ifdef __cplusplus
