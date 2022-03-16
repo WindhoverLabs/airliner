@@ -184,15 +184,12 @@ typedef struct
 
     SIMLINK_Baro_Msg_t   BaroMsg[MS5611_DEVICE_COUNT];
 
-
-    float  Pressure_OUT;
+    float   Pressure_OUT;
     float  Temperature_OUT;
     float  BarometricAltitude_OUT;
-
-//    SPI_TransferAction_t  SPI_TransferAction;
-
     SEDLIB_ReturnCode_t                 SED_RC;
-
+    uint32                              SPI_TransferCmd_t_Version;
+    uint8                               SPI_ADDR;
 
 } MS5611_HkTlm_t;
 

@@ -301,6 +301,9 @@ int32 MS5611_InitData()
     CFE_SB_InitMsg(&MS5611_AppData.HkTlm,
                    MS5611_HK_TLM_MID, sizeof(MS5611_AppData.HkTlm), TRUE);
 
+    CFE_SB_InitMsg(&MS5611_AppSpiData.TransferResp,
+                   SPI_RESPONSE_MSG_ID, sizeof(MS5611_AppSpiData.TransferResp), TRUE);
+
     if (iStatus != CFE_SUCCESS)
     {
         (void) CFE_ES_WriteToSysLog("MS5611 - Failed to initialize app data (0x%08X)\n", (unsigned int)iStatus);
@@ -469,7 +472,10 @@ int32 MS5611_RcvMsg(int32 iBlocking)
             case MS5611_WAKEUP_MID:
                 MS5611_ProcessNewCmds();
                 MS5611_ProcessNewData();
-                MS5611_SED_ParseCommand();
+                if(MS5611_SED_ParseCommand() == SEDLIB_MSG_FRESH_OK)
+                {
+                    MS5611_SED_ExecuteCommand();
+                }
 
                 /* TODO:  Add more code here to handle other things when app wakes up */
 
@@ -587,15 +593,16 @@ end_of_function:
     return;
 }
 
-void MS5611_SED_ParseCommand(void)
+SEDLIB_ReturnCode_t MS5611_SED_ParseCommand(void)
 {
     SEDLIB_ReturnCode_t returnCode  = SEDLIB_OK;
 
     returnCode = SEDLIB_ReadMsg(MS5611_AppSpiData.CmdPortHandle,
                                 (CFE_SB_MsgPtr_t)&MS5611_AppSpiData.TransferCmd);
 
+    //Update HK
     MS5611_AppData.HkTlm.SED_RC = returnCode;
-
+    MS5611_AppData.HkTlm.SPI_TransferCmd_t_Version = MS5611_AppSpiData.TransferCmd.Version;
     if(returnCode == SEDLIB_MSG_FRESH_OK)
     {
         /* Process command messages till the pipe is empty */
@@ -603,12 +610,113 @@ void MS5611_SED_ParseCommand(void)
         CFE_SB_MsgId_t  msgID  = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)&MS5611_AppSpiData.TransferCmd);
         uint16          cmdCode;
 
-        if(SPI_TRANSFER_CC != msgID)
+        if(SPI_CMD_MSG_ID != msgID)
         {
             (void) CFE_EVS_SendEvent(MS5611_SEDLIB_ERR_EID, CFE_EVS_ERROR,
                                      "Received invalid message from SED. MsgID: 0x%04x",
                                      msgID);
-//            ICM20689_AppData.ExecutionMode = ICM20689_MODE_IDLE;
+            goto end_of_function;
+        }
+
+        if(MS5611_AppSpiData.TransferCmd.Version != 1)
+        {
+            (void) CFE_EVS_SendEvent(MS5611_SEDLIB_ERR_EID, CFE_EVS_ERROR,
+                                     "Received invalid message from SED. Version ID: %lu",
+                                     MS5611_AppSpiData.TransferCmd.Version);
+            /*TODO*/
+            goto end_of_function;
+        }
+
+        cmdCode = CFE_SB_GetCmdCode((CFE_SB_MsgPtr_t)&MS5611_AppSpiData.TransferCmd);
+
+        switch(cmdCode)
+        {
+         case SPI_TRANSFER_CC:
+
+            /* This is the single transfer command.  Iterate through all the
+             * actions to validate it first. */
+            for(uint32 i = 0; i < SPI_TRANSFER_ACTION_COUNT_MAX; ++i)
+            {
+                /* Validate this action first. */
+                if(MS5611_AppSpiData.TransferCmd.Action[i].TransferByteCount > SPI_TRANSFER_BUFFER_MAX)
+                {
+                    (void) CFE_EVS_SendEvent(MS5611_SEDLIB_ERR_EID, CFE_EVS_ERROR,
+                                             "Received transfer command with invalid byte transfer count of %d",
+                                             MS5611_AppSpiData.TransferCmd.Action[i].TransferByteCount);
+                    goto end_of_function;
+                }
+            }
+
+            break;
+         default:
+            (void) CFE_EVS_SendEvent(MS5611_CMD_ERR_EID, CFE_EVS_ERROR,
+                                     "Received command with invalid command code. MsgID: 0x%04x",
+                                     msgID);
+            goto end_of_function;
+        }
+
+
+    }
+
+end_of_function:
+    return returnCode;
+}
+
+void MS5611_SED_ExecuteCommand(void)
+{
+    uint8   addr;
+    boolean isRead = FALSE;
+    boolean sendMsg = FALSE;
+
+    /* Validate this action first. */
+    if(MS5611_AppSpiData.TransferCmd.Action[0].TransferByteCount > SPI_TRANSFER_BUFFER_MAX)
+    {
+        (void) CFE_EVS_SendEvent(MS5611_SEDLIB_ERR_EID, CFE_EVS_ERROR,
+                                 "Received transfer command with invalid byte transfer count of %d",
+                                 MS5611_AppSpiData.TransferCmd.Action[0].TransferByteCount);
+        goto end_of_function;
+    }
+
+
+    /* This action appears to be valid.  Now act on the address, but
+     * AND 0x7f on the address to clear the 0x80 bit that was OR'd by
+     * the sender. */
+    addr = MS5611_AppSpiData.TransferCmd.Action[0].Buffer[0];
+    isRead = MS5611_AppSpiData.TransferCmd.Action[0].Buffer[0];
+
+    switch(addr)
+    {
+        case(MS5611_SPI_CMD_RESET):
+        {
+            //Magical Reset
+            MS5611_AppData.HkTlm.SPI_ADDR = addr;
+            MS5611_AppSpiData.TransferResp.Response[0].Status = SEDLIB_OK;
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[0] = 0xFE;
+            (void) CFE_EVS_SendEvent(MS5611_CDS_INF_EID, CFE_EVS_INFORMATION,
+                                     "Seq Count Before%d",
+                                     MS5611_AppSpiData.TransferResp.Response[0].Count);
+            (void) CFE_EVS_SendEvent(MS5611_CDS_INF_EID, CFE_EVS_INFORMATION,
+                                     "Seq Count After %d",
+                                     MS5611_AppSpiData.TransferResp.Response[0].Count);
+            sendMsg = TRUE;
+            break;
+        }
+    }
+
+    if(sendMsg)
+    {
+        SEDLIB_ReturnCode_t returnCode;
+
+        returnCode = SEDLIB_SendMsg(MS5611_AppSpiData.StatusPortHandle, (CFE_SB_MsgPtr_t)&MS5611_AppSpiData.TransferResp);
+        MS5611_AppSpiData.TransferResp.Response[0].Count = MS5611_AppSpiData.TransferResp.Response[0].Count+1;
+        MS5611_AppSpiData.WriteCount = MS5611_AppSpiData.TransferResp.Response[0].Count;
+
+        (void) OS_TaskDelay(100);
+        if(returnCode < SEDLIB_OK)
+        {
+            (void) CFE_EVS_SendEvent(MS5611_SEDLIB_ERR_EID, CFE_EVS_ERROR,
+                                     "SEDLIB_SendMsg failed with %i",
+                                     returnCode);
             goto end_of_function;
         }
     }
