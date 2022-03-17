@@ -33,7 +33,7 @@ int32 SEDLIB_CustomInit(void)
         keyFile = SEDLIB_DEFAULT_SHMEM_KEY_FILE;
     }
 
-    tempFd = open(keyFile, O_RDONLY | O_CREAT, S_IRWXU );
+    tempFd = open(keyFile,  O_RDWR|O_SYNC | O_CREAT, S_IRWXU );
     close(tempFd);
 
 	/* Make the key: */

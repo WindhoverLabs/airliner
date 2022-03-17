@@ -432,12 +432,13 @@ buildliner_add_app(
 #)
 
 
-#buildliner_add_app(
-#    ms5611
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ms5611/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ms5611
-#)
+buildliner_add_app(
+    ms5611
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ms5611/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ms5611
+    CONFIG_SOURCES ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ms5611/src/ms5611_custom.c
+)
 
 
 #buildliner_add_app(

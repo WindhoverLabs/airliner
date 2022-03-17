@@ -7,8 +7,8 @@
  **Shell 1**
 3. ```cd build/obc/sitl_commander_workspace```
 4. ```bin/yamcsd /opt/yamcs .```  
- This should launch YAMCS
- **Shell 2**
+ This should launch YAMCS  
+ **Shell 2**  
 5. ```cd build/obc/simlink/host/host```
 6. ```./start-gazebo```  
  This should start Gazebo  
