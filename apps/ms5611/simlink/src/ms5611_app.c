@@ -70,6 +70,15 @@
 
 #define MS5611_BYTE_RESPONSE  (0xFE)
 
+/*Values obtained from
+ * https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Data+Sheet%7FMS5611-01BA03%7FB3%7Fpdf%7FEnglish%7FENG_DS_MS5611-01BA03_B3.pdf%7FCAT-BLPS0036*/
+#define PROM_C1 40127
+#define PROM_C2 36924
+#define PROM_C3 23317
+#define PROM_C4 23282
+#define PROM_C5 33464
+#define PROM_C6 28312
+
 /* Message IDs. */
 #define SPI_CMD_MSG_ID                       (0x182c)
 #define SPI_RESPONSE_MSG_ID                  (0x082d)
@@ -577,6 +586,10 @@ void MS5611_ProcessNewData()
             goto end_of_function;
         }
         //TODO:Mat conversions
+
+        MS5611_AppData.HkTlm.Pressure_OUT = MS5611_AppData.HkTlm.BaroMsg[i].Pressure;
+        MS5611_AppData.HkTlm.Temperature_OUT = MS5611_AppData.HkTlm.BaroMsg[i].Temperature;
+        MS5611_AppData.HkTlm.BarometricAltitude_OUT = MS5611_AppData.HkTlm.BaroMsg[i].BarometricAltitude;
     }
 
     /* Process telemetry messages till the pipe is empty */
@@ -617,6 +630,24 @@ void MS5611_ProcessNewData()
 
 end_of_function:
     return;
+}
+
+void MS5611_ConvertD1(float* d1, volatile uint8* result)
+{
+    char* d1_ptr = (char*)d1;
+    for(int i =0 ;i<3;i++)
+    {
+        result[i] = d1_ptr[i];
+    }
+}
+
+void MS5611_ConvertPROM(short* d1, volatile uint8* result)
+{
+    char* d1_ptr = (char*)d1;
+    for(int i =0 ;i<2;i++)
+    {
+        result[i] = d1_ptr[i];
+    }
 }
 
 SEDLIB_ReturnCode_t MS5611_SED_ParseCommand(void)
@@ -688,6 +719,55 @@ end_of_function:
     return returnCode;
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Calculate a CRC4 code                                           */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+uint8 MS5611_CRC4(uint16 n_prom[])
+{
+    uint32 cnt      = 0;
+    /* crc remainder */
+    uint16 n_rem    = 0;
+    /* original crc value */
+    uint16 crc_read = 0;
+    uint8 n_bit     = 0;
+    n_rem           = 0x00;
+    /* save the original CRC */
+    crc_read        = n_prom[7];
+    /* replace the crc byte with 0 */
+    n_prom[7]       = (0xFF00 & (n_prom[7]));
+    /* operation is performed on bytes */
+    for (cnt = 0; cnt < 16; ++cnt)
+    {
+        /* choose LSB or MSB */
+        if (cnt%2 == 1)
+        {
+            n_rem ^= (uint16) ((n_prom[cnt>>1]) & 0x00FF);
+        }
+        else
+        {
+            n_rem ^= (uint16) (n_prom[cnt>>1]>>8);
+        }
+        for (n_bit = 8; n_bit > 0; n_bit--)
+        {
+            if (n_rem & (0x8000))
+            {
+                n_rem = (n_rem << 1) ^ 0x3000;
+            }
+            else
+            {
+                n_rem = (n_rem << 1);
+            }
+        }
+    }
+    /* the final 4-bit remainder is the CRC code */
+    n_rem = (0x000F & (n_rem >> 12));
+    /* Restore the crc_read to its original value */
+    n_prom[7] = crc_read;
+    return (n_rem ^ 0x00);
+}
+
 void MS5611_SED_ExecuteCommand(void)
 {
     uint8   addr;
@@ -723,7 +803,10 @@ void MS5611_SED_ExecuteCommand(void)
         {
             printf("MS5611_SPI_CMD_PROM_READ_MASK0\n");
             //Magical PROM Calculations
+            //This is reserved for the manufacturer so we treat it as *magic*.
+            //Poof!
             MS5611_SetSEDResponse(addr);
+
             sendMsg = TRUE;
             break;
         }
@@ -734,6 +817,12 @@ void MS5611_SED_ExecuteCommand(void)
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
+//            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = PROM_C1;
+            short c1 = PROM_C1;
+            //TODO:Maybe I should add C1 to HK.
+            MS5611_ConvertPROM(&c1, &MS5611_AppSpiData.TransferResp.Response[0].Buffer[1]);
+//            MS5611_CRC4();
+
             break;
         }
 
@@ -792,12 +881,7 @@ void MS5611_SED_ExecuteCommand(void)
             printf("MS5611_SPI_CMD_CONVERT_D1\n");
             MS5611_SetSEDResponse(addr);
             //TODO:Set values here
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[3] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[4] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[5] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[6] = 4;
+            MS5611_ConvertD1(&MS5611_AppData.HkTlm.Pressure_OUT, &MS5611_AppSpiData.TransferResp.Response[0].Buffer[1]);
             sendMsg = TRUE;
             break;
         }
@@ -806,12 +890,6 @@ void MS5611_SED_ExecuteCommand(void)
             printf("MS5611_SPI_CMD_ADC_READ\n");
             MS5611_SetSEDResponse(addr);
             //TODO:Set values here
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[3] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[4] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[5] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[6] = 4;
             sendMsg = TRUE;
             break;
         }
@@ -821,12 +899,6 @@ void MS5611_SED_ExecuteCommand(void)
             printf("MS5611_SPI_CMD_CONVERT_D2\n");
             MS5611_SetSEDResponse(addr);
             //TODO:Set values here
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[3] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[4] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[5] = 4;
-            MS5611_AppSpiData.TransferResp.Response[0].Buffer[6] = 4;
             sendMsg = TRUE;
             break;
         }
