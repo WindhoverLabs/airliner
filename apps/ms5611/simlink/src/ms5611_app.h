@@ -66,6 +66,7 @@ extern "C" {
 ** Local Defines
 *************************************************************************/
 #define MS5611_TIMEOUT_MSEC             	(1000)
+#define MS5611_COEF_SIZE               (8)
 
 /************************************************************************
 ** Local Structure Definitions
@@ -120,6 +121,8 @@ typedef struct
     MS5611_HkTlm_t  HkTlm;
 
     CVT_ContainerID_t   BaroContainer[SIMLINK_BARO_DEVICE_COUNT];
+
+    uint8 PROM[MS5611_COEF_SIZE*2];
 
 
 } MS5611_AppData_t;

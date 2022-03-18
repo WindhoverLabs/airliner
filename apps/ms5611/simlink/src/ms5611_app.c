@@ -806,7 +806,6 @@ void MS5611_SED_ExecuteCommand(void)
             //This is reserved for the manufacturer so we treat it as *magic*.
             //Poof!
             MS5611_SetSEDResponse(addr);
-
             sendMsg = TRUE;
             break;
         }
@@ -817,12 +816,15 @@ void MS5611_SED_ExecuteCommand(void)
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
-//            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = PROM_C1;
-            short c1 = PROM_C1;
+            uint16 c1 = PROM_C1;
             //TODO:Maybe I should add C1 to HK.
-            MS5611_ConvertPROM(&c1, &MS5611_AppSpiData.TransferResp.Response[0].Buffer[1]);
-//            MS5611_CRC4();
 
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = (uint8)(c1 >> 8);
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = (uint8)(0x00FF & c1);
+            MS5611_AppData.PROM[0] = 0;
+            MS5611_AppData.PROM[1] = 0;
+            MS5611_AppData.PROM[2] = (uint8)(c1 >> 8);
+            MS5611_AppData.PROM[3] = (uint8)(0x00FF & c1);
             break;
         }
 
@@ -832,6 +834,14 @@ void MS5611_SED_ExecuteCommand(void)
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
+            uint16 c2 = PROM_C2;
+            //TODO:Maybe I should add C1 to HK.
+
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = (uint8)(c2 >> 8);
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = (uint8)(0x00FF & c2);
+
+            MS5611_AppData.PROM[4] = (uint8)(c2 >> 8);
+            MS5611_AppData.PROM[5] = (uint8)(0x00FF & c2);
             break;
         }
 
@@ -841,6 +851,15 @@ void MS5611_SED_ExecuteCommand(void)
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
+            uint16 c3 = PROM_C3;
+            //TODO:Maybe I should add C1 to HK.
+
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = (uint8)(c3 >> 8);
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = (uint8)(0x00FF & c3);
+
+            MS5611_AppData.PROM[6] = (uint8)(c3 >> 8);
+            MS5611_AppData.PROM[7] = (uint8)(0x00FF & c3);
+
             break;
         }
         case(MS5611_SPI_CMD_PROM_READ_MASK4):
@@ -849,6 +868,15 @@ void MS5611_SED_ExecuteCommand(void)
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
+            uint16 c4 = PROM_C4;
+            //TODO:Maybe I should add C1 to HK.
+
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = (uint8)(c4 >> 8);
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = (uint8)(0x00FF & c4);
+
+
+            MS5611_AppData.PROM[8] = (uint8)(c4 >> 8);
+            MS5611_AppData.PROM[9] = (uint8)(0x00FF & c4);
             break;
         }
 
@@ -858,6 +886,14 @@ void MS5611_SED_ExecuteCommand(void)
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
+            uint16 c5 = PROM_C5;
+            //TODO:Maybe I should add C1 to HK.
+
+
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = (uint8)(c5 >> 8);
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = (uint8)(0x00FF & c5);
+            MS5611_AppData.PROM[10] = (uint8)(c5 >> 8);
+            MS5611_AppData.PROM[11] = (uint8)(0x00FF & c5);
             break;
         }
         case(MS5611_SPI_CMD_PROM_READ_MASK6):
@@ -866,6 +902,14 @@ void MS5611_SED_ExecuteCommand(void)
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
+            uint16 c6 = PROM_C6;
+            //TODO:Maybe I should add C1 to HK.
+
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = (uint8)(c6 >> 8);
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = (uint8)(0x00FF & c6);
+
+            MS5611_AppData.PROM[12] = (uint8)(c6 >> 8);
+            MS5611_AppData.PROM[13] = (uint8)(0x00FF & c6);
             break;
         }
         case(MS5611_SPI_CMD_PROM_READ_MASK7):
@@ -874,6 +918,7 @@ void MS5611_SED_ExecuteCommand(void)
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
+            //TODO:Maybe I should add C1 to HK.
             break;
         }
         case(MS5611_SPI_CMD_CONVERT_D1):
@@ -881,8 +926,8 @@ void MS5611_SED_ExecuteCommand(void)
             printf("MS5611_SPI_CMD_CONVERT_D1\n");
             MS5611_SetSEDResponse(addr);
             //TODO:Set values here
-            MS5611_ConvertD1(&MS5611_AppData.HkTlm.Pressure_OUT, &MS5611_AppSpiData.TransferResp.Response[0].Buffer[1]);
             sendMsg = TRUE;
+
             break;
         }
         case(MS5611_SPI_CMD_ADC_READ):
@@ -913,10 +958,15 @@ void MS5611_SED_ExecuteCommand(void)
     {
         SEDLIB_ReturnCode_t returnCode;
 
+        if(addr == MS5611_SPI_CMD_PROM_READ_MASK7)
+        {
+            MS5611_CRC4((uint16*)MS5611_AppData.PROM);
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = MS5611_AppData.PROM[14];
+            MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = MS5611_AppData.PROM[15];
+        }
         returnCode = SEDLIB_SendMsg(MS5611_AppSpiData.StatusPortHandle, (CFE_SB_MsgPtr_t)&MS5611_AppSpiData.TransferResp);
         MS5611_AppSpiData.TransferResp.Response[0].Count = MS5611_AppSpiData.TransferResp.Response[0].Count+1;
         MS5611_AppSpiData.WriteCount = MS5611_AppSpiData.TransferResp.Response[0].Count;
-        printf("SEDLIB_SendMsg\n");
 
         if(returnCode < SEDLIB_OK)
         {
