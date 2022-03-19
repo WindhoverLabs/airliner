@@ -124,6 +124,7 @@ typedef struct
 
     uint8 PROM[MS5611_COEF_SIZE*2];
 
+    uint16 LastConversion;
 
 } MS5611_AppData_t;
 
