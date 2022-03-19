@@ -51,7 +51,6 @@
 #include "simlink.h"
 #include "ms5611_events.h"
 
-
 /************************************************************************
 ** Local Defines
 *************************************************************************/
@@ -72,12 +71,12 @@
 
 /*Values obtained from
  * https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Data+Sheet%7FMS5611-01BA03%7FB3%7Fpdf%7FEnglish%7FENG_DS_MS5611-01BA03_B3.pdf%7FCAT-BLPS0036*/
-#define PROM_C1 40127
-#define PROM_C2 36924
-#define PROM_C3 23317
-#define PROM_C4 23282
-#define PROM_C5 33464
-#define PROM_C6 28312
+#define PROM_C1 40127u
+#define PROM_C2 36924u
+#define PROM_C3 23317u
+#define PROM_C4 23282u
+#define PROM_C5 33464u
+#define PROM_C6 28312u
 
 /* Message IDs. */
 #define SPI_CMD_MSG_ID                       (0x182c)
@@ -585,11 +584,19 @@ void MS5611_ProcessNewData()
                                      iStatus);
             goto end_of_function;
         }
-        //TODO:Mat conversions
+        //Math conversions
 
-        MS5611_AppData.HkTlm.Pressure_OUT = MS5611_AppData.HkTlm.BaroMsg[i].Pressure;
-        MS5611_AppData.HkTlm.Temperature_OUT = MS5611_AppData.HkTlm.BaroMsg[i].Temperature;
-        MS5611_AppData.HkTlm.BarometricAltitude_OUT = MS5611_AppData.HkTlm.BaroMsg[i].BarometricAltitude;
+        MS5611_AppData.HkTlm.Pressure_OUT = MS5611_AppData.HkTlm.BaroMsg[0].Pressure;
+        MS5611_AppData.HkTlm.Temperature_OUT = MS5611_AppData.HkTlm.BaroMsg[0].Temperature ;
+//        MS5611_AppData.HkTlm.Temperature_OUT = 8599376.006216445; 8566784; dt = D2 - C5 * 2 8 8566784
+//        MS5611_AppData.HkTlm.Temperature_OUT =  (((d2-(C5<<8)) * (C6>>23) ) + 2000) /200;
+//        MS5611_AppData.HkTlm.Temperature_OUT = (((MS5611_AppData.HkTlm.Temperature_OUT) - 2000)/(PROM_C6<<23)) + (PROM_C5<<8);
+        //TODO: I think this is correct, but we might be losing some of the precision in floating point.
+        MS5611_AppData.HkTlm.Temperature_OUT = (((MS5611_AppData.HkTlm.Temperature_OUT) - 2000)/((PROM_C6<<23))) + (PROM_C5<<8);
+//        MS5611_AppData.HkTlm.Temperature_OUT = 8599376.006216445;
+//        MS5611_AppData.HkTlm.Pressure_OUT = ((int64)(MS5611_AppData.HkTlm.BaroMsg[0].Pressure) << 15)/((((PROM_C1<<15)+(PROM_C3*(int64)MS5611_AppData.HkTlm.Temperature_OUT))>>8) -
+//                                                                                            PROM_C2<<16 + (PROM_C4*((int64)MS5611_AppData.HkTlm.Temperature_OUT - PROM_C5<<8)));
+        MS5611_AppData.HkTlm.BarometricAltitude_OUT = MS5611_AppData.HkTlm.BaroMsg[0].BarometricAltitude;
     }
 
     /* Process telemetry messages till the pipe is empty */
@@ -925,8 +932,9 @@ void MS5611_SED_ExecuteCommand(void)
         {
             printf("MS5611_SPI_CMD_CONVERT_D1\n");
             MS5611_SetSEDResponse(addr);
-            //TODO:Set values here
+            //D1 conversion magic
             sendMsg = TRUE;
+            MS5611_AppData.HkTlm.LastConversion = MS5611_SPI_CMD_CONVERT_D1;
 
             break;
         }
@@ -934,8 +942,40 @@ void MS5611_SED_ExecuteCommand(void)
         {
             printf("MS5611_SPI_CMD_ADC_READ\n");
             MS5611_SetSEDResponse(addr);
-            //TODO:Set values here
             sendMsg = TRUE;
+            //TODO:Set values here
+            if(MS5611_SPI_CMD_CONVERT_D1 == MS5611_AppData.HkTlm.LastConversion)
+            {
+                uint32 pressure = (uint32) MS5611_AppData.HkTlm.Pressure_OUT;
+                uint8* ptr = (uint8*)&MS5611_AppData.HkTlm.Pressure_OUT;
+                MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = (uint8) (pressure >> 16);
+                MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = (uint8) (pressure >> 8);
+                MS5611_AppSpiData.TransferResp.Response[0].Buffer[3] = (uint8)(0x0000FF & pressure);
+
+               uint32 returnVal = (MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] << 16)
+                           + (MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] << 8)
+                           + MS5611_AppSpiData.TransferResp.Response[0].Buffer[3];
+
+               MS5611_AppData.HkTlm.LastConversion = 0;
+               printf("D1---->%lu\n", returnVal);
+
+            }
+
+            else if(MS5611_SPI_CMD_CONVERT_D2 == MS5611_AppData.HkTlm.LastConversion)
+            {
+                uint8* ptr = (uint8*)(&MS5611_AppData.HkTlm.Temperature_OUT);
+                uint32 temperature = (uint32) MS5611_AppData.HkTlm.Temperature_OUT;
+                MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = (uint8) (temperature >> 16);
+                MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = (uint8) (temperature >> 8);
+                MS5611_AppSpiData.TransferResp.Response[0].Buffer[3] = (uint8)(0x0000FF & temperature);
+
+                uint32 returnVal = (MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] << 16)
+                            + (MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] << 8)
+                            + MS5611_AppSpiData.TransferResp.Response[0].Buffer[3];
+                printf("D2---->%lu\n", returnVal);
+                MS5611_AppData.HkTlm.LastConversion = 0;
+
+            }
             break;
         }
 
@@ -944,6 +984,7 @@ void MS5611_SED_ExecuteCommand(void)
             printf("MS5611_SPI_CMD_CONVERT_D2\n");
             MS5611_SetSEDResponse(addr);
             //TODO:Set values here
+            MS5611_AppData.HkTlm.LastConversion = MS5611_SPI_CMD_CONVERT_D2;
             sendMsg = TRUE;
             break;
         }
@@ -964,6 +1005,8 @@ void MS5611_SED_ExecuteCommand(void)
             MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] = MS5611_AppData.PROM[14];
             MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = MS5611_AppData.PROM[15];
         }
+
+        printf("S5611_AppData.HkTlm.LastConversion-->%d\n", MS5611_AppData.HkTlm.LastConversion);
         returnCode = SEDLIB_SendMsg(MS5611_AppSpiData.StatusPortHandle, (CFE_SB_MsgPtr_t)&MS5611_AppSpiData.TransferResp);
         MS5611_AppSpiData.TransferResp.Response[0].Count = MS5611_AppSpiData.TransferResp.Response[0].Count+1;
         MS5611_AppSpiData.WriteCount = MS5611_AppSpiData.TransferResp.Response[0].Count;

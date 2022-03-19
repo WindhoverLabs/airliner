@@ -191,6 +191,8 @@ typedef struct
     uint32                              SPI_TransferCmd_t_Version;
     uint8                               SPI_ADDR;
 
+    uint16 LastConversion;
+
 } MS5611_HkTlm_t;
 
 
