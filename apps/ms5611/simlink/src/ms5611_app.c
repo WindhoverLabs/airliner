@@ -586,16 +586,12 @@ void MS5611_ProcessNewData()
         }
         //Math conversions
 
-        MS5611_AppData.HkTlm.Pressure_OUT = MS5611_AppData.HkTlm.BaroMsg[0].Pressure;
-        MS5611_AppData.HkTlm.Temperature_OUT = MS5611_AppData.HkTlm.BaroMsg[0].Temperature ;
-//        MS5611_AppData.HkTlm.Temperature_OUT = 8599376.006216445; 8566784; dt = D2 - C5 * 2 8 8566784
-//        MS5611_AppData.HkTlm.Temperature_OUT =  (((d2-(C5<<8)) * (C6>>23) ) + 2000) /200;
-//        MS5611_AppData.HkTlm.Temperature_OUT = (((MS5611_AppData.HkTlm.Temperature_OUT) - 2000)/(PROM_C6<<23)) + (PROM_C5<<8);
-        //TODO: I think this is correct, but we might be losing some of the precision in floating point.
-        MS5611_AppData.HkTlm.Temperature_OUT = (((MS5611_AppData.HkTlm.Temperature_OUT) - 2000)/((PROM_C6<<23))) + (PROM_C5<<8);
-//        MS5611_AppData.HkTlm.Temperature_OUT = 8599376.006216445;
-//        MS5611_AppData.HkTlm.Pressure_OUT = ((int64)(MS5611_AppData.HkTlm.BaroMsg[0].Pressure) << 15)/((((PROM_C1<<15)+(PROM_C3*(int64)MS5611_AppData.HkTlm.Temperature_OUT))>>8) -
-//                                                                                            PROM_C2<<16 + (PROM_C4*((int64)MS5611_AppData.HkTlm.Temperature_OUT - PROM_C5<<8)));
+		int64 dT = ((((int64)(MS5611_AppData.HkTlm.BaroMsg[0].Temperature * 100) - 2000) << 23))/ (int64)PROM_C6;
+		int64 OFF = (PROM_C2 << 16) + ((PROM_C4 * dT) >> 7);
+		int64 SENS = (PROM_C1 << 15) + ((PROM_C3 * dT) >> 8);
+
+        MS5611_AppData.HkTlm.Temperature_OUT = ((int64)dT + ((int64)PROM_C5 << 8));
+        MS5611_AppData.HkTlm.Pressure_OUT = (((((int64)(MS5611_AppData.HkTlm.BaroMsg[0].Pressure * 100) << 15) + OFF) << 21) / SENS);
         MS5611_AppData.HkTlm.BarometricAltitude_OUT = MS5611_AppData.HkTlm.BaroMsg[0].BarometricAltitude;
     }
 
@@ -808,7 +804,6 @@ void MS5611_SED_ExecuteCommand(void)
         }
         case(MS5611_SPI_CMD_PROM_READ_MASK0):
         {
-            printf("MS5611_SPI_CMD_PROM_READ_MASK0\n");
             //Magical PROM Calculations
             //This is reserved for the manufacturer so we treat it as *magic*.
             //Poof!
@@ -819,7 +814,6 @@ void MS5611_SED_ExecuteCommand(void)
 
         case(MS5611_SPI_CMD_PROM_READ_MASK1):
         {
-            printf("MS5611_SPI_CMD_PROM_READ_MASK1\n");
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
@@ -837,7 +831,6 @@ void MS5611_SED_ExecuteCommand(void)
 
         case(MS5611_SPI_CMD_PROM_READ_MASK2):
         {
-            printf("MS5611_SPI_CMD_PROM_READ_MASK2\n");
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
@@ -854,7 +847,6 @@ void MS5611_SED_ExecuteCommand(void)
 
         case(MS5611_SPI_CMD_PROM_READ_MASK3):
         {
-            printf("MS5611_SPI_CMD_PROM_READ_MASK3\n");
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
@@ -871,7 +863,6 @@ void MS5611_SED_ExecuteCommand(void)
         }
         case(MS5611_SPI_CMD_PROM_READ_MASK4):
         {
-            printf("MS5611_SPI_CMD_PROM_READ_MASK4\n");
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
@@ -889,7 +880,6 @@ void MS5611_SED_ExecuteCommand(void)
 
         case(MS5611_SPI_CMD_PROM_READ_MASK5):
         {
-            printf("MS5611_SPI_CMD_PROM_READ_MASK5\n");
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
@@ -905,7 +895,6 @@ void MS5611_SED_ExecuteCommand(void)
         }
         case(MS5611_SPI_CMD_PROM_READ_MASK6):
         {
-            printf("MS5611_SPI_CMD_PROM_READ_MASK6\n");
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
@@ -921,7 +910,6 @@ void MS5611_SED_ExecuteCommand(void)
         }
         case(MS5611_SPI_CMD_PROM_READ_MASK7):
         {
-            printf("MS5611_SPI_CMD_PROM_READ_MASK7\n");
             //Magical PROM Calculations
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
@@ -930,7 +918,6 @@ void MS5611_SED_ExecuteCommand(void)
         }
         case(MS5611_SPI_CMD_CONVERT_D1):
         {
-            printf("MS5611_SPI_CMD_CONVERT_D1\n");
             MS5611_SetSEDResponse(addr);
             //D1 conversion magic
             sendMsg = TRUE;
@@ -940,7 +927,6 @@ void MS5611_SED_ExecuteCommand(void)
         }
         case(MS5611_SPI_CMD_ADC_READ):
         {
-            printf("MS5611_SPI_CMD_ADC_READ\n");
             MS5611_SetSEDResponse(addr);
             sendMsg = TRUE;
             //TODO:Set values here
@@ -957,7 +943,6 @@ void MS5611_SED_ExecuteCommand(void)
                            + MS5611_AppSpiData.TransferResp.Response[0].Buffer[3];
 
                MS5611_AppData.HkTlm.LastConversion = 0;
-               printf("D1---->%lu\n", returnVal);
 
             }
 
@@ -972,7 +957,6 @@ void MS5611_SED_ExecuteCommand(void)
                 uint32 returnVal = (MS5611_AppSpiData.TransferResp.Response[0].Buffer[1] << 16)
                             + (MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] << 8)
                             + MS5611_AppSpiData.TransferResp.Response[0].Buffer[3];
-                printf("D2---->%lu\n", returnVal);
                 MS5611_AppData.HkTlm.LastConversion = 0;
 
             }
@@ -981,7 +965,6 @@ void MS5611_SED_ExecuteCommand(void)
 
         case(MS5611_SPI_CMD_CONVERT_D2):
         {
-            printf("MS5611_SPI_CMD_CONVERT_D2\n");
             MS5611_SetSEDResponse(addr);
             //TODO:Set values here
             MS5611_AppData.HkTlm.LastConversion = MS5611_SPI_CMD_CONVERT_D2;
@@ -990,7 +973,7 @@ void MS5611_SED_ExecuteCommand(void)
         }
         default:
         {
-            printf("DEFAULT\n");
+            /* TODO:  Send an event. */
             break;
         }
     }
@@ -1006,7 +989,6 @@ void MS5611_SED_ExecuteCommand(void)
             MS5611_AppSpiData.TransferResp.Response[0].Buffer[2] = MS5611_AppData.PROM[15];
         }
 
-        printf("S5611_AppData.HkTlm.LastConversion-->%d\n", MS5611_AppData.HkTlm.LastConversion);
         returnCode = SEDLIB_SendMsg(MS5611_AppSpiData.StatusPortHandle, (CFE_SB_MsgPtr_t)&MS5611_AppSpiData.TransferResp);
         MS5611_AppSpiData.TransferResp.Response[0].Count = MS5611_AppSpiData.TransferResp.Response[0].Count+1;
         MS5611_AppSpiData.WriteCount = MS5611_AppSpiData.TransferResp.Response[0].Count;
@@ -1034,12 +1016,12 @@ void MS5611_SetSEDResponse(uint8 addr)
     MS5611_AppData.HkTlm.SPI_ADDR = addr;
     MS5611_AppSpiData.TransferResp.Response[0].Status = SEDLIB_OK;
     MS5611_AppSpiData.TransferResp.Response[0].Buffer[0] = MS5611_BYTE_RESPONSE;
-    (void) CFE_EVS_SendEvent(MS5611_CDS_INF_EID, CFE_EVS_INFORMATION,
-                             "Seq Count Before%d",
-                             MS5611_AppSpiData.TransferResp.Response[0].Count);
-    (void) CFE_EVS_SendEvent(MS5611_CDS_INF_EID, CFE_EVS_INFORMATION,
-                             "Seq Count After %d",
-                             MS5611_AppSpiData.TransferResp.Response[0].Count);
+    //(void) CFE_EVS_SendEvent(MS5611_CDS_INF_EID, CFE_EVS_INFORMATION,
+    //                         "Seq Count Before%d",
+    //                         MS5611_AppSpiData.TransferResp.Response[0].Count);
+    //(void) CFE_EVS_SendEvent(MS5611_CDS_INF_EID, CFE_EVS_INFORMATION,
+    //                         "Seq Count After %d",
+    //                         MS5611_AppSpiData.TransferResp.Response[0].Count);
 }
 
 void MS5611_SetSEDResponseD1()

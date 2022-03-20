@@ -30,7 +30,6 @@ buildliner_add_app_def(vm
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_config_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_events.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_msg.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_params.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_tbldefs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_version.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_Arming.cpp

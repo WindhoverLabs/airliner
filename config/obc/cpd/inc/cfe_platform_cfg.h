@@ -9,6 +9,7 @@
 #include "priorities.h"
 
 #define CFE_MSG_CPU_BASE (0x0200)
+#define CFE_MSG_CPU_MASK (0x0200)
 
 /*
 ** CPU Id for target Processor

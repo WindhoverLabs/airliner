@@ -14,76 +14,76 @@ modules:
           cfe_es:
             telemetry:
               CFE_ES_HK_TLM_MID:
-                msgID: 0x0a0f
+                msgID: 0x0a0f          # TLM_MSG(   15 )
               CFE_ES_APP_TLM_MID:
-                msgID: 0x0a17
+                msgID: 0x0a17          # TLM_MSG(   23 )
               CFE_ES_MEMSTATS_TLM_MID:
-                msgID: 0x0a1c
+                msgID: 0x0a1c          # TLM_MSG(   28 )
               CFE_ES_SHELL_TLM_MID:
-                msgID: 0x0a1b
+                msgID: 0x0a1b          # TLM_MSG(   27 )
             commands:
               CFE_ES_CMD_MID:
-                msgID: 0x1a04
+                msgID: 0x1a04          # CMD_MSG(    4 )
               CFE_ES_SEND_HK_MID:
-                msgID: 0x1a05
+                msgID: 0x1a05          # CMD_MSG(    5 )
           cfe_evs:
             telemetry:
               CFE_EVS_HK_TLM_MID:
-                msgID: 0x0a10
+                msgID: 0x0a10          # TLM_MSG(   16 )
               CFE_EVS_EVENT_MSG_MID:
-                msgID: 0x0a15
+                msgID: 0x0a15          # TLM_MSG(   21 )
             commands:
               CFE_EVS_CMD_MID:
-                msgID: 0x1a00
+                msgID: 0x1a00          # CMD_MSG(    0 )
               CFE_EVS_SEND_HK_MID:
-                msgID: 0x1a06
+                msgID: 0x1a06          # CMD_MSG(    6 )
           cfe_sb:
             telemetry:
               CFE_SB_HK_TLM_MID:
-                msgID: 0x0a11
+                msgID: 0x0a11          # TLM_MSG(   17 )
               CFE_SB_STATS_TLM_MID:
-                msgID: 0x0a16
+                msgID: 0x0a16          # TLM_MSG(   22 )
               CFE_SB_ALLSUBS_TLM_MID:
-                msgID: 0x0a19
+                msgID: 0x0a19          # TLM_MSG(   25 )
               CFE_SB_ONESUB_TLM_MID:
-                msgID: 0x0a1a
+                msgID: 0x0a1a          # TLM_MSG(   26 )
             commands:
               CFE_SB_CMD_MID:
-                msgID: 0x1a01
+                msgID: 0x1a01          # CMD_MSG(    1 )
               CFE_SB_SEND_HK_MID:
-                msgID: 0x1a07
+                msgID: 0x1a07          # CMD_MSG(    6 )
           cfe_tbl:
             telemetry:
               CFE_TBL_HK_TLM_MID:
-                msgID: 0x0a12
+                msgID: 0x0a12          # TLM_MSG(   18 )
               CFE_TBL_REG_TLM_MID:
-                msgID: 0x0a18
+                msgID: 0x0a18          # TLM_MSG(   24 )
             commands:
               CFE_TBL_CMD_MID:
-                msgID: 0x1a02
+                msgID: 0x1a02          # CMD_MSG(    2 )
               CFE_TBL_SEND_HK_MID:
-                msgID: 0x1a08
+                msgID: 0x1a08          # CMD_MSG(    8 )
           cfe_time:
             telemetry:
               CFE_TIME_DIAG_TLM_MID:
-                msgID: 0x0a14
+                msgID: 0x0a14          # TLM_MSG(   20 )
               CFE_TIME_HK_TLM_MID:
-                msgID: 0x0a13
+                msgID: 0x0a13          # TLM_MSG(   19 )
             commands:
               CFE_TIME_CMD_MID:
-                msgID: 0x1a03
+                msgID: 0x1a03          # CMD_MSG(    3 )
               CFE_TIME_SEND_HK_MID:
-                msgID: 0x1a09
+                msgID: 0x1a09          # CMD_MSG(    9 )
               CFE_TIME_DATA_CMD_MID:
-                msgID: 0x1a0c
+                msgID: 0x1a0c          # CMD_MSG(   12 )
               CFE_TIME_TONE_CMD_MID:
-                msgID: 0x1a0a
+                msgID: 0x1a0a          # CMD_MSG(   10 )
               CFE_TIME_FAKE_CMD_MID:
-                msgID: 0x1a0d
+                msgID: 0x1a0d          # CMD_MSG(   13 )
               CFE_TIME_1HZ_CMD_MID:
-                msgID: 0x1a0b
+                msgID: 0x1a0b          # CMD_MSG(   11 )
               CFE_TIME_SEND_CMD_MID:
-                msgID: 0x1a0e
+                msgID: 0x1a0e          # CMD_MSG(   14 )
 
   apps:
     modules:  
@@ -91,838 +91,780 @@ modules:
         definition: ${PROJECT_SOURCE_DIR}/apps/ci/wh_design.yaml
         telemetry:
           CI_HK_TLM_MID:
-            msgID: 0x0a32
+            msgID: 0x0a20              # TLM_MSG(   32 )
         commands:
           CI_CMD_MID:
-            msgID: 0x1a34
-          CI_PROCESS_TIMEOUTS_MID:
-            msgID: 0x1a35
-          CI_SEND_HK_MID:
-            msgID: 0x1a36
-          CI_WAKEUP_MID:
-            msgID: 0x1a37
+            msgID: 0x1a21              # CMD_MSG(   33 )
           CI_INGEST_COMMANDS_MID:
-            msgID: 0x1be5
+            msgID: 0x1a22              # CMD_MSG(   34 )
+          CI_PROCESS_TIMEOUTS_MID:
+            msgID: 0x1a23              # CMD_MSG(   35 )
+          CI_SEND_HK_MID:
+            msgID: 0x1a24              # CMD_MSG(   36 )
+          CI_WAKEUP_MID:
+            msgID: 0x1a25              # CMD_MSG(   37 )
             
       cf:
         definition: ${PROJECT_SOURCE_DIR}/apps/cf/wh_design.yaml
         telemetry: 
           CF_CONFIG_TLM_MID: 
-            msgID: 0x0a38
+            msgID: 0x0a26              # TLM_MSG(   38 )
           CF_HK_TLM_MID: 
-            msgID: 0x0a39
+            msgID: 0x0a27              # TLM_MSG(   39 )
           CF_INCOMING_PDU_MID: 
-            msgID: 0x1a3a
+            msgID: 0x1a28              # TLM_MSG(   40 )
           CF_TRANS_TLM_MID:
-            msgID: 0x0a3b
+            msgID: 0x0a29              # TLM_MSG(   41 )
         commands:
           CF_CMD_MID: 
-            msgID: 0x1a3c
+            msgID: 0x1a2a              # CMD_MSG(   42 )
           CF_SEND_HK_MID: 
-            msgID: 0x1a3d
+            msgID: 0x1a2b              # CMD_MSG(   43 )
           CF_SPACE_TO_GND_PDU_MID:
-            msgID: 0x0a3e
+            msgID: 0x0a2c              # CMD_MSG(   44 )
           CF_WAKE_UP_REQ_CMD_MID:
-            msgID: 0x1a3f
+            msgID: 0x1a2d              # CMD_MSG(   45 )
 
       cs:
         definition: ${PROJECT_SOURCE_DIR}/apps/cs/wh_design.yaml
         telemetry: 
           CS_HK_TLM_MID: 
-            msgID: 0x0a50
+            msgID: 0x0a2e              # TLM_MSG(   46 )
         commands: 
-          CS_CMD_MID: 
-            msgID: 0x1a51
           CS_BACKGROUND_CYCLE_MID: 
-            msgID: 0x1a52
+            msgID: 0x1a2f              # CMD_MSG(   47 )
+          CS_CMD_MID: 
+            msgID: 0x1a30              # CMD_MSG(   48 )
           CS_SEND_HK_MID: 
-            msgID: 0x1a53
+            msgID: 0x1a31              # CMD_MSG(   49 )
 
       ds:
         definition: ${PROJECT_SOURCE_DIR}/apps/ds/wh_design.yaml
         telemetry: 
           DS_DIAG_TLM_MID: 
-            msgID: 0x0a54
+            msgID: 0x0a32              # TLM_MSG(   50 )
           DS_HK_TLM_MID: 
-            msgID: 0x0a55
+            msgID: 0x0a33              # TLM_MSG(   51 )
         commands: 
           DS_CMD_MID: 
-            msgID: 0x1a56
+            msgID: 0x1a34              # CMD_MSG(   52 )
           DS_SEND_HK_MID: 
-            msgID: 0x1a57
+            msgID: 0x1a35              # CMD_MSG(   53 )
 
       fm:
         definition: ${PROJECT_SOURCE_DIR}/apps/fm/wh_design.yaml
         telemetry: 
           FM_DIR_LIST_TLM_MID: 
-            msgID: 0x0a58
+            msgID: 0x0a36              # TLM_MSG(   54 )
           FM_FILE_INFO_TLM_MID: 
-            msgID: 0x0a59
+            msgID: 0x0a37              # TLM_MSG(   55 )
           FM_FREE_SPACE_TLM_MID: 
-            msgID: 0x0a5a
+            msgID: 0x0a38              # TLM_MSG(   56 )
           FM_HK_TLM_MID: 
-            msgID: 0x0a5b
+            msgID: 0x0a39              # TLM_MSG(   57 )
           FM_OPEN_FILES_TLM_MID: 
-            msgID: 0x0a5c
+            msgID: 0x0a3a              # TLM_MSG(   58 )
         commands: 
           FM_CMD_MID: 
-            msgID: 0x1a5d
+            msgID: 0x1a3b              # CMD_MSG(   59 )
           FM_SEND_HK_MID: 
-            msgID: 0x1a5e
+            msgID: 0x1a3c              # CMD_MSG(   60 )
 
       hk:
         definition: ${PROJECT_SOURCE_DIR}/apps/hk/wh_design.yaml
         telemetry: 
-          HK_COMBINED_PKT1_MID: 
-            msgID: 0x0a64
-          HK_COMBINED_PKT2_MID: 
-            msgID: 0x0a65
-          HK_COMBINED_PKT3_MID: 
-            msgID: 0x0a66
-          HK_COMBINED_PKT4_MID: 
-            msgID: 0x0a67
-          HK_COMBINED_PKT5_MID: 
-            msgID: 0x0a68
-          HK_COMBINED_PKT6_MID: 
-            msgID: 0x0a69
-          HK_COMBINED_PKT7_MID: 
-            msgID: 0x0a6a
-          HK_COMBINED_PKT8_MID: 
-            msgID: 0x0a6b
-          HK_COMBINED_PKT9_MID: 
-            msgID: 0x0a6c
-          HK_COMBINED_PKT10_MID: 
-            msgID: 0x0a6d
           HK_HK_TLM_MID: 
-            msgID: 0x0a6e
+            msgID: 0x0a3d              # TLM_MSG(   61 )
         commands: 
           HK_CMD_MID: 
-            msgID: 0x1a6f
+            msgID: 0x1a3e              # CMD_MSG(   62 )
           HK_SEND_COMBINED_PKT_MID: 
-            msgID: 0x1a70
+            msgID: 0x1a3f              # CMD_MSG(   63 )
           HK_SEND_HK_MID: 
-            msgID: 0x1a71
+            msgID: 0x1a40              # CMD_MSG(   64 )
 
       hs:
         definition: ${PROJECT_SOURCE_DIR}/apps/hs/wh_design.yaml
         telemetry: 
           HS_HK_TLM_MID: 
-            msgID: 0x0a78
+            msgID: 0x0a41              # TLM_MSG(   65 )
         commands: 
           HS_CMD_MID: 
-            msgID: 0x1a79
+            msgID: 0x1a42              # CMD_MSG(   66 )
           HS_SEND_HK_MID: 
-            msgID: 0x1a7a
+            msgID: 0x1a43              # CMD_MSG(   67 )
           HS_WAKEUP_MID: 
-            msgID: 0x1a7b
+            msgID: 0x1a44              # CMD_MSG(   68 )
     
       lc:
         definition: ${PROJECT_SOURCE_DIR}/apps/lc/wh_design.yaml
         telemetry: 
           LC_HK_TLM_MID: 
-            msgID: 0x0a82
+            msgID: 0x0a45              # TLM_MSG(   69 )
         commands: 
           LC_CMD_MID: 
-            msgID: 0x1a83
+            msgID: 0x1a46              # CMD_MSG(   70 )
           LC_SAMPLE_AP_MID: 
-            msgID: 0x1a84
+            msgID: 0x1a47              # CMD_MSG(   71 )
           LC_SEND_HK_MID: 
-            msgID: 0x1a85
+            msgID: 0x1a48              # CMD_MSG(   72 )
 
       md:
         definition: ${PROJECT_SOURCE_DIR}/apps/md/wh_design.yaml
         telemetry: 
           MD_DWELL_PKT_MID_BASE: 
-            msgID: 0x0a86
-          MD_DWELL_PKT1_MID: 
-            msgID: 0x0a86
-          MD_DWELL_PKT2_MID: 
-            msgID: 0x0a87
-          MD_DWELL_PKT3_MID: 
-            msgID: 0x0a88
-          MD_DWELL_PKT4_MID: 
-            msgID: 0x0a89
+            msgID: 0x0a49              # TLM_MSG(   73 )
           MD_HK_TLM_MID: 
-            msgID: 0x0a8b
+            msgID: 0x0a4a              # TLM_MSG(   74 )
         commands: 
           MD_CMD_MID: 
-            msgID: 0x1a8c
+            msgID: 0x1a4b              # CMD_MSG(   75 )
           MD_SEND_HK_MID: 
-            msgID: 0x1a8d
+            msgID: 0x1a4c              # CMD_MSG(   76 )
           MD_WAKEUP_MID: 
-            msgID: 0x1a8e
+            msgID: 0x1a4d              # CMD_MSG(   77 )
 
       mm:
         definition: ${PROJECT_SOURCE_DIR}/apps/mm/wh_design.yaml
         telemetry: 
           MM_HK_TLM_MID: 
-            msgID: 0x0a8f
+            msgID: 0x0a4e              # TLM_MSG(   78 )
         commands: 
           MM_CMD_MID: 
-            msgID: 0x1a90
+            msgID: 0x1a4f              # CMD_MSG(   79 )
           MM_SEND_HK_MID: 
-            msgID: 0x1a91
+            msgID: 0x1a50              # CMD_MSG(   80 )
 
       sc:
         definition: ${PROJECT_SOURCE_DIR}/apps/sc/wh_design.yaml
         telemetry:
           SC_HK_TLM_MID:
-            msgID: 0x0a92
+            msgID: 0x0a51              # TLM_MSG(   81 )
         commands:
           SC_1HZ_WAKEUP_MID:
-            msgID: 0x1a93
+            msgID: 0x1a52              # CMD_MSG(   82 )
           SC_CMD_MID:
-            msgID: 0x1a94
+            msgID: 0x1a53              # CMD_MSG(   83 )
           SC_SEND_HK_MID:
-            msgID: 0x1a95
+            msgID: 0x1a54              # CMD_MSG(   84 )
 
       sch:
         definition: ${PROJECT_SOURCE_DIR}/apps/sch/wh_design.yaml
         telemetry:
           SCH_ACTIVITY_DONE_MID:
-            msgID: 0x0a96
+            msgID: 0x0a55              # TLM_MSG(   85 )
           SCH_DIAG_TLM_MID:
-            msgID: 0x0a97
+            msgID: 0x0a56              # TLM_MSG(   86 )
           SCH_HK_TLM_MID:
-            msgID: 0x0a98
+            msgID: 0x0a57              # TLM_MSG(   87 )
         commands:
           SCH_CMD_MID:
-            msgID: 0x1a99
+            msgID: 0x1a58              # CMD_MSG(   88 )
           SCH_SEND_HK_MID:
-            msgID: 0x1a9a
+            msgID: 0x1a59              # CMD_MSG(   89 )
 
       to:
         definition: ${PROJECT_SOURCE_DIR}/apps/to/wh_design.yaml
         telemetry:
           TO_DATA_TYPE_MID: 
-            msgID: 0x0a9b
+            msgID: 0x0a5a              # TLM_MSG(   90 )
           TO_DIAG_MSG_FLOW_MID: 
-            msgID: 0x0a9c
+            msgID: 0x0a5b              # TLM_MSG(   91 )
           TO_DIAG_TLM_MID:
-            msgID: 0x0a9d
+            msgID: 0x0a5c              # TLM_MSG(   92 )
           TO_HK_TLM_MID:
-            msgID: 0x0a9e
+            msgID: 0x0a5d              # TLM_MSG(   93 )
         commands:
           TO_CMD_MID:
-            msgID: 0x1a9f
+            msgID: 0x1a5e              # CMD_MSG(   94 )
+            #commands: 
+            #  EnableChannel:
+            #    cc: 10
+            #    struct: TO_EnableChannelCmd_t
+            #  DisableChannel:
+            #    cc: 11
+            #    struct: TO_DisableChannelCmd_t   
           TO_SEND_HK_MID:
-            msgID: 0x1aa0
+            msgID: 0x1a5f              # CMD_MSG(   95 ) 
           TO_SEND_TLM_MID:
-            msgID: 0x1aa1
+            msgID: 0x1a60              # CMD_MSG(   96 )       
                
       px4lib:
         definition: ${PROJECT_SOURCE_DIR}/apps/px4lib/wh_design.yaml
         telemetry:
           PX4_ACTUATOR_ARMED_MID:
-            msgID: 0x0aa2
+            msgID: 0x0a61              # TLM_MSG(   97 )
           PX4_ACTUATOR_CONTROLS_0_MID:
-            msgID: 0x0aa3
+            msgID: 0x0a62              # TLM_MSG(   98 )
           PX4_ACTUATOR_CONTROLS_1_MID:
-            msgID: 0x0aa4
+            msgID: 0x0a63              # TLM_MSG(   99 )
           PX4_ACTUATOR_CONTROLS_2_MID:
-            msgID: 0x0aa5
+            msgID: 0x0a64              # TLM_MSG(  100 )
           PX4_ACTUATOR_CONTROLS_3_MID:
-            msgID: 0x0aa6
+            msgID: 0x0a65              # TLM_MSG(  101 )
           PX4_ACTUATOR_DIRECT_MID:
-            msgID: 0x0aa7
+            msgID: 0x0a66              # TLM_MSG(  102 )
           PX4_ACTUATOR_OUTPUTS_MID:
-            msgID: 0x0aa8
+            msgID: 0x0a67              # TLM_MSG(  103 )
           PX4_ADC_REPORT_MID:
-            msgID: 0x0aa9
+            msgID: 0x0a68              # TLM_MSG(  104 )
           PX4_AIRSPEED_MID:
-            msgID: 0x0aaa
+            msgID: 0x0a69              # TLM_MSG(  105 )
           PX4_ATT_POS_MOCAP_MID:
-            msgID: 0x0aab
+            msgID: 0x0a6a              # TLM_MSG(  106 )
           PX4_BATTERY_STATUS_MID:
-            msgID: 0x0aac
+            msgID: 0x0a6b              # TLM_MSG(  107 )
           PX4_CAMERA_TRIGGER_MID:
-            msgID: 0x0aad
+            msgID: 0x0a6c              # TLM_MSG(  108 )
           PX4_COMMANDER_STATE_MID:
-            msgID: 0x0aae
+            msgID: 0x0a6d              # TLM_MSG(  109 )
           PX4_CONTROL_STATE_MID:
-            msgID: 0x0aaf
+            msgID: 0x0a6e              # TLM_MSG(  110 )
           PX4_CPULOAD_MID:
-            msgID: 0x0ab0
+            msgID: 0x0a6f              # TLM_MSG(  111 )
           PX4_DEBUG_KEY_VALUE_MID:
-            msgID: 0x0ab1
+            msgID: 0x0a70              # TLM_MSG(  112 )
           PX4_DIFFERENTIAL_PRESSURE_MID:
-            msgID: 0x0ab2
+            msgID: 0x0a71              # TLM_MSG(  113 )
           PX4_DISTANCE_SENSOR_MID:
-            msgID: 0x0ab3
+            msgID: 0x0a72              # TLM_MSG(  114 )
           PX4_FW_POS_CTRL_STATUS_MID:
-            msgID: 0x0ab4
+            msgID: 0x0a73              # TLM_MSG(  115 )
           PX4_FW_VIRTUAL_ATTITUDE_SETPOINT_MID:
-            msgID: 0x0ab5
+            msgID: 0x0a74              # TLM_MSG(  116 )
           PX4_FW_VIRTUAL_RATES_SETPOINT_MID:
-            msgID: 0x0ab6
+            msgID: 0x0a75              # TLM_MSG(  117 )
           PX4_EKF2_INNOVATIONS_MID:
-            msgID: 0x0ab7
+            msgID: 0x0a76              # TLM_MSG(  118 )
           PX4_EKF2_REPLAY_MID:
-            msgID: 0x0ab8
+            msgID: 0x0a77              # TLM_MSG(  119 )
           PX4_ESC_REPORT_MID:
-            msgID: 0x0ab9
+            msgID: 0x0a78              # TLM_MSG(  120 )
           PX4_ESC_STATUS_MID:
-            msgID: 0x0aba
+            msgID: 0x0a79              # TLM_MSG(  121 )
           PX4_ESTIMATOR_STATUS_MID:
-            msgID: 0x0abb
+            msgID: 0x0a7a              # TLM_MSG(  122 )
           PX4_FENCE_MID:
-            msgID: 0x0abc
+            msgID: 0x0a7b              # TLM_MSG(  123 )
           PX4_FENCE_VERTEX_MID:
-            msgID: 0x0abd
+            msgID: 0x0a7c              # TLM_MSG(  124 )
           PX4_FILTERED_BOTTOM_FLOW_MID:
-            msgID: 0x0abe
+            msgID: 0x0a7d              # TLM_MSG(  125 )
           PX4_FOLLOW_TARGET_MID:
-            msgID: 0x0abf
+            msgID: 0x0a7e              # TLM_MSG(  126 )
           PX4_GEOFENCE_RESULT_MID:
-            msgID: 0x0ac0
+            msgID: 0x0a7f              # TLM_MSG(  127 )
           PX4_GPS_DUMP_MID:
-            msgID: 0x0ac1
+            msgID: 0x0a80              # TLM_MSG(  128 )
           PX4_GPS_INJECT_DATA_MID:
-            msgID: 0x0ac2
+            msgID: 0x0a81              # TLM_MSG(  129 )
           PX4_HIL_SENSOR_MID:
-            msgID: 0x0ac3
+            msgID: 0x0a82              # TLM_MSG(  130 )
           PX4_HOME_POSITION_MID:
-            msgID: 0x0ac4
+            msgID: 0x0a83              # TLM_MSG(  131 )
           PX4_INPUT_RC_MID:
-            msgID: 0x0ac5
+            msgID: 0x0a84              # TLM_MSG(  132 )
           PX4_LED_CONTROL_MID:
-            msgID: 0x0ac6
+            msgID: 0x0a85              # TLM_MSG(  133 )
           PX4_LOG_MESSAGE_MID:
-            msgID: 0x0ac7
+            msgID: 0x0a86              # TLM_MSG(  134 )
           PX4_MANUAL_CONTROL_SETPOINT_MID:
-            msgID: 0x0ac8
+            msgID: 0x0a87              # TLM_MSG(  135 )
           PX4_MAVLINK_LOG_MID:
-            msgID: 0x0ac9
+            msgID: 0x0a88              # TLM_MSG(  136 )
           PX4_MC_ATT_CTRL_STATUS_MID:
-            msgID: 0x0aca
+            msgID: 0x0a89              # TLM_MSG(  137 )
           PX4_MC_VIRTUAL_ATTITUDE_SETPOINT_MID:
-            msgID: 0x0acb
+            msgID: 0x0a8a              # TLM_MSG(  138 )
           PX4_MC_VIRTUAL_RATES_SETPOINT_MID:
-            msgID: 0x0acc
+            msgID: 0x0a8b              # TLM_MSG(  139 )
           PX4_MISSION_MID:
-            msgID: 0x0acd
+            msgID: 0x0a8c              # TLM_MSG(  140 )
           PX4_MISSION_RESULT_MID:
-            msgID: 0x0ace
+            msgID: 0x0a8d              # TLM_MSG(  141 )
           PX4_MULTIROTOR_MOTOR_LIMITS_MID:
-            msgID: 0x0acf
+            msgID: 0x0a8e              # TLM_MSG(  142 )
           PX4_OFFBOARD_CONTROL_MODE_MID:
-            msgID: 0x0ad0
+            msgID: 0x0a8f              # TLM_MSG(  143 )
           PX4_OPTICAL_FLOW_MID:
-            msgID: 0x0ad1
+            msgID: 0x0a90              # TLM_MSG(  144 )
           PX4_OUTPUT_PWM_MID:
-            msgID: 0x0ad2
+            msgID: 0x0a91              # TLM_MSG(  145 )
           PX4_PARAMETER_UPDATE_MID:
-            msgID: 0x0ad3
+            msgID: 0x0a92              # TLM_MSG(  146 )
           PX4_POSITION_SETPOINT_MID:
-            msgID: 0x0ad4
+            msgID: 0x0a93              # TLM_MSG(  147 )
           PX4_POSITION_SETPOINT_TRIPLET_MID:
-            msgID: 0x0ad5
+            msgID: 0x0a94              # TLM_MSG(  148 )
           PX4_PWM_INPUT_MID:
-            msgID: 0x0ad6
+            msgID: 0x0a95              # TLM_MSG(  149 )
           PX4_QSHELL_REQ_MID:
-            msgID: 0x0ad7
+            msgID: 0x0a96              # TLM_MSG(  150 )
           PX4_RC_CHANNELS_MID:
-            msgID: 0x0ad8
+            msgID: 0x0a97              # TLM_MSG(  151 )
           PX4_RC_PARAMETER_MAP_MID:
-            msgID: 0x0ad9
+            msgID: 0x0a98              # TLM_MSG(  152 )
           PX4_SAFETY_MID:
-            msgID: 0x0ada
+            msgID: 0x0a99              # TLM_MSG(  153 )
           PX4_SATELLITE_INFO_MID:
-            msgID: 0x0adb
+            msgID: 0x0a9a              # TLM_MSG(  154 )
           PX4_SENSOR_ACCEL_MID:
-            msgID: 0x0adc
+            msgID: 0x0a9b              # TLM_MSG(  155 )
           PX4_SENSOR_BARO_MID:
-            msgID: 0x0add
+            msgID: 0x0a9c              # TLM_MSG(  156 )
           PX4_SENSOR_COMBINED_MID:
-            msgID: 0x0ade
+            msgID: 0x0a9d              # TLM_MSG(  157 )
           PX4_SENSOR_GYRO_MID:
-            msgID: 0x0adf
+            msgID: 0x0a9e              # TLM_MSG(  158 )
           PX4_SENSOR_MAG_MID:
-            msgID: 0x0ae0
+            msgID: 0x0a9f              # TLM_MSG(  159 )
           PX4_SERVORAIL_STATUS_MID:
-            msgID: 0x0ae1
+            msgID: 0x0aa0              # TLM_MSG(  160 )
           PX4_SUBSYSTEM_INFO_MID:
-            msgID: 0x0ae2
+            msgID: 0x0aa1              # TLM_MSG(  161 )
           PX4_SYSTEM_POWER_MID:
-            msgID: 0x0ae3
+            msgID: 0x0aa2              # TLM_MSG(  162 )
           PX4_TECS_STATUS_MID:
-            msgID: 0x0ae4
+            msgID: 0x0aa3              # TLM_MSG(  163 )
           PX4_TELEMETRY_STATUS_MID:
-            msgID: 0x0ae5
+            msgID: 0x0aa4              # TLM_MSG(  164 )
           PX4_TEST_MOTOR_MID:
-            msgID: 0x0ae6
+            msgID: 0x0aa5              # TLM_MSG(  165 )
           PX4_TIME_OFFSET_MID:
-            msgID: 0x0ae7
+            msgID: 0x0aa6              # TLM_MSG(  166 )
           PX4_TRANSPONDER_REPORT_MID:
-            msgID: 0x0ae8
+            msgID: 0x0aa7              # TLM_MSG(  167 )
           PX4_UAVCAN_PARAMETER_REQUEST_MID:
-            msgID: 0x0ae9
+            msgID: 0x0aa8              # TLM_MSG(  168 )
           PX4_UAVCAN_PARAMETER_VALUE_MID:
-            msgID: 0x0aea
+            msgID: 0x0aa9              # TLM_MSG(  169 )
           PX4_VEHICLE_ATTITUDE_MID:
-            msgID: 0x0aeb
+            msgID: 0x0aaa              # TLM_MSG(  170 )
           PX4_VEHICLE_ATTITUDE_SETPOINT_MID:
-            msgID: 0x0aec
+            msgID: 0x0aab              # TLM_MSG(  171 )
           PX4_VEHICLE_COMMAND_ACK_MID:
-            msgID: 0x0aed
+            msgID: 0x0aac              # TLM_MSG(  172 )
           PX4_VEHICLE_COMMAND_MID:
-            msgID: 0x0aee
+            msgID: 0x0aad              # TLM_MSG(  173 )
           PX4_VEHICLE_CONTROL_MODE_MID:
-            msgID: 0x0aef
+            msgID: 0x0aae              # TLM_MSG(  174 )
           PX4_VEHICLE_FORCE_SETPOINT_MID:
-            msgID: 0x0af0
+            msgID: 0x0aaf              # TLM_MSG(  175 )
           PX4_VEHICLE_GLOBAL_POSITION_MID:
-            msgID: 0x0af1
+            msgID: 0x0ab0              # TLM_MSG(  176 )
           PX4_VEHICLE_GLOBAL_VELOCITY_SETPOINT_MID:
-            msgID: 0x0af2
+            msgID: 0x0ab1              # TLM_MSG(  177 )
           PX4_VEHICLE_GPS_POSITION_MID:
-            msgID: 0x0af3
+            msgID: 0x0ab2              # TLM_MSG(  178 )
           PX4_VEHICLE_LAND_DETECTED_MID:
-            msgID: 0x0af4
+            msgID: 0x0ab3              # TLM_MSG(  179 )
           PX4_VEHICLE_LOCAL_POSITION_MID:
-            msgID: 0x0af5
+            msgID: 0x0ab4              # TLM_MSG(  180 )
           PX4_VEHICLE_LOCAL_POSITION_SETPOINT_MID:
-            msgID: 0x0af6
+            msgID: 0x0ab5              # TLM_MSG(  181 )
           PX4_VEHICLE_RATES_SETPOINT_MID:
-            msgID: 0x0af7
+            msgID: 0x0ab6              # TLM_MSG(  182 )
           PX4_VEHICLE_STATUS_MID:
-            msgID: 0x0af8
+            msgID: 0x0ab7              # TLM_MSG(  183 )
           PX4_VISION_POSITION_ESTIMATE_MID:
-            msgID: 0x0af9
+            msgID: 0x0ab8              # TLM_MSG(  184 )
           PX4_VTOL_VEHICLE_STATUS_MID:
-            msgID: 0x0afa
+            msgID: 0x0ab9              # TLM_MSG(  185 )
           PX4_WIND_ESTIMATE_MID:
-            msgID: 0x0afb
+            msgID: 0x0aba              # TLM_MSG(  186 )
           PX4_SENSOR_CORRECTION_MID:
-            msgID: 0x0afc
+            msgID: 0x0abb              # TLM_MSG(  187 )
 
       ak8963:
         definition: ${PROJECT_SOURCE_DIR}/apps/ak8963/wh_design.yaml
         telemetry:
           AK8963_DIAG_TLM_MID:
-            msgID: 0x0b13
+            msgID: 0x0abc              # TLM_MSG(  188 )
           AK8963_HK_TLM_MID:
-            msgID: 0x0b14
+            msgID: 0x0abd              # TLM_MSG(  189 )
         commands:
           AK8963_CMD_MID:
-            msgID: 0x1b15
+            msgID: 0x1abe              # CMD_MSG(  190 )
           AK8963_SEND_HK_MID:
-            msgID: 0x1b16
+            msgID: 0x1abf              # CMD_MSG(  191 )
           AK8963_WAKEUP_MID:
-            msgID: 0x1b17
+            msgID: 0x1ac0              # CMD_MSG(  192 )
     
       amc:
         definition: ${PROJECT_SOURCE_DIR}/apps/amc/wh_design.yaml
         telemetry:
           AMC_HK_TLM_MID:
-            msgID: 0x0b18
+            msgID: 0x0ac1              # TLM_MSG(  193 )
           AMC_OUT_DATA_MID: 
-            msgID: 0x0b19
+            msgID: 0x0ac2              # TLM_MSG(  194 )
             struct: AMC_BebopObservationMsg_t
         commands:
           AMC_CMD_MID:
-            msgID: 0x1b1a
+            msgID: 0x1ac3              # CMD_MSG(  195 )
           AMC_SEND_HK_MID:
-            msgID: 0x1b1b
+            msgID: 0x1ac4              # CMD_MSG(  196 )
           AMC_UPDATE_MOTORS_MID:
-            msgID: 0x1b1c
+            msgID: 0x1ac5              # CMD_MSG(  197 )
     
       bat:
         definition: ${PROJECT_SOURCE_DIR}/apps/bat/wh_design.yaml
         telemetry:
           BAT_HK_TLM_MID:
-            msgID: 0x0b1f
+            msgID: 0x0ac6              # TLM_MSG(  198 )
         commands:
           BAT_CMD_MID:
-            msgID: 0x1b20
+            msgID: 0x1ac7              # CMD_MSG(  199 )
           BAT_SEND_HK_MID:
-            msgID: 0x1b21
+            msgID: 0x1ac8              # CMD_MSG(  200 )
           BAT_WAKEUP_MID:
-            msgID: 0x1b22
+            msgID: 0x1ac9              # CMD_MSG(  201 )
     
       ea:
         definition: ${PROJECT_SOURCE_DIR}/apps/ea/wh_design.yaml
         telemetry:
           EA_HK_TLM_MID:
-            msgID: 0x0b25
+            msgID: 0x0aca              # TLM_MSG(  202 )
         commands:
           EA_CMD_MID:
-            msgID: 0x1b26
+            msgID: 0x1acb              # CMD_MSG(  203 )
           EA_SEND_HK_MID:
-            msgID: 0x1b27
+            msgID: 0x1acc              # CMD_MSG(  204 )
           EA_WAKEUP_MID:
-            msgID: 0x1b28
+            msgID: 0x1acd              # CMD_MSG(  205 )
     
       gps:
         definition: ${PROJECT_SOURCE_DIR}/apps/gps/wh_design.yaml
         telemetry:
           GPS_ACK_ACK_MID:
-            msgID: 0x0b2c
+            msgID: 0x0ace              # TLM_MSG(  206 )
           GPS_ACK_NAK_MID:
-            msgID: 0x0b2d
+            msgID: 0x0acf              # TLM_MSG(  207 )
           GPS_CFG_MSG_MID:
-            msgID: 0x0b2e
+            msgID: 0x0ad0              # TLM_MSG(  208 )
           GPS_CFG_NAV5_MID:
-            msgID: 0x0b2f
+            msgID: 0x0ad1              # TLM_MSG(  209 )
           GPS_CFG_PRT_MID:
-            msgID: 0x0b30
+            msgID: 0x0ad2              # TLM_MSG(  210 )
           GPS_CFG_RATE_MID:
-            msgID: 0x0b31
+            msgID: 0x0ad3              # TLM_MSG(  211 )
           GPS_CFG_SBAS_MID:
-            msgID: 0x0b32
+            msgID: 0x0ad4              # TLM_MSG(  212 )
           GPS_HK_TLM_MID:
-            msgID: 0x0b33
+            msgID: 0x0ad5              # TLM_MSG(  213 )
           GPS_MON_HW_MID:
-            msgID: 0x0b34
+            msgID: 0x0ad6              # TLM_MSG(  214 )
           GPS_NAV_DOP_MID:
-            msgID: 0x0b35
+            msgID: 0x0ad7              # TLM_MSG(  215 )
           GPS_NAV_NAVPVT_MID:
-            msgID: 0x0b36
+            msgID: 0x0ad8              # TLM_MSG(  216 )
           GPS_NAV_SVINFO_MID:
-            msgID: 0x0b37
-          GPS_SEND_HK_MID:
-            msgID: 0x0b38
-          GPS_HK_TLM_MID:
-            msgID: 0x0b39
+            msgID: 0x0ad9              # TLM_MSG(  217 )
         commands:
           GPS_CMD_MID:
-            msgID: 0x1a3a
+            msgID: 0x1adc              # CMD_MSG(  218 )
           GPS_SEND_HK_MID:
-            msgID: 0x1a3b
+            msgID: 0x1add              # CMD_MSG(  219 )
           GPS_READ_SENSOR_MID:
-            msgID: 0x1a3c
+            msgID: 0x1ade              # CMD_MSG(  220 )
     
       hmc5883:
         definition: ${PROJECT_SOURCE_DIR}/apps/hmc5883/wh_design.yaml
         telemetry:
           HMC5883_DIAG_TLM_MID:
-            msgID: 0x0b4a
+            msgID: 0x0adf              # TLM_MSG(  221 )
           HMC5883_HK_TLM_MID:
-            msgID: 0x0b4b
+            msgID: 0x0ae0              # TLM_MSG(  222 )
         commands:
           HMC5883_CMD_MID:
-            msgID: 0x1b4c
+            msgID: 0x1ae1              # CMD_MSG(  223 )
           HMC5883_SEND_HK_MID:
-            msgID: 0x1b4d
+            msgID: 0x1ae2              # CMD_MSG(  224 )
           HMC5883_WAKEUP_MID:
-            msgID: 0x1b4e
+            msgID: 0x1ae3              # CMD_MSG(  225 )
     
       ld:
         definition: ${PROJECT_SOURCE_DIR}/apps/ld/wh_design.yaml
         telemetry:
           LD_DIAG_TLM_MID:
-            msgID: 0x0b4f
+            msgID: 0x0ae4              # TLM_MSG(  226 )
           LD_HK_TLM_MID:
-            msgID: 0x0b50
+            msgID: 0x0ae5              # TLM_MSG(  227 )
         commands:
           LD_CMD_MID:
-            msgID: 0x1b51
+            msgID: 0x1ae6              # CMD_MSG(  228 )
           LD_SEND_HK_MID:
-            msgID: 0x1b52
+            msgID: 0x1ae7              # CMD_MSG(  229 )
           LD_WAKEUP_MID:
-            msgID: 0x1b53
+            msgID: 0x1ae8              # CMD_MSG(  230 )
     
       lgc:
         definition: ${PROJECT_SOURCE_DIR}/apps/lgc/wh_design.yaml
         telemetry:
           LGC_HK_TLM_MID:
-            msgID: 0x0b56
+            msgID: 0x0ae9              # TLM_MSG(  231 )
         commands:
           LGC_CMD_MID:
-            msgID: 0x1b57
+            msgID: 0x1aea              # CMD_MSG(  232 )
           LGC_SEND_HK_MID:
-            msgID: 0x1b58
+            msgID: 0x1aeb              # CMD_MSG(  233 )
           LGC_WAKEUP_MID:
-            msgID: 0x1b59
+            msgID: 0x1aec              # CMD_MSG(  234 )
     
       mac:
         definition: ${PROJECT_SOURCE_DIR}/apps/mac/wh_design.yaml
         telemetry:
           MAC_HK_TLM_MID:
-            msgID: 0x0b5c
+            msgID: 0x0aed              # TLM_MSG(  235 )
         commands:
           MAC_CMD_MID:
-            msgID: 0x1b5d
+            msgID: 0x1aee              # CMD_MSG(  236 )
           MAC_RUN_CONTROLLER_MID:
-            msgID: 0x1b5e
+            msgID: 0x1aef              # CMD_MSG(  237 )
           MAC_SEND_HK_MID:
-            msgID: 0x1b5f
+            msgID: 0x1af0              # CMD_MSG(  238 )
     
       mpc:
         definition: ${PROJECT_SOURCE_DIR}/apps/mpc/wh_design.yaml
         telemetry:
           MPC_DIAG_TLM_MID:
-            msgID: 0x0b63
+            msgID: 0x0af1              # TLM_MSG(  239 )
           MPC_HK_TLM_MID:
-            msgID: 0x0b64
+            msgID: 0x0af2              # TLM_MSG(  240 )
         commands:
           MPC_CMD_MID:
-            msgID: 0x1b65
+            msgID: 0x1af3              # CMD_MSG(  241 )
           MPC_WAKEUP_MID:
-            msgID: 0x1b66
+            msgID: 0x1af4              # CMD_MSG(  242 )
           MPC_SEND_HK_MID:
-            msgID: 0x1b67
+            msgID: 0x1af5              # CMD_MSG(  243 )
     
       mpu6050:
         definition: ${PROJECT_SOURCE_DIR}/apps/mpu6050/wh_design.yaml
         telemetry:
           MPU6050_DIAG_TLM_MID:
-            msgID: 0x0b6a
+            msgID: 0x0af6              # TLM_MSG(  244 )
           MPU6050_HK_TLM_MID:
-            msgID: 0x0b6b
+            msgID: 0x0af7              # TLM_MSG(  245 )
         commands:
           MPU6050_CMD_MID:
-            msgID: 0x1b6c
+            msgID: 0x1af8              # CMD_MSG(  246 )
           MPU6050_MEASURE_MID:
-            msgID: 0x1b6d
+            msgID: 0x1af9              # CMD_MSG(  247 )
           MPU6050_SEND_HK_MID:
-            msgID: 0x1b6e
+            msgID: 0x1afa              # CMD_MSG(  248 )
     
       icm20689:
         definition: ${PROJECT_SOURCE_DIR}/apps/icm20689/wh_design.yaml
         telemetry:
           ICM20689_DIAG_TLM_MID:
-            msgID: 0x0b71
+            msgID: 0x0b03              # TLM_MSG(  259 )
           ICM20689_HK_TLM_MID:
-            msgID: 0x0b72
+            msgID: 0x0b04              # TLM_MSG(  260 )
         commands:
           ICM20689_CMD_MID:
-            msgID: 0x1b73
+            msgID: 0x1b05              # CMD_MSG(  261 )
           ICM20689_MEASURE_MID:
-            msgID: 0x1b74
+            msgID: 0x1b06              # CMD_MSG(  262 )
           ICM20689_SEND_HK_MID:
-            msgID: 0x1b75
+            msgID: 0x1b07              # CMD_MSG(  263 )
     
       ms5607:
         definition: ${PROJECT_SOURCE_DIR}/apps/ms5607/wh_design.yaml
         telemetry:
           MS5607_DIAG_TLM_MID:
-            msgID: 0x0b78
+            msgID: 0x0b08              # TLM_MSG(  264 )
           MS5607_HK_TLM_MID:
-            msgID: 0x0b79
+            msgID: 0x0b09              # TLM_MSG(  265 )
         commands:
           MS5607_CMD_MID:
-            msgID: 0x1b7a
+            msgID: 0x1b0a              # CMD_MSG(  266 )
           MS5607_MEASURE_MID:
-            msgID: 0x1b7b
+            msgID: 0x1b0b              # CMD_MSG(  267 )
           MS5607_SEND_HK_MID:
-            msgID: 0x1b7c
+            msgID: 0x1b0c              # CMD_MSG(  268 )
     
       ms5611:
         definition: ${PROJECT_SOURCE_DIR}/apps/ms5611/wh_design.yaml
         telemetry:
           MS5611_DIAG_TLM_MID:
-            msgID: 0x0b7f
+            msgID: 0x0b0d              # TLM_MSG(  269 )
           MS5611_HK_TLM_MID:
-            msgID: 0x0b80
+            msgID: 0x0b0e              # TLM_MSG(  270 )
         commands:
           MS5611_CMD_MID:
-            msgID: 0x1b81
+            msgID: 0x1b0f              # CMD_MSG(  271 )
           MS5611_MEASURE_MID:
-            msgID: 0x1b82
+            msgID: 0x1b10              # CMD_MSG(  272 )
           MS5611_SEND_HK_MID:
-            msgID: 0x1b83
+            msgID: 0x1b11              # CMD_MSG(  273 )
     
       nav:
         definition: ${PROJECT_SOURCE_DIR}/apps/nav/wh_design.yaml
         telemetry:
           NAV_HK_TLM_MID:
-            msgID: 0x0b86
+            msgID: 0x0b12              # TLM_MSG(  274 )
         commands:
           NAV_CMD_MID:
-            msgID: 0x1b87
+            msgID: 0x1b13              # CMD_MSG(  275 )
           NAV_SEND_HK_MID:
-            msgID: 0x1b88
+            msgID: 0x1b14              # CMD_MSG(  276 )
           NAV_WAKEUP_MID:
-            msgID: 0x1b89
-    
-#   prmlib:
-#         telemetry:
-#           PRMLIB_PARAM_UPDATED_MID:
-#             msgID: 
-#         commands:
-#           PRM_CMD_MID:
-#             msgID: 
-#           PRM_SEND_HK_MID:
-#             msgID: 
-#           PRM_WAKEUP_MID:
-#             msgID: 
-#         perfids:
-#           PARAMS_MAIN_TASK_PERF_ID:
-#             id: 90
-#         definition: ${PROJECT_SOURCE_DIR}/apps/prmlib/wh_design.yaml
+            msgID: 0x1b15              # CMD_MSG(  277 )
     
       pe:
         definition: ${PROJECT_SOURCE_DIR}/apps/pe/wh_design.yaml
         telemetry:
           PE_HK_TLM_MID:
-            msgID: 0x0b8c
+            msgID: 0x0b16              # TLM_MSG(  278 )
           PE_DIAG_TLM_MID:
-            msgID: 0x0b90
+            msgID: 0x0b17              # TLM_MSG(  279 )
         commands:
           PE_CMD_MID:
-            msgID: 0x1b8d
+            msgID: 0x1b18              # CMD_MSG(  280 )
           PE_SEND_HK_MID:
-            msgID: 0x1b8e
+            msgID: 0x1b19              # CMD_MSG(  281 )
           PE_WAKEUP_MID:
-            msgID: 0x1b8f
+            msgID: 0x1b1a              # CMD_MSG(  282 )
     
       qae:
         definition: ${PROJECT_SOURCE_DIR}/apps/qae/wh_design.yaml
         telemetry:
           QAE_HK_TLM_MID:
-            msgID: 0x0b9c
+            msgID: 0x0b20              # TLM_MSG(  288 )
         commands:
           QAE_CMD_MID:
-            msgID: 0x1b9d
+            msgID: 0x1b21              # CMD_MSG(  289 )
           QAE_SEND_HK_MID:
-            msgID: 0x1b9e
+            msgID: 0x1b22              # CMD_MSG(  290 )
           QAE_WAKEUP_MID:
-            msgID: 0x1b9f
+            msgID: 0x1b23              # CMD_MSG(  291 )
     
       rcin:
         definition: ${PROJECT_SOURCE_DIR}/apps/rcin/wh_design.yaml
         telemetry:
           RCIN_HK_TLM_MID:
-            msgID: 0x0ba2
+            msgID: 0x0b24              # TLM_MSG(  292 )
         commands:
           RCIN_CMD_MID:
-            msgID: 0x1ba3
+            msgID: 0x1b25              # CMD_MSG(  293 )
           RCIN_SEND_HK_MID:
-            msgID: 0x1ba4
+            msgID: 0x1b26              # CMD_MSG(  294 )
           RCIN_WAKEUP_MID:
-            msgID: 0x1ba5
+            msgID: 0x1b27              # CMD_MSG(  295 )
     
       rgbled:
         definition: ${PROJECT_SOURCE_DIR}/apps/rgbled/wh_design.yaml
         telemetry:
           RGBLED_HK_TLM_MID:
-            msgID: 0x0ba8
+            msgID: 0x0b28              # TLM_MSG(  296 )
         commands:
           RGBLED_CMD_MID:
-            msgID: 0x1ba9
+            msgID: 0x1b29              # CMD_MSG(  297 )
           RGBLED_SEND_HK_MID:
-            msgID: 0x1baa
+            msgID: 0x1b2a              # CMD_MSG(  298 )
           RGBLED_WAKEUP_MID:
-            msgID: 0x1bab
-    
-#   sbn:
-#         commands:
-#           SBN_WAKEUP_MID:
-#             msgID: 
-#         definition: ${PROJECT_SOURCE_DIR}/apps/sbn/wh_design.yaml
-    
-      sens:
-        definition: ${PROJECT_SOURCE_DIR}/apps/sens/wh_design.yaml
-        telemetry:
-          SENS_HK_TLM_MID:
-            msgID: 0x0bb8
-        commands:
-          SENS_CMD_MID:
-            msgID: 0x1bb9
-          SENS_SEND_HK_MID:
-            msgID: 0x1bba
-          SENS_WAKEUP_MID:
-            msgID: 0x1bbb
-    
-      sim:
-        definition: ${PROJECT_SOURCE_DIR}/apps/sim/wh_design.yaml
-        telemetry:
-          SIM_HK_TLM_MID:
-            msgID: 0x0bbe
-        commands:
-          SIM_CMD_MID:
-            msgID: 0x1bbf
-          SIM_SEND_HK_MID:
-            msgID: 0x1bc0
-          SIM_WAKEUP_MID:
-            msgID: 0x1bc1
-    
-      sonar:
-        definition: ${PROJECT_SOURCE_DIR}/apps/sonar/wh_design.yaml
-        telemetry:
-          SONAR_OUT_DATA_MID:
-            msgID: 0x0bc4
-          SONAR_HK_TLM_MID:
-            msgID: 0x0bc5
-        commands:
-          SONAR_CMD_MID:
-            msgID: 0x1bc6
-          SONAR_MEASURE_MID:
-            msgID: 0x1bc7
-          SONAR_SEND_HK_MID:
-            msgID: 0x1bc8
-    
-      ulr:
-        definition: ${PROJECT_SOURCE_DIR}/apps/ulr/wh_design.yaml
-        telemetry:
-          ULR_HK_TLM_MID:
-            msgID: 0x0bca
-        commands:
-          ULR_CMD_MID:
-            msgID: 0x1bcb
-          ULR_MEASURE_MID:
-            msgID: 0x1bcc
-          ULR_SEND_HK_MID:
-            msgID: 0x1bcd
-    
-      vc:
-        definition: ${PROJECT_SOURCE_DIR}/apps/vc/wh_design.yaml
-        telemetry:
-          VC_HK_TLM_MID:
-            msgID: 0x0bd0
-          FLOW_FRAME_MID:
-            msgID: 0x0bd1
-        commands:
-          VC_CMD_MID:
-            msgID: 0x1bd2
-          VC_PROCESS_CMDS_MID:
-            msgID: 0x1bd3
-          VC_SEND_HK_MID:
-            msgID: 0x1bd4
-    
-      vm:
-        definition: ${PROJECT_SOURCE_DIR}/apps/vm/wh_design.yaml
-        telemetry:
-          VM_CONFIG_TLM_MID:
-            msgID: 0x0be0
-          VM_HK_TLM_MID:
-            msgID: 0x0be1
-        commands:
-          VM_CMD_MID:
-            msgID: 0x1be2
-          VM_SEND_HK_MID:
-            msgID: 0x1be3
-          VM_WAKEUP_MID:
-            msgID: 0x1be4
+            msgID: 0x1b2b              # CMD_MSG(  299 )
     
       sbn:
         definition: ${PROJECT_SOURCE_DIR}/apps/sbn/wh_design.yaml
         telemetry:
           SBN_TLM_MID:
-            msgID: 0x0bae
+            msgID: 0x0b2c              # TLM_MSG(  300 )
           SBN_MODULE_HK_TLM_MID:
-            msgID: 0x0bb4
+            msgID: 0x0b2d              # TLM_MSG(  301 )
+          SBN_SUB_MID:
+            msgID: 0x0b2e              # TLM_MSG(  302 )
+          SBN_ALLSUB_MID:
+            msgID: 0x0b2f              # TLM_MSG(  303 )
+          SBN_UNSUB_MID:
+            msgID: 0x0b30              # TLM_MSG(  304 )
         commands:
           SBN_CMD_MID:
-            msgID: 0x1baf
+            msgID: 0x1b31              # CMD_MSG(  305 )
           SBN_WAKEUP_MID:
-            msgID: 0x1bb0
+            msgID: 0x1b32              # CMD_MSG(  306 )
+    
+      sens:
+        definition: ${PROJECT_SOURCE_DIR}/apps/sens/wh_design.yaml
+        telemetry:
+          SENS_HK_TLM_MID:
+            msgID: 0x0b37              # TLM_MSG(  311 )
+        commands:
+          SENS_CMD_MID:
+            msgID: 0x1b38              # CMD_MSG(  312 )
+          SENS_SEND_HK_MID:
+            msgID: 0x1b39              # CMD_MSG(  313 )
+          SENS_WAKEUP_MID:
+            msgID: 0x1b3a              # CMD_MSG(  314 )
+    
+      sonar:
+        definition: ${PROJECT_SOURCE_DIR}/apps/sonar/wh_design.yaml
+        telemetry:
+          SONAR_HK_TLM_MID:
+            msgID: 0x0b3f              # TLM_MSG(  319 )
+        commands:
+          SONAR_CMD_MID:
+            msgID: 0x1b40              # CMD_MSG(  320 )
+          SONAR_MEASURE_MID:
+            msgID: 0x1b41              # CMD_MSG(  321 )
+          SONAR_SEND_HK_MID:
+            msgID: 0x1b42              # CMD_MSG(  322 )
+    
+      ulr:
+        definition: ${PROJECT_SOURCE_DIR}/apps/ulr/wh_design.yaml
+        telemetry:
+          ULR_HK_TLM_MID:
+            msgID: 0x0b43              # TLM_MSG(  323 )
+        commands:
+          ULR_CMD_MID:
+            msgID: 0x1b44              # CMD_MSG(  324 )
+          ULR_MEASURE_MID:
+            msgID: 0x1b45              # CMD_MSG(  325 )
+          ULR_SEND_HK_MID:
+            msgID: 0x1b46              # CMD_MSG(  326 )
+    
+      vc:
+        definition: ${PROJECT_SOURCE_DIR}/apps/vc/wh_design.yaml
+        telemetry:
+          VC_HK_TLM_MID:
+            msgID: 0x0b47              # TLM_MSG(  327 )
+        commands:
+          VC_CMD_MID:
+            msgID: 0x1b48              # CMD_MSG(  328 )
+          VC_PROCESS_CMDS_MID:
+            msgID: 0x1b49              # CMD_MSG(  329 )
+          VC_SEND_HK_MID:
+            msgID: 0x1b4a              # CMD_MSG(  330 )
+    
+      vm:
+        definition: ${PROJECT_SOURCE_DIR}/apps/vm/wh_design.yaml
+        telemetry:
+          VM_CONFIG_TLM_MID:
+            msgID: 0x0b4b              # TLM_MSG(  331 )
+          VM_HK_TLM_MID:
+            msgID: 0x0b4c              # TLM_MSG(  332 )
+        commands:
+          VM_CMD_MID:
+            msgID: 0x1b4d              # CMD_MSG(  333 )
+          VM_SEND_HK_MID:
+            msgID: 0x1b4e              # CMD_MSG(  334 )
+          VM_WAKEUP_MID:
+            msgID: 0x1b4f              # CMD_MSG(  335 )
             
       sed:
         definition: ${PROJECT_SOURCE_DIR}/../private/apps/sed/wh_design.yaml
         telemetry:
           SED_DIAG_TLM_MID:
-            msgID: 0x0b71
+            msgID: 0x0af9              # TLM_MSG(  249 )
           SED_HK_TLM_MID:
-            msgID: 0x0b72
+            msgID: 0x0afa              # TLM_MSG(  250 )
         commands:
           SED_CMD_MID:
-            msgID: 0x1b73
+            msgID: 0x1afb              # CMD_MSG(  251 )
           SED_MEASURE_MID:
-            msgID: 0x1b74
+            msgID: 0x1afc              # CMD_MSG(  252 )
           SED_SEND_HK_MID:
-            msgID: 0x1b75
+            msgID: 0x1afd              # CMD_MSG(  253 )
         perfids:
           SED_MAIN_TASK_PERF_ID:
             id: 111
@@ -930,17 +872,17 @@ modules:
       zusup:
         definition: ${PROJECT_SOURCE_DIR}/../private/apps/zusup/wh_design.yaml
         telemetry:
-          ZUSUP_HK_TLM_MID:
-            msgID: 0x0be9
           ZUSUP_DIAG_TLM_MID:
-            msgID: 0x0bea
+            msgID: 0x0b50              # TLM_MSG(  336 )
+          ZUSUP_HK_TLM_MID:
+            msgID: 0x0b51              # TLM_MSG(  337 )
         commands:
           ZUSUP_CMD_MID:
-            msgID: 0x1be6
+            msgID: 0x1b52              # CMD_MSG(  338 )
           ZUSUP_SEND_HK_MID:
-            msgID: 0x1be7
+            msgID: 0x1b53              # CMD_MSG(  339 )
           ZUSUP_WAKEUP_MID:
-            msgID: 0x1be8
+            msgID: 0x1b54              # CMD_MSG(  340 )
         perfids:
           ZUSUP_MAIN_TASK_PERF_ID:
             id: 113
@@ -949,14 +891,14 @@ modules:
         definition: ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/wh_design.yaml
         telemetry:
           SBND_HK_TLM_MID:
-            msgID: 0x0bb5
+            msgID: 0x0b33              # TLM_MSG(  307 )
         commands:
           SBND_CMD_MID:
-            msgID: 0x1bb6
-          SBND_WAKEUP_MID:
-            msgID: 0x1bb0
+            msgID: 0x1b34              # CMD_MSG(  308 )
           SBND_SEND_HK_MID:
-            msgID: 0x1bb7
+            msgID: 0x1b35              # CMD_MSG(  309 )
+          SBND_WAKEUP_MID:
+            msgID: 0x1b36              # CMD_MSG(  310 )
         perfids:
           SBND_MAIN_TASK_PERF_ID:
             id: 114

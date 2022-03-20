@@ -36,7 +36,6 @@
 
 #include "vm_Arming.h"
 #include "vm_Navigation.h"
-#include "prm_lib.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -113,7 +112,7 @@ extern "C" {
 /**
  **  \brief VM Application Class
  */
-class VM : ParamsConsumer
+class VM
 {
 public:
     /**\brief Default constructor. */
@@ -704,56 +703,6 @@ private:
      **
      *************************************************************************/
     void ReportConfiguration(void);
-
-    /************************************************************************/
-    /** \brief Process the parameter pipe.
-     **
-     **  \par Description
-     **       This function will process all incoming named parameter
-     **       commands.
-     **
-     **  \par Assumptions, External Events, and Notes:
-     **       None
-     **
-     **  \returns
-     **   None
-     **  \endreturns
-     **
-     *************************************************************************/
-    void ProcessParamPipe(void);
-
-    /************************************************************************/
-    /** \brief Process parameter updates.
-     **
-     **  \par Description
-     **       This function is called to update named parameters.
-     **
-     **  \par Assumptions, External Events, and Notes:
-     **       None
-     **
-     **  \returns
-     **   CFE_SUCCESS if successful.  -1 if unsuccessful.
-     **  \endreturns
-     **
-     *************************************************************************/
-    int32 ProcessUpdatedParam(PRMLIB_UpdatedParamMsg_t* MsgPtr);
-
-    /************************************************************************/
-    /** \brief Respond to changes in parameters
-     **
-     **  \par Description
-     **       This function is called by the #ParamsConsumer base class
-     **       when a registered named parameter has changed.
-     **
-     **  \par Assumptions, External Events, and Notes:
-     **       None
-     **
-     **  \returns
-     **   CFE_SUCCESS if successful.  -1 if unsuccessful.
-     **  \endreturns
-     **
-     *************************************************************************/
-    virtual void onParamsChange(PRMLIB_ParamRegistration_t *ParamsData, uint32 ParamsCount);
 
 public:
     /************************************************************************/

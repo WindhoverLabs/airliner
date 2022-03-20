@@ -206,26 +206,6 @@ modules:
       hk:
         definition: ${PROJECT_SOURCE_DIR}/apps/hk/wh_design.yaml
         telemetry: 
-          HK_COMBINED_PKT1_MID: 
-            msgID: 0x0864
-          HK_COMBINED_PKT2_MID: 
-            msgID: 0x0865
-          HK_COMBINED_PKT3_MID: 
-            msgID: 0x0866
-          HK_COMBINED_PKT4_MID: 
-            msgID: 0x0867
-          HK_COMBINED_PKT5_MID: 
-            msgID: 0x0868
-          HK_COMBINED_PKT6_MID: 
-            msgID: 0x0869
-          HK_COMBINED_PKT7_MID: 
-            msgID: 0x086a
-          HK_COMBINED_PKT8_MID: 
-            msgID: 0x086b
-          HK_COMBINED_PKT9_MID: 
-            msgID: 0x086c
-          HK_COMBINED_PKT10_MID: 
-            msgID: 0x086d
           HK_HK_TLM_MID: 
             msgID: 0x086e
         commands: 

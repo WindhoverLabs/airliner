@@ -54,8 +54,6 @@ extern "C"
 #include "amc_version.h"
 #include <math.h>
 #include "px4lib.h"
-#include "prm_lib.h"
-#include "prm_ids.h"
 #include "px4lib.h"
 #include "px4lib_msgids.h"
 #include "prmlib_msgids.h"

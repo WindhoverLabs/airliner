@@ -511,13 +511,13 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 
 		/* Check to see if we the previous message has already been
 		 * received and acknowledged. */
-//		rc = SEDLIB_GetMessageStatus(TO_AppCustomData.Channel[index].MsgPortHandle, &readStatus, &writeStatus);
-//		if(SEDLIB_OK != rc)
-//		{
-//			/* We can't read the status.  Abort. */
-//			/* TODO */
-//			return;
-//		}
+		rc = SEDLIB_GetMessageStatus(TO_AppCustomData.Channel[index].MsgPortHandle, &readStatus, &writeStatus);
+		if(SEDLIB_OK != rc)
+		{
+			/* We can't read the status.  Abort. */
+			/* TODO */
+			return;
+		}
 
 		if(SEDLIB_MSG_READ_PENDING_ACKNOWLEDGE != readStatus)
 		{
@@ -540,47 +540,6 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 					{
 					    uint32 size = CFE_SB_GetTotalMsgLength(TO_AppCustomData.Channel[index].InWorkMsg);
 
-	//					msg[0] = 0x0a;
-	//					msg[1] = 0xef;
-	//					msg[2] = 0xc0;
-	//					msg[3] = 0xb5;
-	//					msg[4] = 0x00;
-	//					msg[5] = 0x21;
-	//					msg[6] = 0x2b;
-	//					msg[7] = 0x46;
-	//					msg[8] = 0x0f;
-	//					msg[9] = 0x00;
-	//					msg[10] = 0x5d;
-	//					msg[11] = 0xb8;
-	//					msg[12] = 0xdb;
-	//					msg[13] = 0xfe;
-	//					msg[14] = 0xfa;
-	//					msg[15] = 0x19;
-	//					msg[16] = 0x8e;
-	//					msg[17] = 0xd9;
-	//					msg[18] = 0x05;
-	//					msg[19] = 0x00;
-	//					msg[20] = 0x01;
-	//					msg[21] = 0x00;
-	//					msg[22] = 0x00;
-	//					msg[23] = 0x01;
-	//					msg[24] = 0x00;
-	//					msg[25] = 0x00;
-	//					msg[26] = 0x01;
-	//					msg[27] = 0x01;
-	//					msg[28] = 0x00;
-	//					msg[29] = 0x00;
-	//					msg[30] = 0x00;
-	//					msg[31] = 0x00;
-	//					msg[32] = 0x00;
-	//					msg[33] = 0x00;
-	//					msg[34] = 0x00;
-	//					msg[35] = 0x00;
-	//					msg[36] = 0x00;
-	//					msg[37] = 0x00;
-	//					msg[38] = 0x00;
-	//					msg[39] = 0x00;
-
 						TO_AppCustomData.Channel[index].MsgProcessInProgress = TRUE;
 						if(status == OS_QUEUE_EMPTY)
 						{
@@ -599,9 +558,15 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 							TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
 						}
 					}
+					else
+					{
+						/* Break out of the loop. */
+						cont = FALSE;
+						TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
+					}
 				}
 
-				if((TRUE == cont) && (TO_AppCustomData.Channel[index].InWorkMsg != 0))
+				if(TRUE == cont)
 				{
 					TO_QueueMsgReturnCode_t queueStatus;
 					uint32 size = CFE_SB_GetTotalMsgLength(TO_AppCustomData.Channel[index].InWorkMsg);

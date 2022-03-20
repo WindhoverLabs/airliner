@@ -59,8 +59,7 @@ extern "C" {
 #include "amc_tbldefs.h"
 #include "px4_msgs.h"
 #include <pwm_limit/pwm_limit.h>
-#include "prm_lib.h"
-#include "prm_ids.h"
+
 
 
 /************************************************************************

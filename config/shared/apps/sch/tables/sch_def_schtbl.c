@@ -34,16 +34,7 @@ extern "C" {
 #define HK_SEND_HK_MIDX               17
 
 #define TO_SEND_TLM_MIDX              19
-#define HK_SEND_COMBINED_PKT1_MIDX    20
-#define HK_SEND_COMBINED_PKT2_MIDX    21
-#define HK_SEND_COMBINED_PKT3_MIDX    22
-#define HK_SEND_COMBINED_PKT4_MIDX    23
-#define HK_SEND_COMBINED_PKT5_MIDX    24
-#define HK_SEND_COMBINED_PKT6_MIDX    25
-#define HK_SEND_COMBINED_PKT7_MIDX    26
-#define HK_SEND_COMBINED_PKT8_MIDX    27
-#define HK_SEND_COMBINED_PKT9_MIDX    28
-#define HK_SEND_COMBINED_PKT10_MIDX   29
+
 #define FM_SEND_HK_MIDX               30
 #define LC_SEND_HK_MIDX               31
 #define HS_WAKEUP_MIDX                32

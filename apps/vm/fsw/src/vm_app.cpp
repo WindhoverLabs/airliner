@@ -43,7 +43,6 @@
 #include "vm_version.h"
 #include "px4lib.h"
 #include "px4lib_msgids.h"
-#include "prm_ids.h"
 
 
 
@@ -441,13 +440,6 @@ int32 VM::InitApp()
         goto VM_InitApp_Exit_Tag;
     }
 
-    /* Initialize the application to use named parameters. */
-    iStatus = InitParams();
-    if (iStatus != CFE_SUCCESS)
-    {
-        goto VM_InitApp_Exit_Tag;
-    }
-
     /* Initialize the caution and warning helper */
     m_caws.InitCAWS();
 
@@ -504,7 +496,6 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
             {
                 uint64 timestamp;
 
-                CheckParams();
                 ProcessDataPipe();
 
                 /* Update status in caution and warning */
@@ -2148,48 +2139,6 @@ void VM::ReportConfiguration()
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &ConfigTlm);
     CFE_SB_SendMsg((CFE_SB_Msg_t*) &ConfigTlm);
-}
-
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Initialize named parameters.                                    */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 VM::InitParams(void)
-{
-    int32 iStatus = -1;
-
-    /* The include below is intended to allow us to eventually
-     * autogenerate parameter definitions, but there's still a lot of work
-     * to do before that is fully complete.
-     */
-#include "vm_params.hpp"
-
-    iStatus = ParamsConsumer::InitParams(ParamRegistrations);
-    if (iStatus != CFE_SUCCESS)
-    {
-        CFE_EVS_SendEvent(VM_PARAM_INIT_ERR_EID, CFE_EVS_ERROR,
-                "Failed to initialize named parameters (0x%04X)",
-                (unsigned short) iStatus);
-    }
-
-    return iStatus;
-}
-
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/*  onParamsChange function                                        */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void VM::onParamsChange(PRMLIB_ParamRegistration_t *ParamsData,
-        uint32 ParamsCount)
-{
-    /* This is called when a named parameter has been modified. */
-    CFE_TBL_Modified(ConfigTblHdl);
 }
 
 

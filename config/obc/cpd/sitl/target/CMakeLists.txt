@@ -87,13 +87,6 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/io_lib/fsw/for_build
 )
 
-buildliner_add_app(
-    prmlib
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/prm
-)
-
 
 # sch_custom_v1.c:  Traditional platform independent layer that uses OS_Timer 
 #                   to drive minor frames.

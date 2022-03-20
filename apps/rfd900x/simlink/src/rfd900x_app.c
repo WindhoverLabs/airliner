@@ -672,32 +672,27 @@ void RFD900X_SendMessage(void)
     	}
     }
 
-//    /* Send the message out */
-//    printf("%u   ", __LINE__);
-//    for(uint32 i = 0; i < outCursor; ++i)
-//    {
-//        printf("%02x ", RFD900X_AppData.TxOutBuffer[i]);
-//    }
-//    printf("\n");
-
-    bzero((char *) &s_addr, sizeof(s_addr));
-    s_addr.sin_family      = AF_INET;
-
-    /* Send message via UDP socket */
-    s_addr.sin_addr.s_addr = inet_addr(RFD900X_AppData.ConfigTblPtr->Address);
-    s_addr.sin_port = htons(RFD900X_AppData.ConfigTblPtr->TxPort);
-
-    status = sendto(RFD900X_AppData.TxSocket,
-    		        (char *)RFD900X_AppData.TxOutBuffer,
-					outCursor,
-					0,
-                    (struct sockaddr *) &s_addr,
-                    sizeof(s_addr));
-    if (status < 0)
+    if(outCursor > 0)
     {
-        CFE_EVS_SendEvent(RFD900X_TX_SEND_ERR_EID,
-        		          CFE_EVS_ERROR,
-                          "send errno %d.", errno);
+		bzero((char *) &s_addr, sizeof(s_addr));
+		s_addr.sin_family      = AF_INET;
+
+		/* Send message via UDP socket */
+		s_addr.sin_addr.s_addr = inet_addr(RFD900X_AppData.ConfigTblPtr->Address);
+		s_addr.sin_port = htons(RFD900X_AppData.ConfigTblPtr->TxPort);
+
+		status = sendto(RFD900X_AppData.TxSocket,
+						(char *)RFD900X_AppData.TxOutBuffer,
+						outCursor,
+						0,
+						(struct sockaddr *) &s_addr,
+						sizeof(s_addr));
+		if (status < 0)
+		{
+			CFE_EVS_SendEvent(RFD900X_TX_SEND_ERR_EID,
+							  CFE_EVS_ERROR,
+							  "send errno %d.", errno);
+		}
     }
 }
 
