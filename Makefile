@@ -164,7 +164,7 @@ workspace::
 
 workspace-pyliner::
 	@echo "Generating pyliner workspace"
-	@mkdir -p build/obc/pyliner/commander_workspace
+	@mkdir -p build/obc/ppd/pyliner/commander_workspace
 	@echo 'Generating CPD XTCE'
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/cpd/target/wh_defs.yaml ${PWD}/build/obc/cpd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/cpd.xml
 	@echo 'Generating PPD XTCE'
