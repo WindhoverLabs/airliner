@@ -52,6 +52,7 @@
 #include "mavlink.h"
 #include <unistd.h>
 #include "cvt_lib.h"
+#include <float.h>
 
 /************************************************************************
 ** Local Defines
@@ -88,6 +89,7 @@ SIMLINK_AppData_t  SIMLINK_AppData;
 int32 SIMLINK_InitListener(void);
 void  SIMLINK_ListenerTaskMain(void);
 int32 SIMLINK_SendHeartbeat(void);
+void SIMLINK_ProcessPwmOutputs(void);
 
 
 int32 SIMLINK_InitCVT(void)
@@ -237,6 +239,28 @@ int32 SIMLINK_InitCVT(void)
                                      status);
 	        goto end_of_function;
     	}
+	}
+
+	{
+		uint32 updateCount = 0;
+		uint32 size = sizeof(SIMLINK_PWM_Msg_t);
+		status = CVT_GetContainer(SIMLINK_PWM_CONTAINER_NAME, sizeof(SIMLINK_PWM_Msg_t), &SIMLINK_AppData.PwmContainer);
+		if(CVT_SUCCESS != status)
+		{
+			(void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
+									 "Failed to get PWM container. (%li)",
+									 status);
+			goto end_of_function;
+		}
+
+		status = CVT_GetContent(SIMLINK_AppData.PwmContainer, &updateCount, &SIMLINK_AppData.PwmMsg, &size);
+		if(CVT_SUCCESS != status)
+		{
+			(void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
+									 "Failed to get PWM container. (%li)",
+									 status);
+			goto end_of_function;
+		}
 	}
 
 end_of_function:
@@ -549,6 +573,7 @@ int32 SIMLINK_RcvMsg(int32 iBlocking)
             case SIMLINK_WAKEUP_MID:
                 SIMLINK_ProcessNewCmds();
                 SIMLINK_ProcessNewData();
+                SIMLINK_ProcessPwmOutputs();
 
                 /* TODO:  Add more code here to handle other things when app wakes up */
 
@@ -994,6 +1019,65 @@ int32 SIMLINK_SendHeartbeat(void)
     status = 0;
 
     return status;
+}
+
+
+void SIMLINK_ProcessPwmOutputs(void)
+{
+	int32 status;
+	uint32 updateCount = 0;
+	uint32 size = sizeof(SIMLINK_AppData.PwmMsg);
+
+	status = CVT_GetContent(SIMLINK_AppData.PwmContainer, &updateCount, &SIMLINK_AppData.PwmMsg, &size);
+	if(CVT_SUCCESS != status)
+	{
+		(void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
+								 "Failed to get PWM container. (%li)",
+								 status);
+	}
+	else
+	{
+		if(updateCount != SIMLINK_AppData.PwmUpdateCount)
+		{
+			osalbool sendMsg = false;
+
+			SIMLINK_AppData.PwmUpdateCount = updateCount;
+
+			mavlink_message_t mavlinkMessage = {};
+			uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+			mavlink_hil_actuator_controls_t actuatorControlsMsg = {};
+			uint32_t length = 0;
+
+			for(uint32_t i = 0; i < SIMLINK_MAX_PWM_OUTPUTS; ++i)
+			{
+				if(i <= SIMLINK_PWM_CHANNEL_COUNT)
+				{
+					//actuatorControlsMsg.controls[i] = SIMLINK_PWM_To_Mavlink_Map(SIMLINK_AppData.PwmMsg.Channel[i], 1000, 3770, 0.0f, 1.0f);
+					actuatorControlsMsg.controls[i] = SIMLINK_AppData.PwmMsg.Channel[i];
+
+					if(actuatorControlsMsg.controls[i] >= FLT_EPSILON)
+					{
+						sendMsg = true;
+					}
+				}
+			}
+
+			if(sendMsg)
+			{
+				actuatorControlsMsg.time_usec = 0;
+				actuatorControlsMsg.flags = 0;
+				actuatorControlsMsg.mode = 129;
+
+				mavlink_msg_hil_actuator_controls_encode(1, 1, &mavlinkMessage, &actuatorControlsMsg);
+				length = mavlink_msg_to_send_buffer(buffer, &mavlinkMessage);
+
+				if(SIMLINK_AppData.Socket != 0)
+				{
+					send(SIMLINK_AppData.Socket, (char *)buffer, length, 0);
+				}
+			}
+		}
+	}
 }
 
 
