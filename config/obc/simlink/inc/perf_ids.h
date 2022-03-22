@@ -22,6 +22,7 @@
 #define ICM20689_MAIN_TASK_PERF_ID  (66)
 #define MS5611_MAIN_TASK_PERF_ID    (67)
 #define RFD900X_MAIN_TASK_PERF_ID   (68)
+#define SEDPWM_MAIN_TASK_PERF_ID    (69)
 
 
 #endif

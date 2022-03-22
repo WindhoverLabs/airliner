@@ -73,6 +73,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {UBLOX_M8N_HK_TLM_MID,                   1, TO_PQUEUE_HK_IDX},
         {HMC5883_HK_TLM_MID,                     1, TO_PQUEUE_HK_IDX},
         {ICM20689_HK_TLM_MID,                    1, TO_PQUEUE_HK_IDX},
+        {SEDPWM_HK_TLM_MID,                      1, TO_PQUEUE_HK_IDX},
         {MS5611_HK_TLM_MID,                      1, TO_PQUEUE_HK_IDX},
         {RFD900X_HK_TLM_MID,                     1, TO_PQUEUE_HK_IDX},
         {CVT_HK_TLM_MID,                         1, TO_PQUEUE_HK_IDX}

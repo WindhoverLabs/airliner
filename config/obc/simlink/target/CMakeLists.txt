@@ -112,3 +112,10 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/rfd900x/simlink/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/rfd900x
 )
+
+
+buildliner_add_app(
+    sedpwm
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedpwm/simlink/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sedpwm
+)

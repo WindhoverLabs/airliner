@@ -354,3 +354,19 @@ modules:
           RFD900X_MAIN_TASK_PERF_ID:
             id: 69
 
+      sedpwm:
+        definition: ${PROJECT_SOURCE_DIR}/../private/apps/sedpwm/simlink/wh_design.yaml
+        telemetry:
+          SEDPWM_HK_TLM_MID:
+            msgID: 0x086b
+        commands:
+          SEDPWM_CMD_MID:
+            msgID: 0x1867
+          SEDPWM_SEND_HK_MID:
+            msgID: 0x1868
+          SEDPWM_WAKEUP_MID:
+            msgID: 0x1869
+        perfids:
+          SEDPWM_MAIN_TASK_PERF_ID:
+            id: 70
+

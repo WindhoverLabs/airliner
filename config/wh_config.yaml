@@ -687,3 +687,6 @@ modules:
       rfd900x:
         definition: ${PROJECT_SOURCE_DIR}/apps/rfd900x/simlink/wh_design.yaml
 
+      sedpwm:
+        definition: ${PROJECT_SOURCE_DIR}/../private/apps/sedpwm/simlink/wh_design.yaml
+

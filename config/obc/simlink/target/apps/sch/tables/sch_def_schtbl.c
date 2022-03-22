@@ -66,6 +66,9 @@ extern "C" {
 
 #define CVT_SEND_HK_MIDX              56
 
+#define SEDPWM_SEND_HK_MIDX           58
+#define SEDPWM_WAKEUP_MIDX            59
+
 #define MM_SEND_HK_MIDX               70
 
 
@@ -74,7 +77,7 @@ extern "C" {
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	ICM20689_WAKEUP_MIDX,     SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	MS5611_WAKEUP_MIDX,       SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	RFD900X_WAKEUP_MIDX,      SCH_GROUP_NONE }, \
-	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
+     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SEDPWM_WAKEUP_MIDX,       SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
@@ -283,7 +286,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_2,
 	    SCH_25HZ_GROUP_2,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SEDPWM_SEND_HK_MIDX,      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },

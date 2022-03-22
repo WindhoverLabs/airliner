@@ -168,6 +168,14 @@
 #define RFD900X_HK_TLM_MID                        TLM_MSG(  102 )  /* 0x66 */
 
 
+/* SEDPWM                                                    */
+#define SEDPWM_CMD_MID                            CMD_MSG(  103 )  /* 0x67 */
+#define SEDPWM_SEND_HK_MID                        CMD_MSG(  104 )  /* 0x68 */
+#define SEDPWM_WAKEUP_MID                         CMD_MSG(  105 )  /* 0x69 */
+#define SEDPWM_OUT_DATA_MID                       TLM_MSG(  106 )  /* 0x6a */
+#define SEDPWM_HK_TLM_MID                         TLM_MSG(  107 )  /* 0x6b */
+
+
 
 
 

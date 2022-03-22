@@ -64,6 +64,12 @@ typedef struct
      float  BarometricAltitude;
 } SIMLINK_Baro_Msg_t;
 
+typedef struct
+{
+	 uint64  TimeUsec; /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.*/
+     uint32  Channel[SIMLINK_PWM_MAX_CHANNEL_COUNT];
+} SIMLINK_PWM_Msg_t;
+
 
 
 #endif
