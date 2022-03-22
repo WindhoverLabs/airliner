@@ -1,0 +1,64 @@
+#Configuration tested on YAMCS 5.4.0
+services:
+  - class: org.yamcs.archive.XtceTmRecorder
+  - class: org.yamcs.parameter.SystemParametersCollector
+    args:
+      provideJvmVariables: true
+      provideFsVariables: true
+  - class: org.yamcs.ProcessorCreatorService
+    args:
+      name: realtime
+      type: realtime
+  - class: org.yamcs.tctm.cfs.CfsEventDecoder
+    args:
+      msgIds: [0x0815, 0x0a15] #Always confirm this ID with CFE_EVS configuration
+      byteOrder: LITTLE_ENDIAN
+      appNameMax: 40
+
+dataLinks:    
+  - name: tcp_cpd
+    class: org.yamcs.tctm.TcpTcDataLink
+    stream: tc_realtime
+    host: 127.0.0.1
+    port: 5110
+    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+    commandPostprocessorArgs:
+      swapChecksumFc: true
+
+  - name: tm_cpd
+    class: org.yamcs.tctm.TcpTmDataLink
+    stream: tm_realtime
+    port: 5111
+    maxLength: 32768 #32KB is the default for CCSDS
+    packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+    packetPreprocessorArgs:
+      checkSequence: false
+      byteOrder: LITTLE_ENDIAN
+      useLocalGenerationTime: false
+      #errorDetection:
+      #tcoService:
+      timestampFormat: CFE_SB_TIME_32_16_SUBS
+      timeEncoding:
+        epoch: CUSTOM
+        epochUTC: "1970-01-01T00:00:00Z"
+        timeIncludesLeapSeconds: false
+
+mdb:
+    # Configuration of the active loaders
+    # Valid loaders are: sheet, xtce or fully qualified name of the class
+    - type: "xtce"
+      spec: "mdb/cfs-ccsds.xml"
+      subLoaders:
+      - type: "xtce"
+        spec: "mdb/ppd.xml"
+      - type: "xtce"
+        spec: "mdb/cpd.xml"
+
+# Configuration for streams created at server startup
+streamConfig:
+  tm:
+    - name: "tm_realtime"
+    - name: "tm_dump"
+  cmdHist: ["cmdhist_realtime", "cmdhist_dump"]
+  event: ["events_realtime", "events_dump"]
+  tc: ["tc_realtime"]
