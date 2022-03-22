@@ -12,8 +12,8 @@
 #    notice, this list of conditions and the following disclaimer in
 #    the documentation and/or other materials provided with the
 #    distribution.
-# 3. Neither the name Windhover Labs nor the names of its 
-#    contributors may be used to endorse or promote products derived 
+# 3. Neither the name Windhover Labs nor the names of its
+#    contributors may be used to endorse or promote products derived
 #    from this software without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -108,14 +108,14 @@ help::
 	@echo '                              reference build.                                  '
 	@echo '    docs-sphinx             : Generate the Sphinx documentation from the        '
 	@echo '                              reference build.                                  '
-	
-	
+
+
 .PHONY: help Makefile docs obc
 
 
 obc:: obc/ppd obc/cpd
 	@echo 'Done'
-	
+
 
 $(GENERIC_TARGET_NAMES)::
 	@echo 'Building '$@'.'
@@ -141,16 +141,37 @@ $(GENERIC_TARGET_NAMES)::
 					$(MAKE) --no-print-directory); \
 				fi \
 		done;
-		
+
 workspace::
 	@echo 'Generating ground products.'
 	@make -C build/obc/ppd/target ground-tools
 	@make -C build/obc/cpd/target ground-tools
-	-rm build/obc/commander_workspace/etc/registry.yaml
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
-	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
-	
-		
+	@echo 'Adding XTCE configuration to registries.'
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/cpd/target/wh_defs.yaml --overwrite build/obc/cpd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/ppd/target/wh_defs.yaml --overwrite build/obc/ppd/target/wh_defs.yaml
+	@echo 'Generating combined registry.'
+	@rm -Rf build/obc/commander_workspace >/dev/null
+	@mkdir -p build/obc/commander_workspace/etc
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	@echo 'Generating Commander workspace.'
+	@python3 core/base/tools/commander/generate_workspace.py build/obc/commander_workspace/etc/registry.yaml build/obc/commander_workspace/
+	@echo 'Generating CPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/cpd/target/wh_defs.yaml ${PWD}/build/obc/cpd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/cpd.xml
+	@echo 'Generating PPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/ppd/target/wh_defs.yaml ${PWD}/build/obc/ppd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/ppd.xml
+
+
+workspace-pyliner::
+	@echo "Generating pyliner workspace"
+	@mkdir -p build/obc/pyliner/commander_workspace
+	@echo 'Generating CPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/cpd/target/wh_defs.yaml ${PWD}/build/obc/cpd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/cpd.xml
+	@echo 'Generating PPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/ppd/target/wh_defs.yaml ${PWD}/build/obc/ppd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/ppd.xml
+	@cp -r config/obc/ppd/pyliner/ ${PWD}/build/obc/pyliner/commander_workspace
+
+
 workspace-sitl::
 	@echo 'Generating ground products.'
 	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram || /bin/true
@@ -159,27 +180,27 @@ workspace-sitl::
 	-rm build/obc/sitl_commander_workspace/etc/registry.yaml
 	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/sitl/target/wh_defs.yaml --yaml_path /modules/cpd
 	python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/sitl/target/wh_defs.yaml --yaml_path /modules/ppd
-	
-	
+
+
 obc-sitl:: obc/ppd/sitl obc/cpd/sitl
 	@echo 'Done'
-	
-	
+
+
 docs-doxygen:
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
 	(cd build/${SPHINX_FSW_BUILD}/target; /usr/bin/cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
 		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); make docs);
-	
-	
-docs-sphinx: 
+
+
+docs-sphinx:
 	@echo 'Building $$SPHINX_FSW_BUILD.'
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
 	(cd build/${SPHINX_FSW_BUILD}/target; /usr/bin/cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
 		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR));
 	@$(SPHINX_BUILD) -M html "$(SOURCE_DIR)" "$(SPHINX_BUILDDIR)" $(SPHINX_OPTS) -c build/$(SPHINX_FSW_BUILD)/target/docs $(O)
 	@echo 'Completed'
-	
-	
+
+
 docs: docs-doxygen docs-sphinx
 	@echo 'Completed'
 
@@ -195,9 +216,9 @@ python-env::
 	@echo 'Deactivate:                                                                     '
 	@echo '    deactivate                                                                  '
 	@echo '                                                                                '
-	
-	
-submodule-update: 
+
+
+submodule-update:
 	@echo 'Completed'
 	@echo 'Updating submodules'
 	git submodule update --init --recursive
@@ -221,4 +242,3 @@ local-install::
 clean::
 	@echo 'Cleaning flight software builds                                                 '
 	rm -rf build
-	
