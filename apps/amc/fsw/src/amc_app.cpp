@@ -56,7 +56,6 @@ extern "C"
 #include "px4lib.h"
 #include "px4lib.h"
 #include "px4lib_msgids.h"
-#include "prmlib_msgids.h"
 
 /* TODO:  Delete this when the PWM is no longer simulated on the PX4 side. */
 #define PWM_SIM_DISARMED_MAGIC (900)
@@ -374,24 +373,6 @@ int32 AMC::InitParamPipe(void)
         goto AMC_InitPipe_Exit_Tag;
     }
 
-    /* Subscribe to the PRMLIB_PARAM_UPDATED_MID message to receive
-     * parameter requests. */
-    iStatus = CFE_SB_SubscribeEx(PRMLIB_PARAM_UPDATED_MID, ParamPipeId,
-            CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        /* We failed to create the pipe for command messages.  Raise an
-         * event and immediately jump to the end of the function to abort
-         * initialization.
-         */
-        CFE_EVS_SendEvent(AMC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                "CMD Pipe failed to subscribe to PRMLIB_PARAM_UPDATED_MID. \
-                (0x%08X)",
-                (unsigned int)iStatus);
-
-        goto AMC_InitPipe_Exit_Tag;
-    }
-
 AMC_InitPipe_Exit_Tag:
     return iStatus;
 }
@@ -485,16 +466,6 @@ int32 AMC::InitApp(void)
         goto AMC_InitApp_Exit_Tag;
     }
 
-    /* Initialize the application to use named parameters. */
-    iStatus = InitParams();
-    if (iStatus != CFE_SUCCESS)
-    {
-        CFE_EVS_SendEvent(AMC_DEVICE_INIT_ERR_EID, CFE_EVS_ERROR,
-                "Failed to init params (0x%08x)",
-                (unsigned int)iStatus);
-        goto AMC_InitApp_Exit_Tag;
-    }
-
 AMC_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
@@ -556,7 +527,6 @@ int32 AMC::RcvSchPipeMsg(int32 iBlocking)
             {
                 ReportHousekeeping();
                 // TODO: Move these somewhere more appropriate later
-                ProcessParamPipe();
                 ProcessCmdPipe();
                 break;
             }
@@ -726,65 +696,6 @@ void AMC::ProcessDataPipe(void)
     }
 
     UpdateMotors();
-}
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Process Incoming Parameter requests                             */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void AMC::ProcessParamPipe(void)
-{
-    int32 iStatus = CFE_SUCCESS;
-    CFE_SB_Msg_t* CmdMsgPtr=NULL;
-    CFE_SB_MsgId_t CmdMsgId;
-    bool contProcessing = true;
-
-    /* Process param messages until the pipe is empty */
-    while (contProcessing)
-    {
-        iStatus = CFE_SB_RcvMsg(&CmdMsgPtr, ParamPipeId, CFE_SB_POLL);
-        if(iStatus == CFE_SUCCESS)
-        {
-            /* We did receive a message.  Process it. */
-            CmdMsgId = CFE_SB_GetMsgId(CmdMsgPtr);
-            switch (CmdMsgId)
-            {
-                case PRMLIB_PARAM_UPDATED_MID:
-                {
-                    /* We did receive a parameter request.  Process it. */
-                    ProcessUpdatedParam(
-                            (PRMLIB_UpdatedParamMsg_t *) CmdMsgPtr);
-                    break;
-                }
-
-                default:
-                {
-                    /* Bump the command error counter for an unknown command.
-                     * (This should only occur if it was subscribed to with
-                     * this pipe, but not handled in this switch-case.) */
-                    HkTlm.usCmdErrCnt++;
-                    CFE_EVS_SendEvent(AMC_MSGID_ERR_EID, CFE_EVS_ERROR,
-                            "Recvd invalid CMD msgId (0x%04X)",
-                            (unsigned short)CmdMsgId);
-                    break;
-                }
-            }
-        }
-        else if (iStatus == CFE_SB_NO_MESSAGE)
-        {
-            /* The pipe is empty.  Break the loop and continue on. */
-            contProcessing = false;
-        }
-        else
-        {
-            /* Something failed.  Quit the loop. */
-            CFE_EVS_SendEvent(AMC_RCVMSG_ERR_EID, CFE_EVS_ERROR,
-                    "PARAM pipe read error (0x%08X)", (unsigned int)iStatus);
-            contProcessing = false;
-        }
-    }
 }
 
 
@@ -1227,89 +1138,6 @@ int32 AMC::ControlCallback(
     {
         Control = controls[ControlGroup].Control[ControlIndex];
         iStatus = CFE_SUCCESS;
-    }
-
-    return iStatus;
-}
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Initialize named parameters.                                    */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 AMC::InitParams(void)
-{
-    int32 iStatus = -1;
-
-    iStatus = PRMLIB_ParamRegister(PARAM_ID_PWM_DISARMED,
-            &PwmConfigTblPtr->PwmDisarmed, TYPE_UINT32);
-    if(iStatus != CFE_SUCCESS)
-    {
-        goto InitParams_Exit_Tag;
-    }
-
-    iStatus = PRMLIB_ParamRegister(PARAM_ID_PWM_MIN,
-            &PwmConfigTblPtr->PwmMin, TYPE_UINT32);
-    if(iStatus != CFE_SUCCESS)
-    {
-        goto InitParams_Exit_Tag;
-    }
-
-    iStatus = PRMLIB_ParamRegister(PARAM_ID_PWM_MAX,
-            &PwmConfigTblPtr->PwmMax, TYPE_UINT32);
-    if(iStatus != CFE_SUCCESS)
-    {
-        goto InitParams_Exit_Tag;
-    }
-
-InitParams_Exit_Tag:
-
-    return iStatus;
-}
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Process a request to update named parameters.                   */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 AMC::ProcessUpdatedParam(PRMLIB_UpdatedParamMsg_t* MsgPtr)
-{
-    int32 iStatus = CFE_SUCCESS;
-
-    /* Lock the mutex */
-    OS_MutSemTake(PwmConfigMutex);
-
-    if(strcmp(PARAM_ID_PWM_DISARMED, MsgPtr->name) == 0)
-    {
-        iStatus = PRMLIB_GetParamValueById(PARAM_ID_PWM_DISARMED,
-                &PwmConfigTblPtr->PwmDisarmed);
-        goto ProcessUpdatedParam_Exit_Tag;
-    }
-
-    if(strcmp(PARAM_ID_PWM_MIN, MsgPtr->name) == 0)
-    {
-        iStatus = PRMLIB_GetParamValueById(PARAM_ID_PWM_MIN,
-                &PwmConfigTblPtr->PwmMin);
-        goto ProcessUpdatedParam_Exit_Tag;
-    }
-
-    if(strcmp(PARAM_ID_PWM_MAX, MsgPtr->name) == 0)
-    {
-        iStatus = PRMLIB_GetParamValueById(PARAM_ID_PWM_MAX,
-                &PwmConfigTblPtr->PwmMax);
-        goto ProcessUpdatedParam_Exit_Tag;
-    }
-
-ProcessUpdatedParam_Exit_Tag:
-    /* Unlock the mutex */
-    OS_MutSemGive(PwmConfigMutex);
-
-    if(iStatus != CFE_SUCCESS)
-    {
-        CFE_EVS_SendEvent(AMC_PARAM_UPDATE_ERR_EID, CFE_EVS_ERROR,
-                "Failed to update parameter: %s", MsgPtr->name);
     }
 
     return iStatus;

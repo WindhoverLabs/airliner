@@ -671,7 +671,7 @@ modules:
         perfids:
           ADSBR_MAIN_TASK_PERF_ID:
             id: 114
-            
+             
       ublox_m8n:
         definition: ${PROJECT_SOURCE_DIR}/../private/apps/gps/simlink/ublox_m8n/wh_design.yaml
 
@@ -689,4 +689,10 @@ modules:
 
       sedpwm:
         definition: ${PROJECT_SOURCE_DIR}/../private/apps/sedpwm/simlink/wh_design.yaml
+
+      vm:
+        definition: ${PROJECT_SOURCE_DIR}/apps/vm/wh_design.yaml
+
+      amc:
+        definition: ${PROJECT_SOURCE_DIR}/apps/amc/wh_design.yaml
 

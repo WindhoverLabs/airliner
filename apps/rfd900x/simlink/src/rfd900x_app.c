@@ -600,10 +600,9 @@ void RFD900X_ProcessNewData()
             	{
             		RFD900X_AppData.RxBuffer[i - bytesToCopy] = RFD900X_AppData.RxBuffer[i];
             	}
-
-            	/* No set the new bytes in buffer count. */
-            	RFD900X_AppData.BytesInRxBuffer = RFD900X_AppData.BytesInRxBuffer - bytesToCopy;
             }
+
+        	RFD900X_AppData.BytesInRxBuffer = RFD900X_AppData.BytesInRxBuffer - bytesToCopy;
 		}
     }
 }

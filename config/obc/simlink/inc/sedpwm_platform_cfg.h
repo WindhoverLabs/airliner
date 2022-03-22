@@ -114,10 +114,6 @@ extern "C" {
 #define SEDPWM_RX_BUFFER_SIZE          (32768)
 #define SEDPWM_ADDRESS_MAX_LENGTH      (16)
 
-
-#define SEDPWM_PWM_CMD_MID             (0x1842)
-#define SEDPWM_UART_TLM_MID            (0x0843)
-
 #define SEDPWM_CHANNEL_COUNT           (16)
 
 

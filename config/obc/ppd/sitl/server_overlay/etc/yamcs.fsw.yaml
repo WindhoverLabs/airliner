@@ -53,7 +53,7 @@ dataLinks:
     stream: tc_realtime
     host: 127.0.0.1
     port: 5110
-    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+    commandPostprocessorClassName: com.windhoverlabs.yamcs.tctm.ccsds.CfsCommandPostprocessorRFC1055
     commandPostprocessorArgs:
       swapChecksumFc: true
 
@@ -80,7 +80,7 @@ dataLinks:
     stream: tc_realtime
     host: 127.0.0.1
     port: 5010
-    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+    commandPostprocessorClassName: com.windhoverlabs.yamcs.tctm.ccsds.CfsCommandPostprocessorRFC1055
     commandPostprocessorArgs:
       swapChecksumFc: true
 
