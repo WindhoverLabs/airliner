@@ -66,12 +66,6 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
 )
 
-#buildliner_add_app(
-#    x_lib
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/x_lib/fsw/for_build
-#)
-
 buildliner_add_app(
     sedlib
     EMBEDDED
@@ -149,63 +143,20 @@ buildliner_add_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/hs/hs_custom.c
 )
 
-# This is temporarily removed until we can remove the OS dependency
-# in cf, i.e. "arpa/inet.h"
-#buildliner_add_app(
-#    cf
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/cf/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/cf
-#)
-#
-#buildliner_add_app(
-#    cs
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/cs/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/cs
-#)
-#
-#buildliner_add_app(
-#    fm
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fm/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/fm
-#)
-#
-#buildliner_add_app(
-#    hk
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hk/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hk
-#)
-#
-#buildliner_add_app(
-#    hs
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hs
-#    CONFIG_SOURCES
-#        ${PROJECT_SOURCE_DIR}/config/shared/apps/hs/hs_custom.c
-#)
-#
+buildliner_add_app(
+    hk
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hk/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hk
+)
+
 #buildliner_add_app(
 #    lc
+#    EMBEDDED
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/lc/fsw/for_build
 #    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/lc
 #    CONFIG_SOURCES
 #        ${PROJECT_SOURCE_DIR}/config/shared/apps/lc/src/lc_custom.c
-#)
-#
-#buildliner_add_app(
-#    md
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/md/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/md
-#)
-#
-#buildliner_add_app(
-#    mm
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mm/fsw/for_build
-#)
-#
-#buildliner_add_app(
-#    sc
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sc/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sc
 #)
 
 #buildliner_add_app(
@@ -258,7 +209,7 @@ buildliner_add_app(
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/mac
 )
 
-## This is temporarily removed until we can geet px4lib back in
+## This is temporarily removed until we can get px4lib back in
 #buildliner_add_app(
 #    ulr
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ulr/fsw/for_build
@@ -267,7 +218,7 @@ buildliner_add_app(
 #        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ulr/ulr_custom.cpp
 #)
 #
-## This is temporarily removed until we can geet px4lib back in
+## This is temporarily removed until we can get px4lib back in
 #buildliner_add_app(
 #    rgbled
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/rgbled/fsw/for_build
@@ -276,7 +227,7 @@ buildliner_add_app(
 #        ${CMAKE_CURRENT_SOURCE_DIR}/apps/rgbled/src/rgbled_custom.c
 #)
 
-# This is temporarily removed until we can geet px4lib back in
+# This is temporarily removed until we can get px4lib back in
 #buildliner_add_app(
 #    gps
 #    EMBEDDED
@@ -327,7 +278,7 @@ buildliner_add_app(
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/nav
 )
 
-## This is temporarily removed until we can geet px4lib back in
+# This is temporarily removed until we can get px4lib back in
 #buildliner_add_app(
 #    rcin
 #    EMBEDDED
@@ -337,13 +288,13 @@ buildliner_add_app(
 #        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/rcin/src/rcin_custom.c
 #)
 
-## This is temporarily removed until we can geet px4lib back in
+# This is temporarily removed until we can get px4lib back in
 #buildliner_add_app(
 #    bat
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/bat/fsw/for_build
 #    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/bat
 #    CONFIG_SOURCES
-#        ${CMAKE_CURRENT_SOURCE_DIR}/apps/bat/bat_custom.cpp
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/bat/bat_custom.cpp
 #)
 
 buildliner_add_app(
@@ -367,7 +318,7 @@ buildliner_add_app(
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sc
 )
 
-## This is temporarily removed until we can geet px4lib back in
+# This is temporarily removed until we can get px4lib back in
 #buildliner_add_app(
 #    lgc
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/lgc/fsw/for_build

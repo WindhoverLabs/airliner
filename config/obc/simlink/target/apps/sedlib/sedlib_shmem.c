@@ -61,7 +61,7 @@ int32 SEDLIB_CustomInit(void)
 	}
 	else
 	{
-		OS_printf("SEDLIB:  Using shared memory at 0x%08x\n", SEDLIB_ConfigTable.BaseAddress);
+		OS_printf("SEDLIB:  Using shared memory at 0x%08lx\n", SEDLIB_ConfigTable.BaseAddress);
 	}
 
 end_of_function:

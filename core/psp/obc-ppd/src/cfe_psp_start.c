@@ -41,6 +41,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include "git_version.h"
+#include <sys/mman.h>
 
 
 /*
@@ -249,6 +250,8 @@ void PSP_Main(int argc, char *argv[])
    uint32 eeprom_size;
 #endif
    
+   mlockall(MCL_CURRENT | MCL_FUTURE);
+
    /*
    ** Initialize the CommandData struct 
    */
