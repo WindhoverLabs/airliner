@@ -20,8 +20,6 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/../cfe_es_startup.scr
 )
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/../private/tools/hitl_bridge hitl_bridge)
-
 buildliner_add_app(
     cfs_lib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cfs_lib/fsw/for_build

@@ -251,7 +251,6 @@ local-install::
 	-sudo rm -Rf /media/${USER}/rootfs/opt/airliner
 	sudo cp -R build/obc/ppd/target/target/exe /media/${USER}/rootfs/opt/airliner
 	sudo cp build/obc/cpd/target/target/exe/airliner.elf /media/${USER}/rootfs/lib/firmware
-	-sudo cp build/obc/ppd/target/target/hitl_bridge/hitl_bridge /media/${USER}/rootfs/usr/local/bin/
 
 
 clean::
