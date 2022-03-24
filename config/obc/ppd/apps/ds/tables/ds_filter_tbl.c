@@ -790,15 +790,15 @@ DS_FilterTable_t DS_FilterTable =
     },
     /* Packet Index 062 */
     {
-      /* .MessageID = */ MPU9250_HK_TLM_MID,
-      /* .Filter    = */
-      {
-        /* File table index, filter type, N, X, O */
-        { FILE_ALL_APP_HK_PKTS, DS_BY_COUNT, 1, 1, 0 },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED }
-      }
+	  /* .MessageID = */ DS_UNUSED,
+	  /* .Filter    = */
+	  {
+		/* File table index, filter type, N, X, O */
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED }
+	  }
     },
     /* Packet Index 063 */
     {
@@ -874,15 +874,15 @@ DS_FilterTable_t DS_FilterTable =
     },
     /* Packet Index 069 */
     {
-      /* .MessageID = */ RGBLED_HK_TLM_MID,
-      /* .Filter    = */
-      {
-        /* File table index, filter type, N, X, O */
-        { FILE_ALL_APP_HK_PKTS, DS_BY_COUNT, 1, 1, 0 },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED }
-      }
+	  /* .MessageID = */ DS_UNUSED,
+	  /* .Filter    = */
+	  {
+		/* File table index, filter type, N, X, O */
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED }
+	  }
     },
     /* Packet Index 070 */
     {
@@ -1210,15 +1210,15 @@ DS_FilterTable_t DS_FilterTable =
     },
     /* Packet Index 097 */
     {
-      /* .MessageID = */ MPU9250_CMD_MID,
-      /* .Filter    = */
-      {
-        /* File table index, filter type, N, X, O */
-        { FILE_CORE_APP_CMD_PKTS, DS_BY_COUNT, 1, 1, 0 },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED }
-      }
+	  /* .MessageID = */ DS_UNUSED,
+	  /* .Filter    = */
+	  {
+		/* File table index, filter type, N, X, O */
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED }
+	  }
     },
     /* Packet Index 098 */
     {
@@ -1306,15 +1306,15 @@ DS_FilterTable_t DS_FilterTable =
     },
     /* Packet Index 105 */
     {
-      /* .MessageID = */ RGBLED_CMD_MID,
-      /* .Filter    = */
-      {
-        /* File table index, filter type, N, X, O */
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED }
-      }
+	  /* .MessageID = */ DS_UNUSED,
+	  /* .Filter    = */
+	  {
+		/* File table index, filter type, N, X, O */
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+		{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED }
+	  }
     },
     /* Packet Index 106 */
     {

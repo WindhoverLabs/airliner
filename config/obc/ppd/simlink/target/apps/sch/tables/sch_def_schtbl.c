@@ -49,9 +49,6 @@ extern "C" {
 #define SC_1HZ_WAKEUP_MIDX            40
 #define SC_SEND_HK_MIDX               41
 
-#define VC_SEND_HK_MIDX               45
-#define VC_PROCESS_CMDS_MIDX          46
-
 #define CI_1HZ_PROC_TIMEOUTS_MIDX     51
 #define CI_SEND_HK_MIDX               52
 #define CI_INGEST_COMMANDS_MIDX       53
@@ -585,7 +582,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #29*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBN_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    VC_SEND_HK_MIDX,          SCH_GROUP_NONE },
+    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
@@ -602,7 +599,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
     /* slot #30*/
     { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    SBN_WAKEUP_MIDX,          SCH_GROUP_NONE },
-    { SCH_ENABLED,    SCH_ACTIVITY_SEND_MSG,    1,    0,    VC_PROCESS_CMDS_MIDX,     SCH_GROUP_NONE },
+    { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },
     { SCH_UNUSED,    0,    0,    0,    0,    SCH_GROUP_NONE },

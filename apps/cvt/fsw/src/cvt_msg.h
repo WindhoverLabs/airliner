@@ -152,16 +152,6 @@ typedef struct
 } CVT_InData_t;
 
 /** 
-**  \brief TODO Elaborate this struct
-**  Boilerplate example of application-specific outgoing data
-*/
-typedef struct
-{
-    uint8   ucTlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint32  uiCounter;
-} CVT_OutData_t;
-
-/** 
 **  \brief CVT application housekeeping data
 */
 typedef struct

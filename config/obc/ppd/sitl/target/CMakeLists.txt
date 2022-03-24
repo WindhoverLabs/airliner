@@ -6,7 +6,6 @@ buildliner_initialize(
     OSAL ${OSAL}
     CORE_TOOLS ${CMAKE_CURRENT_SOURCE_DIR}/tools
     CONFIG
-        ${CMAKE_CURRENT_SOURCE_DIR}/inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../../inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../inc
@@ -37,12 +36,12 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/io_lib/fsw/for_build
 )
 
-buildliner_add_app(
-    pq_lib
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
-    # TODO move this table build to sbn module?
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/pq_lib
-)
+#buildliner_add_app(
+#    pq_lib
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
+#    # TODO move this table build to sbn module?
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/pq_lib
+#)
 
 buildliner_add_app(
     sch

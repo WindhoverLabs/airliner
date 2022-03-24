@@ -230,11 +230,6 @@ int32 CVT_InitData()
     /* Init input data */
     memset((void*)&CVT_AppData.InData, 0x00, sizeof(CVT_AppData.InData));
 
-    /* Init output data */
-    memset((void*)&CVT_AppData.OutData, 0x00, sizeof(CVT_AppData.OutData));
-    CFE_SB_InitMsg(&CVT_AppData.OutData,
-                   CVT_OUT_DATA_MID, sizeof(CVT_AppData.OutData), TRUE);
-
     /* Init housekeeping packet */
     memset((void*)&CVT_AppData.HkTlm, 0x00, sizeof(CVT_AppData.HkTlm));
     CFE_SB_InitMsg(&CVT_AppData.HkTlm,
@@ -358,11 +353,6 @@ int32 CVT_RcvMsg(int32 iBlocking)
                 CVT_ProcessNewCmds();
                 CVT_ProcessNewData();
 
-                /* TODO:  Add more code here to handle other things when app wakes up */
-
-                /* The last thing to do at the end of this Wakeup cycle should be to
-                 * automatically publish new output. */
-                CVT_SendOutData();
                 break;
 
             case CVT_SEND_HK_MID:
@@ -573,24 +563,6 @@ void CVT_ReportHousekeeping()
     }
 }
 
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Publish Output Data                                             */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-void CVT_SendOutData()
-{
-    /* TODO:  Add code to update output data, if needed, here.  */
-
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&CVT_AppData.OutData);
-    int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&CVT_AppData.OutData);
-    if (iStatus != CFE_SUCCESS)
-    {
-        /* TODO: Decide what to do if the send message fails. */
-    }
-}
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

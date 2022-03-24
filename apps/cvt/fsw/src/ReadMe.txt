@@ -23,9 +23,7 @@ When in listening mode, there are 2 specific messages the application should res
    This message is normally sent by the CFS message scheduler.  Only upon receiving
    this message would the application start doing work.  When woken up, the application
    will first process and respond to all incoming commands.  Then, it will process
-   all incoming data.  Next, it performs 1-cycle worth of data processing.  And last,
-   it sends out its output data (CVT_OUT_DATA_MID) before going back to the
-   listening mode.
+   all incoming data.  Next, it performs 1-cycle worth of data processing. 
 
    The application's output data is published at its running rate.  It should contain
    data to be recorded on-board (not downlinked) and data to be consumed by other
