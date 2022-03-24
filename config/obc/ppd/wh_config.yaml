@@ -5,7 +5,6 @@ modules:
   core:
     modules:   
       cfe:
-        definition: ${PROJECT_SOURCE_DIR}/core/base/cfe/wh_design.yaml
         modules:
           cfe_es:
             telemetry:

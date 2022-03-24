@@ -272,4 +272,36 @@
 #define ADSBR_WAKEUP_MID                          CMD_MSG(  318 )  /* 0x13e */
 
 
+/* SIMLINK                                                                  */
+#define SIMLINK_HK_TLM_MID                        TLM_MSG(  319 )  /* 0x13f */
+#define SIMLINK_OUT_DATA_MID                      TLM_MSG(  320 )  /* 0x140 */
+#define SIMLINK_CMD_MID                           CMD_MSG(  321 )  /* 0x141 */
+#define SIMLINK_SEND_HK_MID                       CMD_MSG(  322 )  /* 0x142 */
+#define SIMLINK_WAKEUP_MID                        CMD_MSG(  323 )  /* 0x143 */
+
+
+/* UBLOX_M8N                                                                */
+#define UBLOX_M8N_OUT_DATA_MID                    TLM_MSG(  324 )  /* 0x144 */
+#define UBLOX_M8N_HK_TLM_MID                      TLM_MSG(  325 )  /* 0x145 */
+#define UBLOX_M8N_CMD_MID                         CMD_MSG(  326 )  /* 0x146 */
+#define UBLOX_M8N_SEND_HK_MID                     CMD_MSG(  327 )  /* 0x147 */
+#define UBLOX_M8N_WAKEUP_MID                      CMD_MSG(  328 )  /* 0x148 */
+
+
+/* RFD900X                                                                  */
+#define RFD900X_OUT_DATA_MID                      TLM_MSG(  329 )  /* 0x149 */
+#define RFD900X_HK_TLM_MID                        TLM_MSG(  330 )  /* 0x14a */
+#define RFD900X_CMD_MID                           CMD_MSG(  331 )  /* 0x14b */
+#define RFD900X_SEND_HK_MID                       CMD_MSG(  332 )  /* 0x14c */
+#define RFD900X_WAKEUP_MID                        CMD_MSG(  333 )  /* 0x14d */
+
+
+/* SEDPWM                                                                   */
+#define SEDPWM_OUT_DATA_MID                       TLM_MSG(  334 )  /* 0x14e */
+#define SEDPWM_HK_TLM_MID                         TLM_MSG(  335 )  /* 0x14f */
+#define SEDPWM_CMD_MID                            CMD_MSG(  336 )  /* 0x150 */
+#define SEDPWM_SEND_HK_MID                        CMD_MSG(  337 )  /* 0x151 */
+#define SEDPWM_WAKEUP_MID                         CMD_MSG(  338 )  /* 0x152 */
+
+
 #endif

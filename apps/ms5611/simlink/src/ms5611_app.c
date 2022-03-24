@@ -310,11 +310,6 @@ int32 MS5611_InitData()
     /* Init input data */
     memset((void*)&MS5611_AppData.InData, 0x00, sizeof(MS5611_AppData.InData));
 
-    /* Init output data */
-    memset((void*)&MS5611_AppData.OutData, 0x00, sizeof(MS5611_AppData.OutData));
-    CFE_SB_InitMsg(&MS5611_AppData.OutData,
-                   MS5611_OUT_DATA_MID, sizeof(MS5611_AppData.OutData), TRUE);
-
     /* Init housekeeping packet */
     memset((void*)&MS5611_AppData.HkTlm, 0x00, sizeof(MS5611_AppData.HkTlm));
     CFE_SB_InitMsg(&MS5611_AppData.HkTlm,

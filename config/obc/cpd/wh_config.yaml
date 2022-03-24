@@ -5,7 +5,6 @@ modules:
   core:
     modules:
       cfe:
-        definition: ${PROJECT_SOURCE_DIR}/core/base/cfe/wh_design.yaml
         modules:
           cfe_es:
             telemetry:
@@ -763,7 +762,7 @@ modules:
             msgID: 0x1b18              # CMD_MSG(  280 )
     
       icm20689:
-        definition: ${PROJECT_SOURCE_DIR}/apps/icm20689/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/../private/apps/icm20689/wh_design.yaml
         telemetry:
           ICM20689_DIAG_TLM_MID:
             msgID: 0x0b19              # TLM_MSG(  281 )
@@ -778,7 +777,7 @@ modules:
             msgID: 0x1b1d              # CMD_MSG(  285 )
     
       ms5611:
-        definition: ${PROJECT_SOURCE_DIR}/apps/ms5611/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/../private/apps/ms5611/wh_design.yaml
         telemetry:
           MS5611_DIAG_TLM_MID:
             msgID: 0x0b1e              # TLM_MSG(  286 )
@@ -795,7 +794,7 @@ modules:
             msgID: 0x1b23              # CMD_MSG(  291 )
     
       rcin:
-        definition: ${PROJECT_SOURCE_DIR}/apps/rcin/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/../private/apps/rcin/wh_design.yaml
         telemetry:
           RCIN_HK_TLM_MID:
             msgID: 0x0b24              # TLM_MSG(  292 )

@@ -124,7 +124,7 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #41 */
    { { SCH_FIX_HEADER(ICM20689_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #42 */
-   { { SCH_FIX_HEADER(ICM20689_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
+   { { SCH_FIX_HEADER(ICM20689_MEASURE_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #43 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #44 */
