@@ -381,17 +381,14 @@ modules:
         definition: ${PROJECT_SOURCE_DIR}/apps/amc/wh_design.yaml
         telemetry:
           AMC_HK_TLM_MID:
-            msgID: 0x0ac1              # TLM_MSG(  128 )
-          AMC_OUT_DATA_MID: 
-            msgID: 0x0ac2              # TLM_MSG(  129 )
-            struct: AMC_BebopObservationMsg_t
+            msgID: 0x0a80              # TLM_MSG(  128 )
         commands:
           AMC_CMD_MID:
-            msgID: 0x1ac3              # CMD_MSG(  130 )
+            msgID: 0x1a81              # CMD_MSG(  130 )
           AMC_SEND_HK_MID:
-            msgID: 0x1ac4              # CMD_MSG(  132 )
+            msgID: 0x1a82              # CMD_MSG(  131 )
           AMC_UPDATE_MOTORS_MID:
-            msgID: 0x1ac5              # CMD_MSG(  133 )
+            msgID: 0x1a83              # CMD_MSG(  132 )
     
       ld:
         definition: ${PROJECT_SOURCE_DIR}/apps/ld/wh_design.yaml
