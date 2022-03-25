@@ -384,11 +384,11 @@ modules:
             msgID: 0x0a80              # TLM_MSG(  128 )
         commands:
           AMC_CMD_MID:
-            msgID: 0x1a81              # CMD_MSG(  130 )
+            msgID: 0x1a82              # CMD_MSG(  130 )
           AMC_SEND_HK_MID:
-            msgID: 0x1a82              # CMD_MSG(  131 )
+            msgID: 0x1a83              # CMD_MSG(  131 )
           AMC_UPDATE_MOTORS_MID:
-            msgID: 0x1a83              # CMD_MSG(  132 )
+            msgID: 0x1a84              # CMD_MSG(  132 )
     
       ld:
         definition: ${PROJECT_SOURCE_DIR}/apps/ld/wh_design.yaml

@@ -518,6 +518,8 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 /* Publish the messages. */
                 SendVehicleManagerStateMsg();
                 SendVehicleControlModeMsg();
+                SendActuatorArmedMsg();
+
                 break;
             }
 
@@ -1819,7 +1821,6 @@ void VM::Execute()
                 (void) CFE_EVS_SendEvent(VM_RC_KIL_SWTCH_INFO_EID, CFE_EVS_INFORMATION,
                         "Killswitch engaged ");
                 ActuatorArmedMsg.ManualLockdown = true;
-                SendActuatorArmedMsg();
             }
         }
         else if(ManualControlSetpointMsg.KillSwitch == PX4_SWITCH_POS_OFF)
@@ -1829,7 +1830,6 @@ void VM::Execute()
                 (void) CFE_EVS_SendEvent(VM_RC_KIL_SWTCH_INFO_EID, CFE_EVS_INFORMATION,
                         "killswitch disengaged ");
                 ActuatorArmedMsg.ManualLockdown = false;
-                SendActuatorArmedMsg();
             }
         }
 

@@ -124,7 +124,6 @@ void VM_Arming::EnteredArmed()
     App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_ARMED;
     App.ActuatorArmedMsg.Armed = true;
     App.VehicleControlModeMsg.Armed = true;
-    App.SendActuatorArmedMsg();
     App.SetHomePosition();
     App.SendVehicleStatusMsg();
 
@@ -142,7 +141,6 @@ void VM_Arming::ExitedArmed()
 {
     App.ActuatorArmedMsg.Armed = false;
     App.VehicleControlModeMsg.Armed = false;
-    App.SendActuatorArmedMsg();
 }
 
 
@@ -155,7 +153,6 @@ void VM_Arming::ExitedArmed()
 void VM_Arming::EnteredStandbyError()
 {
     App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_STANDBY_ERROR;
-    App.SendActuatorArmedMsg();
 
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_STANDBY_ERROR_STATE_INFO_EID, CFE_EVS_INFORMATION, "Arming::StandbyError");
 }
@@ -170,7 +167,6 @@ void VM_Arming::EnteredStandbyError()
 void VM_Arming::EnteredArmedError()
 {
     App.VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_ARMED_ERROR;
-    App.SendActuatorArmedMsg();
 
     CFE_EVS_SendEvent(VM_ARMING_ENTERED_ARMED_ERROR_STATE_INFO_EID, CFE_EVS_INFORMATION, "Arming::ArmedError");
 }
@@ -186,13 +182,9 @@ void VM_Arming::DoAction()
 {
     if (strcmp(FSM.getState().getName(),"VM_ArmingMap::Init") == 0)
     {
-        /* Keep sending this message */
-        App.SendActuatorArmedMsg();
     }
     else if (strcmp(FSM.getState().getName(),"VM_ArmingMap::Standby") == 0)
     {
-        /* Keep sending this message */
-        App.SendActuatorArmedMsg();
     }
     else if (strcmp(FSM.getState().getName(),"VM_ArmingMap::Armed") == 0)
     {
