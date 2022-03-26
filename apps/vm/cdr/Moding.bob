@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>VM - Moding</name>
+  <macros>
+    <CPUID>cpd</CPUID>
+    <APP>vm</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/apps/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>200</width>
+  <height>450</height>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_8</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Manual', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Manual</text>
+    <x>18</x>
+    <y>55</y>
+    <width>134</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_9</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/AutoLoiter', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Loiter</text>
+    <x>18</x>
+    <y>115</y>
+    <width>134</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_10</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/AutoRtl', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>RTL</text>
+    <x>18</x>
+    <y>134</y>
+    <width>134</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_11</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/AutoTakeoff', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Takeoff</text>
+    <x>18</x>
+    <y>153</y>
+    <width>134</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_12</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/AutoLand', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Land</text>
+    <x>18</x>
+    <y>172</y>
+    <width>134</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_13</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Acrobatic', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Acrobatic</text>
+    <x>18</x>
+    <y>191</y>
+    <width>134</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_14</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Rattitude', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Rattitude</text>
+    <x>18</x>
+    <y>208</y>
+    <width>134</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_15</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Stabilized', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Stabilized</text>
+    <x>18</x>
+    <y>227</y>
+    <width>134</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_90</name>
+    <text>VM - Moding</text>
+    <x>30</x>
+    <y>11</y>
+    <width>104</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_41</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.NavState</pv_name>
+    <x>19</x>
+    <y>37</y>
+    <width>132</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_92</name>
+    <text>Previous Modes</text>
+    <x>18</x>
+    <y>267</y>
+    <width>133</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_93</name>
+    <text>Pos Ctl</text>
+    <x>29</x>
+    <y>294</y>
+    <width>57</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_1</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inPosCtl</pv_name>
+    <x>101</x>
+    <y>296</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_94</name>
+    <text>RTL</text>
+    <x>29</x>
+    <y>313</y>
+    <width>57</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_2</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inRtl</pv_name>
+    <x>101</x>
+    <y>315</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_95</name>
+    <text>Loiter</text>
+    <x>29</x>
+    <y>332</y>
+    <width>57</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_3</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inLoiter</pv_name>
+    <x>101</x>
+    <y>334</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_96</name>
+    <text>Manual</text>
+    <x>29</x>
+    <y>351</y>
+    <width>57</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_4</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inManual</pv_name>
+    <x>101</x>
+    <y>353</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_97</name>
+    <text>Takeoff</text>
+    <x>29</x>
+    <y>370</y>
+    <width>57</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_5</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inTakeoff</pv_name>
+    <x>101</x>
+    <y>372</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_98</name>
+    <text>Alt Ctl</text>
+    <x>29</x>
+    <y>389</y>
+    <width>57</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_6</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inAltCtl</pv_name>
+    <x>101</x>
+    <y>391</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_16</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Manual', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Altitude Ctrl</text>
+    <x>18</x>
+    <y>75</y>
+    <width>134</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_17</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Manual', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Position Ctrl</text>
+    <x>18</x>
+    <y>95</y>
+    <width>134</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+</display>

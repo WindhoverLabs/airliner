@@ -1,0 +1,822 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>VM - Msgs</name>
+  <macros>
+    <CPUID>cpd</CPUID>
+    <APP>vm</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/apps/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>300</width>
+  <height>500</height>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Label_49</name>
+    <text>VM - Messages Received</text>
+    <x>14</x>
+    <y>10</y>
+    <width>260</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_50</name>
+    <text>Sensor Mag</text>
+    <x>60</x>
+    <y>36</y>
+    <width>103</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_2</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorMagMsgCount</pv_name>
+    <x>175</x>
+    <y>37</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_51</name>
+    <text>Sensor Gyro</text>
+    <x>27</x>
+    <y>55</y>
+    <width>136</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_3</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorGyroMsgCount</pv_name>
+    <x>175</x>
+    <y>56</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_52</name>
+    <text>Battery Status</text>
+    <x>27</x>
+    <y>74</y>
+    <width>136</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_4</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.BatteryStatusMsgCount</pv_name>
+    <x>175</x>
+    <y>75</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_53</name>
+    <text>Telemetry Status</text>
+    <x>27</x>
+    <y>93</y>
+    <width>136</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_5</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.TelemetryStatusMsgCount</pv_name>
+    <x>175</x>
+    <y>94</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_54</name>
+    <text>Subsystem Info</text>
+    <x>27</x>
+    <y>112</y>
+    <width>136</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_6</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SubsystemInfoMsgCount</pv_name>
+    <x>175</x>
+    <y>113</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_56</name>
+    <text>Vehicle Attitude</text>
+    <x>27</x>
+    <y>131</y>
+    <width>136</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_8</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleAttitudeMsgCount</pv_name>
+    <x>175</x>
+    <y>132</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_60</name>
+    <text>Vehicle Local Position</text>
+    <x>17</x>
+    <y>150</y>
+    <width>146</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_11</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleLocalPositionMsgCount</pv_name>
+    <x>175</x>
+    <y>151</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_61</name>
+    <text>Vehicle Land Detected</text>
+    <x>17</x>
+    <y>169</y>
+    <width>146</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_12</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleLandDetectedMsgCount</pv_name>
+    <x>175</x>
+    <y>170</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_63</name>
+    <text>Mission Result</text>
+    <x>27</x>
+    <y>188</y>
+    <width>136</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_13</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.MissionResultMsgCount</pv_name>
+    <x>175</x>
+    <y>189</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_64</name>
+    <text>Manual Control Setpoint</text>
+    <x>5</x>
+    <y>207</y>
+    <width>158</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_14</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.ManualControlSetpointMsgCount</pv_name>
+    <x>175</x>
+    <y>208</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_65</name>
+    <text>Position Setpoint Triplet</text>
+    <x>11</x>
+    <y>226</y>
+    <width>152</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_15</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PositionSetpointTripletMsgCount</pv_name>
+    <x>175</x>
+    <y>227</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_66</name>
+    <text>Sensor Accel</text>
+    <x>27</x>
+    <y>245</y>
+    <width>136</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_16</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorAccelMsgCount</pv_name>
+    <x>175</x>
+    <y>246</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_67</name>
+    <text>Safety</text>
+    <x>27</x>
+    <y>264</y>
+    <width>136</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_17</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SafetyMsgCount</pv_name>
+    <x>175</x>
+    <y>265</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_68</name>
+    <text>Sensor Correction</text>
+    <x>17</x>
+    <y>283</y>
+    <width>146</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_18</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorCorrectionMsgCount</pv_name>
+    <x>175</x>
+    <y>284</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_69</name>
+    <text>Sensor Combined</text>
+    <x>17</x>
+    <y>302</y>
+    <width>146</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_19</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorCombinedMsgCount</pv_name>
+    <x>175</x>
+    <y>303</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_70</name>
+    <text>Vehicle Command</text>
+    <x>27</x>
+    <y>321</y>
+    <width>136</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_20</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleCommandMsgCount</pv_name>
+    <x>175</x>
+    <y>322</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_71</name>
+    <text>Vehicle Global Position</text>
+    <x>11</x>
+    <y>340</y>
+    <width>152</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_21</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleGlobalPositionMsgCount</pv_name>
+    <x>175</x>
+    <y>341</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_72</name>
+    <text>Vehicle GPS Position</text>
+    <x>17</x>
+    <y>359</y>
+    <width>146</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_22</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleGpsPositionMsgCount</pv_name>
+    <x>175</x>
+    <y>360</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_73</name>
+    <text>Vehicle Status</text>
+    <x>27</x>
+    <y>378</y>
+    <width>136</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_23</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleStatusMsgCount</pv_name>
+    <x>175</x>
+    <y>379</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_74</name>
+    <text>Vehicle Control Mode</text>
+    <x>14</x>
+    <y>397</y>
+    <width>149</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_24</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleControlModeMsgCount</pv_name>
+    <x>175</x>
+    <y>398</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Command Button Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+</display>

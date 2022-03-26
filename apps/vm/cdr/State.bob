@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>VM - State</name>
+  <macros>
+    <CPUID>cpd</CPUID>
+    <APP>vm</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/apps/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>250</width>
+  <height>400</height>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Label_49</name>
+    <text>Vehicle Manager - State</text>
+    <x>14</x>
+    <y>12</y>
+    <width>182</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_75</name>
+    <text>Home Initialized</text>
+    <x>24</x>
+    <y>42</y>
+    <width>141</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_78</name>
+    <text>Local Position Is Valid</text>
+    <x>7</x>
+    <y>61</y>
+    <width>158</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_79</name>
+    <text>Prev Landed</text>
+    <x>29</x>
+    <y>80</y>
+    <width>136</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_80</name>
+    <text>Prev In Flight</text>
+    <x>29</x>
+    <y>99</y>
+    <width>136</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_84</name>
+    <text>Low Bat Action Done</text>
+    <x>29</x>
+    <y>118</y>
+    <width>136</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_85</name>
+    <text>Crit Bat Action Done</text>
+    <x>24</x>
+    <y>156</y>
+    <width>141</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_86</name>
+    <text>Emer Bat Action Done</text>
+    <x>17</x>
+    <y>137</y>
+    <width>148</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_88</name>
+    <text>Arming State Changed</text>
+    <x>7</x>
+    <y>175</y>
+    <width>158</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.NotInitialized</pv_name>
+    <x>176</x>
+    <y>44</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color name="OK" red="0" green="255" blue="0">
+      </color>
+    </off_color>
+    <on_color>
+      <color name="Off" red="60" green="100" blue="60">
+      </color>
+    </on_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_7</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.LocalPositionIsValid</pv_name>
+    <x>176</x>
+    <y>63</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_8</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PrevLanded</pv_name>
+    <x>176</x>
+    <y>82</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_9</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PrevInFlight</pv_name>
+    <x>176</x>
+    <y>101</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_10</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.LowBatteryVoltageActionsDone</pv_name>
+    <x>176</x>
+    <y>120</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_11</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.EmergencyBatteryVoltageActionsDone</pv_name>
+    <x>176</x>
+    <y>139</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_12</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.CriticalBatteryVoltageActionsDone</pv_name>
+    <x>176</x>
+    <y>158</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_13</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.ArmingStateChanged</pv_name>
+    <x>176</x>
+    <y>177</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_100</name>
+    <text>Sensors Initialized</text>
+    <x>44</x>
+    <y>194</y>
+    <width>121</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_14</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.SensorsInitialized</pv_name>
+    <x>176</x>
+    <y>196</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_101</name>
+    <text>RTL Set</text>
+    <x>44</x>
+    <y>213</y>
+    <width>121</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_15</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.ReturnToHomeSet</pv_name>
+    <x>176</x>
+    <y>215</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_102</name>
+    <text>Home Pos Valid</text>
+    <x>44</x>
+    <y>232</y>
+    <width>121</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_16</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.HomePositionValid</pv_name>
+    <x>176</x>
+    <y>234</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_103</name>
+    <text>USB Power</text>
+    <x>44</x>
+    <y>251</y>
+    <width>121</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_17</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.UsbPowerConnected</pv_name>
+    <x>176</x>
+    <y>253</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_104</name>
+    <text>RC Signal Found Once</text>
+    <x>17</x>
+    <y>270</y>
+    <width>148</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_18</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.RcSignalFoundOnce</pv_name>
+    <x>176</x>
+    <y>272</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_105</name>
+    <text>RC Signal Lost Mode</text>
+    <x>17</x>
+    <y>289</y>
+    <width>148</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_19</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.RcSignalLostModeIsCmded</pv_name>
+    <x>176</x>
+    <y>291</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_106</name>
+    <text>RC Input Blocked</text>
+    <x>44</x>
+    <y>308</y>
+    <width>121</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_20</name>
+    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.RcInputIsTemporarilyBlocked</pv_name>
+    <x>176</x>
+    <y>310</y>
+    <width>16</width>
+    <height>16</height>
+    <off_color>
+      <color red="0" green="100" blue="0">
+      </color>
+    </off_color>
+    <foreground_color>
+      <color red="192" green="192" blue="192">
+      </color>
+    </foreground_color>
+    <line_color>
+      <color red="150" green="150" blue="150">
+      </color>
+    </line_color>
+    <actions>
+    </actions>
+  </widget>
+</display>
