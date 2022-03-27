@@ -304,7 +304,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendCmd',{});]]></text>
     </font>
     <widget type="embedded" version="2.0.0">
       <name>Embedded Display_4</name>
-      <file>$(TLM_MANAGEMENT_CONTAINER)</file>
+      <file>TO_TlmManagement.bob</file>
       <x>25</x>
       <y>25</y>
       <width>140</width>

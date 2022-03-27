@@ -4,6 +4,110 @@
   module_type: CFE_APP
   commander:
     displays: cdr
+    templates:
+      _ADD_MESSAGE_FLOW:
+        template: "cdr/resources/templates/TO_AddMessageFlow.j2"
+        output: "TO_AddMessageFlow.bob"
+        scope: GLOBAL
+      _QUERY_MESSAGE_FLOW:
+        template: "cdr/resources/templates/TO_QueryMessageFlow.j2"
+        output: "TO_QueryMessageFlow.bob"
+        scope: GLOBAL
+      _REMOVE_MESSAGE_FLOW:
+        template: "cdr/resources/templates/TO_RemoveMessageFlow.j2"
+        output: "TO_RemoveMessageFlow.bob"
+        scope: GLOBAL
+      _TLM_MANAGEMENT_FLOW:
+        template: "cdr/resources/templates/TO_TlmManagement.j2"
+        output: "TO_TlmManagement.bob"
+        scope: GLOBAL
+  tables:
+    _TO_CONFIG:
+      title: "Message Definitions"
+      default: "to_temp_config.tbl" 
+      output: "to_temp_config.c"
+      is_dump: false
+      template: "fsw/tables/to_config.j2"
+      channel:
+        - name: "ground"
+          instance:
+          -  name: "default"
+             output: "to_config.c"
+             id: 1
+             is_backup: false
+             priority_queue:
+               - name:  "CPD_SINGLE_PASS"
+                 type:  "SINGLE"
+                 depth: 20
+               - name:  "PPD_SINGLE_PASS"
+                 type:  "SINGLE"
+                 depth: 20
+               - name:  "CPD_HIGH_OPS_RSRVD"
+                 type:  "FIFO"
+                 depth: 32
+               - name:  "PPD_HIGH_OPS_RSRVD"
+                 type:  "FIFO"
+                 depth: 32
+               - name:  "CPD_HIGH"
+                 type:  "FIFO"
+                 depth: 64
+               - name:  "CPD_EVENTS"
+                 type:  "FIFO"
+                 depth: 50
+               - name:  "CPD_CFDP"
+                 type:  "FIFO"
+                 depth: 64
+               - name:  "CPD_SHELL"
+                 type:  "FIFO"
+                 depth: 40
+               - name:  "CPD_HK"
+                 type:  "FIFO"
+                 depth: 20
+               - name:  "PPD_HIGH"
+                 type:  "FIFO"
+                 depth: 20
+               - name:  "PPD_EVENTS"
+                 type:  "FIFO"
+                 depth: 32
+               - name:  "PPD_CFDP"
+                 type:  "FIFO"
+                 depth: 32
+               - name:  "PPD_SHELL"
+                 type:  "FIFO"
+                 depth: 64
+               - name:  "PPD_HK"
+                 type:  "FIFO"
+                 depth: 50
+               - name:  "CPD_PX4LOW"
+                 type:  "FIFO"
+                 depth: 64
+               - name:  "PPD_PX4LOW"
+                 type:  "FIFO"
+                 depth: 40
+             message_flow:
+               - msg: "AMC_HK_TLM_MID"
+                 depth: 1
+                 pqueue: "CPD_HK"
+               - msg: "BAT_HK_TLM_MID"
+                 depth: 1
+                 pqueue: "CPD_HK"
+               - msg: "CF_CONFIG_TLM_MID"
+                 depth: 1
+                 pqueue: "CPD_HK"
+               - msg: "CF_HK_TLM_MID"
+                 depth: 1
+                 pqueue: "CPD_HK"
+               - msg: "CF_SPACE_TO_GND_PDU_MID"
+                 depth: 32
+                 pqueue: "CPD_CFDP"
+               - msg: "CF_TRANS_TLM_MID"
+                 depth: 1
+                 pqueue: "CPD_HK"
+               - msg: "CFE_ES_APP_TLM_MID"
+                 depth: 1
+                 pqueue: "CPD_HK"
+      
+      
   events: 
     TO_INF_EID: 
       id: 1

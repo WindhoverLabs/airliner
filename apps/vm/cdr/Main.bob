@@ -198,7 +198,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Reset', {});]]></text>
     </font>
     <widget type="embedded" version="2.0.0">
       <name>Embedded Display_1</name>
-      <file>$(TLM_MANAGEMENT_CONTAINER)</file>
+      <file>TO_TlmManagement.bob</file>
       <x>5</x>
       <y>46</y>
       <width>140</width>

@@ -1467,7 +1467,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>Embedded Display_1</name>
-    <file>$(TLM_MANAGEMENT_CONTAINER)</file>
+    <file>TO_TlmManagement.bob</file>
     <x>504</x>
     <y>212</y>
     <width>144</width>
