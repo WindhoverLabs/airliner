@@ -282,7 +282,7 @@ endfunction(psp_buildliner_initialize)
 
 function(psp_add_executable)    
     # Define the function arguments.
-    cmake_parse_arguments(PARSED_ARGS "EXCLUDE_FROM_ALL" "FILE_NAME;INSTALL_PATH;COMPILE_FLAGS;LINK_FLAGS" "SOURCES;INCLUDES;BEFORE_INCLUDES;WRAPPERS" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "EXCLUDE_FROM_ALL" "FILE_NAME;INSTALL_PATH;COMPILE_FLAGS;LINK_FLAGS" "SOURCES;LIBS;INCLUDES;BEFORE_INCLUDES;WRAPPERS" ${ARGN})
     
     set(TARGET_NAME ${ARGV0})
     set(TARGET_BINARY_WITHOUT_SYMTAB ${TARGET_NAME}_no_symtab)
@@ -306,6 +306,10 @@ function(psp_add_executable)
     if(${PARSED_ARGS_EXCLUDE_FROM_ALL})
         set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES EXCLUDE_FROM_ALL TRUE)
         set_target_properties(${TARGET_BINARY} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    endif()
+    
+    if(${PARSED_ARGS_LIBS})
+        target_link_libraries(${TARGET_BINARY} PUBLIC ${PARSED_ARGS_LIBS})
     endif()
     
     if(${PARSED_ARGS_COMPILE_FLAGS})
@@ -417,6 +421,9 @@ function(psp_add_test)
         
         SOURCES
             ${PARSED_ARGS_SOURCES}
+            
+        LIBS
+            ${PARSED_ARGS_LIBS}
                 
         INCLUDES
             ${PARSED_ARGS_INCLUDES}
@@ -437,6 +444,9 @@ function(psp_add_test)
             
             LINK_FLAGS
                 " -lgcov --coverage "
+            
+            LIBS
+                ${PARSED_ARGS_LIBS}
                 
             WRAPPERS
                 ${PARSED_ARGS_WRAPPERS}            
@@ -613,6 +623,10 @@ function(psp_buildliner_add_app_def)
         target_include_directories(core-binary_no_symtab PUBLIC ${PARSED_ARGS_INCLUDES})
 	    target_include_directories(core-binary PUBLIC ${PUBLIC_APP_INCLUDES})
 	    target_include_directories(core-binary_no_symtab PUBLIC ${PUBLIC_APP_INCLUDES})
+
+        if(${PARSED_ARGS_LIBS})
+            target_link_libraries(core-binary PUBLIC ${PARSED_ARGS_LIBS})
+        endif()
 	    
 	    add_custom_target(${PARSED_ARGS_TARGET})
 	    add_dependencies(core-binary ${PARSED_ARGS_TARGET})
@@ -648,6 +662,10 @@ function(psp_buildliner_add_app_def)
 	    if(NOT ${PARSED_ARGS_COMPILE_OPTIONS} STREQUAL "")
 	        set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES DESIGN_COMPILE_OPTIONS "${PARSED_ARGS_COMPILE_OPTIONS}")
 	    endif()
+
+        if(${PARSED_ARGS_LIBS})
+            target_link_libraries(${PARSED_ARGS_TARGET} PUBLIC ${PARSED_ARGS_LIBS})
+        endif()
 	    
 	    # If this is a reference build, include the reference configuration directories
 	    get_property(IS_REFERENCE_BUILD GLOBAL PROPERTY IS_REFERENCE_BUILD)
@@ -787,6 +805,9 @@ function(psp_buildliner_add_app_unit_test)
             ${CFE_INC_DIRS}
             ${OSAL_INC_DIRS}
             ${PSP_INC_DIRS}
+            
+        LIBS
+            ${PARSED_ARGS_LIBS}
         
         COMPILE_FLAGS 
             ${PARSED_ARGS_COMPILE_OPTIONS}
@@ -819,6 +840,9 @@ function(psp_buildliner_add_app_unit_test)
             
             LINK_FLAGS
                 " -lgcov --coverage "
+            
+            LIBS
+                ${PARSED_ARGS_LIBS}
                 
             WRAPPERS
                 ${PARSED_ARGS_WRAPPERS}
