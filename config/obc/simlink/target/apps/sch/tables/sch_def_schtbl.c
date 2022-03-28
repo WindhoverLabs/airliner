@@ -50,6 +50,7 @@ extern "C" {
 #define MD_WAKEUP_MIDX                35
 
 #define DS_SEND_HK_MIDX               37
+#define SBUS_WAKEUP_MIDX              38
 
 #define ICM20689_SEND_HK_MIDX         41
 #define ICM20689_MEASURE_MIDX         42
@@ -78,7 +79,7 @@ extern "C" {
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	MS5611_WAKEUP_MIDX,       SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	RFD900X_WAKEUP_MIDX,      SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SEDPWM_WAKEUP_MIDX,       SCH_GROUP_NONE }, \
-	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
+	 { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SBUS_WAKEUP_MIDX,         SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \

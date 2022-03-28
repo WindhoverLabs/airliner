@@ -120,3 +120,12 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedpwm/simlink/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sedpwm
 )
+
+
+buildliner_add_app(
+    sbus
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedsbus/simlink/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/apps/sbus
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/apps/sbus/sbus_custom.c
+)

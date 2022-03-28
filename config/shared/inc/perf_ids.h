@@ -90,6 +90,7 @@
 #define RFD900X_MAIN_TASK_PERF_ID   (119)
 #define SEDPWM_MAIN_TASK_PERF_ID    (120)
 #define CVT_MAIN_TASK_PERF_ID       (121)
+#define SBUS_MAIN_TASK_PERF_ID      (122)
 #define SBN_PERF_SEND_ID            (SBN_PERF_MIN_ID)
 #define SBN_PERF_RECV_ID            (SBN_PERF_MIN_ID + 1)
 #define SBN_PERF_MAX_ID             (SBN_PERF_MIN_ID + 100)
