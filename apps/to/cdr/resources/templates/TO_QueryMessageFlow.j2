@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 {%- set cpus = []                   -%}
 {%- for module in root.modules        -%}
     {%- if root.modules[module].modules.apps.modules.to is defined -%}
@@ -44,11 +43,9 @@
     {%- set tlm = tlm.append(tlmMsg) -%}
 {%- endfor  -%}
 
-
 <display version="2.0.0">
   <name>($(CPUID)) TO - Query Msg Flow</name>
   <macros>
-    <APP>to</APP>
     <CPUID>{{ cpu_id }}</CPUID>
     <include_parent_macros>true</include_parent_macros>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
@@ -56,7 +53,7 @@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
   <width>420</width>
-  <height>200</height>
+  <height>450</height>
   <actions>
   </actions>
   <scripts>
@@ -70,7 +67,7 @@
     <name>Label_49</name>
     <text>($(CPUID) - $(APP)) TO - Query Message Flow</text>
     <x>30</x>
-    <y>20</y>
+    <y>10</y>
     <width>313</width>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -90,84 +87,7 @@
     <name>Label</name>
     <text>Message ID</text>
     <x>30</x>
-    <y>50</y>
-    <width>90</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-importPackage(Packages.org.csstudio.display.builder.runtime.script);
-
-var MsgID = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'msgIdInput')));
-var ChannelIdx = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'ChannelIdx')));
-
-var msgIDOut = '';
-var channelIdxOut = '';
-
-/* Get actual message ID */
-{%- for msg in tlm     %}
-{%-   if loop.first -%}
-if(MsgID == '{{- msg.name-}}') {
-    msgIDOut = {{-msg.msgID-}};
-}
-{%-   else %}
-else if(MsgID == '{{- msg.name-}}') {
-    msgIDOut = {{-msg.msgID-}};
-}
-{%-   endif -%}
-{%- endfor  %}
-
-/* Get actual channel Index */
-{%- for channel in TO_Channels %}
-  {%- if channel.cpu_id == cpu_id %}
-if(ChannelIdx == "{{ channel.name }}") {
-  channelIdxOut = '{{ channel.index }}';
-}
-  {%- endif %}
-{%- endfor %}
-
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/QueryMessageFlow', {
-    'MsgID': msgIDOut,
-    'ChannelIdx': channelIdxOut
-});
-
-]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Query</text>
-    <x>150</x>
-    <y>122</y>
-    <width>84</width>
-    <height>20</height>
-    <foreground_color>
-      <color red="253" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="34" green="45" blue="75">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_4</name>
-    <text>Channel</text>
-    <x>30</x>
-    <y>72</y>
+    <y>40</y>
     <width>90</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -183,7 +103,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/QueryMessageFlow', {
     <name>msgIdInput</name>
     <pv_name>loc://$(APP)_$(CPUID)_TO_QueryMessageFlow_MsgID&lt;VString&gt;("")</pv_name>
     <x>132</x>
-    <y>50</y>
+    <y>40</y>
     <width>210</width>
     <height>20</height>
     <background_color>
@@ -199,26 +119,109 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/QueryMessageFlow', {
     </items>
     <items_from_pv>false</items_from_pv>
   </widget>
-  <widget type="combo" version="2.0.0">
-    <name>ChannelIdx</name>
-    <pv_name>loc://$(APP)_$(CPUID)_TO_QueryMessageFlow_ChannelIndex&lt;VString&gt;("")</pv_name>
-    <x>132</x>
-    <y>73</y>
-    <width>210</width>
-    <height>20</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <items>
+  
+{%- set group_y      = namespace(value=70)   -%}
+{%- set group_height = 95   -%}
+{%- for cpu in cpus %}
+
+  <widget type="group" version="2.0.0">
+    <name>{{ cpu }}</name>
+    <y>{{ group_y.value }}</y>
+    <width>378</width>
+    <height>103</height>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var MsgID = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'msgIdInput')));
+var ChannelIdx = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'ChannelIdx_{{ cpu }}')));
+
+var msgIDOut = '';
+var channelIdxOut = '';
+
+/* Get actual message ID */
+if(MsgID == 'VM_CONFIG_TLM_MID') {
+    msgIDOut =2732;
+}
+else if(MsgID == 'VM_HK_TLM_MID') {
+    msgIDOut =2733;
+}
+
+/* Get actual channel Index */
+if(ChannelIdx == "ground") {
+  channelIdxOut = '0';
+}
+
+Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/to/QueryMessageFlow', {
+    'MsgID': msgIDOut,
+    'ChannelIdx': channelIdxOut
+});
+
+]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Query</text>
+      <x>132</x>
+      <y>40</y>
+      <width>84</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="253" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_4</name>
+      <text>Channel</text>
+      <x>12</x>
+      <y>5</y>
+      <width>90</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ChannelIdx_{{ cpu }}</name>
+      <pv_name>loc://$(APP)_$(CPUID)_TO_QueryMessageFlow_ChannelIndex_{{ cpu }}&lt;VString&gt;("")</pv_name>
+      <x>114</x>
+      <y>6</y>
+      <width>210</width>
+      <height>20</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <items>
       {%- for channel in TO_Channels %}
-        {%- if channel.cpu_id == cpu_id %}
+        {%- if channel.cpu_id == cpu %}
           <item>{{ channel.name }}</item>
         {%- endif %}
       {%- endfor %}
-    </items>
-    <items_from_pv>false</items_from_pv>
+      </items>
+      <items_from_pv>false</items_from_pv>
+    </widget>
   </widget>
+  
+    {%- set group_y.value = group_y.value + group_height   -%}
+  {%- endfor   -%}
+  
 </display>

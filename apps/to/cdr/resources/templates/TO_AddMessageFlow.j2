@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 {%- set cpus = []                   -%}
 {%- for module in root.modules        -%}
     {%- if root.modules[module].modules.apps.modules.to is defined -%}
@@ -48,7 +47,6 @@
 <display version="2.0.0">
   <name>($(CPUID) - $(APP)) TO - Add Msg Flow</name>
   <macros>
-    <APP>to</APP>
     <CPUID>{{ cpu_id }}</CPUID>
     <include_parent_macros>true</include_parent_macros>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
@@ -56,21 +54,16 @@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
   <width>420</width>
-  <height>220</height>
+  <height>500</height>
   <actions>
   </actions>
-  <scripts>
-    <script file="../scripts/telemetry_management_init.py">
-      <pv_name>=1</pv_name>
-    </script>
-  </scripts>
   <grid_step_x>6</grid_step_x>
   <grid_step_y>6</grid_step_y>
   <widget type="label" version="2.0.0">
     <name>Label_49</name>
     <text>($(CPUID) - $(APP)) TO - Add Message Flow</text>
-    <x>56</x>
-    <y>30</y>
+    <x>51</x>
+    <y>10</y>
     <width>319</width>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -89,8 +82,8 @@
   <widget type="label" version="2.0.0">
     <name>Label</name>
     <text>Message ID</text>
-    <x>32</x>
-    <y>60</y>
+    <x>20</x>
+    <y>40</y>
     <width>109</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -105,8 +98,8 @@
   <widget type="label" version="2.0.0">
     <name>Label_2</name>
     <text>Message Limit</text>
-    <x>32</x>
-    <y>82</y>
+    <x>20</x>
+    <y>62</y>
     <width>109</width>
     <horizontal_alignment>2</horizontal_alignment>
     <vertical_alignment>1</vertical_alignment>
@@ -118,34 +111,82 @@
       </color>
     </border_color>
   </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_3</name>
-    <text>PQueue</text>
-    <x>32</x>
-    <y>104</y>
-    <width>109</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
+  <widget type="combo" version="2.0.0">
+    <name>msgIdInput</name>
+    <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_MsgID&lt;VString&gt;</pv_name>
+    <x>140</x>
+    <y>40</y>
+    <width>210</width>
+    <height>20</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
     <actions>
     </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
+    <items>
+{%- for msg in tlm     %}
+      <item>{{- msg.name-}}</item>
+{%- endfor  %}
+    </items>
+    <items_from_pv>false</items_from_pv>
   </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp</name>
+  <widget type="spinner" version="2.0.0">
+    <name>MsgLimit</name>
+    <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_MsgLimit(1)</pv_name>
+    <x>140</x>
+    <y>62</y>
+    <width>210</width>
+    <format>0</format>
+    <precision>0</precision>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
     <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+    </actions>
+    <maximum>1.7976931348623157E308</maximum>
+    <limits_from_pv>false</limits_from_pv>
+  </widget>
+  
+{%- set group_y      = namespace(value=85)   -%}
+{%- set group_height = 120   -%}
+{%- for cpu in cpus %}
+  
+  <widget type="group" version="2.0.0">
+    <name>{{ cpu }}</name>
+    <x>6</x>
+    <y>{{ group_y.value }}</y>
+    <width>378</width>
+    <height>120</height>
+    <widget type="label" version="2.0.0">
+      <name>Label_3</name>
+      <text>PQueue</text>
+      <x>48</x>
+      <y>10</y>
+      <width>55</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var MsgID = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'msgIdInput')));
 var MsgLimit = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'MsgLimit')));
-var PQueueIdx = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PQueueIdx')));
-var ChannelIdx = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'ChannelIdx')));
+var PQueueIdx = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PQueueIdx_{{ cpu }}')));
+var ChannelIdx = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'ChannelIdx_{{ cpu }}')));
 
 var msgIDOut = '';
 var pQueueIdxOut = '';
@@ -168,7 +209,7 @@ else if(MsgID == '{{- msg.name-}}') {
 
 /* Get actual pqueue Index */
 {%- for channel in TO_Channels %}
-  {%- if channel.cpu_id == cpu_id %}
+  {%- if channel.cpu_id == cpu %}
     {%- for pqueue in channel.pqueues %}
 if(PQueueIdx == '{{ pqueue.name }}') {
         pQueueIdxOut = '{{ pqueue.index }}';
@@ -179,7 +220,7 @@ if(PQueueIdx == '{{ pqueue.name }}') {
 
 /* Get actual channel Index */
 {%- for channel in TO_Channels %}
-  {%- if channel.cpu_id == cpu_id %}
+  {%- if channel.cpu_id == cpu %}
 if(ChannelIdx == "{{ channel.name }}") {
   channelIdxOut = '{{ channel.index }}';
 }
@@ -188,7 +229,7 @@ if(ChannelIdx == "{{ channel.name }}") {
     
 
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/AddMessageFlow', {
+Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/to/AddMessageFlow', {
     'MsgID': msgIDOut,
     'MsgLimit': MsgLimit,
     'PQueueIdx': pQueueIdxOut,
@@ -197,146 +238,90 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/AddMessageFlow', {
 
 
 ]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Add</text>
-    <x>152</x>
-    <y>164</y>
-    <width>72</width>
-    <height>20</height>
-    <foreground_color>
-      <color red="253" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="34" green="45" blue="75">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>msgIdInput</name>
-    <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_MsgID&lt;VString&gt;</pv_name>
-    <x>152</x>
-    <y>60</y>
-    <width>210</width>
-    <height>20</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <scripts>
-      <script file="../scripts/set_msg_id.py">
-        <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_MsgID_App&lt;VString&gt;</pv_name>
-      </script>
-      <script file="../scripts/telemetry_management_init.py">
-        <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_MsgID_App&lt;VString&gt;</pv_name>
-      </script>
-    </scripts>
-    <items>
-{%- for msg in tlm     %}
-      <item>{{- msg.name-}}</item>
-{%- endfor  %}
-    </items>
-    <items_from_pv>false</items_from_pv>
-  </widget>
-  <widget type="spinner" version="2.0.0">
-    <name>MsgLimit</name>
-    <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_MsgLimit(1)</pv_name>
-    <x>152</x>
-    <y>82</y>
-    <width>210</width>
-    <format>0</format>
-    <precision>0</precision>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <maximum>1.7976931348623157E308</maximum>
-    <limits_from_pv>false</limits_from_pv>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_4</name>
-    <text>Channel</text>
-    <x>32</x>
-    <y>126</y>
-    <width>109</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>ChannelIdx</name>
-    <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_ChannelIndex&lt;VString&gt;</pv_name>
-    <x>152</x>
-    <y>126</y>
-    <width>210</width>
-    <height>20</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <scripts>
-      <script file="../scripts/set_msg_id.py">
-        <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_MsgID_App&lt;VString&gt;</pv_name>
-      </script>
-      <script file="../scripts/telemetry_management_init.py">
-        <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_MsgID_App&lt;VString&gt;</pv_name>
-      </script>
-    </scripts>
-    <items>
+          </script>
+        </action>
+      </actions>
+      <text>Add</text>
+      <x>116</x>
+      <y>62</y>
+      <width>72</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="253" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_4</name>
+      <text>Channel</text>
+      <x>48</x>
+      <y>32</y>
+      <width>55</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ChannelIdx_{{ cpu }}</name>
+      <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_ChannelIndex_{{ cpu }}&lt;VString&gt;</pv_name>
+      <x>116</x>
+      <y>32</y>
+      <width>210</width>
+      <height>20</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <items>
       {%- for channel in TO_Channels %}
-        {%- if channel.cpu_id == cpu_id %}
+        {%- if channel.cpu_id == cpu %}
           <item>{{ channel.name }}</item>
         {%- endif %}
       {%- endfor %}
-    </items>
-    <items_from_pv>false</items_from_pv>
-  </widget>
-  <widget type="combo" version="2.0.0">
-    <name>PQueueIdx</name>
-    <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_PQueueIdx&lt;VString&gt;("")</pv_name>
-    <x>152</x>
-    <y>104</y>
-    <width>210</width>
-    <height>20</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <scripts>
-      <script file="../scripts/set_msg_id.py">
-        <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_MsgID_App&lt;VString&gt;</pv_name>
-      </script>
-      <script file="../scripts/telemetry_management_init.py">
-        <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_MsgID_App&lt;VString&gt;</pv_name>
-      </script>
-    </scripts>
-    <items>
+      </items>
+      <items_from_pv>false</items_from_pv>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>PQueueIdx_{{ cpu }}</name>
+      <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_PQueueIdx_{{ cpu }}&lt;VString&gt;("")</pv_name>
+      <x>116</x>
+      <y>10</y>
+      <width>210</width>
+      <height>20</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <actions>
+      </actions>
+      <items>
       {%- for channel in TO_Channels %}
-        {%- if channel.cpu_id == cpu_id %}
+        {%- if channel.cpu_id == cpu %}
           {%- for pqueue in channel.pqueues %}
             <item>{{ pqueue.name }}</item>
           {%- endfor %}
         {%- endif %}
       {%- endfor %}
-    </items>
-    <items_from_pv>false</items_from_pv>
+      </items>
+      <items_from_pv>false</items_from_pv>
+    </widget>
   </widget>
+    {%- set group_y.value = group_y.value + group_height   -%}
+  {%- endfor   -%}
+  
+
 </display>
