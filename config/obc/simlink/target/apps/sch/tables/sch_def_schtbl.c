@@ -34,6 +34,8 @@ extern "C" {
 #define SIMLINK_SEND_HK_MIDX          10
 #define AMC_SEND_HK_MIDX              11
 
+#define SIMLINK_WAKEUP_MIDX           13
+
 #define SCH_SEND_HK_MIDX              15
 #define TO_SEND_HK_MIDX               16
 
@@ -81,7 +83,7 @@ extern "C" {
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	RFD900X_WAKEUP_MIDX,      SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SEDPWM_WAKEUP_MIDX,       SCH_GROUP_NONE }, \
 	 { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SBUS_WAKEUP_MIDX,         SCH_GROUP_NONE }, \
-	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
+     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SIMLINK_WAKEUP_MIDX,      SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
