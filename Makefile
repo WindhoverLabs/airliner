@@ -169,7 +169,7 @@ workspace-pyliner:: workspace
 	@echo "Generating pyliner workspace"
 	@mkdir -p build/obc/pyliner/commander_workspace
 	@cp -r ${PWD}/build/obc/commander_workspace/* build/obc/pyliner/commander_workspace
-	@cp -r config/obc/ppd/pyliner/* ${PWD}/build/obc/pyliner/commander_workspace
+	@cp -r config/obc/ppd/pyliner/server_overlay/etc  ${PWD}/build/obc/pyliner/commander_workspace
 
 
 workspace-sitl::
