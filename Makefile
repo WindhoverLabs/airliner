@@ -165,26 +165,11 @@ workspace::
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/ppd/target/wh_defs.yaml ${PWD}/build/obc/ppd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/ppd.xml
 
 
-workspace-pyliner::
+workspace-pyliner:: workspace
 	@echo "Generating pyliner workspace"
-	@mkdir -p build/obc/ppd/pyliner/commander_workspace
-
-	@echo 'Adding XTCE configuration to registries.'
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/cpd/target/wh_defs.yaml --overwrite build/obc/cpd/target/wh_defs.yaml
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/ppd/target/wh_defs.yaml --overwrite build/obc/ppd/target/wh_defs.yaml
-	@echo 'Generating combined registry.'
-	@rm -Rf build/obc/commander_workspace >/dev/null
-	@mkdir -p build/obc/commander_workspace/etc
-	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
-	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
-	@echo 'Generating Commander workspace.'
-	@python3 core/base/tools/commander/generate_workspace.py build/obc/commander_workspace/etc/registry.yaml build/obc/ppd/pyliner/commander_workspace
-
-	@echo 'Generating CPD XTCE'
-	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/cpd/target/wh_defs.yaml ${PWD}/build/obc/cpd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/cpd.xml
-	@echo 'Generating PPD XTCE'
-	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/ppd/target/wh_defs.yaml ${PWD}/build/obc/ppd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/ppd.xml
-	@cp -r config/obc/ppd/pyliner/ ${PWD}/build/obc/pyliner/commander_workspace
+	@mkdir -p build/obc/pyliner/commander_workspace
+	@cp -r ${PWD}/build/obc/commander_workspace/* build/obc/pyliner/commander_workspace
+	@cp -r config/obc/ppd/pyliner/* ${PWD}/build/obc/pyliner/commander_workspace
 
 
 workspace-sitl::

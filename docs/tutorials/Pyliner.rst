@@ -21,3 +21,4 @@ Pyliner
    source venv/bin/activate
    make obc
    make workspace-pyliner
+   #The pyliner workspace will be located at squeaky-weasel/software/airliner/public/build/obc/pyliner/commander_workspace
