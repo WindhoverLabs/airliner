@@ -255,7 +255,98 @@ modules:
           HS_APPMAIN_PERF_ID: 
             id: 49
           HS_IDLETASK_PERF_ID: 
-            id: 50
+            id: 50  
+        tables:
+          _XCT:
+            content:
+              - name: "AMC"
+                type: "APP_MAIN"
+              - name: "CF"
+                type: "APP_MAIN"
+              - name: "CFE_ES"
+                type: "APP_MAIN"
+              - name: "ES_PerfFileWriter"
+                type: "APP_CHILD"
+              - name: "CFE_EVS"
+                type: "APP_MAIN"
+              - name: "CFE_SB"
+                type: "APP_MAIN"
+              - name: "CFE_TBL"
+                type: "APP_MAIN"
+              - name: "CFE_TIME"
+                type: "APP_MAIN"
+              - name: "TIME_TONE_TASK"
+                type: "APP_MAIN"
+              - name: "TIME_1HZ_TASK"
+                type: "APP_MAIN"
+              - name: "CI"
+                type: "APP_MAIN"
+              - name: "CI_LISTENER"
+                type: "APP_CHILD"
+              - name: "CS"
+                type: "APP_MAIN"
+              - name: "CS_RecmpOSTsk"
+                type: "APP_CHILD"
+              - name: "CS_RecmpCfeCoreTsk"
+                type: "APP_CHILD"
+              - name: "CS_RecmpMemoryTsk"
+                type: "APP_CHILD"
+              - name: "CS_RecmpEepromTsk"
+                type: "APP_CHILD"
+              - name: "CS_RecmpAppTsk"
+                type: "APP_CHILD"
+              - name: "CS_RecmpTableTsk"
+                type: "APP_CHILD"
+              - name: "CS_OneShotTask"
+                type: "APP_CHILD"
+              - name: "FM"
+                type: "APP_MAIN"
+              - name: "FM_CHILD_TASK"
+                type: "APP_CHILD"
+              - name: "HS"
+                type: "APP_MAIN"
+              - name: "HS_IDLE_TASK"
+                type: "APP_CHILD"
+              - name: "LD"
+                type: "APP_MAIN"
+              - name: "MAC"
+                type: "APP_MAIN"
+              - name: "MD"
+                type: "APP_MAIN"
+              - name: "MM"
+                type: "APP_MAIN"
+              - name: "MPC"
+                type: "APP_MAIN"
+              - name: "NAV"
+                type: "APP_MAIN"
+              - name: "PE"
+                type: "APP_MAIN"
+              - name: "QAE"
+                type: "APP_MAIN"
+              - name: "SBN"
+                type: "APP_MAIN"
+              - name: "sbn_recvs_0"
+                type: "APP_CHILD"
+              - name: "sbn_recv_0"
+                type: "APP_CHILD"
+              - name: "PQ_OUTCH_0"
+                type: "APP_CHILD"
+              - name: "SC"
+                type: "APP_MAIN"
+              - name: "SCH"
+                type: "APP_MAIN"
+              - name: "SCH_AD_TASK"
+                type: "APP_CHILD"
+              - name: "SED"
+                type: "APP_MAIN"
+              - name: "SED_EVENTS"
+                type: "APP_CHILD"
+              - name: "TO"
+                type: "APP_MAIN"
+              - name: "TO_OUTCH_0"
+                type: "APP_CHILD"
+              - name: "VM"
+                type: "APP_MAIN"
     
       lc:
         definition: ${PROJECT_SOURCE_DIR}/apps/lc/wh_design.yaml
@@ -374,6 +465,86 @@ modules:
             msgID: 0x1a6d              # CMD_MSG(  109 ) 
           TO_SEND_TLM_MID:
             msgID: 0x1a6e              # CMD_MSG(  110 ) 
+        tables:
+          _TO_CONFIG:
+            channel:
+              - name: "ground"
+                instance:
+                -  name: "default"
+                   output: "to_config.c"
+                   id: 1
+                   is_backup: false
+                   priority_queue:
+                     - name:  "CPD_SINGLE_PASS"
+                       type:  "SINGLE"
+                       depth: 20
+                     - name:  "PPD_SINGLE_PASS"
+                       type:  "SINGLE"
+                       depth: 20
+                     - name:  "CPD_HIGH_OPS_RSRVD"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "PPD_HIGH_OPS_RSRVD"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "CPD_HIGH"
+                       type:  "FIFO"
+                       depth: 64
+                     - name:  "CPD_EVENTS"
+                       type:  "FIFO"
+                       depth: 50
+                     - name:  "CPD_CFDP"
+                       type:  "FIFO"
+                       depth: 64
+                     - name:  "CPD_SHELL"
+                       type:  "FIFO"
+                       depth: 40
+                     - name:  "CPD_HK"
+                       type:  "FIFO"
+                       depth: 20
+                     - name:  "PPD_HIGH"
+                       type:  "FIFO"
+                       depth: 20
+                     - name:  "PPD_EVENTS"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "PPD_CFDP"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "PPD_SHELL"
+                       type:  "FIFO"
+                       depth: 64
+                     - name:  "PPD_HK"
+                       type:  "FIFO"
+                       depth: 50
+                     - name:  "CPD_PX4LOW"
+                       type:  "FIFO"
+                       depth: 64
+                     - name:  "PPD_PX4LOW"
+                       type:  "FIFO"
+                       depth: 40
+                   message_flow:
+                     - msg: "AMC_HK_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "BAT_HK_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CF_CONFIG_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CF_HK_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CF_SPACE_TO_GND_PDU_MID"
+                       depth: 32
+                       pqueue: "CPD_CFDP"
+                     - msg: "CF_TRANS_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CFE_ES_APP_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
     
       # General Airliner flight applications
                                           

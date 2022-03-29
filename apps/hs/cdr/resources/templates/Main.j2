@@ -1,0 +1,1112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>($(CPUID)) HS</name>
+  <macros>
+    <CPUID>{{ cpu_id }}</CPUID>
+    <APP>hs</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>1000</width>
+  <height>800</height>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update</name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CmdCount</pv_name>
+    <x>98</x>
+    <y>37</y>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>Commands</text>
+    <x>6</x>
+    <y>37</y>
+    <width>81</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_1</name>
+    <text>Errors</text>
+    <x>27</x>
+    <y>56</y>
+    <width>60</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_1</name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CmdErrCount</pv_name>
+    <x>98</x>
+    <y>56</y>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/Noop', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Noop</text>
+    <x>213</x>
+    <y>38</y>
+    <width>67</width>
+    <height>18</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_1</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/Reset', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Reset</text>
+    <x>213</x>
+    <y>59</y>
+    <width>67</width>
+    <height>17</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_49</name>
+    <text>($(CPUID)) Health Services</text>
+    <x>12</x>
+    <y>6</y>
+    <width>272</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Text Update_4</name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentAppMonState</pv_name>
+    <label></label>
+    <x>87</x>
+    <y>113</y>
+    <width>25</width>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Text Update_5</name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentEventMonState</pv_name>
+    <label></label>
+    <x>87</x>
+    <y>132</y>
+    <width>25</width>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Text Update_6</name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentAlivenessState</pv_name>
+    <label></label>
+    <x>87</x>
+    <y>151</y>
+    <width>25</width>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Text Update_7</name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentCPUHogState</pv_name>
+    <label></label>
+    <x>87</x>
+    <y>170</y>
+    <width>25</width>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Text Update_9</name>
+    <pv_name>/cfs/$(CPUID)/HS/LoadedEMT</pv_name>
+    <label></label>
+    <x>347</x>
+    <y>113</y>
+    <width>25</width>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Text Update_10</name>
+    <pv_name>/cfs/$(CPUID)/HS/LoadedAMT</pv_name>
+    <label></label>
+    <x>347</x>
+    <y>132</y>
+    <width>25</width>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Text Update_11</name>
+    <pv_name>/cfs/$(CPUID)/HS/LoadedMAT</pv_name>
+    <label></label>
+    <x>347</x>
+    <y>151</y>
+    <width>25</width>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="checkbox" version="2.0.0">
+    <name>Text Update_12</name>
+    <pv_name>/cfs/$(CPUID)/HS/LoadedXCT</pv_name>
+    <label></label>
+    <x>347</x>
+    <y>170</y>
+    <width>25</width>
+    <actions>
+    </actions>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_13</name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ResetsPerformed</pv_name>
+    <x>144</x>
+    <y>265</y>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_14</name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.MaxResets</pv_name>
+    <x>144</x>
+    <y>284</y>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_15</name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.EventsMonitoredCount</pv_name>
+    <x>144</x>
+    <y>227</y>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_16</name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.InvalidEventMonCount</pv_name>
+    <x>144</x>
+    <y>246</y>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_50</name>
+    <text>Application</text>
+    <x>6</x>
+    <y>113</y>
+    <width>76</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_51</name>
+    <text>Event</text>
+    <x>6</x>
+    <y>132</y>
+    <width>76</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_52</name>
+    <text>CPU Hog</text>
+    <x>6</x>
+    <y>170</y>
+    <width>76</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_53</name>
+    <text>Aliveness</text>
+    <x>6</x>
+    <y>151</y>
+    <width>76</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_55</name>
+    <text>AMT</text>
+    <x>312</x>
+    <y>132</y>
+    <width>30</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_56</name>
+    <text>EMT</text>
+    <x>312</x>
+    <y>113</y>
+    <width>30</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_57</name>
+    <text>MAT</text>
+    <x>312</x>
+    <y>151</y>
+    <width>30</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_58</name>
+    <text>XCT</text>
+    <x>312</x>
+    <y>170</y>
+    <width>30</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_59</name>
+    <text>Resets Performed</text>
+    <x>6</x>
+    <y>265</y>
+    <width>133</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_60</name>
+    <text>Events Monitored</text>
+    <x>6</x>
+    <y>227</y>
+    <width>133</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_61</name>
+    <text>Max Resets</text>
+    <x>6</x>
+    <y>284</y>
+    <width>133</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_62</name>
+    <text>Invalid Event Monitor</text>
+    <x>6</x>
+    <y>246</y>
+    <width>133</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_63</name>
+    <text>Monitors</text>
+    <x>15</x>
+    <y>94</y>
+    <width>86</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_64</name>
+    <text>Tables</text>
+    <x>315</x>
+    <y>94</y>
+    <width>65</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_65</name>
+    <text>Misc</text>
+    <x>69</x>
+    <y>201</y>
+    <width>164</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_49</name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.MsgActExec</pv_name>
+    <x>144</x>
+    <y>303</y>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_50</name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.UtilCpuAvg</pv_name>
+    <x>144</x>
+    <y>322</y>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_51</name>
+    <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.UtilCpuPeak</pv_name>
+    <x>144</x>
+    <y>341</y>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>1</format>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_66</name>
+    <text>Msg Act Exec</text>
+    <x>6</x>
+    <y>303</y>
+    <width>133</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_67</name>
+    <text>CPU Peak Utilization</text>
+    <y>341</y>
+    <width>139</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_68</name>
+    <text>CPU Avg Utilization</text>
+    <x>6</x>
+    <y>322</y>
+    <width>133</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_2</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableAppMon', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Ena</text>
+    <x>111</x>
+    <y>114</y>
+    <width>91</width>
+    <height>18</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_3</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableAppMon', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Dis</text>
+    <x>201</x>
+    <y>114</y>
+    <width>89</width>
+    <height>18</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_4</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableEventMon', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Ena</text>
+    <x>111</x>
+    <y>133</y>
+    <width>91</width>
+    <height>18</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_5</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableAliveness', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Ena</text>
+    <x>111</x>
+    <y>152</y>
+    <width>91</width>
+    <height>18</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_6</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableCpuHog', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Ena</text>
+    <x>111</x>
+    <y>171</y>
+    <width>91</width>
+    <height>18</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_7</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableEventMon', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Dis</text>
+    <x>201</x>
+    <y>133</y>
+    <width>89</width>
+    <height>18</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_8</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableAliveness', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Dis</text>
+    <x>201</x>
+    <y>152</y>
+    <width>89</width>
+    <height>18</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_9</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableCpuHog', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Dis</text>
+    <x>201</x>
+    <y>171</y>
+    <width>89</width>
+    <height>18</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_11</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/ResetResetsPerformed', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Reset</text>
+    <x>255</x>
+    <y>266</y>
+    <width>84</width>
+    <height>18</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_4</name>
+    <actions>
+      <action type="open_display">
+        <file>SetLCState.opi</file>
+        <target>tab</target>
+      </action>
+    </actions>
+    <text>Set</text>
+    <x>255</x>
+    <y>284</y>
+    <width>84</width>
+    <height>20</height>
+    <background_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>AppControl_2</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("Sch_Table_TEMPLATE"));
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Sch Table</text>
+    <x>255</x>
+    <y>303</y>
+    <width>84</width>
+    <height>20</height>
+    <background_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Events</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("EVENTS_OPI"));
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Event Filters</text>
+    <x>42</x>
+    <y>384</y>
+    <width>140</width>
+    <height>20</height>
+    <background_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>AppControl</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Core/ES/resources/templates/ApplicationControl_App.opi");
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>App Control</text>
+    <x>42</x>
+    <y>403</y>
+    <width>140</width>
+    <height>20</height>
+    <background_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>Embedded Display</name>
+    <file>$(CMD_MANAGEMENT_CONTAINER)</file>
+    <x>42</x>
+    <y>468</y>
+    <width>144</width>
+    <height>153</height>
+  </widget>
+  <widget type="embedded" version="2.0.0">
+    <name>Embedded Display_1</name>
+    <file>TO_TlmManagement.bob</file>
+    <x>213</x>
+    <y>468</y>
+    <width>144</width>
+    <height>99</height>
+  </widget>
+  
+{%- set group_height = 20   -%} 
+{%- set entry_count      = module.config.HS_MAX_EXEC_CNT_SLOTS.value   -%}
+{%- set exe_count_group_height = (module.config.HS_MAX_EXEC_CNT_SLOTS.value * group_height) + 40 %}
+
+  <widget type="group" version="2.0.0">
+    <name>Exec Counts</name>
+    <x>402</x>
+    <y>38</y>
+    <width>288</width>
+    <height>{{exe_count_group_height}}</height>
+    
+{%- set group_y      = namespace(value=1)   -%}
+
+{%- for entry in module.tables._XCT.content -%}
+{%-   if loop.index0 < entry_count %}
+    <widget type="group" version="2.0.0">
+      <name>Group_3</name>
+      <x>2</x>
+      <y>{{ group_y.value }}</y>
+      <width>252</width>
+      <height>20</height>
+      <style>3</style>
+      <widget type="label" version="2.0.0">
+        <name>Label_69</name>
+        <text>{{ entry.name }}</text>
+        <x>5</x>
+        <width>126</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_52</name>
+        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ExeCounts[{{ loop.index0 }}]</pv_name>
+        <x>142</x>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+    </widget>
+{%-   endif -%}
+{%-   set group_y.value = group_y.value + group_height -%}
+{%- endfor %}
+  </widget>
+</display>
