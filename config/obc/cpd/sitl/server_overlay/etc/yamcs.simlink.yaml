@@ -23,7 +23,7 @@ services:
         warmupTime: 60
   - class: org.yamcs.tctm.cfs.CfsEventDecoder
     args:
-      msgIds: [0x0815, 0x0a15] #Always confirm this ID with CFE_EVS configuration
+      msgIds: [0x0815, 0x0a15, 0x0c15] #Always confirm this ID with CFE_EVS configuration
       byteOrder: LITTLE_ENDIAN
       appNameMax: 40
       eventMsgMax: 122

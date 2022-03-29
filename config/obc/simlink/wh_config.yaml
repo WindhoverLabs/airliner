@@ -197,10 +197,8 @@ modules:
       simlink:
         definition: ${PROJECT_SOURCE_DIR}/apps/simlink/gazebo9/wh_design.yaml
         telemetry:
-          SIMLINK_OUT_DATA_MID:
-            msgID: 0x0e3f
-          SIMLINK_OUT_DATA_MID:
-            msgID: 0x0e40
+          SIMLINK_HK_TLM_MID:
+            msgID: 0x0e3f 
         commands:
           SIMLINK_CMD_MID:
             msgID: 0x1e41
