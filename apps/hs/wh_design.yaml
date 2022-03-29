@@ -6,8 +6,8 @@
     displays: cdr
     templates:
       _MAIN:
-        template: "cdr/resources/templates/Main.j2"
-        output: "Main.bob"
+        template: "cdr/resources/templates/ExecCounts.j2"
+        output: "ExecCounts.bob"
   tables:
     _XCT:
       title: "HS ExeCount Table"
@@ -149,31 +149,6 @@
       id: 67
     HS_BADEMT_UNSUB_EID: 
       id: 68
-  msg_def_overrides:
-    - parent: HS_HkPacket_t
-      member: CurrentAppMonState
-      type: enumeration
-      enumerations:
-        DISABLED: 0
-        ENABLED: 1
-    - parent: HS_HkPacket_t
-      member: CurrentEventMonState
-      type: enumeration
-      enumerations:
-        DISABLED: 0
-        ENABLED: 1
-    - parent: HS_HkPacket_t
-      member: CurrentAlivenessState
-      type: enumeration
-      enumerations:
-        DISABLED: 0
-        ENABLED: 1
-    - parent: HS_HkPacket_t
-      member: CurrentCPUHogState
-      type: enumeration
-      enumerations:
-        DISABLED: 0
-        ENABLED: 1
   telemetry: 
     HS_HK_TLM_MID: 
       msgID: 

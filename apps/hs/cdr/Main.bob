@@ -1,0 +1,1056 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>($(CPUID)) HS</name>
+  <macros>
+    <APP>hs</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <CPUID>{{ cpu_id }}</CPUID>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>650</width>
+  <height>750</height>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Label_49</name>
+    <text>($(CPUID)) Health Services</text>
+    <x>10</x>
+    <width>172</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Commanding</name>
+    <x>10</x>
+    <y>30</y>
+    <width>258</width>
+    <height>240</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CmdCount</pv_name>
+      <x>98</x>
+      <y>5</y>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Cmd Count</text>
+      <x>6</x>
+      <y>5</y>
+      <width>81</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>Err Count</text>
+      <x>27</x>
+      <y>24</y>
+      <width>60</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_1</name>
+      <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CmdErrCount</pv_name>
+      <x>98</x>
+      <y>24</y>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/Noop', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Noop</text>
+      <x>6</x>
+      <y>48</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_1</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/Reset', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Reset</text>
+      <x>6</x>
+      <y>66</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="253" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_2</name>
+      <file>$(CMD_MANAGEMENT_CONTAINER)</file>
+      <x>6</x>
+      <y>86</y>
+      <width>140</width>
+      <height>100</height>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Monitors</name>
+    <x>268</x>
+    <y>30</y>
+    <width>270</width>
+    <height>474</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="group" version="2.0.0">
+      <name>Event</name>
+      <y>339</y>
+      <width>234</width>
+      <height>105</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_15</name>
+        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.EventsMonitoredCount</pv_name>
+        <x>103</x>
+        <y>3</y>
+        <width>90</width>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_60</name>
+        <text>Count</text>
+        <x>42</x>
+        <y>3</y>
+        <width>52</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_62</name>
+        <text>Invalid Count</text>
+        <y>23</y>
+        <width>94</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_16</name>
+        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.InvalidEventMonCount</pv_name>
+        <x>103</x>
+        <y>23</y>
+        <width>90</width>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="polyline" version="2.0.0">
+        <name>Polyline_1</name>
+        <x>74</x>
+        <y>22</y>
+        <width>4</width>
+        <height>1</height>
+        <points>
+          <point x="0.0" y="0.0">
+          </point>
+        </points>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>NoOp_4</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedJs">
+              <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableEventMon', {});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Ena</text>
+        <x>30</x>
+        <y>47</y>
+        <width>57</width>
+        <height>18</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>NoOp_7</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedJs">
+              <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableEventMon', {});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Dis</text>
+        <x>87</x>
+        <y>47</y>
+        <width>57</width>
+        <height>18</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="multi_state_led" version="2.0.0">
+        <name>LED (Multi State)_1</name>
+        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentEventMonState</pv_name>
+        <x>5</x>
+        <y>47</y>
+        <width>18</width>
+        <height>18</height>
+        <states>
+          <state>
+            <value>0</value>
+            <label></label>
+            <color>
+              <color name="Off" red="60" green="100" blue="60">
+              </color>
+            </color>
+          </state>
+          <state>
+            <value>1</value>
+            <label></label>
+            <color>
+              <color name="On" red="0" green="255" blue="0">
+              </color>
+            </color>
+          </state>
+        </states>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>CPU Hog</name>
+      <y>150</y>
+      <width>234</width>
+      <height>189</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="label" version="2.0.0">
+        <name>Label_68</name>
+        <text>CPU Avg</text>
+        <x>27</x>
+        <y>7</y>
+        <width>65</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_50</name>
+        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.UtilCpuAvg</pv_name>
+        <x>103</x>
+        <y>7</y>
+        <width>90</width>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_67</name>
+        <text>CPU Peak</text>
+        <x>13</x>
+        <y>26</y>
+        <width>79</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_51</name>
+        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.UtilCpuPeak</pv_name>
+        <x>103</x>
+        <y>26</y>
+        <width>90</width>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>NoOp_6</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedJs">
+              <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableCpuHog', {});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Ena</text>
+        <x>30</x>
+        <y>54</y>
+        <width>57</width>
+        <height>18</height>
+        <foreground_color>
+          <color red="253" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>NoOp_9</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedJs">
+              <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableCpuHog', {});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Dis</text>
+        <x>87</x>
+        <y>54</y>
+        <width>57</width>
+        <height>18</height>
+        <foreground_color>
+          <color red="253" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Action Button_6</name>
+        <actions>
+          <action type="open_display">
+            <file>SetParams.opi</file>
+            <target>tab</target>
+          </action>
+        </actions>
+        <text>Set Params</text>
+        <x>5</x>
+        <y>105</y>
+        <width>149</width>
+        <height>20</height>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Action Button_7</name>
+        <actions>
+          <action type="open_display">
+            <file>SetUtilDiag.opi</file>
+            <target>tab</target>
+          </action>
+        </actions>
+        <text>Set Util Diag</text>
+        <x>5</x>
+        <y>125</y>
+        <width>149</width>
+        <height>20</height>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>NoOp_37</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedJs">
+              <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/ReportDiag', {});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Report Util Diag</text>
+        <x>5</x>
+        <y>87</y>
+        <width>149</width>
+        <height>18</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="multi_state_led" version="2.0.0">
+        <name>LED (Multi State)_2</name>
+        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentCPUHogState</pv_name>
+        <x>5</x>
+        <y>54</y>
+        <width>18</width>
+        <height>18</height>
+        <states>
+          <state>
+            <value>0</value>
+            <label></label>
+            <color>
+              <color name="Off" red="60" green="100" blue="60">
+              </color>
+            </color>
+          </state>
+          <state>
+            <value>1</value>
+            <label></label>
+            <color>
+              <color name="On" red="0" green="255" blue="0">
+              </color>
+            </color>
+          </state>
+        </states>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Aliveness</name>
+      <y>5</y>
+      <width>234</width>
+      <height>65</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="action_button" version="3.0.0">
+        <name>NoOp_5</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedJs">
+              <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableAliveness', {});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Ena</text>
+        <x>30</x>
+        <y>6</y>
+        <width>57</width>
+        <height>18</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>NoOp_8</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedJs">
+              <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableAliveness', {});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Dis</text>
+        <x>87</x>
+        <y>6</y>
+        <width>57</width>
+        <height>18</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="multi_state_led" version="2.0.0">
+        <name>LED (Multi State)_3</name>
+        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentAlivenessState</pv_name>
+        <x>5</x>
+        <y>6</y>
+        <width>18</width>
+        <height>18</height>
+        <states>
+          <state>
+            <value>0</value>
+            <label></label>
+            <color>
+              <color name="Off" red="60" green="100" blue="60">
+              </color>
+            </color>
+          </state>
+          <state>
+            <value>1</value>
+            <label></label>
+            <color>
+              <color name="On" red="0" green="255" blue="0">
+              </color>
+            </color>
+          </state>
+        </states>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Application</name>
+      <y>70</y>
+      <width>234</width>
+      <height>80</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="action_button" version="3.0.0">
+        <name>NoOp_21</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedJs">
+              <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableAppMon', {});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Ena</text>
+        <x>30</x>
+        <y>5</y>
+        <width>57</width>
+        <height>18</height>
+        <foreground_color>
+          <color red="253" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>NoOp_22</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedJs">
+              <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableAppMon', {});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Dis</text>
+        <x>87</x>
+        <y>5</y>
+        <width>57</width>
+        <height>18</height>
+        <foreground_color>
+          <color red="253" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="multi_state_led" version="2.0.0">
+        <name>LED (Multi State)</name>
+        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentAppMonState</pv_name>
+        <x>5</x>
+        <y>5</y>
+        <width>18</width>
+        <height>18</height>
+        <states>
+          <state>
+            <value>0</value>
+            <label></label>
+            <color>
+              <color name="Off" red="60" green="100" blue="60">
+              </color>
+            </color>
+          </state>
+          <state>
+            <value>1</value>
+            <label></label>
+            <color>
+              <color name="On" red="0" green="255" blue="0">
+              </color>
+            </color>
+          </state>
+        </states>
+      </widget>
+    </widget>
+  </widget>
+  <widget type="polyline" version="2.0.0">
+    <name>Polyline</name>
+    <x>250</x>
+    <y>134</y>
+    <width>1</width>
+    <height>1</height>
+    <points>
+      <point x="0.0" y="0.0">
+      </point>
+    </points>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Miscellaneous</name>
+    <x>10</x>
+    <y>504</y>
+    <width>528</width>
+    <height>174</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_13</name>
+      <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ResetsPerformed</pv_name>
+      <x>128</x>
+      <y>5</y>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_14</name>
+      <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.MaxResets</pv_name>
+      <x>128</x>
+      <y>24</y>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_59</name>
+      <text>Resets Performed</text>
+      <x>3</x>
+      <y>5</y>
+      <width>115</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_61</name>
+      <text>Max Resets</text>
+      <x>31</x>
+      <y>24</y>
+      <width>85</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_49</name>
+      <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.MsgActExec</pv_name>
+      <x>128</x>
+      <y>43</y>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_66</name>
+      <text>Msg Act Exec</text>
+      <x>31</x>
+      <y>43</y>
+      <width>85</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_11</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/ResetResetsPerformed', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Reset</text>
+      <x>241</x>
+      <y>5</y>
+      <width>84</width>
+      <height>18</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_4</name>
+      <actions>
+        <action type="open_display">
+          <file>SetMaxResets.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Set</text>
+      <x>241</x>
+      <y>23</y>
+      <width>84</width>
+      <height>20</height>
+      <background_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_9</name>
+      <actions>
+        <action type="open_display">
+          <file>EventControl.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Event Filtering</text>
+      <x>5</x>
+      <y>69</y>
+      <width>149</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_8</name>
+      <actions>
+        <action type="open_display">
+          <file>ExecCounts.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>View Exec Counts</text>
+      <x>5</x>
+      <y>89</y>
+      <width>149</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_36</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/WakeUp', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Wakeup</text>
+      <x>5</x>
+      <y>109</y>
+      <width>149</width>
+      <height>18</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Telemetry</name>
+    <x>10</x>
+    <y>270</y>
+    <width>258</width>
+    <height>234</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_4</name>
+      <file>TO_TlmManagement.bob</file>
+      <x>5</x>
+      <y>27</y>
+      <width>140</width>
+      <height>60</height>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_35</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/SendHK', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Send HK</text>
+      <x>5</x>
+      <y>7</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+</display>
