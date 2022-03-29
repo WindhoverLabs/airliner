@@ -98,73 +98,6 @@ function(psp_buildliner_initialize)
     
     # Generate the XTCE file
     add_custom_target(ground-tools)
-#    commander_initialize_workspace(commander-workspace
-#        CONFIG_FILE           ${CMAKE_BINARY_DIR}/wh_defs.yaml
-#        XTCE_CONFIG_FILE      ${PROJECT_SOURCE_DIR}/core/base/tools/commander/xtce_config.yaml
-#        WORKSPACE_TEMPLATE    ${PROJECT_SOURCE_DIR}/core/base/tools/commander/workspace_template
-#        WORKSPACE_OUTPUT_PATH ${COMMANDER_WORKSPACE}
-#        OUTPUT_DB_FILE        wh_defs.db
-#        OUTPUT_XTCE_FILE      mdb/${PARSED_ARGS_CPU_ID}.xml
-#    )
-#    set_target_properties(commander-workspace PROPERTIES EXCLUDE_FROM_ALL TRUE)
-#    add_dependencies(ground-tools commander-workspace)
-#    
-#    # Read the Commander Macro block
-#    configure_file(${PSP_CDR_MACRO_BLOCK_FILE} ${CMAKE_CURRENT_BINARY_DIR}/CDR_MACRO_BLOCK_FILE @ONLY)
-#    file(READ ${CMAKE_CURRENT_BINARY_DIR}/CDR_MACRO_BLOCK_FILE BUILDLINER_CDR_MACRO_BLOCK)
-#    if(PARSED_ARGS_COMMANDER_CUSTOM_MACRO_BLOCK)
-#        configure_file(${PARSED_ARGS_COMMANDER_CUSTOM_MACRO_BLOCK} ${CMAKE_CURRENT_BINARY_DIR}/CDR_CUSTOM_MACRO_BLOCK_FILE @ONLY)
-#        file(READ ${CMAKE_CURRENT_BINARY_DIR}/CDR_CUSTOM_MACRO_BLOCK_FILE BUILDLINER_CDR_MACRO_BLOCK_CUSTOM)
-#    else()
-#        set(BUILDLINER_CDR_MACRO_BLOCK_CUSTOM "")
-#    endif()
-#    set_property(GLOBAL PROPERTY BUILDLINER_CDR_MACRO_BLOCK        ${BUILDLINER_CDR_MACRO_BLOCK})
-#    set_property(GLOBAL PROPERTY BUILDLINER_CDR_MACRO_BLOCK_CUSTOM ${BUILDLINER_CDR_MACRO_BLOCK_CUSTOM})
-#
-#    # Copy in the Commander CFE displays
-#    file(GLOB_RECURSE files "${CFE_COMMANDER_DISPLAYS}/*" "${CFE_COMMANDER_DISPLAYS}/.*")
-#    foreach(inFile ${files})
-#        get_filename_component(inFileExt ${inFile} EXT)
-#        file(RELATIVE_PATH outFile ${CFE_COMMANDER_DISPLAYS} ${inFile})
-#
-#        if(${inFileExt} STREQUAL ".opi")
-#            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
-#            get_filename_component(outFileName ${inFile} NAME_WE)
-#            set(outFile ${outFilePath}/${outFileName}.opi)
-#            configure_file(${inFile} ${outFile} @ONLY)
-#        elseif(${inFileExt} STREQUAL ".bob")
-#            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
-#            get_filename_component(outFileName ${inFile} NAME_WE)
-#            set(outFile ${outFilePath}/${outFileName}.bob)
-#            configure_file(${inFile} ${outFile} @ONLY)
-#        elseif(${inFileExt} STREQUAL ".ini")
-#            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
-#            get_filename_component(outFileName ${inFile} NAME_WE)
-#            set(outFile ${outFilePath}/${outFileName}.ini)
-#            configure_file(${inFile} ${outFile} @ONLY)
-#        else()
-#            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
-#            file(COPY ${inFile} DESTINATION "${outFilePath}")
-#        endif()
-#    endforeach(inFile)
-#
-#    # Copy in the Commander overlay
-#    if(PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY)
-#        file(GLOB_RECURSE files "${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/*" "${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/.*")
-#        foreach(inFile ${files})
-#            file(RELATIVE_PATH outFile ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY} ${inFile})
-#            message("${inFile}")
-#            get_filename_component(outFilePath ${COMMANDER_WORKSPACE}/${outFile} DIRECTORY)
-#            get_filename_component(outFileName ${inFile} NAME)
-#            set(outFile ${outFilePath}/${outFileName})
-#            configure_file(${inFile} ${outFile} @ONLY)
-#        endforeach(inFile)
-#    endif()
-#    
-#    # Add a build target to launch YAMCS with our newly created workspace.
-#    add_custom_target(start-yamcs 
-#        COMMAND ${COMMANDER_WORKSPACE}/bin/yamcs-start /opt/yamcs/ ${COMMANDER_WORKSPACE}
-#    )
     
     # Generate the templated code
     set_property(GLOBAL PROPERTY BASELINER_CONFIG_FILE_PROPERTY ${CMAKE_BINARY_DIR}/wh_defs.yaml)
@@ -312,12 +245,12 @@ function(psp_add_executable)
         target_link_libraries(${TARGET_BINARY} PUBLIC ${PARSED_ARGS_LIBS})
     endif()
     
-    if(${PARSED_ARGS_COMPILE_FLAGS})
+    if(PARSED_ARGS_COMPILE_FLAGS)
         set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} ${PARSED_ARGS_COMPILE_FLAGS}")
         set_target_properties(${TARGET_BINARY} PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} ${PARSED_ARGS_COMPILE_FLAGS}")
     endif()
     
-    if(${PARSED_ARGS_LINK_FLAGS})
+    if(PARSED_ARGS_LINK_FLAGS)
         set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES LINK_FLAGS "${LINK_FLAGS} ${PARSED_ARGS_LINK_FLAGS}")
         set_target_properties(${TARGET_BINARY} PROPERTIES LINK_FLAGS "${LINK_FLAGS} ${PARSED_ARGS_LINK_FLAGS}")
     endif()
