@@ -1,14 +1,14 @@
 #Configuration tested on YAMCS 5.4.0
 services:
   - class: org.yamcs.archive.XtceTmRecorder
-  - class: org.yamcs.parameter.SystemParametersCollector
-    args:
-      provideJvmVariables: true
-      provideFsVariables: true
-  - class: org.yamcs.ProcessorCreatorService
-    args:
-      name: realtime
-      type: realtime
+    #- class: org.yamcs.parameter.SystemParametersCollector
+    #args:
+    #  provideJvmVariables: true
+    #  provideFsVariables: true
+    #- class: org.yamcs.ProcessorCreatorService
+    #args:
+    #  name: realtime
+    #  type: realtime
   - class: org.yamcs.tctm.cfs.CfsEventDecoder
     args:
       msgIds: [0x0815, 0x0a15] #Always confirm this ID with CFE_EVS configuration
@@ -17,7 +17,7 @@ services:
 
 dataLinks:    
   - name: tcp_cpd
-    class: org.yamcs.tctm.TcpTcDataLink
+    class: org.yamcs.tctm.UdpTcDataLink
     stream: tc_realtime
     host: 127.0.0.1
     port: 5110
@@ -26,9 +26,10 @@ dataLinks:
       swapChecksumFc: true
 
   - name: tm_cpd
-    class: org.yamcs.tctm.TcpTmDataLink
+    class: org.yamcs.tctm.UdpTmDataLink
     stream: tm_realtime
-    port: 5111
+    host: 127.0.0.1
+    port: 5112
     maxLength: 32768 #32KB is the default for CCSDS
     packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
     packetPreprocessorArgs:
@@ -50,9 +51,9 @@ mdb:
       spec: "mdb/cfs-ccsds.xml"
       subLoaders:
       - type: "xtce"
-        spec: "mdb/ppd.xml"
+        spec: "mdb/PPD.xml"
       - type: "xtce"
-        spec: "mdb/cpd.xml"
+        spec: "mdb/CPD.xml"
 
 # Configuration for streams created at server startup
 streamConfig:
