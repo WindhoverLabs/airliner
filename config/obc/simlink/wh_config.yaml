@@ -193,6 +193,56 @@ modules:
             msgID: 0x1e6d              # CMD_MSG(  109 ) 
           TO_SEND_TLM_MID:
             msgID: 0x1e6e              # CMD_MSG(  110 ) 
+        tables:
+          _TO_CONFIG:
+            channel:
+              - name: "ground"
+                instance:
+                -  name: "default"
+                   output: "to_config.c"
+                   id: 1
+                   is_backup: false
+                   priority_queue:
+                     - name:  "SINGLE_PASS"
+                       type:  "SINGLE"
+                       depth: 20
+                     - name:  "HIGH_OPS_RSRVD"
+                       type:  "FIFO"
+                       depth: 20
+                     - name:  "SHELL"
+                       type:  "FIFO"
+                       depth: 64
+                     - name:  "EVENTS"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "HIGH"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "HK"
+                       type:  "FIFO"
+                       depth: 50
+                   message_flow:
+                     - msg: "AMC_HK_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "BAT_HK_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CF_CONFIG_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CF_HK_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CF_SPACE_TO_GND_PDU_MID"
+                       depth: 32
+                       pqueue: "CPD_CFDP"
+                     - msg: "CF_TRANS_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CFE_ES_APP_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
 
       simlink:
         definition: ${PROJECT_SOURCE_DIR}/apps/simlink/gazebo9/wh_design.yaml

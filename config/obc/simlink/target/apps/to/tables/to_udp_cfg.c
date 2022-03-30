@@ -31,10 +31,10 @@ static CFE_TBL_FileDef_t CFE_TBL_FileDef OS_USED =
 
 #define TO_PQUEUE_SINGLE_PASS_IDX               0
 #define TO_PQUEUE_HIGH_OPS_RSRVD_IDX            1
-#define TO_PQUEUE_HIGH_IDX                      2
+#define TO_PQUEUE_SHELL_IDX                     2
 #define TO_PQUEUE_EVENTS_IDX                    3
-#define TO_PQUEUE_HK_IDX                        4
-#define TO_PQUEUE_SHELL_IDX                     5
+#define TO_PQUEUE_HIGH_IDX                      4
+#define TO_PQUEUE_HK_IDX                        5
 
 /**
  **  \brief Default TO config table data
@@ -83,14 +83,14 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {TO_PQUEUE_ENA, 20, TO_PRIORITY_QUEUE_TYPE_SINGLE},
         /* TO_PQUEUE_HIGH_OPS_RSRVD_IDX */
         {TO_PQUEUE_ENA, 20, TO_PRIORITY_QUEUE_TYPE_FIFO},
-        /* TO_PQUEUE_HIGH_IDX */
-        {TO_PQUEUE_ENA, 32, TO_PRIORITY_QUEUE_TYPE_FIFO},
+        /* TO_PQUEUE_SHELL_IDX */
+        {TO_PQUEUE_ENA, 64, TO_PRIORITY_QUEUE_TYPE_FIFO},
         /* TO_PQUEUE_EVENTS_IDX */
         {TO_PQUEUE_ENA, 32, TO_PRIORITY_QUEUE_TYPE_FIFO},
+        /* TO_PQUEUE_HIGH_IDX */
+        {TO_PQUEUE_ENA, 32, TO_PRIORITY_QUEUE_TYPE_FIFO},
         /* TO_PQUEUE_HK_IDX */
-        {TO_PQUEUE_ENA, 50, TO_PRIORITY_QUEUE_TYPE_FIFO},
-        /* TO_PQUEUE_SHELL_IDX */
-        {TO_PQUEUE_ENA, 64, TO_PRIORITY_QUEUE_TYPE_FIFO}
+        {TO_PQUEUE_ENA, 50, TO_PRIORITY_QUEUE_TYPE_FIFO}
   }
 };
 

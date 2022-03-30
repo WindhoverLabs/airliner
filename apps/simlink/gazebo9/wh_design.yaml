@@ -5,34 +5,44 @@
   commander:
     displays: cdr
   events: 
-    SIMLINK_INIT_INF_EID: 
+    SIMLINK_INF_EID: 
       id: 1
-    SIMLINK_CMD_NOOP_EID: 
+    SIMLINK_INIT_INF_EID: 
       id: 2
-    SIMLINK_SUBSCRIBE_ERR_EID: 
+    SIMLINK_CONFIG_TABLE_INF_EID: 
       id: 3
-    SIMLINK_PIPE_INIT_ERR_EID: 
+    SIMLINK_CDS_INF_EID: 
       id: 4
-    SIMLINK_CFGTBL_MANAGE_ERR_EID: 
+    SIMLINK_CMD_INF_EID: 
       id: 5
-    SIMLINK_CFGTBL_GETADDR_ERR_EID: 
+    SIMLINK_ERR_EID: 
       id: 6
-    SIMLINK_RCVMSG_ERR_EID: 
+    SIMLINK_INIT_ERR_EID: 
       id: 7
-    SIMLINK_MSGID_ERR_EID: 
+    SIMLINK_CONFIG_TABLE_ERR_EID: 
       id: 8
-    SIMLINK_CC_ERR_EID: 
+    SIMLINK_CDS_ERR_EID: 
       id: 9
-    SIMLINK_MSGLEN_ERR_EID: 
+    SIMLINK_CMD_ERR_EID: 
       id: 10
-    SIMLINK_CFGTBL_REG_ERR_EID: 
+    SIMLINK_PIPE_ERR_EID: 
       id: 11
-    SIMLINK_CFGTBL_LOAD_ERR_EID: 
+    SIMLINK_MSGID_ERR_EID: 
       id: 12
+    SIMLINK_MSGLEN_ERR_EID: 
+      id: 13
+    SIMLINK_CVT_ERR_EID: 
+      id: 14
+    SIMLINK_MAVLINK_INFO_EID: 
+      id: 15
+    SIMLINK_SOCKET_ERR_EID:
+      id: 16  
+      
   telemetry: 
     SIMLINK_HK_TLM_MID: 
       msgID: 
       struct: SIMLINK_HkTlm_t
+      
   commands: 
     SIMLINK_CMD_MID: 
       msgID: 

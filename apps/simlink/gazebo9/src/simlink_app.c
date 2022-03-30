@@ -53,6 +53,7 @@
 #include <unistd.h>
 #include "cvt_lib.h"
 #include <float.h>
+#include <errno.h>
 
 /************************************************************************
 ** Local Defines
@@ -692,25 +693,23 @@ void SIMLINK_ProcessNewCmds()
             switch (CmdMsgId)
             {
                 case SIMLINK_CMD_MID:
+                {
                     SIMLINK_ProcessNewAppCmds(CmdMsgPtr);
                     break;
-
-                /* TODO:  Add code to process other subscribed commands here
-                **
-                ** Example:
-                **     case CFE_TIME_DATA_CMD_MID:
-                **         SIMLINK_ProcessTimeDataCmd(CmdMsgPtr);
-                **         break;
-                */
+                }
 
                 default:
+                {
                     /* Bump the command error counter for an unknown command.
                      * (This should only occur if it was subscribed to with this
                      *  pipe, but not handled in this switch-case.) */
+                    OS_MutSemGive(SIMLINK_AppData.Mutex);
                     SIMLINK_AppData.HkTlm.usCmdErrCnt++;
                     (void) CFE_EVS_SendEvent(SIMLINK_MSGID_ERR_EID, CFE_EVS_ERROR,
                                       "Recvd invalid CMD msgId (0x%04X)", (unsigned short)CmdMsgId);
+                    OS_MutSemTake(SIMLINK_AppData.Mutex);
                     break;
+                }
             }
         }
         else if (iStatus == CFE_SB_NO_MESSAGE)
@@ -744,6 +743,7 @@ void SIMLINK_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
         switch (uiCmdCode)
         {
             case SIMLINK_NOOP_CC:
+                OS_MutSemTake(SIMLINK_AppData.Mutex);
                 SIMLINK_AppData.HkTlm.usCmdCnt++;
                 (void) CFE_EVS_SendEvent(SIMLINK_CMD_INF_EID, CFE_EVS_INFORMATION,
                                   "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
@@ -752,21 +752,26 @@ void SIMLINK_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                                   SIMLINK_MINOR_VERSION,
                                   SIMLINK_REVISION,
                                   SIMLINK_MISSION_REV);
+                OS_MutSemGive(SIMLINK_AppData.Mutex);
                 break;
 
             case SIMLINK_RESET_CC:
+                OS_MutSemTake(SIMLINK_AppData.Mutex);
                 SIMLINK_AppData.HkTlm.usCmdCnt = 0;
                 SIMLINK_AppData.HkTlm.usCmdErrCnt = 0;
                 (void) CFE_EVS_SendEvent(SIMLINK_CMD_INF_EID, CFE_EVS_INFORMATION,
                                   "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
+                OS_MutSemGive(SIMLINK_AppData.Mutex);
                 break;
 
             /* TODO:  Add code to process the rest of the SIMLINK commands here */
 
             default:
+                OS_MutSemTake(SIMLINK_AppData.Mutex);
                 SIMLINK_AppData.HkTlm.usCmdErrCnt++;
                 (void) CFE_EVS_SendEvent(SIMLINK_MSGID_ERR_EID, CFE_EVS_ERROR,
                                   "Recvd invalid cmdId (%u)", (unsigned int)uiCmdCode);
+                OS_MutSemGive(SIMLINK_AppData.Mutex);
                 break;
         }
     }
@@ -780,14 +785,12 @@ void SIMLINK_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
 
 void SIMLINK_ReportHousekeeping()
 {
-    /* TODO:  Add code to update housekeeping data, if needed, here.  */
+    OS_MutSemTake(SIMLINK_AppData.Mutex);
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&SIMLINK_AppData.HkTlm);
-    int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&SIMLINK_AppData.HkTlm);
-    if (iStatus != CFE_SUCCESS)
-    {
-        /* TODO: Decide what to do if the send message fails. */
-    }
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&SIMLINK_AppData.HkTlm);
+
+    OS_MutSemGive(SIMLINK_AppData.Mutex);
 }
 
 
@@ -828,6 +831,7 @@ boolean SIMLINK_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
 
         if (usExpectedLen != usMsgLen)
         {
+            OS_MutSemTake(SIMLINK_AppData.Mutex);
             bResult = FALSE;
             CFE_SB_MsgId_t MsgId = CFE_SB_GetMsgId(MsgPtr);
             uint16 usCmdCode = CFE_SB_GetCmdCode(MsgPtr);
@@ -837,6 +841,7 @@ boolean SIMLINK_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
                               "msgLen=%d, expectedLen=%d",
                               MsgId, usCmdCode, usMsgLen, usExpectedLen);
             SIMLINK_AppData.HkTlm.usCmdErrCnt++;
+            OS_MutSemGive(SIMLINK_AppData.Mutex);
         }
     }
 
@@ -926,6 +931,16 @@ int32 SIMLINK_InitListener(void)
     int                rc;
     struct             sockaddr_in serv_addr;
 
+    /* Create mutex for shared data */
+    status = OS_MutSemCreate(&SIMLINK_AppData.Mutex, SIMLINK_MUTEX_NAME, 0);
+    if (status != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to create mutex (0x%08X)",
+                                 (unsigned int)status);
+        goto end_of_function;
+    }
+
     simAddress = getenv(SIMLINK_SIM_ADDRESS_ENV_VAR_NAME);
     if(0 == simAddress)
 	{
@@ -1013,10 +1028,28 @@ int32 SIMLINK_SendHeartbeat(void)
 
     if(SIMLINK_AppData.Socket != 0)
     {
-        send(SIMLINK_AppData.Socket, (char *)buffer, length, 0);
+    	ssize_t bytesSent = 0;
+
+    	while(length > 0)
+    	{
+            bytesSent = send(SIMLINK_AppData.Socket, (char *)buffer[bytesSent], length, 0);
+            if(bytesSent < 0)
+            {
+                (void) CFE_EVS_SendEvent(SIMLINK_SOCKET_ERR_EID, CFE_EVS_ERROR,
+                                         "Failed to send heartbeat (%d)",
+                                         errno);
+                goto end_of_function;
+            }
+
+            length = length - bytesSent;
+    	}
+
+        SIMLINK_AppData.HkTlm.DataOutMetrics.HeartbeatCount++;
     }
 
     status = 0;
+
+end_of_function:
 
     return status;
 }
@@ -1073,11 +1106,32 @@ void SIMLINK_ProcessPwmOutputs(void)
 
 				if(SIMLINK_AppData.Socket != 0)
 				{
-					send(SIMLINK_AppData.Socket, (char *)buffer, length, 0);
+			    	ssize_t bytesSent = 0;
+
+			    	while(length > 0)
+			    	{
+			            bytesSent = send(SIMLINK_AppData.Socket, (char *)buffer[bytesSent], length, 0);
+			            if(bytesSent < 0)
+			            {
+			                (void) CFE_EVS_SendEvent(SIMLINK_SOCKET_ERR_EID, CFE_EVS_ERROR,
+			                                         "Failed to send pwm message (%d)",
+			                                         errno);
+			                goto end_of_function;
+			            }
+
+			            length = length - bytesSent;
+			    	}
+
+			        SIMLINK_AppData.HkTlm.DataOutMetrics.PwmMsgCount++;
 				}
 			}
 		}
 	}
+
+end_of_function:
+
+    return;
+
 }
 
 
@@ -1106,6 +1160,8 @@ void SIMLINK_ListenerTaskMain(void)
             {
                 if (mavlink_parse_char(MAVLINK_COMM_0, buffer[i], &msg, &status))
                 {
+                    OS_MutSemTake(SIMLINK_AppData.Mutex);
+
                     switch(msg.msgid)
                     {
                         case MAVLINK_MSG_ID_HIL_RC_INPUTS_RAW:
@@ -1116,6 +1172,31 @@ void SIMLINK_ListenerTaskMain(void)
 
                             mavlink_msg_hil_rc_inputs_raw_decode(&msg, &decodedMsg);
 
+                            /* Update the metrics in HK. */
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.Count++;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.checksum = msg.checksum;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.magic = msg.magic;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.len = msg.len;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.incompat_flags = msg.incompat_flags;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.compat_flags = msg.compat_flags;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.seq = msg.seq;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.sysid = msg.sysid;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.compid = msg.compid;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.time_usec = decodedMsg.time_usec;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.chan1_raw = decodedMsg.chan1_raw;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.chan2_raw = decodedMsg.chan2_raw;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.chan3_raw = decodedMsg.chan3_raw;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.chan4_raw = decodedMsg.chan4_raw;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.chan5_raw = decodedMsg.chan5_raw;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.chan6_raw = decodedMsg.chan6_raw;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.chan7_raw = decodedMsg.chan7_raw;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.chan8_raw = decodedMsg.chan8_raw;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.chan9_raw = decodedMsg.chan9_raw;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.chan10_raw = decodedMsg.chan10_raw;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.chan11_raw = decodedMsg.chan11_raw;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.chan12_raw = decodedMsg.chan12_raw;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilRcInputsRaw.rssi = decodedMsg.rssi;
+
                             break;
                         }
 
@@ -1125,17 +1206,49 @@ void SIMLINK_ListenerTaskMain(void)
 
                             mavlink_msg_hil_sensor_decode(&msg, &decodedMsg);
 
+                            /* Update the metrics in HK. */
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.Count++;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.checksum = msg.checksum;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.magic = msg.magic;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.len = msg.len;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.incompat_flags = msg.incompat_flags;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.compat_flags = msg.compat_flags;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.seq = msg.seq;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.sysid = msg.sysid;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.compid = msg.compid;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.time_usec = decodedMsg.time_usec;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xacc = decodedMsg.xacc;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.yacc = decodedMsg.yacc;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zacc = decodedMsg.zacc;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xgyro = decodedMsg.xgyro;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ygyro = decodedMsg.ygyro;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zgyro = decodedMsg.zgyro;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xmag = decodedMsg.xmag;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ymag = decodedMsg.ymag;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zmag = decodedMsg.zmag;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.abs_pressure = decodedMsg.abs_pressure;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.diff_pressure = decodedMsg.diff_pressure;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.pressure_alt = decodedMsg.pressure_alt;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.temperature = decodedMsg.temperature;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.fields_updated = decodedMsg.fields_updated;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.id = decodedMsg.id;
+
                             if(decodedMsg.fields_updated & (uint32_t)SIMLINK_ACCEL)
                             {
                                 int32 rc;
 
+                                /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.AccelMsg[0].TimeUsec = decodedMsg.time_usec;
                                 SIMLINK_AppData.AccelMsg[0].X = decodedMsg.xacc;
                                 SIMLINK_AppData.AccelMsg[0].Y = decodedMsg.yacc;
                                 SIMLINK_AppData.AccelMsg[0].Z = decodedMsg.zacc;
 
                             	rc = CVT_SetContent(SIMLINK_AppData.AccelContainer[0], &SIMLINK_AppData.AccelMsg[0], sizeof(SIMLINK_Accel_Msg_t));
-                            	if(CVT_SUCCESS != rc)
+                            	if(CVT_SUCCESS == rc)
+                            	{
+                                    SIMLINK_AppData.HkTlm.DataOutMetrics.AccelMsgCount[0]++;
+                            	}
+                            	else
                             	{
                                     (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
                                                              "Failed to set Accel %d container. (%li)",
@@ -1148,13 +1261,18 @@ void SIMLINK_ListenerTaskMain(void)
                             {
                                 int32 rc;
 
+                                /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.GyroMsg[0].TimeUsec = decodedMsg.time_usec;
                                 SIMLINK_AppData.GyroMsg[0].X = decodedMsg.xgyro;
                                 SIMLINK_AppData.GyroMsg[0].Y = decodedMsg.ygyro;
                                 SIMLINK_AppData.GyroMsg[0].Z = decodedMsg.zgyro;
 
                             	rc = CVT_SetContent(SIMLINK_AppData.GyroContainer[0], &SIMLINK_AppData.GyroMsg[0], sizeof(SIMLINK_Gyro_Msg_t));
-                            	if(CVT_SUCCESS != rc)
+                            	if(CVT_SUCCESS == rc)
+                            	{
+                                    SIMLINK_AppData.HkTlm.DataOutMetrics.GyroMsgCount[0]++;
+                            	}
+                            	else
                             	{
                                     (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
                                                              "Failed to set Gyro %d container. (%li)",
@@ -1167,13 +1285,18 @@ void SIMLINK_ListenerTaskMain(void)
                             {
                                 int32 rc;
 
+                                /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.MagMsg[0].TimeUsec = decodedMsg.time_usec;
                                 SIMLINK_AppData.MagMsg[0].X = decodedMsg.xmag;
                                 SIMLINK_AppData.MagMsg[0].Y = decodedMsg.ymag;
                                 SIMLINK_AppData.MagMsg[0].Z = decodedMsg.zmag;
 
                             	rc = CVT_SetContent(SIMLINK_AppData.MagContainer[0], &SIMLINK_AppData.MagMsg[0], sizeof(SIMLINK_Mag_Msg_t));
-                            	if(CVT_SUCCESS != rc)
+                            	if(CVT_SUCCESS == rc)
+                            	{
+                                    SIMLINK_AppData.HkTlm.DataOutMetrics.MagMsgCount[0]++;
+                            	}
+                            	else
                             	{
                                     (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
                                                              "Failed to set Mag %d container. (%li)",
@@ -1186,13 +1309,18 @@ void SIMLINK_ListenerTaskMain(void)
                             {
                                 int32 rc;
 
+                                /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.BaroMsg[0].TimeUsec = decodedMsg.time_usec;
                                 SIMLINK_AppData.BaroMsg[0].Pressure = decodedMsg.abs_pressure;
                                 SIMLINK_AppData.BaroMsg[0].Temperature = decodedMsg.temperature;
                                 SIMLINK_AppData.BaroMsg[0].BarometricAltitude = decodedMsg.pressure_alt;
 
                             	rc = CVT_SetContent(SIMLINK_AppData.BaroContainer[0], &SIMLINK_AppData.BaroMsg[0], sizeof(SIMLINK_Baro_Msg_t));
-                            	if(CVT_SUCCESS != rc)
+                            	if(CVT_SUCCESS == rc)
+                            	{
+                                    SIMLINK_AppData.HkTlm.DataOutMetrics.BaroMsgCount[0]++;
+                            	}
+                            	else
                             	{
                                     (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
                                                              "Failed to set Baro %d container. (%li)",
@@ -1212,6 +1340,33 @@ void SIMLINK_ListenerTaskMain(void)
 
                             mavlink_msg_hil_gps_decode(&msg, &decodedMsg);
 
+                            /* Update the metrics in HK. */
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.Count++;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.checksum = msg.checksum;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.magic = msg.magic;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.len = msg.len;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.incompat_flags = msg.incompat_flags;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.compat_flags = msg.compat_flags;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.seq = msg.seq;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.sysid = msg.sysid;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.compid = msg.compid;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.time_usec = decodedMsg.time_usec;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.lat = decodedMsg.lat;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.lon = decodedMsg.lon;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.alt = decodedMsg.alt;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.eph = decodedMsg.eph;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.epv = decodedMsg.epv;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.vel = decodedMsg.vel;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.vn = decodedMsg.vn;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.ve = decodedMsg.ve;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.vd = decodedMsg.vd;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.cog = decodedMsg.cog;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.fix_type = decodedMsg.fix_type;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.satellites_visible = decodedMsg.satellites_visible;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.id = decodedMsg.id;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilGps.yaw = decodedMsg.yaw;
+
+                            /* Update the outgoing message for consumers. */
                             SIMLINK_AppData.GpsMsg[0].TimeUsec = decodedMsg.time_usec;
                             SIMLINK_AppData.GpsMsg[0].Latitude = decodedMsg.lat;
                             SIMLINK_AppData.GpsMsg[0].Longitude = decodedMsg.lon;
@@ -1228,7 +1383,11 @@ void SIMLINK_ListenerTaskMain(void)
                             SIMLINK_AppData.GpsMsg[0].Yaw = decodedMsg.yaw;
 
                         	rc = CVT_SetContent(SIMLINK_AppData.GpsContainer[0], &SIMLINK_AppData.GpsMsg[0], sizeof(SIMLINK_GPS_Msg_t));
-                        	if(CVT_SUCCESS != rc)
+                        	if(CVT_SUCCESS == rc)
+                        	{
+                                SIMLINK_AppData.HkTlm.DataOutMetrics.GpsMsgCount[0]++;
+                        	}
+                        	else
                         	{
                                 (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
                                                          "Failed to set GPS %d container. (0x%08X)",
@@ -1239,75 +1398,83 @@ void SIMLINK_ListenerTaskMain(void)
                             break;
                         }
 
-                        case MAVLINK_MSG_ID_HIL_OPTICAL_FLOW:
-                        {
-                        	OS_printf("MAVLINK_MSG_ID_HIL_OPTICAL_FLOW\n");
-
-                            mavlink_hil_optical_flow_t             decodedMsg;
-
-                            mavlink_msg_hil_optical_flow_decode(&msg, &decodedMsg);
-
-                            break;
-                        }
-
                         case MAVLINK_MSG_ID_HIL_STATE_QUATERNION:
                         {
                             mavlink_hil_state_quaternion_t         decodedMsg;
 
                             mavlink_msg_hil_state_quaternion_decode(&msg, &decodedMsg);
 
-                            break;
-                        }
-
-                        case MAVLINK_MSG_ID_VISION_POSITION_ESTIMATE:
-                        {
-                        	OS_printf("MAVLINK_MSG_ID_VISION_POSITION_ESTIMATE\n");
-
-                            mavlink_vision_position_estimate_t     decodedMsg;
-
-                            mavlink_msg_vision_position_estimate_decode(&msg, &decodedMsg);
-
-                            break;
-                        }
-
-                        case MAVLINK_MSG_ID_DISTANCE_SENSOR:
-                        {
-                        	OS_printf("MAVLINK_MSG_ID_DISTANCE_SENSOR\n");
-
-                            mavlink_distance_sensor_t     decodedMsg;
-
-                            mavlink_msg_distance_sensor_decode(&msg, &decodedMsg);
+                            /* Update the metrics in HK. */
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.Count++;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.checksum = msg.checksum;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.magic = msg.magic;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.len = msg.len;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.incompat_flags = msg.incompat_flags;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.compat_flags = msg.compat_flags;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.seq = msg.seq;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.sysid = msg.sysid;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.compid = msg.compid;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.time_usec = decodedMsg.time_usec;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.attitude_quaternion[0] = decodedMsg.attitude_quaternion[0];
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.attitude_quaternion[1] = decodedMsg.attitude_quaternion[1];
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.attitude_quaternion[2] = decodedMsg.attitude_quaternion[2];
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.attitude_quaternion[3] = decodedMsg.attitude_quaternion[3];
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.rollspeed = decodedMsg.rollspeed;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.pitchspeed = decodedMsg.pitchspeed;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.yawspeed = decodedMsg.yawspeed;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.lat = decodedMsg.lat;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.lon = decodedMsg.lon;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.alt = decodedMsg.alt;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.vx = decodedMsg.vx;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.vy = decodedMsg.vy;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.vz = decodedMsg.vz;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.ind_airspeed = decodedMsg.ind_airspeed;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.true_airspeed = decodedMsg.true_airspeed;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.xacc = decodedMsg.xacc;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.yacc = decodedMsg.yacc;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.HilStateQuaternion.zacc = decodedMsg.zacc;
 
                             break;
                         }
 
                         case MAVLINK_MSG_ID_HEARTBEAT:
                         {
+                        	mavlink_heartbeat_t decodedMsg;
+
+                        	mavlink_msg_heartbeat_decode(&msg, &decodedMsg);
+
+                            /* Update the metrics in HK. */
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.Count++;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.checksum = msg.checksum;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.magic = msg.magic;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.len = msg.len;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.incompat_flags = msg.incompat_flags;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.compat_flags = msg.compat_flags;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.seq = msg.seq;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.sysid = msg.sysid;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.compid = msg.compid;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.custom_mode = decodedMsg.custom_mode;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.type = decodedMsg.type;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.autopilot = decodedMsg.autopilot;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.base_mode = decodedMsg.base_mode;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.system_status = decodedMsg.system_status;
+                            SIMLINK_AppData.HkTlm.DataInMetrics.Heartbeat.mavlink_version = decodedMsg.mavlink_version;
+
                             SIMLINK_SendHeartbeat();
-
-                            break;
-                        }
-
-                        case MAVLINK_MSG_ID_SYSTEM_TIME:
-                        {
-                        	OS_printf("MAVLINK_MSG_ID_SYSTEM_TIME\n");
-
-                            break;
-                        }
-
-                        case MAVLINK_MSG_ID_SET_MODE:
-                        {
-                        	OS_printf("MAVLINK_MSG_ID_SET_MODE\n");
 
                             break;
                         }
 
                         default:
                         {
-                            OS_printf("Received packet: SYS: %d, COMP: %d, LEN: %d, MSG ID: %d\n", msg.sysid, msg.compid, msg.len, msg.msgid);
+                            (void) CFE_EVS_SendEvent(SIMLINK_MAVLINK_INFO_EID, CFE_EVS_ERROR,
+                                                     "Received unprocessed Mavlink message. SYS: %d, COMP: %d, LEN: %d, MSG ID: %d",
+                									 msg.sysid, msg.compid, msg.len, msg.msgid);
                             break;
                         }
                     }
+
+                    OS_MutSemGive(SIMLINK_AppData.Mutex);
                 }
             }
         }

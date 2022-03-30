@@ -7,7 +7,7 @@ extern "C" {
 #endif
 
 /*
-** ublox_m8n Platform Configuration Parameter Definitions
+** simlink Platform Configuration Parameter Definitions
 */
 
 /** \brief Mission specific version number for SIMLINK application
@@ -17,7 +17,7 @@ extern "C" {
 **       major version number, minor version number, revision
 **       number and mission specific revision number. The mission
 **       specific revision number is defined here and the other
-**       parts are defined in "ublox_m8n_version.h".
+**       parts are defined in "simlink_version.h".
 **
 **  \par Limits:
 **       Must be defined as a numeric value that is greater than
@@ -110,6 +110,8 @@ extern "C" {
 #define SIMLINK_STARTUP_TIMEOUT_MSEC    (1000)
 
 
+
+#define SIMLINK_MUTEX_NAME                 "SIMLINK_MUTEX"
 #define SIMLINK_LISTENER_TASK_STACK_SIZE   (20000)
 #define SIMLINK_LISTENER_TASK_PRIORITY        (48)
 #define SIMLINK_LISTENER_TASK_FLAGS            (0)

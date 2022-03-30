@@ -137,6 +137,7 @@ typedef struct
     SIMLINK_PWM_Msg_t   PwmMsg;
 
     uint32              PwmUpdateCount;
+    uint32              Mutex;
 
 } SIMLINK_AppData_t;
 

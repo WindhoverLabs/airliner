@@ -30,20 +30,20 @@ static CFE_TBL_FileDef_t CFE_TBL_FileDef OS_USED =
  *************************************************************************/
 
 #define TO_PQUEUE_CPD_SINGLE_PASS_IDX               0
-#define TO_PQUEUE_CPD_HIGH_OPS_RSRVD_IDX            1
-#define TO_PQUEUE_CPD_HIGH_IDX                      2
-#define TO_PQUEUE_CPD_EVENTS_IDX                    3
-#define TO_PQUEUE_CPD_CFDP_IDX                      4
-#define TO_PQUEUE_CPD_HK_IDX                        5
-#define TO_PQUEUE_CPD_SHELL_IDX                     6
-#define TO_PQUEUE_CPD_PX4LOW_IDX                    7
-#define TO_PQUEUE_PPD_SINGLE_PASS_IDX               8
-#define TO_PQUEUE_PPD_HIGH_OPS_RSRVD_IDX            9
-#define TO_PQUEUE_PPD_HIGH_IDX                     10
-#define TO_PQUEUE_PPD_EVENTS_IDX                   11
-#define TO_PQUEUE_PPD_CFDP_IDX                     12
+#define TO_PQUEUE_PPD_SINGLE_PASS_IDX               1
+#define TO_PQUEUE_CPD_HIGH_OPS_RSRVD_IDX            2
+#define TO_PQUEUE_PPD_HIGH_OPS_RSRVD_IDX            3
+#define TO_PQUEUE_CPD_HIGH_IDX                      4
+#define TO_PQUEUE_CPD_EVENTS_IDX                    5
+#define TO_PQUEUE_CPD_CFDP_IDX                      6
+#define TO_PQUEUE_CPD_SHELL_IDX                     7
+#define TO_PQUEUE_CPD_HK_IDX                        8
+#define TO_PQUEUE_PPD_HIGH_IDX                      9
+#define TO_PQUEUE_PPD_EVENTS_IDX                   10
+#define TO_PQUEUE_PPD_CFDP_IDX                     11
+#define TO_PQUEUE_PPD_SHELL_IDX                    12
 #define TO_PQUEUE_PPD_HK_IDX                       13
-#define TO_PQUEUE_PPD_SHELL_IDX                    14
+#define TO_PQUEUE_CPD_PX4LOW_IDX                   14
 #define TO_PQUEUE_PPD_PX4LOW_LOW_IDX               15
 
 /**
