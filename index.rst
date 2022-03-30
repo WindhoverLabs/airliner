@@ -20,6 +20,7 @@ Airliner Documentation
    docs/tutorials/SetupDevEnvironment.rst
    docs/tutorials/BuildFlightSoftware.rst
    docs/tutorials/SetupGroundSystem.rst
+   docs/tutorials/Pyliner.rst
 
 
 .. toctree::
