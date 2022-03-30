@@ -1088,10 +1088,10 @@ void SIMLINK_ProcessPwmOutputs(void)
 					//actuatorControlsMsg.controls[i] = SIMLINK_PWM_To_Mavlink_Map(SIMLINK_AppData.PwmMsg.Channel[i], 1000, 3770, 0.0f, 1.0f);
 					actuatorControlsMsg.controls[i] = SIMLINK_AppData.PwmMsg.Channel[i];
 
-					if(actuatorControlsMsg.controls[i] >= FLT_EPSILON)
-					{
+					//if(actuatorControlsMsg.controls[i] >= FLT_EPSILON)
+					//{
 						sendMsg = true;
-					}
+					//}
 				}
 			}
 
@@ -1099,7 +1099,8 @@ void SIMLINK_ProcessPwmOutputs(void)
 			{
 				actuatorControlsMsg.time_usec = 0;
 				actuatorControlsMsg.flags = 0;
-				actuatorControlsMsg.mode = 129;
+                /* See MAV_MODE_FLAG_SAFETY_ARMED for this value. */
+				actuatorControlsMsg.mode = 128;
 
 				mavlink_msg_hil_actuator_controls_encode(1, 1, &mavlinkMessage, &actuatorControlsMsg);
 				length = mavlink_msg_to_send_buffer(buffer, &mavlinkMessage);
@@ -1110,7 +1111,7 @@ void SIMLINK_ProcessPwmOutputs(void)
 
 			    	while(length > 0)
 			    	{
-			            bytesSent = send(SIMLINK_AppData.Socket, (char *)buffer[bytesSent], length, 0);
+			            bytesSent = send(SIMLINK_AppData.Socket, (char *)&buffer[bytesSent], length, 0);
 			            if(bytesSent < 0)
 			            {
 			                (void) CFE_EVS_SendEvent(SIMLINK_SOCKET_ERR_EID, CFE_EVS_ERROR,
