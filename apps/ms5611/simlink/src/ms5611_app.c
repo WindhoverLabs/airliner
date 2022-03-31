@@ -482,7 +482,7 @@ int32 MS5611_RcvMsg(int32 iBlocking)
     {
         MsgId = CFE_SB_GetMsgId(MsgPtr);
         switch (MsgId)
-	{
+	    {
             case MS5611_WAKEUP_MID:
                 MS5611_ProcessNewCmds();
                 MS5611_ProcessNewData();

@@ -279,14 +279,14 @@ buildliner_add_app(
 )
 
 # This is temporarily removed until we can get px4lib back in
-#buildliner_add_app(
-#    rcin
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/rcin/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/rcin
-#    CONFIG_SOURCES
-#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/rcin/src/rcin_custom.c
-#)
+buildliner_add_app(
+    rcin
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/rcin/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/rcin
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/rcin/sed/src/rcin_custom.c
+)
 
 # This is temporarily removed until we can get px4lib back in
 #buildliner_add_app(
