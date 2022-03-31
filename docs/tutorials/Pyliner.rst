@@ -12,7 +12,13 @@ Pyliner
    sudo apt update
    sudo apt-get install default-jre
    sudo apt-get install python3-pip
+   sudo -H pip3  install  virtualenv
    pip3 install yamcs-client
+   git clone https://github.com/yamcs/python-yamcs-client.git
+   cd python-yamcs-client/yamcs-client
+   sudo python3 setup.py install
+   sudo apt-get install python
+
    # On host(assumes Xilinx tools are installed)
    git clone https://github.com/WindhoverLabs/squeaky-weasel.git
    source /tools/Xilinx/Vitis/2020.2/settings64.sh
