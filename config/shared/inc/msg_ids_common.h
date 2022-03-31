@@ -170,7 +170,6 @@
 
 
 /* TO                                                                      */
-#define TO_DATA_TYPE_MID                          TLM_MSG(  104 )  /* 0x68 */
 #define TO_DIAG_MSG_FLOW_MID                      TLM_MSG(  105 )  /* 0x69 */
 #define TO_DIAG_TLM_MID                           TLM_MSG(  106 )  /* 0x6a */
 #define TO_HK_TLM_MID                             TLM_MSG(  107 )  /* 0x6b */

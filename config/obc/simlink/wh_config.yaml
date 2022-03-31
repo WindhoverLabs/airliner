@@ -171,8 +171,6 @@ modules:
       to:
         definition: ${PROJECT_SOURCE_DIR}/apps/to/wh_design.yaml
         telemetry:
-          TO_DATA_TYPE_MID: 
-            msgID: 0x0e68              # TLM_MSG(  104 )
           TO_DIAG_MSG_FLOW_MID: 
             msgID: 0x0e69              # TLM_MSG(  105 )
           TO_DIAG_TLM_MID:

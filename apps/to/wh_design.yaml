@@ -130,8 +130,6 @@
     #  member: DestinationAddress
     #  type: string
   telemetry: 
-    TO_DATA_TYPE_MID: 
-      msgID: 
     TO_DIAG_MSG_FLOW_MID: 
       msgID: 
       struct: TO_MsgFlowListPkt_t

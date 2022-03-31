@@ -102,7 +102,6 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {SCH_DIAG_TLM_MID,                     1, TO_PQUEUE_CPD_HIGH_IDX      },
         {SCH_HK_TLM_MID,                       1, TO_PQUEUE_CPD_HK_IDX        },
         {SENS_HK_TLM_MID,                      1, TO_PQUEUE_CPD_HK_IDX        },
-        {TO_DATA_TYPE_MID,                     1, TO_PQUEUE_CPD_HK_IDX        },
         {TO_DIAG_MSG_FLOW_MID,                 1, TO_PQUEUE_CPD_HIGH_IDX      },
         {TO_DIAG_TLM_MID,                      1, TO_PQUEUE_CPD_HIGH_IDX      },
         {TO_HK_TLM_MID,                        1, TO_PQUEUE_CPD_HK_IDX        },

@@ -111,6 +111,8 @@ modules:
           CF_WAKE_UP_REQ_CMD_MID:
             msgID: 0x1a26              # CMD_MSG(   38 )
         perfids: 
+          CF_APPMAIN_PERF_ID:
+            id: 33
           CF_CYCLE_ENG_PERF_ID: 
             id: 36
           CF_FCLOSE_PERF_ID: 
@@ -145,8 +147,6 @@ modules:
           CI_WAKEUP_MID:
             msgID: 0x1a2c              # CMD_MSG(   44 )
         perfids:
-          CF_APPMAIN_PERF_ID:
-            id: 33
           CI_MAIN_TASK_PERF_ID:
             id: 34
           CI_SOCKET_RCV_PERF_ID:
@@ -443,8 +443,6 @@ modules:
       to:
         definition: ${PROJECT_SOURCE_DIR}/apps/to/wh_design.yaml
         telemetry:
-          TO_DATA_TYPE_MID: 
-            msgID: 0x0a68              # TLM_MSG(  104 )
           TO_DIAG_MSG_FLOW_MID: 
             msgID: 0x0a69              # TLM_MSG(  105 )
           TO_DIAG_TLM_MID:

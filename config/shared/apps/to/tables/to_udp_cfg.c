@@ -60,7 +60,6 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {MS5611_HK_TLM_MID,            1, TO_PQUEUE_HIGH_IDX},
         {MS5611_DIAG_TLM_MID,          1, TO_PQUEUE_HIGH_IDX},
         {TO_HK_TLM_MID,                1, TO_PQUEUE_HIGH_IDX},
-        {TO_DATA_TYPE_MID,             1, TO_PQUEUE_HIGH_IDX},
         {EA_HK_TLM_MID,                1, TO_PQUEUE_HIGH_IDX},
         {VC_HK_TLM_MID,                1, TO_PQUEUE_HIGH_IDX},
         {TO_DIAG_TLM_MID,              1, TO_PQUEUE_HIGH_IDX},
