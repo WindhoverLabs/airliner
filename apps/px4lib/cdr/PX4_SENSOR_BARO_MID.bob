@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Baro</name>
+  <macros>
+    <APP>px4lib</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <CPUID>{{ cpu_id }}</CPUID>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>1500</width>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>Pressure</text>
+    <x>41</x>
+    <y>40</y>
+    <width>80</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update</name>
+    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Pressure</pv_name>
+    <x>127</x>
+    <y>41</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>2</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_1</name>
+    <text>Temperature</text>
+    <x>24</x>
+    <y>59</y>
+    <width>97</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_1</name>
+    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Temperature</pv_name>
+    <x>127</x>
+    <y>60</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>1</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_2</name>
+    <text>Altitude</text>
+    <x>24</x>
+    <y>78</y>
+    <width>97</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_2</name>
+    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Altitude</pv_name>
+    <x>127</x>
+    <y>79</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>3</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_3</name>
+    <text>Errors</text>
+    <x>24</x>
+    <y>97</y>
+    <width>97</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_3</name>
+    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.ErrorCount</pv_name>
+    <x>127</x>
+    <y>98</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>3</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color name="Border" red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="stripchart" version="2.0.0">
+    <name>XY Graph</name>
+    <x>24</x>
+    <y>128</y>
+    <width>427</width>
+    <height>247</height>
+    <background_color>
+      <color name="Display Background" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <title>Pressure</title>
+    <title_font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </title_font>
+    <show_toolbar>false</show_toolbar>
+    <show_legend>true</show_legend>
+    <actions>
+    </actions>
+    <y_axes>
+      <y_axis>
+        <title>Primary Y Axis (1)</title>
+        <autoscale>true</autoscale>
+        <log_scale>false</log_scale>
+        <minimum>0.0</minimum>
+        <maximum>100.0</maximum>
+        <show_grid>true</show_grid>
+        <visible>true</visible>
+      </y_axis>
+    </y_axes>
+    <traces>
+      <trace>
+        <name>Pressure</name>
+        <y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Pressure</y_pv>
+        <axis>0</axis>
+        <trace_type>1</trace_type>
+        <color>
+          <color red="21" green="21" blue="196">
+          </color>
+        </color>
+        <line_width>2</line_width>
+        <point_type>0</point_type>
+        <point_size>4</point_size>
+        <visible>true</visible>
+      </trace>
+    </traces>
+  </widget>
+  <widget type="stripchart" version="2.0.0">
+    <name>XY Graph_1</name>
+    <x>24</x>
+    <y>386</y>
+    <width>427</width>
+    <height>247</height>
+    <background_color>
+      <color name="Display Background" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <title>Altitude</title>
+    <title_font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </title_font>
+    <show_toolbar>false</show_toolbar>
+    <show_legend>true</show_legend>
+    <actions>
+    </actions>
+    <y_axes>
+      <y_axis>
+        <title>Primary Y Axis (1)</title>
+        <autoscale>true</autoscale>
+        <log_scale>false</log_scale>
+        <minimum>0.0</minimum>
+        <maximum>100.0</maximum>
+        <show_grid>true</show_grid>
+        <visible>true</visible>
+      </y_axis>
+    </y_axes>
+    <traces>
+      <trace>
+        <name>Altitude</name>
+        <y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Altitude</y_pv>
+        <axis>0</axis>
+        <trace_type>1</trace_type>
+        <color>
+          <color red="21" green="21" blue="196">
+          </color>
+        </color>
+        <line_width>2</line_width>
+        <point_type>0</point_type>
+        <point_size>4</point_size>
+        <visible>true</visible>
+      </trace>
+    </traces>
+  </widget>
+  <widget type="thermometer" version="2.0.0">
+    <name>Thermometer</name>
+    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Temperature</pv_name>
+    <x>1350</x>
+    <y>246</y>
+    <width>100</width>
+    <height>200</height>
+    <fill_color>
+      <color red="255" green="0" blue="0">
+      </color>
+    </fill_color>
+    <actions>
+    </actions>
+    <minimum>30.0</minimum>
+    <maximum>35.0</maximum>
+  </widget>
+  <widget type="stripchart" version="2.0.0">
+    <name>XY Graph_2</name>
+    <x>468</x>
+    <y>128</y>
+    <width>427</width>
+    <height>247</height>
+    <background_color>
+      <color name="Display Background" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <title>Temperature</title>
+    <title_font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </title_font>
+    <show_toolbar>false</show_toolbar>
+    <show_legend>true</show_legend>
+    <actions>
+    </actions>
+    <y_axes>
+      <y_axis>
+        <title>Primary Y Axis (1)</title>
+        <autoscale>true</autoscale>
+        <log_scale>false</log_scale>
+        <minimum>0.0</minimum>
+        <maximum>100.0</maximum>
+        <show_grid>true</show_grid>
+        <visible>true</visible>
+      </y_axis>
+    </y_axes>
+    <traces>
+      <trace>
+        <name>Temperature</name>
+        <y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Temperature</y_pv>
+        <axis>0</axis>
+        <trace_type>1</trace_type>
+        <color>
+          <color red="21" green="21" blue="196">
+          </color>
+        </color>
+        <line_width>2</line_width>
+        <point_type>0</point_type>
+        <point_size>4</point_size>
+        <visible>true</visible>
+      </trace>
+    </traces>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_49</name>
+    <text>($(CPUID)) PX4_SENSOR_BARO_MID</text>
+    <x>12</x>
+    <y>12</y>
+    <width>264</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+</display>

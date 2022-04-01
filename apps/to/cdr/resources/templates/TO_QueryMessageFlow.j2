@@ -144,17 +144,27 @@ var msgIDOut = '';
 var channelIdxOut = '';
 
 /* Get actual message ID */
-if(MsgID == 'VM_CONFIG_TLM_MID') {
-    msgIDOut =2732;
+
+{%- for msg in tlm     %}
+{%-   if loop.first -%}
+if(MsgID == '{{- msg.name-}}') {
+    msgIDOut = {{-msg.msgID-}};
 }
-else if(MsgID == 'VM_HK_TLM_MID') {
-    msgIDOut =2733;
+{%-   else %}
+else if(MsgID == '{{- msg.name-}}') {
+    msgIDOut = {{-msg.msgID-}};
 }
+{%-   endif -%}
+{%- endfor  %}
 
 /* Get actual channel Index */
-if(ChannelIdx == "ground") {
-  channelIdxOut = '0';
+{%- for channel in TO_Channels %}
+  {%- if channel.cpu_id == cpu %}
+if(ChannelIdx == "{{ channel.name }}") {
+  channelIdxOut = '{{ channel.index }}';
 }
+  {%- endif %}
+{%- endfor %}
 
 Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/to/QueryMessageFlow', {
     'MsgID': msgIDOut,
