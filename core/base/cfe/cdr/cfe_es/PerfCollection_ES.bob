@@ -155,7 +155,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_20</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfState</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfState</pv_name>
     <x>133</x>
     <y>43</y>
     <width>208</width>
@@ -177,7 +177,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_21</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfMode</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfMode</pv_name>
     <x>133</x>
     <y>62</y>
     <width>208</width>
@@ -199,7 +199,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_22</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfTriggerCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfTriggerCount</pv_name>
     <x>133</x>
     <y>81</y>
     <width>208</width>
@@ -221,7 +221,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_25</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataStart</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfDataStart</pv_name>
     <x>474</x>
     <y>43</y>
     <width>98</width>
@@ -243,7 +243,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_26</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataEnd</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfDataEnd</pv_name>
     <x>474</x>
     <y>62</y>
     <width>98</width>
@@ -265,7 +265,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_27</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfDataCount</pv_name>
     <x>474</x>
     <y>81</y>
     <width>98</width>
@@ -287,7 +287,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_28</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataToWrite</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfDataToWrite</pv_name>
     <x>474</x>
     <y>100</y>
     <width>98</width>

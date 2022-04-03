@@ -33,7 +33,7 @@ if( Channel == 'Channel 1' ) {
     pChannel = 2;
 } 
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/DisableDequeue', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/DisableDequeue', {
     'Chan': pChannel,
     'Spare_0_': 0,
     'Spare_1_': 0,

@@ -26,7 +26,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 var Parameter = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Parameter')));
 var Value = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Value')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SetMIBParameter', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/SetMIBParameter', {
     'Param': Parameter,
     'Value': Value});
 ]]></text>

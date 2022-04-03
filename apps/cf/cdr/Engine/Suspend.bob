@@ -59,7 +59,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Transaction = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Transaction')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/Suspend', {'Trans': Transaction});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/Suspend', {'Trans': Transaction});
 
 ]]></text>
         </script>

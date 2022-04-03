@@ -48,7 +48,7 @@ var Source1 = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByNa
 var Source2 = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Source2')));
 var Target = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Target')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/fm/Concat',
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fm/Concat',
                                    {"Source1": Source1,
 				     "Source2": Source2,
 				      "Target": Target});

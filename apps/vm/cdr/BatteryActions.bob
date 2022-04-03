@@ -37,7 +37,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_2</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.LowBatteryVoltageActionsDone</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.LowBatteryVoltageActionsDone</pv_name>
     <x>136</x>
     <y>42</y>
     <on_color>
@@ -63,7 +63,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_3</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.CriticalBatteryVoltageActionsDone</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.CriticalBatteryVoltageActionsDone</pv_name>
     <x>136</x>
     <y>62</y>
     <on_color>
@@ -89,7 +89,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_4</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.EmergencyBatteryVoltageActionsDone</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.EmergencyBatteryVoltageActionsDone</pv_name>
     <x>136</x>
     <y>82</y>
     <on_color>

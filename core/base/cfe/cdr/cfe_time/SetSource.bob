@@ -32,7 +32,7 @@ if(clockSource == 'Internal' ) {
     args = {'Payload.TimeSource': 'EXTERN'};
 }
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SetSource', args);
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/SetSource', args);
 
 ]]></text>
         </script>

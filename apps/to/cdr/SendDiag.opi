@@ -86,7 +86,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var ChannelIdx = 0;
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/SendDiag', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/to/SendDiag', {
     'ChannelIdx': ChannelIdx});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
@@ -164,7 +164,7 @@ $(pv_value)</tooltip>
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.ChannelIndex</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.ChannelIndex</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -256,7 +256,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.TableID</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.TableID</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -348,7 +348,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.MemPoolHandle</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.MemPoolHandle</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -440,7 +440,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.MemFullCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.MemFullCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -532,7 +532,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.ChannelName</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.ChannelName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -624,7 +624,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.State</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.State</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -716,7 +716,7 @@ $(pv_value)</tooltip>
     <name>Text Update_7</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.ConfigTableName</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.ConfigTableName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -808,7 +808,7 @@ $(pv_value)</tooltip>
     <name>Text Update_8</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.DumpTableName</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.DumpTableName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -900,7 +900,7 @@ $(pv_value)</tooltip>
     <name>Text Update_9</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.ConfigTableFileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.ConfigTableFileName</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1192,7 +1192,7 @@ $(pv_value)</tooltip>
     <name>Text Update_10</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.PQueue[0].DroppedMsgCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.PQueue[0].DroppedMsgCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1244,7 +1244,7 @@ $(pv_value)</tooltip>
     <name>Text Update_11</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.PQueue[0].QueuedMsgCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.PQueue[0].QueuedMsgCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1296,7 +1296,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.PQueue[0].CurrentlyQueuedCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.PQueue[0].CurrentlyQueuedCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1348,7 +1348,7 @@ $(pv_value)</tooltip>
     <name>Text Update_15</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.PQueue[0].State</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.PQueue[0].State</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1400,7 +1400,7 @@ $(pv_value)</tooltip>
     <name>Text Update_16</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.PQueue[0].QType</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.PQueue[0].QType</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1652,7 +1652,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.OQueue.SentCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.OQueue.SentCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1704,7 +1704,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.OQueue.CurrentlyQueuedCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.OQueue.CurrentlyQueuedCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1756,7 +1756,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.OQueue.HighwaterMark</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.OQueue.HighwaterMark</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1808,7 +1808,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/to/TO_ChannelDiagTlm_t.OQueue.SentBytes</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_DIAG_TLM_MID.OQueue.SentBytes</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

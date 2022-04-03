@@ -27,7 +27,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var strFormat = ScriptUtil.getWidgetValueByName(widget, 'inFormat').getValue();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetEventFormatMode', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/SetEventFormatMode', {
     'Payload.Mode': strFormat,
     'Payload.Spare': '0'});
 ]]></text>

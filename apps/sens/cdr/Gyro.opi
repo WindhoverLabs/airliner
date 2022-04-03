@@ -105,7 +105,7 @@
     <name>Text Update_31</name>
     <precision>6</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/sens/SENS_HkTlm_t.SensorCombinedMsg.GyroIntegralDt</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.GyroIntegralDt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -208,7 +208,7 @@ $(pv_value)</tooltip>
     </scale_options>
     <scripts>
       <path pathString="/Displays/Apps/SENS/Scripts/time_stamp_update.py" checkConnect="true" seoe="false">
-        <pv trig="true">/cfs/$(CPUID)/sens/SENS_HkTlm_t.SensorCombinedMsg.GyroRad_0_</pv>
+        <pv trig="true">/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.GyroRad_0_</pv>
       </path>
     </scripts>
     <show_units>true</show_units>
@@ -372,7 +372,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_0_x_pv></trace_0_x_pv>
     <trace_0_x_pv_value />
     <trace_0_y_axis_index>1</trace_0_y_axis_index>
-    <trace_0_y_pv>/cfs/$(CPUID)/sens/SENS_HkTlm_t.SensorCombinedMsg.GyroRad_0_</trace_0_y_pv>
+    <trace_0_y_pv>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.GyroRad_0_</trace_0_y_pv>
     <trace_0_y_pv_value />
     <trace_1_anti_alias>true</trace_1_anti_alias>
     <trace_1_buffer_size>100</trace_1_buffer_size>
@@ -393,7 +393,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_1_x_pv></trace_1_x_pv>
     <trace_1_x_pv_value />
     <trace_1_y_axis_index>1</trace_1_y_axis_index>
-    <trace_1_y_pv>/cfs/$(CPUID)/sens/SENS_HkTlm_t.SensorCombinedMsg.GyroRad_1_</trace_1_y_pv>
+    <trace_1_y_pv>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.GyroRad_1_</trace_1_y_pv>
     <trace_1_y_pv_value />
     <trace_2_anti_alias>true</trace_2_anti_alias>
     <trace_2_buffer_size>100</trace_2_buffer_size>
@@ -414,7 +414,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_2_x_pv></trace_2_x_pv>
     <trace_2_x_pv_value />
     <trace_2_y_axis_index>1</trace_2_y_axis_index>
-    <trace_2_y_pv>/cfs/$(CPUID)/sens/SENS_HkTlm_t.SensorCombinedMsg.GyroRad_2_</trace_2_y_pv>
+    <trace_2_y_pv>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.GyroRad_2_</trace_2_y_pv>
     <trace_2_y_pv_value />
     <trace_count>3</trace_count>
     <transparent>false</transparent>

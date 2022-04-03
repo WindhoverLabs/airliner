@@ -26,7 +26,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var strMode = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inMode')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/SetSysLogMode', {'Payload.Mode': strMode});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/SetSysLogMode', {'Payload.Mode': strMode});]]></text>
         </script>
       </action>
     </actions>

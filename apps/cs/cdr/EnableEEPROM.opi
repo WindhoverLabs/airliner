@@ -44,7 +44,7 @@
         <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.opibuilder.scriptUtil);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableEEPROM', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/EnableEEPROM', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

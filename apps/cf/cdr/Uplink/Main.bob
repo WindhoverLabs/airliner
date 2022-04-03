@@ -23,7 +23,7 @@
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'UP', 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/ResetCounters', {'Value': 'UP', 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
 ]]></text>
         </script>
       </action>
@@ -66,7 +66,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'UP', 'Sp
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_42</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Up.MetaCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Up.MetaCount</pv_name>
     <x>151</x>
     <y>43</y>
     <width>149</width>
@@ -89,7 +89,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'UP', 'Sp
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_43</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Up.UplinkActiveQFileCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Up.UplinkActiveQFileCnt</pv_name>
     <x>151</x>
     <y>62</y>
     <width>149</width>
@@ -112,7 +112,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'UP', 'Sp
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_44</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Up.SuccessCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Up.SuccessCounter</pv_name>
     <x>151</x>
     <y>81</y>
     <width>149</width>
@@ -135,7 +135,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'UP', 'Sp
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_45</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Up.FailedCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Up.FailedCounter</pv_name>
     <x>151</x>
     <y>100</y>
     <width>149</width>
@@ -158,7 +158,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'UP', 'Sp
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_46</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Up.LastFileUplinked</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Up.LastFileUplinked</pv_name>
     <x>151</x>
     <y>119</y>
     <width>149</width>

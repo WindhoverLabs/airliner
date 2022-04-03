@@ -143,7 +143,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var msgID = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AddMidMessageIDInput')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/AddMessage', 
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/ds/AddMessage', 
 				  {'MessageID': msgID,
 				    'Padding': 0});]]></scriptText>
         <embedded>true</embedded>

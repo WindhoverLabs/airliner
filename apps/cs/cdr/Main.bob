@@ -21,7 +21,7 @@
   <grid_step_y>6</grid_step_y>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CmdCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.CmdCounter</pv_name>
     <x>103</x>
     <y>55</y>
     <width>98</width>
@@ -95,7 +95,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CmdErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.CmdErrCounter</pv_name>
     <x>103</x>
     <y>74</y>
     <width>98</width>
@@ -123,7 +123,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Noop', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/Noop', {});]]></text>
         </script>
       </action>
     </actions>
@@ -150,7 +150,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Noop', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/Reset', {});]]></text>
         </script>
       </action>
     </actions>
@@ -192,7 +192,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.ChecksumState</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.ChecksumState</pv_name>
     <x>465</x>
     <y>382</y>
     <width>98</width>
@@ -215,7 +215,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.EepromCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.EepromCSState</pv_name>
     <x>234</x>
     <y>136</y>
     <width>98</width>
@@ -238,7 +238,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_4</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.MemoryCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.MemoryCSState</pv_name>
     <x>234</x>
     <y>155</y>
     <width>98</width>
@@ -261,7 +261,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_5</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.AppCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.AppCSState</pv_name>
     <x>234</x>
     <y>174</y>
     <width>98</width>
@@ -284,7 +284,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_6</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.TablesCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.TablesCSState</pv_name>
     <x>234</x>
     <y>193</y>
     <width>98</width>
@@ -307,7 +307,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_7</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.OSCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.OSCSState</pv_name>
     <x>234</x>
     <y>212</y>
     <width>98</width>
@@ -330,7 +330,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_8</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CfeCoreCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.CfeCoreCSState</pv_name>
     <x>234</x>
     <y>231</y>
     <width>98</width>
@@ -353,7 +353,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Text Update_9</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.</pv_name>
     <label></label>
     <x>464</x>
     <y>336</y>
@@ -362,7 +362,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Text Update_10</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.OneShotInProgress</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.OneShotInProgress</pv_name>
     <label></label>
     <x>115</x>
     <y>374</y>
@@ -371,7 +371,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_11</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.EepromCSErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.EepromCSErrCounter</pv_name>
     <x>342</x>
     <y>136</y>
     <width>98</width>
@@ -394,7 +394,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_12</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.MemoryCSErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.MemoryCSErrCounter</pv_name>
     <x>342</x>
     <y>155</y>
     <width>98</width>
@@ -417,7 +417,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_13</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.AppCSErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.AppCSErrCounter</pv_name>
     <x>342</x>
     <y>174</y>
     <width>98</width>
@@ -440,7 +440,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_14</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.TablesCSErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.TablesCSErrCounter</pv_name>
     <x>342</x>
     <y>193</y>
     <width>98</width>
@@ -463,7 +463,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_15</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CfeCoreCSErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.CfeCoreCSErrCounter</pv_name>
     <x>342</x>
     <y>231</y>
     <width>98</width>
@@ -486,7 +486,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_16</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.OSCSErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.OSCSErrCounter</pv_name>
     <x>342</x>
     <y>212</y>
     <width>98</width>
@@ -509,7 +509,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_17</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CurrentCSTable</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.CurrentCSTable</pv_name>
     <x>465</x>
     <y>299</y>
     <width>98</width>
@@ -532,7 +532,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_18</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CurrentEntryInTable</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.CurrentEntryInTable</pv_name>
     <x>465</x>
     <y>318</y>
     <width>98</width>
@@ -555,7 +555,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_19</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.EepromBaseline</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.EepromBaseline</pv_name>
     <x>450</x>
     <y>136</y>
     <width>98</width>
@@ -578,7 +578,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_20</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.OSBaseline</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.OSBaseline</pv_name>
     <x>450</x>
     <y>212</y>
     <width>98</width>
@@ -601,7 +601,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_21</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.CfeCoreBaseline</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.CfeCoreBaseline</pv_name>
     <x>450</x>
     <y>231</y>
     <width>98</width>
@@ -624,7 +624,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_22</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.LastOneShotAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.LastOneShotAddress</pv_name>
     <x>116</x>
     <y>299</y>
     <width>98</width>
@@ -647,7 +647,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_23</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.LastOneShotSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.LastOneShotSize</pv_name>
     <x>116</x>
     <y>318</y>
     <width>98</width>
@@ -670,7 +670,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_24</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.LastOneShotChecksum</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.LastOneShotChecksum</pv_name>
     <x>116</x>
     <y>337</y>
     <width>98</width>
@@ -693,7 +693,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_25</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.AppCSState</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.AppCSState</pv_name>
     <x>116</x>
     <y>356</y>
     <width>98</width>
@@ -1056,7 +1056,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_26</name>
-    <pv_name>/cfs/$(CPUID)/cs/CS_HkPacket_t.PassCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cs/CS_HK_TLM_MID.PassCounter</pv_name>
     <x>465</x>
     <y>356</y>
     <width>98</width>
@@ -1098,7 +1098,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/Reset', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableAllCS', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/EnableAllCS', {});]]></text>
         </script>
       </action>
     </actions>
@@ -1125,7 +1125,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableAllCS', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableAllCS', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/DisableAllCS', {});]]></text>
         </script>
       </action>
     </actions>
@@ -1312,7 +1312,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableAllCS', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/ReportBaselineOS', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/ReportBaselineOS', {});]]></text>
         </script>
       </action>
     </actions>
@@ -1339,7 +1339,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/ReportBaselineOS', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/RecomputeBaselineOS', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/RecomputeBaselineOS', {});]]></text>
         </script>
       </action>
     </actions>
@@ -1366,7 +1366,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/RecomputeBaselineOS', {});]]></text
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/ReportBaselineCfeCore', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/ReportBaselineCfeCore', {});]]></text>
         </script>
       </action>
     </actions>
@@ -1393,7 +1393,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/ReportBaselineCfeCore', {});]]></te
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/RecomputeBaselineCfeCore', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/RecomputeBaselineCfeCore', {});]]></text>
         </script>
       </action>
     </actions>
@@ -1620,7 +1620,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/RecomputeBaselineCfeCore', {});]]><
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableOS', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/EnableOS', {});]]></text>
         </script>
       </action>
     </actions>
@@ -1647,7 +1647,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableOS', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableOS', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/DisableOS', {});]]></text>
         </script>
       </action>
     </actions>
@@ -1674,7 +1674,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableOS', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableCfeCore', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/EnableCfeCore', {});]]></text>
         </script>
       </action>
     </actions>
@@ -1701,7 +1701,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableCfeCore', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableCfeCore', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/DisableCfeCore', {});]]></text>
         </script>
       </action>
     </actions>
@@ -1748,7 +1748,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableCfeCore', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/CancelOneShot', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/CancelOneShot', {});]]></text>
         </script>
       </action>
     </actions>
@@ -1802,7 +1802,7 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/SendHK', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/SendHK', {});]]></text>
         </script>
       </action>
     </actions>
@@ -1829,7 +1829,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/SendHK', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/BackgroundCycle', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/BackgroundCycle', {});]]></text>
         </script>
       </action>
     </actions>

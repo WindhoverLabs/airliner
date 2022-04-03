@@ -86,7 +86,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var WPNumber = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'WPNumber')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/ResetWPStats', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/ResetWPStats', {
     'WPNumber': WPNumber,
     'Padding': 0 });]]></scriptText>
         <embedded>true</embedded>

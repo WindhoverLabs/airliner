@@ -43,7 +43,7 @@
         <path></path>
         <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableApps', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/DisableApps', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -101,7 +101,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Name = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'DisableApplicationName')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableNameApp', {'Name': Name});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/DisableNameApp', {'Name': Name});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

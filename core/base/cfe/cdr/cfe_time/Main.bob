@@ -47,7 +47,7 @@
     </font>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_12</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.CmdCounter</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.CmdCounter</pv_name>
       <x>102</x>
       <y>7</y>
       <width>98</width>
@@ -101,7 +101,7 @@
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_13</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ErrCounter</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ErrCounter</pv_name>
       <x>102</x>
       <y>26</y>
       <width>98</width>
@@ -128,7 +128,7 @@
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/Noop', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/Noop', {});]]></text>
           </script>
         </action>
       </actions>
@@ -155,7 +155,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/Noop', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/Reset', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/Reset', {});]]></text>
           </script>
         </action>
       </actions>
@@ -190,7 +190,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/Reset', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/ToneSignal',{});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/ToneSignal',{});]]></text>
           </script>
         </action>
       </actions>
@@ -217,7 +217,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/ToneSignal',{});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/FakeTone',{});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/FakeTone',{});]]></text>
           </script>
         </action>
       </actions>
@@ -244,7 +244,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/FakeTone',{});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/1HZCmd',{});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/1HZCmd',{});]]></text>
           </script>
         </action>
       </actions>
@@ -271,7 +271,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/1HZCmd',{});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendCmd',{});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/SendCmd',{});]]></text>
           </script>
         </action>
       </actions>
@@ -317,7 +317,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendCmd',{});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/SendHK', {});]]></text>
           </script>
         </action>
       </actions>
@@ -430,7 +430,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_3</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.LeapSeconds</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.LeapSeconds</pv_name>
       <x>134</x>
       <y>25</y>
       <width>98</width>
@@ -452,7 +452,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_4</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.SecondsMET</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.SecondsMET</pv_name>
       <x>134</x>
       <y>44</y>
       <width>98</width>
@@ -474,7 +474,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_5</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.SubsecsMET</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.SubsecsMET</pv_name>
       <x>134</x>
       <y>63</y>
       <width>98</width>
@@ -496,7 +496,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_6</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.SecondsSTCF</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.SecondsSTCF</pv_name>
       <x>134</x>
       <y>82</y>
       <width>98</width>
@@ -518,7 +518,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_7</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.SubsecsSTCF</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.SubsecsSTCF</pv_name>
       <x>134</x>
       <y>101</y>
       <width>98</width>
@@ -540,7 +540,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_8</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.Seconds1HzAdj</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.Seconds1HzAdj</pv_name>
       <x>134</x>
       <y>120</y>
       <width>98</width>
@@ -562,7 +562,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_9</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.Subsecs1HzAdj</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.Subsecs1HzAdj</pv_name>
       <x>134</x>
       <y>139</y>
       <width>98</width>
@@ -584,7 +584,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_10</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateAPI</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateAPI</pv_name>
       <x>134</x>
       <y>6</y>
       <width>98</width>
@@ -777,7 +777,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>15</bit>
       <label></label>
       <x>193</x>
@@ -788,7 +788,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_1</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>14</bit>
       <label></label>
       <x>193</x>
@@ -799,7 +799,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_2</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>13</bit>
       <label></label>
       <x>193</x>
@@ -810,7 +810,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_3</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>12</bit>
       <label></label>
       <x>193</x>
@@ -821,7 +821,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_4</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>11</bit>
       <label></label>
       <x>193</x>
@@ -832,7 +832,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_5</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>10</bit>
       <label></label>
       <x>193</x>
@@ -843,7 +843,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_6</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>9</bit>
       <label></label>
       <x>193</x>
@@ -854,7 +854,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_7</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>8</bit>
       <label></label>
       <x>193</x>
@@ -865,7 +865,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_8</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>8</bit>
       <label></label>
       <x>193</x>
@@ -876,7 +876,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_9</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>6</bit>
       <label></label>
       <x>193</x>
@@ -887,7 +887,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_10</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>5</bit>
       <label></label>
       <x>193</x>
@@ -914,7 +914,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendHK', {});]]></text>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_11</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>7</bit>
       <label></label>
       <x>193</x>

@@ -126,7 +126,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var GroupID = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'GroupID')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/EnableGroup', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sch/EnableGroup', {
     'GroupData': GroupID});]]></scriptText>
         <embedded>true</embedded>
         <description></description>

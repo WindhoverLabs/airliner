@@ -27,7 +27,7 @@ var Microseconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetB
 
 var cmd = '/cfs/$(CPUID)/cfe_time/SetLeapSeconds';
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SetLeapSeconds', 
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/SetLeapSeconds', 
     {
         'Payload.Seconds':   Seconds,
         'Payload.MicroSeconds': Microseconds

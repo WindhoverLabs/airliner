@@ -115,7 +115,7 @@
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.XyEstValid</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.XyEstValid</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -213,7 +213,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.ZEstValid</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.ZEstValid</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -311,7 +311,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.TzEstValid</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.TzEstValid</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -409,7 +409,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.EstimatorLocalInitialized</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.EstimatorLocalInitialized</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -547,7 +547,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.EstimatorGlobalInitialized</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.EstimatorGlobalInitialized</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -645,7 +645,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.AltOriginInitialized</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.AltOriginInitialized</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -743,7 +743,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.LastArmedState</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.LastArmedState</pv_name>
     <pv_value />
     <rules />
     <scale_options>

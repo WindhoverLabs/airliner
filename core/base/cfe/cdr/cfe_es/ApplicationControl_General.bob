@@ -33,7 +33,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_15</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.StartAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.StartAddress</pv_name>
     <x>145</x>
     <y>295</y>
     <width>167</width>
@@ -72,7 +72,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>inExceptionAction</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.ExceptionAction</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.ExceptionAction</pv_name>
     <x>145</x>
     <y>313</y>
     <width>167</width>
@@ -110,7 +110,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>inPriority</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.Priority</pv_name>
     <x>145</x>
     <y>331</y>
     <width>167</width>
@@ -149,7 +149,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_18</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.MainTaskId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.MainTaskId</pv_name>
     <x>145</x>
     <y>349</y>
     <width>167</width>
@@ -187,7 +187,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_19</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.ExecutionCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.ExecutionCounter</pv_name>
     <x>145</x>
     <y>367</y>
     <width>167</width>
@@ -225,7 +225,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_20</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.MainTaskName</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.MainTaskName</pv_name>
     <x>145</x>
     <y>385</y>
     <width>167</width>
@@ -262,7 +262,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_21</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.NumOfChildTasks</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.NumOfChildTasks</pv_name>
     <x>145</x>
     <y>403</y>
     <width>167</width>
@@ -301,7 +301,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.AppId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.AppId</pv_name>
     <x>145</x>
     <y>61</y>
     <width>167</width>
@@ -339,7 +339,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.Type</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.Type</pv_name>
     <x>145</x>
     <y>79</y>
     <width>167</width>
@@ -377,7 +377,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>inAppName</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.Name</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.Name</pv_name>
     <x>145</x>
     <y>43</y>
     <width>167</width>
@@ -415,7 +415,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>inEntryPoint</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.EntryPoint</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.EntryPoint</pv_name>
     <x>145</x>
     <y>97</y>
     <width>167</width>
@@ -453,7 +453,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>inFileName</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.FileName</pv_name>
     <x>145</x>
     <y>115</y>
     <width>167</width>
@@ -492,7 +492,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>inStackSize</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.StackSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.StackSize</pv_name>
     <x>145</x>
     <y>133</y>
     <width>167</width>
@@ -531,7 +531,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_7</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.ModuleId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.ModuleId</pv_name>
     <x>145</x>
     <y>151</y>
     <width>167</width>
@@ -570,7 +570,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_8</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.AddressesAreValid</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.AddressesAreValid</pv_name>
     <x>145</x>
     <y>169</y>
     <width>167</width>
@@ -609,7 +609,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_9</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.CodeAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.CodeAddress</pv_name>
     <x>145</x>
     <y>187</y>
     <width>167</width>
@@ -648,7 +648,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_10</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.CodeSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.CodeSize</pv_name>
     <x>145</x>
     <y>205</y>
     <width>167</width>
@@ -687,7 +687,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_11</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.DataAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.DataAddress</pv_name>
     <x>145</x>
     <y>223</y>
     <width>167</width>
@@ -726,7 +726,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_12</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.DataSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.DataSize</pv_name>
     <x>145</x>
     <y>241</y>
     <width>167</width>
@@ -765,7 +765,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_13</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.BSSAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.BSSAddress</pv_name>
     <x>145</x>
     <y>259</y>
     <width>167</width>
@@ -804,7 +804,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_14</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.BSSSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.BSSSize</pv_name>
     <x>145</x>
     <y>277</y>
     <width>167</width>

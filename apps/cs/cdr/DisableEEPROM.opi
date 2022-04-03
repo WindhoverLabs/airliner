@@ -43,7 +43,7 @@
         <path>../scripts/QueryOneApp.js</path>
         <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableEEPROM', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/DisableEEPROM', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

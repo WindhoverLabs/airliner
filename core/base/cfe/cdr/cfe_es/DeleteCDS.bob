@@ -26,7 +26,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var name = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inName')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/DeleteCDS', {'Payload.CdsName': name});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/DeleteCDS', {'Payload.CdsName': name});
 ]]></text>
         </script>
       </action>

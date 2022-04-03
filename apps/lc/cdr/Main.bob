@@ -21,7 +21,7 @@
   <grid_step_y>6</grid_step_y>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.CmdCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/lc/LC_HK_TLM_MID.CmdCount</pv_name>
     <x>102</x>
     <y>36</y>
     <width>91</width>
@@ -74,7 +74,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.CmdErrCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/lc/LC_HK_TLM_MID.CmdErrCount</pv_name>
     <x>102</x>
     <y>55</y>
     <width>91</width>
@@ -100,7 +100,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/Noop', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/Noop', {});]]></text>
         </script>
       </action>
     </actions>
@@ -127,7 +127,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/Noop', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/Reset', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/Reset', {});]]></text>
         </script>
       </action>
     </actions>
@@ -169,7 +169,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.PassiveRTSExecCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/lc/LC_HK_TLM_MID.PassiveRTSExecCount</pv_name>
     <x>184</x>
     <y>110</y>
     <width>98</width>
@@ -192,7 +192,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
-    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.WPsInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/lc/LC_HK_TLM_MID.WPsInUse</pv_name>
     <x>184</x>
     <y>129</y>
     <width>98</width>
@@ -215,7 +215,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_4</name>
-    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.ActiveAPs</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/lc/LC_HK_TLM_MID.ActiveAPs</pv_name>
     <x>184</x>
     <y>148</y>
     <width>98</width>
@@ -238,7 +238,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_5</name>
-    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.APSampleCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/lc/LC_HK_TLM_MID.APSampleCount</pv_name>
     <x>184</x>
     <y>167</y>
     <width>98</width>
@@ -261,7 +261,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_6</name>
-    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.MonitoredMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/lc/LC_HK_TLM_MID.MonitoredMsgCount</pv_name>
     <x>184</x>
     <y>186</y>
     <width>98</width>
@@ -380,7 +380,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_7</name>
-    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.RTSExecCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/lc/LC_HK_TLM_MID.RTSExecCount</pv_name>
     <x>184</x>
     <y>205</y>
     <width>98</width>
@@ -509,7 +509,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/Reset', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/SendHK', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/SendHK', {});]]></text>
         </script>
       </action>
     </actions>
@@ -531,7 +531,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/SendHK', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_8</name>
-    <pv_name>/cfs/$(CPUID)/lc/LC_HkPacket_t.CurrentLCState</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/lc/LC_HK_TLM_MID.CurrentLCState</pv_name>
     <x>184</x>
     <y>91</y>
     <width>98</width>

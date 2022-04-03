@@ -86,7 +86,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var OutMsgToSend = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'OutMsgToSend')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hk/SendCombinedPkt', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hk/SendCombinedPkt', {
     'OutMsgToSend': OutMsgToSend});]]></scriptText>
         <embedded>true</embedded>
         <description></description>

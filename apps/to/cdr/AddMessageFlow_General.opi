@@ -209,7 +209,7 @@ var MsgID = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName
 var MsgLimit = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'MsgLimit')));
 var PQueueIdx = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PQueueIdx')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/AddMessageFlow', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/to/AddMessageFlow', {
     'ChannelIdx': ChannelIdx,
     'MsgID': MsgID,
     'MsgLimit': MsgLimit,

@@ -21,7 +21,7 @@
   <grid_step_y>6</grid_step_y>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.CmdAcceptedCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.CmdAcceptedCounter</pv_name>
     <x>116</x>
     <y>58</y>
     <width>98</width>
@@ -96,7 +96,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.CmdRejectedCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.CmdRejectedCounter</pv_name>
     <x>116</x>
     <y>77</y>
     <width>98</width>
@@ -124,7 +124,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Noop', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/ds/Noop', {});]]></text>
         </script>
       </action>
     </actions>
@@ -151,7 +151,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Noop', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/ds/Reset', {});]]></text>
         </script>
       </action>
     </actions>
@@ -193,7 +193,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.DestTblLoadCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.DestTblLoadCounter</pv_name>
     <x>139</x>
     <y>145</y>
     <width>98</width>
@@ -216,7 +216,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.DestTblErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.DestTblErrCounter</pv_name>
     <x>139</x>
     <y>164</y>
     <width>98</width>
@@ -239,7 +239,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_4</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.FilterTblLoadCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.FilterTblLoadCounter</pv_name>
     <x>139</x>
     <y>183</y>
     <width>98</width>
@@ -262,7 +262,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_5</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.FilterTblErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.FilterTblErrCounter</pv_name>
     <x>139</x>
     <y>202</y>
     <width>98</width>
@@ -285,7 +285,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Text Update_6</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.AppEnableState</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.AppEnableState</pv_name>
     <label></label>
     <x>174</x>
     <y>228</y>
@@ -295,7 +295,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_7</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.FileWriteCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.FileWriteCounter</pv_name>
     <x>139</x>
     <y>259</y>
     <width>98</width>
@@ -318,7 +318,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_8</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.FileWriteErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.FileWriteErrCounter</pv_name>
     <x>139</x>
     <y>278</y>
     <width>98</width>
@@ -341,7 +341,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_9</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.FileUpdateCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.FileUpdateCounter</pv_name>
     <x>139</x>
     <y>297</y>
     <width>98</width>
@@ -364,7 +364,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_10</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.DisabledPktCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.DisabledPktCounter</pv_name>
     <x>139</x>
     <y>316</y>
     <width>98</width>
@@ -387,7 +387,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_11</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.DisabledPktCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.DisabledPktCounter</pv_name>
     <x>139</x>
     <y>335</y>
     <width>98</width>
@@ -410,7 +410,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_12</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.IgnoredPktCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.IgnoredPktCounter</pv_name>
     <x>139</x>
     <y>354</y>
     <width>98</width>
@@ -433,7 +433,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_13</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.FilteredPktCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.FilteredPktCounter</pv_name>
     <x>139</x>
     <y>373</y>
     <width>98</width>
@@ -456,7 +456,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_14</name>
-    <pv_name>/cfs/$(CPUID)/ds/DS_HkPacket_t.PassedPktCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/ds/DS_HK_TLM_MID.PassedPktCounter</pv_name>
     <x>139</x>
     <y>392</y>
     <width>98</width>
@@ -712,7 +712,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/Reset', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/SetAppState',
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/ds/SetAppState',
 				{'EnableState': 1,
 				  'Padding': 0});]]></text>
         </script>
@@ -1021,7 +1021,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/SetAppState',
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/SetAppState',
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/ds/SetAppState',
 				{'EnableState': 0,
 				  'Padding': 0});]]></text>
         </script>
@@ -1051,7 +1051,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/SetAppState',
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/CloseAll', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/ds/CloseAll', {});]]></text>
         </script>
       </action>
     </actions>
@@ -1106,7 +1106,7 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/SendHK', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/ds/SendHK', {});]]></text>
         </script>
       </action>
     </actions>

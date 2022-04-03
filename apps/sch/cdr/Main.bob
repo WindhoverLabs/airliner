@@ -20,7 +20,7 @@
   <grid_step_y>6</grid_step_y>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.CmdCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.CmdCounter</pv_name>
     <x>99</x>
     <y>37</y>
     <width>98</width>
@@ -71,7 +71,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.ErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.ErrCounter</pv_name>
     <x>99</x>
     <y>56</y>
     <width>98</width>
@@ -95,7 +95,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Noop', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sch/Noop', {});]]></text>
         </script>
       </action>
     </actions>
@@ -122,7 +122,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Noop', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sch/Reset', {});]]></text>
         </script>
       </action>
     </actions>
@@ -164,7 +164,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.SyncToMET</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.SyncToMET</pv_name>
     <x>229</x>
     <y>91</y>
     <width>98</width>
@@ -183,7 +183,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.MajorFrameSource</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.MajorFrameSource</pv_name>
     <x>229</x>
     <y>110</y>
     <width>98</width>
@@ -202,7 +202,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_4</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.ScheduleActivitySuccessCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.ScheduleActivitySuccessCount</pv_name>
     <x>229</x>
     <y>129</y>
     <width>98</width>
@@ -221,7 +221,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_5</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.ScheduleActivityFailureCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.ScheduleActivityFailureCount</pv_name>
     <x>229</x>
     <y>148</y>
     <width>98</width>
@@ -240,7 +240,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_6</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.SlotsProcessedCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.SlotsProcessedCount</pv_name>
     <x>229</x>
     <y>167</y>
     <width>98</width>
@@ -259,7 +259,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_7</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.SkippedSlotsCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.SkippedSlotsCount</pv_name>
     <x>229</x>
     <y>186</y>
     <width>98</width>
@@ -278,7 +278,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_8</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.MultipleSlotsCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.MultipleSlotsCount</pv_name>
     <x>229</x>
     <y>205</y>
     <width>98</width>
@@ -297,7 +297,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_9</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.SameSlotCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.SameSlotCount</pv_name>
     <x>229</x>
     <y>224</y>
     <width>98</width>
@@ -316,7 +316,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_10</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.BadTableDataCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.BadTableDataCount</pv_name>
     <x>229</x>
     <y>243</y>
     <width>98</width>
@@ -335,7 +335,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_11</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.TableVerifySuccessCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.TableVerifySuccessCount</pv_name>
     <x>229</x>
     <y>262</y>
     <width>98</width>
@@ -354,7 +354,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_12</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.TableVerifyFailureCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.TableVerifyFailureCount</pv_name>
     <x>229</x>
     <y>281</y>
     <width>98</width>
@@ -373,7 +373,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_13</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.TablePassCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.TablePassCount</pv_name>
     <x>229</x>
     <y>300</y>
     <width>98</width>
@@ -392,7 +392,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_14</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.ValidMajorFrameCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.ValidMajorFrameCount</pv_name>
     <x>229</x>
     <y>319</y>
     <width>98</width>
@@ -411,7 +411,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_15</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.MissedMajorFrameCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.MissedMajorFrameCount</pv_name>
     <x>229</x>
     <y>338</y>
     <width>98</width>
@@ -430,7 +430,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_16</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.UnexpectedMajorFrameCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.UnexpectedMajorFrameCount</pv_name>
     <x>229</x>
     <y>357</y>
     <width>98</width>
@@ -449,7 +449,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_17</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.MinorFramesSinceTone</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.MinorFramesSinceTone</pv_name>
     <x>229</x>
     <y>376</y>
     <width>98</width>
@@ -468,7 +468,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_18</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.NextSlotNumber</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.NextSlotNumber</pv_name>
     <x>229</x>
     <y>395</y>
     <width>98</width>
@@ -487,7 +487,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_19</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.LastSyncMETSlot</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.LastSyncMETSlot</pv_name>
     <x>229</x>
     <y>414</y>
     <width>98</width>
@@ -506,7 +506,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_20</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.IgnoreMajorFrame</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.IgnoreMajorFrame</pv_name>
     <x>229</x>
     <y>433</y>
     <width>98</width>
@@ -525,7 +525,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_21</name>
-    <pv_name>/cfs/$(CPUID)/sch/SCH_HkPacket_t.UnexpectedMajorFrame</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sch/SCH_HK_TLM_MID.UnexpectedMajorFrame</pv_name>
     <x>229</x>
     <y>452</y>
     <width>98</width>
@@ -948,7 +948,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/EnableSync', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sch/EnableSync', {});]]></text>
         </script>
       </action>
     </actions>
@@ -975,7 +975,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/EnableSync', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/SendHK', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sch/SendHK', {});]]></text>
         </script>
       </action>
     </actions>

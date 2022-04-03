@@ -20,7 +20,7 @@
   <grid_step_y>6</grid_step_y>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.usCmdCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_HK_TLM_MID.usCmdCnt</pv_name>
     <x>130</x>
     <y>43</y>
     <width>98</width>
@@ -71,7 +71,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.usCmdErrCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_HK_TLM_MID.usCmdErrCnt</pv_name>
     <x>130</x>
     <y>62</y>
     <width>98</width>
@@ -115,7 +115,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/Noop', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/to/Noop', {});]]></text>
         </script>
       </action>
     </actions>
@@ -142,7 +142,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/Noop', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/Reset', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/to/Reset', {});]]></text>
         </script>
       </action>
     </actions>
@@ -180,7 +180,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiSentMsgCountChannel[0]</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_HK_TLM_MID.uiSentMsgCountChannel[0]</pv_name>
     <x>201</x>
     <y>194</y>
     <width>98</width>
@@ -215,7 +215,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiQueuedMsgCountChannel[0]</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_HK_TLM_MID.uiQueuedMsgCountChannel[0]</pv_name>
     <x>201</x>
     <y>213</y>
     <width>98</width>
@@ -250,7 +250,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_4</name>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.usTotalMsgDropped</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_HK_TLM_MID.usTotalMsgDropped</pv_name>
     <x>201</x>
     <y>232</y>
     <width>98</width>
@@ -285,7 +285,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_6</name>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.uiBytesSentChannel[0]</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_HK_TLM_MID.uiBytesSentChannel[0]</pv_name>
     <x>201</x>
     <y>251</y>
     <width>98</width>
@@ -320,7 +320,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_7</name>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.usTotalMsgDropped</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_HK_TLM_MID.usTotalMsgDropped</pv_name>
     <x>201</x>
     <y>116</y>
     <width>98</width>
@@ -355,7 +355,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_8</name>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.ChannelMemInfo[0].MemInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_HK_TLM_MID.ChannelMemInfo[0].MemInUse</pv_name>
     <x>201</x>
     <y>270</y>
     <width>98</width>
@@ -390,7 +390,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_9</name>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.SentBytes</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_HK_TLM_MID.SentBytes</pv_name>
     <x>201</x>
     <y>97</y>
     <width>98</width>
@@ -425,7 +425,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_10</name>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.ChannelMaxMem</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_HK_TLM_MID.ChannelMaxMem</pv_name>
     <x>201</x>
     <y>135</y>
     <width>98</width>
@@ -480,7 +480,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_11</name>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.ChannelMemInfo[0].PeakMemInUse</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_HK_TLM_MID.ChannelMemInfo[0].PeakMemInUse</pv_name>
     <x>201</x>
     <y>289</y>
     <width>98</width>
@@ -515,7 +515,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_12</name>
-    <pv_name>/cfs/$(CPUID)/to/TO_HkTlm_t.QueuedInOutputChannel[0]</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/to/TO_HK_TLM_MID.QueuedInOutputChannel[0]</pv_name>
     <x>201</x>
     <y>308</y>
     <width>98</width>
@@ -656,7 +656,7 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/SendHK', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/to/SendHK', {});]]></text>
         </script>
       </action>
     </actions>
@@ -683,7 +683,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/SendHK', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/SendTelemetry', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/to/SendTelemetry', {});]]></text>
         </script>
       </action>
     </actions>

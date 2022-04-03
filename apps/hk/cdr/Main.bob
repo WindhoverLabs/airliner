@@ -21,7 +21,7 @@
   <grid_step_y>6</grid_step_y>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/hk/HK_HkPacket_t.CmdCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/hk/HK_HK_TLM_MID.CmdCounter</pv_name>
     <x>98</x>
     <y>36</y>
     <background_color>
@@ -73,7 +73,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/hk/HK_HkPacket_t.ErrCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/hk/HK_HK_TLM_MID.ErrCounter</pv_name>
     <x>98</x>
     <y>55</y>
     <background_color>
@@ -98,7 +98,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hk/Noop', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hk/Noop', {});]]></text>
         </script>
       </action>
     </actions>
@@ -125,7 +125,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hk/Noop', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hk/Reset', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hk/Reset', {});]]></text>
         </script>
       </action>
     </actions>
@@ -167,7 +167,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hk/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_17</name>
-    <pv_name>/cfs/$(CPUID)/hk/HK_HkPacket_t.CombinedPacketsSent</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/hk/HK_HK_TLM_MID.CombinedPacketsSent</pv_name>
     <x>187</x>
     <y>99</y>
     <background_color>
@@ -187,7 +187,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hk/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_18</name>
-    <pv_name>/cfs/$(CPUID)/hk/HK_HkPacket_t.MissingDataCtr</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/hk/HK_HK_TLM_MID.MissingDataCtr</pv_name>
     <x>187</x>
     <y>118</y>
     <background_color>
@@ -207,7 +207,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hk/Reset', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_19</name>
-    <pv_name>/cfs/$(CPUID)/hk/HK_HkPacket_t.MemPoolHandle</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/hk/HK_HK_TLM_MID.MemPoolHandle</pv_name>
     <x>187</x>
     <y>137</y>
     <background_color>
@@ -280,7 +280,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hk/Reset', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hk/SendHK', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hk/SendHK', {});]]></text>
         </script>
       </action>
     </actions>

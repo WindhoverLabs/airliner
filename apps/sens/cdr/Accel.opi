@@ -115,7 +115,7 @@
       <color red="252" green="233" blue="79" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/$(CPUID)/sens/SENS_HkTlm_t.SensorCombinedMsg.AccInvalid</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.AccInvalid</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -203,7 +203,7 @@ $(pv_value)</tooltip>
     <name>Text Update_49</name>
     <precision>6</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/sens/SENS_HkTlm_t.SensorCombinedMsg.AccIntegralDt</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.AccIntegralDt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -295,7 +295,7 @@ $(pv_value)</tooltip>
     <name>Text Update_50</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/sens/SENS_HkTlm_t.SensorCombinedMsg.AccTimestamp.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.AccTimestamp.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -347,7 +347,7 @@ $(pv_value)</tooltip>
     <name>Text Update_51</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/sens/SENS_HkTlm_t.SensorCombinedMsg.AccTimestamp.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.AccTimestamp.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -518,7 +518,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_0_x_pv></trace_0_x_pv>
     <trace_0_x_pv_value />
     <trace_0_y_axis_index>1</trace_0_y_axis_index>
-    <trace_0_y_pv>/cfs/$(CPUID)/sens/SENS_HkTlm_t.SensorCombinedMsg.Acc_0_</trace_0_y_pv>
+    <trace_0_y_pv>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.Acc_0_</trace_0_y_pv>
     <trace_0_y_pv_value />
     <trace_1_anti_alias>true</trace_1_anti_alias>
     <trace_1_buffer_size>100</trace_1_buffer_size>
@@ -539,7 +539,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_1_x_pv></trace_1_x_pv>
     <trace_1_x_pv_value />
     <trace_1_y_axis_index>1</trace_1_y_axis_index>
-    <trace_1_y_pv>/cfs/$(CPUID)/sens/SENS_HkTlm_t.SensorCombinedMsg.Acc_1_</trace_1_y_pv>
+    <trace_1_y_pv>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.Acc_1_</trace_1_y_pv>
     <trace_1_y_pv_value />
     <trace_2_anti_alias>true</trace_2_anti_alias>
     <trace_2_buffer_size>100</trace_2_buffer_size>
@@ -560,7 +560,7 @@ $(trace_0_y_pv_value)</tooltip>
     <trace_2_x_pv></trace_2_x_pv>
     <trace_2_x_pv_value />
     <trace_2_y_axis_index>1</trace_2_y_axis_index>
-    <trace_2_y_pv>/cfs/$(CPUID)/sens/SENS_HkTlm_t.SensorCombinedMsg.Acc_2_</trace_2_y_pv>
+    <trace_2_y_pv>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.Acc_2_</trace_2_y_pv>
     <trace_2_y_pv_value />
     <trace_count>3</trace_count>
     <transparent>false</transparent>

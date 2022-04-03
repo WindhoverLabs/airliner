@@ -65,7 +65,7 @@
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.FileStatus</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FILE_INFO_TLM_MID.FileStatus</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -157,7 +157,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.CRC_Computed</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FILE_INFO_TLM_MID.CRC_Computed</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -249,7 +249,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.CRC</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FILE_INFO_TLM_MID.CRC</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -341,7 +341,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FILE_INFO_TLM_MID.FileSize</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -433,7 +433,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.LastModifiedTime</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FILE_INFO_TLM_MID.LastModifiedTime</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -525,7 +525,7 @@ $(pv_value)</tooltip>
     <name>Text Update_5</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.Mode</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FILE_INFO_TLM_MID.Mode</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -617,7 +617,7 @@ $(pv_value)</tooltip>
     <name>Text Update_6</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FileInfoPkt_t.Filename</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FILE_INFO_TLM_MID.Filename</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

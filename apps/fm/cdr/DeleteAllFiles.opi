@@ -46,7 +46,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Directory = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Directory')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/fm/DeleteAll', 
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fm/DeleteAll', 
                                    {"Directory": Directory});
 ]]></scriptText>
         <embedded>true</embedded>

@@ -49,7 +49,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var maxResets = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'MaxResets')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/SetMaxResets', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/SetMaxResets', {
     'MaxResets': maxResets});
 
 

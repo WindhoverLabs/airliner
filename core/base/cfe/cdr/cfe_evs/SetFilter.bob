@@ -27,7 +27,7 @@ var appName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByNa
 var eventID = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'EventID')));
 var mask = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Mask')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/SetAppEventFilter', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/SetAppEventFilter', {
     'Payload.AppName': appName,
     'Payload.EventID': eventID,
     'Payload.Mask': mask});]]></text>

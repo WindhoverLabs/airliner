@@ -27,7 +27,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 var appName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inAppName')));
 var fileName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inFileName')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/AppReload', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/AppReload', {
     'Payload.Application': appName,
     'Payload.AppFileName': fileName});]]></text>
         </script>

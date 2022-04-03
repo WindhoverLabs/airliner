@@ -27,7 +27,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 var maxResets = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inMaxResets')));
 
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/SetMaxPRCount', {'Payload.MaxPRCount': maxResets});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/SetMaxPRCount', {'Payload.MaxPRCount': maxResets});]]></text>
         </script>
       </action>
     </actions>

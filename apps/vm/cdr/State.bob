@@ -169,7 +169,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.NotInitialized</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.NotInitialized</pv_name>
     <x>176</x>
     <y>44</y>
     <width>16</width>
@@ -195,7 +195,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_7</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.LocalPositionIsValid</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.LocalPositionIsValid</pv_name>
     <x>176</x>
     <y>63</y>
     <width>16</width>
@@ -217,7 +217,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_8</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PrevLanded</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.PrevLanded</pv_name>
     <x>176</x>
     <y>82</y>
     <width>16</width>
@@ -239,7 +239,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_9</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PrevInFlight</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.PrevInFlight</pv_name>
     <x>176</x>
     <y>101</y>
     <width>16</width>
@@ -261,7 +261,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_10</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.LowBatteryVoltageActionsDone</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.LowBatteryVoltageActionsDone</pv_name>
     <x>176</x>
     <y>120</y>
     <width>16</width>
@@ -283,7 +283,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_11</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.EmergencyBatteryVoltageActionsDone</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.EmergencyBatteryVoltageActionsDone</pv_name>
     <x>176</x>
     <y>139</y>
     <width>16</width>
@@ -305,7 +305,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_12</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.CriticalBatteryVoltageActionsDone</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.CriticalBatteryVoltageActionsDone</pv_name>
     <x>176</x>
     <y>158</y>
     <width>16</width>
@@ -327,7 +327,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_13</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.ArmingStateChanged</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.ArmingStateChanged</pv_name>
     <x>176</x>
     <y>177</y>
     <width>16</width>
@@ -365,7 +365,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_14</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.SensorsInitialized</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.StatusFlags.SensorsInitialized</pv_name>
     <x>176</x>
     <y>196</y>
     <width>16</width>
@@ -403,7 +403,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_15</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.ReturnToHomeSet</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.StatusFlags.ReturnToHomeSet</pv_name>
     <x>176</x>
     <y>215</y>
     <width>16</width>
@@ -441,7 +441,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_16</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.HomePositionValid</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.StatusFlags.HomePositionValid</pv_name>
     <x>176</x>
     <y>234</y>
     <width>16</width>
@@ -479,7 +479,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_17</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.UsbPowerConnected</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.StatusFlags.UsbPowerConnected</pv_name>
     <x>176</x>
     <y>253</y>
     <width>16</width>
@@ -517,7 +517,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_18</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.RcSignalFoundOnce</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.StatusFlags.RcSignalFoundOnce</pv_name>
     <x>176</x>
     <y>272</y>
     <width>16</width>
@@ -555,7 +555,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_19</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.RcSignalLostModeIsCmded</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.StatusFlags.RcSignalLostModeIsCmded</pv_name>
     <x>176</x>
     <y>291</y>
     <width>16</width>
@@ -593,7 +593,7 @@
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_20</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StatusFlags.RcInputIsTemporarilyBlocked</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.StatusFlags.RcInputIsTemporarilyBlocked</pv_name>
     <x>176</x>
     <y>310</y>
     <width>16</width>

@@ -33,7 +33,7 @@ if( fileName != 'no value' ) {
     args = {'Payload.DumpFilename': ''};
 }
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/DumpReg', args);
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/DumpReg', args);
 
 ]]></text>
         </script>

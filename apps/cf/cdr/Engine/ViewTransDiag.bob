@@ -25,7 +25,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Transaction = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Transaction')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transaction});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/SendTransaction', {'Trans': Transaction});
 
 ]]></text>
         </script>
@@ -49,7 +49,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.TransLen</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.TransLen</pv_name>
     <x>136</x>
     <y>144</y>
     <background_color>
@@ -68,7 +68,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.TransVal</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.TransVal</pv_name>
     <x>136</x>
     <y>163</y>
     <background_color>
@@ -87,7 +87,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.Naks</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.Naks</pv_name>
     <x>136</x>
     <y>182</y>
     <background_color>
@@ -106,7 +106,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.PartLen</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.PartLen</pv_name>
     <x>136</x>
     <y>201</y>
     <background_color>
@@ -125,7 +125,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_4</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.PartVal</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.PartVal</pv_name>
     <x>136</x>
     <y>220</y>
     <background_color>
@@ -144,7 +144,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_5</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.Phase</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.Phase</pv_name>
     <x>136</x>
     <y>239</y>
     <background_color>
@@ -163,7 +163,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Text Update_6</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.Flags</pv_name>
     <label></label>
     <x>136</x>
     <y>258</y>
@@ -172,7 +172,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_7</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.TransNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.TransNum</pv_name>
     <x>136</x>
     <y>278</y>
     <background_color>
@@ -191,7 +191,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_8</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.Attempts</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.Attempts</pv_name>
     <x>136</x>
     <y>297</y>
     <background_color>
@@ -210,7 +210,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_9</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.CondCode</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.CondCode</pv_name>
     <x>136</x>
     <y>316</y>
     <background_color>
@@ -229,7 +229,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_10</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.DeliCode</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.DeliCode</pv_name>
     <x>136</x>
     <y>335</y>
     <background_color>
@@ -248,7 +248,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_11</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.FdOffset</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.FdOffset</pv_name>
     <x>136</x>
     <y>354</y>
     <background_color>
@@ -267,7 +267,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_12</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.FdLength</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.FdLength</pv_name>
     <x>136</x>
     <y>373</y>
     <background_color>
@@ -286,7 +286,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_13</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.Checksum</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.Checksum</pv_name>
     <x>136</x>
     <y>392</y>
     <background_color>
@@ -306,7 +306,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_14</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.FinalStat</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.FinalStat</pv_name>
     <x>136</x>
     <y>411</y>
     <background_color>
@@ -325,7 +325,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_15</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.FileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.FileSize</pv_name>
     <x>136</x>
     <y>430</y>
     <background_color>
@@ -344,7 +344,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_16</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.RcvdFileSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.RcvdFileSize</pv_name>
     <x>136</x>
     <y>449</y>
     <background_color>
@@ -363,7 +363,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_17</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.Role</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.Role</pv_name>
     <x>136</x>
     <y>468</y>
     <background_color>
@@ -382,7 +382,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_18</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.State</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.State</pv_name>
     <x>136</x>
     <y>487</y>
     <background_color>
@@ -401,7 +401,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_19</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.StartTime</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.StartTime</pv_name>
     <x>136</x>
     <y>506</y>
     <background_color>
@@ -420,7 +420,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_20</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.SrcFile</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.SrcFile</pv_name>
     <x>136</x>
     <y>525</y>
     <background_color>
@@ -440,7 +440,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_21</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.DstFile</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.DstFile</pv_name>
     <x>136</x>
     <y>544</y>
     <background_color>
@@ -460,7 +460,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_22</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.Eng.TmpFile</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.Eng.TmpFile</pv_name>
     <x>136</x>
     <y>563</y>
     <background_color>
@@ -480,7 +480,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_23</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.App.Status</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.App.Status</pv_name>
     <x>378</x>
     <y>144</y>
     <background_color>
@@ -499,7 +499,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_24</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.App.CondCode</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.App.CondCode</pv_name>
     <x>378</x>
     <y>163</y>
     <background_color>
@@ -518,7 +518,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_25</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.App.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.App.Priority</pv_name>
     <x>378</x>
     <y>182</y>
     <background_color>
@@ -537,7 +537,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_26</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.App.Class</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.App.Class</pv_name>
     <x>378</x>
     <y>201</y>
     <background_color>
@@ -556,7 +556,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_27</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.App.ChanNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.App.ChanNum</pv_name>
     <x>378</x>
     <y>220</y>
     <background_color>
@@ -575,7 +575,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_28</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.App.Source</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.App.Source</pv_name>
     <x>378</x>
     <y>239</y>
     <background_color>
@@ -594,7 +594,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_29</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.App.NodeType</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.App.NodeType</pv_name>
     <x>378</x>
     <y>258</y>
     <background_color>
@@ -613,7 +613,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_30</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.App.TransNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.App.TransNum</pv_name>
     <x>378</x>
     <y>277</y>
     <background_color>
@@ -632,7 +632,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_31</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.App.Source</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.App.Source</pv_name>
     <x>378</x>
     <y>296</y>
     <background_color>
@@ -652,7 +652,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_32</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.App.SrcFile</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.App.SrcFile</pv_name>
     <x>378</x>
     <y>315</y>
     <background_color>
@@ -672,7 +672,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendTransaction', {'Trans': Transac
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_33</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_TransPacket_t.App.DstFile</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_TRANS_TLM_MID.App.DstFile</pv_name>
     <x>378</x>
     <y>334</y>
     <background_color>

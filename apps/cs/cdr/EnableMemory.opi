@@ -44,7 +44,7 @@
         <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableMemory', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/EnableMemory', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

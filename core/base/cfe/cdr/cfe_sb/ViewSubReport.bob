@@ -21,7 +21,7 @@
   <grid_step_y>6</grid_step_y>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_SubRprtMsg_t.Payload.SubType</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ONESUB_TLM_MID.Payload.SubType</pv_name>
     <x>205</x>
     <y>79</y>
     <width>155</width>
@@ -58,7 +58,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_SubRprtMsg_t.Payload._spare0</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ONESUB_TLM_MID.Payload._spare0</pv_name>
     <x>205</x>
     <y>103</y>
     <width>155</width>
@@ -95,7 +95,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_SubRprtMsg_t.Payload.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ONESUB_TLM_MID.Payload.MsgId</pv_name>
     <x>205</x>
     <y>127</y>
     <width>155</width>
@@ -132,7 +132,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_SubRprtMsg_t.Payload.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ONESUB_TLM_MID.Payload.Qos.Priority</pv_name>
     <x>205</x>
     <y>151</y>
     <width>155</width>
@@ -169,7 +169,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_4</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_SubRprtMsg_t.Payload.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ONESUB_TLM_MID.Payload.Qos.Reliability</pv_name>
     <x>205</x>
     <y>175</y>
     <width>155</width>
@@ -206,7 +206,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_5</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_SubRprtMsg_t.Payload.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ONESUB_TLM_MID.Payload.Pipe</pv_name>
     <x>205</x>
     <y>199</y>
     <width>155</width>
@@ -243,7 +243,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_6</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_SubRprtMsg_t.Payload._spare_end</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ONESUB_TLM_MID.Payload._spare_end</pv_name>
     <x>205</x>
     <y>223</y>
     <width>155</width>
@@ -305,7 +305,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/DisableSubReport', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_sb/DisableSubReport', {});]]></text>
         </script>
       </action>
     </actions>
@@ -332,7 +332,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/DisableSubReport', {});]]></tex
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/EnableSubReport', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_sb/EnableSubReport', {});]]></text>
         </script>
       </action>
     </actions>

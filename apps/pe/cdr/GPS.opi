@@ -105,7 +105,7 @@
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.TimeLastGps.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.TimeLastGps.Seconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -197,7 +197,7 @@ $(pv_value)</tooltip>
     <name>Text Update_12</name>
     <precision>3</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.GpsAltOrigin</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.GpsAltOrigin</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -299,7 +299,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.GpsInitialized</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.GpsInitialized</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -397,7 +397,7 @@ $(pv_value)</tooltip>
       <color name="Major" red="255" green="0" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.GpsFault</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.GpsFault</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -495,7 +495,7 @@ $(pv_value)</tooltip>
       <color red="252" green="233" blue="79" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.GpsTimeout</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.GpsTimeout</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -593,7 +593,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.GpsFuse</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.GpsFuse</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -691,7 +691,7 @@ $(pv_value)</tooltip>
       <color red="0" green="255" blue="0" />
     </on_color>
     <on_label>ON</on_label>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.ReceivedGPS</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.ReceivedGPS</pv_name>
     <pv_value />
     <rules />
     <scale_options>
@@ -757,7 +757,7 @@ $(pv_value)</tooltip>
         <path></path>
         <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/pe/EnableGPS', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/pe/EnableGPS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -812,7 +812,7 @@ $(pv_value)</tooltip>
         <path></path>
         <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/pe/DisableGPS', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/pe/DisableGPS', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -929,7 +929,7 @@ $(pv_value)</tooltip>
     <name>Text Update_29</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.VehicleGpsPositionMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.VehicleGpsPositionMsgCount</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -981,7 +981,7 @@ $(pv_value)</tooltip>
     <name>Text Update_31</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/pe/PE_HkTlm_t.TimeLastGps.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/pe/PE_HK_TLM_MID.TimeLastGps.Subseconds</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

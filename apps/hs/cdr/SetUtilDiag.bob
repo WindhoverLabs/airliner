@@ -49,7 +49,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var mask = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Mask')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/SetUtilDiag', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/SetUtilDiag', {
     'Mask': mask});
 
 

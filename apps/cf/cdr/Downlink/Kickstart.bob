@@ -37,7 +37,7 @@ if( Channel == 'Channel 1' ) {
     pChannel = 1;
 }
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/Kickstart', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/Kickstart', {
     'Chan': pChannel, 
     'Spare_0_': 0,
     'Spare_1_': 0,

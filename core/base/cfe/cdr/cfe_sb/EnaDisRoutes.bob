@@ -26,7 +26,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 var MsgID = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'MsgID')));
 var PipeID = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PipeID')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/EnableRoute', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_sb/EnableRoute', {
     'Payload.MsgId': MsgID,
     'Payload.Pipe': PipeID,
     'Payload.Spare': '0'});
@@ -155,7 +155,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 var MsgID = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'MsgID')));
 var PipeID = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PipeID')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/DisableRoute', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_sb/DisableRoute', {
     'Payload.MsgId': MsgID,
     'Payload.Pipe': PipeID,
     'Payload.Spare': '0'});

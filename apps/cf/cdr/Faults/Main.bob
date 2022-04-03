@@ -41,7 +41,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_22</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.PosAckNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Cond.PosAckNum</pv_name>
     <x>143</x>
     <y>43</y>
     <width>98</width>
@@ -64,7 +64,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_23</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.FileStoreRejNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Cond.FileStoreRejNum</pv_name>
     <x>143</x>
     <y>62</y>
     <width>98</width>
@@ -87,7 +87,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_24</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.FileChecksumNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Cond.FileChecksumNum</pv_name>
     <x>143</x>
     <y>81</y>
     <width>98</width>
@@ -110,7 +110,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_25</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.FileSizeNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Cond.FileSizeNum</pv_name>
     <x>143</x>
     <y>100</y>
     <width>98</width>
@@ -133,7 +133,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_26</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.NakLimitNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Cond.NakLimitNum</pv_name>
     <x>143</x>
     <y>119</y>
     <width>98</width>
@@ -156,7 +156,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_27</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.InactiveNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Cond.InactiveNum</pv_name>
     <x>143</x>
     <y>138</y>
     <width>98</width>
@@ -179,7 +179,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_28</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.SuspendNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Cond.SuspendNum</pv_name>
     <x>143</x>
     <y>157</y>
     <width>98</width>
@@ -202,7 +202,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_29</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Cond.CancelNum</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Cond.CancelNum</pv_name>
     <x>143</x>
     <y>176</y>
     <width>98</width>
@@ -359,7 +359,7 @@
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'FAULT', 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/ResetCounters', {'Value': 'FAULT', 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
 ]]></text>
         </script>
       </action>

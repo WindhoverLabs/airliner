@@ -46,7 +46,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Arm', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Arm', {});]]></text>
         </script>
       </action>
     </actions>
@@ -74,7 +74,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Arm', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Disarm', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Disarm', {});]]></text>
         </script>
       </action>
     </actions>
@@ -96,7 +96,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Disarm', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_4</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.ArmingState</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.ArmingState</pv_name>
     <x>42</x>
     <y>42</y>
     <width>140</width>
@@ -134,7 +134,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Disarm', {});]]></text>
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.ArmingStateChanged</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.ArmingStateChanged</pv_name>
     <x>114</x>
     <y>62</y>
     <on_color>

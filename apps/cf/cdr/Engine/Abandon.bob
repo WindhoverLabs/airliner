@@ -60,7 +60,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var trans = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Transaction')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/Abandon', {'Trans': trans});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/Abandon', {'Trans': trans});
 ]]></text>
         </script>
       </action>

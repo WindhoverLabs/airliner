@@ -36,7 +36,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Pressure</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_BARO_MID.Pressure</pv_name>
     <x>127</x>
     <y>41</y>
     <width>98</width>
@@ -74,7 +74,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Temperature</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_BARO_MID.Temperature</pv_name>
     <x>127</x>
     <y>60</y>
     <width>98</width>
@@ -112,7 +112,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Altitude</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_BARO_MID.Altitude</pv_name>
     <x>127</x>
     <y>79</y>
     <width>98</width>
@@ -150,7 +150,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
-    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.ErrorCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_BARO_MID.ErrorCount</pv_name>
     <x>127</x>
     <y>98</y>
     <width>98</width>
@@ -203,7 +203,7 @@
     <traces>
       <trace>
         <name>Pressure</name>
-        <y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Pressure</y_pv>
+        <y_pv>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_BARO_MID.Pressure</y_pv>
         <axis>0</axis>
         <trace_type>1</trace_type>
         <color>
@@ -250,7 +250,7 @@
     <traces>
       <trace>
         <name>Altitude</name>
-        <y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Altitude</y_pv>
+        <y_pv>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_BARO_MID.Altitude</y_pv>
         <axis>0</axis>
         <trace_type>1</trace_type>
         <color>
@@ -266,7 +266,7 @@
   </widget>
   <widget type="thermometer" version="2.0.0">
     <name>Thermometer</name>
-    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Temperature</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_BARO_MID.Temperature</pv_name>
     <x>1350</x>
     <y>246</y>
     <width>100</width>
@@ -313,7 +313,7 @@
     <traces>
       <trace>
         <name>Temperature</name>
-        <y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorBaroMsg_t.Temperature</y_pv>
+        <y_pv>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_BARO_MID.Temperature</y_pv>
         <axis>0</axis>
         <trace_type>1</trace_type>
         <color>

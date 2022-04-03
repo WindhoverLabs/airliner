@@ -46,7 +46,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Address = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Address')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/GetEntryIDEEPROM', {'Address': Address});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/GetEntryIDEEPROM', {'Address': Address});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

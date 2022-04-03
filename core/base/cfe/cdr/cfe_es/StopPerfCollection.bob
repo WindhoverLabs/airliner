@@ -42,7 +42,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var fileName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'FileName')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/PerfStop', {'Payload.DataFileName': fileName});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/PerfStop', {'Payload.DataFileName': fileName});]]></text>
         </script>
       </action>
     </actions>

@@ -47,7 +47,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 var Source = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Source')));
 var Target = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Target')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/fm/RenameFile',
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fm/RenameFile',
 				  {
                       "Source": Source,
                       "Target": Target

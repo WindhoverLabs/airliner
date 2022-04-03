@@ -21,7 +21,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/SendConfig');
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/SendConfig');
 
 
 ]]></text>

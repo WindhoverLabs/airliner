@@ -52,7 +52,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.Y</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_ACCEL_MID.Y</pv_name>
     <x>139</x>
     <y>62</y>
     <width>98</width>
@@ -90,7 +90,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.Z</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_ACCEL_MID.Z</pv_name>
     <x>139</x>
     <y>82</y>
     <width>98</width>
@@ -128,7 +128,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
-    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.ErrorCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_ACCEL_MID.ErrorCount</pv_name>
     <x>139</x>
     <y>101</y>
     <width>98</width>
@@ -181,7 +181,7 @@
     <traces>
       <trace>
         <name>X</name>
-        <y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.X</y_pv>
+        <y_pv>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_ACCEL_MID.X</y_pv>
         <axis>0</axis>
         <trace_type>1</trace_type>
         <color>
@@ -195,7 +195,7 @@
       </trace>
       <trace>
         <name>Y</name>
-        <y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.Y</y_pv>
+        <y_pv>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_ACCEL_MID.Y</y_pv>
         <axis>0</axis>
         <trace_type>1</trace_type>
         <color>
@@ -209,7 +209,7 @@
       </trace>
       <trace>
         <name>Z</name>
-        <y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.Z</y_pv>
+        <y_pv>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_ACCEL_MID.Z</y_pv>
         <axis>0</axis>
         <trace_type>1</trace_type>
         <color>
@@ -256,7 +256,7 @@
     <traces>
       <trace>
         <name>XRAW</name>
-        <y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.XRaw</y_pv>
+        <y_pv>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_ACCEL_MID.XRaw</y_pv>
         <axis>0</axis>
         <trace_type>1</trace_type>
         <color>
@@ -270,7 +270,7 @@
       </trace>
       <trace>
         <name>YRAW</name>
-        <y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.YRaw</y_pv>
+        <y_pv>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_ACCEL_MID.YRaw</y_pv>
         <axis>0</axis>
         <trace_type>1</trace_type>
         <color>
@@ -284,7 +284,7 @@
       </trace>
       <trace>
         <name>ZRAW</name>
-        <y_pv>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.ZRaw</y_pv>
+        <y_pv>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_ACCEL_MID.ZRaw</y_pv>
         <axis>0</axis>
         <trace_type>1</trace_type>
         <color>
@@ -300,7 +300,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/px4lib/PX4_SensorAccelMsg_t.X</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_SENSOR_ACCEL_MID.X</pv_name>
     <x>139</x>
     <y>43</y>
     <width>98</width>

@@ -47,7 +47,7 @@
     </font>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.CommandCnt</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.CommandCnt</pv_name>
       <x>102</x>
       <y>7</y>
       <width>98</width>
@@ -101,7 +101,7 @@
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_1</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.CmdErrCnt</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.CmdErrCnt</pv_name>
       <x>102</x>
       <y>26</y>
       <width>98</width>
@@ -128,7 +128,7 @@
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/NoOp', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_sb/NoOp', {});]]></text>
           </script>
         </action>
       </actions>
@@ -155,7 +155,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/NoOp', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/Reset', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_sb/Reset', {});]]></text>
           </script>
         </action>
       </actions>
@@ -209,7 +209,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/Reset', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/SendHK', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_sb/SendHK', {});]]></text>
           </script>
         </action>
       </actions>
@@ -535,7 +535,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_2</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.NoSubscribersCnt</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.NoSubscribersCnt</pv_name>
       <x>169</x>
       <y>5</y>
       <width>98</width>
@@ -557,7 +557,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_3</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MsgSendErrCnt</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.MsgSendErrCnt</pv_name>
       <x>169</x>
       <y>24</y>
       <width>98</width>
@@ -578,7 +578,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_4</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MsgReceiveErrCnt</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.MsgReceiveErrCnt</pv_name>
       <x>169</x>
       <y>43</y>
       <width>98</width>
@@ -599,7 +599,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_5</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.InternalErrCnt</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.InternalErrCnt</pv_name>
       <x>169</x>
       <y>62</y>
       <width>98</width>
@@ -620,7 +620,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_6</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.CreatePipeErrCnt</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.CreatePipeErrCnt</pv_name>
       <x>169</x>
       <y>81</y>
       <width>98</width>
@@ -641,7 +641,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_7</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.SubscribeErrCnt</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.SubscribeErrCnt</pv_name>
       <x>169</x>
       <y>100</y>
       <width>98</width>
@@ -662,7 +662,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_8</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.DupSubscriptionsCnt</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.DupSubscriptionsCnt</pv_name>
       <x>169</x>
       <y>119</y>
       <width>98</width>
@@ -683,7 +683,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_9</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.PipeOverflowErrCnt</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.PipeOverflowErrCnt</pv_name>
       <x>169</x>
       <y>138</y>
       <width>98</width>
@@ -704,7 +704,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_10</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MsgLimErrCnt</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.MsgLimErrCnt</pv_name>
       <x>169</x>
       <y>157</y>
       <width>98</width>
@@ -741,7 +741,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_11</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MemInUse</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.MemInUse</pv_name>
       <x>169</x>
       <y>195</y>
       <width>98</width>
@@ -778,7 +778,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_12</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.UnmarkedMem</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.UnmarkedMem</pv_name>
       <x>169</x>
       <y>214</y>
       <width>98</width>
@@ -815,7 +815,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_13</name>
-      <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_HKMsg_t.Payload.MemPoolHandle</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_HK_TLM_MID.Payload.MemPoolHandle</pv_name>
       <x>169</x>
       <y>176</y>
       <width>98</width>

@@ -130,7 +130,7 @@ var SymbolName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetB
 var Offset = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Offset')));
 var FileName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'FileName')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/mm/DumpMemToFile', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/mm/DumpMemToFile', {
     'MemType': MemType,
     'NumOfBytes': NumofBytes,
     'Padding_0_': 0,

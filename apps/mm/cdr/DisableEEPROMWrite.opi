@@ -126,7 +126,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Bank = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Bank')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/mm/DisableEEPROMWrite', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/mm/DisableEEPROMWrite', {
     'Bank': Bank});]]></scriptText>
         <embedded>true</embedded>
         <description></description>

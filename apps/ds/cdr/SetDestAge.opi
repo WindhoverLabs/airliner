@@ -237,7 +237,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 var file_index = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'FileTableIndex')));
 var file_age = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'MaxFileAge')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/SetDestAge', 
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/ds/SetDestAge', 
 				  {'FileTableIndex': file_index,
 				    'Padding': 0,
 				    'MaxFileAge': file_age}

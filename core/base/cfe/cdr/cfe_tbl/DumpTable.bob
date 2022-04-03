@@ -41,7 +41,7 @@ else {
 //		"Payload.ActiveTblFlag":"" };
 }
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Dump', args);]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/Dump', args);]]></text>
         </script>
       </action>
     </actions>

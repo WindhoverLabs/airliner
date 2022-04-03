@@ -26,7 +26,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AppName')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/EnableAppEvents', {'Payload.AppName': appName});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/EnableAppEvents', {'Payload.AppName': appName});]]></text>
         </script>
       </action>
     </actions>
@@ -56,7 +56,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AppName')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisableAppEvents', {'Payload.AppName': appName});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/DisableAppEvents', {'Payload.AppName': appName});]]></text>
         </script>
       </action>
     </actions>

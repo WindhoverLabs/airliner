@@ -51,7 +51,7 @@ var mult1 = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(w
 var div = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Div')));
 var mult2 = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Mult2')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/SetUtilParams', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/SetUtilParams', {
     'Mult1': mult1,
     'Div': div,
     'Mult2': mult2});

@@ -62,7 +62,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var triggerOn = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TriggerOn')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/PerfStart', {'Payload.TriggerMode': triggerOn});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/PerfStart', {'Payload.TriggerMode': triggerOn});]]></text>
         </script>
       </action>
     </actions>

@@ -55,7 +55,7 @@
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Noop', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Noop', {});]]></text>
           </script>
         </action>
       </actions>
@@ -82,7 +82,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Noop', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Reset', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Reset', {});]]></text>
           </script>
         </action>
       </actions>
@@ -104,7 +104,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Reset', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_2</name>
-      <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.usCmdCnt</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.usCmdCnt</pv_name>
       <x>107</x>
       <y>7</y>
       <width>98</width>
@@ -158,7 +158,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Reset', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_3</name>
-      <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.usCmdErrCnt</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.usCmdErrCnt</pv_name>
       <x>107</x>
       <y>26</y>
       <width>98</width>
@@ -211,7 +211,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Reset', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/SendHK', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/SendHK', {});]]></text>
           </script>
         </action>
       </actions>
@@ -238,7 +238,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/SendHK', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/WakeUp', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
           </script>
         </action>
       </actions>
@@ -286,7 +286,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/WakeUp', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_22</name>
-      <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.BootTimestamp</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.BootTimestamp</pv_name>
       <x>25</x>
       <y>20</y>
       <width>180</width>
@@ -432,7 +432,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/WakeUp', {});]]></text>
     </font>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_11</name>
-      <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.WakeupCount</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.WakeupCount</pv_name>
       <x>158</x>
       <width>65</width>
       <background_color>
@@ -532,7 +532,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/WakeUp', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_80</name>
-      <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StickOffCounter</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.StickOffCounter</pv_name>
       <x>158</x>
       <y>20</y>
       <width>65</width>
@@ -554,7 +554,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/WakeUp', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_81</name>
-      <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.StickOnCounter</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.StickOnCounter</pv_name>
       <x>158</x>
       <y>40</y>
       <width>65</width>
@@ -576,7 +576,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/WakeUp', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_82</name>
-      <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.LastSpManArmSwitch</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.LastSpManArmSwitch</pv_name>
       <x>158</x>
       <y>60</y>
       <width>65</width>
@@ -598,7 +598,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/WakeUp', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_83</name>
-      <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.RCSignalLostTimestamp</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.RCSignalLostTimestamp</pv_name>
       <x>158</x>
       <y>80</y>
       <width>65</width>

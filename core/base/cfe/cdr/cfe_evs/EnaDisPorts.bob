@@ -66,7 +66,7 @@ var port1 = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(w
 
 var mask = (port4 * 8) + (port3 * 4) + (port2 * 2) + (port1);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/EnablePorts', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/EnablePorts', {
     'Payload.BitMask': mask.toFixed(0),
     'Payload.Spare': '0'
 });]]></text>
@@ -104,7 +104,7 @@ var port1 = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(w
 
 var mask = (port4 * 8) + (port3 * 4) + (port2 * 2) + (port1);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisablePorts', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/DisablePorts', {
     'Payload.BitMask': mask.toFixed(0),
     'Payload.Spare': '0'
 });]]></text>

@@ -124,7 +124,7 @@
     </font>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.CmdCounter</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.CmdCounter</pv_name>
       <x>99</x>
       <y>5</y>
       <width>98</width>
@@ -177,7 +177,7 @@
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_1</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.ErrCounter</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.ErrCounter</pv_name>
       <x>99</x>
       <y>25</y>
       <width>98</width>
@@ -204,7 +204,7 @@
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'CMD', 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/ResetCounters', {'Value': 'CMD', 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
 ]]></text>
           </script>
         </action>
@@ -232,7 +232,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'CMD', 'S
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/Noop', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/Noop', {});]]></text>
           </script>
         </action>
       </actions>
@@ -259,7 +259,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/Noop', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/WakeUp', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/WakeUp', {});]]></text>
           </script>
         </action>
       </actions>
@@ -304,7 +304,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/WakeUp', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendHK', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/SendHK', {});]]></text>
           </script>
         </action>
       </actions>
@@ -669,7 +669,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendHK', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': 'ENABLE'});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisable': 'ENABLE'});]]></text>
           </script>
         </action>
       </actions>
@@ -696,7 +696,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': 'DISABLE'});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisable': 'DISABLE'});]]></text>
           </script>
         </action>
       </actions>
@@ -718,7 +718,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_19</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.LastFailedTrans</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.LastFailedTrans</pv_name>
       <x>173</x>
       <y>345</y>
       <width>98</width>
@@ -773,7 +773,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_20</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.WakeupForFileProc</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.WakeupForFileProc</pv_name>
       <x>173</x>
       <y>5</y>
       <width>98</width>
@@ -796,7 +796,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_21</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.EngineCycleCount</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.EngineCycleCount</pv_name>
       <x>173</x>
       <y>25</y>
       <width>98</width>
@@ -819,7 +819,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_22</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.MemInUse</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.MemInUse</pv_name>
       <x>173</x>
       <y>45</y>
       <width>98</width>
@@ -842,7 +842,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_23</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.PeakMemInUse</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.PeakMemInUse</pv_name>
       <x>173</x>
       <y>65</y>
       <width>98</width>
@@ -865,7 +865,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_24</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.LowMemoryMark</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.LowMemoryMark</pv_name>
       <x>173</x>
       <y>85</y>
       <width>98</width>
@@ -888,7 +888,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_25</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.MaxMemNeeded</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.MaxMemNeeded</pv_name>
       <x>173</x>
       <y>105</y>
       <width>98</width>
@@ -911,7 +911,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_26</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.MemAllocated</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.MemAllocated</pv_name>
       <x>173</x>
       <y>125</y>
       <width>98</width>
@@ -934,7 +934,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_27</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.BufferPoolHandle</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.BufferPoolHandle</pv_name>
       <x>173</x>
       <y>145</y>
       <width>98</width>
@@ -957,7 +957,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_28</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.QNodesAllocated</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.QNodesAllocated</pv_name>
       <x>173</x>
       <y>165</y>
       <width>98</width>
@@ -980,7 +980,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_29</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.QNodesDeallocated</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.QNodesDeallocated</pv_name>
       <x>173</x>
       <y>185</y>
       <width>98</width>
@@ -1003,7 +1003,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_30</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.PDUsReceived</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.PDUsReceived</pv_name>
       <x>173</x>
       <y>205</y>
       <width>98</width>
@@ -1026,7 +1026,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_31</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.PDUsRejected</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.PDUsRejected</pv_name>
       <x>173</x>
       <y>225</y>
       <width>98</width>
@@ -1049,7 +1049,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_32</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.TotalInProgTrans</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.TotalInProgTrans</pv_name>
       <x>173</x>
       <y>245</y>
       <width>98</width>
@@ -1072,7 +1072,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_33</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.TotalFailedTrans</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.TotalFailedTrans</pv_name>
       <x>173</x>
       <y>265</y>
       <width>98</width>
@@ -1095,7 +1095,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_34</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.TotalAbandonTrans</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.TotalAbandonTrans</pv_name>
       <x>173</x>
       <y>285</y>
       <width>98</width>
@@ -1118,7 +1118,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_35</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.TotalSuccessTrans</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.TotalSuccessTrans</pv_name>
       <x>173</x>
       <y>305</y>
       <width>98</width>
@@ -1141,7 +1141,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_36</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.App.TotalCompletedTrans</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.App.TotalCompletedTrans</pv_name>
       <x>173</x>
       <y>325</y>
       <width>98</width>
@@ -1164,7 +1164,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Text Update_37</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.AutoSuspend.EnFlag</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.AutoSuspend.EnFlag</pv_name>
       <label></label>
       <x>156</x>
       <y>395</y>
@@ -1174,7 +1174,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/AutoSuspendEn', {'EnableDisable': '
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_38</name>
-      <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.AutoSuspend.LowFreeMark</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.AutoSuspend.LowFreeMark</pv_name>
       <x>172</x>
       <y>365</y>
       <background_color>

@@ -50,7 +50,7 @@
     </font>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update</name>
-      <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CmdCount</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/hs/HS_HK_TLM_MID.CmdCount</pv_name>
       <x>98</x>
       <y>5</y>
       <background_color>
@@ -102,7 +102,7 @@
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_1</name>
-      <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CmdErrCount</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/hs/HS_HK_TLM_MID.CmdErrCount</pv_name>
       <x>98</x>
       <y>24</y>
       <background_color>
@@ -127,7 +127,7 @@
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/Noop', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/Noop', {});]]></text>
           </script>
         </action>
       </actions>
@@ -154,7 +154,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/Noop', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/Reset', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/Reset', {});]]></text>
           </script>
         </action>
       </actions>
@@ -204,7 +204,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/Reset', {});]]></text>
       </font>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_15</name>
-        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.EventsMonitoredCount</pv_name>
+        <pv_name>/cfs/$(CPUID)/apps/hs/HS_HK_TLM_MID.EventsMonitoredCount</pv_name>
         <x>103</x>
         <y>3</y>
         <width>90</width>
@@ -256,7 +256,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/Reset', {});]]></text>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_16</name>
-        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.InvalidEventMonCount</pv_name>
+        <pv_name>/cfs/$(CPUID)/apps/hs/HS_HK_TLM_MID.InvalidEventMonCount</pv_name>
         <x>103</x>
         <y>23</y>
         <width>90</width>
@@ -293,7 +293,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/Reset', {});]]></text>
             <script file="EmbeddedJs">
               <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableEventMon', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/EnableEventMon', {});]]></text>
             </script>
           </action>
         </actions>
@@ -320,7 +320,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableEventMon', {});]]></text>
             <script file="EmbeddedJs">
               <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableEventMon', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/DisableEventMon', {});]]></text>
             </script>
           </action>
         </actions>
@@ -342,7 +342,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableEventMon', {});]]></text>
       </widget>
       <widget type="multi_state_led" version="2.0.0">
         <name>LED (Multi State)_1</name>
-        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentEventMonState</pv_name>
+        <pv_name>/cfs/$(CPUID)/apps/hs/HS_HK_TLM_MID.CurrentEventMonState</pv_name>
         <x>5</x>
         <y>47</y>
         <width>18</width>
@@ -394,7 +394,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableEventMon', {});]]></text>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_50</name>
-        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.UtilCpuAvg</pv_name>
+        <pv_name>/cfs/$(CPUID)/apps/hs/HS_HK_TLM_MID.UtilCpuAvg</pv_name>
         <x>103</x>
         <y>7</y>
         <width>90</width>
@@ -431,7 +431,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableEventMon', {});]]></text>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_51</name>
-        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.UtilCpuPeak</pv_name>
+        <pv_name>/cfs/$(CPUID)/apps/hs/HS_HK_TLM_MID.UtilCpuPeak</pv_name>
         <x>103</x>
         <y>26</y>
         <width>90</width>
@@ -457,7 +457,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableEventMon', {});]]></text>
             <script file="EmbeddedJs">
               <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableCpuHog', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/EnableCpuHog', {});]]></text>
             </script>
           </action>
         </actions>
@@ -484,7 +484,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableCpuHog', {});]]></text>
             <script file="EmbeddedJs">
               <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableCpuHog', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/DisableCpuHog', {});]]></text>
             </script>
           </action>
         </actions>
@@ -543,7 +543,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableCpuHog', {});]]></text>
             <script file="EmbeddedJs">
               <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/ReportDiag', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/ReportDiag', {});]]></text>
             </script>
           </action>
         </actions>
@@ -565,7 +565,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/ReportDiag', {});]]></text>
       </widget>
       <widget type="multi_state_led" version="2.0.0">
         <name>LED (Multi State)_2</name>
-        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentCPUHogState</pv_name>
+        <pv_name>/cfs/$(CPUID)/apps/hs/HS_HK_TLM_MID.CurrentCPUHogState</pv_name>
         <x>5</x>
         <y>54</y>
         <width>18</width>
@@ -606,7 +606,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/ReportDiag', {});]]></text>
             <script file="EmbeddedJs">
               <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableAliveness', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/EnableAliveness', {});]]></text>
             </script>
           </action>
         </actions>
@@ -633,7 +633,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableAliveness', {});]]></text>
             <script file="EmbeddedJs">
               <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableAliveness', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/DisableAliveness', {});]]></text>
             </script>
           </action>
         </actions>
@@ -655,7 +655,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableAliveness', {});]]></text>
       </widget>
       <widget type="multi_state_led" version="2.0.0">
         <name>LED (Multi State)_3</name>
-        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentAlivenessState</pv_name>
+        <pv_name>/cfs/$(CPUID)/apps/hs/HS_HK_TLM_MID.CurrentAlivenessState</pv_name>
         <x>5</x>
         <y>6</y>
         <width>18</width>
@@ -696,7 +696,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableAliveness', {});]]></text>
             <script file="EmbeddedJs">
               <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableAppMon', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/EnableAppMon', {});]]></text>
             </script>
           </action>
         </actions>
@@ -723,7 +723,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/EnableAppMon', {});]]></text>
             <script file="EmbeddedJs">
               <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableAppMon', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/DisableAppMon', {});]]></text>
             </script>
           </action>
         </actions>
@@ -745,7 +745,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableAppMon', {});]]></text>
       </widget>
       <widget type="multi_state_led" version="2.0.0">
         <name>LED (Multi State)</name>
-        <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.CurrentAppMonState</pv_name>
+        <pv_name>/cfs/$(CPUID)/apps/hs/HS_HK_TLM_MID.CurrentAppMonState</pv_name>
         <x>5</x>
         <y>5</y>
         <width>18</width>
@@ -794,7 +794,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableAppMon', {});]]></text>
     </font>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_13</name>
-      <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.ResetsPerformed</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/hs/HS_HK_TLM_MID.ResetsPerformed</pv_name>
       <x>128</x>
       <y>5</y>
       <background_color>
@@ -814,7 +814,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableAppMon', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_14</name>
-      <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.MaxResets</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/hs/HS_HK_TLM_MID.MaxResets</pv_name>
       <x>128</x>
       <y>24</y>
       <background_color>
@@ -866,7 +866,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableAppMon', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_49</name>
-      <pv_name>/cfs/$(CPUID)/hs/HS_HkPacket_t.MsgActExec</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/hs/HS_HK_TLM_MID.MsgActExec</pv_name>
       <x>128</x>
       <y>43</y>
       <background_color>
@@ -907,7 +907,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/DisableAppMon', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/ResetResetsPerformed', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/ResetResetsPerformed', {});]]></text>
           </script>
         </action>
       </actions>
@@ -986,7 +986,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/ResetResetsPerformed', {});]]></tex
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/WakeUp', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/WakeUp', {});]]></text>
           </script>
         </action>
       </actions>
@@ -1032,7 +1032,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/WakeUp', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/hs/SendHK', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/SendHK', {});]]></text>
           </script>
         </action>
       </actions>

@@ -57,7 +57,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorMagMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.SensorMagMsgCount</pv_name>
     <x>175</x>
     <y>37</y>
     <width>98</width>
@@ -96,7 +96,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorGyroMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.SensorGyroMsgCount</pv_name>
     <x>175</x>
     <y>56</y>
     <width>98</width>
@@ -135,7 +135,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_4</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.BatteryStatusMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.BatteryStatusMsgCount</pv_name>
     <x>175</x>
     <y>75</y>
     <width>98</width>
@@ -174,7 +174,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_5</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.TelemetryStatusMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.TelemetryStatusMsgCount</pv_name>
     <x>175</x>
     <y>94</y>
     <width>98</width>
@@ -213,7 +213,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_6</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SubsystemInfoMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.SubsystemInfoMsgCount</pv_name>
     <x>175</x>
     <y>113</y>
     <width>98</width>
@@ -252,7 +252,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_8</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleAttitudeMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.VehicleAttitudeMsgCount</pv_name>
     <x>175</x>
     <y>132</y>
     <width>98</width>
@@ -291,7 +291,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_11</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleLocalPositionMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.VehicleLocalPositionMsgCount</pv_name>
     <x>175</x>
     <y>151</y>
     <width>98</width>
@@ -330,7 +330,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_12</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleLandDetectedMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.VehicleLandDetectedMsgCount</pv_name>
     <x>175</x>
     <y>170</y>
     <width>98</width>
@@ -369,7 +369,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_13</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.MissionResultMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.MissionResultMsgCount</pv_name>
     <x>175</x>
     <y>189</y>
     <width>98</width>
@@ -408,7 +408,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_14</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.ManualControlSetpointMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.ManualControlSetpointMsgCount</pv_name>
     <x>175</x>
     <y>208</y>
     <width>98</width>
@@ -447,7 +447,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_15</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PositionSetpointTripletMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.PositionSetpointTripletMsgCount</pv_name>
     <x>175</x>
     <y>227</y>
     <width>98</width>
@@ -486,7 +486,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_16</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorAccelMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.SensorAccelMsgCount</pv_name>
     <x>175</x>
     <y>246</y>
     <width>98</width>
@@ -525,7 +525,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_17</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SafetyMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.SafetyMsgCount</pv_name>
     <x>175</x>
     <y>265</y>
     <width>98</width>
@@ -564,7 +564,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_18</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorCorrectionMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.SensorCorrectionMsgCount</pv_name>
     <x>175</x>
     <y>284</y>
     <width>98</width>
@@ -603,7 +603,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_19</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.SensorCombinedMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.SensorCombinedMsgCount</pv_name>
     <x>175</x>
     <y>303</y>
     <width>98</width>
@@ -642,7 +642,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_20</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleCommandMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.VehicleCommandMsgCount</pv_name>
     <x>175</x>
     <y>322</y>
     <width>98</width>
@@ -681,7 +681,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_21</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleGlobalPositionMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.VehicleGlobalPositionMsgCount</pv_name>
     <x>175</x>
     <y>341</y>
     <width>98</width>
@@ -720,7 +720,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_22</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleGpsPositionMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.VehicleGpsPositionMsgCount</pv_name>
     <x>175</x>
     <y>360</y>
     <width>98</width>
@@ -759,7 +759,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_23</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleStatusMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.VehicleStatusMsgCount</pv_name>
     <x>175</x>
     <y>379</y>
     <width>98</width>
@@ -798,7 +798,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_24</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.VehicleControlModeMsgCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.VehicleControlModeMsgCount</pv_name>
     <x>175</x>
     <y>398</y>
     <width>98</width>

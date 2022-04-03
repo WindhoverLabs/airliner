@@ -71,7 +71,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/EnableAppEvents', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/EnableAppEvents', {
     'Payload.AppName':  appName
 });
 
@@ -105,7 +105,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisableAppEvents', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/DisableAppEvents', {
     'Payload.AppName':  appName
 });
 
@@ -147,7 +147,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/EnableAppEventType', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/EnableAppEventType', {
     'Payload.AppName':  appName,
     'Payload.BitMask':  '0x0008',
     'Payload.Spare':  '0'
@@ -183,7 +183,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisableAppEventType', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/DisableAppEventType', {
     'Payload.AppName':  appName,
     'Payload.BitMask':  '0x0008',
     'Payload.Spare':  '0'
@@ -216,7 +216,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/EnableAppEventType', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/EnableAppEventType', {
     'Payload.AppName':  appName,
     'Payload.BitMask':  '0x0004',
     'Payload.Spare':  '0'
@@ -251,7 +251,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisableAppEventType', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/DisableAppEventType', {
     'Payload.AppName':  appName,
     'Payload.BitMask':  '0x0004',
     'Payload.Spare':  '0'
@@ -284,7 +284,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/EnableAppEventType', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/EnableAppEventType', {
     'Payload.AppName':  appName,
     'Payload.BitMask':  '0x0002',
     'Payload.Spare':  '0'
@@ -319,7 +319,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisableAppEventType', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/DisableAppEventType', {
     'Payload.AppName':  appName,
     'Payload.BitMask':  '0x0002',
     'Payload.Spare':  '0'
@@ -354,7 +354,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/EnableAppEventType', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/EnableAppEventType', {
     'Payload.AppName':  appName,
     'Payload.BitMask':  '0x0001',
     'Payload.Spare':  '0'
@@ -387,7 +387,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisableAppEventType', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/DisableAppEventType', {
     'Payload.AppName':  appName,
     'Payload.BitMask':  '0x0001',
     'Payload.Spare':  '0'
@@ -433,7 +433,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/ResetAppEventCounters', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/ResetAppEventCounters', {
     'Payload.AppName':  appName
 });
 ]]></text>
@@ -465,7 +465,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/ResetAppFilters', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/ResetAppFilters', {
     'Payload.AppName':  appName
 });
 ]]></text>

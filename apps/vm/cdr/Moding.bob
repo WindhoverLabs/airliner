@@ -26,7 +26,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Manual', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Manual', {});]]></text>
         </script>
       </action>
     </actions>
@@ -53,7 +53,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Manual', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/AutoLoiter', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/AutoLoiter', {});]]></text>
         </script>
       </action>
     </actions>
@@ -80,7 +80,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/AutoLoiter', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/AutoRtl', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/AutoRtl', {});]]></text>
         </script>
       </action>
     </actions>
@@ -107,7 +107,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/AutoRtl', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/AutoTakeoff', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/AutoTakeoff', {});]]></text>
         </script>
       </action>
     </actions>
@@ -134,7 +134,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/AutoTakeoff', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/AutoLand', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/AutoLand', {});]]></text>
         </script>
       </action>
     </actions>
@@ -161,7 +161,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/AutoLand', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Acrobatic', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Acrobatic', {});]]></text>
         </script>
       </action>
     </actions>
@@ -188,7 +188,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Acrobatic', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Rattitude', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Rattitude', {});]]></text>
         </script>
       </action>
     </actions>
@@ -215,7 +215,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Rattitude', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Stabilized', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Stabilized', {});]]></text>
         </script>
       </action>
     </actions>
@@ -257,7 +257,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Stabilized', {});]]></text>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_41</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.NavState</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.NavState</pv_name>
     <x>19</x>
     <y>37</y>
     <width>132</width>
@@ -317,7 +317,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Stabilized', {});]]></text>
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_1</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inPosCtl</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.PreviousModes.inPosCtl</pv_name>
     <x>101</x>
     <y>296</y>
     <width>16</width>
@@ -355,7 +355,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Stabilized', {});]]></text>
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_2</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inRtl</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.PreviousModes.inRtl</pv_name>
     <x>101</x>
     <y>315</y>
     <width>16</width>
@@ -393,7 +393,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Stabilized', {});]]></text>
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_3</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inLoiter</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.PreviousModes.inLoiter</pv_name>
     <x>101</x>
     <y>334</y>
     <width>16</width>
@@ -431,7 +431,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Stabilized', {});]]></text>
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_4</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inManual</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.PreviousModes.inManual</pv_name>
     <x>101</x>
     <y>353</y>
     <width>16</width>
@@ -469,7 +469,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Stabilized', {});]]></text>
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_5</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inTakeoff</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.PreviousModes.inTakeoff</pv_name>
     <x>101</x>
     <y>372</y>
     <width>16</width>
@@ -507,7 +507,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Stabilized', {});]]></text>
   </widget>
   <widget type="led" version="2.0.0">
     <name>LED_6</name>
-    <pv_name>/cfs/$(CPUID)/vm/VM_HkTlm_t.PreviousModes.inAltCtl</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.PreviousModes.inAltCtl</pv_name>
     <x>101</x>
     <y>391</y>
     <width>16</width>
@@ -534,7 +534,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Stabilized', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Manual', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Manual', {});]]></text>
         </script>
       </action>
     </actions>
@@ -561,7 +561,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Manual', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/vm/Manual', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Manual', {});]]></text>
         </script>
       </action>
     </actions>
