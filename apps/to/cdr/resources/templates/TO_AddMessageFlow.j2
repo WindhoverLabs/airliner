@@ -229,7 +229,7 @@ if(ChannelIdx == "{{ channel.name }}") {
     
 
 
-Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/to/AddMessageFlow', {
+Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/apps/to/AddMessageFlow', {
     'MsgID': msgIDOut,
     'MsgLimit': MsgLimit,
     'PQueueIdx': pQueueIdxOut,

@@ -161,7 +161,7 @@ if(ChannelIdx == "{{ channel.name }}") {
   {%- endif %}
 {%- endfor %}
 
-Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/to/RemoveMessageFlow', {
+Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/apps/to/RemoveMessageFlow', {
     'MsgID': msgIDOut,
     'ChannelIdx': channelIdxOut
 });
