@@ -4,8 +4,8 @@
   <macros>
     <APP>sc</APP>
     <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/apps/modules/$(APP)</REGISTRY_PATH>
     <CPUID>{{ cpu_id }}</CPUID>
-    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
@@ -1011,10 +1011,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/Reset', {});]]></text>
     <y>258</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1112,10 +1108,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/ManageTable',{});]]></text>
     <y>315</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1132,10 +1124,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/ManageTable',{});]]></text>
     <y>334</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1152,10 +1140,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/ManageTable',{});]]></text>
     <y>353</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1226,10 +1210,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/1HzWakeUp',{});]]></text>
     <y>97</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1246,10 +1226,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/1HzWakeUp',{});]]></text>
     <y>116</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1266,10 +1242,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/1HzWakeUp',{});]]></text>
     <y>135</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1286,10 +1258,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/1HzWakeUp',{});]]></text>
     <y>154</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1306,10 +1274,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/1HzWakeUp',{});]]></text>
     <y>173</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1326,10 +1290,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/1HzWakeUp',{});]]></text>
     <y>192</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1346,10 +1306,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/1HzWakeUp',{});]]></text>
     <y>211</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1366,10 +1322,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/1HzWakeUp',{});]]></text>
     <y>230</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1394,10 +1346,6 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
     <y>382</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1422,10 +1370,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     <y>401</y>
     <width>164</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1450,10 +1394,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     <y>41</y>
     <width>91</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>

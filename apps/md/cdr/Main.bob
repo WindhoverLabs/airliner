@@ -3,11 +3,8 @@
   <name>($(CPUID)) MD</name>
   <macros>
     <APP>md</APP>
-    <include_parent_macros>true</include_parent_macros>
-    <CPUID>{{ cpu_id }}</CPUID>
+    <CPUID>cpd</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
-@BUILDLINER_CDR_MACRO_BLOCK@
-@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
   <height>350</height>
   <background_color>
@@ -819,10 +816,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/md/Reset', {});]]></text>
     <y>42</y>
     <width>140</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -839,10 +832,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/md/Reset', {});]]></text>
     <y>61</y>
     <width>140</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -859,10 +848,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/md/Reset', {});]]></text>
     <y>80</y>
     <width>140</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -879,10 +864,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/md/Reset', {});]]></text>
     <y>99</y>
     <width>140</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -907,10 +888,6 @@ ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService
     <y>118</y>
     <width>140</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -991,10 +968,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     <y>23</y>
     <width>140</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
@@ -1019,10 +992,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
     <y>175</y>
     <width>140</width>
     <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>

@@ -82,10 +82,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/ResetCounters', {'Value': 'UP'
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color name="Border Color" red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_43</name>
@@ -105,10 +101,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/ResetCounters', {'Value': 'UP'
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color name="Border Color" red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_44</name>
@@ -128,10 +120,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/ResetCounters', {'Value': 'UP'
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color name="Border Color" red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_45</name>
@@ -151,10 +139,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/ResetCounters', {'Value': 'UP'
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color name="Border Color" red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_46</name>
@@ -174,10 +158,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/ResetCounters', {'Value': 'UP'
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color name="Border Color" red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_109</name>

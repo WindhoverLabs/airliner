@@ -4,8 +4,8 @@
   <macros>
     <APP>lc</APP>
     <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/apps/modules/$(APP)</REGISTRY_PATH>
     <CPUID>{{ cpu_id }}</CPUID>
-    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
@@ -35,10 +35,7 @@
     <wrap_words>false</wrap_words>
     <actions>
     </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
+    <border_width>1</border_width>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label</name>
@@ -88,10 +85,7 @@
     <wrap_words>false</wrap_words>
     <actions>
     </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
+    <border_width>1</border_width>
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>NoOp</name>
@@ -185,10 +179,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/Reset', {});]]></text>
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color name="Border Color" red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
@@ -208,10 +198,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/Reset', {});]]></text>
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color name="Border Color" red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_4</name>
@@ -231,10 +217,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/Reset', {});]]></text>
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color name="Border Color" red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_5</name>
@@ -254,10 +236,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/Reset', {});]]></text>
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color name="Border Color" red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_6</name>
@@ -277,10 +255,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/Reset', {});]]></text>
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color name="Border Color" red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_50</name>
@@ -397,10 +371,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/Reset', {});]]></text>
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color name="Border Color" red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>Action Button_4</name>
@@ -547,10 +517,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/SendHK', {});]]></text>
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color name="Border Color" red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_58</name>

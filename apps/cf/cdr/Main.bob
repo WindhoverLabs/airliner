@@ -734,10 +734,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>Action Button_1</name>
@@ -789,10 +785,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_21</name>
@@ -812,10 +804,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_22</name>
@@ -835,10 +823,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_23</name>
@@ -858,10 +842,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_24</name>
@@ -881,10 +861,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_25</name>
@@ -904,10 +880,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_26</name>
@@ -927,10 +899,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_27</name>
@@ -950,10 +918,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_28</name>
@@ -973,10 +937,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_29</name>
@@ -996,10 +956,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_30</name>
@@ -1019,10 +975,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_31</name>
@@ -1042,10 +994,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_32</name>
@@ -1065,10 +1013,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_33</name>
@@ -1088,10 +1032,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_34</name>
@@ -1111,10 +1051,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_35</name>
@@ -1134,10 +1070,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_36</name>
@@ -1157,10 +1089,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Text Update_37</name>
@@ -1175,8 +1103,9 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_38</name>
       <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.AutoSuspend.LowFreeMark</pv_name>
-      <x>172</x>
+      <x>173</x>
       <y>365</y>
+      <width>98</width>
       <background_color>
         <color red="255" green="255" blue="255">
         </color>
@@ -1188,10 +1117,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/AutoSuspendEn', {'EnableDisabl
       <actions>
       </actions>
       <border_alarm_sensitive>false</border_alarm_sensitive>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
+      <border_width>1</border_width>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>AppControl</name>

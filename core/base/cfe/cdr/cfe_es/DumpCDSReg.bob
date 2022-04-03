@@ -3,9 +3,9 @@
   <name>($(CPUID)) CFE-ES - Dump CDS Reg</name>
 
   <macros>
-    <CPUID>{{ cpu_id }}</CPUID>
     <APP>cfe_es</APP>
     <include_parent_macros>true</include_parent_macros>
+    <CPUID>{{ cpu_id }}</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@

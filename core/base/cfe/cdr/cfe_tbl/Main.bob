@@ -62,10 +62,6 @@
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_2</name>
@@ -116,10 +112,6 @@
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>NoOp_2</name>
@@ -257,10 +249,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_55</name>
@@ -294,10 +282,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_17</name>
@@ -315,10 +299,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_57</name>
@@ -352,10 +332,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_58</name>
@@ -389,10 +365,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_59</name>
@@ -426,10 +398,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_60</name>
@@ -463,10 +431,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_4</name>
@@ -596,10 +560,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_5</name>
@@ -617,10 +577,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_6</name>
@@ -638,10 +594,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_7</name>
@@ -659,10 +611,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_8</name>
@@ -680,10 +628,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_9</name>
@@ -701,10 +645,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_10</name>
@@ -722,10 +662,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_50</name>
@@ -759,10 +695,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_51</name>
@@ -796,10 +728,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_52</name>
@@ -833,10 +761,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_53</name>
@@ -870,10 +794,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_54</name>

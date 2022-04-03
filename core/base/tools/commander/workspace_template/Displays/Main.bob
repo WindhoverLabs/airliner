@@ -1,0 +1,1496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Main</name>
+  <width>750</width>
+  <height>850</height>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Label_48</name>
+    <text>Core Services</text>
+    <x>8</x>
+    <y>1</y>
+    <width>161</width>
+    <height>31</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+      </font>
+    </font>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="rectangle" version="2.0.0">
+    <name>Rectangle</name>
+    <macros>
+      <pv_name></pv_name>
+    </macros>
+    <x>420</x>
+    <y>6</y>
+    <width>247</width>
+    <height>175</height>
+    <line_width>1</line_width>
+    <line_color>
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </line_color>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <tooltip>$(pv_name)
+$(pv_value)</tooltip>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>Button Legend</text>
+    <x>420</x>
+    <y>6</y>
+    <width>247</width>
+    <height>43</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_43</name>
+    <actions>
+    </actions>
+    <text>Open Display</text>
+    <x>432</x>
+    <y>51</y>
+    <width>223</width>
+    <height>23</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp</name>
+    <actions>
+    </actions>
+    <text>Command</text>
+    <x>432</x>
+    <y>109</y>
+    <width>223</width>
+    <height>24</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_44</name>
+    <actions>
+    </actions>
+    <text>Hazardous Command</text>
+    <x>432</x>
+    <y>139</y>
+    <width>223</width>
+    <height>23</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="255" green="50" blue="50">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button_2</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+for(var i = 1; i <= 32; ++i) {
+    var ActualTriggerName = 'TriggerActual' + i;
+    var RequestTriggerName = 'TriggerRequest' + i;
+    var actualTriggerValue = VTypeHelper.getDouble(display.getWidget(ActualTriggerName).getPropertyValue('pv_value'));
+    display.getWidget(RequestTriggerName).setPropertyValue('pv_value', actualTriggerValue);
+}]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Local Action</text>
+    <x>432</x>
+    <y>78</y>
+    <width>223</width>
+    <height>25</height>
+    <background_color>
+      <color name="TM_label_text" red="197" green="211" blue="236">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_70</name>
+    <text>PPD</text>
+    <x>186</x>
+    <y>6</y>
+    <width>73</width>
+    <height>25</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <tooltip>Non-critical</tooltip>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_71</name>
+    <text>CPD</text>
+    <x>276</x>
+    <y>6</y>
+    <width>73</width>
+    <height>25</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <tooltip>Critical</tooltip>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Core</name>
+    <x>36</x>
+    <y>36</y>
+    <width>313</width>
+    <height>143</height>
+    <style>3</style>
+    <foreground_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <actions>
+    </actions>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_2</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/core/cfe/cfe_es/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>150</x>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>Essential Services</text>
+      <y>2</y>
+      <width>137</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_51</name>
+      <text>Event Services</text>
+      <y>30</y>
+      <width>137</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_5</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/core/cfe/cfe_evs/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>150</x>
+      <y>30</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_52</name>
+      <text>Software Bus</text>
+      <y>60</y>
+      <width>137</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_8</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/core/cfe/cfe_sb/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>150</x>
+      <y>60</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_53</name>
+      <text>Table Services</text>
+      <y>90</y>
+      <width>137</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_11</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/core/cfe/cfe_tbl/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>150</x>
+      <y>90</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_54</name>
+      <text>Time Services</text>
+      <y>120</y>
+      <width>137</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_14</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/core/cfe/cfe_time/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>150</x>
+      <y>120</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_46</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/core/cfe/cfe_es/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>240</x>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_47</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/core/cfe/cfe_evs/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>240</x>
+      <y>30</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_48</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/core/cfe/cfe_sb/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>240</x>
+      <y>60</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_49</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/core/cfe/cfe_tbl/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>240</x>
+      <y>90</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_50</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/core/cfe/cfe_time/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>240</x>
+      <y>120</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_55</name>
+    <text>Applications</text>
+    <x>8</x>
+    <y>192</y>
+    <width>193</width>
+    <height>31</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+      </font>
+    </font>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Applications</name>
+    <x>36</x>
+    <y>232</y>
+    <width>313</width>
+    <height>620</height>
+    <style>3</style>
+    <foreground_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <actions>
+    </actions>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_15</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/cf/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_56</name>
+      <text>CFDP File Transfer</text>
+      <y>2</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_57</name>
+      <text>Checksum</text>
+      <y>58</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_16</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/cs/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>56</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_58</name>
+      <text>Data Storage</text>
+      <y>86</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_17</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/ds/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>84</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_59</name>
+      <text>File Manager</text>
+      <y>114</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_18</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/ds/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>112</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_60</name>
+      <text>Housekeeping</text>
+      <y>142</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_19</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/hk/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>140</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_61</name>
+      <text>Command Ingest</text>
+      <y>30</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_20</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/ci/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>28</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_62</name>
+      <text>Health Services</text>
+      <y>170</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_23</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/hs/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>168</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_63</name>
+      <text>Limit Checker</text>
+      <y>198</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_26</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/lc/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>196</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_64</name>
+      <text>Memory Dwell</text>
+      <y>226</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_29</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/md/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>224</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_65</name>
+      <text>Memory Manager</text>
+      <y>254</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_32</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/mm/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>252</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_66</name>
+      <text>Stored Command</text>
+      <y>282</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_35</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/sc/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>280</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_67</name>
+      <text>Scheduler</text>
+      <y>310</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_38</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/sch/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>308</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_68</name>
+      <text>Telemetry Output</text>
+      <y>338</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_41</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/to/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>336</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_51</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/cf/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_52</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/cs/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>56</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_54</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/fm/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>112</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_57</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/hs/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>168</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_58</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/lc/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>196</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_59</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/md/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>224</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_60</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/mm/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>252</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_61</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/sc/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>280</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_62</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/sch/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>308</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_63</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/to/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>336</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_72</name>
+      <text>Position Estimator</text>
+      <y>366</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_65</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/pe/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>364</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_75</name>
+      <text>Sensor</text>
+      <y>394</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_67</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/sens/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>392</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_76</name>
+      <text>Vehicle Manager</text>
+      <y>422</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_69</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/vm/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>420</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_77</name>
+      <text>PX4Lib</text>
+      <y>450</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_70</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/px4lib/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>448</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_71</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/ci/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>28</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_78</name>
+      <text>Sensor Effector Domain</text>
+      <y>478</y>
+      <width>174</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_72</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/sed/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>476</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_70</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/px4lib/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>448</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_79</name>
+      <text>ZUSUP</text>
+      <y>510</y>
+      <width>174</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_74</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/zusup/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>504</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_77</name>
+      <text>SBN</text>
+      <y>534</y>
+      <width>137</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_70</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/sbn/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>239</x>
+      <y>532</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_71</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/sbn/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>532</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_78</name>
+      <text> Video Control</text>
+      <y>590</y>
+      <width>137</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_73</name>
+      <actions>
+        <action type="open_display">
+          <file>ppd/apps/vc/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>148</x>
+      <y>588</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_74</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/vc/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>238</x>
+      <y>588</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_77</name>
+    <text>BAT</text>
+    <x>37</x>
+    <y>794</y>
+    <width>137</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_71</name>
+    <actions>
+      <action type="open_display">
+        <file>ppd/apps/bat/Main.opi</file>
+        <target>tab</target>
+      </action>
+    </actions>
+    <text>Display</text>
+    <x>186</x>
+    <y>792</y>
+    <width>72</width>
+    <height>23</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_72</name>
+    <actions>
+      <action type="open_display">
+        <file>cpd/apps/bat/Main.opi</file>
+        <target>tab</target>
+      </action>
+    </actions>
+    <text>Display</text>
+    <x>276</x>
+    <y>792</y>
+    <width>72</width>
+    <height>23</height>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+</display>

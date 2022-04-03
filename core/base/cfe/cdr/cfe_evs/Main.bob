@@ -116,10 +116,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/Reset', {});]]></text
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label</name>
@@ -170,10 +166,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/Reset', {});]]></text
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="embedded" version="2.0.0">
       <name>Embedded Display</name>
@@ -415,10 +407,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/Reset', {});]]></text
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_3</name>
@@ -436,10 +424,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/Reset', {});]]></text
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_4</name>
@@ -457,10 +441,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/Reset', {});]]></text
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_5</name>
@@ -478,10 +458,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/Reset', {});]]></text
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_6</name>
@@ -499,10 +475,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/Reset', {});]]></text
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_7</name>
@@ -520,10 +492,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/Reset', {});]]></text
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_8</name>
@@ -541,10 +509,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/Reset', {});]]></text
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_9</name>
@@ -562,10 +526,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/Reset', {});]]></text
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>NoOp_7</name>
@@ -793,10 +753,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/ClearLog', {});]]></t
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">

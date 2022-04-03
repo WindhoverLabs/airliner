@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
   <name>($(CPUID)) CFE-ES - Main</name>
+
   <macros>
+    <CPUID>{{ cpu_id }}</CPUID>
     <APP>cfe_es</APP>
     <include_parent_macros>true</include_parent_macros>
-    <CPUID>{{ cpu_id }}</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
@@ -116,6 +117,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label</name>
@@ -166,6 +171,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="embedded" version="2.0.0">
       <name>Embedded Display</name>
@@ -279,6 +288,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_3</name>
@@ -297,6 +310,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_4</name>
@@ -315,6 +332,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_5</name>
@@ -333,6 +354,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_6</name>
@@ -351,6 +376,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
@@ -442,6 +471,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_8</name>
@@ -460,6 +493,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_9</name>
@@ -478,6 +515,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_10</name>
@@ -496,6 +537,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
@@ -540,6 +585,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>NoOp_20</name>
@@ -662,6 +711,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearSysLog', {});]]><
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_41</name>
@@ -680,6 +733,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearSysLog', {});]]><
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_42</name>
@@ -698,6 +755,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearSysLog', {});]]><
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
@@ -802,6 +863,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_15</name>
@@ -820,6 +885,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
@@ -942,6 +1011,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_17</name>
@@ -960,6 +1033,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_18</name>
@@ -978,6 +1055,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_19</name>
@@ -996,6 +1077,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
@@ -1072,6 +1157,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_30</name>
@@ -1090,6 +1179,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_31</name>
@@ -1108,6 +1201,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
@@ -1217,6 +1314,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_33</name>
@@ -1235,6 +1336,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_34</name>
@@ -1253,6 +1358,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_35</name>
@@ -1271,6 +1380,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_36</name>
@@ -1289,6 +1402,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ClearERLog', {});]]></
       <actions>
       </actions>
       <border_width>1</border_width>
+      <border_color>
+        <color red="240" green="240" blue="240">
+        </color>
+      </border_color>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>NoOp_17</name>

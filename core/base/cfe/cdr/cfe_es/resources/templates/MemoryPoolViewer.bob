@@ -3,6 +3,8 @@
   <name>($(CPUID)) CFE-ES - MemPool</name>
   <macros>
     <CPUID>{{ cpu_id }}</CPUID>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
@@ -63,10 +65,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_23</name>
@@ -85,10 +83,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_24</name>
@@ -107,10 +101,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_25</name>
@@ -129,10 +119,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_26</name>
@@ -151,10 +137,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label</name>
@@ -627,10 +609,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_28</name>
@@ -649,10 +627,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_29</name>
@@ -671,10 +645,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_80</name>
@@ -693,10 +663,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_81</name>
@@ -715,10 +681,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_82</name>
@@ -737,10 +699,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_83</name>
@@ -759,10 +717,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_84</name>
@@ -781,10 +735,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_85</name>
@@ -803,10 +753,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_86</name>
@@ -825,10 +771,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_87</name>
@@ -847,10 +789,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_88</name>
@@ -869,10 +807,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_89</name>
@@ -891,10 +825,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_90</name>
@@ -913,10 +843,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_91</name>
@@ -935,10 +861,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_92</name>
@@ -957,10 +879,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_93</name>
@@ -979,10 +897,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_94</name>
@@ -1001,10 +915,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_95</name>
@@ -1023,10 +933,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_96</name>
@@ -1045,10 +951,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_97</name>
@@ -1067,10 +969,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_98</name>
@@ -1089,10 +987,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_99</name>
@@ -1111,10 +1005,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_100</name>
@@ -1133,10 +1023,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_101</name>
@@ -1155,10 +1041,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_102</name>
@@ -1177,10 +1059,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_103</name>
@@ -1199,10 +1077,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_104</name>
@@ -1221,10 +1095,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_105</name>
@@ -1243,10 +1113,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_106</name>
@@ -1265,10 +1131,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_107</name>
@@ -1287,10 +1149,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_108</name>
@@ -1309,10 +1167,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_109</name>
@@ -1331,10 +1185,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_110</name>
@@ -1353,10 +1203,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_111</name>
@@ -1375,10 +1221,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_112</name>
@@ -1397,10 +1239,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_113</name>
@@ -1419,10 +1257,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_114</name>
@@ -1441,10 +1275,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_115</name>
@@ -1463,10 +1293,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_116</name>
@@ -1485,10 +1311,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_117</name>
@@ -1507,10 +1329,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_118</name>
@@ -1529,10 +1347,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_119</name>
@@ -1551,10 +1365,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_120</name>
@@ -1573,10 +1383,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_121</name>
@@ -1595,10 +1401,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_122</name>
@@ -1617,10 +1419,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_123</name>
@@ -1639,10 +1437,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_124</name>
@@ -1661,10 +1455,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_125</name>
@@ -1683,10 +1473,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_126</name>
@@ -1705,10 +1491,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_127</name>
@@ -1727,10 +1509,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_28</name>

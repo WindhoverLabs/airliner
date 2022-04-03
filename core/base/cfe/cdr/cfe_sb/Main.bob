@@ -62,10 +62,6 @@
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label</name>
@@ -116,10 +112,6 @@
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>NoOp</name>
@@ -550,10 +542,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_3</name>
@@ -571,10 +559,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_4</name>
@@ -592,10 +576,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_5</name>
@@ -613,10 +593,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_6</name>
@@ -634,10 +610,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_7</name>
@@ -655,10 +627,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_8</name>
@@ -676,10 +644,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_9</name>
@@ -697,10 +661,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_10</name>
@@ -718,10 +678,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_50</name>
@@ -755,10 +711,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_51</name>
@@ -792,10 +744,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_52</name>
@@ -830,10 +778,6 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
   </widget>
 </display>

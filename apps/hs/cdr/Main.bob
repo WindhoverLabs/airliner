@@ -4,8 +4,8 @@
   <macros>
     <APP>hs</APP>
     <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/apps/modules/$(APP)</REGISTRY_PATH>
     <CPUID>{{ cpu_id }}</CPUID>
-    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
@@ -63,10 +63,7 @@
       <wrap_words>false</wrap_words>
       <actions>
       </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
+      <border_width>1</border_width>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label</name>
@@ -115,10 +112,7 @@
       <wrap_words>false</wrap_words>
       <actions>
       </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
+      <border_width>1</border_width>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>NoOp</name>
@@ -218,10 +212,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/Reset', {});]]></text>
         <wrap_words>false</wrap_words>
         <actions>
         </actions>
-        <border_color>
-          <color red="0" green="128" blue="255">
-          </color>
-        </border_color>
+        <border_width>1</border_width>
       </widget>
       <widget type="label" version="2.0.0">
         <name>Label_60</name>
@@ -270,10 +261,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/Reset', {});]]></text>
         <wrap_words>false</wrap_words>
         <actions>
         </actions>
-        <border_color>
-          <color red="0" green="128" blue="255">
-          </color>
-        </border_color>
+        <border_width>1</border_width>
       </widget>
       <widget type="polyline" version="2.0.0">
         <name>Polyline_1</name>
@@ -408,10 +396,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/DisableEventMon', {});]]></tex
         <wrap_words>false</wrap_words>
         <actions>
         </actions>
-        <border_color>
-          <color red="0" green="128" blue="255">
-          </color>
-        </border_color>
+        <border_width>1</border_width>
       </widget>
       <widget type="label" version="2.0.0">
         <name>Label_67</name>
@@ -445,10 +430,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/DisableEventMon', {});]]></tex
         <wrap_words>false</wrap_words>
         <actions>
         </actions>
-        <border_color>
-          <color red="0" green="128" blue="255">
-          </color>
-        </border_color>
+        <border_width>1</border_width>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>NoOp_6</name>
@@ -807,10 +789,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/DisableAppMon', {});]]></text>
       <wrap_words>false</wrap_words>
       <actions>
       </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
+      <border_width>1</border_width>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_14</name>
@@ -827,10 +806,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/DisableAppMon', {});]]></text>
       <wrap_words>false</wrap_words>
       <actions>
       </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
+      <border_width>1</border_width>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_59</name>
@@ -879,10 +855,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/DisableAppMon', {});]]></text>
       <wrap_words>false</wrap_words>
       <actions>
       </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
+      <border_width>1</border_width>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_66</name>
