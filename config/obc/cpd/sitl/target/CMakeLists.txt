@@ -399,3 +399,18 @@ buildliner_add_app(
 #    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/gps/fsw/for_build
 #    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps
 #)
+
+buildliner_add_app(
+    gps
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/gps/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_interface_uart/gps_serial.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_parser_ubx/gps_parser_ubx_common.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_parser_ubx/gps_parser_ubx_nav.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_parser_ubx/gps_parser_ubx_cfg.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_parser_ubx/gps_parser_ubx_ack.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_parser_ubx/gps_parser_ubx_mon.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_custom.c
+)
