@@ -368,12 +368,13 @@ buildliner_add_app(
 )
 
 
-#buildliner_add_app(
-#    hmc5883
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/hmc5883/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/hmc5883
-#)
+buildliner_add_app(
+    hmc5883
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/hmc5883/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/hmc5883
+    CONFIG_SOURCES ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/hmc5883/src/hmc5883_custom.c
+)
 
 
 buildliner_add_app(
