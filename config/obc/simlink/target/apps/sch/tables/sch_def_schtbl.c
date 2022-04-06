@@ -85,7 +85,7 @@ extern "C" {
 	 { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SBUS_WAKEUP_MIDX,         SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SIMLINK_WAKEUP_MIDX,      SCH_GROUP_NONE }, \
 	 { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	UBLOX_M8N_WAKEUP_MIDX,    SCH_GROUP_NONE }, \
-	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
+	 { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	HMC5883_WAKEUP_MIDX,      SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
@@ -135,7 +135,7 @@ extern "C" {
 	 { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	TO_SEND_TLM_MIDX,         SCH_GROUP_NONE }
 
 #define SCH_25HZ_GROUP_3         \
-     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	HMC5883_WAKEUP_MIDX,      SCH_GROUP_NONE }
+     { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }
 
 #define SCH_25HZ_GROUP_4         \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }
