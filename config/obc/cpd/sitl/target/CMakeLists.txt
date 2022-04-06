@@ -191,6 +191,8 @@ buildliner_add_app(
     CONFIG_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/to_slip_sed.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/tables/to_backup_cfg.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/slip.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/slip.h
 )
 
 buildliner_add_app(

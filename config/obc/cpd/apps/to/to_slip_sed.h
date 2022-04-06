@@ -39,6 +39,7 @@
 *************************************************************************/
 #include "to_app.h"
 #include "to_custom.h"
+#include "slip.h"
 
 
 /************************************************************************
@@ -55,14 +56,6 @@
 
 #define UART_BUFFER_SIZE                        (1500)
 #define UART_CMD_MSG_ID                         (0x1822)
-
-
-/* SLIP special character codes
- */
-#define SLIP_END        	 0xC0    /* Indicates end of packet */
-#define SLIP_ESC             0xDB    /* Indicates byte stuffing */
-#define SLIP_ESC_END         0xDC    /* ESC ESC_END means END data byte */
-#define SLIP_ESC_ESC         0xDD    /* ESC ESC_ESC means ESC data byte */
 
 
 /************************************************************************
@@ -130,6 +123,7 @@ typedef struct
     TO_SlipEncoderState_t           EncoderState;
     osalbool                        MsgProcessInProgress;
     CFE_SB_MsgPtr_t                 InWorkMsg;
+    SLIP_EncoderHandle_t            Encoder;
 } TO_TlmChannel_t;
 
 typedef struct

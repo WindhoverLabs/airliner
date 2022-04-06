@@ -50,8 +50,8 @@
 
 typedef enum
 {
-	TO_QUEUE_MSG_OK                      = 0,
-	TO_QUEUE_MSG_BUFFER_FULL_OK          = 1,
+	TO_QUEUE_MSG_OK                       = 0,
+	TO_QUEUE_MSG_BUFFER_FULL_OK           = 1,
 	TO_QUEUE_MSG_BUFFER_FULL_MSG_DEFERRED = 2
 } TO_QueueMsgReturnCode_t;
 
@@ -90,8 +90,9 @@ uint8 TO_OutputChannel_Status(uint32 index)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int32 TO_Custom_Init(void)
 {
-    int32 status = 0;
-    SEDLIB_ReturnCode_t rc;
+	int32 status = 0;
+	SEDLIB_ReturnCode_t sedLibStatus = 0;
+	SLIP_ReturnCode_t slipStatus = SLIP_OK;
     uint32 i = 0;
 
     CFE_PSP_MemSet(&TO_AppCustomData, 0, sizeof(TO_AppCustomData));
@@ -99,7 +100,15 @@ int32 TO_Custom_Init(void)
     CFE_SB_InitMsg(&TO_AppCustomData.Channel[0].UartQueueDataCmd,
     		        UART_CMD_MSG_ID, sizeof(TO_AppCustomData.Channel[0].UartQueueDataCmd), TRUE);
 
-    CFE_SB_SetCmdCode(&TO_AppCustomData.Channel[0].UartQueueDataCmd, UART_QUEUE_DATA_FOR_TX_CC);
+    CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&TO_AppCustomData.Channel[0].UartQueueDataCmd, UART_QUEUE_DATA_FOR_TX_CC);
+
+    slipStatus = SLIP_EncoderInit(&TO_AppCustomData.Channel[0].Encoder, TO_AppCustomData.Channel[0].UartQueueDataCmd.Buffer, sizeof(TO_AppCustomData.Channel[0].UartQueueDataCmd.Buffer));
+    if(slipStatus != SLIP_OK)
+    {
+        (void) CFE_EVS_SendEvent(TO_INIT_APP_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to initialize SLIP encoder. (0x%08X)",
+								 slipStatus);
+    }
 
     /*
      * Msg Port Interface
@@ -107,15 +116,15 @@ int32 TO_Custom_Init(void)
     TO_AppCustomData.Channel[0].Mode = TO_CHANNEL_ENABLED;
     TO_AppCustomData.Channel[0].UartQueueDataCmd.Version = 1;
 
-    status = SEDLIB_GetPipe(
+    sedLibStatus = SEDLIB_GetPipe(
     		"UART1_CMD",
 			sizeof(UART_QueueDataCmd_t),
 			&TO_AppCustomData.Channel[0].MsgPortHandle);
-    if(status != CFE_SUCCESS)
+    if(sedLibStatus != CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(TO_INIT_APP_ERR_EID, CFE_EVS_ERROR,
-                                 "Failed to initialize UART MsgPort. (0x%08lX)",
-                                 status);
+                                 "Failed to initialize UART MsgPort. (0x%08X)",
+								 sedLibStatus);
     }
     else
     {
@@ -153,149 +162,6 @@ int32 TO_Custom_Init(void)
 
 end_of_function:
     return status;
-}
-
-
-
-TO_QueueMsgReturnCode_t TO_OutputChannel_QueueMsg(uint32 ChannelID, const uint8* Buffer, uint32 Size)
-{
-	osalbool cont = TRUE;
-	TO_TlmChannel_t *channel = &TO_AppCustomData.Channel[ChannelID];
-	TO_QueueMsgReturnCode_t returnCode = TO_QUEUE_MSG_OK;
-
-	while(cont)
-	{
-        /* Before we continue, check to see if we have room for more data. */
-		if(channel->UartQueueDataCmd.BytesInBuffer >= sizeof(channel->UartQueueDataCmd.Buffer))
-		{
-			/* No we don't. If we got to this point, we ran out of room before
-			 * we got to the end of the message. Let the caller know there is
-			 * still a message pending.
-			 */
-			returnCode = TO_QUEUE_MSG_BUFFER_FULL_MSG_DEFERRED;
-			cont = FALSE;
-		}
-		else
-		{
-			/* Yes, we have more room. */
-			switch(channel->EncoderState)
-			{
-				case TO_SLIP_NOMINAL:
-				{
-					/* Do we have more data to queue? */
-					if(channel->InputCursor >= Size)
-					{
-						/* No we don't.  We're done but before we go, we need to add the
-						 * SLIP_END symbol. Transition to ENCODING_END and let the
-						 * machine handle it. */
-						channel->EncoderState = TO_SLIP_ENCODING_END;
-					}
-					else
-					{
-						/* Yes we do. Process the next byte. */
-						switch(Buffer[channel->InputCursor])
-						{
-							case SLIP_END:
-							{
-								/* This is a special byte that needs to be
-								 * properly encoded.
-								 */
-								channel->UartQueueDataCmd.Buffer[channel->UartQueueDataCmd.BytesInBuffer] = SLIP_ESC;
-								channel->UartQueueDataCmd.BytesInBuffer++;
-								channel->InputCursor++;
-								channel->EncoderState = TO_SLIP_ENCODING_ESC_END;
-								break;
-							}
-
-							case SLIP_ESC:
-							{
-								/* This is a special byte that needs to be
-								 * properly encoded.
-								 */
-								channel->UartQueueDataCmd.Buffer[channel->UartQueueDataCmd.BytesInBuffer] = SLIP_ESC;
-								channel->UartQueueDataCmd.BytesInBuffer++;
-								channel->InputCursor++;
-								channel->EncoderState = TO_SLIP_ENCODING_ESC_ESC;
-								break;
-							}
-
-							default:
-							{
-								/* There is nothing special about this byte.
-								 * Just queue it.
-								 */
-								channel->UartQueueDataCmd.Buffer[channel->UartQueueDataCmd.BytesInBuffer] = Buffer[channel->InputCursor];
-								channel->UartQueueDataCmd.BytesInBuffer++;
-								channel->InputCursor++;
-							}
-						}
-					}
-
-					break;
-				}
-
-				case TO_SLIP_ENCODING_END:
-				{
-					/* Queue the END byte and transition back to the NOMINAL
-					 * state.
-					 */
-					channel->UartQueueDataCmd.Buffer[channel->UartQueueDataCmd.BytesInBuffer] = SLIP_END;
-					channel->UartQueueDataCmd.BytesInBuffer++;
-					channel->EncoderState = TO_SLIP_NOMINAL;
-					cont = FALSE;
-
-					/* Is the output buffer full? */
-					if(channel->UartQueueDataCmd.BytesInBuffer >= sizeof(channel->UartQueueDataCmd.Buffer))
-					{
-						/* Yes it is full. Let the caller know we
-						 * successfully queued this message but only just
-						 * barely. We are literally at the end of the
-						 * buffer. The message should go out, but there is
-						 * no need to process a partial message on the next
-						 * frame.
-						 */
-						returnCode = TO_QUEUE_MSG_BUFFER_FULL_OK;
-					}
-					else
-					{
-						/* No its not full. Let the caller know we queued
-						 * the message, but the buffer is not full so we can
-						 * still process more.
-						 */
-						returnCode = TO_QUEUE_MSG_OK;
-					}
-
-					break;
-				}
-
-				case TO_SLIP_ENCODING_ESC_ESC:
-				{
-					/* Queue the ESC_ESC byte and transition back to the NOMINAL
-					 * state.
-					 */
-					channel->UartQueueDataCmd.Buffer[channel->UartQueueDataCmd.BytesInBuffer] = SLIP_ESC_ESC;
-					channel->UartQueueDataCmd.BytesInBuffer++;
-					channel->EncoderState = TO_SLIP_NOMINAL;
-
-					break;
-				}
-
-				case TO_SLIP_ENCODING_ESC_END:
-				{
-					/* Queue the ESC_END byte and transition back to the NOMINAL
-					 * state.
-					 */
-					channel->UartQueueDataCmd.Buffer[channel->UartQueueDataCmd.BytesInBuffer] = SLIP_ESC_END;
-					channel->UartQueueDataCmd.BytesInBuffer++;
-					channel->EncoderState = TO_SLIP_NOMINAL;
-
-					break;
-				}
-			}
-		}
-	}
-
-	return returnCode;
 }
 
 
@@ -573,6 +439,22 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 
 					uint8 *msg = (uint8*)TO_AppCustomData.Channel[index].InWorkMsg;
 
+					for(uint32 i = 0; i < size; ++i)
+					{
+						SLIP_ReturnCode_t slipStatus = SLIP_EnqueueData(&TO_AppCustomData.Channel[index].Encoder, msg[i]);
+
+						if(SLIP_BUFFER_FULL_OK == slipStatus)
+						{
+							/* The buffer is full but we were not able to fully
+							 * process the current message. Some of it is still
+							 * in the input buffer and will have to be processed
+							 * in the next frame. */
+							TO_AppCustomData.Channel[index].MsgProcessInProgress = TRUE;
+
+							/* Break out of the loop. */
+							cont = FALSE;
+						}
+
 					queueStatus = TO_OutputChannel_QueueMsg(index, (const uint8*)TO_AppCustomData.Channel[index].InWorkMsg, size);
 
 					if(TO_QUEUE_MSG_BUFFER_FULL_MSG_DEFERRED == queueStatus)
@@ -582,9 +464,6 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 						 * in the input buffer and will have to be processed
 						 * in the next frame. */
 						TO_AppCustomData.Channel[index].MsgProcessInProgress = TRUE;
-
-						/* Break out of the loop. */
-						cont = FALSE;
 					}
 					else if(TO_QUEUE_MSG_BUFFER_FULL_OK == queueStatus)
 					{
