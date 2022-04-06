@@ -104,66 +104,66 @@ SLIP_ReturnCode_t SLIP_EnqueueData(SLIP_EncoderHandle_t *Encoder, uint8 Data)
 						Encoder->Buffer[Encoder->BytesInBuffer] = Data;
 						Encoder->BytesInBuffer++;
 					}
-
-					break;
 				}
 
-				case SLIP_ENCODING_END:
+				break;
+			}
+
+			case SLIP_ENCODING_END:
+			{
+				/* Queue the END byte and transition back to the NOMINAL
+				 * state.
+				 */
+				Encoder->Buffer[Encoder->BytesInBuffer] = SLIP_END;
+				Encoder->BytesInBuffer++;
+				Encoder->State = SLIP_NOMINAL;
+
+				/* Is the output buffer full? */
+				if(Encoder->BytesInBuffer >= Encoder->BufferSize)
 				{
-					/* Queue the END byte and transition back to the NOMINAL
-					 * state.
+					/* Yes it is full. Let the caller know we
+					 * uccessfully queued this message but only just
+					 * barely. We are literally at the end of the
+					 * buffer. The message should go out, but there is
+					 * no need to process a partial message on the next
+					 * frame.
 					 */
-					Encoder->Buffer[Encoder->BytesInBuffer] = SLIP_END;
-					Encoder->BytesInBuffer++;
-					Encoder->State = SLIP_NOMINAL;
-
-					/* Is the output buffer full? */
-					if(Encoder->BytesInBuffer >= Encoder->BufferSize)
-					{
-						/* Yes it is full. Let the caller know we
-						 * successfully queued this message but only just
-						 * barely. We are literally at the end of the
-						 * buffer. The message should go out, but there is
-						 * no need to process a partial message on the next
-						 * frame.
-						 */
-						returnCode = SLIP_BUFFER_FULL_OK;
-					}
-					else
-					{
-						/* No its not full. Let the caller know we queued
-						 * the message, but the buffer is not full so we can
-						 * still process more.
-						 */
-						returnCode = SLIP_OK;
-					}
-
-					break;
+					returnCode = SLIP_BUFFER_FULL_OK;
 				}
-
-				case SLIP_ENCODING_ESC_ESC:
+				else
 				{
-					/* Queue the ESC_ESC byte and transition back to the NOMINAL
-					 * state.
+					/* No its not full. Let the caller know we queued
+					 * the message, but the buffer is not full so we can
+					 * still process more.
 					 */
-					Encoder->Buffer[Encoder->BytesInBuffer] = SLIP_ESC_ESC;
-					Encoder->BytesInBuffer++;
-					Encoder->State = SLIP_NOMINAL;
-
-					break;
+					returnCode = SLIP_OK;
 				}
 
-				case SLIP_ENCODING_ESC_END:
-				{
-					/* Queue the ESC_END byte and transition back to the NOMINAL
-					 * state.
-					 */
-					Encoder->Buffer[Encoder->BytesInBuffer] = SLIP_ESC_END;
-					Encoder->BytesInBuffer++;
-					Encoder->State = SLIP_NOMINAL;
+				break;
+			}
 
-					break;
-				}
+			case SLIP_ENCODING_ESC_ESC:
+			{
+				/* Queue the ESC_ESC byte and transition back to the NOMINAL
+				 * state.
+				 */
+				Encoder->Buffer[Encoder->BytesInBuffer] = SLIP_ESC_ESC;
+				Encoder->BytesInBuffer++;
+				Encoder->State = SLIP_NOMINAL;
+
+				break;
+			}
+
+			case SLIP_ENCODING_ESC_END:
+			{
+				/* Queue the ESC_END byte and transition back to the NOMINAL
+				 * state.
+				 */
+				Encoder->Buffer[Encoder->BytesInBuffer] = SLIP_ESC_END;
+				Encoder->BytesInBuffer++;
+				Encoder->State = SLIP_NOMINAL;
+
+				break;
 			}
 		}
 

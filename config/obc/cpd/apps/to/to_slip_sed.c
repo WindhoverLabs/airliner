@@ -467,11 +467,11 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 			}
 
 			/* Do we have anything in the buffer to send? */
-			if(TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer > 0)
+			if(TO_AppCustomData.Channel[index].Encoder.BytesInBuffer > 0)
 			{
 				/* Yes we do. Send it. */
 				CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
-				TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer = TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer;
+				TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer = TO_AppCustomData.Channel[index].Encoder.BytesInBuffer;
 				TO_AppCustomData.Channel[index].UartQueueDataCmd.TxFrameID++;
 				SEDLIB_SendMsg(
 						TO_AppCustomData.Channel[index].MsgPortHandle,
@@ -483,6 +483,7 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 
 				/* Reset queue */
 				TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer = 0;
+				TO_AppCustomData.Channel[index].Encoder.BytesInBuffer = 0;
 			}
 		}
 	}
