@@ -434,16 +434,17 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 
 				if(TRUE == cont)
 				{
-					TO_QueueMsgReturnCode_t queueStatus;
+					SLIP_ReturnCode_t slipStatus;
 					uint32 size = CFE_SB_GetTotalMsgLength(TO_AppCustomData.Channel[index].InWorkMsg);
-
 					uint8 *msg = (uint8*)TO_AppCustomData.Channel[index].InWorkMsg;
+
+					TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
 
 					for(uint32 i = 0; i < size; ++i)
 					{
-						SLIP_ReturnCode_t slipStatus = SLIP_EnqueueData(&TO_AppCustomData.Channel[index].Encoder, msg[i]);
+						slipStatus = SLIP_EnqueueData(&TO_AppCustomData.Channel[index].Encoder, msg[i]);
 
-						if(SLIP_BUFFER_FULL_OK == slipStatus)
+						if(slipStatus != SLIP_OK)
 						{
 							/* The buffer is full but we were not able to fully
 							 * process the current message. Some of it is still
@@ -453,39 +454,12 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 
 							/* Break out of the loop. */
 							cont = FALSE;
+							break;
 						}
-
-					queueStatus = TO_OutputChannel_QueueMsg(index, (const uint8*)TO_AppCustomData.Channel[index].InWorkMsg, size);
-
-					if(TO_QUEUE_MSG_BUFFER_FULL_MSG_DEFERRED == queueStatus)
-					{
-						/* The buffer is full but we were not able to fully
-						 * process the current message. Some of it is still
-						 * in the input buffer and will have to be processed
-						 * in the next frame. */
-						TO_AppCustomData.Channel[index].MsgProcessInProgress = TRUE;
 					}
-					else if(TO_QUEUE_MSG_BUFFER_FULL_OK == queueStatus)
+
+					if(SLIP_OK == slipStatus)
 					{
-						/* The buffer is full but the current message just barely
-						 * fit.  We do need to go to the next frame but we don't
-						 * need to process a partial message. */
-						TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
-
-						/* Break out of the loop. */
-						cont = FALSE;
-
-						/* Take credit for the message send. */
-						TO_AppData.ChannelData[index].SentMsgCount++;
-					}
-					else
-					{
-						/* The message was fully processed and there is still
-						 * room left in the outgoing buffer.  Keep going.
-						 */
-						TO_AppCustomData.Channel[index].InputCursor = 0;
-						TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
-
 						/* Take credit for the message send. */
 						TO_AppData.ChannelData[index].SentMsgCount++;
 					}
