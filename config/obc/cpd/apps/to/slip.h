@@ -71,8 +71,11 @@ typedef struct
 
 
 int32 SLIP_LibInit(void);
-SLIP_ReturnCode_t SLIP_EncoderInit(SLIP_EncoderHandle_t *Encoder, uint8 *Buffer, uint32 Size);
-SLIP_ReturnCode_t SLIP_EnqueueData(SLIP_EncoderHandle_t *Encoder, uint8 Data);
+SLIP_ReturnCode_t SLIP_Encoder_Init(SLIP_EncoderHandle_t *Encoder, uint8 *Buffer, uint32 Size);
+SLIP_ReturnCode_t SLIP_Encoder_Reset(SLIP_EncoderHandle_t *Encoder);
+SLIP_ReturnCode_t SLIP_Encoder_MsgStart(SLIP_EncoderHandle_t *Encoder);
+SLIP_ReturnCode_t SLIP_Encoder_QueueByte(SLIP_EncoderHandle_t *Encoder, uint8 Data);
+SLIP_ReturnCode_t SLIP_Encoder_MsgComplete(SLIP_EncoderHandle_t *Encoder);
 
 
 

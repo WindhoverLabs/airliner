@@ -102,7 +102,7 @@ int32 TO_Custom_Init(void)
 
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&TO_AppCustomData.Channel[0].UartQueueDataCmd, UART_QUEUE_DATA_FOR_TX_CC);
 
-    slipStatus = SLIP_EncoderInit(&TO_AppCustomData.Channel[0].Encoder, TO_AppCustomData.Channel[0].UartQueueDataCmd.Buffer, sizeof(TO_AppCustomData.Channel[0].UartQueueDataCmd.Buffer));
+    slipStatus = SLIP_Encoder_Init(&TO_AppCustomData.Channel[0].Encoder, TO_AppCustomData.Channel[0].UartQueueDataCmd.Buffer, sizeof(TO_AppCustomData.Channel[0].UartQueueDataCmd.Buffer));
     if(slipStatus != SLIP_OK)
     {
         (void) CFE_EVS_SendEvent(TO_INIT_APP_ERR_EID, CFE_EVS_ERROR,
@@ -387,7 +387,7 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 
 		if(SEDLIB_MSG_READ_PENDING_ACKNOWLEDGE != readStatus)
 		{
-			/* No.  Either there is nothing there to be received yet, or
+			/* Yes.  Either there is nothing there to be received yet, or
 			 * the receiver has already acknowledged it.  Go ahead and
 			 * process some messages. */
 
@@ -399,6 +399,7 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 				{
 					/* Read in a new message first. */
 					TO_AppCustomData.Channel[index].InputCursor = 0;
+					SLIP_Encoder_MsgStart(&TO_AppCustomData.Channel[index].Encoder);
 
 					status = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[index], &TO_AppCustomData.Channel[index].InWorkMsg, OS_CHECK );
 
@@ -440,11 +441,13 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 
 					TO_AppCustomData.Channel[index].MsgProcessInProgress = FALSE;
 
-					for(uint32 i = 0; i < size; ++i)
+					while(TO_AppCustomData.Channel[index].InputCursor < size)
 					{
-						slipStatus = SLIP_EnqueueData(&TO_AppCustomData.Channel[index].Encoder, msg[i]);
+						slipStatus = SLIP_Encoder_QueueByte(
+								&TO_AppCustomData.Channel[index].Encoder,
+								msg[TO_AppCustomData.Channel[index].InputCursor]);
 
-						if(slipStatus != SLIP_OK)
+						if(slipStatus == SLIP_BUFFER_FULL_ERR)
 						{
 							/* The buffer is full but we were not able to fully
 							 * process the current message. Some of it is still
@@ -456,12 +459,28 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 							cont = FALSE;
 							break;
 						}
-					}
 
-					if(SLIP_OK == slipStatus)
+						TO_AppCustomData.Channel[index].InputCursor++;
+					};
+
+					/* Did we process the entire message? */
+					if(FALSE == TO_AppCustomData.Channel[index].MsgProcessInProgress)
 					{
-						/* Take credit for the message send. */
-						TO_AppData.ChannelData[index].SentMsgCount++;
+						/* Yes.  We processed the entire message. */
+						slipStatus = SLIP_Encoder_MsgComplete(&TO_AppCustomData.Channel[index].Encoder);
+						if(SLIP_OK == slipStatus)
+						{
+							/* We successfully queued that message up.  Take credit for it. */
+							TO_AppData.ChannelData[index].SentMsgCount++;
+							TO_AppCustomData.Channel[index].InputCursor = 0;
+						}
+						else
+						{
+							TO_AppCustomData.Channel[index].MsgProcessInProgress = TRUE;
+
+							/* Break out of the loop. */
+							cont = FALSE;
+						}
 					}
 				}
 			}
@@ -483,7 +502,7 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 
 				/* Reset queue */
 				TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer = 0;
-				TO_AppCustomData.Channel[index].Encoder.BytesInBuffer = 0;
+				SLIP_Encoder_Reset(&TO_AppCustomData.Channel[index].Encoder);
 			}
 		}
 	}
