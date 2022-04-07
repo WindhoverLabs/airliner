@@ -1,0 +1,103 @@
+  short_name: sliplib
+  long_name: Current Value Table
+  app_name: SLIPLIB
+  module_type: CFE_APP
+  commander:
+    displays: cdr
+  events: 
+    SLIPLIB_INF_EID: 
+      id: 1
+    SLIPLIB_INIT_INF_EID: 
+      id: 2
+    SLIPLIB_CONFIG_TABLE_INF_EID: 
+      id: 3
+    SLIPLIB_CDS_INF_EID: 
+      id: 4
+    SLIPLIB_CMD_INF_EID : 
+      id: 5
+    SLIPLIB_ERR_EID: 
+      id: 6
+    SLIPLIB_INIT_ERR_EID: 
+      id: 7
+    SLIPLIB_CONFIG_TABLE_ERR_EID: 
+      id: 8
+    SLIPLIB_CDS_ERR_EID: 
+      id: 9
+    SLIPLIB_CMD_ERR_EID: 
+      id: 10
+    SLIPLIB_PIPE_ERR_EID: 
+      id: 11
+    SLIPLIB_MSGID_ERR_EID: 
+      id: 12
+    SLIPLIB_MSGLEN_ERR_EID: 
+      id: 13
+  telemetry:
+    SLIPLIB_HK_TLM_MID: 
+      msgID: 
+      struct: SLIPLIB_HkTlm_t
+  commands: 
+    SLIPLIB_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: SLIPLIB_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: SLIPLIB_NoArgCmd_t
+    SLIPLIB_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: SLIPLIB_NoArgCmd_t
+  perfids: 
+    SLIPLIB_APPMAIN_PERF_ID: 
+      id: 
+  config: 
+    SLIPLIB_MISSION_REV: 
+      name: SLIPLIB_MISSION_REV
+      value: 0
+    SLIPLIB_SCH_PIPE_DEPTH: 
+      name: SLIPLIB_SCH_PIPE_DEPTH
+      value: 2
+    SLIPLIB_SCH_PIPE_NAME: 
+      name: SLIPLIB_SCH_PIPE_NAME
+      value: SLIPLIB_SCH_PIPE
+    SLIPLIB_SCH_PIPE_PEND_TIME: 
+      name: SLIPLIB_SCH_PIPE_PEND_TIME
+      value: 2000
+    SLIPLIB_SCH_PIPE_WAKEUP_RESERVED: 
+      name: SLIPLIB_SCH_PIPE_WAKEUP_RESERVED
+      value: 1
+    SLIPLIB_SCH_PIPE_SEND_HK_RESERVED : 
+      name: SLIPLIB_SCH_PIPE_SEND_HK_RESERVED 
+      value: 1
+    SLIPLIB_CMD_PIPE_DEPTH: 
+      name: SLIPLIB_CMD_PIPE_DEPTH
+      value: 4
+    SLIPLIB_CMD_PIPE_NAME: 
+      name: SLIPLIB_CMD_PIPE_NAME
+      value: SLIPLIB_CMD_PIPE
+    SLIPLIB_DATA_PIPE_DEPTH : 
+      name: SLIPLIB_DATA_PIPE_DEPTH 
+      value: 4
+    SLIPLIB_DATA_PIPE_NAME: 
+      name: SLIPLIB_DATA_PIPE_NAME
+      value: SLIPLIB_DATA_PIPE
+    SLIPLIB_CONFIG_TABLE_FILENAME: 
+      name: SLIPLIB_CONFIG_TABLE_FILENAME
+      value: /cf/apps/sliplib_config.tbl
+    SLIPLIB_STARTUP_TIMEOUT_MSEC: 
+      name: SLIPLIB_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    SLIPLIB_MAX_REGISTRATIONS: 
+      name: SLIPLIB_MAX_REGISTRATIONS
+      value: 100
+    SLIPLIB_DATA_STORE_SIZE: 
+      name: SLIPLIB_DATA_STORE_SIZE
+      value: 10000000
+    SLIPLIB_CONTAINER_NAME_MAX_LENGTH: 
+      name: SLIPLIB_CONTAINER_NAME_MAX_LENGTH
+      value: 40
+

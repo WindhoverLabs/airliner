@@ -31,51 +31,12 @@
 *
 *****************************************************************************/
 
-#ifndef SLIP_H
-#define SLIP_H
+#ifndef SLIP_ENCODER_H
+#define SLIP_ENCODER_H
 
 #include "cfe.h"
-
-/* SLIP special character codes
- */
-#define SLIP_END        	 0xC0    /* Indicates end of packet */
-#define SLIP_ESC             0xDB    /* Indicates byte stuffing */
-#define SLIP_ESC_END         0xDC    /* ESC ESC_END means END data byte */
-#define SLIP_ESC_ESC         0xDD    /* ESC ESC_ESC means ESC data byte */
-
-typedef enum
-{
-	SLIP_BUFFER_FULL_OK    =  1,
-	SLIP_OK                =  0,
-	SLIP_INVALID_ARGS_ERR  = -1,
-	SLIP_BUFFER_FULL_ERR   = -2,
-} SLIP_ReturnCode_t;
-
-
-typedef enum
-{
-	SLIP_NOMINAL           = 0,
-	SLIP_ENCODING_END      = 1,
-	SLIP_ENCODING_ESC_ESC  = 2,
-	SLIP_ENCODING_ESC_END  = 3
-} SLIP_EncoderState_t;
-
-
-typedef struct
-{
-	uint8               *Buffer;
-	uint32               BufferSize;
-	uint32               BytesInBuffer;
-	SLIP_EncoderState_t  State;
-} SLIP_EncoderHandle_t;
-
-
-int32 SLIP_LibInit(void);
-SLIP_ReturnCode_t SLIP_Encoder_Init(SLIP_EncoderHandle_t *Encoder, uint8 *Buffer, uint32 Size);
-SLIP_ReturnCode_t SLIP_Encoder_Reset(SLIP_EncoderHandle_t *Encoder);
-SLIP_ReturnCode_t SLIP_Encoder_MsgStart(SLIP_EncoderHandle_t *Encoder);
-SLIP_ReturnCode_t SLIP_Encoder_QueueByte(SLIP_EncoderHandle_t *Encoder, uint8 Data);
-SLIP_ReturnCode_t SLIP_Encoder_MsgComplete(SLIP_EncoderHandle_t *Encoder);
+#include "sliplib.h"
+#include "slip.h"
 
 
 

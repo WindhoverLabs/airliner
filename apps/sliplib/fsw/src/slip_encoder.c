@@ -1,11 +1,5 @@
-#include "slip.h"
+#include "slip_encoder.h"
 
-
-
-int32 SLIP_LibInit(void)
-{
-	return CFE_SUCCESS;
-}
 
 
 SLIP_ReturnCode_t SLIP_Encoder_Init(SLIP_EncoderHandle_t *Encoder, uint8 *Buffer, uint32 Size)
@@ -69,7 +63,7 @@ SLIP_ReturnCode_t SLIP_Encoder_QueueByte(SLIP_EncoderHandle_t *Encoder, uint8 Da
         /* Yes, we have more room. */
         switch(Encoder->State)
 		{
-			case SLIP_NOMINAL:
+			case SLIP_ENCODER_NOMINAL:
 			{
 				/* Process the byte. */
 				switch(Data)
@@ -81,7 +75,7 @@ SLIP_ReturnCode_t SLIP_Encoder_QueueByte(SLIP_EncoderHandle_t *Encoder, uint8 Da
 						 */
 						Encoder->Buffer[Encoder->BytesInBuffer] = SLIP_ESC;
 						Encoder->BytesInBuffer++;
-						Encoder->State = SLIP_ENCODING_ESC_END;
+						Encoder->State = SLIP_ENCODER_ENCODING_ESC_END;
 
 						/* Enqueueing this byte requires two steps, so call
 						 * this function again.
@@ -97,7 +91,7 @@ SLIP_ReturnCode_t SLIP_Encoder_QueueByte(SLIP_EncoderHandle_t *Encoder, uint8 Da
 						 */
 						Encoder->Buffer[Encoder->BytesInBuffer] = SLIP_ESC;
 						Encoder->BytesInBuffer++;
-						Encoder->State = SLIP_ENCODING_ESC_ESC;
+						Encoder->State = SLIP_ENCODER_ENCODING_ESC_ESC;
 
 						/* Enqueueing this byte requires two steps, so call
 						 * this function again.
@@ -119,14 +113,14 @@ SLIP_ReturnCode_t SLIP_Encoder_QueueByte(SLIP_EncoderHandle_t *Encoder, uint8 Da
 				break;
 			}
 
-			case SLIP_ENCODING_END:
+			case SLIP_ENCODER_ENCODING_END:
 			{
 				/* Queue the END byte and transition back to the NOMINAL
 				 * state.
 				 */
 				Encoder->Buffer[Encoder->BytesInBuffer] = SLIP_END;
 				Encoder->BytesInBuffer++;
-				Encoder->State = SLIP_NOMINAL;
+				Encoder->State = SLIP_ENCODER_NOMINAL;
 
 				/* This does not require 2 steps to encode but if we got here
 				 * its because we did not have room in the previous frame to
@@ -137,26 +131,26 @@ SLIP_ReturnCode_t SLIP_Encoder_QueueByte(SLIP_EncoderHandle_t *Encoder, uint8 Da
 				break;
 			}
 
-			case SLIP_ENCODING_ESC_ESC:
+			case SLIP_ENCODER_ENCODING_ESC_ESC:
 			{
 				/* Queue the ESC_ESC byte and transition back to the NOMINAL
 				 * state.
 				 */
 				Encoder->Buffer[Encoder->BytesInBuffer] = SLIP_ESC_ESC;
 				Encoder->BytesInBuffer++;
-				Encoder->State = SLIP_NOMINAL;
+				Encoder->State = SLIP_ENCODER_NOMINAL;
 
 				break;
 			}
 
-			case SLIP_ENCODING_ESC_END:
+			case SLIP_ENCODER_ENCODING_ESC_END:
 			{
 				/* Queue the ESC_END byte and transition back to the NOMINAL
 				 * state.
 				 */
 				Encoder->Buffer[Encoder->BytesInBuffer] = SLIP_ESC_END;
 				Encoder->BytesInBuffer++;
-				Encoder->State = SLIP_NOMINAL;
+				Encoder->State = SLIP_ENCODER_NOMINAL;
 
 				break;
 			}
@@ -213,7 +207,7 @@ SLIP_ReturnCode_t SLIP_Encoder_MsgStart(SLIP_EncoderHandle_t *Encoder)
 		goto end_of_function;
 	}
 
-	Encoder->State = SLIP_NOMINAL;
+	Encoder->State = SLIP_ENCODER_NOMINAL;
 
 end_of_function:
 
@@ -238,12 +232,12 @@ SLIP_ReturnCode_t SLIP_Encoder_MsgComplete(SLIP_EncoderHandle_t *Encoder)
 	{
 		/* No we don't. If we got to this point, we ran out of room before
 		 * we got to the end of the message. Transition to the
-		 * SLIP_ENCODING_END state so we can complete this action in the next
+		 * SLIP_ENCODER_ENCODING_END state so we can complete this action in the next
 		 * frame, and let the caller know we did not
 		 * queue the data.
 		 */
 
-		Encoder->State = SLIP_ENCODING_END;
+		Encoder->State = SLIP_ENCODER_ENCODING_END;
         returnCode = SLIP_BUFFER_FULL_ERR;
     }
     else
@@ -253,7 +247,7 @@ SLIP_ReturnCode_t SLIP_Encoder_MsgComplete(SLIP_EncoderHandle_t *Encoder)
 		 */
 		Encoder->Buffer[Encoder->BytesInBuffer] = SLIP_END;
 		Encoder->BytesInBuffer++;
-		Encoder->State = SLIP_NOMINAL;
+		Encoder->State = SLIP_ENCODER_NOMINAL;
 	}
 
 end_of_function:
