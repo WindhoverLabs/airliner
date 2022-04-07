@@ -1073,6 +1073,7 @@ void SIMLINK_ProcessPwmOutputs(void)
 		if(updateCount != SIMLINK_AppData.PwmUpdateCount)
 		{
 			osalbool sendMsg = false;
+            osalbool armed   = false;
 
 			SIMLINK_AppData.PwmUpdateCount = updateCount;
 
@@ -1088,6 +1089,13 @@ void SIMLINK_ProcessPwmOutputs(void)
 					//actuatorControlsMsg.controls[i] = SIMLINK_PWM_To_Mavlink_Map(SIMLINK_AppData.PwmMsg.Channel[i], 1000, 3770, 0.0f, 1.0f);
 					actuatorControlsMsg.controls[i] = SIMLINK_AppData.PwmMsg.Channel[i];
 
+                    /* If any actuator control is non-zero. */
+                    if(actuatorControlsMsg.controls[i] > 0)
+                    {
+                        /* Set the armed flag to true. */
+                        armed = true;
+                    }
+
 					//if(actuatorControlsMsg.controls[i] >= FLT_EPSILON)
 					//{
 						sendMsg = true;
@@ -1099,8 +1107,16 @@ void SIMLINK_ProcessPwmOutputs(void)
 			{
 				actuatorControlsMsg.time_usec = 0;
 				actuatorControlsMsg.flags = 0;
-                /* See MAV_MODE_FLAG_SAFETY_ARMED for this value. */
-				actuatorControlsMsg.mode = 128;
+
+                if(armed == true)
+                {
+                    /* See MAV_MODE_FLAG_SAFETY_ARMED for this value. */
+                    actuatorControlsMsg.mode = 128;
+                }
+                else
+                {
+                    actuatorControlsMsg.mode = 0;
+                }
 
 				mavlink_msg_hil_actuator_controls_encode(1, 1, &mavlinkMessage, &actuatorControlsMsg);
 				length = mavlink_msg_to_send_buffer(buffer, &mavlinkMessage);
