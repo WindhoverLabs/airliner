@@ -31,6 +31,8 @@ SLIP_ReturnCode_t SLIP_Encoder_Init(SLIP_EncoderHandle_t *Encoder, uint8 *Buffer
 
 	Encoder->Buffer = Buffer;
 	Encoder->BufferSize = Size;
+	Encoder->State = SLIP_ENCODER_NOMINAL;
+	Encoder->BytesInBuffer = 0;
 
 end_of_function:
 
