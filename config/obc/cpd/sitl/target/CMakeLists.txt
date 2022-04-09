@@ -53,6 +53,12 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    sliplib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sliplib/fsw/for_build
+)
+
+buildliner_add_app(
     pq_lib
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
@@ -191,8 +197,6 @@ buildliner_add_app(
     CONFIG_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/to_slip_sed.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/tables/to_backup_cfg.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/slip.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/slip.h
 )
 
 buildliner_add_app(

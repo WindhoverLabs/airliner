@@ -39,7 +39,7 @@
 *************************************************************************/
 #include "to_app.h"
 #include "to_custom.h"
-#include "slip.h"
+#include "sliplib.h"
 
 
 /************************************************************************
@@ -105,13 +105,6 @@ typedef struct
 } UART_QueueDataCmd_t;
 #pragma pack(pop)
 
-typedef enum
-{
-	TO_SLIP_NOMINAL           = 0,
-	TO_SLIP_ENCODING_END      = 1,
-	TO_SLIP_ENCODING_ESC_ESC  = 2,
-	TO_SLIP_ENCODING_ESC_END  = 3
-} TO_SlipEncoderState_t;
 
 typedef struct
 {
@@ -120,7 +113,6 @@ typedef struct
     UART_QueueDataCmd_t             UartQueueDataCmd;
     uint32                          MsgPortAddress;
     uint32                          InputCursor;
-    TO_SlipEncoderState_t           EncoderState;
     osalbool                        MsgProcessInProgress;
     CFE_SB_MsgPtr_t                 InWorkMsg;
     SLIP_EncoderHandle_t            Encoder;

@@ -36,26 +36,12 @@
 #include "ci_events.h"
 #include <strings.h>
 #include "sedlib.h"
+#include "sliplib.h"
 
 #define CI_CUSTOM_RETURN_CODE_NULL_POINTER      (-1)
 
-/* SLIP special character codes
- */
-#define SLIP_END        	 0xC0    /* Indicates end of packet */
-#define SLIP_ESC             0xDB    /* Indicates byte stuffing */
-#define SLIP_ESC_END         0xDC    /* ESC ESC_END means END data byte */
-#define SLIP_ESC_ESC         0xDD    /* ESC ESC_ESC means ESC data byte */
-
 
 #define UART_BUFFER_SIZE        (1500)
-
-typedef enum
-{
-	CI_SLIP_STATE_UNKNOWN         = 0,
-	CI_SLIP_STATE_PARSING_MESSAGE = 1,
-	CI_SLIP_STATE_PARSED_ESC      = 2,
-	CI_SLIP_STATE_MESSAGE_FOUND   = 3
-} CI_SlipParserState_t;
 
 typedef enum
 {
@@ -106,7 +92,7 @@ typedef struct
     uint32                   SlipInCursor;
     uint32                   SlipOutCursor;
     CI_IncomingBufferState_t BufferState;
-    CI_SlipParserState_t     ParserState;
+    SLIP_DecoderHandle_t     Decoder;
 } CI_AppCustomData_t;
 
 CI_AppCustomData_t CI_AppCustomData = {0};
@@ -124,10 +110,15 @@ osalbool CI_AddCustomEventFilters(uint32 *count)
 int32 CI_InitCustom(void)
 {
     int32 Status = CFE_SUCCESS;
+    SLIP_ReturnCode_t slipStatus;
 
-    CI_AppCustomData.SlipInCursor  = 0;
-    CI_AppCustomData.SlipOutCursor = 0;
-    CI_AppCustomData.ParserState   = CI_SLIP_STATE_PARSING_MESSAGE;
+    slipStatus = SLIP_Decoder_Init(&CI_AppCustomData.Decoder, CI_AppCustomData.SlipBuffer, sizeof(CI_AppCustomData.SlipBuffer));
+    if(slipStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to initialize SLIP decoder. %i",
+								 slipStatus);
+    }
 
     Status = SEDLIB_GetPipe(
     		"UART1_STATUS",
@@ -321,114 +312,32 @@ CI_SlipParserReturnCode_t CI_ProcessMessage(uint8* inBuffer, uint32 inSize, uint
 
 		if(cont)
 		{
-			switch(CI_AppCustomData.ParserState)
+			SLIP_ReturnCode_t status = SLIP_Decoder_ParseByte(&CI_AppCustomData.Decoder, inBuffer[CI_AppCustomData.SlipInCursor]);
+			switch(status)
 			{
-				case CI_SLIP_STATE_MESSAGE_FOUND:
+				case SLIP_MESSAGE_FOUND_OK:
 				{
 					/* Start processing the next message. */
-					CI_AppCustomData.SlipOutCursor = 0;
-					CI_AppCustomData.ParserState   = CI_SLIP_STATE_PARSING_MESSAGE;
+					CI_AppCustomData.SlipInCursor++;
+					cont = FALSE;
+					returnCode = CI_SLIP_PARSER_MESSAGE_FOUND;
+					*inOutSize = CI_AppCustomData.Decoder.BytesInBuffer;
+					SLIP_Decoder_Reset(&CI_AppCustomData.Decoder);
 
 					break;
 				}
 
-				case CI_SLIP_STATE_PARSING_MESSAGE:
+				case SLIP_OK:
 				{
-					switch(inBuffer[CI_AppCustomData.SlipInCursor])
-					{
-						case SLIP_END:
-						{
-							/* We found the end of a message. Skip over this
-							 * byte and break out of the loop. */
-							*inOutSize = CI_AppCustomData.SlipOutCursor;
-							CI_AppCustomData.SlipInCursor++;
-							returnCode = CI_SLIP_PARSER_MESSAGE_FOUND;
-							CI_AppCustomData.ParserState = CI_SLIP_STATE_MESSAGE_FOUND;
-							cont = FALSE;
-
-							break;
-						}
-
-						case SLIP_ESC:
-						{
-							/* We found the beginning of an escape sequence.
-							 * Transition to the PARSED_ESC state so we can defer
-							 * our next action to see what the next character
-							 * is.
-							 */
-							CI_AppCustomData.SlipInCursor++;
-							CI_AppCustomData.ParserState = CI_SLIP_STATE_PARSED_ESC;
-
-							break;
-						}
-
-						default:
-						{
-							/* Nothing special. Just another character to copy. */
-							inOutBuffer[CI_AppCustomData.SlipOutCursor] =
-									inBuffer[CI_AppCustomData.SlipInCursor];
-							CI_AppCustomData.SlipOutCursor++;
-							CI_AppCustomData.SlipInCursor++;
-						}
-					}
-
-					break;
-				}
-
-				case CI_SLIP_STATE_PARSED_ESC:
-				{
-					switch(inBuffer[CI_AppCustomData.SlipInCursor])
-					{
-						case SLIP_ESC_END:
-						{
-							/* This is just an END symbol in the payload.
-							 * Copy an END symbol to the output buffer. */
-							inOutBuffer[CI_AppCustomData.SlipOutCursor] =
-									SLIP_END;
-							CI_AppCustomData.SlipOutCursor++;
-							CI_AppCustomData.SlipInCursor++;
-							CI_AppCustomData.ParserState = CI_SLIP_STATE_PARSING_MESSAGE;
-
-							break;
-						}
-
-						case SLIP_ESC_ESC:
-						{
-							/* This is just an ESC symbol in the payload.
-							 * Copy an ESC symbol to the output buffer. */
-							inOutBuffer[CI_AppCustomData.SlipOutCursor] =
-									SLIP_ESC;
-							CI_AppCustomData.SlipOutCursor++;
-							CI_AppCustomData.SlipInCursor++;
-							CI_AppCustomData.ParserState = CI_SLIP_STATE_PARSING_MESSAGE;
-
-							break;
-						}
-
-						default:
-						{
-							/* This is an illegal character. Return this back to the
-							 * caller so it can maybe raise an event or something.
-							 * Reset the machine.
-							 */
-							returnCode = CI_SLIP_PARSER_PROTOCOL_VIOLATION;
-							CI_AppCustomData.SlipOutCursor = 0;
-							CI_AppCustomData.ParserState = CI_SLIP_STATE_PARSING_MESSAGE;
-							cont = FALSE;
-
-							break;
-						}
-					}
-
+					CI_AppCustomData.SlipInCursor++;
 					break;
 				}
 
 				default:
 				{
-					/* How did we get here?? */
-					returnCode = CI_SLIP_PARSER_PROTOCOL_VIOLATION;
-					CI_AppCustomData.SlipOutCursor = 0;
-					CI_AppCustomData.ParserState = CI_SLIP_STATE_PARSING_MESSAGE;
+					/* Something went wrong. */
+					/* TODO */
+					CI_AppCustomData.SlipInCursor++;
 				}
 			}
 		}
