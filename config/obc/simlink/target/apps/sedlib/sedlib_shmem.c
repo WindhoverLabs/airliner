@@ -68,3 +68,11 @@ end_of_function:
     return status;
 
 }
+
+
+int32 SEDLIB_CustomAfterInit(void)
+{
+    int32 status = CFE_SUCCESS;
+
+    return status;
+}
