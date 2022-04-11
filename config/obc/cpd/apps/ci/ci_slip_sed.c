@@ -62,23 +62,8 @@ typedef enum
 #pragma pack(push, 1)
 typedef struct
 {
-    uint8           TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint32          Version;
-	uint16          TransmitInterrupts;		/**< Number of transmit interrupts */
-	uint16          ReceiveInterrupts;		/**< Number of receive interrupts */
-	uint16          StatusInterrupts;		/**< Number of status interrupts */
-	uint16          ModemInterrupts;		/**< Number of modem interrupts */
-	uint16          CharactersTransmitted; 	/**< Number of characters transmitted */
-	uint16          CharactersReceived;		/**< Number of characters received */
-	uint16          ReceiveOverrunErrors;	/**< Number of receive overruns */
-	uint16          ReceiveParityErrors;	/**< Number of receive parity errors */
-	uint16          ReceiveFramingErrors;	/**< Number of receive framing errors */
-	uint16          ReceiveBreakDetected;	/**< Number of receive breaks */
-	uint32          LastCmdCode;
-	uint32          LastCmdResponse;
-	uint32          RxFrameID;
-	uint32          BytesInBuffer;
-    uint8           RxBuffer[UART_BUFFER_SIZE];
+	UART_StatusHdr_t  Hdr;
+    volatile uint8    RxBuffer[UART_BUFFER_SIZE];
 } UART_StatusTlm_t;
 #pragma pack(pop)
 
@@ -204,7 +189,7 @@ void CI_ReadMessage(uint8* buffer, uint32* size)
     {
 		slipReturnCode = CI_ProcessMessage(
 				                   CI_AppCustomData.UartStatusTlm.RxBuffer,
-				                   CI_AppCustomData.UartStatusTlm.BytesInBuffer,
+				                   CI_AppCustomData.UartStatusTlm.Hdr.BytesInBuffer,
 								   CI_AppCustomData.SlipBuffer,
 				                   size);
 		switch(slipReturnCode)

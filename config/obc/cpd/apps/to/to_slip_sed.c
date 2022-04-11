@@ -114,7 +114,7 @@ int32 TO_Custom_Init(void)
      * Msg Port Interface
      */
     TO_AppCustomData.Channel[0].Mode = TO_CHANNEL_ENABLED;
-    TO_AppCustomData.Channel[0].UartQueueDataCmd.Version = 1;
+    TO_AppCustomData.Channel[0].UartQueueDataCmd.Hdr.Version = 1;
 
     sedLibStatus = SEDLIB_GetPipe(
     		"UART1_CMD",
@@ -490,18 +490,18 @@ void TO_OutputChannel_SendTelemetry(uint32 index)
 			{
 				/* Yes we do. Send it. */
 				CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
-				TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer = TO_AppCustomData.Channel[index].Encoder.BytesInBuffer;
-				TO_AppCustomData.Channel[index].UartQueueDataCmd.TxFrameID++;
+				TO_AppCustomData.Channel[index].UartQueueDataCmd.Hdr.BytesInBuffer = TO_AppCustomData.Channel[index].Encoder.BytesInBuffer;
+				TO_AppCustomData.Channel[index].UartQueueDataCmd.Hdr.TxFrameID++;
 				SEDLIB_SendMsg(
 						TO_AppCustomData.Channel[index].MsgPortHandle,
 						(CFE_SB_MsgPtr_t)&TO_AppCustomData.Channel[index].UartQueueDataCmd);
 
 				/* Update metrics. */
 				TO_AppData.ChannelData[index].OutputQueue.SentCount++;
-				TO_AppData.ChannelData[index].OutputQueue.SentBytes += TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer;
+				TO_AppData.ChannelData[index].OutputQueue.SentBytes += TO_AppCustomData.Channel[index].UartQueueDataCmd.Hdr.BytesInBuffer;
 
 				/* Reset queue */
-				TO_AppCustomData.Channel[index].UartQueueDataCmd.BytesInBuffer = 0;
+				TO_AppCustomData.Channel[index].UartQueueDataCmd.Hdr.BytesInBuffer = 0;
 				SLIP_Encoder_Reset(&TO_AppCustomData.Channel[index].Encoder);
 			}
 		}

@@ -40,6 +40,7 @@
 #include "to_app.h"
 #include "to_custom.h"
 #include "sliplib.h"
+#include "sedlib.h"
 
 
 /************************************************************************
@@ -97,11 +98,8 @@ typedef enum
 #pragma pack(push, 1)
 typedef struct
 {
-    uint8           CmdHeader[CFE_SB_TLM_HDR_SIZE];
-    uint32          Version;
-	uint32          TxFrameID;
-	uint32          BytesInBuffer;
-    uint8           Buffer[UART_BUFFER_SIZE];
+	UART_QueueDataHdr_t Hdr;
+    volatile uint8      Buffer[UART_BUFFER_SIZE];
 } UART_QueueDataCmd_t;
 #pragma pack(pop)
 

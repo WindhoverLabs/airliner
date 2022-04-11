@@ -276,7 +276,7 @@ int32 RFD900X_InitData()
 					sizeof(RFD900X_AppData.UART_StatusTlm),
 					TRUE);
 
-	RFD900X_AppData.UART_StatusTlm.Version = 1;
+	RFD900X_AppData.UART_StatusTlm.Hdr.Version = 1;
 
     return (iStatus);
 }
@@ -495,10 +495,10 @@ void RFD900X_ProcessNewData()
     if(SEDLIB_MSG_FRESH_OK == rc)
     {
         /* Yes we did.  Get the command code. */
-    	RFD900X_AppData.UART_StatusTlm.LastCmdCode = CFE_SB_GetCmdCode((CFE_SB_MsgPtr_t)&RFD900X_AppData.UART_QueueDataCmd);
+    	RFD900X_AppData.UART_StatusTlm.Hdr.LastCmdCode = CFE_SB_GetCmdCode((CFE_SB_MsgPtr_t)&RFD900X_AppData.UART_QueueDataCmd);
 
         /* Act on the command code. */
-        switch(RFD900X_AppData.UART_StatusTlm.LastCmdCode)
+        switch(RFD900X_AppData.UART_StatusTlm.Hdr.LastCmdCode)
         {
             case UART_NOOP_CC:
             {
@@ -514,7 +514,7 @@ void RFD900X_ProcessNewData()
             {
             	/* Loop through each byte to queue data or send a message out when the
                  * end symbol was found. */
-            	for(uint32 i = 0; i < RFD900X_AppData.UART_QueueDataCmd.BytesInBuffer; ++i)
+            	for(uint32 i = 0; i < RFD900X_AppData.UART_QueueDataCmd.Hdr.BytesInBuffer; ++i)
             	{
             		/* Queue the next byte. */
             		RFD900X_AppData.TxInBuffer[RFD900X_AppData.TxInBufferCursor] =
@@ -580,8 +580,8 @@ void RFD900X_ProcessNewData()
 
 			memcpy(RFD900X_AppData.UART_StatusTlm.RxBuffer, RFD900X_AppData.RxBuffer, bytesToCopy);
 
-			RFD900X_AppData.UART_StatusTlm.BytesInBuffer = bytesToCopy;
-			RFD900X_AppData.UART_StatusTlm.RxFrameID++;
+			RFD900X_AppData.UART_StatusTlm.Hdr.BytesInBuffer = bytesToCopy;
+			RFD900X_AppData.UART_StatusTlm.Hdr.RxFrameID++;
 
 			rc = SEDLIB_SendMsg(RFD900X_AppData.RxMsgPortHandle, (CFE_SB_MsgPtr_t)&RFD900X_AppData.UART_StatusTlm);
             if(rc != SEDLIB_OK)
