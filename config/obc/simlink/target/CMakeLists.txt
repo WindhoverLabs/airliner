@@ -129,3 +129,9 @@ buildliner_add_app(
     CONFIG_SOURCES
         ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/apps/sbus/sbus_custom.c
 )
+
+buildliner_add_app(
+    sed
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sed/simlink/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/apps/sed
+)
