@@ -516,26 +516,32 @@ void RFD900X_ProcessNewData()
                  * end symbol was found. */
             	for(uint32 i = 0; i < RFD900X_AppData.UART_QueueDataCmd.Hdr.BytesInBuffer; ++i)
             	{
-            		/* Queue the next byte. */
-            		RFD900X_AppData.TxInBuffer[RFD900X_AppData.TxInBufferCursor] =
-            				RFD900X_AppData.UART_QueueDataCmd.Buffer[i];
-
-            		/* Was this byte the SLIP_END symbol? */
-            		if(SLIP_END == RFD900X_AppData.TxInBuffer[RFD900X_AppData.TxInBufferCursor])
+            		if(RFD900X_AppData.TxInBufferCursor < sizeof(RFD900X_AppData.TxInBuffer))
             		{
-            		    /* Yes it was.  Send the message out, reset the cursor, and
-            		     * keep going. */
-            			RFD900X_SendMessage();
-            			RFD900X_AppData.TxInBufferCursor = 0;
+						/* Queue the next byte. */
+						RFD900X_AppData.TxInBuffer[RFD900X_AppData.TxInBufferCursor] =
+								RFD900X_AppData.UART_QueueDataCmd.Buffer[i];
+
+						/* Was this byte the SLIP_END symbol? */
+						if(SLIP_END == RFD900X_AppData.TxInBuffer[RFD900X_AppData.TxInBufferCursor])
+						{
+							/* Yes it was.  Send the message out, reset the cursor, and
+							 * keep going. */
+							RFD900X_SendMessage();
+							RFD900X_AppData.TxInBufferCursor = 0;
+						}
+						else
+						{
+							RFD900X_AppData.TxInBufferCursor++;
+						}
             		}
             		else
             		{
-                		RFD900X_AppData.TxInBufferCursor++;
+            			/* Overflow */
+                        (void) CFE_EVS_SendEvent(RFD900X_TX_BUFFER_OVERFLOW_ERR_EID, CFE_EVS_ERROR,
+                                          "TX buffer overflow.");
             		}
             	}
-
-        		RFD900X_SendMessage();
-        		RFD900X_AppData.TxInBufferCursor = 0;
 
                 break;
             }
