@@ -22,7 +22,7 @@
   <widget type="label" version="2.0.0">
     <name>Label_49</name>
     <text>Vehicle Manager</text>
-    <x>63</x>
+    <x>12</x>
     <y>12</y>
     <width>182</width>
     <font>
@@ -119,10 +119,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_2</name>
@@ -173,10 +169,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Reset', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="embedded" version="2.0.0">
       <name>Embedded Display</name>
@@ -191,7 +183,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Reset', {});]]></text>
     <name>Telemetry</name>
     <y>272</y>
     <width>245</width>
-    <height>145</height>
+    <height>196</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -263,8 +255,8 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
     <name>Miscellaneous</name>
     <x>245</x>
     <y>176</y>
-    <width>258</width>
-    <height>241</height>
+    <width>295</width>
+    <height>292</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -289,7 +281,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.BootTimestamp</pv_name>
       <x>25</x>
       <y>20</y>
-      <width>180</width>
+      <width>228</width>
       <height>18</height>
       <background_color>
         <color red="255" green="255" blue="255">
@@ -302,10 +294,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color name="Command Button Border" red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>Action Button_6</name>
@@ -334,7 +322,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       </actions>
       <text>Battery Actions</text>
       <x>24</x>
-      <y>73</y>
+      <y>93</y>
       <width>164</width>
       <height>20</height>
       <tooltip>$(actions)</tooltip>
@@ -349,7 +337,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       </actions>
       <text>Configuration</text>
       <x>24</x>
-      <y>93</y>
+      <y>113</y>
       <width>164</width>
       <height>20</height>
       <tooltip>$(actions)</tooltip>
@@ -366,7 +354,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       </actions>
       <text>Event Filtering</text>
       <x>24</x>
-      <y>113</y>
+      <y>133</y>
       <width>164</width>
       <height>20</height>
       <tooltip>$(actions)</tooltip>
@@ -382,7 +370,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       </actions>
       <text>Messages Received</text>
       <x>24</x>
-      <y>133</y>
+      <y>153</y>
       <width>164</width>
       <height>20</height>
       <tooltip>$(actions)</tooltip>
@@ -398,7 +386,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       </actions>
       <text>Moding</text>
       <x>24</x>
-      <y>153</y>
+      <y>173</y>
       <width>164</width>
       <height>20</height>
       <tooltip>$(actions)</tooltip>
@@ -414,7 +402,23 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       </actions>
       <text>State</text>
       <x>24</x>
-      <y>173</y>
+      <y>193</y>
+      <width>164</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_7</name>
+      <actions>
+        <action type="open_display">
+          <file>Arming.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Arming</text>
+      <x>24</x>
+      <y>73</y>
       <width>164</width>
       <height>20</height>
       <tooltip>$(actions)</tooltip>
@@ -424,7 +428,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
     <name>Counts</name>
     <x>245</x>
     <y>32</y>
-    <width>258</width>
+    <width>295</width>
     <height>144</height>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -434,7 +438,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       <name>Text Update_11</name>
       <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.WakeupCount</pv_name>
       <x>158</x>
-      <width>65</width>
+      <width>95</width>
       <background_color>
         <color red="255" green="255" blue="255">
         </color>
@@ -446,10 +450,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color name="Command Button Border" red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_5</name>
@@ -535,7 +535,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.StickOffCounter</pv_name>
       <x>158</x>
       <y>20</y>
-      <width>65</width>
+      <width>95</width>
       <background_color>
         <color red="255" green="255" blue="255">
         </color>
@@ -547,17 +547,13 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color name="Command Button Border" red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_81</name>
       <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.StickOnCounter</pv_name>
       <x>158</x>
       <y>40</y>
-      <width>65</width>
+      <width>95</width>
       <background_color>
         <color red="255" green="255" blue="255">
         </color>
@@ -569,17 +565,13 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color name="Command Button Border" red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_82</name>
       <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.LastSpManArmSwitch</pv_name>
       <x>158</x>
       <y>60</y>
-      <width>65</width>
+      <width>95</width>
       <background_color>
         <color red="255" green="255" blue="255">
         </color>
@@ -591,17 +583,13 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color name="Command Button Border" red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_83</name>
       <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.RCSignalLostTimestamp</pv_name>
       <x>158</x>
       <y>80</y>
-      <width>65</width>
+      <width>95</width>
       <background_color>
         <color red="255" green="255" blue="255">
         </color>
@@ -613,10 +601,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/WakeUp', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color name="Command Button Border" red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
   </widget>
 </display>

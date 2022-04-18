@@ -97,9 +97,6 @@ int32 TO_Custom_Init(void)
     TO_AppCustomData.Channel[0].Socket = 0;
     TO_AppCustomData.Channel[0].ChildTaskID = 0;
 
-
-	printf("******************************** %s %u\n", __FILE__, __LINE__);
-
     /* Ground dev interface is optional */
     iStatus = TO_Channel_OpenChannel(
                       0,

@@ -273,7 +273,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Reset', {});]]></text>
         </color>
       </background_color>
       <format>4</format>
-      <precision>8</precision>
+      <precision>4</precision>
       <vertical_alignment>1</vertical_alignment>
       <wrap_words>false</wrap_words>
       <actions>

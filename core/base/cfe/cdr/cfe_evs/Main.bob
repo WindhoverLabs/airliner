@@ -283,22 +283,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/Reset', {});]]></text
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="action_button" version="3.0.0">
-      <name>Action Button_26</name>
-      <actions>
-        <action type="open_display">
-          <file>DumpAppData.bob</file>
-          <target>window</target>
-        </action>
-      </actions>
-      <text>Dump App Data</text>
-      <x>192</x>
-      <y>81</y>
-      <width>187</width>
-      <height>20</height>
-      <tooltip>$(actions)</tooltip>
-      <border_alarm_sensitive>false</border_alarm_sensitive>
-    </widget>
-    <widget type="action_button" version="3.0.0">
       <name>Events</name>
       <actions>
         <action type="open_display">
@@ -309,23 +293,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/Reset', {});]]></text
       </actions>
       <text>Event Filtering (CFE_EVS)</text>
       <x>5</x>
-      <y>101</y>
-      <width>187</width>
-      <height>20</height>
-      <tooltip>$(actions)</tooltip>
-      <border_alarm_sensitive>false</border_alarm_sensitive>
-    </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>AppControl_3</name>
-      <actions>
-        <action type="open_display">
-          <file>$(APP_CONTROL_TEMPLATE)</file>
-          <target>tab</target>
-          <description>Open Display</description>
-        </action>
-      </actions>
-      <text>App Control</text>
-      <x>192</x>
       <y>101</y>
       <width>187</width>
       <height>20</height>
@@ -797,6 +764,50 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/SendHK', {});]]></tex
         <color red="34" green="45" blue="75">
         </color>
       </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Miscellaneous</name>
+    <x>282</x>
+    <y>450</y>
+    <width>420</width>
+    <height>96</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_33</name>
+      <actions>
+        <action type="open_display">
+          <file>DumpAppData.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Dump App Data</text>
+      <x>5</x>
+      <y>6</y>
+      <width>187</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_4</name>
+      <actions>
+        <action type="open_display">
+          <file>$(APP_CONTROL_TEMPLATE)</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>App Control</text>
+      <x>5</x>
+      <y>26</y>
+      <width>187</width>
+      <height>20</height>
       <tooltip>$(actions)</tooltip>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>

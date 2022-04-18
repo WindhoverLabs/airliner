@@ -156,14 +156,14 @@ buildliner_add_app(
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hk
 )
 
-#buildliner_add_app(
-#    lc
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/lc/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/lc
-#    CONFIG_SOURCES
-#        ${PROJECT_SOURCE_DIR}/config/shared/apps/lc/src/lc_custom.c
-#)
+buildliner_add_app(
+    lc
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/lc/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/lc
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/config/shared/apps/lc/src/lc_custom.c
+)
 
 #buildliner_add_app(
 #    sbn

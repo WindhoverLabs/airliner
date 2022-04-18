@@ -8,8 +8,7 @@
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
-  <width>325</width>
-  <height>500</height>
+  <width>350</width>
   <actions>
   </actions>
   <grid_step_x>6</grid_step_x>
@@ -789,7 +788,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/QueryOneApp', {'Payloa
       <color red="34" green="45" blue="75">
       </color>
     </background_color>
-    <tooltip>$(actions)</tooltip>
+    <tooltip>This will send a command to CFE-ES to trigger it to send message back containing the above data for the $(APP) application.  The "/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID" message must be in the downlink to see this message.  The command will be rejected if the $(APP) application is not currently loaded.</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
@@ -821,7 +820,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/RestartApp', {'Payload
       <color red="34" green="45" blue="75">
       </color>
     </background_color>
-    <tooltip>$(actions)</tooltip>
+    <tooltip>This will send a command to CFE-ES to restart the $(APP) application using the same startup parameters that were used to load it.  This command will be rejected if the $(APP) is not currently loaded.</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
@@ -853,7 +852,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/StopApp', {'Payload.Ap
       <color red="34" green="45" blue="75">
       </color>
     </background_color>
-    <tooltip>$(actions)</tooltip>
+    <tooltip>This will send a command to CFE-ES to stop the $(APP) application.  This command will be rejected if the $(APP) is not currently loaded.</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
@@ -887,5 +886,73 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/StopApp', {'Payload.Ap
     <width>79</width>
     <height>20</height>
     <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>Cmd Count</text>
+    <x>36</x>
+    <y>486</y>
+    <width>79</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update</name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.CmdCounter</pv_name>
+    <x>133</x>
+    <y>487</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_22</name>
+    <text>Err Count</text>
+    <x>52</x>
+    <y>505</y>
+    <width>63</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_3</name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.ErrCounter</pv_name>
+    <x>133</x>
+    <y>506</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
   </widget>
 </display>

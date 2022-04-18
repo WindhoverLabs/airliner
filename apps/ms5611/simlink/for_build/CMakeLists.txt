@@ -49,6 +49,9 @@ buildliner_add_app_def(ms5611
     REFERENCE_CONFIG
         ${CMAKE_CURRENT_SOURCE_DIR}/../mission_inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../platform_inc
+        
+    COMMANDER_DISPLAYS 
+        ${CMAKE_CURRENT_SOURCE_DIR}/../cdr
 )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../../../config/shared/apps/ms5611/src/ ${CMAKE_CURRENT_SOURCE_DIR}/../src/)

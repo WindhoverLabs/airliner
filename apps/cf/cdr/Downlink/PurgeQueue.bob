@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>($(CPUID)) CF - Purge Queue</name>
+    <APP>cf</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <CPUID>{{ cpu_id }}</CPUID>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>360</width>
+  <height>250</height>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="action_button" version="3.0.0">
+    <name>Action Button</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var TransferType = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TransferType')));
+var Channel = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Channel')));
+var Queue = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Queue')));
+
+var pTransferType = '';
+var pChannel = -1;
+var pQueue = -1;
+
+logger = ScriptUtil.getLogger();
+logger.info("Hello");
+logger.info(TransferType);
+logger.info(Channel);
+logger.info(Queue);
+
+if( TransferType == '0' ) {
+    pTransferType = 'UP';
+} else if( TransferType == '1' ) {
+    pTransferType = 'DOWN';
+} 
+
+if( Channel == '0' ) {
+    pChannel = '0';
+} else if( Channel == '1' ) {
+    pChannel = '1';
+} 
+
+if( Queue == '0' ) {
+    pQueue = 'PENDING';
+} else if( Queue == '1' ) {
+    pQueue = 'ACTIVE';
+} else if( Queue == '2' ) {
+    pQueue = 'HISTORY';
+} 
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/PurgeQueue', {
+    'Type': pTransferType,
+    'Chan': pChannel,
+    'Queue': pQueue,
+    'Spare': '0'});
+
+]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Send</text>
+    <x>114</x>
+    <y>150</y>
+    <width>85</width>
+    <height>25</height>
+    <foreground_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>Type</text>
+    <y>39</y>
+    <width>83</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_1</name>
+    <text>Channel</text>
+    <y>70</y>
+    <width>83</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_3</name>
+    <text>Queue</text>
+    <y>101</y>
+    <width>83</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="radio" version="2.0.0">
+    <name>TransferType</name>
+    <pv_name>loc://$(APP)_$(CPUID)_PurgeQueueTransferType</pv_name>
+    <x>91</x>
+    <y>39</y>
+    <width>229</width>
+    <height>22</height>
+    <actions>
+    </actions>
+    <items>
+      <item>Uplink</item>
+      <item>Downlink</item>
+    </items>
+    <items_from_pv>false</items_from_pv>
+  </widget>
+  <widget type="radio" version="2.0.0">
+    <name>Channel</name>
+    <pv_name>loc://$(APP)_$(CPUID)_PurgeQueueChannel</pv_name>
+    <x>91</x>
+    <y>70</y>
+    <width>229</width>
+    <height>22</height>
+    <actions>
+    </actions>
+    <items>
+      <item>Channel 1</item>
+      <item>Channel 2</item>
+    </items>
+    <items_from_pv>false</items_from_pv>
+  </widget>
+  <widget type="radio" version="2.0.0">
+    <name>Queue</name>
+    <pv_name>loc://$(APP)_$(CPUID)_PurgeQueueQueue</pv_name>
+    <x>91</x>
+    <y>101</y>
+    <width>246</width>
+    <height>22</height>
+    <actions>
+    </actions>
+    <items>
+      <item>Pending</item>
+      <item>Active</item>
+      <item>History</item>
+    </items>
+    <items_from_pv>false</items_from_pv>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_7</name>
+    <text>($(CPUID)) CF - Purge Queue</text>
+    <x>12</x>
+    <y>12</y>
+    <width>283</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+</display>

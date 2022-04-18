@@ -90,9 +90,9 @@ uint8 TO_OutputChannel_Status(uint32 index)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int32 TO_Custom_Init(void)
 {
-	int32 status = 0;
-	SEDLIB_ReturnCode_t sedLibStatus = 0;
-	SLIP_ReturnCode_t slipStatus = SLIP_OK;
+    int32 status = 0;
+    SEDLIB_ReturnCode_t sedLibStatus = 0;
+    SLIP_ReturnCode_t slipStatus = SLIP_OK;
     uint32 i = 0;
 
     CFE_PSP_MemSet(&TO_AppCustomData, 0, sizeof(TO_AppCustomData));

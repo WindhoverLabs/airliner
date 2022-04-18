@@ -9,8 +9,8 @@
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
-  <width>340</width>
-  <height>160</height>
+  <width>360</width>
+  <height>200</height>
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255">
     </color>

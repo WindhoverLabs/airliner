@@ -63,10 +63,7 @@
       <wrap_words>false</wrap_words>
       <actions>
       </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
+      <border_width>1</border_width>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label</name>
@@ -115,10 +112,7 @@
       <wrap_words>false</wrap_words>
       <actions>
       </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
+      <border_width>1</border_width>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>NoOp</name>
@@ -127,13 +121,13 @@
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/Noop', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/amc/Noop', {});]]></text>
           </script>
         </action>
       </actions>
       <text>Noop</text>
       <x>6</x>
-      <y>48</y>
+      <y>61</y>
       <width>140</width>
       <height>20</height>
       <foreground_color>
@@ -154,13 +148,13 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/Noop', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/Reset', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/amc/Reset', {});]]></text>
           </script>
         </action>
       </actions>
       <text>Reset</text>
       <x>6</x>
-      <y>66</y>
+      <y>79</y>
       <width>140</width>
       <height>20</height>
       <foreground_color>
@@ -178,28 +172,28 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/Reset', {});]]></text>
       <name>Embedded Display_2</name>
       <file>$(CMD_MANAGEMENT_CONTAINER)</file>
       <x>6</x>
-      <y>86</y>
+      <y>99</y>
       <width>140</width>
       <height>100</height>
     </widget>
-  </widget>
-  <widget type="polyline" version="2.0.0">
-    <name>Polyline</name>
-    <x>250</x>
-    <y>134</y>
-    <width>1</width>
-    <height>1</height>
-    <points>
-      <point x="0.0" y="0.0">
-      </point>
-    </points>
+    <widget type="polyline" version="2.0.0">
+      <name>Polyline</name>
+      <x>222</x>
+      <y>99</y>
+      <width>1</width>
+      <height>1</height>
+      <points>
+        <point x="0.0" y="0.0">
+        </point>
+      </points>
+    </widget>
   </widget>
   <widget type="group" version="2.0.0">
     <name>Miscellaneous</name>
-    <x>268</x>
-    <y>288</y>
-    <width>308</width>
-    <height>156</height>
+    <x>10</x>
+    <y>444</y>
+    <width>258</width>
+    <height>126</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -214,8 +208,8 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/Reset', {});]]></text>
         </action>
       </actions>
       <text>Event Filtering</text>
-      <x>6</x>
-      <y>6</y>
+      <x>10</x>
+      <y>25</y>
       <width>140</width>
       <height>20</height>
       <tooltip>$(actions)</tooltip>
@@ -232,8 +226,8 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/amc/UpdateMotors', {});]]></text>
         </action>
       </actions>
       <text>Update Motors</text>
-      <x>6</x>
-      <y>26</y>
+      <x>10</x>
+      <y>45</y>
       <width>140</width>
       <height>20</height>
       <foreground_color>
@@ -257,11 +251,28 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/amc/UpdateMotors', {});]]></text>
         </action>
       </actions>
       <text>View Outputs</text>
-      <x>6</x>
-      <y>46</y>
+      <x>10</x>
+      <y>65</y>
       <width>140</width>
       <height>20</height>
       <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_3</name>
+      <actions>
+        <action type="open_display">
+          <file>$(APP_CONTROL_TEMPLATE)</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>App Control</text>
+      <x>10</x>
+      <y>5</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
@@ -289,7 +300,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/amc/UpdateMotors', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/SendHK', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/amc/SendHK', {});]]></text>
           </script>
         </action>
       </actions>
@@ -340,10 +351,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/SendHK', {});]]></text>
       <wrap_words>false</wrap_words>
       <actions>
       </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
+      <border_width>1</border_width>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
@@ -476,10 +484,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/amc/DisarmDebug', {});]]></text>
         <wrap_words>false</wrap_words>
         <actions>
         </actions>
-        <border_color>
-          <color red="0" green="128" blue="255">
-          </color>
-        </border_color>
+        <border_width>1</border_width>
       </widget>
     </widget>
     <widget type="group" version="2.0.0">
@@ -604,10 +609,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/amc/DisengageDebug', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_74</name>
@@ -641,10 +642,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/amc/DisengageDebug', {});]]></tex
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>NoOp_44</name>

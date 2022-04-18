@@ -9,8 +9,8 @@
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
-  <width>290</width>
-  <height>120</height>
+  <width>320</width>
+  <height>150</height>
   <actions>
   </actions>
   <grid_step_x>6</grid_step_x>

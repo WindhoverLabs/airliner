@@ -43,7 +43,7 @@
     <x>10</x>
     <y>30</y>
     <width>258</width>
-    <height>240</height>
+    <height>258</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -172,9 +172,36 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/Reset', {});]]></text>
       <name>Embedded Display_2</name>
       <file>$(CMD_MANAGEMENT_CONTAINER)</file>
       <x>6</x>
-      <y>86</y>
+      <y>104</y>
       <width>140</width>
       <height>100</height>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_36</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/WakeUp', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Wakeup</text>
+      <x>6</x>
+      <y>86</y>
+      <width>140</width>
+      <height>18</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
@@ -930,8 +957,8 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/ResetResetsPerformed', {});]]>
         </action>
       </actions>
       <text>Event Filtering</text>
-      <x>5</x>
-      <y>69</y>
+      <x>3</x>
+      <y>93</y>
       <width>149</width>
       <height>20</height>
       <tooltip>$(actions)</tooltip>
@@ -945,37 +972,27 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/ResetResetsPerformed', {});]]>
         </action>
       </actions>
       <text>View Exec Counts</text>
-      <x>5</x>
-      <y>89</y>
+      <x>3</x>
+      <y>113</y>
       <width>149</width>
       <height>20</height>
       <tooltip>$(actions)</tooltip>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="action_button" version="3.0.0">
-      <name>NoOp_36</name>
+      <name>AppControl_2</name>
       <actions>
-        <action type="execute">
-          <script file="EmbeddedJs">
-            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/WakeUp', {});]]></text>
-          </script>
+        <action type="open_display">
+          <file>$(APP_CONTROL_TEMPLATE)</file>
+          <target>tab</target>
+          <description>Open Display</description>
         </action>
       </actions>
-      <text>Wakeup</text>
-      <x>5</x>
-      <y>109</y>
+      <text>App Control</text>
+      <x>3</x>
+      <y>73</y>
       <width>149</width>
-      <height>18</height>
-      <foreground_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="34" green="45" blue="75">
-        </color>
-      </background_color>
+      <height>20</height>
       <tooltip>$(actions)</tooltip>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
@@ -983,9 +1000,9 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/hs/WakeUp', {});]]></text>
   <widget type="group" version="2.0.0">
     <name>Telemetry</name>
     <x>10</x>
-    <y>270</y>
+    <y>288</y>
     <width>258</width>
-    <height>234</height>
+    <height>216</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>

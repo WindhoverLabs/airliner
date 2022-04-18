@@ -57,7 +57,24 @@
   <actions>
   </actions>
   <scripts>
-    <script file="../scripts/telemetry_management_init.py">
+    <script file="EmbeddedJs">
+      <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var msgName = widget.getEffectiveMacros().getValue("MSG_NAME");
+
+if (msgName === undefined || msgName === null) {
+    /* Message Name not defined.  Operate as usual. */
+    ScriptUtil.findWidgetByName(widget, 'msgIdInput').setPropertyValue("visible", true);
+    ScriptUtil.findWidgetByName(widget, 'msgName').setPropertyValue("visible", false);
+    ScriptUtil.findWidgetByName(widget, 'msgName').setPropertyValue("text", "");
+} else {
+    /* Message Name was defined.  Hide the picker. */
+    ScriptUtil.findWidgetByName(widget, 'msgIdInput').setPropertyValue("visible", false);
+    ScriptUtil.findWidgetByName(widget, 'msgName').setPropertyValue("visible", true);
+    ScriptUtil.findWidgetByName(widget, 'msgName').setPropertyValue("text", msgName);
+}
+]]></text>
       <pv_name>=1</pv_name>
     </script>
   </scripts>
@@ -143,7 +160,15 @@ var ChannelIdx = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetB
 var msgIDOut = '';
 var channelIdxOut = '';
 
+var msgName = widget.getEffectiveMacros().getValue("MSG_NAME");
+if (msgName === undefined || msgName === null) {
+    /* Message Name not defined.  Operate as usual. */
+} else {
+    MsgID = msgName;
+}
+
 /* Get actual message ID */
+
 
 {%- for msg in tlm     %}
 {%-   if loop.first -%}
@@ -234,4 +259,16 @@ Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/apps/to/QueryMessageFlow', {
     {%- set group_y.value = group_y.value + group_height   -%}
   {%- endfor   -%}
   
+  <widget type="label" version="2.0.0">
+    <name>msgName</name>
+    <text>Message ID</text>
+    <x>132</x>
+    <y>40</y>
+    <width>254</width>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
 </display>

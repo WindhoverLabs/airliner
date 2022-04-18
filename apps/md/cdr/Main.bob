@@ -6,7 +6,8 @@
     <CPUID>cpd</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
   </macros>
-  <height>350</height>
+  <width>900</width>
+  <height>500</height>
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255">
     </color>
@@ -15,135 +16,11 @@
   </actions>
   <grid_step_x>6</grid_step_x>
   <grid_step_y>6</grid_step_y>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.ValidCmdCntr</pv_name>
-    <x>109</x>
-    <y>37</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label</name>
-    <text>Commands</text>
-    <x>12</x>
-    <y>36</y>
-    <width>85</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_1</name>
-    <text>Errors</text>
-    <x>37</x>
-    <y>55</y>
-    <width>60</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.InvalidCmdCntr</pv_name>
-    <x>109</x>
-    <y>56</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/md/Noop', {});]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>NoOp</text>
-    <x>223</x>
-    <y>36</y>
-    <width>78</width>
-    <height>20</height>
-    <foreground_color>
-      <color red="253" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="34" green="45" blue="75">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_1</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/md/Reset', {});]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Reset</text>
-    <x>223</x>
-    <y>55</y>
-    <width>78</width>
-    <height>20</height>
-    <foreground_color>
-      <color red="253" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="34" green="45" blue="75">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
   <widget type="label" version="2.0.0">
     <name>Label_49</name>
     <text>($(CPUID)) Memory Dwell</text>
-    <x>162</x>
-    <y>6</y>
+    <x>15</x>
+    <y>5</y>
     <width>187</width>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -159,856 +36,1002 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/md/Reset', {});]]></text>
       </color>
     </border_color>
   </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_67</name>
-    <text>Enable Mask</text>
-    <y>74</y>
-    <width>97</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_26</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellEnabledMask</pv_name>
-    <x>109</x>
-    <y>75</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>4</format>
-    <precision>8</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_27</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblAddrCount_0_</pv_name>
-    <x>139</x>
-    <y>223</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_28</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblAddrCount_1_</pv_name>
-    <x>238</x>
-    <y>223</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_29</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblAddrCount_2_</pv_name>
-    <x>337</x>
-    <y>223</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_30</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblAddrCount_3_</pv_name>
-    <x>436</x>
-    <y>223</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_31</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.NumWaitsPerPkt_0_</pv_name>
-    <x>139</x>
-    <y>242</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_32</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.NumWaitsPerPkt_1_</pv_name>
-    <x>238</x>
-    <y>242</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_33</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.NumWaitsPerPkt_2_</pv_name>
-    <x>337</x>
-    <y>242</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_34</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.NumWaitsPerPkt_3_</pv_name>
-    <x>436</x>
-    <y>242</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_35</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.ByteCount_0_</pv_name>
-    <x>139</x>
-    <y>261</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_36</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.ByteCount_1_</pv_name>
-    <x>238</x>
-    <y>261</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_37</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.ByteCount_2_</pv_name>
-    <x>337</x>
-    <y>261</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_38</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.ByteCount_3_</pv_name>
-    <x>436</x>
-    <y>261</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_39</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellPktOffset_0_</pv_name>
-    <x>139</x>
-    <y>280</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_40</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellPktOffset_1_</pv_name>
-    <x>238</x>
-    <y>280</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_41</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellPktOffset_2_</pv_name>
-    <x>337</x>
-    <y>280</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_42</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellPktOffset_3_</pv_name>
-    <x>436</x>
-    <y>280</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_43</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblEntry_0_</pv_name>
-    <x>139</x>
-    <y>299</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_44</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblEntry_1_</pv_name>
-    <x>238</x>
-    <y>299</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_45</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblEntry_2_</pv_name>
-    <x>337</x>
-    <y>299</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_46</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblEntry_3_</pv_name>
-    <x>436</x>
-    <y>299</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_47</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.Countdown_0_</pv_name>
-    <x>139</x>
-    <y>318</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_48</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.Countdown_1_</pv_name>
-    <x>238</x>
-    <y>318</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_49</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.Countdown_2_</pv_name>
-    <x>336</x>
-    <y>318</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_50</name>
-    <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.Countdown_3_</pv_name>
-    <x>436</x>
-    <y>318</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_68</name>
-    <text>Table Addr Count</text>
-    <y>222</y>
-    <width>127</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_69</name>
-    <text>0</text>
-    <x>151</x>
-    <y>203</y>
-    <width>38</width>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_71</name>
-    <text>3</text>
-    <x>444</x>
-    <y>203</y>
-    <width>38</width>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_72</name>
-    <text>2</text>
-    <x>345</x>
-    <y>203</y>
-    <width>38</width>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_73</name>
-    <text>1</text>
-    <x>246</x>
-    <y>203</y>
-    <width>38</width>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_74</name>
-    <text>Byte Count</text>
-    <y>260</y>
-    <width>127</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_75</name>
-    <text>Packet Offset</text>
-    <y>279</y>
-    <width>127</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_76</name>
-    <text>Table Entry</text>
-    <y>298</y>
-    <width>127</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_77</name>
-    <text>Countdown</text>
-    <y>317</y>
-    <width>127</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_78</name>
-    <text>Waits per Packet</text>
-    <y>241</y>
-    <width>127</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button_2</name>
-    <actions>
-      <action type="open_display">
-        <file>Start.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Start</text>
-    <x>366</x>
-    <y>42</y>
-    <width>140</width>
-    <height>20</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button_3</name>
-    <actions>
-      <action type="open_display">
-        <file>Stop.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Stop</text>
-    <x>366</x>
-    <y>61</y>
-    <width>140</width>
-    <height>20</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button_4</name>
-    <actions>
-      <action type="open_display">
-        <file>SetSignature.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Set Signature</text>
-    <x>366</x>
-    <y>80</y>
-    <width>140</width>
-    <height>20</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button_1</name>
-    <actions>
-      <action type="open_display">
-        <file>Jam.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Jam</text>
-    <x>366</x>
-    <y>99</y>
-    <width>140</width>
-    <height>20</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Events</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-importPackage(Packages.org.csstudio.display.builder.runtime.script);
-importPackage(org.csstudio.opibuilder.runmode)
+  <widget type="group" version="2.0.0">
+    <name>Commanding</name>
+    <x>5</x>
+    <y>29</y>
+    <width>246</width>
+    <height>288</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>Cmd Count</text>
+      <x>6</x>
+      <y>5</y>
+      <width>81</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_3</name>
+      <text>Err Count</text>
+      <x>27</x>
+      <y>24</y>
+      <width>60</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_4</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("EVENTS_OPI"));
-var macroInput = DataUtil.createMacrosInput(true);
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/md/Noop', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Noop</text>
+      <x>6</x>
+      <y>84</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_5</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Event Filters</text>
-    <x>366</x>
-    <y>118</y>
-    <width>140</width>
-    <height>20</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_2</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-importPackage(Packages.org.csstudio.display.builder.runtime.script);
-
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/md/SendHK', {});]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>SendHK</text>
-    <x>366</x>
-    <y>137</y>
-    <width>140</width>
-    <height>20</height>
-    <foreground_color>
-      <color red="253" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="34" green="45" blue="75">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_3</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/md/Reset', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Reset</text>
+      <x>6</x>
+      <y>102</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="253" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_2</name>
+      <file>$(CMD_MANAGEMENT_CONTAINER)</file>
+      <x>6</x>
+      <y>142</y>
+      <width>140</width>
+      <height>100</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_2</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.ValidCmdCntr</pv_name>
+      <x>102</x>
+      <y>5</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_3</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.InvalidCmdCntr</pv_name>
+      <x>102</x>
+      <y>24</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_67</name>
+      <text>Enable Mask</text>
+      <x>5</x>
+      <y>42</y>
+      <width>85</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_26</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellEnabledMask</pv_name>
+      <x>102</x>
+      <y>43</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>4</format>
+      <precision>8</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_3</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/md/Wakeup', {});]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Wakeup</text>
-    <x>366</x>
-    <y>156</y>
-    <width>140</width>
-    <height>20</height>
-    <foreground_color>
-      <color red="253" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="34" green="45" blue="75">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
+          </script>
+        </action>
+      </actions>
+      <text>Wakeup</text>
+      <x>6</x>
+      <y>122</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="253" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
   </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>AppControl</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-importPackage(Packages.org.csstudio.display.builder.runtime.script);
-importPackage(org.csstudio.opibuilder.runmode)
+  <widget type="group" version="2.0.0">
+    <name>Telemetry</name>
+    <x>5</x>
+    <y>317</y>
+    <width>246</width>
+    <height>138</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_4</name>
+      <file>TO_TlmManagement.bob</file>
+      <x>5</x>
+      <y>27</y>
+      <width>140</width>
+      <height>60</height>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_37</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Core/ES/resources/templates/ApplicationControl_App.opi");
-var macroInput = DataUtil.createMacrosInput(true);
-
-ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>App Control</text>
-    <x>366</x>
-    <y>23</y>
-    <width>140</width>
-    <height>20</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/md/SendHK', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Send HK</text>
+      <x>5</x>
+      <y>7</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
   </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>AppControl_2</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-importPackage(Packages.org.csstudio.display.builder.runtime.script);
-importPackage(org.csstudio.opibuilder.runmode)
-
-var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("Sch_Table_TEMPLATE"));
-var macroInput = DataUtil.createMacrosInput(true);
-
-ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Sch Table</text>
-    <x>366</x>
-    <y>175</y>
-    <width>140</width>
-    <height>20</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
+  <widget type="group" version="2.0.0">
+    <name>Miscellaneous</name>
+    <x>449</x>
+    <y>215</y>
+    <width>209</width>
+    <height>132</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_9</name>
+      <actions>
+        <action type="open_display">
+          <file>EventControl.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Event Filtering</text>
+      <x>5</x>
+      <y>27</y>
+      <width>149</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_3</name>
+      <actions>
+        <action type="open_display">
+          <file>$(APP_CONTROL_TEMPLATE)</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>App Control</text>
+      <x>5</x>
+      <y>7</y>
+      <width>149</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
   </widget>
-  <widget type="embedded" version="2.0.0">
-    <name>Embedded Display</name>
-    <file>$(CMD_MANAGEMENT_CONTAINER)</file>
-    <x>558</x>
-    <y>42</y>
-    <width>144</width>
-    <height>153</height>
+  <widget type="group" version="2.0.0">
+    <name>Control</name>
+    <x>251</x>
+    <y>215</y>
+    <width>198</width>
+    <height>132</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_1</name>
+      <actions>
+        <action type="open_display">
+          <file>Jam.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Jam</text>
+      <x>10</x>
+      <y>5</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_4</name>
+      <actions>
+        <action type="open_display">
+          <file>SetSignature.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Set Signature</text>
+      <x>10</x>
+      <y>25</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_2</name>
+      <actions>
+        <action type="open_display">
+          <file>Start.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Start</text>
+      <x>10</x>
+      <y>45</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_3</name>
+      <actions>
+        <action type="open_display">
+          <file>Stop.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Stop</text>
+      <x>10</x>
+      <y>65</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
   </widget>
-  <widget type="embedded" version="2.0.0">
-    <name>Embedded Display_1</name>
-    <file>TO_TlmManagement.bob</file>
-    <x>558</x>
-    <y>213</y>
-    <width>144</width>
-    <height>99</height>
+  <widget type="group" version="2.0.0">
+    <name>Status</name>
+    <x>251</x>
+    <y>29</y>
+    <width>588</width>
+    <height>186</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_27</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblAddrCount[0]</pv_name>
+      <x>145</x>
+      <y>25</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_28</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblAddrCount[1]</pv_name>
+      <x>244</x>
+      <y>25</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_29</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblAddrCount[2]</pv_name>
+      <x>343</x>
+      <y>25</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_30</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblAddrCount[3]</pv_name>
+      <x>442</x>
+      <y>25</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_31</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.NumWaitsPerPkt[0]</pv_name>
+      <x>145</x>
+      <y>44</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_32</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.NumWaitsPerPkt[1]</pv_name>
+      <x>244</x>
+      <y>44</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_33</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.NumWaitsPerPkt[2]</pv_name>
+      <x>343</x>
+      <y>44</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_34</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.NumWaitsPerPkt[3]</pv_name>
+      <x>442</x>
+      <y>44</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_35</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.ByteCount[0]</pv_name>
+      <x>145</x>
+      <y>63</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_36</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.ByteCount[1]</pv_name>
+      <x>244</x>
+      <y>63</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_37</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.ByteCount[2]</pv_name>
+      <x>343</x>
+      <y>63</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_38</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.ByteCount[3]</pv_name>
+      <x>442</x>
+      <y>63</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_39</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellPktOffset[0]</pv_name>
+      <x>145</x>
+      <y>82</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_40</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellPktOffset[1]</pv_name>
+      <x>244</x>
+      <y>82</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_41</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellPktOffset[2]</pv_name>
+      <x>343</x>
+      <y>82</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_42</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellPktOffset[3]</pv_name>
+      <x>442</x>
+      <y>82</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_43</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblEntry[0]</pv_name>
+      <x>145</x>
+      <y>101</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_44</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblEntry[1]</pv_name>
+      <x>244</x>
+      <y>101</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_45</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblEntry[2]</pv_name>
+      <x>343</x>
+      <y>101</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_46</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.DwellTblEntry[3]</pv_name>
+      <x>442</x>
+      <y>101</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_47</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.Countdown[0]</pv_name>
+      <x>145</x>
+      <y>120</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_48</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.Countdown[1]</pv_name>
+      <x>244</x>
+      <y>120</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_49</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.Countdown[2]</pv_name>
+      <x>342</x>
+      <y>120</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_50</name>
+      <pv_name>/cfs/$(CPUID)/apps/md/MD_HK_TLM_MID.Countdown[3]</pv_name>
+      <x>442</x>
+      <y>120</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_68</name>
+      <text>Table Addr Count</text>
+      <x>6</x>
+      <y>24</y>
+      <width>127</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_69</name>
+      <text>0</text>
+      <x>157</x>
+      <y>5</y>
+      <width>38</width>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_71</name>
+      <text>3</text>
+      <x>450</x>
+      <y>5</y>
+      <width>38</width>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_72</name>
+      <text>2</text>
+      <x>351</x>
+      <y>5</y>
+      <width>38</width>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_73</name>
+      <text>1</text>
+      <x>252</x>
+      <y>5</y>
+      <width>38</width>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_74</name>
+      <text>Byte Count</text>
+      <x>6</x>
+      <y>62</y>
+      <width>127</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_75</name>
+      <text>Packet Offset</text>
+      <x>6</x>
+      <y>81</y>
+      <width>127</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_76</name>
+      <text>Table Entry</text>
+      <x>6</x>
+      <y>100</y>
+      <width>127</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_77</name>
+      <text>Countdown</text>
+      <x>6</x>
+      <y>119</y>
+      <width>127</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_78</name>
+      <text>Waits per Packet</text>
+      <x>6</x>
+      <y>43</y>
+      <width>127</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
   </widget>
 </display>
