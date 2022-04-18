@@ -5,7 +5,7 @@ CFE_LIB, /embedded/SED_LIB.so,   SEDLIB_LibInit,  SED_LIB,    0,     0, 0x0, 0, 
 CFE_LIB, /embedded/SLIP_LIB.so,  SLIP_LibInit,    SLIP_LIB,   0,     0, 0x0, 0, 0;
 CFE_LIB, /embedded/IO_LIB.so,    IO_LibInit,      IO_LIB,     0,     0, 0x0, 0, 0;
 CFE_LIB, /embedded/IPC_LIB.so,   IPC_LibInit,     IPC_LIB,    0,     0, 0x0, 0, 0;
-CFE_LIB, /embedded/SED.so,       SED_AppMain,     SED,      127, 32768, 0x0, 0, 0;
+CFE_APP, /embedded/SED.so,       SED_AppMain,     SED,      127, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/SENS.so,      SENS_AppMain,    SENS,      20, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/LD.so,        LD_AppMain,      LD,        55, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/QAE.so,       QAE_AppMain,     QAE,       25, 65536, 0x0, 0, 0;
@@ -27,6 +27,7 @@ CFE_APP, /embedded/RCIN.so,      RCIN_AppMain,    RCIN,      88, 32768, 0x0, 0, 
 CFE_APP, /embedded/ICM20689.so,  ICM20689_AppMain, ICM20689, 48, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/HMC5883.so,   HMC5883_AppMain, HMC5883,   53, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/MS5611.so,    MS5611_AppMain,  MS5611,    57, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/GPS.so,       GPS_AppMain,     GPS,       97, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/CI.so,        CI_AppMain,      CI,      115, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/TO.so,        TO_AppMain,      TO,        124, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/SCH.so,       SCH_AppMain,     SCH,       10, 40960, 0x0, 0, 0;

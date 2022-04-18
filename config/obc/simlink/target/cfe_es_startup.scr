@@ -1,6 +1,7 @@
 CFE_LIB, /cf/apps/CFS_LIB.so,   CFS_LibInit,       CFS_LIB,     0,      0, 0x0, 0, 2;
 CFE_LIB, /cf/apps/CVTLIB.so,    CVT_LibInit,       CVTLIB,      0,      0, 0x0, 0, 2;
 CFE_LIB, /cf/apps/SED_LIB.so,   SEDLIB_LibInit,    SED_LIB,     0,      0, 0x0, 0, 2;
+CFE_APP, /cf/apps/SED.so,       SED_AppMain,       SED,       127,  65536, 0x0, 0, 0;
 CFE_APP, /cf/apps/CI.so,        CI_AppMain,        CI,        115, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/TO.so,        TO_AppMain,        TO,        124, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/UBLOX_M8N.so, UBLOX_M8N_AppMain, UBLOX_M8N,  50,  40960, 0x0, 0, 2;
