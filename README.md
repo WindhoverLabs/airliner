@@ -6,8 +6,8 @@
  The next steps will require 5 different shells. Make sure to *always* create a python virtual environment by running ```make python-env``` from the root directory of the repo.  
  **Shell 1**
 3. ```cd build/obc/sitl_commander_workspace```
-4. ```bin/yamcsd /opt/yamcs .```  
- This should launch YAMCS
+4. ```./bin/yamcs-start /opt/yamcs .```  
+ This should launch YAMCS  
  **Shell 2**
 5. ```cd build/obc/simlink/host/host```
 6. ```./start-gazebo```  
