@@ -806,8 +806,8 @@ modules:
             msgID: 0x0ae1              # TLM_MSG(  225 )
           PX4_PARAMETER_UPDATE_MID:
             msgID: 0x0ae2              # TLM_MSG(  226 )
-          PX4_POSITION_SETPOINT_MID:
-            msgID: 0x0ae3              # TLM_MSG(  227 )
+#          PX4_POSITION_SETPOINT_MID:
+#            msgID: 0x0ae3              # TLM_MSG(  227 )
           PX4_POSITION_SETPOINT_TRIPLET_MID:
             msgID: 0x0ae4              # TLM_MSG(  228 )
           PX4_PWM_INPUT_MID:

@@ -155,9 +155,9 @@
     PX4_PARAMETER_UPDATE_MID: 
       msgID: 
       struct: PX4_ParameterUpdateMsg_t
-    PX4_POSITION_SETPOINT_MID: 
-      msgID: 
-      struct: PX4_PositionSetpoint_t
+#    PX4_POSITION_SETPOINT_MID:
+#      msgID:
+#      struct: PX4_PositionSetpoint_t
     PX4_POSITION_SETPOINT_TRIPLET_MID: 
       msgID: 
       struct: PX4_PositionSetpointTripletMsg_t
