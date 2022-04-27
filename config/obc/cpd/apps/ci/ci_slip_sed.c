@@ -192,6 +192,7 @@ void CI_ReadMessage(uint8* buffer, uint32* size)
 				                   CI_AppCustomData.UartStatusTlm.Hdr.BytesInBuffer,
 								   CI_AppCustomData.SlipBuffer,
 				                   size);
+        printf("CI_ProcessMessage#2");
 		switch(slipReturnCode)
 		{
 		    case CI_SLIP_PARSER_COMPLETE:
@@ -270,6 +271,8 @@ void CI_CleanupCustom(void)
 
 CI_SlipParserReturnCode_t CI_ProcessMessage(uint8* inBuffer, uint32 inSize, uint8* inOutBuffer, uint32* inOutSize)
 {
+
+    printf("CI_ProcessMessage#1");
 	osalbool cont = TRUE;
     int received = 0;
     CI_SlipParserReturnCode_t returnCode;
@@ -327,7 +330,6 @@ CI_SlipParserReturnCode_t CI_ProcessMessage(uint8* inBuffer, uint32 inSize, uint
 			}
 		}
 	}
-
 	return returnCode;
 }
 
