@@ -364,6 +364,13 @@ modules:
         commands:
           TO_CMD_MID:
             msgID: 0x186c              # CMD_MSG(  108 )
+            commands: 
+              EnableChannel:
+                cc: 10
+                struct: TO_EnableChannelCmd_t
+              DisableChannel:
+                cc: 11
+                struct: TO_DisableChannelCmd_t   
           TO_SEND_HK_MID:
             msgID: 0x186d              # CMD_MSG(  109 ) 
           TO_SEND_TLM_MID:
