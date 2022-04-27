@@ -18,6 +18,7 @@ sudo apt-get install -y librxtx-java
 sudo apt-get install -y gazebo9
 sudo apt-get install -y git
 sudo apt-get install -y python3-pip
+sudo apt-get install -y xclip
 sudo pip3 install virtualenv
 sudo apt install terminator -y
 
