@@ -2,7 +2,7 @@
 ## Ubuntu 18.04 LTS
 Airliner requires [Ubuntu 18.04 LTS](https://releases.ubuntu.com/18.04/ubuntu-18.04.6-desktop-amd64.iso).  During installation do not connect to wifi or network.
 
-After completing installation, sign into the new ubuntu account, and connect to network.  Run the following command on a terminal shell to get the latest updates of packages.
+After completing installation, sign into the new ubuntu account (with administrator/sudo previleges), and connect to network.  Run the following command on a terminal shell to get the latest updates of packages.
 
     sudo apt-get update
 
@@ -26,9 +26,9 @@ This is completely optional.  But this is how to install MS Visual Code in Ubunt
     sudo apt install code
 
 ## Install Libraries Needed for SITL
-Run the shell file [airliner_reqs_ubuntu18.04.sh](./airliner_reqs_ubuntu18.04.sh).  It should install all the libraries needed for SITL.
+The shell file [airliner_reqs_ubuntu18.04.sh](./airliner_reqs_ubuntu18.04.sh) is in the same folder as this `README.md` file.  Download the shell file to a folder like `~/Downloads` folder.  Run the shell command there. It should install all the libraries needed for SITL.
 
-    ./airliner_reqs_ubuntu18.04.sh
+    source ~/Downloads/airliner_reqs_ubuntu18.04.sh
 
 ## Setup SSH for github
 SSH makes it easy to use git with github.  Use the commands below to generate an ssh key for github.
@@ -43,7 +43,7 @@ Use the following command to copy the contents of the public file onto system cl
 
     cat ~/.ssh/wh_github.pub|xclip -i -selection clipboard
 
-Log into github and go to account settings, and click on the `SSH and GPG keys` navigation tab on the left.  On the right, click on the `New SSH Key` button.  On the form that pops, give the SSH Key a `title` that corresponds to the machine on which the ubuntu 18.04 is installed.  Inside the `key` text area, paste the public key that is stored in your clipboard.  Hit the `Add SSH Key` button to add your ssh key on github.  Now you should be able to access any reposition that you ohave authenticated access to.
+Log into github and go to account settings, and click on the `SSH and GPG keys` navigation tab on the left.  On the right, click on the `New SSH Key` button.  On the form that pops, give the SSH Key a `title` that corresponds to the machine on which the ubuntu 18.04 is installed.  Inside the `key` text area, paste the public key that is stored in your clipboard.  Hit the `Add SSH Key` button to add your ssh key on github.  Now you should be able to access any github repository that you have authenticated access to from your local git repo.
 
 ## Git Clone
 Create a project directory where you will store your projects.  Say that it is `~/src` folder.
@@ -52,7 +52,7 @@ Create a project directory where you will store your projects.  Say that it is `
     cd ~/src
     git clone git@github.com:WindhoverLabs/squeaky-weasel.git
 
-This will clone the `squeaky-weasel` project inside `~/src` folder.  Change directory to this project folder, and checkout the development branch you need to work on.  In this example the branch is called `genericize_sed_interfaces`.
+This will clone the `squeaky-weasel` project inside `~/src` folder.  Change directory to this project folder, and checkout the development branch you need to work on.  In this example, the branch is called `genericize_sed_interfaces`.  Modify the following commands with your customized development branch name.
 
     cd squeaky-weasel
     git checkout genericize_sed_interfaces
