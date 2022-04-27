@@ -255,19 +255,19 @@ buildliner_add_app(
     ci
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/ci
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/ci/ci_slip_sed.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci/ci_slip_sed.c
 )
 
 buildliner_add_app(
     to
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to/to_slip_sed.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to/tables/to_backup_cfg.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_slip_sed.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/tables/to_backup_cfg.c
 )
 
 buildliner_add_app(
