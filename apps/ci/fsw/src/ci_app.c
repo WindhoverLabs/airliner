@@ -1046,10 +1046,20 @@ void CI_ProcessIngestCmd(CFE_SB_MsgPtr_t CmdMsgPtr, uint32 MsgSize)
     #define PYLINER
     #ifdef PYLINER
           CFE_SB_MsgId_t CmdMsgId = CFE_SB_GetMsgId(CmdMsgPtr);
+//          printf("CFE_SB_MsgId_t-->:%d\n", CmdMsgId);
+//          printf("size------->%d\n", MsgSize);
           if (740 == CmdMsgId)
           {
-              printf("Pyliner found!");
+              printf("Pyliner found!\n");
           }
+          else if(0 < CmdMsgId)
+          {
+              printf("CFE_SB_MsgId_t-->:%d\n", CmdMsgId);
+          }
+//          else
+//          {
+//               printf("CFE_SB_MsgId_t-->2:%d\n", CmdMsgId);
+//          }
         CFE_ES_PerfLogEntry(CI_SOCKET_RCV_PERF_ID);
         CI_AppData.HkTlm.IngestMsgCount++;
         CFE_SB_SendMsg(CmdMsgPtr);
@@ -1114,12 +1124,13 @@ void CI_IngestCommands(void)
         /* Receive cmd and gather data on it */
         MsgSize = CI_MAX_CMD_INGEST;
         //Quick and dirty hack for pyliner testing
-        #define PYLINER
-        #ifndef PYLINER
+//        #define PYLINER
+//        #ifndef PYLINER
         CI_ReadMessage(CI_AppData.IngestBuffer, &MsgSize);
-        #endif
+//        #endif
         if(MsgSize > 0)
         {
+            printf("CI_ReadMessage MsgSize--->:%ld\n", MsgSize);
             CmdMsgPtr = (CFE_SB_MsgPtr_t)CI_AppData.IngestBuffer;
 
             /* Process the cmd */

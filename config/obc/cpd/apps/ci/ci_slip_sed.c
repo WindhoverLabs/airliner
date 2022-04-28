@@ -187,12 +187,13 @@ void CI_ReadMessage(uint8* buffer, uint32* size)
 
     if(parseBuffer)
     {
+        printf("size for CI_ProcessMessage:%d", size);
 		slipReturnCode = CI_ProcessMessage(
 				                   CI_AppCustomData.UartStatusTlm.RxBuffer,
 				                   CI_AppCustomData.UartStatusTlm.Hdr.BytesInBuffer,
 								   CI_AppCustomData.SlipBuffer,
 				                   size);
-        printf("CI_ProcessMessage#2");
+        printf("CI_ReadMessage#1:%d\n", slipReturnCode);
 		switch(slipReturnCode)
 		{
 		    case CI_SLIP_PARSER_COMPLETE:
@@ -272,7 +273,7 @@ void CI_CleanupCustom(void)
 CI_SlipParserReturnCode_t CI_ProcessMessage(uint8* inBuffer, uint32 inSize, uint8* inOutBuffer, uint32* inOutSize)
 {
 
-    printf("CI_ProcessMessage#1");
+    printf("CI_ProcessMessage#1\n");
 	osalbool cont = TRUE;
     int received = 0;
     CI_SlipParserReturnCode_t returnCode;
@@ -284,17 +285,20 @@ CI_SlipParserReturnCode_t CI_ProcessMessage(uint8* inBuffer, uint32 inSize, uint
 	  */
 	while(cont)
 	{
+         printf("CI_ProcessMessage#2\n");
 		/* Break out of the loop if we've parsed the entire input buffer. */
 		if(CI_AppCustomData.SlipInCursor >= inSize)
 		{
 			returnCode = CI_SLIP_PARSER_COMPLETE;
 			cont = FALSE;
+             printf("CI_ProcessMessage#3-->:%d\n", inSize);
 		}
 
 		/* Break out of the loop if we're about to overrun the output buffer. */
 		if(CI_AppCustomData.SlipOutCursor >= *inOutSize)
 		{
 			returnCode = CI_SLIP_PARSER_BUFFER_OVERFLOW;
+             printf("CI_ProcessMessage#5\n");
 			cont = FALSE;
 		}
 
@@ -305,6 +309,7 @@ CI_SlipParserReturnCode_t CI_ProcessMessage(uint8* inBuffer, uint32 inSize, uint
 			{
 				case SLIP_MESSAGE_FOUND_OK:
 				{
+                    printf("SLIP_MESSAGE_FOUND_OK\n");
 					/* Start processing the next message. */
 					CI_AppCustomData.SlipInCursor++;
 					cont = FALSE;
@@ -317,6 +322,7 @@ CI_SlipParserReturnCode_t CI_ProcessMessage(uint8* inBuffer, uint32 inSize, uint
 
 				case SLIP_OK:
 				{
+                    printf("SLIP_OK\n");
 					CI_AppCustomData.SlipInCursor++;
 					break;
 				}
@@ -325,6 +331,7 @@ CI_SlipParserReturnCode_t CI_ProcessMessage(uint8* inBuffer, uint32 inSize, uint
 				{
 					/* Something went wrong. */
 					/* TODO */
+                    printf("CI_ProcessMessage#4\n");
 					CI_AppCustomData.SlipInCursor++;
 				}
 			}
