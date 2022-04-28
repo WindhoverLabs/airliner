@@ -126,9 +126,9 @@
       enumerations:
         FIFO:   0
         SINGLE: 1
-    #- parent: TO_EnableChannelCmd_t
-    #  member: DestinationAddress
-    #  type: string
+    - parent: TO_EnableChannelCmd_t
+      member: DestinationAddress
+      type: string
   telemetry: 
     TO_DIAG_MSG_FLOW_MID: 
       msgID: 
