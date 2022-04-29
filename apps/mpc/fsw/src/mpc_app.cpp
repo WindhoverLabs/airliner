@@ -209,6 +209,7 @@ int32 MPC::InitPipe()
         }
 
         iStatus = CFE_SB_SubscribeEx(PX4_POSITION_SETPOINT_TRIPLET_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        printf("PX4_POSITION_SETPOINT_TRIPLET_MID VM----------------------------------:%d\n", iStatus);
         if (iStatus != CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(MPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
@@ -446,6 +447,7 @@ int32 MPC::RcvSchPipeMsg(int32 iBlocking)
                 /* If vehicle local position has been received begin
                  * cyclic ops. */
                 if(ProcessDataPipe() == true) {
+//                    printf("ProcessDataPipe-->#1\n");
                     Execute();
                 }
                 break;
@@ -509,6 +511,12 @@ osalbool MPC::ProcessDataPipe()
         if(iStatus == CFE_SUCCESS)
         {
             MsgId = CFE_SB_GetMsgId(MsgPtr);
+
+            if (228 == MsgId)
+            {
+                printf("Pyliner found on MPC$$$$$$$$!\n");
+            }
+//            printf("MsgId for MPC-->:%d\n", MsgId);
             switch (MsgId)
             {
                 case PX4_CONTROL_STATE_MID:
@@ -538,6 +546,7 @@ osalbool MPC::ProcessDataPipe()
 
                 case PX4_POSITION_SETPOINT_TRIPLET_MID:
                 {
+                    printf("Pyliner in action:MPC$$$$$$$$$$$$\n");
                     CFE_PSP_MemCpy(&m_PositionSetpointTripletMsg, MsgPtr, sizeof(m_PositionSetpointTripletMsg));
                     ProcessPositionSetpointTripletMsg();
                     break;
@@ -576,10 +585,20 @@ osalbool MPC::ProcessDataPipe()
         }
         else if (iStatus == CFE_SB_NO_MESSAGE)
         {
+//            MsgId = CFE_SB_GetMsgId(MsgPtr);
+//            if (228 == MsgId)
+//            {
+//                printf("Pyliner found on else if branch MPC$$$$$$$$!\n");
+//            }
             break;
         }
         else
         {
+//            MsgId = CFE_SB_GetMsgId(MsgPtr);
+//            if (228 == MsgId)
+//            {
+//                printf("Pyliner found on else branch MPC$$$$$$$$!\n");
+//            }
             (void) CFE_EVS_SendEvent(MPC_RCVMSG_ERR_EID, CFE_EVS_ERROR,
                   "DATA pipe read error (0x%08lX)", iStatus);
             break;

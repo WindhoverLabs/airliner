@@ -303,6 +303,7 @@ int32 VM::InitPipe()
         }
 
         iStatus = CFE_SB_SubscribeEx(PX4_POSITION_SETPOINT_TRIPLET_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        printf("PX4_POSITION_SETPOINT_TRIPLET_MID VM----------------------------------:%d\n", iStatus);
         if (iStatus != CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
@@ -310,7 +311,6 @@ int32 VM::InitPipe()
                     iStatus);
             goto VM_InitPipe_Exit_Tag;
         }
-
         iStatus = CFE_SB_SubscribeEx(PX4_OFFBOARD_CONTROL_MODE_MID, DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
@@ -635,6 +635,10 @@ void VM::ProcessDataPipe()
         if (iStatus == CFE_SUCCESS)
         {
             MsgId = CFE_SB_GetMsgId(MsgPtr);
+            if (228 == MsgId)
+            {
+                printf("Pyliner found on VM$$$$$$$$!\n");
+            }
             switch (MsgId)
             {
                 case PX4_SENSOR_MAG_MID:
@@ -723,6 +727,7 @@ void VM::ProcessDataPipe()
 
                 case PX4_POSITION_SETPOINT_TRIPLET_MID:
                 {
+                    printf("Pyliner in action:VM$$$$$$$$$$$$\n");
                     CFE_PSP_MemCpy(&PositionSetpointTripletMsg, MsgPtr, sizeof(PositionSetpointTripletMsg));
                     HkTlm.PositionSetpointTripletMsgCount++;
                     break;
