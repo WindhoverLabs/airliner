@@ -375,6 +375,10 @@ modules:
             msgID: 0x186d              # CMD_MSG(  109 ) 
           TO_SEND_TLM_MID:
             msgID: 0x186e              # CMD_MSG(  110 )
+        msg_def_overrides:
+          - parent: TO_EnableChannelCmd_t
+            member: DestinationAddress
+            type: string
         tables:
           _TO_CONFIG:
             channel:
