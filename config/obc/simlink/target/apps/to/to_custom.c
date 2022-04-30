@@ -93,7 +93,6 @@ int32 TO_Custom_Init(void)
     strncpy(TO_AppCustomData.Channel[0].IP, TO_UDP_CHANNEL_ADDRESS, INET_ADDRSTRLEN);
     TO_AppCustomData.Channel[0].DstPort = TO_UDP_CHANNEL_PORT;
     TO_AppCustomData.Channel[0].Priority = TO_CHANNEL_TASK_PRIORITY;
-    TO_AppCustomData.Channel[0].ListenerTask = TO_OutputChannel_UDPChannelTask;
     TO_AppCustomData.Channel[0].Socket = 0;
     TO_AppCustomData.Channel[0].ChildTaskID = 0;
 
@@ -370,18 +369,6 @@ int32 TO_OutputChannel_Enable(uint32 ChannelID, const char *DestinationAddress, 
     /* Enable the channel for transmission. */
     TO_AppCustomData.Channel[ChannelID].Mode = TO_CHANNEL_ENABLED;
 
-    /* Create the child listener task. */
-    char TaskName[OS_MAX_API_NAME];
-    snprintf(TaskName, OS_MAX_API_NAME, "TO_OUTCH_%u", (unsigned int)ChannelID);
-    returnCode = CFE_ES_CreateChildTask(
-            &TO_AppCustomData.Channel[ChannelID].ChildTaskID,
-            (const char *)TaskName,
-            TO_AppCustomData.Channel[ChannelID].ListenerTask,
-            0,
-			TO_CUSTOM_TASK_STACK_SIZE,
-            TO_AppCustomData.Channel[ChannelID].Priority,
-			TO_CUSTOM_CHILD_TASK_FLAGS);
-
 end_of_function:
     return returnCode;
 }
@@ -424,72 +411,6 @@ end_of_function:
 
 
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* The UDP Development Channel Task Entry Point                    */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void TO_OutputChannel_UDPChannelTask(void)
-{
-    CFE_ES_RegisterChildTask();
-
-    TO_OutputChannel_ChannelHandler(0);
-
-    CFE_ES_ExitChildTask();
-}
-
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Channel Handler                                                 */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
-{
-    int32 iStatus = CFE_SUCCESS;
-    CFE_SB_MsgPtr_t msg;
-
-    while(TO_OutputChannel_Status(ChannelIdx) == TO_CHANNEL_ENABLED)
-    {
-        if(TO_Channel_State(ChannelIdx) == TO_CHANNEL_OPENED)
-        {
-            iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[ChannelIdx], &msg, TO_CUSTOM_CHANNEL_GET_TIMEOUT );
-            if(iStatus == OS_SUCCESS)
-            {
-                uint32 size = CFE_SB_GetTotalMsgLength(msg);
-                int32 sendResult = TO_OutputChannel_Send(ChannelIdx, (const char*)msg, size);
-                if (sendResult != 0)
-                {
-        	    TO_OutputChannel_Disable(ChannelIdx);
-                }
-                else
-                {
-                    TO_Channel_LockByIndex(ChannelIdx);
-                    TO_AppData.ChannelData[ChannelIdx].OutputQueue.SentCount++;
-                    TO_AppData.ChannelData[ChannelIdx].OutputQueue.SentBytes += size;
-                    TO_Channel_UnlockByIndex(ChannelIdx);
-                }
-            }
-            else if(iStatus == OS_QUEUE_TIMEOUT)
-            {
-            	/* Do nothing.  Just loop back around and check the guard. */
-            	OS_TaskDelay(1);
-            }
-            else
-            {
-                CFE_EVS_SendEvent(TO_OSQUEUE_GET_ERROR_EID, CFE_EVS_ERROR,
-                                "Listener failed to pop message from queue. (%i).", (int)iStatus);
-                TO_Channel_LockByIndex(ChannelIdx);
-                TO_AppData.ChannelData[ChannelIdx].State = TO_CHANNEL_CLOSED;
-                TO_Channel_UnlockByIndex(ChannelIdx);
-            }
-        }
-    }
-}
-
-
-
 int32 TO_Custom_InitEvent(int32 *ind)
 {
     return 0;
@@ -504,5 +425,47 @@ void TO_PrintCustomVersion(void)
 
 void TO_OutputChannel_SendTelemetry(uint32 index)
 {
+    int32 iStatus = CFE_SUCCESS;
+    CFE_SB_MsgPtr_t msg;
+    osalbool cont = TRUE;
+
+    while(cont)
+    {
+        if(TO_Channel_State(index) == TO_CHANNEL_OPENED)
+        {
+            iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[index], &msg, OS_CHECK );
+            if(iStatus == OS_SUCCESS)
+            {
+                uint32 size = CFE_SB_GetTotalMsgLength(msg);
+                int32 sendResult = TO_OutputChannel_Send(index, (const char*)msg, size);
+                if (sendResult != 0)
+                {
+        	        TO_OutputChannel_Disable(index);
+                	cont = FALSE;
+                }
+                else
+                {
+                    TO_Channel_LockByIndex(index);
+                    TO_AppData.ChannelData[index].OutputQueue.SentCount++;
+                    TO_AppData.ChannelData[index].OutputQueue.SentBytes += size;
+                    TO_Channel_UnlockByIndex(index);
+                }
+            }
+            else if(iStatus == OS_QUEUE_EMPTY)
+            {
+            	cont = FALSE;
+            }
+            else
+            {
+                CFE_EVS_SendEvent(TO_OSQUEUE_GET_ERROR_EID, CFE_EVS_ERROR,
+                                "Listener failed to pop message from queue. (%i).", (int)iStatus);
+                TO_Channel_LockByIndex(index);
+                TO_AppData.ChannelData[index].State = TO_CHANNEL_CLOSED;
+                TO_Channel_UnlockByIndex(index);
+            	cont = FALSE;
+            }
+        }
+    }
+	cont = FALSE;
 }
 
