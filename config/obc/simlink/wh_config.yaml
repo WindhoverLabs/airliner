@@ -170,6 +170,25 @@ modules:
 
       to:
         definition: ${PROJECT_SOURCE_DIR}/apps/to/wh_design.yaml
+        commander:
+          displays: cdr
+          templates:
+            _ADD_MESSAGE_FLOW:
+              template: "../../config/obc/cdr/TO_AddMessageFlow.j2"
+              output: "TO_AddMessageFlow.bob"
+              scope: GLOBAL
+            _QUERY_MESSAGE_FLOW:
+              template: "cdr/resources/templates/TO_QueryMessageFlow.j2"
+              output: "TO_QueryMessageFlow.bob"
+              scope: GLOBAL
+            _REMOVE_MESSAGE_FLOW:
+              template: "../../config/obc/cdr/TO_RemoveMessageFlow.j2"
+              output: "TO_RemoveMessageFlow.bob"
+              scope: GLOBAL
+            _TLM_MANAGEMENT_FLOW:
+              template: "cdr/resources/templates/TO_TlmManagement.j2"
+              output: "TO_TlmManagement.bob"
+              scope: GLOBAL
         telemetry:
           TO_DIAG_MSG_FLOW_MID: 
             msgID: 0x0c69              # TLM_MSG(  105 )
