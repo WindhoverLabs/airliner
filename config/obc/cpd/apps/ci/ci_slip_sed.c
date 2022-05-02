@@ -287,18 +287,21 @@ CI_SlipParserReturnCode_t CI_ProcessMessage(uint8* inBuffer, uint32 inSize, uint
 	{
          printf("CI_ProcessMessage#2\n");
 		/* Break out of the loop if we've parsed the entire input buffer. */
-		if(CI_AppCustomData.SlipInCursor >= inSize)
-		{
-			returnCode = CI_SLIP_PARSER_COMPLETE;
-			cont = FALSE;
+        if(CI_AppCustomData.SlipInCursor >= inSize)
+        {
+            returnCode = CI_SLIP_PARSER_COMPLETE;
+            cont = FALSE;
              printf("CI_ProcessMessage#3-->:%d\n", inSize);
-		}
+             printf("CI_ProcessMessage#3-->inOutSize:%d\n", *inOutSize);
+             printf("Last byte:%d\n", inBuffer[inSize-1]);
+//             printf("");
+        }
 
 		/* Break out of the loop if we're about to overrun the output buffer. */
 		if(CI_AppCustomData.SlipOutCursor >= *inOutSize)
 		{
 			returnCode = CI_SLIP_PARSER_BUFFER_OVERFLOW;
-             printf("CI_ProcessMessage#5\n");
+            printf("CI_ProcessMessage#5\n");
 			cont = FALSE;
 		}
 

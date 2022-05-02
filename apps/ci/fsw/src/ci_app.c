@@ -1041,31 +1041,34 @@ CI_GetCmdAuthorized_Exit_tag:
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CI_ProcessIngestCmd(CFE_SB_MsgPtr_t CmdMsgPtr, uint32 MsgSize)
 {
-//    printf("CI_ProcessMessage#2");
-
     #define PYLINER
     #ifdef PYLINER
           CFE_SB_MsgId_t CmdMsgId = CFE_SB_GetMsgId(CmdMsgPtr);
-//          printf("CFE_SB_MsgId_t-->:%d\n", CmdMsgId);
-//          printf("size------->%d\n", MsgSize);
-          if (740 == CmdMsgId)
+          if (228 == CmdMsgId)
           {
               printf("Pyliner found!\n");
+
+                  printf("%u   \n", __LINE__);
+                  uint8* msg_ptr = (char*)CmdMsgPtr;
+                  for(uint32 i = 0; i < MsgSize; ++i)
+                  {
+                      printf("%02x "    , msg_ptr[i]);
+                  }
+                  printf("\n");
           }
           else if(0 < CmdMsgId)
           {
-              printf("CFE_SB_MsgId_t-->:%d\n", CmdMsgId);
+              printf("$$$$$$$CFE_SB_MsgId_t-->:%d\n", CmdMsgId);
           }
-//          else
-//          {
-//               printf("CFE_SB_MsgId_t-->2:%d\n", CmdMsgId);
-//          }
         CFE_ES_PerfLogEntry(CI_SOCKET_RCV_PERF_ID);
         CI_AppData.HkTlm.IngestMsgCount++;
-        CFE_SB_SendMsg(CmdMsgPtr);
+        int rc = CFE_SB_SendMsg(CmdMsgPtr);
+
+        printf("rc from SB:%d\n", rc);
+
         CFE_ES_PerfLogExit(CI_SOCKET_RCV_PERF_ID);
         return;
-    #endif
+    #else
     if(MsgSize > 0)
     {
         CFE_SB_MsgId_t CmdMsgId = 0;
@@ -1108,6 +1111,7 @@ void CI_ProcessIngestCmd(CFE_SB_MsgPtr_t CmdMsgPtr, uint32 MsgSize)
                               "Message too long.  Size = %lu", MsgSize);
         }
     }
+    #endif
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
