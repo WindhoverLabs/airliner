@@ -10,3 +10,6 @@
 [submodule "tools/jMAVSim"]
 	path = tools/jMAVSim
 	url = https://github.com/WindhoverLabs/jMAVSim.git
+[submodule "core/tools/pyliner"]
+	path = core/tools/pyliner
+	url = https://github.com/WindhoverLabs/pyliner.git
