@@ -853,8 +853,8 @@ osalbool PE::ProcessDataPipe()
 				    if(TRUE == HkTlm.BaroFuse)
 				    {
 					    /* If baro is valid */
-					    if(!m_SensorCombinedMsg.BaroInvalid)
-					    {
+					    //if(!m_SensorCombinedMsg.BaroInvalid)
+					    //{
 						    /* Get the baro timestamp from the sensor combined timestamp
 						     * (which is the gyro timestamp) plus the baro relative timestamp.
 						     * Baro relative is the difference between the gyro and baro
@@ -873,7 +873,7 @@ osalbool PE::ProcessDataPipe()
 							    /* Save the last valid timestamp */
 							    HkTlm.TimeLastBaro = m_SensorCombinedMsg.BaroTimestamp;
 						    }
-					    }
+					    //}
 				    }
 				    break;
 			    }

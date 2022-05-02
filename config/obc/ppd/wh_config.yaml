@@ -354,6 +354,25 @@ modules:
 
       to:
         definition: ${PROJECT_SOURCE_DIR}/apps/to/wh_design.yaml
+        commander:
+          displays: cdr
+          templates:
+            _ADD_MESSAGE_FLOW:
+              template: "../../config/obc/cdr/TO_AddMessageFlow.j2"
+              output: "TO_AddMessageFlow.bob"
+              scope: GLOBAL
+            _QUERY_MESSAGE_FLOW:
+              template: "cdr/resources/templates/TO_QueryMessageFlow.j2"
+              output: "TO_QueryMessageFlow.bob"
+              scope: GLOBAL
+            _REMOVE_MESSAGE_FLOW:
+              template: "../../config/obc/cdr/TO_RemoveMessageFlow.j2"
+              output: "TO_RemoveMessageFlow.bob"
+              scope: GLOBAL
+            _TLM_MANAGEMENT_FLOW:
+              template: "cdr/resources/templates/TO_TlmManagement.j2"
+              output: "TO_TlmManagement.bob"
+              scope: GLOBAL
         telemetry:
           TO_DIAG_MSG_FLOW_MID: 
             msgID: 0x0869              # TLM_MSG(  105 )
@@ -364,10 +383,21 @@ modules:
         commands:
           TO_CMD_MID:
             msgID: 0x186c              # CMD_MSG(  108 )
+            commands: 
+              EnableChannel:
+                cc: 10
+                struct: TO_EnableChannelCmd_t
+              DisableChannel:
+                cc: 11
+                struct: TO_DisableChannelCmd_t   
           TO_SEND_HK_MID:
             msgID: 0x186d              # CMD_MSG(  109 ) 
           TO_SEND_TLM_MID:
             msgID: 0x186e              # CMD_MSG(  110 )
+        msg_def_overrides:
+          - parent: TO_EnableChannelCmd_t
+            member: DestinationAddress
+            type: string
         tables:
           _TO_CONFIG:
             channel:

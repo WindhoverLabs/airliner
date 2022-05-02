@@ -75,8 +75,8 @@ buildliner_add_app(
     sedlib
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedlib/fsw/for_build
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sedlib/sedlib_config.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sedlib/sedlib_shmem.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/sedlib/sedlib_config.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/sedlib/sedlib_shmem.c
 )
 
 
@@ -125,13 +125,13 @@ buildliner_add_app(
 buildliner_add_app(
     sbus
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedsbus/simlink/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/apps/sbus
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/sbus
     CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/apps/sbus/sbus_custom.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/sbus/sbus_custom.c
 )
 
 buildliner_add_app(
     sed
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sed/simlink/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/apps/sed
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/sed
 )

@@ -1,0 +1,1020 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Vehicle Global Position</name>
+  <macros>
+    <APP>px4lib</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <CPUID>{{ cpu_id }}</CPUID>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>1500</width>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>Timestamp</text>
+    <x>108</x>
+    <y>36</y>
+    <width>97</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.Timestamp</pv_name>
+    <x>211</x>
+    <y>36</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_49</name>
+    <text>($(CPUID)) PX4_VEHICLE_GLOBAL_POSITION_MID</text>
+    <x>10</x>
+    <y>10</y>
+    <width>410</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Topology</name>
+    <x>10</x>
+    <y>312</y>
+    <width>662</width>
+    <height>288</height>
+    <widget type="polygon" version="2.0.0">
+      <name>Polygon_1</name>
+      <x>254</x>
+      <y>18</y>
+      <width>48</width>
+      <height>48</height>
+      <points>
+        <point x="0.0" y="12.0">
+        </point>
+        <point x="24.0" y="12.0">
+        </point>
+        <point x="24.0" y="0.0">
+        </point>
+        <point x="48.0" y="24.0">
+        </point>
+        <point x="24.0" y="48.0">
+        </point>
+        <point x="24.0" y="36.0">
+        </point>
+        <point x="0.0" y="36.0">
+        </point>
+      </points>
+    </widget>
+    <widget type="polygon" version="2.0.0">
+      <name>Polygon_2</name>
+      <x>254</x>
+      <y>102</y>
+      <width>48</width>
+      <height>48</height>
+      <points>
+        <point x="0.0" y="12.0">
+        </point>
+        <point x="24.0" y="12.0">
+        </point>
+        <point x="24.0" y="0.0">
+        </point>
+        <point x="48.0" y="24.0">
+        </point>
+        <point x="24.0" y="48.0">
+        </point>
+        <point x="24.0" y="36.0">
+        </point>
+        <point x="0.0" y="36.0">
+        </point>
+      </points>
+    </widget>
+    <widget type="polygon" version="2.0.0">
+      <name>Polygon_3</name>
+      <x>254</x>
+      <y>186</y>
+      <width>48</width>
+      <height>48</height>
+      <points>
+        <point x="0.0" y="12.0">
+        </point>
+        <point x="24.0" y="12.0">
+        </point>
+        <point x="24.0" y="0.0">
+        </point>
+        <point x="48.0" y="24.0">
+        </point>
+        <point x="24.0" y="48.0">
+        </point>
+        <point x="24.0" y="36.0">
+        </point>
+        <point x="0.0" y="36.0">
+        </point>
+      </points>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Landing Determination (LD)</name>
+      <x>303</x>
+      <y>6</y>
+      <width>317</width>
+      <height>72</height>
+      <style>2</style>
+      <background_color>
+        <color name="OK" red="0" green="255" blue="0">
+        </color>
+      </background_color>
+      <widget type="action_button" version="3.0.0">
+        <name>NoOp_2</name>
+        <actions>
+          <action type="open_display">
+            <file>../nav/Main.bob</file>
+            <target>tab</target>
+            <description>Open Display</description>
+          </action>
+        </actions>
+        <text>Open</text>
+        <x>106</x>
+        <y>28</y>
+        <width>90</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Position Estimator (PE)</name>
+      <x>303</x>
+      <y>90</y>
+      <width>317</width>
+      <height>72</height>
+      <style>2</style>
+      <background_color>
+        <color name="OK" red="0" green="255" blue="0">
+        </color>
+      </background_color>
+      <widget type="action_button" version="3.0.0">
+        <name>NoOp_3</name>
+        <actions>
+          <action type="open_display">
+            <file>../qae/Main.bob</file>
+            <target>tab</target>
+            <description>Open Display</description>
+          </action>
+        </actions>
+        <text>Open</text>
+        <x>106</x>
+        <y>28</y>
+        <width>90</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Group</name>
+      <x>5</x>
+      <y>6</y>
+      <width>249</width>
+      <height>240</height>
+      <style>2</style>
+      <background_color>
+        <color name="OK" red="0" green="255" blue="0">
+        </color>
+      </background_color>
+      <widget type="label" version="2.0.0">
+        <name>Label_4</name>
+        <text>Position Estimator (PE)</text>
+        <x>11</x>
+        <y>4</y>
+        <width>225</width>
+        <height>24</height>
+        <horizontal_alignment>1</horizontal_alignment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>NoOp</name>
+        <actions>
+          <action type="open_display">
+            <file>../pe/Main.bob</file>
+            <target>tab</target>
+            <description>Open Display</description>
+          </action>
+        </actions>
+        <text>Open</text>
+        <x>74</x>
+        <y>28</y>
+        <width>90</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Position Estimator (PE)_1</name>
+      <x>303</x>
+      <y>174</y>
+      <width>317</width>
+      <height>72</height>
+      <style>2</style>
+      <background_color>
+        <color name="OK" red="0" green="255" blue="0">
+        </color>
+      </background_color>
+      <widget type="label" version="2.0.0">
+        <name>Label_24</name>
+        <text>Vehicle Manager (VM)</text>
+        <x>22</x>
+        <y>4</y>
+        <width>270</width>
+        <height>24</height>
+        <horizontal_alignment>1</horizontal_alignment>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>NoOp_4</name>
+        <actions>
+          <action type="open_display">
+            <file>../vm/Main.bob</file>
+            <target>tab</target>
+            <description>Open Display</description>
+          </action>
+        </actions>
+        <text>Open</text>
+        <x>106</x>
+        <y>28</y>
+        <width>90</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>Attitude Estimator (QAE)</text>
+      <x>336</x>
+      <y>95</y>
+      <width>252</width>
+      <height>24</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_5</name>
+      <text>Navigation (NAV)</text>
+      <x>318</x>
+      <y>13</y>
+      <width>269</width>
+      <height>24</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_1</name>
+    <text>Time UTC Usec</text>
+    <x>82</x>
+    <y>55</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_1</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.TimeUtcUsec</pv_name>
+    <x>211</x>
+    <y>55</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_2</name>
+    <text>Latitutde</text>
+    <x>82</x>
+    <y>74</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_2</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.Lat</pv_name>
+    <x>211</x>
+    <y>74</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>6</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_3</name>
+    <text>Longitude</text>
+    <x>82</x>
+    <y>93</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_3</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.Lon</pv_name>
+    <x>211</x>
+    <y>93</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>6</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_7</name>
+    <text>Altitude</text>
+    <x>82</x>
+    <y>112</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_4</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.Alt</pv_name>
+    <x>211</x>
+    <y>112</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>3</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_8</name>
+    <text>Delta Lat/Lon</text>
+    <x>108</x>
+    <y>131</y>
+    <width>97</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_5</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.DeltaLatLon[0]</pv_name>
+    <x>211</x>
+    <y>131</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>6</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_9</name>
+    <text>Delta Alt</text>
+    <x>82</x>
+    <y>169</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_6</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.DeltaAlt</pv_name>
+    <x>211</x>
+    <y>169</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>3</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_10</name>
+    <text>Lat/Lon Reset Ctr</text>
+    <x>39</x>
+    <y>189</y>
+    <width>166</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_7</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.LatLonResetCounter</pv_name>
+    <x>211</x>
+    <y>188</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_11</name>
+    <text>Alt Reset Counter</text>
+    <x>82</x>
+    <y>207</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_8</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.AltResetCounter</pv_name>
+    <x>211</x>
+    <y>207</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_12</name>
+    <text>Vel N</text>
+    <x>82</x>
+    <y>226</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_9</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.VelN</pv_name>
+    <x>211</x>
+    <y>226</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>6</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_13</name>
+    <text>Vel E</text>
+    <x>82</x>
+    <y>245</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_10</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.VelE</pv_name>
+    <x>211</x>
+    <y>245</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>6</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_14</name>
+    <text>Yaw</text>
+    <x>403</x>
+    <y>36</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_11</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.Yaw</pv_name>
+    <x>532</x>
+    <y>36</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>3</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_15</name>
+    <text>EpH</text>
+    <x>403</x>
+    <y>55</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_12</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.EpH</pv_name>
+    <x>532</x>
+    <y>55</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>6</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_16</name>
+    <text>EpV</text>
+    <x>403</x>
+    <y>74</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_13</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.EpV</pv_name>
+    <x>532</x>
+    <y>74</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>6</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_17</name>
+    <text>EvH</text>
+    <x>403</x>
+    <y>93</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_14</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.EvH</pv_name>
+    <x>532</x>
+    <y>93</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>6</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_18</name>
+    <text>EvV</text>
+    <x>429</x>
+    <y>112</y>
+    <width>97</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_15</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.EvV</pv_name>
+    <x>532</x>
+    <y>112</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>6</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_19</name>
+    <text>Terrain Alt</text>
+    <x>403</x>
+    <y>131</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_16</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.TerrainAlt</pv_name>
+    <x>532</x>
+    <y>131</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>3</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_20</name>
+    <text>Pressure Alt</text>
+    <x>403</x>
+    <y>150</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_17</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.PressureAlt</pv_name>
+    <x>532</x>
+    <y>150</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>3</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_21</name>
+    <text>Terrain Alt Valid</text>
+    <x>403</x>
+    <y>169</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_22</name>
+    <text>Dead Reckoning</text>
+    <x>403</x>
+    <y>188</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_26</name>
+    <text>Vel D</text>
+    <x>82</x>
+    <y>264</y>
+    <width>123</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_21</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.VelD</pv_name>
+    <x>211</x>
+    <y>264</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>6</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_22</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.DeltaLatLon[1]</pv_name>
+    <x>211</x>
+    <y>150</y>
+    <width>155</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>6</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED</name>
+    <x>600</x>
+    <y>252</y>
+    <width>0</width>
+    <height>0</height>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_1</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.TerrainAltValid</pv_name>
+    <x>534</x>
+    <y>170</y>
+    <width>18</width>
+    <height>18</height>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED_2</name>
+    <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.DeadReckoning</pv_name>
+    <x>534</x>
+    <y>189</y>
+    <width>18</width>
+    <height>18</height>
+  </widget>
+</display>

@@ -1204,6 +1204,11 @@ int32 CI_RcvMsg(int32 iBlocking)
          * want CI to pass commands. */
         CI_ProcessNewCmds();
         CI_ReportHousekeeping();
+    	if(TRUE == CI_AppData.IngestActive)
+    	{
+    		printf("*** TIMEOUT ***\n");
+            CI_IngestCommands();
+    	}
         iStatus = CFE_SUCCESS;
     }
     else

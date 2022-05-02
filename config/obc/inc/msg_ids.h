@@ -57,10 +57,10 @@
 
 /* PE                                                                       */
 #define PE_HK_TLM_MID                             TLM_MSG(  155 )  /* 0x09b */
-#define PE_CMD_MID                                CMD_MSG(  156 )  /* 0x09c */
-#define PE_SEND_HK_MID                            CMD_MSG(  157 )  /* 0x09d */
-#define PE_WAKEUP_MID                             CMD_MSG(  158 )  /* 0x09e */
-#define PE_DIAG_TLM_MID                           TLM_MSG(  159 )  /* 0x09f */
+#define PE_DIAG_TLM_MID                           TLM_MSG(  156 )  /* 0x09c */
+#define PE_CMD_MID                                CMD_MSG(  157 )  /* 0x09d */
+#define PE_SEND_HK_MID                            CMD_MSG(  158 )  /* 0x09e */
+#define PE_WAKEUP_MID                             CMD_MSG(  159 )  /* 0x09f */
 
 
 /* QAE                                                                      */
@@ -305,10 +305,10 @@
 
 
 /* SEDSBUS                                                                  */
-#define SBUS_CMD_MID                              CMD_MSG(  339 )  /* 0x153 */
-#define SBUS_SEND_HK_MID                          CMD_MSG(  340 )  /* 0x154 */
-#define SBUS_WAKEUP_MID                           CMD_MSG(  341 )  /* 0x155 */
-#define SBUS_OUT_DATA_MID                         TLM_MSG(  342 )  /* 0x156 */
-#define SBUS_HK_TLM_MID                           TLM_MSG(  343 )  /* 0x157 */
+#define SBUS_OUT_DATA_MID                         TLM_MSG(  339 )  /* 0x153 */
+#define SBUS_HK_TLM_MID                           TLM_MSG(  340 )  /* 0x154 */
+#define SBUS_CMD_MID                              CMD_MSG(  341 )  /* 0x155 */
+#define SBUS_SEND_HK_MID                          CMD_MSG(  342 )  /* 0x156 */
+#define SBUS_WAKEUP_MID                           CMD_MSG(  343 )  /* 0x157 */
 
 #endif

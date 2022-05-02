@@ -196,9 +196,8 @@ ULR_SEND_HK_MIDX				1Hz
      { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  MAC_RUN_CONTROLLER_MIDX,  SCH_GROUP_NONE }, \
      { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  MPC_WAKEUP_MIDX,          SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	MS5611_MEASURE_MIDX,	  SCH_GROUP_NONE }, \
-     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	PE_WAKEUP_MIDX,	          SCH_GROUP_NONE }, \
      { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  QAE_WAKEUP_MIDX,          SCH_GROUP_NONE }, \
-     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SBND_WAKEUP_MIDX,          SCH_GROUP_NONE }, \
+     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SBND_WAKEUP_MIDX,         SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SED_MEASURE_MIDX,	      SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SENS_WAKEUP_MIDX,         SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	TO_SEND_TLM_MIDX,         SCH_GROUP_NONE }, \
@@ -210,12 +209,13 @@ ULR_SEND_HK_MIDX				1Hz
      { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
      { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
      { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
+     { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
      { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }
 
 
 /* 125HZ Group  - 1 Activity  */
 #define SCH_125HZ_GROUP_1        \
-	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }
+    { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	PE_WAKEUP_MIDX,	          SCH_GROUP_NONE } \
 
 #define SCH_125HZ_GROUP_2        \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }
@@ -687,7 +687,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_3,
 	    SCH_25HZ_GROUP_8,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SBND_SEND_HK_MIDX,        SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
