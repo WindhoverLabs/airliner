@@ -7,210 +7,16 @@
   </actions>
   <grid_step_x>6</grid_step_x>
   <grid_step_y>6</grid_step_y>
-  <widget type="label" version="2.0.0">
-    <name>Label_48</name>
-    <text>Core Services</text>
-    <x>8</x>
-    <y>1</y>
-    <width>161</width>
-    <height>31</height>
-    <font>
-      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
-      </font>
-    </font>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="rectangle" version="2.0.0">
-    <name>Rectangle</name>
-    <macros>
-      <pv_name></pv_name>
-    </macros>
-    <x>414</x>
-    <y>540</y>
-    <width>258</width>
-    <height>198</height>
-    <line_width>1</line_width>
-    <line_color>
-      <color name="Text" red="0" green="0" blue="0">
-      </color>
-    </line_color>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <tooltip>$(pv_name)
-$(pv_value)</tooltip>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label</name>
-    <text>Button Legend</text>
-    <x>414</x>
-    <y>540</y>
-    <width>247</width>
-    <height>43</height>
-    <font>
-      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_43</name>
-    <actions>
-    </actions>
-    <text>Open Display</text>
-    <x>426</x>
-    <y>585</y>
-    <width>223</width>
-    <height>25</height>
-    <tooltip>Opens a secondary display</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp</name>
-    <actions>
-    </actions>
-    <text>Command</text>
-    <x>426</x>
-    <y>635</y>
-    <width>223</width>
-    <height>25</height>
-    <foreground_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="34" green="45" blue="75">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_44</name>
-    <actions>
-    </actions>
-    <text>Hazardous Command</text>
-    <x>426</x>
-    <y>685</y>
-    <width>223</width>
-    <height>25</height>
+  <widget type="group" version="2.0.0">
+    <name>Core Services</name>
+    <x>18</x>
+    <y>18</y>
+    <width>450</width>
+    <height>242</height>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
       </font>
     </font>
-    <foreground_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="255" green="50" blue="50">
-      </color>
-    </background_color>
-    <tooltip>This is a potentially hazard command that, if improperly used, can result in damage or loss of mission.</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Action Button_2</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-importPackage(Packages.org.csstudio.display.builder.runtime.script);
-
-for(var i = 1; i <= 32; ++i) {
-    var ActualTriggerName = 'TriggerActual' + i;
-    var RequestTriggerName = 'TriggerRequest' + i;
-    var actualTriggerValue = VTypeHelper.getDouble(display.getWidget(ActualTriggerName).getPropertyValue('pv_value'));
-    display.getWidget(RequestTriggerName).setPropertyValue('pv_value', actualTriggerValue);
-}]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Local Action</text>
-    <x>426</x>
-    <y>610</y>
-    <width>223</width>
-    <height>25</height>
-    <background_color>
-      <color name="TM_label_text" red="197" green="211" blue="236">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_70</name>
-    <text>PPD</text>
-    <x>186</x>
-    <y>6</y>
-    <width>73</width>
-    <height>25</height>
-    <font>
-      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <tooltip>Non-critical</tooltip>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_71</name>
-    <text>CPD</text>
-    <x>276</x>
-    <y>6</y>
-    <width>73</width>
-    <height>25</height>
-    <font>
-      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <tooltip>Critical</tooltip>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="group" version="2.0.0">
-    <name>Core</name>
-    <x>36</x>
-    <y>36</y>
-    <width>313</width>
-    <height>143</height>
-    <style>3</style>
-    <foreground_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </foreground_color>
     <background_color>
       <color red="240" green="240" blue="240">
       </color>
@@ -228,6 +34,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>150</x>
+      <y>28</y>
       <width>73</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -236,7 +43,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_1</name>
       <text>Essential Services</text>
-      <y>2</y>
+      <y>30</y>
       <width>137</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -254,7 +61,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_51</name>
       <text>Event Services</text>
-      <y>30</y>
+      <y>58</y>
       <width>137</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -279,7 +86,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>150</x>
-      <y>30</y>
+      <y>58</y>
       <width>73</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -288,7 +95,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_52</name>
       <text>Software Bus</text>
-      <y>60</y>
+      <y>88</y>
       <width>137</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -313,7 +120,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>150</x>
-      <y>60</y>
+      <y>88</y>
       <width>73</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -322,7 +129,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_53</name>
       <text>Table Services</text>
-      <y>90</y>
+      <y>118</y>
       <width>137</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -347,7 +154,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>150</x>
-      <y>90</y>
+      <y>118</y>
       <width>73</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -356,7 +163,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_54</name>
       <text>Time Services</text>
-      <y>120</y>
+      <y>148</y>
       <width>137</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -381,7 +188,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>150</x>
-      <y>120</y>
+      <y>148</y>
       <width>73</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -397,6 +204,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>240</x>
+      <y>28</y>
       <width>73</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -412,7 +220,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>240</x>
-      <y>30</y>
+      <y>58</y>
       <width>73</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -428,7 +236,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>240</x>
-      <y>60</y>
+      <y>88</y>
       <width>73</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -444,7 +252,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>240</x>
-      <y>90</y>
+      <y>118</y>
       <width>73</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -460,44 +268,167 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>240</x>
-      <y>120</y>
+      <y>148</y>
       <width>73</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_55</name>
-    <text>System Services</text>
-    <x>8</x>
-    <y>192</y>
-    <width>193</width>
-    <height>31</height>
-    <font>
-      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+    <widget type="label" version="2.0.0">
+      <name>Label_70</name>
+      <text>PPD</text>
+      <x>150</x>
+      <y>-5</y>
+      <width>73</width>
+      <height>25</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+        </font>
       </font>
-    </font>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <tooltip>Non-critical</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_71</name>
+      <text>CPD</text>
+      <x>240</x>
+      <width>73</width>
+      <height>25</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <tooltip>Critical</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_53</name>
+      <actions>
+        <action type="open_display">
+          <file>simlink/core/cfe/cfe_es/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>330</x>
+      <y>28</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_55</name>
+      <actions>
+        <action type="open_display">
+          <file>simlink/core/cfe/cfe_evs/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>330</x>
+      <y>58</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_56</name>
+      <actions>
+        <action type="open_display">
+          <file>simlink/core/cfe/cfe_sb/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>330</x>
+      <y>88</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_64</name>
+      <actions>
+        <action type="open_display">
+          <file>simlink/core/cfe/cfe_tbl/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>330</x>
+      <y>118</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_65</name>
+      <actions>
+        <action type="open_display">
+          <file>simlink/core/cfe/cfe_time/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>330</x>
+      <y>148</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_72</name>
+      <text>Simlink</text>
+      <x>330</x>
+      <width>73</width>
+      <height>25</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <tooltip>Critical</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
   </widget>
   <widget type="group" version="2.0.0">
-    <name>Applications</name>
-    <x>36</x>
-    <y>232</y>
-    <width>313</width>
-    <height>620</height>
-    <style>3</style>
-    <foreground_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </foreground_color>
+    <name>System Services</name>
+    <x>18</x>
+    <y>260</y>
+    <width>450</width>
+    <height>550</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
     <background_color>
       <color red="240" green="240" blue="240">
       </color>
@@ -515,6 +446,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
+      <y>28</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -523,7 +455,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_56</name>
       <text>CFDP File Transfer</text>
-      <y>2</y>
+      <y>30</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -541,7 +473,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_57</name>
       <text>Checksum</text>
-      <y>58</y>
+      <y>86</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -566,7 +498,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>56</y>
+      <y>84</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -575,7 +507,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_58</name>
       <text>Data Storage</text>
-      <y>86</y>
+      <y>114</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -600,7 +532,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>84</y>
+      <y>112</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -609,7 +541,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_59</name>
       <text>File Manager</text>
-      <y>114</y>
+      <y>142</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -634,7 +566,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>112</y>
+      <y>140</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -643,7 +575,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_60</name>
       <text>Housekeeping</text>
-      <y>142</y>
+      <y>170</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -668,7 +600,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>140</y>
+      <y>168</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -677,7 +609,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_61</name>
       <text>Command Ingest</text>
-      <y>30</y>
+      <y>58</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -702,7 +634,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>28</y>
+      <y>56</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -711,7 +643,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_62</name>
       <text>Health Services</text>
-      <y>170</y>
+      <y>198</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -736,7 +668,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>168</y>
+      <y>196</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -745,7 +677,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_63</name>
       <text>Limit Checker</text>
-      <y>198</y>
+      <y>226</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -770,7 +702,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>196</y>
+      <y>224</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -779,7 +711,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_64</name>
       <text>Memory Dwell</text>
-      <y>226</y>
+      <y>254</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -804,7 +736,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>224</y>
+      <y>252</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -813,7 +745,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_65</name>
       <text>Memory Manager</text>
-      <y>254</y>
+      <y>282</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -838,7 +770,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>252</y>
+      <y>280</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -847,7 +779,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_66</name>
       <text>Stored Command</text>
-      <y>282</y>
+      <y>310</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -872,7 +804,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>280</y>
+      <y>308</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -881,7 +813,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_67</name>
       <text>Scheduler</text>
-      <y>310</y>
+      <y>338</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -906,7 +838,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>308</y>
+      <y>336</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -915,7 +847,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_68</name>
       <text>Telemetry Output</text>
-      <y>338</y>
+      <y>366</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -940,7 +872,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>336</y>
+      <y>364</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -956,6 +888,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
+      <y>28</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -971,7 +904,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>56</y>
+      <y>84</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -987,7 +920,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>112</y>
+      <y>140</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1003,7 +936,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>168</y>
+      <y>196</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1019,7 +952,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>196</y>
+      <y>224</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1035,7 +968,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>224</y>
+      <y>252</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1051,7 +984,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>252</y>
+      <y>280</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1067,7 +1000,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>280</y>
+      <y>308</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1083,7 +1016,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>308</y>
+      <y>336</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1099,7 +1032,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>336</y>
+      <y>364</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1115,7 +1048,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>28</y>
+      <y>56</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1124,7 +1057,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_78</name>
       <text>Sensor Effector Domain</text>
-      <y>368</y>
+      <y>396</y>
       <width>174</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1149,7 +1082,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>366</y>
+      <y>394</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1158,7 +1091,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_79</name>
       <text>ZUSUP</text>
-      <y>400</y>
+      <y>428</y>
       <width>174</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1183,7 +1116,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>394</y>
+      <y>422</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1192,7 +1125,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_77</name>
       <text>SBN</text>
-      <y>424</y>
+      <y>452</y>
       <width>137</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1217,7 +1150,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>422</y>
+      <y>450</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1233,7 +1166,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>422</y>
+      <y>450</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1242,7 +1175,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_77</name>
       <text>BAT</text>
-      <y>452</y>
+      <y>480</y>
       <width>137</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1267,7 +1200,7 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>149</x>
-      <y>450</y>
+      <y>478</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
@@ -1283,44 +1216,134 @@ for(var i = 1; i <= 32; ++i) {
       </actions>
       <text>Display</text>
       <x>239</x>
-      <y>450</y>
+      <y>478</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_73</name>
+      <text>PPD</text>
+      <x>150</x>
+      <width>73</width>
+      <height>25</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <tooltip>Non-critical</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_74</name>
+      <text>CPD</text>
+      <x>240</x>
+      <width>73</width>
+      <height>25</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <tooltip>Critical</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_75</name>
+      <text>Simlink</text>
+      <x>330</x>
+      <width>73</width>
+      <height>25</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <tooltip>Critical</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_73</name>
+      <actions>
+        <action type="open_display">
+          <file>simlink/apps/ci/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>330</x>
+      <y>56</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_75</name>
+      <actions>
+        <action type="open_display">
+          <file>simlink/apps/sch/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>330</x>
+      <y>336</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_76</name>
+      <actions>
+        <action type="open_display">
+          <file>simlink/apps/to/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>330</x>
+      <y>364</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_69</name>
-    <text>Flight Services</text>
-    <x>393</x>
-    <y>3</y>
-    <width>193</width>
-    <height>31</height>
+  <widget type="group" version="2.0.0">
+    <name>Flight Services</name>
+    <x>495</x>
+    <y>17</y>
+    <width>501</width>
+    <height>317</height>
     <font>
-      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
       </font>
     </font>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="group" version="2.0.0">
-    <name>Applications_1</name>
-    <x>414</x>
-    <y>32</y>
-    <width>364</width>
-    <height>268</height>
-    <style>3</style>
-    <foreground_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </foreground_color>
     <background_color>
       <color red="240" green="240" blue="240">
       </color>
@@ -1331,7 +1354,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_111</name>
       <text>Actuator Motor Control</text>
-      <y>2</y>
+      <y>28</y>
       <width>204</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1349,7 +1372,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_92</name>
       <text>Sensor</text>
-      <y>197</y>
+      <y>223</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1367,7 +1390,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_99</name>
       <text>Attitude Estimator</text>
-      <y>29</y>
+      <y>55</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1385,7 +1408,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_100</name>
       <text>Landing Determination</text>
-      <y>57</y>
+      <y>83</y>
       <width>193</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1403,7 +1426,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_101</name>
       <text>Navigation</text>
-      <y>141</y>
+      <y>167</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1421,7 +1444,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_102</name>
       <text>Multicopter Position Control</text>
-      <y>113</y>
+      <y>139</y>
       <width>204</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1439,7 +1462,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_103</name>
       <text>Multicopter Attitude Control</text>
-      <y>85</y>
+      <y>111</y>
       <width>204</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1457,7 +1480,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_104</name>
       <text>Vehicle Manager</text>
-      <y>225</y>
+      <y>251</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1475,7 +1498,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_91</name>
       <text>Position Estimator</text>
-      <y>169</y>
+      <y>195</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1490,38 +1513,224 @@ for(var i = 1; i <= 32; ++i) {
         </color>
       </border_color>
     </widget>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_106</name>
-    <text>Drivers</text>
-    <x>393</x>
-    <y>311</y>
-    <width>193</width>
-    <height>31</height>
-    <font>
-      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_102</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/amc/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>26</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_80</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/sens/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>221</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_91</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/qae/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>53</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_92</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/ld/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>81</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_93</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/nav/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>165</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_94</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/mpc/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>137</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_95</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/mac/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>109</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_96</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/vm/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>249</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_79</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/pe/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>193</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_115</name>
+      <text>PPD</text>
+      <x>204</x>
+      <width>73</width>
+      <height>25</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+        </font>
       </font>
-    </font>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <tooltip>Non-critical</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_116</name>
+      <text>CPD</text>
+      <x>292</x>
+      <width>73</width>
+      <height>25</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <tooltip>Critical</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_117</name>
+      <text>Simlink</text>
+      <x>382</x>
+      <width>73</width>
+      <height>25</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <tooltip>Critical</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
   </widget>
   <widget type="group" version="2.0.0">
-    <name>Applications_2</name>
-    <x>414</x>
-    <y>342</y>
-    <width>364</width>
-    <height>137</height>
-    <style>3</style>
-    <foreground_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </foreground_color>
+    <name>Drivers</name>
+    <x>495</x>
+    <y>334</y>
+    <width>501</width>
+    <height>247</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
     <background_color>
       <color red="240" green="240" blue="240">
       </color>
@@ -1532,7 +1741,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_108</name>
       <text>ICM20689 (IMU)</text>
-      <y>6</y>
+      <y>28</y>
       <width>136</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1550,7 +1759,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_109</name>
       <text>HMC5883 (Mag)</text>
-      <y>34</y>
+      <y>56</y>
       <width>193</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1568,7 +1777,7 @@ for(var i = 1; i <= 32; ++i) {
     <widget type="label" version="2.0.0">
       <name>Label_112</name>
       <text>MS5611 (Baro)</text>
-      <y>62</y>
+      <y>84</y>
       <width>204</width>
       <font>
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -1583,249 +1792,295 @@ for(var i = 1; i <= 32; ++i) {
         </color>
       </border_color>
     </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_99</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/icm20689/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>28</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_100</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/hmc5883/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>56</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_103</name>
+      <actions>
+        <action type="open_display">
+          <file>cpd/apps/ms5611/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>84</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_118</name>
+      <text>PPD</text>
+      <x>204</x>
+      <y>-13</y>
+      <width>73</width>
+      <height>25</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <tooltip>Non-critical</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_119</name>
+      <text>CPD</text>
+      <x>292</x>
+      <width>73</width>
+      <height>25</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <tooltip>Critical</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_120</name>
+      <text>Simlink</text>
+      <x>382</x>
+      <y>-13</y>
+      <width>73</width>
+      <height>25</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+        </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <tooltip>Critical</tooltip>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_121</name>
+      <text>RFD900X (Radio)</text>
+      <y>112</y>
+      <width>204</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_104</name>
+      <actions>
+        <action type="open_display">
+          <file>simlink/apps/rfd900x/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>382</x>
+      <y>112</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_105</name>
+      <actions>
+        <action type="open_display">
+          <file>simlink/apps/icm20689/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>382</x>
+      <y>28</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_106</name>
+      <actions>
+        <action type="open_display">
+          <file>simlink/apps/hmc5883/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>382</x>
+      <y>56</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_107</name>
+      <actions>
+        <action type="open_display">
+          <file>simlink/apps/ms5611/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>382</x>
+      <y>84</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
   </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_102</name>
-    <actions>
-      <action type="open_display">
-        <file>cpd/apps/amc/Main.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Display</text>
-    <x>706</x>
-    <y>32</y>
-    <width>72</width>
-    <height>23</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_80</name>
-    <actions>
-      <action type="open_display">
-        <file>cpd/apps/sens/Main.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Display</text>
-    <x>706</x>
-    <y>227</y>
-    <width>72</width>
-    <height>23</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_91</name>
-    <actions>
-      <action type="open_display">
-        <file>cpd/apps/qae/Main.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Display</text>
-    <x>706</x>
-    <y>59</y>
-    <width>72</width>
-    <height>23</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_92</name>
-    <actions>
-      <action type="open_display">
-        <file>cpd/apps/ld/Main.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Display</text>
-    <x>706</x>
-    <y>87</y>
-    <width>72</width>
-    <height>23</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_93</name>
-    <actions>
-      <action type="open_display">
-        <file>cpd/apps/nav/Main.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Display</text>
-    <x>706</x>
-    <y>171</y>
-    <width>72</width>
-    <height>23</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_94</name>
-    <actions>
-      <action type="open_display">
-        <file>cpd/apps/mpc/Main.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Display</text>
-    <x>706</x>
-    <y>143</y>
-    <width>72</width>
-    <height>23</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_95</name>
-    <actions>
-      <action type="open_display">
-        <file>cpd/apps/mac/Main.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Display</text>
-    <x>706</x>
-    <y>115</y>
-    <width>72</width>
-    <height>23</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_96</name>
-    <actions>
-      <action type="open_display">
-        <file>cpd/apps/vm/Main.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Display</text>
-    <x>706</x>
-    <y>255</y>
-    <width>72</width>
-    <height>23</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_79</name>
-    <actions>
-      <action type="open_display">
-        <file>cpd/apps/pe/Main.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Display</text>
-    <x>706</x>
-    <y>199</y>
-    <width>72</width>
-    <height>23</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_99</name>
-    <actions>
-      <action type="open_display">
-        <file>cpd/apps/icm20689/Main.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Display</text>
-    <x>706</x>
-    <y>346</y>
-    <width>72</width>
-    <height>23</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_100</name>
-    <actions>
-      <action type="open_display">
-        <file>cpd/apps/hmc5883/Main.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Display</text>
-    <x>706</x>
-    <y>374</y>
-    <width>72</width>
-    <height>23</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_103</name>
-    <actions>
-      <action type="open_display">
-        <file>cpd/apps/ms5611/Main.bob</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Display</text>
-    <x>706</x>
-    <y>402</y>
-    <width>72</width>
-    <height>23</height>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_115</name>
-    <text>PPD</text>
-    <x>612</x>
-    <y>5</y>
-    <width>73</width>
-    <height>25</height>
+  <widget type="group" version="2.0.0">
+    <name>Button Legend</name>
+    <x>513</x>
+    <y>614</y>
+    <width>276</width>
+    <height>192</height>
     <font>
-      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
       </font>
     </font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <tooltip>Non-critical</tooltip>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_116</name>
-    <text>CPD</text>
-    <x>702</x>
-    <y>5</y>
-    <width>73</width>
-    <height>25</height>
-    <font>
-      <font family="Liberation Sans" style="BOLD" size="15.841584158415841">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <tooltip>Critical</tooltip>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>ResetFilter_5</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_43</name>
+      <actions>
+      </actions>
+      <text>Open Display</text>
+      <x>12</x>
+      <y>17</y>
+      <width>223</width>
+      <height>25</height>
+      <tooltip>Opens a secondary display</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp</name>
+      <actions>
+      </actions>
+      <text>Command</text>
+      <x>12</x>
+      <y>67</y>
+      <width>223</width>
+      <height>25</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_44</name>
+      <actions>
+      </actions>
+      <text>Hazardous Command</text>
+      <x>12</x>
+      <y>117</y>
+      <width>223</width>
+      <height>25</height>
+      <background_color>
+        <color red="255" green="50" blue="50">
+        </color>
+      </background_color>
+      <tooltip>This is a potentially hazard command that, if improperly used, can result in damage or loss of mission.</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_2</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+for(var i = 1; i <= 32; ++i) {
+    var ActualTriggerName = 'TriggerActual' + i;
+    var RequestTriggerName = 'TriggerRequest' + i;
+    var actualTriggerValue = VTypeHelper.getDouble(display.getWidget(ActualTriggerName).getPropertyValue('pv_value'));
+    display.getWidget(RequestTriggerName).setPropertyValue('pv_value', actualTriggerValue);
+}]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Local Action</text>
+      <x>12</x>
+      <y>42</y>
+      <width>223</width>
+      <height>25</height>
+      <background_color>
+        <color name="TM_label_text" red="197" green="211" blue="236">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>ResetFilter_5</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
@@ -1836,21 +2091,22 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/DisableAppEventType',
     'Payload.Spare':  '0'
 });
 ]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Sensitive Command</text>
-    <x>426</x>
-    <y>660</y>
-    <width>223</width>
-    <height>25</height>
-    <background_color>
-      <color name="Attention" red="255" green="160" blue="0">
-      </color>
-    </background_color>
-    <tooltip>Use this command with care.  This may have an inadvertent side effect if not well understood.</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-    <show_confirm_dialog>true</show_confirm_dialog>
-    <confirm_message>Are you sure you want to disable ALL critical $(APP) events?  You may miss important events.</confirm_message>
+          </script>
+        </action>
+      </actions>
+      <text>Sensitive Command</text>
+      <x>12</x>
+      <y>92</y>
+      <width>223</width>
+      <height>25</height>
+      <background_color>
+        <color name="Attention" red="255" green="160" blue="0">
+        </color>
+      </background_color>
+      <tooltip>Use this command with care.  This may have an inadvertent side effect if not well understood.</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <show_confirm_dialog>true</show_confirm_dialog>
+      <confirm_message>Are you sure you want to disable ALL critical $(APP) events?  You may miss important events.</confirm_message>
+    </widget>
   </widget>
 </display>
