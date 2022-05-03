@@ -87,6 +87,13 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/io_lib/fsw/for_build
 )
 
+buildliner_add_app(
+    ipc_lib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ipc_lib/fsw/for_build
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/ipc_lib/ipc_lib_custom.c
+)
 
 # sch_custom_v1.c:  Traditional platform independent layer that uses OS_Timer 
 #                   to drive minor frames.
@@ -341,15 +348,6 @@ buildliner_add_app(
 #)
 #
 #buildliner_add_app(
-#    sbnd
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd
-#    CONFIG_SOURCES
-#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd/shm/sbnd_custom.cpp
-#)
-#
-#buildliner_add_app(
 #    sbn_shm
 #    EMBEDDED
 #    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_shm/fsw/for_build
@@ -427,4 +425,13 @@ buildliner_add_app(
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sed/fsw/for_build
     CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sed
+)
+
+buildliner_add_app(
+    sbnd
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/sbnd/shm/sbnd_custom.cpp
 )
