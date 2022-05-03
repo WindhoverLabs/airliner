@@ -21,7 +21,7 @@
   <grid_step_y>6</grid_step_y>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.PktSegment</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.PktSegment</pv_name>
     <x>228</x>
     <y>80</y>
     <width>203</width>
@@ -58,7 +58,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.TotalSegments</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.TotalSegments</pv_name>
     <x>228</x>
     <y>104</y>
     <width>203</width>
@@ -95,7 +95,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entries</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entries</pv_name>
     <x>228</x>
     <y>128</y>
     <width>203</width>
@@ -152,7 +152,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_5</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_0_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_0_.MsgId</pv_name>
     <x>71</x>
     <y>190</y>
     <width>199</width>
@@ -191,7 +191,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_6</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_0_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_0_.Qos.Priority</pv_name>
     <x>297</x>
     <y>190</y>
     <width>78</width>
@@ -230,7 +230,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_7</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_0_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_0_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>190</y>
     <width>78</width>
@@ -285,7 +285,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_8</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_1_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_1_.MsgId</pv_name>
     <x>71</x>
     <y>210</y>
     <width>199</width>
@@ -305,7 +305,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_9</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_1_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_1_.Qos.Priority</pv_name>
     <x>297</x>
     <y>210</y>
     <width>78</width>
@@ -325,7 +325,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_10</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_1_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_1_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>210</y>
     <width>78</width>
@@ -361,7 +361,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_11</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_2_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_2_.MsgId</pv_name>
     <x>71</x>
     <y>230</y>
     <width>199</width>
@@ -381,7 +381,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_12</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_2_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_2_.Qos.Priority</pv_name>
     <x>297</x>
     <y>230</y>
     <width>78</width>
@@ -401,7 +401,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_13</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_2_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_2_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>230</y>
     <width>78</width>
@@ -437,7 +437,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_14</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_4_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_4_.MsgId</pv_name>
     <x>71</x>
     <y>270</y>
     <width>199</width>
@@ -457,7 +457,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_15</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_4_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_4_.Qos.Priority</pv_name>
     <x>297</x>
     <y>270</y>
     <width>78</width>
@@ -477,7 +477,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_16</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_4_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_4_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>270</y>
     <width>78</width>
@@ -513,7 +513,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_17</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_6_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_6_.MsgId</pv_name>
     <x>71</x>
     <y>310</y>
     <width>199</width>
@@ -533,7 +533,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_18</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_6_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_6_.Qos.Priority</pv_name>
     <x>297</x>
     <y>310</y>
     <width>78</width>
@@ -553,7 +553,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_19</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_6_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_6_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>310</y>
     <width>78</width>
@@ -589,7 +589,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_23</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_9_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_9_.MsgId</pv_name>
     <x>71</x>
     <y>370</y>
     <width>199</width>
@@ -609,7 +609,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_24</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_9_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_9_.Qos.Priority</pv_name>
     <x>297</x>
     <y>370</y>
     <width>78</width>
@@ -629,7 +629,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_25</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_9_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_9_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>370</y>
     <width>78</width>
@@ -665,7 +665,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_26</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_8_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_8_.MsgId</pv_name>
     <x>71</x>
     <y>350</y>
     <width>199</width>
@@ -685,7 +685,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_27</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_8_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_8_.Qos.Priority</pv_name>
     <x>297</x>
     <y>350</y>
     <width>78</width>
@@ -705,7 +705,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_28</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_8_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_8_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>350</y>
     <width>78</width>
@@ -741,7 +741,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_29</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_5_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_5_.MsgId</pv_name>
     <x>71</x>
     <y>290</y>
     <width>199</width>
@@ -761,7 +761,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_30</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_5_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_5_.Qos.Priority</pv_name>
     <x>297</x>
     <y>290</y>
     <width>78</width>
@@ -781,7 +781,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_31</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_5_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_5_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>290</y>
     <width>78</width>
@@ -817,7 +817,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_32</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_14_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_14_.MsgId</pv_name>
     <x>70</x>
     <y>470</y>
     <width>199</width>
@@ -837,7 +837,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_33</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_14_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_14_.Qos.Priority</pv_name>
     <x>296</x>
     <y>470</y>
     <width>78</width>
@@ -857,7 +857,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_34</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_14_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_14_.Qos.Reliability</pv_name>
     <x>392</x>
     <y>470</y>
     <width>78</width>
@@ -893,7 +893,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_35</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_7_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_7_.MsgId</pv_name>
     <x>71</x>
     <y>330</y>
     <width>199</width>
@@ -913,7 +913,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_36</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_7_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_7_.Qos.Priority</pv_name>
     <x>297</x>
     <y>330</y>
     <width>78</width>
@@ -933,7 +933,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_37</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_7_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_7_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>330</y>
     <width>78</width>
@@ -969,7 +969,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_38</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_3_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_3_.MsgId</pv_name>
     <x>71</x>
     <y>250</y>
     <width>199</width>
@@ -989,7 +989,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_39</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_3_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_3_.Qos.Priority</pv_name>
     <x>297</x>
     <y>250</y>
     <width>78</width>
@@ -1009,7 +1009,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_40</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_3_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_3_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>250</y>
     <width>78</width>
@@ -1045,7 +1045,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_41</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_11_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_11_.MsgId</pv_name>
     <x>71</x>
     <y>410</y>
     <width>199</width>
@@ -1065,7 +1065,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_42</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_11_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_11_.Qos.Priority</pv_name>
     <x>297</x>
     <y>410</y>
     <width>78</width>
@@ -1085,7 +1085,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_43</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_11_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_11_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>410</y>
     <width>78</width>
@@ -1121,7 +1121,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_44</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_10_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_10_.MsgId</pv_name>
     <x>71</x>
     <y>390</y>
     <width>199</width>
@@ -1141,7 +1141,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_45</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_10_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_10_.Qos.Priority</pv_name>
     <x>297</x>
     <y>390</y>
     <width>78</width>
@@ -1161,7 +1161,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_46</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_10_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_10_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>390</y>
     <width>78</width>
@@ -1197,7 +1197,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_47</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_16_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_16_.MsgId</pv_name>
     <x>71</x>
     <y>510</y>
     <width>199</width>
@@ -1217,7 +1217,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_48</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_16_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_16_.Qos.Priority</pv_name>
     <x>297</x>
     <y>510</y>
     <width>78</width>
@@ -1237,7 +1237,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_49</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_16_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_16_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>510</y>
     <width>78</width>
@@ -1273,7 +1273,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_50</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_18_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_18_.MsgId</pv_name>
     <x>70</x>
     <y>550</y>
     <width>199</width>
@@ -1293,7 +1293,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_51</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_18_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_18_.Qos.Priority</pv_name>
     <x>296</x>
     <y>550</y>
     <width>78</width>
@@ -1313,7 +1313,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_52</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_18_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_18_.Qos.Reliability</pv_name>
     <x>392</x>
     <y>550</y>
     <width>78</width>
@@ -1349,7 +1349,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_53</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_17_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_17_.MsgId</pv_name>
     <x>71</x>
     <y>530</y>
     <width>199</width>
@@ -1369,7 +1369,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_54</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_17_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_17_.Qos.Priority</pv_name>
     <x>297</x>
     <y>530</y>
     <width>78</width>
@@ -1389,7 +1389,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_55</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_17_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_17_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>530</y>
     <width>78</width>
@@ -1425,7 +1425,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_56</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_13_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_13_.MsgId</pv_name>
     <x>71</x>
     <y>450</y>
     <width>199</width>
@@ -1445,7 +1445,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_57</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_13_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_13_.Qos.Priority</pv_name>
     <x>297</x>
     <y>450</y>
     <width>78</width>
@@ -1465,7 +1465,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_58</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_13_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_13_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>450</y>
     <width>78</width>
@@ -1501,7 +1501,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_59</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_12_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_12_.MsgId</pv_name>
     <x>71</x>
     <y>430</y>
     <width>199</width>
@@ -1521,7 +1521,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_60</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_12_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_12_.Qos.Priority</pv_name>
     <x>297</x>
     <y>430</y>
     <width>78</width>
@@ -1541,7 +1541,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_61</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_12_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_12_.Qos.Reliability</pv_name>
     <x>393</x>
     <y>430</y>
     <width>78</width>
@@ -1577,7 +1577,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_62</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_15_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_15_.MsgId</pv_name>
     <x>70</x>
     <y>490</y>
     <width>199</width>
@@ -1597,7 +1597,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_63</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_15_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_15_.Qos.Priority</pv_name>
     <x>296</x>
     <y>490</y>
     <width>78</width>
@@ -1617,7 +1617,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_64</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_15_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_15_.Qos.Reliability</pv_name>
     <x>392</x>
     <y>490</y>
     <width>78</width>
@@ -1653,7 +1653,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_65</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_19_.MsgId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_19_.MsgId</pv_name>
     <x>70</x>
     <y>570</y>
     <width>199</width>
@@ -1673,7 +1673,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_66</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_19_.Qos.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_19_.Qos.Priority</pv_name>
     <x>296</x>
     <y>570</y>
     <width>78</width>
@@ -1693,7 +1693,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_67</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_19_.Qos.Reliability</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_19_.Qos.Reliability</pv_name>
     <x>392</x>
     <y>570</y>
     <width>78</width>
@@ -1729,7 +1729,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_68</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_0_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_0_.Pipe</pv_name>
     <x>495</x>
     <y>190</y>
     <width>78</width>
@@ -1768,7 +1768,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_69</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_1_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_1_.Pipe</pv_name>
     <x>495</x>
     <y>210</y>
     <width>78</width>
@@ -1788,7 +1788,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_70</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_2_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_2_.Pipe</pv_name>
     <x>495</x>
     <y>230</y>
     <width>78</width>
@@ -1808,7 +1808,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_71</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_4_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_4_.Pipe</pv_name>
     <x>495</x>
     <y>270</y>
     <width>78</width>
@@ -1828,7 +1828,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_72</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_6_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_6_.Pipe</pv_name>
     <x>495</x>
     <y>310</y>
     <width>78</width>
@@ -1848,7 +1848,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_73</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_9_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_9_.Pipe</pv_name>
     <x>495</x>
     <y>370</y>
     <width>78</width>
@@ -1868,7 +1868,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_74</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_8_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_8_.Pipe</pv_name>
     <x>495</x>
     <y>350</y>
     <width>78</width>
@@ -1888,7 +1888,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_75</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_5_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_5_.Pipe</pv_name>
     <x>495</x>
     <y>290</y>
     <width>78</width>
@@ -1908,7 +1908,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_76</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_14_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_14_.Pipe</pv_name>
     <x>494</x>
     <y>470</y>
     <width>78</width>
@@ -1928,7 +1928,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_77</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_7_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_7_.Pipe</pv_name>
     <x>495</x>
     <y>330</y>
     <width>78</width>
@@ -1948,7 +1948,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_78</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_3_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_3_.Pipe</pv_name>
     <x>495</x>
     <y>250</y>
     <width>78</width>
@@ -1968,7 +1968,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_79</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_11_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_11_.Pipe</pv_name>
     <x>495</x>
     <y>410</y>
     <width>78</width>
@@ -1988,7 +1988,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_80</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_10_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_10_.Pipe</pv_name>
     <x>495</x>
     <y>390</y>
     <width>78</width>
@@ -2008,7 +2008,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_81</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_16_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_16_.Pipe</pv_name>
     <x>495</x>
     <y>510</y>
     <width>78</width>
@@ -2028,7 +2028,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_82</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_18_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_18_.Pipe</pv_name>
     <x>494</x>
     <y>550</y>
     <width>78</width>
@@ -2048,7 +2048,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_83</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_17_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_17_.Pipe</pv_name>
     <x>495</x>
     <y>530</y>
     <width>78</width>
@@ -2068,7 +2068,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_84</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_13_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_13_.Pipe</pv_name>
     <x>495</x>
     <y>450</y>
     <width>78</width>
@@ -2088,7 +2088,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_85</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_12_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_12_.Pipe</pv_name>
     <x>495</x>
     <y>430</y>
     <width>78</width>
@@ -2108,7 +2108,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_86</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_15_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_15_.Pipe</pv_name>
     <x>494</x>
     <y>490</y>
     <width>78</width>
@@ -2128,7 +2128,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_87</name>
-    <pv_name>/cfs/$(CPUID)/cfe_sb/CFE_SB_PrevSubMsg_t.Payload.Entry_19_.Pipe</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_sb/CFE_SB_ALLSUBS_TLM_MID.Payload.Entry_19_.Pipe</pv_name>
     <x>494</x>
     <y>570</y>
     <width>78</width>
@@ -2153,7 +2153,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_sb/SendPrevSubs', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_sb/SendPrevSubs', {});]]></text>
         </script>
       </action>
     </actions>

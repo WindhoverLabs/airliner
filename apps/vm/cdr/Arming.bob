@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>VM - Arming</name>
+  <macros>
+    <CPUID>cpd</CPUID>
+    <APP>vm</APP>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/apps/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>250</width>
+  <height>300</height>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Label_49</name>
+    <text>Vehicle Manager - Arming</text>
+    <x>18</x>
+    <y>12</y>
+    <width>182</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_5</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Arm', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Arm</text>
+    <x>30</x>
+    <y>138</y>
+    <width>157</width>
+    <height>31</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="255" green="50" blue="50">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+    <show_confirm_dialog>true</show_confirm_dialog>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>NoOp_7</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Disarm', {});]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Disarm</text>
+    <x>30</x>
+    <y>96</y>
+    <width>157</width>
+    <height>32</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_4</name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.ArmingState</pv_name>
+    <x>42</x>
+    <y>42</y>
+    <width>140</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+    <border_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_30</name>
+    <text>Changed</text>
+    <x>42</x>
+    <y>62</y>
+    <width>65</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="led" version="2.0.0">
+    <name>LED</name>
+    <pv_name>/cfs/$(CPUID)/apps/vm/VM_HK_TLM_MID.ArmingStateChanged</pv_name>
+    <x>114</x>
+    <y>62</y>
+    <on_color>
+      <color name="OK" red="0" green="255" blue="0">
+      </color>
+    </on_color>
+  </widget>
+</display>

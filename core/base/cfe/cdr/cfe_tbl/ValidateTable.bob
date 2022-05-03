@@ -36,7 +36,7 @@ if( tableBuffer != 'Active' ) {
     pBuffer = 'ACTIVE_BUFFER';
 }
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Validate', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/Validate', {
     'Payload.TableName': tableName,
     'Payload.ActiveTblFlag': pBuffer
 });

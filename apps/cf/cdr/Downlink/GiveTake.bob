@@ -38,7 +38,7 @@ if( Channel == 'Channel 1' ) {
     pChannel = 1;
 }
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/GiveTake', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/GiveTake', {
     'Chan': pChannel,
     'GiveOrTakeSemaphore': 'GIVE'});
 
@@ -111,7 +111,7 @@ if( Channel == 'Channel 1' ) {
     pChannel = 1;
 }
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/GiveTake', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/GiveTake', {
     'Chan': pChannel,
     'GiveOrTakeSemaphore': 'TAKE'});
 

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>SENS - Gyro</name>
+  <macros>
+    <APP>sens</APP>
+    <CPUID>{{ cpu_id }}</CPUID>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>750</width>
+  <height>900</height>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Label_109</name>
+    <text>Sensors - Gyro</text>
+    <x>186</x>
+    <y>10</y>
+    <width>116</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="xyplot" version="2.0.0">
+    <name>XY Graph</name>
+    <y>32</y>
+    <width>487</width>
+    <height>247</height>
+    <background_color>
+      <color name="Display Background" red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <title>Gyro</title>
+    <title_font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </title_font>
+    <show_toolbar>true</show_toolbar>
+    <actions>
+    </actions>
+    <x_axis>
+      <title>Primary X Axis (0)</title>
+      <autoscale>true</autoscale>
+      <log_scale>false</log_scale>
+      <minimum>0.0</minimum>
+      <maximum>100.0</maximum>
+      <show_grid>true</show_grid>
+      <title_font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </title_font>
+      <scale_font>
+        <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+        </font>
+      </scale_font>
+      <visible>true</visible>
+    </x_axis>
+    <y_axes>
+      <y_axis>
+        <title>Primary Y Axis (1)</title>
+        <autoscale>true</autoscale>
+        <log_scale>false</log_scale>
+        <minimum>0.0</minimum>
+        <maximum>100.0</maximum>
+        <show_grid>true</show_grid>
+        <title_font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </title_font>
+        <scale_font>
+          <font name="Default" family="Liberation Sans" style="REGULAR" size="14.0">
+          </font>
+        </scale_font>
+        <visible>true</visible>
+      </y_axis>
+    </y_axes>
+    <traces>
+      <trace>
+        <name>X</name>
+        <x_pv></x_pv>
+        <y_pv>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.GyroRad_0_</y_pv>
+        <err_pv></err_pv>
+        <axis>0</axis>
+        <trace_type>1</trace_type>
+        <color>
+          <color red="21" green="21" blue="196">
+          </color>
+        </color>
+        <line_width>1</line_width>
+        <line_style>0</line_style>
+        <point_type>0</point_type>
+        <point_size>4</point_size>
+        <visible>true</visible>
+      </trace>
+      <trace>
+        <name>Y</name>
+        <x_pv></x_pv>
+        <y_pv>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.GyroRad_1_</y_pv>
+        <err_pv></err_pv>
+        <axis>0</axis>
+        <trace_type>1</trace_type>
+        <color>
+          <color red="242" green="26" blue="26">
+          </color>
+        </color>
+        <line_width>1</line_width>
+        <line_style>0</line_style>
+        <point_type>0</point_type>
+        <point_size>4</point_size>
+        <visible>true</visible>
+      </trace>
+      <trace>
+        <name>Z</name>
+        <x_pv></x_pv>
+        <y_pv>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.SensorCombinedMsg.GyroRad_2_</y_pv>
+        <err_pv></err_pv>
+        <axis>0</axis>
+        <trace_type>1</trace_type>
+        <color>
+          <color red="33" green="179" blue="33">
+          </color>
+        </color>
+        <line_width>1</line_width>
+        <line_style>0</line_style>
+        <point_type>0</point_type>
+        <point_size>4</point_size>
+        <visible>true</visible>
+      </trace>
+    </traces>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Telemetry</name>
+    <y>294</y>
+    <width>187</width>
+    <height>108</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_3</name>
+      <macros>
+        <MSG_NAME>PX4_SENSOR_COMBINED_MID</MSG_NAME>
+      </macros>
+      <file>../px4lib/TO_TlmManagement.bob</file>
+      <x>5</x>
+      <y>6</y>
+      <width>140</width>
+      <height>60</height>
+    </widget>
+  </widget>
+</display>

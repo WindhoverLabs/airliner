@@ -34,16 +34,7 @@ extern "C" {
 #define HK_SEND_HK_MIDX               17
 
 #define TO_SEND_TLM_MIDX              19
-#define HK_SEND_COMBINED_PKT1_MIDX    20
-#define HK_SEND_COMBINED_PKT2_MIDX    21
-#define HK_SEND_COMBINED_PKT3_MIDX    22
-#define HK_SEND_COMBINED_PKT4_MIDX    23
-#define HK_SEND_COMBINED_PKT5_MIDX    24
-#define HK_SEND_COMBINED_PKT6_MIDX    25
-#define HK_SEND_COMBINED_PKT7_MIDX    26
-#define HK_SEND_COMBINED_PKT8_MIDX    27
-#define HK_SEND_COMBINED_PKT9_MIDX    28
-#define HK_SEND_COMBINED_PKT10_MIDX   29
+
 #define FM_SEND_HK_MIDX               30
 #define LC_SEND_HK_MIDX               31
 #define HS_WAKEUP_MIDX                32
@@ -55,11 +46,6 @@ extern "C" {
 #define CS_BACKGROUND_CYCLE_MIDX      39
 #define SC_1HZ_WAKEUP_MIDX            40
 #define SC_SEND_HK_MIDX               41
-
-#define VC_SEND_HK_MIDX               45
-#define VC_PROCESS_CMDS_MIDX          46
-#define RGBLED_WAKEUP_MIDX            47
-#define RGBLED_SEND_HK_MIDX           48
 
 #define CI_1HZ_PROC_TIMEOUTS_MIDX     51
 #define CI_SEND_HK_MIDX               52
@@ -259,7 +245,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
     { SCH_UNUSED,   0,  0,  0,  0,  SCH_GROUP_NONE },
     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  SENS_WAKEUP_MIDX,         SCH_GROUP_NONE },
     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  ULR_MEASURE_MIDX,         SCH_GROUP_NONE },
-    { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  VC_SEND_HK_MIDX,          SCH_GROUP_NONE },
+    { SCH_UNUSED,   0,  0,  0,  0,  SCH_GROUP_NONE },
     { SCH_UNUSED,   0,  0,  0,  0,  SCH_GROUP_NONE },
     { SCH_UNUSED,   0,  0,  0,  0,  SCH_GROUP_NONE },
     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  VM_WAKEUP_MIDX,          SCH_GROUP_NONE },
@@ -344,7 +330,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  PE_WAKEUP_MIDX,           SCH_GROUP_NONE },
     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  SENS_WAKEUP_MIDX,         SCH_GROUP_NONE },
     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  ULR_MEASURE_MIDX,         SCH_GROUP_NONE },
-    { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  VC_PROCESS_CMDS_MIDX,           SCH_GROUP_NONE },
+    { SCH_UNUSED,   0,  0,  0,  0,  SCH_GROUP_NONE },
     { SCH_UNUSED,   0,  0,  0,  0,  SCH_GROUP_NONE },
     { SCH_UNUSED,   0,  0,  0,  0,  SCH_GROUP_NONE },
     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  VM_WAKEUP_MIDX,          SCH_GROUP_NONE },
@@ -3881,7 +3867,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  PE_WAKEUP_MIDX,           SCH_GROUP_NONE },
     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  SENS_WAKEUP_MIDX,         SCH_GROUP_NONE },
     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  ULR_MEASURE_MIDX,         SCH_GROUP_NONE },
-    { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  RGBLED_WAKEUP_MIDX,       SCH_GROUP_NONE },
+    { SCH_UNUSED,   0,  0,  0,  0,  SCH_GROUP_NONE },
     { SCH_UNUSED,   0,  0,  0,  0,  SCH_GROUP_NONE },
     { SCH_UNUSED,   0,  0,  0,  0,  SCH_GROUP_NONE },
     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  VM_WAKEUP_MIDX,          SCH_GROUP_NONE },

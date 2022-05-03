@@ -95,7 +95,6 @@ typedef struct
     char                            IP[INET_ADDRSTRLEN];
     uint16                          DstPort;
     uint8                           Priority;
-    CFE_ES_ChildTaskMainFuncPtr_t   ListenerTask;
     int                             Socket;
     uint32                          ChildTaskID;
     uint32                          TaskFlags;

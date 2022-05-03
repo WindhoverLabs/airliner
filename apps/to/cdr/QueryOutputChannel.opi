@@ -90,7 +90,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var ChannelIdx = 0;
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/QueryOutputChannel', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/to/QueryOutputChannel', {
     'ChannelIdx': ChannelIdx});]]></scriptText>
         <embedded>true</embedded>
         <description></description>

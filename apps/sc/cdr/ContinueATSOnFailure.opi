@@ -94,7 +94,7 @@ if( ContinueState == 'False' ) {
     pContinueState = 1;
 } 
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sc/ContinueAtsOnFailure', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/ContinueAtsOnFailure', {
     'ContinueState': pContinueState});
 
 ]]></scriptText>

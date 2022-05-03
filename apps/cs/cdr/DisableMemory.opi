@@ -43,7 +43,7 @@
         <path></path>
         <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/DisableMemory', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/DisableMemory', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

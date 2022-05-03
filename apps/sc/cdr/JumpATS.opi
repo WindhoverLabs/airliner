@@ -126,7 +126,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var NewTime = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'NewTime')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sc/JumpATS', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/JumpATS', {
     'NewTime': NewTime});]]></scriptText>
         <embedded>true</embedded>
         <description></description>

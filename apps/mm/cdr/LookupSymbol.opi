@@ -86,7 +86,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var SymbolName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'SymbolName')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/mm/LookupSymbol', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/mm/LookupSymbol', {
     'SymName': SymbolName});]]></scriptText>
         <embedded>true</embedded>
         <description></description>

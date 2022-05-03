@@ -87,7 +87,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 var State = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'State')));
 var APNumber = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'APNumber')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/SetAPState', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/SetAPState', {
     'NewAPState': State,
     'APNumber': APNumber });]]></scriptText>
         <embedded>true</embedded>

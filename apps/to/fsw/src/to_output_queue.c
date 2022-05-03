@@ -37,6 +37,7 @@
 #include "to_custom.h"
 #include "cfe_evs_msg.h"
 #include "stddef.h"
+#include <string.h>
 
 uint32  TO_MemPoolDefSize[TO_MAX_MEMPOOL_BLK_SIZES] =
 {

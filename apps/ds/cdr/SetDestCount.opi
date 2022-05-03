@@ -104,7 +104,7 @@ var SequenceCount = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidg
 
 var cmd = '/cfs/$(CPUID)/ds/SetDestCount';
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/ds/SetDestCount', 
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/ds/SetDestCount', 
 				  {'FileTableIndex': FileTableIndex,
 				    'Padding': 0,
 				    'SequenceCount': SequenceCount

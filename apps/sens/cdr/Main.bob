@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>SENS</name>
+  <macros>
+    <APP>sens</APP>
+    <CPUID>{{ cpu_id }}</CPUID>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>700</width>
+  <height>630</height>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Label_49</name>
+    <text>Sensor Application</text>
+    <x>10</x>
+    <y>10</y>
+    <width>161</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Commanding</name>
+    <x>10</x>
+    <y>35</y>
+    <width>245</width>
+    <height>240</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_2</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sens/Noop', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>NoOp</text>
+      <x>5</x>
+      <y>57</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_5</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sens/Reset', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Reset</text>
+      <x>5</x>
+      <y>77</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_2</name>
+      <pv_name>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.usCmdCnt</pv_name>
+      <x>107</x>
+      <y>7</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>Cmd Count</text>
+      <x>10</x>
+      <y>6</y>
+      <width>79</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_3</name>
+      <text>Err Count</text>
+      <x>26</x>
+      <y>25</y>
+      <width>63</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_3</name>
+      <pv_name>/cfs/$(CPUID)/apps/sens/SENS_HK_TLM_MID.usCmdErrCnt</pv_name>
+      <x>107</x>
+      <y>26</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_2</name>
+      <file>$(CMD_MANAGEMENT_CONTAINER)</file>
+      <x>5</x>
+      <y>97</y>
+      <width>140</width>
+      <height>100</height>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Telemetry</name>
+    <x>10</x>
+    <y>275</y>
+    <width>245</width>
+    <height>168</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_3</name>
+      <file>TO_TlmManagement.bob</file>
+      <x>5</x>
+      <y>47</y>
+      <width>140</width>
+      <height>60</height>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_35</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sens/SendHK', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Send HK</text>
+      <x>5</x>
+      <y>7</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_36</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sens/WakeUp', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>WakeUp</text>
+      <x>5</x>
+      <y>27</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Sensors</name>
+    <x>270</x>
+    <y>35</y>
+    <width>198</width>
+    <height>133</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_9</name>
+      <actions>
+        <action type="open_display">
+          <file>Accel.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Accel</text>
+      <x>6</x>
+      <y>7</y>
+      <width>96</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_10</name>
+      <actions>
+        <action type="open_display">
+          <file>Baro.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Baro</text>
+      <x>6</x>
+      <y>26</y>
+      <width>96</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_11</name>
+      <actions>
+        <action type="open_display">
+          <file>Gyro.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Gyro</text>
+      <x>6</x>
+      <y>45</y>
+      <width>96</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_12</name>
+      <actions>
+        <action type="open_display">
+          <file>Mag.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Mag</text>
+      <x>6</x>
+      <y>64</y>
+      <width>96</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Miscellaneous</name>
+    <x>270</x>
+    <y>168</y>
+    <width>198</width>
+    <height>108</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Core/ES/resources/templates/ApplicationControl_App.opi");
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>App Control</text>
+      <x>6</x>
+      <y>6</y>
+      <width>144</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Events</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("EVENTS_OPI"));
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Event Filters</text>
+      <x>6</x>
+      <y>25</y>
+      <width>144</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_2</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+importPackage(org.csstudio.opibuilder.runmode)
+
+var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("Sch_Table_TEMPLATE"));
+var macroInput = DataUtil.createMacrosInput(true);
+
+ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Sch Table</text>
+      <x>6</x>
+      <y>44</y>
+      <width>144</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+</display>

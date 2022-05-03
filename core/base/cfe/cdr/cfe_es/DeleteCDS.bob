@@ -3,9 +3,9 @@
   <name>($(CPUID)) CFE-ES - Delete CDS</name>
 
   <macros>
-    <CPUID>{{ cpu_id }}</CPUID>
     <APP>cfe_es</APP>
     <include_parent_macros>true</include_parent_macros>
+    <CPUID>{{ cpu_id }}</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
@@ -26,7 +26,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var name = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inName')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/DeleteCDS', {'Payload.CdsName': name});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/DeleteCDS', {'Payload.CdsName': name});
 ]]></text>
         </script>
       </action>

@@ -46,7 +46,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Name = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Name')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/ReportBaselineTable', {'Name': Name});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/ReportBaselineTable', {'Name': Name});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

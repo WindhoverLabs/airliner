@@ -23,7 +23,7 @@ services:
         warmupTime: 60
   - class: org.yamcs.tctm.cfs.CfsEventDecoder
     args:
-      msgIds: [0x0815, 0x0a15] #Always confirm this ID with CFE_EVS configuration
+      msgIds: [0x0815, 0x0a15, 0x0c15] #Always confirm this ID with CFE_EVS configuration
       byteOrder: LITTLE_ENDIAN
       appNameMax: 40
       eventMsgMax: 122
@@ -53,7 +53,7 @@ dataLinks:
     stream: tc_realtime
     host: 127.0.0.1
     port: 5110
-    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+    commandPostprocessorClassName: com.windhoverlabs.yamcs.tctm.ccsds.CfsCommandPostprocessorRFC1055
     commandPostprocessorArgs:
       swapChecksumFc: true
 
@@ -80,7 +80,7 @@ dataLinks:
     stream: tc_realtime
     host: 127.0.0.1
     port: 5010
-    commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+    commandPostprocessorClassName: com.windhoverlabs.yamcs.tctm.ccsds.CfsCommandPostprocessorRFC1055
     commandPostprocessorArgs:
       swapChecksumFc: true
 

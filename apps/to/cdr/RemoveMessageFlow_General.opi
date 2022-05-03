@@ -127,7 +127,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 var ChannelIdx = 0;
 var MsgID = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'MsgID')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/RemoveMessageFlow', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/to/RemoveMessageFlow', {
     'ChannelIdx': ChannelIdx,
     'MsgID': MsgID});]]></scriptText>
         <embedded>true</embedded>

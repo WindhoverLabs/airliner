@@ -126,7 +126,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var RtsId = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'RtsId')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sc/StartRts', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/StartRts', {
     'RtsId': RtsId});]]></scriptText>
         <embedded>true</embedded>
         <description></description>

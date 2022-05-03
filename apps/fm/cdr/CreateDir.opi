@@ -46,7 +46,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Directory = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Directory')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/fm/CreateDir', 
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fm/CreateDir', 
                                    {"Directory": Directory});
 ]]></scriptText>
         <embedded>true</embedded>

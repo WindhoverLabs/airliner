@@ -30,20 +30,20 @@ static CFE_TBL_FileDef_t CFE_TBL_FileDef OS_USED =
  *************************************************************************/
 
 #define TO_PQUEUE_CPD_SINGLE_PASS_IDX               0
-#define TO_PQUEUE_CPD_HIGH_OPS_RSRVD_IDX            1
-#define TO_PQUEUE_CPD_HIGH_IDX                      2
-#define TO_PQUEUE_CPD_EVENTS_IDX                    3
-#define TO_PQUEUE_CPD_CFDP_IDX                      4
-#define TO_PQUEUE_CPD_HK_IDX                        5
-#define TO_PQUEUE_CPD_SHELL_IDX                     6
-#define TO_PQUEUE_CPD_PX4LOW_IDX                    7
-#define TO_PQUEUE_PPD_SINGLE_PASS_IDX               8
-#define TO_PQUEUE_PPD_HIGH_OPS_RSRVD_IDX            9
-#define TO_PQUEUE_PPD_HIGH_IDX                     10
-#define TO_PQUEUE_PPD_EVENTS_IDX                   11
-#define TO_PQUEUE_PPD_CFDP_IDX                     12
+#define TO_PQUEUE_PPD_SINGLE_PASS_IDX               1
+#define TO_PQUEUE_CPD_HIGH_OPS_RSRVD_IDX            2
+#define TO_PQUEUE_PPD_HIGH_OPS_RSRVD_IDX            3
+#define TO_PQUEUE_CPD_HIGH_IDX                      4
+#define TO_PQUEUE_CPD_EVENTS_IDX                    5
+#define TO_PQUEUE_CPD_CFDP_IDX                      6
+#define TO_PQUEUE_CPD_SHELL_IDX                     7
+#define TO_PQUEUE_CPD_HK_IDX                        8
+#define TO_PQUEUE_PPD_HIGH_IDX                      9
+#define TO_PQUEUE_PPD_EVENTS_IDX                   10
+#define TO_PQUEUE_PPD_CFDP_IDX                     11
+#define TO_PQUEUE_PPD_SHELL_IDX                    12
 #define TO_PQUEUE_PPD_HK_IDX                       13
-#define TO_PQUEUE_PPD_SHELL_IDX                    14
+#define TO_PQUEUE_CPD_PX4LOW_IDX                   14
 #define TO_PQUEUE_PPD_PX4LOW_LOW_IDX               15
 
 /**
@@ -96,14 +96,11 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {FROM_CPD(PE_HK_TLM_MID),                1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(QAE_HK_TLM_MID),               1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(RCIN_HK_TLM_MID),              1, TO_PQUEUE_CPD_HK_IDX},
-        {FROM_CPD(RGBLED_HK_TLM_MID),            1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(SBN_MODULE_HK_TLM_MID),        1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(SBN_TLM_MID),                  1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(SCH_DIAG_TLM_MID),             1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(SCH_HK_TLM_MID),               1, TO_PQUEUE_CPD_HK_IDX},
-        {FROM_CPD(SED_HK_TLM_MID),               1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(SENS_HK_TLM_MID),              1, TO_PQUEUE_CPD_HK_IDX},
-        {FROM_CPD(TO_DATA_TYPE_MID),             1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(TO_DIAG_MSG_FLOW_MID),         1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(TO_DIAG_TLM_MID),              1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(TO_HK_TLM_MID),                1, TO_PQUEUE_CPD_HK_IDX},
@@ -152,7 +149,6 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {SBN_TLM_MID,                            1, TO_PQUEUE_PPD_HK_IDX},
         {SCH_DIAG_TLM_MID,                       1, TO_PQUEUE_PPD_HK_IDX},
         {SCH_HK_TLM_MID,                         1, TO_PQUEUE_PPD_HK_IDX},
-        {TO_DATA_TYPE_MID,                       1, TO_PQUEUE_PPD_HK_IDX},
         {TO_DIAG_MSG_FLOW_MID,                   1, TO_PQUEUE_PPD_HK_IDX},
         {TO_DIAG_TLM_MID,                        1, TO_PQUEUE_PPD_HK_IDX},
         {TO_HK_TLM_MID,                          1, TO_PQUEUE_PPD_HK_IDX},

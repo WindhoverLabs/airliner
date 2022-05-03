@@ -26,11 +26,6 @@ extern "C" {
 #define CVT_WAKEUP_MID              (0x18D0)
 
 /**
-** \brief Application-specific data output
-*/
-#define CVT_OUT_DATA_MID            (0x18D1)
-
-/**
 ** \brief Application housekeeping telemetry data
 */
 #define CVT_HK_TLM_MID              (0x08BB)

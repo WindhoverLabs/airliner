@@ -62,11 +62,11 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #10 */
    { { SCH_FIX_HEADER(SIMLINK_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #11 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(AMC_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #12 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #13 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(SIMLINK_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #14 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #15 */
@@ -116,7 +116,7 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #37 */
    { { SCH_FIX_HEADER(DS_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #38 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(SBUS_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #39 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #40 */
@@ -124,7 +124,7 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #41 */
    { { SCH_FIX_HEADER(ICM20689_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #42 */
-   { { SCH_FIX_HEADER(ICM20689_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
+   { { SCH_FIX_HEADER(ICM20689_MEASURE_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #43 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #44 */
@@ -156,9 +156,9 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #57 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #58 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(SEDPWM_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #59 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(SEDPWM_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #60 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #61 */

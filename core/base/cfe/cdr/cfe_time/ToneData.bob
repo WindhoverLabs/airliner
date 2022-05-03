@@ -29,7 +29,7 @@ var STCFSubseconds = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidge
 var Leaps = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Leaps')));
 var State = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'State')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/ToneData', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/ToneData', {
     'Payload.AtToneMET.Seconds': METSeconds,
     'Payload.AtToneMET.Subseconds': METSubseconds,
     'Payload.AtToneSTCF.Seconds': STCFSeconds,

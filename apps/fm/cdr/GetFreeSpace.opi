@@ -242,7 +242,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_0_.FreeSpace_A</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_0_.FreeSpace_A</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -294,7 +294,7 @@ $(pv_value)</tooltip>
     <name>Text Update_2</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_0_.FreeSpace_B</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_0_.FreeSpace_B</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -386,7 +386,7 @@ $(pv_value)</tooltip>
     <name>Text Update_3</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_1_.FreeSpace_A</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_1_.FreeSpace_A</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -438,7 +438,7 @@ $(pv_value)</tooltip>
     <name>Text Update_4</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_1_.FreeSpace_B</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_1_.FreeSpace_B</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -530,7 +530,7 @@ $(pv_value)</tooltip>
     <name>Text Update_17</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_2_.FreeSpace_A</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_2_.FreeSpace_A</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -582,7 +582,7 @@ $(pv_value)</tooltip>
     <name>Text Update_18</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_2_.FreeSpace_B</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_2_.FreeSpace_B</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -674,7 +674,7 @@ $(pv_value)</tooltip>
     <name>Text Update_19</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_3_.FreeSpace_A</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_3_.FreeSpace_A</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -726,7 +726,7 @@ $(pv_value)</tooltip>
     <name>Text Update_20</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_3_.FreeSpace_B</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_3_.FreeSpace_B</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -818,7 +818,7 @@ $(pv_value)</tooltip>
     <name>Text Update_21</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_4_.FreeSpace_A</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_4_.FreeSpace_A</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -870,7 +870,7 @@ $(pv_value)</tooltip>
     <name>Text Update_22</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_4_.FreeSpace_B</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_4_.FreeSpace_B</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -962,7 +962,7 @@ $(pv_value)</tooltip>
     <name>Text Update_23</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_5_.FreeSpace_A</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_5_.FreeSpace_A</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1014,7 +1014,7 @@ $(pv_value)</tooltip>
     <name>Text Update_24</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_5_.FreeSpace_B</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_5_.FreeSpace_B</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1106,7 +1106,7 @@ $(pv_value)</tooltip>
     <name>Text Update_25</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_6_.FreeSpace_A</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_6_.FreeSpace_A</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1158,7 +1158,7 @@ $(pv_value)</tooltip>
     <name>Text Update_26</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_6_.FreeSpace_B</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_6_.FreeSpace_B</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1250,7 +1250,7 @@ $(pv_value)</tooltip>
     <name>Text Update_27</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_7_.FreeSpace_A</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_7_.FreeSpace_A</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1302,7 +1302,7 @@ $(pv_value)</tooltip>
     <name>Text Update_28</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_7_.FreeSpace_B</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_7_.FreeSpace_B</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1394,7 +1394,7 @@ $(pv_value)</tooltip>
     <name>Text Update_47</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_0_.Name</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_0_.Name</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1446,7 +1446,7 @@ $(pv_value)</tooltip>
     <name>Text Update_48</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_1_.Name</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_1_.Name</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1498,7 +1498,7 @@ $(pv_value)</tooltip>
     <name>Text Update_49</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_2_.Name</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_2_.Name</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1550,7 +1550,7 @@ $(pv_value)</tooltip>
     <name>Text Update_50</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_3_.Name</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_3_.Name</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1602,7 +1602,7 @@ $(pv_value)</tooltip>
     <name>Text Update_51</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_4_.Name</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_4_.Name</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1654,7 +1654,7 @@ $(pv_value)</tooltip>
     <name>Text Update_52</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_5_.Name</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_5_.Name</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1706,7 +1706,7 @@ $(pv_value)</tooltip>
     <name>Text Update_53</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_6_.Name</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_6_.Name</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -1758,7 +1758,7 @@ $(pv_value)</tooltip>
     <name>Text Update_54</name>
     <precision>0</precision>
     <precision_from_pv>true</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/fm/FM_FreeSpacePkt_t.FileSys_7_.Name</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/fm/FM_FREE_SPACE_TLM_MID.FileSys_7_.Name</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />

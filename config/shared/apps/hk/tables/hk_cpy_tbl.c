@@ -12,11 +12,11 @@ hk_copy_table_entry_t      HK_CopyTable[HK_COPY_TABLE_ENTRIES] =
 {
 /*         inputMid        inputOffset     outputMid    outputOffset  numBytes*/
 
-/*   0 */ {CFE_EVS_HK_TLM_MID,    12,	HK_COMBINED_PKT1_MID,      12,   4, },
-/*   1 */ { CFE_TIME_HK_TLM_MID,  12,   HK_COMBINED_PKT1_MID,      16,   4, },
-/*   2 */ { CFE_SB_HK_TLM_MID,    12,   HK_COMBINED_PKT1_MID,      20,   4, },
-/*   3 */ { CFE_ES_HK_TLM_MID,    12,   HK_COMBINED_PKT1_MID,      24,   4, },
-/*   4 */ { CFE_TBL_HK_TLM_MID,   12,   HK_COMBINED_PKT1_MID,      28,   4, },
+/*   0 */ { HK_UNDEFINED_ENTRY,    0,   HK_UNDEFINED_ENTRY,       0,   0, },
+/*   1 */ { HK_UNDEFINED_ENTRY,    0,   HK_UNDEFINED_ENTRY,       0,   0, },
+/*   2 */ { HK_UNDEFINED_ENTRY,    0,   HK_UNDEFINED_ENTRY,       0,   0, },
+/*   3 */ { HK_UNDEFINED_ENTRY,    0,   HK_UNDEFINED_ENTRY,       0,   0, },
+/*   4 */ { HK_UNDEFINED_ENTRY,    0,   HK_UNDEFINED_ENTRY,       0,   0, },
 
 /*   5 */ { HK_UNDEFINED_ENTRY,    0,   HK_UNDEFINED_ENTRY,       0,   0, },
 /*   6 */ { HK_UNDEFINED_ENTRY,    0,   HK_UNDEFINED_ENTRY,       0,   0, },

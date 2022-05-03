@@ -276,7 +276,7 @@ int32 RFD900X_InitData()
 					sizeof(RFD900X_AppData.UART_StatusTlm),
 					TRUE);
 
-	RFD900X_AppData.UART_StatusTlm.Version = 1;
+	RFD900X_AppData.UART_StatusTlm.Hdr.Version = 1;
 
     return (iStatus);
 }
@@ -495,10 +495,10 @@ void RFD900X_ProcessNewData()
     if(SEDLIB_MSG_FRESH_OK == rc)
     {
         /* Yes we did.  Get the command code. */
-    	RFD900X_AppData.UART_StatusTlm.LastCmdCode = CFE_SB_GetCmdCode((CFE_SB_MsgPtr_t)&RFD900X_AppData.UART_QueueDataCmd);
+    	RFD900X_AppData.UART_StatusTlm.Hdr.LastCmdCode = CFE_SB_GetCmdCode((CFE_SB_MsgPtr_t)&RFD900X_AppData.UART_QueueDataCmd);
 
         /* Act on the command code. */
-        switch(RFD900X_AppData.UART_StatusTlm.LastCmdCode)
+        switch(RFD900X_AppData.UART_StatusTlm.Hdr.LastCmdCode)
         {
             case UART_NOOP_CC:
             {
@@ -514,28 +514,34 @@ void RFD900X_ProcessNewData()
             {
             	/* Loop through each byte to queue data or send a message out when the
                  * end symbol was found. */
-            	for(uint32 i = 0; i < RFD900X_AppData.UART_QueueDataCmd.BytesInBuffer; ++i)
+            	for(uint32 i = 0; i < RFD900X_AppData.UART_QueueDataCmd.Hdr.BytesInBuffer; ++i)
             	{
-            		/* Queue the next byte. */
-            		RFD900X_AppData.TxInBuffer[RFD900X_AppData.TxInBufferCursor] =
-            				RFD900X_AppData.UART_QueueDataCmd.Buffer[i];
-
-            		/* Was this byte the SLIP_END symbol? */
-            		if(SLIP_END == RFD900X_AppData.TxInBuffer[RFD900X_AppData.TxInBufferCursor])
+            		if(RFD900X_AppData.TxInBufferCursor < sizeof(RFD900X_AppData.TxInBuffer))
             		{
-            		    /* Yes it was.  Send the message out, reset the cursor, and
-            		     * keep going. */
-            			RFD900X_SendMessage();
-            			RFD900X_AppData.TxInBufferCursor = 0;
+						/* Queue the next byte. */
+						RFD900X_AppData.TxInBuffer[RFD900X_AppData.TxInBufferCursor] =
+								RFD900X_AppData.UART_QueueDataCmd.Buffer[i];
+
+						/* Was this byte the SLIP_END symbol? */
+						if(SLIP_END == RFD900X_AppData.TxInBuffer[RFD900X_AppData.TxInBufferCursor])
+						{
+							/* Yes it was.  Send the message out, reset the cursor, and
+							 * keep going. */
+							RFD900X_SendMessage();
+							RFD900X_AppData.TxInBufferCursor = 0;
+						}
+						else
+						{
+							RFD900X_AppData.TxInBufferCursor++;
+						}
             		}
             		else
             		{
-                		RFD900X_AppData.TxInBufferCursor++;
+            			/* Overflow */
+                        (void) CFE_EVS_SendEvent(RFD900X_TX_BUFFER_OVERFLOW_ERR_EID, CFE_EVS_ERROR,
+                                          "TX buffer overflow.");
             		}
             	}
-
-        		RFD900X_SendMessage();
-        		RFD900X_AppData.TxInBufferCursor = 0;
 
                 break;
             }
@@ -580,8 +586,8 @@ void RFD900X_ProcessNewData()
 
 			memcpy(RFD900X_AppData.UART_StatusTlm.RxBuffer, RFD900X_AppData.RxBuffer, bytesToCopy);
 
-			RFD900X_AppData.UART_StatusTlm.BytesInBuffer = bytesToCopy;
-			RFD900X_AppData.UART_StatusTlm.RxFrameID++;
+			RFD900X_AppData.UART_StatusTlm.Hdr.BytesInBuffer = bytesToCopy;
+			RFD900X_AppData.UART_StatusTlm.Hdr.RxFrameID++;
 
 			rc = SEDLIB_SendMsg(RFD900X_AppData.RxMsgPortHandle, (CFE_SB_MsgPtr_t)&RFD900X_AppData.UART_StatusTlm);
             if(rc != SEDLIB_OK)
@@ -600,10 +606,9 @@ void RFD900X_ProcessNewData()
             	{
             		RFD900X_AppData.RxBuffer[i - bytesToCopy] = RFD900X_AppData.RxBuffer[i];
             	}
-
-            	/* No set the new bytes in buffer count. */
-            	RFD900X_AppData.BytesInRxBuffer = RFD900X_AppData.BytesInRxBuffer - bytesToCopy;
             }
+
+        	RFD900X_AppData.BytesInRxBuffer = RFD900X_AppData.BytesInRxBuffer - bytesToCopy;
 		}
     }
 }
@@ -672,32 +677,27 @@ void RFD900X_SendMessage(void)
     	}
     }
 
-//    /* Send the message out */
-//    printf("%u   ", __LINE__);
-//    for(uint32 i = 0; i < outCursor; ++i)
-//    {
-//        printf("%02x ", RFD900X_AppData.TxOutBuffer[i]);
-//    }
-//    printf("\n");
-
-    bzero((char *) &s_addr, sizeof(s_addr));
-    s_addr.sin_family      = AF_INET;
-
-    /* Send message via UDP socket */
-    s_addr.sin_addr.s_addr = inet_addr(RFD900X_AppData.ConfigTblPtr->Address);
-    s_addr.sin_port = htons(RFD900X_AppData.ConfigTblPtr->TxPort);
-
-    status = sendto(RFD900X_AppData.TxSocket,
-    		        (char *)RFD900X_AppData.TxOutBuffer,
-					outCursor,
-					0,
-                    (struct sockaddr *) &s_addr,
-                    sizeof(s_addr));
-    if (status < 0)
+    if(outCursor > 0)
     {
-        CFE_EVS_SendEvent(RFD900X_TX_SEND_ERR_EID,
-        		          CFE_EVS_ERROR,
-                          "send errno %d.", errno);
+		bzero((char *) &s_addr, sizeof(s_addr));
+		s_addr.sin_family      = AF_INET;
+
+		/* Send message via UDP socket */
+		s_addr.sin_addr.s_addr = inet_addr(RFD900X_AppData.ConfigTblPtr->Address);
+		s_addr.sin_port = htons(RFD900X_AppData.ConfigTblPtr->TxPort);
+
+		status = sendto(RFD900X_AppData.TxSocket,
+						(char *)RFD900X_AppData.TxOutBuffer,
+						outCursor,
+						0,
+						(struct sockaddr *) &s_addr,
+						sizeof(s_addr));
+		if (status < 0)
+		{
+			CFE_EVS_SendEvent(RFD900X_TX_SEND_ERR_EID,
+							  CFE_EVS_ERROR,
+							  "send errno %d.", errno);
+		}
     }
 }
 

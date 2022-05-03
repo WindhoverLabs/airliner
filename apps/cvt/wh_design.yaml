@@ -1,1 +1,103 @@
----
+  short_name: cvt
+  long_name: Current Value Table
+  app_name: CVT
+  module_type: CFE_APP
+  commander:
+    displays: cdr
+  events: 
+    CVT_INF_EID: 
+      id: 1
+    CVT_INIT_INF_EID: 
+      id: 2
+    CVT_CONFIG_TABLE_INF_EID: 
+      id: 3
+    CVT_CDS_INF_EID: 
+      id: 4
+    CVT_CMD_INF_EID : 
+      id: 5
+    CVT_ERR_EID: 
+      id: 6
+    CVT_INIT_ERR_EID: 
+      id: 7
+    CVT_CONFIG_TABLE_ERR_EID: 
+      id: 8
+    CVT_CDS_ERR_EID: 
+      id: 9
+    CVT_CMD_ERR_EID: 
+      id: 10
+    CVT_PIPE_ERR_EID: 
+      id: 11
+    CVT_MSGID_ERR_EID: 
+      id: 12
+    CVT_MSGLEN_ERR_EID: 
+      id: 13
+  telemetry:
+    CVT_HK_TLM_MID: 
+      msgID: 
+      struct: CVT_HkTlm_t
+  commands: 
+    CVT_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: CVT_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: CVT_NoArgCmd_t
+    CVT_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: CVT_NoArgCmd_t
+  perfids: 
+    CVT_APPMAIN_PERF_ID: 
+      id: 
+  config: 
+    CVT_MISSION_REV: 
+      name: CVT_MISSION_REV
+      value: 0
+    CVT_SCH_PIPE_DEPTH: 
+      name: CVT_SCH_PIPE_DEPTH
+      value: 2
+    CVT_SCH_PIPE_NAME: 
+      name: CVT_SCH_PIPE_NAME
+      value: CVT_SCH_PIPE
+    CVT_SCH_PIPE_PEND_TIME: 
+      name: CVT_SCH_PIPE_PEND_TIME
+      value: 2000
+    CVT_SCH_PIPE_WAKEUP_RESERVED: 
+      name: CVT_SCH_PIPE_WAKEUP_RESERVED
+      value: 1
+    CVT_SCH_PIPE_SEND_HK_RESERVED : 
+      name: CVT_SCH_PIPE_SEND_HK_RESERVED 
+      value: 1
+    CVT_CMD_PIPE_DEPTH: 
+      name: CVT_CMD_PIPE_DEPTH
+      value: 4
+    CVT_CMD_PIPE_NAME: 
+      name: CVT_CMD_PIPE_NAME
+      value: CVT_CMD_PIPE
+    CVT_DATA_PIPE_DEPTH : 
+      name: CVT_DATA_PIPE_DEPTH 
+      value: 4
+    CVT_DATA_PIPE_NAME: 
+      name: CVT_DATA_PIPE_NAME
+      value: CVT_DATA_PIPE
+    CVT_CONFIG_TABLE_FILENAME: 
+      name: CVT_CONFIG_TABLE_FILENAME
+      value: /cf/apps/cvt_config.tbl
+    CVT_STARTUP_TIMEOUT_MSEC: 
+      name: CVT_STARTUP_TIMEOUT_MSEC
+      value: 1000
+    CVT_MAX_REGISTRATIONS: 
+      name: CVT_MAX_REGISTRATIONS
+      value: 100
+    CVT_DATA_STORE_SIZE: 
+      name: CVT_DATA_STORE_SIZE
+      value: 10000000
+    CVT_CONTAINER_NAME_MAX_LENGTH: 
+      name: CVT_CONTAINER_NAME_MAX_LENGTH
+      value: 40
+

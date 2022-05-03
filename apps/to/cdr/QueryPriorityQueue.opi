@@ -127,7 +127,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 var ChannelIdx = 0;
 var PQueueIdx = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PQueueIdx')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/to/QueryPriorityQueue', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/to/QueryPriorityQueue', {
     'ChannelIdx': ChannelIdx,
     'PQueueIndex': PQueueIdx});]]></scriptText>
         <embedded>true</embedded>

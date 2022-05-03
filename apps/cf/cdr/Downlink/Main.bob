@@ -37,7 +37,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_47</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.PDUsSent</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].PDUsSent</pv_name>
     <x>161</x>
     <y>78</y>
     <width>98</width>
@@ -51,14 +51,10 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_48</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.FilesSent</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].FilesSent</pv_name>
     <x>161</x>
     <y>97</y>
     <width>98</width>
@@ -73,15 +69,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_49</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.SuccessCounter</pv_name>
-    <x>162</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].SuccessCounter</pv_name>
+    <x>161</x>
     <y>116</y>
     <width>98</width>
     <background_color>
@@ -95,15 +87,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_50</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.FailedCounter</pv_name>
-    <x>162</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].FailedCounter</pv_name>
+    <x>161</x>
     <y>135</y>
     <width>98</width>
     <background_color>
@@ -117,15 +105,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_51</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.PendingQFileCnt</pv_name>
-    <x>162</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].PendingQFileCnt</pv_name>
+    <x>161</x>
     <y>154</y>
     <width>98</width>
     <background_color>
@@ -139,15 +123,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_52</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.ActiveQFileCnt</pv_name>
-    <x>162</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].ActiveQFileCnt</pv_name>
+    <x>161</x>
     <y>173</y>
     <width>98</width>
     <background_color>
@@ -161,15 +141,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_53</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.HistoryQFileCnt</pv_name>
-    <x>162</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].HistoryQFileCnt</pv_name>
+    <x>161</x>
     <y>192</y>
     <width>98</width>
     <background_color>
@@ -183,33 +159,29 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Text Update_54</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].Flags</pv_name>
     <label></label>
-    <x>161</x>
+    <x>160</x>
     <y>211</y>
     <actions>
     </actions>
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Text Update_55</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].Flags</pv_name>
     <label></label>
-    <x>161</x>
+    <x>160</x>
     <y>230</y>
     <actions>
     </actions>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_56</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.RedLightCntr</pv_name>
-    <x>162</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].RedLightCntr</pv_name>
+    <x>161</x>
     <y>251</y>
     <width>98</width>
     <background_color>
@@ -223,15 +195,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_57</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.GreenLightCntr</pv_name>
-    <x>162</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].GreenLightCntr</pv_name>
+    <x>161</x>
     <y>270</y>
     <width>98</width>
     <background_color>
@@ -245,15 +213,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_58</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.PollDirsChecked</pv_name>
-    <x>162</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].PollDirsChecked</pv_name>
+    <x>161</x>
     <y>289</y>
     <width>98</width>
     <background_color>
@@ -267,15 +231,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_59</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.PendingQChecked</pv_name>
-    <x>162</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].PendingQChecked</pv_name>
+    <x>161</x>
     <y>308</y>
     <width>98</width>
     <background_color>
@@ -289,15 +249,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_60</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_0_.SemValue</pv_name>
-    <x>162</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[0].SemValue</pv_name>
+    <x>161</x>
     <y>327</y>
     <width>98</width>
     <background_color>
@@ -311,10 +267,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_115</name>
@@ -542,7 +494,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_61</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.PDUsSent</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].PDUsSent</pv_name>
     <x>276</x>
     <y>78</y>
     <width>98</width>
@@ -557,14 +509,10 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_62</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.FilesSent</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].FilesSent</pv_name>
     <x>276</x>
     <y>97</y>
     <width>98</width>
@@ -579,15 +527,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_63</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.SuccessCounter</pv_name>
-    <x>277</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].SuccessCounter</pv_name>
+    <x>276</x>
     <y>116</y>
     <width>98</width>
     <background_color>
@@ -601,15 +545,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_64</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.FailedCounter</pv_name>
-    <x>277</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].FailedCounter</pv_name>
+    <x>276</x>
     <y>135</y>
     <width>98</width>
     <background_color>
@@ -623,15 +563,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_65</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.PendingQFileCnt</pv_name>
-    <x>277</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].PendingQFileCnt</pv_name>
+    <x>276</x>
     <y>154</y>
     <width>98</width>
     <background_color>
@@ -645,15 +581,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_66</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.ActiveQFileCnt</pv_name>
-    <x>277</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].ActiveQFileCnt</pv_name>
+    <x>276</x>
     <y>173</y>
     <width>98</width>
     <background_color>
@@ -667,15 +599,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_67</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.HistoryQFileCnt</pv_name>
-    <x>277</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].HistoryQFileCnt</pv_name>
+    <x>276</x>
     <y>192</y>
     <width>98</width>
     <background_color>
@@ -689,33 +617,29 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Text Update_68</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].Flags</pv_name>
     <label></label>
-    <x>276</x>
+    <x>275</x>
     <y>211</y>
     <actions>
     </actions>
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Text Update_69</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.Flags</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].Flags</pv_name>
     <label></label>
-    <x>276</x>
+    <x>275</x>
     <y>230</y>
     <actions>
     </actions>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_70</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.RedLightCntr</pv_name>
-    <x>277</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].RedLightCntr</pv_name>
+    <x>276</x>
     <y>251</y>
     <width>98</width>
     <background_color>
@@ -729,15 +653,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_71</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.GreenLightCntr</pv_name>
-    <x>277</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].GreenLightCntr</pv_name>
+    <x>276</x>
     <y>270</y>
     <width>98</width>
     <background_color>
@@ -751,15 +671,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_72</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.PollDirsChecked</pv_name>
-    <x>277</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].PollDirsChecked</pv_name>
+    <x>276</x>
     <y>289</y>
     <width>98</width>
     <background_color>
@@ -773,15 +689,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_73</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.PendingQChecked</pv_name>
-    <x>277</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].PendingQChecked</pv_name>
+    <x>276</x>
     <y>308</y>
     <width>98</width>
     <background_color>
@@ -795,15 +707,11 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_74</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_HkPacket_t.Chan_1_.SemValue</pv_name>
-    <x>277</x>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_HK_TLM_MID.Chan[1].SemValue</pv_name>
+    <x>276</x>
     <y>327</y>
     <width>98</width>
     <background_color>
@@ -817,10 +725,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_130</name>
@@ -870,7 +774,7 @@
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/ResetCounters', {'Value': 'DOWN', 'Spare_0_': '0', 'Spare_1_': '0', 'Spare_2_': '0'});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/ResetCounters', {'Value': 'DOWN', 'Spare_0_': '0', 'Spare_1_': '0', 'Spare_2_': '0'});
 ]]></text>
         </script>
       </action>

@@ -167,7 +167,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 var SlotNumber = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Slot')));
 var EntryNumber = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Entry')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Disable', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sch/Disable', {
     'SlotNumber': SlotNumber,
     'EntryNumber': EntryNumber});]]></scriptText>
         <embedded>true</embedded>

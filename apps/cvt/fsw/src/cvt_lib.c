@@ -150,7 +150,6 @@ end_of_function:
 int32 CVT_GetContent(const CVT_ContainerID_t ContainerID, uint32 *UpdateCount, void* Buffer, uint32 *Size)
 {
 	int32  status = CVT_SUCCESS;
-	uint32 i = 0;
 
 	if(ContainerID >= CVT_MAX_REGISTRATIONS)
 	{
@@ -173,8 +172,8 @@ int32 CVT_GetContent(const CVT_ContainerID_t ContainerID, uint32 *UpdateCount, v
 
 	OS_MutSemTake(CVT_DataStoreTable.Registry.Registration[ContainerID].MutexID);
 	*UpdateCount = CVT_DataStoreTable.Registry.Registration[ContainerID].UpdateCount;
-	*Size = CVT_DataStoreTable.Registry.Registration[i].Size;
-	CFE_PSP_MemCpy(Buffer, &CVT_DataStoreTable.DataStore[CVT_DataStoreTable.Registry.Registration[i].Offset], *Size);
+	*Size = CVT_DataStoreTable.Registry.Registration[ContainerID].Size;
+	CFE_PSP_MemCpy(Buffer, &CVT_DataStoreTable.DataStore[CVT_DataStoreTable.Registry.Registration[ContainerID].Offset], *Size);
 	OS_MutSemGive(CVT_DataStoreTable.Registry.Registration[ContainerID].MutexID);
 
 	status = CVT_SUCCESS;
@@ -189,7 +188,6 @@ end_of_function:
 int32 CVT_SetContent(const CVT_ContainerID_t ContainerID, void* Buffer, uint32 Size)
 {
 	int32  status = CVT_SUCCESS;
-	uint32 i = 0;
 
 	if(ContainerID >= CVT_MAX_REGISTRATIONS)
 	{
@@ -211,8 +209,8 @@ int32 CVT_SetContent(const CVT_ContainerID_t ContainerID, void* Buffer, uint32 S
 	}
 
 	OS_MutSemTake(CVT_DataStoreTable.Registry.Registration[ContainerID].MutexID);
+	CFE_PSP_MemCpy(&CVT_DataStoreTable.DataStore[CVT_DataStoreTable.Registry.Registration[ContainerID].Offset], Buffer, Size);
 	CVT_DataStoreTable.Registry.Registration[ContainerID].UpdateCount++;
-	CFE_PSP_MemCpy(&CVT_DataStoreTable.DataStore[CVT_DataStoreTable.Registry.Registration[i].Offset], Buffer, Size);
 	OS_MutSemGive(CVT_DataStoreTable.Registry.Registration[ContainerID].MutexID);
 
 	status = CVT_SUCCESS;

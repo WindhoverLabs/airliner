@@ -22,7 +22,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/SendConfigParameters', {});
 
 ]]></text>
         </script>
@@ -46,7 +46,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.EngCycPerWakeup</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.EngCycPerWakeup</pv_name>
     <x>199</x>
     <y>78</y>
     <width>191</width>
@@ -68,7 +68,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.AckLimit</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.AckLimit</pv_name>
     <x>199</x>
     <y>97</y>
     <width>191</width>
@@ -90,7 +90,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.AckTimeout</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.AckTimeout</pv_name>
     <x>199</x>
     <y>116</y>
     <width>191</width>
@@ -112,7 +112,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.NakLimit</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.NakLimit</pv_name>
     <x>199</x>
     <y>135</y>
     <width>191</width>
@@ -134,7 +134,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_4</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.NakTimeout</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.NakTimeout</pv_name>
     <x>199</x>
     <y>154</y>
     <width>191</width>
@@ -156,7 +156,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_5</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.InactTimeout</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.InactTimeout</pv_name>
     <x>199</x>
     <y>173</y>
     <width>191</width>
@@ -178,7 +178,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_6</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.DefOutgoingChunkSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.DefOutgoingChunkSize</pv_name>
     <x>199</x>
     <y>192</y>
     <width>191</width>
@@ -200,7 +200,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_7</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.PipeDepth</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.PipeDepth</pv_name>
     <x>199</x>
     <y>211</y>
     <width>191</width>
@@ -222,7 +222,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_8</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.MaxSimultaneousTrans</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.MaxSimultaneousTrans</pv_name>
     <x>199</x>
     <y>230</y>
     <width>191</width>
@@ -244,7 +244,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_9</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.IncomingPduBufSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.IncomingPduBufSize</pv_name>
     <x>199</x>
     <y>249</y>
     <width>191</width>
@@ -266,7 +266,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_10</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.OutgoingPduBufSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.OutgoingPduBufSize</pv_name>
     <x>199</x>
     <y>268</y>
     <width>191</width>
@@ -288,7 +288,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_11</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.NumInputChannels</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.NumInputChannels</pv_name>
     <x>199</x>
     <y>287</y>
     <width>191</width>
@@ -310,7 +310,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_12</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.MaxPlaybackChans</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.MaxPlaybackChans</pv_name>
     <x>199</x>
     <y>306</y>
     <width>191</width>
@@ -332,7 +332,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_13</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.MaxPollingDirsPerChan</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.MaxPollingDirsPerChan</pv_name>
     <x>199</x>
     <y>325</y>
     <width>191</width>
@@ -354,7 +354,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_14</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.MemPoolBytes</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.MemPoolBytes</pv_name>
     <x>199</x>
     <y>344</y>
     <width>191</width>
@@ -376,7 +376,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_15</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.DebugCompiledIn</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.DebugCompiledIn</pv_name>
     <x>199</x>
     <y>363</y>
     <width>191</width>
@@ -398,7 +398,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_16</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.SaveIncompleteFiles</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.SaveIncompleteFiles</pv_name>
     <x>199</x>
     <y>382</y>
     <width>191</width>
@@ -420,7 +420,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_17</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.PipeName</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.PipeName</pv_name>
     <x>199</x>
     <y>401</y>
     <width>191</width>
@@ -442,7 +442,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_18</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.TmpFilePrefix</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.TmpFilePrefix</pv_name>
     <x>199</x>
     <y>420</y>
     <width>191</width>
@@ -464,7 +464,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_19</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.CfgTblName</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.CfgTblName</pv_name>
     <x>199</x>
     <y>439</y>
     <width>191</width>
@@ -486,7 +486,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_20</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.CfgTbleFilename</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.CfgTbleFilename</pv_name>
     <x>199</x>
     <y>458</y>
     <width>191</width>
@@ -508,7 +508,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/SendConfigParameters', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_21</name>
-    <pv_name>/cfs/$(CPUID)/cf/CF_ConfigPacket_t.DefQInfoFilename</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/cf/CF_CONFIG_TLM_MID.DefQInfoFilename</pv_name>
     <x>199</x>
     <y>477</y>
     <width>191</width>

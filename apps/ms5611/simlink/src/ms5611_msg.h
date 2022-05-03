@@ -42,6 +42,9 @@
 ** Includes
 *************************************************************************/
 #include "cfe.h"
+#include "sedlib.h"
+#include "simlink.h"
+#include "ms5611_platform_cfg.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -175,7 +178,20 @@ typedef struct
 
     /** \ms5611tlmmnemonic \MS5611_CMDRJCTCNT
         \brief Count of failed commands */
-    uint8              usCmdErrCnt; 
+    uint8              usCmdErrCnt;
+
+    uint32               BaroUpdateCount[MS5611_DEVICE_COUNT];
+
+    SIMLINK_Baro_Msg_t   BaroMsg[MS5611_DEVICE_COUNT];
+
+    float   Pressure_OUT;
+    float  Temperature_OUT;
+    float  BarometricAltitude_OUT;
+    SEDLIB_ReturnCode_t                 SED_RC;
+    uint32                              SPI_TransferCmd_t_Version;
+    uint8                               SPI_ADDR;
+
+    uint16 LastConversion;
 
 } MS5611_HkTlm_t;
 

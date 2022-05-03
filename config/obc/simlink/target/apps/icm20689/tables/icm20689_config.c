@@ -60,7 +60,30 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 */
 ICM20689_ConfigTblEntry_t ICM20689_ConfigTbl =
 {
-    123
+	/* ACC_X_SCALE     */         1.0f,
+	/* ACC_Y_SCALE     */         1.0f,
+	/* ACC_Z_SCALE     */         1.0f,
+	/* ACC_X_OFFSET    */         0.0f,
+	/* ACC_Y_OFFSET    */         0.0f,
+	/* ACC_Z_OFFSET    */         0.0f,
+	/* ACC_UNIT        */         9.80665f,
+	/* ACC_DIVIDER     */         2048,
+	/* GYRO_X_SCALE    */         1.0f,
+	/* GYRO_Y_SCALE    */         1.0f,
+	/* GYRO_Z_SCALE    */         1.0f,
+	/* GYRO_X_OFFSET   */         0.0f,
+	/* GYRO_Y_OFFSET   */         0.0f,
+	/* GYRO_Z_OFFSET   */         0.0f,
+	/* GYRO_UNIT       */         0.0174532f,
+	/* GYRO_DIVIDER    */         16.4f,
+	/* MAG_X_SCALE     */         1.0f,
+	/* MAG_Y_SCALE     */         1.0f,
+	/* MAG_Z_SCALE     */         1.0f,
+	/* MAG_X_OFFSET    */         0.0f,
+	/* MAG_Y_OFFSET    */         0.0f,
+	/* MAG_Z_OFFSET    */         0.0f,
+	/* MAG_UNIT        */         1.0f,
+	/* MAG_DIVIDER     */         820.0f
 };
 
 /************************************************************************

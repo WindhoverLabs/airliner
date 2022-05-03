@@ -1,4 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+{%- set cpus = []                   -%}
+{%- for module in root.modules        -%}
+    {%- if root.modules[module].modules.apps.modules.to is defined -%}
+      {%- set cpus = cpus.append(root.modules[module].cpu_id) -%}
+    {%- endif -%}
+{%- endfor -%}
+
+{%- set TO_Channels = []              -%}
+{%- for module in root.modules        -%}
+{%-   if root.modules[module].modules.apps is defined -%}
+{%-     if root.modules[module].modules.apps.modules is defined -%}
+{%-       if root.modules[module].modules.apps.modules.to is defined -%}
+{%-         if root.modules[module].modules.apps.modules.to.tables is defined -%}
+{%-           if root.modules[module].modules.apps.modules.to.tables._TO_CONFIG is defined -%}
+{%-             if root.modules[module].modules.apps.modules.to.tables._TO_CONFIG is defined -%}
+{%-               if root.modules[module].modules.apps.modules.to.tables._TO_CONFIG.channel is defined -%}
+{%-                 for channel in root.modules[module].modules.apps.modules.to.tables._TO_CONFIG.channel -%}
+{%-                   set cpuTarget = root.modules[module].cpu_id  -%}
+{%-                   set pqueue = [] -%}
+{%-                   if channel.instance[0] is defined -%}
+{%-                     if channel.instance[0].priority_queue is defined -%}
+{%-                       for pQueueIdx in channel.instance[0].priority_queue -%}
+{%-                         set pqueue = pqueue.append({"name": pQueueIdx.name, "index": loop.index0}) -%}
+{%-                       endfor -%}
+{%-                       set TO_Channels = TO_Channels.append({'cpu_id': cpuTarget, 'name': channel.name, 'index': loop.index0, 'pqueues': pqueue}) -%}
+{%-                     endif -%}
+{%-                   endif -%}
+{%-                 endfor -%}
+{%-               endif -%}
+{%-             endif -%}
+{%-           endif -%}
+{%-         endif -%}
+{%-       endif -%}
+{%-     endif -%}
+{%-   endif -%}
+{%- endfor -%}
+
+{% set tlm = []                    -%}
+{%- set tlmCount      = namespace(value=0)   -%}
+{%- for msg in module.telemetry     -%}
+    {%- set tlmMsg = {"name": msg, "msgID": module.telemetry[msg].msgID} -%}
+    {%- set tlm = tlm.append(tlmMsg) -%}
+    {% set tlmCount.value = tlmCount.value + 1   -%}
+{%- endfor  -%}
+
 <display version="2.0.0">
   <name>($(CPUID)) PX4LIB</name>
   <macros>
@@ -9,68 +55,55 @@
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
-  <width>275</width>
-  <height>265</height>
+  <width>650</width>
+  <height>500</height>
   <actions>
   </actions>
   <grid_step_x>6</grid_step_x>
   <grid_step_y>6</grid_step_y>
-  <widget type="action_button" version="3.0.0">
-    <name>SchTable</name>
+  <widget type="label" version="2.0.0">
+    <name>Label_50</name>
+    <text>($(CPUID)) PX4LIB</text>
+    <x>180</x>
+    <width>105</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
     <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-importPackage(Packages.org.csstudio.display.builder.runtime.script);
-importPackage(org.csstudio.opibuilder.runmode)
-
-var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("Sch_Table_TEMPLATE"));
-var macroInput = DataUtil.createMacrosInput(true);
-
-ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
-        </script>
-      </action>
     </actions>
-    <text>Sch Table</text>
-    <x>156</x>
-    <y>108</y>
-    <width>103</width>
-    <height>25</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="group" version="2.0.0">
-    <name>AppControl</name>
-    <x>30</x>
-    <y>12</y>
-    <width>103</width>
-    <height>119</height>
-    <style>3</style>
-    <foreground_color>
+    <border_color>
       <color red="0" green="128" blue="255">
       </color>
-    </foreground_color>
-    <background_color>
-      <color name="Display Background" red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <transparent>true</transparent>
-    <actions>
-    </actions>
-    <widget type="label" version="2.0.0">
-      <name>Label_49</name>
-      <text>PX4 Lib</text>
-      <x>5</x>
-      <width>94</width>
-      <font>
-        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
-        </font>
+    </border_color>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Telemetry</name>
+    <y>30</y>
+    <width>468</width>
+    <height>192</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
-      <horizontal_alignment>1</horizontal_alignment>
+    </font>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_4</name>
+      <file>TO_TlmManagement.bob</file>
+      <x>24</x>
+      <y>78</y>
+      <width>140</width>
+      <height>60</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Message ID</text>
+      <x>6</x>
+      <y>6</y>
+      <width>109</width>
+      <horizontal_alignment>2</horizontal_alignment>
       <vertical_alignment>1</vertical_alignment>
       <wrap_words>false</wrap_words>
       <actions>
@@ -80,89 +113,57 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
         </color>
       </border_color>
     </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>NoOp_2</name>
+    <widget type="combo" version="2.0.0">
+      <name>msgIdInput</name>
+      <pv_name>loc://$(APP)_$(CPUID)_TO_AddMessageFlow_MsgID&lt;VString&gt;</pv_name>
+      <x>126</x>
+      <y>6</y>
+      <width>282</width>
+      <height>20</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
       <actions>
-        <action type="open_display">
-          <file>SensorCombined.opi</file>
-          <target>tab</target>
+      </actions>
+      <items>
+{%- for msg in tlm     %}
+        <item>{{- msg.name-}}</item>
+{%- endfor   -%}
+      </items>
+      <items_from_pv>false</items_from_pv>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var MsgID = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'msgIdInput')));
+
+ScriptUtil.openDisplay(widget, MsgID + ".bob", "NEW", null)
+
+]]></text>
+          </script>
         </action>
       </actions>
-      <text>Combined</text>
-      <y>96</y>
-      <width>103</width>
-      <height>23</height>
+      <text>Open</text>
+      <x>126</x>
+      <y>36</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
       <background_color>
-        <color red="240" green="240" blue="240">
+        <color red="34" green="45" blue="75">
         </color>
       </background_color>
       <tooltip>$(actions)</tooltip>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>NoOp_70</name>
-      <actions>
-        <action type="open_display">
-          <file>PX4_SensorBaro.opi</file>
-          <target>tab</target>
-        </action>
-      </actions>
-      <text>Baro</text>
-      <y>30</y>
-      <width>103</width>
-      <height>23</height>
-      <background_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </background_color>
-      <tooltip>$(actions)</tooltip>
-      <border_alarm_sensitive>false</border_alarm_sensitive>
-    </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>NoOp_1</name>
-      <actions>
-        <action type="open_display">
-          <file>PX4_SensorGyro.opi</file>
-          <target>tab</target>
-        </action>
-      </actions>
-      <text>Gyro</text>
-      <y>52</y>
-      <width>103</width>
-      <height>23</height>
-      <background_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </background_color>
-      <tooltip>$(actions)</tooltip>
-      <border_alarm_sensitive>false</border_alarm_sensitive>
-    </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>NoOp_2</name>
-      <actions>
-        <action type="open_display">
-          <file>PX4_SensorAccel.opi</file>
-          <target>tab</target>
-        </action>
-      </actions>
-      <text>Accel</text>
-      <y>74</y>
-      <width>103</width>
-      <height>23</height>
-      <background_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </background_color>
-      <tooltip>$(actions)</tooltip>
-      <border_alarm_sensitive>false</border_alarm_sensitive>
-    </widget>
-  </widget>
-  <widget type="embedded" version="2.0.0">
-    <name>Embedded Display_1</name>
-    <file>$(TLM_MANAGEMENT_CONTAINER)</file>
-    <x>12</x>
-    <y>156</y>
-    <width>144</width>
-    <height>99</height>
   </widget>
 </display>

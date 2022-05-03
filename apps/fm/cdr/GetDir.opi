@@ -392,7 +392,7 @@ var Filename = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByN
 var GetSizeTimeMode = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'GetSizeTimeMode')));
  
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/fm/GetDirFile', 
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fm/GetDirFile', 
                                   {"Directory": Directory,
                                    "Filename": Filename,
                                    "GetSizeTimeMode": GetSizeTimeMode,

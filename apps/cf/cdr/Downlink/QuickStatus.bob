@@ -63,7 +63,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Transaction = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Transaction')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/QuickStat', {'Trans': Transaction});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/QuickStat', {'Trans': Transaction});
 
 ]]></text>
         </script>

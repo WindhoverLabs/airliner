@@ -95,7 +95,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Noop', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sch/Noop', {});]]></text>
         </script>
       </action>
     </actions>
@@ -122,7 +122,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Noop', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sch/Reset', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sch/Reset', {});]]></text>
         </script>
       </action>
     </actions>
@@ -905,7 +905,7 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
   </widget>
   <widget type="embedded" version="2.0.0">
     <name>Embedded Display_1</name>
-    <file>$(TLM_MANAGEMENT_CONTAINER)</file>
+    <file>TO_TlmManagement.bob</file>
     <x>348</x>
     <y>208</y>
     <width>144</width>

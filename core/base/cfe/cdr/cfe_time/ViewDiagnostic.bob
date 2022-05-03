@@ -15,16 +15,16 @@
   </actions>
   <scripts>
     <script file="/Displays/Core/TIME/scripts/format_cfe_time.py">
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET</pv_name>
-      <pv_name trigger="false">/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Seconds</pv_name>
-      <pv_name trigger="false">/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Subseconds</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.CurrentMET</pv_name>
+      <pv_name trigger="false">/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.CurrentMET.Seconds</pv_name>
+      <pv_name trigger="false">/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.CurrentMET.Subseconds</pv_name>
     </script>
   </scripts>
   <grid_step_x>6</grid_step_x>
   <grid_step_y>6</grid_step_y>
   <widget type="checkbox" version="2.0.0">
     <name>Text Update_25</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.Forced2Fly</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.Forced2Fly</pv_name>
     <label></label>
     <x>133</x>
     <y>510</y>
@@ -34,7 +34,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_54</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.DataStoreStatus</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.DataStoreStatus</pv_name>
     <x>445</x>
     <y>607</y>
     <width>178</width>
@@ -76,7 +76,7 @@
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/SendDiag', {});
 
 
 ]]></text>
@@ -101,7 +101,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneMET.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.AtToneMET.Seconds</pv_name>
     <x>134</x>
     <y>75</y>
     <width>149</width>
@@ -122,7 +122,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneMET.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.AtToneMET.Subseconds</pv_name>
     <x>134</x>
     <y>94</y>
     <width>149</width>
@@ -144,7 +144,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneSTCF.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.AtToneSTCF.Seconds</pv_name>
     <x>134</x>
     <y>113</y>
     <width>149</width>
@@ -166,7 +166,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_3</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneSTCF.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.AtToneSTCF.Subseconds</pv_name>
     <x>134</x>
     <y>132</y>
     <width>149</width>
@@ -188,7 +188,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_4</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneDelay.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.AtToneDelay.Seconds</pv_name>
     <x>134</x>
     <y>151</y>
     <width>149</width>
@@ -210,7 +210,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_5</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneDelay.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.AtToneDelay.Subseconds</pv_name>
     <x>134</x>
     <y>170</y>
     <width>149</width>
@@ -232,7 +232,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_6</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneLatch.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.AtToneLatch.Seconds</pv_name>
     <x>134</x>
     <y>189</y>
     <width>149</width>
@@ -254,7 +254,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_7</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneLatch.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.AtToneLatch.Subseconds</pv_name>
     <x>134</x>
     <y>208</y>
     <width>149</width>
@@ -276,7 +276,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_8</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.AtToneLeaps</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.AtToneLeaps</pv_name>
     <x>134</x>
     <y>227</y>
     <width>149</width>
@@ -298,7 +298,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_9</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateAPI</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockStateAPI</pv_name>
     <x>134</x>
     <y>246</y>
     <width>149</width>
@@ -320,7 +320,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_10</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.TimeSinceTone.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.TimeSinceTone.Seconds</pv_name>
     <x>134</x>
     <y>265</y>
     <width>149</width>
@@ -342,7 +342,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_11</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.TimeSinceTone.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.TimeSinceTone.Subseconds</pv_name>
     <x>134</x>
     <y>284</y>
     <width>149</width>
@@ -364,7 +364,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_12</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentLatch.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.CurrentLatch.Seconds</pv_name>
     <x>134</x>
     <y>303</y>
     <width>149</width>
@@ -386,7 +386,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_13</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentLatch.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.CurrentLatch.Subseconds</pv_name>
     <x>134</x>
     <y>322</y>
     <width>149</width>
@@ -408,7 +408,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_14</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.CurrentMET.Seconds</pv_name>
     <x>134</x>
     <y>341</y>
     <width>149</width>
@@ -430,7 +430,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_15</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentMET.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.CurrentMET.Subseconds</pv_name>
     <x>134</x>
     <y>360</y>
     <width>149</width>
@@ -452,7 +452,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_16</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentTAI.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.CurrentTAI.Seconds</pv_name>
     <x>134</x>
     <y>379</y>
     <width>149</width>
@@ -474,7 +474,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_17</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentTAI.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.CurrentTAI.Subseconds</pv_name>
     <x>134</x>
     <y>398</y>
     <width>149</width>
@@ -496,7 +496,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_18</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentUTC.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.CurrentUTC.Seconds</pv_name>
     <x>134</x>
     <y>417</y>
     <width>149</width>
@@ -518,7 +518,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_19</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.CurrentUTC.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.CurrentUTC.Subseconds</pv_name>
     <x>134</x>
     <y>436</y>
     <width>149</width>
@@ -540,7 +540,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_20</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockSetState</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockSetState</pv_name>
     <x>134</x>
     <y>455</y>
     <width>149</width>
@@ -562,7 +562,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_21</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockFlyState</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockFlyState</pv_name>
     <x>134</x>
     <y>474</y>
     <width>149</width>
@@ -584,7 +584,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_22</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockSource</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockSource</pv_name>
     <x>134</x>
     <y>493</y>
     <width>149</width>
@@ -606,7 +606,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_23</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockSignal</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockSignal</pv_name>
     <x>134</x>
     <y>512</y>
     <width>149</width>
@@ -628,7 +628,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_24</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ServerFlyState</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ServerFlyState</pv_name>
     <x>134</x>
     <y>531</y>
     <width>149</width>
@@ -922,7 +922,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Check Box</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockSetState</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockSetState</pv_name>
     <label></label>
     <x>133</x>
     <y>591</y>
@@ -931,7 +931,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Check Box_3</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockSource</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockSource</pv_name>
     <x>134</x>
     <y>550</y>
     <width>149</width>
@@ -951,7 +951,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Check Box_4</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockSignal</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockSignal</pv_name>
     <x>134</x>
     <y>569</y>
     <width>149</width>
@@ -1019,7 +1019,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_26</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneTimeDirection</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.OneTimeDirection</pv_name>
     <x>445</x>
     <y>75</y>
     <width>178</width>
@@ -1041,7 +1041,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_27</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneHzDirection</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.OneHzDirection</pv_name>
     <x>445</x>
     <y>94</y>
     <width>178</width>
@@ -1063,7 +1063,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_28</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.DelayDirection</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.DelayDirection</pv_name>
     <x>445</x>
     <y>113</y>
     <width>178</width>
@@ -1085,7 +1085,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_29</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneTimeAdjust.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.OneTimeAdjust.Seconds</pv_name>
     <x>445</x>
     <y>132</y>
     <width>178</width>
@@ -1107,7 +1107,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_30</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneTimeAdjust.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.OneTimeAdjust.Subseconds</pv_name>
     <x>445</x>
     <y>151</y>
     <width>178</width>
@@ -1129,7 +1129,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_31</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneHzAdjust.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.OneHzAdjust.Seconds</pv_name>
     <x>445</x>
     <y>170</y>
     <width>178</width>
@@ -1151,7 +1151,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_32</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.OneHzAdjust.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.OneHzAdjust.Subseconds</pv_name>
     <x>445</x>
     <y>189</y>
     <width>178</width>
@@ -1173,7 +1173,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_33</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneSignalLatch.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ToneSignalLatch.Seconds</pv_name>
     <x>445</x>
     <y>208</y>
     <width>178</width>
@@ -1195,7 +1195,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_34</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneSignalLatch.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ToneSignalLatch.Subseconds</pv_name>
     <x>445</x>
     <y>227</y>
     <width>178</width>
@@ -1217,7 +1217,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_35</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneDataLatch.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ToneDataLatch.Seconds</pv_name>
     <x>445</x>
     <y>246</y>
     <width>178</width>
@@ -1239,7 +1239,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_36</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneDataLatch.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ToneDataLatch.Subseconds</pv_name>
     <x>445</x>
     <y>265</y>
     <width>178</width>
@@ -1261,7 +1261,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_37</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneMatchCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ToneMatchCount</pv_name>
     <x>445</x>
     <y>284</y>
     <width>178</width>
@@ -1283,7 +1283,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_38</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneMatchErrors</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ToneMatchErrors</pv_name>
     <x>445</x>
     <y>303</y>
     <width>178</width>
@@ -1305,7 +1305,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_39</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneSignalCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ToneSignalCount</pv_name>
     <x>445</x>
     <y>322</y>
     <width>178</width>
@@ -1327,7 +1327,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_40</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneDataCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ToneDataCount</pv_name>
     <x>445</x>
     <y>341</y>
     <width>178</width>
@@ -1349,7 +1349,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_41</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneIntCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ToneIntCount</pv_name>
     <x>445</x>
     <y>360</y>
     <width>178</width>
@@ -1371,7 +1371,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_42</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneIntErrors</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ToneIntErrors</pv_name>
     <x>445</x>
     <y>379</y>
     <width>178</width>
@@ -1393,7 +1393,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_43</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneTaskCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ToneTaskCount</pv_name>
     <x>445</x>
     <y>398</y>
     <width>178</width>
@@ -1415,7 +1415,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_44</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.VersionCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.VersionCount</pv_name>
     <x>445</x>
     <y>417</y>
     <width>178</width>
@@ -1437,7 +1437,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_45</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.LocalIntCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.LocalIntCount</pv_name>
     <x>445</x>
     <y>436</y>
     <width>178</width>
@@ -1459,7 +1459,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_46</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.LocalTaskCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.LocalTaskCount</pv_name>
     <x>445</x>
     <y>455</y>
     <width>178</width>
@@ -1481,7 +1481,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_47</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.VirtualMET</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.VirtualMET</pv_name>
     <x>445</x>
     <y>474</y>
     <width>178</width>
@@ -1503,7 +1503,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_48</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.MinElapsed</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.MinElapsed</pv_name>
     <x>445</x>
     <y>493</y>
     <width>178</width>
@@ -1525,7 +1525,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_49</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.MaxElapsed</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.MaxElapsed</pv_name>
     <x>445</x>
     <y>512</y>
     <width>178</width>
@@ -1547,7 +1547,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_50</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.MaxLocalClock.Seconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.MaxLocalClock.Seconds</pv_name>
     <x>445</x>
     <y>531</y>
     <width>178</width>
@@ -1568,7 +1568,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_51</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.MaxLocalClock.Subseconds</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.MaxLocalClock.Subseconds</pv_name>
     <x>445</x>
     <y>550</y>
     <width>178</width>
@@ -1589,7 +1589,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_52</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneOverLimit</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ToneOverLimit</pv_name>
     <x>445</x>
     <y>569</y>
     <width>178</width>
@@ -1610,7 +1610,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_53</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ToneUnderLimit</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ToneUnderLimit</pv_name>
     <x>445</x>
     <y>588</y>
     <width>178</width>
@@ -1999,7 +1999,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SendDiag', {});
   </widget>
   <widget type="checkbox" version="2.0.0">
     <name>Check Box_12</name>
-    <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.Forced2Fly</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.Forced2Fly</pv_name>
     <label></label>
     <x>133</x>
     <y>610</y>
@@ -2308,7 +2308,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_1</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>15</bit>
       <label></label>
       <x>164</x>
@@ -2319,7 +2319,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_2</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>14</bit>
       <label></label>
       <x>164</x>
@@ -2330,7 +2330,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_5</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>13</bit>
       <label></label>
       <x>164</x>
@@ -2341,7 +2341,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_8</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>12</bit>
       <label></label>
       <x>164</x>
@@ -2352,7 +2352,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_9</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>11</bit>
       <label></label>
       <x>164</x>
@@ -2363,7 +2363,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_10</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>10</bit>
       <label></label>
       <x>164</x>
@@ -2374,7 +2374,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_11</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>9</bit>
       <label></label>
       <x>288</x>
@@ -2385,7 +2385,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_13</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_HkPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_HK_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>8</bit>
       <label></label>
       <x>288</x>
@@ -2396,7 +2396,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_14</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>8</bit>
       <label></label>
       <x>288</x>
@@ -2407,7 +2407,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_15</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>6</bit>
       <label></label>
       <x>288</x>
@@ -2418,7 +2418,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_16</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>5</bit>
       <label></label>
       <x>288</x>
@@ -2445,7 +2445,7 @@ $(pv_value)</tooltip>
     </widget>
     <widget type="checkbox" version="2.0.0">
       <name>Check Box_17</name>
-      <pv_name>/cfs/$(CPUID)/cfe_time/CFE_TIME_DiagPacket_t.Payload.ClockStateFlags</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_time/CFE_TIME_DIAG_TLM_MID.Payload.ClockStateFlags</pv_name>
       <bit>7</bit>
       <label></label>
       <x>288</x>

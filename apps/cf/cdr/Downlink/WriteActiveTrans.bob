@@ -36,7 +36,7 @@ if( TransferType == 'All' ) {
     pTransferType = 'DOWN';
 }
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/WriteActiveTrans', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/WriteActiveTrans', {
     'Type': pTransferType, 
     'Spare': 0, 
     'Filename': Destination});

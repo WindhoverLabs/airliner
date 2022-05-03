@@ -9,8 +9,8 @@
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
-  <width>850</width>
-  <height>320</height>
+  <width>600</width>
+  <height>700</height>
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255">
     </color>
@@ -19,455 +19,12 @@
   </actions>
   <grid_step_x>6</grid_step_x>
   <grid_step_y>6</grid_step_y>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update</name>
-    <pv_name>/cfs/$(CPUID)/fm/FM_HousekeepingPkt_t.CommandCounter</pv_name>
-    <x>96</x>
-    <y>58</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color name="Border" red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label</name>
-    <text>Commands</text>
-    <x>12</x>
-    <y>57</y>
-    <width>74</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_1</name>
-    <text>Errors</text>
-    <x>24</x>
-    <y>76</y>
-    <width>60</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_46</name>
-    <text>Commanding</text>
-    <x>66</x>
-    <y>30</y>
-    <width>164</width>
-    <font>
-      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/fm/FM_HousekeepingPkt_t.CommandErrCounter</pv_name>
-    <x>96</x>
-    <y>77</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color name="Border" red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/fm/Noop', {});]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>NoOp</text>
-    <x>210</x>
-    <y>58</y>
-    <width>115</width>
-    <height>18</height>
-    <foreground_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="34" green="45" blue="75">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_1</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/fm/Reset', {});]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Reset</text>
-    <x>210</x>
-    <y>79</y>
-    <width>115</width>
-    <height>17</height>
-    <foreground_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="34" green="45" blue="75">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
   <widget type="label" version="2.0.0">
     <name>Label_49</name>
     <text>($(CPUID)) File Manager</text>
-    <x>12</x>
-    <y>6</y>
-    <width>272</width>
-    <font>
-      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
-      </font>
-    </font>
-    <horizontal_alignment>1</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_16</name>
-    <pv_name>/cfs/$(CPUID)/fm/FM_HousekeepingPkt_t.NumOpenFiles</pv_name>
-    <x>96</x>
-    <y>115</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color name="Border" red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_17</name>
-    <pv_name>/cfs/$(CPUID)/fm/FM_HousekeepingPkt_t.ChildCmdCounter</pv_name>
-    <x>99</x>
-    <y>181</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color name="Border" red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_18</name>
-    <pv_name>/cfs/$(CPUID)/fm/FM_HousekeepingPkt_t.ChildCmdErrCounter</pv_name>
-    <x>99</x>
-    <y>200</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color name="Border" red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_19</name>
-    <pv_name>/cfs/$(CPUID)/fm/FM_HousekeepingPkt_t.ChildCmdWarnCounter</pv_name>
-    <x>99</x>
-    <y>219</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color name="Border" red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_20</name>
-    <pv_name>/cfs/$(CPUID)/fm/FM_HousekeepingPkt_t.ChildQueueCount</pv_name>
-    <x>99</x>
-    <y>238</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>1</format>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color name="Border" red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_21</name>
-    <pv_name>/cfs/$(CPUID)/fm/FM_HousekeepingPkt_t.ChildCurrentCC</pv_name>
-    <x>99</x>
-    <y>257</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color name="Border" red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="textupdate" version="2.0.0">
-    <name>Text Update_22</name>
-    <pv_name>/cfs/$(CPUID)/fm/FM_HousekeepingPkt_t.ChildPreviousCC</pv_name>
-    <x>99</x>
-    <y>276</y>
-    <width>98</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <precision>0</precision>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-    <border_color>
-      <color name="Border" red="240" green="240" blue="240">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_66</name>
-    <text>Open Files</text>
     <x>18</x>
-    <y>114</y>
-    <width>72</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_67</name>
-    <text>Commands</text>
-    <x>12</x>
-    <y>180</y>
-    <width>81</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_68</name>
-    <text>Errors</text>
-    <x>21</x>
-    <y>199</y>
-    <width>72</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_69</name>
-    <text>Warnings</text>
-    <x>21</x>
-    <y>218</y>
-    <width>72</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_70</name>
-    <text>Queues</text>
-    <x>21</x>
-    <y>237</y>
-    <width>72</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_71</name>
-    <text>Current CC</text>
-    <x>12</x>
-    <y>256</y>
-    <width>81</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_72</name>
-    <text>Previous CC</text>
-    <x>6</x>
-    <y>275</y>
-    <width>87</width>
-    <horizontal_alignment>2</horizontal_alignment>
-    <vertical_alignment>1</vertical_alignment>
-    <wrap_words>false</wrap_words>
-    <actions>
-    </actions>
-    <border_color>
-      <color red="0" green="128" blue="255">
-      </color>
-    </border_color>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>Label_73</name>
-    <text>Child Task</text>
-    <x>66</x>
-    <y>156</y>
-    <width>164</width>
+    <y>5</y>
+    <width>182</width>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -482,451 +39,766 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/fm/Reset', {});]]></text>
       </color>
     </border_color>
   </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_3</name>
-    <actions>
-      <action type="open_display">
-        <file>Concat.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Concat Files</text>
-    <x>222</x>
-    <y>114</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_4</name>
-    <actions>
-      <action type="open_display">
-        <file>CopyFile.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Copy File</text>
-    <x>222</x>
-    <y>133</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_5</name>
-    <actions>
-      <action type="open_display">
-        <file>CreateDir.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Create Directory</text>
-    <x>222</x>
-    <y>152</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_6</name>
-    <actions>
-      <action type="open_display">
-        <file>Decompress.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Decompress File</text>
-    <x>222</x>
-    <y>171</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_7</name>
-    <actions>
-      <action type="open_display">
-        <file>DeleteFile.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Delete File</text>
-    <x>222</x>
-    <y>190</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_8</name>
-    <actions>
-      <action type="open_display">
-        <file>DeleteAllFiles.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Delete All Files</text>
-    <x>222</x>
-    <y>209</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_9</name>
-    <actions>
-      <action type="open_display">
-        <file>DeleteDir.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Delete Directory</text>
-    <x>222</x>
-    <y>228</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_10</name>
-    <actions>
-      <action type="open_display">
-        <file>GetDir.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Get Directory</text>
-    <x>222</x>
-    <y>247</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_12</name>
-    <actions>
-      <action type="open_display">
-        <file>GetFileInfo.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Get File Info</text>
-    <x>384</x>
-    <y>114</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_13</name>
-    <actions>
-      <action type="open_display">
-        <file>GetFreeSpace.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Get Free Space</text>
-    <x>384</x>
-    <y>133</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_14</name>
-    <actions>
-      <action type="open_display">
-        <file>GetOpenFiles.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Get Open Files</text>
-    <x>384</x>
-    <y>152</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_15</name>
-    <actions>
-      <action type="open_display">
-        <file>MoveFile.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Move File</text>
-    <x>384</x>
-    <y>171</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_16</name>
-    <actions>
-      <action type="open_display">
-        <file>RenameFile.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Rename File</text>
-    <x>384</x>
-    <y>190</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_17</name>
-    <actions>
-      <action type="open_display">
-        <file>SetPerm.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Set Permissions</text>
-    <x>384</x>
-    <y>209</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_18</name>
-    <actions>
-      <action type="open_display">
-        <file>SetTableState.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Set Table State</text>
-    <x>384</x>
-    <y>228</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>Events</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-importPackage(Packages.org.csstudio.display.builder.runtime.script);
-importPackage(org.csstudio.opibuilder.runmode)
+  <widget type="group" version="2.0.0">
+    <name>Commanding</name>
+    <x>18</x>
+    <y>32</y>
+    <width>235</width>
+    <height>240</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_2</name>
+      <pv_name>/cfs/$(CPUID)/apps/fm/FM_HK_TLM_MID.CommandCounter</pv_name>
+      <x>90</x>
+      <y>5</y>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>Commands</text>
+      <x>6</x>
+      <y>5</y>
+      <width>73</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_3</name>
+      <text>Errors</text>
+      <x>19</x>
+      <y>25</y>
+      <width>60</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_3</name>
+      <pv_name>/cfs/$(CPUID)/apps/fm/FM_HK_TLM_MID.CommandErrCounter</pv_name>
+      <x>90</x>
+      <y>25</y>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_11</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("EVENTS_OPI"));
-var macroInput = DataUtil.createMacrosInput(true);
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fm/Noop', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>NoOp</text>
+      <x>6</x>
+      <y>60</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_19</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-ScriptUtil.openOPI(display.getWidget("Events"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Event Filters</text>
-    <x>384</x>
-    <y>247</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fm/Reset', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Reset</text>
+      <x>6</x>
+      <y>79</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_2</name>
+      <file>$(CMD_MANAGEMENT_CONTAINER)</file>
+      <x>6</x>
+      <y>99</y>
+      <width>140</width>
+      <height>100</height>
+    </widget>
   </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_2</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+  <widget type="group" version="2.0.0">
+    <name>Telemetry</name>
+    <x>18</x>
+    <y>272</y>
+    <width>235</width>
+    <height>130</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_3</name>
+      <file>TO_TlmManagement.bob</file>
+      <x>5</x>
+      <y>25</y>
+      <width>140</width>
+      <height>60</height>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_35</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/fm/SendHK', {});]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>SendHK</text>
-    <x>384</x>
-    <y>266</y>
-    <width>153</width>
-    <height>20</height>
-    <foreground_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </foreground_color>
-    <background_color>
-      <color red="34" green="45" blue="75">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fm/SendHK', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Send HK</text>
+      <x>5</x>
+      <y>5</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
   </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>AppControl</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-importPackage(Packages.org.csstudio.display.builder.runtime.script);
-importPackage(org.csstudio.opibuilder.runmode)
-
-var opi_to_open_path = FileUtil.workspacePathToSysPath("Displays/" + display.getMacroValue("CPUID") +"/Core/ES/resources/templates/ApplicationControl_App.opi");
-var macroInput = DataUtil.createMacrosInput(true);
-
-ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>App Control</text>
-    <x>222</x>
-    <y>266</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
+  <widget type="group" version="2.0.0">
+    <name>Miscellaneous</name>
+    <x>18</x>
+    <y>402</y>
+    <width>237</width>
+    <height>195</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="label" version="2.0.0">
+      <name>Label_66</name>
+      <text>Open Files</text>
+      <x>9</x>
+      <y>6</y>
+      <width>72</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_16</name>
+      <pv_name>/cfs/$(CPUID)/apps/fm/FM_HK_TLM_MID.NumOpenFiles</pv_name>
+      <x>87</x>
+      <y>7</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_3</name>
+      <actions>
+        <action type="open_display">
+          <file>$(APP_CONTROL_TEMPLATE)</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>App Control</text>
+      <x>9</x>
+      <y>36</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Events_1</name>
+      <actions>
+        <action type="open_display">
+          <file>EventControl.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Event Filtering</text>
+      <x>9</x>
+      <y>56</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_13</name>
+      <actions>
+        <action type="open_display">
+          <file>GetFreeSpace.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Get Free Space</text>
+      <x>9</x>
+      <y>76</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_17</name>
+      <actions>
+        <action type="open_display">
+          <file>SetPerm.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Set Permissions</text>
+      <x>9</x>
+      <y>96</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_18</name>
+      <actions>
+        <action type="open_display">
+          <file>SetTableState.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Set Table State</text>
+      <x>9</x>
+      <y>116</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
   </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>AppControl_2</name>
-    <actions>
-      <action type="execute">
-        <script file="EmbeddedJs">
-          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
-importPackage(Packages.org.csstudio.display.builder.runtime.script);
-importPackage(org.csstudio.opibuilder.runmode)
-
-var opi_to_open_path = FileUtil.workspacePathToSysPath(display.getMacroValue("Sch_Table_TEMPLATE"));
-var macroInput = DataUtil.createMacrosInput(true);
-
-ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeService.DisplayMode.REPLACE, macroInput );]]></text>
-        </script>
-      </action>
-    </actions>
-    <text>Sch Table</text>
-    <x>384</x>
-    <y>95</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
+  <widget type="group" version="2.0.0">
+    <name>Child Task</name>
+    <x>255</x>
+    <y>402</y>
+    <width>242</width>
+    <height>168</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_17</name>
+      <pv_name>/cfs/$(CPUID)/apps/fm/FM_HK_TLM_MID.ChildCmdCounter</pv_name>
+      <x>98</x>
+      <y>9</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_18</name>
+      <pv_name>/cfs/$(CPUID)/apps/fm/FM_HK_TLM_MID.ChildCmdErrCounter</pv_name>
+      <x>98</x>
+      <y>28</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_19</name>
+      <pv_name>/cfs/$(CPUID)/apps/fm/FM_HK_TLM_MID.ChildCmdWarnCounter</pv_name>
+      <x>98</x>
+      <y>47</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_20</name>
+      <pv_name>/cfs/$(CPUID)/apps/fm/FM_HK_TLM_MID.ChildQueueCount</pv_name>
+      <x>98</x>
+      <y>66</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_21</name>
+      <pv_name>/cfs/$(CPUID)/apps/fm/FM_HK_TLM_MID.ChildCurrentCC</pv_name>
+      <x>98</x>
+      <y>85</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_22</name>
+      <pv_name>/cfs/$(CPUID)/apps/fm/FM_HK_TLM_MID.ChildPreviousCC</pv_name>
+      <x>98</x>
+      <y>104</y>
+      <width>98</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_67</name>
+      <text>Commands</text>
+      <x>11</x>
+      <y>8</y>
+      <width>81</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_68</name>
+      <text>Errors</text>
+      <x>20</x>
+      <y>27</y>
+      <width>72</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_69</name>
+      <text>Warnings</text>
+      <x>20</x>
+      <y>46</y>
+      <width>72</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_70</name>
+      <text>Queues</text>
+      <x>20</x>
+      <y>65</y>
+      <width>72</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_71</name>
+      <text>Current CC</text>
+      <x>11</x>
+      <y>84</y>
+      <width>81</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_72</name>
+      <text>Previous CC</text>
+      <x>5</x>
+      <y>103</y>
+      <width>87</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
   </widget>
-  <widget type="action_button" version="3.0.0">
-    <name>NoOp_20</name>
-    <actions>
-      <action type="open_display">
-        <file>GetDirPacket.opi</file>
-        <target>tab</target>
-      </action>
-    </actions>
-    <text>Get Directory Packet</text>
-    <x>384</x>
-    <y>76</y>
-    <width>153</width>
-    <height>20</height>
-    <background_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </background_color>
-    <tooltip>$(actions)</tooltip>
-    <border_alarm_sensitive>false</border_alarm_sensitive>
+  <widget type="group" version="2.0.0">
+    <name>File Commands</name>
+    <x>253</x>
+    <y>32</y>
+    <width>215</width>
+    <height>240</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_3</name>
+      <actions>
+        <action type="open_display">
+          <file>Concat.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Concat Files</text>
+      <x>7</x>
+      <y>5</y>
+      <width>153</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_4</name>
+      <actions>
+        <action type="open_display">
+          <file>CopyFile.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Copy File</text>
+      <x>7</x>
+      <y>24</y>
+      <width>153</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_6</name>
+      <actions>
+        <action type="open_display">
+          <file>Decompress.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Decompress File</text>
+      <x>7</x>
+      <y>44</y>
+      <width>153</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_7</name>
+      <actions>
+        <action type="open_display">
+          <file>DeleteFile.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Delete File</text>
+      <x>7</x>
+      <y>63</y>
+      <width>153</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_8</name>
+      <actions>
+        <action type="open_display">
+          <file>DeleteAllFiles.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Delete All Files</text>
+      <x>7</x>
+      <y>82</y>
+      <width>153</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_12</name>
+      <actions>
+        <action type="open_display">
+          <file>GetFileInfo.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Get File Info</text>
+      <x>7</x>
+      <y>102</y>
+      <width>153</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_14</name>
+      <actions>
+        <action type="open_display">
+          <file>GetOpenFiles.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Get Open Files</text>
+      <x>7</x>
+      <y>122</y>
+      <width>153</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_15</name>
+      <actions>
+        <action type="open_display">
+          <file>MoveFile.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Move File</text>
+      <x>7</x>
+      <y>142</y>
+      <width>153</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_16</name>
+      <actions>
+        <action type="open_display">
+          <file>RenameFile.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Rename File</text>
+      <x>7</x>
+      <y>161</y>
+      <width>153</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
   </widget>
-  <widget type="embedded" version="2.0.0">
-    <name>Embedded Display</name>
-    <file>$(CMD_MANAGEMENT_CONTAINER)</file>
-    <x>552</x>
-    <y>30</y>
-    <width>144</width>
-    <height>153</height>
-  </widget>
-  <widget type="embedded" version="2.0.0">
-    <name>Embedded Display_1</name>
-    <file>$(TLM_MANAGEMENT_CONTAINER)</file>
-    <x>552</x>
-    <y>201</y>
-    <width>144</width>
-    <height>99</height>
+  <widget type="group" version="2.0.0">
+    <name>Directory Commands</name>
+    <x>253</x>
+    <y>272</y>
+    <width>215</width>
+    <height>130</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_5</name>
+      <actions>
+        <action type="open_display">
+          <file>CreateDir.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Create Directory</text>
+      <x>9</x>
+      <y>6</y>
+      <width>153</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_9</name>
+      <actions>
+        <action type="open_display">
+          <file>DeleteDir.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Delete Directory</text>
+      <x>9</x>
+      <y>26</y>
+      <width>153</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_10</name>
+      <actions>
+        <action type="open_display">
+          <file>GetDir.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Get Directory</text>
+      <x>9</x>
+      <y>46</y>
+      <width>153</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_20</name>
+      <actions>
+        <action type="open_display">
+          <file>GetDirPacket.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Get Directory Packet</text>
+      <x>9</x>
+      <y>66</y>
+      <width>153</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
   </widget>
 </display>

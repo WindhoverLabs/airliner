@@ -98,73 +98,6 @@ function(psp_buildliner_initialize)
     
     # Generate the XTCE file
     add_custom_target(ground-tools)
-#    commander_initialize_workspace(commander-workspace
-#        CONFIG_FILE           ${CMAKE_BINARY_DIR}/wh_defs.yaml
-#        XTCE_CONFIG_FILE      ${PROJECT_SOURCE_DIR}/core/base/tools/commander/xtce_config.yaml
-#        WORKSPACE_TEMPLATE    ${PROJECT_SOURCE_DIR}/core/base/tools/commander/workspace_template
-#        WORKSPACE_OUTPUT_PATH ${COMMANDER_WORKSPACE}
-#        OUTPUT_DB_FILE        wh_defs.db
-#        OUTPUT_XTCE_FILE      mdb/${PARSED_ARGS_CPU_ID}.xml
-#    )
-#    set_target_properties(commander-workspace PROPERTIES EXCLUDE_FROM_ALL TRUE)
-#    add_dependencies(ground-tools commander-workspace)
-#    
-#    # Read the Commander Macro block
-#    configure_file(${PSP_CDR_MACRO_BLOCK_FILE} ${CMAKE_CURRENT_BINARY_DIR}/CDR_MACRO_BLOCK_FILE @ONLY)
-#    file(READ ${CMAKE_CURRENT_BINARY_DIR}/CDR_MACRO_BLOCK_FILE BUILDLINER_CDR_MACRO_BLOCK)
-#    if(PARSED_ARGS_COMMANDER_CUSTOM_MACRO_BLOCK)
-#        configure_file(${PARSED_ARGS_COMMANDER_CUSTOM_MACRO_BLOCK} ${CMAKE_CURRENT_BINARY_DIR}/CDR_CUSTOM_MACRO_BLOCK_FILE @ONLY)
-#        file(READ ${CMAKE_CURRENT_BINARY_DIR}/CDR_CUSTOM_MACRO_BLOCK_FILE BUILDLINER_CDR_MACRO_BLOCK_CUSTOM)
-#    else()
-#        set(BUILDLINER_CDR_MACRO_BLOCK_CUSTOM "")
-#    endif()
-#    set_property(GLOBAL PROPERTY BUILDLINER_CDR_MACRO_BLOCK        ${BUILDLINER_CDR_MACRO_BLOCK})
-#    set_property(GLOBAL PROPERTY BUILDLINER_CDR_MACRO_BLOCK_CUSTOM ${BUILDLINER_CDR_MACRO_BLOCK_CUSTOM})
-#
-#    # Copy in the Commander CFE displays
-#    file(GLOB_RECURSE files "${CFE_COMMANDER_DISPLAYS}/*" "${CFE_COMMANDER_DISPLAYS}/.*")
-#    foreach(inFile ${files})
-#        get_filename_component(inFileExt ${inFile} EXT)
-#        file(RELATIVE_PATH outFile ${CFE_COMMANDER_DISPLAYS} ${inFile})
-#
-#        if(${inFileExt} STREQUAL ".opi")
-#            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
-#            get_filename_component(outFileName ${inFile} NAME_WE)
-#            set(outFile ${outFilePath}/${outFileName}.opi)
-#            configure_file(${inFile} ${outFile} @ONLY)
-#        elseif(${inFileExt} STREQUAL ".bob")
-#            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
-#            get_filename_component(outFileName ${inFile} NAME_WE)
-#            set(outFile ${outFilePath}/${outFileName}.bob)
-#            configure_file(${inFile} ${outFile} @ONLY)
-#        elseif(${inFileExt} STREQUAL ".ini")
-#            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
-#            get_filename_component(outFileName ${inFile} NAME_WE)
-#            set(outFile ${outFilePath}/${outFileName}.ini)
-#            configure_file(${inFile} ${outFile} @ONLY)
-#        else()
-#            get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Core/${outFile} DIRECTORY)
-#            file(COPY ${inFile} DESTINATION "${outFilePath}")
-#        endif()
-#    endforeach(inFile)
-#
-#    # Copy in the Commander overlay
-#    if(PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY)
-#        file(GLOB_RECURSE files "${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/*" "${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY}/.*")
-#        foreach(inFile ${files})
-#            file(RELATIVE_PATH outFile ${PARSED_ARGS_COMMANDER_WORKSPACE_OVERLAY} ${inFile})
-#            message("${inFile}")
-#            get_filename_component(outFilePath ${COMMANDER_WORKSPACE}/${outFile} DIRECTORY)
-#            get_filename_component(outFileName ${inFile} NAME)
-#            set(outFile ${outFilePath}/${outFileName})
-#            configure_file(${inFile} ${outFile} @ONLY)
-#        endforeach(inFile)
-#    endif()
-#    
-#    # Add a build target to launch YAMCS with our newly created workspace.
-#    add_custom_target(start-yamcs 
-#        COMMAND ${COMMANDER_WORKSPACE}/bin/yamcs-start /opt/yamcs/ ${COMMANDER_WORKSPACE}
-#    )
     
     # Generate the templated code
     set_property(GLOBAL PROPERTY BASELINER_CONFIG_FILE_PROPERTY ${CMAKE_BINARY_DIR}/wh_defs.yaml)
@@ -282,7 +215,7 @@ endfunction(psp_buildliner_initialize)
 
 function(psp_add_executable)    
     # Define the function arguments.
-    cmake_parse_arguments(PARSED_ARGS "EXCLUDE_FROM_ALL" "FILE_NAME;INSTALL_PATH;COMPILE_FLAGS;LINK_FLAGS" "SOURCES;INCLUDES;BEFORE_INCLUDES;WRAPPERS" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "EXCLUDE_FROM_ALL" "FILE_NAME;INSTALL_PATH;COMPILE_FLAGS;LINK_FLAGS" "SOURCES;LIBS;INCLUDES;BEFORE_INCLUDES;WRAPPERS" ${ARGN})
     
     set(TARGET_NAME ${ARGV0})
     set(TARGET_BINARY_WITHOUT_SYMTAB ${TARGET_NAME}_no_symtab)
@@ -308,12 +241,16 @@ function(psp_add_executable)
         set_target_properties(${TARGET_BINARY} PROPERTIES EXCLUDE_FROM_ALL TRUE)
     endif()
     
-    if(${PARSED_ARGS_COMPILE_FLAGS})
+    if(PARSED_ARGS_LIBS)
+        target_link_libraries(${TARGET_BINARY} PUBLIC ${PARSED_ARGS_LIBS})
+    endif()
+    
+    if(PARSED_ARGS_COMPILE_FLAGS)
         set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} ${PARSED_ARGS_COMPILE_FLAGS}")
         set_target_properties(${TARGET_BINARY} PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} ${PARSED_ARGS_COMPILE_FLAGS}")
     endif()
     
-    if(${PARSED_ARGS_LINK_FLAGS})
+    if(PARSED_ARGS_LINK_FLAGS)
         set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES LINK_FLAGS "${LINK_FLAGS} ${PARSED_ARGS_LINK_FLAGS}")
         set_target_properties(${TARGET_BINARY} PROPERTIES LINK_FLAGS "${LINK_FLAGS} ${PARSED_ARGS_LINK_FLAGS}")
     endif()
@@ -417,6 +354,9 @@ function(psp_add_test)
         
         SOURCES
             ${PARSED_ARGS_SOURCES}
+            
+        LIBS
+            ${PARSED_ARGS_LIBS}
                 
         INCLUDES
             ${PARSED_ARGS_INCLUDES}
@@ -437,6 +377,9 @@ function(psp_add_test)
             
             LINK_FLAGS
                 " -lgcov --coverage "
+            
+            LIBS
+                ${PARSED_ARGS_LIBS}
                 
             WRAPPERS
                 ${PARSED_ARGS_WRAPPERS}            
@@ -607,57 +550,61 @@ function(psp_buildliner_add_app_def)
     get_property(IS_EMBEDDED GLOBAL PROPERTY ${PARSED_ARGS_TARGET}_EMBEDDED)
 
     if(IS_EMBEDDED)        
-	    target_sources(core-binary PRIVATE ${PARSED_ARGS_SOURCES}) 
-	    target_sources(core-binary_no_symtab PRIVATE ${PARSED_ARGS_SOURCES})
+        target_sources(core-binary PRIVATE ${PARSED_ARGS_SOURCES}) 
+        target_sources(core-binary_no_symtab PRIVATE ${PARSED_ARGS_SOURCES})
         target_include_directories(core-binary PUBLIC ${PARSED_ARGS_INCLUDES})
         target_include_directories(core-binary_no_symtab PUBLIC ${PARSED_ARGS_INCLUDES})
-	    target_include_directories(core-binary PUBLIC ${PUBLIC_APP_INCLUDES})
-	    target_include_directories(core-binary_no_symtab PUBLIC ${PUBLIC_APP_INCLUDES})
+        target_include_directories(core-binary PUBLIC ${PUBLIC_APP_INCLUDES})
+        target_include_directories(core-binary_no_symtab PUBLIC ${PUBLIC_APP_INCLUDES})
+
+        if(PARSED_ARGS_LIBS)
+            target_link_libraries(core-binary PUBLIC ${PARSED_ARGS_LIBS})
+        endif()
 	    
-	    add_custom_target(${PARSED_ARGS_TARGET})
-	    add_dependencies(core-binary ${PARSED_ARGS_TARGET})
-	    #if(${PARSED_ARGS_TARGET}_yaml)
-	    #    add_dependencies(${PARSED_ARGS_TARGET}_yaml ${PARSED_ARGS_TARGET})
-	    #endif()
+        add_custom_target(${PARSED_ARGS_TARGET})
+        add_dependencies(core-binary ${PARSED_ARGS_TARGET})
     else()
-	    add_library(${PARSED_ARGS_TARGET} MODULE ${PARSED_ARGS_SOURCES})
-	    add_dependencies(build-file-system ${PARSED_ARGS_TARGET})
-	    set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${INSTALL_DIR})
-	    set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES PREFIX "")
+        add_library(${PARSED_ARGS_TARGET} MODULE ${PARSED_ARGS_SOURCES})
+        add_dependencies(build-file-system ${PARSED_ARGS_TARGET})
+        set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${INSTALL_DIR})
+        set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES PREFIX "")
 	
-	    if(NOT ${PARSED_ARGS_FILE} EQUAL "")
-	        set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES OUTPUT_NAME ${PARSED_ARGS_FILE})
-	    endif()
+        if(NOT ${PARSED_ARGS_FILE} EQUAL "")
+            set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES OUTPUT_NAME ${PARSED_ARGS_FILE})
+        endif()
 	    
         target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${PARSED_ARGS_INCLUDES})
-	    target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${PUBLIC_APP_INCLUDES})
-	    target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${CFE_INC_DIRS})
-	    target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${OSAL_INC_DIRS})
-	    target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${PSP_INC_DIRS})
+        target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${PUBLIC_APP_INCLUDES})
+        target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${CFE_INC_DIRS})
+        target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${OSAL_INC_DIRS})
+        target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${PSP_INC_DIRS})
 	    
-	    if(PARSED_ARGS_SOURCES)
-	        set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES APP_DEFINITION_SRC "${PARSED_ARGS_SOURCES}")
-	    endif()
+        if(PARSED_ARGS_SOURCES)
+            set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES APP_DEFINITION_SRC "${PARSED_ARGS_SOURCES}")
+        endif()
 	    
-	    if(NOT ${PARSED_ARGS_DESIGN_DOCS} EQUAL "")
-	        set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES DESIGN_DOCS_INPUT "${PARSED_ARGS_DESIGN_DOCS}")
-	    endif()
+        if(NOT ${PARSED_ARGS_DESIGN_DOCS} EQUAL "")
+            set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES DESIGN_DOCS_INPUT "${PARSED_ARGS_DESIGN_DOCS}")
+        endif()
 	    
-	    set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES APP_DEFINITION_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+        set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES APP_DEFINITION_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
 	    
-	    if(NOT ${PARSED_ARGS_COMPILE_OPTIONS} STREQUAL "")
-	        set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES DESIGN_COMPILE_OPTIONS "${PARSED_ARGS_COMPILE_OPTIONS}")
-	    endif()
+        if(NOT ${PARSED_ARGS_COMPILE_OPTIONS} STREQUAL "")
+            set_target_properties(${PARSED_ARGS_TARGET} PROPERTIES DESIGN_COMPILE_OPTIONS "${PARSED_ARGS_COMPILE_OPTIONS}")
+        endif()
+
+        if(PARSED_ARGS_LIBS)
+            target_link_libraries(${PARSED_ARGS_TARGET} PUBLIC ${PARSED_ARGS_LIBS})
+        endif()
 	    
-	    # If this is a reference build, include the reference configuration directories
-	    get_property(IS_REFERENCE_BUILD GLOBAL PROPERTY IS_REFERENCE_BUILD)
-	    if(IS_REFERENCE_BUILD)
-	        if(PARSED_ARGS_REFERENCE_CONFIG)
-	            target_include_directories(${PARSED_ARGS_TARGET} PUBLIC 
-	                ${PARSED_ARGS_REFERENCE_CONFIG})
-	        endif()
-	    endif()
-	endif()
+        # If this is a reference build, include the reference configuration directories
+        get_property(IS_REFERENCE_BUILD GLOBAL PROPERTY IS_REFERENCE_BUILD)
+        if(IS_REFERENCE_BUILD)
+            if(PARSED_ARGS_REFERENCE_CONFIG)
+                target_include_directories(${PARSED_ARGS_TARGET} PUBLIC ${PARSED_ARGS_REFERENCE_CONFIG})
+            endif()
+        endif()
+    endif()
 
     if(IS_EMBEDDED) 
         # Add the core binary file to the combined design+configuration yaml file
@@ -674,35 +621,7 @@ function(psp_buildliner_add_app_def)
             TARGET_NAME        ${PARSED_ARGS_TARGET}
         )
     endif()
-    
-#    # Copy in the Commander displays, if specified
-#    if(PARSED_ARGS_COMMANDER_DISPLAYS)
-#        get_property(COMMANDER_DISPLAYS GLOBAL PROPERTY COMMANDER_DISPLAYS)
-#        get_property(BUILDLINER_CDR_CPUID GLOBAL PROPERTY BUILDLINER_CDR_CPUID)
-#        get_property(BUILDLINER_CDR_MACRO GLOBAL PROPERTY BUILDLINER_CDR_MACRO)
-#        get_property(BUILDLINER_CDR_MACRO_BLOCK GLOBAL PROPERTY BUILDLINER_CDR_MACRO_BLOCK)
-#
-#        file(GLOB_RECURSE files ${PARSED_ARGS_COMMANDER_DISPLAYS}/*)
-#        foreach(inFile ${files})
-#            get_filename_component(inFileExt ${inFile} EXT)
-#            file(RELATIVE_PATH outFile ${PARSED_ARGS_COMMANDER_DISPLAYS} ${inFile})
-#
-#            if(${inFileExt} STREQUAL ".opi")
-#                get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Apps/${PARSED_ARGS_TARGET}/${outFile} DIRECTORY)
-#                get_filename_component(outFileName ${inFile} NAME_WE)
-#                set(outFile ${outFilePath}/${outFileName}.opi)
-#                configure_file(${inFile} ${outFile} @ONLY)
-#            elseif(${inFileExt} STREQUAL ".bob")
-#                get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Apps/${PARSED_ARGS_TARGET}/${outFile} DIRECTORY)
-#                get_filename_component(outFileName ${inFile} NAME_WE)
-#                set(outFile ${outFilePath}/${outFileName}.bob)
-#                configure_file(${inFile} ${outFile} @ONLY)
-#            else()
-#                get_filename_component(outFilePath ${COMMANDER_DISPLAYS}/${BUILDLINER_CDR_CPUID}/Apps/${PARSED_ARGS_TARGET}/${outFile} DIRECTORY)
-#                file(COPY ${inFile} DESTINATION "${outFilePath}")
-#            endif()
-#        endforeach(inFile)
-#    endif()    
+       
 endfunction(psp_buildliner_add_app_def)
 
 
@@ -787,6 +706,9 @@ function(psp_buildliner_add_app_unit_test)
             ${CFE_INC_DIRS}
             ${OSAL_INC_DIRS}
             ${PSP_INC_DIRS}
+            
+        LIBS
+            ${PARSED_ARGS_LIBS}
         
         COMPILE_FLAGS 
             ${PARSED_ARGS_COMPILE_OPTIONS}
@@ -819,6 +741,9 @@ function(psp_buildliner_add_app_unit_test)
             
             LINK_FLAGS
                 " -lgcov --coverage "
+            
+            LIBS
+                ${PARSED_ARGS_LIBS}
                 
             WRAPPERS
                 ${PARSED_ARGS_WRAPPERS}

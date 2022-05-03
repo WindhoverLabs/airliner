@@ -46,7 +46,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Filename = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Filename')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/fm/DeleteFile', 
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fm/DeleteFile', 
                                    {"Filename": Filename});
 ]]></scriptText>
         <embedded>true</embedded>

@@ -44,7 +44,7 @@
         <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableApps', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/EnableApps', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -102,7 +102,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Name = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Name')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cs/EnableNameApp', {'Name': Name});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cs/EnableNameApp', {'Name': Name});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

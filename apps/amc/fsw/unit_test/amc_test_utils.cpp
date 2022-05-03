@@ -112,17 +112,3 @@ void AMC_Test_Setup(void)
 void AMC_Test_TearDown(void) {
 
 }
-
-
-
-int32 PRMLIB_ParamRegister(const char name[], void* inOutValue, PRMLIB_ParamType_t type)
-{
-    return 0;
-}
-
-
-
-int32 PRMLIB_GetParamValueById(const char name[], void* InOutValue)
-{
-    return CFE_SUCCESS;
-}

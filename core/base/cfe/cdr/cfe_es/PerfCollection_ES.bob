@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
   <name>($(CPUID)) CFE-ES - Perf</name>
-
   <macros>
-    <CPUID>{{ cpu_id }}</CPUID>
     <APP>cfe_es</APP>
     <include_parent_macros>true</include_parent_macros>
+    <CPUID>{{ cpu_id }}</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
@@ -155,7 +154,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_20</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfState</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfState</pv_name>
     <x>133</x>
     <y>43</y>
     <width>208</width>
@@ -170,14 +169,10 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_21</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfMode</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfMode</pv_name>
     <x>133</x>
     <y>62</y>
     <width>208</width>
@@ -192,14 +187,10 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_22</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfTriggerCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfTriggerCount</pv_name>
     <x>133</x>
     <y>81</y>
     <width>208</width>
@@ -214,14 +205,10 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_25</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataStart</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfDataStart</pv_name>
     <x>474</x>
     <y>43</y>
     <width>98</width>
@@ -236,14 +223,10 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_26</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataEnd</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfDataEnd</pv_name>
     <x>474</x>
     <y>62</y>
     <width>98</width>
@@ -258,14 +241,10 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_27</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataCount</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfDataCount</pv_name>
     <x>474</x>
     <y>81</y>
     <width>98</width>
@@ -280,14 +259,10 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_28</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_HkPacket_t.Payload.PerfDataToWrite</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.PerfDataToWrite</pv_name>
     <x>474</x>
     <y>100</y>
     <width>98</width>
@@ -302,10 +277,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>Action Button</name>

@@ -34,7 +34,7 @@ if( clockState == 'Invalid' ) {
     args = {'Payload.ClockState': 'FLYWHEEL'};
 }
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_time/SetState', args);
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/SetState', args);
 
 ]]></text>
         </script>

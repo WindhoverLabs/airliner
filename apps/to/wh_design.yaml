@@ -4,6 +4,32 @@
   module_type: CFE_APP
   commander:
     displays: cdr
+    templates:
+      _ADD_MESSAGE_FLOW:
+        template: "cdr/resources/templates/TO_AddMessageFlow.j2"
+        output: "TO_AddMessageFlow.bob"
+        scope: GLOBAL
+      _QUERY_MESSAGE_FLOW:
+        template: "cdr/resources/templates/TO_QueryMessageFlow.j2"
+        output: "TO_QueryMessageFlow.bob"
+        scope: GLOBAL
+      _REMOVE_MESSAGE_FLOW:
+        template: "cdr/resources/templates/TO_RemoveMessageFlow.j2"
+        output: "TO_RemoveMessageFlow.bob"
+        scope: GLOBAL
+      _TLM_MANAGEMENT_FLOW:
+        template: "cdr/resources/templates/TO_TlmManagement.j2"
+        output: "TO_TlmManagement.bob"
+        scope: GLOBAL
+  tables:
+    _TO_CONFIG:
+      title: "Message Definitions"
+      default: "to_temp_config.tbl" 
+      output: "to_temp_config.c"
+      is_dump: false
+      template: "fsw/tables/to_config.j2"
+      
+      
   events: 
     TO_INF_EID: 
       id: 1
@@ -100,12 +126,7 @@
       enumerations:
         FIFO:   0
         SINGLE: 1
-    #- parent: TO_EnableChannelCmd_t
-    #  member: DestinationAddress
-    #  type: string
   telemetry: 
-    TO_DATA_TYPE_MID: 
-      msgID: 
     TO_DIAG_MSG_FLOW_MID: 
       msgID: 
       struct: TO_MsgFlowListPkt_t

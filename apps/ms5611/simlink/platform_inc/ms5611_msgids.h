@@ -28,11 +28,6 @@ extern "C" {
 #define MS5611_WAKEUP_MID              (0x18D0)
 
 /**
-** \brief Application-specific data output
-*/
-#define MS5611_OUT_DATA_MID            (0x18D1)
-
-/**
 ** \brief Application housekeeping telemetry data
 */
 #define MS5611_HK_TLM_MID              (0x08BB)

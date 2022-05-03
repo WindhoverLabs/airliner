@@ -3,6 +3,8 @@
   <name>($(CPUID)) CFE-ES - MemPool</name>
   <macros>
     <CPUID>{{ cpu_id }}</CPUID>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
@@ -22,7 +24,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var poolHandle =display.getWidget('inPoolHandle').getPropertyValue('text');
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/TlmPoolStats', {
     'Payload.Application': '',
     'Payload.PoolHandle': poolHandle});
 ]]></text>
@@ -47,7 +49,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Handle</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolHandle</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolHandle</pv_name>
     <x>145</x>
     <y>91</y>
     <width>98</width>
@@ -63,14 +65,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_23</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.PoolSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.PoolSize</pv_name>
     <x>145</x>
     <y>110</y>
     <width>98</width>
@@ -85,14 +83,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_24</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.NumBlocksRequested</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.NumBlocksRequested</pv_name>
     <x>145</x>
     <y>129</y>
     <width>98</width>
@@ -107,14 +101,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_25</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.CheckErrCtr</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.CheckErrCtr</pv_name>
     <x>145</x>
     <y>148</y>
     <width>98</width>
@@ -129,14 +119,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_26</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.NumFreeBytes</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.NumFreeBytes</pv_name>
     <x>145</x>
     <y>167</y>
     <width>98</width>
@@ -151,10 +137,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label</name>
@@ -612,7 +594,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_27</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_0_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_0_.BlockSize</pv_name>
     <x>73</x>
     <y>221</y>
     <width>98</width>
@@ -627,14 +609,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_28</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_0_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_0_.NumCreated</pv_name>
     <x>172</x>
     <y>221</y>
     <width>98</width>
@@ -649,14 +627,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_29</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_0_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_0_.NumFree</pv_name>
     <x>271</x>
     <y>221</y>
     <width>98</width>
@@ -671,14 +645,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_80</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_1_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_1_.BlockSize</pv_name>
     <x>73</x>
     <y>240</y>
     <width>98</width>
@@ -693,14 +663,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_81</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_1_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_1_.NumCreated</pv_name>
     <x>172</x>
     <y>240</y>
     <width>98</width>
@@ -715,14 +681,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_82</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_1_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_1_.NumFree</pv_name>
     <x>271</x>
     <y>240</y>
     <width>98</width>
@@ -737,14 +699,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_83</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_2_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_2_.BlockSize</pv_name>
     <x>73</x>
     <y>259</y>
     <width>98</width>
@@ -759,14 +717,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_84</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_2_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_2_.NumCreated</pv_name>
     <x>172</x>
     <y>259</y>
     <width>98</width>
@@ -781,14 +735,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_85</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_2_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_2_.NumFree</pv_name>
     <x>271</x>
     <y>259</y>
     <width>98</width>
@@ -803,14 +753,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_86</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_3_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_3_.BlockSize</pv_name>
     <x>73</x>
     <y>278</y>
     <width>98</width>
@@ -825,14 +771,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_87</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_3_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_3_.NumCreated</pv_name>
     <x>172</x>
     <y>278</y>
     <width>98</width>
@@ -847,14 +789,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_88</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_3_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_3_.NumFree</pv_name>
     <x>271</x>
     <y>278</y>
     <width>98</width>
@@ -869,14 +807,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_89</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_4_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_4_.BlockSize</pv_name>
     <x>73</x>
     <y>297</y>
     <width>98</width>
@@ -891,14 +825,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_90</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_4_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_4_.NumCreated</pv_name>
     <x>172</x>
     <y>297</y>
     <width>98</width>
@@ -913,14 +843,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_91</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_4_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_4_.NumFree</pv_name>
     <x>271</x>
     <y>297</y>
     <width>98</width>
@@ -935,14 +861,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_92</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_5_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_5_.BlockSize</pv_name>
     <x>73</x>
     <y>316</y>
     <width>98</width>
@@ -957,14 +879,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_93</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_5_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_5_.NumCreated</pv_name>
     <x>172</x>
     <y>316</y>
     <width>98</width>
@@ -979,14 +897,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_94</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_5_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_5_.NumFree</pv_name>
     <x>271</x>
     <y>316</y>
     <width>98</width>
@@ -1001,14 +915,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_95</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_6_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_6_.BlockSize</pv_name>
     <x>73</x>
     <y>335</y>
     <width>98</width>
@@ -1023,14 +933,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_96</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_6_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_6_.NumCreated</pv_name>
     <x>172</x>
     <y>335</y>
     <width>98</width>
@@ -1045,14 +951,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_97</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_6_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_6_.NumFree</pv_name>
     <x>271</x>
     <y>335</y>
     <width>98</width>
@@ -1067,14 +969,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_98</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_7_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_7_.BlockSize</pv_name>
     <x>73</x>
     <y>354</y>
     <width>98</width>
@@ -1089,14 +987,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_99</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_7_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_7_.NumCreated</pv_name>
     <x>172</x>
     <y>354</y>
     <width>98</width>
@@ -1111,14 +1005,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_100</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_7_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_7_.NumFree</pv_name>
     <x>271</x>
     <y>354</y>
     <width>98</width>
@@ -1133,14 +1023,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_101</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_8_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_8_.BlockSize</pv_name>
     <x>73</x>
     <y>373</y>
     <width>98</width>
@@ -1155,14 +1041,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_102</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_8_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_8_.NumCreated</pv_name>
     <x>172</x>
     <y>373</y>
     <width>98</width>
@@ -1177,14 +1059,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_103</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_8_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_8_.NumFree</pv_name>
     <x>271</x>
     <y>373</y>
     <width>98</width>
@@ -1199,14 +1077,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_104</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_9_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_9_.BlockSize</pv_name>
     <x>73</x>
     <y>393</y>
     <width>98</width>
@@ -1221,14 +1095,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_105</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_9_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_9_.NumCreated</pv_name>
     <x>172</x>
     <y>393</y>
     <width>98</width>
@@ -1243,14 +1113,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_106</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_9_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_9_.NumFree</pv_name>
     <x>271</x>
     <y>393</y>
     <width>98</width>
@@ -1265,14 +1131,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_107</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_10_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_10_.BlockSize</pv_name>
     <x>73</x>
     <y>412</y>
     <width>98</width>
@@ -1287,14 +1149,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_108</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_10_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_10_.NumCreated</pv_name>
     <x>172</x>
     <y>412</y>
     <width>98</width>
@@ -1309,14 +1167,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_109</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_10_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_10_.NumFree</pv_name>
     <x>271</x>
     <y>412</y>
     <width>98</width>
@@ -1331,14 +1185,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_110</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_11_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_11_.BlockSize</pv_name>
     <x>73</x>
     <y>431</y>
     <width>98</width>
@@ -1353,14 +1203,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_111</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_11_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_11_.NumCreated</pv_name>
     <x>172</x>
     <y>431</y>
     <width>98</width>
@@ -1375,14 +1221,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_112</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_11_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_11_.NumFree</pv_name>
     <x>271</x>
     <y>431</y>
     <width>98</width>
@@ -1397,14 +1239,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_113</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_12_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_12_.BlockSize</pv_name>
     <x>73</x>
     <y>450</y>
     <width>98</width>
@@ -1419,14 +1257,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_114</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_12_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_12_.NumCreated</pv_name>
     <x>172</x>
     <y>450</y>
     <width>98</width>
@@ -1441,14 +1275,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_115</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_12_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_12_.NumFree</pv_name>
     <x>271</x>
     <y>450</y>
     <width>98</width>
@@ -1463,14 +1293,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_116</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_13_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_13_.BlockSize</pv_name>
     <x>73</x>
     <y>469</y>
     <width>98</width>
@@ -1485,14 +1311,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_117</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_13_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_13_.NumCreated</pv_name>
     <x>172</x>
     <y>469</y>
     <width>98</width>
@@ -1507,14 +1329,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_118</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_13_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_13_.NumFree</pv_name>
     <x>271</x>
     <y>469</y>
     <width>98</width>
@@ -1529,14 +1347,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_119</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_14_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_14_.BlockSize</pv_name>
     <x>73</x>
     <y>488</y>
     <width>98</width>
@@ -1551,14 +1365,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_120</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_14_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_14_.NumCreated</pv_name>
     <x>172</x>
     <y>488</y>
     <width>98</width>
@@ -1573,14 +1383,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_121</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_14_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_14_.NumFree</pv_name>
     <x>271</x>
     <y>488</y>
     <width>98</width>
@@ -1595,14 +1401,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_122</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_15_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_15_.BlockSize</pv_name>
     <x>73</x>
     <y>507</y>
     <width>98</width>
@@ -1617,14 +1419,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_123</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_15_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_15_.NumCreated</pv_name>
     <x>172</x>
     <y>507</y>
     <width>98</width>
@@ -1639,14 +1437,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_124</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_15_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_15_.NumFree</pv_name>
     <x>271</x>
     <y>507</y>
     <width>98</width>
@@ -1661,14 +1455,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_125</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_16_.BlockSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_16_.BlockSize</pv_name>
     <x>73</x>
     <y>526</y>
     <width>98</width>
@@ -1683,14 +1473,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_126</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_16_.NumCreated</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_16_.NumCreated</pv_name>
     <x>172</x>
     <y>526</y>
     <width>98</width>
@@ -1705,14 +1491,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_127</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_PoolStatsTlm_t.Payload.PoolStats.BlockStats_16_.NumFree</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_MEMSTATS_TLM_MID.Payload.PoolStats.BlockStats_16_.NumFree</pv_name>
     <x>271</x>
     <y>526</y>
     <width>98</width>
@@ -1727,10 +1509,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/TlmPoolStats', {
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_28</name>

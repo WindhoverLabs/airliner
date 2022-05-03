@@ -1,0 +1,1252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>($(CPUID)) Simlink</name>
+  <macros>
+    <APP>simlink</APP>
+    <CPUID>{{ cpu_id }}</CPUID>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/$(APP)</REGISTRY_PATH>
+@BUILDLINER_CDR_MACRO_BLOCK@
+@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
+  </macros>
+  <width>650</width>
+  <height>750</height>
+  <background_color>
+    <color name="Display Background" red="255" green="255" blue="255">
+    </color>
+  </background_color>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Label_49</name>
+    <text>($(CPUID)) Simlink</text>
+    <x>10</x>
+    <width>216</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Commanding</name>
+    <x>10</x>
+    <y>30</y>
+    <width>258</width>
+    <height>258</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update</name>
+      <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.usCmdCnt</pv_name>
+      <x>98</x>
+      <y>5</y>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Cmd Count</text>
+      <x>6</x>
+      <y>5</y>
+      <width>81</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>Err Count</text>
+      <x>27</x>
+      <y>24</y>
+      <width>60</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_1</name>
+      <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.usCmdErrCnt</pv_name>
+      <x>98</x>
+      <y>24</y>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <format>1</format>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/simlink/Noop', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Noop</text>
+      <x>6</x>
+      <y>48</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_1</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/simlink/Reset', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Reset</text>
+      <x>6</x>
+      <y>66</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="253" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_2</name>
+      <file>$(CMD_MANAGEMENT_CONTAINER)</file>
+      <x>6</x>
+      <y>86</y>
+      <width>140</width>
+      <height>100</height>
+    </widget>
+  </widget>
+  <widget type="polyline" version="2.0.0">
+    <name>Polyline</name>
+    <x>250</x>
+    <y>134</y>
+    <width>1</width>
+    <height>1</height>
+    <points>
+      <point x="0.0" y="0.0">
+      </point>
+    </points>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Miscellaneous</name>
+    <x>10</x>
+    <y>444</y>
+    <width>258</width>
+    <height>105</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_9</name>
+      <actions>
+        <action type="open_display">
+          <file>EventControl.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Event Filtering</text>
+      <x>14</x>
+      <y>25</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_43</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/simlink/WakeUp', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>WakeUp</text>
+      <x>14</x>
+      <y>45</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="253" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl</name>
+      <actions>
+        <action type="open_display">
+          <file>$(APP_CONTROL_TEMPLATE)</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>App Control</text>
+      <x>14</x>
+      <y>5</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Telemetry</name>
+    <x>10</x>
+    <y>288</y>
+    <width>258</width>
+    <height>156</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="embedded" version="2.0.0">
+      <name>Embedded Display_4</name>
+      <file>TO_TlmManagement.bob</file>
+      <x>6</x>
+      <y>27</y>
+      <width>140</width>
+      <height>60</height>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_35</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+
+Yamcs.issueCommand(widget, '/cfs/simlink/SendHK', {});]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Send HK</text>
+      <x>6</x>
+      <y>7</y>
+      <width>140</width>
+      <height>20</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Incoming Mavlink Messages</name>
+    <x>10</x>
+    <y>549</y>
+    <width>258</width>
+    <height>150</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_5</name>
+      <actions>
+        <action type="open_display">
+          <file>Heartbeat.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Heartbeat</text>
+      <x>6</x>
+      <y>6</y>
+      <width>210</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_6</name>
+      <actions>
+        <action type="open_display">
+          <file>HIL_RC_Inputs_Raw.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>HIL RC Inputs Raw</text>
+      <x>6</x>
+      <y>26</y>
+      <width>210</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_7</name>
+      <actions>
+        <action type="open_display">
+          <file>HIL_GPS.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>HIL GPS</text>
+      <x>6</x>
+      <y>46</y>
+      <width>210</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_8</name>
+      <actions>
+        <action type="open_display">
+          <file>HIL_Sensor.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>HIL Sensor</text>
+      <x>6</x>
+      <y>66</y>
+      <width>210</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_9</name>
+      <actions>
+        <action type="open_display">
+          <file>HIL_State_Quaternion.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>HIL State Quaternion</text>
+      <x>6</x>
+      <y>86</y>
+      <width>210</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Outgoing Message Counts</name>
+    <x>282</x>
+    <y>30</y>
+    <width>222</width>
+    <height>750</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="group" version="2.0.0">
+      <name>GPS</name>
+      <x>-6</x>
+      <y>2</y>
+      <width>180</width>
+      <height>117</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_2</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.GpsMsgCount[0]</pv_name>
+        <x>38</x>
+        <y>4</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_3</name>
+        <text>0</text>
+        <x>1</x>
+        <y>4</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_13</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.GpsMsgCount[1]</pv_name>
+        <x>38</x>
+        <y>24</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_12</name>
+        <text>1</text>
+        <x>1</x>
+        <y>24</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_14</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.GpsMsgCount[2]</pv_name>
+        <x>38</x>
+        <y>44</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_13</name>
+        <text>2</text>
+        <x>1</x>
+        <y>44</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_15</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.GpsMsgCount[3]</pv_name>
+        <x>38</x>
+        <y>64</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_14</name>
+        <text>3</text>
+        <x>1</x>
+        <y>64</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Gyro</name>
+      <y>119</y>
+      <width>180</width>
+      <height>115</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_16</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.GyroMsgCount[0]</pv_name>
+        <x>38</x>
+        <y>4</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_15</name>
+        <text>0</text>
+        <x>1</x>
+        <y>4</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_17</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.GyroMsgCount[1]</pv_name>
+        <x>38</x>
+        <y>24</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_16</name>
+        <text>1</text>
+        <x>1</x>
+        <y>24</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_18</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.GyroMsgCount[2]</pv_name>
+        <x>38</x>
+        <y>44</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_17</name>
+        <text>2</text>
+        <x>1</x>
+        <y>44</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_19</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.GyroMsgCount[3]</pv_name>
+        <x>38</x>
+        <y>64</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_18</name>
+        <text>3</text>
+        <x>1</x>
+        <y>64</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Accel</name>
+      <y>234</y>
+      <width>180</width>
+      <height>117</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_20</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.AccelMsgCount[0]</pv_name>
+        <x>38</x>
+        <y>4</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_19</name>
+        <text>0</text>
+        <x>1</x>
+        <y>4</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_21</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.AccelMsgCount[1]</pv_name>
+        <x>38</x>
+        <y>24</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_20</name>
+        <text>1</text>
+        <x>1</x>
+        <y>24</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_22</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.AccelMsgCount[2]</pv_name>
+        <x>38</x>
+        <y>44</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_21</name>
+        <text>2</text>
+        <x>1</x>
+        <y>44</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_23</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.AccelMsgCount[3]</pv_name>
+        <x>38</x>
+        <y>64</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_22</name>
+        <text>3</text>
+        <x>1</x>
+        <y>64</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Mag</name>
+      <y>351</y>
+      <width>180</width>
+      <height>117</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_24</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.MagMsgCount[0]</pv_name>
+        <x>38</x>
+        <y>4</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_23</name>
+        <text>0</text>
+        <x>1</x>
+        <y>4</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_25</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.MagMsgCount[1]</pv_name>
+        <x>38</x>
+        <y>24</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_24</name>
+        <text>1</text>
+        <x>1</x>
+        <y>24</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_26</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.MagMsgCount[2]</pv_name>
+        <x>38</x>
+        <y>44</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_25</name>
+        <text>2</text>
+        <x>1</x>
+        <y>44</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_27</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.MagMsgCount[3]</pv_name>
+        <x>38</x>
+        <y>64</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_26</name>
+        <text>3</text>
+        <x>1</x>
+        <y>64</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Baro</name>
+      <y>468</y>
+      <width>180</width>
+      <height>117</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_32</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.BaroMsgCount[0]</pv_name>
+        <x>38</x>
+        <y>4</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_31</name>
+        <text>0</text>
+        <x>1</x>
+        <y>4</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_33</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.BaroMsgCount[1]</pv_name>
+        <x>38</x>
+        <y>24</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_32</name>
+        <text>1</text>
+        <x>1</x>
+        <y>24</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_34</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.BaroMsgCount[2]</pv_name>
+        <x>38</x>
+        <y>44</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_33</name>
+        <text>2</text>
+        <x>1</x>
+        <y>44</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_35</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.BaroMsgCount[3]</pv_name>
+        <x>38</x>
+        <y>64</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_34</name>
+        <text>3</text>
+        <x>1</x>
+        <y>64</y>
+        <width>21</width>
+        <horizontal_alignment>2</horizontal_alignment>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>PWM</name>
+      <y>585</y>
+      <width>180</width>
+      <height>62</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_36</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.PwmMsgCount</pv_name>
+        <x>6</x>
+        <y>4</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Heartbeat</name>
+      <y>647</y>
+      <width>180</width>
+      <height>60</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_40</name>
+        <pv_name>/cfs/simlink/SIMLINK_HkTlm_t.DataOutMetrics.HeartbeatCount</pv_name>
+        <x>6</x>
+        <y>4</y>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>1</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+    </widget>
+  </widget>
+</display>

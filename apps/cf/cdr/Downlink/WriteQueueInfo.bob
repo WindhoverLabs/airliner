@@ -52,7 +52,7 @@ if( Queue == 'Pending' ) {
     pQueue = 'HISTORY';
 } 
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/WriteQueue', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/WriteQueue', {
     'Type': pTransferType,
     'Chan': pChannel,
     'Queue': pQueue,

@@ -7,12 +7,12 @@
 #include "cfe_mission_cfg.h"
 #include "priorities.h"
 
-#define CFE_MSG_CPU_BASE (0x0000)
-
 /*
 ** CPU Id for target Processor
 */
 #define CFE_CPU_ID 1
+
+#define CFE_MSG_CPU_BASE  (0)
 
 /*
 ** CPU Name for target Processor

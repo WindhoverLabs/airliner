@@ -9,8 +9,8 @@
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
-  <width>300</width>
-  <height>100</height>
+  <width>350</width>
+  <height>150</height>
   <actions>
   </actions>
   <grid_step_x>6</grid_step_x>
@@ -33,7 +33,7 @@ if( Channel == 'Channel 1' ) {
     pChannel = 2;
 } 
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/DisableDequeue', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/DisableDequeue', {
     'Chan': pChannel,
     'Spare_0_': 0,
     'Spare_1_': 0,

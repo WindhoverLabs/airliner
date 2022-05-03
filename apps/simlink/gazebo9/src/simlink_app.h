@@ -122,17 +122,22 @@ typedef struct
     osalbool           ChildContinueFlag;
     int                Socket;
 
-    CVT_ContainerID_t  GpsContainer[SIMLINK_GPS_DEVICE_COUNT];
-    CVT_ContainerID_t  GyroContainer[SIMLINK_GYRO_DEVICE_COUNT];
-    CVT_ContainerID_t  AccelContainer[SIMLINK_ACCEL_DEVICE_COUNT];
-    CVT_ContainerID_t  MagContainer[SIMLINK_MAG_DEVICE_COUNT];
-    CVT_ContainerID_t  BaroContainer[SIMLINK_BARO_DEVICE_COUNT];
+    CVT_ContainerID_t   GpsContainer[SIMLINK_GPS_DEVICE_COUNT];
+    CVT_ContainerID_t   GyroContainer[SIMLINK_GYRO_DEVICE_COUNT];
+    CVT_ContainerID_t   AccelContainer[SIMLINK_ACCEL_DEVICE_COUNT];
+    CVT_ContainerID_t   MagContainer[SIMLINK_MAG_DEVICE_COUNT];
+    CVT_ContainerID_t   BaroContainer[SIMLINK_BARO_DEVICE_COUNT];
+    CVT_ContainerID_t   PwmContainer;
 
-    SIMLINK_GPS_Msg_t  GpsMsg[SIMLINK_GPS_DEVICE_COUNT];
+    SIMLINK_GPS_Msg_t   GpsMsg[SIMLINK_GPS_DEVICE_COUNT];
     SIMLINK_Gyro_Msg_t  GyroMsg[SIMLINK_GYRO_DEVICE_COUNT];
-    SIMLINK_Accel_Msg_t  AccelMsg[SIMLINK_ACCEL_DEVICE_COUNT];
-    SIMLINK_Mag_Msg_t  MagMsg[SIMLINK_MAG_DEVICE_COUNT];
+    SIMLINK_Accel_Msg_t AccelMsg[SIMLINK_ACCEL_DEVICE_COUNT];
+    SIMLINK_Mag_Msg_t   MagMsg[SIMLINK_MAG_DEVICE_COUNT];
     SIMLINK_Baro_Msg_t  BaroMsg[SIMLINK_BARO_DEVICE_COUNT];
+    SIMLINK_PWM_Msg_t   PwmMsg;
+
+    uint32              PwmUpdateCount;
+    uint32              Mutex;
 
 } SIMLINK_AppData_t;
 

@@ -3,9 +3,9 @@
   <name>CFE-ES - Start Perf</name>
 
   <macros>
-    <CPUID>{{ cpu_id }}</CPUID>
     <APP>cfe_es</APP>
     <include_parent_macros>true</include_parent_macros>
+    <CPUID>{{ cpu_id }}</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
@@ -62,7 +62,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var triggerOn = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TriggerOn')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/PerfStart', {'Payload.TriggerMode': triggerOn});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/PerfStart', {'Payload.TriggerMode': triggerOn});]]></text>
         </script>
       </action>
     </actions>

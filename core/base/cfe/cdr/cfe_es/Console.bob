@@ -3,9 +3,9 @@
   <name>($(CPUID)) CFE-ES - Console</name>
 
   <macros>
-    <CPUID>{{ cpu_id }}</CPUID>
     <APP>cfe_es</APP>
     <include_parent_macros>true</include_parent_macros>
+    <CPUID>{{ cpu_id }}</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
@@ -27,7 +27,7 @@ var combined = prevOutput + newOutput;
 var pv = ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'ConsoleDisplay'));
 
 pv.write(combined);]]></text>
-      <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_ShellPacket_t.Payload.ShellOutput</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_SHELL_TLM_MID.Payload.ShellOutput</pv_name>
     </script>
   </scripts>
   <grid_step_x>6</grid_step_x>
@@ -43,7 +43,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script)
 var consoleInput = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inConsoleInput')));
 var fileName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inFileName')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/ShellCmd', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/ShellCmd', {
     'Payload.CmdString': consoleInput,
     'Payload.OutputFilename': fileName});
 

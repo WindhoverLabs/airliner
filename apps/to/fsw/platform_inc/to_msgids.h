@@ -23,13 +23,6 @@
 #define TO_HK_TLM_MID                  (0x0902)
 
 /**
- * @brief Data type telemetry message ID
- *
- * This is currently unused.
- */
-#define TO_DATA_TYPE_MID               (0x0904)
-
-/**
  * @brief Diagnostic telemetry message ID
  */
 #define TO_DIAG_TLM_MID                (0x0911)

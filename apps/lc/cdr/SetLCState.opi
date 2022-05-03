@@ -86,7 +86,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var State = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'State')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/SetLCState', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/SetLCState', {
     'NewLCState': State,
     'Padding': 0 });]]></scriptText>
         <embedded>true</embedded>

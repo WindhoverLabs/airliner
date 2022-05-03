@@ -27,7 +27,6 @@ TO_ChannelTbl_t TO_BackupConfigTbl =
         /* Message Flows */
         /* Ground Queues */
         {TO_HK_TLM_MID,                1, TO_PQUEUE_HIGH_IDX},
-        {TO_DATA_TYPE_MID,             1, TO_PQUEUE_HIGH_IDX},
         {TO_DIAG_TLM_MID,              1, TO_PQUEUE_HIGH_IDX},
         {CFE_ES_HK_TLM_MID,            1, TO_PQUEUE_MEDIUM_IDX},
         {CFE_EVS_HK_TLM_MID,           1, TO_PQUEUE_MEDIUM_IDX},

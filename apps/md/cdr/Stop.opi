@@ -86,7 +86,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var TableMask = VTypeHelper.getString(display.getWidget('TableMask').getPropertyValue('pv_value'));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/md/Stop', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/md/Stop', {
     'TableMask': TableMask});]]></scriptText>
         <embedded>true</embedded>
         <description></description>

@@ -53,6 +53,10 @@
 #include "ms5611_events.h"
 #include "ms5611_config_utils.h"
 #include "ms5611_cds_utils.h"
+#include "sedlib.h"
+#include "cvt_lib.h"
+#include "simlink.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -62,6 +66,7 @@ extern "C" {
 ** Local Defines
 *************************************************************************/
 #define MS5611_TIMEOUT_MSEC             	(1000)
+#define MS5611_COEF_SIZE               (8)
 
 /************************************************************************
 ** Local Structure Definitions
@@ -115,7 +120,31 @@ typedef struct
     /** \brief Housekeeping Telemetry for downlink */
     MS5611_HkTlm_t  HkTlm;
 
+    CVT_ContainerID_t   BaroContainer[SIMLINK_BARO_DEVICE_COUNT];
+
+    uint8 PROM[MS5611_COEF_SIZE*2];
+
+    uint16 LastConversion;
+
 } MS5611_AppData_t;
+
+typedef struct
+{
+    /** \brief Status port handle. */
+    uint32                 StatusPortHandle;
+    /** \brief Command port handle. */
+    uint32                 CmdPortHandle;
+    /** \brief Status buffer. */
+    SPI_TransferResponse_t TransferResp;
+    /** \brief Command buffer. */
+    SPI_TransferCmd_t      TransferCmd;
+    /** \brief At least one response has been received. */
+    boolean                ResponseReceived;
+    /** \brief Sequence count for reads. */
+    uint8                  ReadCount;
+    /** \brief Sequence count for writes. */
+    uint8                  WriteCount;
+} MS5611_AppSpiData_t;
 
 /************************************************************************
 ** External Global Variables
@@ -338,6 +367,15 @@ void  MS5611_SendOutData(void);
 **
 *************************************************************************/
 boolean  MS5611_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
+
+int32    MS5611_InitCVT(void);
+
+SEDLIB_ReturnCode_t     MS5611_SED_ParseCommand(void);
+void     MS5611_SED_ExecuteCommand(void);
+boolean  MS5611_InitSedPipes(void);
+boolean  MS5611_ApplyPlatformRotation(float *X, float *Y, float *Z);
+void MS5611_SetSEDResponse(uint8 addr);
+
 
 #ifdef __cplusplus
 }

@@ -86,7 +86,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var APNumber = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'APNumber')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/lc/ResetAPStats', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/lc/ResetAPStats', {
     'APNumber': APNumber,
     'Padding': 0 });]]></scriptText>
         <embedded>true</embedded>

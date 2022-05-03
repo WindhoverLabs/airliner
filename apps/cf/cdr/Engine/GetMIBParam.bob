@@ -29,7 +29,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var Parameter = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Parameter')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/GetMIBParameter', {'Param': Parameter});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/GetMIBParameter', {'Param': Parameter});
 
 ]]></text>
         </script>

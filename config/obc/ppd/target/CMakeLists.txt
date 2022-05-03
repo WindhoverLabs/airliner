@@ -20,8 +20,6 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/../cfe_es_startup.scr
 )
 
-add_subdirectory(${PROJECT_SOURCE_DIR}/../private/tools/hitl_bridge hitl_bridge)
-
 buildliner_add_app(
     cfs_lib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cfs_lib/fsw/for_build
@@ -43,11 +41,11 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/io_lib/fsw/for_build
 )
 
-buildliner_add_app(
-    prmlib
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/prm
-)
+#buildliner_add_app(
+#    prmlib
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/for_build
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/prm
+#)
 
 buildliner_add_app(
     ipc_lib
@@ -56,12 +54,12 @@ buildliner_add_app(
         ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/ipc_lib/ipc_lib_custom.c
 )
 
-buildliner_add_app(
-    pq_lib
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
-    # TODO move this table build to sbn module?
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib
-)
+#buildliner_add_app(
+#    pq_lib
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
+#    # TODO move this table build to sbn module?
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib
+#)
 
 buildliner_add_app(
     sch
@@ -177,19 +175,19 @@ buildliner_add_app(
 #    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_uio_shm/fsw/for_build
 #)
 
-buildliner_add_app(
-    gps
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/gps/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps
-    CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_interface_uart/gps_serial.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_common.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_nav.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_cfg.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_ack.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_mon.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_custom.c
-)
+#buildliner_add_app(
+#    gps
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/gps/fsw/for_build
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps
+#    CONFIG_SOURCES
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_interface_uart/gps_serial.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_common.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_nav.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_cfg.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_ack.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_mon.c
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_custom.c
+#)
 
 buildliner_add_app(
     hmc5883

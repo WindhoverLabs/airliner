@@ -24,7 +24,7 @@ When in listening mode, there are 2 specific messages the application should res
    this message would the application start doing work.  When woken up, the application
    will first process and respond to all incoming commands.  Then, it will process
    all incoming data.  Next, it performs 1-cycle worth of data processing.  And last,
-   it sends out its output data (MS5611_OUT_DATA_MID) before going back to the
+   it sends out its output data before going back to the
    listening mode.
 
    The application's output data is published at its running rate.  It should contain

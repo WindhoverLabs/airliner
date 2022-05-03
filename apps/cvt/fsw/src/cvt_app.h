@@ -109,9 +109,6 @@ typedef struct
     /** \brief Input Data from I/O or other apps */
     CVT_InData_t   InData;
 
-    /** \brief Output Data published at the end of cycle */
-    CVT_OutData_t  OutData;
-
     /** \brief Housekeeping Telemetry for downlink */
     CVT_HkTlm_t  HkTlm;
 
@@ -307,17 +304,6 @@ void  CVT_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr);
 *************************************************************************/
 void  CVT_ReportHousekeeping(void);
 
-/************************************************************************/
-/** \brief Sends CVT output data
-**
-**  \par Description
-**       This function publishes the CVT application output data.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-*************************************************************************/
-void  CVT_SendOutData(void);
 
 /************************************************************************/
 /** \brief Verify Command Length

@@ -25,7 +25,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var tableName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TableName')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Activate', {'Payload.TableName': tableName});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/Activate', {'Payload.TableName': tableName});
 
 ]]></text>
         </script>

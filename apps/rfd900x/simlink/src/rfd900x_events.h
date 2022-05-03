@@ -227,6 +227,8 @@ typedef enum {
 
 	RFD900X_SENDMSG_ERR_EID,
 
+	RFD900X_TX_BUFFER_OVERFLOW_ERR_EID,
+
 
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     RFD900X_EVT_CNT

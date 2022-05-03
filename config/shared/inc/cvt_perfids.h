@@ -38,8 +38,9 @@
 extern "C" {
 #endif
 
-/** \brief Performance ID for the TO main task */
-#define CVT_MAIN_TASK_PERF_ID            (50)
+
+#include "perf_ids.h"
+
 
 #ifdef __cplusplus
 }

@@ -1,8 +1,6 @@
 CFE_LIB, /cf/apps/CFS_LIB.so,   CFS_LibInit,     CFS_LIB,    0,     0, 0x0, 0, 2;
 CFE_LIB, /cf/apps/MBP_LIB.so,   MBP_LibInit,     MBP_LIB,    0,     0, 0x0, 0, 2;
-CFE_LIB, /cf/apps/PRMLIB.so,    PRMLIB_LibInit,  PRMLIB,      0,     0, 0x0, 0, 2;
 CFE_LIB, /cf/apps/PX4LIB.so,    PX4LIB_LibInit,  PX4LIB,    0,     0, 0x0, 0, 2;
-CFE_LIB, /cf/apps/PQ_LIB.so,    PQ_LibInit,      PQ_LIB,     0,       0, 0x0, 0, 2;
 CFE_LIB, /cf/apps/IO_LIB.so,   IO_LibInit,      IO_LIB,     0,     0, 0x0, 0, 0;
 CFE_LIB, /cf/apps/IPC_LIB.so,   IPC_LibInit,     IPC_LIB,    0,     0, 0x0, 0, 0;
 CFE_APP, /cf/apps/CI.so,        CI_AppMain,      CI,        115, 327680, 0x0, 0, 2;
@@ -18,7 +16,6 @@ CFE_APP, /cf/apps/BAT.so,       BAT_AppMain,     BAT,       106, 327680, 0x0, 0,
 CFE_APP, /cf/apps/CS.so,        CS_AppMain,      CS,        160, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/SBND.so,      SBND_AppMain,    SBND,       37, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/SCH.so,       SCH_AppMain,     SCH,        34,  40960, 0x0, 0, 2;
-CFE_APP, /cf/apps/GPS.so,       GPS_AppMain,     GPS,        97, 327680, 0x0, 0, 2;
 CFE_APP, /cf/apps/ADSBR.so,     ADSBR_AppMain,   ADSBR,     150,  32768, 0x0, 0, 2;
 !CFE_APP, /cf/apps/SBN.so,       SBN_AppMain,     SBN,       40,   32768, 0x0, 0, 2;
 !CFE_LIB, /cf/apps/schlib.so,    SCH_LibInit,     SCH_LIB,    0,     0, 0x0, 0, 2;

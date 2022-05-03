@@ -907,7 +907,7 @@ $(pv_value)</tooltip>
       <name>Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.Voltage</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.Voltage</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -959,7 +959,7 @@ $(pv_value)</tooltip>
       <name>Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.VoltageFiltered</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.VoltageFiltered</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -1052,7 +1052,7 @@ $(pv_value)</tooltip>
       <name>Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.Remaining</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.Remaining</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -1144,7 +1144,7 @@ $(pv_value)</tooltip>
       <name>Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.Discharged</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.Discharged</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -1541,7 +1541,7 @@ $(pv_value)</tooltip>
       <name>Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.Scale</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.Scale</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -1633,7 +1633,7 @@ $(pv_value)</tooltip>
       <name>Text Update</name>
       <precision>0</precision>
       <precision_from_pv>false</precision_from_pv>
-      <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.Warning</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.Warning</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -1766,7 +1766,7 @@ $(pv_value)</tooltip>
       <name>Text Update</name>
       <precision>0</precision>
       <precision_from_pv>false</precision_from_pv>
-      <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.ActuatorArmedMsgCount</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.ActuatorArmedMsgCount</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -1858,7 +1858,7 @@ $(pv_value)</tooltip>
       <name>Text Update</name>
       <precision>0</precision>
       <precision_from_pv>false</precision_from_pv>
-      <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.ActuatorArmedMsgCount</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.ActuatorArmedMsgCount</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2296,7 +2296,7 @@ $(pv_value)</tooltip>
       <name>Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.Current</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.Current</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2388,7 +2388,7 @@ $(pv_value)</tooltip>
       <name>Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.Discharged</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.Discharged</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2826,7 +2826,7 @@ $(pv_value)</tooltip>
       <name>Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.Current</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.Current</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -2918,7 +2918,7 @@ $(pv_value)</tooltip>
       <name>Text Update</name>
       <precision>0</precision>
       <precision_from_pv>true</precision_from_pv>
-      <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.Discharged</pv_name>
+      <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.Discharged</pv_name>
       <pv_value />
       <rotation_angle>0.0</rotation_angle>
       <rules />
@@ -3316,7 +3316,7 @@ $(pv_value)</tooltip>
     <name>Text Update</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.usCmdCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.usCmdCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3448,7 +3448,7 @@ $(pv_value)</tooltip>
     <name>Text Update_1</name>
     <precision>0</precision>
     <precision_from_pv>false</precision_from_pv>
-    <pv_name>/cfs/$(CPUID)/bat/BAT_HkTlm_t.usCmdErrCnt</pv_name>
+    <pv_name>/cfs/$(CPUID)/apps/bat/BAT_HK_TLM_MID.usCmdErrCnt</pv_name>
     <pv_value />
     <rotation_angle>0.0</rotation_angle>
     <rules />
@@ -3478,7 +3478,7 @@ $(pv_value)</tooltip>
         <path></path>
         <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/bat/Noop', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/bat/Noop', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3533,7 +3533,7 @@ $(pv_value)</tooltip>
         <path></path>
         <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/bat/Reset', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/bat/Reset', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3708,7 +3708,7 @@ $(pv_value)</tooltip>
         <path></path>
         <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/bat/SendHK', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/bat/SendHK', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3763,7 +3763,7 @@ $(pv_value)</tooltip>
         <path></path>
         <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/bat/SendDiag', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/bat/SendDiag', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>
@@ -3818,7 +3818,7 @@ $(pv_value)</tooltip>
         <path></path>
         <scriptText><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/bat/WakeUp', {});]]></scriptText>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/bat/WakeUp', {});]]></scriptText>
         <embedded>true</embedded>
         <description></description>
       </action>

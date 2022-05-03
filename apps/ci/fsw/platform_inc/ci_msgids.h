@@ -9,7 +9,6 @@
 #define CI_CMD_MID 			0x1905
 #define CI_SEND_HK_MID 			0x1906
 #define CI_WAKEUP_MID			0x1908
-#define CI_OUT_DATA_MID		        0x1909
 #define CI_PROCESS_TIMEOUTS_MID         0x190a
 
 

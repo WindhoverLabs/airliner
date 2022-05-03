@@ -127,7 +127,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 var FirstRtsId = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'FirstRtsId')));
 var LastRtsId = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'LastRtsId')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sc/StartRtsGroup', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/StartRtsGroup', {
     'FirstRtsId': FirstRtsId,
     'LastRtsId': LastRtsId});
 ]]></scriptText>

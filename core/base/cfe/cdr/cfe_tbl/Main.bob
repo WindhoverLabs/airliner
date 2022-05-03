@@ -47,7 +47,7 @@
     </font>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_2</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.CmdCounter</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.CmdCounter</pv_name>
       <x>102</x>
       <y>7</y>
       <width>98</width>
@@ -62,10 +62,6 @@
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_2</name>
@@ -101,7 +97,7 @@
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_3</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.ErrCounter</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.ErrCounter</pv_name>
       <x>102</x>
       <y>26</y>
       <width>98</width>
@@ -116,10 +112,6 @@
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="action_button" version="3.0.0">
       <name>NoOp_2</name>
@@ -128,7 +120,7 @@
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/NoOp', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/NoOp', {});]]></text>
           </script>
         </action>
       </actions>
@@ -155,7 +147,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/NoOp', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Reset', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/Reset', {});]]></text>
           </script>
         </action>
       </actions>
@@ -196,7 +188,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Reset', {});]]></text>
     </font>
     <widget type="embedded" version="2.0.0">
       <name>Embedded Display_3</name>
-      <file>$(TLM_MANAGEMENT_CONTAINER)</file>
+      <file>TO_TlmManagement.bob</file>
       <x>25</x>
       <y>25</y>
       <width>140</width>
@@ -209,7 +201,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/Reset', {});]]></text>
           <script file="EmbeddedJs">
             <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/SendHK', {});]]></text>
           </script>
         </action>
       </actions>
@@ -242,7 +234,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
     </font>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_15</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.MemPoolHandle</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.MemPoolHandle</pv_name>
       <x>170</x>
       <y>214</y>
       <width>166</width>
@@ -257,10 +249,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_55</name>
@@ -280,7 +268,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_16</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.LastUpdateTime.Seconds</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.LastUpdateTime.Seconds</pv_name>
       <x>170</x>
       <y>233</y>
       <width>166</width>
@@ -294,14 +282,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_17</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.LastUpdateTime.Subseconds</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.LastUpdateTime.Subseconds</pv_name>
       <x>170</x>
       <y>252</y>
       <width>166</width>
@@ -315,10 +299,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_57</name>
@@ -338,7 +318,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_18</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.LastUpdatedTbl</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.LastUpdatedTbl</pv_name>
       <x>170</x>
       <y>271</y>
       <width>166</width>
@@ -352,10 +332,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_58</name>
@@ -375,7 +351,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_19</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.LastFileLoaded</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.LastFileLoaded</pv_name>
       <x>170</x>
       <y>290</y>
       <width>166</width>
@@ -389,10 +365,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_59</name>
@@ -412,7 +384,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_20</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.LastFileDumped</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.LastFileDumped</pv_name>
       <x>170</x>
       <y>309</y>
       <width>166</width>
@@ -426,10 +398,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_60</name>
@@ -449,7 +417,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_21</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.LastTableLoaded</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.LastTableLoaded</pv_name>
       <x>170</x>
       <y>328</y>
       <width>166</width>
@@ -463,10 +431,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_4</name>
@@ -582,7 +546,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_4</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.NumTables</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.NumTables</pv_name>
       <x>170</x>
       <y>5</y>
       <width>166</width>
@@ -596,14 +560,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_5</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.NumLoadPending</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.NumLoadPending</pv_name>
       <x>170</x>
       <y>24</y>
       <width>166</width>
@@ -617,14 +577,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_6</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.ValidationCtr</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.ValidationCtr</pv_name>
       <x>170</x>
       <y>43</y>
       <width>166</width>
@@ -638,14 +594,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_7</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.LastValCrc</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.LastValCrc</pv_name>
       <x>170</x>
       <y>62</y>
       <width>166</width>
@@ -659,14 +611,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_8</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.LastValStatus</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.LastValStatus</pv_name>
       <x>170</x>
       <y>81</y>
       <width>166</width>
@@ -680,14 +628,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_9</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.ActiveBuffer</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.ActiveBuffer</pv_name>
       <x>170</x>
       <y>100</y>
       <width>166</width>
@@ -701,14 +645,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_10</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.LastValTableName</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.LastValTableName</pv_name>
       <x>170</x>
       <y>119</y>
       <width>166</width>
@@ -722,10 +662,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_50</name>
@@ -745,7 +681,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_11</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.SuccessValCtr</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.SuccessValCtr</pv_name>
       <x>170</x>
       <y>138</y>
       <width>166</width>
@@ -759,10 +695,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_51</name>
@@ -782,7 +714,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_12</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.FailedValCtr</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.FailedValCtr</pv_name>
       <x>170</x>
       <y>157</y>
       <width>166</width>
@@ -796,10 +728,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_52</name>
@@ -819,7 +747,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_13</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.NumValRequests</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.NumValRequests</pv_name>
       <x>170</x>
       <y>176</y>
       <width>166</width>
@@ -833,10 +761,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_53</name>
@@ -856,7 +780,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_14</name>
-      <pv_name>/cfs/$(CPUID)/cfe_tbl/CFE_TBL_HkPacket_t.Payload.NumFreeSharedBufs</pv_name>
+      <pv_name>/cfs/$(CPUID)/core/cfe/cfe_tbl/CFE_TBL_HK_TLM_MID.Payload.NumFreeSharedBufs</pv_name>
       <x>170</x>
       <y>195</y>
       <width>166</width>
@@ -870,10 +794,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_tbl/SendHK', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-      <border_color>
-        <color red="240" green="240" blue="240">
-        </color>
-      </border_color>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_54</name>

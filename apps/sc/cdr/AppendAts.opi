@@ -126,7 +126,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var AtsId = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AtsId')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/sc/AppendAts', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/sc/AppendAts', {
     'AtsId': AtsId});]]></scriptText>
         <embedded>true</embedded>
         <description></description>

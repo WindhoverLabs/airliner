@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
   <name>($(CPUID)) App Control</name>
-
   <macros>
     <CPUID>{{ cpu_id }}</CPUID>
+    <include_parent_macros>true</include_parent_macros>
+    <REGISTRY_PATH>/modules/$(CPUID)/modules/core/modules/cfe/modules/$(APP)</REGISTRY_PATH>
 @BUILDLINER_CDR_MACRO_BLOCK@
 @BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
-  <width>325</width>
-  <height>500</height>
+  <width>350</width>
   <actions>
   </actions>
   <grid_step_x>6</grid_step_x>
@@ -31,7 +31,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_15</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.StartAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.StartAddress</pv_name>
     <x>145</x>
     <y>295</y>
     <width>167</width>
@@ -47,10 +47,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_16</name>
@@ -70,7 +66,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>inExceptionAction</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.ExceptionAction</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.ExceptionAction</pv_name>
     <x>145</x>
     <y>313</y>
     <width>167</width>
@@ -85,10 +81,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_17</name>
@@ -108,7 +100,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>inPriority</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.Priority</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.Priority</pv_name>
     <x>145</x>
     <y>331</y>
     <width>167</width>
@@ -124,10 +116,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_18</name>
@@ -147,7 +135,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_18</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.MainTaskId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.MainTaskId</pv_name>
     <x>145</x>
     <y>349</y>
     <width>167</width>
@@ -163,10 +151,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_19</name>
@@ -185,7 +169,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_19</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.ExecutionCounter</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.ExecutionCounter</pv_name>
     <x>145</x>
     <y>367</y>
     <width>167</width>
@@ -201,10 +185,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_20</name>
@@ -223,7 +203,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_20</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.MainTaskName</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.MainTaskName</pv_name>
     <x>145</x>
     <y>385</y>
     <width>167</width>
@@ -238,10 +218,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_21</name>
@@ -260,7 +236,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_21</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.NumOfChildTasks</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.NumOfChildTasks</pv_name>
     <x>145</x>
     <y>403</y>
     <width>167</width>
@@ -276,10 +252,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_1</name>
@@ -299,7 +271,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_1</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.AppId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.AppId</pv_name>
     <x>145</x>
     <y>61</y>
     <width>167</width>
@@ -314,10 +286,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_2</name>
@@ -337,7 +305,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_2</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.Type</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.Type</pv_name>
     <x>145</x>
     <y>79</y>
     <width>167</width>
@@ -352,10 +320,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_3</name>
@@ -375,7 +339,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>inAppName</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.Name</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.Name</pv_name>
     <x>145</x>
     <y>43</y>
     <width>167</width>
@@ -390,10 +354,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_4</name>
@@ -413,7 +373,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>inEntryPoint</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.EntryPoint</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.EntryPoint</pv_name>
     <x>145</x>
     <y>97</y>
     <width>167</width>
@@ -428,10 +388,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_5</name>
@@ -451,7 +407,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>inFileName</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.FileName</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.FileName</pv_name>
     <x>145</x>
     <y>115</y>
     <width>167</width>
@@ -467,10 +423,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_6</name>
@@ -490,7 +442,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>inStackSize</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.StackSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.StackSize</pv_name>
     <x>145</x>
     <y>133</y>
     <width>167</width>
@@ -506,10 +458,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_7</name>
@@ -529,7 +477,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_7</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.ModuleId</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.ModuleId</pv_name>
     <x>145</x>
     <y>151</y>
     <width>167</width>
@@ -545,10 +493,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_8</name>
@@ -568,7 +512,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_8</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.AddressesAreValid</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.AddressesAreValid</pv_name>
     <x>145</x>
     <y>169</y>
     <width>167</width>
@@ -584,10 +528,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_9</name>
@@ -607,7 +547,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_9</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.CodeAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.CodeAddress</pv_name>
     <x>145</x>
     <y>187</y>
     <width>167</width>
@@ -623,10 +563,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_10</name>
@@ -646,7 +582,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_10</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.CodeSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.CodeSize</pv_name>
     <x>145</x>
     <y>205</y>
     <width>167</width>
@@ -662,10 +598,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_11</name>
@@ -685,7 +617,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_11</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.DataAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.DataAddress</pv_name>
     <x>145</x>
     <y>223</y>
     <width>167</width>
@@ -701,10 +633,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_12</name>
@@ -724,7 +652,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_12</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.DataSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.DataSize</pv_name>
     <x>145</x>
     <y>241</y>
     <width>167</width>
@@ -740,10 +668,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_13</name>
@@ -763,7 +687,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_13</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.BSSAddress</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.BSSAddress</pv_name>
     <x>145</x>
     <y>259</y>
     <width>167</width>
@@ -779,10 +703,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Label_14</name>
@@ -802,7 +722,7 @@
   </widget>
   <widget type="textupdate" version="2.0.0">
     <name>Text Update_14</name>
-    <pv_name>/cfs/$(CPUID)/cfe_es/CFE_ES_OneAppTlm_t.Payload.AppInfo.BSSSize</pv_name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID.Payload.AppInfo.BSSSize</pv_name>
     <x>145</x>
     <y>277</y>
     <width>167</width>
@@ -818,10 +738,6 @@
     <actions>
     </actions>
     <border_width>1</border_width>
-    <border_color>
-      <color red="240" green="240" blue="240">
-      </color>
-    </border_color>
   </widget>
   <widget type="label" version="2.0.0">
     <name>app_name</name>
@@ -853,7 +769,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/QueryOneApp', {'Payload.Application': appName});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/QueryOneApp', {'Payload.Application': appName});
 
 ]]></text>
         </script>
@@ -872,7 +788,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/QueryOneApp', {'Payload.Applica
       <color red="34" green="45" blue="75">
       </color>
     </background_color>
-    <tooltip>$(actions)</tooltip>
+    <tooltip>This will send a command to CFE-ES to trigger it to send message back containing the above data for the $(APP) application.  The "/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_APP_TLM_MID" message must be in the downlink to see this message.  The command will be rejected if the $(APP) application is not currently loaded.</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
@@ -885,7 +801,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/RestartApp', {'Payload.Application': appName});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/RestartApp', {'Payload.Application': appName});
 
 ]]></text>
         </script>
@@ -904,7 +820,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/RestartApp', {'Payload.Applicat
       <color red="34" green="45" blue="75">
       </color>
     </background_color>
-    <tooltip>$(actions)</tooltip>
+    <tooltip>This will send a command to CFE-ES to restart the $(APP) application using the same startup parameters that were used to load it.  This command will be rejected if the $(APP) is not currently loaded.</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
@@ -917,7 +833,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/StopApp', {'Payload.Application': appName});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/StopApp', {'Payload.Application': appName});
 
 ]]></text>
         </script>
@@ -936,7 +852,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/StopApp', {'Payload.Application
       <color red="34" green="45" blue="75">
       </color>
     </background_color>
-    <tooltip>$(actions)</tooltip>
+    <tooltip>This will send a command to CFE-ES to stop the $(APP) application.  This command will be rejected if the $(APP) is not currently loaded.</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="action_button" version="3.0.0">
@@ -970,5 +886,73 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_es/StopApp', {'Payload.Application
     <width>79</width>
     <height>20</height>
     <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label</name>
+    <text>Cmd Count</text>
+    <x>36</x>
+    <y>486</y>
+    <width>79</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update</name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.CmdCounter</pv_name>
+    <x>133</x>
+    <y>487</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_22</name>
+    <text>Err Count</text>
+    <x>52</x>
+    <y>505</y>
+    <width>63</width>
+    <horizontal_alignment>2</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>Text Update_3</name>
+    <pv_name>/cfs/$(CPUID)/core/cfe/cfe_es/CFE_ES_HK_TLM_MID.Payload.ErrCounter</pv_name>
+    <x>133</x>
+    <y>506</y>
+    <width>98</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <precision>0</precision>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
   </widget>
 </display>

@@ -67,7 +67,7 @@ var debugFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetBy
 
 var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/EnableAppEventType', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/EnableAppEventType', {
     'Payload.AppName': appName,
     'Payload.BitMask': mask.toFixed(0),
     'Payload.Spare': '0'
@@ -107,7 +107,7 @@ var debugFlag = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetBy
 
 var mask = (critFlag * 8) + (errorFlag * 4) + (infoFlag * 2) + (debugFlag);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cfe_evs/DisableAppEventType', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/DisableAppEventType', {
     'Payload.AppName': appName,
     'Payload.BitMask': mask.toFixed(0),
     'Payload.Spare': '0'

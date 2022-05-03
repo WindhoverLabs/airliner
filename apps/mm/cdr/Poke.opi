@@ -130,7 +130,7 @@ var SymbolName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetB
 var Offset = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Offset')));
 var Data = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Data')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/mm/Poke', {
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/mm/Poke', {
     'MemType': MemType,
     'DataSize': NumofBytes,
     'Padding_0_': 0,

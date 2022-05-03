@@ -11,6 +11,7 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../inc
         ${CMAKE_CURRENT_SOURCE_DIR}/../../inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../shared/inc
     FILESYS
         /cf/apps
         /cf/log
@@ -18,6 +19,9 @@ buildliner_initialize(
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
 )
+
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/term-sitl.cfg DESTINATION ${CMAKE_BINARY_DIR}/../..)
 
 
 buildliner_add_app(
@@ -71,28 +75,28 @@ buildliner_add_app(
     sedlib
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedlib/fsw/for_build
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sedlib/sedlib_config.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/sedlib/sedlib_shmem.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/sedlib/sedlib_config.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/sedlib/sedlib_shmem.c
 )
 
 
 buildliner_add_app(
     ublox_m8n
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/gps/simlink/ublox_m8n/for_build
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/gps/simlink/ublox_m8n/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ublox_m8n
 )
 
 
 buildliner_add_app(
     hmc5883
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hmc5883/simlink/for_build
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/hmc5883/simlink/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/hmc5883
 )
 
 
 buildliner_add_app(
     icm20689
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/icm20689/simlink/for_build
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/icm20689/simlink/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/icm20689
 )
 
@@ -108,4 +112,26 @@ buildliner_add_app(
     rfd900x
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/rfd900x/simlink/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/rfd900x
+)
+
+
+buildliner_add_app(
+    sedpwm
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedpwm/simlink/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/sedpwm
+)
+
+
+buildliner_add_app(
+    sbus
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedsbus/simlink/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/sbus
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/sbus/sbus_custom.c
+)
+
+buildliner_add_app(
+    sed
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sed/simlink/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/sed
 )

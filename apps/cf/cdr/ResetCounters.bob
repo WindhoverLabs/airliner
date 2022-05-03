@@ -29,7 +29,7 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
 var counters = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Counters')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/cf/ResetCounters', {'Value': counters, 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/cf/ResetCounters', {'Value': counters, 'Spare_0_': 0, 'Spare_1_': 0, 'Spare_2_': 0});
 ]]></text>
         </script>
       </action>
