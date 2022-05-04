@@ -60,7 +60,7 @@ osalbool CI_AddCustomEventFilters(uint32 *count)
 
 int32 CI_InitCustom(void)
 {
-    int32 Status = CFE_SUCCESS;
+    int32 status = CFE_SUCCESS;
     int reuseaddr = 1;
     struct sockaddr_in address;
 
@@ -68,11 +68,21 @@ int32 CI_InitCustom(void)
     {
     	CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,
     		   "Socket errno: %i", errno);
-    		Status = -1;
+    		status = -1;
     		goto end_of_function;
     }
 
     setsockopt(CI_AppCustomData.Socket, SOL_SOCKET, SO_REUSEADDR, &reuseaddr, sizeof(reuseaddr));
+
+    /* Put the socket in non-blocking mode: */
+    status = fcntl(CI_AppCustomData.Socket, F_SETFL, fcntl(CI_AppCustomData.Socket, F_GETFL) | O_NONBLOCK);
+    if(status)
+    {
+        CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,
+                "fcntl errno %i", errno);
+		status = -1;
+		goto end_of_function;
+    }
 
     bzero((char *) &address, sizeof(address));
     address.sin_family      = AF_INET;
@@ -82,7 +92,7 @@ int32 CI_InitCustom(void)
     if ( (bind(CI_AppCustomData.Socket, (struct sockaddr *) &address, sizeof(address)) < 0) )
     {
         CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,"Bind socket failed = %d", errno);
-        Status = -1;
+        status = -1;
         goto end_of_function;
     }
 
@@ -91,16 +101,27 @@ int32 CI_InitCustom(void)
                       CI_AppCustomData.Port);
 
 end_of_function:
-    return Status;
+    return status;
 
 }
 
 
-void CI_ReadMessage(uint8* buffer, uint32* size)
+void CI_ReadMessage(uint8 *inOutBuffer, uint32 *inOutSize)
 {
-	*size = recv(CI_AppCustomData.Socket,
-					   (char *)buffer,
-					   (size_t)size, 0);
+	int size = (int)*inOutSize;
+
+	size = recv(CI_AppCustomData.Socket,
+					   (char *)inOutBuffer,
+					   (size_t)&size, 0);
+
+	if(size <= 0)
+	{
+		*inOutSize = 0;
+	}
+	else
+	{
+		*inOutSize = size;
+	}
 }
 
 
