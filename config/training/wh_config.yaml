@@ -84,6 +84,24 @@ modules:
              
   apps:
     modules:   
+      sch:
+        definition: ${PROJECT_SOURCE_DIR}/apps/sch/wh_design.yaml
+        telemetry:
+          SCH_ACTIVITY_DONE_MID:
+            msgID: 0x0863              # TLM_MSG(   99 )
+          SCH_DIAG_TLM_MID:
+            msgID: 0x0864              # TLM_MSG(  100 )
+          SCH_HK_TLM_MID:
+            msgID: 0x0865              # TLM_MSG(  101 )
+        commands:
+          SCH_CMD_MID:
+            msgID: 0x1866              # CMD_MSG(  102 )
+          SCH_SEND_HK_MID:
+            msgID: 0x1867              # CMD_MSG(  103 )
+        perfids:
+          SCH_APPMAIN_PERF_ID:
+            id: 60
+            
       to:
         definition: ${PROJECT_SOURCE_DIR}/apps/to/wh_design.yaml
         commander:
@@ -206,3 +224,27 @@ modules:
                      - msg: "CFE_ES_APP_TLM_MID"
                        depth: 1
                        pqueue: "CPD_HK"
+                       
+      ci:
+        definition: ${PROJECT_SOURCE_DIR}/apps/ci/wh_design.yaml
+        telemetry:
+          CI_HK_TLM_MID:
+            msgID: 0x0827              # TLM_MSG(   39 )
+        commands:
+          CI_CMD_MID:
+            msgID: 0x1828              # CMD_MSG(   40 )
+          CI_INGEST_COMMANDS_MID:
+            msgID: 0x1829              # CMD_MSG(   41 )
+          CI_PROCESS_TIMEOUTS_MID:
+            msgID: 0x182a              # CMD_MSG(   42 )
+          CI_SEND_HK_MID:
+            msgID: 0x182b              # CMD_MSG(   43 )
+          CI_WAKEUP_MID:
+            msgID: 0x182c              # CMD_MSG(   44 )
+        perfids:
+          CF_APPMAIN_PERF_ID:
+            id: 33
+          CI_MAIN_TASK_PERF_ID:
+            id: 34
+          CI_SOCKET_RCV_PERF_ID:
+            id: 35

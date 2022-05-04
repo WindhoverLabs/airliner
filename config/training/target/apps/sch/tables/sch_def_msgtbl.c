@@ -28,7 +28,6 @@ extern "C" {
 ** External Global Variables
 */
 
-
 /*
 ** Global Variables
 */
@@ -92,13 +91,13 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #25 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
    /* Command ID #26 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(CI_INGEST_COMMANDS_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #27 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(CI_PROCESS_TIMEOUTS_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #28 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(CI_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #29 */
-   { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0, 0), 0 } },
+   { { SCH_FIX_HEADER(CI_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #30 */
    { { SCH_FIX_HEADER(SCH_UNUSED_MID, 0,0), 0 } },
    /* Command ID #31 */

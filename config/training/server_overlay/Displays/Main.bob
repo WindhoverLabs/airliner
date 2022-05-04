@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>Main</name>
+  <width>820</width>
+  <height>850</height>
+  <actions>
+  </actions>
+  <grid_step_x>6</grid_step_x>
+  <grid_step_y>6</grid_step_y>
+  <widget type="group" version="2.0.0">
+    <name>Core Services</name>
+    <x>18</x>
+    <y>18</y>
+    <width>270</width>
+    <height>186</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <background_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <actions>
+    </actions>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_2</name>
+      <actions>
+        <action type="open_display">
+          <file>training/core/cfe/cfe_es/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>150</x>
+      <y>5</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_1</name>
+      <text>Essential Services</text>
+      <y>7</y>
+      <width>137</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_51</name>
+      <text>Event Services</text>
+      <y>35</y>
+      <width>137</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_5</name>
+      <actions>
+        <action type="open_display">
+          <file>training/core/cfe/cfe_evs/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>150</x>
+      <y>35</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_52</name>
+      <text>Software Bus</text>
+      <y>65</y>
+      <width>137</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_8</name>
+      <actions>
+        <action type="open_display">
+          <file>training/core/cfe/cfe_sb/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>150</x>
+      <y>65</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_53</name>
+      <text>Table Services</text>
+      <y>95</y>
+      <width>137</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_11</name>
+      <actions>
+        <action type="open_display">
+          <file>training/core/cfe/cfe_tbl/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>150</x>
+      <y>95</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_54</name>
+      <text>Time Services</text>
+      <y>125</y>
+      <width>137</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_14</name>
+      <actions>
+        <action type="open_display">
+          <file>training/core/cfe/cfe_time/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>150</x>
+      <y>125</y>
+      <width>73</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>System Services</name>
+    <x>18</x>
+    <y>204</y>
+    <width>270</width>
+    <height>132</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <background_color>
+      <color red="240" green="240" blue="240">
+      </color>
+    </background_color>
+    <transparent>true</transparent>
+    <actions>
+    </actions>
+    <widget type="label" version="2.0.0">
+      <name>Label_61</name>
+      <text>Command Ingest</text>
+      <x>6</x>
+      <y>12</y>
+      <width>136</width>
+      <height>19</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_20</name>
+      <actions>
+        <action type="open_display">
+          <file>training/apps/ci/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>10</y>
+      <width>72</width>
+      <height>22</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_67</name>
+      <text>Scheduler</text>
+      <x>6</x>
+      <y>39</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_38</name>
+      <actions>
+        <action type="open_display">
+          <file>training/apps/sch/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>37</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_68</name>
+      <text>Telemetry Output</text>
+      <x>6</x>
+      <y>67</y>
+      <width>136</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_41</name>
+      <actions>
+        <action type="open_display">
+          <file>training/apps/to/Main.opi</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>149</x>
+      <y>65</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Button Legend</name>
+    <x>342</x>
+    <y>24</y>
+    <width>276</width>
+    <height>192</height>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_43</name>
+      <actions>
+      </actions>
+      <text>Open Display</text>
+      <x>12</x>
+      <y>17</y>
+      <width>223</width>
+      <height>25</height>
+      <tooltip>Opens a secondary display</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp</name>
+      <actions>
+      </actions>
+      <text>Command</text>
+      <x>12</x>
+      <y>67</y>
+      <width>223</width>
+      <height>25</height>
+      <foreground_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </foreground_color>
+      <background_color>
+        <color red="34" green="45" blue="75">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_44</name>
+      <actions>
+      </actions>
+      <text>Hazardous Command</text>
+      <x>12</x>
+      <y>117</y>
+      <width>223</width>
+      <height>25</height>
+      <background_color>
+        <color red="255" green="50" blue="50">
+        </color>
+      </background_color>
+      <tooltip>This is a potentially hazard command that, if improperly used, can result in damage or loss of mission.</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_2</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+for(var i = 1; i <= 32; ++i) {
+    var ActualTriggerName = 'TriggerActual' + i;
+    var RequestTriggerName = 'TriggerRequest' + i;
+    var actualTriggerValue = VTypeHelper.getDouble(display.getWidget(ActualTriggerName).getPropertyValue('pv_value'));
+    display.getWidget(RequestTriggerName).setPropertyValue('pv_value', actualTriggerValue);
+}]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Local Action</text>
+      <x>12</x>
+      <y>42</y>
+      <width>223</width>
+      <height>25</height>
+      <background_color>
+        <color name="TM_label_text" red="197" green="211" blue="236">
+        </color>
+      </background_color>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>ResetFilter_5</name>
+      <actions>
+        <action type="execute">
+          <script file="EmbeddedJs">
+            <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var appName = widget.getEffectiveMacros().getValue("APP").toUpperCase();
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_evs/DisableAppEventType', {
+    'Payload.AppName':  appName,
+    'Payload.BitMask':  '0x0008',
+    'Payload.Spare':  '0'
+});
+]]></text>
+          </script>
+        </action>
+      </actions>
+      <text>Sensitive Command</text>
+      <x>12</x>
+      <y>92</y>
+      <width>223</width>
+      <height>25</height>
+      <background_color>
+        <color name="Attention" red="255" green="160" blue="0">
+        </color>
+      </background_color>
+      <tooltip>Use this command with care.  This may have an inadvertent side effect if not well understood.</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+      <show_confirm_dialog>true</show_confirm_dialog>
+      <confirm_message>Are you sure you want to disable ALL critical $(APP) events?  You may miss important events.</confirm_message>
+    </widget>
+  </widget>
+</display>

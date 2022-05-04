@@ -34,6 +34,11 @@ extern "C" {
 #define TO_SEND_HK_MIDX               20
 #define TO_SEND_TLM_MIDX              21
 
+#define CI_INGEST_COMMANDS_MIDX       26
+#define CI_PROCESS_TIMEOUTS_MIDX      27
+#define CI_SEND_HK_MIDX               28
+#define CI_WAKEUP_MIDX                29
+
 
 /* Default schedule table */
 SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
@@ -47,34 +52,34 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 
 		/* Minor Frame 1 */
 		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,  1,	0,	CFE_EVS_SEND_HK_MIDX,     SCH_GROUP_NONE },
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,  1,	0,	CI_SEND_HK_MIDX,          SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 
 		/* Minor Frame 2 */
 		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,  1,	0,	CFE_SB_SEND_HK_MIDX,      SCH_GROUP_NONE },
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,  1,	0,	CI_WAKEUP_MIDX,           SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 
 		/* Minor Frame 3 */
 		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,  1,	0,	CFE_TIME_SEND_HK_MIDX,    SCH_GROUP_NONE },
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,  1,	0,	CI_INGEST_COMMANDS_MIDX,     SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 
 		/* Minor Frame 4 */
 		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,  1,	0,	CFE_TBL_SEND_HK_MIDX,     SCH_GROUP_NONE },
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,  1,	0,	CI_PROCESS_TIMEOUTS_MIDX, SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 
 		/* Minor Frame 5 */
-		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,  1,	0,	CFE_TIME_FAKE_CMD_MIDX,   SCH_GROUP_NONE },
+		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },

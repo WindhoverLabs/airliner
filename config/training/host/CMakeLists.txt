@@ -9,3 +9,5 @@ buildliner_build_cfe_host_tools(
         ${PROJECT_SOURCE_DIR}/config/training/inc
         ${PROJECT_SOURCE_DIR}/config/shared/inc
 )
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../term.cfg DESTINATION ${CMAKE_BINARY_DIR}/..)

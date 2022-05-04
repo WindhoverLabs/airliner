@@ -27,9 +27,10 @@ TO_ChannelTbl_t TO_BackupConfigTbl =
     1,
     {
         /* Message Flows */
-        {TO_HK_TLM_MID,                1, TO_PQUEUE_HIGH_IDX},
-        {TO_DIAG_TLM_MID,              1, TO_PQUEUE_HIGH_IDX},
-        {TO_DIAG_MSG_FLOW_MID,         1, TO_PQUEUE_HIGH_IDX},
+        {TO_HK_TLM_MID,                1, TO_PQUEUE_MEDIUM_IDX},
+        {TO_DIAG_TLM_MID,              1, TO_PQUEUE_MEDIUM_IDX},
+        {TO_DIAG_MSG_FLOW_MID,         1, TO_PQUEUE_MEDIUM_IDX},
+        {CI_HK_TLM_MID,                1, TO_PQUEUE_MEDIUM_IDX},
         {CFE_ES_HK_TLM_MID,            1, TO_PQUEUE_MEDIUM_IDX},
         {CFE_EVS_HK_TLM_MID,           1, TO_PQUEUE_MEDIUM_IDX},
         {CFE_SB_HK_TLM_MID,            1, TO_PQUEUE_MEDIUM_IDX},

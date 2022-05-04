@@ -12,11 +12,6 @@ buildliner_initialize(
 )
 
 buildliner_add_app(
-    mfa
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mfa/fsw/for_build
-)
-
-buildliner_add_app(
     sch
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
     CONFIG_SOURCES
@@ -41,6 +36,29 @@ buildliner_add_app(
     CONFIG_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/to_custom.c
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/to_custom_udp.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/to_backup_cfg.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/tables/to_backup_cfg.c
 )
 
+buildliner_add_table(
+    to
+    NAME to_udp_cfg
+    SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/tables/to_udp_cfg.c
+)
+
+buildliner_add_app(
+    ci
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci/ci_custom.c
+)
+
+buildliner_add_table(
+    ci
+    NAME ci_config
+    SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci/tables/ci_config.c
+)
+
+buildliner_add_app(
+    mfa
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mfa/fsw/for_build
+)
