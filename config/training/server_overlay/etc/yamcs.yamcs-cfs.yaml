@@ -23,7 +23,7 @@ services:
         warmupTime: 60
   - class: org.yamcs.tctm.cfs.CfsEventDecoder
     args:
-      msgIds: [0x0815, 0x0a15] #Always confirm this ID with CFE_EVS configuration
+      msgIds: [0x0815] #Always confirm this ID with CFE_EVS configuration
       byteOrder: LITTLE_ENDIAN
       appNameMax: 40
       eventMsgMax: 122
@@ -66,7 +66,7 @@ dataLinks:
     packetPreprocessorArgs:
       checkSequence: false
       byteOrder: LITTLE_ENDIAN
-      useLocalGenerationTime: false
+      useLocalGenerationTime: true
       #errorDetection:
       #tcoService:
       timestampFormat: CFE_SB_TIME_32_16_SUBS
