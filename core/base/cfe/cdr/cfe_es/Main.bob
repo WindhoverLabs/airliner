@@ -1548,10 +1548,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Restart', {'Payload.Re
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
         </font>
       </font>
-      <foreground_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </foreground_color>
       <background_color>
         <color red="255" green="50" blue="50">
         </color>
@@ -1579,10 +1575,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/Restart', {'Payload.Re
         <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
         </font>
       </font>
-      <foreground_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </foreground_color>
       <background_color>
         <color red="255" green="50" blue="50">
         </color>
