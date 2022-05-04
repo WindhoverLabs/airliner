@@ -1,9 +1,208 @@
 ---
 config_base: ${PROJECT_SOURCE_DIR}
+cpu_id: training
+commander:
+  server_overlay: ${PROJECT_SOURCE_DIR}/config/training/server_overlay
 modules:
   core:
     modules:
-      osal:
-        definition: ${PROJECT_SOURCE_DIR}/core/osal/posix-fast/wh_design.yaml
-      psp:
-        definition: ${PROJECT_SOURCE_DIR}/core/psp/pc-linux-wh/wh_design.yaml
+      cfe:
+        modules:
+          cfe_es:
+            telemetry:
+              CFE_ES_HK_TLM_MID:
+                msgID: 0x080f          # TLM_MSG(   15 )
+              CFE_ES_APP_TLM_MID:
+                msgID: 0x0817          # TLM_MSG(   23 )
+              CFE_ES_MEMSTATS_TLM_MID:
+                msgID: 0x081c          # TLM_MSG(   28 )
+              CFE_ES_SHELL_TLM_MID:
+                msgID: 0x081b          # TLM_MSG(   27 )
+            commands:
+              CFE_ES_CMD_MID:
+                msgID: 0x1804          # CMD_MSG(    4 )
+              CFE_ES_SEND_HK_MID:
+                msgID: 0x1805          # CMD_MSG(    5 )
+          cfe_evs:
+            telemetry:
+              CFE_EVS_HK_TLM_MID:
+                msgID: 0x0810          # TLM_MSG(   16 )
+              CFE_EVS_EVENT_MSG_MID:
+                msgID: 0x0815          # TLM_MSG(   21 )
+            commands:
+              CFE_EVS_CMD_MID:
+                msgID: 0x1800          # CMD_MSG(    0 )
+              CFE_EVS_SEND_HK_MID:
+                msgID: 0x1806          # CMD_MSG(    6 )
+          cfe_sb:
+            telemetry:
+              CFE_SB_HK_TLM_MID:
+                msgID: 0x0811          # TLM_MSG(   17 )
+              CFE_SB_STATS_TLM_MID:
+                msgID: 0x0816          # TLM_MSG(   22 )
+              CFE_SB_ALLSUBS_TLM_MID:
+                msgID: 0x0819          # TLM_MSG(   25 )
+              CFE_SB_ONESUB_TLM_MID:
+                msgID: 0x081a          # TLM_MSG(   26 )
+            commands:
+              CFE_SB_CMD_MID:
+                msgID: 0x1801          # CMD_MSG(    1 )
+              CFE_SB_SEND_HK_MID:
+                msgID: 0x1807          # CMD_MSG(    6 )
+          cfe_tbl:
+            telemetry:
+              CFE_TBL_HK_TLM_MID:
+                msgID: 0x0812          # TLM_MSG(   18 )
+              CFE_TBL_REG_TLM_MID:
+                msgID: 0x0818          # TLM_MSG(   24 )
+            commands:
+              CFE_TBL_CMD_MID:
+                msgID: 0x1802          # CMD_MSG(    2 )
+              CFE_TBL_SEND_HK_MID:
+                msgID: 0x1808          # CMD_MSG(    8 )
+          cfe_time:
+            telemetry:
+              CFE_TIME_DIAG_TLM_MID:
+                msgID: 0x0814          # TLM_MSG(   20 )
+              CFE_TIME_HK_TLM_MID:
+                msgID: 0x0813          # TLM_MSG(   19 )
+            commands:
+              CFE_TIME_CMD_MID:
+                msgID: 0x1803          # CMD_MSG(    3 )
+              CFE_TIME_SEND_HK_MID:
+                msgID: 0x1809          # CMD_MSG(    9 )
+              CFE_TIME_DATA_CMD_MID:
+                msgID: 0x180c          # CMD_MSG(   12 )
+              CFE_TIME_TONE_CMD_MID:
+                msgID: 0x180a          # CMD_MSG(   10 )
+              CFE_TIME_FAKE_CMD_MID:
+                msgID: 0x180d          # CMD_MSG(   13 )
+              CFE_TIME_1HZ_CMD_MID:
+                msgID: 0x180b          # CMD_MSG(   11 )
+              CFE_TIME_SEND_CMD_MID:
+                msgID: 0x180e          # CMD_MSG(   14 )
+             
+  apps:
+    modules:   
+      to:
+        definition: ${PROJECT_SOURCE_DIR}/apps/to/wh_design.yaml
+        commander:
+          displays: cdr
+          templates:
+            _ADD_MESSAGE_FLOW:
+              template: "../../config/obc/cdr/TO_AddMessageFlow.j2"
+              output: "TO_AddMessageFlow.bob"
+              scope: GLOBAL
+            _QUERY_MESSAGE_FLOW:
+              template: "cdr/resources/templates/TO_QueryMessageFlow.j2"
+              output: "TO_QueryMessageFlow.bob"
+              scope: GLOBAL
+            _REMOVE_MESSAGE_FLOW:
+              template: "../../config/obc/cdr/TO_RemoveMessageFlow.j2"
+              output: "TO_RemoveMessageFlow.bob"
+              scope: GLOBAL
+            _TLM_MANAGEMENT_FLOW:
+              template: "cdr/resources/templates/TO_TlmManagement.j2"
+              output: "TO_TlmManagement.bob"
+              scope: GLOBAL
+        telemetry:
+          TO_DIAG_MSG_FLOW_MID: 
+            msgID: 0x0869              # TLM_MSG(  105 )
+          TO_DIAG_TLM_MID:
+            msgID: 0x086a              # TLM_MSG(  106 )
+          TO_HK_TLM_MID:
+            msgID: 0x086b              # TLM_MSG(  107 )
+        commands:
+          TO_CMD_MID:
+            msgID: 0x186c              # CMD_MSG(  108 )
+            #commands: 
+            #  EnableChannel:
+            #    cc: 10
+            #    struct: TO_EnableChannelCmd_t
+            #  DisableChannel:
+            #    cc: 11
+            #    struct: TO_DisableChannelCmd_t   
+          TO_SEND_HK_MID:
+            msgID: 0x186d              # CMD_MSG(  109 ) 
+          TO_SEND_TLM_MID:
+            msgID: 0x186e              # CMD_MSG(  110 ) 
+        tables:
+          _TO_CONFIG:
+            channel:
+              - name: "ground"
+                instance:
+                -  name: "default"
+                   output: "to_config.c"
+                   id: 1
+                   is_backup: false
+                   priority_queue:
+                     - name:  "CPD_SINGLE_PASS"
+                       type:  "SINGLE"
+                       depth: 20
+                     - name:  "PPD_SINGLE_PASS"
+                       type:  "SINGLE"
+                       depth: 20
+                     - name:  "CPD_HIGH_OPS_RSRVD"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "PPD_HIGH_OPS_RSRVD"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "CPD_HIGH"
+                       type:  "FIFO"
+                       depth: 64
+                     - name:  "CPD_EVENTS"
+                       type:  "FIFO"
+                       depth: 50
+                     - name:  "CPD_CFDP"
+                       type:  "FIFO"
+                       depth: 64
+                     - name:  "CPD_SHELL"
+                       type:  "FIFO"
+                       depth: 40
+                     - name:  "CPD_HK"
+                       type:  "FIFO"
+                       depth: 20
+                     - name:  "PPD_HIGH"
+                       type:  "FIFO"
+                       depth: 20
+                     - name:  "PPD_EVENTS"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "PPD_CFDP"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "PPD_SHELL"
+                       type:  "FIFO"
+                       depth: 64
+                     - name:  "PPD_HK"
+                       type:  "FIFO"
+                       depth: 50
+                     - name:  "CPD_PX4LOW"
+                       type:  "FIFO"
+                       depth: 64
+                     - name:  "PPD_PX4LOW"
+                       type:  "FIFO"
+                       depth: 40
+                   message_flow:
+                     - msg: "AMC_HK_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "BAT_HK_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CF_CONFIG_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CF_HK_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CF_SPACE_TO_GND_PDU_MID"
+                       depth: 32
+                       pqueue: "CPD_CFDP"
+                     - msg: "CF_TRANS_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CFE_ES_APP_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"

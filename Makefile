@@ -191,6 +191,21 @@ workspace-sitl::
 	@echo 'Generating Simlink XTCE'
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/simlink/target/wh_defs.yaml ${PWD}/build/obc/simlink/target/wh_defs.db ${PWD}/build/obc/sitl_commander_workspace/mdb/simlink.xml
 	
+	
+	
+workspace-training::
+	@echo 'Generating ground tools data.'
+	@make -C build/training/target ground-tools
+	@echo 'Adding XTCE configuration to registries.'
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/training/target/wh_defs.yaml --overwrite build/training/target/wh_defs.yaml
+	@echo 'Generating registry.'
+	@rm -Rf build/training/commander_workspace >/dev/null
+	@mkdir -p build/training/commander_workspace/etc	
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/training/commander_workspace/etc/registry.yaml --yaml_input build/training/target/wh_defs.yaml --yaml_path /modules/training
+	@echo 'Generating Commander workspace.'
+	@python3 core/base/tools/commander/generate_workspace.py build/training/commander_workspace/etc/registry.yaml build/training/commander_workspace/
+	@echo 'Generating XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/training/target/wh_defs.yaml ${PWD}/build/training/target/wh_defs.db ${PWD}/build/training/commander_workspace/mdb/training.xml
 		
 	
 obc-sitl:: obc/ppd/sitl obc/cpd/sitl obc/simlink
