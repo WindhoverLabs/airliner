@@ -7,3 +7,4 @@ build/**
 venv
 *.class
 *__pycache__
+*.cproject
