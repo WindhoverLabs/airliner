@@ -20,7 +20,25 @@
     <name>Action Button</name>
     <actions>
       <action type="execute">
-        <script file="resources/scripts/start_app.py">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var appName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inAppName')));
+var entryPoint = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inEntryPoint')));
+var fileName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inFileName')));
+var stackSize = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inStackSize')));
+var exceptionAction = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inExceptionAction')));
+var priority = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'inPriority')));
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_es/StartApp', {
+    'Payload.Application':     appName,
+    'Payload.AppEntryPoint':   entryPoint,
+    'Payload.AppFileName':     fileName,
+    'Payload.StackSize':       stackSize,
+    'Payload.ExceptionAction': exceptionAction,
+    'Payload.Priority':        priority});
+]]></text>
         </script>
       </action>
     </actions>
