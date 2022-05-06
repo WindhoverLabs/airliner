@@ -1,6 +1,8 @@
 CFE_APP, /cf/apps/SCH.so,      SCH_AppMain,     SCH,       10, 40960, 0x0, 0, 0;
 CFE_APP, /cf/apps/TO.so,       TO_AppMain,      TO,        13, 40960, 0x0, 0, 0;
 CFE_APP, /cf/apps/CI.so,       CI_AppMain,      CI,        16, 40960, 0x0, 0, 0;
+CFE_APP, /cf/apps/MFA.so,      MFA_AppMain,     MFA,       100,40960, 0x0, 0, 0;
+
 !
 ! Startup script fields:
 ! 1. Object Type      -- CFE_APP for an Application, or CFE_LIB for a library.

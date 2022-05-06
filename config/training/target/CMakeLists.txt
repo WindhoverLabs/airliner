@@ -9,6 +9,10 @@ buildliner_initialize(
         
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
+    
+    FILESYS
+        /cf/log
+        /ram
 )
 
 buildliner_add_app(
