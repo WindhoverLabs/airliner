@@ -106,7 +106,7 @@ function(psp_buildliner_initialize)
     execute_process(
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 	    COMMAND ${CMAKE_COMMAND} -E make_directory generated_code
-	    COMMAND python ${PROJECT_SOURCE_DIR}/core/base/psp/make/parse_configuration.py ${CMAKE_BINARY_DIR}/wh_defs.yaml generated_code ${COMMANDER_WORKSPACE}/Displays/${PARSED_ARGS_CPU_ID}
+	    COMMAND python3 ${PROJECT_SOURCE_DIR}/core/base/psp/make/parse_configuration.py ${CMAKE_BINARY_DIR}/wh_defs.yaml generated_code ${COMMANDER_WORKSPACE}/Displays/${PARSED_ARGS_CPU_ID}
 	    #COMMAND ${CMAKE_COMMAND} ${CMAKE_CURRENT_BINARY_DIR}/generated_code
 	)
         

@@ -42,7 +42,8 @@ SHELL := /bin/bash
 CONFIG_DIR   := config
 GENERIC_TARGET_PATHS :=  $(shell find ${CONFIG_DIR} -mindepth 2 -maxdepth 20 -type f -name 'wh_config.yaml' | sed -r 's,^[^/]*/,,' | sed -r 's|/[^/]+$$||' | sort -u)
 GENERIC_TARGET_NAMES := $(shell echo ${GENERIC_TARGET_PATHS} )
-BUILD_TYPES  := host target
+#BUILD_TYPES  := host target
+BUILD_TYPES  := host
 ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 REMOTE_ADDRESS := '192.168.2.156'
