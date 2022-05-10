@@ -105,7 +105,7 @@ int32 CI_InitTbls(void)
 		(void) CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,
 								 "Failed to register Timeout table (0x%08X)",
 								 (unsigned int)iStatus);
-		goto CI_InitTbls_Exit_Tag;
+        goto CI_InitTbls_Exit_Tag;
 	}
 
     /* Load Config table file */
@@ -129,7 +129,7 @@ int32 CI_InitTbls(void)
 		(void) CFE_EVS_SendEvent(CI_INIT_ERR_EID, CFE_EVS_ERROR,
 								 "Failed to load Timeout Table (0x%08X)",
 								 (unsigned int)iStatus);
-		goto CI_InitTbls_Exit_Tag;
+        goto CI_InitTbls_Exit_Tag;
 	}
 
     iStatus = CI_AcquireConfigPointers();

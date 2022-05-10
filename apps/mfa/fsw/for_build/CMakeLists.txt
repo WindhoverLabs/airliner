@@ -1,7 +1,7 @@
 buildliner_add_app_def(mfa
 	FILE MFA 
 	
-	SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../src/mfa_app.cpp
+	SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../src/mfa_app.c
 	
     INCLUDES
             ${CMAKE_CURRENT_SOURCE_DIR}/../src/

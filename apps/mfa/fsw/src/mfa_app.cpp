@@ -1,64 +1,88 @@
 #include "cfe.h"
-#include "mfa_version.h"
-#include "mfa_app.h"
+#include "mfa_tbldefs.h"
+
+#define MFA_INITIALIZED_EID  (1)
+#define MFA_HELLO_WORLD_EID  (2)
+#define MFA_INIT_ERR_EID     (3)
+
+#define MFA_MAJOR_VERSION    (1)
+#define MFA_MINOR_VERSION    (0)
+#define MFA_PATCH_VERSION    (0)
+
+#define MFA_CONFIG_TABLENAME       "CONFIG_TBL"
+#define MFA_CONFIG_TABLE_FILENAME  "/cf/apps/mfa_config.tbl"
+
+CFE_TBL_Handle_t  MFA_ConfigTblHdl;
 
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-	void MFA_AppMain()
-	{
-		int32  iStatus = 0;
-		uint32 exitStatus = CFE_ES_APP_RUN;
 
-		/*Register App */
-		iStatus = CFE_ES_RegisterApp();
-		if (CFE_SUCCESS != iStatus)
-		{
-			(void) CFE_ES_WriteToSysLog("MFA - Failed to register the app (0x%08X)\n", (unsigned int)iStatus);
-			exitStatus = CFE_ES_APP_ERROR;
-		}
 
-		/* Register the table with CFE_EVS*/
-		iStatus = CFE_EVS_Register(0, 0, CFE_EVS_BINARY_FILTER);
-		if (CFE_SUCCESS != iStatus)
-		{
-			(void) CFE_ES_WriteToSysLog("MFA - Failed to register with EVS (0x%08X)\n", (unsigned int)iStatus);
-			exitStatus = CFE_ES_APP_ERROR;
-		}
+void MFA_AppMain()
+{
+    int32  status;
+    uint32 exitStatus = CFE_ES_APP_RUN;
 
-		CFE_EVS_SendEvent(MFA_INIT_INF_EID,
-						  CFE_EVS_DEBUG,
-						  "Hello World, from My First App");
+    /* Register our application */
+    status = CFE_ES_RegisterApp();
+    if(status != CFE_SUCCESS)
+    {
+    	(void) CFE_ES_WriteToSysLog("MFA - Failed to register the app (0x%08X)\n", (unsigned int)status);
+        exitStatus = CFE_ES_APP_ERROR;
+    }
 
-        (void) CFE_EVS_SendEvent(MFA_INIT_INF_EID, CFE_EVS_INFORMATION,
-                                 "Initialized.  Version %d.%d.%d.%d",
-                                 MFA_MAJOR_VERSION,
-                                 MFA_MINOR_VERSION,
-                                 MFA_REVISION,
-                                 MFA_MISSION_REV);
+    /* Register the table with CFE */
+    status = CFE_EVS_Register(0, 0, CFE_EVS_BINARY_FILTER);
+    if(status != CFE_SUCCESS)
+    {
+        (void) CFE_ES_WriteToSysLog("MFA - Failed to register with EVS (0x%08X)\n", (unsigned int)status);
+        exitStatus = CFE_ES_APP_ERROR;
+    }
 
-		/* Application main loop */
-		while (CFE_ES_RunLoop(&exitStatus) == TRUE)
-		{
-			OS_printf("Loop\n");
-			OS_TaskDelay(1000);
-			CFE_EVS_SendEvent(MFA_INITIALIZED_EID,
-							  CFE_EVS_DEBUG,
-							  "Hello World, from My First App");
-		}
+    /* Register Config table */
+    status = CFE_TBL_Register(&MFA_ConfigTblHdl,
+                               MFA_CONFIG_TABLENAME,
+                               sizeof(MFA_ConfigTbl_t),
+                               CFE_TBL_OPT_DEFAULT,
+                               0);
+    if(status != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to register Config table (0x%08X)",
+                                 (unsigned int)status);
+        exitStatus = CFE_ES_APP_ERROR;
+    }
 
-		iStatus = CFE_EVS_Unregister();
+    /* Load Config table file */
+    status = CFE_TBL_Load(MFA_ConfigTblHdl,
+                          CFE_TBL_SRC_FILE,
+						  MFA_CONFIG_TABLE_FILENAME);
+    if(status != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to load Config Table (0x%08X)",
+                                 (unsigned int)status);
+        exitStatus = CFE_ES_APP_ERROR;
+    }
 
-		if (iStatus != CFE_SUCCESS)
-		{
-			(void) CFE_ES_WriteToSysLog("MFA - Failed to unregister with EVS (0x%08X)\n", (unsigned int)iStatus);
-		}
+    if(CFE_ES_APP_RUN == exitStatus)
+    {
+        /* Send an event notifying the ground that we initialized. */
+        (void) CFE_EVS_SendEvent(MFA_INITIALIZED_EID, CFE_EVS_INFORMATION, "Initialized v%u.%u.%u",
+    	    	   MFA_MAJOR_VERSION,
+			       MFA_MINOR_VERSION,
+			       MFA_PATCH_VERSION);
+    }
 
-		/* Exit the application */
-		CFE_ES_ExitApp(exitStatus);
-	}
-#ifdef __cplusplus
+    /* Enter our main cyclic loop. */
+    while(CFE_ES_RunLoop(&exitStatus) == TRUE)
+    {
+        (void) CFE_EVS_SendEvent(MFA_HELLO_WORLD_EID, CFE_EVS_INFORMATION, "Hello world!");
+        OS_TaskDelay(1000);
+    }
+
+    /* Unregister with EVS */
+	(void) CFE_EVS_Unregister();
+
+    /* Exit the application */
+    CFE_ES_ExitApp(0);
 }
-
-#endif /* MFA_APP_H */

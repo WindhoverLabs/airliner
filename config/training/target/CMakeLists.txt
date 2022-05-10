@@ -17,7 +17,6 @@ buildliner_initialize(
 
 buildliner_add_app(
     sch
-    EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
     CONFIG_SOURCES
         ${PROJECT_SOURCE_DIR}/apps/sch/fsw/src/sch_custom.c
@@ -37,7 +36,6 @@ buildliner_add_table(
 
 buildliner_add_app(
     to
-    EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
     CONFIG_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/to_custom.c
@@ -47,14 +45,12 @@ buildliner_add_app(
 
 buildliner_add_table(
     to
-    EMBEDDED
     NAME to_udp_cfg
     SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/apps/to/tables/to_udp_cfg.c
 )
 
 buildliner_add_app(
     ci
-    EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
     CONFIG_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci/ci_custom.c
@@ -66,8 +62,15 @@ buildliner_add_table(
     SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/apps/ci/tables/ci_config.c
 )
 
+
 buildliner_add_app(
     mfa
-    EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/mfa/fsw/for_build
 )
+
+buildliner_add_table(
+    mfa
+    NAME mfa_config
+    SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/apps/mfa/mfa_config.c
+)
+
