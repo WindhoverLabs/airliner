@@ -14,9 +14,6 @@
 
 CFE_TBL_Handle_t  MFA_ConfigTblHdl;
 
-
-
-
 void MFA_AppMain()
 {
     int32  status;

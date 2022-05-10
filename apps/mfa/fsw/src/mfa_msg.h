@@ -12,8 +12,8 @@
 *    notice, this list of conditions and the following disclaimer in
 *    the documentation and/or other materials provided with the
 *    distribution.
-* 3. Neither the name Windhover Labs nor the names of its 
-*    contributors may be used to endorse or promote products derived 
+* 3. Neither the name Windhover Labs nor the names of its
+*    contributors may be used to endorse or promote products derived
 *    from this software without specific prior written permission.
 *
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -31,8 +31,8 @@
 *
 *****************************************************************************/
 
-#ifndef MFA_APP_H
-#define MFA_APP_H
+#ifndef MFA_MSG_H
+#define MFA_MSG_H
 
 /************************************************************************
 ** Pragmas
@@ -45,37 +45,19 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 #include "cfe.h"
-#include "mfa_tbldefs.h"
-#include "mfa_msg.h"
-
-
-#define MFA_MAJOR_VERSION    (1)
-#define MFA_MINOR_VERSION    (0)
-#define MFA_PATCH_VERSION    (0)
 
 typedef struct
 {
-	CFE_TBL_Handle_t  ConfigTblHdl;
-	MFA_ConfigTbl_t* ConfigTblPtr;
-    MFA_HKTlm_t      HkTlm;
-    CFE_SB_PipeId_t SchPipeId;
-} MFA_APPData_t;
+    uint8  TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint32 Commands;
+    uint32 CmdErrors;
+    uint32 HelloCount;
+} MFA_HKTlm_t;
 
-typedef struct
-{
-    uint8  TlmHeader[CFE_SB_CMD_HDR_SIZE];
-}MFA_NoArgCmd_t;
-
-void MFA_AppMain(void);
-uint32 MFA_AppInit(void);
-uint32 MFA_InitTables();
-uint32 MFA_InitEvents();
-uint32 MFA_InitPipes();
 #ifdef __cplusplus
 }
-#endif 
+#endif
 
 #endif /* MFA_APP_H */
 

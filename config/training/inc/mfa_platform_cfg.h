@@ -31,8 +31,8 @@
 *
 *****************************************************************************/
 
-#ifndef MFA_APP_H
-#define MFA_APP_H
+#ifndef MFA_PLATFORM_CFG_H
+#define MFA_PLATFORM_CFG_H
 
 /************************************************************************
 ** Pragmas
@@ -41,38 +41,20 @@
 /************************************************************************
 ** Includes
 *************************************************************************/
+#include "cfe.h"
+#include "mfa_platform_cfg.h"
+#include "mfa_events.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+#define MFA_CONFIG_TABLE_FILENAME     "/cf/apps/mfa_config.tbl"
 
-#include "cfe.h"
-#include "mfa_tbldefs.h"
-#include "mfa_msg.h"
+#define MFA_SCH_PIPE_DEPTH            (2)
+#define MFA_SCH_PIPE_NAME             "MFA_SCH_PIPE"
+#define MFA_SCH_PIPE_WAKEUP_RESERVED   (1)
+#define MFA_SCH_PEND_TIME              (CFE_SB_PEND_FOREVER)
 
-
-#define MFA_MAJOR_VERSION    (1)
-#define MFA_MINOR_VERSION    (0)
-#define MFA_PATCH_VERSION    (0)
-
-typedef struct
-{
-	CFE_TBL_Handle_t  ConfigTblHdl;
-	MFA_ConfigTbl_t* ConfigTblPtr;
-    MFA_HKTlm_t      HkTlm;
-    CFE_SB_PipeId_t SchPipeId;
-} MFA_APPData_t;
-
-typedef struct
-{
-    uint8  TlmHeader[CFE_SB_CMD_HDR_SIZE];
-}MFA_NoArgCmd_t;
-
-void MFA_AppMain(void);
-uint32 MFA_AppInit(void);
-uint32 MFA_InitTables();
-uint32 MFA_InitEvents();
-uint32 MFA_InitPipes();
 #ifdef __cplusplus
 }
 #endif 
@@ -82,3 +64,4 @@ uint32 MFA_InitPipes();
 /************************/
 /*  End of File Comment */
 /************************/
+

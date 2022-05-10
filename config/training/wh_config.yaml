@@ -248,3 +248,13 @@ modules:
             id: 34
           CI_SOCKET_RCV_PERF_ID:
             id: 35
+      mfa:
+        definition: ${PROJECT_SOURCE_DIR}/apps/mfa/wh_design.yaml
+        telemetry:
+          MFA_HK_TLM_MID:
+            msgID: 0x0850
+        commands:
+          MFA_WAKEUP_MID:
+            msgID: 0x1851
+          MFA_SEND_HK_MID:
+            msgID: 0x1852
