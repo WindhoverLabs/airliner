@@ -68,6 +68,11 @@ void MFA_AppDeinit(uint32 exitStatus);
  */
 uint32 MFA_InitEvents(void);
 
+/**
+ * @brief This function sends an event saying the initialization of the MFA was completed successfully.
+ * 
+ */
+void MFA_SendInitializedEvent(void);
 
 #ifdef __cplusplus
 }

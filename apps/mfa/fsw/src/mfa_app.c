@@ -12,7 +12,7 @@
 #include "mfa_app.h"
 #include "mfa_events.h"
 
-uint32 MFA_AppInit(void) {
+uint32 MFA_Register_App_CFE_ES(void) {
 	int32  status = 0;
 	uint32 exitStatus = CFE_ES_APP_RUN;
 
@@ -23,17 +23,38 @@ uint32 MFA_AppInit(void) {
 		exitStatus = CFE_ES_APP_ERROR;
 	}
 
+	return exitStatus;
+}
+
+uint32 MFA_InitEvents(void) {
+	int32  status = 0;
+	uint32 exitStatus = CFE_ES_APP_RUN;
+
 	/*Register the app with EVS */
 	status = CFE_EVS_Register(0, 0, CFE_EVS_BINARY_FILTER);
 	if (status != CFE_SUCCESS) {
 		(void) CFE_ES_WriteToSysLog("MFA - Failed to register with EVS (0x%08X)\n", (unsigned int) status);
 		exitStatus = CFE_ES_APP_ERROR;
 	}
+
+	return exitStatus;
+}
+
+void MFA_SendInitializedEvent(void) {
+		/*Send an event notifying ground that we initialized.*/
+		(void) CFE_EVS_SendEvent(MFA_INITIALIZED_EID, CFE_EVS_INFORMATION, "Initialized v%u.%u.%u", 
+			MFA_MAJOR_VERSION, MFA_MINOR_VERSION, MFA_PATCH_VERSION);
+}
+
+uint32 MFA_AppInit(void) {
+	uint32 exitStatus = MFA_Register_App_CFE_ES();
+
+	if (CFE_ES_APP_RUN == exitStatus) {
+		exitStatus = MFA_InitEvents();
+	}
 	
 	if (CFE_ES_APP_RUN == exitStatus) {
-		/*Send an event notifying ground that we initialized.*/
-		status = CFE_EVS_SendEvent(MFA_INITIALIZED_EID, CFE_EVS_INFORMATION, "Initialized v%u.%u.%u", 
-			MFA_MAJOR_VERSION, MFA_MINOR_VERSION, MFA_PATCH_VERSION);
+		MFA_SendInitializedEvent();
 	}
 
 	return exitStatus;
