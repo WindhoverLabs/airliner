@@ -3,9 +3,9 @@
 
 #include "msg_ids_common.h"
 
-#define FROM_PPD(X)     (PPD_CPU_BASE     + (X & 0x007f))
-#define FROM_CPD(X)     (CPD_CPU_BASE     + (X & 0x007f))
-#define FROM_SIMLINK(X) (SIMLINK_CPU_BASE + (X & 0x007f))
+#define FROM_PPD(X)     (PPD_CPU_BASE     + (X & 0xf9ff))
+#define FROM_CPD(X)     (CPD_CPU_BASE     + (X & 0xf9ff))
+#define FROM_SIMLINK(X) (SIMLINK_CPU_BASE + (X & 0xf9ff))
 
 
 /* General Airliner flight applications                                     */
