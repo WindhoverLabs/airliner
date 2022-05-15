@@ -36,12 +36,28 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/io_lib/fsw/for_build
 )
 
+buildliner_add_app(
+    ipc_lib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ipc_lib/fsw/for_build
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/ipc_lib/ipc_lib_custom.c
+)
+
 #buildliner_add_app(
 #    pq_lib
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
 #    # TODO move this table build to sbn module?
 #    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/pq_lib
 #)
+
+buildliner_add_app(
+    sbnd
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbnd/shm/sbnd_custom.cpp
+)
 
 buildliner_add_app(
     sch
