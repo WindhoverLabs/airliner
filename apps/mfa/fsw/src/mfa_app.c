@@ -7,6 +7,8 @@
 #include "mfa_mission_cfg.h"
 #include "mfa_msgids.h"
 
+#include "uah_app.h"
+
 MFA_AppData_t MFA_AppData;
 
 uint32 MFA_InitEvents(void) {
@@ -153,6 +155,8 @@ uint32 MFA_AppInit(void) {
 		exitStatus = CFE_ES_APP_ERROR;
 	}
 
+    UAH_AppSetup();
+
     if(CFE_ES_APP_RUN == exitStatus)
     {
         /* Send an event notifying the ground that we initialized. */
@@ -193,6 +197,10 @@ void MFA_AppMain()
                 {
                     //(void) CFE_EVS_SendEvent(MFA_HELLO_WORLD_EID, CFE_EVS_INFORMATION, "%s", MFA_AppData.ConfigTblPtr->Message);
                     MFA_AppData.HkTlm.HelloCount++;
+                    UAH_AppLoop(
+                        &MFA_AppData.HkTlm.pressureCount, 
+                        &MFA_AppData.HkTlm.temperatureCount,
+                        &MFA_AppData.HkTlm.status);
                     break;
                 }
                 case MFA_SEND_HK_MID:

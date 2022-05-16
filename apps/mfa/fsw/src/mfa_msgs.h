@@ -13,6 +13,9 @@ typedef struct {
     uint32 Commands;
     uint32 CmdErrors;
     uint32 HelloCount;
+    uint32 pressureCount;
+    uint32 temperatureCount;
+    uint32 status;
 } MFA_HkTlm_t;
 
 

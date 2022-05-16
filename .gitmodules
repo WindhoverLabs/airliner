@@ -13,3 +13,4 @@
 [submodule "apps/mfa/fsw/src/arduart"]
 	path = apps/mfa/fsw/src/arduart
 	url = git@github.com:shahedrahim/arduart.git
+	branch = pitot_dev
