@@ -66,3 +66,9 @@ buildliner_add_app(
     mfa
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/mfa/fsw/for_build
 )
+
+buildliner_add_table(
+    mfa
+    NAME mfa_config
+    SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/apps/mfa/mfa_config.c
+)

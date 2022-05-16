@@ -1,0 +1,35 @@
+  short_name: mfa
+  long_name: My First Application
+  app_name: MFA
+  module_type: CFE_APP
+  events: 
+    MFA_INITIALIZED_EID: 
+      id: 1
+    MFA_HELLO_WORLD_EID: 
+      id: 2
+    MFA_INIT_ERR_EID: 
+      id: 3
+  telemetry: 
+    MFA_HK_TLM_MID: 
+      msgID: 
+      struct: MFA_HkTlm_t
+  commands:
+    MFA_WAKEUP_MID:
+      msdID:
+      commands:
+        WakeUp:
+          cc: 0
+          struct: MFA_NoArgCmd_t
+    MFA_SEND_HK_MID:
+      msdID:
+      commands:
+        SendHk:
+          cc: 0
+          struct: MFA_NoArgCmd_t
+  config: 
+    MFA_CONFIG_TABLE_FILENAME: 
+      name: MFA_CONFIG_TABLE_FILENAME
+      value: "/cf/apps/mfa_config.tbl"
+    MFA_CONFIG_TABLENAME: 
+      name: MFA_CONFIG_TABLENAME
+      value: "CONFIG_TBL"
