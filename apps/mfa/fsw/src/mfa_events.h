@@ -19,11 +19,19 @@ extern "C" {
  * 
  */
 #define MFA_INITIALIZED_EID (1)
+
 /**
  * @brief It is an the event id that the app sends during its loop
  * 
  */
 #define MFA_LOOPING_EID     (2)
+
+/**
+ * @brief It is an the event id that the app sends if there is a problem during initialization
+ * 
+ */
+#define MFA_INIT_ERR_EID     (3)
+
 
 #ifdef __cplusplus
 }

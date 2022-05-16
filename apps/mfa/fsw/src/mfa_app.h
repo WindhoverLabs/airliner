@@ -35,6 +35,9 @@ extern "C" {
 #define MFA_PATCH_VERSION    (0)
 
 
+typedef struct {
+    CFE_SB_PipeId_t SchPipeId;
+} MFA_AppData_t;
 
 
 /**
