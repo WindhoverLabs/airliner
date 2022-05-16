@@ -10,3 +10,6 @@
 [submodule "tools/jMAVSim"]
 	path = tools/jMAVSim
 	url = https://github.com/WindhoverLabs/jMAVSim.git
+[submodule "apps/mfa/fsw/src/arduart"]
+	path = apps/mfa/fsw/src/arduart
+	url = git@github.com:shahedrahim/arduart.git
