@@ -6,6 +6,10 @@ extern "C" {
 #endif
 
 #include "cfe.h"
+#include "mfa_tbldefs.h"
+
+#include "uah_app.h"
+
 
 #define MFA_ASPD4525_PRESSURE_COUNTS_MAX        ((uint32) 0x3fff)
 #define MFA_ASPD4525_TEMPERATURE_COUNTS_MAX     ((uint32) 0x07ff)
@@ -14,6 +18,8 @@ extern "C" {
 
 
 int32 MFA_ASPD4525_Setup ();
+
+void MFA_ASPD4525_Loop (uint32* pressureCountP, uint32* temperatureCountP, uint32* statusP);
 
 
 #ifdef __cpluplus

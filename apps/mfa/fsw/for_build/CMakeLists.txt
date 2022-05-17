@@ -4,6 +4,7 @@ buildliner_add_app_def(mfa
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mfa_app.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/mfa_symbols.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/mfa_aspd4525.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/arduart/uah_app.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/arduart/uah_pipe.c
    

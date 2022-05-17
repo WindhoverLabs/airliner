@@ -7,9 +7,26 @@
 #include "mfa_mission_cfg.h"
 #include "mfa_msgids.h"
 
-#include "uah_app.h"
+#include "mfa_aspd4525.h"
 
 MFA_AppData_t MFA_AppData;
+
+uint32 MFA_RegisterApp(void) {
+    int32 status;
+    uint32 exitStatus = CFE_ES_APP_RUN;
+
+    /* Register our application */
+    status = CFE_ES_RegisterApp();
+    if(status != CFE_SUCCESS)
+    {
+    	(void) CFE_ES_WriteToSysLog("MFA - Failed to register the app (0x%08X)\n", (unsigned int)status);
+        exitStatus = CFE_ES_APP_ERROR;
+    }
+    return exitStatus;
+
+}
+
+
 
 uint32 MFA_InitEvents(void) {
     int32 status;
@@ -136,6 +153,24 @@ uint32 MFA_GetConfigTableAddress(void) {
     return exitStatus;
 }
 
+uint32 MFA_InitAirspeedReader(void) {
+    int32 status;
+    uint32 exitStatus = CFE_ES_APP_RUN;
+
+    status = MFA_ASPD4525_Setup();
+
+    if(status != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to setup ASPD-4525 (0x%08X)",
+                                 (unsigned int)status);
+        
+        exitStatus = CFE_ES_APP_ERROR;
+    }
+
+    return exitStatus;
+}
+
 
 void MFA_SendAppInitializedEvent(void ) {
         /* Send an event notifying the ground that we initialized. */
@@ -146,16 +181,7 @@ void MFA_SendAppInitializedEvent(void ) {
 }
 
 uint32 MFA_AppInit(void) {
-    int32  status;
-    uint32 exitStatus = CFE_ES_APP_RUN;
-
-    /* Register our application */
-    status = CFE_ES_RegisterApp();
-    if(status != CFE_SUCCESS)
-    {
-    	(void) CFE_ES_WriteToSysLog("MFA - Failed to register the app (0x%08X)\n", (unsigned int)status);
-        exitStatus = CFE_ES_APP_ERROR;
-    }
+    uint32 exitStatus = MFA_RegisterApp();
     
     if (CFE_ES_APP_RUN == exitStatus) {
         exitStatus = MFA_InitEvents();
@@ -181,7 +207,9 @@ uint32 MFA_AppInit(void) {
         exitStatus = MFA_GetConfigTableAddress();
     }
 
-    UAH_AppSetup();
+    if (CFE_ES_APP_RUN == exitStatus) {
+        exitStatus = MFA_InitAirspeedReader();
+    }
 
     if(CFE_ES_APP_RUN == exitStatus)
     {
@@ -223,7 +251,7 @@ void MFA_AppMain()
                 {
                     //(void) CFE_EVS_SendEvent(MFA_HELLO_WORLD_EID, CFE_EVS_INFORMATION, "%s", MFA_AppData.ConfigTblPtr->Message);
                     MFA_AppData.HkTlm.HelloCount++;
-                    UAH_AppLoop(
+                    MFA_ASPD4525_Loop (
                         &MFA_AppData.HkTlm.pressureCount, 
                         &MFA_AppData.HkTlm.temperatureCount,
                         &MFA_AppData.HkTlm.status);
