@@ -1,3 +1,13 @@
+/**
+ * @file mfa_app.c
+ * @author Shahed Rahim (srahim@windhoverlabs.com)
+ * @brief This is the Airspeed Sensor App Main File
+ * @version 1.0.0
+ * @date 2022-05-17
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "cfe.h"
 #include "mfa_tbldefs.h"
 #include "mfa_app.h"
@@ -9,6 +19,10 @@
 
 #include "mfa_aspd4525.h"
 
+/**
+ * @brief This is where data for the app is stored
+ * 
+ */
 MFA_AppData_t MFA_AppData;
 
 uint32 MFA_RegisterApp(void) {

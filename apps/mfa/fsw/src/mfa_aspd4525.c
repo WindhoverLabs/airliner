@@ -1,3 +1,13 @@
+/**
+ * @file mfa_aspd4525.c
+ * @author Shahed Rahim (srahim@windhoverlabs.com)
+ * @brief This file handles the ASPD-4525 and calculates the air speed
+ * @version 1.0.0
+ * @date 2022-05-17
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include "cfe.h"
 #include "mfa_aspd4525.h"
 #include "mfa_tbldefs.h"
@@ -5,6 +15,18 @@
 
 #include "uah_app.h"
 
+/**
+ * @brief This macro returns the absolute value of a double number
+ * 
+ */
+#define absolute(number)         ((number>0)?(number):-(number))
+
+/**
+ * @brief This function calculates the Square Root of a double using the Newton-Raphson Method
+ * 
+ * @param number This is the number whose sqrt is to be calculated, make sure it is positive.  The function will not check for positivity.
+ * @return double returns the square root of the number
+ */
 double sqrt(double number);
 
 int32 MFA_ASPD4525_Setup () {
@@ -90,7 +112,8 @@ double MFA_ASPD4525_GetDeltaPressure(
         /((double)(MFA_ASPD4525_PRESSURE_COUNTS_MAX*0.9)))
         +pMinPSI;
 
-    double deltaPressurePSI = (pressurePSI>((pMinPSI+pMaxPSI)/2))?(pressurePSI - ((pMinPSI+pMaxPSI)/2)):-(pressurePSI - ((pMinPSI+pMaxPSI)/2));
+    double deltaPressurePSI = absolute(pressurePSI-((pMinPSI+pMaxPSI)/2));
+
 
     double deltaPressurePascals = MFA_ASPD4525_PSI2PASCALS(deltaPressurePSI);
     return (deltaPressurePascals);
