@@ -252,9 +252,8 @@ void MFA_AppMain()
                     //(void) CFE_EVS_SendEvent(MFA_HELLO_WORLD_EID, CFE_EVS_INFORMATION, "%s", MFA_AppData.ConfigTblPtr->Message);
                     MFA_AppData.HkTlm.HelloCount++;
                     MFA_ASPD4525_Loop (
-                        &MFA_AppData.HkTlm.pressureCount, 
-                        &MFA_AppData.HkTlm.temperatureCount,
-                        &MFA_AppData.HkTlm.status);
+                        MFA_AppData.ConfigTblPtr,
+                        &MFA_AppData.HkTlm);
                     break;
                 }
                 case MFA_SEND_HK_MID:

@@ -16,6 +16,8 @@ typedef struct {
     uint32 pressureCount;
     uint32 temperatureCount;
     uint32 status;
+    double Temperature;
+    double AirSpeed;
 } MFA_HkTlm_t;
 
 
