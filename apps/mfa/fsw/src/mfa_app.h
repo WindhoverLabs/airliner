@@ -22,11 +22,12 @@ typedef struct {
 
 void MFA_AppMain(void);
 uint32 MFA_AppInit(void);
-void MFA_AppDeinit(void);
+void MFA_AppDeinit(uint32 exitStatus);
 uint32 MFA_InitEvents(void);
 uint32 MFA_InitTables(void);
 uint32 MFA_InitData(void);
 uint32 MFA_InitPipes(void);
+void MFA_SendAppInitializedEvent(void);
 
 #ifdef __cpluplus
 }

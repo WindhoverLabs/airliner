@@ -42,7 +42,13 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 /* Default CI config table data */
 MFA_ConfigTbl_t MFA_ConfigTbl =
 {
-    "Hello world, from a table!"
+    0.0,
+    1.0,
+    -50.0,
+    150.0,
+    8.3144598,
+    9.80665,
+    0.0289644
 };
 
 /*
