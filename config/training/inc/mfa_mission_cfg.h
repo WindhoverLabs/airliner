@@ -1,14 +1,14 @@
 #ifndef MFA_MISSION_CFG_H
 #define MFA_MISSION_CFG_H
 
-#ifdef __cpluplus
+#ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
 #define MFA_CONFIG_TABLENAME       "CONFIG_TBL"
 
-#ifdef __cpluplus
+#ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
 #endif /*MFA_MISSION_CFG_H*/

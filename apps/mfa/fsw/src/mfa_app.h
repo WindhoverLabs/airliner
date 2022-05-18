@@ -11,9 +11,9 @@
 #ifndef MFA_APP_H
 #define MFA_APP_H
 
-#ifdef __cpluplus
+#ifdef __cplusplus
 extern "C" {
-#endif
+#endif /*__cplusplus*/
 
 #include "cfe.h"
 #include "mfa_tbldefs.h"
@@ -103,8 +103,8 @@ uint32 MFA_InitPipes(void);
  */
 void MFA_SendAppInitializedEvent(void);
 
-#ifdef __cpluplus
+#ifdef __cplusplus
 }
-#endif
+#endif /*__cplusplus*/
 
 #endif /*MFA_APP_H*/

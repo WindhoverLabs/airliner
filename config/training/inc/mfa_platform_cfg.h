@@ -1,9 +1,9 @@
 #ifndef MFA_PLATFORM_CFG_H
 #define MFA_PLATFORM_CFG_H
 
-#ifdef __cpluplus
+#ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
 #include "cfe.h"
 
@@ -14,8 +14,8 @@ extern "C" {
 #define MFA_SCH_PIPE_WAKEUP_RESERVED    (1)
 #define MFA_SCH_PEND_TIME               (CFE_SB_PEND_FOREVER)
 
-#ifdef __cpluplus
+#ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
 #endif /*MFA_PLATFORM_CFG_H*/

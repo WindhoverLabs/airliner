@@ -11,9 +11,9 @@
 #ifndef MFA_ASPD4525_H
 #define MFA_ASPD4525_H
 
-#ifdef __cpluplus
+#ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
 #include "cfe.h"
 #include "mfa_tbldefs.h"
@@ -161,8 +161,8 @@ double MFA_ASPD4525_GetAirSpeed(
     double deltaPressure,
     double airDensity
 );
-#ifdef __cpluplus
+#ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
 #endif /* MFA_ASPD4525_H */
