@@ -1,14 +1,14 @@
 #ifndef MFA_MSGIDS_H
 #define MFA_MSGIDS_H
 
-#ifdef __cpluplus
+#ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
 #include "msg_ids.h"
 
-#ifdef __cpluplus
+#ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
 #endif /*MFA_MSGIDS_H*/

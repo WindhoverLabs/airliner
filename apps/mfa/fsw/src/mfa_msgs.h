@@ -1,9 +1,9 @@
 #ifndef MFA_MSGS_H
 #define MFA_MSGS_H
 
-#ifdef __cpluplus
+#ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
 #include "cfe.h"
 
@@ -11,8 +11,8 @@ typedef struct {
     uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
 } MFA_NoArgCmd_t;
 
-#ifdef __cpluplus
+#ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
 #endif /*MFA_MSGS_H*/

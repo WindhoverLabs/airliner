@@ -66,6 +66,7 @@ uint32 MFA_InitPipes(void) {
 								"Failed to create sch pipe (0x%08X)",
 								(unsigned int)status);
 		exitStatus = CFE_ES_APP_ERROR;
+
 	} else {
 		status = CFE_SB_SubscribeEx(
 			MFA_WAKEUP_MID,
@@ -89,6 +90,10 @@ uint32 MFA_AppInit(void) {
 		exitStatus = MFA_InitEvents();
 	}
 	
+	if (CFE_ES_APP_RUN == exitStatus) {
+		exitStatus = MFA_InitPipes();
+	}
+
 	if (CFE_ES_APP_RUN == exitStatus) {
 		MFA_SendInitializedEvent();
 	}
