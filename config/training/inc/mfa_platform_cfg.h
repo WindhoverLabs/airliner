@@ -7,6 +7,8 @@ extern "C" {
 
 #include "cfe.h"
 
+#define MFA_CONFIG_TABLE_FILENAME   "/cf/apps/mfa_config.tbl"
+
 #define MFA_SCH_PIPE_DEPTH              (2)
 #define MFA_SCH_PIPE_NAME               "MFA_SCH_PIPE"
 #define MFA_SCH_PIPE_WAKEUP_RESERVED    (1)

@@ -13,6 +13,7 @@
 #include "mfa_events.h"
 
 #include "mfa_platform_cfg.h"
+#include "mfa_mission_cfg.h"
 #include "mfa_msgids.h"
 
 
@@ -44,6 +45,62 @@ uint32 MFA_InitEvents(void) {
 	}
 
 	return exitStatus;
+}
+
+uint32 MFA_InitTables(void) {
+    int32 status;
+    uint32 exitStatus = CFE_ES_APP_RUN;
+    /* Register Config table */
+    status = CFE_TBL_Register(&MFA_AppData.ConfigTblHdl,
+                               MFA_CONFIG_TABLENAME,
+                               sizeof(MFA_ConfigTbl_t),
+                               CFE_TBL_OPT_DEFAULT,
+                               0);
+    if(status != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to register Config table (0x%08X)",
+                                 (unsigned int)status);
+        exitStatus = CFE_ES_APP_ERROR;
+    }
+    return exitStatus;
+}
+
+uint32 MFA_LoadConfigTable(void) {
+    int32 status;
+    uint32 exitStatus = CFE_ES_APP_RUN;
+    /* Load Config table file */
+    status = CFE_TBL_Load(MFA_AppData.ConfigTblHdl,
+                          CFE_TBL_SRC_FILE,
+						  MFA_CONFIG_TABLE_FILENAME);
+    if(status != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to load Config Table (0x%08X)",
+                                 (unsigned int)status);
+        
+        exitStatus = CFE_ES_APP_ERROR;
+    }
+    return exitStatus;
+}
+
+uint32 MFA_GetConfigTableAddress(void) {
+    int32 status;
+    uint32 exitStatus = CFE_ES_APP_RUN;
+	/*
+	** Get a pointer to the tables
+	*/
+	status = CFE_TBL_GetAddress((void*)&MFA_AppData.ConfigTblPtr,
+			                            MFA_AppData.ConfigTblHdl);
+	if(status != CFE_TBL_INFO_UPDATED)
+	{
+		MFA_AppData.ConfigTblPtr = 0;
+		(void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
+								 "Failed to get Config table's address (0x%08X)",
+								 (unsigned int)status);
+		exitStatus = CFE_ES_APP_ERROR;
+	}
+    return exitStatus;
 }
 
 void MFA_SendInitializedEvent(void) {
@@ -89,7 +146,19 @@ uint32 MFA_AppInit(void) {
 	if (CFE_ES_APP_RUN == exitStatus) {
 		exitStatus = MFA_InitEvents();
 	}
+
+	if (CFE_ES_APP_RUN == exitStatus) {
+		exitStatus = MFA_InitTables();
+	}
+
+	if (CFE_ES_APP_RUN == exitStatus) {
+		exitStatus = MFA_LoadConfigTable();
+	}
 	
+	if (CFE_ES_APP_RUN == exitStatus) {
+		exitStatus = MFA_GetConfigTableAddress();
+	}
+
 	if (CFE_ES_APP_RUN == exitStatus) {
 		exitStatus = MFA_InitPipes();
 	}
@@ -127,7 +196,7 @@ void MFA_AppMain()
 			switch(msgId) {
 				case MFA_WAKEUP_MID:
 				{
-					status = CFE_EVS_SendEvent(MFA_LOOPING_EID, CFE_EVS_INFORMATION, "Looping");
+					status = CFE_EVS_SendEvent(MFA_LOOPING_EID, CFE_EVS_INFORMATION, "%s", MFA_AppData.ConfigTblPtr->Message);
 					break;
 				}
 				default:

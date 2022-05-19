@@ -14,7 +14,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif /*__cplusplus*/
+
 #include "cfe.h"
+#include "mfa_tbldefs.h"
 
 /**
  * @brief This is the major version number for this app
@@ -36,6 +38,8 @@ extern "C" {
 
 
 typedef struct {
+    CFE_TBL_Handle_t  ConfigTblHdl;
+    MFA_ConfigTbl_t  *ConfigTblPtr;
     CFE_SB_PipeId_t SchPipeId;
 } MFA_AppData_t;
 
@@ -70,6 +74,27 @@ void MFA_AppDeinit(uint32 exitStatus);
  * @return uint32 returns CFE_ES_APP_RUN if everything is fine.  returns CFE_ES_APP_ERROR if there is an error
  */
 uint32 MFA_InitEvents(void);
+
+/**
+ * @brief This function initializes the Config Tables
+ * 
+ * @return uint32  returns CFE_ES_APP_RUN if everything is fine.  returns CFE_ES_APP_ERROR if there is an error
+ */
+uint32 MFA_InitTables(void);
+
+/**
+ * @brief This function loads data into the Config Tables
+ * 
+ * @return uint32 returns CFE_ES_APP_RUN if everything is fine.  returns CFE_ES_APP_ERROR if there is an error
+ */
+uint32 MFA_LoadConfigTable(void);
+
+/**
+ * @brief This function gets the address to the config table
+ * 
+ * @return uint32 returns CFE_ES_APP_RUN if everything is fine.  returns CFE_ES_APP_ERROR if there is an error
+ */
+uint32 MFA_GetConfigTableAddress(void);
 
 /**
  * @brief This function sends an event saying the initialization of the MFA was completed successfully.
