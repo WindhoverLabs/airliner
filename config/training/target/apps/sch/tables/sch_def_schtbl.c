@@ -40,7 +40,7 @@ extern "C" {
 #define CI_WAKEUP_MIDX                29
 
 #define MFA_WAKEUP_MIDX               35
-
+#define MFA_SEND_HK_MIDX              36
 
 
 /* Default schedule table */
@@ -82,7 +82,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 
 		/* Minor Frame 5 */
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,  1,	0,	MFA_SEND_HK_MIDX,         SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },

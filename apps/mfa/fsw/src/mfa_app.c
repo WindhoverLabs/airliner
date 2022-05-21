@@ -46,6 +46,63 @@ uint32 MFA_InitEvents(void) {
 
 	return exitStatus;
 }
+uint32 MFA_InitData(void) {
+    int32 status;
+    uint32 exitStatus = CFE_ES_APP_RUN;
+    CFE_SB_InitMsg(
+        &MFA_AppData.HkTlm, 
+        MFA_HK_TLM_MID, 
+        sizeof(MFA_AppData.HkTlm), 
+        TRUE);
+    return exitStatus;
+}
+
+uint32 MFA_InitPipes(void) {
+    int32 status;
+    uint32 exitStatus = CFE_ES_APP_RUN;
+
+    status = CFE_SB_CreatePipe(
+        &MFA_AppData.SchPipeId, 
+        MFA_SCH_PIPE_DEPTH, 
+        MFA_SCH_PIPE_NAME);
+
+	if (CFE_SUCCESS != status) {
+		(void) CFE_EVS_SendEvent(
+			MFA_INIT_ERR_EID,
+			CFE_EVS_ERROR,
+			"Failed to create sch pipe (0x%08X)", (unsigned int)status
+		);
+		exitStatus = CFE_ES_APP_ERROR;
+
+	} else {
+		status = CFE_SB_SubscribeEx(
+			MFA_WAKEUP_MID,
+			MFA_AppData.SchPipeId,
+			CFE_SB_Default_Qos,
+			MFA_SCH_PIPE_WAKEUP_RESERVED);
+		
+		if (status != CFE_SUCCESS) {
+			(void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
+				"Sch Pipe failed to subscribe to MFA_WAKEUP_MID, (0x%08X)",
+				(unsigned int) status);
+		}
+
+		status = CFE_SB_SubscribeEx(
+			MFA_SEND_HK_MID,
+			MFA_AppData.SchPipeId,
+			CFE_SB_Default_Qos,
+			MFA_SCH_PIPE_WAKEUP_RESERVED);
+		
+		if (status != CFE_SUCCESS) {
+			(void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
+				"Sch Pipe failed to subscribe to MFA_SEND_HK_MID, (0x%08X)",
+				(unsigned int) status);
+		}
+
+	}
+	return exitStatus;
+}
+
 
 uint32 MFA_InitTables(void) {
     int32 status;
@@ -109,42 +166,19 @@ void MFA_SendInitializedEvent(void) {
 			MFA_MAJOR_VERSION, MFA_MINOR_VERSION, MFA_PATCH_VERSION);
 }
 
-uint32 MFA_InitPipes(void) {
-    int32 status;
-    uint32 exitStatus = CFE_ES_APP_RUN;
-
-    status = CFE_SB_CreatePipe(
-        &MFA_AppData.SchPipeId, 
-        MFA_SCH_PIPE_DEPTH, 
-        MFA_SCH_PIPE_NAME);
-
-	if (CFE_SUCCESS != status) {
-		(void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
-								"Failed to create sch pipe (0x%08X)",
-								(unsigned int)status);
-		exitStatus = CFE_ES_APP_ERROR;
-
-	} else {
-		status = CFE_SB_SubscribeEx(
-			MFA_WAKEUP_MID,
-			MFA_AppData.SchPipeId,
-			CFE_SB_Default_Qos,
-			MFA_SCH_PIPE_WAKEUP_RESERVED);
-		
-		if (status != CFE_SUCCESS) {
-			(void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
-				"Sch Pipe failed to subscribe to MFA_WAKEUP_MID, (0x%08X)",
-				(unsigned int) status);
-		}
-	}
-	return exitStatus;
-}
-
 uint32 MFA_AppInit(void) {
 	uint32 exitStatus = MFA_Register_App_CFE_ES();
 
 	if (CFE_ES_APP_RUN == exitStatus) {
 		exitStatus = MFA_InitEvents();
+	}
+
+	if (CFE_ES_APP_RUN == exitStatus) {
+		exitStatus = MFA_InitData();
+	}
+
+	if (CFE_ES_APP_RUN == exitStatus) {
+		exitStatus = MFA_InitPipes();
 	}
 
 	if (CFE_ES_APP_RUN == exitStatus) {
@@ -157,10 +191,6 @@ uint32 MFA_AppInit(void) {
 	
 	if (CFE_ES_APP_RUN == exitStatus) {
 		exitStatus = MFA_GetConfigTableAddress();
-	}
-
-	if (CFE_ES_APP_RUN == exitStatus) {
-		exitStatus = MFA_InitPipes();
 	}
 
 	if (CFE_ES_APP_RUN == exitStatus) {
@@ -196,9 +226,18 @@ void MFA_AppMain()
 			switch(msgId) {
 				case MFA_WAKEUP_MID:
 				{
-					status = CFE_EVS_SendEvent(MFA_LOOPING_EID, CFE_EVS_INFORMATION, "%s", MFA_AppData.ConfigTblPtr->Message);
+					//status = CFE_EVS_SendEvent(MFA_LOOPING_EID, CFE_EVS_INFORMATION, "%s", MFA_AppData.ConfigTblPtr->Message);
+					MFA_AppData.HkTlm.HelloCount++;
 					break;
 				}
+                case MFA_SEND_HK_MID:
+                {
+                    //(void) CFE_EVS_SendEvent(MFA_HELLO_WORLD_EID, CFE_EVS_INFORMATION, "%s", MFA_AppData.ConfigTblPtr->Message);
+
+                    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&MFA_AppData.HkTlm);
+                    CFE_SB_SendMsg((CFE_SB_Msg_t *) &MFA_AppData.HkTlm);
+                    break;
+                }
 				default:
 					break;
 			}

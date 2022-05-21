@@ -17,6 +17,7 @@ extern "C" {
 
 #include "cfe.h"
 #include "mfa_tbldefs.h"
+#include "mfa_msgs.h"
 
 /**
  * @brief This is the major version number for this app
@@ -40,7 +41,8 @@ extern "C" {
 typedef struct {
     CFE_TBL_Handle_t  ConfigTblHdl;
     MFA_ConfigTbl_t  *ConfigTblPtr;
-    CFE_SB_PipeId_t SchPipeId;
+    MFA_HkTlm_t       HkTlm;
+    CFE_SB_PipeId_t   SchPipeId;
 } MFA_AppData_t;
 
 
@@ -74,6 +76,13 @@ void MFA_AppDeinit(uint32 exitStatus);
  * @return uint32 returns CFE_ES_APP_RUN if everything is fine.  returns CFE_ES_APP_ERROR if there is an error
  */
 uint32 MFA_InitEvents(void);
+
+/**
+ * @brief This function initializes telemetry messaging
+ * 
+ * @return uint32  returns CFE_ES_APP_RUN if everything is fine.  returns CFE_ES_APP_ERROR if there is an error
+ */
+uint32 MFA_InitData(void);
 
 /**
  * @brief This function initializes the Config Tables
