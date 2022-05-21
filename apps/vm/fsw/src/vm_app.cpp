@@ -1708,8 +1708,13 @@ void VM::Execute()
         VehicleStatusMsg.OnboardControlSensorsHealth &= ~SubsystemInfoMsg.SubsystemType;
     }
 
-    /* RC input handle */
-    if(!HkTlm.StatusFlags.RcInputIsTemporarilyBlocked && ManualControlSetpointMsg.Timestamp!=0 && (TimeNow() < ManualControlSetpointMsg.Timestamp + uint64(ConfigTblPtr->COM_RC_LOSS_T * 1e6f)))
+//    /* RC input handle */
+//    std::cout<<"!HkTlm.StatusFlags.RcInputIsTemporarilyBlocked && ManualControlSetpointMsg.Timestamp!=0-->"<<
+//               !HkTlm.StatusFlags.RcInputIsTemporarilyBlocked && ManualControlSetpointMsg.Timestamp!=0<<std::endl;
+//    std::cout<<"!HkTlm.StatusFlags.RcInputIsTemporarilyBlocked && ManualControlSetpointMsg.Timestamp!=0-->"<<
+//               !HkTlm.StatusFlags.RcInputIsTemporarilyBlocked && ManualControlSetpointMsg.Timestamp!=0<<std::endl;
+    //&& (TimeNow() < ManualControlSetpointMsg.Timestamp + uint64(ConfigTblPtr->COM_RC_LOSS_T * 1e6f))
+    if(!HkTlm.StatusFlags.RcInputIsTemporarilyBlocked && ManualControlSetpointMsg.Timestamp!=0 )
     {
         const osalbool in_armed_state = (VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_ARMED || VehicleStatusMsg.ArmingState == PX4_ARMING_STATE_ARMED_ERROR);
         const osalbool arm_button_pressed = (ConfigTblPtr->COM_ARM_SWISBTN == 1 && ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON);
