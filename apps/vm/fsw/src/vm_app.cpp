@@ -1965,6 +1965,7 @@ void VM::RcModes()
     }
     else if (takeoff && mode_changed)
     {
+        printf("ManualControlSetpointMsg.Z-->%f\n", ManualControlSetpointMsg.Z);
         try
         {
             NavigationSM.FSM.trAutoTakeoff();
