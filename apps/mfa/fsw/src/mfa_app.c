@@ -106,6 +106,20 @@ uint32 MFA_InitPipes(void)
                                  (unsigned int)status);
         exitStatus = CFE_ES_APP_ERROR;
     }
+
+    /*
+    ** Create Software Bus message pipe
+    */
+    status = CFE_SB_CreatePipe(&MFA_AppData.CmdPipe,
+                               MFA_SCH_PIPE_DEPTH,
+                               MFA_SCH_CMD_NAME);
+    if (status != CFE_SUCCESS)
+    {
+        (void)CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
+                          "Error Creating SB Pipe, RC=0x%08X", (unsigned int)status);
+        exitStatus = CFE_ES_APP_ERROR;
+    }
+
     else
     {
         status = CFE_SB_SubscribeEx(MFA_WAKEUP_MID,
@@ -117,20 +131,33 @@ uint32 MFA_InitPipes(void)
         {
             (void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
                                      "Sch Pipe failed to subscribe to MFA_WAKEUP_MID. (0x%08X)",
-                                     (unsigned int)status);
+                                     MFA_SEND_HK_MID, (unsigned int)status);
             exitStatus = CFE_ES_APP_ERROR;
         }
 
         status = CFE_SB_SubscribeEx(MFA_SEND_HK_MID,
-        		                    MFA_AppData.SchPipeId,
+                                    MFA_AppData.SchPipeId,
 									CFE_SB_Default_Qos,
-									MFA_SCH_PIPE_WAKEUP_RESERVED);
+                                    MFA_SCH_PIPE_WAKEUP_RESERVED);
 
         if(status != CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
-                                     "Sch Pipe failed to subscribe to MFA_SEND_HK_MID. (0x%08X)",
-                                     (unsigned int)status);
+                                     "Sch Pipe failed to subscribe to MFA_SEND_HK_MID. (0x%08X), RC= RC=0x%08X",
+                                     MFA_SEND_HK_MID,(unsigned int)status);
+            exitStatus = CFE_ES_APP_ERROR;
+        }
+
+        /*
+        ** Subscribe to Housekeeping request commands
+        */
+        status = CFE_SB_Subscribe(MFA_CMD_MID, MFA_AppData.CmdPipe);
+        if (status != CFE_SUCCESS)
+        {
+            CFE_EVS_SendEvent(MFA_INIT_ERR_EID,
+                              CFE_EVS_ERROR,
+                              "Error Subscribing to CMD Request(MID=0x%04X), RC=0x%08X",
+                              MFA_CMD_MID, (unsigned int)status);
             exitStatus = CFE_ES_APP_ERROR;
         }
     }
@@ -192,6 +219,60 @@ void MFA_AppDeinit(void)
 }
 
 
+void MFA_ProcessNewCmds(void)
+{
+    CFE_SB_Msg_t*   CmdMsgPtr = 0;
+    int32           status = CFE_SB_RcvMsg(&CmdMsgPtr, MFA_AppData.CmdPipe, CFE_SB_POLL);
+
+    if(status == CFE_SUCCESS)
+    {
+        CFE_SB_MsgId_t CmdMsgId = CFE_SB_GetMsgId(CmdMsgPtr);
+        switch (CmdMsgId)
+        {
+            case MFA_CMD_MID:
+            {
+            //    CI_ProcessNewAppCmds(CmdMsgPtr);
+                uint32  uiCmdCode = 0;
+
+                if (CmdMsgPtr != NULL)
+                    {
+                        uiCmdCode = CFE_SB_GetCmdCode(CmdMsgPtr);
+                        switch (uiCmdCode)
+                        {
+                            case MFA_NOOP_CC:
+                             {
+                                MFA_AppData.HkTlm.Commands++;
+                                (void) CFE_EVS_SendEvent(MFA_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                                  "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
+                                                  (unsigned int)uiCmdCode,
+                                                  MFA_MAJOR_VERSION,
+                                                  MFA_MINOR_VERSION,
+                                                  MFA_REVISION,
+                                                  MFA_MISSION_REV);
+                                break;
+                            }
+                        default:
+                        //Fallthru
+                          break;
+                        }
+                     }
+                    break;
+               }
+
+            default:
+                /* Bump the command error counter for an unknown command.
+                 * (This should only occur if it was subscribed to with this
+                 *  pipe, but not handled in this switch-case.) */
+                MFA_AppData.HkTlm.CmdErrors++;
+                (void) CFE_EVS_SendEvent(MFA_CMD_INF_EID, CFE_EVS_ERROR,
+                                  "Recvd invalid CMD msgId (0x%04X)", (unsigned short)CmdMsgId);
+                break;
+          }
+     }
+}
+
+
+
 void MFA_AppMain()
 {
     uint32 exitStatus;
@@ -216,6 +297,7 @@ void MFA_AppMain()
                 {
                     (void) CFE_EVS_SendEvent(MFA_HELLO_WORLD_EID, CFE_EVS_INFORMATION, "%s", MFA_AppData.ConfigTblPtr->Message);
                     MFA_AppData.HkTlm.HelloCount++;
+                    MFA_ProcessNewCmds();
 
                     break;
                 }

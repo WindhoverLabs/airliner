@@ -28,6 +28,13 @@
         SendHk: 
           cc: 0
           struct: MFA_NoArgCmd_t
+    MFA_CMD_MID:
+      msgID:
+      commands:
+        Noop:
+          cc: 0
+          struct: MFA_NoArgCmd_t
+
   config: 
     MFA_CONFIG_TABLE_FILENAME: 
       name: MFA_CONFIG_TABLE_FILENAME

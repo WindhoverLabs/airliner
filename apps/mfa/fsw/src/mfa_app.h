@@ -13,13 +13,15 @@ extern "C" {
 #define MFA_MAJOR_VERSION    (1)
 #define MFA_MINOR_VERSION    (0)
 #define MFA_PATCH_VERSION    (0)
-
+#define MFA_REVISION         (0)
+#define MFA_MISSION_REV      (0)
 
 typedef struct {
 	CFE_TBL_Handle_t   ConfigTblHdl;
 	MFA_ConfigTbl_t   *ConfigTblPtr;
 	MFA_HkTlm_t        HkTlm;
 	CFE_SB_PipeId_t    SchPipeId;
+    CFE_SB_PipeId_t    CmdPipe;
 } MFA_AppData_t;
 
 

@@ -13,6 +13,7 @@ extern "C" {
 
 #define MFA_SCH_PIPE_DEPTH           (2)
 #define MFA_SCH_PIPE_NAME            "MFA_SCH_PIPE"
+#define MFA_SCH_CMD_NAME             "MFA_CMD_PIPE"
 #define MFA_SCH_PIPE_WAKEUP_RESERVED (1)
 #define MFA_SCH_PEND_TIME            (CFE_SB_PEND_FOREVER)
 

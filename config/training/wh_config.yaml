@@ -249,6 +249,7 @@ modules:
           CI_SOCKET_RCV_PERF_ID:
             id: 35
       mfa:
+        displays: cdr
         definition: ${PROJECT_SOURCE_DIR}/apps/mfa/wh_design.yaml
         telemetry: 
           MFA_HK_TLM_MID: 
@@ -258,4 +259,6 @@ modules:
             msgID: 0x1851
           MFA_SEND_HK_MID: 
             msgID: 0x1852
+          MFA_CMD_MID:
+            msgID: 0x1853
             
