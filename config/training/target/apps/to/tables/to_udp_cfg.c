@@ -63,7 +63,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {TO_DIAG_MSG_FLOW_MID,                   1, TO_PQUEUE_HK_IDX},
         {TO_DIAG_TLM_MID,                        1, TO_PQUEUE_HK_IDX},
         {TO_HK_TLM_MID,                          1, TO_PQUEUE_HK_IDX},
-        {MFA_HK_TLM_MID,                          5, TO_PQUEUE_HK_IDX}
+        {MFA_HK_TLM_MID,                         5, TO_PQUEUE_HK_IDX}
   },{
         /* Priority Queues */
         /* TO_PQUEUE_SINGLE_PASS_IDX */

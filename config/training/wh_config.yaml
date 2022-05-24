@@ -242,7 +242,7 @@ modules:
           CI_WAKEUP_MID:
             msgID: 0x182c              # CMD_MSG(   44 )
         perfids:
-          CF_APPMAIN_PERF_ID:
+          CI_APPMAIN_PERF_ID:
             id: 33
           CI_MAIN_TASK_PERF_ID:
             id: 34
@@ -250,11 +250,12 @@ modules:
             id: 35
       mfa:
         definition: ${PROJECT_SOURCE_DIR}/apps/mfa/wh_design.yaml
-        telemetry:
-          MFA_HK_TLM_MID:
+        telemetry: 
+          MFA_HK_TLM_MID: 
             msgID: 0x0850
-        commands:
-          MFA_WAKEUP_MID:
+        commands: 
+          MFA_WAKEUP_MID: 
             msgID: 0x1851
-          MFA_SEND_HK_MID:
+          MFA_SEND_HK_MID: 
             msgID: 0x1852
+            

@@ -5,7 +5,7 @@
 
 #define MFA_HK_TLM_MID  (0x0850)
 #define MFA_WAKEUP_MID  (0x1851)
-#define MFA_SEND_HK_MID  (0x1852)
+#define MFA_SEND_HK_MID (0x1852)
 
 
 #endif
