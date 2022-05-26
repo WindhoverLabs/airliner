@@ -61,16 +61,20 @@ uint32 MFA_InitTables(void) {
     int32 status;
     uint32 exitStatus = CFE_ES_APP_RUN;
     /* Register Config table */
-    status = CFE_TBL_Register(&MFA_AppData.ConfigTblHdl,
-                               MFA_CONFIG_TABLENAME,
-                               sizeof(MFA_ConfigTbl_t),
-                               CFE_TBL_OPT_DEFAULT,
-                               0);
+    status = CFE_TBL_Register(
+        &MFA_AppData.ConfigTblHdl,
+        MFA_CONFIG_TABLENAME,
+        sizeof(MFA_ConfigTbl_t),
+        CFE_TBL_OPT_DEFAULT,
+        0
+    );
     if(status != CFE_SUCCESS)
     {
-        (void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
-                                 "Failed to register Config table (0x%08X)",
-                                 (unsigned int)status);
+        (void) CFE_EVS_SendEvent(
+            MFA_INIT_ERR_EID,
+            CFE_EVS_ERROR,
+            "Failed to register Config table (0x%08X)", (unsigned int)status
+        );
         exitStatus = CFE_ES_APP_ERROR;
     }
     return exitStatus;
@@ -83,7 +87,8 @@ uint32 MFA_InitData(void) {
         &MFA_AppData.HkTlm, 
         MFA_HK_TLM_MID, 
         sizeof(MFA_AppData.HkTlm), 
-        TRUE);
+        TRUE
+    );
     return exitStatus;
 }
 
@@ -94,39 +99,48 @@ uint32 MFA_InitPipes(void) {
     status = CFE_SB_CreatePipe(
         &MFA_AppData.SchPipeId, 
         MFA_SCH_PIPE_DEPTH, 
-        MFA_SCH_PIPE_NAME);
+        MFA_SCH_PIPE_NAME
+    );
 
-        if (CFE_SUCCESS != status) {
-            (void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
-                                    "Failed to create sch pipe (0x%08X)",
-                                    (unsigned int)status);
-            exitStatus = CFE_ES_APP_ERROR;
-        } else {
-            status = CFE_SB_SubscribeEx(
-                MFA_WAKEUP_MID,
-                MFA_AppData.SchPipeId,
-                CFE_SB_Default_Qos,
-                MFA_SCH_PIPE_WAKEUP_RESERVED);
-            
-            if (status != CFE_SUCCESS) {
-                (void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
-                    "Sch Pipe failed to subscribe to MFA_WAKEUP_MID, (0x%08X)",
-                    (unsigned int) status);
-            }
-
-            status = CFE_SB_SubscribeEx(
-                MFA_SEND_HK_MID,
-                MFA_AppData.SchPipeId,
-                CFE_SB_Default_Qos,
-                MFA_SCH_PIPE_WAKEUP_RESERVED);
-            
-            if (status != CFE_SUCCESS) {
-                (void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
-                    "Sch Pipe failed to subscribe to MFA_SEND_HK_MID, (0x%08X)",
-                    (unsigned int) status);
-            }
-
+    if (CFE_SUCCESS != status) {
+        (void) CFE_EVS_SendEvent(
+            MFA_INIT_ERR_EID,
+            CFE_EVS_ERROR,
+            "Failed to create sch pipe (0x%08X)", (unsigned int)status
+        );
+        exitStatus = CFE_ES_APP_ERROR;
+    } else {
+        status = CFE_SB_SubscribeEx(
+            MFA_WAKEUP_MID,
+            MFA_AppData.SchPipeId,
+            CFE_SB_Default_Qos,
+            MFA_SCH_PIPE_WAKEUP_RESERVED
+        );
+        
+        if (status != CFE_SUCCESS) {
+            (void) CFE_EVS_SendEvent(
+                MFA_INIT_ERR_EID,
+                CFE_EVS_ERROR,
+                "Sch Pipe failed to subscribe to MFA_WAKEUP_MID, (0x%08X)", (unsigned int) status
+            );
         }
+
+        status = CFE_SB_SubscribeEx(
+            MFA_SEND_HK_MID,
+            MFA_AppData.SchPipeId,
+            CFE_SB_Default_Qos,
+            MFA_SCH_PIPE_WAKEUP_RESERVED
+        );
+        
+        if (status != CFE_SUCCESS) {
+            (void) CFE_EVS_SendEvent(
+                MFA_INIT_ERR_EID,
+                CFE_EVS_ERROR,
+                "Sch Pipe failed to subscribe to MFA_SEND_HK_MID, (0x%08X)", (unsigned int) status
+            );
+        }
+
+    }
     return exitStatus;
 }
 
@@ -134,14 +148,18 @@ uint32 MFA_LoadConfigTable(void) {
     int32 status;
     uint32 exitStatus = CFE_ES_APP_RUN;
     /* Load Config table file */
-    status = CFE_TBL_Load(MFA_AppData.ConfigTblHdl,
-                          CFE_TBL_SRC_FILE,
-						  MFA_CONFIG_TABLE_FILENAME);
+    status = CFE_TBL_Load(
+        MFA_AppData.ConfigTblHdl,
+        CFE_TBL_SRC_FILE,
+        MFA_CONFIG_TABLE_FILENAME
+    );
     if(status != CFE_SUCCESS)
     {
-        (void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
-                                 "Failed to load Config Table (0x%08X)",
-                                 (unsigned int)status);
+        (void) CFE_EVS_SendEvent(
+            MFA_INIT_ERR_EID,
+            CFE_EVS_ERROR,
+            "Failed to load Config Table (0x%08X)", (unsigned int)status
+        );
         
         exitStatus = CFE_ES_APP_ERROR;
     }
@@ -154,14 +172,18 @@ uint32 MFA_GetConfigTableAddress(void) {
 	/*
 	** Get a pointer to the tables
 	*/
-	status = CFE_TBL_GetAddress((void*)&MFA_AppData.ConfigTblPtr,
-			                            MFA_AppData.ConfigTblHdl);
+	status = CFE_TBL_GetAddress(
+        (void*)&MFA_AppData.ConfigTblPtr,
+        MFA_AppData.ConfigTblHdl
+    );
 	if(status != CFE_TBL_INFO_UPDATED)
 	{
 		MFA_AppData.ConfigTblPtr = 0;
-		(void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
-								 "Failed to get Config table's address (0x%08X)",
-								 (unsigned int)status);
+		(void) CFE_EVS_SendEvent(
+            MFA_INIT_ERR_EID,
+            CFE_EVS_ERROR,
+            "Failed to get Config table's address (0x%08X)", (unsigned int)status
+        );
 		exitStatus = CFE_ES_APP_ERROR;
 	}
     return exitStatus;
@@ -175,9 +197,11 @@ uint32 MFA_InitAirspeedReader(void) {
 
     if(status != CFE_SUCCESS)
     {
-        (void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
-                                 "Failed to setup ASPD-4525 (0x%08X)",
-                                 (unsigned int)status);
+        (void) CFE_EVS_SendEvent(
+            MFA_INIT_ERR_EID,
+            CFE_EVS_ERROR,
+            "Failed to setup ASPD-4525 (0x%08X)", (unsigned int)status
+        );
         
         exitStatus = CFE_ES_APP_ERROR;
     }
@@ -188,10 +212,11 @@ uint32 MFA_InitAirspeedReader(void) {
 
 void MFA_SendAppInitializedEvent(void ) {
         /* Send an event notifying the ground that we initialized. */
-        (void) CFE_EVS_SendEvent(MFA_INITIALIZED_EID, CFE_EVS_INFORMATION, "Initialized v%u.%u.%u",
-    	    	   MFA_MAJOR_VERSION,
-			       MFA_MINOR_VERSION,
-			       MFA_PATCH_VERSION);
+        (void) CFE_EVS_SendEvent(
+            MFA_INITIALIZED_EID, 
+            CFE_EVS_INFORMATION, 
+            "Initialized v%u.%u.%u", MFA_MAJOR_VERSION, MFA_MINOR_VERSION, MFA_PATCH_VERSION
+        );
 }
 
 uint32 MFA_AppInit(void) {
@@ -256,7 +281,11 @@ void MFA_AppMain()
         CFE_SB_MsgId_t msgId =0 ;
 
         /*Wait for Wakeup messages*/
-        status = CFE_SB_RcvMsg(&msgPtr, MFA_AppData.SchPipeId, MFA_SCH_PEND_TIME);
+        status = CFE_SB_RcvMsg(
+            &msgPtr, 
+            MFA_AppData.SchPipeId, 
+            MFA_SCH_PEND_TIME
+        );
         if (CFE_SUCCESS == status) {
             msgId = CFE_SB_GetMsgId(msgPtr);
 
@@ -267,7 +296,8 @@ void MFA_AppMain()
                     MFA_AppData.HkTlm.HelloCount++;
                     MFA_ASPD4525_Loop (
                         MFA_AppData.ConfigTblPtr,
-                        &MFA_AppData.HkTlm);
+                        &MFA_AppData.HkTlm
+                    );
                     break;
                 }
                 case MFA_SEND_HK_MID:

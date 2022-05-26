@@ -13,4 +13,8 @@ buildliner_add_app_def(mfa
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/arduart/
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/arduart/uart_target
 
+    LIBS 
+        m 
+
 )
+
