@@ -258,5 +258,7 @@ modules:
             msgID: 0x1851
           MFA_SEND_HK_MID:
             msgID: 0x1852
+          MFA_CMD_MID:
+            msgID: 0x1853
 
             

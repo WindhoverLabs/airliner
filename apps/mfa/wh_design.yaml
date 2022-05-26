@@ -2,6 +2,25 @@
   long_name: My First Application
   app_name: MFA
   module_type: CFE_APP
+  commander:
+    displays: cdr
+    templates:
+      _ADD_MESSAGE_FLOW:
+        template: "cdr/resources/templates/MFA_AddMessageFlow.j2"
+        output: "MFA_AddMessageFlow.bob"
+        scope: GLOBAL
+      _QUERY_MESSAGE_FLOW:
+        template: "cdr/resources/templates/MFA_QueryMessageFlow.j2"
+        output: "MFA_QueryMessageFlow.bob"
+        scope: GLOBAL
+      _REMOVE_MESSAGE_FLOW:
+        template: "cdr/resources/templates/MFA_RemoveMessageFlow.j2"
+        output: "MFA_RemoveMessageFlow.bob"
+        scope: GLOBAL
+      _TLM_MANAGEMENT_FLOW:
+        template: "cdr/resources/templates/MFA_TlmManagement.j2"
+        output: "MFA_TlmManagement.bob"
+        scope: GLOBAL
   events: 
     MFA_INITIALIZED_EID: 
       id: 1
@@ -9,6 +28,12 @@
       id: 2
     MFA_INIT_ERR_EID: 
       id: 3
+    MFA_CMD_NOOP_INF_EID:
+      id: 4
+    MFA_CMD_RESET_INF_EID:
+      id: 5
+    MFA_MSG_LEN_ERR_EID:
+      id: 6
   telemetry: 
     MFA_HK_TLM_MID: 
       msgID: 
@@ -25,6 +50,15 @@
       commands:
         SendHk:
           cc: 0
+          struct: MFA_NoArgCmd_t
+    MFA_CMD_MID:
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: MFA_NoArgCmd_t
+        Reset: 
+          cc: 1
           struct: MFA_NoArgCmd_t
   config: 
     MFA_CONFIG_TABLE_FILENAME: 

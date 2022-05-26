@@ -16,6 +16,7 @@
 #include "mfa_mission_cfg.h"
 #include "mfa_msgids.h"
 
+#include "mfa_msgs.h"
 
 MFA_AppData_t MFA_AppData;
 
@@ -75,6 +76,18 @@ uint32 MFA_InitPipes(void) {
 		exitStatus = CFE_ES_APP_ERROR;
 
 	} else {
+		status = CFE_SB_SubscribeEx(
+			MFA_CMD_MID,
+			MFA_AppData.SchPipeId,
+			CFE_SB_Default_Qos,
+			MFA_SCH_PIPE_WAKEUP_RESERVED);
+		
+		if (status != CFE_SUCCESS) {
+			(void) CFE_EVS_SendEvent(MFA_INIT_ERR_EID, CFE_EVS_ERROR,
+				"Sch Pipe failed to subscribe to MFA_CMD_MID, (0x%08X)",
+				(unsigned int) status);
+		}
+
 		status = CFE_SB_SubscribeEx(
 			MFA_WAKEUP_MID,
 			MFA_AppData.SchPipeId,
@@ -208,6 +221,103 @@ void MFA_AppDeinit(uint32 exitStatus) {
 	CFE_ES_ExitApp(exitStatus);
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Verify Command Length                                           */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+osalbool MFA_VerifyCmdLength(CFE_SB_Msg_t* msgPtr, uint16 expectedLen)
+{
+    uint16  msgLen = 0;
+    CFE_SB_MsgId_t MsgId = 0;
+    uint16 cmdCode = 0;
+
+    if (msgPtr != NULL)
+    {
+        msgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+
+        if (expectedLen != msgLen)
+        {
+            MsgId = CFE_SB_GetMsgId(msgPtr);
+            cmdCode = CFE_SB_GetCmdCode(msgPtr);
+
+            (void) CFE_EVS_SendEvent(
+				MFA_MSG_LEN_ERR_EID,
+				CFE_EVS_ERROR,
+				"Rcvd invalid msgLen: msgId=0x%04X, cmdCode=%d, ""msgLen=%d, expectedLen=%d", MsgId, cmdCode, msgLen, expectedLen
+			);
+                              
+            //(void) OS_MutSemTake(TO_AppData.MutexID);
+            MFA_AppData.HkTlm.CmdErrors++;
+            //(void) OS_MutSemGive(TO_AppData.MutexID);
+            return FALSE;
+        }
+    }
+    else
+    {
+        /* msgPtr is NULL */
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
+
+void MFA_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr) {
+	uint32  cmdCode = 0;
+    osalbool sizeOk   = FALSE;
+    osalbool isCmdOk  = FALSE;
+
+    if (msgPtr != NULL)
+    {
+        cmdCode = CFE_SB_GetCmdCode(msgPtr);
+        switch (cmdCode)
+        {
+			case MFA_NOOP_CC:
+			{
+				
+				sizeOk = MFA_VerifyCmdLength(msgPtr, sizeof(MFA_NoArgCmd_t));
+
+				if (TRUE == sizeOk)
+				{
+					MFA_AppData.HkTlm.Commands++;
+					(void) CFE_EVS_SendEvent(
+						MFA_CMD_NOOP_INF_EID, 
+						CFE_EVS_INFORMATION,
+						"Executed NOOP cmd (%u), Version %d.%d.%d", (unsigned int)cmdCode, MFA_MAJOR_VERSION, MFA_MINOR_VERSION, MFA_PATCH_VERSION
+					);
+					//MFA_PrintCustomVersion();
+				}
+				break;
+			}
+
+			case MFA_RESET_CC:
+			{
+				sizeOk = MFA_VerifyCmdLength(msgPtr, sizeof(MFA_NoArgCmd_t));
+
+				if (TRUE == sizeOk)
+				{
+					//(void) OS_MutSemTake(MFA_AppData.MutexID);
+					MFA_AppData.HkTlm.Commands = 0;
+					MFA_AppData.HkTlm.CmdErrors = 0;
+					MFA_AppData.HkTlm.HelloCount = 0;
+
+					//(void) OS_MutSemGive(MFA_AppData.MutexID);
+
+					//TO_Channel_ResetCountsAll();
+
+					(void) CFE_EVS_SendEvent(
+						MFA_CMD_RESET_INF_EID, 
+						CFE_EVS_INFORMATION,
+						"Executed RESET cmd (%u)", (unsigned int)cmdCode
+					);
+				}
+				break;
+			}
+		}
+	}
+}
+
 void MFA_AppMain()
 {
 	uint32 exitStatus = MFA_AppInit();
@@ -224,6 +334,11 @@ void MFA_AppMain()
 			msgId = CFE_SB_GetMsgId(msgPtr);
 
 			switch(msgId) {
+                case MFA_CMD_MID:
+				{
+                    MFA_ProcessNewAppCmds(msgPtr);
+                    break;
+				}
 				case MFA_WAKEUP_MID:
 				{
 					//status = CFE_EVS_SendEvent(MFA_LOOPING_EID, CFE_EVS_INFORMATION, "%s", MFA_AppData.ConfigTblPtr->Message);

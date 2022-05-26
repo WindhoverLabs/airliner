@@ -7,6 +7,9 @@ extern "C" {
 
 #include "cfe.h"
 
+#define MFA_NOOP_CC         (0)
+#define MFA_RESET_CC        (1)
+
 
 typedef struct {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
