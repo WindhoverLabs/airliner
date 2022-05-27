@@ -7,10 +7,23 @@ extern "C" {
 
 #include "cfe.h"
 
+/**
+ * @brief This is a Noop Command Code in the MFA_CMD_MID Message ID
+ * 
+ */
 #define MFA_NOOP_CC         (0)
+
+/**
+ * @brief This is a Reset Command Code in the MFA_CMD_MID Message ID
+ * 
+ */
 #define MFA_RESET_CC        (1)
 
 
+/**
+ * @brief This is the typedef struct for the House Keeping Telemetry sent to ground
+ * 
+ */
 typedef struct {
     uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
     uint32 Commands;
@@ -19,6 +32,10 @@ typedef struct {
 } MFA_HkTlm_t;
 
 
+/**
+ * @brief This is the typedef struct for No Argument Commands sent to the App
+ * 
+ */
 typedef struct {
     uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
 } MFA_NoArgCmd_t;

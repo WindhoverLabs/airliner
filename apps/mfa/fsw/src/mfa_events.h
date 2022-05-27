@@ -32,10 +32,22 @@ extern "C" {
  */
 #define MFA_INIT_ERR_EID        (3)
 
+/**
+ * @brief It is an event id that the app sends when a Noop is being operated on
+ * 
+ */
 #define MFA_CMD_NOOP_INF_EID    (4)
 
+/**
+ * @brief It is an event id that the app sends when a Reset is being operated on
+ * 
+ */
 #define MFA_CMD_RESET_INF_EID   (5)
 
+/**
+ * @brief It is an event id that the app sends when the msg length received is wrong
+ * 
+ */
 #define MFA_MSG_LEN_ERR_EID     (6)
 
 
