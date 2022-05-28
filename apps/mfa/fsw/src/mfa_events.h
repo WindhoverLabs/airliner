@@ -56,6 +56,13 @@ extern "C" {
  */
 #define MFA_INVALID_MSG_EID     (7)
 
+/**
+ * @brief It is an event id that the app sends when the app is unable to run CFE_TBL_Modified
+ * function successfully
+ * 
+ */
+#define MFA_TABLEMOD_ERR_EID    (8)
+
 #ifdef __cplusplus
 }
 #endif /*__cplusplus*/

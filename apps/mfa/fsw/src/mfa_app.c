@@ -332,7 +332,16 @@ void MFA_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr) {
 					);
 					msgStringArgCmdPtr->Message[sizeof(msgStringArgCmdPtr->Message)-1] = 0;
 					status = CFE_TBL_Modified(MFA_AppData.ConfigTblHdl);
-					MFA_AppData.HkTlm.Commands++;
+					if (CFE_SUCCESS!=status) {
+						MFA_AppData.HkTlm.CmdErrors++;
+						(void) CFE_EVS_SendEvent(
+							MFA_TABLEMOD_ERR_EID, 
+							CFE_EVS_ERROR,
+							"Table Mod Error (0x%04x)", status
+						);
+					} else {
+						MFA_AppData.HkTlm.Commands++;
+					}
 				}
 				break;
 			}

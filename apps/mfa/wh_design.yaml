@@ -17,6 +17,10 @@
       id: 5
     MFA_MSG_LEN_ERR_EID:
       id: 6
+    MFA_INVALID_MSG_EID:
+      id: 7
+    MFA_TABLEMOD_ERR_EID:
+      id: 8
   telemetry: 
     MFA_HK_TLM_MID: 
       msgID: 
