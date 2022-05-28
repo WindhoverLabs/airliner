@@ -17,6 +17,7 @@
 #include "mfa_msgids.h"
 
 #include "mfa_msgs.h"
+#include <string.h>
 
 MFA_AppData_t MFA_AppData;
 
@@ -312,6 +313,27 @@ void MFA_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr) {
 						"Executed RESET cmd (%u)", (unsigned int)cmdCode
 					);
 				}
+				
+				break;
+			}
+
+			case MFA_SET_MSG_CC:
+			{
+				sizeOk = MFA_VerifyCmdLength(msgPtr, sizeof(MFA_StringArgCmd_t));
+
+				if (TRUE == sizeOk)
+				{
+					int32 status =0;
+					MFA_StringArgCmd_t* msgStringArgCmdPtr = (MFA_StringArgCmd_t*) msgPtr;
+					strncpy(
+						MFA_AppData.ConfigTblPtr->Message, 
+						msgStringArgCmdPtr->Message, 
+						sizeof(msgStringArgCmdPtr->Message)
+					);
+					msgStringArgCmdPtr->Message[sizeof(msgStringArgCmdPtr->Message)-1] = 0;
+					status = CFE_TBL_Modified(MFA_AppData.ConfigTblHdl);
+					MFA_AppData.HkTlm.Commands++;
+				}
 				break;
 			}
 		}
@@ -341,7 +363,7 @@ void MFA_AppMain()
 				}
 				case MFA_WAKEUP_MID:
 				{
-					//status = CFE_EVS_SendEvent(MFA_LOOPING_EID, CFE_EVS_INFORMATION, "%s", MFA_AppData.ConfigTblPtr->Message);
+					status = CFE_EVS_SendEvent(MFA_LOOPING_EID, CFE_EVS_INFORMATION, "%s", MFA_AppData.ConfigTblPtr->Message);
 					MFA_AppData.HkTlm.HelloCount++;
 					break;
 				}
@@ -354,6 +376,7 @@ void MFA_AppMain()
                     break;
                 }
 				default:
+					status = CFE_EVS_SendEvent(MFA_INVALID_MSG_EID, CFE_EVS_ERROR, "Unexpected message 0x%04x", msgId);
 					break;
 			}
 		}

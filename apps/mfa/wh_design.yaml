@@ -4,23 +4,6 @@
   module_type: CFE_APP
   commander:
     displays: cdr
-    templates:
-      _ADD_MESSAGE_FLOW:
-        template: "cdr/resources/templates/MFA_AddMessageFlow.j2"
-        output: "MFA_AddMessageFlow.bob"
-        scope: GLOBAL
-      _QUERY_MESSAGE_FLOW:
-        template: "cdr/resources/templates/MFA_QueryMessageFlow.j2"
-        output: "MFA_QueryMessageFlow.bob"
-        scope: GLOBAL
-      _REMOVE_MESSAGE_FLOW:
-        template: "cdr/resources/templates/MFA_RemoveMessageFlow.j2"
-        output: "MFA_RemoveMessageFlow.bob"
-        scope: GLOBAL
-      _TLM_MANAGEMENT_FLOW:
-        template: "cdr/resources/templates/MFA_TlmManagement.j2"
-        output: "MFA_TlmManagement.bob"
-        scope: GLOBAL
   events: 
     MFA_INITIALIZED_EID: 
       id: 1
@@ -60,6 +43,13 @@
         Reset: 
           cc: 1
           struct: MFA_NoArgCmd_t
+        SetMessage:
+          cc: 2
+          struct: MFA_StringArgCmd_t
+  msg_def_overrides:
+    - parent: MFA_StringArgCmd_t
+      member: Message
+      type: string
   config: 
     MFA_CONFIG_TABLE_FILENAME: 
       name: MFA_CONFIG_TABLE_FILENAME

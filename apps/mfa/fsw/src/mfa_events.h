@@ -50,6 +50,11 @@ extern "C" {
  */
 #define MFA_MSG_LEN_ERR_EID     (6)
 
+/**
+ * @brief It is an event id that the app sends when the app receieved an unexpected message id
+ * 
+ */
+#define MFA_INVALID_MSG_EID     (7)
 
 #ifdef __cplusplus
 }

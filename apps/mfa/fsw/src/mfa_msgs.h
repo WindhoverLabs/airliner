@@ -6,6 +6,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include "cfe.h"
+#include "mfa_tbldefs.h"
 
 /**
  * @brief This is a Noop Command Code in the MFA_CMD_MID Message ID
@@ -18,6 +19,7 @@ extern "C" {
  * 
  */
 #define MFA_RESET_CC        (1)
+#define MFA_SET_MSG_CC      (2)
 
 
 /**
@@ -39,6 +41,12 @@ typedef struct {
 typedef struct {
     uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
 } MFA_NoArgCmd_t;
+
+typedef struct {
+    uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
+    char Message[MFA_MESSAGE_MAX_SIZE];
+} MFA_StringArgCmd_t;
+
 
 #ifdef __cplusplus
 }
