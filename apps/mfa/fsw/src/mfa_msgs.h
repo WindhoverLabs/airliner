@@ -19,6 +19,11 @@ extern "C" {
  * 
  */
 #define MFA_RESET_CC        (1)
+
+/**
+ * @brief This is a set config message command code in the MFA_CMD_MID Message ID
+ * 
+ */
 #define MFA_SET_MSG_CC      (2)
 
 
@@ -42,6 +47,10 @@ typedef struct {
     uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
 } MFA_NoArgCmd_t;
 
+/**
+ * @brief This is the typedef struct for single string argument commands sent to the app
+ * 
+ */
 typedef struct {
     uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
     char Message[MFA_MESSAGE_MAX_SIZE];
