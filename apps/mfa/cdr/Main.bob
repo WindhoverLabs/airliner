@@ -315,4 +315,29 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
+  <widget type="group" version="2.0.0">
+    <name>Action</name>
+    <x>337</x>
+    <y>36</y>
+    <height>168</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>SetMessage</name>
+      <actions>
+        <action type="open_display">
+          <file>SetMessage.opi</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Set Config Message</text>
+      <x>11</x>
+      <y>6</y>
+      <width>170</width>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+  </widget>
 </display>
