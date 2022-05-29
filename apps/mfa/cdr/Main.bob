@@ -339,5 +339,20 @@ ScriptUtil.openOPI(display.getWidget("AppControl"), opi_to_open_path, RunModeSer
       <width>170</width>
       <tooltip>$(actions)</tooltip>
     </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>SaveConfig</name>
+      <actions>
+        <action type="open_display">
+          <file>SaveConfigFile.opi</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Save Config File</text>
+      <x>11</x>
+      <y>48</y>
+      <width>170</width>
+      <tooltip>$(actions)</tooltip>
+    </widget>
   </widget>
 </display>

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
-  <name>($(CPUID)) MFA - Set Message</name>
+  <name>($(CPUID)) MFA - Save Config File</name>
   <x>100</x>
   <y>100</y>
   <width>400</width>
   <height>128</height>
   <widget type="label" version="2.0.0">
-    <name>MsgLabel</name>
-    <text>Message:</text>
+    <name>FileNameLabel</name>
+    <text>Config File:</text>
     <x>30</x>
     <y>50</y>
   </widget>
   <widget type="label" version="2.0.0">
     <name>Title</name>
-    <text>($(CPUID)) MFA - Set Config Message</text>
+    <text>($(CPUID)) MFA - Save Config File</text>
     <x>10</x>
     <y>10</y>
     <width>241</width>
@@ -32,8 +32,8 @@
     </border_color>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>MessageString</name>
-    <pv_name>loc://MFA_SetMessage_Message&lt;VString&gt;</pv_name>
+    <name>FileName</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_FileName&lt;VString&gt;("")</pv_name>
     <x>110</x>
     <y>50</y>
     <width>230</width>
@@ -54,10 +54,25 @@
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var MessageString = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'MessageString')));
+var tableBuffer = 'ACTIVE_BUFFER';
+var tableName = 'MFA.CONFIG_TBL';
+var fileName = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'FileName')));
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/mfa/SetMessage', {
-    'Message': MessageString});]]></text>
+var args;
+
+if( fileName != 'no value' ) {
+  args = {
+        'Payload.DumpFilename': fileName,
+		'Payload.TableName':      tableName,
+		'Payload.ActiveTblFlag':  tableBuffer };
+  }
+else {
+  //    args = {"Payload.DumpFilename":"",
+//		"Payload.TableName":''",
+//		"Payload.ActiveTblFlag":"" };
+}
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_tbl/Dump', args);]]></text>
         </script>
       </action>
     </actions>
