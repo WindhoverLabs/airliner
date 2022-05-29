@@ -337,7 +337,7 @@ void MFA_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr) {
 						(void) CFE_EVS_SendEvent(
 							MFA_TABLEMOD_ERR_EID, 
 							CFE_EVS_ERROR,
-							"Table Mod Error (0x%04x)", status
+							"Table Mod Error (0x%08X)", (unsigned int) status
 						);
 					} else {
 						MFA_AppData.HkTlm.Commands++;
