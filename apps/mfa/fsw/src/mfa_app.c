@@ -18,7 +18,6 @@
 
 #include "mfa_msgs.h"
 #include <string.h>
-#include <math.h>
 
 MFA_AppData_t MFA_AppData;
 
@@ -282,25 +281,11 @@ void MFA_ProcessNewAppCmds(CFE_SB_Msg_t *msgPtr) {
 
 				if (TRUE == sizeOk)
 				{
-					float x, y, resSqrt, resPow, resExp;
 					MFA_AppData.HkTlm.Commands++;
 					(void) CFE_EVS_SendEvent(
 						MFA_CMD_NOOP_INF_EID, 
 						CFE_EVS_INFORMATION,
 						"Executed NOOP cmd (%u), Version %d.%d.%d", (unsigned int)cmdCode, MFA_MAJOR_VERSION, MFA_MINOR_VERSION, MFA_PATCH_VERSION
-					);
-
-					x = 0.49;
-					y = 0.5;
-
-					resSqrt = sqrt(x);
-					resPow = pow(x,y);
-					resExp = exp(x);
-
-					(void) CFE_EVS_SendEvent(
-						MFA_CMD_NOOP_INF_EID, 
-						CFE_EVS_INFORMATION,
-						"Executed Math Commands sqrt = %f, pow = %f, exp = %f", resSqrt, resPow, resExp
 					);
 					//MFA_PrintCustomVersion();
 				}
