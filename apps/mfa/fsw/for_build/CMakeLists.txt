@@ -7,4 +7,7 @@ buildliner_add_app_def(mfa
 	
 	INCLUDES
 		${CMAKE_CURRENT_SOURCE_DIR}/../src/
+
+	LIBS 
+        m 
 )
