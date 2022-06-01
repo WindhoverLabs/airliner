@@ -435,3 +435,10 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sed/fsw/for_build
     CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sed
 )
+
+buildliner_add_app(
+    ea
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ea/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/ea
+)
