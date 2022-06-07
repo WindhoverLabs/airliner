@@ -76,7 +76,9 @@ help::
 	@echo '                              Critical Processing Domain (CPD) of the Windhover '
 	@echo '                              Windhover On-Board Computer (OBC).                '
 	@echo '    obc-quad-sitl           : This will build a SITL versions of both the PPD   '
-	@echo '                              and CPD flight software for quadcopter.                          '
+	@echo '                              and CPD flight software for quadcopter.           '
+	@echo '    obc-fixedwing-sitl      : This will build a SITL versions of both the PPD   '
+	@echo '                              and CPD flight software for fixedwing.           '
 	@echo '    obc/ppd/sitl            : This will build a SITL version of the PPD flight  '
 	@echo '                              software.                                         '
 	@echo '    obc/cpd/sitl            : This will build a SITL version of the CPD flight  '
@@ -190,11 +192,41 @@ workspace-quad-sitl::
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/quad/ppd/sitl/target/wh_defs.yaml ${PWD}/build/obc/quad/ppd/sitl/target/wh_defs.db ${PWD}/build/obc/quad/sitl_commander_workspace/mdb/ppd.xml
 	@echo 'Generating Simlink XTCE'
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/quad/simlink/target/wh_defs.yaml ${PWD}/build/obc/quad/simlink/target/wh_defs.db ${PWD}/build/obc/quad/sitl_commander_workspace/mdb/simlink.xml
+
+workspace-fixedwing-sitl::
+	@echo 'Generating PPD ground tools data.'
+	@make -C build/obc/fixedwing/ppd/sitl/target ground-tools
+	@echo 'Generating CPD ground tools data.'
+	@make -C build/obc/fixedwing/cpd/sitl/target ground-tools
+	@echo 'Generating Simlink ground tools data.'
+	@make -C build/obc/fixedwing/simlink/target ground-tools
+	@echo 'Adding XTCE configuration to registries.'
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/fixedwing/cpd/sitl/target/wh_defs.yaml --overwrite build/obc/fixedwing/cpd/sitl/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/fixedwing/ppd/sitl/target/wh_defs.yaml --overwrite build/obc/fixedwing/ppd/sitl/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/fixedwing/simlink/target/wh_defs.yaml --overwrite build/obc/fixedwing/simlink/target/wh_defs.yaml
+	@echo 'Generating combined registry.'
+	@rm -Rf build/obc/fixedwing/sitl_commander_workspace >/dev/null
+	@mkdir -p build/obc/fixedwing/sitl_commander_workspace/etc
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/fixedwing/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/fixedwing/cpd/sitl/target/wh_defs.yaml --yaml_path /modules/fixedwing/modules/cpd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/fixedwing/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/fixedwing/ppd/sitl/target/wh_defs.yaml --yaml_path /modules/fixedwing/modules/ppd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/fixedwing/sitl_commander_workspace/etc/registry.yaml --yaml_input build/obc/fixedwing/simlink/target/wh_defs.yaml --yaml_path /modules/fixedwing/modules/simlink
+	@echo 'Generating Commander workspace.'
+	@python3 core/base/tools/commander/generate_workspace.py build/obc/fixedwing/sitl_commander_workspace/etc/registry.yaml build/obc/fixedwing/sitl_commander_workspace/
+	@echo 'Generating CPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/fixedwing/cpd/sitl/target/wh_defs.yaml ${PWD}/build/obc/fixedwing/cpd/sitl/target/wh_defs.db ${PWD}/build/obc/fixedwing/sitl_commander_workspace/mdb/cpd.xml
+	@echo 'Generating PPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/fixedwing/ppd/sitl/target/wh_defs.yaml ${PWD}/build/obc/fixedwing/ppd/sitl/target/wh_defs.db ${PWD}/build/obc/fixedwing/sitl_commander_workspace/mdb/ppd.xml
+	@echo 'Generating Simlink XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/fixedwing/simlink/target/wh_defs.yaml ${PWD}/build/obc/fixedwing/simlink/target/wh_defs.db ${PWD}/build/obc/fixedwing/sitl_commander_workspace/mdb/simlink.xml
 	
 		
 	
 obc-quad-sitl:: obc/quad/ppd/sitl obc/quad/cpd/sitl obc/quad/simlink
 	@ln -s cf build/obc/quad/cpd/sitl/target/target/exe/ram || /bin/true
+	@echo 'Done'
+
+obc-fixedwing-sitl:: obc/fixedwing/ppd/sitl obc/fixedwing/cpd/sitl obc/fixedwing/simlink
+	@ln -s cf build/obc/fixedwing/cpd/sitl/target/target/exe/ram || /bin/true
 	@echo 'Done'
 	
 	
