@@ -64,7 +64,7 @@ help::
 	@echo '                              hosted on the generic quad-X airframe with the    '
 	@echo '                              Aerotenna uLanding landing radar system.          '
 	@echo '                              uLanding landing radar system.                    '
-	@echo '    obc                     : This will build flight software for both the      '
+	@echo '    obc-quad                : This will build flight software for both the      '
 	@echo '                              Performance Processing Domain (PPD) and the       '
 	@echo '                              Critical Processing Domain (CPD) of the           '
 	@echo '                              Windhover On-Board Computer (OBC), as well as the '
@@ -141,30 +141,30 @@ $(GENERIC_TARGET_NAMES)::
 		done;
 		
 		
-obc:: obc/ppd obc/cpd
-	@rm -Rf build/obc/target
+obc-quad:: obc/quad/ppd obc/quad/cpd
+	@rm -Rf build/obc/quad/target
 	@echo 'Done'
 	
 	
-workspace::
+workspace-quad::
 	@echo 'Generating PPD ground tools data.'
-	@make -C build/obc/ppd/target ground-tools
+	@make -C build/obc/quad/ppd/target ground-tools
 	@echo 'Generating CPD ground tools data.'
-	@make -C build/obc/cpd/target ground-tools
+	@make -C build/obc/quad/cpd/target ground-tools
 	@echo 'Adding XTCE configuration to registries.'
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/cpd/target/wh_defs.yaml --overwrite build/obc/cpd/target/wh_defs.yaml
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/ppd/target/wh_defs.yaml --overwrite build/obc/ppd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/quad/cpd/target/wh_defs.yaml --overwrite build/obc/quad/cpd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/quad/ppd/target/wh_defs.yaml --overwrite build/obc/quad/ppd/target/wh_defs.yaml
 	@echo 'Generating combined registry.'
-	@rm -Rf build/obc/commander_workspace >/dev/null
-	@mkdir -p build/obc/commander_workspace/etc
-	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
-	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/commander_workspace/etc/registry.yaml --yaml_input build/obc/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	@rm -Rf build/obc/quad/commander_workspace >/dev/null
+	@mkdir -p build/obc/quad/commander_workspace/etc
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/quad/commander_workspace/etc/registry.yaml --yaml_input build/obc/quad/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/quad/commander_workspace/etc/registry.yaml --yaml_input build/obc/quad/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
 	@echo 'Generating Commander workspace.'
-	@python3 core/base/tools/commander/generate_workspace.py build/obc/commander_workspace/etc/registry.yaml build/obc/commander_workspace/
+	@python3 core/base/tools/commander/generate_workspace.py build/obc/quad/commander_workspace/etc/registry.yaml build/obc/quad/commander_workspace/
 	@echo 'Generating CPD XTCE'
-	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/cpd/target/wh_defs.yaml ${PWD}/build/obc/cpd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/cpd.xml
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/quad/cpd/target/wh_defs.yaml ${PWD}/build/obc/quad/cpd/target/wh_defs.db ${PWD}/build/obc/quad/commander_workspace/mdb/cpd.xml
 	@echo 'Generating PPD XTCE'
-	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/ppd/target/wh_defs.yaml ${PWD}/build/obc/ppd/target/wh_defs.db ${PWD}/build/obc/commander_workspace/mdb/ppd.xml
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/quad/ppd/target/wh_defs.yaml ${PWD}/build/obc/quad/ppd/target/wh_defs.db ${PWD}/build/obc/quad/commander_workspace/mdb/ppd.xml
 	
 	
 workspace-quad-sitl::
