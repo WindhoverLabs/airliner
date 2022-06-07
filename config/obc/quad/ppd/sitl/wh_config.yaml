@@ -2,7 +2,7 @@
 config_base: ${PROJECT_SOURCE_DIR}
 cpu_id: ppd 
 commander:
-  server_overlay: ${PROJECT_SOURCE_DIR}/config/obc/ppd/sitl/server_overlay
+  server_overlay: ${PROJECT_SOURCE_DIR}/config/obc/quad/ppd/sitl/server_overlay
 modules:
   core:
     modules:
