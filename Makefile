@@ -200,7 +200,7 @@ obc-quad-sitl:: obc/quad/ppd/sitl obc/quad/cpd/sitl obc/quad/simlink
 	
 docs-doxygen:
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
-	(cd build/${SPHINX_FSW_BUILD}/target; /usr/bin/cmaked -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
+	(cd build/${SPHINX_FSW_BUILD}/target; /usr/bin/cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
 		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); make docs);
 	
 	
