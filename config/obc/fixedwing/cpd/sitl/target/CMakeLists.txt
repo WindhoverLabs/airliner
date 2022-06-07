@@ -207,14 +207,6 @@ buildliner_add_app(
     CONFIG_SOURCES
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc/amc_custom.cpp
 )
-
-buildliner_add_app(
-    mac
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mac/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/mac
-)
-
 ## This is temporarily removed until we can get px4lib back in
 #buildliner_add_app(
 #    ulr
@@ -254,13 +246,6 @@ buildliner_add_app(
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sens/fsw/for_build
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sens
-)
-
-buildliner_add_app(
-    mpc
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mpc/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/mpc
 )
 
 buildliner_add_app(

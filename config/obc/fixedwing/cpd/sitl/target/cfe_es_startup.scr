@@ -12,8 +12,6 @@ CFE_APP, /embedded/QAE.so,       QAE_AppMain,     QAE,       25, 65536, 0x0, 0, 
 CFE_APP, /embedded/PE.so,        PE_AppMain,      PE,        70, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/AMC.so,       AMC_AppMain,     AMC,       40, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/NAV.so,       NAV_AppMain,     NAV,       50, 65536, 0x0, 0, 0;
-CFE_APP, /embedded/MAC.so,       MAC_AppMain,     MAC,       30, 65536, 0x0, 0, 0;
-CFE_APP, /embedded/MPC.so,       MPC_AppMain,     MPC,       35, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/VM.so,        VM_AppMain,      VM,        45, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/SBND.so,      SBND_AppMain,    SBND,      60, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/FM.so,        FM_AppMain,      FM,       115, 32768, 0x0, 0, 0;
