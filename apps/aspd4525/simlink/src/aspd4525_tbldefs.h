@@ -65,11 +65,6 @@ extern "C" {
  */
 #define ASPD4525_CDS_TABLENAME  ("aspd4525_CdsTbl")
 
-/**
- * @brief Number of layers in the atmosphere based on how air density behaves
- * 
- */
-#define ASPD4525_NUM_ATM_LAYERS			(7)
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
@@ -77,19 +72,9 @@ extern "C" {
 /** \brief Definition for a single config table entry */
 typedef struct
 {
-	float fPressureMinimum_PSI;								/* PSI */
-	float fPressureMaximum_PSI;								/* PSI */
-	float fTemperatureMinimum_Celcius;						/* degrees Celsius */
-	float fTemperatureMaximum_Celcius;						/* degrees Celsius */
-	float fAirGasConstantR_SI;								/* J/(mol.K) */
-	float fGravitationalAccereleration_SI;					/* m/s^2 */
-	float fAirMolarMass_SI;									/* kg/mol */
-	float fAltitudeMeters_bs[ASPD4525_NUM_ATM_LAYERS];	    /* altitude minimum limits of different layers of atmosphere */
-	float fRho_bs[ASPD4525_NUM_ATM_LAYERS];				    /* air mass density limits of different layers of atmosphere */
-	float fTemp_bs[ASPD4525_NUM_ATM_LAYERS];				/* standard temperature limits of different layers of atmosphere */
-	float fLapseRate_bs[ASPD4525_NUM_ATM_LAYERS];		    /* Temperature Lapse Rate of different layers of atmosphere */
-	uint32 uEquationNo_bs[ASPD4525_NUM_ATM_LAYERS];		    /* Equation used in different layers of atmosphere */
-	uint32 uAirDensityCalculationMode;						/* Modes described in mfa_config.h */
+	int32 iParam;
+
+	/* TODO: add type declarations for Config Table Data here*/
 } ASPD4525_ConfigTblEntry_t;
 
 

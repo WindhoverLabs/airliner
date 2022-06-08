@@ -93,6 +93,12 @@ buildliner_add_app(
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/hmc5883
 )
 
+buildliner_add_app(
+    aspd4525
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/aspd4525/simlink/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/aspd4525
+)
+
 
 buildliner_add_app(
     icm20689

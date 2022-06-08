@@ -31,8 +31,8 @@
  *
  *****************************************************************************/
     
-#ifndef ASPD4525_TBLDEFS_H
-#define ASPD4525_TBLDEFS_H
+#ifndef ASPD4525_CONFIG_UTILS_H
+#define ASPD4525_CONFIG_UTILS_H
 
 /************************************************************************
 ** Pragmas
@@ -42,6 +42,7 @@
 ** Includes
 *************************************************************************/
 #include "cfe.h"
+#include "aspd4525_app.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,56 +51,10 @@ extern "C" {
 /************************************************************************
 ** Local Defines
 *************************************************************************/
-/**
- * \brief Defines the number of entries in the table
- */
-#define ASPD4525_CONFIG_TABLE_MAX_ENTRIES  (1)
 
-/**
- * \brief Defines the table identification name used for table registration.
- */
-#define ASPD4525_CONFIG_TABLENAME          ("CONFIG_TBL")
-
-/**
- * \brief Defines the table file name used for table registration.
- */
-#define ASPD4525_CDS_TABLENAME  ("aspd4525_CdsTbl")
-
-/**
- * @brief Number of layers in the atmosphere based on how air density behaves
- * 
- */
-#define ASPD4525_NUM_ATM_LAYERS			(7)
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
-
-/** \brief Definition for a single config table entry */
-typedef struct
-{
-	float fPressureMinimum_PSI;								/* PSI */
-	float fPressureMaximum_PSI;								/* PSI */
-	float fTemperatureMinimum_Celcius;						/* degrees Celsius */
-	float fTemperatureMaximum_Celcius;						/* degrees Celsius */
-	float fAirGasConstantR_SI;								/* J/(mol.K) */
-	float fGravitationalAccereleration_SI;					/* m/s^2 */
-	float fAirMolarMass_SI;									/* kg/mol */
-	float fAltitudeMeters_bs[ASPD4525_NUM_ATM_LAYERS];	    /* altitude minimum limits of different layers of atmosphere */
-	float fRho_bs[ASPD4525_NUM_ATM_LAYERS];				    /* air mass density limits of different layers of atmosphere */
-	float fTemp_bs[ASPD4525_NUM_ATM_LAYERS];				/* standard temperature limits of different layers of atmosphere */
-	float fLapseRate_bs[ASPD4525_NUM_ATM_LAYERS];		    /* Temperature Lapse Rate of different layers of atmosphere */
-	uint32 uEquationNo_bs[ASPD4525_NUM_ATM_LAYERS];		    /* Equation used in different layers of atmosphere */
-	uint32 uAirDensityCalculationMode;						/* Modes described in mfa_config.h */
-} ASPD4525_ConfigTblEntry_t;
-
-
-/** \brief Definition for Critical Data Storage (CDS) table entry */
-typedef struct
-{
-    int32  iParam;
-
-    /* TODO:  Add type declaration for CDS data here. */
-} ASPD4525_CdsTbl_t;
 
 /************************************************************************
 ** External Global Variables
@@ -117,13 +72,83 @@ typedef struct
 ** Local Function Prototypes
 *************************************************************************/
 
+/************************************************************************/
+/** \brief Init ASPD4525 Config table
+**
+**  \par Description
+**       This function initializes ASPD4525's Config table
+**
+**  \par Assumptions, External Events, and Notes:
+**       None
+**
+**  \returns
+**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
+**  \retstmt Return codes from #CFE_TBL_Register          \endcode
+**  \retstmt Return codes from #CFE_TBL_Load              \endcode
+**  \retstmt Return codes from #ASPD4525_AcquireConfigPointers \endcode
+**  \endreturns
+**
+*************************************************************************/
+int32  ASPD4525_InitConfigTbl(void);
+
+/************************************************************************/
+/** \brief Validate ASPD4525 Config table
+**
+**  \par Description
+**       This function validates ASPD4525's Config table
+**
+**  \par Assumptions, External Events, and Notes:
+**       None
+**
+**  \returns
+**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
+**  \endreturns
+**
+*************************************************************************/
+int32  ASPD4525_ValidateConfigTbl(void*);
+
+/************************************************************************/
+/** \brief Obtain ASPD4525 Config Table Data Pointer
+**
+**  \par Description
+**       This function manages the config table
+**       and obtains a pointer to its data.
+**
+**  \par Assumptions, External Events, and Notes:
+**       None
+**
+**  \returns
+**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
+**  \endreturns
+**
+*************************************************************************/
+int32 ASPD4525_AcquireConfigPointers(void);
+
+/************************************************************************/
+/** \brief Process new ASPD4525 Config table
+**
+**  \par Description
+**       This function processes ASPD4525's new Config table
+**       and set Config parameters with new values.
+**
+**  \par Assumptions, External Events, and Notes:
+**       None
+**
+**  \returns
+**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
+**  \endreturns
+**
+*************************************************************************/
+void   ASPD4525_ProcessNewConfigTbl(void);
+
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* ASPD4525_TBLDEFS_H */
+#endif /* ASPD4525_CONFIG_UTILS_H */
 
 /************************/
 /*  End of File Comment */
 /************************/
+    

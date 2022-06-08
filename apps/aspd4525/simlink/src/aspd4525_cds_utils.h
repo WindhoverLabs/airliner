@@ -30,9 +30,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  *****************************************************************************/
-    
-#ifndef ASPD4525_TBLDEFS_H
-#define ASPD4525_TBLDEFS_H
+
+#ifndef ASPD4525_CDS_UTILS_H
+#define ASPD4525_CDS_UTILS_H
 
 /************************************************************************
 ** Pragmas
@@ -41,7 +41,7 @@
 /************************************************************************
 ** Includes
 *************************************************************************/
-#include "cfe.h"
+#include "aspd4525_tbldefs.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,56 +50,10 @@ extern "C" {
 /************************************************************************
 ** Local Defines
 *************************************************************************/
-/**
- * \brief Defines the number of entries in the table
- */
-#define ASPD4525_CONFIG_TABLE_MAX_ENTRIES  (1)
 
-/**
- * \brief Defines the table identification name used for table registration.
- */
-#define ASPD4525_CONFIG_TABLENAME          ("CONFIG_TBL")
-
-/**
- * \brief Defines the table file name used for table registration.
- */
-#define ASPD4525_CDS_TABLENAME  ("aspd4525_CdsTbl")
-
-/**
- * @brief Number of layers in the atmosphere based on how air density behaves
- * 
- */
-#define ASPD4525_NUM_ATM_LAYERS			(7)
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
-
-/** \brief Definition for a single config table entry */
-typedef struct
-{
-	float fPressureMinimum_PSI;								/* PSI */
-	float fPressureMaximum_PSI;								/* PSI */
-	float fTemperatureMinimum_Celcius;						/* degrees Celsius */
-	float fTemperatureMaximum_Celcius;						/* degrees Celsius */
-	float fAirGasConstantR_SI;								/* J/(mol.K) */
-	float fGravitationalAccereleration_SI;					/* m/s^2 */
-	float fAirMolarMass_SI;									/* kg/mol */
-	float fAltitudeMeters_bs[ASPD4525_NUM_ATM_LAYERS];	    /* altitude minimum limits of different layers of atmosphere */
-	float fRho_bs[ASPD4525_NUM_ATM_LAYERS];				    /* air mass density limits of different layers of atmosphere */
-	float fTemp_bs[ASPD4525_NUM_ATM_LAYERS];				/* standard temperature limits of different layers of atmosphere */
-	float fLapseRate_bs[ASPD4525_NUM_ATM_LAYERS];		    /* Temperature Lapse Rate of different layers of atmosphere */
-	uint32 uEquationNo_bs[ASPD4525_NUM_ATM_LAYERS];		    /* Equation used in different layers of atmosphere */
-	uint32 uAirDensityCalculationMode;						/* Modes described in mfa_config.h */
-} ASPD4525_ConfigTblEntry_t;
-
-
-/** \brief Definition for Critical Data Storage (CDS) table entry */
-typedef struct
-{
-    int32  iParam;
-
-    /* TODO:  Add type declaration for CDS data here. */
-} ASPD4525_CdsTbl_t;
 
 /************************************************************************
 ** External Global Variables
@@ -117,13 +71,56 @@ typedef struct
 ** Local Function Prototypes
 *************************************************************************/
 
+/************************************************************************/
+/** \brief Init ASPD4525 CDS tables
+**
+**  \par Description
+**       This function initializes ASPD4525's CDS tables
+**
+**  \par Assumptions, External Events, and Notes:
+**       None
+**
+**  \returns
+**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
+**  \retstmt Return codes from #CFE_ES_RegisterCDS       \endcode
+**  \retstmt Return codes from #CFE_ES_CopyToCDS         \endcode
+**  \endreturns
+**
+*************************************************************************/
+int32  ASPD4525_InitCdsTbl(void);
+
+/************************************************************************/
+/** \brief Update ASPD4525 CDS tables
+**
+**  \par Description
+**       This function updates ASPD4525's CDS tables
+**
+**  \par Assumptions, External Events, and Notes:
+**       None
+**
+*************************************************************************/
+void   ASPD4525_UpdateCdsTbl(void);
+
+/************************************************************************/
+/** \brief Save ASPD4525 CDS tables
+**
+**  \par Description
+**       This function saves ASPD4525's CDS tables
+**
+**  \par Assumptions, External Events, and Notes:
+**       None
+**
+*************************************************************************/
+void   ASPD4525_SaveCdsTbl(void);
+
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif /* ASPD4525_TBLDEFS_H */
+ 
+#endif /* ASPD4525_CDS_UTILS_H */
 
 /************************/
 /*  End of File Comment */
 /************************/
+    
