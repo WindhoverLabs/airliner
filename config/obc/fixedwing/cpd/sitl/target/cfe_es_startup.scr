@@ -27,6 +27,7 @@ CFE_APP, /embedded/HMC5883.so,   HMC5883_AppMain, HMC5883,   53, 32768, 0x0, 0, 
 CFE_APP, /embedded/MS5611.so,    MS5611_AppMain,  MS5611,    57, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/GPS.so,       GPS_AppMain,     GPS,       97, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/CI.so,        CI_AppMain,      CI,      115, 32768, 0x0, 0, 0;
+CFE_APP, /embedded/FPC.so,       FPC_AppMain,      FPC,      118, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/TO.so,        TO_AppMain,      TO,        124, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/SCH.so,       SCH_AppMain,     SCH,       10, 40960, 0x0, 0, 0;
 !CFE_APP, /embedded/SBN.so,       SBN_AppMain,     SBN,       37, 32768, 0x0, 0, 2;
