@@ -1,80 +1,80 @@
-  short_name: ci
-  long_name: Command Ingest
-  app_name: CI
+  short_name: FPC
+  long_name: Fixedwing Position Control
+  app_name: FPC
   module_type: CFE_APP
   commander:
     displays: cdr
   events: 
-    CI_INIT_INF_EID: 
+    FPC_INIT_INF_EID: 
       id: 1
-    CI_CONFIG_TABLE_INF_EID: 
+    FPC_CONFIG_TABLE_INF_EID: 
       id: 2
-    CI_CMD_INF_EID: 
+    FPC_CMD_INF_EID: 
       id: 3
-    CI_ERR_EID: 
+    FPC_ERR_EID: 
       id: 4
-    CI_INIT_ERR_EID: 
+    FPC_INIT_ERR_EID: 
       id: 5
-    CI_CONFIG_TABLE_ERR_EID: 
+    FPC_CONFIG_TABLE_ERR_EID: 
       id: 6
-    CI_TIMEOUT_TABLE_ERR_EID: 
+    FPC_TIMEOUT_TABLE_ERR_EID: 
       id: 7
-    CI_CMD_ERR_EID: 
+    FPC_CMD_ERR_EID: 
       id: 8
-    CI_PIPE_ERR_EID: 
+    FPC_PIPE_ERR_EID: 
       id: 9
-    CI_MSGID_ERR_EID: 
+    FPC_MSGID_ERR_EID: 
       id: 10
-    CI_MSGLEN_ERR_EID: 
+    FPC_MSGLEN_ERR_EID: 
       id: 11
-    CI_CMD_INGEST_ERR_EID: 
+    FPC_CMD_INGEST_ERR_EID: 
       id: 13
-    CI_ENA_INF_EID: 
+    FPC_ENA_INF_EID: 
       id: 15
-    CI_CMD_INVALID_EID: 
+    FPC_CMD_INVALID_EID: 
       id: 16
-    CI_CMD_UNAUTHORIZED_EID: 
+    FPC_CMD_UNAUTHORIZED_EID: 
       id: 17
-    CI_CMD_AUTH_TIMEOUT_EID: 
+    FPC_CMD_AUTH_TIMEOUT_EID: 
       id: 18
-    CI_CMD_AUTH_NOT_REG_EID: 
+    FPC_CMD_AUTH_NOT_REG_EID: 
       id: 19
-    CI_CMD_AUTH_INV_MODE_EID: 
+    FPC_CMD_AUTH_INV_MODE_EID: 
       id: 20
-    CI_CMD_AUTH_INV_STATE_EID: 
+    FPC_CMD_AUTH_INV_STATE_EID: 
       id: 21
-    CI_CMD_AUTHORIZED_EID: 
+    FPC_CMD_AUTHORIZED_EID: 
       id: 22
-    CI_CMD_DEAUTH_NOT_REG_EID: 
+    FPC_CMD_DEAUTH_NOT_REG_EID: 
       id: 23
-    CI_CMD_DEAUTH_INV_MODE_EID: 
+    FPC_CMD_DEAUTH_INV_MODE_EID: 
       id: 24
-    CI_CMD_DEAUTH_INV_STATE_EID : 
+    FPC_CMD_DEAUTH_INV_STATE_EID : 
       id: 25
-    CI_CMD_DEAUTHORIZED_EID: 
+    FPC_CMD_DEAUTHORIZED_EID: 
       id: 26
-    CI_CMD_REGISTERED_EID: 
+    FPC_CMD_REGISTERED_EID: 
       id: 27
-    CI_CMD_ALREADY_REGISTERED_EID: 
+    FPC_CMD_ALREADY_REGISTERED_EID: 
       id: 28
-    CI_CMD_DEREGISTERED_EID: 
+    FPC_CMD_DEREGISTERED_EID: 
       id: 29
-    CI_CMD_NOT_REGISTERED_EID: 
+    FPC_CMD_NOT_REGISTERED_EID: 
       id: 30
-    CI_CMD_REG_ERR_EID: 
+    FPC_CMD_REG_ERR_EID: 
       id: 31
-    CI_CMD_UPDT_REG_INVLD_STATE_EI: 
+    FPC_CMD_UPDT_REG_INVLD_STATE_EI: 
       id: 32
-    CI_CMD_UPDATE_REG_EID: 
+    FPC_CMD_UPDATE_REG_EID: 
       id: 33
-    CI_NO_DECODE_FUNC_EID: 
+    FPC_NO_DECODE_FUNC_EID: 
       id: 34
   telemetry: 
     FPC_HK_TLM_MID:
       msgID: 
       struct: FPC_HkTlm_t
   commands: 
-    CI_CMD_MID: 
+    FPC_CMD_MID:
       msgID: 
       commands: 
         Noop: 
@@ -82,111 +82,111 @@
           struct: FPC_NoArgCmd_t
 #        Reset:
 #          cc: 1
-#          struct: CI_NoArgCmd_t
+#          struct: FPC_NoArgCmd_t
 #        AuthorizeCmd:
 #          cc: 2
-#          struct: CI_CmdAuthData_t
+#          struct: FPC_CmdAuthData_t
 #        DeauthorizeCmd:
 #          cc: 3
-#          struct: CI_CmdAuthData_t
+#          struct: FPC_CmdAuthData_t
 #        RegisterCmd:
 #          cc: 4
-#          struct: CI_CmdRegData_t
+#          struct: FPC_CmdRegData_t
 #        DeregisterCmd:
 #          cc: 5
-#          struct: CI_CmdRegData_t
+#          struct: FPC_CmdRegData_t
 #        UpdateCmd:
 #          cc: 6
-#          struct: CI_CmdRegData_t
-#    CI_PROCESS_TIMEOUTS_MID:
+#          struct: FPC_CmdRegData_t
+#    FPC_PROCESS_TIMEOUTS_MID:
 #      msgID:
 #      commands:
 #        ProcessTimeouts:
 #          cc: 0
-#          struct: CI_NoArgCmd_t
-#    CI_INGEST_COMMANDS_MID:
+#          struct: FPC_NoArgCmd_t
+#    FPC_INGEST_COMMANDS_MID:
 #      msgID:
 #      commands:
 #        IngestCommands:
 #          cc: 0
-#          struct: CI_NoArgCmd_t
-#    CI_SEND_HK_MID:
+#          struct: FPC_NoArgCmd_t
+#    FPC_SEND_HK_MID:
 #      msgID:
 #      commands:
 #        SendHK:
 #          cc: 0
-#          struct: CI_NoArgCmd_t
-#    CI_WAKEUP_MID:
+#          struct: FPC_NoArgCmd_t
+#    FPC_WAKEUP_MID:
 #      msgID:
 #      commands:
 #        WakeUp:
 #          cc: 0
-#          struct: CI_NoArgCmd_t
+#          struct: FPC_NoArgCmd_t
 #  perfids:
 #    CF_APPMAIN_PERF_ID:
 #      id:
-#    CI_MAIN_TASK_PERF_ID:
+#    FPC_MAIN_TASK_PERF_ID:
 #      id:
-#    CI_SOCKET_RCV_PERF_ID:
+#    FPC_SOCKET_RCV_PERF_ID:
 #      id:
 #  config:
-#    CI_SB_TIMEOUT:
-#      name: CI_SB_TIMEOUT
+#    FPC_SB_TIMEOUT:
+#      name: FPC_SB_TIMEOUT
 #      value: CFE_SB_PEND_FOREVER
-#    CI_MISSION_REV:
-#      name: CI_MISSION_REV
+#    FPC_MISSION_REV:
+#      name: FPC_MISSION_REV
 #      value: 0
-#    CI_SCH_PIPE_DEPTH:
-#      name: CI_SCH_PIPE_DEPTH
+#    FPC_SCH_PIPE_DEPTH:
+#      name: FPC_SCH_PIPE_DEPTH
 #      value: 2
-#    CI_SCH_PIPE_NAME:
-#      name: CI_SCH_PIPE_NAME
-#      value: CI_SCH_PIPE
-#    CI_SCH_PIPE_PEND_TIME:
-#      name: CI_SCH_PIPE_PEND_TIME
+#    FPC_SCH_PIPE_NAME:
+#      name: FPC_SCH_PIPE_NAME
+#      value: FPC_SCH_PIPE
+#    FPC_SCH_PIPE_PEND_TIME:
+#      name: FPC_SCH_PIPE_PEND_TIME
 #      value: 2000
-#    CI_SCH_PIPE_WAKEUP_RESERVED:
-#      name: CI_SCH_PIPE_WAKEUP_RESERVED
+#    FPC_SCH_PIPE_WAKEUP_RESERVED:
+#      name: FPC_SCH_PIPE_WAKEUP_RESERVED
 #      value: 1
-#    CI_SCH_PIPE_SEND_HK_RESERVED:
-#      name: CI_SCH_PIPE_SEND_HK_RESERVED
+#    FPC_SCH_PIPE_SEND_HK_RESERVED:
+#      name: FPC_SCH_PIPE_SEND_HK_RESERVED
 #      value: 1
-#    CI_SCH_PIPE_PROC_TIMEOUT_RESERVED:
-#      name: CI_SCH_PIPE_PROC_TIMEOUT_RESERVED
+#    FPC_SCH_PIPE_PROC_TIMEOUT_RESERVED:
+#      name: FPC_SCH_PIPE_PROC_TIMEOUT_RESERVED
 #      value: 1
-#    CI_CMD_PIPE_DEPTH:
-#      name: CI_CMD_PIPE_DEPTH
+#    FPC_CMD_PIPE_DEPTH:
+#      name: FPC_CMD_PIPE_DEPTH
 #      value: 4
-#    CI_CMD_PIPE_NAME:
-#      name: CI_CMD_PIPE_NAME
-#      value: CI_CMD_PIPE
-#    CI_DATA_PIPE_DEPTH:
-#      name: CI_DATA_PIPE_DEPTH
+#    FPC_CMD_PIPE_NAME:
+#      name: FPC_CMD_PIPE_NAME
+#      value: FPC_CMD_PIPE
+#    FPC_DATA_PIPE_DEPTH:
+#      name: FPC_DATA_PIPE_DEPTH
 #      value: 4
-#    CI_DATA_PIPE_NAME:
-#      name: CI_DATA_PIPE_NAME
-#      value: CI_DATA_PIPE
-#    CI_CONFIG_TABLE_FILENAME:
-#      name: CI_CONFIG_TABLE_FILENAME
-#      value: /cf/apps/ci_config.tbl
-#    CI_TIMEOUT_TABLE_FILENAME:
-#      name: CI_TIMEOUT_TABLE_FILENAME
-#      value: /cf/apps/ci_timeout.tbl
-#    CI_STARTUP_TIMEOUT_MSEC:
-#      name: CI_STARTUP_TIMEOUT_MSEC
+#    FPC_DATA_PIPE_NAME:
+#      name: FPC_DATA_PIPE_NAME
+#      value: FPC_DATA_PIPE
+#    FPC_CONFIG_TABLE_FILENAME:
+#      name: FPC_CONFIG_TABLE_FILENAME
+#      value: /cf/apps/FPC_config.tbl
+#    FPC_TIMEOUT_TABLE_FILENAME:
+#      name: FPC_TIMEOUT_TABLE_FILENAME
+#      value: /cf/apps/FPC_timeout.tbl
+#    FPC_STARTUP_TIMEOUT_MSEC:
+#      name: FPC_STARTUP_TIMEOUT_MSEC
 #      value: 5000
-#    CI_MAX_ENC_LEN:
-#      name: CI_MAX_ENC_LEN
+#    FPC_MAX_ENC_LEN:
+#      name: FPC_MAX_ENC_LEN
 #      value: 32768
-#    CI_INGEST_MODE:
-#      name: CI_INGEST_MODE
-#      value: CI_BHV_OPTIMISTIC
-#    CI_MAX_RGST_CMDS:
-#      name: CI_MAX_RGST_CMDS
+#    FPC_INGEST_MODE:
+#      name: FPC_INGEST_MODE
+#      value: FPC_BHV_OPTIMISTIC
+#    FPC_MAX_RGST_CMDS:
+#      name: FPC_MAX_RGST_CMDS
 #      value: 100
-#    CI_CHECKSUM_REQUIRED:
-#      name: CI_CHECKSUM_REQUIRED
+#    FPC_CHECKSUM_REQUIRED:
+#      name: FPC_CHECKSUM_REQUIRED
 #      value: 0
-#    CI_CMD_MAX_TIMEOUT:
-#      name: CI_CMD_MAX_TIMEOUT
+#    FPC_CMD_MAX_TIMEOUT:
+#      name: FPC_CMD_MAX_TIMEOUT
 #      value: 20

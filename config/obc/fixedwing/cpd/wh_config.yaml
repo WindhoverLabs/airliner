@@ -139,7 +139,7 @@ modules:
             msgID: 0x0a27              # TLM_MSG(   39 )
         commands:
           CI_CMD_MID:
-            msgID: 0x1a28              # CMD_MSG(   40 )
+            msgID: 0x1a93              # CMD_MSG(   40 )
           CI_INGEST_COMMANDS_MID:
             msgID: 0x1a29              # CMD_MSG(   41 )
           CI_PROCESS_TIMEOUTS_MID:
