@@ -101,7 +101,7 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define ASPD4525_CONFIG_TABLE_FILENAME      ("/cf/apps/aspd4525_config.tbl")
+#define ASPD4525_CONFIG_TABLE_FILENAME      ("/cf/apps/aspd4525_cfg.tbl")
 /** \brief The timeout value, in milliseconds, to wait for ES application startup sync.
 **
 **  \par Limits:
