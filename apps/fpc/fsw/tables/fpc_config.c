@@ -16,7 +16,7 @@
 /************************************************************************
 ** Local Structure Definitions
 *************************************************************************/
-
+#define FPC_CONFIG_TABLENAME ("CONFIG_TBL")
 /**
 ** \brief The cFE FPC config table definition.
 **

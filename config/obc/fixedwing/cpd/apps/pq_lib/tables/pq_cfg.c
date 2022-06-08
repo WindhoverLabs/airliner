@@ -51,7 +51,7 @@ PQ_ChannelTbl_t PQ_ConfigTbl =
         {SBN_ALLSUB_MID,               1, PQ_PQUEUE_HIGH_IDX},
         {AMC_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
         {MAC_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
-        {MPC_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
+        {FPC_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
         {ULR_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
         {GPS_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
         {SENS_HK_TLM_MID,              1, PQ_PQUEUE_LOW_IDX},
@@ -98,7 +98,7 @@ PQ_ChannelTbl_t PQ_ConfigTbl =
         {SCH_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
         {SCH_DIAG_TLM_MID,             1, PQ_PQUEUE_LOW_IDX},
         {QAE_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
-        {MPC_DIAG_TLM_MID,             1, PQ_PQUEUE_LOW_IDX},
+        {FPC_DIAG_TLM_MID,             1, PQ_PQUEUE_LOW_IDX},
         {LD_DIAG_TLM_MID,              1, PQ_PQUEUE_LOW_IDX},
         {VM_CONFIG_TLM_MID,            1, PQ_PQUEUE_LOW_IDX},
 

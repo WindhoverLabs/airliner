@@ -40,12 +40,13 @@
 #define MAC_SEND_HK_MID                           CMD_MSG(  145 )  /* 0x091 */
 
 
-/* MPC                                                                      */
-#define MPC_DIAG_TLM_MID                          TLM_MSG(  146 )  /* 0x092 */
-#define MPC_HK_TLM_MID                            TLM_MSG(  147 )  /* 0x093 */
-#define MPC_CMD_MID                               CMD_MSG(  148 )  /* 0x094 */
-#define MPC_SEND_HK_MID                           CMD_MSG(  149 )  /* 0x095 */
-#define MPC_WAKEUP_MID                            CMD_MSG(  150 )  /* 0x096 */
+/* FPC                                                                      */
+#define FPC_DIAG_TLM_MID                          TLM_MSG(  146 )  /* 0x092 */
+#define FPC_HK_TLM_MID                            TLM_MSG(  147 )  /* 0x093 */
+#define FPC_CMD_MID                               CMD_MSG(  148 )  /* 0x094 */
+#define FPC_SEND_HK_MID                           CMD_MSG(  149 )  /* 0x095 */
+#define FPC_WAKEUP_MID                            CMD_MSG(  150 )  /* 0x096 */
+#define FPC_OUT_DATA_MID                          TLM_MSG(  344 )  /* 0x096 */
 
 
 /* NAV                                                                      */

@@ -254,9 +254,9 @@ SCH_MessageEntry_t SCH_DefaultMessageTable[SCH_MAX_MESSAGES] =
    /* Command ID #105 */
    { { SCH_FIX_HEADER(LD_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #106 */
-   { { SCH_FIX_HEADER(MPC_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
+   { { SCH_FIX_HEADER(FPC_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #107 */
-   { { SCH_FIX_HEADER(MPC_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
+   { { SCH_FIX_HEADER(FPC_WAKEUP_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #108 */
    { { SCH_FIX_HEADER(NAV_SEND_HK_MID, 0xC000, 0x0001), 0x0000 } },
    /* Command ID #109 */

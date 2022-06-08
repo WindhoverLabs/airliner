@@ -934,7 +934,7 @@ DS_FilterTable_t DS_FilterTable =
     },
     /* Packet Index 074 */
     {
-      /* .MessageID = */ MPC_HK_TLM_MID,
+      /* .MessageID = */ FPC_HK_TLM_MID,
       /* .Filter    = */
       {
         /* File table index, filter type, N, X, O */
@@ -1366,7 +1366,7 @@ DS_FilterTable_t DS_FilterTable =
     },
     /* Packet Index 110 */
     {
-      /* .MessageID = */ MPC_CMD_MID,
+      /* .MessageID = */ FPC_CMD_MID,
       /* .Filter    = */
       {
         /* File table index, filter type, N, X, O */
