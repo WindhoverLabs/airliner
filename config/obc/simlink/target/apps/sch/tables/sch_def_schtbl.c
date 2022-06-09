@@ -73,6 +73,10 @@ extern "C" {
 #define SEDPWM_SEND_HK_MIDX           58
 #define SEDPWM_WAKEUP_MIDX            59
 
+#define ASPD4525_SEND_HK_MIDX         61
+#define ASPD4525_WAKEUP_MIDX          62
+
+
 #define MM_SEND_HK_MIDX               70
 
 
@@ -86,7 +90,7 @@ extern "C" {
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SIMLINK_WAKEUP_MIDX,      SCH_GROUP_NONE }, \
 	 { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	UBLOX_M8N_WAKEUP_MIDX,    SCH_GROUP_NONE }, \
 	 { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	HMC5883_WAKEUP_MIDX,      SCH_GROUP_NONE }, \
-	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
+     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	ASPD4525_WAKEUP_MIDX,     SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
@@ -356,7 +360,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_3,
 	    SCH_25HZ_GROUP_8,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	ASPD4525_SEND_HK_MIDX,    SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },

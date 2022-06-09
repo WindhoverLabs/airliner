@@ -53,6 +53,9 @@
 #include "aspd4525_events.h"
 #include "aspd4525_config_utils.h"
 #include "aspd4525_cds_utils.h"
+#include "cvt_lib.h"
+#include "simlink.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -114,6 +117,8 @@ typedef struct
 
     /** \brief Housekeeping Telemetry for downlink */
     ASPD4525_HkTlm_t  HkTlm;
+
+    CVT_ContainerID_t   SimlinkBaroContainer[SIMLINK_BARO_DEVICE_COUNT];
 
 } ASPD4525_AppData_t;
 
@@ -210,6 +215,8 @@ int32  ASPD4525_InitEvent(void);
 **
 *************************************************************************/
 int32  ASPD4525_InitData(void);
+
+int32 ASPD4525_InitCVT(void);
 
 /************************************************************************/
 /** \brief Initialize message pipes

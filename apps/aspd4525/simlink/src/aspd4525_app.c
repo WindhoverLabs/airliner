@@ -45,7 +45,14 @@
 #include "aspd4525_app.h"
 #include "aspd4525_msg.h"
 #include "aspd4525_msgids.h"
+#include "aspd4525_platform_cfg.h"
 #include "aspd4525_version.h"
+#include "simlink.h"
+#include "cvt_lib.h"
+
+/*MSR_TODO Remove this*/
+#include <stdio.h>
+
 
 /************************************************************************
 ** Local Defines
@@ -111,6 +118,12 @@ int32 ASPD4525_InitEvent()
     ASPD4525_AppData.EventTbl[  ind].EventID = ASPD4525_MSGLEN_ERR_EID;
     ASPD4525_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
 
+    ASPD4525_AppData.EventTbl[  ind].EventID = ASPD4525_CVT_ERR_EID;
+    ASPD4525_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
+
+    ASPD4525_AppData.EventTbl[  ind].EventID = ASPD4525_SEDLIB_ERR_EID;
+    ASPD4525_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
+
     /* Register the table with CFE */
     iStatus = CFE_EVS_Register(ASPD4525_AppData.EventTbl,
                                ASPD4525_EVT_CNT, CFE_EVS_BINARY_FILTER);
@@ -132,6 +145,7 @@ int32 ASPD4525_InitEvent()
 int32 ASPD4525_InitPipe()
 {
     int32  iStatus=CFE_SUCCESS;
+    osalbool hasEvents = TRUE;
 
     /* Init schedule pipe and subscribe to wakeup messages */
     iStatus = CFE_SB_CreatePipe(&ASPD4525_AppData.SchPipeId,
@@ -213,7 +227,31 @@ int32 ASPD4525_InitPipe()
         goto ASPD4525_InitPipe_Exit_Tag;
     }
 
+    iStatus = ASPD4525_InitCVT();
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(ASPD4525_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to init CVT (0x%08X)",
+                                 (unsigned int)iStatus);
+        goto ASPD4525_InitPipe_Exit_Tag;
+    }
 ASPD4525_InitPipe_Exit_Tag:
+    if (iStatus == CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(ASPD4525_INIT_INF_EID, CFE_EVS_INFORMATION,
+                                 "Initialized Pipes.");
+    }
+    else
+    {
+        if (hasEvents == 1)
+        {
+            (void) CFE_EVS_SendEvent(ASPD4525_INIT_ERR_EID, CFE_EVS_ERROR, "Application failed to initialize");
+        }
+        else
+        {
+            (void) CFE_ES_WriteToSysLog("ASPD4525 - Application failed to initialize\n");
+        }
+    }
     return (iStatus);
 }
     
@@ -242,6 +280,50 @@ int32 ASPD4525_InitData()
                    ASPD4525_HK_TLM_MID, sizeof(ASPD4525_AppData.HkTlm), TRUE);
 
     return (iStatus);
+}
+
+int32 ASPD4525_InitCVT(void)
+{
+    int32 status;
+
+    for(uint32 i = 0; i < ASPD4525_DEVICE_COUNT; ++i)
+    {
+        char name[CVT_CONTAINER_NAME_MAX_LENGTH];
+        uint32 size;
+
+        /* Baro */
+        size = sizeof(SIMLINK_Baro_Msg_t);
+        sprintf(name, SIMLINK_BARO_CONTAINER_NAME_SPEC, i);
+        status = CVT_GetContainer(name, sizeof(SIMLINK_Baro_Msg_t), &ASPD4525_AppData.SimlinkBaroContainer[i]);
+        if(CVT_SUCCESS != status)
+        {
+            (void) CFE_EVS_SendEvent(ASPD4525_INIT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get BARO %ld container. (%li)",
+                                     i,
+                                     status);
+            goto end_of_function;
+        }
+
+        status = 
+            CVT_GetContent(
+                ASPD4525_AppData.SimlinkBaroContainer[i], 
+                &ASPD4525_AppData.HkTlm.SimlinkBaroUpdateCount[i], 
+                &ASPD4525_AppData.HkTlm.SimlinkBaroMsg[i], 
+                &size
+            );
+        if(CVT_SUCCESS != status)
+        {
+            (void) CFE_EVS_SendEvent(ASPD4525_CVT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get Baro %ld container. (%li)",
+                                     i,
+                                     status);
+            goto end_of_function;
+        }
+    }
+
+end_of_function:
+
+    return status;
 }
 
 
@@ -356,6 +438,7 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
         switch (MsgId)
 	{
             case ASPD4525_WAKEUP_MID:
+                printf("ASPD4525 woke up.\n");
                 ASPD4525_ProcessNewCmds();
                 ASPD4525_ProcessNewData();
 
@@ -367,6 +450,7 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                 break;
 
             case ASPD4525_SEND_HK_MID:
+                printf("ASPD4525 sending hk.\n");
                 ASPD4525_ReportHousekeeping();
                 break;
 
@@ -404,6 +488,25 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
 }
 
 
+/**
+ * @brief This function generates the number to be written out to APP from simulated device
+ * 
+ * @param temperature Temperature in Kelvin
+ * @param diffPressure Pressure Differential in hPa
+ * @param status 2 bit Device Status
+ * @return uint32 The 4 bytes to be written out over "i2c"
+ */
+uint32 ASPD4525_PrepareOutgoingData(
+    float temperature,
+    float diffPressure,
+    uint8 status
+) {
+    uint32 returnData = 0;
+    /* MSR_TODO: finish this part of the code */
+    printf("MSR_TODO: Need to finish this code\n");
+    return returnData;
+}
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Process Incoming Data                                           */
@@ -415,6 +518,37 @@ void ASPD4525_ProcessNewData()
     int iStatus = CFE_SUCCESS;
     CFE_SB_Msg_t*   DataMsgPtr=NULL;
     CFE_SB_MsgId_t  DataMsgId;
+
+    for (uint32 i = 0; i < ASPD4525_DEVICE_COUNT; i++)
+    {
+        char name[CVT_CONTAINER_NAME_MAX_LENGTH];
+        uint32 size;
+
+        /* Gazebo Baro*/
+        size = sizeof(SIMLINK_Baro_Msg_t);
+        iStatus = CVT_GetContent(ASPD4525_AppData.SimlinkBaroContainer[i], &ASPD4525_AppData.HkTlm.SimlinkBaroUpdateCount[i], &ASPD4525_AppData.HkTlm.SimlinkBaroMsg[i], &size);
+        if(CVT_SUCCESS != iStatus)
+        {
+            (void) CFE_EVS_SendEvent(ASPD4525_CVT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get GYRO %ld container. (%ui)",
+                                     i,
+                                     iStatus);
+            goto end_of_function;
+        }
+
+        ASPD4525_AppData.HkTlm.Status_OUT = 1;
+        ASPD4525_AppData.HkTlm.Temperature_OUT = ASPD4525_AppData.HkTlm.SimlinkBaroMsg[0].Temperature;
+        ASPD4525_AppData.HkTlm.DiffPressure_OUT = ASPD4525_AppData.HkTlm.SimlinkBaroMsg[0].DiffPressure;
+
+        printf("Gazebo Temp: %f; Gazebo DiffPress: %f\n", ASPD4525_AppData.HkTlm.Temperature_OUT, ASPD4525_AppData.HkTlm.DiffPressure_OUT);
+
+        ASPD4525_AppData.HkTlm.ASPD4525_Simlink_OUT = 
+            ASPD4525_PrepareOutgoingData(
+                ASPD4525_AppData.HkTlm.Temperature_OUT,
+                ASPD4525_AppData.HkTlm.DiffPressure_OUT,
+                ASPD4525_AppData.HkTlm.Status_OUT
+            );
+    }
 
     /* Process telemetry messages till the pipe is empty */
     while (1)
@@ -451,6 +585,9 @@ void ASPD4525_ProcessNewData()
             break;
         }
     }
+
+end_of_function:
+    return;
 }
 
 
@@ -460,7 +597,7 @@ void ASPD4525_ProcessNewData()
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-void ASPD4525_ProcessNewCmds()
+void ASPD4525_ProcessNewCmds(void)
 {
     int iStatus = CFE_SUCCESS;
     CFE_SB_Msg_t*   CmdMsgPtr=NULL;

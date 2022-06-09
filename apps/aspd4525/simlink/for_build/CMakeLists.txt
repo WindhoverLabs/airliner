@@ -41,6 +41,8 @@ buildliner_add_app_def(aspd4525
    
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fsw
+
 
     USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}/user_doxy.in
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in

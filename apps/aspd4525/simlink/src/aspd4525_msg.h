@@ -42,6 +42,8 @@
 ** Includes
 *************************************************************************/
 #include "cfe.h"
+#include "simlink.h"
+#include "aspd4525_platform_cfg.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -176,6 +178,15 @@ typedef struct
     /** \aspd4525tlmmnemonic \ASPD4525_CMDRJCTCNT
         \brief Count of failed commands */
     uint8              usCmdErrCnt; 
+
+    uint32               SimlinkBaroUpdateCount[ASPD4525_DEVICE_COUNT];
+
+    SIMLINK_Baro_Msg_t   SimlinkBaroMsg[ASPD4525_DEVICE_COUNT];
+
+    float  Temperature_OUT;
+    float  DiffPressure_OUT;
+    uint32 ASPD4525_Simlink_OUT;
+    uint8 Status_OUT;
 
 } ASPD4525_HkTlm_t;
 

@@ -31,6 +31,10 @@
       id: 12
     ASPD4525_MSGLEN_ERR_EID: 
       id: 13
+    ASPD4525_CVT_ERR_EID:
+      id: 14
+    ASPD4525_SEDLIB_ERR_EID:
+      id: 15
   telemetry: 
     ASPD4525_HK_TLM_MID: 
       msgID: 

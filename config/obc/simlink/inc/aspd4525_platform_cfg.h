@@ -112,6 +112,7 @@ extern "C" {
 /* TODO:  Add Doxygen markup. */
 #define ASPD4525_CUSTOM_DEV_PATH       "/tmp/ttyS0"
 
+#define ASPD4525_DEVICE_COUNT          (4)
 
 #ifdef __cplusplus
 }

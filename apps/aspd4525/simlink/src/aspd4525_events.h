@@ -221,6 +221,8 @@ typedef enum {
 */
     ASPD4525_MSGLEN_ERR_EID,
 
+    ASPD4525_CVT_ERR_EID,
+    ASPD4525_SEDLIB_ERR_EID,
 
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     ASPD4525_EVT_CNT
