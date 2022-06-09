@@ -15,17 +15,17 @@ extern "C" {
 /**
 ** \brief FPC application-specific command MID
 */
-#define FPC_CMD_MID                 (0x18C0)
+#define FPC_CMD_MID                 (0x1c64)
 
 /**
 ** \brief Command for the application to send HK data
 */
-#define FPC_SEND_HK_MID             (0x18C1)
+#define FPC_SEND_HK_MID             (0x1c62)
 
 /**
 ** \brief Wakeup command for the application to perform processing
 */
-#define FPC_WAKEUP_MID              (0x18D0)
+#define FPC_WAKEUP_MID              (0x1c63)
 
 /**
 ** \brief Application-specific data output
@@ -35,7 +35,7 @@ extern "C" {
 /**
 ** \brief Application housekeeping telemetry data
 */
-#define FPC_HK_TLM_MID              (0x08BB)
+#define FPC_HK_TLM_MID              (0x0c61)
 
 
 #ifdef __cplusplus
