@@ -33,7 +33,7 @@
 static CFE_TBL_FileDef_t CFE_TBL_FileDef =
 {
     "FPC_ConfigTbl", "FPC.CONFIG_TBL", "FPC default config table",
-    "fpc_config.tbl", (sizeof(FPC_ConfigTblEntry_t) * FPC_CONFIG_TABLE_MAX_ENTRIES)
+    "fpc_config.tbl", (sizeof(FPC_ConfigTbl_t))
 };
 
 /************************************************************************
@@ -47,38 +47,9 @@ static CFE_TBL_FileDef_t CFE_TBL_FileDef =
 /**
 **  \brief Default FPC config table data
 */
-FPC_ConfigTblEntry_t FPC_ConfigTbl[FPC_CONFIG_TABLE_MAX_ENTRIES] =
-{
-    /* Entry 1 */
-    {
-        .iParam = 123
+/* Default MPC config table data */
+FPC_ConfigTbl_t FPC_ConfigTbl;
 
-        /* TODO:  Add default values for Config parameters here.
-        **
-        ** Examples: (See example of type declarations in fpc_tbldefs.h)
-        **    .cParam   = 7,
-        **    .cParams  = "Init Str Value",
-        **    .ucParam  = 'A',
-        **    .ucParams = "/dev/ttyUSB",
-        **
-        **    .sParam   = -16,
-        **    .sParams  = {-3, -2, -1, 0, 1, 2, 3, 4},
-        **    .usParam  = 16,
-        **    .usParams = {1, 2, 3, 4, 5, 6, 7, 8},
-        **
-        **    .iParam   = -32,
-        **    .iParams  = {-123, -234, 0, 123, 234},
-        **    .uiParam  = -32,
-        **    .uiParams = {123, 234, 345, 456, 678},
-        **
-        **    .fParam  = 32.1234,
-        **    .fParams = {-12.34, 0.0, 12.34},
-        **
-        **    .dParam = 123.456789,
-        **    .dParams = {-123.456789, 0.0, 123.456789}
-        */
-    }
-};
 
 /************************************************************************
 ** Local Variables

@@ -93,7 +93,7 @@ struct FPC_AppData_t
     CFE_TBL_Handle_t  ConfigTblHdl;
 
     /** \brief Config Table Pointer */
-    FPC_ConfigTblEntry_t*  ConfigTblPtr;
+    FPC_ConfigTbl_t*  ConfigTblPtr;
 
     /* Critical Data Storage (CDS) table-related */
 

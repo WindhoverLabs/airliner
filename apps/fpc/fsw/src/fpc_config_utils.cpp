@@ -82,7 +82,7 @@ int32 FPC::InitConfigTbl()
     /* Register Config table */
     iStatus = CFE_TBL_Register(&AppData.ConfigTblHdl,
                                FPC_CONFIG_TABLENAME,
-                               (sizeof(FPC_ConfigTblEntry_t) * FPC_CONFIG_TABLE_MAX_ENTRIES),
+                               sizeof(FPC_ConfigTbl_t),
                                CFE_TBL_OPT_DEFAULT,
                                FPC::ValidateConfigTbl);
     if (iStatus != CFE_SUCCESS)
@@ -125,7 +125,7 @@ FPC_InitConfigTbl_Exit_Tag:
 int32 FPC::ValidateConfigTbl(void* ConfigTblPtr)
 {
     int32  iStatus=0;
-    FPC_ConfigTblEntry_t* FPC_ConfigTblPtr = (FPC_ConfigTblEntry_t*)(ConfigTblPtr);
+    FPC_ConfigTbl_t* FPC_ConfigTblPtr = (FPC_ConfigTbl_t*)(ConfigTblPtr);
 
     if (ConfigTblPtr == NULL)
     {
