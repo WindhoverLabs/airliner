@@ -40,7 +40,7 @@
 *************************************************************************/
 #include <string.h>
 #include "fpc_app.h"
-#include "fpc_cds_utils.h"
+#include "fpc_tbldefs.h"
 
 /************************************************************************
 ** Local Defines
@@ -53,7 +53,6 @@
 /************************************************************************
 ** External Global Variables
 *************************************************************************/
-extern FPC_AppData_t  FPC_AppData;
 
 /************************************************************************
 ** Global Variables
@@ -78,7 +77,7 @@ extern FPC_AppData_t  FPC_AppData;
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 FPC_InitCdsTbl()
+int32 FPC::InitCdsTbl()
 {
     int32  iStatus=0;
     int32  iResetType=0;
@@ -88,16 +87,16 @@ int32 FPC_InitCdsTbl()
     iResetType = CFE_ES_GetResetType(&uiResetSubType);
     if (iResetType == CFE_ES_POWERON_RESET)
     {
-        memset((void*)&FPC_AppData.CdsTbl, 0x00, sizeof(FPC_CdsTbl_t));
+        memset((void*)&AppData.CdsTbl, 0x00, sizeof(FPC_CdsTbl_t));
     }
 
     /* Register and manage CDS table */
-    iStatus = CFE_ES_RegisterCDS(&FPC_AppData.CdsTblHdl, sizeof(FPC_CdsTbl_t),
+    iStatus = CFE_ES_RegisterCDS(&AppData.CdsTblHdl, sizeof(FPC_CdsTbl_t),
                                  FPC_CDS_TABLENAME);
     if (iStatus == CFE_SUCCESS)
     {
         /* Setup initial content of CDS table */
-        iStatus = CFE_ES_CopyToCDS(FPC_AppData.CdsTblHdl, &FPC_AppData.CdsTbl);
+        iStatus = CFE_ES_CopyToCDS(AppData.CdsTblHdl, &AppData.CdsTbl);
         if (iStatus == CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(FPC_CDS_INF_EID, CFE_EVS_INFORMATION,
@@ -112,8 +111,8 @@ int32 FPC_InitCdsTbl()
     else if (iStatus == CFE_ES_CDS_ALREADY_EXISTS)
     {
         /* If one already exists, get a copy of its current content */
-        memset((void*)&FPC_AppData.CdsTbl, 0x00, sizeof(FPC_CdsTbl_t));
-        iStatus = CFE_ES_RestoreFromCDS(&FPC_AppData.CdsTbl, FPC_AppData.CdsTblHdl);
+        memset((void*)&AppData.CdsTbl, 0x00, sizeof(FPC_CdsTbl_t));
+        iStatus = CFE_ES_RestoreFromCDS(&AppData.CdsTbl, AppData.CdsTblHdl);
         if (iStatus == CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(FPC_CDS_INF_EID, CFE_EVS_INFORMATION,
@@ -123,7 +122,7 @@ int32 FPC_InitCdsTbl()
         {
             (void) CFE_EVS_SendEvent(FPC_INIT_ERR_EID, CFE_EVS_ERROR,
                                      "Failed to restore data from CDS");
-            memset((void*)&FPC_AppData.CdsTbl, 0x00, sizeof(FPC_CdsTbl_t));
+            memset((void*)&AppData.CdsTbl, 0x00, sizeof(FPC_CdsTbl_t));
         }
     }
     else
@@ -142,7 +141,7 @@ int32 FPC_InitCdsTbl()
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-void FPC_UpdateCdsTbl()
+void FPC::UpdateCdsTbl()
 {
     /* TODO:  Add code to update values in CDS table here */
 }
@@ -154,11 +153,11 @@ void FPC_UpdateCdsTbl()
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-void FPC_SaveCdsTbl()
+void FPC::SaveCdsTbl()
 {
     /* TODO This return value is not checked. Developer should decide what to do here
        in case of failure or should add a return value for higher-level logic to handle. */
-    CFE_ES_CopyToCDS(FPC_AppData.CdsTblHdl, &FPC_AppData.CdsTbl);
+    CFE_ES_CopyToCDS(AppData.CdsTblHdl, &AppData.CdsTbl);
 }
 
 /************************/

@@ -34,6 +34,9 @@
 #ifndef FPC_APP_H
 #define FPC_APP_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 /************************************************************************
 ** Pragmas
 *************************************************************************/
@@ -51,12 +54,8 @@
 #include "fpc_msgids.h"
 #include "fpc_msg.h"
 #include "fpc_events.h"
+#include "fpc_tbldefs.h"
 #include "fpc_config_utils.h"
-#include "fpc_cds_utils.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /************************************************************************
 ** Local Defines
@@ -69,7 +68,7 @@ extern "C" {
 /**
 **  \brief FPC Operational Data Structure
 */
-typedef struct
+struct FPC_AppData_t
 {
     /** \brief CFE Event Table */
     CFE_EVS_BinFilter_t  EventTbl[FPC_EVT_CNT];
@@ -115,229 +114,286 @@ typedef struct
     /** \brief Housekeeping Telemetry for downlink */
     FPC_HkTlm_t  HkTlm;
 
-} FPC_AppData_t;
+};
 
-/************************************************************************
-** External Global Variables
-*************************************************************************/
+class FPC
+{
+public:
+    FPC();
+   ~FPC();
 
-/************************************************************************
-** Global Variables
-*************************************************************************/
+    FPC_AppData_t AppData;
+    /************************************************************************
+    ** External Global Variables
+    *************************************************************************/
 
-/************************************************************************
-** Local Variables
-*************************************************************************/
+    /************************************************************************
+    ** Global Variables
+    *************************************************************************/
 
-/************************************************************************
-** Local Function Prototypes
-*************************************************************************/
+    /************************************************************************
+    ** Local Variables
+    *************************************************************************/
 
-/************************************************************************/
-/** \brief CFS Fixedwing Position Control Task (FPC) application entry point
-**
-**  \par Description
-**       CFS Fixedwing Position Control Task application entry point.  This function
-**       performs app initialization, then waits for the cFE ES Startup
-**       Sync, then executes the RPR main processing loop.
-**
-**  \par Assumptions, External Events, and Notes:
-**       If there is an unrecoverable failure during initialization the
-**       main loop is never executed and the application will exit.
-**
-*************************************************************************/
-void  FPC_AppMain(void);
+    /************************************************************************
+    ** Local Function Prototypes
+    *************************************************************************/
 
-/************************************************************************/
-/** \brief Initialize the CFS Fixedwing Position Control (FPC) application
-**
-**  \par Description
-**       Fixedwing Position Control application initialization routine. This
-**       function performs all the required startup steps to
-**       initialize (or restore from CDS) FPC data structures and get
-**       the application registered with the cFE services so it can
-**       begin to receive command messages and send events.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS    \endcode
-**  \retstmt Return codes from #CFE_ES_RegisterApp          \endcode
-**  \retstmt Return codes from #FPC_InitEvent               \endcode
-**  \retstmt Return codes from #FPC_InitPipe                \endcode
-**  \retstmt Return codes from #FPC_InitData                \endcode
-**  \retstmt Return codes from #FPC_InitConfigTbl           \endcode
-**  \retstmt Return codes from #FPC_InitCdsTbl              \endcode
-**  \retstmt Return codes from #OS_TaskInstallDeleteHandler \endcode
-**  \endreturns
-**
-*************************************************************************/
-int32  FPC_InitApp(void);
+    /************************************************************************/
+    /** \brief CFS Fixedwing Position Control Task (FPC) application entry point
+    **
+    **  \par Description
+    **       CFS Fixedwing Position Control Task application entry point.  This function
+    **       performs app initialization, then waits for the cFE ES Startup
+    **       Sync, then executes the RPR main processing loop.
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       If there is an unrecoverable failure during initialization the
+    **       main loop is never executed and the application will exit.
+    **
+    *************************************************************************/
+    void  AppMain(void);
 
-/************************************************************************/
-/** \brief Initialize Event Services and Event tables
-**
-**  \par Description
-**       This function performs the steps required to setup
-**       cFE Event Services for use by the FPC application.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-**  \retstmt Return codes from #CFE_EVS_Register  \endcode
-**  \endreturns
-**
-*************************************************************************/
-int32  FPC_InitEvent(void);
+    /************************************************************************/
+    /** \brief Initialize the CFS Fixedwing Position Control (FPC) application
+    **
+    **  \par Description
+    **       Fixedwing Position Control application initialization routine. This
+    **       function performs all the required startup steps to
+    **       initialize (or restore from CDS) FPC data structures and get
+    **       the application registered with the cFE services so it can
+    **       begin to receive command messages and send events.
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    **  \returns
+    **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS    \endcode
+    **  \retstmt Return codes from #CFE_ES_RegisterApp          \endcode
+    **  \retstmt Return codes from #FPC_InitEvent               \endcode
+    **  \retstmt Return codes from #FPC_InitPipe                \endcode
+    **  \retstmt Return codes from #FPC_InitData                \endcode
+    **  \retstmt Return codes from #FPC_InitConfigTbl           \endcode
+    **  \retstmt Return codes from #FPC_InitCdsTbl              \endcode
+    **  \retstmt Return codes from #OS_TaskInstallDeleteHandler \endcode
+    **  \endreturns
+    **
+    *************************************************************************/
+    int32  InitApp(void);
 
-/************************************************************************/
-/** \brief Initialize global variables used by FPC application
-**
-**  \par Description
-**       This function performs the steps required to initialize
-**       the FPC application data.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-**  \retstmt Return codes from #CFE_EVS_Register  \endcode
-**  \endreturns
-**
-*************************************************************************/
-int32  FPC_InitData(void);
+    /************************************************************************/
+    /** \brief Initialize Event Services and Event tables
+    **
+    **  \par Description
+    **       This function performs the steps required to setup
+    **       cFE Event Services for use by the FPC application.
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    **  \returns
+    **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
+    **  \retstmt Return codes from #CFE_EVS_Register  \endcode
+    **  \endreturns
+    **
+    *************************************************************************/
+    int32  InitEvent(void);
 
-/************************************************************************/
-/** \brief Initialize message pipes
-**
-**  \par Description
-**       This function performs the steps required to setup
-**       initialize the cFE Software Bus message pipes and subscribe to
-**       messages for the FPC application.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-**  \retstmt Return codes from #CFE_SB_CreatePipe        \endcode
-**  \retstmt Return codes from #CFE_SB_SubscribeEx       \endcode
-**  \retstmt Return codes from #CFE_SB_Subscribe         \endcode
-**  \endreturns
-**
-*************************************************************************/
-int32  FPC_InitPipe(void);
+    /************************************************************************/
+    /** \brief Initialize global variables used by FPC application
+    **
+    **  \par Description
+    **       This function performs the steps required to initialize
+    **       the FPC application data.
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    **  \returns
+    **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
+    **  \retstmt Return codes from #CFE_EVS_Register  \endcode
+    **  \endreturns
+    **
+    *************************************************************************/
+    int32  InitData(void);
 
-/************************************************************************/
-/** \brief Receive and process messages
-**
-**  \par Description
-**       This function receives and processes messages
-**       for the FPC application
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \param [in]   iBlocking    A #CFE_SB_PEND_FOREVER, #CFE_SB_POLL or
-**                             millisecond timeout
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-**  \retstmt Return codes from #CFE_SB_RcvMsg            \endcode
-**  \endreturns
-**
-*************************************************************************/
-int32  FPC_RcvMsg(int32 iBlocking);
+    /************************************************************************/
+    /** \brief Initialize message pipes
+    **
+    **  \par Description
+    **       This function performs the steps required to setup
+    **       initialize the cFE Software Bus message pipes and subscribe to
+    **       messages for the FPC application.
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    **  \returns
+    **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
+    **  \retstmt Return codes from #CFE_SB_CreatePipe        \endcode
+    **  \retstmt Return codes from #CFE_SB_SubscribeEx       \endcode
+    **  \retstmt Return codes from #CFE_SB_Subscribe         \endcode
+    **  \endreturns
+    **
+    *************************************************************************/
+    int32  InitPipe(void);
 
-/************************************************************************/
-/** \brief Fixedwing Position Control Task incoming data processing
-**
-**  \par Description
-**       This function processes incoming data subscribed
-**       by FPC application
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-*************************************************************************/
-void  FPC_ProcessNewData(void);
+    /************************************************************************/
+    /** \brief Receive and process messages
+    **
+    **  \par Description
+    **       This function receives and processes messages
+    **       for the FPC application
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    **  \param [in]   iBlocking    A #CFE_SB_PEND_FOREVER, #CFE_SB_POLL or
+    **                             millisecond timeout
+    **
+    **  \returns
+    **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
+    **  \retstmt Return codes from #CFE_SB_RcvMsg            \endcode
+    **  \endreturns
+    **
+    *************************************************************************/
+    int32  RcvMsg(int32 iBlocking);
 
-/************************************************************************/
-/** \brief Fixedwing Position Control Task incoming command processing
-**
-**  \par Description
-**       This function processes incoming commands subscribed
-**       by FPC application
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-*************************************************************************/
-void  FPC_ProcessNewCmds(void);
+    /************************************************************************/
+    /** \brief Fixedwing Position Control Task incoming data processing
+    **
+    **  \par Description
+    **       This function processes incoming data subscribed
+    **       by FPC application
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    *************************************************************************/
+    void  ProcessNewData(void);
 
-/************************************************************************/
-/** \brief Fixedwing Position Control Task application commands
-**
-**  \par Description
-**       This function processes command messages
-**       specific to the FPC application
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \param [in]   MsgPtr       A #CFE_SB_Msg_t pointer that
-**                             references the software bus message
-**
-*************************************************************************/
-void  FPC_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr);
+    /************************************************************************/
+    /** \brief Fixedwing Position Control Task incoming command processing
+    **
+    **  \par Description
+    **       This function processes incoming commands subscribed
+    **       by FPC application
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    *************************************************************************/
+    void  ProcessNewCmds(void);
 
-/************************************************************************/
-/** \brief Sends FPC housekeeping message
-**
-**  \par Description
-**       This function sends the housekeeping message
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-*************************************************************************/
-void  FPC_ReportHousekeeping(void);
+    /************************************************************************/
+    /** \brief Fixedwing Position Control Task application commands
+    **
+    **  \par Description
+    **       This function processes command messages
+    **       specific to the FPC application
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    **  \param [in]   MsgPtr       A #CFE_SB_Msg_t pointer that
+    **                             references the software bus message
+    **
+    *************************************************************************/
+    void  ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr);
 
-/************************************************************************/
-/** \brief Sends FPC output data
-**
-**  \par Description
-**       This function publishes the FPC application output data.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-*************************************************************************/
-void  FPC_SendOutData(void);
+    /************************************************************************/
+    /** \brief Sends FPC housekeeping message
+    **
+    **  \par Description
+    **       This function sends the housekeeping message
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    *************************************************************************/
+    void  ReportHousekeeping(void);
 
-/************************************************************************/
-/** \brief Verify Command Length
-**
-**  \par Description
-**       This function verifies the command message length.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \param [in]   MsgPtr        A #CFE_SB_Msg_t pointer that
-**                              references the software bus message
-**  \param [in]   usExpectedLen The expected length of the message
-**
-**  \returns
-**  TRUE if the message length matches expectations, FALSE if it does not.
-**  \endreturns
-**
-*************************************************************************/
-boolean  FPC_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
+    /************************************************************************/
+    /** \brief Sends FPC output data
+    **
+    **  \par Description
+    **       This function publishes the FPC application output data.
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    *************************************************************************/
+    void  SendOutData(void);
+
+    /************************************************************************/
+    /** \brief Verify Command Length
+    **
+    **  \par Description
+    **       This function verifies the command message length.
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    **  \param [in]   MsgPtr        A #CFE_SB_Msg_t pointer that
+    **                              references the software bus message
+    **  \param [in]   usExpectedLen The expected length of the message
+    **
+    **  \returns
+    **  TRUE if the message length matches expectations, FALSE if it does not.
+    **  \endreturns
+    **
+    *************************************************************************/
+    boolean  VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
+
+    int32 InitConfigTbl(void);
+    static int32 ValidateConfigTbl(void* ConfigTblPtr);
+    void ProcessNewConfigTbl(void);
+    int32 AcquireConfigPointers(void);
+
+
+    /************************************************************************/
+    /** \brief Init FPC CDS tables
+    **
+    **  \par Description
+    **       This function initializes FPC's CDS tables
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    **  \returns
+    **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
+    **  \retstmt Return codes from #CFE_ES_RegisterCDS       \endcode
+    **  \retstmt Return codes from #CFE_ES_CopyToCDS         \endcode
+    **  \endreturns
+    **
+    *************************************************************************/
+    int32  InitCdsTbl(void);
+
+    /************************************************************************/
+    /** \brief Update FPC CDS tables
+    **
+    **  \par Description
+    **       This function updates FPC's CDS tables
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    *************************************************************************/
+    void   UpdateCdsTbl(void);
+
+    /************************************************************************/
+    /** \brief Save FPC CDS tables
+    **
+    **  \par Description
+    **       This function saves FPC's CDS tables
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    *************************************************************************/
+    void   SaveCdsTbl(void);
+
+};
 
 #ifdef __cplusplus
 }

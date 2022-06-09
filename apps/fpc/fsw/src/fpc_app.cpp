@@ -61,12 +61,11 @@
 /************************************************************************
 ** Global Variables
 *************************************************************************/
-FPC_AppData_t  FPC_AppData;
 
 /************************************************************************
 ** Local Variables
 *************************************************************************/
-
+FPC oFPC{};
 /************************************************************************
 ** Local Function Definitions
 *************************************************************************/
@@ -77,41 +76,44 @@ FPC_AppData_t  FPC_AppData;
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 FPC_InitEvent()
+FPC::FPC(){}
+FPC::~FPC(){}
+
+int32 FPC::InitEvent()
 {
     int32  iStatus=CFE_SUCCESS;
     int32  ind = 0;
 
     /* Initialize the event filter table.
      * Note: 0 is the CFE_EVS_NO_FILTER mask and event 0 is reserved (not used) */
-    memset((void*)FPC_AppData.EventTbl, 0x00, sizeof(FPC_AppData.EventTbl));
+    memset((void*)AppData.EventTbl, 0x00, sizeof(AppData.EventTbl));
 
     /* TODO: Choose the events you want to filter.  CFE_EVS_MAX_EVENT_FILTERS
      * limits the number of filters per app.  An explicit CFE_EVS_NO_FILTER 
      * (the default) has been provided as an example. */
-    FPC_AppData.EventTbl[  ind].EventID = FPC_RESERVED_EID;
-    FPC_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
+    AppData.EventTbl[  ind].EventID = FPC_RESERVED_EID;
+    AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
 
-    FPC_AppData.EventTbl[  ind].EventID = FPC_INF_EID;
-    FPC_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
+    AppData.EventTbl[  ind].EventID = FPC_INF_EID;
+    AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
 
-    FPC_AppData.EventTbl[  ind].EventID = FPC_CONFIG_TABLE_ERR_EID;
-    FPC_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
+    AppData.EventTbl[  ind].EventID = FPC_CONFIG_TABLE_ERR_EID;
+    AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
 
-    FPC_AppData.EventTbl[  ind].EventID = FPC_CDS_ERR_EID;
-    FPC_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
+    AppData.EventTbl[  ind].EventID = FPC_CDS_ERR_EID;
+    AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
 
-    FPC_AppData.EventTbl[  ind].EventID = FPC_PIPE_ERR_EID;
-    FPC_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
+    AppData.EventTbl[  ind].EventID = FPC_PIPE_ERR_EID;
+    AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
 
-    FPC_AppData.EventTbl[  ind].EventID = FPC_MSGID_ERR_EID;
-    FPC_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
+    AppData.EventTbl[  ind].EventID = FPC_MSGID_ERR_EID;
+    AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
 
-    FPC_AppData.EventTbl[  ind].EventID = FPC_MSGLEN_ERR_EID;
-    FPC_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
+    AppData.EventTbl[  ind].EventID = FPC_MSGLEN_ERR_EID;
+    AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
 
     /* Register the table with CFE */
-    iStatus = CFE_EVS_Register(FPC_AppData.EventTbl,
+    iStatus = CFE_EVS_Register(AppData.EventTbl,
                                FPC_EVT_CNT, CFE_EVS_BINARY_FILTER);
     if (iStatus != CFE_SUCCESS)
     {
@@ -128,17 +130,17 @@ int32 FPC_InitEvent()
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 FPC_InitPipe()
+int32 FPC::InitPipe()
 {
     int32  iStatus=CFE_SUCCESS;
 
     /* Init schedule pipe and subscribe to wakeup messages */
-    iStatus = CFE_SB_CreatePipe(&FPC_AppData.SchPipeId,
+    iStatus = CFE_SB_CreatePipe(&AppData.SchPipeId,
                                  FPC_SCH_PIPE_DEPTH,
                                  FPC_SCH_PIPE_NAME);
     if (iStatus == CFE_SUCCESS)
     {
-        iStatus = CFE_SB_SubscribeEx(FPC_WAKEUP_MID, FPC_AppData.SchPipeId, CFE_SB_Default_Qos, FPC_SCH_PIPE_WAKEUP_RESERVED);
+        iStatus = CFE_SB_SubscribeEx(FPC_WAKEUP_MID, AppData.SchPipeId, CFE_SB_Default_Qos, FPC_SCH_PIPE_WAKEUP_RESERVED);
 
         if (iStatus != CFE_SUCCESS)
         {
@@ -148,7 +150,7 @@ int32 FPC_InitPipe()
             goto FPC_InitPipe_Exit_Tag;
         }
 
-        iStatus = CFE_SB_SubscribeEx(FPC_SEND_HK_MID, FPC_AppData.SchPipeId, CFE_SB_Default_Qos, FPC_SCH_PIPE_SEND_HK_RESERVED);
+        iStatus = CFE_SB_SubscribeEx(FPC_SEND_HK_MID, AppData.SchPipeId, CFE_SB_Default_Qos, FPC_SCH_PIPE_SEND_HK_RESERVED);
 
         if (iStatus != CFE_SUCCESS)
         {
@@ -168,13 +170,13 @@ int32 FPC_InitPipe()
     }
 
     /* Init command pipe and subscribe to command messages */
-    iStatus = CFE_SB_CreatePipe(&FPC_AppData.CmdPipeId,
+    iStatus = CFE_SB_CreatePipe(&AppData.CmdPipeId,
                                  FPC_CMD_PIPE_DEPTH,
                                  FPC_CMD_PIPE_NAME);
     if (iStatus == CFE_SUCCESS)
     {
         /* Subscribe to command messages */
-        iStatus = CFE_SB_Subscribe(FPC_CMD_MID, FPC_AppData.CmdPipeId);
+        iStatus = CFE_SB_Subscribe(FPC_CMD_MID, AppData.CmdPipeId);
 
         if (iStatus != CFE_SUCCESS)
         {
@@ -193,7 +195,7 @@ int32 FPC_InitPipe()
     }
 
     /* Init data pipe and subscribe to messages on the data pipe */
-    iStatus = CFE_SB_CreatePipe(&FPC_AppData.DataPipeId,
+    iStatus = CFE_SB_CreatePipe(&AppData.DataPipeId,
                                  FPC_DATA_PIPE_DEPTH,
                                  FPC_DATA_PIPE_NAME);
     if (iStatus == CFE_SUCCESS)
@@ -201,7 +203,7 @@ int32 FPC_InitPipe()
         /* TODO:  Add CFE_SB_Subscribe() calls for other apps' output data here.
         **
         ** Examples:
-        **     CFE_SB_Subscribe(GNCEXEC_OUT_DATA_MID, FPC_AppData.DataPipeId);
+        **     CFE_SB_Subscribe(GNCEXEC_OUT_DATA_MID, AppData.DataPipeId);
         */
     }
     else
@@ -223,22 +225,22 @@ FPC_InitPipe_Exit_Tag:
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 FPC_InitData()
+int32 FPC::InitData()
 {
     int32  iStatus=CFE_SUCCESS;
 
     /* Init input data */
-    memset((void*)&FPC_AppData.InData, 0x00, sizeof(FPC_AppData.InData));
+    memset((void*)&AppData.InData, 0x00, sizeof(AppData.InData));
 
     /* Init output data */
-    memset((void*)&FPC_AppData.OutData, 0x00, sizeof(FPC_AppData.OutData));
-    CFE_SB_InitMsg(&FPC_AppData.OutData,
-                   FPC_OUT_DATA_MID, sizeof(FPC_AppData.OutData), TRUE);
+    memset((void*)&AppData.OutData, 0x00, sizeof(AppData.OutData));
+    CFE_SB_InitMsg(&AppData.OutData,
+                   FPC_OUT_DATA_MID, sizeof(AppData.OutData), TRUE);
 
     /* Init housekeeping packet */
-    memset((void*)&FPC_AppData.HkTlm, 0x00, sizeof(FPC_AppData.HkTlm));
-    CFE_SB_InitMsg(&FPC_AppData.HkTlm,
-                   FPC_HK_TLM_MID, sizeof(FPC_AppData.HkTlm), TRUE);
+    memset((void*)&AppData.HkTlm, 0x00, sizeof(AppData.HkTlm));
+    CFE_SB_InitMsg(&AppData.HkTlm,
+                   FPC_HK_TLM_MID, sizeof(AppData.HkTlm), TRUE);
 
     return (iStatus);
 }
@@ -250,12 +252,12 @@ int32 FPC_InitData()
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 FPC_InitApp()
+int32 FPC::InitApp()
 {
     int32  iStatus   = CFE_SUCCESS;
     int8   hasEvents = 0;
 
-    iStatus = FPC_InitEvent();
+    iStatus = InitEvent();
     if (iStatus != CFE_SUCCESS)
     {
         (void) CFE_ES_WriteToSysLog("FPC - Failed to init events (0x%08X)\n", (unsigned int)iStatus);
@@ -266,7 +268,7 @@ int32 FPC_InitApp()
         hasEvents = 1;
     }
 
-    iStatus = FPC_InitPipe();
+    iStatus = InitPipe();
     if (iStatus != CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(FPC_INIT_ERR_EID, CFE_EVS_ERROR,
@@ -275,7 +277,7 @@ int32 FPC_InitApp()
         goto FPC_InitApp_Exit_Tag;
     }
 
-    iStatus = FPC_InitData();
+    iStatus = InitData();
     if (iStatus != CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(FPC_INIT_ERR_EID, CFE_EVS_ERROR,
@@ -284,7 +286,7 @@ int32 FPC_InitApp()
         goto FPC_InitApp_Exit_Tag;
     }
 
-    iStatus = FPC_InitConfigTbl();
+    iStatus = InitConfigTbl();
     if (iStatus != CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(FPC_INIT_ERR_EID, CFE_EVS_ERROR,
@@ -293,7 +295,7 @@ int32 FPC_InitApp()
         goto FPC_InitApp_Exit_Tag;
     }
 
-    iStatus = FPC_InitCdsTbl();
+    iStatus = InitCdsTbl();
     if (iStatus != CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(FPC_INIT_ERR_EID, CFE_EVS_ERROR,
@@ -334,7 +336,7 @@ FPC_InitApp_Exit_Tag:
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 FPC_RcvMsg(int32 iBlocking)
+int32 FPC::RcvMsg(int32 iBlocking)
 {
     int32           iStatus=CFE_SUCCESS;
     CFE_SB_Msg_t*   MsgPtr=NULL;
@@ -344,7 +346,7 @@ int32 FPC_RcvMsg(int32 iBlocking)
     CFE_ES_PerfLogExit(FPC_MAIN_TASK_PERF_ID);
 
     /* Wait for WakeUp messages from scheduler */
-    iStatus = CFE_SB_RcvMsg(&MsgPtr, FPC_AppData.SchPipeId, iBlocking);
+    iStatus = CFE_SB_RcvMsg(&MsgPtr, AppData.SchPipeId, iBlocking);
 
     /* Start Performance Log entry */
     CFE_ES_PerfLogEntry(FPC_MAIN_TASK_PERF_ID);
@@ -355,18 +357,18 @@ int32 FPC_RcvMsg(int32 iBlocking)
         switch (MsgId)
 	{
             case FPC_WAKEUP_MID:
-                FPC_ProcessNewCmds();
-                FPC_ProcessNewData();
+                ProcessNewCmds();
+                ProcessNewData();
 
                 /* TODO:  Add more code here to handle other things when app wakes up */
 
                 /* The last thing to do at the end of this Wakeup cycle should be to
                  * automatically publish new output. */
-                FPC_SendOutData();
+                SendOutData();
                 break;
 
             case FPC_SEND_HK_MID:
-                FPC_ReportHousekeeping();
+                ReportHousekeeping();
                 break;
 
             default:
@@ -396,7 +398,7 @@ int32 FPC_RcvMsg(int32 iBlocking)
          */
         (void) CFE_EVS_SendEvent(FPC_PIPE_ERR_EID, CFE_EVS_ERROR,
 			  "SB pipe read error (0x%08X), app will exit", (unsigned int)iStatus);
-        FPC_AppData.uiRunStatus= CFE_ES_APP_ERROR;
+        AppData.uiRunStatus= CFE_ES_APP_ERROR;
     }
 
     return (iStatus);
@@ -409,7 +411,7 @@ int32 FPC_RcvMsg(int32 iBlocking)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-void FPC_ProcessNewData()
+void FPC::ProcessNewData()
 {
     int iStatus = CFE_SUCCESS;
     CFE_SB_Msg_t*   DataMsgPtr=NULL;
@@ -418,7 +420,7 @@ void FPC_ProcessNewData()
     /* Process telemetry messages till the pipe is empty */
     while (1)
     {
-        iStatus = CFE_SB_RcvMsg(&DataMsgPtr, FPC_AppData.DataPipeId, CFE_SB_POLL);
+        iStatus = CFE_SB_RcvMsg(&DataMsgPtr, AppData.DataPipeId, CFE_SB_POLL);
         if (iStatus == CFE_SUCCESS)
         {
             DataMsgId = CFE_SB_GetMsgId(DataMsgPtr);
@@ -446,7 +448,7 @@ void FPC_ProcessNewData()
         {
             (void) CFE_EVS_SendEvent(FPC_PIPE_ERR_EID, CFE_EVS_ERROR,
                   "Data pipe read error (0x%08X)", (unsigned int)iStatus);
-            FPC_AppData.uiRunStatus = CFE_ES_APP_ERROR;
+            AppData.uiRunStatus = CFE_ES_APP_ERROR;
             break;
         }
     }
@@ -459,7 +461,7 @@ void FPC_ProcessNewData()
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-void FPC_ProcessNewCmds()
+void FPC::ProcessNewCmds()
 {
     int iStatus = CFE_SUCCESS;
     CFE_SB_Msg_t*   CmdMsgPtr=NULL;
@@ -468,14 +470,14 @@ void FPC_ProcessNewCmds()
     /* Process command messages till the pipe is empty */
     while (1)
     {
-        iStatus = CFE_SB_RcvMsg(&CmdMsgPtr, FPC_AppData.CmdPipeId, CFE_SB_POLL);
+        iStatus = CFE_SB_RcvMsg(&CmdMsgPtr, AppData.CmdPipeId, CFE_SB_POLL);
         if(iStatus == CFE_SUCCESS)
         {
             CmdMsgId = CFE_SB_GetMsgId(CmdMsgPtr);
             switch (CmdMsgId)
             {
                 case FPC_CMD_MID:
-                    FPC_ProcessNewAppCmds(CmdMsgPtr);
+                    ProcessNewAppCmds(CmdMsgPtr);
                     break;
 
                 /* TODO:  Add code to process other subscribed commands here
@@ -490,7 +492,7 @@ void FPC_ProcessNewCmds()
                     /* Bump the command error counter for an unknown command.
                      * (This should only occur if it was subscribed to with this
                      *  pipe, but not handled in this switch-case.) */
-                    FPC_AppData.HkTlm.usCmdErrCnt++;
+                    AppData.HkTlm.usCmdErrCnt++;
                     (void) CFE_EVS_SendEvent(FPC_MSGID_ERR_EID, CFE_EVS_ERROR,
                                       "Recvd invalid CMD msgId (0x%04X)", (unsigned short)CmdMsgId);
                     break;
@@ -504,7 +506,7 @@ void FPC_ProcessNewCmds()
         {
             (void) CFE_EVS_SendEvent(FPC_PIPE_ERR_EID, CFE_EVS_ERROR,
                   "CMD pipe read error (0x%08X)", (unsigned int)iStatus);
-            FPC_AppData.uiRunStatus = CFE_ES_APP_ERROR;
+            AppData.uiRunStatus = CFE_ES_APP_ERROR;
             break;
         }
     }
@@ -517,7 +519,7 @@ void FPC_ProcessNewCmds()
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-void FPC_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
+void FPC::ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
 {
     uint32  uiCmdCode=0;
 
@@ -527,7 +529,7 @@ void FPC_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
         switch (uiCmdCode)
         {
             case FPC_NOOP_CC:
-                FPC_AppData.HkTlm.usCmdCnt++;
+                AppData.HkTlm.usCmdCnt++;
                 (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
                                   "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
                                   (unsigned int)uiCmdCode,
@@ -538,8 +540,8 @@ void FPC_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                 break;
 
             case FPC_RESET_CC:
-                FPC_AppData.HkTlm.usCmdCnt = 0;
-                FPC_AppData.HkTlm.usCmdErrCnt = 0;
+                AppData.HkTlm.usCmdCnt = 0;
+                AppData.HkTlm.usCmdErrCnt = 0;
                 (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
                                   "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
                 break;
@@ -547,7 +549,7 @@ void FPC_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
             /* TODO:  Add code to process the rest of the FPC commands here */
 
             default:
-                FPC_AppData.HkTlm.usCmdErrCnt++;
+                AppData.HkTlm.usCmdErrCnt++;
                 (void) CFE_EVS_SendEvent(FPC_MSGID_ERR_EID, CFE_EVS_ERROR,
                                   "Recvd invalid cmdId (%u)", (unsigned int)uiCmdCode);
                 break;
@@ -561,12 +563,12 @@ void FPC_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-void FPC_ReportHousekeeping()
+void FPC::ReportHousekeeping()
 {
     /* TODO:  Add code to update housekeeping data, if needed, here.  */
 
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&FPC_AppData.HkTlm);
-    int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&FPC_AppData.HkTlm);
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&AppData.HkTlm);
+    int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&AppData.HkTlm);
     if (iStatus != CFE_SUCCESS)
     {
         /* TODO: Decide what to do if the send message fails. */
@@ -580,12 +582,12 @@ void FPC_ReportHousekeeping()
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-void FPC_SendOutData()
+void FPC::SendOutData()
 {
     /* TODO:  Add code to update output data, if needed, here.  */
 
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&FPC_AppData.OutData);
-    int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&FPC_AppData.OutData);
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&AppData.OutData);
+    int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&AppData.OutData);
     if (iStatus != CFE_SUCCESS)
     {
         /* TODO: Decide what to do if the send message fails. */
@@ -599,7 +601,7 @@ void FPC_SendOutData()
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-boolean FPC_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
+boolean FPC::VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
                            uint16 usExpectedLen)
 {
     boolean bResult  = TRUE;
@@ -619,7 +621,7 @@ boolean FPC_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
                               "Rcvd invalid msgLen: msgId=0x%08X, cmdCode=%d, "
                               "msgLen=%d, expectedLen=%d",
                               MsgId, usCmdCode, usMsgLen, usExpectedLen);
-            FPC_AppData.HkTlm.usCmdErrCnt++;
+            AppData.HkTlm.usCmdErrCnt++;
         }
     }
 
@@ -632,10 +634,10 @@ boolean FPC_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-void FPC_AppMain()
+void FPC::AppMain()
 {
     /* Register the application with Executive Services */
-    FPC_AppData.uiRunStatus = CFE_ES_APP_RUN;
+    AppData.uiRunStatus = CFE_ES_APP_RUN;
 
     int32 iStatus = CFE_ES_RegisterApp();
     if (iStatus != CFE_SUCCESS)
@@ -649,7 +651,7 @@ void FPC_AppMain()
     /* Perform application initializations */
     if (iStatus == CFE_SUCCESS)
     {
-        iStatus = FPC_InitApp();
+        iStatus = InitApp();
     }
 
     if (iStatus == CFE_SUCCESS)
@@ -661,13 +663,13 @@ void FPC_AppMain()
     }
     else
     {
-        FPC_AppData.uiRunStatus = CFE_ES_APP_ERROR;
+        AppData.uiRunStatus = CFE_ES_APP_ERROR;
     }
 
     /* Application main loop */
-    while (CFE_ES_RunLoop(&FPC_AppData.uiRunStatus) == TRUE)
+    while (CFE_ES_RunLoop(&AppData.uiRunStatus) == TRUE)
     {
-        int32 iStatus = FPC_RcvMsg(FPC_SCH_PIPE_PEND_TIME);
+        int32 iStatus = RcvMsg(FPC_SCH_PIPE_PEND_TIME);
         if (iStatus != CFE_SUCCESS)
         {
             /* TODO: Decide what to do for other return values in FPC_RcvMsg(). */
@@ -676,14 +678,14 @@ void FPC_AppMain()
         ** Depends on the nature of the application, the frequency of update
         ** and save can be more or less independently.
         */
-        FPC_UpdateCdsTbl();
-        FPC_SaveCdsTbl();
+        UpdateCdsTbl();
+        SaveCdsTbl();
 
-        iStatus = FPC_AcquireConfigPointers();
+        iStatus = AcquireConfigPointers();
         if(iStatus != CFE_SUCCESS)
         {
             /* We apparently tried to load a new table but failed.  Terminate the application. */
-            FPC_AppData.uiRunStatus = CFE_ES_APP_ERROR;
+            AppData.uiRunStatus = CFE_ES_APP_ERROR;
         }
     }
 
@@ -691,7 +693,17 @@ void FPC_AppMain()
     CFE_ES_PerfLogExit(FPC_MAIN_TASK_PERF_ID);
 
     /* Exit the application */
-    CFE_ES_ExitApp(FPC_AppData.uiRunStatus);
+    CFE_ES_ExitApp(AppData.uiRunStatus);
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* MPC Application C style main entry point.                       */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+extern "C" void FPC_AppMain()
+{
+    oFPC.AppMain();
 }
 
 /************************/
