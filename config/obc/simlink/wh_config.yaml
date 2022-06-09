@@ -393,18 +393,20 @@ modules:
           SEDPWM_MAIN_TASK_PERF_ID:
             id: 120
 
-      # aspd4525:
-      #   definition: ${PROJECT_SOURCE_DIR}/apps/aspd4525/simlink/wh_design.yaml
-      #   telemetry:
-      #     ASPD4525_HK_TLM_MID:
-      #       msgID: 0x0c60
-      #   commands:
-      #     ASPD4525_CMD_MID:
-      #       msgID: 0x1c61
-      #     ASPD4525_SEND_HK_MID:
-      #       msgID: 0x1c62
-      #     ASPD4525_WAKEUP_MID:
-      #       msgID: 0x1c63
-      #   perfids:
-      #     ASPD4525_MAIN_TASK_PERF_ID:
-      #       id: 121
+      aspd4525:
+        definition: ${PROJECT_SOURCE_DIR}/apps/aspd4525/simlink/wh_design.yaml
+        telemetry:
+          ASPD4525_HK_TLM_MID:
+            msgID: 0x0e48
+        commands:
+          ASPD4525_CMD_MID:
+            msgID: 0x1c58
+          ASPD4525_SEND_HK_MID:
+            msgID: 0x1c59
+          ASPD4525_WAKEUP_MID:
+            msgID: 0x1c5a
+          ASPD4525_OUT_DATA_MID:
+            msgID: 0x1c5b
+        perfids:
+          ASPD4525_MAIN_TASK_PERF_ID:
+            id: 123
