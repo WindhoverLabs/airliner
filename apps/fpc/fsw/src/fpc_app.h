@@ -125,7 +125,7 @@ public:
 
     /** \brief Output Data published at the end of cycle */
 
-
+    FPC_Position_Control_Status_t         m_PositionControlStatusMsg;
     /* Input Messages */
     PX4_ControlStateMsg_t                 m_ControlStateMsg;
     PX4_ManualControlSetpointMsg_t        m_ManualControlSetpointMsg;

@@ -507,20 +507,20 @@ void FPC::ProcessNewData()
 
                 case PX4_POSITION_SETPOINT_TRIPLET_MID:
                 {
-//                    CFE_PSP_MemCpy(&m_PositionSetpointTripletMsg, MsgPtr, sizeof(m_PositionSetpointTripletMsg));
+                    CFE_PSP_MemCpy(&m_PositionSetpointTripletMsg, DataMsgPtr, sizeof(m_PositionSetpointTripletMsg));
 //                    ProcessPositionSetpointTripletMsg();
                     break;
                 }
 
                 case PX4_VEHICLE_STATUS_MID:
                 {
-//                    CFE_PSP_MemCpy(&m_VehicleStatusMsg, MsgPtr, sizeof(m_VehicleStatusMsg));
+                    CFE_PSP_MemCpy(&m_VehicleStatusMsg, DataMsgPtr, sizeof(m_VehicleStatusMsg));
                     break;
                 }
 
                 case PX4_VEHICLE_LAND_DETECTED_MID:
                 {
-//                    CFE_PSP_MemCpy(&m_VehicleLandDetectedMsg, MsgPtr, sizeof(m_VehicleLandDetectedMsg));
+                    CFE_PSP_MemCpy(&m_VehicleLandDetectedMsg, DataMsgPtr, sizeof(m_VehicleLandDetectedMsg));
                     break;
                 }
 
@@ -626,30 +626,54 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
         switch (uiCmdCode)
         {
             case FPC_NOOP_CC:
-                HkTlm.usCmdCnt++;
-                (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                  "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
-                                  (unsigned int)uiCmdCode,
-                                  FPC_MAJOR_VERSION,
-                                  FPC_MINOR_VERSION,
-                                  FPC_REVISION,
-                                  FPC_MISSION_REV);
-                break;
+                {
+                    HkTlm.usCmdCnt++;
+                    (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                      "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
+                                      (unsigned int)uiCmdCode,
+                                      FPC_MAJOR_VERSION,
+                                      FPC_MINOR_VERSION,
+                                      FPC_REVISION,
+                                      FPC_MISSION_REV);
+                    break;
+                 }
 
             case FPC_RESET_CC:
-                HkTlm.usCmdCnt = 0;
-                HkTlm.usCmdErrCnt = 0;
-                (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                  "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
-                break;
+                {
+                    HkTlm.usCmdCnt = 0;
+                    HkTlm.usCmdErrCnt = 0;
+                    (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                      "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
+                    break;
 
+                }
+            case FPC_DO_GO_AROUND_CC:
+                {
+                    HkTlm.usCmdCnt++;
+                    (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                      "Recvd FPC_DO_GO_AROUND cmd (%u)", (unsigned int)uiCmdCode);
+
+                    if (m_VehicleControlModeMsg.ControlAutoEnabled &&
+                        m_PositionSetpointTripletMsg.Current.Valid &&
+                        m_PositionSetpointTripletMsg.Current.Type == PX4_SETPOINT_TYPE_LAND)
+                    {
+
+                        m_PositionControlStatusMsg.ABORT_LANDING = TRUE;
+                        (void) CFE_EVS_SendEvent(FPC_POS_CRIT_EID, CFE_EVS_CRITICAL,
+                                       "Landing aborted");
+                    }
+                    break;
+
+                }
             /* TODO:  Add code to process the rest of the FPC commands here */
 
             default:
-                HkTlm.usCmdErrCnt++;
-                (void) CFE_EVS_SendEvent(FPC_MSGID_ERR_EID, CFE_EVS_ERROR,
-                                  "Recvd invalid cmdId (%u)", (unsigned int)uiCmdCode);
-                break;
+                {
+                    HkTlm.usCmdErrCnt++;
+                    (void) CFE_EVS_SendEvent(FPC_MSGID_ERR_EID, CFE_EVS_ERROR,
+                                      "Recvd invalid cmdId (%u)", (unsigned int)uiCmdCode);
+                    break;
+                }
         }
     }
 }
@@ -663,6 +687,8 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
 void FPC::ReportHousekeeping()
 {
     /* TODO:  Add code to update housekeeping data, if needed, here.  */
+
+    HkTlm.ABORT_LANDING = m_PositionControlStatusMsg.ABORT_LANDING;
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
     int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&HkTlm);

@@ -141,6 +141,20 @@ typedef enum {
 **  had an error in initialization.
 **
 */
+
+    FPC_POS_CRIT_EID,
+
+/** \brief <tt> 'FPC - ' </tt>
+**  \event <tt> 'FPC - ' </tt>
+**
+**  \par Type: ERROR
+**
+**  \par Cause:
+**
+**  This event message is issued when a critical
+**  event has happen related to position control.
+**/
+
     FPC_INIT_ERR_EID,
 
 /** \brief <tt> 'FPC - ' </tt>

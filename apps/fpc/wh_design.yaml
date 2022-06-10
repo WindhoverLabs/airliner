@@ -80,9 +80,13 @@
         Noop: 
           cc: 0
           struct: FPC_NoArgCmd_t
-#        Reset:
-#          cc: 1
-#          struct: FPC_NoArgCmd_t
+        Reset:
+          cc: 1
+          struct: FPC_NoArgCmd_t
+        GoAround:
+          cc: 2
+          struct: FPC_NoArgCmd_t
+
 #        AuthorizeCmd:
 #          cc: 2
 #          struct: FPC_CmdAuthData_t

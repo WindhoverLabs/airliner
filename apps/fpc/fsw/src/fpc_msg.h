@@ -120,6 +120,8 @@ extern "C" {
 */
 #define FPC_RESET_CC                (1)
 
+#define FPC_DO_GO_AROUND_CC         (2)
+
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
@@ -177,8 +179,27 @@ typedef struct
         \brief Count of failed commands */
     uint8              usCmdErrCnt; 
 
+    osalbool           ABORT_LANDING;
+
 } FPC_HkTlm_t;
 
+typedef struct
+{
+    float NAV_ROLL;
+    float NAC_PITCH;
+    float NAV_BEARING;
+
+    float TARGET_BEARING;
+    float WP_DIST;
+    float XTRACK_ERRORP;
+    float TURN_DISTANCE;	// the optimal distance to a waypoint to switch to the next
+
+    float LANDING_HORIZONTAL_SLOPE_DISPLACEMENT;
+    float LANDING_SLOPE_ANGLE_RAD;
+    float LANDING_FLARE_LENGTH;
+    osalbool ABORT_LANDING;
+
+} FPC_Position_Control_Status_t;
 
 #ifdef __cplusplus
 }
