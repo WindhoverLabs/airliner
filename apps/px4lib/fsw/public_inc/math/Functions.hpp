@@ -1,3 +1,4 @@
+#pragma once
 namespace math
 {
     inline const float gradual(const float &value, const float &x_low, const float &x_high, const float &y_low, const float &y_high)
