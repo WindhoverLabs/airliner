@@ -619,6 +619,18 @@ void FPC::ProcessNewCmds()
     }
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* UpdateParamsFromTable                                           */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void FPC::UpdateParamsFromTable(void)
+{
+    if(ConfigTblPtr != 0)
+    {
+    }
+}
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */

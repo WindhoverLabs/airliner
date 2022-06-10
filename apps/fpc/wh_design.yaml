@@ -86,6 +86,10 @@
         GoAround:
           cc: 2
           struct: FPC_NoArgCmd_t
+  msg_def_overrides:
+    - parent: FPC_HkTlm_t
+      member: ABORT_LANDING
+      type: uint8
 
 #        AuthorizeCmd:
 #          cc: 2

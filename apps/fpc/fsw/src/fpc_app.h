@@ -405,6 +405,8 @@ public:
     *************************************************************************/
     void   SaveCdsTbl(void);
 
+    void UpdateParamsFromTable(void);
+
 };
 
 #ifdef __cplusplus
