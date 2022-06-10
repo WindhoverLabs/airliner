@@ -154,28 +154,6 @@ modules:
           CI_SOCKET_RCV_PERF_ID:
             id: 35
 
-      fpc:
-        definition: ${PROJECT_SOURCE_DIR}/apps/fpc/wh_design.yaml
-        telemetry:
-          FPC_HK_TLM_MID:
-            msgID: 0x0a93              # TLM_MSG(   39 )
-        commands:
-          FPC_CMD_MID:
-            msgID: 0x1a94              # CMD_MSG(   40 )
-#          CI_INGEST_COMMANDS_MID:
-#            msgID: 0x1a29              # CMD_MSG(   41 )
-#          CI_PROCESS_TIMEOUTS_MID:
-#            msgID: 0x1a2a              # CMD_MSG(   42 )
-#          CI_SEND_HK_MID:
-#            msgID: 0x1a2b              # CMD_MSG(   43 )
-#          CI_WAKEUP_MID:
-#            msgID: 0x1a2c              # CMD_MSG(   44 )
-        perfids:
-          CI_MAIN_TASK_PERF_ID:
-            id: 34
-          CI_SOCKET_RCV_PERF_ID:
-            id: 35
-
       cs:
         definition: ${PROJECT_SOURCE_DIR}/apps/cs/wh_design.yaml
         telemetry: 
@@ -1092,5 +1070,18 @@ modules:
             msgID: 0x1b3d              # CMD_MSG(  317 )
           ADSBR_WAKEUP_MID:
             msgID: 0x1b3e              # CMD_MSG(  318 )
+      fpc:
+        definition: ${PROJECT_SOURCE_DIR}/apps/fpc/wh_design.yaml
+        telemetry:
+          FPC_HK_TLM_MID:
+            msgID: 0x0b5e              # TLM_MSG(  350 )
+        commands:
+          FPC_CMD_MID:
+            msgID: 0x1b5f              # CMD_MSG(  352 )
+        perfids:
+          CI_MAIN_TASK_PERF_ID:
+            id: 34
+          CI_SOCKET_RCV_PERF_ID:
+            id: 35
             
             

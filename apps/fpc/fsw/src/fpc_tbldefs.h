@@ -76,7 +76,7 @@ extern "C" {
  *
  * Any params related to vtol were ignored.
 */
-struct FPC_ConfigTbl_t
+typedef struct
 {
     float L1_PERIOD;
     float L1_DAMPING;
@@ -181,7 +181,7 @@ struct FPC_ConfigTbl_t
     float LND_AIRSPD_SC;
 
 
-};
+} FPC_ConfigTbl_t;
 
 
 

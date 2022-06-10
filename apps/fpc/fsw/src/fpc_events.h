@@ -221,6 +221,17 @@ typedef enum {
 */
     FPC_MSGLEN_ERR_EID,
 
+    /** \brief <tt> 'FPC" </tt>
+    **
+    **  \par Type: ERROR
+    **
+    **  \par Cause:
+    **
+    **  This event message is issued when CFE_SB_SubscribeEx fails
+    **  to subscribe to a message.
+    **
+    */       FPC_SUBSCRIBE_ERR_EID,
+
 
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     FPC_EVT_CNT

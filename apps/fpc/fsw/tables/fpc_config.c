@@ -48,7 +48,10 @@ static CFE_TBL_FileDef_t CFE_TBL_FileDef =
 **  \brief Default FPC config table data
 */
 /* Default MPC config table data */
-FPC_ConfigTbl_t FPC_ConfigTbl;
+FPC_ConfigTbl_t FPC_ConfigTbl =
+{
+
+};
 
 
 /************************************************************************

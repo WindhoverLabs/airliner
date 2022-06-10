@@ -200,6 +200,15 @@ int32 FPC::InitPipe()
                                  FPC_DATA_PIPE_NAME);
     if (iStatus == CFE_SUCCESS)
     {
+        //TODO:Add when air speed message exists
+//        iStatus = CFE_SB_Subscribe(ASPD4525_HK_TLM_MID, AppData.DataPipeId);
+//        if (iStatus != CFE_SUCCESS)
+//        {
+//            (void) CFE_EVS_SendEvent(FPC_INIT_ERR_EID, CFE_EVS_ERROR,
+//                                     "CMD Pipe failed to subscribe to FPC_CMD_MID. (0x%08X)",
+//                                     (unsigned int)iStatus);
+//            goto FPC_InitPipe_Exit_Tag;
+//        }
         /* TODO:  Add CFE_SB_Subscribe() calls for other apps' output data here.
         **
         ** Examples:
@@ -211,6 +220,51 @@ int32 FPC::InitPipe()
         (void) CFE_EVS_SendEvent(FPC_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to create Data pipe (0x%08X)",
                                  (unsigned int)iStatus);
+        goto FPC_InitPipe_Exit_Tag;
+    }
+
+    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_CONTROL_MODE_MID, AppData.DataPipeId, CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                 "DATA Pipe failed to subscribe to PX4_VEHICLE_CONTROL_MODE_MID. (0x%08lX)",
+                 iStatus);
+        goto FPC_InitPipe_Exit_Tag;
+    }
+
+    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_GLOBAL_POSITION_MID, AppData.DataPipeId, CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                 "DATA Pipe failed to subscribe to PX4_VEHICLE_GLOBAL_POSITION_MID. (0x%08lX)",
+                 iStatus);
+        goto FPC_InitPipe_Exit_Tag;
+    }
+
+    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_GLOBAL_POSITION_MID, AppData.DataPipeId, CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                 "DATA Pipe failed to subscribe to PX4_VEHICLE_GLOBAL_POSITION_MID. (0x%08lX)",
+                 iStatus);
+        goto FPC_InitPipe_Exit_Tag;
+    }
+
+    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_LOCAL_POSITION_MID, AppData.DataPipeId, CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                 "DATA Pipe failed to subscribe to PX4_VEHICLE_LOCAL_POSITION_MID. (0x%08lX)",
+                 iStatus);
+        goto FPC_InitPipe_Exit_Tag;
+    }
+
+    iStatus = CFE_SB_SubscribeEx(PX4_POSITION_SETPOINT_TRIPLET_MID, AppData.DataPipeId, CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                 "DATA Pipe failed to subscribe to PX4_VEHICLE_LOCAL_POSITION_MID. (0x%08lX)",
+                 iStatus);
         goto FPC_InitPipe_Exit_Tag;
     }
 
@@ -426,6 +480,8 @@ void FPC::ProcessNewData()
             DataMsgId = CFE_SB_GetMsgId(DataMsgPtr);
             switch (DataMsgId)
             {
+
+//                case
                 /* TODO:  Add code to process all subscribed data here
                 **
                 ** Example:
@@ -433,6 +489,56 @@ void FPC::ProcessNewData()
                 **         FPC_ProcessNavData(DataMsgPtr);
                 **         break;
                 */
+                case PX4_CONTROL_STATE_MID:
+                {
+//                    ProcessControlStateMsg();
+//                    CFE_PSP_MemCpy(&m_ControlStateMsg, MsgPtr, sizeof(m_ControlStateMsg));
+                    break;
+                }
+
+                case PX4_MANUAL_CONTROL_SETPOINT_MID:
+                {
+//                    CFE_PSP_MemCpy(&m_ManualControlSetpointMsg, MsgPtr, sizeof(m_ManualControlSetpointMsg));
+                    break;
+                }
+
+                case PX4_HOME_POSITION_MID:
+                {
+//                    CFE_PSP_MemCpy(&m_HomePositionMsg, MsgPtr, sizeof(m_HomePositionMsg));
+                    break;
+                }
+
+                case PX4_VEHICLE_CONTROL_MODE_MID:
+                {
+//                    CFE_PSP_MemCpy(&m_VehicleControlModeMsg, MsgPtr, sizeof(m_VehicleControlModeMsg));
+                    break;
+                }
+
+                case PX4_POSITION_SETPOINT_TRIPLET_MID:
+                {
+//                    CFE_PSP_MemCpy(&m_PositionSetpointTripletMsg, MsgPtr, sizeof(m_PositionSetpointTripletMsg));
+//                    ProcessPositionSetpointTripletMsg();
+                    break;
+                }
+
+                case PX4_VEHICLE_STATUS_MID:
+                {
+//                    CFE_PSP_MemCpy(&m_VehicleStatusMsg, MsgPtr, sizeof(m_VehicleStatusMsg));
+                    break;
+                }
+
+                case PX4_VEHICLE_LAND_DETECTED_MID:
+                {
+//                    CFE_PSP_MemCpy(&m_VehicleLandDetectedMsg, MsgPtr, sizeof(m_VehicleLandDetectedMsg));
+                    break;
+                }
+
+                case PX4_VEHICLE_LOCAL_POSITION_MID:
+                {
+//                    CFE_PSP_MemCpy(&m_VehicleLocalPositionMsg, MsgPtr, sizeof(m_VehicleLocalPositionMsg));
+//                    ProcessVehicleLocalPositionMsg();
+                    break;
+                }
 
                 default:
                     (void) CFE_EVS_SendEvent(FPC_MSGID_ERR_EID, CFE_EVS_ERROR,

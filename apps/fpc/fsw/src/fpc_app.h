@@ -57,10 +57,14 @@ extern "C" {
 #include "fpc_tbldefs.h"
 #include "fpc_config_utils.h"
 
+#include "px4_msgs.h"
+
+
 /************************************************************************
 ** Local Defines
 *************************************************************************/
 #define FPC_TIMEOUT_MSEC             	(1000)
+
 
 /************************************************************************
 ** Local Structure Definitions
@@ -113,6 +117,9 @@ struct FPC_AppData_t
 
     /** \brief Housekeeping Telemetry for downlink */
     FPC_HkTlm_t  HkTlm;
+
+    /** \brief Output Data published at the end of cycle */
+    PX4_VehicleAttitudeSetpointMsg_t      m_VehicleAttitudeSetpointMsg;
 
 };
 

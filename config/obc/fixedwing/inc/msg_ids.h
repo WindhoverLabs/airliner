@@ -40,13 +40,12 @@
 #define MAC_SEND_HK_MID                           CMD_MSG(  145 )  /* 0x091 */
 
 
-/* FPC                                                                      */
-#define FPC_DIAG_TLM_MID                          TLM_MSG(  146 )  /* 0x092 */
-#define FPC_HK_TLM_MID                            TLM_MSG(  147 )  /* 0x093 */
-#define FPC_CMD_MID                               CMD_MSG(  148 )  /* 0x094 */
-#define FPC_SEND_HK_MID                           CMD_MSG(  149 )  /* 0x095 */
-#define FPC_WAKEUP_MID                            CMD_MSG(  150 )  /* 0x096 */
-#define FPC_OUT_DATA_MID                          TLM_MSG(  344 )  /* 0x096 */
+/* MPC                                                                      */
+#define MPC_DIAG_TLM_MID                          TLM_MSG(  146 )  /* 0x092 */
+#define MPC_HK_TLM_MID                            TLM_MSG(  147 )  /* 0x093 */
+#define MPC_CMD_MID                               CMD_MSG(  148 )  /* 0x094 */
+#define MPC_SEND_HK_MID                           CMD_MSG(  149 )  /* 0x095 */
+#define MPC_WAKEUP_MID                            CMD_MSG(  150 )  /* 0x096 */
 
 
 /* NAV                                                                      */
@@ -311,5 +310,14 @@
 #define SBUS_CMD_MID                              CMD_MSG(  341 )  /* 0x155 */
 #define SBUS_SEND_HK_MID                          CMD_MSG(  342 )  /* 0x156 */
 #define SBUS_WAKEUP_MID                           CMD_MSG(  343 )  /* 0x157 */
+
+
+/* FPC                                                                      */
+#define FPC_DIAG_TLM_MID                          TLM_MSG(  349 )  /* 0x15d */
+#define FPC_HK_TLM_MID                            TLM_MSG(  350 )  /* 0x15e */
+#define FPC_CMD_MID                               CMD_MSG(  351 )  /* 0x15f */
+#define FPC_SEND_HK_MID                           CMD_MSG(  352 )  /* 0x160 */
+#define FPC_WAKEUP_MID                            CMD_MSG(  353 )  /* 0x161 */
+#define FPC_OUT_DATA_MID                          TLM_MSG(  354 )  /* 0x162 */
 
 #endif
