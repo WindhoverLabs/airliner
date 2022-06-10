@@ -87,16 +87,16 @@ int32 FPC::InitCdsTbl()
     iResetType = CFE_ES_GetResetType(&uiResetSubType);
     if (iResetType == CFE_ES_POWERON_RESET)
     {
-        memset((void*)&AppData.CdsTbl, 0x00, sizeof(FPC_CdsTbl_t));
+        memset((void*)&CdsTbl, 0x00, sizeof(FPC_CdsTbl_t));
     }
 
     /* Register and manage CDS table */
-    iStatus = CFE_ES_RegisterCDS(&AppData.CdsTblHdl, sizeof(FPC_CdsTbl_t),
+    iStatus = CFE_ES_RegisterCDS(&CdsTblHdl, sizeof(FPC_CdsTbl_t),
                                  FPC_CDS_TABLENAME);
     if (iStatus == CFE_SUCCESS)
     {
         /* Setup initial content of CDS table */
-        iStatus = CFE_ES_CopyToCDS(AppData.CdsTblHdl, &AppData.CdsTbl);
+        iStatus = CFE_ES_CopyToCDS(CdsTblHdl, &CdsTbl);
         if (iStatus == CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(FPC_CDS_INF_EID, CFE_EVS_INFORMATION,
@@ -111,8 +111,8 @@ int32 FPC::InitCdsTbl()
     else if (iStatus == CFE_ES_CDS_ALREADY_EXISTS)
     {
         /* If one already exists, get a copy of its current content */
-        memset((void*)&AppData.CdsTbl, 0x00, sizeof(FPC_CdsTbl_t));
-        iStatus = CFE_ES_RestoreFromCDS(&AppData.CdsTbl, AppData.CdsTblHdl);
+        memset((void*)&CdsTbl, 0x00, sizeof(FPC_CdsTbl_t));
+        iStatus = CFE_ES_RestoreFromCDS(&CdsTbl, CdsTblHdl);
         if (iStatus == CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(FPC_CDS_INF_EID, CFE_EVS_INFORMATION,
@@ -122,7 +122,7 @@ int32 FPC::InitCdsTbl()
         {
             (void) CFE_EVS_SendEvent(FPC_INIT_ERR_EID, CFE_EVS_ERROR,
                                      "Failed to restore data from CDS");
-            memset((void*)&AppData.CdsTbl, 0x00, sizeof(FPC_CdsTbl_t));
+            memset((void*)&CdsTbl, 0x00, sizeof(FPC_CdsTbl_t));
         }
     }
     else
@@ -157,7 +157,7 @@ void FPC::SaveCdsTbl()
 {
     /* TODO This return value is not checked. Developer should decide what to do here
        in case of failure or should add a return value for higher-level logic to handle. */
-    CFE_ES_CopyToCDS(AppData.CdsTblHdl, &AppData.CdsTbl);
+    CFE_ES_CopyToCDS(CdsTblHdl, &CdsTbl);
 }
 
 /************************/

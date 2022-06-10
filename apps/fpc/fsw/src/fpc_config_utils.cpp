@@ -80,7 +80,7 @@ int32 FPC::InitConfigTbl()
     int32  iStatus=0;
 
     /* Register Config table */
-    iStatus = CFE_TBL_Register(&AppData.ConfigTblHdl,
+    iStatus = CFE_TBL_Register(&ConfigTblHdl,
                                FPC_CONFIG_TABLENAME,
                                sizeof(FPC_ConfigTbl_t),
                                CFE_TBL_OPT_DEFAULT,
@@ -96,7 +96,7 @@ int32 FPC::InitConfigTbl()
     }
 
     /* Load Config table file */
-    iStatus = CFE_TBL_Load(FPC::AppData.ConfigTblHdl,
+    iStatus = CFE_TBL_Load(FPC::ConfigTblHdl,
                            CFE_TBL_SRC_FILE,
                            FPC_CONFIG_TABLE_FILENAME);
     if (iStatus != CFE_SUCCESS)
@@ -160,8 +160,8 @@ void FPC::ProcessNewConfigTbl()
     **
     ** Examples:
     **
-    **    FPC_AppData.latest_sParam = FPC_AppData.ConfigTblPtr->sParam;
-    **    FPC_AppData.latest_fParam = FPC.AppData.ConfigTblPtr->fParam;
+    **    FPC_latest_sParam = FPC_ConfigTblPtr->sParam;
+    **    FPC_latest_fParam = FPC.ConfigTblPtr->fParam;
     */
 }
 
@@ -180,12 +180,12 @@ int32 FPC::AcquireConfigPointers(void)
     /* TODO: This return value can indicate success, error, or that the info has been 
      * updated.  We ignore this return value in favor of checking CFE_TBL_Manage(), but
      * be sure this is the behavior you want. */
-    (void) CFE_TBL_ReleaseAddress(AppData.ConfigTblHdl);
+    (void) CFE_TBL_ReleaseAddress(ConfigTblHdl);
 
     /*
     ** Manage the table
     */
-    iStatus = CFE_TBL_Manage(AppData.ConfigTblHdl);
+    iStatus = CFE_TBL_Manage(ConfigTblHdl);
     if ((iStatus != CFE_SUCCESS) && (iStatus != CFE_TBL_INFO_UPDATED))
     {
         (void) CFE_EVS_SendEvent(FPC_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
@@ -197,8 +197,8 @@ int32 FPC::AcquireConfigPointers(void)
     /*
     ** Get a pointer to the table
     */
-    iStatus = CFE_TBL_GetAddress((void**)&AppData.ConfigTblPtr,
-                                 AppData.ConfigTblHdl);
+    iStatus = CFE_TBL_GetAddress((void**)&ConfigTblPtr,
+                                 ConfigTblHdl);
     if (iStatus == CFE_TBL_INFO_UPDATED)
     {
         ProcessNewConfigTbl();
@@ -206,7 +206,7 @@ int32 FPC::AcquireConfigPointers(void)
     }
     else if(iStatus != CFE_SUCCESS)
     {
-        AppData.ConfigTblPtr = 0;
+        ConfigTblPtr = 0;
         (void) CFE_EVS_SendEvent(FPC_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to get Config table's address (0x%08X)",
                                  (unsigned int)iStatus);

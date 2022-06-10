@@ -72,8 +72,13 @@ extern "C" {
 /**
 **  \brief FPC Operational Data Structure
 */
-struct FPC_AppData_t
+
+class FPC
 {
+public:
+    FPC();
+   ~FPC();
+
     /** \brief CFE Event Table */
     CFE_EVS_BinFilter_t  EventTbl[FPC_EVT_CNT];
 
@@ -119,17 +124,17 @@ struct FPC_AppData_t
     FPC_HkTlm_t  HkTlm;
 
     /** \brief Output Data published at the end of cycle */
-    PX4_VehicleAttitudeSetpointMsg_t      m_VehicleAttitudeSetpointMsg;
 
-};
 
-class FPC
-{
-public:
-    FPC();
-   ~FPC();
-
-    FPC_AppData_t AppData;
+    /* Input Messages */
+    PX4_ControlStateMsg_t                 m_ControlStateMsg;
+    PX4_ManualControlSetpointMsg_t        m_ManualControlSetpointMsg;
+    PX4_HomePositionMsg_t                 m_HomePositionMsg;
+    PX4_VehicleControlModeMsg_t           m_VehicleControlModeMsg;
+    PX4_PositionSetpointTripletMsg_t      m_PositionSetpointTripletMsg;
+    PX4_VehicleStatusMsg_t                m_VehicleStatusMsg;
+    PX4_VehicleLandDetectedMsg_t          m_VehicleLandDetectedMsg;
+    PX4_VehicleLocalPositionMsg_t         m_VehicleLocalPositionMsg;
     /************************************************************************
     ** External Global Variables
     *************************************************************************/
