@@ -287,6 +287,16 @@ int32 FPC::InitData()
     CFE_SB_InitMsg(&HkTlm,
                    FPC_HK_TLM_MID, sizeof(HkTlm), TRUE);
 
+    /* Clear input messages */
+    CFE_PSP_MemSet(&m_ControlStateMsg, 0, sizeof(m_ControlStateMsg));
+    CFE_PSP_MemSet(&m_ManualControlSetpointMsg, 0, sizeof(m_ManualControlSetpointMsg));
+    CFE_PSP_MemSet(&m_HomePositionMsg, 0, sizeof(m_HomePositionMsg));
+    CFE_PSP_MemSet(&m_VehicleControlModeMsg, 0, sizeof(m_VehicleControlModeMsg));
+    CFE_PSP_MemSet(&m_PositionSetpointTripletMsg, 0, sizeof(m_PositionSetpointTripletMsg));
+    CFE_PSP_MemSet(&m_VehicleStatusMsg, 0, sizeof(m_VehicleStatusMsg));
+    CFE_PSP_MemSet(&m_VehicleLandDetectedMsg, 0, sizeof(m_VehicleLandDetectedMsg));
+    CFE_PSP_MemSet(&m_VehicleLocalPositionMsg, 0, sizeof(m_VehicleLocalPositionMsg));
+
     return (iStatus);
 }
 

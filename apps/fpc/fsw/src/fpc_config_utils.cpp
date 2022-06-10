@@ -143,6 +143,21 @@ int32 FPC::ValidateConfigTbl(void* ConfigTblPtr)
     ** }
     **/
 
+    /* sanity check parameters */
+    if (FPC_ConfigTblPtr->AIRSPD_MAX < FPC_ConfigTblPtr->AIRSPD_MIN ||
+        FPC_ConfigTblPtr->AIRSPD_MAX < 5.0f ||
+        FPC_ConfigTblPtr->AIRSPD_MIN > 100.0f ||
+        FPC_ConfigTblPtr->AIRSPD_TRIM < FPC_ConfigTblPtr->AIRSPD_MIN||
+        FPC_ConfigTblPtr->AIRSPD_TRIM > FPC_ConfigTblPtr->AIRSPD_MAX)
+    {
+           (void) CFE_EVS_SendEvent(FPC_CONFIG_TABLE_INF_EID, CFE_EVS_ERROR,
+                                  "Invalid value for Config airspeed parameters invalid (%d)",
+                                 FPC_ConfigTblPtr->AIRSPD_MAX);
+
+            iStatus = -1;
+            goto FPC_ValidateConfigTbl_Exit_Tag;
+    }
+
 FPC_ValidateConfigTbl_Exit_Tag:
     return (iStatus);
 }

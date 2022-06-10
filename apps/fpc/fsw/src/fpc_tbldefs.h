@@ -179,8 +179,6 @@ typedef struct
     int32_t LND_USETER;
 
     float LND_AIRSPD_SC;
-
-
 } FPC_ConfigTbl_t;
 
 
