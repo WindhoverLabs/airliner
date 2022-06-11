@@ -72,7 +72,10 @@ extern "C" {
 /** \brief Definition for a single config table entry */
 typedef struct
 {
-	int32 iParam;
+	float fPressureMinimum_PSI;								/* PSI */
+	float fPressureMaximum_PSI;								/* PSI */
+	float fTemperatureMinimum_Celcius;						/* degrees Celsius */
+	float fTemperatureMaximum_Celcius;						/* degrees Celsius */
 
 	/* TODO: add type declarations for Config Table Data here*/
 } ASPD4525_ConfigTblEntry_t;

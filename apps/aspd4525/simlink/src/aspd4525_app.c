@@ -47,8 +47,16 @@
 #include "aspd4525_msgids.h"
 #include "aspd4525_platform_cfg.h"
 #include "aspd4525_version.h"
+#include "aspd4525_math.h"
+#include "sedlib.h"
 #include "simlink.h"
 #include "cvt_lib.h"
+
+#define STDIO_DEBUG
+
+#if defined(STDIO_DEBUG)
+#include <stdio.h>
+#endif
 
 /*MSR_TODO Remove this*/
 #include <stdio.h>
@@ -70,6 +78,7 @@
 ** Global Variables
 *************************************************************************/
 ASPD4525_AppData_t  ASPD4525_AppData;
+ASPD4525_AppI2CData_t ASPD4525_AppI2CData;
 
 /************************************************************************
 ** Local Variables
@@ -78,6 +87,25 @@ ASPD4525_AppData_t  ASPD4525_AppData;
 /************************************************************************
 ** Local Function Definitions
 *************************************************************************/
+int32 ASPD4525_InitSedPipes(void);
+
+SEDLIB_ReturnCode_t ASPD4525_SED_SendResponse(void);
+SEDLIB_ReturnCode_t ASPD4525_SED_ParseCommand(void);
+
+
+SEDLIB_ReturnCode_t ASPD4525_SED_SendResponse(void)
+{
+    SEDLIB_ReturnCode_t returnCode = SEDLIB_OK;
+
+    ASPD4525_AppI2CData.TransferResp.Response[0].Status = SEDLIB_OK;
+    ASPD4525_AppI2CData.TransferResp.Response[0].Count++;
+    returnCode = SEDLIB_SendMsg(ASPD4525_AppI2CData.StatusPortHandle, 
+                                (CFE_SB_MsgPtr_t)&ASPD4525_AppI2CData.TransferResp);
+
+    return returnCode;
+}
+
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -131,6 +159,10 @@ int32 ASPD4525_InitEvent()
     {
         (void) CFE_ES_WriteToSysLog("ASPD4525 - Failed to register with EVS (0x%08X)\n", (unsigned int)iStatus);
     }
+
+    #if defined(STDIO_DEBUG)
+    printf("ASPD4525_InitEvent\n");
+    #endif
 
     return (iStatus);
 }
@@ -235,6 +267,21 @@ int32 ASPD4525_InitPipe()
                                  (unsigned int)iStatus);
         goto ASPD4525_InitPipe_Exit_Tag;
     }
+
+    iStatus = ASPD4525_InitSedPipes();
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(ASPD4525_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to init SED pipes (0x%08X)",
+                                 (unsigned int)iStatus);
+        goto ASPD4525_InitPipe_Exit_Tag;
+    }
+
+    #if defined(STDIO_DEBUG)
+    printf("ASPD4525_InitPipe\n");
+    #endif
+
+
 ASPD4525_InitPipe_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
@@ -279,6 +326,10 @@ int32 ASPD4525_InitData()
     CFE_SB_InitMsg(&ASPD4525_AppData.HkTlm,
                    ASPD4525_HK_TLM_MID, sizeof(ASPD4525_AppData.HkTlm), TRUE);
 
+    #if defined(STDIO_DEBUG)
+    printf("ASPD4525_InitData\n");
+    #endif
+
     return (iStatus);
 }
 
@@ -320,6 +371,10 @@ int32 ASPD4525_InitCVT(void)
             goto end_of_function;
         }
     }
+
+    #if defined(STDIO_DEBUG)
+    printf("ASPD4525_InitCVT\n");
+    #endif
 
 end_of_function:
 
@@ -385,6 +440,10 @@ int32 ASPD4525_InitApp()
         goto ASPD4525_InitApp_Exit_Tag;
     }
 
+    #if defined(STDIO_DEBUG)
+    printf("ASPD4525_InitApp\n");
+    #endif
+
 ASPD4525_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
@@ -408,6 +467,56 @@ ASPD4525_InitApp_Exit_Tag:
     }
 
     return (iStatus);
+}
+
+
+int32 ASPD4525_InitSedPipes(void)
+{
+    int32 iStatus = SEDLIB_OK;
+
+    CFE_PSP_MemSet(&ASPD4525_AppI2CData, 0, sizeof(ASPD4525_AppI2CData));
+
+    /* Get a handle to the status pipe. */
+    iStatus = SEDLIB_GetPipe(ASPD4525_SED_STATUS_PIPE_NAME,
+                             sizeof(IIC_TransferResponse_t),
+                             &ASPD4525_AppI2CData.StatusPortHandle);
+    if(iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(ASPD4525_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to initialize MAG status MsgPort. (0x%08lX)",
+                                 iStatus);
+        goto end_of_function;
+    }
+
+    /* Get a handle to the command pipe. */
+    iStatus = SEDLIB_GetPipe(ASPD4525_SED_CMD_PIPE_NAME,
+                             sizeof(IIC_TransferCmd_t),
+                             &ASPD4525_AppI2CData.CmdPortHandle);
+    if(iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(ASPD4525_INIT_ERR_EID, CFE_EVS_ERROR,
+                                 "Failed to initialize MAG command MsgPort. (0x%08lX)",
+                                 iStatus);
+        goto end_of_function;
+    }
+
+    /* Initialize response message. */
+    CFE_SB_InitMsg(&ASPD4525_AppI2CData.TransferResp,
+                   IIC_RESPONSE_MSG_ID,
+                   sizeof(ASPD4525_AppI2CData.TransferResp),
+                   TRUE);
+
+    /* Set version number. */
+    ASPD4525_AppI2CData.TransferResp.Version = 1;
+
+    #if defined(STDIO_DEBUG)
+    printf("ASPD4525_InitSedPipes\n");
+    #endif
+
+
+end_of_function:
+
+    return iStatus;
 }
 
 
@@ -491,14 +600,14 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
 /**
  * @brief This function generates the number to be written out to APP from simulated device
  * 
- * @param temperature Temperature in Kelvin
- * @param diffPressure Pressure Differential in hPa
+ * @param fTemperature Temperature in Kelvin
+ * @param fDiffPressure Pressure Differential in hPa
  * @param status 2 bit Device Status
  * @return uint32 The 4 bytes to be written out over "i2c"
  */
 uint32 ASPD4525_PrepareOutgoingData(
-    float temperature,
-    float diffPressure,
+    float fTemperature,
+    float fDiffPressure,
     uint8 status
 ) {
     uint32 returnData = 0;

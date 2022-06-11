@@ -42,7 +42,8 @@ buildliner_add_app_def(aspd4525
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
 
-    USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}/user_doxy.in
+    #USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}/user_doxy.in
+    USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
     
     MSG_OVERRIDES ${CMAKE_CURRENT_SOURCE_DIR}/aspd4525_msg_overrides.json

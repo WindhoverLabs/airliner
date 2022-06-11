@@ -53,6 +53,7 @@
 #include "aspd4525_events.h"
 #include "aspd4525_config_utils.h"
 #include "aspd4525_cds_utils.h"
+#include "sedlib.h"
 #include "cvt_lib.h"
 #include "simlink.h"
 
@@ -65,6 +66,16 @@ extern "C" {
 ** Local Defines
 *************************************************************************/
 #define ASPD4525_TIMEOUT_MSEC             	(1000)
+
+/* Command pipe name. */
+#define ASPD4525_SED_CMD_PIPE_NAME             ("IIC1_CMD")
+/* Response (status) pipe name. */
+#define ASPD4525_SED_STATUS_PIPE_NAME          ("IIC1_STATUS")
+
+#define IIC_CMD_MSG_ID                       (0x1838)
+#define IIC_RESPONSE_MSG_ID                  (0x0839)
+
+
 
 /************************************************************************
 ** Local Structure Definitions
@@ -122,6 +133,24 @@ typedef struct
 
 } ASPD4525_AppData_t;
 
+
+typedef struct
+{
+    /** \brief Status port handle. */
+    uint32                 StatusPortHandle;
+    /** \brief Command port handle. */
+    uint32                 CmdPortHandle;
+    /** \brief Status buffer. */
+    IIC_TransferResponse_t TransferResp;
+    /** \brief Command buffer. */
+    IIC_TransferCmd_t      TransferCmd;
+    /** \brief At least one response has been received. */
+    boolean                ResponseReceived;
+    /** \brief Sequence count for reads. */
+    uint8                  ReadCount;
+    /** \brief Sequence count for writes. */
+    uint8                  WriteCount;
+} ASPD4525_AppI2CData_t;
 /************************************************************************
 ** External Global Variables
 *************************************************************************/

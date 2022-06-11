@@ -60,7 +60,10 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 */
 ASPD4525_ConfigTblEntry_t ASPD4525_ConfigTbl =
 {
-    123
+	.fPressureMinimum_PSI = 0.0,
+	.fPressureMaximum_PSI = 1.0,
+	.fTemperatureMinimum_Celcius = -50.0,
+	.fTemperatureMaximum_Celcius = 150.0,
 };
 
 /************************************************************************
