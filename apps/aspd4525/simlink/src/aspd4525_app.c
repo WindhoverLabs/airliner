@@ -551,6 +551,11 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                 ASPD4525_ProcessNewCmds();
                 ASPD4525_ProcessNewData();
 
+                if(ASPD4525_SED_ParseCommand() == SEDLIB_MSG_FRESH_OK)
+                {
+                    /* TODO*/
+                }
+
                 /* TODO:  Add more code here to handle other things when app wakes up */
 
                 /* The last thing to do at the end of this Wakeup cycle should be to
@@ -596,6 +601,91 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
     return (iStatus);
 }
 
+SEDLIB_ReturnCode_t ASPD4525_SED_ParseCommand(void)
+{
+    SEDLIB_ReturnCode_t returnCode = SEDLIB_OK;
+
+    returnCode = SEDLIB_ReadMsg(ASPD4525_AppI2CData.CmdPortHandle,
+                                (CFE_SB_MsgPtr_t)&ASPD4525_AppI2CData.TransferCmd);
+    if(returnCode == SEDLIB_MSG_FRESH_OK)
+    {
+        uint16 cmdCode = 0;
+
+        CFE_SB_MsgId_t msgID = CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)&ASPD4525_AppI2CData.TransferCmd);
+        if(IIC_CMD_MSG_ID != msgID)
+        {
+            (void) CFE_EVS_SendEvent(ASPD4525_SEDLIB_ERR_EID, CFE_EVS_ERROR,
+                                     "Received invalid message from SED. MsgID: 0x%04x",
+                                     msgID);
+            goto end_of_function;
+        }
+
+        if(ASPD4525_AppI2CData.TransferCmd.Version != 1)
+        {
+            (void) CFE_EVS_SendEvent(ASPD4525_SEDLIB_ERR_EID, CFE_EVS_ERROR,
+                                     "Received invalid message from SED. Version ID: %lu",
+                                     ASPD4525_AppI2CData.TransferCmd.Version);
+            goto end_of_function;
+        }
+
+        cmdCode = CFE_SB_GetCmdCode((CFE_SB_MsgPtr_t)&ASPD4525_AppI2CData.TransferCmd);
+
+        switch(cmdCode)
+        {
+            case IIC_SET_ADDRESS_CC:
+            {
+                /* Send response success. */
+                printf("IIC_SET_ADDRESS_CC\n");
+                returnCode = ASPD4525_SED_SendResponse();
+                if(returnCode != SEDLIB_OK)
+                {
+                    (void) CFE_EVS_SendEvent(ASPD4525_SEDLIB_ERR_EID, CFE_EVS_ERROR,
+                                            "SEDLIB_SendMsg error %d.",
+                                            returnCode);
+                }
+                break;
+            }
+            case IIC_WRITE_CC:
+            {
+                /* Send response success. */
+                printf("IIC_WRITE_CC\n");
+                returnCode = ASPD4525_SED_SendResponse();
+                if(returnCode != SEDLIB_OK)
+                {
+                    (void) CFE_EVS_SendEvent(ASPD4525_SEDLIB_ERR_EID, CFE_EVS_ERROR,
+                                            "SEDLIB_SendMsg error %d.",
+                                            returnCode);
+                }
+                break;
+            }
+            case IIC_READ_CC:
+            {
+                /* Send the message. */
+                printf("IIC_READ_CC\n");
+                returnCode = ASPD4525_SED_SendResponse();
+                if(returnCode != SEDLIB_OK)
+                {
+                    (void) CFE_EVS_SendEvent(ASPD4525_SEDLIB_ERR_EID, CFE_EVS_ERROR,
+                                         "SEDLIB_SendMsg error %d.",
+                                         returnCode);
+                }
+                break;
+            }
+            default:
+            {
+                (void) CFE_EVS_SendEvent(ASPD4525_CMD_ERR_EID, CFE_EVS_ERROR,
+                                         "Received command with invalid command code. MsgID: 0x%04x",
+                                         msgID);
+                goto end_of_function;
+            }
+        }
+    }
+
+end_of_function:
+
+    return returnCode;
+}
+
 
 /**
  * @brief This function generates the number to be written out to APP from simulated device
@@ -610,7 +700,7 @@ uint32 ASPD4525_PrepareOutgoingData(
     float fDiffPressure,
     uint8 status
 ) {
-    uint32 returnData = 0;
+    uint32 returnData = 0x1234abcd;
     /* MSR_TODO: finish this part of the code */
     printf("MSR_TODO: Need to finish this code\n");
     return returnData;
@@ -657,6 +747,12 @@ void ASPD4525_ProcessNewData()
                 ASPD4525_AppData.HkTlm.DiffPressure_OUT,
                 ASPD4525_AppData.HkTlm.Status_OUT
             );
+        
+        CFE_PSP_MemCpy((void*)&ASPD4525_AppI2CData.TransferResp.Response[0].Buffer[0],
+                (void*)&ASPD4525_AppData.HkTlm.ASPD4525_Simlink_OUT,
+                sizeof(ASPD4525_AppData.HkTlm.ASPD4525_Simlink_OUT));
+
+        printf("Buffer: 0x%02x 0x%02x 0x%02x 0x%02x\n", ASPD4525_AppI2CData.TransferResp.Response[0].Buffer[0], ASPD4525_AppI2CData.TransferResp.Response[0].Buffer[1], ASPD4525_AppI2CData.TransferResp.Response[0].Buffer[2], ASPD4525_AppI2CData.TransferResp.Response[0].Buffer[3]);
     }
 
     /* Process telemetry messages till the pipe is empty */
