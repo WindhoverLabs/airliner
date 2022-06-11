@@ -701,8 +701,29 @@ uint32 ASPD4525_PrepareOutgoingData(
     uint8 status
 ) {
     uint32 returnData = 0x1234abcd;
-    /* MSR_TODO: finish this part of the code */
-    printf("MSR_TODO: Need to finish this code\n");
+
+    uint16 uTempDataCounts = 
+        ASPD4525_MATH_GetTempDataCounts(
+            ASPD4525_AppData.ConfigTblPtr, 
+            fTemperature
+        );
+
+    uint16 uDiffPressureDataCounts = 
+        ASPD4525_MATH_GetDiffPressureDataCounts(
+            ASPD4525_AppData.ConfigTblPtr, 
+            fDiffPressure
+        );
+
+    uint32 packedData = 
+        ASPD4525_MATH_PackOutGoingData(
+            uDiffPressureDataCounts,
+            uTempDataCounts,
+            status
+        );
+    
+    returnData = ASPD4525_MATH_ByteFlip(packedData);
+
+    printf("MSR_TODO ASPD4525_PrepareOutgoingData: 0x%08x  0x%08x\n", packedData, returnData);
     return returnData;
 }
 
@@ -739,7 +760,7 @@ void ASPD4525_ProcessNewData()
         ASPD4525_AppData.HkTlm.Temperature_OUT = ASPD4525_AppData.HkTlm.SimlinkBaroMsg[0].Temperature;
         ASPD4525_AppData.HkTlm.DiffPressure_OUT = ASPD4525_AppData.HkTlm.SimlinkBaroMsg[0].DiffPressure;
 
-        printf("Gazebo Temp: %f; Gazebo DiffPress: %f\n", ASPD4525_AppData.HkTlm.Temperature_OUT, ASPD4525_AppData.HkTlm.DiffPressure_OUT);
+        //printf("Gazebo Temp: %f; Gazebo DiffPress: %f\n", ASPD4525_AppData.HkTlm.Temperature_OUT, ASPD4525_AppData.HkTlm.DiffPressure_OUT);
 
         ASPD4525_AppData.HkTlm.ASPD4525_Simlink_OUT = 
             ASPD4525_PrepareOutgoingData(

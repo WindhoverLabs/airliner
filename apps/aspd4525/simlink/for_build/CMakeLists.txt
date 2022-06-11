@@ -38,6 +38,7 @@ buildliner_add_app_def(aspd4525
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_cds_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_config_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_symbols.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_math.c
    
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
