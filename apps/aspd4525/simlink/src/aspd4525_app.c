@@ -773,7 +773,7 @@ void ASPD4525_ProcessNewData()
                 (void*)&ASPD4525_AppData.HkTlm.ASPD4525_Simlink_OUT,
                 sizeof(ASPD4525_AppData.HkTlm.ASPD4525_Simlink_OUT));
 
-        printf("Buffer: 0x%02x 0x%02x 0x%02x 0x%02x\n", ASPD4525_AppI2CData.TransferResp.Response[0].Buffer[0], ASPD4525_AppI2CData.TransferResp.Response[0].Buffer[1], ASPD4525_AppI2CData.TransferResp.Response[0].Buffer[2], ASPD4525_AppI2CData.TransferResp.Response[0].Buffer[3]);
+        //printf("Buffer: 0x%02x 0x%02x 0x%02x 0x%02x\n", ASPD4525_AppI2CData.TransferResp.Response[0].Buffer[0], ASPD4525_AppI2CData.TransferResp.Response[0].Buffer[1], ASPD4525_AppI2CData.TransferResp.Response[0].Buffer[2], ASPD4525_AppI2CData.TransferResp.Response[0].Buffer[3]);
     }
 
     /* Process telemetry messages till the pipe is empty */

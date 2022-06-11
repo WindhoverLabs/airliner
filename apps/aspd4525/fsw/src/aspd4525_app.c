@@ -46,6 +46,7 @@
 #include "aspd4525_msg.h"
 #include "aspd4525_msgids.h"
 #include "aspd4525_version.h"
+#include "aspd4525_custom.h"
 
 /************************************************************************
 ** Local Defines
@@ -241,6 +242,8 @@ int32 ASPD4525_InitData()
     CFE_SB_InitMsg(&ASPD4525_AppData.HkTlm,
                    ASPD4525_HK_TLM_MID, sizeof(ASPD4525_AppData.HkTlm), TRUE);
 
+    ASPD4525_Custom_InitData();
+
     return (iStatus);
 }
 
@@ -255,6 +258,7 @@ int32 ASPD4525_InitApp()
 {
     int32  iStatus   = CFE_SUCCESS;
     int8   hasEvents = 0;
+    boolean returnBool = FALSE;
 
     iStatus = ASPD4525_InitEvent();
     if (iStatus != CFE_SUCCESS)
@@ -300,6 +304,15 @@ int32 ASPD4525_InitApp()
         (void) CFE_EVS_SendEvent(ASPD4525_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to init CDS table (0x%08X)",
                                  (unsigned int)iStatus);
+        goto ASPD4525_InitApp_Exit_Tag;
+    }
+
+    returnBool = ASPD4525_Custom_Init();
+    if (FALSE == returnBool)
+    {
+        iStatus = -1;
+        (void) CFE_EVS_SendEvent(ASPD4525_INIT_ERR_EID, CFE_EVS_ERROR,
+                "Custom init failed");
         goto ASPD4525_InitApp_Exit_Tag;
     }
 
@@ -359,6 +372,8 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                 ASPD4525_ProcessNewCmds();
                 ASPD4525_ProcessNewData();
 
+                ASPD4525_ReadDevice();
+
                 /* TODO:  Add more code here to handle other things when app wakes up */
 
                 /* The last thing to do at the end of this Wakeup cycle should be to
@@ -403,6 +418,14 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
     return (iStatus);
 }
 
+void ASPD4525_ReadDevice(void) {
+    uint16 pressureDiff;
+    uint16 temperature;
+    uint8 status;
+    boolean returnBool = ASPD4525_Custom_Measure(&pressureDiff, &temperature, &status);
+
+    printf("pressureDiff = 0x%04x, temperature = 0x%04x, status = 0x%02x\n", pressureDiff, temperature, status);
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
