@@ -185,6 +185,9 @@ typedef struct
 
 typedef struct
 {
+    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint64  Timestamp;
+
     float NAV_ROLL;
     float NAC_PITCH;
     float NAV_BEARING;
@@ -199,7 +202,7 @@ typedef struct
     float LANDING_FLARE_LENGTH;
     osalbool ABORT_LANDING;
 
-} FPC_Position_Control_Status_t;
+} PX4_Position_Control_Status_t;
 
 #ifdef __cplusplus
 }

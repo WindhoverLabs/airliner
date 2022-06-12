@@ -71,8 +71,11 @@
       id: 34
   telemetry: 
     FPC_HK_TLM_MID:
-      msgID: 
+      msgID:
       struct: FPC_HkTlm_t
+    FPC_POSITION_CONTROL_STATUS_MID:
+      msgID:
+      struct: PX4_Position_Control_Status_t
   commands: 
     FPC_CMD_MID:
       msgID: 

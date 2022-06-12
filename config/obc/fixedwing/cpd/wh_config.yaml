@@ -1075,6 +1075,8 @@ modules:
         telemetry:
           FPC_HK_TLM_MID:
             msgID: 0x0b5e              # TLM_MSG(  350 )
+          FPC_POSITION_CONTROL_STATUS_MID:
+            msgID: 0x0b62              # TLM_MSG(  354 )
         commands:
           FPC_CMD_MID:
             msgID: 0x1b5f              # CMD_MSG(  352 )

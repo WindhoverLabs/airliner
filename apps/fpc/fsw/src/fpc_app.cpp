@@ -40,11 +40,16 @@
 *************************************************************************/
 #include <string.h>
 
+
 #include "cfe.h"
 
 #include "fpc_app.h"
 #include "fpc_msg.h"
 #include "fpc_version.h"
+
+#include "math/Limits.hpp"
+#include "px4lib.h"
+
 
 /************************************************************************
 ** Local Defines
@@ -277,10 +282,14 @@ int32 FPC::InitData()
     /* Init input data */
     memset((void*)&InData, 0x00, sizeof(InData));
 
+
     /* Init output data */
-    memset((void*)&OutData, 0x00, sizeof(OutData));
-    CFE_SB_InitMsg(&OutData,
-                   FPC_OUT_DATA_MID, sizeof(OutData), TRUE);
+
+
+    /* Init output messages */
+    memset((void*)&m_PositionControlStatusMsg, 0x00, sizeof(m_PositionControlStatusMsg));
+    CFE_SB_InitMsg(&m_PositionControlStatusMsg,
+        FPC_POSITION_CONTROL_STATUS_MID, sizeof(PX4_Position_Control_Status_t), TRUE);
 
     /* Init housekeeping packet */
     memset((void*)&HkTlm, 0x00, sizeof(HkTlm));
@@ -628,6 +637,17 @@ void FPC::UpdateParamsFromTable(void)
 {
     if(ConfigTblPtr != 0)
     {
+        /* Update the landing slope */
+        m_LandingSlope.update(math::radians(ConfigTblPtr->LND_ANG), ConfigTblPtr->LND_FLALT,
+                     ConfigTblPtr->LND_TLALT, ConfigTblPtr->LND_HVIRT);
+
+        /* Update and publish the navigation capabilities */
+        m_PositionControlStatusMsg.LANDING_SLOPE_ANGLE_RAD = m_LandingSlope.landing_slope_angle_rad();
+        m_PositionControlStatusMsg.LANDING_HORIZONTAL_SLOPE_DISPLACEMENT = m_LandingSlope.horizontal_slope_displacement();
+        m_PositionControlStatusMsg.LANDING_FLARE_LENGTH = m_LandingSlope.flare_length();
+
+        m_PositionControlStatusMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+
     }
 }
 
@@ -731,14 +751,29 @@ void FPC::SendOutData()
 {
     /* TODO:  Add code to update output data, if needed, here.  */
 
+    UpdateParamsFromTable();
+
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&OutData);
     int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&OutData);
     if (iStatus != CFE_SUCCESS)
     {
         /* TODO: Decide what to do if the send message fails. */
     }
+
+    SendPositionControlStatusMsg();
 }
 
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Publish VehicleAttitudeSetpoint message                         */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void FPC::SendPositionControlStatusMsg()
+{
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_PositionControlStatusMsg);
+    CFE_SB_SendMsg((CFE_SB_Msg_t*)&m_PositionControlStatusMsg);
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */

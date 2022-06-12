@@ -56,8 +56,16 @@ extern "C" {
 #include "fpc_events.h"
 #include "fpc_tbldefs.h"
 #include "fpc_config_utils.h"
+#include "fpc_landing_slope.h"
 
 #include "px4_msgs.h"
+
+#include "math/Matrix3F3.hpp"
+#include "math/Quaternion.hpp"
+#include "math/Euler.hpp"
+#include "math/Dcm.hpp"
+#include "math/Expo.hpp"
+#include "math/Functions.hpp"
 
 
 /************************************************************************
@@ -125,7 +133,7 @@ public:
 
     /** \brief Output Data published at the end of cycle */
 
-    FPC_Position_Control_Status_t         m_PositionControlStatusMsg;
+    PX4_Position_Control_Status_t         m_PositionControlStatusMsg;
     /* Input Messages */
     PX4_ControlStateMsg_t                 m_ControlStateMsg;
     PX4_ManualControlSetpointMsg_t        m_ManualControlSetpointMsg;
@@ -135,6 +143,8 @@ public:
     PX4_VehicleStatusMsg_t                m_VehicleStatusMsg;
     PX4_VehicleLandDetectedMsg_t          m_VehicleLandDetectedMsg;
     PX4_VehicleLocalPositionMsg_t         m_VehicleLocalPositionMsg;
+
+    Landingslope                          m_LandingSlope;
     /************************************************************************
     ** External Global Variables
     *************************************************************************/
@@ -406,6 +416,9 @@ public:
     void   SaveCdsTbl(void);
 
     void UpdateParamsFromTable(void);
+
+    void SendPositionControlStatusMsg(void);
+
 
 };
 

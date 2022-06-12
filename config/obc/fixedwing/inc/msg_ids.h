@@ -318,6 +318,6 @@
 #define FPC_CMD_MID                               CMD_MSG(  351 )  /* 0x15f */
 #define FPC_SEND_HK_MID                           CMD_MSG(  352 )  /* 0x160 */
 #define FPC_WAKEUP_MID                            CMD_MSG(  353 )  /* 0x161 */
-#define FPC_OUT_DATA_MID                          TLM_MSG(  354 )  /* 0x162 */
+#define FPC_POSITION_CONTROL_STATUS_MID           TLM_MSG(  354 )  /* 0x162 */
 
 #endif
