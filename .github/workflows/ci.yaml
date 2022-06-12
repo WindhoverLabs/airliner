@@ -1,4 +1,4 @@
-name: Run Python Tests
+name: Build obc-fixedwing-sitl
 on:
   push:
     branches:
@@ -21,19 +21,26 @@ jobs:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r src/requirements.txt
           sudo apt-get install libdwarf-dev
           sudo apt-get install libelf-dev
           sudo apt-get install libsqlite3-dev
           sudo apt-get install g++
+          sudo apt-get install libgazebo9-dev
+          sudo apt-get install libboost-all-dev
+          sudo apt-get install python3-opencv
+          sudo apt-get install libopencv-dev
+          sudo apt-get install libgstreamer-plugins-base1.0-dev
+          sudo apt-get install default-jre
+          sudo apt-get install openjdk-8-jdk
+          sudo apt-get install gcc-multilib
+          sudo apt-get install g++-multilib
+          sudo apt-get install cmake
+          sudo apt-get install libeigen3-dev
+          sudo apt-get install  librxtx-java
+          python -m pip install --upgrade pip
+          pip install -r src/requirements.txt
       - name: Checkout submodules
         run: git submodule update --init --recursive
       - name: Run tests with pytest
         run: pytest --cov=src --cov=xtce_generator --cov=tlm_cmd_merger
-      - name: Coveralls
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run:  |
-          coveralls --service=github
 
