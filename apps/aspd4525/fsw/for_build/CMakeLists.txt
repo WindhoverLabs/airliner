@@ -39,11 +39,15 @@ buildliner_add_app_def(aspd4525
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_config_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_symbols.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_math.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_atm.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_custom.h
         ${PROJECT_SOURCE_DIR}/config/shared/apps/aspd4525/src/aspd4525_custom.c
    
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
+
+    # LIBS 
+    #     m 
 
     #USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}/user_doxy.in
     USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}
@@ -57,6 +61,9 @@ buildliner_add_app_def(aspd4525
     REFERENCE_CONFIG
         ${PROJECT_SOURCE_DIR}/apps/aspd4525/fsw/mission_inc
         ${PROJECT_SOURCE_DIR}/apps/aspd4525/fsw/platform_inc
+        
+    COMMANDER_DISPLAYS 
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
 )
 
 buildliner_add_app_unit_test(ASPD4525-UT

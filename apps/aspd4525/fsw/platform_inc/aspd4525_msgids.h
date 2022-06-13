@@ -30,7 +30,7 @@ extern "C" {
 /**
 ** \brief Application-specific data output
 */
-#define ASPD4525_OUT_DATA_MID            (0x18D1)
+#define ASPD4525_OUT_DATA_MID            (0x08D1)
 
 /**
 ** \brief Application housekeeping telemetry data

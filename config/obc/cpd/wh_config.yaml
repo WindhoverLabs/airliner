@@ -959,9 +959,9 @@ modules:
             msgID: 0x1b59              # CMD_MSG(  345 )
           ASPD4525_WAKEUP_MID:
             msgID: 0x1b5a              # CMD_MSG(  346 )
-          ASPD4525_OUT_DATA_MID:
-            msgID: 0x1b5b              # CMD_MSG(  347 )
         telemetry:
+          ASPD4525_OUT_DATA_MID:
+            msgID: 0x0b5b              # TLM_MSG(  347 )
           ASPD4525_HK_TLM_MID:
             msgID: 0x0b5c              # TLM_MSG(  348 )
 

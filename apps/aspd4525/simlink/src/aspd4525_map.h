@@ -17,6 +17,31 @@ extern "C" {
 #define ASPD4525_TEMPERATURE_SHIFT        (5)
 
 
+/**
+ * @brief This macro signifies that the data received from the ASPD-4525 is valid
+ * 
+ */
+#define ASPD4525_MAPS_STATUS_SUCCESS                    (0)
+
+/**
+ * @brief This macro signifies that the data from ASPD-4525 is not ready to be read yet
+ * 
+ */
+#define ASPD4525_MAPS_STATUS_BUSY                       (1)
+
+/**
+ * @brief This macro signifies that the data from ASPD-4525 is stale, and a new data should be read for accuracy
+ * 
+ */
+#define ASPD4525_MAPS_STATUS_STALE                      (2)
+
+/**
+ * @brief This macro signifies that something is not right in the ASPD-4525 or its setup
+ * 
+ */
+#define ASPD4525_MAPS_STATUS_ERROR                      (-1)
+
+
 #ifdef __cplusplus
 }
 #endif /*__cplusplus*/

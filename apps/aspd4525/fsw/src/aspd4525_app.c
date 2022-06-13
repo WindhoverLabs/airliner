@@ -47,6 +47,10 @@
 #include "aspd4525_msgids.h"
 #include "aspd4525_version.h"
 #include "aspd4525_custom.h"
+#include "aspd4525_math.h"
+#include "aspd4525_map.h"
+#include "aspd4525_atm.h"
+#include "aspd4525_config.h"
 
 /************************************************************************
 ** Local Defines
@@ -237,6 +241,8 @@ int32 ASPD4525_InitData()
     CFE_SB_InitMsg(&ASPD4525_AppData.OutData,
                    ASPD4525_OUT_DATA_MID, sizeof(ASPD4525_AppData.OutData), TRUE);
 
+                   //PX4_AirspeedMsg_t  TODO
+
     /* Init housekeeping packet */
     memset((void*)&ASPD4525_AppData.HkTlm, 0x00, sizeof(ASPD4525_AppData.HkTlm));
     CFE_SB_InitMsg(&ASPD4525_AppData.HkTlm,
@@ -367,12 +373,81 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
     {
         MsgId = CFE_SB_GetMsgId(MsgPtr);
         switch (MsgId)
-	{
+	    {
             case ASPD4525_WAKEUP_MID:
+            {
                 ASPD4525_ProcessNewCmds();
                 ASPD4525_ProcessNewData();
 
                 ASPD4525_ReadDevice();
+
+                ASPD4525_AppData.HkTlm.uPressureCount = ASPD4525_AppData.sPressureDiffCount;
+                ASPD4525_AppData.HkTlm.uTemperatureCount = ASPD4525_AppData.sIemperatureCount;
+                ASPD4525_AppData.HkTlm.uStatus = ASPD4525_AppData.ucStatus;
+
+                if (ASPD4525_MAPS_STATUS_SUCCESS == ASPD4525_AppData.ucStatus) {
+                    float airDensity;
+                    ASPD4525_AppData.fPressureDiff = 
+                        ASPD4525_MATH_GetDeltaPressure(
+                            ASPD4525_AppData.ConfigTblPtr, 
+                            ASPD4525_AppData.sPressureDiffCount
+                        );
+
+                    ASPD4525_AppData.fTemperature = 
+                        ASPD4525_MATH_GetTemperature(
+                            ASPD4525_AppData.ConfigTblPtr, 
+                            ASPD4525_AppData.sIemperatureCount
+                        );
+
+                    switch (ASPD4525_AppData.ConfigTblPtr->uAirDensityCalculationMode) {
+                        case ASPD4525_CONFIG_AIRDENSITY_NO_ALTITUDE_MODE:
+                        {
+                            float pressurePascals = 
+                                ASPD4525_ATM_GetPressure(
+                                    ASPD4525_AppData.ConfigTblPtr
+                                );
+                            
+                            airDensity = 
+                                ASPD4525_ATM_GetAirDensity(
+                                    ASPD4525_AppData.ConfigTblPtr,
+                                    ASPD4525_AppData.fTemperature,
+                                    pressurePascals
+                                );
+                            printf ("Came-> %ld %lf %lf\n", ASPD4525_AppData.ConfigTblPtr->uAirDensityCalculationMode, pressurePascals, airDensity);
+                            break;
+                        }
+                        case ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_MODE:
+                        {
+                            double altitudeMeters = 
+                                ASPD4525_ATM_GetAltitude(
+                                    ASPD4525_AppData.ConfigTblPtr
+                                );
+                            
+                            airDensity = 
+                                ASPD4525_ATM_GetAirDensityWithAlt(
+                                    ASPD4525_AppData.ConfigTblPtr,
+                                    altitudeMeters
+                                );
+                            printf ("Came-> %ld %lf %lf\n", ASPD4525_AppData.ConfigTblPtr->uAirDensityCalculationMode, altitudeMeters, airDensity);
+                            break;
+                        }
+                        case ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_TEMPERATURE_MODE:
+                        {
+                            double altitudeMeters = 
+                                ASPD4525_ATM_GetAltitude(
+                                    ASPD4525_AppData.ConfigTblPtr
+                                );
+                            airDensity = 
+                                ASPD4525_ATM_GetAirDensityWithAltTemp(
+                                    ASPD4525_AppData.ConfigTblPtr,
+                                    altitudeMeters,
+                                    ASPD4525_AppData.fTemperature
+                                );
+                            printf ("Came-> %ld %lf %lf\n", ASPD4525_AppData.ConfigTblPtr->uAirDensityCalculationMode, altitudeMeters, airDensity);
+                            break;
+                        }
+                    }
+                }
 
                 /* TODO:  Add more code here to handle other things when app wakes up */
 
@@ -380,14 +455,18 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                  * automatically publish new output. */
                 ASPD4525_SendOutData();
                 break;
-
+            }
             case ASPD4525_SEND_HK_MID:
+            {
                 ASPD4525_ReportHousekeeping();
                 break;
-
+            }
             default:
+            {
                 (void) CFE_EVS_SendEvent(ASPD4525_MSGID_ERR_EID, CFE_EVS_ERROR,
                                   "Recvd invalid SCH msgId (0x%04X)", (unsigned short)MsgId);
+                break;
+            }
         }
     }
     else if (iStatus == CFE_SB_NO_MESSAGE)
@@ -419,12 +498,9 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
 }
 
 void ASPD4525_ReadDevice(void) {
-    uint16 pressureDiff;
-    uint16 temperature;
-    uint8 status;
-    boolean returnBool = ASPD4525_Custom_Measure(&pressureDiff, &temperature, &status);
+    boolean returnBool = ASPD4525_Custom_Measure(&(ASPD4525_AppData.sPressureDiffCount), &(ASPD4525_AppData.sIemperatureCount), &(ASPD4525_AppData.ucStatus));
 
-    printf("pressureDiff = 0x%04x, temperature = 0x%04x, status = 0x%02x\n", pressureDiff, temperature, status);
+    printf("pressureDiff = 0x%04x, temperature = 0x%04x, status = 0x%02x\n", ASPD4525_AppData.sPressureDiffCount, ASPD4525_AppData.sIemperatureCount, ASPD4525_AppData.ucStatus);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

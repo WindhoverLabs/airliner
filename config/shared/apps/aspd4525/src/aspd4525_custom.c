@@ -198,7 +198,7 @@ boolean ASPD4525_Custom_Measure(int16 *pressureDiffP, int16 *temperatureP, uint8
         goto end_of_function;
     }
 
-    data = (((uint32)Result[0])<<24) | (((uint32)Result[1])<<16) | (((uint32)Result[2])<<8) | (((uint32)Result[0])<<0);
+    data = (((uint32)Result[0])<<24) | (((uint32)Result[1])<<16) | (((uint32)Result[2])<<8) | (((uint32)Result[3])<<0);
 
     *statusP =       (data & ASPD4525_STATUS_MASK) >> ASPD4525_STATUS_SHIFT;
     *pressureDiffP = (data & ASPD4525_DIFF_PRESSURE_MASK) >> ASPD4525_DIFF_PRESSURE_SHIFT;

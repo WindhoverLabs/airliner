@@ -115,6 +115,13 @@ typedef struct
     /** \brief Housekeeping Telemetry for downlink */
     ASPD4525_HkTlm_t  HkTlm;
 
+    int16 sPressureDiffCount;
+    int16 sIemperatureCount;
+    uint8 ucStatus;  /* 0 - ok, 1 - Busy, 2 - Stale, (3 or -1) - Error*/
+
+    float fPressureDiff; /* in Pascals */
+    float fTemperature;  /* in Celsius */
+
 } ASPD4525_AppData_t;
 
 /************************************************************************
@@ -338,6 +345,9 @@ void  ASPD4525_SendOutData(void);
 **
 *************************************************************************/
 boolean  ASPD4525_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
+
+
+void ASPD4525_ReadDevice(void);
 
 #ifdef __cplusplus
 }

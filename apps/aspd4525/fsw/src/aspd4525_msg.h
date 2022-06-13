@@ -177,6 +177,13 @@ typedef struct
         \brief Count of failed commands */
     uint8              usCmdErrCnt; 
 
+    uint32 uPressureCount;
+    uint32 uTemperatureCount;
+    uint32 uStatus;
+    float  fTemperature;
+    float  fAirSpeed;
+
+
 } ASPD4525_HkTlm_t;
 
 

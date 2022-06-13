@@ -48,11 +48,12 @@
 #include "aspd4525_platform_cfg.h"
 #include "aspd4525_version.h"
 #include "aspd4525_math.h"
+#include "aspd4525_map.h"
 #include "sedlib.h"
 #include "simlink.h"
 #include "cvt_lib.h"
 
-#define STDIO_DEBUG
+//#define STDIO_DEBUG
 
 #if defined(STDIO_DEBUG)
 #include <stdio.h>
@@ -547,7 +548,9 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
         switch (MsgId)
 	{
             case ASPD4525_WAKEUP_MID:
+                #if defined(STDIO_DEBUG)
                 printf("ASPD4525 woke up.\n");
+                #endif
                 ASPD4525_ProcessNewCmds();
                 ASPD4525_ProcessNewData();
 
@@ -564,7 +567,9 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                 break;
 
             case ASPD4525_SEND_HK_MID:
+                #if defined(STDIO_DEBUG)
                 printf("ASPD4525 sending hk.\n");
+                #endif
                 ASPD4525_ReportHousekeeping();
                 break;
 
@@ -635,7 +640,9 @@ SEDLIB_ReturnCode_t ASPD4525_SED_ParseCommand(void)
             case IIC_SET_ADDRESS_CC:
             {
                 /* Send response success. */
+                #if defined(STDIO_DEBUG)
                 printf("IIC_SET_ADDRESS_CC\n");
+                #endif
                 returnCode = ASPD4525_SED_SendResponse();
                 if(returnCode != SEDLIB_OK)
                 {
@@ -648,7 +655,9 @@ SEDLIB_ReturnCode_t ASPD4525_SED_ParseCommand(void)
             case IIC_WRITE_CC:
             {
                 /* Send response success. */
+                #if defined(STDIO_DEBUG)
                 printf("IIC_WRITE_CC\n");
+                #endif
                 returnCode = ASPD4525_SED_SendResponse();
                 if(returnCode != SEDLIB_OK)
                 {
@@ -661,7 +670,9 @@ SEDLIB_ReturnCode_t ASPD4525_SED_ParseCommand(void)
             case IIC_READ_CC:
             {
                 /* Send the message. */
+                #if defined(STDIO_DEBUG)
                 printf("IIC_READ_CC\n");
+                #endif
                 returnCode = ASPD4525_SED_SendResponse();
                 if(returnCode != SEDLIB_OK)
                 {
@@ -723,7 +734,7 @@ uint32 ASPD4525_PrepareOutgoingData(
     
     returnData = ASPD4525_MATH_ByteFlip(packedData);
 
-    printf("MSR_TODO ASPD4525_PrepareOutgoingData: 0x%08x  0x%08x\n", packedData, returnData);
+    //printf("MSR_TODO ASPD4525_PrepareOutgoingData: 0x%08x  0x%08x\n", packedData, returnData);
     return returnData;
 }
 
@@ -756,7 +767,7 @@ void ASPD4525_ProcessNewData()
             goto end_of_function;
         }
 
-        ASPD4525_AppData.HkTlm.Status_OUT = 1;
+        ASPD4525_AppData.HkTlm.Status_OUT = ASPD4525_MAPS_STATUS_SUCCESS;
         ASPD4525_AppData.HkTlm.Temperature_OUT = ASPD4525_AppData.HkTlm.SimlinkBaroMsg[0].Temperature;
         ASPD4525_AppData.HkTlm.DiffPressure_OUT = ASPD4525_AppData.HkTlm.SimlinkBaroMsg[0].DiffPressure;
 
