@@ -89,7 +89,7 @@ typedef struct
      * @boolean
      * @group FW Launch detection
      */
-    int32 LAUN_ALL_ON;
+    boolean LAUN_ALL_ON;
 
     /**
      * Catapult accelerometer threshold.
@@ -150,6 +150,130 @@ typedef struct
 
 } FPC_Launch_Detection_t;
 
+typedef struct
+{
+    /**
+     * @file runway_takeoff_params.c
+     *
+     * Parameters for runway takeoff
+     *
+     * @author Andreas Antener <andreas@uaventure.com>
+     */
+
+    /**
+     * Runway takeoff with landing gear
+     *
+     * @boolean
+     * @group Runway Takeoff
+     */
+    boolean RWTO_TKOFF;
+//    PARAM_DEFINE_INT32(RWTO_TKOFF, 0);
+
+    /**
+     * Specifies which heading should be held during runnway takeoff.
+     *
+     * 0: airframe heading, 1: heading towards takeoff waypoint
+     *
+     * @value 0 Airframe
+     * @value 1 Waypoint
+     * @min 0
+     * @max 1
+     * @group Runway Takeoff
+     */
+    int32 RWTO_HDG;
+//    PARAM_DEFINE_INT32(RWTO_HDG, 0);
+
+    /**
+     * Altitude AGL at which we have enough ground clearance to allow some roll.
+     * Until RWTO_NAV_ALT is reached the plane is held level and only
+     * rudder is used to keep the heading (see RWTO_HDG). This should be below
+     * FW_CLMBOUT_DIFF if FW_CLMBOUT_DIFF > 0.
+     *
+     * @unit m
+     * @min 0.0
+     * @max 100.0
+     * @decimal 1
+     * @increment 1
+     * @group Runway Takeoff
+     */
+    float NAV_ALT;
+//    PARAM_DEFINE_FLOAT(RWTO_NAV_ALT, 5.0);
+
+    /**
+     * Max throttle during runway takeoff.
+     * (Can be used to test taxi on runway)
+     *
+     * @unit norm
+     * @min 0.0
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Runway Takeoff
+     */
+    float MAX_THR;
+//    PARAM_DEFINE_FLOAT(RWTO_MAX_THR, 1.0);
+
+    /**
+     * Pitch setpoint during taxi / before takeoff airspeed is reached.
+     * A taildragger with stearable wheel might need to pitch up
+     * a little to keep it's wheel on the ground before airspeed
+     * to takeoff is reached.
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 20.0
+     * @decimal 1
+     * @increment 0.5
+     * @group Runway Takeoff
+     */
+    float PSP;
+//    PARAM_DEFINE_FLOAT(RWTO_PSP, 0.0);
+
+    /**
+     * Max pitch during takeoff.
+     * Fixed-wing settings are used if set to 0. Note that there is also a minimum
+     * pitch of 10 degrees during takeoff, so this must be larger if set.
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 60.0
+     * @decimal 1
+     * @increment 0.5
+     * @group Runway Takeoff
+     */
+     float MAX_PITCH;
+//    PARAM_DEFINE_FLOAT(RWTO_MAX_PITCH, 20.0);
+
+    /**
+     * Max roll during climbout.
+     * Roll is limited during climbout to ensure enough lift and prevents aggressive
+     * navigation before we're on a safe height.
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 60.0
+     * @decimal 1
+     * @increment 0.5
+     * @group Runway Takeoff
+     */
+     float MAX_ROLL;
+//    PARAM_DEFINE_FLOAT(RWTO_MAX_ROLL, 25.0);
+
+    /**
+     * Min. airspeed scaling factor for takeoff.
+     * Pitch up will be commanded when the following airspeed is reached:
+     * FW_AIRSPD_MIN * RWTO_AIRSPD_SCL
+     *
+     * @unit norm
+     * @min 0.0
+     * @max 2.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Runway Takeoff
+     */
+     float AIRSPD_SCL;
+//    PARAM_DEFINE_FLOAT(RWTO_AIRSPD_SCL, 1.3);
+}FPC_Runway_Takeoff_t;
 
 /** \brief Definition for a single config table entry
  * This table originated from the params in

@@ -32,60 +32,64 @@
  ****************************************************************************/
 
 /**
- * @file CatapultLaunchMethod.h
- * Catpult Launch detection
+ * @file LaunchDetector.h
+ * Auto Detection for different launch methods (e.g. catapult)
  *
  * @author Thomas Gubler <thomasgubler@gmail.com>
  */
 
-#ifndef CATAPULTLAUNCHMETHOD_H_
-#define CATAPULTLAUNCHMETHOD_H_
+#ifndef LAUNCHDETECTOR_H
+#define LAUNCHDETECTOR_H
 
-#include "fpc_app.h"
-
+#include "fpc_catapult_launch_method.h"
 
 namespace launchdetection
 {
 
-enum LaunchDetectionResult {
-    LAUNCHDETECTION_RES_NONE = 0, /**< No launch has been detected */
-    LAUNCHDETECTION_RES_DETECTED_ENABLECONTROL = 1, /**< Launch has been detected, the controller should
-                              control the attitude. However any motors should not throttle
-                              up. For instance this is used to have a delay for the motor
-                              when launching a fixed wing aircraft from a bungee */
-    LAUNCHDETECTION_RES_DETECTED_ENABLEMOTORS = 2 /**< Launch has been detected, the controller should control
-                            attitude and also throttle up the motors. */
-};
-
-class CatapultLaunchMethod
+class LaunchDetector
 {
 public:
-    CatapultLaunchMethod(float thresholdAccel, float thresholdTime, float motorDelay, float pitchMaxPreThrottle);
-    CatapultLaunchMethod();
-    ~CatapultLaunchMethod();
+    LaunchDetector(float newThresholdAccel,
+                   float newThresholdTime,
+                   float newMotorDelay,
+                   float newPitchMaxPreThrottle,
+                   bool newLaunchDetectionEnabled);
+    ~LaunchDetector();
 
-    void update(float accel_x);
-    LaunchDetectionResult getLaunchDetected() const ;
-    void reset();
-    float getPitchMax(float pitchMaxDefault);
+	LaunchDetector(const LaunchDetector &) = delete;
+	LaunchDetector operator=(const LaunchDetector &) = delete;
+
+	void reset();
+
+	void update(float accel_x);
+	LaunchDetectionResult getLaunchDetected();
+    bool launchDetectionEnabled() { return launchDetectionOn == true; }
+
+	/* Returns a maximum pitch in deg. Different launch methods may impose upper pitch limits during launch */
+	float getPitchMax(float pitchMaxDefault);
 
 private:
-    uint64 last_timestamp{0};
-	float integrator{0.0f};
-	float motorDelayCounter{0.0f};
+	/* holds an index to the launchMethod in the array launchMethods
+	 * which detected a Launch. If no launchMethod has detected a launch yet the
+	 * value is -1. Once one launchMethod has detected a launch only this
+	 * method is checked for further advancing in the state machine
+	 * (e.g. when to power up the motors)
+	 */
+	int activeLaunchDetectionMethodIndex{-1};
 
-	LaunchDetectionResult state{LAUNCHDETECTION_RES_NONE};
+   //In PX4 this is a base class list. Making it concrete for now to keep it simple.
+    CatapultLaunchMethod launchMethod;
 
     float thresholdAccel;
     float thresholdTime;
     float motorDelay;
     float pitchMaxPreThrottle; /**< Upper pitch limit before throttle is turned on.
-						       Can be used to make sure that the AC does not climb
-						       too much while attached to a bungee */
+                               Can be used to make sure that the AC does not climb
+                               too much while attached to a bungee */
 
+    bool launchDetectionOn;
 };
-
 
 } // namespace launchdetection
 
-#endif /* CATAPULTLAUNCHMETHOD_H_ */
+#endif // LAUNCHDETECTOR_H

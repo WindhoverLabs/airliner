@@ -550,6 +550,13 @@ void FPC::ProcessNewData()
                     break;
                 }
 
+                case PX4_AIRSPEED_MID:
+                {
+    //                    CFE_PSP_MemCpy(&m_VehicleLocalPositionMsg, MsgPtr, sizeof(m_VehicleLocalPositionMsg));
+    //                    ProcessVehicleLocalPositionMsg();
+                    break;
+                }
+
                 default:
                     (void) CFE_EVS_SendEvent(FPC_MSGID_ERR_EID, CFE_EVS_ERROR,
                                       "Recvd invalid data msgId (0x%04X)", (unsigned short)DataMsgId);
@@ -647,6 +654,11 @@ void FPC::UpdateParamsFromTable(void)
         m_PositionControlStatusMsg.LANDING_FLARE_LENGTH = m_LandingSlope.flare_length();
 
         m_PositionControlStatusMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+
+
+        /* Update Launch Detector Parameters */
+//        _launchDetector.updateParams();
+//        _runway_takeoff.updateParams();
 
     }
 }

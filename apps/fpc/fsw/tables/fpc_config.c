@@ -746,7 +746,11 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      */
     0.0f,
 
-   .FPC_Launch_Detection = {0}
+   .FPC_Launch_Detection =
+    {
+        .LAUN_ALL_ON = {FALSE},
+
+    }
 };
 
 

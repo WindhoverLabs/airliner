@@ -58,6 +58,11 @@ CatapultLaunchMethod::CatapultLaunchMethod(float newThresholdAccel,
     last_timestamp = PX4LIB_GetPX4TimeUs();
 }
 
+CatapultLaunchMethod::CatapultLaunchMethod()
+{
+
+}
+
 CatapultLaunchMethod::~CatapultLaunchMethod()
 {
 
