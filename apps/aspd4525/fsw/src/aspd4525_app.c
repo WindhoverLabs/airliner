@@ -55,6 +55,11 @@
 /************************************************************************
 ** Local Defines
 *************************************************************************/
+//#define STDIO_DEBUG
+
+#if defined(STDIO_DEBUG)
+#include <stdio.h>
+#endif
 
 /************************************************************************
 ** Local Structure Declarations
@@ -413,7 +418,9 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                                     ASPD4525_AppData.fTemperature,
                                     pressurePascals
                                 );
+                            #if defined(STDIO_DEBUG)
                             printf ("Came-> %ld %lf %lf\n", ASPD4525_AppData.ConfigTblPtr->uAirDensityCalculationMode, pressurePascals, airDensity);
+                            #endif
                             break;
                         }
                         case ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_MODE:
@@ -428,7 +435,9 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                                     ASPD4525_AppData.ConfigTblPtr,
                                     altitudeMeters
                                 );
+                            #if defined(STDIO_DEBUG)
                             printf ("Came-> %ld %lf %lf\n", ASPD4525_AppData.ConfigTblPtr->uAirDensityCalculationMode, altitudeMeters, airDensity);
+                            #endif
                             break;
                         }
                         case ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_TEMPERATURE_MODE:
@@ -443,7 +452,9 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                                     altitudeMeters,
                                     ASPD4525_AppData.fTemperature
                                 );
+                            #if defined(STDIO_DEBUG)
                             printf ("Came-> %ld %lf %lf\n", ASPD4525_AppData.ConfigTblPtr->uAirDensityCalculationMode, altitudeMeters, airDensity);
+                            #endif
                             break;
                         }
                     }
@@ -454,7 +465,12 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                             ASPD4525_AppData.fPressureDiff,
                             airDensity
                         );
+                    #if defined(STDIO_DEBUG)
                     printf ("Airspeed-> %f\n", ASPD4525_AppData.fAirSpeed);
+                    #endif
+
+                    ASPD4525_AppData.HkTlm.fAirSpeed = ASPD4525_AppData.fAirSpeed;
+                    ASPD4525_AppData.HkTlm.fTemperature = ASPD4525_AppData.fTemperature;
                 }
 
                 /* TODO:  Add more code here to handle other things when app wakes up */
@@ -508,7 +524,9 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
 void ASPD4525_ReadDevice(void) {
     boolean returnBool = ASPD4525_Custom_Measure(&(ASPD4525_AppData.sPressureDiffCount), &(ASPD4525_AppData.sIemperatureCount), &(ASPD4525_AppData.ucStatus));
 
+    #if defined(STDIO_DEBUG)
     printf("pressureDiff = 0x%04x, temperature = 0x%04x, status = 0x%02x\n", ASPD4525_AppData.sPressureDiffCount, ASPD4525_AppData.sIemperatureCount, ASPD4525_AppData.ucStatus);
+    #endif
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
