@@ -447,6 +447,14 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                             break;
                         }
                     }
+
+                    ASPD4525_AppData.fAirSpeed =
+                        ASPD4525_ATM_GetAirSpeed
+                        (
+                            ASPD4525_AppData.fPressureDiff,
+                            airDensity
+                        );
+                    printf ("Airspeed-> %f\n", ASPD4525_AppData.fAirSpeed);
                 }
 
                 /* TODO:  Add more code here to handle other things when app wakes up */

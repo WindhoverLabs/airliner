@@ -162,3 +162,11 @@ void ASPD4525_ATM_findAirColumn(
         }
     }
 }
+
+float ASPD4525_ATM_GetAirSpeed(
+    float deltaPressure,
+    float airDensity
+) {
+    float airSpeed = sqrtf(2*deltaPressure/airDensity);
+    return airSpeed;
+}

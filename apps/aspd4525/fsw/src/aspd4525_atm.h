@@ -44,6 +44,11 @@ void ASPD4525_ATM_findAirColumn(
     float *hbp
 );
 
+float ASPD4525_ATM_GetAirSpeed(
+    float deltaPressure,
+    float airDensity
+);
+
 #ifdef __cplusplus
 }
 #endif /*__cplusplus*/

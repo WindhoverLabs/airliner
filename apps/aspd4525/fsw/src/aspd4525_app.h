@@ -121,6 +121,7 @@ typedef struct
 
     float fPressureDiff; /* in Pascals */
     float fTemperature;  /* in Celsius */
+    float fAirSpeed;     /* in m/s (SI Units) */
 
 } ASPD4525_AppData_t;
 
