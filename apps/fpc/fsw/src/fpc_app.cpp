@@ -423,6 +423,7 @@ int32 FPC::RcvMsg(int32 iBlocking)
             case FPC_WAKEUP_MID:
                 ProcessNewCmds();
                 ProcessNewData();
+                Execute();
 
                 /* TODO:  Add more code here to handle other things when app wakes up */
 
@@ -894,6 +895,11 @@ void FPC::AppMain()
 extern "C" void FPC_AppMain()
 {
     oFPC.AppMain();
+}
+
+void FPC::Execute(void)
+{
+
 }
 
 /************************/

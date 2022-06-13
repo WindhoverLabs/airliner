@@ -419,6 +419,7 @@ public:
 
     void SendPositionControlStatusMsg(void);
 
+    void Execute(void);
 
 };
 
