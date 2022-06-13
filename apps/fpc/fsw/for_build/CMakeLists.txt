@@ -38,6 +38,7 @@ buildliner_add_app_def(fpc
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_landing_slope.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_catapult_launch_method.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_launch_detector.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_runway_takeoff.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_cds_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_config_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_symbols.c
