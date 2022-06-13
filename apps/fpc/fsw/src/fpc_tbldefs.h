@@ -68,6 +68,87 @@ extern "C" {
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
+typedef struct
+{
+    /**
+     * @file launchdetection_params.c
+     *
+     * Parameters for launchdetection
+     *
+     * @author Thomas Gubler <thomasgubler@gmail.com>
+     */
+
+    /*
+     * Catapult launch detection parameters, accessible via MAVLink
+     *
+     */
+
+    /**
+     * Launch detection
+     *
+     * @boolean
+     * @group FW Launch detection
+     */
+    int32 LAUN_ALL_ON;
+
+    /**
+     * Catapult accelerometer threshold.
+     *
+     * LAUN_CAT_A for LAUN_CAT_T serves as threshold to trigger launch detection.
+     *
+     * @unit m/s/s
+     * @min 0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW Launch detection
+     */
+    float LAUN_CAT_A;
+
+    /**
+     * Catapult time threshold.
+     *
+     * LAUN_CAT_A for LAUN_CAT_T serves as threshold to trigger launch detection.
+     *
+     * @unit s
+     * @min 0.0
+     * @max 5.0
+     * @decimal 2
+     * @increment 0.05
+     * @group FW Launch detection
+     */
+    float LAUN_CAT_T;
+
+    /**
+     * Motor delay
+     *
+     * Delay between starting attitude control and powering up the throttle (giving throttle control to the controller)
+     * Before this timespan is up the throttle will be set to FW_THR_IDLE, set to 0 to deactivate
+     *
+     * @unit s
+     * @min 0.0
+     * @max 10.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW Launch detection
+     */
+    float LAUN_CAT_MDEL;
+
+    /**
+     * Maximum pitch before the throttle is powered up (during motor delay phase)
+     *
+     * This is an extra limit for the maximum pitch which is imposed in the phase before the throttle turns on.
+     * This allows to limit the maximum pitch angle during a bungee launch (make the launch less steep).
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 45.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW Launch detection
+     */
+    float LAUN_CAT_PMAX;
+
+} FPC_Launch_Detection_t;
 
 
 /** \brief Definition for a single config table entry
@@ -104,7 +185,7 @@ typedef struct
     float AIRSPD_MAX;
 
 
-    int32_t ARSP_MODE;
+    int32 ARSP_MODE;
 
     float P_LIM_MIN;
     float P_LIM_MAX;
@@ -176,9 +257,12 @@ typedef struct
      */
     float LND_FL_PMAX;
 
-    int32_t LND_USETER;
+    int32 LND_USETER;
 
     float LND_AIRSPD_SC;
+
+    FPC_Launch_Detection_t FPC_Launch_Detection;
+
 } FPC_ConfigTbl_t;
 
 

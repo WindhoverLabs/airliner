@@ -137,12 +137,27 @@ typedef enum {
 **
 **  \par Cause:
 **
-**  This event message is issued when the CFS FPC Task has
-**  had an error in initialization.
+**  This event message is issued when a critical
+**  event has happen related to position control.
 **
 */
 
     FPC_POS_CRIT_EID,
+
+
+/** \brief <tt> 'FPC - ' </tt>
+**  \event <tt> 'FPC - ' </tt>
+**
+**  \par Type: ERROR
+**
+**  \par Cause:
+**
+**  This event message is issued when an error
+**  event has happen related to launch detection.
+**
+*/
+
+    FPC_LAUNCH_ERROR_EID,
 
 /** \brief <tt> 'FPC - ' </tt>
 **  \event <tt> 'FPC - ' </tt>

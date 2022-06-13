@@ -151,7 +151,7 @@ int32 FPC::ValidateConfigTbl(void* ConfigTblPtr)
         FPC_ConfigTblPtr->AIRSPD_TRIM > FPC_ConfigTblPtr->AIRSPD_MAX)
     {
            (void) CFE_EVS_SendEvent(FPC_CONFIG_TABLE_INF_EID, CFE_EVS_ERROR,
-                                  "Invalid value for Config airspeed parameters invalid (%d)",
+                                  "Invalid value for Config airspeed parameters invalid (%f)",
                                  FPC_ConfigTblPtr->AIRSPD_MAX);
 
             iStatus = -1;

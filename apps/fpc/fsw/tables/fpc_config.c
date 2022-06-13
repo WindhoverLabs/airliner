@@ -745,6 +745,8 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @group Fixedwing Position Control
      */
     0.0f,
+
+   .FPC_Launch_Detection = {0}
 };
 
 

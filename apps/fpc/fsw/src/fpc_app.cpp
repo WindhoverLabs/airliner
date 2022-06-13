@@ -730,8 +730,6 @@ void FPC::ReportHousekeeping()
 {
     /* TODO:  Add code to update housekeeping data, if needed, here.  */
 
-    HkTlm.ABORT_LANDING = m_PositionControlStatusMsg.ABORT_LANDING;
-
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
     int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&HkTlm);
     if (iStatus != CFE_SUCCESS)

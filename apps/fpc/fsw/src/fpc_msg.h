@@ -179,8 +179,6 @@ typedef struct
         \brief Count of failed commands */
     uint8              usCmdErrCnt; 
 
-    osalbool           ABORT_LANDING;
-
 } FPC_HkTlm_t;
 
 typedef struct

@@ -90,7 +90,7 @@
           cc: 2
           struct: FPC_NoArgCmd_t
   msg_def_overrides:
-    - parent: FPC_HkTlm_t
+    - parent: PX4_Position_Control_Status_t
       member: ABORT_LANDING
       type: uint8
 
