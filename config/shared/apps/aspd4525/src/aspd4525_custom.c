@@ -172,7 +172,7 @@ boolean ASPD4525_Custom_Measure(int16 *pressureDiffP, int16 *temperatureP, uint8
     if(0 == pressureDiffP || 0 == temperatureP || 0 == statusP)
     {
         (void) CFE_EVS_SendEvent(ASPD4525_DEVICE_ERR_EID, CFE_EVS_ERROR,
-                                 "ASPD4525 Read_Gyro Null Pointer");
+                                 "ASPD4525 Custom_Measure Null Pointer");
         returnBool = FALSE;
         goto end_of_function;
     }
@@ -329,8 +329,10 @@ boolean ASPD4525_Custom_Receive(uint8 *Buffer, size_t Length)
         goto end_of_function;
     }
 
-    /* Copy the buffer. */
-    CFE_PSP_MemCpy((void *)Buffer, (void *)&ASPD4525_AppCustomData.TransferResp.Response[0].Buffer[0], Length);
+    if (Buffer!=NULL) {
+        /* Copy the buffer. */
+        CFE_PSP_MemCpy((void *)Buffer, (void *)&ASPD4525_AppCustomData.TransferResp.Response[0].Buffer[0], Length);
+    }
 
 end_of_function:
     return returnBool;

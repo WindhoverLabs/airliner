@@ -18,7 +18,7 @@ float ASPD4525_MATH_GetDeltaPressure(
     uint32 pressureDataCounts
 ) {
     float deltaPressurePascals = 0.0;
-    if (configTblP) {
+    if (configTblP!=NULL) {
         float pMinPSI = configTblP->fPressureMinimum_PSI; 
         float pMaxPSI = configTblP->fPressureMaximum_PSI;
         float pressurePSI = (
@@ -39,7 +39,7 @@ float ASPD4525_MATH_GetTemperature(
     uint32 temperatureDataCounts
 ) {
     float tempCelsius = 0.0;
-    if (configTblP) {
+    if (configTblP!=NULL) {
         float tMinCelsius = configTblP->fTemperatureMinimum_Celcius; 
         float tMaxCelsius = configTblP->fTemperatureMaximum_Celcius;
         tempCelsius = 

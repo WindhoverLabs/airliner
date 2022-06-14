@@ -42,6 +42,7 @@ buildliner_add_app_def(aspd4525
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_atm.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_custom.h
         ${PROJECT_SOURCE_DIR}/config/shared/apps/aspd4525/src/aspd4525_custom.c
+        #${PROJECT_SOURCE_DIR}/config/shared/apps/aspd4525/src/aspd4525_uart.c
    
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

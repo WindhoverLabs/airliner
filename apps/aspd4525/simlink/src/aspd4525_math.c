@@ -9,7 +9,7 @@ uint16 ASPD4525_MATH_GetTempDataCounts(
     float fTemperature
 ) {
     uint16 uTemp = 0;
-    if (configTblP) {
+    if (configTblP!=NULL) {
         float tMinCelsius = configTblP->fTemperatureMinimum_Celcius; 
         float tMaxCelsius = configTblP->fTemperatureMaximum_Celcius;
         uTemp = 
@@ -27,7 +27,7 @@ uint16 ASPD4525_MATH_GetDiffPressureDataCounts(
     float fDiffPressure
 ) {
     uint16 uDiffPressureCnt = 0;
-    if (configTblP) {
+    if (configTblP!=NULL) {
         float pMinPSI = configTblP->fPressureMinimum_PSI;
         float pMaxPSI = configTblP->fPressureMaximum_PSI;
         float pPsi = fabsf(fDiffPressure) + ((pMinPSI+pMaxPSI)/2);
