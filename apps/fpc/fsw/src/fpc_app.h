@@ -133,8 +133,8 @@ public:
     FPC_HkTlm_t  HkTlm;
 
     /** \brief Output Data published at the end of cycle */
-
     PX4_Position_Control_Status_t         m_PositionControlStatusMsg;
+
     /* Input Messages */
     PX4_ControlStateMsg_t                 m_ControlStateMsg;
     PX4_ManualControlSetpointMsg_t        m_ManualControlSetpointMsg;
@@ -145,6 +145,7 @@ public:
     PX4_VehicleLandDetectedMsg_t          m_VehicleLandDetectedMsg;
     PX4_VehicleLocalPositionMsg_t         m_VehicleLocalPositionMsg;
     PX4_VehicleGlobalPositionMsg_t        m_VehicleGlobalPositionMsg;
+    PX4_AirspeedMsg_t                     m_AirspeedMsg;
 
     Landingslope                          m_LandingSlope;
     /************************************************************************
@@ -172,7 +173,13 @@ public:
     float	m_Althold_Epv{0.0f};				///< the position estimate accuracy when engaging alt hold */
     bool	m_Was_In_Deadband{false};			///< wether the last stick input was in althold deadband */
 
-    TECS _tecs;
+    /* throttle and airspeed states */
+    bool    _airspeed_valid{false};				///< flag if a valid airspeed estimate exists
+    uint64  _airspeed_last_received{0};			///< last time airspeed was received. Used to detect timeouts.
+    float   _airspeed{0.0f};
+    float   _eas2tas{1.0f};
+
+    TECS    _tecs;
     /************************************************************************
     ** Local Function Prototypes
     *************************************************************************/
@@ -434,6 +441,8 @@ public:
     void UpdateParamsFromTable(void);
 
     void SendPositionControlStatusMsg(void);
+
+    void updateAirspeed(void);
 
     void Execute(void);
 

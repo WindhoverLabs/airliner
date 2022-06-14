@@ -281,7 +281,7 @@ int32 FPC::InitData()
 
     /* Init input data */
     memset((void*)&InData, 0x00, sizeof(InData));
-
+    memset((void*)&m_LandingSlope, 0x00, sizeof(m_LandingSlope));
 
     /* Init output data */
 
@@ -926,6 +926,50 @@ void FPC::Execute(void)
             m_Hdg_Hold_Enabled = false;
         }
     }
+
+    // update the reset counters in any case
+    m_Alt_Reset_Counter = m_VehicleGlobalPositionMsg.AltResetCounter;
+    m_Pos_Reset_Counter = m_VehicleGlobalPositionMsg.LatLonResetCounter;
+
+//    airspeed_poll();
+
+    updateAirspeed();
+
+
+//    vehicle_attitude_poll();
+//    manual_control_setpoint_poll();
+//    position_setpoint_triplet_poll();
+
+//    math::Vector<2> curr_pos((float)_global_pos.lat, (float)_global_pos.lon);
+//    math::Vector<2> ground_speed(_global_pos.vel_n, _global_pos.vel_e);
+
+}
+
+void FPC::updateAirspeed(void)
+{
+    if (FALSE == ConfigTblPtr->ARSP_MODE) {
+        _airspeed_valid = isfinite(_sub_airspeed.get().indicated_airspeed_m_s)
+                  && isfinite(_sub_airspeed.get().true_airspeed_m_s);
+        _airspeed_last_received = hrt_absolute_time();
+        _airspeed = _sub_airspeed.get().indicated_airspeed_m_s;
+
+        if (_sub_airspeed.get().indicated_airspeed_m_s > 0.0f
+            && _sub_airspeed.get().true_airspeed_m_s > _sub_airspeed.get().indicated_airspeed_m_s) {
+            _eas2tas = max(_sub_airspeed.get().true_airspeed_m_s / _sub_airspeed.get().indicated_airspeed_m_s, 1.0f);
+
+        } else {
+            _eas2tas = 1.0f;
+        }
+
+    } else {
+        /* no airspeed updates for one second */
+        if (_airspeed_valid && (hrt_absolute_time() - _airspeed_last_received) > 1e6) {
+            _airspeed_valid = false;
+        }
+    }
+
+    /* update TECS state */
+    _tecs.enable_airspeed(_airspeed_valid);
 }
 
 /************************/

@@ -309,7 +309,7 @@ typedef struct
     float AIRSPD_MAX;
 
 
-    int32 ARSP_MODE;
+    boolean ARSP_MODE;
 
     float P_LIM_MIN;
     float P_LIM_MAX;
@@ -386,6 +386,8 @@ typedef struct
     float LND_AIRSPD_SC;
 
     FPC_Launch_Detection_t FPC_Launch_Detection;
+
+    FPC_Runway_Takeoff_t FPC_Runway_Takeoff;
 
 } FPC_ConfigTbl_t;
 
