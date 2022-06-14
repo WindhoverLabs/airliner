@@ -45,9 +45,9 @@
         Reset: 
           cc: 1
           struct: ASPD4525_NoArgCmd_t
-        SetCalibration: 
+        ManualCalibrate: 
           cc: 2
-          struct: ASPD4525_SetCalibrationCmd_t
+          struct: ASPD4525_ManCalibArgCmd_t
     ASPD4525_SEND_HK_MID: 
       msgID: 
       commands: 

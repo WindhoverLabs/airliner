@@ -670,6 +670,38 @@ void ASPD4525_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                                   "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
                 break;
 
+			case ASPD4525_MAN_CALIB_CC:
+			{
+				boolean sizeOk = ASPD4525_VerifyCmdLength(MsgPtr, sizeof(ASPD4525_ManCalibArgCmd_t));
+
+				if (TRUE == sizeOk)
+				{
+					int32 status =0;
+					ASPD4525_ManCalibArgCmd_t* manCalibArgCmdPtr = (ASPD4525_ManCalibArgCmd_t*) MsgPtr;
+
+                    ASPD4525_AppData.ConfigTblPtr->fAirGasConstantR_SI = manCalibArgCmdPtr->fAirGasConstantR_SI;
+                    ASPD4525_AppData.ConfigTblPtr->fAirMolarMass_SI = manCalibArgCmdPtr->fAirMolarMass_SI;
+                    ASPD4525_AppData.ConfigTblPtr->fPressureMaximum_PSI = manCalibArgCmdPtr->fPressureMaximum_PSI;
+                    ASPD4525_AppData.ConfigTblPtr->fPressureMinimum_PSI = manCalibArgCmdPtr->fPressureMinimum_PSI;
+                    ASPD4525_AppData.ConfigTblPtr->fTemperatureMaximum_Celcius = manCalibArgCmdPtr->fTemperatureMaximum_Celcius;
+                    ASPD4525_AppData.ConfigTblPtr->fTemperatureMinimum_Celcius = manCalibArgCmdPtr->fTemperatureMinimum_Celcius;
+                    ASPD4525_AppData.ConfigTblPtr->fGravitationalAccereleration_SI = manCalibArgCmdPtr->fGravitationalAccereleration_SI;
+
+					status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
+					if (CFE_SUCCESS!=status) {
+						ASPD4525_AppData.HkTlm.usCmdErrCnt++;
+						(void) CFE_EVS_SendEvent(
+							ASPD4525_CONFIG_TABLE_ERR_EID, 
+							CFE_EVS_ERROR,
+							"Table Mod Error (0x%08X)", (unsigned int) status
+						);
+					} else {
+						ASPD4525_AppData.HkTlm.usCmdCnt++;
+					}
+				}
+				break;
+			}
+
             /* TODO:  Add code to process the rest of the ASPD4525 commands here */
 
             default:

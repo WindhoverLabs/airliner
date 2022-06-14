@@ -120,6 +120,8 @@ extern "C" {
 */
 #define ASPD4525_RESET_CC                (1)
 
+#define ASPD4525_MAN_CALIB_CC            (2)
+
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
@@ -133,6 +135,17 @@ typedef struct
 {
     uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
 } ASPD4525_NoArgCmd_t;
+
+typedef struct {
+    uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
+	float fPressureMinimum_PSI;								/* PSI */
+	float fPressureMaximum_PSI;								/* PSI */
+	float fTemperatureMinimum_Celcius;						/* degrees Celsius */
+	float fTemperatureMaximum_Celcius;						/* degrees Celsius */
+	float fAirGasConstantR_SI;								/* J/(mol.K) */
+	float fGravitationalAccereleration_SI;					/* m/s^2 */
+	float fAirMolarMass_SI;									/* kg/mol */
+} ASPD4525_ManCalibArgCmd_t;
 
 /** 
 **  \brief TODO Elaborate this struct
