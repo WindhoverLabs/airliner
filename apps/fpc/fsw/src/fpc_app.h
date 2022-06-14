@@ -57,6 +57,7 @@ extern "C" {
 #include "fpc_tbldefs.h"
 #include "fpc_config_utils.h"
 #include "fpc_landing_slope.h"
+#include "fpc_tecs.h"
 
 #include "px4_msgs.h"
 
@@ -143,6 +144,7 @@ public:
     PX4_VehicleStatusMsg_t                m_VehicleStatusMsg;
     PX4_VehicleLandDetectedMsg_t          m_VehicleLandDetectedMsg;
     PX4_VehicleLocalPositionMsg_t         m_VehicleLocalPositionMsg;
+    PX4_VehicleGlobalPositionMsg_t        m_VehicleGlobalPositionMsg;
 
     Landingslope                          m_LandingSlope;
     /************************************************************************
@@ -156,7 +158,21 @@ public:
     /************************************************************************
     ** Local Variables
     *************************************************************************/
+    // estimator reset counters
+    int8 m_Pos_Reset_Counter{0};				///< captures the number of times the estimator has reset the horizontal position
+    int8 m_Alt_Reset_Counter{0};				///< captures the number of times the estimator has reset the altitude state
 
+
+
+    float	m_Hold_Alt{0.0f};				///< hold altitude for altitude mode */
+    float	m_Takeoff_ground_alt{0.0f};			///< ground altitude at which plane was launched */
+    float	m_Hdg_Hold_Yaw{0.0f};				///< hold heading for velocity mode */
+    bool	m_Hdg_Hold_Enabled{false};			///< heading hold enabled */
+    bool	m_Yaw_Lock_Engaged{false};			///< yaw is locked for heading hold */
+    float	m_Althold_Epv{0.0f};				///< the position estimate accuracy when engaging alt hold */
+    bool	m_Was_In_Deadband{false};			///< wether the last stick input was in althold deadband */
+
+    TECS _tecs;
     /************************************************************************
     ** Local Function Prototypes
     *************************************************************************/

@@ -546,8 +546,15 @@ void FPC::ProcessNewData()
 
                 case PX4_VEHICLE_LOCAL_POSITION_MID:
                 {
-//                    CFE_PSP_MemCpy(&m_VehicleLocalPositionMsg, MsgPtr, sizeof(m_VehicleLocalPositionMsg));
+                    CFE_PSP_MemCpy(&m_VehicleLocalPositionMsg, DataMsgPtr, sizeof(m_VehicleLocalPositionMsg));
 //                    ProcessVehicleLocalPositionMsg();
+                    break;
+                }
+
+                case PX4_VEHICLE_GLOBAL_POSITION_MID:
+                {
+                    CFE_PSP_MemCpy(&m_VehicleGlobalPositionMsg, DataMsgPtr, sizeof(m_VehicleGlobalPositionMsg));
+    //                    ProcessVehicleLocalPositionMsg();
                     break;
                 }
 
@@ -645,6 +652,10 @@ void FPC::UpdateParamsFromTable(void)
 {
     if(ConfigTblPtr != 0)
     {
+        /* check if negative value for 2/3 of flare altitude is set for throttle cut */
+        if (ConfigTblPtr->LND_TLALT < 0.0f) {
+            ConfigTblPtr->LND_TLALT = 0.66f * ConfigTblPtr->LND_FLALT;
+        }
         /* Update the landing slope */
         m_LandingSlope.update(math::radians(ConfigTblPtr->LND_ANG), ConfigTblPtr->LND_FLALT,
                      ConfigTblPtr->LND_TLALT, ConfigTblPtr->LND_HVIRT);
@@ -899,7 +910,22 @@ extern "C" void FPC_AppMain()
 
 void FPC::Execute(void)
 {
+    // handle estimator reset events. we only adjust setpoins for manual modes
+    if (TRUE == m_VehicleControlModeMsg.ControlManualEnabled) {
+        if (m_VehicleControlModeMsg.ControlAltitudeEnabled && m_VehicleGlobalPositionMsg.AltResetCounter != m_Alt_Reset_Counter) {
+            m_Hold_Alt += m_VehicleGlobalPositionMsg.DeltaAlt;
+            // make TECS accept step in altitude and demanded altitude
+            _tecs.handle_alt_step(m_VehicleGlobalPositionMsg.DeltaAlt, m_VehicleGlobalPositionMsg.Alt);
+        }
 
+        // adjust navigation waypoints in position control mode
+        if (m_VehicleControlModeMsg.ControlAltitudeEnabled && m_VehicleControlModeMsg.ControlVelocityEnabled
+            && m_VehicleGlobalPositionMsg.LatLonResetCounter != m_Pos_Reset_Counter) {
+
+            // reset heading hold flag, which will re-initialise position control
+            m_Hdg_Hold_Enabled = false;
+        }
+    }
 }
 
 /************************/
