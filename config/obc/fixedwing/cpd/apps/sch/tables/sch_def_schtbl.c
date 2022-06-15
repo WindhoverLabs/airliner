@@ -60,8 +60,8 @@ MD_WAKEUP_MIDX					1Hz
 MM_SEND_HK_MIDX					1Hz
 MAC_SEND_HK_MIDX			    1Hz
 MAC_RUN_CONTROLLER_MIDX       250Hz
-MPC_SEND_HK_MIDX			    1Hz
-MPC_WAKEUP_MIDX			      250Hz
+FPC_SEND_HK_MIDX			    1Hz
+FPC_WAKEUP_MIDX			      250Hz
 SED_SEND_HK_MIDX			    1Hz
 SED_MEASURE_MIDX		      250Hz
 MS5611_SEND_HK_MIDX			    1Hz
@@ -163,8 +163,8 @@ ULR_SEND_HK_MIDX				1Hz
 #define QAE_WAKEUP_MIDX               103
 #define LD_SEND_HK_MIDX               104
 #define LD_WAKEUP_MIDX                105
-#define MPC_SEND_HK_MIDX              106
-#define MPC_WAKEUP_MIDX               107
+#define FPC_SEND_HK_MIDX              106
+#define FPC_WAKEUP_MIDX               107
 #define NAV_SEND_HK_MIDX              108
 #define NAV_WAKEUP_MIDX               109
 #define CFE_TIME_TONE_CMD_MIDX        110
@@ -194,7 +194,7 @@ ULR_SEND_HK_MIDX				1Hz
      { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  HMC5883_WAKEUP_MIDX,      SCH_GROUP_NONE }, \
      { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  LD_WAKEUP_MIDX,           SCH_GROUP_NONE }, \
      { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  MAC_RUN_CONTROLLER_MIDX,  SCH_GROUP_NONE }, \
-     { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  MPC_WAKEUP_MIDX,          SCH_GROUP_NONE }, \
+     { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  FPC_WAKEUP_MIDX,          SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	MS5611_MEASURE_MIDX,	  SCH_GROUP_NONE }, \
      { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  QAE_WAKEUP_MIDX,          SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SBND_WAKEUP_MIDX,         SCH_GROUP_NONE }, \
@@ -621,7 +621,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_2,
 	    SCH_25HZ_GROUP_2,
-		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	MPC_SEND_HK_MIDX,         SCH_GROUP_NONE },
+                { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	FPC_SEND_HK_MIDX,         SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
