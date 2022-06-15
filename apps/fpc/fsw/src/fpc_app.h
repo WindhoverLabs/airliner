@@ -138,6 +138,7 @@ public:
     PX4_VehicleLocalPositionMsg_t         m_VehicleLocalPositionMsg;
     PX4_VehicleGlobalPositionMsg_t        m_VehicleGlobalPositionMsg;
     PX4_AirspeedMsg_t                     m_AirspeedMsg;
+    PX4_VehicleAttitudeMsg_t              m_VehicleAttitudeMsg;
 
     Landingslope                          m_LandingSlope;
     /************************************************************************
@@ -393,6 +394,7 @@ public:
     void   SendPositionControlStatusMsg(void);
 
     void   UpdateAirspeed(void);
+    void   UpdateVehicleAttitude(void);
 
     void   Execute(void);
 

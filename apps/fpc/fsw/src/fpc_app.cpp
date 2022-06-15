@@ -473,7 +473,7 @@ void FPC::ProcessNewData()
     CFE_SB_MsgId_t  DataMsgId;
 
     /* Process telemetry messages till the pipe is empty */
-    for (int i = 0;i<5; i++)
+    for (int32 i = 0;i<FPC_NUM_MSG; ++i)
     {
         iStatus = CFE_SB_RcvMsg(&dataMsgPtr, DataPipeId, CFE_SB_POLL);
         if (iStatus == CFE_SUCCESS)
@@ -482,7 +482,6 @@ void FPC::ProcessNewData()
             switch (DataMsgId)
             {
 
-//                case
                 /* TODO:  Add code to process all subscribed data here
                 **
                 ** Example:
@@ -492,20 +491,19 @@ void FPC::ProcessNewData()
                 */
                 case PX4_CONTROL_STATE_MID:
                 {
-//                    ProcessControlStateMsg();
-//                    CFE_PSP_MemCpy(&m_ControlStateMsg, MsgPtr, sizeof(m_ControlStateMsg));
+                    CFE_PSP_MemCpy(&m_ControlStateMsg, dataMsgPtr, sizeof(m_ControlStateMsg));
                     break;
                 }
 
                 case PX4_MANUAL_CONTROL_SETPOINT_MID:
                 {
-//                    CFE_PSP_MemCpy(&m_ManualControlSetpointMsg, MsgPtr, sizeof(m_ManualControlSetpointMsg));
+                    CFE_PSP_MemCpy(&m_ManualControlSetpointMsg, dataMsgPtr, sizeof(m_ManualControlSetpointMsg));
                     break;
                 }
 
                 case PX4_HOME_POSITION_MID:
                 {
-//                    CFE_PSP_MemCpy(&m_HomePositionMsg, MsgPtr, sizeof(m_HomePositionMsg));
+                    CFE_PSP_MemCpy(&m_HomePositionMsg, dataMsgPtr, sizeof(m_HomePositionMsg));
                     break;
                 }
 
@@ -518,7 +516,6 @@ void FPC::ProcessNewData()
                 case PX4_POSITION_SETPOINT_TRIPLET_MID:
                 {
                     CFE_PSP_MemCpy(&m_PositionSetpointTripletMsg, dataMsgPtr, sizeof(m_PositionSetpointTripletMsg));
-//                    ProcessPositionSetpointTripletMsg();
                     break;
                 }
 
@@ -537,22 +534,24 @@ void FPC::ProcessNewData()
                 case PX4_VEHICLE_LOCAL_POSITION_MID:
                 {
                     CFE_PSP_MemCpy(&m_VehicleLocalPositionMsg, dataMsgPtr, sizeof(m_VehicleLocalPositionMsg));
-//                    ProcessVehicleLocalPositionMsg();
                     break;
                 }
 
                 case PX4_VEHICLE_GLOBAL_POSITION_MID:
                 {
                     CFE_PSP_MemCpy(&m_VehicleGlobalPositionMsg, dataMsgPtr, sizeof(m_VehicleGlobalPositionMsg));
-    //                    ProcessVehicleLocalPositionMsg();
                     break;
                 }
 
                 case PX4_AIRSPEED_MID:
                 {
-    //                    CFE_PSP_MemCpy(&m_VehicleLocalPositionMsg, MsgPtr, sizeof(m_VehicleLocalPositionMsg));
-    //                    ProcessVehicleLocalPositionMsg();
-//                    this->m_AirspeedMsg.Timestamp = DataMsgPt.Timestamp
+                    CFE_PSP_MemCpy(&m_AirspeedMsg, dataMsgPtr, sizeof(m_AirspeedMsg));
+                    break;
+                }
+
+                case PX4_VEHICLE_ATTITUDE_MID:
+                {
+                    CFE_PSP_MemCpy(&m_VehicleAttitudeMsg, dataMsgPtr, sizeof(m_VehicleAttitudeMsg));
                     break;
                 }
 
@@ -924,15 +923,14 @@ void FPC::Execute(void)
     m_Alt_Reset_Counter = m_VehicleGlobalPositionMsg.AltResetCounter;
     m_Pos_Reset_Counter = m_VehicleGlobalPositionMsg.LatLonResetCounter;
 
-//    airspeed_poll();
 //    if(LastProcessed != this->m_AirspeedMsg.Timestamp)
 //    {
 //        //Is this a new message?
-//        UpdateAirspeed();
+        UpdateAirspeed();
 //    }
 
 
-//    vehicle_attitude_poll();
+     UpdateVehicleAttitude();
 //    manual_control_setpoint_poll();
 //    position_setpoint_triplet_poll();
 
@@ -943,29 +941,53 @@ void FPC::Execute(void)
 
 void FPC::UpdateAirspeed(void)
 {
-//    if (FALSE == ConfigTblPtr->ARSP_MODE) {
-//        _airspeed_valid = isfinite(_sub_airspeed.get().indicated_airspeed_m_s)
-//                  && isfinite(_sub_airspeed.get().true_airspeed_m_s);
-//        _airspeed_last_received = hrt_absolute_time();
-//        _airspeed = _sub_airspeed.get().indicated_airspeed_m_s;
+    if(ConfigTblPtr != 0)
+    {
+        if (FALSE == ConfigTblPtr->ARSP_MODE) {
+            _airspeed_valid = isfinite(m_AirspeedMsg.IndicatedAirspeed)
+                      && isfinite(m_AirspeedMsg.TrueAirspeed);
+            _airspeed_last_received = m_AirspeedMsg.Timestamp;
+            _airspeed = m_AirspeedMsg.IndicatedAirspeed;
 
-//        if (_sub_airspeed.get().indicated_airspeed_m_s > 0.0f
-//            && _sub_airspeed.get().true_airspeed_m_s > _sub_airspeed.get().indicated_airspeed_m_s) {
-//            _eas2tas = max(_sub_airspeed.get().true_airspeed_m_s / _sub_airspeed.get().indicated_airspeed_m_s, 1.0f);
+            if ((m_AirspeedMsg.IndicatedAirspeed > 0.0f)
+                && (m_AirspeedMsg.TrueAirspeed > m_AirspeedMsg.IndicatedAirspeed)) {
+                _eas2tas = math::max(m_AirspeedMsg.TrueAirspeed / m_AirspeedMsg.IndicatedAirspeed, 1.0f);
 
-//        } else {
-//            _eas2tas = 1.0f;
-//        }
+            } else {
+                _eas2tas = 1.0f;
+            }
 
-//    } else {
-//        /* no airspeed updates for one second */
-//        if (_airspeed_valid && (hrt_absolute_time() - _airspeed_last_received) > 1e6) {
-//            _airspeed_valid = false;
-//        }
+        } else {
+            /* no airspeed updates for one second */
+            if (_airspeed_valid && ((PX4LIB_GetPX4TimeUs() - _airspeed_last_received) > FPC_1SECOND_MICRO)) {
+                _airspeed_valid = false;
+            }
+        }
+
+    //    /* update TECS state */
+        _tecs.enable_airspeed(_airspeed_valid);
+    }
+}
+
+void FPC::UpdateVehicleAttitude(void)
+{
+//    /* check if there is a new position */
+//    bool updated;
+//    orb_check(_vehicle_attitude_sub, &updated);
+
+//    if (updated) {
+//        orb_copy(ORB_ID(vehicle_attitude), _vehicle_attitude_sub, &_att);
 //    }
 
-//    /* update TECS state */
-//    _tecs.enable_airspeed(_airspeed_valid);
+    /* set rotation matrix and euler angles */
+//    math::Quaternion q_att(this->m_VehicleAttitudeMsg.Q);
+//    _R_nb = q_att.to_dcm();
+
+//    math::Vector<3> euler_angles;
+//    euler_angles = _R_nb.to_euler();
+//    _roll    = euler_angles(0);
+//    _pitch   = euler_angles(1);
+//    _yaw     = euler_angles(2);
 }
 
 /************************/
