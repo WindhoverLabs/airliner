@@ -1376,6 +1376,24 @@ typedef struct
     uint8  Frame[4096];
 } PX4_OpticalFlowFrameMsg_t;
 
+typedef struct
+{
+    PX4_TecsMode_t Mode;
+    float          AltitudeSp;
+    float          AltitudeFiltered;
+    float          FlightPathAngleSp;
+    float          FlightPathAngle;
+    float          AirspeedSp;
+    float          AirspeedFiltered;
+    float          AirspeedDerivativeSp;
+    float          AirspeedDerivative;
+    float          TotalEnergyError;
+    float          EnergyDistributionError;
+    float          TotalEnergyRateError;
+    float          EnergyDistributionRateError;
+    float          ThrottleInteg;
+    float          PitchInteg;
+} PX4_TecsStatusMsg_t;
 
 #endif
 
