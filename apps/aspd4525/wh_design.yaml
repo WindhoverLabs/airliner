@@ -35,6 +35,9 @@
     ASPD4525_HK_TLM_MID: 
       msgID: 
       struct: ASPD4525_HkTlm_t
+    PX4_AIRSPEED_MID:
+      msgID:
+      struct: PX4_AirspeedMsg_t
   commands: 
     ASPD4525_CMD_MID: 
       msgID: 

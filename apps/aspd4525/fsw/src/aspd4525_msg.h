@@ -194,8 +194,9 @@ typedef struct
     uint32 uTemperatureCount;
     uint32 uStatus;
     float  fTemperature;
-    float  fAirSpeed;
-
+    float  fTrueAirSpeedUnfiltered;
+    float  fIndicatedAirSpeed;
+    float  fTrueAirSpeed;
 
 } ASPD4525_HkTlm_t;
 

@@ -8,6 +8,10 @@ extern "C" {
 #include "cfe.h"
 #include "aspd4525_tbldefs.h"
 
+
+#define AIR_DENSITY_SEA_LEVEL         (1.225) /* kg/m^3 */
+
+
 float ASPD4525_ATM_GetPressure(
     ASPD4525_ConfigTblEntry_t* configTblP
 );

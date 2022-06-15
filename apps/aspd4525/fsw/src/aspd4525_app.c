@@ -253,6 +253,11 @@ int32 ASPD4525_InitData()
     CFE_SB_InitMsg(&ASPD4525_AppData.HkTlm,
                    ASPD4525_HK_TLM_MID, sizeof(ASPD4525_AppData.HkTlm), TRUE);
 
+
+    memset((void*)&ASPD4525_AppData.PX4_AirspeedMsg, 0x00, sizeof(ASPD4525_AppData.PX4_AirspeedMsg));
+    CFE_SB_InitMsg(&ASPD4525_AppData.PX4_AirspeedMsg,
+                   PX4_AIRSPEED_MID, sizeof(ASPD4525_AppData.PX4_AirspeedMsg), TRUE);
+
     ASPD4525_Custom_InitData();
 
     return (iStatus);
@@ -459,18 +464,38 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                         }
                     }
 
-                    ASPD4525_AppData.fAirSpeed =
+                    ASPD4525_AppData.fTrueAirSpeedUnfiltered =
                         ASPD4525_ATM_GetAirSpeed
                         (
                             ASPD4525_AppData.fPressureDiff,
                             airDensity
                         );
+                    
+                    ASPD4525_AppData.fIndicatedAirSpeed =
+                        ASPD4525_ATM_GetAirSpeed
+                        (
+                            ASPD4525_AppData.fPressureDiff,
+                            AIR_DENSITY_SEA_LEVEL
+                        );
+
                     #if defined(STDIO_DEBUG)
-                    printf ("Airspeed-> %f\n", ASPD4525_AppData.fAirSpeed);
+                    printf ("Airspeed-> %f\n", ASPD4525_AppData.fTrueAirSpeedUnfiltered);
                     #endif
 
-                    ASPD4525_AppData.HkTlm.fAirSpeed = ASPD4525_AppData.fAirSpeed;
+                    /*Write out Housekeeping*/
+                    ASPD4525_AppData.HkTlm.fTrueAirSpeedUnfiltered = ASPD4525_AppData.fTrueAirSpeedUnfiltered;
                     ASPD4525_AppData.HkTlm.fTemperature = ASPD4525_AppData.fTemperature;
+                    ASPD4525_AppData.HkTlm.fIndicatedAirSpeed = ASPD4525_AppData.fIndicatedAirSpeed;
+                    ASPD4525_AppData.fTrueAirSpeed = ASPD4525_AppData.fTrueAirSpeedUnfiltered;
+                    ASPD4525_AppData.HkTlm.fTrueAirSpeed = ASPD4525_AppData.fTrueAirSpeed;
+
+                    /*Write out PX4 Telemetry*/
+                    ASPD4525_AppData.PX4_AirspeedMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+                    ASPD4525_AppData.PX4_AirspeedMsg.IndicatedAirspeed = ASPD4525_AppData.fIndicatedAirSpeed;
+                    ASPD4525_AppData.PX4_AirspeedMsg.TrueAirspeedUnfiltered = ASPD4525_AppData.fTrueAirSpeedUnfiltered;
+                    ASPD4525_AppData.PX4_AirspeedMsg.TrueAirspeed = ASPD4525_AppData.fTrueAirSpeed;
+                    ASPD4525_AppData.PX4_AirspeedMsg.AirTemperature = ASPD4525_AppData.fTemperature;
+                    ASPD4525_AppData.PX4_AirspeedMsg.Confidence = 0;
                 }
 
                 /* TODO:  Add more code here to handle other things when app wakes up */

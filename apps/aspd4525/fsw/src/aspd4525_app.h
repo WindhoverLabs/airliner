@@ -53,6 +53,9 @@
 #include "aspd4525_events.h"
 #include "aspd4525_config_utils.h"
 #include "aspd4525_cds_utils.h"
+#include "px4_msgs.h"
+#include "px4lib.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -115,13 +118,17 @@ typedef struct
     /** \brief Housekeeping Telemetry for downlink */
     ASPD4525_HkTlm_t  HkTlm;
 
+    PX4_AirspeedMsg_t  PX4_AirspeedMsg;
+
     int16 sPressureDiffCount;
     int16 sIemperatureCount;
     uint8 ucStatus;  /* 0 - ok, 1 - Busy, 2 - Stale, (3 or -1) - Error*/
 
-    float fPressureDiff; /* in Pascals */
-    float fTemperature;  /* in Celsius */
-    float fAirSpeed;     /* in m/s (SI Units) */
+    float fPressureDiff;                      /* in Pascals */
+    float fTemperature;                       /* in Celsius */
+    float fTrueAirSpeedUnfiltered;            /* in m/s (SI Units) */
+    float fIndicatedAirSpeed;                 /* in m/s (SI Units) */
+    float fTrueAirSpeed;                      /* in m/s (SI Units) */
 
 } ASPD4525_AppData_t;
 
