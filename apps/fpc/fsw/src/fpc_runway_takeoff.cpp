@@ -38,7 +38,6 @@
  * @author Andreas Antener <andreas@uaventure.com>
  */
 
-#include <stdbool.h>
 #include <stdint.h>
 #include <math.h>
 
@@ -56,7 +55,7 @@ namespace runwaytakeoff
  * @param takeoffEnabled
  * @param headingMode
  */
-RunwayTakeoff::RunwayTakeoff(bool takeoffEnabled,
+RunwayTakeoff::RunwayTakeoff(osalbool takeoffEnabled,
                              int32 headingMode,
                              float navAlt,
                              float takeffThrottle,
@@ -165,7 +164,7 @@ void RunwayTakeoff::update(float airspeed, float alt_agl,
 /*
  * Returns true as long as we're below navigation altitude
  */
-bool RunwayTakeoff::controlYaw()
+osalbool RunwayTakeoff::controlYaw()
 {
 	// keep controlling yaw directly until we start navigation
 	return _state < RunwayTakeoffState::CLIMBOUT;
@@ -248,7 +247,7 @@ float RunwayTakeoff::getThrottle(float tecsThrottle)
 	}
 }
 
-bool RunwayTakeoff::resetIntegrators()
+osalbool RunwayTakeoff::resetIntegrators()
 {
 	// reset integrators if we're still on runway
 	return _state < RunwayTakeoffState::TAKEOFF;

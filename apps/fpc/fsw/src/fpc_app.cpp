@@ -70,7 +70,6 @@
 /************************************************************************
 ** Local Variables
 *************************************************************************/
-FPC oFPC{};
 /************************************************************************
 ** Local Function Definitions
 *************************************************************************/
@@ -359,15 +358,6 @@ int32 FPC::InitApp()
         goto FPC_InitApp_Exit_Tag;
     }
 
-    iStatus = InitCdsTbl();
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_INIT_ERR_EID, CFE_EVS_ERROR,
-                                 "Failed to init CDS table (0x%08X)",
-                                 (unsigned int)iStatus);
-        goto FPC_InitApp_Exit_Tag;
-    }
-
 FPC_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
@@ -478,17 +468,17 @@ int32 FPC::RcvMsg(int32 iBlocking)
 
 void FPC::ProcessNewData()
 {
-    int iStatus = CFE_SUCCESS;
-    CFE_SB_Msg_t*   DataMsgPtr=NULL;
+    int32 iStatus = CFE_SUCCESS;
+    CFE_SB_Msg_t*   dataMsgPtr=NULL;
     CFE_SB_MsgId_t  DataMsgId;
 
     /* Process telemetry messages till the pipe is empty */
-    while (1)
+    for (int i = 0;i<5; i++)
     {
-        iStatus = CFE_SB_RcvMsg(&DataMsgPtr, DataPipeId, CFE_SB_POLL);
+        iStatus = CFE_SB_RcvMsg(&dataMsgPtr, DataPipeId, CFE_SB_POLL);
         if (iStatus == CFE_SUCCESS)
         {
-            DataMsgId = CFE_SB_GetMsgId(DataMsgPtr);
+            DataMsgId = CFE_SB_GetMsgId(dataMsgPtr);
             switch (DataMsgId)
             {
 
@@ -521,39 +511,39 @@ void FPC::ProcessNewData()
 
                 case PX4_VEHICLE_CONTROL_MODE_MID:
                 {
-                    CFE_PSP_MemCpy(&m_VehicleControlModeMsg, DataMsgPtr, sizeof(m_VehicleControlModeMsg));
+                    CFE_PSP_MemCpy(&m_VehicleControlModeMsg, dataMsgPtr, sizeof(m_VehicleControlModeMsg));
                     break;
                 }
 
                 case PX4_POSITION_SETPOINT_TRIPLET_MID:
                 {
-                    CFE_PSP_MemCpy(&m_PositionSetpointTripletMsg, DataMsgPtr, sizeof(m_PositionSetpointTripletMsg));
+                    CFE_PSP_MemCpy(&m_PositionSetpointTripletMsg, dataMsgPtr, sizeof(m_PositionSetpointTripletMsg));
 //                    ProcessPositionSetpointTripletMsg();
                     break;
                 }
 
                 case PX4_VEHICLE_STATUS_MID:
                 {
-                    CFE_PSP_MemCpy(&m_VehicleStatusMsg, DataMsgPtr, sizeof(m_VehicleStatusMsg));
+                    CFE_PSP_MemCpy(&m_VehicleStatusMsg, dataMsgPtr, sizeof(m_VehicleStatusMsg));
                     break;
                 }
 
                 case PX4_VEHICLE_LAND_DETECTED_MID:
                 {
-                    CFE_PSP_MemCpy(&m_VehicleLandDetectedMsg, DataMsgPtr, sizeof(m_VehicleLandDetectedMsg));
+                    CFE_PSP_MemCpy(&m_VehicleLandDetectedMsg, dataMsgPtr, sizeof(m_VehicleLandDetectedMsg));
                     break;
                 }
 
                 case PX4_VEHICLE_LOCAL_POSITION_MID:
                 {
-                    CFE_PSP_MemCpy(&m_VehicleLocalPositionMsg, DataMsgPtr, sizeof(m_VehicleLocalPositionMsg));
+                    CFE_PSP_MemCpy(&m_VehicleLocalPositionMsg, dataMsgPtr, sizeof(m_VehicleLocalPositionMsg));
 //                    ProcessVehicleLocalPositionMsg();
                     break;
                 }
 
                 case PX4_VEHICLE_GLOBAL_POSITION_MID:
                 {
-                    CFE_PSP_MemCpy(&m_VehicleGlobalPositionMsg, DataMsgPtr, sizeof(m_VehicleGlobalPositionMsg));
+                    CFE_PSP_MemCpy(&m_VehicleGlobalPositionMsg, dataMsgPtr, sizeof(m_VehicleGlobalPositionMsg));
     //                    ProcessVehicleLocalPositionMsg();
                     break;
                 }
@@ -562,6 +552,7 @@ void FPC::ProcessNewData()
                 {
     //                    CFE_PSP_MemCpy(&m_VehicleLocalPositionMsg, MsgPtr, sizeof(m_VehicleLocalPositionMsg));
     //                    ProcessVehicleLocalPositionMsg();
+//                    this->m_AirspeedMsg.Timestamp = DataMsgPt.Timestamp
                     break;
                 }
 
@@ -599,6 +590,7 @@ void FPC::ProcessNewCmds()
     CFE_SB_MsgId_t  CmdMsgId;
 
     /* Process command messages till the pipe is empty */
+    //Convert this to a for-loop
     while (1)
     {
         iStatus = CFE_SB_RcvMsg(&CmdMsgPtr, CmdPipeId, CFE_SB_POLL);
@@ -880,8 +872,6 @@ void FPC::AppMain()
         ** Depends on the nature of the application, the frequency of update
         ** and save can be more or less independently.
         */
-        UpdateCdsTbl();
-        SaveCdsTbl();
 
         iStatus = AcquireConfigPointers();
         if(iStatus != CFE_SUCCESS)
@@ -903,16 +893,19 @@ void FPC::AppMain()
 /* MPC Application C style main entry point.                       */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-extern "C" void FPC_AppMain()
+extern "C" void FPC_AppMain(void)
 {
+    FPC oFPC{};
+
     oFPC.AppMain();
 }
 
 void FPC::Execute(void)
 {
-    // handle estimator reset events. we only adjust setpoins for manual modes
+    /* handle estimator reset events. we only adjust setpoins for manual modes*/
     if (TRUE == m_VehicleControlModeMsg.ControlManualEnabled) {
-        if (m_VehicleControlModeMsg.ControlAltitudeEnabled && m_VehicleGlobalPositionMsg.AltResetCounter != m_Alt_Reset_Counter) {
+        if (m_VehicleControlModeMsg.ControlAltitudeEnabled && (m_VehicleGlobalPositionMsg.AltResetCounter != m_Alt_Reset_Counter)) {
+            //Careful for
             m_Hold_Alt += m_VehicleGlobalPositionMsg.DeltaAlt;
             // make TECS accept step in altitude and demanded altitude
             _tecs.handle_alt_step(m_VehicleGlobalPositionMsg.DeltaAlt, m_VehicleGlobalPositionMsg.Alt);
@@ -932,8 +925,11 @@ void FPC::Execute(void)
     m_Pos_Reset_Counter = m_VehicleGlobalPositionMsg.LatLonResetCounter;
 
 //    airspeed_poll();
-
-    updateAirspeed();
+//    if(LastProcessed != this->m_AirspeedMsg.Timestamp)
+//    {
+//        //Is this a new message?
+//        UpdateAirspeed();
+//    }
 
 
 //    vehicle_attitude_poll();
@@ -945,31 +941,31 @@ void FPC::Execute(void)
 
 }
 
-void FPC::updateAirspeed(void)
+void FPC::UpdateAirspeed(void)
 {
-    if (FALSE == ConfigTblPtr->ARSP_MODE) {
-        _airspeed_valid = isfinite(_sub_airspeed.get().indicated_airspeed_m_s)
-                  && isfinite(_sub_airspeed.get().true_airspeed_m_s);
-        _airspeed_last_received = hrt_absolute_time();
-        _airspeed = _sub_airspeed.get().indicated_airspeed_m_s;
+//    if (FALSE == ConfigTblPtr->ARSP_MODE) {
+//        _airspeed_valid = isfinite(_sub_airspeed.get().indicated_airspeed_m_s)
+//                  && isfinite(_sub_airspeed.get().true_airspeed_m_s);
+//        _airspeed_last_received = hrt_absolute_time();
+//        _airspeed = _sub_airspeed.get().indicated_airspeed_m_s;
 
-        if (_sub_airspeed.get().indicated_airspeed_m_s > 0.0f
-            && _sub_airspeed.get().true_airspeed_m_s > _sub_airspeed.get().indicated_airspeed_m_s) {
-            _eas2tas = max(_sub_airspeed.get().true_airspeed_m_s / _sub_airspeed.get().indicated_airspeed_m_s, 1.0f);
+//        if (_sub_airspeed.get().indicated_airspeed_m_s > 0.0f
+//            && _sub_airspeed.get().true_airspeed_m_s > _sub_airspeed.get().indicated_airspeed_m_s) {
+//            _eas2tas = max(_sub_airspeed.get().true_airspeed_m_s / _sub_airspeed.get().indicated_airspeed_m_s, 1.0f);
 
-        } else {
-            _eas2tas = 1.0f;
-        }
+//        } else {
+//            _eas2tas = 1.0f;
+//        }
 
-    } else {
-        /* no airspeed updates for one second */
-        if (_airspeed_valid && (hrt_absolute_time() - _airspeed_last_received) > 1e6) {
-            _airspeed_valid = false;
-        }
-    }
+//    } else {
+//        /* no airspeed updates for one second */
+//        if (_airspeed_valid && (hrt_absolute_time() - _airspeed_last_received) > 1e6) {
+//            _airspeed_valid = false;
+//        }
+//    }
 
-    /* update TECS state */
-    _tecs.enable_airspeed(_airspeed_valid);
+//    /* update TECS state */
+//    _tecs.enable_airspeed(_airspeed_valid);
 }
 
 /************************/

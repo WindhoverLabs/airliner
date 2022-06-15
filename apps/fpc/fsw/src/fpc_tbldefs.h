@@ -60,11 +60,6 @@ extern "C" {
  */
 #define FPC_CONFIG_TABLENAME          ("CONFIG_TBL")
 
-/**
- * \brief Defines the table file name used for table registration.
- */
-#define FPC_CDS_TABLENAME  ("fpc_CdsTbl")
-
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
@@ -273,7 +268,7 @@ typedef struct
      */
      float AIRSPD_SCL;
 //    PARAM_DEFINE_FLOAT(RWTO_AIRSPD_SCL, 1.3);
-}FPC_Runway_Takeoff_t;
+} FPC_Runway_Takeoff_t;
 
 /** \brief Definition for a single config table entry
  * This table originated from the params in
@@ -390,16 +385,6 @@ typedef struct
     FPC_Runway_Takeoff_t FPC_Runway_Takeoff;
 
 } FPC_ConfigTbl_t;
-
-
-
-/** \brief Definition for Critical Data Storage (CDS) table entry */
-typedef struct
-{
-    int32  iParam;
-
-    /* TODO:  Add type declaration for CDS data here. */
-} FPC_CdsTbl_t;
 
 /************************************************************************
 ** External Global Variables

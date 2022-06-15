@@ -113,14 +113,6 @@ public:
     /** \brief Config Table Pointer */
     FPC_ConfigTbl_t*  ConfigTblPtr;
 
-    /* Critical Data Storage (CDS) table-related */
-
-    /** \brief CDS Table Handle */
-    CFE_ES_CDSHandle_t  CdsTblHdl;
-
-    /** \brief CDS Table data */
-    FPC_CdsTbl_t  CdsTbl;
-
     /* Inputs/Outputs */
 
     /** \brief Input Data from I/O or other apps */
@@ -160,6 +152,8 @@ public:
     ** Local Variables
     *************************************************************************/
     // estimator reset counters
+    //Remove these implicit constructors and set the value from the main entry point.
+    //If these are zero, you can memset. If they are non-zero, do not use memset.
     int8 m_Pos_Reset_Counter{0};				///< captures the number of times the estimator has reset the horizontal position
     int8 m_Alt_Reset_Counter{0};				///< captures the number of times the estimator has reset the altitude state
 
@@ -168,13 +162,13 @@ public:
     float	m_Hold_Alt{0.0f};				///< hold altitude for altitude mode */
     float	m_Takeoff_ground_alt{0.0f};			///< ground altitude at which plane was launched */
     float	m_Hdg_Hold_Yaw{0.0f};				///< hold heading for velocity mode */
-    bool	m_Hdg_Hold_Enabled{false};			///< heading hold enabled */
-    bool	m_Yaw_Lock_Engaged{false};			///< yaw is locked for heading hold */
+    osalbool	m_Hdg_Hold_Enabled{false};			///< heading hold enabled */
+    osalbool	m_Yaw_Lock_Engaged{false};			///< yaw is locked for heading hold */
     float	m_Althold_Epv{0.0f};				///< the position estimate accuracy when engaging alt hold */
-    bool	m_Was_In_Deadband{false};			///< wether the last stick input was in althold deadband */
+    osalbool	m_Was_In_Deadband{false};			///< wether the last stick input was in althold deadband */
 
     /* throttle and airspeed states */
-    bool    _airspeed_valid{false};				///< flag if a valid airspeed estimate exists
+    osalbool    _airspeed_valid{false};				///< flag if a valid airspeed estimate exists
     uint64  _airspeed_last_received{0};			///< last time airspeed was received. Used to detect timeouts.
     float   _airspeed{0.0f};
     float   _eas2tas{1.0f};
@@ -219,7 +213,6 @@ public:
     **  \retstmt Return codes from #FPC_InitPipe                \endcode
     **  \retstmt Return codes from #FPC_InitData                \endcode
     **  \retstmt Return codes from #FPC_InitConfigTbl           \endcode
-    **  \retstmt Return codes from #FPC_InitCdsTbl              \endcode
     **  \retstmt Return codes from #OS_TaskInstallDeleteHandler \endcode
     **  \endreturns
     **
@@ -388,63 +381,20 @@ public:
     **  \endreturns
     **
     *************************************************************************/
-    boolean  VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
+    osalbool  VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
 
     int32 InitConfigTbl(void);
     static int32 ValidateConfigTbl(void* ConfigTblPtr);
     void ProcessNewConfigTbl(void);
     int32 AcquireConfigPointers(void);
 
+    void   UpdateParamsFromTable(void);
 
-    /************************************************************************/
-    /** \brief Init FPC CDS tables
-    **
-    **  \par Description
-    **       This function initializes FPC's CDS tables
-    **
-    **  \par Assumptions, External Events, and Notes:
-    **       None
-    **
-    **  \returns
-    **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-    **  \retstmt Return codes from #CFE_ES_RegisterCDS       \endcode
-    **  \retstmt Return codes from #CFE_ES_CopyToCDS         \endcode
-    **  \endreturns
-    **
-    *************************************************************************/
-    int32  InitCdsTbl(void);
+    void   SendPositionControlStatusMsg(void);
 
-    /************************************************************************/
-    /** \brief Update FPC CDS tables
-    **
-    **  \par Description
-    **       This function updates FPC's CDS tables
-    **
-    **  \par Assumptions, External Events, and Notes:
-    **       None
-    **
-    *************************************************************************/
-    void   UpdateCdsTbl(void);
+    void   UpdateAirspeed(void);
 
-    /************************************************************************/
-    /** \brief Save FPC CDS tables
-    **
-    **  \par Description
-    **       This function saves FPC's CDS tables
-    **
-    **  \par Assumptions, External Events, and Notes:
-    **       None
-    **
-    *************************************************************************/
-    void   SaveCdsTbl(void);
-
-    void UpdateParamsFromTable(void);
-
-    void SendPositionControlStatusMsg(void);
-
-    void updateAirspeed(void);
-
-    void Execute(void);
+    void   Execute(void);
 
 };
 

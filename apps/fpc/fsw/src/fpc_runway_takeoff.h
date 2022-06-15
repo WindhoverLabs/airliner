@@ -41,7 +41,6 @@
 #ifndef RUNWAYTAKEOFF_H
 #define RUNWAYTAKEOFF_H
 
-#include <stdbool.h>
 #include <stdint.h>
 #include <math.h>
 
@@ -51,17 +50,17 @@ namespace runwaytakeoff
 {
 
 enum RunwayTakeoffState {
-	THROTTLE_RAMP = 0, /**< ramping up throttle */
-	CLAMPED_TO_RUNWAY = 1, /**< clamped to runway, controlling yaw directly (wheel or rudder) */
-	TAKEOFF = 2, /**< taking off, get ground clearance, roll 0 */
-	CLIMBOUT = 3, /**< climbout to safe height before navigation, roll limited */
-	FLY = 4 /**< fly towards takeoff waypoint */
+    THROTTLE_RAMP      = 0, /**< ramping up throttle */
+    CLAMPED_TO_RUNWAY  = 1, /**< clamped to runway, controlling yaw directly (wheel or rudder) */
+    TAKEOFF            = 2, /**< taking off, get ground clearance, roll 0 */
+    CLIMBOUT           = 3, /**< climbout to safe height before navigation, roll limited */
+	FLY                = 4 /**< fly towards takeoff waypoint */
 };
 
 class RunwayTakeoff
 {
 public:
-    RunwayTakeoff(bool takeoffEnabled,
+    RunwayTakeoff(osalbool takeoffEnabled,
                   int32 headingMode,
                   float navAlt,
                   float takeffThrottle,
@@ -77,19 +76,19 @@ public:
     void update(float airspeed, float alt_agl, double current_lat, double current_lon);
 
 	RunwayTakeoffState getState() { return _state; }
-	bool isInitialized() { return _initialized; }
+    osalbool isInitialized() { return _initialized; }
 
-    bool runwayTakeoffEnabled() { return (bool)_runway_takeoff_enabled; }
+    osalbool runwayTakeoffEnabled() { return (osalbool)_runway_takeoff_enabled; }
     float getMinAirspeedScaling() { return _min_airspeed_scaling; }
 	float getInitYaw() { return _init_yaw; }
 
-	bool controlYaw();
-	bool climbout() { return _climbout; }
+    osalbool controlYaw();
+    osalbool climbout() { return _climbout; }
 	float getPitch(float tecsPitch);
 	float getRoll(float navigatorRoll);
 	float getYaw(float navigatorYaw);
 	float getThrottle(float tecsThrottle);
-	bool resetIntegrators();
+    osalbool resetIntegrators();
 	float getMinPitch(float sp_min, float climbout_min, float min);
 	float getMaxPitch(float max);
     math::Vector2F getStartWP();
@@ -100,15 +99,15 @@ protected:
 private:
 	/** state variables **/
 	RunwayTakeoffState _state;
-	bool _initialized;
+    osalbool _initialized;
     uint64 _initialized_time;
 	float _init_yaw;
-	bool _climbout;
+    osalbool _climbout;
 	unsigned _throttle_ramp_time;
     math::Vector2F _start_wp;
 
 	/** parameters **/
-    bool _runway_takeoff_enabled;
+    osalbool _runway_takeoff_enabled;
     int32 _heading_mode;
     float _nav_alt;
     float _takeoff_throttle;
