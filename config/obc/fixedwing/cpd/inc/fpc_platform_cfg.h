@@ -108,9 +108,9 @@ extern "C" {
 
 #define FPC_DATA_PIPE_NAME      ("FPC_DATA_PIPE_NAME")
 
-#define FPC_NUM_MSG                    (10)
+#define FPC_NUM_MSG                    (11)
 
-#define FPC_1SECOND_MICRO                  (1e6)
+#define FPC_1SECOND_MICRO              (1e6)
 
 #ifdef __cplusplus
 }
