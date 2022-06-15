@@ -277,4 +277,79 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/SendHK', {});]]></text>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
+  <widget type="group" version="2.0.0">
+    <name>Calibration</name>
+    <x>282</x>
+    <y>30</y>
+    <width>258</width>
+    <height>156</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button</name>
+      <actions>
+        <action type="open_display">
+          <file>ManualCalibrate.opi</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Manual Calibration</text>
+      <x>6</x>
+      <y>5</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_1</name>
+      <actions>
+        <action type="open_display">
+          <file>LabCalibrate.opi</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Lab Calibration</text>
+      <x>6</x>
+      <y>25</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_2</name>
+      <actions>
+        <action type="open_display">
+          <file>InFlightCalibrate.opi</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>In-Flight Calibration</text>
+      <x>6</x>
+      <y>45</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_3</name>
+      <actions>
+        <action type="open_display">
+          <file>SaveConfigFile.opi</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Save Calibration</text>
+      <x>6</x>
+      <y>99</y>
+      <width>150</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+  </widget>
 </display>
