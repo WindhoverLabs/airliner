@@ -424,6 +424,7 @@ int32 FPC::RcvMsg(int32 iBlocking)
             case FPC_WAKEUP_MID:
                 ProcessNewCmds();
                 ProcessNewData();
+                UpdateParamsFromTable();
                 Execute();
 
                 /* TODO:  Add more code here to handle other things when app wakes up */
@@ -864,8 +865,6 @@ void FPC::ReportHousekeeping()
 void FPC::SendOutData()
 {
     /* TODO:  Add code to update output data, if needed, here.  */
-
-    UpdateParamsFromTable();
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&OutData);
     int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&OutData);
