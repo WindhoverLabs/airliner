@@ -34,7 +34,6 @@
 #include "aspd4525_app_test.h"
 #include "aspd4525_app.h"
 #include "aspd4525_test_utils.h"
-#include "aspd4525_math.h"
 
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
@@ -49,8 +48,6 @@
 #include "ut_cfe_tbl_stubs.h"
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
-
-#include <float.h>
 
 
 
@@ -471,42 +468,6 @@ void Test_ASPD4525_AppMain_ProcessNewData_InvalidMsgID(void)
     UtAssert_EventSent(ASPD4525_MSGID_ERR_EID, CFE_EVS_ERROR, "", "Error Event Sent");
 }
 
-#define ASPD4525_MATH_PRESSURE_ACCURACY_LIMIT_PASCALS (((0.47)/2)+FLT_EPSILON)
-
-void Test_ASPD4525_MATH_GetDeltaPressure(void)
-{
-    ASPD4525_ConfigTblEntry_t configTable;
-
-    configTable.fPressureMaximum_PSI = 1.0;
-    configTable.fPressureMinimum_PSI = 0.0;
-
-    uint32 pressureDataCounts = 0x2000;
-    float expected = 0.0;
-    float result = ASPD4525_MATH_GetDeltaPressure(&configTable, pressureDataCounts);
-    char message[100];
-    sprintf(message, "DeltaPressure should be zero, %f", result);
-    UtAssert_DoubleCmpAbs(result, expected, ASPD4525_MATH_PRESSURE_ACCURACY_LIMIT_PASCALS, message);
-
-    pressureDataCounts = 0x1fff;
-    expected = 0.0;
-    result = ASPD4525_MATH_GetDeltaPressure(&configTable, pressureDataCounts);
-    sprintf(message, "DeltaPressure should be zero again, %f", result);
-    UtAssert_DoubleCmpAbs(result, expected, ASPD4525_MATH_PRESSURE_ACCURACY_LIMIT_PASCALS, message);
-
-    pressureDataCounts = 0x3ccc;
-    expected = 3447.38;
-    result = ASPD4525_MATH_GetDeltaPressure(&configTable, pressureDataCounts);
-    sprintf(message, "DeltaPressure should be maximum, %f", result);
-    UtAssert_DoubleCmpAbs(result, expected, ASPD4525_MATH_PRESSURE_ACCURACY_LIMIT_PASCALS, message);
-
-
-    pressureDataCounts = 0x0333;
-    expected = 3447.38;
-    result = ASPD4525_MATH_GetDeltaPressure(&configTable, pressureDataCounts);
-    sprintf(message, "DeltaPressure should be minimum, %f", result);
-    UtAssert_DoubleCmpAbs(result, expected, ASPD4525_MATH_PRESSURE_ACCURACY_LIMIT_PASCALS, message);
-
-}
 
 /**************************************************************************
  * Rollup Test Cases
@@ -559,9 +520,6 @@ void ASPD4525_App_Test_AddTestCases(void)
                "Test_ASPD4525_AppMain_Nominal_Wakeup");
     UtTest_Add(Test_ASPD4525_AppMain_ProcessNewData_InvalidMsgID, ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
                "Test_ASPD4525_AppMain_ProcessNewData_InvalidMsgID");
-
-    UtTest_Add(Test_ASPD4525_MATH_GetDeltaPressure, ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
-               "Test_ASPD4525_MATH_GetDeltaPressure");
 
 }
 
