@@ -52,6 +52,12 @@ enum Rotation {
 uint64 PX4LIB_GetPX4TimeUs(void);
 uint64 PX4LIB_GetPX4TimeMs(void);
 
+/*
+ * Compute the delta between a timestamp taken in the past
+ * and now.
+ *
+ */
+uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 
 #ifdef __cplusplus
 }

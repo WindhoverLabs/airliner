@@ -80,6 +80,12 @@ uint64 PX4LIB_GetPX4TimeUs(void)
     return outTime;
 }
 
+uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then)
+{
+    uint64 delta = PX4LIB_GetPX4TimeUs() - then;
+    return delta;
+}
+
 
 Integrator::Integrator(uint64 auto_reset_interval, boolean coning_compensation) :
 	_auto_reset_interval(auto_reset_interval),
