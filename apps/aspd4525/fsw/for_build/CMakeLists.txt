@@ -77,6 +77,7 @@ buildliner_add_app_unit_test(ASPD4525-UT
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_cmds_test.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_config_tbl_test.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_math_test.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_atm_test.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_custom_stubs.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_stubs.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_testrunner.c

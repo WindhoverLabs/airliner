@@ -8,6 +8,7 @@
 *************************************************************************/
 #include "cfe_tbl_filedef.h"
 #include "aspd4525_tbldefs.h"
+#include "aspd4525_config.h"
 
 /************************************************************************
 ** Local Defines
@@ -51,32 +52,19 @@ ASPD4525_ConfigTblEntry_t ASPD4525_ConfigTbl[ASPD4525_CONFIG_TABLE_MAX_ENTRIES] 
 {
     /* Entry 1 */
     {
-        .iParam = 123
-
-        /* TODO:  Add default values for Config parameters here.
-        **
-        ** Examples: (See example of type declarations in aspd4525_tbldefs.h)
-        **    .cParam   = 7,
-        **    .cParams  = "Init Str Value",
-        **    .ucParam  = 'A',
-        **    .ucParams = "/dev/ttyUSB",
-        **
-        **    .sParam   = -16,
-        **    .sParams  = {-3, -2, -1, 0, 1, 2, 3, 4},
-        **    .usParam  = 16,
-        **    .usParams = {1, 2, 3, 4, 5, 6, 7, 8},
-        **
-        **    .iParam   = -32,
-        **    .iParams  = {-123, -234, 0, 123, 234},
-        **    .uiParam  = -32,
-        **    .uiParams = {123, 234, 345, 456, 678},
-        **
-        **    .fParam  = 32.1234,
-        **    .fParams = {-12.34, 0.0, 12.34},
-        **
-        **    .dParam = 123.456789,
-        **    .dParams = {-123.456789, 0.0, 123.456789}
-        */
+        .fPressureMinimum_PSI = 0.0,
+        .fPressureMaximum_PSI = 1.0,
+        .fTemperatureMinimum_Celcius = -50.0,
+        .fTemperatureMaximum_Celcius = 150.0,
+        .fAirGasConstantR_SI = 8.3144598,
+        .fGravitationalAccereleration_SI = 9.80665,
+        .fAirMolarMass_SI = 0.0289644,
+        .fAltitudeMeters_bs = {0.0, 11000.0, 20000.0, 32000.0, 47000.0, 51000.0, 71000.0},
+        .fRho_bs = {1.2250, 0.36391, 0.08803, 0.01322, 0.00143, 0.00086, 0.000064},
+        .fTemp_bs = {288.15, 216.65, 216.65, 228.65, 270.65, 270.65, 214.65},
+        .fLapseRate_bs = {-0.0065, 0.0, 0.001, 0.0028, 0.0, -0.0028, -0.002},
+        .uEquationNo_bs = {1,2,1,1,2,1,1},
+        .uAirDensityCalculationMode = ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_MODE
     }
 };
 

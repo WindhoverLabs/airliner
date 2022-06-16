@@ -1,7 +1,7 @@
 /**
  * @file aspd4525_math_test.h
  * @author Shahed Rahim (srahim@windhoverlabs.com)
- * @brief This is the header file for the aspd4525_math_test.h
+ * @brief This is the header file for the aspd4525_math_test.c
  * @version 0.1
  * @date 2022-06-16
  * 
