@@ -1378,7 +1378,9 @@ typedef struct
 
 typedef struct
 {
+    uint8          TlmHeader[CFE_SB_TLM_HDR_SIZE];
     PX4_TecsMode_t Mode;
+    uint64         Timestamp;
     float          AltitudeSp;
     float          AltitudeFiltered;
     float          FlightPathAngleSp;
