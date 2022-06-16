@@ -418,6 +418,49 @@ void Test_ASPD4525_ATM_GetAirDensityWithAltTemp(void)
 
 }
 
+void Test_ASPD4525_ATM_GetAirSpeed(void)
+{
+    {
+        float fDeltaPressure = 3447.38;
+        float fAirDensity = 1.225;
+        float expected = 75.022499;
+        float result = ASPD4525_ATM_GetAirSpeed(fDeltaPressure, fAirDensity);
+        char message[100];
+        sprintf(message, "AirSpeed should be %f, got %f\n",expected, result);
+        UtAssert_DoubleCmpRel(result, expected, ACCEPTED_FLT_RATIO, message);
+    }
+
+    {
+        float fDeltaPressure = 15.0;
+        float fAirDensity = 0.225;
+        float expected = 11.547006;
+        float result = ASPD4525_ATM_GetAirSpeed(fDeltaPressure, fAirDensity);
+        char message[100];
+        sprintf(message, "AirSpeed should be %f, got %f\n",expected, result);
+        UtAssert_DoubleCmpRel(result, expected, ACCEPTED_FLT_RATIO, message);
+    }
+
+    {
+        float fDeltaPressure = 3447.38;
+        float fAirDensity = 0.0005;
+        float expected = 3713.424072;
+        float result = ASPD4525_ATM_GetAirSpeed(fDeltaPressure, fAirDensity);
+        char message[100];
+        sprintf(message, "AirSpeed should be %f, got %f\n",expected, result);
+        UtAssert_DoubleCmpRel(result, expected, ACCEPTED_FLT_RATIO, message);
+    }
+
+    {
+        float fDeltaPressure = 3447.38;
+        float fAirDensity = 0.310088;
+        float expected = 149.113541;
+        float result = ASPD4525_ATM_GetAirSpeed(fDeltaPressure, fAirDensity);
+        char message[100];
+        sprintf(message, "AirSpeed should be %f, got %f\n",expected, result);
+        UtAssert_DoubleCmpRel(result, expected, ACCEPTED_FLT_RATIO, message);
+    }
+}
+
 void ASPD4525_ATM_Test_AddTestCases(void)
 {
     UtTest_Add(Test_ASPD4525_ATM_GetAirDensity, ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
@@ -428,5 +471,8 @@ void ASPD4525_ATM_Test_AddTestCases(void)
 
     UtTest_Add(Test_ASPD4525_ATM_GetAirDensityWithAltTemp, ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
                "Test_ASPD4525_ATM_GetAirDensityWithAltTemp");
+    
+    UtTest_Add(Test_ASPD4525_ATM_GetAirSpeed, ASPD4525_Test_Setup, ASPD4525_Test_TearDown,
+               "Test_ASPD4525_ATM_GetAirSpeed");
 }
 
