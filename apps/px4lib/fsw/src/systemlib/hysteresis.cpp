@@ -38,7 +38,7 @@
  */
 
 #include "systemlib/hysteresis.h"
-
+#include "px4lib.h"
 
 namespace systemlib
 {
