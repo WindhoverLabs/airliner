@@ -46,6 +46,17 @@ extern "C" {
 *************************************************************************/
 #include "cfe.h"
 
+#include "px4_msgs.h"
+
+#include "math/Matrix3F3.hpp"
+#include "math/Quaternion.hpp"
+#include "math/Euler.hpp"
+#include "math/Dcm.hpp"
+#include "math/Expo.hpp"
+#include "math/Functions.hpp"
+#include "math/Vector2F.hpp"
+
+
 #include "fpc_platform_cfg.h"
 #include "fpc_mission_cfg.h"
 #include "fpc_private_ids.h"
@@ -58,20 +69,9 @@ extern "C" {
 #include "fpc_config_utils.h"
 #include "fpc_landing_slope.h"
 #include "fpc_tecs.h"
-#include "fpc_ecl_l1_pos_controller.h"
 #include "fpc_launch_detector.h"
 #include "fpc_runway_takeoff.h"
-
-#include "px4_msgs.h"
-
-#include "math/Matrix3F3.hpp"
-#include "math/Quaternion.hpp"
-#include "math/Euler.hpp"
-#include "math/Dcm.hpp"
-#include "math/Expo.hpp"
-#include "math/Functions.hpp"
-#include "math/Vector2F.hpp"
-
+#include "fpc_ecl_l1_pos_controller.hpp"
 
 
 /************************************************************************
@@ -146,6 +146,8 @@ public:
     PX4_VehicleGlobalPositionMsg_t        m_VehicleGlobalPositionMsg;
     PX4_AirspeedMsg_t                     m_AirspeedMsg;
     PX4_VehicleAttitudeMsg_t              m_VehicleAttitudeMsg;
+    PX4_SensorCombinedMsg_t               m_SensorCombinedMsg;
+    PX4_SensorBaroMsg_t                   m_SensorBaroMsg;
 
     Landingslope                          m_LandingSlope;
     /************************************************************************
@@ -306,8 +308,11 @@ public:
         int32_t land_use_terrain_estimate;
         float land_airspeed_scale;
 
-        int32_t vtol_type;
+//        int32_t vtol_type; Ignore vtol for now
     } _parameters{};					///< local copies of interesting parameters */
+
+    PX4_PositionSetpoint_t _hdg_hold_prev_wp {};		///< position where heading hold started */
+    PX4_PositionSetpoint_t _hdg_hold_curr_wp {};		///< position to which heading hold flies */
 
 
     TECS    _tecs;
@@ -317,6 +322,8 @@ public:
     boolean _is_tecs_running{FALSE};
 
     uint64 _time_started_landing{0};			///< time at which landing started */
+
+    boolean _last_manual{FALSE};				///< true if the last iteration was in manual mode (used to determine when a reset is needed)
 
 
     enum FW_POSCTRL_MODE {
@@ -553,8 +560,9 @@ public:
             const PX4_PositionSetpoint_t &pos_sp_prev, const PX4_PositionSetpoint_t &pos_sp_curr);
 
     void CalculateGndSpeedUndershoot(const math::Vector2F &curr_pos,
-            const math::Vector2F &ground_speed,
-            const PX4_PositionSetpoint_t &pos_sp_prev, const PX4_PositionSetpoint_t &pos_sp_curr);
+                                     const math::Vector2F &ground_speed,
+                                     const PX4_PositionSetpoint_t &pos_sp_prev,
+                                     const PX4_PositionSetpoint_t &pos_sp_curr);
 
 
     float CalculateTargetAirspeed(float airspeed_demand);
@@ -565,8 +573,18 @@ public:
             bool climbout_mode, float climbout_pitch_min_rad,
             PX4_TecsMode_t mode = PX4_TECS_MODE_NORMAL);
 
-    bool InTakeoffSituation();
+    boolean InTakeoffSituation();
 
+    float GetTerrainAltitudeTakeoff(float takeoff_alt, const PX4_VehicleGlobalPositionMsg_t &global_pos);
+    void ResetLandingState();
+    float GetDemandedAirspeed();
+
+    float GetTecsPitch();
+
+    bool UpdateDesiredAltitude(float dt);
+    void DoTakeoffHelp(float *hold_altitude, float *pitch_limit_min);
+    void GetWaypointHeadingDistance(float heading, PX4_PositionSetpoint_t &waypoint_prev, PX4_PositionSetpoint_t &waypoint_next, bool flag_init);
+    float GetTecsThrust();
 
     void   Execute(void);
 

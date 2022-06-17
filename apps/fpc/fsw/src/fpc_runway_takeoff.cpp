@@ -86,6 +86,11 @@ RunwayTakeoff::RunwayTakeoff(osalbool takeoffEnabled,
 //	updateParams();
 }
 
+RunwayTakeoff::RunwayTakeoff()
+{
+
+}
+
 RunwayTakeoff::~RunwayTakeoff()
 {
 

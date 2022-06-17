@@ -70,6 +70,7 @@ public:
                   float airspeedScaleFactor,
                   float airspeedMin,
                   float climboutDiff);
+     RunwayTakeoff();
 	~RunwayTakeoff();
 
 	void init(float yaw, double current_lat, double current_lon);

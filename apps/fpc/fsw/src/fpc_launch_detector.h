@@ -54,6 +54,7 @@ public:
                    float newMotorDelay,
                    float newPitchMaxPreThrottle,
                    bool newLaunchDetectionEnabled);
+    LaunchDetector();
     ~LaunchDetector();
 
 	LaunchDetector(const LaunchDetector &) = delete;
@@ -62,7 +63,7 @@ public:
 	void reset();
 
 	void update(float accel_x);
-	LaunchDetectionResult getLaunchDetected();
+    launchdetection::LaunchDetectionResult getLaunchDetected();
     bool launchDetectionEnabled() { return launchDetectionOn == true; }
 
 	/* Returns a maximum pitch in deg. Different launch methods may impose upper pitch limits during launch */

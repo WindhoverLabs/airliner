@@ -65,6 +65,25 @@ LaunchDetector::LaunchDetector(float newThresholdAccel,
 //	updateParams();
 }
 
+LaunchDetector::LaunchDetector() :
+    thresholdAccel{0},
+    thresholdTime{0},
+    motorDelay{0},
+    pitchMaxPreThrottle{0},
+    launchDetectionOn{0}
+//	launchdetection_on(this, "ALL_ON")
+{
+    /* init all detectors */
+    launchMethod = CatapultLaunchMethod{thresholdAccel,
+                                        thresholdTime,
+                                        motorDelay,
+                                        pitchMaxPreThrottle};
+
+    /* update all parameters of all detectors */
+//	updateParams();
+}
+
+
 LaunchDetector::~LaunchDetector()
 {
 }

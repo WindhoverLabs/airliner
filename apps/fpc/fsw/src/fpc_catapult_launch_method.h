@@ -41,8 +41,9 @@
 #ifndef CATAPULTLAUNCHMETHOD_H_
 #define CATAPULTLAUNCHMETHOD_H_
 
-#include "fpc_app.h"
-
+#include "fpc_events.h"
+#include "cfe.h"
+#include <math.h>
 
 namespace launchdetection
 {
