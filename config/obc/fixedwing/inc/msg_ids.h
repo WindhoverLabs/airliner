@@ -311,6 +311,12 @@
 #define SBUS_SEND_HK_MID                          CMD_MSG(  342 )  /* 0x156 */
 #define SBUS_WAKEUP_MID                           CMD_MSG(  343 )  /* 0x157 */
 
+/* ASPD4525                                                                 */
+#define ASPD4525_CMD_MID                          CMD_MSG(  344 )  /* 0x158 */
+#define ASPD4525_SEND_HK_MID                      CMD_MSG(  345 )  /* 0x159 */
+#define ASPD4525_WAKEUP_MID                       CMD_MSG(  346 )  /* 0x15a */
+#define ASPD4525_OUT_DATA_MID                     TLM_MSG(  347 )  /* 0x15b */
+#define ASPD4525_HK_TLM_MID                       TLM_MSG(  348 )  /* 0x15c */
 
 /* FPC                                                                      */
 #define FPC_DIAG_TLM_MID                          TLM_MSG(  349 )  /* 0x15d */
@@ -319,5 +325,6 @@
 #define FPC_SEND_HK_MID                           CMD_MSG(  352 )  /* 0x160 */
 #define FPC_WAKEUP_MID                            CMD_MSG(  353 )  /* 0x161 */
 #define FPC_POSITION_CONTROL_STATUS_MID           TLM_MSG(  354 )  /* 0x162 */
+
 
 #endif
