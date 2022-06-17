@@ -1123,7 +1123,7 @@ void FPC::UpdateAirspeed(void)
 {
     if(ConfigTblPtr != 0)
     {
-        if (FALSE == ConfigTblPtr->ARSP_MODE) {
+        if (!_parameters.airspeed_disabled) {
             _airspeed_valid = isfinite(m_AirspeedMsg.IndicatedAirspeed)
                       && isfinite(m_AirspeedMsg.TrueAirspeed);
             _airspeed_last_received = m_AirspeedMsg.Timestamp;
@@ -1272,7 +1272,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
         bool was_circle_mode = _l1_control.circle_mode();
 
         /* restore speed weight, in case changed intermittently (e.g. in landing handling) */
-        _tecs.set_speed_weight(ConfigTblPtr->T_SPDWEIGHT);
+        _tecs.set_speed_weight(_parameters.speed_weight);
 
         /* current waypoint (the one currently heading for) */
         math::Vector2F curr_wp((float)pos_sp_curr.Lat, (float)pos_sp_curr.Lon);
@@ -1298,7 +1298,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
             prev_wp[1] = (float)pos_sp_curr.Lon;
         }
 
-        float mission_airspeed = ConfigTblPtr->AIRSPD_TRIM;
+        float mission_airspeed = _parameters.airspeed_trim;
 
         if (isfinite(pos_sp_curr.CruisingSpeed) &&
             pos_sp_curr.CruisingSpeed > 0.1f) {
@@ -1306,7 +1306,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
             mission_airspeed = pos_sp_curr.CruisingSpeed;
         }
 
-        float mission_throttle = ConfigTblPtr->THR_CRUISE;
+        float mission_throttle = _parameters.throttle_cruise;
 
         if (isfinite(pos_sp_curr.CruisingThrottle) &&
             pos_sp_curr.CruisingThrottle > 0.01f) {
@@ -2036,7 +2036,7 @@ void FPC::CalculateGndSpeedUndershoot(const math::Vector2F &curr_pos,
             delta_altitude = pos_sp_curr.Alt - m_VehicleGlobalPositionMsg.Alt;
         }
 
-        float ground_speed_desired = ConfigTblPtr->AIRSPD_MIN * cosf(atan2f(delta_altitude, distance));
+        float ground_speed_desired = _parameters.airspeed_min * cosf(atan2f(delta_altitude, distance));
 
         /*
          * Ground speed undershoot is the amount of ground velocity not reached
