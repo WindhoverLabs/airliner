@@ -12,6 +12,7 @@ CFE_APP, /cf/apps/MS5611.so,    MS5611_AppMain,    MS5611,     65,  40960, 0x0, 
 CFE_APP, /cf/apps/SEDPWM.so,    SEDPWM_AppMain,    SEDPWM,     88,  40960, 0x0, 0, 2;
 CFE_APP, /cf/apps/SBUS.so,      SBUS_AppMain,      SBUS,       91,  40960, 0x0, 0, 2;
 CFE_APP, /cf/apps/SIMLINK.so,   SIMLINK_AppMain,   SIMLINK,    45,  40960, 0x0, 0, 2;
+CFE_APP, /cf/apps/ASPD4525.so,  ASPD4525_AppMain,  ASPD4525,   56,  40960, 0x0, 0, 2;
 CFE_APP, /cf/apps/SCH.so,       SCH_AppMain,       SCH,        34,  40960, 0x0, 0, 2;
 !
 CFE_LIB, /cf/apps/SED_LIB.so,   SEDLIB_LibInit,    SED_LIB,     0,      0, 0x0, 0, 0;

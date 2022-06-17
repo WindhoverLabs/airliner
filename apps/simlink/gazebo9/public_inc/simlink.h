@@ -62,6 +62,7 @@ typedef struct
      float  Pressure;
      float  Temperature;
      float  BarometricAltitude;
+     float  DiffPressure;  /* Possibly in hPa ---MSR_TODO: test it --- */
 } SIMLINK_Baro_Msg_t;
 
 typedef struct
