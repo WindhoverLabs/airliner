@@ -232,6 +232,15 @@ int32 FPC::InitPipe()
         goto FPC_InitPipe_Exit_Tag;
     }
 
+    iStatus = CFE_SB_SubscribeEx(PX4_MANUAL_CONTROL_SETPOINT_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                 "DATA Pipe failed to subscribe to PX4_MANUAL_CONTROL_SETPOINT_MID. (0x%08lX)",
+                 iStatus);
+        goto FPC_InitPipe_Exit_Tag;
+    }
+
     iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_CONTROL_MODE_MID, DataPipeId, CFE_SB_Default_Qos, 1);
     if (iStatus != CFE_SUCCESS)
     {
@@ -263,7 +272,63 @@ int32 FPC::InitPipe()
     if (iStatus != CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_VEHICLE_LOCAL_POSITION_MID. (0x%08lX)",
+                 "DATA Pipe failed to subscribe to PX4_POSITION_SETPOINT_TRIPLET_MID. (0x%08lX)",
+                 iStatus);
+        goto FPC_InitPipe_Exit_Tag;
+    }
+
+
+    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_STATUS_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                 "DATA Pipe failed to subscribe to PX4_VEHICLE_STATUS_MID. (0x%08lX)",
+                 iStatus);
+        goto FPC_InitPipe_Exit_Tag;
+    }
+
+    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_LAND_DETECTED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                 "DATA Pipe failed to subscribe to PX4_VEHICLE_LAND_DETECTED_MID. (0x%08lX)",
+                 iStatus);
+        goto FPC_InitPipe_Exit_Tag;
+    }
+
+
+    iStatus = CFE_SB_SubscribeEx(PX4_AIRSPEED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                 "DATA Pipe failed to subscribe to PX4_AIRSPEED_MID. (0x%08lX)",
+                 iStatus);
+        goto FPC_InitPipe_Exit_Tag;
+    }
+
+    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_ATTITUDE_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                 "DATA Pipe failed to subscribe to PX4_VEHICLE_ATTITUDE_MID. (0x%08lX)",
+                 iStatus);
+        goto FPC_InitPipe_Exit_Tag;
+    }
+
+    iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_COMBINED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                 "DATA Pipe failed to subscribe to PX4_SENSOR_COMBINED_MID. (0x%08lX)",
+                 iStatus);
+        goto FPC_InitPipe_Exit_Tag;
+    }
+
+    iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_BARO_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                 "DATA Pipe failed to subscribe to PX4_SENSOR_BARO_MID. (0x%08lX)",
                  iStatus);
         goto FPC_InitPipe_Exit_Tag;
     }
@@ -310,9 +375,7 @@ int32 FPC::InitData()
                    FPC_HK_TLM_MID, sizeof(HkTlm), TRUE);
 
     /* Clear input messages */
-    CFE_PSP_MemSet(&m_ControlStateMsg, 0, sizeof(m_ControlStateMsg));
     CFE_PSP_MemSet(&m_ManualControlSetpointMsg, 0, sizeof(m_ManualControlSetpointMsg));
-    CFE_PSP_MemSet(&m_HomePositionMsg, 0, sizeof(m_HomePositionMsg));
     CFE_PSP_MemSet(&m_VehicleControlModeMsg, 0, sizeof(m_VehicleControlModeMsg));
     CFE_PSP_MemSet(&m_PositionSetpointTripletMsg, 0, sizeof(m_PositionSetpointTripletMsg));
     CFE_PSP_MemSet(&m_VehicleStatusMsg, 0, sizeof(m_VehicleStatusMsg));
@@ -504,21 +567,10 @@ void FPC::ProcessNewData()
                 **         FPC_ProcessNavData(DataMsgPtr);
                 **         break;
                 */
-                case PX4_CONTROL_STATE_MID:
-                {
-                    CFE_PSP_MemCpy(&m_ControlStateMsg, dataMsgPtr, sizeof(m_ControlStateMsg));
-                    break;
-                }
 
                 case PX4_MANUAL_CONTROL_SETPOINT_MID:
                 {
                     CFE_PSP_MemCpy(&m_ManualControlSetpointMsg, dataMsgPtr, sizeof(m_ManualControlSetpointMsg));
-                    break;
-                }
-
-                case PX4_HOME_POSITION_MID:
-                {
-                    CFE_PSP_MemCpy(&m_HomePositionMsg, dataMsgPtr, sizeof(m_HomePositionMsg));
                     break;
                 }
 

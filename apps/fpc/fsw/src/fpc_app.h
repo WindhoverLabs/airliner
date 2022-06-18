@@ -135,9 +135,7 @@ public:
     PX4_VehicleAttitudeSetpointMsg_t      m_VehicleAttitudeSetpointMsg;
 
     /* Input Messages */
-    PX4_ControlStateMsg_t                 m_ControlStateMsg;
     PX4_ManualControlSetpointMsg_t        m_ManualControlSetpointMsg;
-    PX4_HomePositionMsg_t                 m_HomePositionMsg;
     PX4_VehicleControlModeMsg_t           m_VehicleControlModeMsg;
     PX4_PositionSetpointTripletMsg_t      m_PositionSetpointTripletMsg;
     PX4_VehicleStatusMsg_t                m_VehicleStatusMsg;
