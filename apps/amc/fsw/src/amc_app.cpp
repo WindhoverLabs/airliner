@@ -73,7 +73,8 @@ AMC oAMC;
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 AMC::AMC(void) :
-MixerObject(AMC::ControlCallback, (cpuaddr)&CVT.ActuatorControls0)
+MultirotorMixerObject(AMC::ControlCallback, (cpuaddr)&CVT.ActuatorControls0),
+SimpleMixerObject(AMC::ControlCallback, (cpuaddr)&CVT.ActuatorControls0)
 {
     return;
 }
@@ -433,15 +434,25 @@ int32 AMC::InitApp(void)
         goto AMC_InitApp_Exit_Tag;
     }
 
-    /* Initialize the mixer object. */
-    iStatus = MixerObject.SetConfigTablePtr(MixerConfigTblPtr);
-    if (iStatus != CFE_SUCCESS)
-    {
-        CFE_EVS_SendEvent(AMC_MIXER_INIT_ERR_EID, CFE_EVS_ERROR,
-                "Failed to init mixer (0x%08x)",
-                (unsigned int)iStatus);
-        goto AMC_InitApp_Exit_Tag;
-    }
+//    /* Initialize the Multirotor Mixer object. */
+//    iStatus = MultirotorMixerObject.SetConfigTablePtr(MixerConfigTblPtr);
+//    if (iStatus != CFE_SUCCESS)
+//    {
+//        CFE_EVS_SendEvent(AMC_MIXER_INIT_ERR_EID, CFE_EVS_ERROR,
+//                "Failed to init Multirotor mixer (0x%08x)",
+//                (unsigned int)iStatus);
+//        goto AMC_InitApp_Exit_Tag;
+//    }
+//
+//    /* Initialize the Simple mixer object. */
+//    iStatus = SimpleMixerObject.SetConfigTablePtr(MixerConfigTblPtr);
+//    if (iStatus != CFE_SUCCESS)
+//    {
+//        CFE_EVS_SendEvent(AMC_MIXER_INIT_ERR_EID, CFE_EVS_ERROR,
+//                "Failed to init Simple mixer (0x%08x)",
+//                (unsigned int)iStatus);
+//        goto AMC_InitApp_Exit_Tag;
+//    }
 
     /* Initialize the PwmLimit object for use. */
     PwmLimit_Init(&PwmLimit);
@@ -1024,7 +1035,7 @@ void AMC::StopMotors(void)
 
     for (uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
     {
-        disarmed_pwm[i] = PwmConfigTblPtr->PwmDisarmed;
+        disarmed_pwm[i] = ConfigTblPtr->PwmDisarmed;
     }
 
     SetMotorOutputs(disarmed_pwm);
@@ -1046,9 +1057,9 @@ void AMC::UpdateMotors(void)
 
     for (uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
     {
-        disarmed_pwm[i] = PwmConfigTblPtr->PwmDisarmed;
-        min_pwm[i] = PwmConfigTblPtr->PwmMin;
-        max_pwm[i] = PwmConfigTblPtr->PwmMax;
+        disarmed_pwm[i] = ConfigTblPtr->PwmDisarmed;
+        min_pwm[i] = ConfigTblPtr->PwmMin;
+        max_pwm[i] = ConfigTblPtr->PwmMax;
     }
 
     /* Never actuate any motors unless the system is armed.  Check to see if
@@ -1066,7 +1077,7 @@ void AMC::UpdateMotors(void)
         ActuatorOutputs.Timestamp = PX4LIB_GetPX4TimeUs();
 
         /* Do mixing */
-        ActuatorOutputs.Count = MixerObject.mix(ActuatorOutputs.Output, 0, 0);
+        ActuatorOutputs.Count = MultirotorMixerObject.mix(ActuatorOutputs.Output, 0, 0);
 
         /* Disable unused ports by setting their output to NaN */
         for (size_t i = ActuatorOutputs.Count;

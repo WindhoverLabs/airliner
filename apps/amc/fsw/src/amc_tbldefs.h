@@ -53,10 +53,10 @@ extern "C" {
 *************************************************************************/
 
 /**
- * \brief Defines the table identification name used for the PWM
+ * \brief Defines the table identification name used for the
  * configuration table registration.
  */
-#define AMC_PWM_CONFIG_TABLENAME ("PWMCFG_TBL")
+#define AMC_CONFIG_TABLENAME ("CONFIG_TBL")
 
 /**
  * \brief Defines the table identification name used for the Mixer
@@ -75,7 +75,7 @@ typedef struct
 
     /** \brief Motor maximum value for this device. */
     uint32  PwmMax;
-} AMC_PwmConfigTbl_t;
+} AMC_ConfigTbl_t;
 
 
 #ifdef __cplusplus

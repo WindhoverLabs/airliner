@@ -53,18 +53,18 @@ int32 AMC::InitConfigTbl(void)
     int32 iStatus=0;
 
     /* Register Config table */
-    iStatus = CFE_TBL_Register(&PwmConfigTblHdl,
-            AMC_PWM_CONFIG_TABLENAME,
-            (sizeof(AMC_PwmConfigTbl_t)),
+    iStatus = CFE_TBL_Register(&ConfigTblHdl,
+            AMC_CONFIG_TABLENAME,
+            (sizeof(AMC_ConfigTbl_t)),
             CFE_TBL_OPT_DEFAULT,
-            AMC::ValidatePwmCfgTbl);
+            AMC::ValidateCfgTbl);
     if (iStatus != CFE_SUCCESS)
     {
         /* Note, a critical table could return another nominal code.  If this
          * table is made critical this logic would have to change.
          */
-        CFE_EVS_SendEvent(AMC_PWM_CFGTBL_REG_ERR_EID, CFE_EVS_ERROR,
-                "Failed to register PWM table (0x%08X)",
+        CFE_EVS_SendEvent(AMC_CFGTBL_REG_ERR_EID, CFE_EVS_ERROR,
+                "Failed to register table (0x%08X)",
                 (unsigned int)iStatus);
         goto AMC_InitConfigTbl_Exit_Tag;
     }
@@ -87,17 +87,17 @@ int32 AMC::InitConfigTbl(void)
     }
 
     /* Load Config table file */
-    iStatus = CFE_TBL_Load(PwmConfigTblHdl,
+    iStatus = CFE_TBL_Load(ConfigTblHdl,
             CFE_TBL_SRC_FILE,
-            AMC_PWM_CONFIG_TABLE_FILENAME);
+            AMC_CONFIG_TABLE_FILENAME);
     if (iStatus != CFE_SUCCESS)
     {
         /* Note, CFE_SUCCESS is for a successful full table load.  If a
          * partial table load is desired then this logic would have to
          * change.
          */
-        CFE_EVS_SendEvent(AMC_PWM_CFGTBL_LOAD_ERR_EID, CFE_EVS_ERROR,
-                "Failed to load PWM Config Table (0x%08X)",
+        CFE_EVS_SendEvent(AMC_CFGTBL_LOAD_ERR_EID, CFE_EVS_ERROR,
+                "Failed to load Config Table (0x%08X)",
                 (unsigned int)iStatus);
         goto AMC_InitConfigTbl_Exit_Tag;
     }
@@ -126,37 +126,37 @@ AMC_InitConfigTbl_Exit_Tag:
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* Validate PWM Configuration Table                                */
+/* Validate Configuration Table                                    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 AMC::ValidatePwmCfgTbl(void* ConfigTblPtr)
+int32 AMC::ValidateCfgTbl(void* ConfigTblPtr)
 {
     int32 iStatus=0;
-    AMC_PwmConfigTbl_t* AMC_PwmConfigTblPtr =
-            (AMC_PwmConfigTbl_t*)(ConfigTblPtr);
+    AMC_ConfigTbl_t* AMC_ConfigTblPtr =
+            (AMC_ConfigTbl_t*)(ConfigTblPtr);
 
-    if(AMC_PwmConfigTblPtr->PwmMin < AMC_PwmConfigTblPtr->PwmDisarmed)
+    if(AMC_ConfigTblPtr->PwmMin < AMC_ConfigTblPtr->PwmDisarmed)
     {
-        CFE_EVS_SendEvent(AMC_PWM_CFGTBL_MIN_LT_DISARMED_ERR_EID,
+        CFE_EVS_SendEvent(AMC_CFGTBL_MIN_LT_DISARMED_ERR_EID,
                 CFE_EVS_ERROR,
-                "PWM Tbl Vldt: Min (%u) less than Disarmed (%u) speed.",
-                (unsigned int)AMC_PwmConfigTblPtr->PwmMin,
-                (unsigned int)AMC_PwmConfigTblPtr->PwmDisarmed);
+                "Tbl Vldt: Min (%u) less than Disarmed (%u) speed.",
+                (unsigned int)AMC_ConfigTblPtr->PwmMin,
+                (unsigned int)AMC_ConfigTblPtr->PwmDisarmed);
         iStatus = -1;
-        goto AMC_ValidatePwmCfgTbl_Exit_Tag;
+        goto AMC_ValidateCfgTbl_Exit_Tag;
     }
 
-    if(AMC_PwmConfigTblPtr->PwmMax < AMC_PwmConfigTblPtr->PwmMin)
+    if(AMC_ConfigTblPtr->PwmMax < AMC_ConfigTblPtr->PwmMin)
     {
-        CFE_EVS_SendEvent(AMC_PWM_CFGTBL_MAX_LT_MIN_ERR_EID, CFE_EVS_ERROR,
-                "PWM Tbl Vldt: Max (%u) less than Min (%u) speed.",
-                (unsigned int)AMC_PwmConfigTblPtr->PwmMax,
-                (unsigned int)AMC_PwmConfigTblPtr->PwmMin);
+        CFE_EVS_SendEvent(AMC_CFGTBL_MAX_LT_MIN_ERR_EID, CFE_EVS_ERROR,
+                "Tbl Vldt: Max (%u) less than Min (%u) speed.",
+                (unsigned int)AMC_ConfigTblPtr->PwmMax,
+                (unsigned int)AMC_ConfigTblPtr->PwmMin);
         iStatus = -1;
-        goto AMC_ValidatePwmCfgTbl_Exit_Tag;
+        goto AMC_ValidateCfgTbl_Exit_Tag;
     }
 
-AMC_ValidatePwmCfgTbl_Exit_Tag:
+AMC_ValidateCfgTbl_Exit_Tag:
     return iStatus;
 }
 
@@ -288,18 +288,18 @@ int32 AMC::AcquireConfigPointers(void)
      * has been updated.  We ignore this return value in favor of checking
      * CFE_TBL_Manage(), but be sure this is the behavior you want.
      */
-    CFE_TBL_ReleaseAddress(PwmConfigTblHdl);
+    CFE_TBL_ReleaseAddress(ConfigTblHdl);
 
     CFE_TBL_ReleaseAddress(MixerConfigTblHdl);
 
     /*
      ** Manage the table
      */
-    iStatus = CFE_TBL_Manage(PwmConfigTblHdl);
+    iStatus = CFE_TBL_Manage(ConfigTblHdl);
     if ((iStatus != CFE_SUCCESS) && (iStatus != CFE_TBL_INFO_UPDATED))
     {
-        CFE_EVS_SendEvent(AMC_PWM_CFGTBL_MANAGE_ERR_EID, CFE_EVS_ERROR,
-                "Failed to manage PWM Config table (0x%08X)",
+        CFE_EVS_SendEvent(AMC_CFGTBL_MANAGE_ERR_EID, CFE_EVS_ERROR,
+                "Failed to manage Config table (0x%08X)",
                 (unsigned int)iStatus);
         goto AMC_AcquireConfigPointers_Exit_Tag;
     }
@@ -316,33 +316,33 @@ int32 AMC::AcquireConfigPointers(void)
     /*
      ** Get a pointer to the table
      */
-    iStatus = CFE_TBL_GetAddress((void**)&PwmConfigTblPtr,
-            PwmConfigTblHdl);
+    iStatus = CFE_TBL_GetAddress((void**)&ConfigTblPtr,
+            ConfigTblHdl);
     if (iStatus == CFE_TBL_INFO_UPDATED)
     {
         iStatus = CFE_SUCCESS;
     }
     else if(iStatus != CFE_SUCCESS)
     {
-        PwmConfigTblPtr = 0;
-        CFE_EVS_SendEvent(AMC_PWM_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
-                "Failed to get PWM Config table's address (0x%08X)",
+        ConfigTblPtr = 0;
+        CFE_EVS_SendEvent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
+                "Failed to get Config table's address (0x%08X)",
                 (unsigned int)iStatus);
     }
 
-    iStatus = CFE_TBL_GetAddress((void**)&MixerConfigTblPtr,
-            MixerConfigTblHdl);
-    if (iStatus == CFE_TBL_INFO_UPDATED)
-    {
-        iStatus = CFE_SUCCESS;
-    }
-    else if(iStatus != CFE_SUCCESS)
-    {
-        MixerConfigTblPtr = 0;
-        CFE_EVS_SendEvent(AMC_MIXER_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
-                "Failed to get Mixer Config table's address (0x%08X)",
-                (unsigned int)iStatus);
-    }
+//    iStatus = CFE_TBL_GetAddress((void**)&MixerConfigTblPtr,
+//            MixerConfigTblHdl);
+//    if (iStatus == CFE_TBL_INFO_UPDATED)
+//    {
+//        iStatus = CFE_SUCCESS;
+//    }
+//    else if(iStatus != CFE_SUCCESS)
+//    {
+//        MixerConfigTblPtr = 0;
+//        CFE_EVS_SendEvent(AMC_MIXER_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
+//                "Failed to get Mixer Config table's address (0x%08X)",
+//                (unsigned int)iStatus);
+//    }
 
 AMC_AcquireConfigPointers_Exit_Tag:
     return iStatus;
