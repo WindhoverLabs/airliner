@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
-  <name>($(CPUID)) ASPD4525-Manual Calibration</name>
+  <name>($(CPUID)) ASPD4525-Temperature Calibration</name>
   <x>100</x>
   <y>100</y>
   <width>400</width>
@@ -14,7 +14,7 @@
   </widget>
   <widget type="label" version="2.0.0">
     <name>Title</name>
-    <text>($(CPUID)) ASPD4525-Manual Calibration</text>
+    <text>($(CPUID)) ASPD4525-Temperature Calibration</text>
     <x>10</x>
     <y>10</y>
     <width>241</width>
