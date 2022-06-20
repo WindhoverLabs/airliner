@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
-  <name>($(CPUID)) ASPD4525-Manual Calibration</name>
+  <name>($(CPUID)) ASPD4525-Physics Calibration</name>
   <x>100</x>
   <y>100</y>
   <width>400</width>
-  <height>320</height>
+  <height>180</height>
   <widget type="label" version="2.0.0">
     <name>AirGasConstantLabel</name>
     <text>Air Gas Constant</text>
@@ -14,7 +14,7 @@
   </widget>
   <widget type="label" version="2.0.0">
     <name>Title</name>
-    <text>($(CPUID)) ASPD4525-Manual Calibration</text>
+    <text>($(CPUID)) ASPD4525-Physics Calibration</text>
     <x>10</x>
     <y>10</y>
     <width>241</width>
@@ -58,23 +58,15 @@ importPackage(Packages.org.csstudio.display.builder.runtime.script);
 var AirGasConstant = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AirGasConstant')));
 var AirMolarMass = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AirMolarMass')));
 var GravityAccel = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'GravityAccel')));
-var PressureMaximum_PSI = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PressureMaximum_PSI')));
-var PressureMinimum_PSI = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PressureMinimum_PSI')));
-var TemperatureMaximum_Celcius = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TemperatureMaximum_Celcius')));
-var TemperatureMinimum_Celcius = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TemperatureMinimum_Celcius')));
 
 var args;
 
 if( AirGasConstant != 0 ) {
   args = {
-                'fAirMolarMass_SI': AirMolarMass,
+    'fAirMolarMass_SI': AirMolarMass,
 		'fGravitationalAccereleration_SI': GravityAccel,
-		'fAirGasConstantR_SI':  AirGasConstant,
-                'fPressureMaximum_PSI': PressureMaximum_PSI,
-		'fPressureMinimum_PSI': PressureMinimum_PSI,
-		'fTemperatureMaximum_Celcius':  TemperatureMaximum_Celcius,
-                'fTemperatureMinimum_Celcius': TemperatureMinimum_Celcius
-         };
+		'fAirGasConstantR_SI':  AirGasConstant
+    };
   }
 else {
   //    args = {"Payload.DumpFilename":"",
@@ -82,13 +74,13 @@ else {
 //		"Payload.ActiveTblFlag":"" };
 }
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/ManualCalibrate', args);]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/PhysicsCalibrate', args);]]></text>
         </script>
       </action>
     </actions>
     <text>Calibrate</text>
     <x>30</x>
-    <y>273</y>
+    <y>150</y>
     <width>310</width>
     <height>20</height>
     <foreground_color>
@@ -136,94 +128,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/ManualCalibrate', args);
     <pv_name>loc://$(APP)_$(CPUID)_$(DID)_GravityAccel&lt;VDouble&gt;(9.80665)</pv_name>
     <x>152</x>
     <y>110</y>
-    <width>188</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>PressureMaximumLabel</name>
-    <text>PressureMaxPSI</text>
-    <x>30</x>
-    <y>140</y>
-    <width>170</width>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>PressureMaximum_PSI</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PressureMaximum_PSI&lt;VDouble&gt;(1.0)</pv_name>
-    <x>152</x>
-    <y>140</y>
-    <width>188</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>PressureMinimumLabel</name>
-    <text>PressureMinPSI</text>
-    <x>30</x>
-    <y>170</y>
-    <width>170</width>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>PressureMinimum_PSI</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PressureMinimum_PSI&lt;VDouble&gt;(0.0)</pv_name>
-    <x>152</x>
-    <y>170</y>
-    <width>188</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>TemperatureMaximumLabel</name>
-    <text>TempMax_C</text>
-    <x>30</x>
-    <y>200</y>
-    <width>170</width>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>TemperatureMaximum_Celcius</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TemperatureMaximum_Celcius&lt;VDouble&gt;(150.0)</pv_name>
-    <x>152</x>
-    <y>200</y>
-    <width>188</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>TemperatureMinimumLabel</name>
-    <text>TempMin_C</text>
-    <x>30</x>
-    <y>230</y>
-    <width>170</width>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>TemperatureMinimum_Celcius</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TemperatureMinimum_Celcius&lt;VDouble&gt;(-50.0)</pv_name>
-    <x>152</x>
-    <y>230</y>
     <width>188</width>
     <height>18</height>
     <background_color>
