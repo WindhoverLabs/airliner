@@ -29,7 +29,7 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
     */
 
     "AMC_MixerCfgTbl", "AMC.MIXERCFG_TBL", "AMC default mixer config table",
-    "amc_mixercfg.tbl", (sizeof(MultirotorMixer_ConfigTable_t))
+    "amc_mc_mixercfg.tbl", (sizeof(MultirotorMixer_ConfigTable_t))
 };
 
 

@@ -36,6 +36,7 @@
 
 
 #include <mixer/MultirotorMixer.h>
+#include <mixer/SimpleMixer.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -111,17 +112,11 @@ public:
 
     /* Config table-related */
 
-    /** \brief PWM Config Table Handle */
-    CFE_TBL_Handle_t PwmConfigTblHdl;
+    /** \brief Config Table Handle */
+    CFE_TBL_Handle_t ConfigTblHdl;
 
-    /** \brief Mixer Config Table Handle */
-    CFE_TBL_Handle_t MixerConfigTblHdl;
-
-    /** \brief PWM Config Table Pointer */
-    AMC_PwmConfigTbl_t* PwmConfigTblPtr;
-
-    /** \brief Mixer Config Table Pointer */
-    MultirotorMixer_ConfigTable_t* MixerConfigTblPtr;
+    /** \brief Config Table Pointer */
+    AMC_ConfigTbl_t* ConfigTblPtr;
 
     /** \brief Output Data published at the end of cycle */
     PX4_ActuatorOutputsMsg_t ActuatorOutputs;
@@ -131,12 +126,13 @@ public:
 
     AMC_CurrentValueTable_t CVT;
 
-    MultirotorMixer MixerObject;
+    MultirotorMixer MultirotorMixerObject;
+    SimpleMixer     SimpleMixerObject;
 
     //MIXER_Data_t  MixerData;
     PwmLimit_Data_t PwmLimit;
 
-    int32 PwmConfigMutex;
+    int32 ConfigMutex;
 
     /************************************************************************/
     /** \brief CFS PWM Motor Controller Task (AMC) application entry point
@@ -547,7 +543,7 @@ public:
     **  \endreturns
     **
     *************************************************************************/
-    static int32  ValidatePwmCfgTbl(void*);
+    static int32  ValidateCfgTbl(void*);
 
     /************************************************************************/
     /** \brief Validate AMC Mixer configuration table

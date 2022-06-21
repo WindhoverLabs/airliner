@@ -27,8 +27,8 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
     **    ObjSize - size of the entire table
     */
 
-    "AMC_PwmCfgTbl", "AMC.PWMCFG_TBL", "AMC default pwm config table",
-    "amc_pwmcfg.tbl", (sizeof(AMC_PwmConfigTbl_t))
+    "AMC_ConfigTbl", "AMC.CONFIG_TBL", "AMC default config table",
+    "amc_config.tbl", (sizeof(AMC_ConfigTbl_t))
 };
 
 /*
@@ -40,7 +40,7 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 */
 
 /* Default CI config table data */
-AMC_PwmConfigTbl_t AMC_PwmCfgTbl =
+AMC_ConfigTbl_t AMC_ConfigTbl =
 {
     900,  /* PwmDisarmed */
     1000, /* PwmMin      */

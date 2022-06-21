@@ -36,7 +36,8 @@
 
 #include "cfe.h"
 
-#define MULTIROTOR_MIXER_MAX_ROTOR_COUNT 8
+#define MULTIROTOR_MIXER_MAX_ROTOR_COUNT  (8)
+#define AMC_SIMPLE_MIXER_MAX_CONTROLS     (8)
 
 typedef enum
 {
@@ -80,7 +81,32 @@ typedef struct
 } MultirotorMixer_ConfigTable_t;
 
 
+/** simple channel scaler */
+typedef struct {
+	float NegativeScale;
+	float PositiveScale;
+	float Offset;
+	float MinOutput;
+	float MaxOutput;
+} Mixer_Scaler_t;
+
+/** mixer input */
+typedef struct {
+	uint8 ControlGroup;	/**< group from which the input reads */
+	uint8 ControlIndex;	/**< index within the control group */
+	Mixer_Scaler_t Scaler;		/**< scaling applied to the input before use */
+} SimpleMixer_Control_t;
+
+typedef struct
+{
+	uint8  ControlCount;	/**< number of inputs */
+	Mixer_Scaler_t    OutputScaler;	/**< scaling for the output */
+	SimpleMixer_Control_t   Controls[AMC_SIMPLE_MIXER_MAX_CONTROLS];	/**< actual size of the array is set by control_count */
+} SimpleMixer_ConfigTable_t;
+
+
 typedef MultirotorMixer_ConfigTable_t *MultirotorMixer_ConfigTablePtr_t;
+typedef SimpleMixer_ConfigTable_t     *SimpleMixer_ConfigTablePtr_t;
 
 
 #endif
