@@ -31,7 +31,7 @@
 **    ObjSize - size of the entire table
 **
 */
-static CFE_TBL_FileDef_t CFE_TBL_FileDef =
+static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 {
     "ASPD4525_ConfigTbl", "ASPD4525.CONFIG_TBL", "ASPD4525 default config table",
     "aspd4525_config.tbl", (sizeof(ASPD4525_ConfigTblEntry_t) * ASPD4525_CONFIG_TABLE_MAX_ENTRIES)

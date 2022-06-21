@@ -30,7 +30,7 @@
 **    ObjSize - size of the entire table
 **
 */
-static CFE_TBL_FileDef_t CFE_TBL_FileDef =
+static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 {
     "FPC_ConfigTbl", "FPC.CONFIG_TBL", "FPC default config table",
     "fpc_config.tbl", (sizeof(FPC_ConfigTbl_t))

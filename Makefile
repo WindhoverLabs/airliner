@@ -144,6 +144,10 @@ $(GENERIC_TARGET_NAMES)::
 obc-quad:: obc/quad/ppd obc/quad/cpd
 	@rm -Rf build/obc/quad/target
 	@echo 'Done'
+
+obc-fixedwing:: obc/fixedwing/ppd obc/fixedwing/cpd
+	@rm -Rf build/obc/fixedwing/target
+	@echo 'Done'
 	
 	
 workspace-quad::
@@ -165,6 +169,26 @@ workspace-quad::
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/quad/cpd/target/wh_defs.yaml ${PWD}/build/obc/quad/cpd/target/wh_defs.db ${PWD}/build/obc/quad/commander_workspace/mdb/cpd.xml
 	@echo 'Generating PPD XTCE'
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/quad/ppd/target/wh_defs.yaml ${PWD}/build/obc/quad/ppd/target/wh_defs.db ${PWD}/build/obc/quad/commander_workspace/mdb/ppd.xml
+
+workspace-fixedwing::
+	@echo 'Generating PPD ground tools data.'
+	@make -C build/obc/fixedwing/ppd/target ground-tools
+	@echo 'Generating CPD ground tools data.'
+	@make -C build/obc/fixedwing/cpd/target ground-tools
+	@echo 'Adding XTCE configuration to registries.'
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/fixedwing/cpd/target/wh_defs.yaml --overwrite build/obc/fixedwing/cpd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/obc/fixedwing/ppd/target/wh_defs.yaml --overwrite build/obc/fixedwing/ppd/target/wh_defs.yaml
+	@echo 'Generating combined registry.'
+	@rm -Rf build/obc/fixedwing/commander_workspace >/dev/null
+	@mkdir -p build/obc/fixedwing/commander_workspace/etc
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/fixedwing/commander_workspace/etc/registry.yaml --yaml_input build/obc/fixedwing/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/obc/fixedwing/commander_workspace/etc/registry.yaml --yaml_input build/obc/fixedwing/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	@echo 'Generating Commander workspace.'
+	@python3 core/base/tools/commander/generate_workspace.py build/obc/fixedwing/commander_workspace/etc/registry.yaml build/obc/fixedwing/commander_workspace/
+	@echo 'Generating CPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/fixedwing/cpd/target/wh_defs.yaml ${PWD}/build/obc/fixedwing/cpd/target/wh_defs.db ${PWD}/build/obc/fixedwing/commander_workspace/mdb/cpd.xml
+	@echo 'Generating PPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/obc/fixedwing/ppd/target/wh_defs.yaml ${PWD}/build/obc/fixedwing/ppd/target/wh_defs.db ${PWD}/build/obc/fixedwing/commander_workspace/mdb/ppd.xml
 	
 	
 workspace-quad-sitl::
