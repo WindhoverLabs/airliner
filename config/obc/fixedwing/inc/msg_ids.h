@@ -184,6 +184,7 @@
 #define PX4_VTOL_VEHICLE_STATUS_MID               TLM_MSG(  265 )  /* 0x109 */
 #define PX4_WIND_ESTIMATE_MID                     TLM_MSG(  266 )  /* 0x10a */
 #define PX4_SENSOR_CORRECTION_MID                 TLM_MSG(  267 )  /* 0x10b */
+#define PX4_POSITION_CONTROL_STATUS_MID           TLM_MSG(  354 )  /* 0x162 */
 
 
 /* Vehicle specific driver applications                                     */
@@ -324,7 +325,6 @@
 #define FPC_CMD_MID                               CMD_MSG(  351 )  /* 0x15f */
 #define FPC_SEND_HK_MID                           CMD_MSG(  352 )  /* 0x160 */
 #define FPC_WAKEUP_MID                            CMD_MSG(  353 )  /* 0x161 */
-#define FPC_POSITION_CONTROL_STATUS_MID           TLM_MSG(  354 )  /* 0x162 */
 
 
 #endif

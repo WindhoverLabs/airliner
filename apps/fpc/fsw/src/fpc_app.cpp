@@ -358,7 +358,7 @@ int32 FPC::InitData()
     /* Init output messages */
     memset((void*)&m_PositionControlStatusMsg, 0x00, sizeof(m_PositionControlStatusMsg));
     CFE_SB_InitMsg(&m_PositionControlStatusMsg,
-        FPC_POSITION_CONTROL_STATUS_MID, sizeof(PX4_Position_Control_Status_t), TRUE);
+        PX4_POSITION_CONTROL_STATUS_MID, sizeof(PX4_Position_Control_Status_t), TRUE);
 
 
     memset((void*)&m_VehicleAttitudeSetpointMsg, 0x00, sizeof(m_VehicleAttitudeSetpointMsg));

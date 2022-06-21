@@ -181,27 +181,6 @@ typedef struct
 
 } FPC_HkTlm_t;
 
-typedef struct
-{
-    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint64  Timestamp;
-
-    float NAV_ROLL;
-    float NAC_PITCH;
-    float NAV_BEARING;
-
-    float TARGET_BEARING;
-    float WP_DIST;
-    float XTRACK_ERRORP;
-    float TURN_DISTANCE;	// the optimal distance to a waypoint to switch to the next
-
-    float LANDING_HORIZONTAL_SLOPE_DISPLACEMENT;
-    float LANDING_SLOPE_ANGLE_RAD;
-    float LANDING_FLARE_LENGTH;
-    osalbool ABORT_LANDING;
-
-} PX4_Position_Control_Status_t;
-
 #ifdef __cplusplus
 }
 #endif
