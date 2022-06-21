@@ -84,10 +84,10 @@ typedef struct
 	float fAirGasConstantR_SI;								/* J/(mol.K) */
 	float fGravitationalAccereleration_SI;					/* m/s^2 */
 	float fAirMolarMass_SI;									/* kg/mol */
-	float fAltitudeMeters_bs[ASPD4525_NUM_ATM_LAYERS];	    /* altitude minimum limits of different layers of atmosphere */
-	float fRho_bs[ASPD4525_NUM_ATM_LAYERS];				    /* air mass density limits of different layers of atmosphere */
-	float fTemp_bs[ASPD4525_NUM_ATM_LAYERS];				/* standard temperature limits of different layers of atmosphere */
-	float fLapseRate_bs[ASPD4525_NUM_ATM_LAYERS];		    /* Temperature Lapse Rate of different layers of atmosphere */
+	float fAltitudeMeters_bs[ASPD4525_NUM_ATM_LAYERS];	    /* altitude minimum limits of different layers of atmosphere in m*/
+	float fRho_bs[ASPD4525_NUM_ATM_LAYERS];				    /* air mass density limits of different layers of atmosphere in kg/m^3*/
+	float fTemp_bs[ASPD4525_NUM_ATM_LAYERS];				/* standard temperature limits of different layers of atmosphere in K (kelvins)*/
+	float fLapseRate_bs[ASPD4525_NUM_ATM_LAYERS];		    /* Temperature Lapse Rate of different layers of atmosphere in K/m*/
 	uint32 uEquationNo_bs[ASPD4525_NUM_ATM_LAYERS];		    /* Equation used in different layers of atmosphere */
 	uint32 uAirDensityCalculationMode;						/* Modes described in mfa_config.h */
 } ASPD4525_ConfigTblEntry_t;

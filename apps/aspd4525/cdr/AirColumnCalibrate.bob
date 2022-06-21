@@ -57,25 +57,74 @@
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var AirGasConstant = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AirGasConstant')));
-var AirMolarMass = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AirMolarMass')));
-var GravityAccel = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'GravityAccel')));
-var PressureMaximum_PSI = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PressureMaximum_PSI')));
-var PressureMinimum_PSI = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PressureMinimum_PSI')));
-var TemperatureMaximum_Celcius = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TemperatureMaximum_Celcius')));
-var TemperatureMinimum_Celcius = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TemperatureMinimum_Celcius')));
+var h_b0 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'h_b0')));
+var h_b1 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'h_b1')));
+var h_b2 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'h_b2')));
+var h_b3 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'h_b3')));
+var h_b4 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'h_b4')));
+var h_b5 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'h_b5')));
+var h_b6 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'h_b6')));
+
+var rho_b0 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'rho_b0')));
+var rho_b1 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'rho_b1')));
+var rho_b2 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'rho_b2')));
+var rho_b3 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'rho_b3')));
+var rho_b4 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'rho_b4')));
+var rho_b5 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'rho_b5')));
+var rho_b6 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'rho_b6')));
+
+var T_b0 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'T_b0')));
+var T_b1 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'T_b1')));
+var T_b2 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'T_b2')));
+var T_b3 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'T_b3')));
+var T_b4 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'T_b4')));
+var T_b5 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'T_b5')));
+var T_b6 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'T_b6')));
+
+var L_b0 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'L_b0')));
+var L_b1 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'L_b1')));
+var L_b2 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'L_b2')));
+var L_b3 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'L_b3')));
+var L_b4 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'L_b4')));
+var L_b5 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'L_b5')));
+var L_b6 = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'L_b6')));
+
 
 var args;
 
-if( AirGasConstant != 0 ) {
+if( rho_b0 != 0 ) {
   args = {
-                'fAirMolarMass_SI': AirMolarMass,
-		'fGravitationalAccereleration_SI': GravityAccel,
-		'fAirGasConstantR_SI':  AirGasConstant,
-                'fPressureMaximum_PSI': PressureMaximum_PSI,
-		'fPressureMinimum_PSI': PressureMinimum_PSI,
-		'fTemperatureMaximum_Celcius':  TemperatureMaximum_Celcius,
-                'fTemperatureMinimum_Celcius': TemperatureMinimum_Celcius
+                'h_b0': h_b0,
+		'h_b1': h_b1,
+		'h_b2': h_b2,
+                'h_b3': h_b3,
+		'h_b4': h_b4,
+		'h_b5': h_b5,
+                'h_b6': h_b6,
+
+                'rho_b0': rho_b0,
+		'rho_b1': rho_b1,
+		'rho_b2': rho_b2,
+                'rho_b3': rho_b3,
+		'rho_b4': rho_b4,
+		'rho_b5': rho_b5,
+                'rho_b6': rho_b6,
+
+                'L_b0': L_b0,
+		'L_b1': L_b1,
+		'L_b2': L_b2,
+                'L_b3': L_b3,
+		'L_b4': L_b4,
+		'L_b5': L_b5,
+                'L_b6': L_b6,
+
+                'T_b0': T_b0,
+		'T_b1': T_b1,
+		'T_b2': T_b2,
+                'T_b3': T_b3,
+		'T_b4': T_b4,
+		'T_b5': T_b5,
+                'T_b6': T_b6
          };
   }
 else {
@@ -84,7 +133,7 @@ else {
 //		"Payload.ActiveTblFlag":"" };
 }
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/ManualCalibrate', args);]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/AirColumnCalibrate', args);]]></text>
         </script>
       </action>
     </actions>

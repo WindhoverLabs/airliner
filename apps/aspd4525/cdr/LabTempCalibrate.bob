@@ -4,14 +4,7 @@
   <x>100</x>
   <y>100</y>
   <width>400</width>
-  <height>320</height>
-  <widget type="label" version="2.0.0">
-    <name>AirGasConstantLabel</name>
-    <text>Air Gas Constant</text>
-    <x>30</x>
-    <y>50</y>
-    <width>170</width>
-  </widget>
+  <height>440</height>
   <widget type="label" version="2.0.0">
     <name>Title</name>
     <text>($(CPUID)) ASPD4525-Temperature Calibration</text>
@@ -32,21 +25,6 @@
       </color>
     </border_color>
   </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>AirGasConstant</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AirGasConstant&lt;VDouble&gt;(8.3144598)</pv_name>
-    <x>152</x>
-    <y>50</y>
-    <width>188</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
   <widget type="action_button" version="3.0.0">
     <name>Calibrate</name>
     <actions>
@@ -55,25 +33,19 @@
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var AirGasConstant = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AirGasConstant')));
-var AirMolarMass = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AirMolarMass')));
-var GravityAccel = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'GravityAccel')));
-var PressureMaximum_PSI = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PressureMaximum_PSI')));
-var PressureMinimum_PSI = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PressureMinimum_PSI')));
-var TemperatureMaximum_Celcius = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TemperatureMaximum_Celcius')));
-var TemperatureMinimum_Celcius = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TemperatureMinimum_Celcius')));
+var TCountLow = PVUtil.getInt(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TCountLow')));
+var TemperatureLow_Celcius = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TemperatureLow_Celcius')));
+var TCountHigh = PVUtil.getInt(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TCountHigh')));
+var TemperatureHigh_Celcius = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'TemperatureHigh_Celcius')));
 
 var args;
 
-if( AirGasConstant != 0 ) {
+if( TemperatureHigh_Celcius != 0 ) {
   args = {
-                'fAirMolarMass_SI': AirMolarMass,
-		'fGravitationalAccereleration_SI': GravityAccel,
-		'fAirGasConstantR_SI':  AirGasConstant,
-                'fPressureMaximum_PSI': PressureMaximum_PSI,
-		'fPressureMinimum_PSI': PressureMinimum_PSI,
-		'fTemperatureMaximum_Celcius':  TemperatureMaximum_Celcius,
-                'fTemperatureMinimum_Celcius': TemperatureMinimum_Celcius
+                'uTCountLow': TCountLow,
+		'fTemperatureLow_Celcius': TemperatureLow_Celcius,
+                'uTCountHigh': TCountHigh,
+		'fTemperatureHigh_Celcius': TemperatureHigh_Celcius
          };
   }
 else {
@@ -82,13 +54,13 @@ else {
 //		"Payload.ActiveTblFlag":"" };
 }
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/ManualCalibrate', args);]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/TempCalibrate', args);]]></text>
         </script>
       </action>
     </actions>
     <text>Calibrate</text>
     <x>30</x>
-    <y>273</y>
+    <y>402</y>
     <width>310</width>
     <height>20</height>
     <foreground_color>
@@ -103,127 +75,125 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/ManualCalibrate', args);
     <border_alarm_sensitive>false</border_alarm_sensitive>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>AirMolarMassLabel</name>
-    <text>Air Molar Mass</text>
+    <name>TCountHighLabel</name>
+    <text>T Count High</text>
     <x>30</x>
+    <y>329</y>
+    <width>170</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>TCountHigh</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TCountHigh&lt;VLong&gt;(0)</pv_name>
+    <x>152</x>
+    <y>329</y>
+    <width>188</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>4</format>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>TemperatureHighLabel</name>
+    <text>Temp High (C)</text>
+    <x>30</x>
+    <y>359</y>
+    <width>170</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>TemperatureHigh_Celcius</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TemperatureHigh_Celcius&lt;VDouble&gt;()</pv_name>
+    <x>152</x>
+    <y>359</y>
+    <width>188</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="picture" version="2.0.0">
+    <name>Picture</name>
+    <x>90</x>
+    <y>50</y>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Help</name>
+    <actions>
+      <action type="open_webpage">
+        <url>https://windhoverlabs.atlassian.net/wiki/spaces/~626004280f5cf500697ed4c2/pages/2469429249/Calculating+Air+Speed+using+Pitot+Tube#Density-Formula-with-Height</url>
+        <description>Open Web Page</description>
+      </action>
+    </actions>
+    <text>Help</text>
+    <x>260</x>
     <y>80</y>
-    <width>170</width>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>AirMolarMass</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AirMolarMass&lt;VDouble&gt;(0.0289644)</pv_name>
-    <x>152</x>
-    <y>80</y>
-    <width>188</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
+    <tooltip>$(actions)</tooltip>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>GravityAccelLabel</name>
-    <text>Gravity Accel</text>
-    <x>30</x>
-    <y>110</y>
-    <width>170</width>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>GravityAccel</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_GravityAccel&lt;VDouble&gt;(9.80665)</pv_name>
-    <x>152</x>
-    <y>110</y>
-    <width>188</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>PressureMaximumLabel</name>
-    <text>PressureMaxPSI</text>
-    <x>30</x>
-    <y>140</y>
-    <width>170</width>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>PressureMaximum_PSI</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PressureMaximum_PSI&lt;VDouble&gt;(1.0)</pv_name>
-    <x>152</x>
-    <y>140</y>
-    <width>188</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>PressureMinimumLabel</name>
-    <text>PressureMinPSI</text>
-    <x>30</x>
+    <name>Label_6</name>
+    <text>Scan QR Code for Help</text>
+    <x>10</x>
     <y>170</y>
+    <width>310</width>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>TemperatureCount</name>
+    <pv_name>/cfs/$(CPUID)/apps/aspd4525/ASPD4525_HK_TLM_MID.uTemperatureCount</pv_name>
+    <x>196</x>
+    <y>210</y>
+    <format>4</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>TemperatureCountLabel</name>
+    <text>Temperature Count</text>
+    <x>65</x>
+    <y>210</y>
+    <width>132</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>TCountLowLabel</name>
+    <text>T Count Low</text>
+    <x>30</x>
+    <y>269</y>
     <width>170</width>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>PressureMinimum_PSI</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PressureMinimum_PSI&lt;VDouble&gt;(0.0)</pv_name>
+    <name>TCountLow</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TCountLow&lt;VLong&gt;(0)</pv_name>
     <x>152</x>
-    <y>170</y>
+    <y>269</y>
     <width>188</width>
     <height>18</height>
     <background_color>
       <color red="255" green="255" blue="255">
       </color>
     </background_color>
+    <format>4</format>
     <actions>
     </actions>
     <border_width>1</border_width>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>TemperatureMaximumLabel</name>
-    <text>TempMax_C</text>
+    <name>TemperatureLowLabel</name>
+    <text>Temp Low (C)</text>
     <x>30</x>
-    <y>200</y>
+    <y>299</y>
     <width>170</width>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>TemperatureMaximum_Celcius</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TemperatureMaximum_Celcius&lt;VDouble&gt;(150.0)</pv_name>
+    <name>TemperatureLow_Celcius</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TemperatureLow_Celcius&lt;VDouble&gt;()</pv_name>
     <x>152</x>
-    <y>200</y>
-    <width>188</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>TemperatureMinimumLabel</name>
-    <text>TempMin_C</text>
-    <x>30</x>
-    <y>230</y>
-    <width>170</width>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>TemperatureMinimum_Celcius</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TemperatureMinimum_Celcius&lt;VDouble&gt;(-50.0)</pv_name>
-    <x>152</x>
-    <y>230</y>
+    <y>299</y>
     <width>188</width>
     <height>18</height>
     <background_color>

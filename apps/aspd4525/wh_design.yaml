@@ -51,6 +51,15 @@
         ManualCalibrate: 
           cc: 2
           struct: ASPD4525_ManCalibArgCmd_t
+        TempCalibrate:
+          cc: 3
+          struct: ASPD4525_TempCalibArgCmd_t
+        PhysicsCalibrate:
+          cc: 4
+          struct: ASPD4525_PhysicsCalibArgCmd_t
+        AirColumnCalibrate: 
+          cc: 5
+          struct: ASPD4525_AirColCalibArgCmd_t
     ASPD4525_SEND_HK_MID: 
       msgID: 
       commands: 

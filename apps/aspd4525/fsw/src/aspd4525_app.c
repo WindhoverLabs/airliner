@@ -727,6 +727,137 @@ void ASPD4525_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
 				break;
 			}
 
+			case ASPD4525_TEMP_CALIB_CC:
+			{
+				boolean sizeOk = ASPD4525_VerifyCmdLength(MsgPtr, sizeof(ASPD4525_TempCalibArgCmd_t));
+
+				if (TRUE == sizeOk)
+				{
+					int32 status =0;
+					ASPD4525_TempCalibArgCmd_t* tempCalibArgCmdPtr = (ASPD4525_TempCalibArgCmd_t*) MsgPtr;
+
+                    if (
+                        ( tempCalibArgCmdPtr->uTCountHigh > tempCalibArgCmdPtr->uTCountLow ) &&
+                        ( tempCalibArgCmdPtr->fTemperatureHigh_Celcius > tempCalibArgCmdPtr->fTemperatureLow_Celcius )
+                    )
+                    {
+                        uint32 CMax = 0x7ff;
+                        float aHigh = (float)tempCalibArgCmdPtr->uTCountHigh/(float)CMax;
+                        float aLow = (float)tempCalibArgCmdPtr->uTCountLow/(float)CMax;
+                        float bHigh = 1-aHigh;
+                        float bLow = 1-aLow;
+                        float determinant = 1/(aLow*bHigh-aHigh*bLow);
+
+                        ASPD4525_AppData.ConfigTblPtr->fTemperatureMaximum_Celcius = determinant*
+                            (bHigh*tempCalibArgCmdPtr->fTemperatureLow_Celcius -
+                             bLow*tempCalibArgCmdPtr->fTemperatureHigh_Celcius);
+
+                        ASPD4525_AppData.ConfigTblPtr->fTemperatureMinimum_Celcius = determinant*
+                            (- aHigh*tempCalibArgCmdPtr->fTemperatureLow_Celcius
+                             + aLow*tempCalibArgCmdPtr->fTemperatureHigh_Celcius);
+
+                        printf("Came Here: [%f, %f)\n", ASPD4525_AppData.ConfigTblPtr->fTemperatureMinimum_Celcius, ASPD4525_AppData.ConfigTblPtr->fTemperatureMaximum_Celcius);
+
+                        status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
+                        if (CFE_SUCCESS!=status) {
+                            ASPD4525_AppData.HkTlm.usCmdErrCnt++;
+                            (void) CFE_EVS_SendEvent(
+                                ASPD4525_CONFIG_TABLE_ERR_EID, 
+                                CFE_EVS_ERROR,
+                                "Table Mod Error (0x%08X)", (unsigned int) status
+                            );
+                        } else {
+                            ASPD4525_AppData.HkTlm.usCmdCnt++;
+                        }
+                    }
+				}
+				break;
+			}
+
+			case ASPD4525_PHYSICS_CALIB_CC:
+			{
+				boolean sizeOk = ASPD4525_VerifyCmdLength(MsgPtr, sizeof(ASPD4525_PhysicsCalibArgCmd_t));
+
+				if (TRUE == sizeOk)
+				{
+					int32 status =0;
+					ASPD4525_PhysicsCalibArgCmd_t* physicsCalibArgCmdPtr = (ASPD4525_PhysicsCalibArgCmd_t*) MsgPtr;
+
+                    ASPD4525_AppData.ConfigTblPtr->fAirGasConstantR_SI = physicsCalibArgCmdPtr->fAirGasConstantR_SI;
+                    ASPD4525_AppData.ConfigTblPtr->fAirMolarMass_SI = physicsCalibArgCmdPtr->fAirMolarMass_SI;
+                    ASPD4525_AppData.ConfigTblPtr->fGravitationalAccereleration_SI = physicsCalibArgCmdPtr->fGravitationalAccereleration_SI;
+
+					status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
+					if (CFE_SUCCESS!=status) {
+						ASPD4525_AppData.HkTlm.usCmdErrCnt++;
+						(void) CFE_EVS_SendEvent(
+							ASPD4525_CONFIG_TABLE_ERR_EID, 
+							CFE_EVS_ERROR,
+							"Table Mod Error (0x%08X)", (unsigned int) status
+						);
+					} else {
+						ASPD4525_AppData.HkTlm.usCmdCnt++;
+					}
+				}
+				break;
+			}
+
+            case ASPD4525_AIR_COL_CALIB_CC:
+            {
+				boolean sizeOk = ASPD4525_VerifyCmdLength(MsgPtr, sizeof(ASPD4525_AirColCalibArgCmd_t));
+
+				if (TRUE == sizeOk)
+				{
+					int32 status =0;
+					ASPD4525_AirColCalibArgCmd_t* airColCalibArgCmdPtr = (ASPD4525_AirColCalibArgCmd_t*) MsgPtr;
+
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[0] = airColCalibArgCmdPtr->fh_b0;
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[1] = airColCalibArgCmdPtr->fh_b1;
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[2] = airColCalibArgCmdPtr->fh_b2;
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[3] = airColCalibArgCmdPtr->fh_b3;
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[4] = airColCalibArgCmdPtr->fh_b4;
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[5] = airColCalibArgCmdPtr->fh_b5;
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[6] = airColCalibArgCmdPtr->fh_b6;
+
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[0] = airColCalibArgCmdPtr->frho_b0;
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[1] = airColCalibArgCmdPtr->frho_b1;
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[2] = airColCalibArgCmdPtr->frho_b2;
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[3] = airColCalibArgCmdPtr->frho_b3;
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[4] = airColCalibArgCmdPtr->frho_b4;
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[5] = airColCalibArgCmdPtr->frho_b5;
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[6] = airColCalibArgCmdPtr->frho_b6;
+
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[0] = airColCalibArgCmdPtr->fT_b0;
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[1] = airColCalibArgCmdPtr->fT_b1;
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[2] = airColCalibArgCmdPtr->fT_b2;
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[3] = airColCalibArgCmdPtr->fT_b3;
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[4] = airColCalibArgCmdPtr->fT_b4;
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[5] = airColCalibArgCmdPtr->fT_b5;
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[6] = airColCalibArgCmdPtr->fT_b6;
+
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[0] = airColCalibArgCmdPtr->fL_b0;
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[1] = airColCalibArgCmdPtr->fL_b1;
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[2] = airColCalibArgCmdPtr->fL_b2;
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[3] = airColCalibArgCmdPtr->fL_b3;
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[4] = airColCalibArgCmdPtr->fL_b4;
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[5] = airColCalibArgCmdPtr->fL_b5;
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[6] = airColCalibArgCmdPtr->fL_b6;
+
+					status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
+					if (CFE_SUCCESS!=status) {
+						ASPD4525_AppData.HkTlm.usCmdErrCnt++;
+						(void) CFE_EVS_SendEvent(
+							ASPD4525_CONFIG_TABLE_ERR_EID, 
+							CFE_EVS_ERROR,
+							"Table Mod Error (0x%08X)", (unsigned int) status
+						);
+					} else {
+						ASPD4525_AppData.HkTlm.usCmdCnt++;
+					}
+				}
+				break;
+            }
+
             /* TODO:  Add code to process the rest of the ASPD4525 commands here */
 
             default:
