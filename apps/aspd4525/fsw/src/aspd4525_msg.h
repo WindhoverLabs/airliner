@@ -120,9 +120,11 @@ extern "C" {
 */
 #define ASPD4525_RESET_CC                (1)
 #define ASPD4525_MAN_CALIB_CC            (2)
-#define ASPD4525_TEMP_CALIB_CC           (3)
-#define ASPD4525_PHYSICS_CALIB_CC        (4)
-#define ASPD4525_AIR_COL_CALIB_CC        (5)
+#define ASPD4525_LAB_CALIB_CC            (3)
+
+#define ASPD4525_TEMP_CALIB_CC           (5)
+#define ASPD4525_PHYSICS_CALIB_CC        (6)
+#define ASPD4525_AIR_COL_CALIB_CC        (7)
 
 /************************************************************************
 ** Local Structure Declarations
@@ -148,6 +150,14 @@ typedef struct {
 	float fGravitationalAccereleration_SI;					/* m/s^2 */
 	float fAirMolarMass_SI;									/* kg/mol */
 } ASPD4525_ManCalibArgCmd_t;
+
+typedef struct {
+    uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
+    uint32 uPCountLow;
+	float fVelocityLow_SI;                                  /* m/s */
+    uint32 uPCountHigh;
+	float fVelocityHigh_SI;                                 /* m/s */
+} ASPD4525_LabCalibArgCmd_t;
 
 typedef struct {
     uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
