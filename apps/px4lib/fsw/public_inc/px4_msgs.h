@@ -1415,7 +1415,6 @@ typedef struct
     float LANDING_SLOPE_ANGLE_RAD;
     float LANDING_FLARE_LENGTH;
     osalbool ABORT_LANDING;
-
 } PX4_Position_Control_Status_t;
 
 #endif

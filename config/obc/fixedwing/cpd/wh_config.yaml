@@ -907,6 +907,8 @@ modules:
             msgID: 0x0b0a              # TLM_MSG(  266 )
           PX4_SENSOR_CORRECTION_MID:
             msgID: 0x0b0b              # TLM_MSG(  267 )
+          PX4_POSITION_CONTROL_STATUS_MID:
+              msgID: 0x0b62              # TLM_MSG(  354 )
     
       bat:
         definition: ${PROJECT_SOURCE_DIR}/apps/bat/wh_design.yaml
@@ -1075,8 +1077,6 @@ modules:
         telemetry:
           FPC_HK_TLM_MID:
             msgID: 0x0b5e              # TLM_MSG(  350 )
-          FPC_POSITION_CONTROL_STATUS_MID:
-            msgID: 0x0b62              # TLM_MSG(  354 )
         commands:
           FPC_CMD_MID:
             msgID: 0x1b5f              # CMD_MSG(  352 )
