@@ -78,8 +78,6 @@ public:
 			);
 	~SimpleMixer();
 
-    int32 SetConfigTablePtr(SimpleMixer_ConfigTablePtr_t &ConfigTablePtr);
-
 	virtual uint32		mix(float *outputs, uint32 space, uint16 *status_reg);
 	virtual uint16		get_saturation_status(void);
 	virtual void		groups_required(uint32 &groups);
@@ -88,12 +86,15 @@ public:
 
 	uint32 set_trim(float trim);
 
-	/**
-	 * @brief      Sets the thrust factor used to calculate mapping from desired thrust to pwm.
-	 *
-	 * @param[in]  val   The value
-	 */
-	virtual void			set_thrust_factor(float val);
+	virtual int32           Initialize(void);
+
+    /** \brief Mixer Config Table Handle */
+    CFE_TBL_Handle_t ConfigTblHdl;
+
+    /** \brief Mixer Config Table Pointer */
+    SimpleMixer_ConfigTable_t* ConfigTblPtr;
+    static int32 ValidateConfigTable(void* ConfigTblPtr);
+    int32 AcquireConfigPointers(void);
 
 private:
 	float 			   m_ThrustFactor;

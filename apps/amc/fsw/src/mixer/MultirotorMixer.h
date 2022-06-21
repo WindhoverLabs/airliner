@@ -88,6 +88,9 @@ public:
 
 	uint32 set_trim(float trim);
 
+    /** \brief Mixer Config Table Handle */
+    CFE_TBL_Handle_t ConfigTblHdl;
+
 	/**
 	 * @brief      Sets the thrust factor used to calculate mapping from desired thrust to pwm.
 	 *
@@ -96,7 +99,11 @@ public:
 	virtual void			set_thrust_factor(float val);
 
     /** \brief Mixer Config Table Pointer */
-    MultirotorMixer_ConfigTable_t* MixerConfigTblPtr;
+    MultirotorMixer_ConfigTable_t* ConfigTblPtr;
+
+    static int32 ValidateConfigTable(void* ConfigTblPtr);
+    int32 AcquireConfigPointers(void);
+    virtual int32 Initialize(void);
 
 private:
 	float 			   m_ThrustFactor;

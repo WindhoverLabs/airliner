@@ -88,19 +88,19 @@ typedef struct {
 	float Offset;
 	float MinOutput;
 	float MaxOutput;
-} SimpleMixer_Scaler_t;
+} Mixer_Scaler_t;
 
 /** mixer input */
 typedef struct {
 	uint8 ControlGroup;	/**< group from which the input reads */
 	uint8 ControlIndex;	/**< index within the control group */
-	SimpleMixer_Scaler_t Scaler;		/**< scaling applied to the input before use */
+	Mixer_Scaler_t Scaler;		/**< scaling applied to the input before use */
 } SimpleMixer_Control_t;
 
 typedef struct
 {
 	uint8  ControlCount;	/**< number of inputs */
-	SimpleMixer_Scaler_t    OutputScaler;	/**< scaling for the output */
+	Mixer_Scaler_t    OutputScaler;	/**< scaling for the output */
 	SimpleMixer_Control_t   Controls[AMC_SIMPLE_MIXER_MAX_CONTROLS];	/**< actual size of the array is set by control_count */
 } SimpleMixer_ConfigTable_t;
 

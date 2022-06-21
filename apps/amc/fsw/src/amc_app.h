@@ -115,14 +115,8 @@ public:
     /** \brief Config Table Handle */
     CFE_TBL_Handle_t ConfigTblHdl;
 
-    /** \brief Mixer Config Table Handle */
-    CFE_TBL_Handle_t MixerConfigTblHdl;
-
     /** \brief Config Table Pointer */
     AMC_ConfigTbl_t* ConfigTblPtr;
-
-//    /** \brief Mixer Config Table Pointer */
-//    MultirotorMixer_ConfigTable_t* MixerConfigTblPtr;
 
     /** \brief Output Data published at the end of cycle */
     PX4_ActuatorOutputsMsg_t ActuatorOutputs;

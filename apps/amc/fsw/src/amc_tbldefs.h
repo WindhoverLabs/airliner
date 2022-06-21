@@ -64,17 +64,26 @@ extern "C" {
  */
 #define AMC_MIXER_CONFIG_TABLENAME ("MIXERCFG_TBL")
 
+typedef enum
+{
+	AMC_MIXER_TYPE_SIMPLE      = 1,
+	AMC_MIXER_TYPE_MULTICOPTER = 2
+} AMC_MixerType_t;
+
 /** \brief Definition for a single config table entry */
 typedef struct
 {
     /** \brief Motor disarmed value for this device. */
-    uint32  PwmDisarmed;
+    uint32          PwmDisarmed;
 
-    /** \brief Motor minimum value for this device.  Keep this high enough to overcome stiction but low enough not to cause lift.*/
-    uint32  PwmMin;
+    /** \brief Motor minimum value for this device.  Keep this high enough to overcome stiction but low enough not to cause lift or thrust.*/
+    uint32          PwmMin;
 
     /** \brief Motor maximum value for this device. */
-    uint32  PwmMax;
+    uint32          PwmMax;
+
+    /** \brief Mixer type. */
+    AMC_MixerType_t MixerType;
 } AMC_ConfigTbl_t;
 
 

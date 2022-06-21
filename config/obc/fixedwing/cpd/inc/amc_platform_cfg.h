@@ -100,9 +100,9 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define AMC_CONFIG_TABLE_FILENAME      ("/ram/apps/amc_config.tbl")
-
-#define AMC_MIXER_CONFIG_TABLE_FILENAME      ("/ram/apps/amc_mixercfg.tbl")
+#define AMC_CONFIG_TABLE_FILENAME                   "/cf/apps/amc_config.tbl"
+#define AMC_MULTICOPTER_MIXER_CONFIG_TABLE_FILENAME "/cf/apps/amc_mc_mixercfg.tbl"
+#define AMC_SIMPLE_MIXER_CONFIG_TABLE_FILENAME      "/cf/apps/amc_s_mixercfg.tbl"
 
 /** \brief The timeout value, in milliseconds, to wait for ES application startup sync.
 **

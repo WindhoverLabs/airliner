@@ -129,6 +129,7 @@
 #define MIXER_H
 
 #include "cfe.h"
+#include "MixerTables.h"
 
 /**
  * Abstract class defining a mixer mixing zero or more inputs to
@@ -137,13 +138,6 @@
 class Mixer
 {
 public:
-	 struct MixerScaler_t {
-	     float negative_scale;
-	     float positive_scale;
-	     float offset;
-	     float min_output;
-	     float max_output;
-	 };
 
 	/** next mixer in a list */
 	Mixer				*m_Next;
@@ -169,6 +163,8 @@ public:
 	 */
 	Mixer(ControlCallback control_cb, cpuaddr cb_handle);
 	virtual ~Mixer() {};
+
+	virtual int32       Initialize(void) {};
 
 	/**
 	 * Perform the mixing function.
@@ -229,7 +225,7 @@ protected:
 	 * @param input			The value to be scaled.
 	 * @return			The scaled value.
 	 */
-	static float			scale(const MixerScaler_t &scaler, float input);
+	static float			scale(const Mixer_Scaler_t &scaler, float input);
 
 	/**
 	 * Validate a scaler
@@ -237,7 +233,7 @@ protected:
 	 * @param scaler		The scaler to be validated.
 	 * @return			Zero if good, nonzero otherwise.
 	 */
-	static int32			scale_check(const MixerScaler_t &scaler);
+	static int32			scale_check(const Mixer_Scaler_t &scaler);
 
 private:
 
