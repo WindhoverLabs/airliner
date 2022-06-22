@@ -81,9 +81,6 @@ typedef struct
 
     /** \brief Motor maximum value for this device. */
     uint32          PwmMax;
-
-    /** \brief Mixer type. */
-    AMC_MixerType_t MixerType;
 } AMC_ConfigTbl_t;
 
 
