@@ -64,12 +64,6 @@ extern "C" {
  */
 #define AMC_MIXER_CONFIG_TABLENAME ("MIXERCFG_TBL")
 
-typedef enum
-{
-	AMC_MIXER_TYPE_SIMPLE      = 1,
-	AMC_MIXER_TYPE_MULTICOPTER = 2
-} AMC_MixerType_t;
-
 /** \brief Definition for a single config table entry */
 typedef struct
 {
