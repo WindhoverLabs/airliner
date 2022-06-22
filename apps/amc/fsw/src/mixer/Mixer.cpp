@@ -39,12 +39,16 @@
 /* Mixer constructor.                                              */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-Mixer::Mixer(ControlCallback ControlCb, cpuaddr CbHandle) :
-    m_Next(nullptr),
-    m_ControlCb(ControlCb),
-    m_CbHandle(CbHandle)
+Mixer::Mixer() :
+    m_Next(nullptr)
 {
     return;
+}
+
+
+void Mixer::set_callback(ControlCallback control_cb)
+{
+	m_ControlCb = control_cb;
 }
 
 
@@ -57,7 +61,7 @@ float Mixer::get_control(uint8 group, uint8 index)
 {
     float   value;
 
-    m_ControlCb(m_CbHandle, group, index, value);
+    m_ControlCb(group, index, value);
 
     return value;
 }
@@ -68,7 +72,7 @@ float Mixer::get_control(uint8 group, uint8 index)
 /* Mixer scale function.                                           */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-float Mixer::scale(const Mixer_Scaler_t &scaler, float input)
+float Mixer::scale(const AMC_Mixer_Scaler_t &scaler, float input)
 {
     float output;
 
@@ -99,7 +103,7 @@ float Mixer::scale(const Mixer_Scaler_t &scaler, float input)
 /* Mixer scale_check function.                                     */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 Mixer::scale_check(const Mixer_Scaler_t &scaler)
+int32 Mixer::scale_check(const AMC_Mixer_Scaler_t &scaler)
 {
     if (scaler.Offset > 1.001f) {
         return 1;

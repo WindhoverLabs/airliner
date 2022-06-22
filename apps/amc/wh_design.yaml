@@ -102,6 +102,15 @@
         DebugCmd: 
           cc: 6
           struct: AMC_DebugCmd_t
+        SetOutputScaler: 
+          cc: 7
+          struct: AMC_SimpleSetOutputScalerCmd_t
+        SetControl: 
+          cc: 8
+          struct: AMC_SimpleSetControlCmd_t
+        SetControlScaler: 
+          cc: 9
+          struct: AMC_SimpleSetControlScalerCmd_t
     AMC_SEND_HK_MID: 
       msgID: 
       commands: 

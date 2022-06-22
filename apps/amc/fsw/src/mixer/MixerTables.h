@@ -35,50 +35,57 @@
 #define MIXER_TABLES_H
 
 #include "cfe.h"
+#include "amc_platform_cfg.h"
 
-#define MULTIROTOR_MIXER_MAX_ROTOR_COUNT  (8)
-#define AMC_SIMPLE_MIXER_MAX_CONTROLS     (8)
+#define AMC_MULTIROTOR_MIXER_MAX_ROTOR_COUNT  (8)
 
 typedef enum
 {
-    MIXER_QUAD_X,
-    MIXER_QUAD_H,
-    MIXER_QUAD_PLUS,
-    MIXER_QUAD_V,
-    MIXER_QUAD_WIDE,
-    MIXER_QUAD_S250AQ,
-    MIXER_QUAD_DEADCAT,
-    MIXER_HEX_X,
-    MIXER_HEX_PLUS,
-    MIXER_HEX_COX,
-    MIXER_HEX_T,
-    MIXER_OCTA_X,
-    MIXER_OCTA_PLUS,
-    MIXER_OCTA_COX,
-    MIXER_OCTA_COX_WIDE,
-    MIXER_TWIN_ENGINE,
-    MIXER_TRI_Y,
-    MIXER_MAX_GEOMETRY
-} MultirotorGeometry_t;
+	AMC_UNUSED,
+	AMC_ENABLED
+} AMC_EntryState_t;
+
+typedef enum
+{
+	MIXER_UNKNOWN,
+	MIXER_QUAD_X,
+	MIXER_QUAD_H,
+	MIXER_QUAD_PLUS,
+	MIXER_QUAD_V,
+	MIXER_QUAD_WIDE,
+	MIXER_QUAD_S250AQ,
+	MIXER_QUAD_DEADCAT,
+	MIXER_HEX_X,
+	MIXER_HEX_PLUS,
+	MIXER_HEX_COX,
+	MIXER_HEX_T,
+	MIXER_OCTA_X,
+	MIXER_OCTA_PLUS,
+	MIXER_OCTA_COX,
+	MIXER_OCTA_COX_WIDE,
+	MIXER_TWIN_ENGINE,
+	MIXER_TRI_Y,
+	MIXER_MAX_GEOMETRY
+} AMC_MultirotorGeometry_t;
 
 typedef struct {
     float   RollScale; /**< scales roll for this rotor */
     float   PitchScale;/**< scales pitch for this rotor */
     float   YawScale;  /**< scales yaw for this rotor */
     float   OutScale;  /**< scales total out for this rotor */
-} MultirotorMixer_RotorConfig_t;
+} AMC_MultirotorMixer_RotorConfig_t;
 
 typedef struct
 {
+    uint32 RotorCount;
     float  RollScale;
     float  PitchScale;
     float  YawScale;
     float  IdleSpeed;
     float  DeltaOutMax;
-    uint32 RotorCount;
-	MultirotorGeometry_t Geometry;
-    MultirotorMixer_RotorConfig_t RotorConfig[MULTIROTOR_MIXER_MAX_ROTOR_COUNT];
-} MultirotorMixer_ConfigTable_t;
+    AMC_MultirotorGeometry_t Geometry;
+    AMC_MultirotorMixer_RotorConfig_t RotorConfig[AMC_MULTIROTOR_MIXER_MAX_ROTOR_COUNT];
+} AMC_MultirotorMixer_Config_t;
 
 
 /** simple channel scaler */
@@ -88,25 +95,28 @@ typedef struct {
 	float Offset;
 	float MinOutput;
 	float MaxOutput;
-} Mixer_Scaler_t;
+} AMC_Mixer_Scaler_t;
 
 /** mixer input */
 typedef struct {
 	uint8 ControlGroup;	/**< group from which the input reads */
 	uint8 ControlIndex;	/**< index within the control group */
-	Mixer_Scaler_t Scaler;		/**< scaling applied to the input before use */
-} SimpleMixer_Control_t;
+	AMC_Mixer_Scaler_t Scaler;		/**< scaling applied to the input before use */
+} AMC_SimpleMixer_Control_t;
 
 typedef struct
 {
 	uint8  ControlCount;	/**< number of inputs */
-	Mixer_Scaler_t    OutputScaler;	/**< scaling for the output */
-	SimpleMixer_Control_t   Controls[AMC_SIMPLE_MIXER_MAX_CONTROLS];	/**< actual size of the array is set by control_count */
-} SimpleMixer_ConfigTable_t;
+	AMC_Mixer_Scaler_t    OutputScaler;	/**< scaling for the output */
+	AMC_SimpleMixer_Control_t   Controls[AMC_SIMPLE_MIXER_MAX_CONTROLS];	/**< actual size of the array is set by control_count */
+} AMC_SimpleMixer_Config_t;
 
+typedef struct
+{
+	AMC_MultirotorMixer_Config_t Multirotor[AMC_MULTIROTOR_MIXER_MAX_MIXERS];
+	AMC_SimpleMixer_Config_t     Simple[AMC_SIMPLE_MIXER_MAX_MIXERS];
+} AMC_Mixer_ConfigTable_t;
 
-typedef MultirotorMixer_ConfigTable_t *MultirotorMixer_ConfigTablePtr_t;
-typedef SimpleMixer_ConfigTable_t     *SimpleMixer_ConfigTablePtr_t;
 
 
 #endif
