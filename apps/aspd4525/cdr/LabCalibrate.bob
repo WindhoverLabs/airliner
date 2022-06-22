@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>($(CPUID)) ASPD4525-AirSpeed Lab Calibration</name>
+  <x>100</x>
+  <y>100</y>
+  <width>400</width>
+  <height>440</height>
+  <widget type="label" version="2.0.0">
+    <name>Title</name>
+    <text>($(CPUID)) ASPD4525-AirSpeed Lab Calibration</text>
+    <x>10</x>
+    <y>10</y>
+    <width>241</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Calibrate</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var PCountLow = PVUtil.getInt(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PCountLow')));
+var VelocityLow_SI = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'VelocityLow_SI')));
+var PCountHigh = PVUtil.getInt(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PCountHigh')));
+var VelocityHigh_SI = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'VelocityHigh_SI')));
+
+var args;
+
+if( VelocityHigh_SI != 0 ) {
+  args = {
+                'uPCountLow': PCountLow,
+		'fVelocityLow_SI': VelocityLow_SI,
+                'uPCountHigh': PCountHigh,
+		'fVelocityHigh_SI': VelocityHigh_SI
+         };
+  }
+else {
+  //    args = {"Payload.DumpFilename":"",
+//		"Payload.TableName":''",
+//		"Payload.ActiveTblFlag":"" };
+}
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/LabCalibrate', args);]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Calibrate</text>
+    <x>30</x>
+    <y>395</y>
+    <width>310</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>PCountHighLabel</name>
+    <text>P Count High</text>
+    <x>30</x>
+    <y>319</y>
+    <width>170</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>PCountHigh</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PCountHigh&lt;VLong&gt;(0)</pv_name>
+    <x>152</x>
+    <y>319</y>
+    <width>188</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>4</format>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>AirSpeedHighLabel</name>
+    <text>AirSpeedHigh(m/s)</text>
+    <x>30</x>
+    <y>349</y>
+    <width>170</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>VelocityHigh_SI</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_VelocityHigh_SI&lt;VDouble&gt;(0.0)</pv_name>
+    <x>152</x>
+    <y>349</y>
+    <width>188</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Help</name>
+    <actions>
+      <action type="open_webpage">
+        <url>https://windhoverlabs.atlassian.net/wiki/spaces/~626004280f5cf500697ed4c2/pages/2469429249/Calculating+Air+Speed+using+Pitot+Tube#Density-Formula-with-Height</url>
+        <description>Open Web Page</description>
+      </action>
+    </actions>
+    <text>Help</text>
+    <x>260</x>
+    <y>70</y>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>PressureCount</name>
+    <pv_name>/cfs/$(CPUID)/apps/aspd4525/ASPD4525_HK_TLM_MID.uPressureCount</pv_name>
+    <x>196</x>
+    <y>200</y>
+    <format>4</format>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>PressureCountLabel</name>
+    <text>Pressure Count</text>
+    <x>65</x>
+    <y>200</y>
+    <width>132</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>PCountLowLabel</name>
+    <text>P Count Low</text>
+    <x>30</x>
+    <y>259</y>
+    <width>170</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>PCountLow</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PCountLow&lt;VLong&gt;(0)</pv_name>
+    <x>152</x>
+    <y>259</y>
+    <width>188</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <format>4</format>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>AirSpeedLowLabel</name>
+    <text>AirSpeedLow(m/s)</text>
+    <x>30</x>
+    <y>289</y>
+    <width>170</width>
+  </widget>
+  <widget type="textentry" version="3.0.0">
+    <name>VelocityLow_SI</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_VelocityLow_SI&lt;VDouble&gt;(0.0)</pv_name>
+    <x>152</x>
+    <y>289</y>
+    <width>188</width>
+    <height>18</height>
+    <background_color>
+      <color red="255" green="255" blue="255">
+      </color>
+    </background_color>
+    <actions>
+    </actions>
+    <border_width>1</border_width>
+  </widget>
+  <widget type="picture" version="2.0.0">
+    <name>Picture</name>
+    <x>90</x>
+    <y>40</y>
+  </widget>
+</display>

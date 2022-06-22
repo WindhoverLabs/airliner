@@ -727,6 +727,199 @@ void ASPD4525_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
 				break;
 			}
 
+			case ASPD4525_LAB_CALIB_CC:
+			{
+				boolean sizeOk = ASPD4525_VerifyCmdLength(MsgPtr, sizeof(ASPD4525_LabCalibArgCmd_t));
+
+				if (TRUE == sizeOk)
+				{
+					int32 status =0;
+					ASPD4525_LabCalibArgCmd_t* labCalibArgCmdPtr = (ASPD4525_LabCalibArgCmd_t*) MsgPtr;
+
+                    if (
+                        ( labCalibArgCmdPtr->uPCountHigh > labCalibArgCmdPtr->uPCountLow ) &&
+                        ( labCalibArgCmdPtr->fVelocityHigh_SI > labCalibArgCmdPtr->fVelocityLow_SI )
+                    )
+                    {
+                        float rho = 1.225;
+                        uint32 CM = 0x3fff;
+                        float CL = ((float)CM) * 0.05;
+                        float CS = ((float)CM) * 0.9;
+                        float C1 = (float)labCalibArgCmdPtr->uPCountHigh;
+                        float C0 = (float)labCalibArgCmdPtr->uPCountLow;
+
+                        float a1 = (C1-CL-(0.5*CS))/CS;
+                        float a0 = (C0-CL-(0.5*CS))/CS;
+
+                        float b1 = ((0.5*CS)-C1+CL)/CS;
+                        float b0 = ((0.5*CS)-C0+CL)/CS;
+
+                        float determinant = 1/(a0*b1-a1*b0);
+
+                        float dP0 = 0.5*rho*(labCalibArgCmdPtr->fVelocityLow_SI*labCalibArgCmdPtr->fVelocityLow_SI);
+                        float dP1 = 0.5*rho*(labCalibArgCmdPtr->fVelocityHigh_SI*labCalibArgCmdPtr->fVelocityHigh_SI);
+
+                        printf("Came Here 0: [%f, %f)\n", labCalibArgCmdPtr->fVelocityLow_SI, labCalibArgCmdPtr->fVelocityHigh_SI);
+
+                        printf("Came Here 1: [0x%04x, 0x%04x)\n", labCalibArgCmdPtr->uPCountLow, labCalibArgCmdPtr->uPCountHigh);
+                        printf("Came Here a: [%f, %f)\n", a0, a1);
+                        printf("Came Here b: [%f, %f)\n", b0, b1);
+                        printf("Came Here dP: [%f, %f)\n", dP0, dP1);
+
+                        printf("Came Here C: [%f, %f)\n", CL, CM);
+
+                        ASPD4525_AppData.ConfigTblPtr->fPressureMaximum_PSI = determinant * ( b1*dP0 - b0*dP1 ) / ASPD4525_MATH_PSI2PASCALS(1);
+                        ASPD4525_AppData.ConfigTblPtr->fPressureMinimum_PSI = determinant * ( -a1*dP0 + a0*dP1 ) / ASPD4525_MATH_PSI2PASCALS(1);
+
+                        printf("Came Here 4: [%f, %f)\n", ASPD4525_AppData.ConfigTblPtr->fPressureMinimum_PSI, ASPD4525_AppData.ConfigTblPtr->fPressureMaximum_PSI);
+
+                        status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
+                        if (CFE_SUCCESS!=status) {
+                            ASPD4525_AppData.HkTlm.usCmdErrCnt++;
+                            (void) CFE_EVS_SendEvent(
+                                ASPD4525_CONFIG_TABLE_ERR_EID, 
+                                CFE_EVS_ERROR,
+                                "Table Mod Error (0x%08X)", (unsigned int) status
+                            );
+                        } else {
+                            ASPD4525_AppData.HkTlm.usCmdCnt++;
+                        }
+                    }
+				}
+				break;
+			}
+
+			case ASPD4525_TEMP_CALIB_CC:
+			{
+				boolean sizeOk = ASPD4525_VerifyCmdLength(MsgPtr, sizeof(ASPD4525_TempCalibArgCmd_t));
+
+				if (TRUE == sizeOk)
+				{
+					int32 status =0;
+					ASPD4525_TempCalibArgCmd_t* tempCalibArgCmdPtr = (ASPD4525_TempCalibArgCmd_t*) MsgPtr;
+
+                    if (
+                        ( tempCalibArgCmdPtr->uTCountHigh > tempCalibArgCmdPtr->uTCountLow ) &&
+                        ( tempCalibArgCmdPtr->fTemperatureHigh_Celcius > tempCalibArgCmdPtr->fTemperatureLow_Celcius )
+                    )
+                    {
+                        uint32 CMax = 0x7ff;
+                        float aHigh = (float)tempCalibArgCmdPtr->uTCountHigh/(float)CMax;
+                        float aLow = (float)tempCalibArgCmdPtr->uTCountLow/(float)CMax;
+                        float bHigh = 1-aHigh;
+                        float bLow = 1-aLow;
+                        float determinant = 1/(aLow*bHigh-aHigh*bLow);
+
+                        ASPD4525_AppData.ConfigTblPtr->fTemperatureMaximum_Celcius = determinant*
+                            (bHigh*tempCalibArgCmdPtr->fTemperatureLow_Celcius -
+                             bLow*tempCalibArgCmdPtr->fTemperatureHigh_Celcius);
+
+                        ASPD4525_AppData.ConfigTblPtr->fTemperatureMinimum_Celcius = determinant*
+                            (- aHigh*tempCalibArgCmdPtr->fTemperatureLow_Celcius
+                             + aLow*tempCalibArgCmdPtr->fTemperatureHigh_Celcius);
+
+                        printf("Came Here: [%f, %f)\n", ASPD4525_AppData.ConfigTblPtr->fTemperatureMinimum_Celcius, ASPD4525_AppData.ConfigTblPtr->fTemperatureMaximum_Celcius);
+
+                        status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
+                        if (CFE_SUCCESS!=status) {
+                            ASPD4525_AppData.HkTlm.usCmdErrCnt++;
+                            (void) CFE_EVS_SendEvent(
+                                ASPD4525_CONFIG_TABLE_ERR_EID, 
+                                CFE_EVS_ERROR,
+                                "Table Mod Error (0x%08X)", (unsigned int) status
+                            );
+                        } else {
+                            ASPD4525_AppData.HkTlm.usCmdCnt++;
+                        }
+                    }
+				}
+				break;
+			}
+
+			case ASPD4525_PHYSICS_CALIB_CC:
+			{
+				boolean sizeOk = ASPD4525_VerifyCmdLength(MsgPtr, sizeof(ASPD4525_PhysicsCalibArgCmd_t));
+
+				if (TRUE == sizeOk)
+				{
+					int32 status =0;
+					ASPD4525_PhysicsCalibArgCmd_t* physicsCalibArgCmdPtr = (ASPD4525_PhysicsCalibArgCmd_t*) MsgPtr;
+
+                    ASPD4525_AppData.ConfigTblPtr->fAirGasConstantR_SI = physicsCalibArgCmdPtr->fAirGasConstantR_SI;
+                    ASPD4525_AppData.ConfigTblPtr->fAirMolarMass_SI = physicsCalibArgCmdPtr->fAirMolarMass_SI;
+                    ASPD4525_AppData.ConfigTblPtr->fGravitationalAccereleration_SI = physicsCalibArgCmdPtr->fGravitationalAccereleration_SI;
+
+					status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
+					if (CFE_SUCCESS!=status) {
+						ASPD4525_AppData.HkTlm.usCmdErrCnt++;
+						(void) CFE_EVS_SendEvent(
+							ASPD4525_CONFIG_TABLE_ERR_EID, 
+							CFE_EVS_ERROR,
+							"Table Mod Error (0x%08X)", (unsigned int) status
+						);
+					} else {
+						ASPD4525_AppData.HkTlm.usCmdCnt++;
+					}
+				}
+				break;
+			}
+
+            case ASPD4525_AIR_COL_CALIB_CC:
+            {
+				boolean sizeOk = ASPD4525_VerifyCmdLength(MsgPtr, sizeof(ASPD4525_AirColCalibArgCmd_t));
+
+				if (TRUE == sizeOk)
+				{
+					int32 status =0;
+					ASPD4525_AirColCalibArgCmd_t* airColCalibArgCmdPtr = (ASPD4525_AirColCalibArgCmd_t*) MsgPtr;
+
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[0] = airColCalibArgCmdPtr->fh_b0;
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[1] = airColCalibArgCmdPtr->fh_b1;
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[2] = airColCalibArgCmdPtr->fh_b2;
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[3] = airColCalibArgCmdPtr->fh_b3;
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[4] = airColCalibArgCmdPtr->fh_b4;
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[5] = airColCalibArgCmdPtr->fh_b5;
+                    ASPD4525_AppData.ConfigTblPtr->fAltitudeMeters_bs[6] = airColCalibArgCmdPtr->fh_b6;
+
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[0] = airColCalibArgCmdPtr->frho_b0;
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[1] = airColCalibArgCmdPtr->frho_b1;
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[2] = airColCalibArgCmdPtr->frho_b2;
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[3] = airColCalibArgCmdPtr->frho_b3;
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[4] = airColCalibArgCmdPtr->frho_b4;
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[5] = airColCalibArgCmdPtr->frho_b5;
+                    ASPD4525_AppData.ConfigTblPtr->fRho_bs[6] = airColCalibArgCmdPtr->frho_b6;
+
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[0] = airColCalibArgCmdPtr->fT_b0;
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[1] = airColCalibArgCmdPtr->fT_b1;
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[2] = airColCalibArgCmdPtr->fT_b2;
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[3] = airColCalibArgCmdPtr->fT_b3;
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[4] = airColCalibArgCmdPtr->fT_b4;
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[5] = airColCalibArgCmdPtr->fT_b5;
+                    ASPD4525_AppData.ConfigTblPtr->fTemp_bs[6] = airColCalibArgCmdPtr->fT_b6;
+
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[0] = airColCalibArgCmdPtr->fL_b0;
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[1] = airColCalibArgCmdPtr->fL_b1;
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[2] = airColCalibArgCmdPtr->fL_b2;
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[3] = airColCalibArgCmdPtr->fL_b3;
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[4] = airColCalibArgCmdPtr->fL_b4;
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[5] = airColCalibArgCmdPtr->fL_b5;
+                    ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[6] = airColCalibArgCmdPtr->fL_b6;
+
+					status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
+					if (CFE_SUCCESS!=status) {
+						ASPD4525_AppData.HkTlm.usCmdErrCnt++;
+						(void) CFE_EVS_SendEvent(
+							ASPD4525_CONFIG_TABLE_ERR_EID, 
+							CFE_EVS_ERROR,
+							"Table Mod Error (0x%08X)", (unsigned int) status
+						);
+					} else {
+						ASPD4525_AppData.HkTlm.usCmdCnt++;
+					}
+				}
+				break;
+            }
+
             /* TODO:  Add code to process the rest of the ASPD4525 commands here */
 
             default:

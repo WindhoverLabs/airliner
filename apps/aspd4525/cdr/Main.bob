@@ -42,7 +42,7 @@
     <x>10</x>
     <y>30</y>
     <width>258</width>
-    <height>258</height>
+    <height>247</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -190,7 +190,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/Reset', {});]]></text>
   <widget type="group" version="2.0.0">
     <name>Miscellaneous</name>
     <x>10</x>
-    <y>444</y>
+    <y>408</y>
     <width>258</width>
     <height>90</height>
     <font>
@@ -234,9 +234,9 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/Reset', {});]]></text>
   <widget type="group" version="2.0.0">
     <name>Telemetry</name>
     <x>10</x>
-    <y>288</y>
+    <y>277</y>
     <width>258</width>
-    <height>156</height>
+    <height>131</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -282,7 +282,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/SendHK', {});]]></text>
     <x>282</x>
     <y>30</y>
     <width>258</width>
-    <height>156</height>
+    <height>401</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -304,38 +304,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/SendHK', {});]]></text>
       <tooltip>$(actions)</tooltip>
     </widget>
     <widget type="action_button" version="3.0.0">
-      <name>Action Button_1</name>
-      <actions>
-        <action type="open_display">
-          <file>LabCalibrate.opi</file>
-          <target>tab</target>
-          <description>Open Display</description>
-        </action>
-      </actions>
-      <text>Lab Calibration</text>
-      <x>6</x>
-      <y>25</y>
-      <width>150</width>
-      <height>20</height>
-      <tooltip>$(actions)</tooltip>
-    </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>Action Button_2</name>
-      <actions>
-        <action type="open_display">
-          <file>InFlightCalibrate.opi</file>
-          <target>tab</target>
-          <description>Open Display</description>
-        </action>
-      </actions>
-      <text>In-Flight Calibration</text>
-      <x>6</x>
-      <y>45</y>
-      <width>150</width>
-      <height>20</height>
-      <tooltip>$(actions)</tooltip>
-    </widget>
-    <widget type="action_button" version="3.0.0">
       <name>Action Button_3</name>
       <actions>
         <action type="open_display">
@@ -346,10 +314,198 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/SendHK', {});]]></text>
       </actions>
       <text>Save Calibration</text>
       <x>6</x>
-      <y>99</y>
+      <y>346</y>
       <width>150</width>
       <height>20</height>
       <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Air Speed Calibration</name>
+      <y>44</y>
+      <width>222</width>
+      <height>82</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="action_button" version="3.0.0">
+        <name>Action Button_5</name>
+        <actions>
+          <action type="open_display">
+            <file>LabCalibrate.opi</file>
+            <target>tab</target>
+            <description>Open Display</description>
+          </action>
+        </actions>
+        <text>Lab Calibration</text>
+        <x>6</x>
+        <y>5</y>
+        <width>150</width>
+        <height>20</height>
+        <tooltip>$(actions)</tooltip>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Action Button_6</name>
+        <actions>
+          <action type="open_display">
+            <file>InFlightCalibrate.opi</file>
+            <target>tab</target>
+            <description>Open Display</description>
+          </action>
+        </actions>
+        <text>In-Flight Calibration</text>
+        <x>6</x>
+        <y>25</y>
+        <width>150</width>
+        <height>20</height>
+        <tooltip>$(actions)</tooltip>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Temperature Calibration</name>
+      <y>126</y>
+      <width>222</width>
+      <height>60</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="action_button" version="3.0.0">
+        <name>Action Button_8</name>
+        <actions>
+          <action type="open_display">
+            <file>LabTempCalibrate.opi</file>
+            <target>tab</target>
+            <description>Open Display</description>
+          </action>
+        </actions>
+        <text>Temp Calibration</text>
+        <x>6</x>
+        <y>5</y>
+        <width>150</width>
+        <height>20</height>
+        <tooltip>$(actions)</tooltip>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>Atmosphere Calibration</name>
+      <y>186</y>
+      <width>222</width>
+      <height>84</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="action_button" version="3.0.0">
+        <name>Action Button_11</name>
+        <actions>
+          <action type="open_display">
+            <file>PhysicsCalibrate.opi</file>
+            <target>tab</target>
+            <description>Open Display</description>
+          </action>
+        </actions>
+        <text>Physics Calibration</text>
+        <x>6</x>
+        <y>5</y>
+        <width>150</width>
+        <height>20</height>
+        <tooltip>$(actions)</tooltip>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Action Button_12</name>
+        <actions>
+          <action type="open_display">
+            <file>AirColumnCalibrate.opi</file>
+            <target>tab</target>
+            <description>Open Display</description>
+          </action>
+        </actions>
+        <text>Air Column Calibration</text>
+        <x>6</x>
+        <y>25</y>
+        <width>150</width>
+        <height>20</height>
+        <tooltip>$(actions)</tooltip>
+      </widget>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Measurements</name>
+    <x>10</x>
+    <y>498</y>
+    <width>530</width>
+    <height>240</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="thermometer" version="2.0.0">
+      <name>Thermometer</name>
+      <pv_name>/cfs/$(CPUID)/apps/aspd4525/ASPD4525_HK_TLM_MID.fTemperature</pv_name>
+      <x>20</x>
+      <y>24</y>
+    </widget>
+    <widget type="meter" version="3.0.0">
+      <name>Meter</name>
+      <pv_name>/cfs/$(CPUID)/apps/aspd4525/ASPD4525_HK_TLM_MID.fTrueAirSpeed</pv_name>
+      <x>236</x>
+      <y>60</y>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>IndicatedAirSpeed</name>
+      <pv_name>/cfs/$(CPUID)/apps/aspd4525/ASPD4525_HK_TLM_MID.fIndicatedAirSpeed</pv_name>
+      <x>385</x>
+      <y>3</y>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TrueAirSpeedUnfiltered</name>
+      <pv_name>/cfs/$(CPUID)/apps/aspd4525/ASPD4525_HK_TLM_MID.fTrueAirSpeedUnfiltered</pv_name>
+      <x>385</x>
+      <y>23</y>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TrueAirSpeed</name>
+      <pv_name>/cfs/$(CPUID)/apps/aspd4525/ASPD4525_HK_TLM_MID.fTrueAirSpeed</pv_name>
+      <x>385</x>
+      <y>43</y>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Temperature</name>
+      <pv_name>/cfs/$(CPUID)/apps/aspd4525/ASPD4525_HK_TLM_MID.fTemperature</pv_name>
+      <x>60</x>
+      <y>100</y>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IndicatedAirSpeedLabel</name>
+      <text>Indicated Air Speed (m/s)</text>
+      <x>188</x>
+      <y>3</y>
+      <width>184</width>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IndicatedAirSpeedLabel_1</name>
+      <text>Unfiltered Air Speed (m/s)</text>
+      <x>198</x>
+      <y>23</y>
+      <width>174</width>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>IndicatedAirSpeedLabel_2</name>
+      <text>True Air Speed (m/s)</text>
+      <x>198</x>
+      <y>43</y>
+      <width>174</width>
+      <horizontal_alignment>2</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>TemperatureLabel</name>
+      <text>Temperature (Celsius)</text>
+      <x>60</x>
+      <y>78</y>
+      <width>184</width>
     </widget>
   </widget>
 </display>
