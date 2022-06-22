@@ -4,7 +4,7 @@
   <x>100</x>
   <y>100</y>
   <width>400</width>
-  <height>440</height>
+  <height>480</height>
   <widget type="label" version="2.0.0">
     <name>Title</name>
     <text>($(CPUID)) ASPD4525-Temperature Calibration</text>
@@ -203,5 +203,19 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/TempCalibrate', args);]]
     <actions>
     </actions>
     <border_width>1</border_width>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>TemperatureCount_1</name>
+    <pv_name>/cfs/$(CPUID)/apps/aspd4525/ASPD4525_HK_TLM_MID.fTemperatureMinimum_Celcius</pv_name>
+    <x>40</x>
+    <y>440</y>
+    <format>1</format>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>TemperatureCount_2</name>
+    <pv_name>/cfs/$(CPUID)/apps/aspd4525/ASPD4525_HK_TLM_MID.fTemperatureMaximum_Celcius</pv_name>
+    <x>200</x>
+    <y>440</y>
+    <format>1</format>
   </widget>
 </display>

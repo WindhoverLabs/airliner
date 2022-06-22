@@ -33,20 +33,16 @@
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-var PCountLow = PVUtil.getInt(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PCountLow')));
-var VelocityLow_SI = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'VelocityLow_SI')));
-var PCountHigh = PVUtil.getInt(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PCountHigh')));
-var VelocityHigh_SI = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'VelocityHigh_SI')));
+var PCount = PVUtil.getInt(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'PCount')));
+var Velocity_SI = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'Velocity_SI')));
 
 var args;
 
-if( VelocityHigh_SI != 0 ) {
+if( Velocity_SI != 0 ) {
   args = {
-                'uPCountLow': PCountLow,
-		'fVelocityLow_SI': VelocityLow_SI,
-                'uPCountHigh': PCountHigh,
-		'fVelocityHigh_SI': VelocityHigh_SI
-         };
+      'uPCount': PCount,
+      'fVelocity_SI': Velocity_SI
+    };
   }
 else {
   //    args = {"Payload.DumpFilename":"",
@@ -60,7 +56,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/LabCalibrate', args);]]>
     </actions>
     <text>Calibrate</text>
     <x>30</x>
-    <y>395</y>
+    <y>331</y>
     <width>310</width>
     <height>20</height>
     <foreground_color>
@@ -73,51 +69,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/LabCalibrate', args);]]>
     </background_color>
     <tooltip>$(actions)</tooltip>
     <border_alarm_sensitive>false</border_alarm_sensitive>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>PCountHighLabel</name>
-    <text>P Count High</text>
-    <x>30</x>
-    <y>319</y>
-    <width>170</width>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>PCountHigh</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PCountHigh&lt;VLong&gt;(0)</pv_name>
-    <x>152</x>
-    <y>319</y>
-    <width>188</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <format>4</format>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
-  </widget>
-  <widget type="label" version="2.0.0">
-    <name>AirSpeedHighLabel</name>
-    <text>AirSpeedHigh(m/s)</text>
-    <x>30</x>
-    <y>349</y>
-    <width>170</width>
-  </widget>
-  <widget type="textentry" version="3.0.0">
-    <name>VelocityHigh_SI</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_VelocityHigh_SI&lt;VDouble&gt;(0.0)</pv_name>
-    <x>152</x>
-    <y>349</y>
-    <width>188</width>
-    <height>18</height>
-    <background_color>
-      <color red="255" green="255" blue="255">
-      </color>
-    </background_color>
-    <actions>
-    </actions>
-    <border_width>1</border_width>
   </widget>
   <widget type="action_button" version="3.0.0">
     <name>Help</name>
@@ -147,15 +98,15 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/LabCalibrate', args);]]>
     <width>132</width>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>PCountLowLabel</name>
-    <text>P Count Low</text>
+    <name>PCountLabel</name>
+    <text>P Count</text>
     <x>30</x>
     <y>259</y>
     <width>170</width>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>PCountLow</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PCountLow&lt;VLong&gt;(0)</pv_name>
+    <name>PCount</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PCount&lt;VLong&gt;(0)</pv_name>
     <x>152</x>
     <y>259</y>
     <width>188</width>
@@ -170,15 +121,15 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/LabCalibrate', args);]]>
     <border_width>1</border_width>
   </widget>
   <widget type="label" version="2.0.0">
-    <name>AirSpeedLowLabel</name>
-    <text>AirSpeedLow(m/s)</text>
+    <name>AirSpeedLabel</name>
+    <text>AirSpeed(m/s)</text>
     <x>30</x>
     <y>289</y>
     <width>170</width>
   </widget>
   <widget type="textentry" version="3.0.0">
-    <name>VelocityLow_SI</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_VelocityLow_SI&lt;VDouble&gt;(0.0)</pv_name>
+    <name>Velocity_SI</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_Velocity_SI&lt;VDouble&gt;(0.0)</pv_name>
     <x>152</x>
     <y>289</y>
     <width>188</width>
@@ -195,5 +146,19 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/LabCalibrate', args);]]>
     <name>Picture</name>
     <x>90</x>
     <y>40</y>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>PressureCount_1</name>
+    <pv_name>/cfs/$(CPUID)/apps/aspd4525/ASPD4525_HK_TLM_MID.fPressureMinimum_PSI</pv_name>
+    <x>30</x>
+    <y>380</y>
+    <format>1</format>
+  </widget>
+  <widget type="textupdate" version="2.0.0">
+    <name>PressureCount_2</name>
+    <pv_name>/cfs/$(CPUID)/apps/aspd4525/ASPD4525_HK_TLM_MID.fPressureMaximum_PSI</pv_name>
+    <x>240</x>
+    <y>380</y>
+    <format>1</format>
   </widget>
 </display>

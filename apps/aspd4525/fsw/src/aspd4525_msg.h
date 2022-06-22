@@ -153,10 +153,8 @@ typedef struct {
 
 typedef struct {
     uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
-    uint32 uPCountLow;
-	float fVelocityLow_SI;                                  /* m/s */
-    uint32 uPCountHigh;
-	float fVelocityHigh_SI;                                 /* m/s */
+    uint32 uPCount;
+	float fVelocity_SI;                                     /* m/s */
 } ASPD4525_LabCalibArgCmd_t;
 
 typedef struct {
@@ -261,6 +259,11 @@ typedef struct
     float  fTrueAirSpeedUnfiltered;
     float  fIndicatedAirSpeed;
     float  fTrueAirSpeed;
+
+	float fPressureMinimum_PSI;								/* PSI */
+	float fPressureMaximum_PSI;								/* PSI */
+	float fTemperatureMinimum_Celcius;						/* degrees Celsius */
+	float fTemperatureMaximum_Celcius;						/* degrees Celsius */
 
 } ASPD4525_HkTlm_t;
 
