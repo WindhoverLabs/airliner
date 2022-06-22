@@ -47,10 +47,7 @@
  * Counter-clockwise: -1
  */
 
-MultirotorMixer::MultirotorMixer(
-	ControlCallback control_cb,
-	cpuaddr cb_handle) :
-    	Mixer(control_cb, cb_handle),
+MultirotorMixer::MultirotorMixer() :
 		m_ThrustFactor(0.0f)
 {
 //    memset(&m_SaturationStatus, 0, sizeof(m_SaturationStatus));
@@ -62,42 +59,7 @@ MultirotorMixer::~MultirotorMixer()
 
 int32 MultirotorMixer::Initialize(void)
 {
-	int32 status;
-
-    /* Register Mixer table */
-	status = CFE_TBL_Register(&ConfigTblHdl,
-			AMC_MULTICOPTER_MIXER_CONFIG_TABLE_FILENAME,
-            (sizeof(MultirotorMixer_ConfigTable_t)),
-            CFE_TBL_OPT_DEFAULT,
-			MultirotorMixer::ValidateConfigTable);
-    if(status != CFE_SUCCESS)
-    {
-        /* Note, a critical table could return another nominal code.  If this
-         * table is made critical this logic would have to change.
-         */
-        CFE_EVS_SendEvent(AMC_MIXER_CFGTBL_REG_ERR_EID, CFE_EVS_ERROR,
-                "Failed to register Mixer table (0x%08X)",
-                (unsigned int)status);
-        goto end_of_function;
-    }
-
-    /* Load Config table file */
-    status = CFE_TBL_Load(ConfigTblHdl,
-            CFE_TBL_SRC_FILE,
-			AMC_MULTICOPTER_MIXER_CONFIG_TABLE_FILENAME);
-    if(status != CFE_SUCCESS)
-    {
-        /* Note, CFE_SUCCESS is for a successful full table load.  If a
-         * partial table load is desired then this logic would have to
-         * change.
-         */
-        CFE_EVS_SendEvent(AMC_MIXER_CFGTBL_LOAD_ERR_EID, CFE_EVS_ERROR,
-                "Failed to load Mixer Config Table (0x%08X)",
-                (unsigned int)status);
-        goto end_of_function;
-    }
-
-    status = AcquireConfigPointers();
+	int32 status = 0;
 
 end_of_function:
     return status;
@@ -109,175 +71,175 @@ end_of_function:
 /* Validate Mixer Configuration Table                              */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 MultirotorMixer::ValidateConfigTable(void* ConfigTblPtr)
-{
-    uint32 i = 0;
-    int32 iStatus=0;
-    MultirotorMixer_ConfigTable_t* TblPtr =
-            (MultirotorMixer_ConfigTable_t*)(ConfigTblPtr);
-    boolean rollScaleNotFinite = FALSE;
-    boolean pitchScaleNotFinite = FALSE;
-    boolean yawScaleNotFinite = FALSE;
-    boolean idleSpeedNotFinite = FALSE;
-    boolean deltaOutMaxNotFinite = FALSE;
-    boolean invalidGeometry = FALSE;
-    boolean invalidRotorCount = FALSE;
-    boolean outScaleNotFinite = FALSE;
-
-    rollScaleNotFinite = !isfinite(TblPtr->RollScale);
-    pitchScaleNotFinite = !isfinite(TblPtr->PitchScale);
-    yawScaleNotFinite = !isfinite(TblPtr->YawScale);
-    idleSpeedNotFinite = !isfinite(TblPtr->IdleSpeed);
-    deltaOutMaxNotFinite = !isfinite(TblPtr->DeltaOutMax);
-    if(TblPtr->Geometry >= MIXER_MAX_GEOMETRY)
-    {
-        invalidGeometry = TRUE;
-    }
-
-    if((TblPtr->RotorCount < 1) ||
-            (TblPtr->RotorCount > AMC_MAX_MOTOR_OUTPUTS))
-    {
-        invalidRotorCount = TRUE;
-    }
-
-    if(rollScaleNotFinite || pitchScaleNotFinite || yawScaleNotFinite
-            || idleSpeedNotFinite || invalidGeometry )
-    {
-        CFE_EVS_SendEvent(AMC_MIXER_INVALID_MIXER_ERR_EID, CFE_EVS_ERROR,
-                "Mixer cfg tbl invld.  R[%u] P[%u] Y[%u] I[%u] G[%u] \
-                D[%u] RC[%u]",
-                rollScaleNotFinite, pitchScaleNotFinite, yawScaleNotFinite,
-                idleSpeedNotFinite, invalidGeometry, deltaOutMaxNotFinite,
-                invalidRotorCount);
-        iStatus = -1;
-        goto AMC_ValidateMixerCfgTbl_Exit_Tag;
-    }
-
-    for(i = 0; i < TblPtr->RotorCount; ++i)
-    {
-        rollScaleNotFinite = !isfinite(TblPtr->RotorConfig[i].RollScale);
-        pitchScaleNotFinite = !isfinite(TblPtr->RotorConfig[i].PitchScale);
-        yawScaleNotFinite = !isfinite(TblPtr->RotorConfig[i].YawScale);
-        outScaleNotFinite = !isfinite(TblPtr->RotorConfig[i].OutScale);
-
-        if(rollScaleNotFinite || pitchScaleNotFinite || yawScaleNotFinite
-                || outScaleNotFinite )
-        {
-            CFE_EVS_SendEvent(AMC_MIXER_INVLD_ROTOR_CONFIG_ERR_EID,
-                    CFE_EVS_ERROR, "Mixer cfg tbl invld rotor[%u] config.  \
-                            R[%u] P[%u] Y[%u] O[%u]",
-                    (unsigned int)i, rollScaleNotFinite, pitchScaleNotFinite,
-                    yawScaleNotFinite,
-                    outScaleNotFinite);
-            iStatus = -1;
-            goto AMC_ValidateMixerCfgTbl_Exit_Tag;
-        }
-    }
-
-    for(i = TblPtr->RotorCount; i < AMC_MAX_MOTOR_OUTPUTS; ++i)
-    {
-        boolean unusedRollScaleNotZero = FALSE;
-        boolean unusedPitchScaleNotZero = FALSE;
-        boolean unusedYawScaleNotZero = FALSE;
-        boolean unusedOutScaleNotZero = FALSE;
-
-        if((uint32)TblPtr->RotorConfig[i].RollScale != 0)
-        {
-            unusedRollScaleNotZero = TRUE;
-        }
-
-        if((uint32)TblPtr->RotorConfig[i].PitchScale != 0)
-        {
-            unusedPitchScaleNotZero = TRUE;
-        }
-
-        if((uint32)TblPtr->RotorConfig[i].YawScale != 0)
-        {
-            unusedYawScaleNotZero = TRUE;
-        }
-
-        if((uint32)TblPtr->RotorConfig[i].OutScale != 0)
-        {
-            unusedOutScaleNotZero = TRUE;
-        }
-
-        if(unusedRollScaleNotZero || unusedPitchScaleNotZero ||
-                unusedYawScaleNotZero || unusedOutScaleNotZero)
-        {
-            CFE_EVS_SendEvent(AMC_MIXER_TBLVAL_NONZER_DATA_ERR_EID,
-                    CFE_EVS_ERROR,
-                    "Mixer cfg tbl contains unused nonzero data.");
-            iStatus = -1;
-            goto AMC_ValidateMixerCfgTbl_Exit_Tag;
-        }
-    }
-
-AMC_ValidateMixerCfgTbl_Exit_Tag:
-    return iStatus;
-}
-
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Acquire Config Pointers                                         */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 MultirotorMixer::AcquireConfigPointers(void)
-{
-    int32 status = CFE_SUCCESS;
-
-    /*
-     ** Release the table
-     */
-    /* TODO: This return value can indicate success, error, or that the info
-     * has been updated.  We ignore this return value in favor of checking
-     * CFE_TBL_Manage(), but be sure this is the behavior you want.
-     */
-    CFE_TBL_ReleaseAddress(ConfigTblHdl);
-
-    /*
-     ** Manage the table
-     */
-    status = CFE_TBL_Manage(ConfigTblHdl);
-    if((status != CFE_SUCCESS) && (status != CFE_TBL_INFO_UPDATED))
-    {
-        CFE_EVS_SendEvent(AMC_CFGTBL_MANAGE_ERR_EID, CFE_EVS_ERROR,
-                "Failed to manage MultirotorMixer Config table (0x%08X)",
-                (unsigned int)status);
-        goto end_of_function;
-    }
-
-    status = CFE_TBL_Manage(ConfigTblHdl);
-    if((status != CFE_SUCCESS) && (status != CFE_TBL_INFO_UPDATED))
-    {
-        CFE_EVS_SendEvent(AMC_MIXER_CFGTBL_MANAGE_ERR_EID, CFE_EVS_ERROR,
-                "Failed to manage MultirotorMixer Config table (0x%08X)",
-                (unsigned int)status);
-        goto end_of_function;
-    }
-
-    /*
-     ** Get a pointer to the table
-     */
-    status = CFE_TBL_GetAddress((void**)&ConfigTblPtr,
-            ConfigTblHdl);
-    if(CFE_TBL_INFO_UPDATED == status)
-    {
-        status = CFE_SUCCESS;
-    }
-    else if(status != CFE_SUCCESS)
-    {
-        ConfigTblPtr = 0;
-        CFE_EVS_SendEvent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
-                "Failed to get Config table's address (0x%08X)",
-                (unsigned int)status);
-    }
-
-end_of_function:
-    return status;
-
-}
+//int32 MultirotorMixer::ValidateConfigTable(void* ConfigTblPtr)
+//{
+//    uint32 i = 0;
+//    int32 iStatus=0;
+//    MultirotorMixer_ConfigTable_t* TblPtr =
+//            (MultirotorMixer_ConfigTable_t*)(ConfigTblPtr);
+//    boolean rollScaleNotFinite = FALSE;
+//    boolean pitchScaleNotFinite = FALSE;
+//    boolean yawScaleNotFinite = FALSE;
+//    boolean idleSpeedNotFinite = FALSE;
+//    boolean deltaOutMaxNotFinite = FALSE;
+//    boolean invalidGeometry = FALSE;
+//    boolean invalidRotorCount = FALSE;
+//    boolean outScaleNotFinite = FALSE;
+//
+//    rollScaleNotFinite = !isfinite(TblPtr->RollScale);
+//    pitchScaleNotFinite = !isfinite(TblPtr->PitchScale);
+//    yawScaleNotFinite = !isfinite(TblPtr->YawScale);
+//    idleSpeedNotFinite = !isfinite(TblPtr->IdleSpeed);
+//    deltaOutMaxNotFinite = !isfinite(TblPtr->DeltaOutMax);
+//    if(TblPtr->Geometry >= MIXER_MAX_GEOMETRY)
+//    {
+//        invalidGeometry = TRUE;
+//    }
+//
+//    if((TblPtr->RotorCount < 1) ||
+//            (TblPtr->RotorCount > AMC_MAX_MOTOR_OUTPUTS))
+//    {
+//        invalidRotorCount = TRUE;
+//    }
+//
+//    if(rollScaleNotFinite || pitchScaleNotFinite || yawScaleNotFinite
+//            || idleSpeedNotFinite || invalidGeometry )
+//    {
+//        CFE_EVS_SendEvent(AMC_MIXER_INVALID_MIXER_ERR_EID, CFE_EVS_ERROR,
+//                "Mixer cfg tbl invld.  R[%u] P[%u] Y[%u] I[%u] G[%u] \
+//                D[%u] RC[%u]",
+//                rollScaleNotFinite, pitchScaleNotFinite, yawScaleNotFinite,
+//                idleSpeedNotFinite, invalidGeometry, deltaOutMaxNotFinite,
+//                invalidRotorCount);
+//        iStatus = -1;
+//        goto AMC_ValidateMixerCfgTbl_Exit_Tag;
+//    }
+//
+//    for(i = 0; i < TblPtr->RotorCount; ++i)
+//    {
+//        rollScaleNotFinite = !isfinite(TblPtr->RotorConfig[i].RollScale);
+//        pitchScaleNotFinite = !isfinite(TblPtr->RotorConfig[i].PitchScale);
+//        yawScaleNotFinite = !isfinite(TblPtr->RotorConfig[i].YawScale);
+//        outScaleNotFinite = !isfinite(TblPtr->RotorConfig[i].OutScale);
+//
+//        if(rollScaleNotFinite || pitchScaleNotFinite || yawScaleNotFinite
+//                || outScaleNotFinite )
+//        {
+//            CFE_EVS_SendEvent(AMC_MIXER_INVLD_ROTOR_CONFIG_ERR_EID,
+//                    CFE_EVS_ERROR, "Mixer cfg tbl invld rotor[%u] config.  \
+//                            R[%u] P[%u] Y[%u] O[%u]",
+//                    (unsigned int)i, rollScaleNotFinite, pitchScaleNotFinite,
+//                    yawScaleNotFinite,
+//                    outScaleNotFinite);
+//            iStatus = -1;
+//            goto AMC_ValidateMixerCfgTbl_Exit_Tag;
+//        }
+//    }
+//
+//    for(i = TblPtr->RotorCount; i < AMC_MAX_MOTOR_OUTPUTS; ++i)
+//    {
+//        boolean unusedRollScaleNotZero = FALSE;
+//        boolean unusedPitchScaleNotZero = FALSE;
+//        boolean unusedYawScaleNotZero = FALSE;
+//        boolean unusedOutScaleNotZero = FALSE;
+//
+//        if((uint32)TblPtr->RotorConfig[i].RollScale != 0)
+//        {
+//            unusedRollScaleNotZero = TRUE;
+//        }
+//
+//        if((uint32)TblPtr->RotorConfig[i].PitchScale != 0)
+//        {
+//            unusedPitchScaleNotZero = TRUE;
+//        }
+//
+//        if((uint32)TblPtr->RotorConfig[i].YawScale != 0)
+//        {
+//            unusedYawScaleNotZero = TRUE;
+//        }
+//
+//        if((uint32)TblPtr->RotorConfig[i].OutScale != 0)
+//        {
+//            unusedOutScaleNotZero = TRUE;
+//        }
+//
+//        if(unusedRollScaleNotZero || unusedPitchScaleNotZero ||
+//                unusedYawScaleNotZero || unusedOutScaleNotZero)
+//        {
+//            CFE_EVS_SendEvent(AMC_MIXER_TBLVAL_NONZER_DATA_ERR_EID,
+//                    CFE_EVS_ERROR,
+//                    "Mixer cfg tbl contains unused nonzero data.");
+//            iStatus = -1;
+//            goto AMC_ValidateMixerCfgTbl_Exit_Tag;
+//        }
+//    }
+//
+//AMC_ValidateMixerCfgTbl_Exit_Tag:
+//    return iStatus;
+//}
+//
+//
+//
+///* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+///*                                                                 */
+///* Acquire Config Pointers                                         */
+///*                                                                 */
+///* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+//int32 MultirotorMixer::AcquireConfigPointers(void)
+//{
+//    int32 status = CFE_SUCCESS;
+//
+//    /*
+//     ** Release the table
+//     */
+//    /* TODO: This return value can indicate success, error, or that the info
+//     * has been updated.  We ignore this return value in favor of checking
+//     * CFE_TBL_Manage(), but be sure this is the behavior you want.
+//     */
+//    CFE_TBL_ReleaseAddress(ConfigTblHdl);
+//
+//    /*
+//     ** Manage the table
+//     */
+//    status = CFE_TBL_Manage(ConfigTblHdl);
+//    if((status != CFE_SUCCESS) && (status != CFE_TBL_INFO_UPDATED))
+//    {
+//        CFE_EVS_SendEvent(AMC_CFGTBL_MANAGE_ERR_EID, CFE_EVS_ERROR,
+//                "Failed to manage MultirotorMixer Config table (0x%08X)",
+//                (unsigned int)status);
+//        goto end_of_function;
+//    }
+//
+//    status = CFE_TBL_Manage(ConfigTblHdl);
+//    if((status != CFE_SUCCESS) && (status != CFE_TBL_INFO_UPDATED))
+//    {
+//        CFE_EVS_SendEvent(AMC_MIXER_CFGTBL_MANAGE_ERR_EID, CFE_EVS_ERROR,
+//                "Failed to manage MultirotorMixer Config table (0x%08X)",
+//                (unsigned int)status);
+//        goto end_of_function;
+//    }
+//
+//    /*
+//     ** Get a pointer to the table
+//     */
+//    status = CFE_TBL_GetAddress((void**)&ConfigTblPtr,
+//            ConfigTblHdl);
+//    if(CFE_TBL_INFO_UPDATED == status)
+//    {
+//        status = CFE_SUCCESS;
+//    }
+//    else if(status != CFE_SUCCESS)
+//    {
+//        ConfigTblPtr = 0;
+//        CFE_EVS_SendEvent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
+//                "Failed to get Config table's address (0x%08X)",
+//                (unsigned int)status);
+//    }
+//
+//end_of_function:
+//    return status;
+//
+//}
 
 
 float MultirotorMixer::Contrain(float value, float minimum, float maximum)
@@ -288,216 +250,219 @@ float MultirotorMixer::Contrain(float value, float minimum, float maximum)
 uint32
 MultirotorMixer::mix(float *outputs, uint32 space, uint16 *status_reg)
 {
-    /* Summary of mixing strategy:
-    1) mix roll, pitch and thrust without yaw.
-    2) if some outputs violate range [0,1] then try to shift all outputs to minimize violation ->
-        increase or decrease total thrust (boost). The total increase or decrease of thrust is limited
-        (max_thrust_diff). If after the shift some outputs still violate the bounds then scale roll & pitch.
-        In case there is violation at the lower and upper bound then try to shift such that violation is equal
-        on both sides.
-    3) mix in yaw and scale if it leads to limit violation.
-    4) scale all outputs to range [idle_speed,1]
-    */
+	if(m_Config->RotorCount > 0)
+	{
+		/* Summary of mixing strategy:
+		1) mix roll, pitch and thrust without yaw.
+		2) if some outputs violate range [0,1] then try to shift all outputs to minimize violation ->
+			increase or decrease total thrust (boost). The total increase or decrease of thrust is limited
+			(max_thrust_diff). If after the shift some outputs still violate the bounds then scale roll & pitch.
+			In case there is violation at the lower and upper bound then try to shift such that violation is equal
+			on both sides.
+		3) mix in yaw and scale if it leads to limit violation.
+		4) scale all outputs to range [idle_speed,1]
+		*/
 
-    float       roll    = Contrain(get_control(0, 0) * ConfigTblPtr->RollScale, -1.0f, 1.0f);
-    float       pitch   = Contrain(get_control(0, 1) * ConfigTblPtr->PitchScale, -1.0f, 1.0f);
-    float       yaw     = Contrain(get_control(0, 2) * ConfigTblPtr->YawScale, -1.0f, 1.0f);
-    float       thrust  = Contrain(get_control(0, 3) * 1.0f, 0.0f, 1.0f);
-    float       min_out = 1.0f;
-    float       max_out = 0.0f;
+		float       roll    = Contrain(get_control(0, 0) * m_Config->RollScale, -1.0f, 1.0f);
+		float       pitch   = Contrain(get_control(0, 1) * m_Config->PitchScale, -1.0f, 1.0f);
+		float       yaw     = Contrain(get_control(0, 2) * m_Config->YawScale, -1.0f, 1.0f);
+		float       thrust  = Contrain(get_control(0, 3) * 1.0f, 0.0f, 1.0f);
+		float       min_out = 1.0f;
+		float       max_out = 0.0f;
 
-    // clean out class variable used to capture saturation
-    m_SaturationStatus.value = 0;
+		// clean out class variable used to capture saturation
+		m_SaturationStatus.value = 0;
 
-    // thrust boost parameters
-    float thrust_increase_factor = 1.5f;
-    float thrust_decrease_factor = 0.6f;
+		// thrust boost parameters
+		float thrust_increase_factor = 1.5f;
+		float thrust_decrease_factor = 0.6f;
 
-    /* perform initial mix pass yielding unbounded outputs, ignore yaw */
-    for (uint32 i = 0; i < ConfigTblPtr->RotorCount; i++) {
-        float out = roll * ConfigTblPtr->RotorConfig[i].RollScale +
-                pitch * ConfigTblPtr->RotorConfig[i].PitchScale +
-                thrust;
+		/* perform initial mix pass yielding unbounded outputs, ignore yaw */
+		for (uint32 i = 0; i < m_Config->RotorCount; i++) {
+			float out = roll * m_Config->RotorConfig[i].RollScale +
+					pitch * m_Config->RotorConfig[i].PitchScale +
+					thrust;
 
-        out *= ConfigTblPtr->RotorConfig[i].OutScale;
+			out *= m_Config->RotorConfig[i].OutScale;
 
-        /* calculate min and max output values */
-        if (out < min_out) {
-            min_out = out;
-        }
+			/* calculate min and max output values */
+			if (out < min_out) {
+				min_out = out;
+			}
 
-        if (out > max_out) {
-            max_out = out;
-        }
+			if (out > max_out) {
+				max_out = out;
+			}
 
-        outputs[i] = out;
-    }
+			outputs[i] = out;
+		}
 
-    float boost = 0.0f;     // value added to demanded thrust (can also be negative)
-    float roll_pitch_scale = 1.0f;  // scale for demanded roll and pitch
+		float boost = 0.0f;     // value added to demanded thrust (can also be negative)
+		float roll_pitch_scale = 1.0f;  // scale for demanded roll and pitch
 
-    if (min_out < 0.0f && max_out < 1.0f && -min_out <= 1.0f - max_out) {
-        float max_thrust_diff = thrust * thrust_increase_factor - thrust;
+		if (min_out < 0.0f && max_out < 1.0f && -min_out <= 1.0f - max_out) {
+			float max_thrust_diff = thrust * thrust_increase_factor - thrust;
 
-        if (max_thrust_diff >= -min_out) {
-            boost = -min_out;
+			if (max_thrust_diff >= -min_out) {
+				boost = -min_out;
 
-        } else {
-            boost = max_thrust_diff;
-            roll_pitch_scale = (thrust + boost) / (thrust - min_out);
-        }
+			} else {
+				boost = max_thrust_diff;
+				roll_pitch_scale = (thrust + boost) / (thrust - min_out);
+			}
 
-    } else if (max_out > 1.0f && min_out > 0.0f && min_out >= max_out - 1.0f) {
-        float max_thrust_diff = thrust - thrust_decrease_factor * thrust;
+		} else if (max_out > 1.0f && min_out > 0.0f && min_out >= max_out - 1.0f) {
+			float max_thrust_diff = thrust - thrust_decrease_factor * thrust;
 
-        if (max_thrust_diff >= max_out - 1.0f) {
-            boost = -(max_out - 1.0f);
+			if (max_thrust_diff >= max_out - 1.0f) {
+				boost = -(max_out - 1.0f);
 
-        } else {
-            boost = -max_thrust_diff;
-            roll_pitch_scale = (1 - (thrust + boost)) / (max_out - thrust);
-        }
+			} else {
+				boost = -max_thrust_diff;
+				roll_pitch_scale = (1 - (thrust + boost)) / (max_out - thrust);
+			}
 
-    } else if (min_out < 0.0f && max_out < 1.0f && -min_out > 1.0f - max_out) {
-        float max_thrust_diff = thrust * thrust_increase_factor - thrust;
-        boost = math::constrain(-min_out - (1.0f - max_out) / 2.0f, 0.0f, max_thrust_diff);
-        roll_pitch_scale = (thrust + boost) / (thrust - min_out);
+		} else if (min_out < 0.0f && max_out < 1.0f && -min_out > 1.0f - max_out) {
+			float max_thrust_diff = thrust * thrust_increase_factor - thrust;
+			boost = math::constrain(-min_out - (1.0f - max_out) / 2.0f, 0.0f, max_thrust_diff);
+			roll_pitch_scale = (thrust + boost) / (thrust - min_out);
 
-    } else if (max_out > 1.0f && min_out > 0.0f && min_out < max_out - 1.0f) {
-        float max_thrust_diff = thrust - thrust_decrease_factor * thrust;
-        boost = math::constrain(-(max_out - 1.0f - min_out) / 2.0f, -max_thrust_diff, 0.0f);
-        roll_pitch_scale = (1 - (thrust + boost)) / (max_out - thrust);
+		} else if (max_out > 1.0f && min_out > 0.0f && min_out < max_out - 1.0f) {
+			float max_thrust_diff = thrust - thrust_decrease_factor * thrust;
+			boost = math::constrain(-(max_out - 1.0f - min_out) / 2.0f, -max_thrust_diff, 0.0f);
+			roll_pitch_scale = (1 - (thrust + boost)) / (max_out - thrust);
 
-    } else if (min_out < 0.0f && max_out > 1.0f) {
-        boost = math::constrain(-(max_out - 1.0f + min_out) / 2.0f, thrust_decrease_factor * thrust - thrust,
-                    thrust_increase_factor * thrust - thrust);
-        roll_pitch_scale = (thrust + boost) / (thrust - min_out);
-    }
+		} else if (min_out < 0.0f && max_out > 1.0f) {
+			boost = math::constrain(-(max_out - 1.0f + min_out) / 2.0f, thrust_decrease_factor * thrust - thrust,
+						thrust_increase_factor * thrust - thrust);
+			roll_pitch_scale = (thrust + boost) / (thrust - min_out);
+		}
 
-    // capture saturation
-    if (min_out < 0.0f) {
-        m_SaturationStatus.flags.motor_neg = true;
-    }
+		// capture saturation
+		if (min_out < 0.0f) {
+			m_SaturationStatus.flags.motor_neg = true;
+		}
 
-    if (max_out > 1.0f) {
-        m_SaturationStatus.flags.motor_pos = true;
-    }
+		if (max_out > 1.0f) {
+			m_SaturationStatus.flags.motor_pos = true;
+		}
 
-    // Thrust reduction is used to reduce the collective thrust if we hit
-    // the upper throttle limit
-    float thrust_reduction = 0.0f;
+		// Thrust reduction is used to reduce the collective thrust if we hit
+		// the upper throttle limit
+		float thrust_reduction = 0.0f;
 
-    // mix again but now with thrust boost, scale roll/pitch and also add yaw
-    for (uint32 i = 0; i < ConfigTblPtr->RotorCount; i++) {
-        float out = (roll * ConfigTblPtr->RotorConfig[i].RollScale +
-                 pitch * ConfigTblPtr->RotorConfig[i].PitchScale) * roll_pitch_scale +
-                yaw * ConfigTblPtr->RotorConfig[i].YawScale +
-                thrust + boost;
+		// mix again but now with thrust boost, scale roll/pitch and also add yaw
+		for (uint32 i = 0; i < m_Config->RotorCount; i++) {
+			float out = (roll * m_Config->RotorConfig[i].RollScale +
+					 pitch * m_Config->RotorConfig[i].PitchScale) * roll_pitch_scale +
+					yaw * m_Config->RotorConfig[i].YawScale +
+					thrust + boost;
 
-        out *= ConfigTblPtr->RotorConfig[i].OutScale;
+			out *= m_Config->RotorConfig[i].OutScale;
 
-        // scale yaw if it violates limits. inform about yaw limit reached
-        if (out < 0.0f) {
-            if (fabsf(ConfigTblPtr->RotorConfig[i].YawScale) <= FLT_EPSILON) {
-                yaw = 0.0f;
+			// scale yaw if it violates limits. inform about yaw limit reached
+			if (out < 0.0f) {
+				if (fabsf(m_Config->RotorConfig[i].YawScale) <= FLT_EPSILON) {
+					yaw = 0.0f;
 
-            } else {
-                yaw = -((roll * ConfigTblPtr->RotorConfig[i].RollScale + pitch * ConfigTblPtr->RotorConfig[i].PitchScale) *
-                    roll_pitch_scale + thrust + boost) / ConfigTblPtr->RotorConfig[i].YawScale;
-            }
+				} else {
+					yaw = -((roll * m_Config->RotorConfig[i].RollScale + pitch * m_Config->RotorConfig[i].PitchScale) *
+						roll_pitch_scale + thrust + boost) / m_Config->RotorConfig[i].YawScale;
+				}
 
-        } else if (out > 1.0f) {
-            // allow to reduce thrust to get some yaw response
-            float prop_reduction = fminf(0.15f, out - 1.0f);
-            // keep the maximum requested reduction
-            thrust_reduction = fmaxf(thrust_reduction, prop_reduction);
+			} else if (out > 1.0f) {
+				// allow to reduce thrust to get some yaw response
+				float prop_reduction = fminf(0.15f, out - 1.0f);
+				// keep the maximum requested reduction
+				thrust_reduction = fmaxf(thrust_reduction, prop_reduction);
 
-            if (fabsf(ConfigTblPtr->RotorConfig[i].YawScale) <= FLT_EPSILON) {
-                yaw = 0.0f;
+				if (fabsf(m_Config->RotorConfig[i].YawScale) <= FLT_EPSILON) {
+					yaw = 0.0f;
 
-            } else {
-                yaw = (1.0f - ((roll * ConfigTblPtr->RotorConfig[i].RollScale + pitch * ConfigTblPtr->RotorConfig[i].PitchScale) *
-                           roll_pitch_scale + (thrust - thrust_reduction) + boost)) / ConfigTblPtr->RotorConfig[i].YawScale;
-            }
-        }
-    }
+				} else {
+					yaw = (1.0f - ((roll * m_Config->RotorConfig[i].RollScale + pitch * m_Config->RotorConfig[i].PitchScale) *
+							   roll_pitch_scale + (thrust - thrust_reduction) + boost)) / m_Config->RotorConfig[i].YawScale;
+				}
+			}
+		}
 
-    // Apply collective thrust reduction, the maximum for one prop
-    thrust -= thrust_reduction;
+		// Apply collective thrust reduction, the maximum for one prop
+		thrust -= thrust_reduction;
 
-    // add yaw and scale outputs to range idle_speed...1
-    for (uint32 i = 0; i < ConfigTblPtr->RotorCount; i++) {
-    	/* shift to output range here to avoid runtime calculation */
-        float idle_speed_fixed = -1.0f + ConfigTblPtr->IdleSpeed * 2.0f;
+		// add yaw and scale outputs to range idle_speed...1
+		for (uint32 i = 0; i < m_Config->RotorCount; i++) {
+			/* shift to output range here to avoid runtime calculation */
+			float idle_speed_fixed = -1.0f + m_Config->IdleSpeed * 2.0f;
 
-        outputs[i] = (roll * ConfigTblPtr->RotorConfig[i].RollScale +
-                  pitch * ConfigTblPtr->RotorConfig[i].PitchScale) * roll_pitch_scale +
-                 yaw * ConfigTblPtr->RotorConfig[i].YawScale +
-                 thrust + boost;
+			outputs[i] = (roll * m_Config->RotorConfig[i].RollScale +
+					  pitch * m_Config->RotorConfig[i].PitchScale) * roll_pitch_scale +
+					 yaw * m_Config->RotorConfig[i].YawScale +
+					 thrust + boost;
 
-        /*
-            implement simple model for static relationship between applied motor pwm and motor thrust
-            model: thrust = (1 - _thrust_factor) * PWM + _thrust_factor * PWM^2
-            this model assumes normalized input / output in the range [0,1] so this is the right place
-            to do it as at this stage the outputs are in that range.
-         */
-        if (m_ThrustFactor > 0.0f) {
-            outputs[i] = -(1.0f - m_ThrustFactor) / (2.0f * m_ThrustFactor) + sqrtf((1.0f - m_ThrustFactor) *
-                    (1.0f - m_ThrustFactor) / (4.0f * m_ThrustFactor * m_ThrustFactor) + (outputs[i] < 0.0f ? 0.0f : outputs[i] /
-                            m_ThrustFactor));
-        }
+			/*
+				implement simple model for static relationship between applied motor pwm and motor thrust
+				model: thrust = (1 - _thrust_factor) * PWM + _thrust_factor * PWM^2
+				this model assumes normalized input / output in the range [0,1] so this is the right place
+				to do it as at this stage the outputs are in that range.
+			 */
+			if (m_ThrustFactor > 0.0f) {
+				outputs[i] = -(1.0f - m_ThrustFactor) / (2.0f * m_ThrustFactor) + sqrtf((1.0f - m_ThrustFactor) *
+						(1.0f - m_ThrustFactor) / (4.0f * m_ThrustFactor * m_ThrustFactor) + (outputs[i] < 0.0f ? 0.0f : outputs[i] /
+								m_ThrustFactor));
+			}
 
-        outputs[i] = math::constrain(idle_speed_fixed + (outputs[i] * (1.0f - idle_speed_fixed)), idle_speed_fixed, 1.0f);
+			outputs[i] = math::constrain(idle_speed_fixed + (outputs[i] * (1.0f - idle_speed_fixed)), idle_speed_fixed, 1.0f);
 
-    }
+		}
 
-    /* slew rate limiting and saturation checking */
-    for (uint32 i = 0; i < ConfigTblPtr->RotorCount; i++) {
-    	/* shift to output range here to avoid runtime calculation */
-        float idle_speed_fixed = -1.0f + ConfigTblPtr->IdleSpeed * 2.0f;
-        bool clipping_high = false;
-        bool clipping_low = false;
+		/* slew rate limiting and saturation checking */
+		for (uint32 i = 0; i < m_Config->RotorCount; i++) {
+			/* shift to output range here to avoid runtime calculation */
+			float idle_speed_fixed = -1.0f + m_Config->IdleSpeed * 2.0f;
+			bool clipping_high = false;
+			bool clipping_low = false;
 
-        // check for saturation against static limits
-        if (outputs[i] > 0.99f) {
-            clipping_high = true;
+			// check for saturation against static limits
+			if (outputs[i] > 0.99f) {
+				clipping_high = true;
 
-        } else if (outputs[i] < idle_speed_fixed  + 0.01f) {
-            clipping_low = true;
+			} else if (outputs[i] < idle_speed_fixed  + 0.01f) {
+				clipping_low = true;
 
-        }
+			}
 
-        // check for saturation against slew rate limits
-        if (ConfigTblPtr->DeltaOutMax > 0.0f) {
-            float delta_out = outputs[i] - m_OutputsPrev[i];
+			// check for saturation against slew rate limits
+			if (m_Config->DeltaOutMax > 0.0f) {
+				float delta_out = outputs[i] - m_OutputsPrev[i];
 
-            if (delta_out > ConfigTblPtr->DeltaOutMax) {
-                outputs[i] = m_OutputsPrev[i] + ConfigTblPtr->DeltaOutMax;
-                clipping_high = true;
+				if (delta_out > m_Config->DeltaOutMax) {
+					outputs[i] = m_OutputsPrev[i] + m_Config->DeltaOutMax;
+					clipping_high = true;
 
-            } else if (delta_out < -ConfigTblPtr->DeltaOutMax) {
-                outputs[i] = m_OutputsPrev[i] - ConfigTblPtr->DeltaOutMax;
-                clipping_low = true;
+				} else if (delta_out < -m_Config->DeltaOutMax) {
+					outputs[i] = m_OutputsPrev[i] - m_Config->DeltaOutMax;
+					clipping_low = true;
 
-            }
-        }
+				}
+			}
 
-        m_OutputsPrev[i] = outputs[i];
+			m_OutputsPrev[i] = outputs[i];
 
-        // update the saturation status report
-        update_saturation_status(i, clipping_high, clipping_low);
+			// update the saturation status report
+			update_saturation_status(i, clipping_high, clipping_low);
 
-    }
+		}
 
-    // this will force the caller of the mixer to always supply new slew rate values, otherwise no slew rate limiting will happen
-    ConfigTblPtr->DeltaOutMax = 0.0f;
+		// this will force the caller of the mixer to always supply new slew rate values, otherwise no slew rate limiting will happen
+		m_Config->DeltaOutMax = 0.0f;
 
-    // Notify saturation status
-    if (status_reg != nullptr) {
-        (*status_reg) = m_SaturationStatus.value;
-    }
+		// Notify saturation status
+		if (status_reg != nullptr) {
+			(*status_reg) = m_SaturationStatus.value;
+		}
+	}
 
-    return ConfigTblPtr->RotorCount;
+    return m_Config->RotorCount;
 }
 
 /*
@@ -513,33 +478,33 @@ MultirotorMixer::update_saturation_status(uint32 index, bool clipping_high, bool
 	// The motor is saturated at the upper limit
 	// check which control axes and which directions are contributing
 	if (clipping_high) {
-		if (ConfigTblPtr->RotorConfig[index].RollScale > 0.0f) {
+		if (m_Config->RotorConfig[index].RollScale > 0.0f) {
 			// A positive change in roll will increase saturation
 			m_SaturationStatus.flags.roll_pos = true;
 
-		} else if (ConfigTblPtr->RotorConfig[index].RollScale < 0.0f) {
+		} else if (m_Config->RotorConfig[index].RollScale < 0.0f) {
 			// A negative change in roll will increase saturation
 			m_SaturationStatus.flags.roll_neg = true;
 
 		}
 
 		// check if the pitch input is saturating
-		if (ConfigTblPtr->RotorConfig[index].PitchScale > 0.0f) {
+		if (m_Config->RotorConfig[index].PitchScale > 0.0f) {
 			// A positive change in pitch will increase saturation
 			m_SaturationStatus.flags.pitch_pos = true;
 
-		} else if (ConfigTblPtr->RotorConfig[index].PitchScale < 0.0f) {
+		} else if (m_Config->RotorConfig[index].PitchScale < 0.0f) {
 			// A negative change in pitch will increase saturation
 			m_SaturationStatus.flags.pitch_neg = true;
 
 		}
 
 		// check if the yaw input is saturating
-		if (ConfigTblPtr->RotorConfig[index].YawScale > 0.0f) {
+		if (m_Config->RotorConfig[index].YawScale > 0.0f) {
 			// A positive change in yaw will increase saturation
 			m_SaturationStatus.flags.yaw_pos = true;
 
-		} else if (ConfigTblPtr->RotorConfig[index].YawScale < 0.0f) {
+		} else if (m_Config->RotorConfig[index].YawScale < 0.0f) {
 			// A negative change in yaw will increase saturation
 			m_SaturationStatus.flags.yaw_neg = true;
 
@@ -554,33 +519,33 @@ MultirotorMixer::update_saturation_status(uint32 index, bool clipping_high, bool
 	// check which control axes and which directions are contributing
 	if (clipping_low) {
 		// check if the roll input is saturating
-		if (ConfigTblPtr->RotorConfig[index].RollScale > 0.0f) {
+		if (m_Config->RotorConfig[index].RollScale > 0.0f) {
 			// A negative change in roll will increase saturation
 			m_SaturationStatus.flags.roll_neg = true;
 
-		} else if (ConfigTblPtr->RotorConfig[index].RollScale < 0.0f) {
+		} else if (m_Config->RotorConfig[index].RollScale < 0.0f) {
 			// A positive change in roll will increase saturation
 			m_SaturationStatus.flags.roll_pos = true;
 
 		}
 
 		// check if the pitch input is saturating
-		if (ConfigTblPtr->RotorConfig[index].PitchScale > 0.0f) {
+		if (m_Config->RotorConfig[index].PitchScale > 0.0f) {
 			// A negative change in pitch will increase saturation
 			m_SaturationStatus.flags.pitch_neg = true;
 
-		} else if (ConfigTblPtr->RotorConfig[index].PitchScale < 0.0f) {
+		} else if (m_Config->RotorConfig[index].PitchScale < 0.0f) {
 			// A positive change in pitch will increase saturation
 			m_SaturationStatus.flags.pitch_pos = true;
 
 		}
 
 		// check if the yaw input is saturating
-		if (ConfigTblPtr->RotorConfig[index].YawScale > 0.0f) {
+		if (m_Config->RotorConfig[index].YawScale > 0.0f) {
 			// A negative change in yaw will increase saturation
 			m_SaturationStatus.flags.yaw_neg = true;
 
-		} else if (ConfigTblPtr->RotorConfig[index].YawScale < 0.0f) {
+		} else if (m_Config->RotorConfig[index].YawScale < 0.0f) {
 			// A positive change in yaw will increase saturation
 			m_SaturationStatus.flags.yaw_pos = true;
 
@@ -612,4 +577,11 @@ uint32 MultirotorMixer::set_trim(float trim)
 void MultirotorMixer::set_thrust_factor(float val)
 {
     m_ThrustFactor = val;
+}
+
+
+
+int32 MultirotorMixer::SetConfig(AMC_MultirotorMixer_Config_t *config)
+{
+	m_Config = config;
 }

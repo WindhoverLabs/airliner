@@ -92,7 +92,7 @@ private:
 
 	void update_saturation_status(uint32 index, bool clipping_high, bool clipping_low);
 
-	float 			   m_OutputsPrev[MULTIROTOR_MIXER_MAX_ROTOR_COUNT];
+	float 			   m_OutputsPrev[AMC_MULTIROTOR_MIXER_MAX_ROTOR_COUNT];
 	MultirotorMixer_ConfigTablePtr_t m_ConfigTablePtr;
 
 	/* do not allow to copy due to ptr data members */

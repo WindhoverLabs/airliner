@@ -64,7 +64,24 @@ int32 AMC::InitConfigTbl(void)
          * table is made critical this logic would have to change.
          */
         CFE_EVS_SendEvent(AMC_CFGTBL_REG_ERR_EID, CFE_EVS_ERROR,
-                "Failed to register table (0x%08X)",
+                "Failed to register config table (0x%08X)",
+                (unsigned int)iStatus);
+        goto AMC_InitConfigTbl_Exit_Tag;
+    }
+
+    /* Register Mixer Config table */
+    iStatus = CFE_TBL_Register(&MixerConfigTblHdl,
+            AMC_MIXER_CONFIG_TABLENAME,
+            (sizeof(AMC_Mixer_ConfigTable_t)),
+            CFE_TBL_OPT_DEFAULT,
+            0);
+    if (iStatus != CFE_SUCCESS)
+    {
+        /* Note, a critical table could return another nominal code.  If this
+         * table is made critical this logic would have to change.
+         */
+        CFE_EVS_SendEvent(AMC_CFGTBL_REG_ERR_EID, CFE_EVS_ERROR,
+                "Failed to register mixer table (0x%08X)",
                 (unsigned int)iStatus);
         goto AMC_InitConfigTbl_Exit_Tag;
     }
@@ -81,6 +98,22 @@ int32 AMC::InitConfigTbl(void)
          */
         CFE_EVS_SendEvent(AMC_CFGTBL_LOAD_ERR_EID, CFE_EVS_ERROR,
                 "Failed to load Config Table (0x%08X)",
+                (unsigned int)iStatus);
+        goto AMC_InitConfigTbl_Exit_Tag;
+    }
+
+    /* Load Config table file */
+    iStatus = CFE_TBL_Load(MixerConfigTblHdl,
+            CFE_TBL_SRC_FILE,
+            AMC_MIXER_CONFIG_TABLE_FILENAME);
+    if (iStatus != CFE_SUCCESS)
+    {
+        /* Note, CFE_SUCCESS is for a successful full table load.  If a
+         * partial table load is desired then this logic would have to
+         * change.
+         */
+        CFE_EVS_SendEvent(AMC_CFGTBL_LOAD_ERR_EID, CFE_EVS_ERROR,
+                "Failed to load Mixer Table (0x%08X)",
                 (unsigned int)iStatus);
         goto AMC_InitConfigTbl_Exit_Tag;
     }
@@ -145,6 +178,8 @@ int32 AMC::AcquireConfigPointers(void)
      */
     CFE_TBL_ReleaseAddress(ConfigTblHdl);
 
+    CFE_TBL_ReleaseAddress(MixerConfigTblHdl);
+
     /*
      ** Manage the table
      */
@@ -153,6 +188,18 @@ int32 AMC::AcquireConfigPointers(void)
     {
         CFE_EVS_SendEvent(AMC_CFGTBL_MANAGE_ERR_EID, CFE_EVS_ERROR,
                 "Failed to manage Config table (0x%08X)",
+                (unsigned int)iStatus);
+        goto AMC_AcquireConfigPointers_Exit_Tag;
+    }
+
+    /*
+     ** Manage the table
+     */
+    iStatus = CFE_TBL_Manage(MixerConfigTblHdl);
+    if ((iStatus != CFE_SUCCESS) && (iStatus != CFE_TBL_INFO_UPDATED))
+    {
+        CFE_EVS_SendEvent(AMC_CFGTBL_MANAGE_ERR_EID, CFE_EVS_ERROR,
+                "Failed to manage Mixer Config table (0x%08X)",
                 (unsigned int)iStatus);
         goto AMC_AcquireConfigPointers_Exit_Tag;
     }
@@ -174,6 +221,32 @@ int32 AMC::AcquireConfigPointers(void)
                 (unsigned int)iStatus);
     }
 
+    /*
+     ** Get a pointer to the table
+     */
+    iStatus = CFE_TBL_GetAddress((void**)&MixerConfigTblPtr,
+    		MixerConfigTblHdl);
+    if (iStatus == CFE_TBL_INFO_UPDATED)
+    {
+        iStatus = CFE_SUCCESS;
+    }
+    else if(iStatus != CFE_SUCCESS)
+    {
+    	MixerConfigTblPtr = 0;
+        CFE_EVS_SendEvent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
+                "Failed to get Mixer Config table's address (0x%08X)",
+                (unsigned int)iStatus);
+    }
+
+	for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
+	{
+	    MultirotorMixerObject[i].SetConfig(&MixerConfigTblPtr->Multirotor[i]);
+	}
+
+	for(uint32 i = 0; i < AMC_SIMPLE_MIXER_MAX_MIXERS; ++i)
+	{
+	    SimpleMixerObject[i].SetConfig(&MixerConfigTblPtr->Simple[i]);
+	}
 
 AMC_AcquireConfigPointers_Exit_Tag:
     return iStatus;

@@ -9,6 +9,10 @@ extern "C" {
 ** amc Platform Configuration Parameter Definitions
 */
 
+#define AMC_MULTIROTOR_MIXER_MAX_MIXERS   (1)
+#define AMC_SIMPLE_MIXER_MAX_MIXERS       (10)
+#define AMC_SIMPLE_MIXER_MAX_CONTROLS     (2)
+
 /** \brief Mission specific version number for AMC application
 **  
 **  \par Description:

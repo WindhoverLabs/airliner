@@ -72,10 +72,7 @@ public:
 	 *				tuned to ensure that rotors never stall at the
 	 * 				low end of their control range.
 	 */
-	SimpleMixer(
-			ControlCallback control_cb,
-			cpuaddr cb_handle
-			);
+	SimpleMixer();
 	~SimpleMixer();
 
 	virtual uint32		mix(float *outputs, uint32 space, uint16 *status_reg);
@@ -87,14 +84,14 @@ public:
 	uint32 set_trim(float trim);
 
 	virtual int32           Initialize(void);
-
-    /** \brief Mixer Config Table Handle */
-    CFE_TBL_Handle_t ConfigTblHdl;
-
-    /** \brief Mixer Config Table Pointer */
-    SimpleMixer_ConfigTable_t* ConfigTblPtr;
     static int32 ValidateConfigTable(void* ConfigTblPtr);
     int32 AcquireConfigPointers(void);
+
+    int32 SetOutputScaler(AMC_Mixer_Scaler_t &OutputScaler);
+    int32 SetControl(uint8 Control, uint8 Group, uint8 Index);
+    int32 SetControlScaler(uint8 Control, AMC_Mixer_Scaler_t Scaler);
+
+    int32 SetConfig(AMC_SimpleMixer_Config_t *config);
 
 private:
 	float 			   m_ThrustFactor;
@@ -119,8 +116,8 @@ private:
 
 	void update_saturation_status(uint32 index, bool clipping_high, bool clipping_low);
 
-	float 			   m_OutputsPrev[MULTIROTOR_MIXER_MAX_ROTOR_COUNT];
-	SimpleMixer_ConfigTablePtr_t m_ConfigTablePtr;
+	float 			   m_OutputsPrev[AMC_MULTIROTOR_MIXER_MAX_ROTOR_COUNT];
+	AMC_SimpleMixer_Config_t *m_Config;
 
 	/* do not allow to copy due to ptr data members */
 	SimpleMixer(const SimpleMixer &);
