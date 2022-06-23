@@ -1210,6 +1210,14 @@ void AMC::UpdateMotors(void)
 
         /* Do mixing */
         ActuatorOutputs.Count = 0;
+        /* Disable unused ports by setting their output to NaN */
+//        for (size_t i = ActuatorOutputs.Count;
+//                i < sizeof(ActuatorOutputs.Output)
+//                        / sizeof(ActuatorOutputs.Output[0]);
+//                i++)
+//        {
+//            ActuatorOutputs.Output[i] = NAN;
+//        }
 
 		for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
 		{
@@ -1220,15 +1228,6 @@ void AMC::UpdateMotors(void)
 		{
 			ActuatorOutputs.Count += SimpleMixerObject[i].mix(&ActuatorOutputs.Output[ActuatorOutputs.Count], 0, 0);
 		}
-
-        /* Disable unused ports by setting their output to NaN */
-        for (size_t i = ActuatorOutputs.Count;
-                i < sizeof(ActuatorOutputs.Output)
-                        / sizeof(ActuatorOutputs.Output[0]);
-                i++)
-        {
-            ActuatorOutputs.Output[i] = NAN;
-        }
 
         PwmLimit_Calc(
                 CVT.ActuatorArmed.Armed,

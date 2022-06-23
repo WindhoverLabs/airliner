@@ -70,10 +70,10 @@ uint32 SimpleMixer::mix(float *outputs, uint32 space, uint16 *status_reg)
 	{
 		float sum = 0.0f;
 
-		if (space < 1)
-		{
-			return 0;
-		}
+//		if (space < 1)
+//		{
+//			return 0;
+//		}
 
 		for(uint32 i = 0; i < m_Config->ControlCount; i++)
 		{
