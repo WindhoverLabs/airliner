@@ -312,4 +312,11 @@
 #define SBUS_SEND_HK_MID                          CMD_MSG(  342 )  /* 0x156 */
 #define SBUS_WAKEUP_MID                           CMD_MSG(  343 )  /* 0x157 */
 
+/* FAC                                                                      */
+#define FAC_HK_TLM_MID                            TLM_MSG(  344 )  /* 0x158 */
+#define FAC_OUT_DATA_MID                          TLM_MSG(  345 )  /* 0x159 */
+#define FAC_CMD_MID                               CMD_MSG(  346 )  /* 0x15a */
+#define FAC_SEND_HK_MID                           CMD_MSG(  347 )  /* 0x15b */
+#define FAC_WAKEUP_MID                            CMD_MSG(  348 )  /* 0x15c */
+
 #endif
