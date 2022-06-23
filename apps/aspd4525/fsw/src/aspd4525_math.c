@@ -15,6 +15,8 @@
 #include "aspd4525_msg.h"
 #include <math.h>
 
+#undef STDIO_DEBUG
+
 float ASPD4525_MATH_GetDeltaPressure(
     ASPD4525_ConfigTblEntry_t* configTblP, 
     uint32 pressureDataCounts

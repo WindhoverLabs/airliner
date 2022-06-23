@@ -55,7 +55,7 @@
 /************************************************************************
 ** Local Defines
 *************************************************************************/
-#define STDIO_DEBUG
+#undef STDIO_DEBUG
 
 #if defined(STDIO_DEBUG)
 //#include <stdio.h>
@@ -332,7 +332,9 @@ int32 ASPD4525_InitApp()
         goto ASPD4525_InitApp_Exit_Tag;
     }
 
+#if defined(STDIO_DEBUG)
     printf("ASPD4525 Custom Initialized\n");
+#endif
 
 ASPD4525_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
