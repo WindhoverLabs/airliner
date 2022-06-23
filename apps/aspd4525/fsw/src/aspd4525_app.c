@@ -55,10 +55,10 @@
 /************************************************************************
 ** Local Defines
 *************************************************************************/
-//#define STDIO_DEBUG
+#define STDIO_DEBUG
 
 #if defined(STDIO_DEBUG)
-#include <stdio.h>
+//#include <stdio.h>
 #endif
 
 /************************************************************************
@@ -332,6 +332,8 @@ int32 ASPD4525_InitApp()
         goto ASPD4525_InitApp_Exit_Tag;
     }
 
+    printf("ASPD4525 Custom Initialized\n");
+
 ASPD4525_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
@@ -488,6 +490,11 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                     ASPD4525_AppData.HkTlm.fIndicatedAirSpeed = ASPD4525_AppData.fIndicatedAirSpeed;
                     ASPD4525_AppData.fTrueAirSpeed = ASPD4525_AppData.fTrueAirSpeedUnfiltered;
                     ASPD4525_AppData.HkTlm.fTrueAirSpeed = ASPD4525_AppData.fTrueAirSpeed;
+
+                    ASPD4525_AppData.HkTlm.fPressureMaximum_PSI = ASPD4525_AppData.ConfigTblPtr->fPressureMaximum_PSI;
+                    ASPD4525_AppData.HkTlm.fPressureMinimum_PSI = ASPD4525_AppData.ConfigTblPtr->fPressureMinimum_PSI;
+                    ASPD4525_AppData.HkTlm.fTemperatureMaximum_Celcius = ASPD4525_AppData.ConfigTblPtr->fTemperatureMaximum_Celcius;
+                    ASPD4525_AppData.HkTlm.fTemperatureMinimum_Celcius = ASPD4525_AppData.ConfigTblPtr->fTemperatureMinimum_Celcius;
 
                     /*Write out PX4 Telemetry*/
                     ASPD4525_AppData.PX4_AirspeedMsg.Timestamp = PX4LIB_GetPX4TimeUs();
@@ -712,6 +719,11 @@ void ASPD4525_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                     ASPD4525_AppData.ConfigTblPtr->fTemperatureMinimum_Celcius = manCalibArgCmdPtr->fTemperatureMinimum_Celcius;
                     ASPD4525_AppData.ConfigTblPtr->fGravitationalAccereleration_SI = manCalibArgCmdPtr->fGravitationalAccereleration_SI;
 
+                    ASPD4525_AppData.HkTlm.fPressureMaximum_PSI=ASPD4525_AppData.ConfigTblPtr->fPressureMaximum_PSI;
+                    ASPD4525_AppData.HkTlm.fPressureMinimum_PSI=ASPD4525_AppData.ConfigTblPtr->fPressureMinimum_PSI;
+                    ASPD4525_AppData.HkTlm.fTemperatureMaximum_Celcius=ASPD4525_AppData.ConfigTblPtr->fTemperatureMaximum_Celcius;
+                    ASPD4525_AppData.HkTlm.fTemperatureMinimum_Celcius=ASPD4525_AppData.ConfigTblPtr->fTemperatureMinimum_Celcius;
+
 					status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
 					if (CFE_SUCCESS!=status) {
 						ASPD4525_AppData.HkTlm.usCmdErrCnt++;
@@ -741,37 +753,41 @@ void ASPD4525_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                         ( labCalibArgCmdPtr->fVelocityHigh_SI > labCalibArgCmdPtr->fVelocityLow_SI )
                     )
                     {
-                        float rho = 1.225;
-                        uint32 CM = 0x3fff;
+                        #if 0
+                        float rho = AIR_DENSITY_SEA_LEVEL;
+                        uint32 CM = ASPD4525_MATH_PRESSURE_COUNTS_MAX;
                         float CL = ((float)CM) * 0.05;
                         float CS = ((float)CM) * 0.9;
                         float C1 = (float)labCalibArgCmdPtr->uPCountHigh;
                         float C0 = (float)labCalibArgCmdPtr->uPCountLow;
 
-                        float a1 = (C1-CL-(0.5*CS))/CS;
-                        float a0 = (C0-CL-(0.5*CS))/CS;
+                        float P1 = 0.5 * rho * (labCalibArgCmdPtr->fVelocityHigh_SI * labCalibArgCmdPtr->fVelocityHigh_SI);
+                        float P0 = 0.5 * rho * (labCalibArgCmdPtr->fVelocityLow_SI * labCalibArgCmdPtr->fVelocityLow_SI);
 
-                        float b1 = ((0.5*CS)-C1+CL)/CS;
-                        float b0 = ((0.5*CS)-C0+CL)/CS;
-
-                        float determinant = 1/(a0*b1-a1*b0);
-
-                        float dP0 = 0.5*rho*(labCalibArgCmdPtr->fVelocityLow_SI*labCalibArgCmdPtr->fVelocityLow_SI);
-                        float dP1 = 0.5*rho*(labCalibArgCmdPtr->fVelocityHigh_SI*labCalibArgCmdPtr->fVelocityHigh_SI);
-
+                        float m = ( P1 - P0 ) / ( C1 - C0 );
+                        float b = - C0 * m;
+                        #if defined(STDIO_DEBUG)
                         printf("Came Here 0: [%f, %f)\n", labCalibArgCmdPtr->fVelocityLow_SI, labCalibArgCmdPtr->fVelocityHigh_SI);
 
                         printf("Came Here 1: [0x%04x, 0x%04x)\n", labCalibArgCmdPtr->uPCountLow, labCalibArgCmdPtr->uPCountHigh);
-                        printf("Came Here a: [%f, %f)\n", a0, a1);
-                        printf("Came Here b: [%f, %f)\n", b0, b1);
-                        printf("Came Here dP: [%f, %f)\n", dP0, dP1);
+                        printf("Came Here P: [%f, %f)\n", P0, P1);
+                        printf("Came Here C: [%f, %f)\n", CL, CS);
+                        #endif
 
-                        printf("Came Here C: [%f, %f)\n", CL, CM);
 
-                        ASPD4525_AppData.ConfigTblPtr->fPressureMaximum_PSI = determinant * ( b1*dP0 - b0*dP1 ) / ASPD4525_MATH_PSI2PASCALS(1);
-                        ASPD4525_AppData.ConfigTblPtr->fPressureMinimum_PSI = determinant * ( -a1*dP0 + a0*dP1 ) / ASPD4525_MATH_PSI2PASCALS(1);
+                        ASPD4525_AppData.ConfigTblPtr->fPressureMaximum_PSI = ( m * ( CL + CS ) + b ) / ASPD4525_MATH_PSI2PASCALS(1);
+                        ASPD4525_AppData.ConfigTblPtr->fPressureMinimum_PSI = ( m * ( CL      ) + b ) / ASPD4525_MATH_PSI2PASCALS(1);
+                        #else
 
+                        ASPD4525_MATH_CalibrateAirSpeedPressures(ASPD4525_AppData.ConfigTblPtr, labCalibArgCmdPtr);
+                        #endif
+
+                        #if defined(STDIO_DEBUG)
                         printf("Came Here 4: [%f, %f)\n", ASPD4525_AppData.ConfigTblPtr->fPressureMinimum_PSI, ASPD4525_AppData.ConfigTblPtr->fPressureMaximum_PSI);
+                        #endif
+
+                        ASPD4525_AppData.HkTlm.fPressureMaximum_PSI=ASPD4525_AppData.ConfigTblPtr->fPressureMaximum_PSI;
+                        ASPD4525_AppData.HkTlm.fPressureMinimum_PSI=ASPD4525_AppData.ConfigTblPtr->fPressureMinimum_PSI;
 
                         status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
                         if (CFE_SUCCESS!=status) {
@@ -818,7 +834,12 @@ void ASPD4525_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                             (- aHigh*tempCalibArgCmdPtr->fTemperatureLow_Celcius
                              + aLow*tempCalibArgCmdPtr->fTemperatureHigh_Celcius);
 
+                        #if defined(STDIO_DEBUG)
                         printf("Came Here: [%f, %f)\n", ASPD4525_AppData.ConfigTblPtr->fTemperatureMinimum_Celcius, ASPD4525_AppData.ConfigTblPtr->fTemperatureMaximum_Celcius);
+                        #endif
+
+                        ASPD4525_AppData.HkTlm.fTemperatureMaximum_Celcius=ASPD4525_AppData.ConfigTblPtr->fTemperatureMaximum_Celcius;
+                        ASPD4525_AppData.HkTlm.fTemperatureMinimum_Celcius=ASPD4525_AppData.ConfigTblPtr->fTemperatureMinimum_Celcius;
 
                         status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
                         if (CFE_SUCCESS!=status) {
@@ -848,6 +869,10 @@ void ASPD4525_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                     ASPD4525_AppData.ConfigTblPtr->fAirGasConstantR_SI = physicsCalibArgCmdPtr->fAirGasConstantR_SI;
                     ASPD4525_AppData.ConfigTblPtr->fAirMolarMass_SI = physicsCalibArgCmdPtr->fAirMolarMass_SI;
                     ASPD4525_AppData.ConfigTblPtr->fGravitationalAccereleration_SI = physicsCalibArgCmdPtr->fGravitationalAccereleration_SI;
+
+                    #if defined(STDIO_DEBUG)
+                    printf("Came Here: ASPD4525_PHYSICS_CALIB_CC\n");
+                    #endif
 
 					status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
 					if (CFE_SUCCESS!=status) {
@@ -904,6 +929,10 @@ void ASPD4525_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                     ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[4] = airColCalibArgCmdPtr->fL_b4;
                     ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[5] = airColCalibArgCmdPtr->fL_b5;
                     ASPD4525_AppData.ConfigTblPtr->fLapseRate_bs[6] = airColCalibArgCmdPtr->fL_b6;
+
+                    #if defined(STDIO_DEBUG)
+                    printf("Came Here: ASPD4525_AIR_COL_CALIB_CC\n");
+                    #endif
 
 					status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
 					if (CFE_SUCCESS!=status) {

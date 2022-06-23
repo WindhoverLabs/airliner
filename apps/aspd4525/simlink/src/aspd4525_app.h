@@ -72,8 +72,8 @@ extern "C" {
 /* Response (status) pipe name. */
 #define ASPD4525_SED_STATUS_PIPE_NAME          ("IIC1_STATUS")
 
-#define IIC_CMD_MSG_ID                       (0x1838)
-#define IIC_RESPONSE_MSG_ID                  (0x0839)
+#define IIC_CMD_MSG_ID                       (0x183a)
+#define IIC_RESPONSE_MSG_ID                  (0x083b)
 
 
 

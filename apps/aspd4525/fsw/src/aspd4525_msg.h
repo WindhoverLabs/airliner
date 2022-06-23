@@ -262,6 +262,11 @@ typedef struct
     float  fIndicatedAirSpeed;
     float  fTrueAirSpeed;
 
+	float fPressureMinimum_PSI;								/* PSI */
+	float fPressureMaximum_PSI;								/* PSI */
+	float fTemperatureMinimum_Celcius;						/* degrees Celsius */
+	float fTemperatureMaximum_Celcius;						/* degrees Celsius */
+
 } ASPD4525_HkTlm_t;
 
 
