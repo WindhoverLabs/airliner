@@ -326,5 +326,11 @@
 #define FPC_SEND_HK_MID                           CMD_MSG(  352 )  /* 0x160 */
 #define FPC_WAKEUP_MID                            CMD_MSG(  353 )  /* 0x161 */
 
+/* FAC                                                                      */
+#define FAC_HK_TLM_MID                            TLM_MSG(  344 )  /* 0x162 */
+#define FAC_OUT_DATA_MID                          TLM_MSG(  345 )  /* 0x163 */
+#define FAC_CMD_MID                               CMD_MSG(  346 )  /* 0x164 */
+#define FAC_SEND_HK_MID                           CMD_MSG(  347 )  /* 0x165 */
+#define FAC_WAKEUP_MID                            CMD_MSG(  348 )  /* 0x166 */
 
 #endif
