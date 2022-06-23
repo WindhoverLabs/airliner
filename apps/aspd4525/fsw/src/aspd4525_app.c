@@ -481,7 +481,7 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                         );
 
                     #if defined(STDIO_DEBUG)
-                    printf ("Airspeed-> %f\n", ASPD4525_AppData.fTrueAirSpeedUnfiltered);
+                    printf ("Airspeed-> %f, DeltaPressurePascals-> %f\n", ASPD4525_AppData.fTrueAirSpeedUnfiltered, ASPD4525_AppData.fPressureDiff);
                     #endif
 
                     /*Write out Housekeeping*/
