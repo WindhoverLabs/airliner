@@ -41,22 +41,22 @@
 
 extern FAC_AppData_t FAC_MainAppData;
 
-FAC_CmdsTaskData_t FAC_CmdsTaskData =
-{
-   .CmdsTaskId = 0,
-   .uiCmdsRunStatus = CFE_ES_APP_RUN,
-   .pCmds = NULL
-};
+FAC_CmdsTaskData_t FAC_CmdsTaskData;
 
 AppCommandProcess::AppCommandProcess()
 {
+   FAC_CmdsTaskData.CmdsTaskId = 0;
+   FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_RUN;
+   FAC_CmdsTaskData.pCmds = NULL;
 }
 
 AppCommandProcess::~AppCommandProcess()
 {
+   FAC_CmdsTaskData.CmdsTaskId = 0;
+   FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_EXIT;
 }
 
-boolean AppCommandProcess::VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen)
+boolean AppCommandProcess::VerifyCmdLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen)
 {
    boolean bResult  = TRUE;
    uint16  usMsgLen = 0;
@@ -75,16 +75,18 @@ boolean AppCommandProcess::VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpect
                            "Rcvd invalid msgLen: msgId=0x%08X, cmdCode=%d, "
                            "msgLen=%d, expectedLen=%d", MsgId, usCmdCode,
                            usMsgLen, usExpectedLen);
-         FAC_MainAppData.HkTlm.usCmdErrCnt++;
       }
+// Add more to check
    }
 
    return (bResult);
 }
 
-void AppCommandProcess::ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
+int32 AppCommandProcess::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
 {
-   uint32  uiCmdCode=0;
+   int32   iStatus = CFE_SUCCESS;
+   uint32  uiCmdCode = 0;
+   boolean bResult = TRUE;
 
    if (MsgPtr != NULL)
    {
@@ -92,18 +94,34 @@ void AppCommandProcess::ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
       switch (uiCmdCode)
       {
          case FAC_NOOP_CC:
-            FAC_MainAppData.HkTlm.usCmdCnt++;
-            CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                              "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
-                              (unsigned int)uiCmdCode, FAC_MAJOR_VERSION,
-                              FAC_MINOR_VERSION, FAC_REVISION, FAC_MISSION_REV);
+            bResult = VerifyCmdLength(MsgPtr, sizeof(FAC_NoArgCmd_t));
+            if (bResult == TRUE)
+            {
+               FAC_MainAppData.HkTlm.usCmdCnt++;
+               CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                 "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
+                                 (unsigned int)uiCmdCode, FAC_MAJOR_VERSION,
+                                 FAC_MINOR_VERSION, FAC_REVISION, FAC_MISSION_REV);
+            }
+            else
+            {
+               FAC_MainAppData.HkTlm.usCmdErrCnt++;
+            }
             break;
 
          case FAC_RESET_CC:
-            FAC_MainAppData.HkTlm.usCmdCnt = 0;
-            FAC_MainAppData.HkTlm.usCmdErrCnt = 0;
-            CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                              "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
+            bResult = VerifyCmdLength(MsgPtr, sizeof(FAC_NoArgCmd_t));
+            if (bResult == TRUE)
+            {
+               FAC_MainAppData.HkTlm.usCmdCnt = 0;
+               FAC_MainAppData.HkTlm.usCmdErrCnt = 0;
+               CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                 "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
+            }
+            else
+            {
+               FAC_MainAppData.HkTlm.usCmdErrCnt++;
+            }
             break;
 
          /* TODO:  Add code to process the rest of the FAC commands here */
@@ -115,6 +133,12 @@ void AppCommandProcess::ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
             break;
       }
    }
+   else
+   {
+      iStatus = FAC_ERR_INVALID_POINTER;      // Maybe CFE_OS_INVALID_POINTER
+   }
+
+   return (iStatus);
 }
 
 int32 AppCommandProcess::RcvCmdMsg(int32 iBlocking)
@@ -124,7 +148,7 @@ int32 AppCommandProcess::RcvCmdMsg(int32 iBlocking)
    CFE_SB_MsgId_t  MsgId;
 
    /* Process command messages till the pipe is empty */
-   while (FAC_CmdsTaskData.uiCmdsRunStatus == CFE_ES_APP_RUN)
+   while (FAC_CmdsTaskData.uiCmdsRunStatus == FAC_TASK_RUN)
    {
       iStatus = CFE_SB_RcvMsg(&MsgPtr, CmdPipeId, CFE_SB_POLL);
       if(iStatus == CFE_SUCCESS)
@@ -136,7 +160,12 @@ int32 AppCommandProcess::RcvCmdMsg(int32 iBlocking)
          switch (MsgId)
          {
             case FAC_CMD_MID:
-               ProcessNewAppCmds(MsgPtr);
+               iStatus = ProcessNewAppCmds(MsgPtr);
+               if (iStatus == FAC_ERR_INVALID_POINTER)
+               {
+                  FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
+                  goto RcvCmdMsg_Exit_Tag;
+               }
                break;
 
                 /* TODO:  Add code to process other subscribed commands here
@@ -166,11 +195,12 @@ int32 AppCommandProcess::RcvCmdMsg(int32 iBlocking)
       {
          CFE_EVS_SendEvent(FAC_PIPE_ERR_EID, CFE_EVS_ERROR,
                            "CMD pipe read error (0x%08X)", (unsigned int)iStatus);
-         FAC_CmdsTaskData.uiCmdsRunStatus = CFE_ES_APP_ERROR;
-         break;
+         FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
+         goto RcvCmdMsg_Exit_Tag;
       }
    }
 
+RcvCmdMsg_Exit_Tag:
    return iStatus;
 }
 
@@ -218,7 +248,7 @@ void CmdsTask()
    {
       CFE_ES_WriteToSysLog("FAC - Failed to register the CmdsTask (0x%08X)\n",
                            (unsigned int)iStatus);
-      FAC_CmdsTaskData.uiCmdsRunStatus = CFE_ES_APP_ERROR;
+      FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
       goto CmdsTask_Exit_Tag;
    }
 
@@ -227,7 +257,7 @@ void CmdsTask()
    {
       CFE_ES_WriteToSysLog("FAC - Failed to Get Cmds task info(0x%08X)\n",
                            (unsigned int)iStatus);
-      FAC_CmdsTaskData.uiCmdsRunStatus = CFE_ES_APP_ERROR;
+      FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
       goto CmdsTask_Exit_Tag;
    }
    else
@@ -249,7 +279,7 @@ void CmdsTask()
          CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                            "Failed to init cmds task (0x%08X)",
                            (unsigned int)iStatus);
-         FAC_CmdsTaskData.uiCmdsRunStatus = CFE_ES_APP_ERROR;
+         FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
          goto CmdsTask_Exit_Tag;
       }
       else
@@ -262,16 +292,16 @@ void CmdsTask()
    }
    else
    {
-      FAC_CmdsTaskData.uiCmdsRunStatus = CFE_ES_APP_ERROR;
+      FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
       goto CmdsTask_Exit_Tag;
    }
 
-   if (FAC_CmdsTaskData.uiCmdsRunStatus == CFE_ES_APP_RUN)
+   if (FAC_CmdsTaskData.uiCmdsRunStatus == FAC_TASK_RUN)
    {
       iStatus = FAC_CmdsTaskData.pCmds->RcvCmdMsg(FAC_CMD_PIPE_PEND_TIME);
       if (iStatus != CFE_SUCCESS)
       {
-         FAC_CmdsTaskData.uiCmdsRunStatus = CFE_ES_APP_ERROR;
+         FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
          goto CmdsTask_Exit_Tag;
       }
    }
@@ -280,10 +310,12 @@ CmdsTask_Exit_Tag:
    if (FAC_CmdsTaskData.pCmds != NULL)
    {
       delete FAC_CmdsTaskData.pCmds;
+      FAC_CmdsTaskData.pCmds = NULL;
    }
+   CFE_ES_WriteToSysLog("FAC - CmdsTask: Error detected. Task will exit (0x%08X)\n",
+                        (unsigned int)iStatus);
+   FAC_MainAppData.uiAppRunStatus = CFE_ES_APP_EXIT;
    CFE_ES_ExitChildTask();
-   FAC_CmdsTaskData.CmdsTaskId = 0;
 
-   FAC_MainAppData.uiAppRunStatus = CFE_ES_APP_ERROR;
    return;
 }

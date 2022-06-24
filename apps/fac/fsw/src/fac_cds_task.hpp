@@ -89,6 +89,8 @@ private:
    int32 InitPipe();
    int32 InitData();
    int32 GetCdsGrpId(CFE_SB_MsgId_t DataMsgId);
+
+   boolean VerifyCdsMsgLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen);
 };
 
 

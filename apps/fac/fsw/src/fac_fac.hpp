@@ -66,6 +66,11 @@ private:
    int32 InitPipe();
    int32 InitHk();
 
+   int32   WakeupMsg(CFE_SB_Msg_t *MsgPtr, CFE_SB_MsgId_t MsgId);
+   int32   SendHkMsg(CFE_SB_Msg_t *MsgPtr, CFE_SB_MsgId_t MsgId);
+   boolean VerifySchCmdLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen);
+//   void    IncrementCmdCount();
+//   void    IncrementCmdErr();
    void    ReportHousekeeping();
    void    SendOutData();
 };
