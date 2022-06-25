@@ -82,14 +82,14 @@ void Test_ASPD4525_MATH_GetDiffPressureDataCounts(void)
     {
         ASPD4525_ConfigTblEntry_t configTable;
         char message[100];
-        float fDiffPressure = 0.0;
+        float fDiffPressure_hPa = ASPD4525_MATH_PSI2HECTOPASCALS(0.0);
         uint16 result;
         uint16 expected = 0;
 
         configTable.fPressureMaximum_PSI = 0.5;
         configTable.fPressureMinimum_PSI = -0.5;
 
-        result = ASPD4525_MATH_GetDiffPressureDataCounts((ASPD4525_ConfigTblEntry_t*) 0, fDiffPressure);
+        result = ASPD4525_MATH_GetDiffPressureDataCounts((ASPD4525_ConfigTblEntry_t*) 0, fDiffPressure_hPa);
         sprintf(message, "DiffPressureCnts should be %d because bad config table pointer, %d\n", expected, result);
         UtAssert_IntegerCmpAbs(result, expected, 0, message);
     }
@@ -97,14 +97,14 @@ void Test_ASPD4525_MATH_GetDiffPressureDataCounts(void)
     {
         ASPD4525_ConfigTblEntry_t configTable;
         char message[100];
-        float fDiffPressure = 0.0;
+        float fDiffPressure_hPa = ASPD4525_MATH_PSI2HECTOPASCALS(0.0);
         uint16 result;
         uint16 expected = 0x2000;
 
         configTable.fPressureMaximum_PSI = 0.5;
         configTable.fPressureMinimum_PSI = -0.5;
 
-        result = ASPD4525_MATH_GetDiffPressureDataCounts(&configTable, fDiffPressure);
+        result = ASPD4525_MATH_GetDiffPressureDataCounts(&configTable, fDiffPressure_hPa);
         sprintf(message, "DiffPressureCnts should be %d, got %d\n", expected, result);
         UtAssert_IntegerCmpAbs(result, expected, 1, message);
     }
@@ -112,14 +112,14 @@ void Test_ASPD4525_MATH_GetDiffPressureDataCounts(void)
     {
         ASPD4525_ConfigTblEntry_t configTable;
         char message[100];
-        float fDiffPressure = -0.5;
+        float fDiffPressure_hPa = ASPD4525_MATH_PSI2HECTOPASCALS(-0.5);
         uint16 result;
         uint16 expected = 0x0333;
 
         configTable.fPressureMaximum_PSI = 0.5;
         configTable.fPressureMinimum_PSI = -0.5;
 
-        result = ASPD4525_MATH_GetDiffPressureDataCounts(&configTable, fDiffPressure);
+        result = ASPD4525_MATH_GetDiffPressureDataCounts(&configTable, fDiffPressure_hPa);
         sprintf(message, "DiffPressureCnts should be %d, got %d\n", expected, result);
         UtAssert_IntegerCmpAbs(result, expected, 1, message);
     }
@@ -127,14 +127,14 @@ void Test_ASPD4525_MATH_GetDiffPressureDataCounts(void)
     {
         ASPD4525_ConfigTblEntry_t configTable;
         char message[100];
-        float fDiffPressure = 0.5;
+        float fDiffPressure_hPa = ASPD4525_MATH_PSI2HECTOPASCALS(0.5);
         uint16 result;
         uint16 expected = 0x3ccb;
 
         configTable.fPressureMaximum_PSI = 0.5;
         configTable.fPressureMinimum_PSI = -0.5;
 
-        result = ASPD4525_MATH_GetDiffPressureDataCounts(&configTable, fDiffPressure);
+        result = ASPD4525_MATH_GetDiffPressureDataCounts(&configTable, fDiffPressure_hPa);
         sprintf(message, "DiffPressureCnts should be %d, got %d\n", expected, result);
         UtAssert_IntegerCmpAbs(result, expected, 1, message);
     }

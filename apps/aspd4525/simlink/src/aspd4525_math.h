@@ -38,10 +38,16 @@ extern "C" {
 #define ASPD4525_MATH_PSI2PASCALS(psi)           (((float) 6894.76)*(psi))
 
 /**
- * @brief This macro can be used to convert Pressure in PSI to Pressure in Pascals
+ * @brief This macro can be used to convert Pressure in hPa to Pressure in psi
  * 
  */
 #define ASPD4525_MATH_HECTOPASCALS2PSI(hPa)           (((float) 0.0145038)*(hPa))
+
+/**
+ * @brief This can be used to convert pressure in psi to pressure in hectopascals
+ * 
+ */
+#define ASPD4525_MATH_PSI2HECTOPASCALS(psi)           (((float) 68.9475729318)*(psi))
 
 /**
  * @brief This macro can be used to convert Pressure in atms to Pressure in Pascals
