@@ -115,7 +115,7 @@ extern "C" {
 #define AMC_STARTUP_TIMEOUT_MSEC    (1000)
 
 /* TODO:  Add Doxygen markup. */
-#define AMC_MAX_MOTOR_OUTPUTS       (8)
+#define AMC_MAX_MOTOR_OUTPUTS       (10)
 
 #define AMC_MAX_PARAMS       (3)
 
