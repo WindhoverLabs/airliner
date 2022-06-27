@@ -104,9 +104,13 @@ extern "C" {
 
 #define FPC_SCH_PIPE_SEND_HK_RESERVED  (1)
 
-#define FPC_DATA_PIPE_DEPTH           (1)
+#define FPC_DATA_PIPE_DEPTH            (11)
 
 #define FPC_DATA_PIPE_NAME      ("FPC_DATA_PIPE_NAME")
+
+#define FPC_NUM_MSG                    (11)
+
+#define FPC_1SECOND_MICRO              (1e6)
 
 #ifdef __cplusplus
 }

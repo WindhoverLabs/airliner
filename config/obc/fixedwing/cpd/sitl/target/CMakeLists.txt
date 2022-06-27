@@ -140,3 +140,10 @@ buildliner_add_app(
     CONFIG_SOURCES
         ${PROJECT_SOURCE_DIR}/config/shared/apps/fac/tables/fac_config.c
 )
+
+buildliner_add_app(
+    aspd4525
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/aspd4525/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/obc/fixedwing/cpd/apps/aspd4525
+)

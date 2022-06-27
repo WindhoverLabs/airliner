@@ -47,6 +47,7 @@ extern "C" {
 
 #include "cfe.h"
 #include "px4_msgs.h"
+#include "mixer/MixerTables.h"
 
 
 /************************************************************************
@@ -120,17 +121,23 @@ extern "C" {
 **
 **  \sa #AMC_NOOP_CC
 */
-#define AMC_RESET_CC                (1)
+#define AMC_RESET_CC                     (1)
 
-#define AMC_ARM_DEBUG_CC            (2)
+#define AMC_ARM_DEBUG_CC                 (2)
 
-#define AMC_DISARM_DEBUG_CC         (3)
+#define AMC_DISARM_DEBUG_CC              (3)
 
-#define AMC_ENGAGE_DEBUG_CC         (4)
+#define AMC_ENGAGE_DEBUG_CC              (4)
 
-#define AMC_DISENGAGE_DEBUG_CC      (5)
+#define AMC_DISENGAGE_DEBUG_CC           (5)
 
-#define AMC_DEBUG_CMD_CC            (6)
+#define AMC_DEBUG_CMD_CC                 (6)
+
+#define AMC_SIMPLE_SET_OUTPUT_SCALER_CC  (7)
+
+#define AMC_SIMPLE_SET_CONTROL_CC        (8)
+
+#define AMC_SIMPLE_SET_CONTROL_SCALER_CC (9)
 
 /************************************************************************
 ** Local Structure Declarations
@@ -153,6 +160,33 @@ typedef struct
     uint16 Index;
     uint16 Cmd;
 } AMC_DebugCmd_t;
+
+
+typedef struct
+{
+    uint8              ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+    uint8              MixerIndex;
+    AMC_Mixer_Scaler_t OutputScaler;
+} AMC_SimpleSetOutputScalerCmd_t;
+
+
+typedef struct
+{
+    uint8 ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+    uint8 MixerIndex;
+    uint8 Control;
+    uint8 Group;
+	uint8 Index;
+} AMC_SimpleSetControlCmd_t;
+
+
+typedef struct
+{
+    uint8              ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+    uint8              MixerIndex;
+    uint8              Control;
+    AMC_Mixer_Scaler_t Scaler;
+} AMC_SimpleSetControlScalerCmd_t;
 
 
 /** 

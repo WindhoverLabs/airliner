@@ -33,8 +33,10 @@
 static CFE_TBL_FileDef_t CFE_TBL_FileDef =
 {
     "FPC_ConfigTbl", "FPC.CONFIG_TBL", "FPC default config table",
-    "fpc_config.tbl", (sizeof(FPC_ConfigTblEntry_t) * FPC_CONFIG_TABLE_MAX_ENTRIES)
+    "fpc_config.tbl", (sizeof(FPC_ConfigTbl_t))
 };
+//Insert error since for now we will be using the table from config/shared
+Error
 
 /************************************************************************
 ** External Global Variables
@@ -47,38 +49,712 @@ static CFE_TBL_FileDef_t CFE_TBL_FileDef =
 /**
 **  \brief Default FPC config table data
 */
-FPC_ConfigTblEntry_t FPC_ConfigTbl[FPC_CONFIG_TABLE_MAX_ENTRIES] =
+/* Default MPC config table data */
+FPC_ConfigTbl_t FPC_ConfigTbl =
 {
-    /* Entry 1 */
-    {
-        .iParam = 123
+    /**
+     * L1_PERIOD
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
 
-        /* TODO:  Add default values for Config parameters here.
-        **
-        ** Examples: (See example of type declarations in fpc_tbldefs.h)
-        **    .cParam   = 7,
-        **    .cParams  = "Init Str Value",
-        **    .ucParam  = 'A',
-        **    .ucParams = "/dev/ttyUSB",
-        **
-        **    .sParam   = -16,
-        **    .sParams  = {-3, -2, -1, 0, 1, 2, 3, 4},
-        **    .usParam  = 16,
-        **    .usParams = {1, 2, 3, 4, 5, 6, 7, 8},
-        **
-        **    .iParam   = -32,
-        **    .iParams  = {-123, -234, 0, 123, 234},
-        **    .uiParam  = -32,
-        **    .uiParams = {123, 234, 345, 456, 678},
-        **
-        **    .fParam  = 32.1234,
-        **    .fParams = {-12.34, 0.0, 12.34},
-        **
-        **    .dParam = 123.456789,
-        **    .dParams = {-123.456789, 0.0, 123.456789}
-        */
+    /**
+     * L1_DAMPING
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * T_TIME_CONST
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * T_THRO_CONST
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * T_SINK_MIN
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * T_SINK_MAX
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * T_CLMB_MAX
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+
+    /**
+     * CLMBOUT_DIFF
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+
+    /**
+     * T_HRATE_P
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * T_HRATE_FF
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * T_SRATE_P
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * T_THR_DAMP
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * T_INTEG_GAIN
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * T_VERT_ACC
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * T_HGT_OMEGA
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * T_SPD_OMEGA
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+
+    /**
+     * T_RLL2THR
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+
+    /**
+     * T_SPDWEIGHT
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * T_PTCH_DAMP
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * AIRSPD_MIN
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    5.0,
+
+    /**
+     * AIRSPD_TRIM
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    10.0f,
+
+    /**
+     * AIRSPD_MAX
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    10.0f,
+
+    /**
+     * ARSP_MODE
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0,
+
+
+    /**
+     * P_LIM_MIN
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * P_LIM_MAX
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * R_LIM
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * THR_MIN
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * THR_MAX
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * THR_IDLE
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+
+    /**
+     * THR_CRUISE
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * THR_SLEW_MAX
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * THR_ALT_SCL
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * MAN_R_MAX
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * MAN_P_MAX
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * RSP_OFF
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * PSP_OFF
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * THR_LND_MAX
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * LND_ANG
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * LND_HVIRT
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * LND_FLALT
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * LND_TLALT
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * LND_HHDIST
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * LND_FL_PMIN
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * LND_FL_PMAX
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * LND_USETER
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+    /**
+     * LND_AIRSPD_SC
+     * Minimum thrust in auto thrust control
+     *
+     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     *
+     * @unit norm
+     * @min 0.05
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Fixedwing Position Control
+     */
+    0.0f,
+
+   .FPC_Launch_Detection =
+    {
+        .LAUN_ALL_ON = {FALSE},
+
     }
 };
+
 
 /************************************************************************
 ** Local Variables

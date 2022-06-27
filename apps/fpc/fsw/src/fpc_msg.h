@@ -120,6 +120,8 @@ extern "C" {
 */
 #define FPC_RESET_CC                (1)
 
+#define FPC_DO_GO_AROUND_CC         (2)
+
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
@@ -178,7 +180,6 @@ typedef struct
     uint8              usCmdErrCnt; 
 
 } FPC_HkTlm_t;
-
 
 #ifdef __cplusplus
 }

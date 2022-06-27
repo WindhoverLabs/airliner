@@ -925,6 +925,8 @@ modules:
             msgID: 0x0b0a              # TLM_MSG(  266 )
           PX4_SENSOR_CORRECTION_MID:
             msgID: 0x0b0b              # TLM_MSG(  267 )
+          PX4_POSITION_CONTROL_STATUS_MID:
+              msgID: 0x0b62              # TLM_MSG(  354 )
     
       bat:
         definition: ${PROJECT_SOURCE_DIR}/apps/bat/wh_design.yaml
@@ -1088,5 +1090,32 @@ modules:
             msgID: 0x1b3d              # CMD_MSG(  317 )
           ADSBR_WAKEUP_MID:
             msgID: 0x1b3e              # CMD_MSG(  318 )
+      fpc:
+        definition: ${PROJECT_SOURCE_DIR}/apps/fpc/wh_design.yaml
+        telemetry:
+          FPC_HK_TLM_MID:
+            msgID: 0x0b5e              # TLM_MSG(  350 )
+        commands:
+          FPC_CMD_MID:
+            msgID: 0x1b5f              # CMD_MSG(  352 )
+        perfids:
+          CI_MAIN_TASK_PERF_ID:
+            id: 34
+          CI_SOCKET_RCV_PERF_ID:
+            id: 35
+      aspd4525:
+        definition: ${PROJECT_SOURCE_DIR}/apps/aspd4525/wh_design.yaml
+        commands:
+          ASPD4525_CMD_MID:
+            msgID: 0x1b58              # CMD_MSG(  344 )
+          ASPD4525_SEND_HK_MID:
+            msgID: 0x1b59              # CMD_MSG(  345 )
+          ASPD4525_WAKEUP_MID:
+            msgID: 0x1b5a              # CMD_MSG(  346 )
+        telemetry:
+          ASPD4525_OUT_DATA_MID:
+            msgID: 0x0b5b              # TLM_MSG(  347 )
+          ASPD4525_HK_TLM_MID:
+            msgID: 0x0b5c              # TLM_MSG(  348 )
             
             

@@ -57,9 +57,9 @@ namespace math
 }
 
 /*
- * PWM Config table for testing
+ * Config table for testing
  */
-AMC_PwmConfigTbl_t PwmConfigTbl = {
+AMC_ConfigTbl_t ConfigTbl = {
         1000,
         2000,
         3000
@@ -105,7 +105,7 @@ void AMC_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-    Ut_CFE_TBL_AddTable(AMC_PWM_CONFIG_TABLE_FILENAME, (void *) &PwmConfigTbl);
+    Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &ConfigTbl);
     Ut_CFE_TBL_AddTable(AMC_MIXER_CONFIG_TABLE_FILENAME, (void *) &MixerConfigTbl);
 }
 

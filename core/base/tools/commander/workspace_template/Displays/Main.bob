@@ -28,7 +28,7 @@
       <name>NoOp_2</name>
       <actions>
         <action type="open_display">
-          <file>ppd/core/cfe/cfe_es/Main.opi</file>
+          <file>fixedwing/ppd/core/cfe/cfe_es/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -80,7 +80,7 @@
       <name>NoOp_5</name>
       <actions>
         <action type="open_display">
-          <file>ppd/core/cfe/cfe_evs/Main.opi</file>
+          <file>fixedwing/ppd/core/cfe/cfe_evs/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -114,7 +114,7 @@
       <name>NoOp_8</name>
       <actions>
         <action type="open_display">
-          <file>ppd/core/cfe/cfe_sb/Main.opi</file>
+          <file>fixedwing/ppd/core/cfe/cfe_sb/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -148,7 +148,7 @@
       <name>NoOp_11</name>
       <actions>
         <action type="open_display">
-          <file>ppd/core/cfe/cfe_tbl/Main.opi</file>
+          <file>fixedwing/ppd/core/cfe/cfe_tbl/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -182,7 +182,7 @@
       <name>NoOp_14</name>
       <actions>
         <action type="open_display">
-          <file>ppd/core/cfe/cfe_time/Main.opi</file>
+          <file>fixedwing/ppd/core/cfe/cfe_time/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -198,7 +198,7 @@
       <name>NoOp_46</name>
       <actions>
         <action type="open_display">
-          <file>cpd/core/cfe/cfe_es/Main.opi</file>
+          <file>fixedwing/cpd/core/cfe/cfe_es/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -214,7 +214,7 @@
       <name>NoOp_47</name>
       <actions>
         <action type="open_display">
-          <file>cpd/core/cfe/cfe_evs/Main.opi</file>
+          <file>fixedwing/cpd/core/cfe/cfe_evs/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -230,7 +230,7 @@
       <name>NoOp_48</name>
       <actions>
         <action type="open_display">
-          <file>cpd/core/cfe/cfe_sb/Main.opi</file>
+          <file>fixedwing/cpd/core/cfe/cfe_sb/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -246,7 +246,7 @@
       <name>NoOp_49</name>
       <actions>
         <action type="open_display">
-          <file>cpd/core/cfe/cfe_tbl/Main.opi</file>
+          <file>fixedwing/cpd/core/cfe/cfe_tbl/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -262,7 +262,7 @@
       <name>NoOp_50</name>
       <actions>
         <action type="open_display">
-          <file>cpd/core/cfe/cfe_time/Main.opi</file>
+          <file>fixedwing/cpd/core/cfe/cfe_time/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -321,7 +321,7 @@
       <name>NoOp_53</name>
       <actions>
         <action type="open_display">
-          <file>simlink/core/cfe/cfe_es/Main.opi</file>
+          <file>fixedwing/simlink/core/cfe/cfe_es/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -337,7 +337,7 @@
       <name>NoOp_55</name>
       <actions>
         <action type="open_display">
-          <file>simlink/core/cfe/cfe_evs/Main.opi</file>
+          <file>fixedwing/simlink/core/cfe/cfe_evs/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -353,7 +353,7 @@
       <name>NoOp_56</name>
       <actions>
         <action type="open_display">
-          <file>simlink/core/cfe/cfe_sb/Main.opi</file>
+          <file>fixedwing/simlink/core/cfe/cfe_sb/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -369,7 +369,7 @@
       <name>NoOp_64</name>
       <actions>
         <action type="open_display">
-          <file>simlink/core/cfe/cfe_tbl/Main.opi</file>
+          <file>fixedwing/simlink/core/cfe/cfe_tbl/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -385,7 +385,7 @@
       <name>NoOp_65</name>
       <actions>
         <action type="open_display">
-          <file>simlink/core/cfe/cfe_time/Main.opi</file>
+          <file>fixedwing/simlink/core/cfe/cfe_time/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -440,7 +440,7 @@
       <name>NoOp_15</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/cf/Main.opi</file>
+          <file>fixedwing/ppd/apps/cf/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -492,7 +492,7 @@
       <name>NoOp_16</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/cs/Main.opi</file>
+          <file>fixedwing/ppd/apps/cs/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -526,7 +526,7 @@
       <name>NoOp_17</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/ds/Main.opi</file>
+          <file>fixedwing/ppd/apps/ds/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -560,7 +560,7 @@
       <name>NoOp_18</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/ds/Main.opi</file>
+          <file>fixedwing/ppd/apps/ds/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -594,7 +594,7 @@
       <name>NoOp_19</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/hk/Main.opi</file>
+          <file>fixedwing/ppd/apps/hk/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -628,7 +628,7 @@
       <name>NoOp_20</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/ci/Main.opi</file>
+          <file>fixedwing/ppd/apps/ci/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -662,7 +662,7 @@
       <name>NoOp_23</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/hs/Main.opi</file>
+          <file>fixedwing/ppd/apps/hs/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -696,7 +696,7 @@
       <name>NoOp_26</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/lc/Main.opi</file>
+          <file>fixedwing/ppd/apps/lc/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -730,7 +730,7 @@
       <name>NoOp_29</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/md/Main.opi</file>
+          <file>fixedwing/ppd/apps/md/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -764,7 +764,7 @@
       <name>NoOp_32</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/mm/Main.opi</file>
+          <file>fixedwing/ppd/apps/mm/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -798,7 +798,7 @@
       <name>NoOp_35</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/sc/Main.opi</file>
+          <file>fixedwing/ppd/apps/sc/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -832,7 +832,7 @@
       <name>NoOp_38</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/sch/Main.opi</file>
+          <file>fixedwing/ppd/apps/sch/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -866,7 +866,7 @@
       <name>NoOp_41</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/to/Main.opi</file>
+          <file>fixedwing/ppd/apps/to/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -882,7 +882,7 @@
       <name>NoOp_51</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/cf/Main.opi</file>
+          <file>fixedwing/cpd/apps/cf/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -898,7 +898,7 @@
       <name>NoOp_52</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/cs/Main.opi</file>
+          <file>fixedwing/cpd/apps/cs/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -914,7 +914,7 @@
       <name>NoOp_54</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/fm/Main.opi</file>
+          <file>fixedwing/cpd/apps/fm/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -930,7 +930,7 @@
       <name>NoOp_57</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/hs/Main.opi</file>
+          <file>fixedwing/cpd/apps/hs/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -946,7 +946,7 @@
       <name>NoOp_58</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/lc/Main.opi</file>
+          <file>fixedwing/cpd/apps/lc/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -962,7 +962,7 @@
       <name>NoOp_59</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/md/Main.opi</file>
+          <file>fixedwing/cpd/apps/md/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -978,7 +978,7 @@
       <name>NoOp_60</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/mm/Main.opi</file>
+          <file>fixedwing/cpd/apps/mm/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -994,7 +994,7 @@
       <name>NoOp_61</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/sc/Main.opi</file>
+          <file>fixedwing/cpd/apps/sc/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1010,7 +1010,7 @@
       <name>NoOp_62</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/sch/Main.opi</file>
+          <file>fixedwing/cpd/apps/sch/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1026,7 +1026,7 @@
       <name>NoOp_63</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/to/Main.opi</file>
+          <file>fixedwing/cpd/apps/to/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1042,7 +1042,7 @@
       <name>NoOp_71</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/ci/Main.opi</file>
+          <file>fixedwing/cpd/apps/ci/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1076,7 +1076,7 @@
       <name>NoOp_72</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/sed/Main.opi</file>
+          <file>fixedwing/cpd/apps/sed/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1110,7 +1110,7 @@
       <name>NoOp_74</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/zusup/Main.opi</file>
+          <file>fixedwing/cpd/apps/zusup/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1144,7 +1144,7 @@
       <name>NoOp_70</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/sbn/Main.opi</file>
+          <file>fixedwing/cpd/apps/sbn/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1160,7 +1160,7 @@
       <name>NoOp_71</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/sbn/Main.opi</file>
+          <file>fixedwing/ppd/apps/sbn/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1194,7 +1194,7 @@
       <name>NoOp_71</name>
       <actions>
         <action type="open_display">
-          <file>ppd/apps/bat/Main.opi</file>
+          <file>fixedwing/ppd/apps/bat/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1210,7 +1210,7 @@
       <name>NoOp_72</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/bat/Main.opi</file>
+          <file>fixedwing/cpd/apps/bat/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1289,7 +1289,7 @@
       <name>NoOp_73</name>
       <actions>
         <action type="open_display">
-          <file>simlink/apps/ci/Main.opi</file>
+          <file>fixedwing/simlink/apps/ci/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1305,7 +1305,7 @@
       <name>NoOp_75</name>
       <actions>
         <action type="open_display">
-          <file>simlink/apps/sch/Main.opi</file>
+          <file>fixedwing/simlink/apps/sch/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1321,7 +1321,7 @@
       <name>NoOp_76</name>
       <actions>
         <action type="open_display">
-          <file>simlink/apps/to/Main.opi</file>
+          <file>fixedwing/simlink/apps/to/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1517,7 +1517,7 @@
       <name>NoOp_102</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/amc/Main.bob</file>
+          <file>fixedwing/cpd/apps/amc/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1533,7 +1533,7 @@
       <name>NoOp_80</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/sens/Main.opi</file>
+          <file>fixedwing/cpd/apps/sens/Main.opi</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1549,7 +1549,7 @@
       <name>NoOp_91</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/qae/Main.bob</file>
+          <file>fixedwing/cpd/apps/qae/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1565,7 +1565,7 @@
       <name>NoOp_92</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/ld/Main.bob</file>
+          <file>fixedwing/cpd/apps/ld/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1581,7 +1581,7 @@
       <name>NoOp_93</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/nav/Main.bob</file>
+          <file>fixedwing/cpd/apps/nav/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1597,7 +1597,7 @@
       <name>NoOp_94</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/mpc/Main.bob</file>
+          <file>fixedwing/cpd/apps/mpc/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1613,7 +1613,7 @@
       <name>NoOp_95</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/mac/Main.bob</file>
+          <file>fixedwing/cpd/apps/mac/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1629,7 +1629,7 @@
       <name>NoOp_96</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/vm/Main.bob</file>
+          <file>fixedwing/cpd/apps/vm/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1645,7 +1645,7 @@
       <name>NoOp_79</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/pe/Main.bob</file>
+          <file>fixedwing/cpd/apps/pe/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1796,7 +1796,7 @@
       <name>NoOp_99</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/icm20689/Main.bob</file>
+          <file>fixedwing/cpd/apps/icm20689/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1812,7 +1812,7 @@
       <name>NoOp_100</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/hmc5883/Main.bob</file>
+          <file>fixedwing/cpd/apps/hmc5883/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1828,7 +1828,7 @@
       <name>NoOp_103</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/ms5611/Main.bob</file>
+          <file>fixedwing/cpd/apps/ms5611/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1927,7 +1927,7 @@
       <name>NoOp_104</name>
       <actions>
         <action type="open_display">
-          <file>simlink/apps/rfd900x/Main.bob</file>
+          <file>fixedwing/simlink/apps/rfd900x/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1943,7 +1943,7 @@
       <name>NoOp_105</name>
       <actions>
         <action type="open_display">
-          <file>simlink/apps/icm20689/Main.bob</file>
+          <file>fixedwing/simlink/apps/icm20689/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1959,7 +1959,7 @@
       <name>NoOp_106</name>
       <actions>
         <action type="open_display">
-          <file>simlink/apps/hmc5883/Main.bob</file>
+          <file>fixedwing/simlink/apps/hmc5883/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
@@ -1975,13 +1975,64 @@
       <name>NoOp_107</name>
       <actions>
         <action type="open_display">
-          <file>simlink/apps/ms5611/Main.bob</file>
+          <file>fixedwing/simlink/apps/ms5611/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
       <text>Display</text>
       <x>382</x>
       <y>84</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_110</name>
+      <text>ASPD4525 (AirSpeed)</text>
+      <x>1</x>
+      <y>142</y>
+      <width>193</width>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_101</name>
+      <actions>
+        <action type="open_display">
+          <file>fixedwing/cpd/apps/aspd4525/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>292</x>
+      <y>142</y>
+      <width>72</width>
+      <height>23</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>NoOp_108</name>
+      <actions>
+        <action type="open_display">
+          <file>fixedwing/simlink/apps/aspd4525/Main.bob</file>
+          <target>tab</target>
+        </action>
+      </actions>
+      <text>Display</text>
+      <x>382</x>
+      <y>142</y>
       <width>72</width>
       <height>23</height>
       <tooltip>$(actions)</tooltip>

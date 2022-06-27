@@ -40,13 +40,12 @@
 #define MAC_SEND_HK_MID                           CMD_MSG(  145 )  /* 0x091 */
 
 
-/* FPC                                                                      */
-#define FPC_DIAG_TLM_MID                          TLM_MSG(  146 )  /* 0x092 */
-#define FPC_HK_TLM_MID                            TLM_MSG(  147 )  /* 0x093 */
-#define FPC_CMD_MID                               CMD_MSG(  148 )  /* 0x094 */
-#define FPC_SEND_HK_MID                           CMD_MSG(  149 )  /* 0x095 */
-#define FPC_WAKEUP_MID                            CMD_MSG(  150 )  /* 0x096 */
-#define FPC_OUT_DATA_MID                          TLM_MSG(  344 )  /* 0x096 */
+/* MPC                                                                      */
+#define MPC_DIAG_TLM_MID                          TLM_MSG(  146 )  /* 0x092 */
+#define MPC_HK_TLM_MID                            TLM_MSG(  147 )  /* 0x093 */
+#define MPC_CMD_MID                               CMD_MSG(  148 )  /* 0x094 */
+#define MPC_SEND_HK_MID                           CMD_MSG(  149 )  /* 0x095 */
+#define MPC_WAKEUP_MID                            CMD_MSG(  150 )  /* 0x096 */
 
 
 /* NAV                                                                      */
@@ -185,6 +184,7 @@
 #define PX4_VTOL_VEHICLE_STATUS_MID               TLM_MSG(  265 )  /* 0x109 */
 #define PX4_WIND_ESTIMATE_MID                     TLM_MSG(  266 )  /* 0x10a */
 #define PX4_SENSOR_CORRECTION_MID                 TLM_MSG(  267 )  /* 0x10b */
+#define PX4_POSITION_CONTROL_STATUS_MID           TLM_MSG(  354 )  /* 0x162 */
 
 
 /* Vehicle specific driver applications                                     */
@@ -318,5 +318,20 @@
 #define FAC_CMD_MID                               CMD_MSG(  346 )  /* 0x15a */
 #define FAC_SEND_HK_MID                           CMD_MSG(  347 )  /* 0x15b */
 #define FAC_WAKEUP_MID                            CMD_MSG(  348 )  /* 0x15c */
+
+/* ASPD4525                                                                 */
+#define ASPD4525_CMD_MID                          CMD_MSG(  344 )  /* 0x15d */
+#define ASPD4525_SEND_HK_MID                      CMD_MSG(  345 )  /* 0x15e */
+#define ASPD4525_WAKEUP_MID                       CMD_MSG(  346 )  /* 0x15f */
+#define ASPD4525_OUT_DATA_MID                     TLM_MSG(  347 )  /* 0x160 */
+#define ASPD4525_HK_TLM_MID                       TLM_MSG(  348 )  /* 0x161 */
+
+/* FPC                                                                      */
+#define FPC_DIAG_TLM_MID                          TLM_MSG(  349 )  /* 0x162 */
+#define FPC_HK_TLM_MID                            TLM_MSG(  350 )  /* 0x163 */
+#define FPC_CMD_MID                               CMD_MSG(  351 )  /* 0x164 */
+#define FPC_SEND_HK_MID                           CMD_MSG(  352 )  /* 0x165 */
+#define FPC_WAKEUP_MID                            CMD_MSG(  353 )  /* 0x166 */
+
 
 #endif

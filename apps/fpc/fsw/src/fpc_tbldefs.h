@@ -60,557 +60,331 @@ extern "C" {
  */
 #define FPC_CONFIG_TABLENAME          ("CONFIG_TBL")
 
-/**
- * \brief Defines the table file name used for table registration.
- */
-#define FPC_CDS_TABLENAME  ("fpc_CdsTbl")
-
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
-
-
-/** \brief Definition for a single config table entry */
 typedef struct
 {
-    /** \brief Minimum thrust in auto thrust control.
+    /**
+     * @file launchdetection_params.c
      *
-     *  \par It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * Parameters for launchdetection
      *
-     *  \par Limits:
-     *       Min > Max (incr.) #THR_MIN_MIN > #THR_MIN_MAX, default 0.2.
+     * @author Thomas Gubler <thomasgubler@gmail.com>
      */
+
+    /*
+     * Catapult launch detection parameters, accessible via MAVLink
+     *
+     */
+
+    /**
+     * Launch detection
+     *
+     * @boolean
+     * @group FW Launch detection
+     */
+    boolean LAUN_ALL_ON;
+
+    /**
+     * Catapult accelerometer threshold.
+     *
+     * LAUN_CAT_A for LAUN_CAT_T serves as threshold to trigger launch detection.
+     *
+     * @unit m/s/s
+     * @min 0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW Launch detection
+     */
+    float LAUN_CAT_A;
+
+    /**
+     * Catapult time threshold.
+     *
+     * LAUN_CAT_A for LAUN_CAT_T serves as threshold to trigger launch detection.
+     *
+     * @unit s
+     * @min 0.0
+     * @max 5.0
+     * @decimal 2
+     * @increment 0.05
+     * @group FW Launch detection
+     */
+    float LAUN_CAT_T;
+
+    /**
+     * Motor delay
+     *
+     * Delay between starting attitude control and powering up the throttle (giving throttle control to the controller)
+     * Before this timespan is up the throttle will be set to FW_THR_IDLE, set to 0 to deactivate
+     *
+     * @unit s
+     * @min 0.0
+     * @max 10.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW Launch detection
+     */
+    float LAUN_CAT_MDEL;
+
+    /**
+     * Maximum pitch before the throttle is powered up (during motor delay phase)
+     *
+     * This is an extra limit for the maximum pitch which is imposed in the phase before the throttle turns on.
+     * This allows to limit the maximum pitch angle during a bungee launch (make the launch less steep).
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 45.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW Launch detection
+     */
+    float LAUN_CAT_PMAX;
+
+} FPC_Launch_Detection_t;
+
+typedef struct
+{
+    /**
+     * @file runway_takeoff_params.c
+     *
+     * Parameters for runway takeoff
+     *
+     * @author Andreas Antener <andreas@uaventure.com>
+     */
+
+    /**
+     * Runway takeoff with landing gear
+     *
+     * @boolean
+     * @group Runway Takeoff
+     */
+    boolean RWTO_TKOFF;
+//    PARAM_DEFINE_INT32(RWTO_TKOFF, 0);
+
+    /**
+     * Specifies which heading should be held during runnway takeoff.
+     *
+     * 0: airframe heading, 1: heading towards takeoff waypoint
+     *
+     * @value 0 Airframe
+     * @value 1 Waypoint
+     * @min 0
+     * @max 1
+     * @group Runway Takeoff
+     */
+    int32 RWTO_HDG;
+//    PARAM_DEFINE_INT32(RWTO_HDG, 0);
+
+    /**
+     * Altitude AGL at which we have enough ground clearance to allow some roll.
+     * Until RWTO_NAV_ALT is reached the plane is held level and only
+     * rudder is used to keep the heading (see RWTO_HDG). This should be below
+     * FW_CLMBOUT_DIFF if FW_CLMBOUT_DIFF > 0.
+     *
+     * @unit m
+     * @min 0.0
+     * @max 100.0
+     * @decimal 1
+     * @increment 1
+     * @group Runway Takeoff
+     */
+    float NAV_ALT;
+//    PARAM_DEFINE_FLOAT(RWTO_NAV_ALT, 5.0);
+
+    /**
+     * Max throttle during runway takeoff.
+     * (Can be used to test taxi on runway)
+     *
+     * @unit norm
+     * @min 0.0
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Runway Takeoff
+     */
+    float MAX_THR;
+//    PARAM_DEFINE_FLOAT(RWTO_MAX_THR, 1.0);
+
+    /**
+     * Pitch setpoint during taxi / before takeoff airspeed is reached.
+     * A taildragger with stearable wheel might need to pitch up
+     * a little to keep it's wheel on the ground before airspeed
+     * to takeoff is reached.
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 20.0
+     * @decimal 1
+     * @increment 0.5
+     * @group Runway Takeoff
+     */
+    float PSP;
+//    PARAM_DEFINE_FLOAT(RWTO_PSP, 0.0);
+
+    /**
+     * Max pitch during takeoff.
+     * Fixed-wing settings are used if set to 0. Note that there is also a minimum
+     * pitch of 10 degrees during takeoff, so this must be larger if set.
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 60.0
+     * @decimal 1
+     * @increment 0.5
+     * @group Runway Takeoff
+     */
+     float MAX_PITCH;
+//    PARAM_DEFINE_FLOAT(RWTO_MAX_PITCH, 20.0);
+
+    /**
+     * Max roll during climbout.
+     * Roll is limited during climbout to ensure enough lift and prevents aggressive
+     * navigation before we're on a safe height.
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 60.0
+     * @decimal 1
+     * @increment 0.5
+     * @group Runway Takeoff
+     */
+     float MAX_ROLL;
+//    PARAM_DEFINE_FLOAT(RWTO_MAX_ROLL, 25.0);
+
+    /**
+     * Min. airspeed scaling factor for takeoff.
+     * Pitch up will be commanded when the following airspeed is reached:
+     * FW_AIRSPD_MIN * RWTO_AIRSPD_SCL
+     *
+     * @unit norm
+     * @min 0.0
+     * @max 2.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Runway Takeoff
+     */
+     float AIRSPD_SCL;
+//    PARAM_DEFINE_FLOAT(RWTO_AIRSPD_SCL, 1.3);
+} FPC_Runway_Takeoff_t;
+
+/** \brief Definition for a single config table entry
+ * This table originated from the params in
+ * https://github.com/WindhoverLabs/PX4-Autopilot/blob/main/src/modules/fw_pos_control_l1/FixedwingPositionControl.cpp
+ *
+ * Any params related to vtol were ignored.
+*/
+typedef struct
+{
+    float L1_PERIOD;
+    float L1_DAMPING;
+
+    float T_TIME_CONST;
+    float T_THRO_CONST;
+    float T_SINK_MIN;
+    float T_SINK_MAX;
+    float T_CLMB_MAX;
+    float CLMBOUT_DIFF;
+    float T_HRATE_P;
+    float T_HRATE_FF;
+    float T_SRATE_P;
+    float T_THR_DAMP;
+    float T_INTEG_GAIN;
+    float T_VERT_ACC;
+    float T_HGT_OMEGA;
+    float T_SPD_OMEGA;
+    float T_RLL2THR;
+    float T_SPDWEIGHT;
+    float T_PTCH_DAMP;
+
+    float AIRSPD_MIN;
+    float AIRSPD_TRIM;
+    float AIRSPD_MAX;
+
+
+    boolean ARSP_MODE;
+
+    float P_LIM_MIN;
+    float P_LIM_MAX;
+    float R_LIM;
+
     float THR_MIN;
-
-    /** \brief Hover thrust.
-     *
-     *  \par Vertical thrust required to hover.  This value is mapped to center
-     *       stick for manual throttle control.  With this value set to the
-     *       thrust required to hover, transition from manual to ALTCTL mode
-     *       while hovering will occur with the throttle stick near center,
-     *       which is then interpreted as (near) zero demand for vertical
-     *       speed.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #THR_HOVER_MIN > #THR_HOVER_MAX, default 0.2.
-     */
-    float THR_HOVER;
-
-    /** \brief Maximum thrust in auto thrust control.
-     *
-     *  \par Limit max allowed thrust. Setting a value of one can put
-     *       the system into actuator saturation as no spread between
-     *       the motors is possible any more. A value of 0.8 - 0.9
-     *       is recommended.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #THR_MAX_MIN > #THR_MAX_MAX.
-     */
     float THR_MAX;
+    float THR_IDLE;
+    float THR_CRUISE;
+    float THR_SLEW_MAX;
+    float THR_ALT_SCL;
 
-    /** \brief Minimum manual thrust.
+    /** \brief Roll max in degrees.
      *
-     *  \par Minimum vertical thrust. It's recommended to set it > 0 to avoid
-     *       free fall with zero thrust.
+     *  \par
      *
      *  \par Limits:
-     *       Min > Max (incr.) #MANTHR_MIN_MIN > #MANTHR_MIN_MAX.
      */
-    float MANTHR_MIN;
-
-    /** \brief Maximum manual thrust.
+    float MAN_R_MAX;
+    /** \brief Pitch max in degrees.
      *
-     *  \par Limit max allowed thrust. Setting a value of one can put
-     *       the system into actuator saturation as no spread between
-     *       the motors is possible any more. A value of 0.8 - 0.9
-     *       is recommended.
+     *  \par
      *
      *  \par Limits:
-     *       Min > Max (incr.) #MANTHR_MAX_MIN > #MANTHR_MAX_MAX.
      */
-    float MANTHR_MAX;
+    float MAN_P_MAX;
 
-    /** \brief Proportional gain for vertical position error
+    /** \brief Roll Speed offset in degrees.
+     *
+     *  \par
      *
      *  \par Limits:
-     *       Min > Max (incr.) #Z_P_MIN > #Z_P_MAX.
      */
-    float Z_P;
+    float RSP_OFF;
 
-    /** \brief Proportional gain for vertical velocity error
+    /** \brief Pitch Speed offset in degrees.
+     *
+     *  \par
      *
      *  \par Limits:
-     *       Min > Max (incr.) #Z_VEL_P_MIN > #Z_VEL_P_MAX.
      */
-    float Z_VEL_P;
+    float PSP_OFF;
 
-    /** \brief Integral gain for vertical velocity error
+    float THR_LND_MAX;
+
+    float LND_ANG;
+
+    float LND_HVIRT;
+
+    float LND_FLALT;
+
+    float LND_TLALT;
+    float LND_HHDIST;
+
+    /** \brief in degrees.
      *
-     *  \par Non zero value allows hovering thrust estimation on stabilized or
-     *       autonomous takeoff.
+     *  \par
      *
      *  \par Limits:
-     *       Min > Max (incr.) #Z_VEL_I_MIN > #Z_VEL_I_MAX.
      */
-    float Z_VEL_I;
+    float LND_FL_PMIN;
 
-    /** \brief Differential gain for vertical velocity error.
+
+    /** \brief in degrees.
+     *
+     *  \par
      *
      *  \par Limits:
-     *       Min > Max (incr.) #Z_VEL_D_MIN > #Z_VEL_D_MAX.
      */
-    float Z_VEL_D;
+    float LND_FL_PMAX;
 
-    /** \brief Maximum vertical ascent velocity
-     *
-     *  \par Maximum vertical velocity in AUTO mode and endpoint for
-     *       stabilized modes (ALTCTRL, POSCTRL).
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #Z_VEL_D_MIN > #Z_VEL_D_MAX.
-     *
-     *  \par Units: m/s
-     */
-    float Z_VEL_MAX_UP;
+    int32 LND_USETER;
 
-    /** \brief Maximum vertical descent velocity
-     *
-     *  \par Maximum vertical velocity in AUTO mode and endpoint for
-     *       stabilized modes (ALTCTRL, POSCTRL).
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #Z_VEL_MAX_DN_MIN > #Z_VEL_MAX_DN_MAX.
-     *
-     *  \par Units: m/s
-     */
-    float Z_VEL_MAX_DN;
+    float LND_AIRSPD_SC;
 
-    /** \brief Vertical velocity feed forward
-     *
-     *  \par Feed forward weight for altitude control in stabilized modes
-     *       (ALTCTRL, POSCTRL). 0 will give slow response and no overshot,
-     *       1 - fast response and big overshot.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #Z_FF_MIN > #Z_FF_MAX.
-     */
-    float Z_FF;
+    FPC_Launch_Detection_t FPC_Launch_Detection;
 
-    /** \brief Proportional gain for horizontal position error.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #XY_P_MIN > #XY_P_MAX.
-     */
-    float XY_P;
-
-    /** \brief Proportional gain for horizontal velocity error.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #XY_VEL_P_MIN > #XY_VEL_P_MAX.
-     */
-    float XY_VEL_P;
-
-    /** \brief Non-zero value allows to resist wind.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #XY_VEL_I_MIN > #XY_VEL_I_MAX.
-     */
-    float XY_VEL_I;
-
-    /** \brief Differential gain for horizontal velocity error. Small values
-     *         help reduce fast oscillations. If value is too big
-     *         oscillations will appear again.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #XY_VEL_D_MIN > #XY_VEL_D_MAX.
-     */
-    float XY_VEL_D;
-
-    /** \brief Nominal horizontal velocity in mission.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #XY_CRUISE_MIN > #XY_CRUISE_MAX.
-     *
-     *  \par Units:  m/s
-     */
-    float XY_CRUISE;
-
-    /** \brief Distance Threshold Horizontal Auto
-     *
-     *  \par The distance defines at which point the vehicle
-     *       has to slow down to reach target if no direct
-     *       passing to the next target is desired.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #TARGET_THRE_MIN > #TARGET_THRE_MAX.
-     *
-     *  \par Units:  m
-     */
-    float TARGET_THRE;
-
-    /** \brief Maximum horizontal velocity
-     *
-     *  \par Maximum horizontal velocity in AUTO mode. If higher speeds
-     *       are commanded in a mission they will be capped to this velocity.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #XY_VEL_MIN > #XY_VEL_MAX.
-     *
-     *  \par Units:  m/s
-     */
-    float XY_VEL_MAX;
-
-    /** \brief Horizontal velocity feed forward
-     *
-     *  \par Feed forward weight for position control in position control mode (POSCTRL).
-     *       0 will give slow response and no overshot, 1 - fast response and big overshot.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #XY_FF_MIN > #XY_FF_MAX.
-     */
-    float XY_FF;
-
-    /** \brief Maximum tilt angle in air.
-     *
-     *  \par Limits maximum tilt in AUTO and POSCTRL modes during flight.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #TILTMAX_AIR_MIN > #TILTMAX_AIR_MAX.
-     *
-     *  \par Units: degrees
-     */
-    float TILTMAX_AIR;
-
-    /** \brief Maximum tilt angle during landing.
-     *
-     *  \par Limits maximum tilt angle on landing.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #TILTMAX_LND_MIN > #TILTMAX_LND_MAX.
-     *
-     *  \par Units: degrees
-     */
-    float TILTMAX_LND;
-
-    /** \brief Landing descend rate
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #LAND_SPEED_MIN > #LAND_SPEED_MAX.
-     *
-     *  \par Units: m
-     */
-    float LAND_SPEED;
-
-    /** \brief Takeoff climb rate
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #TKO_SPEED_MIN > #TKO_SPEED_MAX.
-     *
-     *  \par Units: m/s
-     */
-    float TKO_SPEED;
-
-    /** \brief Maximal tilt angle in manual or altitude mode
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #MAN_TILT_MAX_MIN > #MAN_TILT_MAX_MAX.
-     *
-     *  \par Units: deg
-     */
-    float MAN_TILT_MAX;
-
-    /** \brief Max manual yaw rate
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #MAN_Y_MAX_MIN > #MAN_Y_MAX_MAX.
-     *
-     *  \par Units: deg/s
-     */
-    float MAN_Y_MAX;
-
-    /** \brief Deadzone of sticks where position hold is enabled
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #MAN_Y_MAX_MIN > #MAN_Y_MAX_MAX.
-     *
-     *  \par Units: deg/s
-     */
-    float HOLD_DZ;
-
-    /** \brief Maximum horizontal velocity for which position hold
-     *         is enabled (use 0 to disable check).
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #MAN_XY_MAX_MIN > #MAN_XY_MAX_MAX.
-     *
-     *  \par Units: m/s
-     */
-    float HOLD_MAX_XY;
-
-    /** \brief Maximum vertical velocity for which position hold is enabled
-     *         (use 0 to disable check)
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #HOLD_MAX_Z_MIN > #HOLD_MAX_Z_MAX.
-     *
-     *  \par Units: m/s
-     */
-    float HOLD_MAX_Z;
-
-    /** \brief Low pass filter cut freq. for numerical velocity derivative
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #VELD_LP_MIN > #VELD_LP_MAX.
-     *
-     *  \par Units: Hz
-     */
-    float VELD_LP;
-
-    /** \brief Maximum horizonal acceleration in velocity controlled modes
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #ACC_HOR_MAX_MIN > #ACC_HOR_MAX_MAX.
-     *
-     *  \par Units: m/s/s
-     */
-    float ACC_HOR_MAX;
-
-    /** \brief Maximum vertical acceleration in velocity controlled modes upward
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #ACC_UP_MAX_MIN > #ACC_UP_MAX_MAX.
-     *
-     *  \par Units: m/s/s
-     */
-    float ACC_UP_MAX;
-
-    /** \brief Maximum vertical acceleration in velocity controlled modes down
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #ACC_DOWN_MAX_MIN > #ACC_DOWN_MAX_MAX.
-     *
-     *  \par Units: m/s/s
-     */
-    float ACC_DOWN_MAX;
-
-    /** \brief Altitude control mode, note mode 1 only tested with LPE
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #ALT_MODE_MIN > #ALT_MODE_MAX.
-     *
-     *  \par 0: Altitude following, 1: Terrain following
-     */
-    uint32 ALT_MODE;
-
-    /** \brief Manual control stick exponential curve sensitivity attenuation
-     *         with small velocity setpoints.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #XY_MAN_EXPO_MIN > #XY_MAN_EXPO_MAX.
-     *
-     *  \par 0: Purely linear input curve, 1: Purely cubic input curve
-     */
-    float XY_MAN_EXPO;
-
-    /** \brief Manual control stick vertical exponential curve
-     *
-     *  \par The higher the value the less sensitivity the stick has
-     *       around zero while still reaching the maximum value with full
-     *       stick deflection.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #Z_MAN_EXPO_MIN > #Z_MAN_EXPO_MAX.
-     *
-     *  \par 0: Purely linear input curve, 1: Purely cubic input curve
-     */
-    float Z_MAN_EXPO;
-
-    /** \brief Altitude for step 1 of slow landing (descend)
-     *
-     *  \par Below this altitude descending velocity gets limited
-     *       to a value between #Z_VEL_MAX and #LAND_SPEED
-     *       to enable a smooth descent experience.
-     *       Value needs to be higher than #LAND_ALT2
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #LAND_ALT1_MIN > #LAND_ALT1_MAX.
-     *
-     *  \par Units: m
-     */
-    uint32 LAND_ALT1;
-
-    /** \brief Altitude for step 2 of slow landing (landing)
-     *
-     *  \par Below this altitude descending velocity gets limited to
-     *  #LAND_SPEED.  Value needs to be lower than #LAND_ALT1.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #LAND_ALT2_MIN > #LAND_ALT2_MAX.
-     *
-     *  \par Units: m
-     */
-    uint32 LAND_ALT2;
-
-    /** \brief Position control smooth takeoff ramp time constant
-     *
-     *  \par Increasing this value will make automatic and manual takeoff
-     *       slower.  If it's too slow the drone might scratch the ground
-     *       and tip over.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #TKO_RAMP_T_MIN > #TKO_RAMP_T_MAX.
-     */
-    float TKO_RAMP_T;
-
-    /** \brief Max yaw rate
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #MC_YAWRATE_MAX_MIN > #MC_YAWRATE_MAX_MAX.
-     *
-     *  \par Units: deg/s
-     */
-    float MC_YAWRATE_MAX;
-
-    /** \brief Yaw P gain
-     *
-     *  \par Yaw proportional gain, i.e. desired angular speed in rad/s for error 1 rad.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #MC_YAW_P_MIN > #MC_YAW_P_MAX.
-     *
-     *  \par Units: 1/s
-     */
-    float MC_YAW_P;
-
-    int32 VT_OPT_RECOV_EN;
-
-    /** \brief Cruising speed at 90
-     *
-     *  \par Cruise speed when angle prev-current/current-next setpoint
-     *       is 90 degrees. It should be lower than #XY_CRUISE.
-     *
-     *  \par Applies only in AUTO modes (includes also RTL / hold / etc.)
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #FPC_CRUISE_90_MIN > #FPC_CRUISE_90_MAX.
-     *
-     *  \par Units: m/s
-     */
-    float FPC_CRUISE_90;
-
-    /** \brief Maximum jerk in manual controlled mode for BRAKING to zero.
-     *
-     *  \par If this value is below FPC_JERK_MIN, the acceleration limit in xy
-     *   and z is FPC_ACC_HOR_MAX and FPC_ACC_UP_MAX respectively
-     *   instantaneously when the user demands brake (=zero stick input).
-     *   Otherwise the acceleration limit increases from current acceleration
-     *   limit towards FPC_ACC_HOR_MAX/FPC_ACC_UP_MAX with jerk limit
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #FPC_JERK_MAX_MIN > #FPC_JERK_MAX_MAX.
-     *
-     *  \par Units: m/s/s/s
-     */
-    float FPC_JERK_MAX;
-
-    /** \brief Minimum jerk in manual controlled mode for BRAKING to zero
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #FPC_JERK_MIN_MIN > #FPC_JERK_MIN_MAX.
-     *
-     *  \par Units: m/s/s/s
-     */
-    float FPC_JERK_MIN;
-
-    /** \brief Slow horizontal manual deceleration for manual mode
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #FPC_DEC_HOR_SLOW_MIN > #FPC_DEC_HOR_SLOW_MAX.
-     *
-     *  \par Units: m/s/s
-     */
-    float FPC_DEC_HOR_SLOW;
-
-    /** \brief Maximum horizontal velocity setpoint for manual controlled mode
-     *
-     *  \par If velocity setpoint larger than FPC_XY_VEL_MAX is set, then
-     *       the setpoint will be capped to FPC_XY_VEL_MAX
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #FPC_VEL_MANUAL_MIN > #FPC_VEL_MANUAL_MAX.
-     *
-     *  \par Units: m/s
-     */
-    float FPC_VEL_MANUAL;
-
-    /** \brief Acceptance Radius
-     *
-     *  \par Default acceptance radius, overridden by acceptance radius of
-     *       waypoint if set. For fixed wing the L1 turning distance is used
-     *       for horizontal acceptance.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) #NAV_ACC_RAD_MIN > #NAV_ACC_RAD_MAX.
-     *
-     *  \par Units: m
-     */
-    float NAV_ACC_RAD;
-
-    /** NAV_MIS_YAW_ERR
-     *
-     *  \brief Max yaw error in degrees needed for waypoint heading acceptance.
-     *
-     *  \par Limits:
-     *       Min > Max (incr.) NAV_MIS_YAW_ERR_MIN > NAV_MIS_YAW_ERR_MAX , default 12.0.
-     *
-     *  \par Units: deg
-     */
-    float NAV_MIS_YAW_ERR;
-
+    FPC_Runway_Takeoff_t FPC_Runway_Takeoff;
 
 } FPC_ConfigTbl_t;
-
-
-
-/** \brief Definition for a single config table entry */
-typedef struct
-{
-    int32  iParam;
-
-    /* TODO:  Add type declaration for config parameters here.
-    **
-    ** Examples:
-    **    int8/char            cParam;
-    **    int8/char            cParams[16];
-    **    uint8/unsigned char  ucParam;
-    **    uint8/unsigned char  ucParams[16];
-    **
-    **    int16   sParam;
-    **    int16   sParams[8];
-    **    uint16  usParam;
-    **    uint16  usParams[8];
-    **
-    **    int32   iParam;
-    **    int32   iParams[5];
-    **    uint32  uiParam;
-    **    uint32  uiParams[5];
-    **
-    **    float  fParam;
-    **    float  fParams[3];
-    **
-    **    double  dParam;
-    **    double  dParams[3];
-    */
-} FPC_ConfigTblEntry_t;
-
-
-/** \brief Definition for Critical Data Storage (CDS) table entry */
-typedef struct
-{
-    int32  iParam;
-
-    /* TODO:  Add type declaration for CDS data here. */
-} FPC_CdsTbl_t;
 
 /************************************************************************
 ** External Global Variables

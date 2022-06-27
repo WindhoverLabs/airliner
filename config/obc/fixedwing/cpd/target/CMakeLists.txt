@@ -460,3 +460,17 @@ buildliner_add_app(
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_parser_ubx/gps_parser_ubx_mon.c
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_custom.c
 )
+
+buildliner_add_app(
+    aspd4525
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/aspd4525/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/aspd4525
+)
+
+buildliner_add_app(
+    fpc
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fpc/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/fpc
+)

@@ -1331,6 +1331,7 @@ void SIMLINK_ListenerTaskMain(void)
                                 SIMLINK_AppData.BaroMsg[0].Pressure = decodedMsg.abs_pressure;
                                 SIMLINK_AppData.BaroMsg[0].Temperature = decodedMsg.temperature;
                                 SIMLINK_AppData.BaroMsg[0].BarometricAltitude = decodedMsg.pressure_alt;
+                                SIMLINK_AppData.BaroMsg[0].DiffPressure = decodedMsg.diff_pressure;
 
                             	rc = CVT_SetContent(SIMLINK_AppData.BaroContainer[0], &SIMLINK_AppData.BaroMsg[0], sizeof(SIMLINK_Baro_Msg_t));
                             	if(CVT_SUCCESS == rc)
