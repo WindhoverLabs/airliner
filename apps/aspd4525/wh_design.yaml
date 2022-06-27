@@ -63,6 +63,9 @@
         AirColumnCalibrate: 
           cc: 7
           struct: ASPD4525_AirColCalibArgCmd_t
+        SetAirDensityMode: 
+          cc: 8
+          struct: ASPD4525_AirDensityModeArgCmd_t
     ASPD4525_SEND_HK_MID: 
       msgID: 
       commands: 

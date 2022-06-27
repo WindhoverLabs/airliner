@@ -42,6 +42,7 @@
 ** Includes
 *************************************************************************/
 #include "cfe.h"
+#include "aspd4525_config.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -125,6 +126,8 @@ extern "C" {
 #define ASPD4525_TEMP_CALIB_CC           (5)
 #define ASPD4525_PHYSICS_CALIB_CC        (6)
 #define ASPD4525_AIR_COL_CALIB_CC        (7)
+
+#define ASPD4525_SET_AIR_DENSITY_MODE_CC (8)
 
 /************************************************************************
 ** Local Structure Declarations
@@ -211,6 +214,13 @@ typedef struct {
 
 } ASPD4525_AirColCalibArgCmd_t;
 
+
+typedef struct {
+    uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
+	ASPD4525_CONFIG_AirDensity_Modes_t uAirDensityCalculationMode;	/* Modes described in aspd4525_config.h */
+} ASPD4525_AirDensityModeArgCmd_t;
+
+
 /** 
 **  \brief TODO Elaborate this struct
 **  Boilerplate example of application-specific incoming data
@@ -262,11 +272,12 @@ typedef struct
     float  fIndicatedAirSpeed;
     float  fTrueAirSpeed;
 
-	float fPressureMinimum_PSI;								/* PSI */
-	float fPressureMaximum_PSI;								/* PSI */
-	float fTemperatureMinimum_Celcius;						/* degrees Celsius */
-	float fTemperatureMaximum_Celcius;						/* degrees Celsius */
+	float fPressureMinimum_PSI;										/* PSI */
+	float fPressureMaximum_PSI;										/* PSI */
+	float fTemperatureMinimum_Celcius;								/* degrees Celsius */
+	float fTemperatureMaximum_Celcius;								/* degrees Celsius */
 
+	ASPD4525_CONFIG_AirDensity_Modes_t uAirDensityCalculationMode;	/* Modes described in aspd4525_config.h */
 } ASPD4525_HkTlm_t;
 
 

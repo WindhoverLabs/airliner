@@ -13,6 +13,7 @@
 
 #include "cfe.h"
 #include "aspd4525_tbldefs.h"
+#include "aspd4525_msg.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -108,6 +109,17 @@ uint16 ASPD4525_MATH_GetTempDataCounts(
 uint16 ASPD4525_MATH_GetDiffPressureDataCounts(
     ASPD4525_ConfigTblEntry_t configTblP, 
     float fDiffPressure
+);
+
+/**
+ * @brief This function calibrates the Pressures for AirSpeed Measurements
+ * 
+ * @param configTblP config table pointer
+ * @param labCalibArgCmdPtr Struct pointer to the command argument sent from commander
+ */
+void ASPD4525_MATH_CalibrateAirSpeedPressures(
+    ASPD4525_ConfigTblEntry_t* configTblP, 
+    ASPD4525_LabCalibArgCmd_t* labCalibArgCmdPtr
 );
 
 #ifdef __cplusplus

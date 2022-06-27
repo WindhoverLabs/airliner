@@ -498,6 +498,8 @@ int32 ASPD4525_RcvMsg(int32 iBlocking)
                     ASPD4525_AppData.HkTlm.fTemperatureMaximum_Celcius = ASPD4525_AppData.ConfigTblPtr->fTemperatureMaximum_Celcius;
                     ASPD4525_AppData.HkTlm.fTemperatureMinimum_Celcius = ASPD4525_AppData.ConfigTblPtr->fTemperatureMinimum_Celcius;
 
+                    ASPD4525_AppData.HkTlm.uAirDensityCalculationMode = ASPD4525_AppData.ConfigTblPtr->uAirDensityCalculationMode;
+
                     /*Write out PX4 Telemetry*/
                     ASPD4525_AppData.PX4_AirspeedMsg.Timestamp = PX4LIB_GetPX4TimeUs();
                     ASPD4525_AppData.PX4_AirspeedMsg.IndicatedAirspeed = ASPD4525_AppData.fIndicatedAirSpeed;
@@ -950,6 +952,37 @@ void ASPD4525_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
 				}
 				break;
             }
+            
+            case ASPD4525_SET_AIR_DENSITY_MODE_CC:
+			{
+				boolean sizeOk = ASPD4525_VerifyCmdLength(MsgPtr, sizeof(ASPD4525_AirDensityModeArgCmd_t));
+
+				if (TRUE == sizeOk)
+				{
+					int32 status =0;
+					ASPD4525_AirDensityModeArgCmd_t* airDensityModeArgCmdPtr = (ASPD4525_AirDensityModeArgCmd_t*) MsgPtr;
+
+                    ASPD4525_AppData.ConfigTblPtr->uAirDensityCalculationMode = airDensityModeArgCmdPtr->uAirDensityCalculationMode;
+
+                    #if defined(STDIO_DEBUG)
+                    printf("Came Here: ASPD4525_PHYSICS_CALIB_CC\n");
+                    #endif
+
+					status = CFE_TBL_Modified(ASPD4525_AppData.ConfigTblHdl);
+					if (CFE_SUCCESS!=status) {
+						ASPD4525_AppData.HkTlm.usCmdErrCnt++;
+						(void) CFE_EVS_SendEvent(
+							ASPD4525_CONFIG_TABLE_ERR_EID, 
+							CFE_EVS_ERROR,
+							"Table Mod Error (0x%08X)", (unsigned int) status
+						);
+					} else {
+						ASPD4525_AppData.HkTlm.usCmdCnt++;
+					}
+				}
+				break;
+			}
+
 
             /* TODO:  Add code to process the rest of the ASPD4525 commands here */
 
