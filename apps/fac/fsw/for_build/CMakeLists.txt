@@ -51,7 +51,7 @@ buildliner_add_app_def(fac
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_WheelController.cpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_WheelController.hpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_YawController.cpp
-        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_YawController.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_YawController.hpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_events.h
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_msg.h
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_private_ids.h
