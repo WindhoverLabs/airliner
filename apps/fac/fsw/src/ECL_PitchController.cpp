@@ -31,84 +31,15 @@
  *
  *****************************************************************************/
 
-#ifndef FAC_CDS_TASK_HPP
-#define FAC_CDS_TASK_HPP
+#include "ECL_PitchController.hpp"
 
-#include "fac_app.hpp"
-#include "fac_tbldefs.h"
-#include "fac_msg.h"
 
-enum
+ECL_PitchController::ECL_PitchController()
 {
-   FAC_GROUP_RESERVED = 0,
-   FAC_GROUP_NONE,
-   FAC_GROUP_Actuator,
-   FAC_GROUP_Fw,
-   FAC_GROUP_Vehicle,
-   FAC_GROUP_Sensor
-};
 
-typedef enum
+}
+
+ECL_PitchController::~ECL_PitchController()
 {
-   FAC_PX4_INC_ERR_CTR = -1,  /* Error detected, increment counter */
-   FAC_PX4_DONT_INC_CTR = 0,  /* No errors detected but don't increment counter */
-   FAC_PX4_INC_TLM_CTR = 1    /* No errors detected and increment counter */
-} FAC_PX4MsgFuncRet_t;
 
-typedef FAC_PX4MsgFuncRet_t (*FAC_PX4MsgFuncPtr_t)(const uint8 *Payload);
-
-typedef struct
-{
-   uint16 cdsGrpId;
-   uint32 ExpectedLength;
-   FAC_PX4MsgFuncPtr_t  MsgFuncPtr;
-} FAC_CDS_PX4HandlerTblRec_t;
-
-typedef struct
-{
-   uint16  msgId;
-   uint16  cdsGrpId;
-} FAC_CDS_DataGrpTbl_t;
-
-
-class CriticalDataStorage
-{
-public:
-   CriticalDataStorage();
-   ~CriticalDataStorage();
-
-   int32 InitCdsTask();
-   int32 RcvDataMsg(int32 iBlocking);
-
-private:
-   CFE_SB_PipeId_t     DataPipeId;
-
-   FAC_InData_t      InData;
-   FAC_OutData_t     OutData;
-
-   int32 InitPipe();
-   int32 InitData();
-   int32 GetCdsGrpId(CFE_SB_MsgId_t DataMsgId);
-
-   boolean VerifyCdsMsgLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen);
-};
-
-
-typedef struct
-{
-   uint32 CdsTaskId;
-   uint32 uiCdsRunStatus;
-
-   CriticalDataStorage *pCds;
-
-   CFE_TBL_Handle_t    ConfigTblHdl;
-   CFE_ES_CDSHandle_t  CdsTblHdl;
-
-   FAC_ConfigTblEntry_t *ConfigTblPtr;
-   FAC_CdsTbl_t         CdsTbl;
-
-} FAC_CdsTaskData_t;
-
-void CdsTask();
-
-#endif
+}

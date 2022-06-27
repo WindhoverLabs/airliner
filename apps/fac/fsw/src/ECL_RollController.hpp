@@ -31,7 +31,16 @@
  *
  *****************************************************************************/
 
-#include "fac_msg.h"
+#ifndef ECL_ROLLCONTROLLER_HPP
+#define ECL_ROLLCONTROLLER_HPP
 
-FAC_NoArgCmd_t FAC_Noop;
-FAC_HkTlm_t    FAC_HkTlm;
+#include "ECL_Controller.hpp"
+
+class ECL_RollController : public ECL_Controller
+{
+public:
+   ECL_RollController();
+   ~ECL_RollController();
+};
+
+#endif

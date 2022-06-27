@@ -34,19 +34,6 @@
 #ifndef FAC_FPC_HPP
 #define FAC_FPC_HPP
 
-#include "cfe.h"
-
-#include "fac_platform_cfg.h"
-#include "fac_mission_cfg.h"
-#include "fac_private_ids.h"
-#include "fac_private_types.h"
-#include "fac_perfids.h"
-#include "fac_msgids.h"
-#include "fac_msg.h"
-#include "fac_events.h"
-#include "fac_config_utils.hpp"
-#include "fac_cds_utils.hpp"
-
 
 class FixedwingAttitudeControl
 {
@@ -54,7 +41,9 @@ public:
    FixedwingAttitudeControl();
    ~FixedwingAttitudeControl();
 
-   int32 InitApp();
+   int32 InitEvent();
+   int32 InitSchPipe();
+   int32 InitHk();
    int32 RcvSchMsg(int32 iBlocking);
 
 private:
@@ -62,13 +51,10 @@ private:
 
    CFE_EVS_BinFilter_t EventTbl[FAC_EVT_CNT];
 
-   int32 InitEvent();
-   int32 InitPipe();
-   int32 InitHk();
-
-   int32   WakeupMsg(CFE_SB_Msg_t *MsgPtr, CFE_SB_MsgId_t MsgId);
+   int32   Execute();
+   int32   WakeupValidate(CFE_SB_Msg_t *MsgPtr, CFE_SB_MsgId_t MsgId);
    int32   SendHkMsg(CFE_SB_Msg_t *MsgPtr, CFE_SB_MsgId_t MsgId);
-   boolean VerifySchCmdLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen);
+   int32   VerifySchCmdLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen);
 //   void    IncrementCmdCount();
 //   void    IncrementCmdErr();
    void    ReportHousekeeping();

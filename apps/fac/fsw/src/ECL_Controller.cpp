@@ -31,7 +31,15 @@
  *
  *****************************************************************************/
 
-#include "fac_msg.h"
+#include "ECL_Controller.hpp"
 
-FAC_NoArgCmd_t FAC_Noop;
-FAC_HkTlm_t    FAC_HkTlm;
+
+ECL_Controller::ECL_Controller()
+{
+
+}
+
+ECL_Controller::~ECL_Controller()
+{
+
+}

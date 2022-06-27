@@ -31,7 +31,26 @@
  *
  *****************************************************************************/
 
-#include "fac_msg.h"
+#ifndef FAC_CMDS_UTILS_HPP
+#define FAC_CMDS_UTILS_HPP
 
-FAC_NoArgCmd_t FAC_Noop;
-FAC_HkTlm_t    FAC_HkTlm;
+
+class AppCommandProcess
+{
+public:
+   AppCommandProcess();
+   ~AppCommandProcess();
+
+   int32 InitCmdsPipe();
+   int32 RcvCmdMsg(int32 iBlocking);
+
+private:
+   CFE_SB_PipeId_t  CmdPipeId;
+
+   int32   ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr);
+   int32   VerifyCmdLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen);
+
+};
+
+
+#endif

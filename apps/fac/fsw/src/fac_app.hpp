@@ -44,8 +44,6 @@
 #include "fac_msgids.h"
 #include "fac_msg.h"
 #include "fac_events.h"
-#include "fac_config_utils.hpp"
-#include "fac_cds_utils.hpp"
 
 
 #define FAC_TIMEOUT_MSEC             	(1000)
@@ -53,13 +51,14 @@
 
 typedef struct
 {
-   uint32  MainAppId;
    uint32  uiAppRunStatus;
-   boolean bCdsTaskCreated;
-   boolean bCmdsTaskCreated;
    boolean bAppAwaken;
 
    FAC_HkTlm_t       HkTlm;
+
+   CFE_TBL_Handle_t    ConfigTblHdl;
+
+   FAC_ConfigTbl_t     *ConfigTblPtr;
 } FAC_AppData_t;
 
 

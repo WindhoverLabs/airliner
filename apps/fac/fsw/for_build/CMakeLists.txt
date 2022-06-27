@@ -37,15 +37,21 @@ buildliner_add_app_def(fac
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_app.cpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_app.hpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_fac.hpp
-        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cds_task.cpp
-        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cds_task.hpp
-        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cds_utils.cpp
-        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cds_utils.hpp
-        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cmds_task.cpp
-        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cmds_task.hpp
-        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_config_utils.cpp
-        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_config_utils.hpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cmds_utils.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cmds_utils.hpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_data_utils.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_data_utils.hpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_symbols.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_Controller.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_Controller.hpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_PitchController.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_PitchController.hpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_RollController.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_RollController.hpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_WheelController.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_WheelController.hpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_YawController.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_YawController.cpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_events.h
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_msg.h
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_private_ids.h
@@ -88,10 +94,10 @@ buildliner_add_app_unit_test(FAC-UT
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_app.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_app.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_fac.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_cds_utils.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_cds_utils.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_config_utils.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_config_utils.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_cmds_utils.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_cmds_utils.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_data_utils.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_data_utils.hpp
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

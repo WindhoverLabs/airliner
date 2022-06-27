@@ -63,7 +63,6 @@ typedef enum {
     FAC_INF_EID,
 
 /** \brief <tt> 'FAC Initialized. Version \%d.\%d.\%d' </tt>
-**  \event <tt> 'FAC Initialized. Version \%d.\%d.\%d' </tt>
 **
 **  \par Type: INFORMATION
 **
@@ -79,7 +78,6 @@ typedef enum {
     FAC_INIT_INF_EID,
 
 /** \brief <tt> 'FAC - ' </tt>
-**  \event <tt> 'FAC - ' </tt>
 **
 **  \par Type: INFORMATION
 **
@@ -91,7 +89,6 @@ typedef enum {
     FAC_CONFIG_TABLE_INF_EID,
 
 /** \brief <tt> 'FAC - ' </tt>
-**  \event <tt> 'FAC - ' </tt>
 **
 **  \par Type: INFORMATION
 **
@@ -103,7 +100,6 @@ typedef enum {
     FAC_CDS_INF_EID,
 
 /** \brief <tt> 'FAC - Recvd $x cmd (%us)' </tt>
-**  \event <tt> 'FAC - Recvd $x cmd (%us)' </tt>
 **
 **  \par Type: INFORMATION
 **
@@ -116,7 +112,6 @@ typedef enum {
     FAC_CMD_INF_EID,
 
 /** \brief <tt> 'FAC - ' </tt>
-**  \event <tt> 'FAC - ' </tt>
 **
 **  \par Type: ERROR
 **
@@ -128,7 +123,6 @@ typedef enum {
     FAC_ERR_EID,
 
 /** \brief <tt> 'FAC - ' </tt>
-**  \event <tt> 'FAC - ' </tt>
 **
 **  \par Type: ERROR
 **
@@ -141,7 +135,6 @@ typedef enum {
     FAC_INIT_ERR_EID,
 
 /** \brief <tt> 'FAC - ' </tt>
-**  \event <tt> 'FAC - ' </tt>
 **
 **  \par Type: ERROR
 **
@@ -154,7 +147,6 @@ typedef enum {
     FAC_CONFIG_TABLE_ERR_EID,
 
 /** \brief <tt> 'FAC - ' </tt>
-**  \event <tt> 'FAC - ' </tt>
 **
 **  \par Type: ERROR
 **
@@ -167,7 +159,6 @@ typedef enum {
     FAC_CDS_ERR_EID,
 
 /** \brief <tt> 'FAC - $commandError' </tt>
-**  \event <tt> 'FAC - $commandError' </tt>
 **
 **  \par Type: ERROR
 **
@@ -180,7 +171,6 @@ typedef enum {
     FAC_CMD_ERR_EID,
 
 /** \brief <tt> 'FAC: SB pipe read error (0x%08X), app will exit' </tt>
-**  \event <tt> 'FAC: SB pipe read error (0x%08X), app will exit' </tt>
 **
 **  \par Type: ERROR
 **
@@ -193,7 +183,6 @@ typedef enum {
     FAC_PIPE_ERR_EID,
 
 /** \brief <tt> 'FAC - Recvd invalid $type msgId (0x%04x)' </tt>
-**  \event <tt> 'FAC - Recvd invalid $type msgId (0x%04x)' </tt>
 **
 **  \par Type: ERROR
 **
@@ -206,7 +195,6 @@ typedef enum {
     FAC_MSGID_ERR_EID,
 
 /** \brief <tt> 'FAC - Rcvd invalid msgLen: msgId=0x%08X, cmdCode=%d, msgLen=%d, expectedLen=%d" </tt>
-**  \event <tt> 'FAC - Rcvd invalid msgLen: msgId=0x%08X, cmdCode=%d, msgLen=%d, expectedLen=%d" </tt>
 **
 **  \par Type: ERROR
 **
@@ -224,9 +212,4 @@ typedef enum {
 } FAC_EventIds_t;
 
 
-
 #endif /* FAC_EVENTS_H */
-
-/************************/
-/*  End of File Comment */
-/************************/

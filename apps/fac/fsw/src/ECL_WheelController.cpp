@@ -31,34 +31,15 @@
  *
  *****************************************************************************/
 
-#ifndef FAC_CMDS_TASK_HPP
-#define FAC_CMDS_TASK_HPP
+#include "ECL_WheelController.hpp"
 
 
-class AppCommandProcess
+ECL_WheelController::ECL_WheelController()
 {
-public:
-   AppCommandProcess();
-   ~AppCommandProcess();
 
-   int32 InitCmdsTask();
-   int32 RcvCmdMsg(int32 iBlocking);
+}
 
-private:
-   CFE_SB_PipeId_t  CmdPipeId;
-
-   int32   ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr);
-   boolean VerifyCmdLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen);
-
-};
-
-typedef struct
+ECL_WheelController::~ECL_WheelController()
 {
-   uint32 CmdsTaskId;
-   uint32 uiCmdsRunStatus;
-   AppCommandProcess *pCmds;
-} FAC_CmdsTaskData_t;
 
-void CmdsTask();
-
-#endif
+}

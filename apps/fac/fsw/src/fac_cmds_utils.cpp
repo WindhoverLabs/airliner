@@ -34,32 +34,27 @@
 #include <cfe.h>
 #include <cfe_error.h>
 
+#include "fac_tbldefs.h"
 #include "fac_app.hpp"
-#include "fac_cmds_task.hpp"
+#include "fac_cmds_utils.hpp"
 #include "fac_version.h"
 
 
-extern FAC_AppData_t FAC_MainAppData;
+extern FAC_AppData_t  FAC_AppData;
 
-FAC_CmdsTaskData_t FAC_CmdsTaskData;
 
 AppCommandProcess::AppCommandProcess()
 {
-   FAC_CmdsTaskData.CmdsTaskId = 0;
-   FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_RUN;
-   FAC_CmdsTaskData.pCmds = NULL;
 }
 
 AppCommandProcess::~AppCommandProcess()
 {
-   FAC_CmdsTaskData.CmdsTaskId = 0;
-   FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_EXIT;
 }
 
-boolean AppCommandProcess::VerifyCmdLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen)
+int32 AppCommandProcess::VerifyCmdLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen)
 {
-   boolean bResult  = TRUE;
    uint16  usMsgLen = 0;
+   int32   iStatus = CFE_SUCCESS;
 
    if (MsgPtr != NULL)
    {
@@ -67,7 +62,7 @@ boolean AppCommandProcess::VerifyCmdLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpect
 
       if (usExpectedLen != usMsgLen)
       {
-         bResult = FALSE;
+         iStatus = FAC_ERR_MSG_LENGTH;
          CFE_SB_MsgId_t MsgId = CFE_SB_GetMsgId(MsgPtr);
          uint16 usCmdCode = CFE_SB_GetCmdCode(MsgPtr);
 
@@ -78,15 +73,18 @@ boolean AppCommandProcess::VerifyCmdLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpect
       }
 // Add more to check
    }
+   else
+   {
+      iStatus = FAC_ERR_INVALID_POINTER;
+   }
 
-   return (bResult);
+   return (iStatus);
 }
 
 int32 AppCommandProcess::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
 {
    int32   iStatus = CFE_SUCCESS;
    uint32  uiCmdCode = 0;
-   boolean bResult = TRUE;
 
    if (MsgPtr != NULL)
    {
@@ -94,40 +92,54 @@ int32 AppCommandProcess::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
       switch (uiCmdCode)
       {
          case FAC_NOOP_CC:
-            bResult = VerifyCmdLength(MsgPtr, sizeof(FAC_NoArgCmd_t));
-            if (bResult == TRUE)
+            iStatus = VerifyCmdLength(MsgPtr, sizeof(FAC_NoArgCmd_t));
+            if (iStatus == CFE_SUCCESS)
             {
-               FAC_MainAppData.HkTlm.usCmdCnt++;
                CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
                                  "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
                                  (unsigned int)uiCmdCode, FAC_MAJOR_VERSION,
                                  FAC_MINOR_VERSION, FAC_REVISION, FAC_MISSION_REV);
+               FAC_AppData.HkTlm.usCmdCnt++;
+            }
+            else if (iStatus == FAC_ERR_INVALID_POINTER)
+            {
+               CFE_EVS_SendEvent(FAC_ERR_EID, CFE_EVS_ERROR,
+                                 "Invalid Cmd Msg Pointer (0x%08X)",
+                                 (unsigned int)iStatus);
+               FAC_AppData.HkTlm.usCmdErrCnt++;
             }
             else
             {
-               FAC_MainAppData.HkTlm.usCmdErrCnt++;
+               FAC_AppData.HkTlm.usCmdErrCnt++;
             }
             break;
 
          case FAC_RESET_CC:
-            bResult = VerifyCmdLength(MsgPtr, sizeof(FAC_NoArgCmd_t));
-            if (bResult == TRUE)
+            iStatus = VerifyCmdLength(MsgPtr, sizeof(FAC_NoArgCmd_t));
+            if (iStatus == CFE_SUCCESS)
             {
-               FAC_MainAppData.HkTlm.usCmdCnt = 0;
-               FAC_MainAppData.HkTlm.usCmdErrCnt = 0;
+               FAC_AppData.HkTlm.usCmdCnt = 0;
+               FAC_AppData.HkTlm.usCmdErrCnt = 0;
                CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
                                  "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
             }
+            else if (iStatus == FAC_ERR_INVALID_POINTER)
+            {
+               CFE_EVS_SendEvent(FAC_ERR_EID, CFE_EVS_ERROR,
+                                 "Invalid Cmd Msg Pointer (0x%08X)",
+                                 (unsigned int)iStatus);
+               FAC_AppData.HkTlm.usCmdErrCnt++;
+            }
             else
             {
-               FAC_MainAppData.HkTlm.usCmdErrCnt++;
+               FAC_AppData.HkTlm.usCmdErrCnt++;
             }
             break;
 
          /* TODO:  Add code to process the rest of the FAC commands here */
 
          default:
-            FAC_MainAppData.HkTlm.usCmdErrCnt++;
+            FAC_AppData.HkTlm.usCmdErrCnt++;
             CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
                               "Recvd invalid cmdId (%u)", (unsigned int)uiCmdCode);
             break;
@@ -144,26 +156,25 @@ int32 AppCommandProcess::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
 int32 AppCommandProcess::RcvCmdMsg(int32 iBlocking)
 {
    int32 iStatus = CFE_SUCCESS;
-   CFE_SB_Msg_t*   MsgPtr=NULL;
+   CFE_SB_Msg_t*   MsgPtr = NULL;
    CFE_SB_MsgId_t  MsgId;
 
    /* Process command messages till the pipe is empty */
-   while (FAC_CmdsTaskData.uiCmdsRunStatus == FAC_TASK_RUN)
+   iStatus = CFE_SB_RcvMsg(&MsgPtr, CmdPipeId, iBlocking);
+   if(iStatus == CFE_SUCCESS)
    {
-      iStatus = CFE_SB_RcvMsg(&MsgPtr, CmdPipeId, CFE_SB_POLL);
-      if(iStatus == CFE_SUCCESS)
+      CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,  // check display level
+                        "RcvCmdMsg:Receivd message (0x%08X)",
+                        (unsigned int)iStatus);
+      if (FAC_AppData.bAppAwaken == TRUE)
       {
-         CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,  // check display level
-                           "RcvCmdMsg:Receivd message (0x%08X)",
-                           (unsigned int)iStatus);
          MsgId = CFE_SB_GetMsgId(MsgPtr);
          switch (MsgId)
          {
             case FAC_CMD_MID:
                iStatus = ProcessNewAppCmds(MsgPtr);
-               if (iStatus == FAC_ERR_INVALID_POINTER)
+               if (iStatus != CFE_SUCCESS)
                {
-                  FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
                   goto RcvCmdMsg_Exit_Tag;
                }
                break;
@@ -177,34 +188,33 @@ int32 AppCommandProcess::RcvCmdMsg(int32 iBlocking)
                 */
 
             default:
-                    /* Bump the command error counter for an unknown command.
-                     * (This should only occur if it was subscribed to with this
-                     *  pipe, but not handled in this switch-case.) */
-               FAC_MainAppData.HkTlm.usCmdErrCnt++;
+                 /* Bump the command error counter for an unknown command.
+                  * (This should only occur if it was subscribed to with this
+                  *  pipe, but not handled in this switch-case.) */
+               FAC_AppData.HkTlm.usCmdErrCnt++;
                CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
                                  "Recvd invalid CMD msgId (0x%04X)",
                                  (unsigned short)MsgId);
                break;
          }
       }
-      else if (iStatus == CFE_SB_NO_MESSAGE)
-      {
-         iStatus = CFE_SUCCESS;
-      }
-      else
-      {
-         CFE_EVS_SendEvent(FAC_PIPE_ERR_EID, CFE_EVS_ERROR,
-                           "CMD pipe read error (0x%08X)", (unsigned int)iStatus);
-         FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
-         goto RcvCmdMsg_Exit_Tag;
-      }
+   }
+   else if (iStatus == CFE_SB_NO_MESSAGE)
+   {
+      iStatus = CFE_SUCCESS;
+   }
+   else
+   {
+      CFE_EVS_SendEvent(FAC_PIPE_ERR_EID, CFE_EVS_ERROR,
+                        "CMD pipe read error (0x%08X)", (unsigned int)iStatus);
+      goto RcvCmdMsg_Exit_Tag;
    }
 
 RcvCmdMsg_Exit_Tag:
    return iStatus;
 }
 
-int32 AppCommandProcess::InitCmdsTask()
+int32 AppCommandProcess::InitCmdsPipe()
 {
    int32 iStatus = CFE_SUCCESS;
 
@@ -217,12 +227,12 @@ int32 AppCommandProcess::InitCmdsTask()
          CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                            "Failed to subscribe to FAC_CMD_MID. (0x%08X)",
                            (unsigned int)iStatus);
-         goto InitCmdsTask_Exit_Tag;
+         goto InitCmdsPipe_Exit_Tag;
       }
       else
       {
          CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
-                           "InitCmdsTask: Successfully subscribed to FAC_CMD_MID (0x%08X)\n",
+                           "InitCmdsPipe: Successfully subscribed to FAC_CMD_MID (0x%08X)\n",
                            (unsigned int)iStatus);
       }
    }
@@ -231,91 +241,9 @@ int32 AppCommandProcess::InitCmdsTask()
       CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                         "Failed to create CMD pipe (0x%08X)",
                         (unsigned int)iStatus);
-      goto InitCmdsTask_Exit_Tag;
+      goto InitCmdsPipe_Exit_Tag;
    }
 
-InitCmdsTask_Exit_Tag:
+InitCmdsPipe_Exit_Tag:
    return iStatus;
-}
-
-void CmdsTask()
-{
-   int32 iStatus = CFE_SUCCESS;
-   CFE_ES_TaskInfo_t CmdsTaskInfo;
-
-   iStatus = CFE_ES_RegisterChildTask();
-   if (iStatus != CFE_SUCCESS)
-   {
-      CFE_ES_WriteToSysLog("FAC - Failed to register the CmdsTask (0x%08X)\n",
-                           (unsigned int)iStatus);
-      FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
-      goto CmdsTask_Exit_Tag;
-   }
-
-   iStatus = CFE_ES_GetTaskInfo(&CmdsTaskInfo, FAC_CmdsTaskData.CmdsTaskId);  //check taskId and appId
-   if (iStatus != CFE_SUCCESS)
-   {
-      CFE_ES_WriteToSysLog("FAC - Failed to Get Cmds task info(0x%08X)\n",
-                           (unsigned int)iStatus);
-      FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
-      goto CmdsTask_Exit_Tag;
-   }
-   else
-   {
-      CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
-             "Cmds TaskInfo: TaskID: 0x%08X, TaskName: %s, AppId: 0x%08X, AppName:%s (0x%08X)\n",
-             (unsigned int)CmdsTaskInfo.TaskId, CmdsTaskInfo.TaskName,
-             (unsigned int)CmdsTaskInfo.AppId, CmdsTaskInfo.AppName, (unsigned int)iStatus);
-   }
-
-   CFE_ES_IncrementTaskCounter();
-
-   FAC_CmdsTaskData.pCmds = new AppCommandProcess();
-   if (FAC_CmdsTaskData.pCmds != NULL)
-   {
-      iStatus = FAC_CmdsTaskData.pCmds->InitCmdsTask();
-      if (iStatus != CFE_SUCCESS)
-      {
-         CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
-                           "Failed to init cmds task (0x%08X)",
-                           (unsigned int)iStatus);
-         FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
-         goto CmdsTask_Exit_Tag;
-      }
-      else
-      {
-         CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
-                           "Succeeded to init cmds task: cmds task status: 0x%08X (0x%08X)",
-                           (unsigned int)FAC_CmdsTaskData.uiCmdsRunStatus,
-                           (unsigned int)iStatus);
-      }
-   }
-   else
-   {
-      FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
-      goto CmdsTask_Exit_Tag;
-   }
-
-   if (FAC_CmdsTaskData.uiCmdsRunStatus == FAC_TASK_RUN)
-   {
-      iStatus = FAC_CmdsTaskData.pCmds->RcvCmdMsg(FAC_CMD_PIPE_PEND_TIME);
-      if (iStatus != CFE_SUCCESS)
-      {
-         FAC_CmdsTaskData.uiCmdsRunStatus = FAC_TASK_ERROR;
-         goto CmdsTask_Exit_Tag;
-      }
-   }
-
-CmdsTask_Exit_Tag:
-   if (FAC_CmdsTaskData.pCmds != NULL)
-   {
-      delete FAC_CmdsTaskData.pCmds;
-      FAC_CmdsTaskData.pCmds = NULL;
-   }
-   CFE_ES_WriteToSysLog("FAC - CmdsTask: Error detected. Task will exit (0x%08X)\n",
-                        (unsigned int)iStatus);
-   FAC_MainAppData.uiAppRunStatus = CFE_ES_APP_EXIT;
-   CFE_ES_ExitChildTask();
-
-   return;
 }

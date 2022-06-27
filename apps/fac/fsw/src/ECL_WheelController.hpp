@@ -31,7 +31,16 @@
  *
  *****************************************************************************/
 
-#include "fac_msg.h"
+#ifndef ECL_WHEELCONTROLLER_HPP
+#define ECL_WHEELCONTROLLER_HPP
 
-FAC_NoArgCmd_t FAC_Noop;
-FAC_HkTlm_t    FAC_HkTlm;
+#include "ECL_Controller.hpp"
+
+class ECL_WheelController : public ECL_Controller
+{
+public:
+   ECL_WheelController();
+   ~ECL_WheelController();
+};
+
+#endif

@@ -31,18 +31,15 @@
  *
  *****************************************************************************/
 
-#ifndef FAC_CONFIG_UTILS_HPP
-#define FAC_CONFIG_UTILS_HPP
+#include "ECL_YawController.hpp"
 
-#include "cfe.h"
-#include "fac_app.hpp"
 
-int32 FAC_InitConfigTbl();
+ECL_YawController::ECL_YawController()
+{
 
-int32 FAC_ValidateConfigTbl(void*);
+}
 
-int32 FAC_AcquireConfigPointers();
+ECL_YawController::~ECL_YawController()
+{
 
-void  FAC_ProcessNewConfigTbl();
-
-#endif /* FAC_CONFIG_UTILS_HPP */
+}

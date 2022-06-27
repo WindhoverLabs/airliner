@@ -51,7 +51,7 @@
 /*
  * Config table for testing
  */
-FAC_ConfigTblEntry_t FAC_configtable = {
+FAC_ConfigTbl_t FAC_configtable = {
         1 /* iParam*/
 };
 

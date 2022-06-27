@@ -31,7 +31,15 @@
  *
  *****************************************************************************/
 
-#include "fac_msg.h"
+#include "ECL_RollController.hpp"
 
-FAC_NoArgCmd_t FAC_Noop;
-FAC_HkTlm_t    FAC_HkTlm;
+
+ECL_RollController::ECL_RollController()
+{
+
+}
+
+ECL_RollController::~ECL_RollController()
+{
+
+}

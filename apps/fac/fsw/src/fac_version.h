@@ -78,9 +78,4 @@
 #define FAC_REVISION         (0)
 
 
-
 #endif /* FAC_VERSION_H */
-
-/************************/
-/*  End of File Comment */
-/************************/

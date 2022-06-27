@@ -31,7 +31,60 @@
  *
  *****************************************************************************/
 
-#include "fac_msg.h"
+#ifndef FAC_DATA_UTILS_HPP
+#define FAC_DATA_UTILS_HPP
 
-FAC_NoArgCmd_t FAC_Noop;
-FAC_HkTlm_t    FAC_HkTlm;
+
+#if 0
+typedef enum
+{
+   FAC_PX4_INC_ERR_CTR = -1,  /* Error detected, increment counter */
+   FAC_PX4_DONT_INC_CTR = 0,  /* No errors detected but don't increment counter */
+   FAC_PX4_INC_TLM_CTR = 1    /* No errors detected and increment counter */
+} FAC_PX4MsgFuncRet_t;
+#endif
+
+
+class AppDataProcess
+{
+public:
+   AppDataProcess();
+   ~AppDataProcess();
+
+   int32 InitDataPipe();
+   int32 InitTables();
+   int32 RcvDataMsg(int32 iBlocking);
+   void  SendOutData();
+
+   static int32 ValidateConfigTbl(void* ConfigTblPtr);
+
+private:
+   CFE_SB_PipeId_t     DataPipeId;
+
+   FAC_InData_t      InData;
+   FAC_OutData_t     OutData;
+
+   int32 InitData();
+   int32 InitConfigTbl();
+
+   int32 Subscribe(CFE_SB_MsgId_t MsgId);
+   int32 VerifyDataMsgLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen);
+
+   void HandleAirspeed();
+   void HandleVehAttitude();
+   void HandleVehAttitudeSetPoint();
+   void HandleVehControlMode();
+   void HandleParameterUpdate();
+   void HandleManualControlSetpoint();
+   void HandleVehGlobalPosition();
+   void HandleVehStatus();
+   void HandleVehLandDetected();
+   void HandleBatteryStatus();
+
+   int32 AcquireConfigPointers();
+   void  ProcessNewConfigTbl();
+
+};
+
+
+#endif

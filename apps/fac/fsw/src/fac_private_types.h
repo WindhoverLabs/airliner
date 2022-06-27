@@ -37,11 +37,9 @@
 #include "cfe.h"
 
 
-#define    FAC_TASK_RUN     (0)
-#define    FAC_TASK_ERROR   (1)
-#define    FAC_TASK_EXIT    (2)
-
-#define    FAC_ERR_INVALID_POINTER (-1)
+#define    FAC_SUCCESS             (CFE_SUCCESS)
+#define    FAC_ERR_MSG_LENGTH      (-1)
+#define    FAC_ERR_INVALID_POINTER (-2)
 
 
 #endif /* FAC_PRIVATE_TYPES_H */

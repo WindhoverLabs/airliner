@@ -31,15 +31,15 @@
  *
  *****************************************************************************/
 
-#ifndef FAC_CDS_UTILS_HPP
-#define FAC_CDS_UTILS_HPP
+#ifndef ECL_CONTROLLER_HPP
+#define ECL_CONTROLLER_HPP
 
-#include "fac_tbldefs.h"
 
-int32  FAC_InitCdsTbl();
+class ECL_Controller
+{
+public:
+   ECL_Controller();
+   ~ECL_Controller();
+};
 
-void   FAC_UpdateCdsTbl(void);
-
-void   FAC_SaveCdsTbl(void);
-
-#endif /* FAC_CDS_UTILS_HPP */
+#endif

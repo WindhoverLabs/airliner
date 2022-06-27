@@ -31,7 +31,16 @@
  *
  *****************************************************************************/
 
-#include "fac_msg.h"
+#ifndef ECL_PITCHCONTROLLER_HPP
+#define ECL_PITCHCONTROLLER_HPP
 
-FAC_NoArgCmd_t FAC_Noop;
-FAC_HkTlm_t    FAC_HkTlm;
+#include "ECL_Controller.hpp"
+
+class ECL_PitchController : public ECL_Controller
+{
+public:
+   ECL_PitchController();
+   ~ECL_PitchController();
+};
+
+#endif
