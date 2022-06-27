@@ -4,12 +4,12 @@
   <x>100</x>
   <y>100</y>
   <width>700</width>
-  <height>200</height>
+  <height>280</height>
   <widget type="label" version="2.0.0">
     <name>AirDensityModeLabel</name>
     <text>Air Density Mode</text>
     <x>30</x>
-    <y>84</y>
+    <y>198</y>
     <width>170</width>
   </widget>
   <widget type="label" version="2.0.0">
@@ -61,8 +61,8 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/SetAirDensityMode', args
     </actions>
     <text>Set Air Density Mode</text>
     <x>30</x>
-    <y>158</y>
-    <width>310</width>
+    <y>237</y>
+    <width>620</width>
     <height>20</height>
     <foreground_color>
       <color red="253" green="255" blue="255">
@@ -79,8 +79,34 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/SetAirDensityMode', args
     <name>AirDensityModeSpinner</name>
     <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AirDensityMode&lt;VEnum&gt;(1,"ASPD4525_CONFIG_AIRDENSITY_NO_ALTITUDE_MODE","ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_MODE","ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_TEMPERATURE_MODE")</pv_name>
     <x>150</x>
-    <y>60</y>
-    <width>240</width>
-    <height>80</height>
+    <y>198</y>
+    <width>500</width>
+    <height>20</height>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Help</name>
+    <actions>
+      <action type="open_webpage">
+        <url>https://windhoverlabs.atlassian.net/wiki/spaces/~626004280f5cf500697ed4c2/pages/2469429249/Calculating+Air+Speed+using+Pitot+Tube#Density-Formula-with-Height</url>
+        <description>Open Web Page</description>
+      </action>
+    </actions>
+    <text>Help</text>
+    <x>377</x>
+    <y>70</y>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="picture" version="2.0.0">
+    <name>Picture</name>
+    <x>207</x>
+    <y>40</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_6</name>
+    <text>Scan QR Code for Help</text>
+    <x>180</x>
+    <y>154</y>
+    <width>310</width>
+    <horizontal_alignment>1</horizontal_alignment>
   </widget>
 </display>
