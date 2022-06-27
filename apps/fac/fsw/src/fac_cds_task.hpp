@@ -104,8 +104,7 @@ typedef struct
    CFE_TBL_Handle_t    ConfigTblHdl;
    CFE_ES_CDSHandle_t  CdsTblHdl;
 
-   FAC_ConfigTblEntry_t *ConfigTblPtr;
-   FAC_CdsTbl_t         CdsTbl;
+   FAC_ConfigTable_t  *ConfigTblPtr;
 
 } FAC_CdsTaskData_t;
 

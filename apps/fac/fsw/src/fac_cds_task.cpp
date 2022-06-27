@@ -381,16 +381,6 @@ int32 CriticalDataStorage::InitCdsTask()
       goto InitCdsTask_Exit_Tag;
    }
 
-   iStatus = FAC_InitCdsTbl();
-   if (iStatus != CFE_SUCCESS)
-   {
-      CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
-                        "Failed to init CDS table (0x%08X)",
-                        (unsigned int)iStatus);
-      FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
-      goto InitCdsTask_Exit_Tag;
-   }
-
 InitCdsTask_Exit_Tag:
    return iStatus;
 }

@@ -39,8 +39,6 @@ buildliner_add_app_def(fac
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_fac.hpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cds_task.cpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cds_task.hpp
-        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cds_utils.cpp
-        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cds_utils.hpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cmds_task.cpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_cmds_task.hpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_config_utils.cpp
@@ -88,8 +86,6 @@ buildliner_add_app_unit_test(FAC-UT
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_app.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_app.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_fac.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_cds_utils.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_cds_utils.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_config_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_config_utils.hpp
 

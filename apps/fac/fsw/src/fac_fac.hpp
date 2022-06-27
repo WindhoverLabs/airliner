@@ -45,7 +45,6 @@
 #include "fac_msg.h"
 #include "fac_events.h"
 #include "fac_config_utils.hpp"
-#include "fac_cds_utils.hpp"
 
 
 class FixedwingAttitudeControl

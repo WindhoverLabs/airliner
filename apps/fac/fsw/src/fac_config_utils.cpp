@@ -44,7 +44,7 @@ int32 FAC_InitConfigTbl()
    /* Register Config table */
    iStatus = CFE_TBL_Register(&FAC_CdsTaskData.ConfigTblHdl,
                        FAC_CONFIG_TABLENAME,
-                       (sizeof(FAC_ConfigTblEntry_t) * FAC_CONFIG_TABLE_MAX_ENTRIES),
+                       sizeof(FAC_ConfigTable_t),
                        CFE_TBL_OPT_DEFAULT,
                        FAC_ValidateConfigTbl);
    if (iStatus == CFE_SUCCESS)
@@ -101,7 +101,7 @@ FAC_InitConfigTbl_Exit_Tag:
 int32 FAC_ValidateConfigTbl(void* ConfigTblPtr)
 {
    int32  iStatus = CFE_SUCCESS;
-   FAC_ConfigTblEntry_t* FAC_ConfigTblPtr = (FAC_ConfigTblEntry_t*)(ConfigTblPtr);
+   FAC_ConfigTable_t* FAC_ConfigTblPtr = (FAC_ConfigTable_t*)(ConfigTblPtr);
 
    if (ConfigTblPtr == NULL)
    {
