@@ -41,13 +41,6 @@
 #include <string.h>
 
 
-FAC_CdsTaskData_t FAC_CdsTaskData =
-{
-   .CdsTaskId = 0,
-   .uiCdsRunStatus = CFE_ES_APP_RUN,
-   .pCds = NULL
-};
-
 const FAC_CDS_DataGrpTbl_t FAC_Cds_GrpTbl[] =
 {
    { PX4_ACTUATOR_ARMED_MID,        FAC_GROUP_NONE },
@@ -176,14 +169,25 @@ const FAC_CDS_PX4HandlerTblRec_t FAC_Cds_PX4MsgHandlerTbl[] =
 #endif
 };
 
+FAC_CdsTaskData_t FAC_CdsTaskData;
+
 extern FAC_AppData_t FAC_MainAppData;
 
 CriticalDataStorage::CriticalDataStorage()
 {
+   FAC_CdsTaskData.CdsTaskId = 0;
+   FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_RUN;
+   FAC_CdsTaskData.pCds = NULL;
+
+   FAC_CdsTaskData.ConfigTblPtr = NULL;
 }
 
 CriticalDataStorage::~CriticalDataStorage()
 {
+   FAC_CdsTaskData.CdsTaskId = 0;
+   FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_EXIT;
+
+   FAC_CdsTaskData.ConfigTblPtr = NULL;
 }
 
 int32 CriticalDataStorage::GetCdsGrpId(CFE_SB_MsgId_t DataMsgId)
@@ -210,7 +214,7 @@ int32 CriticalDataStorage::RcvDataMsg(int32 iBlocking)
    CFE_SB_Msg_t   *DataMsgPtr = NULL;
    CFE_SB_MsgId_t DataMsgId;
 
-   while (FAC_CdsTaskData.uiCdsRunStatus == CFE_ES_APP_RUN)
+   while (FAC_CdsTaskData.uiCdsRunStatus == FAC_TASK_RUN)
    {
       iStatus = CFE_SB_RcvMsg(&DataMsgPtr, DataPipeId, CFE_SB_POLL); // check CFE_SB_POLL
       if (iStatus == CFE_SUCCESS)
@@ -226,7 +230,8 @@ int32 CriticalDataStorage::RcvDataMsg(int32 iBlocking)
             CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
                               "Recvd invalid data msgId (0x%04X)",
                               (unsigned short)DataMsgId);
-            FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR; // Decide what to do: continue?
+            FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR; // Decide what to do: continue?
+            goto RcvDataMsg_Exit_Tag;
          }
       }
       else if (iStatus == CFE_SB_NO_MESSAGE)
@@ -237,17 +242,18 @@ int32 CriticalDataStorage::RcvDataMsg(int32 iBlocking)
       {
          CFE_EVS_SendEvent(FAC_PIPE_ERR_EID, CFE_EVS_ERROR,
                            "Data pipe read error (0x%08X)", (unsigned int)iStatus);
-         FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR;
+         FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
+         goto RcvDataMsg_Exit_Tag;
       }
 
-#if 1   // check this: decide when and how
       iStatus = FAC_AcquireConfigPointers();
       if (iStatus != CFE_SUCCESS)
       {
          CFE_EVS_SendEvent(FAC_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
                            "AcquireConfigPointers error (0x%08X)",
                            (unsigned int)iStatus);
-         FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR;
+         FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
+         goto RcvDataMsg_Exit_Tag;
       }
       else
       {
@@ -257,10 +263,36 @@ int32 CriticalDataStorage::RcvDataMsg(int32 iBlocking)
                            (unsigned int)iStatus);
 #endif
       }
-#endif
    }
 
+RcvDataMsg_Exit_Tag:
    return iStatus;
+}
+
+boolean CriticalDataStorage::VerifyCdsMsgLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen)
+{
+   boolean bResult  = TRUE;
+   uint16  usMsgLen = 0;
+
+   if (MsgPtr != NULL)
+   {
+      usMsgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
+
+      if (usExpectedLen != usMsgLen)
+      {
+         bResult = FALSE;
+         CFE_SB_MsgId_t MsgId = CFE_SB_GetMsgId(MsgPtr);
+         uint16 usCmdCode = CFE_SB_GetCmdCode(MsgPtr);
+
+         CFE_EVS_SendEvent(FAC_MSGLEN_ERR_EID, CFE_EVS_ERROR,
+                           "Rcvd invalid msgLen: msgId=0x%08X, cmdCode=%d, "
+                           "msgLen=%d, expectedLen=%d", MsgId, usCmdCode,
+                           usMsgLen, usExpectedLen);
+      }
+// Add more to check
+   }
+
+   return (bResult);
 }
 
 int32 CriticalDataStorage::InitData()
@@ -298,7 +330,7 @@ int32 CriticalDataStorage::InitPipe()
             CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                               "Failed to subscribe to MID:0x%04X (0x%08X)",
                               FAC_Cds_GrpTbl[i].msgId, (unsigned int)iStatus);
-            FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR;
+            FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
             goto InitPipe_Exit_Tag;
          }
       }
@@ -308,7 +340,7 @@ int32 CriticalDataStorage::InitPipe()
       CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                         "Failed to create Data pipe (0x%08X)",
                         (unsigned int)iStatus);
-      FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR;
+      FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
       goto InitPipe_Exit_Tag;
    }
 
@@ -325,7 +357,7 @@ int32 CriticalDataStorage::InitCdsTask()
    {
       CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                         "Failed to Init pipe (0x%08X)", (unsigned int)iStatus);
-      FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR;
+      FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
       goto InitCdsTask_Exit_Tag;
    }
 
@@ -335,7 +367,7 @@ int32 CriticalDataStorage::InitCdsTask()
       CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                         "Failed to initialize Data (0x%08X)",
                         (unsigned int)iStatus);
-      FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR;
+      FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
       goto InitCdsTask_Exit_Tag;
    }
 
@@ -345,7 +377,7 @@ int32 CriticalDataStorage::InitCdsTask()
       CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                         "Failed to init config tables (0x%08X)",
                         (unsigned int)iStatus);
-      FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR;
+      FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
       goto InitCdsTask_Exit_Tag;
    }
 
@@ -355,7 +387,7 @@ int32 CriticalDataStorage::InitCdsTask()
       CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                         "Failed to init CDS table (0x%08X)",
                         (unsigned int)iStatus);
-      FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR;
+      FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
       goto InitCdsTask_Exit_Tag;
    }
 
@@ -373,7 +405,7 @@ void CdsTask()
    {
       CFE_ES_WriteToSysLog("FAC - Failed to register the child task (0x%08X)\n",
                            (unsigned int)iStatus);
-      FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR;
+      FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
       goto CdsTask_Exit_Tag;
    }
 
@@ -384,7 +416,7 @@ void CdsTask()
    {
       CFE_ES_WriteToSysLog("FAC - Failed to Get child task info(0x%08X)\n",
                            (unsigned int)iStatus);
-      FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR;
+      FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
       goto CdsTask_Exit_Tag;
    }
    else
@@ -411,22 +443,22 @@ void CdsTask()
          CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                            "Failed to init cds task (0x%08X)",
                            (unsigned int)iStatus);
-         FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR;
+         FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
          goto CdsTask_Exit_Tag;
       }
    }
    else
    {
-      FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR;
+      FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
       goto CdsTask_Exit_Tag;
    }
 
-   if (FAC_CdsTaskData.uiCdsRunStatus == CFE_ES_APP_RUN)
+   if (FAC_CdsTaskData.uiCdsRunStatus == FAC_TASK_RUN)
    {
       iStatus = FAC_CdsTaskData.pCds->RcvDataMsg(FAC_DATA_PIPE_PEND_TIME);
       if (iStatus != CFE_SUCCESS)
       {
-         FAC_CdsTaskData.uiCdsRunStatus = CFE_ES_APP_ERROR;
+         FAC_CdsTaskData.uiCdsRunStatus = FAC_TASK_ERROR;
          goto CdsTask_Exit_Tag;
       }
    }
@@ -435,10 +467,12 @@ CdsTask_Exit_Tag:
    if (FAC_CdsTaskData.pCds != NULL)
    {
       delete FAC_CdsTaskData.pCds;
+      FAC_CdsTaskData.pCds = NULL;
    }
+   CFE_ES_WriteToSysLog("FAC - CdsTask: Error detected. Task will exit (0x%08X)\n",
+                        (unsigned int)iStatus);
    CFE_ES_ExitChildTask();
-   FAC_CdsTaskData.CdsTaskId = 0;
+   FAC_MainAppData.uiAppRunStatus = CFE_ES_APP_EXIT;
 
-   FAC_MainAppData.uiAppRunStatus = CFE_ES_APP_ERROR;
    return;
 }

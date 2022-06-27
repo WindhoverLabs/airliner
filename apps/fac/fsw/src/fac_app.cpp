@@ -45,16 +45,9 @@
 #include <string.h>
 
 
-FAC_AppData_t FAC_MainAppData =
-{
-   .MainAppId = 0,
-   .uiAppRunStatus = CFE_ES_APP_RUN,
-   .bCdsTaskCreated = FALSE,
-   .bCmdsTaskCreated = FALSE,
-   .bAppAwaken = FALSE
-};
+FAC_AppData_t FAC_MainAppData;
 
-FixedwingAttitudeControl *pFPC = NULL;
+FixedwingAttitudeControl *pFAC = NULL;
 
 
 extern FAC_CdsTaskData_t  FAC_CdsTaskData;
@@ -63,10 +56,20 @@ extern FAC_CmdsTaskData_t FAC_CmdsTaskData;
 
 FixedwingAttitudeControl::FixedwingAttitudeControl()
 {
+   FAC_MainAppData.MainAppId = 0,
+   FAC_MainAppData.uiAppRunStatus = CFE_ES_APP_RUN;
+   FAC_MainAppData.bCdsTaskCreated = FALSE;
+   FAC_MainAppData.bCmdsTaskCreated = FALSE;
+   FAC_MainAppData.bAppAwaken = FALSE;
 }
 
 FixedwingAttitudeControl::~FixedwingAttitudeControl()
 {
+   FAC_MainAppData.MainAppId = 0;
+   FAC_MainAppData.uiAppRunStatus = CFE_ES_APP_EXIT;
+   FAC_MainAppData.bCdsTaskCreated = FALSE;
+   FAC_MainAppData.bCmdsTaskCreated = FALSE;
+   FAC_MainAppData.bAppAwaken = FALSE;
 }
 
 void FixedwingAttitudeControl::SendOutData()
@@ -83,6 +86,36 @@ void FixedwingAttitudeControl::SendOutData()
 #endif
 }
 
+boolean FixedwingAttitudeControl::VerifySchCmdLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen)
+{
+   boolean bResult  = TRUE;
+   uint16  usMsgLen = 0;
+
+   if (MsgPtr != NULL)
+   {
+      usMsgLen = CFE_SB_GetTotalMsgLength(MsgPtr);
+
+      if (usExpectedLen != usMsgLen)
+      {
+         bResult = FALSE;
+         CFE_SB_MsgId_t MsgId = CFE_SB_GetMsgId(MsgPtr);
+         uint16 usCmdCode = CFE_SB_GetCmdCode(MsgPtr);
+
+         CFE_EVS_SendEvent(FAC_MSGLEN_ERR_EID, CFE_EVS_ERROR,
+                           "Rcvd invalid msgLen: msgId=0x%08X, cmdCode=%d, "
+                           "msgLen=%d, expectedLen=%d", MsgId, usCmdCode,
+                           usMsgLen, usExpectedLen);
+      }
+   }
+   else
+   {
+      bResult = FALSE;
+      FAC_MainAppData.uiAppRunStatus = CFE_ES_APP_ERROR;
+   }
+
+   return (bResult);
+}
+
 void FixedwingAttitudeControl::ReportHousekeeping()
 {
    int32 iStatus = CFE_SUCCESS;
@@ -97,6 +130,85 @@ void FixedwingAttitudeControl::ReportHousekeeping()
    }
 
    return;
+}
+int32 FixedwingAttitudeControl::SendHkMsg(CFE_SB_Msg_t *MsgPtr, CFE_SB_MsgId_t MsgId)
+{
+   int32 iStatus = CFE_SUCCESS;
+   boolean bResult = TRUE;
+
+   bResult = VerifySchCmdLength(MsgPtr, sizeof(FAC_NoArgCmd_t));
+   if (bResult == TRUE)
+   {
+      CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                        "Recvd FAC_SEND_HK_MID msgId (0x%04X)",
+                        (unsigned short)MsgId);
+      if (FAC_MainAppData.bAppAwaken == TRUE)
+      {
+         ReportHousekeeping();
+      }
+   }
+   else
+   {
+      FAC_MainAppData.HkTlm.usCmdErrCnt++;
+   }
+
+   return (iStatus);
+}
+
+int32 FixedwingAttitudeControl::WakeupMsg(CFE_SB_Msg_t *MsgPtr, CFE_SB_MsgId_t MsgId)
+{
+   int32 iStatus = CFE_SUCCESS;
+   boolean bResult = TRUE;
+
+   bResult = VerifySchCmdLength(MsgPtr, sizeof(FAC_NoArgCmd_t));
+   if (bResult == TRUE)
+   {
+      CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                        "Recvd FAC_WAKEUP_MID msgId (0x%04X)",
+                        (unsigned short)MsgId);
+
+      if (FAC_MainAppData.bCdsTaskCreated == FALSE)
+      {
+         iStatus = CFE_ES_CreateChildTask(&FAC_CdsTaskData.CdsTaskId,
+                                          FAC_CDS_TASK_NAME, CdsTask,
+                                          NULL, CFE_ES_DEFAULT_STACK_SIZE,
+                                          FAC_CDS_TASK_PRIORITY, OS_FP_ENABLED);
+         if(iStatus != CFE_SUCCESS)
+         {
+            CFE_EVS_SendEvent(FAC_ERR_EID, CFE_EVS_ERROR,
+                              "Failed to create CDS Task (0x%08X)",
+                              (unsigned int)iStatus);
+            FAC_MainAppData.uiAppRunStatus = CFE_ES_APP_ERROR;
+         }
+         FAC_MainAppData.bCdsTaskCreated = TRUE;
+      }
+
+      if (FAC_MainAppData.bCmdsTaskCreated == FALSE)
+      {
+         iStatus = CFE_ES_CreateChildTask(&FAC_CmdsTaskData.CmdsTaskId,
+                                          FAC_CMDS_TASK_NAME, CmdsTask,
+                                          NULL, CFE_ES_DEFAULT_STACK_SIZE,
+                                          FAC_CMDS_TASK_PRIORITY, OS_FP_ENABLED);
+         if(iStatus != CFE_SUCCESS)
+         {
+            CFE_EVS_SendEvent(FAC_ERR_EID, CFE_EVS_ERROR,
+                              "Failed to create CMDS Task (0x%08X)",
+                              (unsigned int)iStatus);
+            FAC_MainAppData.uiAppRunStatus = CFE_ES_APP_ERROR;
+         }
+         FAC_MainAppData.bCmdsTaskCreated = TRUE;
+      }
+
+      FAC_MainAppData.bAppAwaken = TRUE;
+
+      /* TODO:  Add more code here to handle other things when app wakes up */
+   }
+   else
+   {
+      FAC_MainAppData.HkTlm.usCmdErrCnt++;
+   }
+
+   return (iStatus);
 }
 
 int32 FixedwingAttitudeControl::RcvSchMsg(int32 iBlocking)
@@ -120,46 +232,11 @@ int32 FixedwingAttitudeControl::RcvSchMsg(int32 iBlocking)
       switch (MsgId)
       {
          case FAC_WAKEUP_MID:
-            CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
-                              "Recvd FAC_WAKEUP_MID msgId (0x%04X)",
-                              (unsigned short)MsgId);
-
-            /* TODO:  Add more code here to handle other things when app wakes up */
-            if (FAC_MainAppData.bCdsTaskCreated == FALSE)
+            iStatus = WakeupMsg(MsgPtr, MsgId);
+            if (iStatus != CFE_SUCCESS)
             {
-               iStatus = CFE_ES_CreateChildTask(&FAC_CdsTaskData.CdsTaskId,
-                                                FAC_CDS_TASK_NAME, CdsTask,
-                                                NULL, CFE_ES_DEFAULT_STACK_SIZE,
-                                                FAC_CDS_TASK_PRIORITY, OS_FP_ENABLED);
-               if(iStatus != CFE_SUCCESS)
-               {
-                  CFE_EVS_SendEvent(FAC_ERR_EID, CFE_EVS_ERROR,
-                                    "Failed to create CDS Task (0x%08X)",
-                                    (unsigned int)iStatus);
-                  FAC_CdsTaskData.CdsTaskId = 0;
-                  FAC_MainAppData.uiAppRunStatus = CFE_ES_APP_ERROR;
-               }
-               FAC_MainAppData.bCdsTaskCreated = TRUE;
+               goto RcvSchMsg_Exit_Tag;
             }
-
-            if (FAC_MainAppData.bCmdsTaskCreated == FALSE)
-            {
-               iStatus = CFE_ES_CreateChildTask(&FAC_CmdsTaskData.CmdsTaskId,
-                                                FAC_CMDS_TASK_NAME, CmdsTask,
-                                                NULL, CFE_ES_DEFAULT_STACK_SIZE,
-                                                FAC_CMDS_TASK_PRIORITY, OS_FP_ENABLED);
-               if(iStatus != CFE_SUCCESS)
-               {
-                  CFE_EVS_SendEvent(FAC_ERR_EID, CFE_EVS_ERROR,
-                                    "Failed to create CMDS Task (0x%08X)",
-                                    (unsigned int)iStatus);
-                  FAC_CmdsTaskData.CmdsTaskId = 0;
-                  FAC_CmdsTaskData.uiCmdsRunStatus = CFE_ES_APP_ERROR;
-               }
-               FAC_MainAppData.bCmdsTaskCreated = TRUE;
-            }
-
-            FAC_MainAppData.bAppAwaken = TRUE;
 
             /* The last thing to do at the end of this Wakeup cycle should be to
              * automatically publish new output. */
@@ -167,12 +244,10 @@ int32 FixedwingAttitudeControl::RcvSchMsg(int32 iBlocking)
             break;
 
          case FAC_SEND_HK_MID:
-            CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
-                              "Recvd FAC_SEND_HK_MID msgId (0x%04X)",
-                              (unsigned short)MsgId);
-            if (FAC_MainAppData.bAppAwaken == TRUE)
+            iStatus = SendHkMsg(MsgPtr, MsgId);
+            if (iStatus != CFE_SUCCESS)
             {
-               ReportHousekeeping();
+               goto RcvSchMsg_Exit_Tag;
             }
             break;
 
@@ -180,6 +255,7 @@ int32 FixedwingAttitudeControl::RcvSchMsg(int32 iBlocking)
             CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
                               "Recvd invalid SCH msgId (0x%04X)",
                               (unsigned short)MsgId);
+            FAC_MainAppData.HkTlm.usCmdErrCnt++;
             break;
       }
    }
@@ -209,6 +285,7 @@ int32 FixedwingAttitudeControl::RcvSchMsg(int32 iBlocking)
       FAC_MainAppData.uiAppRunStatus= CFE_ES_APP_ERROR;
    }
 
+RcvSchMsg_Exit_Tag:
    return (iStatus);
 }
 
@@ -399,11 +476,11 @@ extern "C" void FAC_AppMain()
    /* Perform application initializations */
    if (iStatus == CFE_SUCCESS)
    {
-      pFPC = new FixedwingAttitudeControl();
+      pFAC = new FixedwingAttitudeControl();
 
-      if (pFPC != NULL)
+      if (pFAC != NULL)
       {
-         iStatus = pFPC->InitApp();    //  Constructors
+         iStatus = pFAC->InitApp();    //  Constructors
          if (iStatus == CFE_SUCCESS)
          {
             /* Do not perform performance monitoring on startup sync */
@@ -425,11 +502,10 @@ extern "C" void FAC_AppMain()
    /* Application main loop */
    while (CFE_ES_RunLoop(&FAC_MainAppData.uiAppRunStatus) == TRUE)
    {
-      iStatus = pFPC->RcvSchMsg(FAC_SCH_PIPE_PEND_TIME);
+      iStatus = pFAC->RcvSchMsg(FAC_SCH_PIPE_PEND_TIME);
       if (iStatus != CFE_SUCCESS)
       {
          /* TODO: Decide what to do for other return values in FAC_RcvMsg(). */
-         goto AppMain_Exit_Tag;
       }
 
 
@@ -451,9 +527,9 @@ AppMain_Exit_Tag:
       if (FAC_CdsTaskData.pCds != NULL)
       {
          delete FAC_CdsTaskData.pCds;
+         FAC_CdsTaskData.pCds = NULL;
       }
       CFE_ES_DeleteChildTask(FAC_CdsTaskData.CdsTaskId);  // check this
-      FAC_MainAppData.bCdsTaskCreated = FALSE;
    }
 
    if (FAC_MainAppData.bCmdsTaskCreated == TRUE)
@@ -461,17 +537,19 @@ AppMain_Exit_Tag:
       if (FAC_CmdsTaskData.pCmds != NULL)
       {
          delete FAC_CmdsTaskData.pCmds;
+         FAC_CmdsTaskData.pCmds = NULL;
       }
       CFE_ES_DeleteChildTask(FAC_CmdsTaskData.CmdsTaskId);  // check this
-      FAC_MainAppData.bCmdsTaskCreated = FALSE;
    }
 
-   if (pFPC != NULL)
+   if (pFAC != NULL)
    {
-      delete pFPC;
+      delete pFAC;
+      pFAC = NULL;
    }
 
-   FAC_MainAppData.bAppAwaken = FALSE;
+   CFE_ES_WriteToSysLog("FAC - Error detected. App will exit (0x%08X)\n",
+                        (unsigned int)iStatus);
 
    /* Stop Performance Log entry */
    CFE_ES_PerfLogExit(FAC_MAIN_TASK_PERF_ID);

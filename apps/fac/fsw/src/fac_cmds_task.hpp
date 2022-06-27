@@ -47,7 +47,7 @@ public:
 private:
    CFE_SB_PipeId_t  CmdPipeId;
 
-   void    ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr);
+   int32   ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr);
    boolean VerifyCmdLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen);
 
 };
