@@ -72,6 +72,9 @@ private:
 //   void    IncrementCmdErr();
    void    ReportHousekeeping();
    void    SendOutData();
+
+   int32   Execute(void);
+
 };
 
 

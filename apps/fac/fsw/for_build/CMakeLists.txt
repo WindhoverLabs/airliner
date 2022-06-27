@@ -34,6 +34,16 @@
 buildliner_add_app_def(fac
     FILE FAC
     SOURCES
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_Controller.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_Controller.hpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_PitchController.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_PitchController.hpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_RollController.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_RollController.hpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_WheelController.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_WheelController.hpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_YawController.cpp
+        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/ECL_YawController.hpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_app.cpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_app.hpp
         ${PROJECT_SOURCE_DIR}/apps/fac/fsw/src/fac_fac.hpp
