@@ -823,20 +823,7 @@ void ASPD4525_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                         ( tempCalibArgCmdPtr->fTemperatureHigh_Celcius > tempCalibArgCmdPtr->fTemperatureLow_Celcius )
                     )
                     {
-                        uint32 CMax = 0x7ff;
-                        float aHigh = (float)tempCalibArgCmdPtr->uTCountHigh/(float)CMax;
-                        float aLow = (float)tempCalibArgCmdPtr->uTCountLow/(float)CMax;
-                        float bHigh = 1-aHigh;
-                        float bLow = 1-aLow;
-                        float determinant = 1/(aLow*bHigh-aHigh*bLow);
-
-                        ASPD4525_AppData.ConfigTblPtr->fTemperatureMaximum_Celcius = determinant*
-                            (bHigh*tempCalibArgCmdPtr->fTemperatureLow_Celcius -
-                             bLow*tempCalibArgCmdPtr->fTemperatureHigh_Celcius);
-
-                        ASPD4525_AppData.ConfigTblPtr->fTemperatureMinimum_Celcius = determinant*
-                            (- aHigh*tempCalibArgCmdPtr->fTemperatureLow_Celcius
-                             + aLow*tempCalibArgCmdPtr->fTemperatureHigh_Celcius);
+                        ASPD4525_MATH_CalibrateTemperature(ASPD4525_AppData.ConfigTblPtr, tempCalibArgCmdPtr);
 
                         #if defined(STDIO_DEBUG)
                         printf("Came Here: [%f, %f)\n", ASPD4525_AppData.ConfigTblPtr->fTemperatureMinimum_Celcius, ASPD4525_AppData.ConfigTblPtr->fTemperatureMaximum_Celcius);

@@ -64,6 +64,29 @@ void ASPD4525_MATH_CalibrateAirSpeedPressures(
     }
 }
 
+void ASPD4525_MATH_CalibrateTemperature(
+    ASPD4525_ConfigTblEntry_t* configTblP,
+    ASPD4525_TempCalibArgCmd_t* tempCalibArgCmdPtr
+) {
+    if ((configTblP!=NULL)&&(tempCalibArgCmdPtr!=NULL))
+    {
+        uint32 CMax = ASPD4525_MATH_TEMPERATURE_COUNTS_MAX;
+        float aHigh = (float)tempCalibArgCmdPtr->uTCountHigh/(float)CMax;
+        float aLow = (float)tempCalibArgCmdPtr->uTCountLow/(float)CMax;
+        float bHigh = 1-aHigh;
+        float bLow = 1-aLow;
+        float determinant = 1/(aLow*bHigh-aHigh*bLow);
+
+        configTblP->fTemperatureMaximum_Celcius = determinant*
+            (bHigh*tempCalibArgCmdPtr->fTemperatureLow_Celcius -
+            bLow*tempCalibArgCmdPtr->fTemperatureHigh_Celcius);
+
+        configTblP->fTemperatureMinimum_Celcius = determinant*
+            (- aHigh*tempCalibArgCmdPtr->fTemperatureLow_Celcius
+            + aLow*tempCalibArgCmdPtr->fTemperatureHigh_Celcius);
+    }
+}
+
 float ASPD4525_MATH_GetTemperature(
     ASPD4525_ConfigTblEntry_t* configTblP, 
     uint32 temperatureDataCounts
