@@ -757,34 +757,7 @@ void ASPD4525_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                         ( labCalibArgCmdPtr->fVelocityHigh_SI > labCalibArgCmdPtr->fVelocityLow_SI )
                     )
                     {
-                        #if 0
-                        float rho = AIR_DENSITY_SEA_LEVEL;
-                        uint32 CM = ASPD4525_MATH_PRESSURE_COUNTS_MAX;
-                        float CL = ((float)CM) * 0.05;
-                        float CS = ((float)CM) * 0.9;
-                        float C1 = (float)labCalibArgCmdPtr->uPCountHigh;
-                        float C0 = (float)labCalibArgCmdPtr->uPCountLow;
-
-                        float P1 = 0.5 * rho * (labCalibArgCmdPtr->fVelocityHigh_SI * labCalibArgCmdPtr->fVelocityHigh_SI);
-                        float P0 = 0.5 * rho * (labCalibArgCmdPtr->fVelocityLow_SI * labCalibArgCmdPtr->fVelocityLow_SI);
-
-                        float m = ( P1 - P0 ) / ( C1 - C0 );
-                        float b = - C0 * m;
-                        #if defined(STDIO_DEBUG)
-                        printf("Came Here 0: [%f, %f)\n", labCalibArgCmdPtr->fVelocityLow_SI, labCalibArgCmdPtr->fVelocityHigh_SI);
-
-                        printf("Came Here 1: [0x%04x, 0x%04x)\n", labCalibArgCmdPtr->uPCountLow, labCalibArgCmdPtr->uPCountHigh);
-                        printf("Came Here P: [%f, %f)\n", P0, P1);
-                        printf("Came Here C: [%f, %f)\n", CL, CS);
-                        #endif
-
-
-                        ASPD4525_AppData.ConfigTblPtr->fPressureMaximum_PSI = ( m * ( CL + CS ) + b ) / ASPD4525_MATH_PSI2PASCALS(1);
-                        ASPD4525_AppData.ConfigTblPtr->fPressureMinimum_PSI = ( m * ( CL      ) + b ) / ASPD4525_MATH_PSI2PASCALS(1);
-                        #else
-
                         ASPD4525_MATH_CalibrateAirSpeedPressures(ASPD4525_AppData.ConfigTblPtr, labCalibArgCmdPtr);
-                        #endif
 
                         #if defined(STDIO_DEBUG)
                         printf("Came Here 4: [%f, %f)\n", ASPD4525_AppData.ConfigTblPtr->fPressureMinimum_PSI, ASPD4525_AppData.ConfigTblPtr->fPressureMaximum_PSI);
