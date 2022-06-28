@@ -137,6 +137,4 @@ buildliner_add_app(
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/fac/fsw/for_build
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/fac
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/config/shared/apps/fac/tables/fac_config.c
 )

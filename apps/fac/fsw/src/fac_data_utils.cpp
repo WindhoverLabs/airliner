@@ -46,6 +46,8 @@
 
 extern FAC_AppData_t  FAC_AppData;
 
+extern FAC_CurrentValueTable_t CVT;
+
 
 AppDataProcess::AppDataProcess()
 {
@@ -57,7 +59,6 @@ AppDataProcess::~AppDataProcess()
 
 void AppDataProcess::SendOutData()
 {
-#if 0  // check this
    /* TODO:  Add code to update output data, if needed, here.  */
 
    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&OutData);
@@ -66,7 +67,6 @@ void AppDataProcess::SendOutData()
    {
       /* TODO: Decide what to do if the send message fails. */
    }
-#endif
 }
 
 void AppDataProcess::ProcessNewConfigTbl()
@@ -204,56 +204,6 @@ int32 AppDataProcess::VerifyDataMsgLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpecte
    return (iStatus);
 }
 
-void AppDataProcess::HandleAirspeed()
-{
-   return;
-}
-
-void AppDataProcess::HandleVehAttitude()
-{
-   return;
-}
-
-void AppDataProcess::HandleVehAttitudeSetPoint()
-{
-   return;
-}
-
-void AppDataProcess::HandleVehControlMode()
-{
-   return;
-}
-
-void AppDataProcess::HandleParameterUpdate()
-{
-   return;
-}
-
-void AppDataProcess::HandleManualControlSetpoint()
-{
-   return;
-}
-
-void AppDataProcess::HandleVehGlobalPosition()
-{
-   return;
-}
-
-void AppDataProcess::HandleVehStatus()
-{
-   return;
-}
-
-void AppDataProcess::HandleVehLandDetected()
-{
-   return;
-}
-
-void AppDataProcess::HandleBatteryStatus()
-{
-   return;
-}
-
 int32 AppDataProcess::RcvDataMsg(int32 iBlocking)
 {
    int32          iStatus = CFE_SUCCESS;
@@ -272,43 +222,82 @@ int32 AppDataProcess::RcvDataMsg(int32 iBlocking)
          switch (DataMsgId)
          {
             case PX4_AIRSPEED_MID:
-               HandleAirspeed();
-               break;
-
-            case PX4_VEHICLE_ATTITUDE_MID:
-               HandleVehAttitude();
-               break;
-
-            case PX4_VEHICLE_ATTITUDE_SETPOINT_MID:
-               HandleVehAttitudeSetPoint();
-               break;
-
-            case PX4_VEHICLE_CONTROL_MODE_MID:
-               HandleVehControlMode();
-               break;
-
-            case PX4_PARAMETER_UPDATE_MID:
-               HandleParameterUpdate();
-               break;
-
-            case PX4_MANUAL_CONTROL_SETPOINT_MID:
-               HandleManualControlSetpoint();
-               break;
-
-            case PX4_VEHICLE_GLOBAL_POSITION_MID:
-               HandleVehGlobalPosition();
-               break;
-
-            case PX4_VEHICLE_STATUS_MID:
-               HandleVehStatus();
-               break;
-
-            case PX4_VEHICLE_LAND_DETECTED_MID:
-               HandleVehLandDetected();
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_AIRSPEED_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
+               CFE_PSP_MemCpy(&CVT.Airspeed, DataMsgPtr,
+                              sizeof(CVT.Airspeed));  // check vector
                break;
 
             case PX4_BATTERY_STATUS_MID:
-               HandleBatteryStatus();
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_BATTERY_STATUS_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
+               CFE_PSP_MemCpy(&CVT.BatteryStatus, DataMsgPtr,
+                              sizeof(CVT.BatteryStatus));  // check vector
+               break;
+
+            case PX4_MANUAL_CONTROL_SETPOINT_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_MANUAL_CONTROL_SETPOINT_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
+               CFE_PSP_MemCpy(&CVT.ManualControlSetpoint, DataMsgPtr,
+                              sizeof(CVT.ManualControlSetpoint));
+               break;
+
+#if 0  // check
+            case PX4_PARAMETER_UPDATE_MID:
+               HandleParameterUpdate();
+               break;
+#endif
+
+            case PX4_VEHICLE_ATTITUDE_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_VEHICLE_ATTITUDE_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
+               CFE_PSP_MemCpy(&CVT.VehicleAttitude, DataMsgPtr,
+                              sizeof(CVT.VehicleAttitude));
+               break;
+
+            case PX4_VEHICLE_ATTITUDE_SETPOINT_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_VEHICLE_ATTITUDE_SETPOINT_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
+               CFE_PSP_MemCpy(&CVT.VehicleAttitudeSetpoint, DataMsgPtr,
+                              sizeof(CVT.VehicleAttitudeSetpoint));
+               break;
+
+            case PX4_VEHICLE_CONTROL_MODE_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_VEHICLE_CONTROL_MODE_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
+               CFE_PSP_MemCpy(&CVT.VehicleControlMode, DataMsgPtr,
+                              sizeof(CVT.VehicleControlMode));
+               break;
+
+
+            case PX4_VEHICLE_GLOBAL_POSITION_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_VEHICLE_GLOBAL_POSITION_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
+               CFE_PSP_MemCpy(&CVT.VehicleGlobalPosition, DataMsgPtr,
+                              sizeof(CVT.VehicleGlobalPosition));
+               break;
+
+            case PX4_VEHICLE_LAND_DETECTED_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_VEHICLE_LAND_DETECTED_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
+               CFE_PSP_MemCpy(&CVT.VehicleLandDetected, DataMsgPtr,
+                              sizeof(CVT.VehicleLandDetected));
+               break;
+
+            case PX4_VEHICLE_STATUS_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_VEHICLE_STATUS_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
+               CFE_PSP_MemCpy(&CVT.VehicleStatus, DataMsgPtr,
+                              sizeof(CVT.VehicleStatus));
                break;
 
             default:
@@ -355,7 +344,7 @@ int32 AppDataProcess::Subscribe(CFE_SB_MsgId_t MsgId)
 {
    int32 iStatus = CFE_SUCCESS;
 
-   iStatus = CFE_SB_Subscribe(MsgId, DataPipeId);
+   iStatus = CFE_SB_SubscribeEx(MsgId, DataPipeId, CFE_SB_Default_Qos, FAC_DATA_PIPE_RESERVED);
    if (iStatus != CFE_SUCCESS)
    {
       CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
@@ -465,6 +454,24 @@ int32 AppDataProcess::InitData()
 // check cfe function for length
    CFE_SB_InitMsg(&OutData, FAC_OUT_DATA_MID, sizeof(OutData), TRUE); // check length
 
+   CFE_SB_InitMsg(&CVT.Airspeed, PX4_AIRSPEED_MID, sizeof(CVT.Airspeed), TRUE);
+   CFE_SB_InitMsg(&CVT.BatteryStatus, PX4_BATTERY_STATUS_MID,
+                  sizeof(CVT.BatteryStatus), TRUE);
+   CFE_SB_InitMsg(&CVT.ManualControlSetpoint, PX4_MANUAL_CONTROL_SETPOINT_MID,
+                  sizeof(CVT.ManualControlSetpoint), TRUE);
+   CFE_SB_InitMsg(&CVT.VehicleAttitude, PX4_VEHICLE_ATTITUDE_MID,
+                  sizeof(CVT.VehicleAttitude), TRUE);
+   CFE_SB_InitMsg(&CVT.VehicleAttitudeSetpoint, PX4_VEHICLE_ATTITUDE_SETPOINT_MID,
+                  sizeof(CVT.VehicleAttitudeSetpoint), TRUE);
+   CFE_SB_InitMsg(&CVT.VehicleControlMode, PX4_VEHICLE_CONTROL_MODE_MID,
+                  sizeof(CVT.VehicleControlMode), TRUE);
+   CFE_SB_InitMsg(&CVT.VehicleGlobalPosition, PX4_VEHICLE_GLOBAL_POSITION_MID,
+                  sizeof(CVT.VehicleGlobalPosition), TRUE);
+   CFE_SB_InitMsg(&CVT.VehicleLandDetected, PX4_VEHICLE_LAND_DETECTED_MID,
+                  sizeof(CVT.VehicleLandDetected), TRUE);
+   CFE_SB_InitMsg(&CVT.VehicleStatus, PX4_VEHICLE_STATUS_MID,
+                  sizeof(CVT.VehicleStatus), TRUE);
+
    return (iStatus);
 }
 
@@ -472,7 +479,7 @@ int32 AppDataProcess::InitDataPipe()
 {
    int32 iStatus = CFE_SUCCESS;
 
-   iStatus = CFE_SB_CreatePipe(&DataPipeId, FAC_DATA_PIPE_DEPTH, FAC_DATA_PIPE_NAME);
+   iStatus = CFE_SB_CreatePipe(&DataPipeId, FAC_DATA_PIPE_DEPTH, FAC_DATA_PIPE_NAME);  // check depth
    if (iStatus == CFE_SUCCESS)
    {
       iStatus = Subscribe(PX4_AIRSPEED_MID);
@@ -480,46 +487,56 @@ int32 AppDataProcess::InitDataPipe()
       {
          goto InitDataPipe_Exit_Tag;
       }
+
       iStatus = Subscribe(PX4_VEHICLE_ATTITUDE_MID);
       if (iStatus != CFE_SUCCESS)
       {
          goto InitDataPipe_Exit_Tag;
       }
+
       iStatus = Subscribe(PX4_VEHICLE_ATTITUDE_SETPOINT_MID);
       if (iStatus != CFE_SUCCESS)
       {
          goto InitDataPipe_Exit_Tag;
       }
+
       iStatus = Subscribe(PX4_VEHICLE_CONTROL_MODE_MID);
       if (iStatus != CFE_SUCCESS)
       {
          goto InitDataPipe_Exit_Tag;
       }
+#if 0
       iStatus = Subscribe(PX4_PARAMETER_UPDATE_MID);
       if (iStatus != CFE_SUCCESS)
       {
          goto InitDataPipe_Exit_Tag;
       }
+#endif
+
       iStatus = Subscribe(PX4_MANUAL_CONTROL_SETPOINT_MID);
       if (iStatus != CFE_SUCCESS)
       {
          goto InitDataPipe_Exit_Tag;
       }
+
       iStatus = Subscribe(PX4_VEHICLE_GLOBAL_POSITION_MID);
       if (iStatus != CFE_SUCCESS)
       {
          goto InitDataPipe_Exit_Tag;
       }
+
       iStatus = Subscribe(PX4_VEHICLE_STATUS_MID);
       if (iStatus != CFE_SUCCESS)
       {
          goto InitDataPipe_Exit_Tag;
       }
+
       iStatus = Subscribe(PX4_VEHICLE_LAND_DETECTED_MID);
       if (iStatus != CFE_SUCCESS)
       {
          goto InitDataPipe_Exit_Tag;
       }
+
       iStatus = Subscribe(PX4_BATTERY_STATUS_MID);
       if (iStatus != CFE_SUCCESS)
       {

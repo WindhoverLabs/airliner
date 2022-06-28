@@ -61,6 +61,19 @@ typedef struct
    FAC_ConfigTbl_t     *ConfigTblPtr;
 } FAC_AppData_t;
 
+typedef struct
+{
+   PX4_AirspeedMsg_t                 Airspeed;   // check : should be vector
+   PX4_BatteryStatusMsg_t            BatteryStatus;
+   PX4_ManualControlSetpointMsg_t    ManualControlSetpoint;
+   PX4_VehicleAttitudeMsg_t          VehicleAttitude;
+   PX4_VehicleAttitudeSetpointMsg_t  VehicleAttitudeSetpoint;
+   PX4_VehicleControlModeMsg_t       VehicleControlMode;
+   PX4_VehicleGlobalPositionMsg_t    VehicleGlobalPosition;
+   PX4_VehicleLandDetectedMsg_t      VehicleLandDetected;
+   PX4_VehicleStatusMsg_t            VehicleStatus;
+} FAC_CurrentValueTable_t;
+
 
 /************************************************************************/
 /** \brief CFS Fixedwing Attitude Control App Task (FAC) application

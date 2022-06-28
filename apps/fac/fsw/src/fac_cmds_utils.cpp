@@ -34,6 +34,8 @@
 #include <cfe.h>
 #include <cfe_error.h>
 
+#include <px4_msgs.h>
+
 #include "fac_tbldefs.h"
 #include "fac_app.hpp"
 #include "fac_cmds_utils.hpp"

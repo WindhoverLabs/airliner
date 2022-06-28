@@ -92,7 +92,7 @@
 **  \par Limits:
 **       minimum of 1, max of CFE_SB_MAX_PIPE_DEPTH(256).
 */
-#define FAC_DATA_PIPE_DEPTH            (5)
+#define FAC_DATA_PIPE_DEPTH            (4)
 
 /** \brief Pipe name for the Scheduler pipe
 **
@@ -110,7 +110,7 @@
 **       application if no messages arrive on this pipe.
 */
 #define FAC_DATA_PIPE_PEND_TIME         (2000)
-#define FAC_DATA_PIPE_RESERVED          (FAC_DATA_PIPE_DEPTH - 1)
+#define FAC_DATA_PIPE_RESERVED          (1)
 
 /** \brief The config table default filename
 **
