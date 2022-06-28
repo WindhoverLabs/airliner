@@ -70,17 +70,6 @@ private:
    int32 Subscribe(CFE_SB_MsgId_t MsgId);
    int32 VerifyDataMsgLength(CFE_SB_Msg_t *MsgPtr, uint16 usExpectedLen);
 
-   void HandleAirspeed();
-   void HandleVehAttitude();
-   void HandleVehAttitudeSetPoint();
-   void HandleVehControlMode();
-   void HandleParameterUpdate();
-   void HandleManualControlSetpoint();
-   void HandleVehGlobalPosition();
-   void HandleVehStatus();
-   void HandleVehLandDetected();
-   void HandleBatteryStatus();
-
    int32 AcquireConfigPointers();
    void  ProcessNewConfigTbl();
 
