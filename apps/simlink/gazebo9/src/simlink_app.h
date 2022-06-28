@@ -363,6 +363,9 @@ void  SIMLINK_SendOutData(void);
 *************************************************************************/
 boolean  SIMLINK_VerifyCmdLength(CFE_SB_Msg_t* MsgPtr, uint16 usExpectedLen);
 
+float SIMLINK_PWM_To_Mavlink_Map(float inValue, uint16 in_min, uint16 in_max,
+                                 float out_min, float out_max);
+
 #ifdef __cplusplus
 }
 #endif 
