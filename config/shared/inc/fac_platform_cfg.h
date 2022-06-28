@@ -1,13 +1,16 @@
 #ifndef FAC_PLATFORM_CFG_H
 #define FAC_PLATFORM_CFG_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*
-** fac Platform Configuration Parameter Definitions
+** FAC Platform Configuration Parameter Definitions
 */
 
 /** \brief Mission specific version number for FAC application
-**
+**  
 **  \par Description:
 **       An application version number consists of four parts:
 **       major version number, minor version number, revision
@@ -21,14 +24,14 @@
 */
 #define FAC_MISSION_REV                (0)
 
-/** \brief Pipe depth for the Scheduler pipe
+/** \brief Pipe depth for the Scheduler pipe 
 **
 **  \par Limits:
 **       minimum of 1, max of CFE_SB_MAX_PIPE_DEPTH.
 */
-#define FAC_SCH_PIPE_DEPTH             (2)
+#define FAC_SCH_PIPE_DEPTH             (15)
 
-/** \brief Pipe name for the Scheduler pipe
+/** \brief Pipe name for the Scheduler pipe 
 **
 **  \par Limits:
 **       Note, this name must fit in OS_MAX_API_NAME.
@@ -38,7 +41,7 @@
 /** \brief The SB pend behavior type for the Scheduler pipe.
 **
 **  \par Limits:
-**       One of: CFE_SB_POLL, CFE_SB_PEND_FOREVER, or the
+**       One of: CFE_SB_POLL, CFE_SB_PEND_FOREVER, or the 
 **       number of milliseconds to wait for a new message (recommended).
 **       Note, using CFE_SB_PEND_FOREVER may cause an unresponsive
 **       application if no messages arrive on this pipe.
@@ -68,49 +71,14 @@
 **  \par Limits:
 **       minimum of 1, max of CFE_SB_MAX_PIPE_DEPTH.
 */
-#define FAC_CMD_PIPE_DEPTH             (4)
+#define FAC_CMD_PIPE_DEPTH             (15)
 
-/** \brief Pipe name for the Scheduler pipe
+/** \brief Pipe name for the Scheduler pipe 
 **
 **  \par Limits:
 **       Note, this name must fit in OS_MAX_API_NAME.
 */
 #define FAC_CMD_PIPE_NAME              ("FAC_CMD_PIPE")
-
-/** \brief The SB pend behavior type for the Command pipe.
-**
-**  \par Limits:
-**       One of: CFE_SB_POLL, CFE_SB_PEND_FOREVER, or the
-**       number of milliseconds to wait for a new message (recommended).
-**       Note, using CFE_SB_PEND_FOREVER may cause an unresponsive
-**       application if no messages arrive on this pipe.
-*/
-#define FAC_CMD_PIPE_PEND_TIME         (2000)
-
-/** \brief Pipe depth for the data pipe
-**
-**  \par Limits:
-**       minimum of 1, max of CFE_SB_MAX_PIPE_DEPTH(256).
-*/
-#define FAC_DATA_PIPE_DEPTH            (5)
-
-/** \brief Pipe name for the Scheduler pipe
-**
-**  \par Limits:
-**       Note, this name must fit in OS_MAX_API_NAME.
-*/
-#define FAC_DATA_PIPE_NAME             ("FAC_DATA_PIPE")
-
-/** \brief The SB pend behavior type for the Data pipe.
-**
-**  \par Limits:
-**       One of: CFE_SB_POLL, CFE_SB_PEND_FOREVER, or the
-**       number of milliseconds to wait for a new message (recommended).
-**       Note, using CFE_SB_PEND_FOREVER may cause an unresponsive
-**       application if no messages arrive on this pipe.
-*/
-#define FAC_DATA_PIPE_PEND_TIME         (2000)
-#define FAC_DATA_PIPE_RESERVED          (FAC_DATA_PIPE_DEPTH - 1)
 
 /** \brief The config table default filename
 **
@@ -118,7 +86,8 @@
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define FAC_CONFIG_TABLE_FILENAME      ("/cf/apps/fac_config.tbl")
+#define FAC_PARAM_TABLE_FILENAME      ("/cf/apps/fac_param.tbl")
+
 /** \brief The timeout value, in milliseconds, to wait for ES application startup sync.
 **
 **  \par Limits:
@@ -129,17 +98,16 @@
 /* TODO:  Add Doxygen markup. */
 #define FAC_CUSTOM_DEV_PATH       "/tmp/ttyS0"
 
-#define FAC_CDS_TASK_PRIORITY     (20)
+#define FAC_MAX_MOTOR_OUTPUTS         (16)
 
-#define FAC_CDS_TASK_NAME         "FAC_CDS_TASK"
 
-#define FAC_CMDS_TASK_PRIORITY    (100)
-
-#define FAC_CMDS_TASK_NAME         "FAC_CMDS_TASK"
-
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* FAC_PLATFORM_CFG_H */
 
 /************************/
 /*  End of File Comment */
 /************************/
+    

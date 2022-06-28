@@ -39,6 +39,12 @@
 #define MAC_RUN_CONTROLLER_MID                    CMD_MSG(  144 )  /* 0x090 */
 #define MAC_SEND_HK_MID                           CMD_MSG(  145 )  /* 0x091 */
 
+/* FAC                                                                      */
+#define FAC_HK_TLM_MID                            TLM_MSG(  142 )  /* 0x08e */
+#define FAC_CMD_MID                               CMD_MSG(  143 )  /* 0x08f */
+#define FAC_RUN_CONTROLLER_MID                    CMD_MSG(  144 )  /* 0x090 */
+#define FAC_SEND_HK_MID                           CMD_MSG(  145 )  /* 0x091 */
+
 
 /* MPC                                                                      */
 #define MPC_DIAG_TLM_MID                          TLM_MSG(  146 )  /* 0x092 */
@@ -325,12 +331,5 @@
 #define FPC_CMD_MID                               CMD_MSG(  351 )  /* 0x15f */
 #define FPC_SEND_HK_MID                           CMD_MSG(  352 )  /* 0x160 */
 #define FPC_WAKEUP_MID                            CMD_MSG(  353 )  /* 0x161 */
-
-/* FAC                                                                      */
-#define FAC_HK_TLM_MID                            TLM_MSG(  344 )  /* 0x162 */
-#define FAC_OUT_DATA_MID                          TLM_MSG(  345 )  /* 0x163 */
-#define FAC_CMD_MID                               CMD_MSG(  346 )  /* 0x164 */
-#define FAC_SEND_HK_MID                           CMD_MSG(  347 )  /* 0x165 */
-#define FAC_WAKEUP_MID                            CMD_MSG(  348 )  /* 0x166 */
 
 #endif

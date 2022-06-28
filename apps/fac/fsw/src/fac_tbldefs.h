@@ -48,10 +48,105 @@
 ** Local Defines
 *************************************************************************/
 
+#define FAC_PARAM_NAME_MAX_LEN   (32)
+
+
+#define FW_R_TC_MIN               (0.4f)
+#define FW_R_TC_MAX               (1.0f)
+#define FW_P_TC_MIN               (0.2f)
+#define FW_P_TC_MAX               (1.0f)
+#define FW_PR_P_MIN               (0.005f)
+#define FW_PR_P_MAX               (1.0f)
+#define FW_PR_I_MIN               (0.005f)
+#define FW_PR_I_MAX               (0.5f)
+#define FW_P_RMAX_POS_MIN         (0.0f)
+#define FW_P_RMAX_POS_MAX         (90.0f)
+#define FW_P_RMAX_NEG_MIN         (0.0f)
+#define FW_P_RMAX_NEG_MAX         (90.0f)
+#define FW_PR_IMAX_MIN            (0.0f)
+#define FW_PR_IMAX_MAX            (1.0f)
+#define FW_RR_P_MIN               (0.005f)
+#define FW_RR_P_MAX               (1.0f)
+#define FW_RR_I_MIN               (0.005f)
+#define FW_RR_I_MAX               (0.2f)
+#define FW_RR_IMAX_MIN            (0.0f)
+#define FW_RR_IMAX_MAX            (1.0f)
+#define FW_R_RMAX_MIN             (0.0f)
+#define FW_R_RMAX_MAX             (90.0f)
+#define FW_YR_P_MIN               (0.005f)
+#define FW_YR_P_MAX               (1.0f)
+#define FW_YR_I_MIN               (0.0f)
+#define FW_YR_I_MAX               (50.0f)
+#define FW_YR_IMAX_MIN            (0.0f)
+#define FW_YR_IMAX_MAX            (1.0f)
+#define FW_Y_RMAX_MIN             (0.0f)
+#define FW_Y_RMAX_MAX             (90.0f)
+#define FW_RLL_TO_YAW_FF_MIN      (0.0f)
+#define FW_RLL_TO_YAW_FF_MAX      (0.01f)
+#define FW_WR_P_MIN               (0.005f)
+#define FW_WR_P_MAX               (1.0f)
+#define FW_WR_I_MIN               (0.005f)
+#define FW_WR_I_MAX               (0.5f)
+#define FW_WR_IMAX_MIN            (0.0f)
+#define FW_WR_IMAX_MAX            (1.0f)
+#define FW_W_RMAX_MIN             (0.0f)
+#define FW_W_RMAX_MAX             (90.0f)
+#define FW_RR_FF_MIN              (0.0f)
+#define FW_RR_FF_MAX              (10.0f)
+#define FW_PR_FF_MIN              (0.0f)
+#define FW_PR_FF_MAX              (10.0f)
+#define FW_YR_FF_MIN              (0.0f)
+#define FW_YR_FF_MAX              (10.0f)
+#define FW_WR_FF_MIN              (0.0f)
+#define FW_WR_FF_MAX              (10.0f)
+#define FW_YCO_VMIN_MIN           (0.0f)
+#define FW_YCO_VMIN_MAX           (1000.0f)
+#define FW_YCO_METHOD_MIN         (0)
+#define FW_YCO_METHOD_MAX         (1)
+#define FW_RSP_OFF_MIN            (-90.0f)
+#define FW_RSP_OFF_MAX            (90.0f)
+#define FW_PSP_OFF_MIN            (-90.0f)
+#define FW_PSP_OFF_MAX            (90.0f)
+#define FW_MAN_R_MAX_MIN          (0.0f)
+#define FW_MAN_R_MAX_MAX          (90.0f)
+#define FW_MAN_P_MAX_MIN          (0.0f)
+#define FW_MAN_P_MAX_MAX          (90.0f)
+#define FW_FLAPS_SCL_MIN          (0.0f)
+#define FW_FLAPS_SCL_MAX          (1.0f)
+#define FW_FLAPERON_SCL_MIN       (0.0f)
+#define FW_FLAPERON_SCL_MAX       (1.0f)
+#define FW_MAN_R_SC_MIN           (0.0f)
+#define FW_MAN_R_SC_MAX           (1.0f)
+#define FW_MAN_P_SC_MIN           (0.0f)
+#define FW_MAN_Y_SC_MIN           (0.0f)
+#define FW_ACRO_X_MAX_MIN         (45)
+#define FW_ACRO_X_MAX_MAX         (720)
+#define FW_ACRO_Y_MAX_MIN         (45)
+#define FW_ACRO_Y_MAX_MAX         (720)
+#define FW_ACRO_Z_MAX_MIN         (10)
+#define FW_ACRO_Z_MAX_MAX         (180)
+#define FW_RATT_TH_MIN            (0.0f)
+#define FW_RATT_TH_MAX            (1.0f)
+#define FW_AIRSPD_MIN_MIN         (0.0f)
+#define FW_AIRSPD_MIN_MAX         (40.0f)
+#define FW_AIRSPD_MAX_MIN         (0.0f)
+#define FW_AIRSPD_MAX_MAX         (40.0f)
+#define FW_AIRSPD_TRIM_MIN        (0.0f)
+#define FW_AIRSPD_TRIM_MAX        (40.0f)
+#define TRIM_ROLL_MIN             (-0.25f)
+#define TRIM_ROLL_MAX             (0.25f)
+#define TRIM_PITCH_MIN            (-0.25f)
+#define TRIM_PITCH_MAX            (0.25f)
+#define TRIM_YAW_MIN              (-0.25f)
+#define TRIM_YAW_MAX              (0.25f)
+#define VT_TYPE_MIN               (0)
+#define VT_TYPE_MAX               (2)
+
+
 /**
  * \brief Defines the table identification name used for table registration.
  */
-#define FAC_CONFIG_TABLENAME          ("CONFIG_TBL")
+#define FAC_PARAM_TABLENAME ("PARAM_TBL")
 
 
 /************************************************************************
@@ -663,7 +758,112 @@ typedef struct
 	 */
 	float FW_RATT_TH;
 
-} FAC_ConfigTable_t;
+	/**
+	 * Minimum Airspeed
+	 *
+	 * If the airspeed falls below this value, the TECS controller will try to
+	 * increase airspeed more aggressively.
+	 *
+	 * @unit m/s
+	 * @min 0.0
+	 * @max 40
+	 * @decimal 1
+	 * @increment 0.5
+	 * @group FW TECS
+	 */
+	float FW_AIRSPD_MIN;
+
+	/**
+	 * Maximum Airspeed
+	 *
+	 * If the airspeed is above this value, the TECS controller will try to decrease
+	 * airspeed more aggressively.
+	 *
+	 * @unit m/s
+	 * @min 0.0
+	 * @max 40
+	 * @decimal 1
+	 * @increment 0.5
+	 * @group FW TECS
+	 */
+	float FW_AIRSPD_MAX;
+
+	/**
+	 * Cruise Airspeed
+	 *
+	 * The fixed wing controller tries to fly at this airspeed.
+	 *
+	 * @unit m/s
+	 * @min 0.0
+	 * @max 40
+	 * @decimal 1
+	 * @increment 0.5
+	 * @group FW TECS
+	 */
+	float FW_AIRSPD_TRIM;
+
+	/**
+	 * Roll trim
+	 *
+	 * The trim value is the actuator control value the system needs
+	 * for straight and level flight. It can be calibrated by
+	 * flying manually straight and level using the RC trims and
+	 * copying them using the GCS.
+	 *
+	 * @group Radio Calibration
+	 * @min -0.25
+	 * @max 0.25
+	 * @decimal 2
+	 * @increment 0.01
+	 */
+	float TRIM_ROLL;
+
+	/**
+	 * Pitch trim
+	 *
+	 * The trim value is the actuator control value the system needs
+	 * for straight and level flight. It can be calibrated by
+	 * flying manually straight and level using the RC trims and
+	 * copying them using the GCS.
+	 *
+	 * @group Radio Calibration
+	 * @min -0.25
+	 * @max 0.25
+	 * @decimal 2
+	 * @increment 0.01
+	 */
+	float TRIM_PITCH;
+
+	/**
+	 * Yaw trim
+	 *
+	 * The trim value is the actuator control value the system needs
+	 * for straight and level flight. It can be calibrated by
+	 * flying manually straight and level using the RC trims and
+	 * copying them using the GCS.
+	 *
+	 * @group Radio Calibration
+	 * @min -0.25
+	 * @max 0.25
+	 * @decimal 2
+	 * @increment 0.01
+	 */
+	float TRIM_YAW;
+
+	/**
+	 * VTOL Type (Tailsitter=0, Tiltrotor=1, Standard=2)
+	 *
+	 * @value 0 Tailsitter
+	 * @value 1 Tiltrotor
+	 * @value 2 Standard
+	 * @min 0
+	 * @max 2
+	 * @decimal 0
+	 * @group VTOL Attitude Control
+	 */
+	uint32 VT_TYPE;
+
+} FAC_ParamTbl_t;
 
 
 /************************************************************************

@@ -30,10 +30,10 @@
 **    ObjSize - size of the entire table
 **
 */
-static CFE_TBL_FileDef_t CFE_TBL_FileDef =
+static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 {
-    "FAC_ConfigTbl", "FAC.CONFIG_TBL", "FAC default config table",
-    "fac_config.tbl", sizeof(FAC_ConfigTable_t)
+    "FAC_ParamTbl", "FAC.PARAM_TBL", "FAC default param table",
+    "fac_param.tbl", sizeof(FAC_ParamTbl_t)
 };
 
 /************************************************************************
@@ -47,7 +47,7 @@ static CFE_TBL_FileDef_t CFE_TBL_FileDef =
 /**
 **  \brief Default FAC config table data
 */
-FAC_ConfigTable_t FAC_ConfigTbl =
+FAC_ParamTbl_t FAC_ParamTbl =
 {
 	/**
 	 * Attitude Roll Time Constant
@@ -650,8 +650,112 @@ FAC_ConfigTable_t FAC_ConfigTbl =
 	 * @increment 0.01
 	 * @group FW Attitude Control
 	 */
-	0.8f
+	0.8f,
 
+	/**
+	 * Minimum Airspeed
+	 *
+	 * If the airspeed falls below this value, the TECS controller will try to
+	 * increase airspeed more aggressively.
+	 *
+	 * @unit m/s
+	 * @min 0.0
+	 * @max 40
+	 * @decimal 1
+	 * @increment 0.5
+	 * @group FW TECS
+	 */
+	10.0f,
+
+	/**
+	 * Maximum Airspeed
+	 *
+	 * If the airspeed is above this value, the TECS controller will try to decrease
+	 * airspeed more aggressively.
+	 *
+	 * @unit m/s
+	 * @min 0.0
+	 * @max 40
+	 * @decimal 1
+	 * @increment 0.5
+	 * @group FW TECS
+	 */
+	20.0f,
+
+	/**
+	 * Cruise Airspeed
+	 *
+	 * The fixed wing controller tries to fly at this airspeed.
+	 *
+	 * @unit m/s
+	 * @min 0.0
+	 * @max 40
+	 * @decimal 1
+	 * @increment 0.5
+	 * @group FW TECS
+	 */
+	15.0f,
+
+	/**
+	 * Roll trim
+	 *
+	 * The trim value is the actuator control value the system needs
+	 * for straight and level flight. It can be calibrated by
+	 * flying manually straight and level using the RC trims and
+	 * copying them using the GCS.
+	 *
+	 * @group Radio Calibration
+	 * @min -0.25
+	 * @max 0.25
+	 * @decimal 2
+	 * @increment 0.01
+	 */
+	0.0f,
+
+	/**
+	 * Pitch trim
+	 *
+	 * The trim value is the actuator control value the system needs
+	 * for straight and level flight. It can be calibrated by
+	 * flying manually straight and level using the RC trims and
+	 * copying them using the GCS.
+	 *
+	 * @group Radio Calibration
+	 * @min -0.25
+	 * @max 0.25
+	 * @decimal 2
+	 * @increment 0.01
+	 */
+	0.0f,
+
+	/**
+	 * Yaw trim
+	 *
+	 * The trim value is the actuator control value the system needs
+	 * for straight and level flight. It can be calibrated by
+	 * flying manually straight and level using the RC trims and
+	 * copying them using the GCS.
+	 *
+	 * @group Radio Calibration
+	 * @min -0.25
+	 * @max 0.25
+	 * @decimal 2
+	 * @increment 0.01
+	 */
+	0.0f,
+
+	/**
+	 * VTOL Type (Tailsitter=0, Tiltrotor=1, Standard=2)
+	 *
+	 * @value 0 Tailsitter
+	 * @value 1 Tiltrotor
+	 * @value 2 Standard
+	 * @min 0
+	 * @max 2
+	 * @decimal 0
+	 * @group VTOL Attitude Control
+	 */
+	0
 };
 
 /************************************************************************

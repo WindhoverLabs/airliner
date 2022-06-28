@@ -8,7 +8,7 @@
 /*      insert at that location.                                            */
 /*==========================================================================*/
 /**
-    \mainpage FAC cFS Application (FAC) User's Guide
+    \mainpage FAC cFS Application (FAC) User's Guide    
 
        <UL>
            <LI> \subpage cfsfacrevhist
@@ -31,7 +31,7 @@
   \page cfsfacrevhist FAC Application User's Guide Revision History
 
   This document is generated against #FAC_MAJOR_VERSION #FAC_MINOR_VERSION #FAC_REVISION.
-
+  
   Next: \ref cfsfacintro
 
 **/
@@ -42,24 +42,24 @@
 /*==========================================================================*/
 /**
   \page cfsfacintro FAC Application Introduction
-
+	
   <H2> Scope </H2>
 
   This document provides a complete specification for the commands and telemetry associated
-  with the FAC Application (FAC) software.  The document is intended primarily
-  for users of the software (operations personal, test engineers, and maintenance personnel).
-  The last section of the document, the deployment guide section, is intended for mission
-  developers when deploying and configuring this application software for a mission
-  flight software build environment.
+  with the FAC Application (FAC) software.  The document is intended primarily 
+  for users of the software (operations personal, test engineers, and maintenance personnel).  
+  The last section of the document, the deployment guide section, is intended for mission 
+  developers when deploying and configuring this application software for a mission 
+  flight software build environment. 
 
   <H2> Applicable Documents </H2>
 
   <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%">
-  <TR><TD WIDTH="20%"> <B>Document ID</B> </TD>
+  <TR><TD WIDTH="20%"> <B>Document ID</B> </TD> 
       <TD WIDTH="40%"> <B>Document Title</B> </TD>
-  <TR><TD WIDTH="20%"> TBD       </TD>
+  <TR><TD WIDTH="20%"> TBD       </TD> 
       <TD WIDTH="40%"> FAC Application Requirements Document </TD>
-  <TR><TD WIDTH="20%"> TBD       </TD>
+  <TR><TD WIDTH="20%"> TBD       </TD> 
       <TD WIDTH="40%"> FAC Application Design Document </TD>
   </TABLE>
 
@@ -99,12 +99,12 @@
 
 /**
   \page cfsfacovr FAC Application Overview
-
+	
   The FAC Application (FAC) application does some cool stuff.
 
-  (Insert paragraph providing application purpose and a high level description of
+  (Insert paragraph providing application purpose and a high level description of 
   application capabilites)
-
+	
   FAC Design Overview
   ====
 
@@ -117,20 +117,20 @@
   (Diagrams can be inserted using the following formatting:
     \image html My_Diagram_Image_Filename.jpg "My Diagram Label" <BR>
   The referenced jpg file should be put into the same directory as this file.)
-
+	
   Prev: \ref cfsfacintro <BR>
   Next: \ref cfsfacopr
 **/
 
 /**
     \page cfsfacopr FAC Application Operation
-
+   
   (Insert intended operational scenarios.  This should include references to appropriate commands
    and telemetry points as needed.  Detailed explanation of telemetry could also be useful.)
 
     1. The application version number
     ----
-
+  
     The application version number is displayed in the initialization event and the
     no-op event.
 
@@ -143,7 +143,7 @@
     ----
 
     TODO Discuss the No-Op command here.
-
+    
     4. Sending the reset counters command
     ----
 
@@ -158,27 +158,27 @@
     ----
 
     TODO Discuss the counter behavior here.
-
+    
     Next: \ref cfsfacreq <BR>
     Prev: \ref cfsfacovr
 **/
 
 /**
     \page cfsfacreq FAC Application Requirements
-
+    
     The following are FAC application requirements.
 
   (Insert high level requirements and add a reference to where detailed requirements can be found)
-
+    
     Next: \ref cfsfacdg <BR>
-    Prev: \ref cfsfacopr
+    Prev: \ref cfsfacopr 
 **/
 
 /**
     \page cfsfacdg  FAC Application Deployment Guide
 
   (Basic Instructions to the Author)
-  ====
+  ====  
 
   (Insert text describing steps required to integrate the application with a CFS system.  This should
    include:
@@ -196,7 +196,7 @@
 
   Application Tailoring to the Mission
   ----
-
+    
     The fac_mission_cfg.h file, the fac_msgids.h, and the fac_perfids.h files
     are tailored for the mission.  These are built into the application during
     compilation.
@@ -213,7 +213,7 @@
 
     TODO Discuss any commands that must be included in the CFS Scheduler Table
     and any related tailoring/configuration.
-
+     
     Next: \ref cfsfaccmds <BR>
     Prev: \ref cfsfacreq
 **/
@@ -226,12 +226,12 @@
     \page cfsfaccmds FAC Application Commands
 
     <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
-    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfactlm</B> </TD>
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfactlm</B> </TD> 
         <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfactbl</B></TD>
         <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfaccfg</B></TD>
     </TABLE>
-
-    The following is a list of commands that are processed by the FAC Application:
+  
+    The following is a list of commands that are processed by the FAC Application: 
 **/
 
 /*==========================================================================*/
@@ -242,12 +242,12 @@
     \page cfsfactlm  FAC Application Telemetry
 
     <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
-    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfaccmds</B> </TD>
+    <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfaccmds</B> </TD> 
         <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfactbl</B></TD>
         <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfaccfg</B></TD>
     </TABLE>
-
-    The following is a list of telemetry that is generated by the FAC Application:
+  
+    The following is a list of telemetry that is generated by the FAC Application: 
 **/
 
 /**
@@ -255,7 +255,7 @@
 
     <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
     <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfaccmds</B></TD>
-        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfactlm</B> </TD>
+        <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfactlm</B> </TD> 
         <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfaccfg</B></TD>
     </TABLE>
 
@@ -273,10 +273,10 @@
 
   <TABLE BORDER="1" CELLPADDING="2" WIDTH="60%" ALIGN="CENTER">
   <TR><TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfaccmds</B></TD>
-      <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfactlm</B> </TD>
+      <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfactlm</B> </TD> 
       <TD WIDTH="20%" ALIGN="CENTER"> <B>\ref cfsfactbl</B></TD>
   </TABLE>
-
+  
   The following are configuration parameters used to configure the FAC
   Application either for each platform or for a mission as a whole.
 
@@ -284,31 +284,31 @@
 
 /**
     \page cfsfaccons FAC Application Operational Constraints
-
+  
   (Instructions to the author)
   ====
 
   (Insert text that describes:
     1) situations that would prevent the application from starting
     2) causes for the application to terminate prematurely
-    3) commands that cannot be issued either out of order or without sufficient wait time, etc)
+    3) commands that cannot be issued either out of order or without sufficient wait time, etc) 
 
   Application Termination
   ====
 
-    Potential causes for FAC to terminate prematurely are an error return from the
+    Potential causes for FAC to terminate prematurely are an error return from the 
     software bus in the application main loop or error return from one of the cFE table
-    services functions when FAC tries to do table management (check for updates, dump
-    requests etc.) during each housekeeping cycle.
+    services functions when FAC tries to do table management (check for updates, dump 
+    requests etc.) during each housekeeping cycle. 
 
   Critical Data Store Operation
   ====
-
+    
     When using the Critical Data Store (CDS), the results tables and housekeeping data
-    will only be restored if the application was shut down through cFE Executive Services
-    and exited clean. If this is not the case, default values will be used
-    (see \ref cfsfacfaqs).
-
+    will only be restored if the application was shut down through cFE Executive Services 
+    and exited clean. If this is not the case, default values will be used 
+    (see \ref cfsfacfaqs). 
+    
     Next: \ref cfsfacfaqs <BR>
     Prev: \ref cfsfactbl
 **/
@@ -325,7 +325,7 @@
   <B> (Q)
      What is the basic flow of the application?
   </B> <BR> <BR> <I>
-     The FAC application uses a common application format. When the app starts,
+     The FAC application uses a common application format. When the app starts, 
      initialization is performed, then the app enters an infinite loop waiting for
      commands from the software bus.
   </I>
@@ -335,34 +335,34 @@
   </B> <BR> <BR> <I>
      (Insert text of answer to question above here)
   </I>
-
+  
   <B> (Q)
      (Insert text of frequently asked question here)
   </B> <BR> <BR> <I>
      (Insert text of answer to question above here)
   </I>
-
+  
   <B> (Q)
      (Insert text of frequently asked question here)
   </B> <BR> <BR> <I>
      (Insert text of answer to question above here)
   </I>
-
+  
   (Insert text that categorizes another group of questions, if necessary, here)
   ====
-
+    
   <B> (Q)
      (Insert text of frequently asked question here)
   </B> <BR> <BR> <I>
      (Insert text of answer to question above here)
   </I>
-
+  
   <B> (Q)
      (Insert text of frequently asked question here)
   </B> <BR> <BR> <I>
      (Insert text of answer to question above here)
   </I>
-
+  
   <B> (Q)
      (Insert text of frequently asked question here)
   </B> <BR> <BR> <I>
