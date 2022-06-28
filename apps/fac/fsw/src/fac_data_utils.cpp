@@ -59,7 +59,6 @@ AppDataProcess::~AppDataProcess()
 
 void AppDataProcess::SendOutData()
 {
-#if 0  // check this
    /* TODO:  Add code to update output data, if needed, here.  */
 
    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&OutData);
@@ -68,7 +67,6 @@ void AppDataProcess::SendOutData()
    {
       /* TODO: Decide what to do if the send message fails. */
    }
-#endif
 }
 
 void AppDataProcess::ProcessNewConfigTbl()
@@ -224,16 +222,25 @@ int32 AppDataProcess::RcvDataMsg(int32 iBlocking)
          switch (DataMsgId)
          {
             case PX4_AIRSPEED_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_AIRSPEED_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
                CFE_PSP_MemCpy(&CVT.Airspeed, DataMsgPtr,
                               sizeof(CVT.Airspeed));  // check vector
                break;
 
             case PX4_BATTERY_STATUS_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_BATTERY_STATUS_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
                CFE_PSP_MemCpy(&CVT.BatteryStatus, DataMsgPtr,
                               sizeof(CVT.BatteryStatus));  // check vector
                break;
 
             case PX4_MANUAL_CONTROL_SETPOINT_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_MANUAL_CONTROL_SETPOINT_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
                CFE_PSP_MemCpy(&CVT.ManualControlSetpoint, DataMsgPtr,
                               sizeof(CVT.ManualControlSetpoint));
                break;
@@ -245,32 +252,50 @@ int32 AppDataProcess::RcvDataMsg(int32 iBlocking)
 #endif
 
             case PX4_VEHICLE_ATTITUDE_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_VEHICLE_ATTITUDE_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
                CFE_PSP_MemCpy(&CVT.VehicleAttitude, DataMsgPtr,
                               sizeof(CVT.VehicleAttitude));
                break;
 
             case PX4_VEHICLE_ATTITUDE_SETPOINT_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_VEHICLE_ATTITUDE_SETPOINT_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
                CFE_PSP_MemCpy(&CVT.VehicleAttitudeSetpoint, DataMsgPtr,
                               sizeof(CVT.VehicleAttitudeSetpoint));
                break;
 
             case PX4_VEHICLE_CONTROL_MODE_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_VEHICLE_CONTROL_MODE_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
                CFE_PSP_MemCpy(&CVT.VehicleControlMode, DataMsgPtr,
                               sizeof(CVT.VehicleControlMode));
                break;
 
 
             case PX4_VEHICLE_GLOBAL_POSITION_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_VEHICLE_GLOBAL_POSITION_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
                CFE_PSP_MemCpy(&CVT.VehicleGlobalPosition, DataMsgPtr,
                               sizeof(CVT.VehicleGlobalPosition));
                break;
 
             case PX4_VEHICLE_LAND_DETECTED_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_VEHICLE_LAND_DETECTED_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
                CFE_PSP_MemCpy(&CVT.VehicleLandDetected, DataMsgPtr,
                               sizeof(CVT.VehicleLandDetected));
                break;
 
             case PX4_VEHICLE_STATUS_MID:
+               CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                 "RcvDataMsg:Rcvd PX4_VEHICLE_STATUS_MID 0x%04X (0x%08X)",
+                                 (unsigned short)DataMsgId, (unsigned int)iStatus);
                CFE_PSP_MemCpy(&CVT.VehicleStatus, DataMsgPtr,
                               sizeof(CVT.VehicleStatus));
                break;
