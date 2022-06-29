@@ -123,7 +123,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/LabCalibrate', args);]]>
     <name>Help</name>
     <actions>
       <action type="open_webpage">
-        <url>https://windhoverlabs.atlassian.net/wiki/spaces/~626004280f5cf500697ed4c2/pages/2469429249/Calculating+Air+Speed+using+Pitot+Tube#Density-Formula-with-Height</url>
+        <url>https://windhoverlabs.atlassian.net/wiki/spaces/~626004280f5cf500697ed4c2/pages/2495217691/Commander+Display+Manuals#Lab-Calibration</url>
         <description>Open Web Page</description>
       </action>
     </actions>

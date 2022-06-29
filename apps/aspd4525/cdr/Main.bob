@@ -534,4 +534,17 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/SendHK', {});]]></text>
       <width>184</width>
     </widget>
   </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Help</name>
+    <actions>
+      <action type="open_webpage">
+        <url>https://windhoverlabs.atlassian.net/l/c/rXauQY5v</url>
+        <description>Open Web Page</description>
+      </action>
+    </actions>
+    <text>Help</text>
+    <x>306</x>
+    <y>451</y>
+    <tooltip>$(actions)</tooltip>
+  </widget>
 </display>
