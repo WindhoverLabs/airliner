@@ -197,7 +197,9 @@ obc-sitl:: obc/ppd/sitl obc/cpd/sitl obc/simlink
 	@ln -s cf build/obc/cpd/sitl/target/target/exe/ram || /bin/true
 	@echo 'Done'
 	
-	
+obc-hitl:: obc/ppd obc/cpd obc/simlink/hitl
+	@echo 'Done'
+
 docs-doxygen:
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
 	(cd build/${SPHINX_FSW_BUILD}/target; /usr/bin/cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
