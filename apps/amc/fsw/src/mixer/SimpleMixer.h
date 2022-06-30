@@ -75,7 +75,7 @@ public:
 	SimpleMixer();
 	~SimpleMixer();
 
-	virtual uint32		mix(float *outputs, uint32 space, uint16 *status_reg);
+    virtual uint32		mix(float *outputs, uint32 space, uint16 *status_reg, int i = 0);
 	virtual uint16		get_saturation_status(void);
 	virtual void		groups_required(uint32 &groups);
 

@@ -74,15 +74,15 @@ AMC oAMC;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 AMC::AMC(void)
 {
-	for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
-	{
-		MultirotorMixerObject[i].set_callback(AMC::ControlCallback);
-	}
+    for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
+    {
+        MultirotorMixerObject[i].set_callback(AMC::ControlCallback);
+    }
 
-	for(uint32 i = 0; i < AMC_SIMPLE_MIXER_MAX_MIXERS; ++i)
-	{
-		SimpleMixerObject[i].set_callback(AMC::ControlCallback);
-	}
+    for(uint32 i = 0; i < AMC_SIMPLE_MIXER_MAX_MIXERS; ++i)
+    {
+        SimpleMixerObject[i].set_callback(AMC::ControlCallback);
+    }
 
     return;
 }
@@ -451,30 +451,30 @@ int32 AMC::InitApp(void)
     }
 
     /* Initialize the Multirotor Mixer object. */
-	for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
-	{
-	    iStatus = MultirotorMixerObject[i].Initialize();
-	    if (iStatus != CFE_SUCCESS)
-	    {
-	        CFE_EVS_SendEvent(AMC_MIXER_INIT_ERR_EID, CFE_EVS_ERROR,
-	                "Failed to init Multirotor mixer (0x%08x)",
-	                (unsigned int)iStatus);
-	        goto AMC_InitApp_Exit_Tag;
-	    }
-	}
+    for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
+    {
+        iStatus = MultirotorMixerObject[i].Initialize();
+        if (iStatus != CFE_SUCCESS)
+        {
+            CFE_EVS_SendEvent(AMC_MIXER_INIT_ERR_EID, CFE_EVS_ERROR,
+                    "Failed to init Multirotor mixer (0x%08x)",
+                    (unsigned int)iStatus);
+            goto AMC_InitApp_Exit_Tag;
+        }
+    }
 
-	for(uint32 i = 0; i < AMC_SIMPLE_MIXER_MAX_MIXERS; ++i)
-	{
-	    /* Initialize the Simple mixer object. */
-	    iStatus = SimpleMixerObject[i].Initialize();
-	    if (iStatus != CFE_SUCCESS)
-	    {
-	        CFE_EVS_SendEvent(AMC_MIXER_INIT_ERR_EID, CFE_EVS_ERROR,
-	                "Failed to init Simple mixer (0x%08x)",
-	                (unsigned int)iStatus);
-	        goto AMC_InitApp_Exit_Tag;
-	    }
-	}
+    for(uint32 i = 0; i < AMC_SIMPLE_MIXER_MAX_MIXERS; ++i)
+    {
+        /* Initialize the Simple mixer object. */
+        iStatus = SimpleMixerObject[i].Initialize();
+        if (iStatus != CFE_SUCCESS)
+        {
+            CFE_EVS_SendEvent(AMC_MIXER_INIT_ERR_EID, CFE_EVS_ERROR,
+                    "Failed to init Simple mixer (0x%08x)",
+                    (unsigned int)iStatus);
+            goto AMC_InitApp_Exit_Tag;
+        }
+    }
 
     /* Initialize the PwmLimit object for use. */
     PwmLimit_Init(&PwmLimit);
@@ -575,7 +575,7 @@ int32 AMC::RcvSchPipeMsg(int32 iBlocking)
     else if (iStatus == CFE_SB_TIME_OUT)
     {
         /* TODO: If there's no incoming message within a specified time (via the
-         * iBlocking arg, you can do something here, or nothing.  
+         * iBlocking arg, you can do something here, or nothing.
          * Note, this section is dead code only if the iBlocking arg
          * is CFE_SB_PEND_FOREVER. */
         UpdateMotors();
@@ -886,7 +886,7 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     AMC_DebugCmd_t debugCmd = {0};
                     CFE_PSP_MemCpy(&debugCmd, MsgPtr, sizeof(debugCmd));
                     CFE_EVS_SendEvent(AMC_CMD_DEBUG_INF_EID, CFE_EVS_INFORMATION,
-                            "Received debug command index %hu value %hu", 
+                            "Received debug command index %hu value %hu",
                             debugCmd.Index, debugCmd.Cmd);
 
                     if(debugCmd.Index < AMC_MAX_MOTOR_OUTPUTS)
@@ -916,91 +916,91 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 
             case AMC_SIMPLE_SET_OUTPUT_SCALER_CC:
             {
-            	AMC_SimpleSetOutputScalerCmd_t *cmd = (AMC_SimpleSetOutputScalerCmd_t*)MsgPtr;
+                AMC_SimpleSetOutputScalerCmd_t *cmd = (AMC_SimpleSetOutputScalerCmd_t*)MsgPtr;
 
-            	if(cmd->MixerIndex >= AMC_SIMPLE_MIXER_MAX_MIXERS)
-            	{
+                if(cmd->MixerIndex >= AMC_SIMPLE_MIXER_MAX_MIXERS)
+                {
                     CFE_EVS_SendEvent(AMC_CMD_DEBUG_ERR_EID, CFE_EVS_ERROR,
                             "Invalid Mixer index.");
                     /* Increment the error counter. */
                     HkTlm.usCmdErrCnt++;
-            	}
-            	else
-            	{
-            		int32 status = SimpleMixerObject[cmd->MixerIndex].SetOutputScaler(cmd->OutputScaler);
+                }
+                else
+                {
+                    int32 status = SimpleMixerObject[cmd->MixerIndex].SetOutputScaler(cmd->OutputScaler);
 
-            		if(status < 0)
-            		{
+                    if(status < 0)
+                    {
                         HkTlm.usCmdErrCnt++;
-            		}
-            		else
-            		{
+                    }
+                    else
+                    {
                         HkTlm.usCmdCnt++;
-            		}
-            	}
+                    }
+                }
 
-            	break;
+                break;
             }
 
             case AMC_SIMPLE_SET_CONTROL_CC:
             {
-            	AMC_SimpleSetControlCmd_t *cmd = (AMC_SimpleSetControlCmd_t*)MsgPtr;
+                AMC_SimpleSetControlCmd_t *cmd = (AMC_SimpleSetControlCmd_t*)MsgPtr;
 
-            	if(cmd->MixerIndex >= AMC_SIMPLE_MIXER_MAX_MIXERS)
-            	{
+                if(cmd->MixerIndex >= AMC_SIMPLE_MIXER_MAX_MIXERS)
+                {
                     CFE_EVS_SendEvent(AMC_CMD_DEBUG_ERR_EID, CFE_EVS_ERROR,
                             "Invalid Mixer index.");
                     /* Increment the error counter. */
                     HkTlm.usCmdErrCnt++;
-            	}
-            	else
-            	{
-            		int32 status = SimpleMixerObject[cmd->MixerIndex].SetControl(
-            				cmd->Control,
-							cmd->Group,
-							cmd->Index);
+                }
+                else
+                {
+                    int32 status = SimpleMixerObject[cmd->MixerIndex].SetControl(
+                            cmd->Control,
+                            cmd->Group,
+                            cmd->Index);
 
-            		if(status < 0)
-            		{
+                    if(status < 0)
+                    {
                         HkTlm.usCmdErrCnt++;
-            		}
-            		else
-            		{
+                    }
+                    else
+                    {
                         HkTlm.usCmdCnt++;
-            		}
-            	}
+                    }
+                }
 
-            	break;
+                break;
             }
 
             case AMC_SIMPLE_SET_CONTROL_SCALER_CC:
             {
-            	AMC_SimpleSetControlScalerCmd_t *cmd = (AMC_SimpleSetControlScalerCmd_t*)MsgPtr;
+                AMC_SimpleSetControlScalerCmd_t *cmd = (AMC_SimpleSetControlScalerCmd_t*)MsgPtr;
 
-            	if(cmd->MixerIndex >= AMC_SIMPLE_MIXER_MAX_MIXERS)
-            	{
+                if(cmd->MixerIndex >= AMC_SIMPLE_MIXER_MAX_MIXERS)
+                {
                     CFE_EVS_SendEvent(AMC_CMD_DEBUG_ERR_EID, CFE_EVS_ERROR,
                             "Invalid Mixer index.");
                     /* Increment the error counter. */
                     HkTlm.usCmdErrCnt++;
-            	}
-            	else
-            	{
-            		int32 status = SimpleMixerObject[cmd->MixerIndex].SetControlScaler(
-            				cmd->Control,
-							cmd->Scaler);
+                }
+                else
+                {
+                    int32 status = SimpleMixerObject[cmd->MixerIndex].SetControlScaler(
+                            cmd->Control,
+                            cmd->Scaler);
 
-            		if(status < 0)
-            		{
+                    if(status < 0)
+                    {
                         HkTlm.usCmdErrCnt++;
-            		}
-            		else
-            		{
+                    }
+                    else
+                    {
                         HkTlm.usCmdCnt++;
-            		}
-            	}
+                    }
+                }
 
-            	break;
+                break;
             }
 
             default:
@@ -1032,7 +1032,7 @@ void AMC::ReportHousekeeping(void)
 
     for(i = 0; i < PX4_ACTUATOR_OUTPUTS_MAX; ++i)
     {
-    	HkTlm.Output[i] = ActuatorOutputs.Output[i];
+        HkTlm.Output[i] = ActuatorOutputs.Output[i];
     }
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
@@ -1211,23 +1211,23 @@ void AMC::UpdateMotors(void)
         /* Do mixing */
         ActuatorOutputs.Count = 0;
         /* Disable unused ports by setting their output to NaN */
-//        for (size_t i = ActuatorOutputs.Count;
-//                i < sizeof(ActuatorOutputs.Output)
-//                        / sizeof(ActuatorOutputs.Output[0]);
-//                i++)
-//        {
-//            ActuatorOutputs.Output[i] = NAN;
-//        }
+        for (size_t i = ActuatorOutputs.Count;
+                i < sizeof(ActuatorOutputs.Output)
+                        / sizeof(ActuatorOutputs.Output[0]);
+                i++)
+        {
+            ActuatorOutputs.Output[i] = NAN;
+        }
 
-		for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
-		{
-			ActuatorOutputs.Count += MultirotorMixerObject[i].mix(ActuatorOutputs.Output, 0, 0);
-		}
+        for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
+        {
+            ActuatorOutputs.Count += MultirotorMixerObject[i].mix(ActuatorOutputs.Output, 0, 0);
+        }
 
-		for(uint32 i = 0; i < AMC_SIMPLE_MIXER_MAX_MIXERS; ++i)
-		{
-			ActuatorOutputs.Count += SimpleMixerObject[i].mix(&ActuatorOutputs.Output[ActuatorOutputs.Count], 0, 0);
-		}
+        for(uint32 i = 0; i < AMC_SIMPLE_MIXER_MAX_MIXERS; ++i)
+        {
+            ActuatorOutputs.Count += SimpleMixerObject[i].mix(&ActuatorOutputs.Output[ActuatorOutputs.Count], 0, 0, i);
+        }
 
         PwmLimit_Calc(
                 CVT.ActuatorArmed.Armed,
@@ -1277,40 +1277,40 @@ int32 AMC::ControlCallback(
 
     if(ControlGroup >= PX4_ACTUATOR_CONTROL_COUNT)
     {
-    	status = -1;
-    	goto end_of_function;
+        status = -1;
+        goto end_of_function;
     }
 
     if(ControlIndex >= PX4_ACTUATOR_CONTROL_COUNT)
     {
-    	status = -1;
-    	goto end_of_function;
+        status = -1;
+        goto end_of_function;
     }
 
     switch(ControlGroup)
     {
         case 0:
         {
-        	controls = &oAMC.CVT.ActuatorControls0;
-        	break;
+            controls = &oAMC.CVT.ActuatorControls0;
+            break;
         }
 
         case 1:
         {
-        	controls = &oAMC.CVT.ActuatorControls1;
-        	break;
+            controls = &oAMC.CVT.ActuatorControls1;
+            break;
         }
 
         case 2:
         {
-        	controls = &oAMC.CVT.ActuatorControls2;
-        	break;
+            controls = &oAMC.CVT.ActuatorControls2;
+            break;
         }
 
         case 3:
         {
-        	controls = &oAMC.CVT.ActuatorControls3;
-        	break;
+            controls = &oAMC.CVT.ActuatorControls3;
+            break;
         }
     }
 

@@ -1102,7 +1102,12 @@ void SIMLINK_ProcessPwmOutputs(void)
 					//}
 
                                     // Scale everything else to [-1, 1]
-                                    if(i==2 || i==7 || i==5 || i==6 | i==8 || i==3)
+                                    if(i==5)
+                                    {
+                                        printf("value for i=5------------->1:%f\n", actuatorControlsMsg.controls[i]);
+                                    }
+//                                    if(i==2 || i==7 || i==5 || i==6 || i==8 || i==3)
+                                    if(i==2 || i==7 || i==6 || i==5  || i==8 || i==3)
                                     {
 
 //                                        inValue = (-A D + A Y + B C - B Y)/(C - D) and C!=D and A!=B
@@ -1126,6 +1131,11 @@ void SIMLINK_ProcessPwmOutputs(void)
                                         const float pwm_delta = (PWM_SIM_PWM_MAX_MAGIC - PWM_SIM_PWM_MIN_MAGIC) / 2.f;
 
                                         actuatorControlsMsg.controls[i] = (actuatorControlsMsg.controls[i] - pwm_center) / pwm_delta;
+
+                                        if(i==5)
+                                        {
+                                            printf("value for i=5------------->2:%f\n", actuatorControlsMsg.controls[i]);
+                                        }
                                     }
 				}
 			}

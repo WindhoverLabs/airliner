@@ -248,7 +248,7 @@ float MultirotorMixer::Contrain(float value, float minimum, float maximum)
 }
 
 uint32
-MultirotorMixer::mix(float *outputs, uint32 space, uint16 *status_reg)
+MultirotorMixer::mix(float *outputs, uint32 space, uint16 *status_reg, int index)
 {
 	if(m_Config->RotorCount > 0)
 	{

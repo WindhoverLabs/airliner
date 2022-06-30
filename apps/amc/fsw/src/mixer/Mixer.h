@@ -174,7 +174,7 @@ public:
 	 * @param space			The number of available entries in the output array;
 	 * @return			The number of entries in the output array that were populated.
 	 */
-	virtual uint32		mix(float *outputs, uint32 space, uint16 *status_reg) = 0;
+    virtual uint32		mix(float *outputs, uint32 space, uint16 *status_reg, int) = 0;
 
 	/**
 	 * Get the saturation status.
@@ -227,7 +227,7 @@ protected:
 	 * @param input			The value to be scaled.
 	 * @return			The scaled value.
 	 */
-	static float			scale(const AMC_Mixer_Scaler_t &scaler, float input);
+    static float			scale(const AMC_Mixer_Scaler_t &scaler, float input, float input_zero = 0);
 
 	/**
 	 * Validate a scaler

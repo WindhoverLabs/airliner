@@ -32,7 +32,7 @@
  ****************************************************************************/
 
 #include "Mixer.h"
-
+#include "math/Limits.hpp"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -72,11 +72,11 @@ float Mixer::get_control(uint8 group, uint8 index)
 /* Mixer scale function.                                           */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-float Mixer::scale(const AMC_Mixer_Scaler_t &scaler, float input)
+float Mixer::scale(const AMC_Mixer_Scaler_t &scaler, float input, float input_zero)
 {
     float output;
 
-    if (input < 0.0f)
+    if (input < input_zero)
     {
         output = (input * scaler.NegativeScale) + scaler.Offset;
     }
@@ -85,16 +85,18 @@ float Mixer::scale(const AMC_Mixer_Scaler_t &scaler, float input)
         output = (input * scaler.PositiveScale) + scaler.Offset;
     }
 
-    if (output > scaler.MaxOutput)
-    {
-        output = scaler.MaxOutput;
-    }
-    else if (output < scaler.MinOutput)
-    {
-        output = scaler.MinOutput;
-    }
+//    if (output > scaler.MaxOutput)
+//    {
+//        output = scaler.MaxOutput;
+//    }
+//    else if (output < scaler.MinOutput)
+//    {
+//        output = scaler.MinOutput;
+//    }
 
-    return output;
+
+
+    return  math::constrain(output, scaler.MinOutput, scaler.MaxOutput);;
 }
 
 

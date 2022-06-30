@@ -77,7 +77,7 @@ public:
 
     int32 SetConfig(AMC_MultirotorMixer_Config_t *config);
 
-	virtual uint32		mix(float *outputs, uint32 space, uint16 *status_reg);
+    virtual uint32		mix(float *outputs, uint32 space, uint16 *status_reg, int index =0);
 	virtual uint16		get_saturation_status(void);
 	virtual void		groups_required(uint32 &groups);
 
