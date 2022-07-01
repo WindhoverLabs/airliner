@@ -250,65 +250,6 @@ public:
 
     runwaytakeoff::RunwayTakeoff _runway_takeoff;
 
-    struct {
-        float l1_period;
-        float l1_damping;
-
-        float time_const;
-        float time_const_throt;
-        float min_sink_rate;
-        float max_sink_rate;
-        float max_climb_rate;
-        float climbout_diff;
-        float heightrate_p;
-        float heightrate_ff;
-        float speedrate_p;
-        float throttle_damp;
-        float integrator_gain;
-        float vertical_accel_limit;
-        float height_comp_filter_omega;
-        float speed_comp_filter_omega;
-        float roll_throttle_compensation;
-        float speed_weight;
-        float pitch_damping;
-
-        float airspeed_min;
-        float airspeed_trim;
-        float airspeed_max;
-        float airspeed_trans;
-        boolean airspeed_disabled;
-
-        float pitch_limit_min;
-        float pitch_limit_max;
-        float roll_limit;
-
-        float throttle_min;
-        float throttle_max;
-        float throttle_idle;
-        float throttle_cruise;
-        float throttle_slew_max;
-        float throttle_alt_scale;
-
-        float man_roll_max_rad;
-        float man_pitch_max_rad;
-        float rollsp_offset_rad;
-        float pitchsp_offset_rad;
-
-        float throttle_land_max;
-
-        float land_slope_angle;
-        float land_H1_virt;
-        float land_flare_alt_relative;
-        float land_thrust_lim_alt_relative;
-        float land_heading_hold_horizontal_distance;
-        float land_flare_pitch_min_deg;
-        float land_flare_pitch_max_deg;
-        int32_t land_use_terrain_estimate;
-        float land_airspeed_scale;
-
-//        int32_t vtol_type; Ignore vtol for now
-    } _parameters{};					///< local copies of interesting parameters */
-
     PX4_PositionSetpoint_t _hdg_hold_prev_wp {};		///< position where heading hold started */
     PX4_PositionSetpoint_t _hdg_hold_curr_wp {};		///< position to which heading hold flies */
 
