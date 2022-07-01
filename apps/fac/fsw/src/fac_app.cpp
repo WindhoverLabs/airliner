@@ -840,7 +840,7 @@ int32 FAC_RcvMsg()
       goto RcvMsg_Exit_Tag;
    }
 
-   iStatus = objData.RcvDataMsg(CFE_SB_POLL);
+   iStatus = objData.RcvDataMsg(FAC_DATA_PIPE_PEND_TIME);
    if (iStatus != CFE_SUCCESS)
    {
       goto RcvMsg_Exit_Tag;

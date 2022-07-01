@@ -2713,7 +2713,7 @@ modules:
         value: FAC_CMD_PIPE
       FAC_DATA_PIPE_DEPTH:
         name: FAC_DATA_PIPE_DEPTH
-        value: 5
+        value: 4
       FAC_DATA_PIPE_NAME:
         name: FAC_DATA_PIPE_NAME
         value: FAC_DATA_PIPE

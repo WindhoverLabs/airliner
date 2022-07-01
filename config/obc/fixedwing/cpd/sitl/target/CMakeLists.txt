@@ -53,12 +53,6 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    sliplib
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sliplib/fsw/for_build
-)
-
-buildliner_add_app(
     pq_lib
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
@@ -66,13 +60,19 @@ buildliner_add_app(
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/pq_lib
 )
 
+#buildliner_add_app(
+#    sedlib
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedlib/fsw/for_build
+#    CONFIG_SOURCES
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/sedlib/sedlib_shmem.c
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sedlib/sedlib_config.c
+#)
+
 buildliner_add_app(
-    sedlib
+    sliplib
     EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedlib/fsw/for_build
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/simlink/target/apps/sedlib/sedlib_shmem.c
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sedlib/sedlib_config.c
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sliplib/fsw/for_build
 )
 
 buildliner_add_app(
@@ -87,6 +87,29 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
 )
 
+buildliner_add_app(
+    fac
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fac/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/fac
+)
+
+buildliner_add_app(
+    cf
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/cf/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/cf
+)
+
+#buildliner_add_app(
+#    to
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to
+#    CONFIG_SOURCES
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_slip_sed.c
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/tables/to_backup_cfg.c
+#)
 
 # sch_custom_v1.c:  Traditional platform independent layer that uses OS_Timer 
 #                   to drive minor frames.
@@ -105,36 +128,3 @@ buildliner_add_app(
 #    CONFIG_SOURCES
 #        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch/sch_custom_v1.c
 #)
-
-buildliner_add_app(
-    cf
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/cf/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/cf
-)
-
-buildliner_add_app(
-    ci
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci/ci_slip_sed.c
-)
-
-buildliner_add_app(
-    to
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_slip_sed.c
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/tables/to_backup_cfg.c
-)
-
-buildliner_add_app(
-    fac
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fac/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/fac
-)
