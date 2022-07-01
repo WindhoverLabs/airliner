@@ -63,7 +63,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    20.0f,
 
     /**
      * L1_DAMPING
@@ -78,7 +78,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    0.75f,
 
     /**
      * T_TIME_CONST
@@ -93,7 +93,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    5.0f,
 
     /**
      * T_THRO_CONST
@@ -108,7 +108,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    8.0f,
 
     /**
      * T_SINK_MIN
@@ -123,7 +123,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    2.0f,
 
     /**
      * T_SINK_MAX
@@ -138,7 +138,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    5.0f,
 
     /**
      * T_CLMB_MAX
@@ -153,7 +153,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    5.0f,
 
 
     /**
@@ -169,7 +169,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    10.0f,
 
 
     /**
@@ -185,7 +185,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    0.05f,
 
     /**
      * T_HRATE_FF
@@ -200,7 +200,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    0.8f,
 
     /**
      * T_SRATE_P
@@ -215,7 +215,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    0.02f,
 
     /**
      * T_THR_DAMP
@@ -230,7 +230,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    0.5f,
 
     /**
      * T_INTEG_GAIN
@@ -245,7 +245,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    0.1f,
 
     /**
      * T_VERT_ACC
@@ -260,7 +260,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    7.0f,
 
     /**
      * T_HGT_OMEGA
@@ -290,7 +290,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    3.0f,
 
 
     /**
@@ -306,7 +306,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+     15.0f,
 
 
     /**
@@ -322,7 +322,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+     1.0f,
 
     /**
      * T_PTCH_DAMP
@@ -352,7 +352,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    5.0,
+    10.0,
 
     /**
      * AIRSPD_TRIM
@@ -367,7 +367,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    10.0f,
+    15.0f,
 
     /**
      * AIRSPD_MAX
@@ -382,22 +382,15 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    10.0f,
+    20.0f,
 
     /**
      * ARSP_MODE
-     * Minimum thrust in auto thrust control
+     * Airspeed disabled.
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
-     *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0,
+    FALSE,
 
 
     /**
@@ -413,7 +406,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    -45.0f,
 
     /**
      * P_LIM_MAX
@@ -428,7 +421,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    45.0f,
 
     /**
      * R_LIM
@@ -443,7 +436,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    50.0f,
 
     /**
      * THR_MIN
@@ -473,7 +466,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    1.0f,
 
     /**
      * THR_IDLE
@@ -488,7 +481,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    0.15f,
 
 
     /**
@@ -504,20 +497,16 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    0.6f,
 
     /**
      * THR_SLEW_MAX
-     * Minimum thrust in auto thrust control
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * Maximum slew rate for the commanded throttle
      *
-     * @unit norm
-     * @min 0.05
+     * @min 0.0
      * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @group FW L1 Control
      */
     0.0f,
 
@@ -549,7 +538,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    45.0f,
 
     /**
      * MAN_P_MAX
@@ -564,7 +553,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    45.0f,
 
     /**
      * RSP_OFF
@@ -609,7 +598,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    1.0f,
 
     /**
      * LND_ANG
@@ -624,7 +613,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    5.0f,
 
     /**
      * LND_HVIRT
@@ -639,7 +628,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    10.0f,
 
     /**
      * LND_FLALT
@@ -654,7 +643,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    8.0f,
 
     /**
      * LND_TLALT
@@ -669,7 +658,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    -1.0f,
 
     /**
      * LND_HHDIST
@@ -684,7 +673,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    15.0f,
 
     /**
      * LND_FL_PMIN
@@ -699,7 +688,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    2.5f,
 
     /**
      * LND_FL_PMAX
@@ -714,20 +703,14 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    15.0f,
 
     /**
      * LND_USETER
-     * Minimum thrust in auto thrust control
+     * Use terrain estimate during landing
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
-     *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @boolean
+     * @group FW L1 Control
      */
     0.0f,
 
@@ -744,7 +727,196 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    1.3f,
+
+
+    {
+        /**
+         * @file launchdetection_params.c
+         *
+         * Parameters for launchdetection
+         *
+         * @author Thomas Gubler <thomasgubler@gmail.com>
+
+        /*
+         * Catapult launch detection parameters, accessible via MAVLink
+         *
+
+        /**LAUN_ALL_ON
+         * Launch detection
+         *
+         * @boolean
+         * @group FW Launch detection
+         */
+         0,
+
+        /**
+         * LAUN_CAT_A
+         * Catapult accelerometer threshold.
+         *
+         * LAUN_CAT_A for LAUN_CAT_T serves as threshold to trigger launch detection.
+         *
+         * @unit m/s/s
+         * @min 0
+         * @decimal 1
+         * @increment 0.5
+         * @group FW Launch detection
+         */
+         0,
+
+        /**
+         * Catapult time threshold.
+         * LAUN_CAT_T
+         * LAUN_CAT_A for LAUN_CAT_T serves as threshold to trigger launch detection.
+         *
+         * @unit s
+         * @min 0.0
+         * @max 5.0
+         * @decimal 2
+         * @increment 0.05
+         * @group FW Launch detection
+         */
+         0,
+
+        /**
+         * Motor delay
+         * LAUN_CAT_MDEL
+         * Delay between starting attitude control and powering up the throttle (giving throttle control to the controller)
+         * Before this timespan is up the throttle will be set to FW_THR_IDLE, set to 0 to deactivate
+         *
+         * @unit s
+         * @min 0.0
+         * @max 10.0
+         * @decimal 1
+         * @increment 0.5
+         * @group FW Launch detection
+         */
+         0,
+
+        /**
+         * LAUN_CAT_PMAX
+         * Maximum pitch before the throttle is powered up (during motor delay phase)
+         *
+         * This is an extra limit for the maximum pitch which is imposed in the phase before the throttle turns on.
+         * This allows to limit the maximum pitch angle during a bungee launch (make the launch less steep).
+         *
+         * @unit deg
+         * @min 0.0
+         * @max 45.0
+         * @decimal 1
+         * @increment 0.5
+         * @group FW Launch detection
+         */
+        0
+    },
+    {
+        /**
+         * RWTO_TKOFF
+         * Runway takeoff with landing gear
+         *
+         * @boolean
+         * @group Runway Takeoff
+         */
+        FALSE,
+
+        /**
+         * RWTO_HDG
+         * Specifies which heading should be held during runnway takeoff.
+         *
+         * 0: airframe heading, 1: heading towards takeoff waypoint
+         *
+         * @value 0 Airframe
+         * @value 1 Waypoint
+         * @min 0
+         * @max 1
+         * @group Runway Takeoff
+         */
+        0,
+        /**
+         * NAV_ALT
+         * Altitude AGL at which we have enough ground clearance to allow some roll.
+         * Until RWTO_NAV_ALT is reached the plane is held level and only
+         * rudder is used to keep the heading (see RWTO_HDG). This should be below
+         * FW_CLMBOUT_DIFF if FW_CLMBOUT_DIFF > 0.
+         *
+         * @unit m
+         * @min 0.0
+         * @max 100.0
+         * @decimal 1
+         * @increment 1
+         * @group Runway Takeoff
+         */
+        5.0,
+        /**
+         * MAX_THR
+         * Max throttle during runway takeoff.
+         * (Can be used to test taxi on runway)
+         *
+         * @unit norm
+         * @min 0.0
+         * @max 1.0
+         * @decimal 2
+         * @increment 0.01
+         * @group Runway Takeoff
+         */
+        1.0,
+        /**
+         * PSP
+         * Pitch setpoint during taxi / before takeoff airspeed is reached.
+         * A taildragger with stearable wheel might need to pitch up
+         * a little to keep it's wheel on the ground before airspeed
+         * to takeoff is reached.
+         *
+         * @unit deg
+         * @min 0.0
+         * @max 20.0
+         * @decimal 1
+         * @increment 0.5
+         * @group Runway Takeoff
+         */
+        0.0,
+        /**
+         * MAX_PITCH
+         * Max pitch during takeoff.
+         * Fixed-wing settings are used if set to 0. Note that there is also a minimum
+         * pitch of 10 degrees during takeoff, so this must be larger if set.
+         *
+         * @unit deg
+         * @min 0.0
+         * @max 60.0
+         * @decimal 1
+         * @increment 0.5
+         * @group Runway Takeoff
+         */
+        20.0,
+        /**
+         * Max roll during climbout.
+         * Roll is limited during climbout to ensure enough lift and prevents aggressive
+         * navigation before we're on a safe height.
+         *
+         * @unit deg
+         * @min 0.0
+         * @max 60.0
+         * @decimal 1
+         * @increment 0.5
+         * @group Runway Takeoff
+         */
+         25,
+        /**
+         * AIRSPD_SCL
+         * Min. airspeed scaling factor for takeoff.
+         * Pitch up will be commanded when the following airspeed is reached:
+         * FW_AIRSPD_MIN * RWTO_AIRSPD_SCL
+         *
+         * @unit norm
+         * @min 0.0
+         * @max 2.0
+         * @decimal 2
+         * @increment 0.01
+         * @group Runway Takeoff
+         */
+         1.3
+    }
 };
 
 
