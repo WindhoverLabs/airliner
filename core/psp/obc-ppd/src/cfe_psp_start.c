@@ -66,7 +66,8 @@
 #define CFE_PSP_RESET_NAME_LENGTH 10
 #define CFE_PSP_MODE_NAME_LENGTH 10
 
-#define CFE_PSP_REMOTEPROC_CMD_START  "start"
+#define CFE_PSP_REMOTEPROC_CMD_START   "start"
+#define CFE_PSP_OVERRIDE_LOAD_CPD_NAME "CFE_PSP_LOAD_CPD_OVERRIDE"
 
 /* Uncomment this define to enable simulated EEPROM support on the desktop machine */
 /* #define CFE_PSP_EEPROM_SUPPORT */
@@ -176,44 +177,58 @@ void CFE_PSP_DrawBanner(void)
 
 void CFE_PSP_StartCPD(char *filename)
 {
-	int fd = 0;
-	ssize_t bytesWritten;
+    int     fd               = 0;
+    ssize_t bytesWritten     = 0;
+    char    *loadCpdOverride = 0;
 
-	printf("CFE_PSP: Starting CPD.\n");
+    loadCpdOverride = getenv(CFE_PSP_OVERRIDE_LOAD_CPD_NAME);
+    if(0 != loadCpdOverride)
+    {
+        if(atoi(loadCpdOverride))
+        {
+            printf("CFE_PSP: Not loading CPD. Override enabled.");
+            goto end_of_function;
+        }
+    }
 
-	fd = open(CFE_PSP_REMOTEPROC_FIRMWARE, O_WRONLY);
-	if(fd < 0)
-	{
-		printf("CFE_PSP: Failed to open remoteproc (firmware). errno=%i\n", errno);
-		return;
-	}
+    printf("CFE_PSP: Starting CPD.\n");
 
-	bytesWritten = write(fd, filename, strlen(filename));
-	if(bytesWritten< 0)
-	{
-		printf("CFE_PSP: Failed to write to remoteproc (firmware). errno=%i\n", errno);
-		return;
-	}
+    fd = open(CFE_PSP_REMOTEPROC_FIRMWARE, O_WRONLY);
+    if(fd < 0)
+    {
+        printf("CFE_PSP: Failed to open remoteproc (firmware). errno=%i\n", errno);
+        return;
+    }
 
-	close(fd);
+    bytesWritten = write(fd, filename, strlen(filename));
+    if(bytesWritten< 0)
+    {
+        printf("CFE_PSP: Failed to write to remoteproc (firmware). errno=%i\n", errno);
+        return;
+    }
 
-	fd = open(CFE_PSP_REMOTEPROC_STATE, O_WRONLY);
-	if(fd < 0)
-	{
-		printf("CFE_PSP: Failed to open remoteproc (state). errno=%i\n", errno);
-		return;
-	}
+    close(fd);
 
-	bytesWritten = write(fd, CFE_PSP_REMOTEPROC_CMD_START, strlen(CFE_PSP_REMOTEPROC_CMD_START));
-	if(bytesWritten< 0)
-	{
-		printf("CFE_PSP: Failed to write to remoteproc (state). errno=%i\n", errno);
-		return;
-	}
+    fd = open(CFE_PSP_REMOTEPROC_STATE, O_WRONLY);
+    if(fd < 0)
+    {
+        printf("CFE_PSP: Failed to open remoteproc (state). errno=%i\n", errno);
+        return;
+    }
 
-	close(fd);
+    bytesWritten = write(fd, CFE_PSP_REMOTEPROC_CMD_START, strlen(CFE_PSP_REMOTEPROC_CMD_START));
+    if(bytesWritten< 0)
+    {
+        printf("CFE_PSP: Failed to write to remoteproc (state). errno=%i\n", errno);
+        return;
+    }
 
-	printf("CFE_PSP: CPD started.\n");
+    close(fd);
+
+    printf("CFE_PSP: CPD started.\n");
+
+end_of_function:
+    return;
 }
 
                                                                                                                                                             
@@ -332,7 +347,7 @@ void PSP_Main(int argc, char *argv[])
    */
    CFE_PSP_ProcessArgumentDefaults(&CommandData);
 
-   printf("CFE_PSP:  GIT hash = %s", CFE_PSP_GIT_VERSION);
+   printf("CFE_PSP:  GIT hash = %s\n", CFE_PSP_GIT_VERSION);
 
    CFE_PSP_StartCPD(CFE_PSP_CPD_FILENAME);
 
