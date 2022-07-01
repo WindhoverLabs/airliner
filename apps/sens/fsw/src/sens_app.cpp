@@ -341,9 +341,9 @@ int32 SENS::RcvSchPipeMsg(int32 iBlocking)
                 ReportHousekeeping();
                 break;
 
-            case PX4_ACTUATOR_CONTROLS_0_MID:
-                memcpy(&CVT.ActuatorControls0Msg, MsgPtr, sizeof(CVT.ActuatorControls0Msg));
-                break;
+//            case PX4_ACTUATOR_CONTROLS_0_MID:
+//                memcpy(&CVT.ActuatorControls0Msg, MsgPtr, sizeof(CVT.ActuatorControls0Msg));
+//                break;
 
             case PX4_INPUT_RC_MID:
                 memcpy(&CVT.InputRcMsg, MsgPtr, sizeof(CVT.InputRcMsg));

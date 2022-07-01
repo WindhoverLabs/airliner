@@ -1075,6 +1075,7 @@ void FAC::RunController(void)
 
 				/* Run attitude RATE controllers which need the desired attitudes from above, add trim */
 				float roll_u = _roll_ctrl.control_euler_rate(control_input);
+				printf("2\n");
 				m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_ROLL] = (isfinite(roll_u)) ? roll_u + ParamTblPtr->TRIM_ROLL :
 						ParamTblPtr->TRIM_ROLL;
 
@@ -1139,6 +1140,7 @@ void FAC::RunController(void)
 			_yaw_ctrl.set_bodyrate_setpoint(CVT.ManualControlSp.R * math::radians(ParamTblPtr->FW_ACRO_Z_MAX));
 
 			float roll_u = _roll_ctrl.control_bodyrate(control_input);
+			printf("2   %0.3f  %0.3f   %0.3f  %0.3f  %0.3f\n", ParamTblPtr->FW_ACRO_X_MAX, math::radians(ParamTblPtr->FW_ACRO_X_MAX), CVT.ManualControlSp.Y, roll_u, ParamTblPtr->TRIM_ROLL);
 			m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_ROLL] = (isfinite(roll_u)) ? roll_u + ParamTblPtr->TRIM_ROLL :
 					ParamTblPtr->TRIM_ROLL;
 
@@ -1172,9 +1174,9 @@ void FAC::RunController(void)
 	else
 	{
 		/* Manual/direct control */
-		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_ROLL] = CVT.ManualControlSp.Y * ParamTblPtr->FW_MAN_R_SC + ParamTblPtr->TRIM_ROLL;
-		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_PITCH] = -CVT.ManualControlSp.X * ParamTblPtr->FW_MAN_P_SC + ParamTblPtr->TRIM_PITCH;
-		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_YAW] = CVT.ManualControlSp.R * ParamTblPtr->FW_MAN_Y_SC + ParamTblPtr->TRIM_YAW;
+		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_ROLL]  = CVT.ManualControlSp.Y * ParamTblPtr->FW_MAN_R_SC + ParamTblPtr->TRIM_ROLL;
+		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_PITCH] = CVT.ManualControlSp.X * ParamTblPtr->FW_MAN_P_SC + ParamTblPtr->TRIM_PITCH;
+		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_YAW]   = CVT.ManualControlSp.R * ParamTblPtr->FW_MAN_Y_SC + ParamTblPtr->TRIM_YAW;
 		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_THROTTLE] = CVT.ManualControlSp.Z;
 	}
 

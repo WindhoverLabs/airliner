@@ -22,7 +22,8 @@ VM_ConfigTbl_t VM_ConfigTbl =
     /* COM_LOW_BAT_ACT      */     1,
     /* COM_HOME_H_T         */   5.0,
     /* COM_HOME_V_T         */  10.0,
-    /* HOME_POS_ALT_PADDING */   0.0
+    /* HOME_POS_ALT_PADDING */   0.0,
+	/* VEHICLE_TYPE         */   VM_VEHICLE_TYPE_FIXED_WING
 
 };
 

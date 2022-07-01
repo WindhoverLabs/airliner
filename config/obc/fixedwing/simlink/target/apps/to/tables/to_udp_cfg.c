@@ -75,7 +75,8 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {SEDPWM_HK_TLM_MID,                      1, TO_PQUEUE_HK_IDX},
         {MS5611_HK_TLM_MID,                      1, TO_PQUEUE_HK_IDX},
         {RFD900X_HK_TLM_MID,                     1, TO_PQUEUE_HK_IDX},
-        {CVT_HK_TLM_MID,                         1, TO_PQUEUE_HK_IDX}
+        {CVT_HK_TLM_MID,                         1, TO_PQUEUE_HK_IDX},
+        {ASPD4525_HK_TLM_MID,                    1, TO_PQUEUE_HK_IDX}
   },{
         /* Priority Queues */
         /* TO_PQUEUE_SINGLE_PASS_IDX */
