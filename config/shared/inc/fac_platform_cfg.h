@@ -6,7 +6,7 @@ extern "C" {
 #endif
 
 /*
-** FAC Platform Configuration Parameter Definitions
+** fac Platform Configuration Parameter Definitions
 */
 
 /** \brief Mission specific version number for FAC application
@@ -73,12 +73,26 @@ extern "C" {
 */
 #define FAC_CMD_PIPE_DEPTH             (15)
 
-/** \brief Pipe name for the Scheduler pipe 
+/** \brief Pipe name for the command pipe
 **
 **  \par Limits:
 **       Note, this name must fit in OS_MAX_API_NAME.
 */
 #define FAC_CMD_PIPE_NAME              ("FAC_CMD_PIPE")
+
+/** \brief Pipe depth for the data pipe
+**
+**  \par Limits:
+**       minimum of 1, max of CFE_SB_MAX_PIPE_DEPTH.
+*/
+#define FAC_DATA_PIPE_DEPTH             (8)
+
+/** \brief Pipe name for the data pipe
+**
+**  \par Limits:
+**       Note, this name must fit in OS_MAX_API_NAME.
+*/
+#define FAC_DATA_PIPE_NAME              ("FAC_DATA_PIPE")
 
 /** \brief The config table default filename
 **

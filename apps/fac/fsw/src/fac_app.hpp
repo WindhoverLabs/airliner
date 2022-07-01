@@ -80,22 +80,6 @@ enum vtol_type {
 };
 
 
-/** \brief Pipe name for the Scheduler pipe
-**
-**  \par Limits:
-**       Note, this name must fit in OS_MAX_API_NAME.
-*/
-#define FAC_DATA_PIPE_NAME             ("FAC_DATA_PIPE")
-
-
-/** \brief Pipe depth for the data pipe
-**
-**  \par Limits:
-**       minimum of 1, max of CFE_SB_MAX_PIPE_DEPTH.
-*/
-#define FAC_DATA_PIPE_DEPTH            (8)
-
-
 /************************************************************************
  ** Local Structure Definitions
  *************************************************************************/

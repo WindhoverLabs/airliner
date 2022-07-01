@@ -206,19 +206,17 @@ modules:
         definition: ${PROJECT_SOURCE_DIR}/apps/fac/wh_design.yaml
         telemetry:
           FAC_HK_TLM_MID:
-            msgID: 0x0B58
-          FAC_OUT_DATA_MID:
-            msgID: 0x0B59
+            msgID: 0x0B62
         commands:
           FAC_CMD_MID:
-            msgID: 0x1B5A
+            msgID: 0x1B63
+          FAC_RUN_CONTROLLER_MID:
+            msgID: 0x1B64
           FAC_SEND_HK_MID:
-            msgID: 0x1B5B
-          FAC_WAKEUP_MID:
-            msgID: 0x1B5C
+            msgID: 0x1B65
         perfids:
           FAC_MAIN_TASK_PERF_ID:
-            id: 50
+            id: 68
 
       fm:
         definition: ${PROJECT_SOURCE_DIR}/apps/fm/wh_design.yaml

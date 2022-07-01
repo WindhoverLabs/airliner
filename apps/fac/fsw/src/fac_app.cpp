@@ -429,6 +429,9 @@ int32 FAC::RcvSchPipeMsg(int32 iBlocking)
         {
             case FAC_SEND_HK_MID:
             {
+                (void) CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                  "Recvd FAC_SEND_HK_MID cmd (%u)",
+                                  (unsigned int)MsgId);
                 ProcessNewCmds();
                 ReportHousekeeping();
                 break;
@@ -436,6 +439,9 @@ int32 FAC::RcvSchPipeMsg(int32 iBlocking)
 
             case FAC_RUN_CONTROLLER_MID:
             {
+                (void) CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
+                                  "Recvd FAC_RUN_CONTROLLER_MID cmd (%u)",
+                                  (unsigned int)MsgId);
             	if(ProcessIncomingData() == true)
             	{
                     RunController();

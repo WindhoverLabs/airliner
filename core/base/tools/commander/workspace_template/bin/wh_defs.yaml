@@ -2632,28 +2632,20 @@ modules:
         id: 1
       FAC_INIT_INF_EID:
         id: 2
-      FAC_CONFIG_TABLE_INF_EID:
-        id: 3
-      FAC_CDS_INF_EID:
-        id: 4
       FAC_CMD_INF_EID:
-        id: 5
-      FAC_ERR_EID:
-        id: 6
+        id: 3
       FAC_INIT_ERR_EID:
-        id: 7
+        id: 4
       FAC_CONFIG_TABLE_ERR_EID:
-        id: 8
-      FAC_CDS_ERR_EID:
-        id: 9
-      FAC_CMD_ERR_EID:
-        id: 10
+        id: 5
       FAC_PIPE_ERR_EID:
-        id: 11
+        id: 6
       FAC_MSGID_ERR_EID:
-        id: 12
+        id: 7
       FAC_MSGLEN_ERR_EID:
-        id: 13
+        id: 8
+      FAC_TBL_VALIDATE_ERR_EID:
+        id: 9
     telemetry:
       FAC_HK_TLM_MID:
         msgID:
@@ -2664,22 +2656,22 @@ modules:
         commands:
           Noop:
             cc: 0
-            struct: FAC_NoArgCmd_t
+            struct: CFE_SB_CmdHdr_t
           Reset:
             cc: 1
-            struct: FAC_NoArgCmd_t
+            struct: CFE_SB_CmdHdr_t
+      FAC_RUN_CONTROLLER_MID:
+        msgID:
+        commands:
+          RunController:
+            cc: 0
+            struct: CFE_SB_CmdHdr_t
       FAC_SEND_HK_MID:
         msgID:
         commands:
           SendHK:
             cc: 0
-            struct: FAC_NoArgCmd_t
-      FAC_WAKEUP_MID:
-        msgID:
-        commands:
-          WakeUp:
-            cc: 0
-            struct: FAC_NoArgCmd_t
+            struct: CFE_SB_CmdHdr_t
     perfids:
       FAC_MAIN_TASK_PERF_ID:
         id:
@@ -2692,7 +2684,7 @@ modules:
         value: 0
       FAC_SCH_PIPE_DEPTH:
         name: FAC_SCH_PIPE_DEPTH
-        value: 2
+        value: 15
       FAC_SCH_PIPE_NAME:
         name: FAC_SCH_PIPE_NAME
         value: FAC_SCH_PIPE
@@ -2707,19 +2699,19 @@ modules:
         value: 1
       FAC_CMD_PIPE_DEPTH:
         name: FAC_CMD_PIPE_DEPTH
-        value: 4
+        value: 15
       FAC_CMD_PIPE_NAME:
         name: FAC_CMD_PIPE_NAME
         value: FAC_CMD_PIPE
       FAC_DATA_PIPE_DEPTH:
         name: FAC_DATA_PIPE_DEPTH
-        value: 5
+        value: 8
       FAC_DATA_PIPE_NAME:
         name: FAC_DATA_PIPE_NAME
         value: FAC_DATA_PIPE
-      FAC_CONFIG_TABLE_FILENAME:
-        name: FAC_CONFIG_TABLE_FILENAME
-        value: /cf/apps/fac_config.tbl
+      FAC_PARAM_TABLE_FILENAME:
+        name: FAC_PARAM_TABLE_FILENAME
+        value: /cf/apps/fac_param.tbl
       FAC_STARTUP_TIMEOUT_MSEC:
         name: FAC_STARTUP_TIMEOUT_MSEC
         value: 1000

@@ -58,13 +58,13 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sliplib/fsw/for_build
 )
 
-buildliner_add_app(
-    pq_lib
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
-    # TODO move this table build to sbn module?
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/pq_lib
-)
+#buildliner_add_app(
+#    pq_lib
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
+#    # TODO move this table build to sbn module?
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/pq_lib
+#)
 
 buildliner_add_app(
     sedlib
@@ -137,11 +137,4 @@ buildliner_add_app(
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/fac/fsw/for_build
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/fac
-)
-
-buildliner_add_app(
-    aspd4525
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/aspd4525/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/obc/fixedwing/cpd/apps/aspd4525
 )

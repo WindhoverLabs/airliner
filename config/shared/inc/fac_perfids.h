@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#include "perf_ids.h"
+#define FAC_MAIN_TASK_PERF_ID       68
 
 #ifdef __cplusplus
 }
