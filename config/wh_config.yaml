@@ -1,9 +1,0 @@
----
-config_base: ${PROJECT_SOURCE_DIR}
-
-modules:  
-  core:
-    modules:   
-      cfe:
-        definition: ${PROJECT_SOURCE_DIR}/core/base/cfe/wh_design.yaml
-    
