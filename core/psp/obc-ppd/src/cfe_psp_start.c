@@ -186,7 +186,7 @@ void CFE_PSP_StartCPD(char *filename)
     {
         if(atoi(loadCpdOverride))
         {
-            printf("CFE_PSP: Not loading CPD. Override enabled.");
+            printf("CFE_PSP: Not loading CPD. Override enabled.\n");
             goto end_of_function;
         }
     }
