@@ -760,7 +760,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.5
          * @group FW Launch detection
          */
-         0,
+         30,
 
         /**
          * Catapult time threshold.
@@ -774,7 +774,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.05
          * @group FW Launch detection
          */
-         0,
+         0.05f,
 
         /**
          * Motor delay
@@ -792,7 +792,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          0,
 
         /**
-         * LAUN_CAT_PMAX
+         * LAUN_CAT_PMAX_RADIANS
          * Maximum pitch before the throttle is powered up (during motor delay phase)
          *
          * This is an extra limit for the maximum pitch which is imposed in the phase before the throttle turns on.
@@ -805,7 +805,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.5
          * @group FW Launch detection
          */
-        0
+        DEG_TO_RADIANS(30)
     },
     {
         /**

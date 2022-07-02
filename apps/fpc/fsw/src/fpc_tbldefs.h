@@ -141,7 +141,7 @@ typedef struct
      * @increment 0.5
      * @group FW Launch detection
      */
-    float LAUN_CAT_PMAX;
+    float LAUN_CAT_PMAX_RADIANS;
 
 } FPC_Launch_Detection_t;
 

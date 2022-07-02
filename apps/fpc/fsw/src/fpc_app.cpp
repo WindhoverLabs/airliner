@@ -778,6 +778,13 @@ void FPC::UpdateParamsFromTable(void)
         _tecs.set_speedrate_p(ConfigTblPtr->T_SRATE_P);
 
     }
+
+    _launchDetector.Initialize(ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_A,
+                               ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_T,
+                               ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_MDEL,
+                               ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_PMAX_RADIANS,
+                               ConfigTblPtr->FPC_Launch_Detection.LAUN_ALL_ON
+                               );
 }
 
 
@@ -1709,8 +1716,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
                     /* select maximum pitch: the launchdetector may impose another limit for the pitch
                      * depending on the state of the launch */
-                    float takeoff_pitch_max_deg = _launchDetector.getPitchMax(math::degrees(ConfigTblPtr->P_LIM_MAX_RADIANS));
-                    float takeoff_pitch_max_rad = math::radians(takeoff_pitch_max_deg);
+                    float takeoff_pitch_max_rad = _launchDetector.getPitchMax(math::degrees(ConfigTblPtr->P_LIM_MAX_RADIANS));
 
                     float altitude_error = pos_sp_curr.Alt - m_VehicleGlobalPositionMsg.Alt;
 
