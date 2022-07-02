@@ -727,7 +727,7 @@ void FPC::UpdateParamsFromTable(void)
             ConfigTblPtr->LND_TLALT = 0.66f * ConfigTblPtr->LND_FLALT;
         }
         /* Update the landing slope */
-        m_LandingSlope.update(math::radians(ConfigTblPtr->LND_ANG), ConfigTblPtr->LND_FLALT,
+        m_LandingSlope.update(ConfigTblPtr->LND_ANG_RADIANS, ConfigTblPtr->LND_FLALT,
                      ConfigTblPtr->LND_TLALT, ConfigTblPtr->LND_HVIRT);
 
         /* Update and publish the navigation capabilities */
@@ -744,11 +744,7 @@ void FPC::UpdateParamsFromTable(void)
 
         /* L1 control parameters */
 
-        ConfigTblPtr->MAN_R_MAX = math::radians(ConfigTblPtr->MAN_R_MAX);
-        ConfigTblPtr->MAN_P_MAX = math::radians(ConfigTblPtr->MAN_P_MAX);
-        ConfigTblPtr->RSP_OFF = math::radians(ConfigTblPtr->RSP_OFF);
-
-        ConfigTblPtr->PSP_OFF = math::radians(ConfigTblPtr->PSP_OFF);
+        ConfigTblPtr->PSP_OFF_RADIANS = ConfigTblPtr->PSP_OFF_RADIANS;
 
 
         /* check if negative value for 2/3 of flare altitude is set for throttle cut */
@@ -759,7 +755,7 @@ void FPC::UpdateParamsFromTable(void)
 
         _l1_control.set_l1_damping(ConfigTblPtr->L1_DAMPING);
         _l1_control.set_l1_period(ConfigTblPtr->L1_PERIOD);
-        _l1_control.set_l1_roll_limit(math::radians(ConfigTblPtr->R_LIM));
+        _l1_control.set_l1_roll_limit(ConfigTblPtr->R_LIM_RADIANS);
 
         _tecs.set_time_const(ConfigTblPtr->T_TIME_CONST);
         _tecs.set_time_const_throt(ConfigTblPtr->T_THRO_CONST);
@@ -1080,12 +1076,12 @@ void FPC::Execute(void)
         m_VehicleAttitudeSetpointMsg.Timestamp = PX4LIB_GetPX4TimeMs();
 
         // add attitude setpoint offsets
-        m_VehicleAttitudeSetpointMsg.RollBody += ConfigTblPtr->RSP_OFF;
-        m_VehicleAttitudeSetpointMsg.PitchBody += ConfigTblPtr->PSP_OFF;
+        m_VehicleAttitudeSetpointMsg.RollBody += ConfigTblPtr->RSP_OFF_RADIANS;
+        m_VehicleAttitudeSetpointMsg.PitchBody += ConfigTblPtr->PSP_OFF_RADIANS;
 
         if (m_VehicleControlModeMsg.ControlManualEnabled) {
-            m_VehicleAttitudeSetpointMsg.RollBody = math::constrain(m_VehicleAttitudeSetpointMsg.RollBody, -ConfigTblPtr->MAN_R_MAX, ConfigTblPtr->MAN_R_MAX);
-            m_VehicleAttitudeSetpointMsg.PitchBody = math::constrain(m_VehicleAttitudeSetpointMsg.PitchBody, -ConfigTblPtr->MAN_P_MAX, ConfigTblPtr->MAN_P_MAX);
+            m_VehicleAttitudeSetpointMsg.RollBody = math::constrain(m_VehicleAttitudeSetpointMsg.RollBody, -ConfigTblPtr->MAN_R_MAX_RADIANS, ConfigTblPtr->MAN_R_MAX_RADIANS);
+            m_VehicleAttitudeSetpointMsg.PitchBody = math::constrain(m_VehicleAttitudeSetpointMsg.PitchBody, -ConfigTblPtr->MAN_P_MAX_RADIANS, ConfigTblPtr->MAN_P_MAX_RADIANS);
         }
 
                         //PX4Lib Math
@@ -1329,13 +1325,13 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
             TecsUpdatePitchThrottle(pos_sp_curr.Alt,
                            CalculateTargetAirspeed(mission_airspeed),
-                           math::radians(ConfigTblPtr->P_LIM_MIN) - ConfigTblPtr->PSP_OFF,
-                           math::radians(ConfigTblPtr->P_LIM_MAX) - ConfigTblPtr->PSP_OFF,
+                           ConfigTblPtr->P_LIM_MIN_RADIANS - ConfigTblPtr->PSP_OFF_RADIANS,
+                           ConfigTblPtr->P_LIM_MAX_RADIANS - ConfigTblPtr->PSP_OFF_RADIANS,
                            ConfigTblPtr->THR_MIN,
                            ConfigTblPtr->THR_MAX,
                            mission_throttle,
                            FALSE,
-                           math::radians(ConfigTblPtr->P_LIM_MIN));
+                           ConfigTblPtr->P_LIM_MIN_RADIANS);
 
         } else if (pos_sp_curr.Type == PX4_SETPOINT_TYPE_LOITER) {
 
@@ -1365,13 +1361,13 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
             TecsUpdatePitchThrottle(alt_sp,
                            CalculateTargetAirspeed(mission_airspeed),
-                           math::radians(ConfigTblPtr->P_LIM_MIN) - ConfigTblPtr->PSP_OFF,
-                           math::radians(ConfigTblPtr->P_LIM_MAX) - ConfigTblPtr->PSP_OFF,
+                           ConfigTblPtr->P_LIM_MIN_RADIANS - ConfigTblPtr->PSP_OFF_RADIANS,
+                           ConfigTblPtr->P_LIM_MAX_RADIANS - ConfigTblPtr->PSP_OFF_RADIANS,
                            ConfigTblPtr->THR_MIN,
                            ConfigTblPtr->THR_MAX,
                            ConfigTblPtr->THR_CRUISE,
                            FALSE,
-                           math::radians(ConfigTblPtr->P_LIM_MIN));
+                           ConfigTblPtr->P_LIM_MIN_RADIANS);
 
         } else if (pos_sp_curr.Type == PX4_SETPOINT_TYPE_LAND) {
 
@@ -1534,13 +1530,13 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
                 TecsUpdatePitchThrottle(terrain_alt + flare_curve_alt_rel,
                                CalculateTargetAirspeed(airspeed_land),
-                               math::radians(ConfigTblPtr->LND_FL_PMIN),
-                               math::radians(ConfigTblPtr->LND_FL_PMAX),
+                               ConfigTblPtr->LND_FL_PMIN_RADIANS,
+                               ConfigTblPtr->LND_FL_PMAX_RADIANS,
                                0.0f,
                                throttle_max,
                                throttle_land,
                                FALSE,
-                               _land_motor_lim ? math::radians(ConfigTblPtr->LND_FL_PMIN) : math::radians(ConfigTblPtr->P_LIM_MIN),
+                               _land_motor_lim ? ConfigTblPtr->LND_FL_PMIN_RADIANS : ConfigTblPtr->P_LIM_MIN_RADIANS,
                                _land_motor_lim ? PX4_TECS_MODE_LAND_THROTTLELIM : PX4_TECS_MODE_LAND);
 
                 if (!_land_noreturn_vertical) {
@@ -1553,7 +1549,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
                 } else {
                     if (m_VehicleGlobalPositionMsg.VelD > 0.1f) {
-                        m_VehicleAttitudeSetpointMsg.PitchBody = math::radians(ConfigTblPtr->LND_FL_PMIN) *
+                        m_VehicleAttitudeSetpointMsg.PitchBody = ConfigTblPtr->LND_FL_PMIN_RADIANS *
                                      math::constrain((_flare_height - (m_VehicleGlobalPositionMsg.Alt - terrain_alt)) / _flare_height, 0.0f, 1.0f);
                     }
 
@@ -1597,13 +1593,13 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
                 TecsUpdatePitchThrottle(terrain_alt + altitude_desired_rel,
                                CalculateTargetAirspeed(airspeed_approach),
-                               math::radians(ConfigTblPtr->P_LIM_MIN),
-                               math::radians(ConfigTblPtr->P_LIM_MAX),
+                               ConfigTblPtr->P_LIM_MIN_RADIANS,
+                               ConfigTblPtr->P_LIM_MAX_RADIANS,
                                ConfigTblPtr->THR_MIN,
                                ConfigTblPtr->THR_MAX,
                                ConfigTblPtr->THR_CRUISE,
                                FALSE,
-                               math::radians(ConfigTblPtr->P_LIM_MIN));
+                               ConfigTblPtr->P_LIM_MIN_RADIANS);
             }
 
         } else if (pos_sp_curr.Type == PX4_SETPOINT_TYPE_TAKEOFF) {
@@ -1644,18 +1640,18 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
                 _l1_control.navigate_waypoints(_runway_takeoff.getStartWP(), curr_wp, curr_pos, nav_speed_2d);
 
                 // update tecs
-                float takeoff_pitch_max_deg = _runway_takeoff.getMaxPitch(ConfigTblPtr->P_LIM_MAX);
+                float takeoff_pitch_max_deg = _runway_takeoff.getMaxPitch(math::degrees(ConfigTblPtr->P_LIM_MAX_RADIANS));
                 float takeoff_pitch_max_rad = math::radians(takeoff_pitch_max_deg);
 
                 TecsUpdatePitchThrottle(pos_sp_curr.Alt,
                                CalculateTargetAirspeed(_runway_takeoff.getMinAirspeedScaling() * ConfigTblPtr->AIRSPD_MIN),
-                               math::radians(ConfigTblPtr->P_LIM_MIN),
+                               ConfigTblPtr->P_LIM_MIN_RADIANS,
                                takeoff_pitch_max_rad,
                                ConfigTblPtr->THR_MIN,
                                ConfigTblPtr->THR_MAX, // XXX should we also set runway_takeoff_throttle here?
                                ConfigTblPtr->THR_CRUISE,
                                _runway_takeoff.climbout(),
-                               math::radians(_runway_takeoff.getMinPitch(pos_sp_curr.PitchMin, 10.0f, ConfigTblPtr->P_LIM_MIN)),
+                               math::radians(_runway_takeoff.getMinPitch(pos_sp_curr.PitchMin, 10.0f, math::degrees(ConfigTblPtr->P_LIM_MIN_RADIANS))),
                                PX4_TECS_MODE_TAKEOFF);
 
                 // assign values
@@ -1713,7 +1709,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
                     /* select maximum pitch: the launchdetector may impose another limit for the pitch
                      * depending on the state of the launch */
-                    float takeoff_pitch_max_deg = _launchDetector.getPitchMax(ConfigTblPtr->P_LIM_MAX);
+                    float takeoff_pitch_max_deg = _launchDetector.getPitchMax(math::degrees(ConfigTblPtr->P_LIM_MAX_RADIANS));
                     float takeoff_pitch_max_rad = math::radians(takeoff_pitch_max_deg);
 
                     float altitude_error = pos_sp_curr.Alt - m_VehicleGlobalPositionMsg.Alt;
@@ -1723,13 +1719,13 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
                         /* enforce a minimum of 10 degrees pitch up on takeoff, or take parameter */
                         TecsUpdatePitchThrottle(pos_sp_curr.Alt,
                                        ConfigTblPtr->AIRSPD_TRIM,
-                                       math::radians(ConfigTblPtr->P_LIM_MIN),
+                                       ConfigTblPtr->P_LIM_MIN_RADIANS,
                                        takeoff_pitch_max_rad,
                                        ConfigTblPtr->THR_MIN,
                                        takeoff_throttle,
                                        ConfigTblPtr->THR_CRUISE,
                                        TRUE,
-                                       math::max(math::radians(pos_sp_curr.PitchMin), math::radians(10.0f)),
+                                       math::max(pos_sp_curr.PitchMin, math::radians(10.0f)),
                                        PX4_TECS_MODE_TAKEOFF);
 
                         /* limit roll motion to ensure enough lift */
@@ -1740,13 +1736,13 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
                     } else {
                         TecsUpdatePitchThrottle(pos_sp_curr.Alt,
                                        CalculateTargetAirspeed(mission_airspeed),
-                                       math::radians(ConfigTblPtr->P_LIM_MIN),
-                                       math::radians(ConfigTblPtr->P_LIM_MAX),
+                                       ConfigTblPtr->P_LIM_MIN_RADIANS,
+                                       ConfigTblPtr->P_LIM_MAX_RADIANS,
                                        ConfigTblPtr->THR_MIN,
                                        takeoff_throttle,
                                        ConfigTblPtr->THR_CRUISE,
                                        FALSE,
-                                       math::radians(ConfigTblPtr->P_LIM_MIN));
+                                       ConfigTblPtr->P_LIM_MIN_RADIANS);
                     }
 
                 } else {
@@ -1758,7 +1754,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
                     /* Set default roll and pitch setpoints during detection phase */
                     m_VehicleAttitudeSetpointMsg.RollBody = 0.0f;
-                    m_VehicleAttitudeSetpointMsg.PitchBody = math::max(math::radians(pos_sp_curr.PitchMin), math::radians(10.0f));
+                    m_VehicleAttitudeSetpointMsg.PitchBody = math::max(pos_sp_curr.PitchMin, math::radians(10.0f));
                 }
             }
         }
@@ -1792,7 +1788,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
             /* reset setpoints from other modes (auto) otherwise we won't
              * level out without new manual input */
-            m_VehicleAttitudeSetpointMsg.RollBody = m_ManualControlSetpointMsg.Y * ConfigTblPtr->MAN_R_MAX;
+            m_VehicleAttitudeSetpointMsg.RollBody = m_ManualControlSetpointMsg.Y * ConfigTblPtr->MAN_R_MAX_RADIANS;
             m_VehicleAttitudeSetpointMsg.YawBody = 0;
         }
 
@@ -1818,8 +1814,8 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
         TecsUpdatePitchThrottle(_hold_alt,
                        altctrl_airspeed,
-                       math::radians(ConfigTblPtr->P_LIM_MIN),
-                       math::radians(ConfigTblPtr->P_LIM_MAX),
+                       ConfigTblPtr->P_LIM_MIN_RADIANS,
+                       ConfigTblPtr->P_LIM_MAX_RADIANS,
                        ConfigTblPtr->THR_MIN,
                        throttle_max,
                        ConfigTblPtr->THR_CRUISE,
@@ -1885,7 +1881,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
             _hdg_hold_enabled = FALSE;
             _yaw_lock_engaged = FALSE;
-            m_VehicleAttitudeSetpointMsg.RollBody = m_ManualControlSetpointMsg.Y * ConfigTblPtr->MAN_R_MAX;
+            m_VehicleAttitudeSetpointMsg.RollBody = m_ManualControlSetpointMsg.Y * ConfigTblPtr->MAN_R_MAX_RADIANS;
             m_VehicleAttitudeSetpointMsg.YawBody = 0;
         }
 
@@ -1920,8 +1916,8 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
         TecsUpdatePitchThrottle(_hold_alt,
                        altctrl_airspeed,
-                       math::radians(ConfigTblPtr->P_LIM_MIN),
-                       math::radians(ConfigTblPtr->P_LIM_MAX),
+                       ConfigTblPtr->P_LIM_MIN_RADIANS,
+                       ConfigTblPtr->P_LIM_MAX_RADIANS,
                        ConfigTblPtr->THR_MIN,
                        throttle_max,
                        ConfigTblPtr->THR_CRUISE,
@@ -1929,7 +1925,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
                        climbout_requested ? math::radians(10.0f) : pitch_limit_min,
                        PX4_TECS_MODE_NORMAL);
 
-        m_VehicleAttitudeSetpointMsg.RollBody = m_ManualControlSetpointMsg.Y * ConfigTblPtr->MAN_R_MAX;
+        m_VehicleAttitudeSetpointMsg.RollBody = m_ManualControlSetpointMsg.Y * ConfigTblPtr->MAN_R_MAX_RADIANS;
         m_VehicleAttitudeSetpointMsg.YawBody = 0;
 
     } else {
@@ -2134,7 +2130,7 @@ void FPC::TecsUpdatePitchThrottle(float alt_sp, float airspeed_sp,
                           || mode == PX4_TECS_MODE_LAND_THROTTLELIM));
 
     /* Using tecs library */
-    float pitch_for_tecs = _pitch - ConfigTblPtr->PSP_OFF;
+    float pitch_for_tecs = _pitch - ConfigTblPtr->PSP_OFF_RADIANS;
 
     // if the vehicle is a tailsitter we have to rotate the attitude by the pitch offset
     // between multirotor and fixed wing flight
@@ -2386,7 +2382,7 @@ void FPC::DoTakeoffHelp(float *hold_altitude, float *pitch_limit_min)
         *pitch_limit_min = math::radians(10.0f);
 
     } else {
-        *pitch_limit_min = ConfigTblPtr->P_LIM_MIN;
+        *pitch_limit_min = ConfigTblPtr->P_LIM_MIN_RADIANS;
     }
 }
 

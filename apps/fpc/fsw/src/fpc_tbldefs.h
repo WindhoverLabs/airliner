@@ -291,9 +291,49 @@ typedef struct
 
     boolean ARSP_MODE;
 
-    float P_LIM_MIN;
-    float P_LIM_MAX;
-    float R_LIM;
+    /**
+     * P_LIM_MIN_RADIANS
+     * Negative pitch limit
+     *
+     * The minimum negative pitch the controller will output.
+     *
+     * @unit deg
+     * @min -60.0
+     * @max 0.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
+     */
+    float P_LIM_MIN_RADIANS;
+
+    /**
+     * Positive pitch limit
+     *
+     * The maximum positive pitch the controller will output.
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 60.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
+     */
+    float P_LIM_MAX_RADIANS;
+
+    /**
+     * R_LIM_RADIANS
+     * Controller roll limit
+     *
+     * The maximum roll the controller will output.
+     *
+     * @unit deg
+     * @min 35.0
+     * @max 65.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
+     */
+    float R_LIM_RADIANS;
 
     float THR_MIN;
     float THR_MAX;
@@ -308,14 +348,14 @@ typedef struct
      *
      *  \par Limits:
      */
-    float MAN_R_MAX;
+    float MAN_R_MAX_RADIANS;
     /** \brief Pitch max in degrees.
      *
      *  \par
      *
      *  \par Limits:
      */
-    float MAN_P_MAX;
+    float MAN_P_MAX_RADIANS;
 
     /** \brief Roll Speed offset in degrees.
      *
@@ -323,7 +363,7 @@ typedef struct
      *
      *  \par Limits:
      */
-    float RSP_OFF;
+    float RSP_OFF_RADIANS;
 
     /** \brief Pitch Speed offset in degrees.
      *
@@ -331,11 +371,21 @@ typedef struct
      *
      *  \par Limits:
      */
-    float PSP_OFF;
+    float PSP_OFF_RADIANS;
 
     float THR_LND_MAX;
 
-    float LND_ANG;
+    /**
+     * Landing slope angle in degrees
+     *
+     * @unit deg
+     * @min 1.0
+     * @max 15.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
+     */
+    float LND_ANG_RADIANS;
 
     float LND_HVIRT;
 
@@ -344,22 +394,36 @@ typedef struct
     float LND_TLALT;
     float LND_HHDIST;
 
-    /** \brief in degrees.
+    /**
+     * Flare, minimum pitch
      *
-     *  \par
+     * Minimum pitch during flare, a positive sign means nose up
+     * Applied once FW_LND_TLALT is reached
      *
-     *  \par Limits:
+     * @unit deg
+     * @min 0
+     * @max 15.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
-    float LND_FL_PMIN;
+    float LND_FL_PMIN_RADIANS;
 
 
-    /** \brief in degrees.
+    /**
+     * Flare, maximum pitch
      *
-     *  \par
+     * Maximum pitch during flare, a positive sign means nose up
+     * Applied once FW_LND_TLALT is reached
      *
-     *  \par Limits:
+     * @unit deg
+     * @min 0
+     * @max 45.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
-    float LND_FL_PMAX;
+    float LND_FL_PMAX_RADIANS;
 
     int32 LND_USETER;
 
