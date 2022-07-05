@@ -58,7 +58,6 @@ private:
 //   void    IncrementCmdCount();
 //   void    IncrementCmdErr();
    void    ReportHousekeeping();
-   void    SendOutData();
 };
 
 

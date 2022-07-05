@@ -118,7 +118,7 @@ int32 AppDataProcess::AcquireConfigPointers()
    iStatus = CFE_TBL_GetAddress((void**)&FAC_AppData.ConfigTblPtr, FAC_AppData.ConfigTblHdl);
    if (iStatus == CFE_SUCCESS)
    {
-#if 0
+#if 1
       CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
                         "Succeeded to get table address @@@@@@@@@ (0x%08X)",
                         (unsigned int)iStatus);
@@ -126,7 +126,7 @@ int32 AppDataProcess::AcquireConfigPointers()
    }
    else if (iStatus == CFE_TBL_INFO_UPDATED)
    {
-#if 0
+#if 1
       CFE_EVS_SendEvent(FAC_INF_EID, CFE_EVS_INFORMATION,
                         "Succeeded to get updated table address !!!!!!!!!!!! (0x%08X)",
                         (unsigned int)iStatus);

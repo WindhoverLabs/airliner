@@ -14,12 +14,6 @@
 **    ObjSize - size of the entire table
 **
 */
-static CFE_TBL_FileDef_t CFE_TBL_FileDef =
-{
-    "FAC_ConfigTbl", "FAC.CONFIG_TBL", "FAC default config table",
-    "fac_config.tbl", sizeof(FAC_ConfigTbl_t)
-};
-
 FAC_ConfigTbl_t FAC_ConfigTbl =
 {
    /**
@@ -582,7 +576,7 @@ FAC_ConfigTbl_t FAC_ConfigTbl =
     * @unit degrees
     * @group FW Attitude Control
     */
-   90,
+   90.0f,
 
    /**
     * Acro body y max rate.
@@ -595,7 +589,7 @@ FAC_ConfigTbl_t FAC_ConfigTbl =
     * @unit degrees
     * @group FW Attitude Control
     */
-   90,
+   90.0f,
 
    /**
     * Acro body z max rate.
@@ -608,7 +602,7 @@ FAC_ConfigTbl_t FAC_ConfigTbl =
     * @unit degrees
     * @group FW Attitude Control
     */
-   45,
+   45.0f,
 
    /**
     * Threshold for Rattitude mode
@@ -623,5 +617,6 @@ FAC_ConfigTbl_t FAC_ConfigTbl =
     * @group FW Attitude Control
     */
    0.8f
-
 };
+
+CFE_TBL_FILEDEF(FAC_ConfigTbl, FAC.CONFIG_TBL, FAC dflt config table, fac_config.tbl)
