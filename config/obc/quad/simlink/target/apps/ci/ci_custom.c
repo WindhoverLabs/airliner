@@ -73,6 +73,7 @@ int32 CI_InitCustom(void)
     }
 
     setsockopt(CI_AppCustomData.Socket, SOL_SOCKET, SO_REUSEADDR, &reuseaddr, sizeof(reuseaddr));
+    fcntl(CI_AppCustomData.Socket, F_SETFL, fcntl(CI_AppCustomData.Socket, F_GETFL, 0) | O_NONBLOCK);
 
     bzero((char *) &address, sizeof(address));
     address.sin_family      = AF_INET;
@@ -96,11 +97,22 @@ end_of_function:
 }
 
 
-void CI_ReadMessage(uint8* buffer, uint32* size)
+void CI_ReadMessage(uint8* Buffer, uint32* outSize)
 {
-	*size = recv(CI_AppCustomData.Socket,
-					   (char *)buffer,
-					   (size_t)size, 0);
+	int size = 0;
+
+	size = recv(CI_AppCustomData.Socket,
+					   (char *)Buffer,
+					   (size_t)&size, 0);
+
+	if(size < 0)
+	{
+		*outSize = 0;
+	}
+	else
+	{
+		*outSize = size;
+	}
 }
 
 

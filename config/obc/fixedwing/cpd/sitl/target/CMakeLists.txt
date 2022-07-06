@@ -97,20 +97,64 @@ buildliner_add_app(
 #                   (SED).  The interrupt handler included in this file does
 #                   not clear the interrupt.  The SED clears the interrupt
 #                   automatically.
-#buildliner_add_app(
-#    sch
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch
-#    CONFIG_SOURCES
-#        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch/sch_custom_v1.c
-#)
+buildliner_add_app(
+    sch
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch/sch_custom_v1.c
+)
 
 buildliner_add_app(
     cf
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cf/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/cf
+)
+
+buildliner_add_app(
+    fm
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fm/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/fm
+)
+
+buildliner_add_app(
+    cs
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/cs/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/cs
+)
+
+buildliner_add_app(
+    md
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/md/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/md
+)
+
+buildliner_add_app(
+    mm
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mm/fsw/for_build
+)
+
+#buildliner_add_app(
+#    hs
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
+#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/hs
+#    CONFIG_SOURCES
+#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/hs/hs_custom.c
+#)
+
+buildliner_add_app(
+    lc
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/lc/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/lc
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/config/shared/apps/lc/src/lc_custom.c
 )
 
 buildliner_add_app(
@@ -133,15 +177,133 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    fac
+    amc
     EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fac/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/fac
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/amc/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc/amc_custom.cpp
+)
+
+
+buildliner_add_app(
+    sens
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sens/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sens
+)
+
+buildliner_add_app(
+    vm
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/vm/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/vm
+)
+
+buildliner_add_app(
+    ld
+    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/multicopter/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/ld
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/fixedwing/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/obc/fixedwing/cpd/apps/ld
+)
+
+buildliner_add_app(
+    nav
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/nav/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/nav
+)
+
+buildliner_add_app(
+    rcin
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/rcin/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/rcin
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/rcin/sed/src/rcin_custom.c
+)
+
+buildliner_add_app(
+    pe
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pe/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/pe
+)
+
+buildliner_add_app(
+    qae
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/qae/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/qae
+)
+
+buildliner_add_app(
+    sc
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sc/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sc
+)
+
+buildliner_add_app(
+    icm20689
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/icm20689/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/icm20689
+)
+
+
+buildliner_add_app(
+    hmc5883
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/hmc5883/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/hmc5883
+    CONFIG_SOURCES ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/hmc5883/src/hmc5883_custom.c
+)
+
+
+buildliner_add_app(
+    ms5611
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ms5611/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ms5611
+    CONFIG_SOURCES ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ms5611/src/ms5611_custom.c
+)
+
+buildliner_add_app(
+    gps
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/gps/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_interface_uart/gps_serial.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_parser_ubx/gps_parser_ubx_common.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_parser_ubx/gps_parser_ubx_nav.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_parser_ubx/gps_parser_ubx_cfg.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_parser_ubx/gps_parser_ubx_ack.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_parser_ubx/gps_parser_ubx_mon.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/gps/src/gps_custom.c
 )
 
 buildliner_add_app(
     aspd4525
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/aspd4525/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/obc/fixedwing/cpd/apps/aspd4525
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/aspd4525
 )
+
+buildliner_add_app(
+    fpc
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fpc/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/fpc
+)
+
+buildliner_add_app(
+    fac
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fac/fsw/for_build
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/fac
+)
+

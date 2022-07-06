@@ -96,11 +96,22 @@ end_of_function:
 }
 
 
-void CI_ReadMessage(uint8* buffer, uint32* size)
+void CI_ReadMessage(uint8* Buffer, uint32* outSize)
 {
-	*size = recv(CI_AppCustomData.Socket,
-					   (char *)buffer,
-					   (size_t)size, 0);
+	int size = 0;
+
+	size = recv(CI_AppCustomData.Socket,
+					   (char *)Buffer,
+					   (size_t)&size, 0);
+
+	if(size < 0)
+	{
+		*outSize = 0;
+	}
+	else
+	{
+		*outSize = size;
+	}
 }
 
 

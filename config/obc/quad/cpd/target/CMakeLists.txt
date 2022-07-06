@@ -344,7 +344,7 @@ buildliner_add_app(
 buildliner_add_app(
     ld
     EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/fsw/for_build
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/multicopter/fsw/for_build
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/ld
 )
 

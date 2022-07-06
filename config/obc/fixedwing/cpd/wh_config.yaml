@@ -600,7 +600,7 @@ modules:
             msgID: 0x1a84              # CMD_MSG(  132 )
     
       ld:
-        definition: ${PROJECT_SOURCE_DIR}/apps/ld/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/apps/ld/fixedwing/wh_design.yaml
         telemetry:
           LD_DIAG_TLM_MID:
             msgID: 0x0a85              # TLM_MSG(  133 )

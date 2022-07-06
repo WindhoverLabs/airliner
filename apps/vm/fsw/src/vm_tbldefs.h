@@ -58,6 +58,14 @@ extern "C" {
  */
 #define VM_CONFIG_TABLENAME ("CONFIG_TBL")
 
+typedef enum
+{
+	VM_VEHICLE_TYPE_UNKNOWN_WING = 0,
+	VM_VEHICLE_TYPE_ROTARY_WING  = 1,
+	VM_VEHICLE_TYPE_FIXED_WING   = 2,
+	VM_VEHICLE_TYPE_VTOL         = 3
+} VM_VehicleType_t;
+
 /** \brief Definition for a single config table entry */
 typedef struct
 {
@@ -150,6 +158,9 @@ typedef struct
      *       None.
      */
     float HOME_POS_ALT_PADDING;
+
+    /* TODO */
+    VM_VehicleType_t VEHICLE_TYPE;
 
 }VM_ConfigTbl_t;
 

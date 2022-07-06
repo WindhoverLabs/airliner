@@ -1172,9 +1172,9 @@ void FAC::RunController(void)
 	else
 	{
 		/* Manual/direct control */
-		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_ROLL] = CVT.ManualControlSp.Y * ParamTblPtr->FW_MAN_R_SC + ParamTblPtr->TRIM_ROLL;
-		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_PITCH] = -CVT.ManualControlSp.X * ParamTblPtr->FW_MAN_P_SC + ParamTblPtr->TRIM_PITCH;
-		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_YAW] = CVT.ManualControlSp.R * ParamTblPtr->FW_MAN_Y_SC + ParamTblPtr->TRIM_YAW;
+		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_ROLL]  = CVT.ManualControlSp.Y * ParamTblPtr->FW_MAN_R_SC + ParamTblPtr->TRIM_ROLL;
+		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_PITCH] = CVT.ManualControlSp.X * ParamTblPtr->FW_MAN_P_SC + ParamTblPtr->TRIM_PITCH;
+		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_YAW]   = CVT.ManualControlSp.R * ParamTblPtr->FW_MAN_Y_SC + ParamTblPtr->TRIM_YAW;
 		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_THROTTLE] = CVT.ManualControlSp.Z;
 	}
 

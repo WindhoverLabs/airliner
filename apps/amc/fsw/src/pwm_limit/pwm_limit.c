@@ -247,7 +247,6 @@ void PwmLimit_Calc(const boolean armed, const boolean pre_armed,
 
         case PWM_LIMIT_STATE_ON:
         {
-            printf("PWM_LIMIT_STATE_ON$$$$$$$$$$$$$$$$\n");
             uint32 i = 0;
             for (i = 0; i < num_channels; ++i)
             {
@@ -276,10 +275,6 @@ void PwmLimit_Calc(const boolean armed, const boolean pre_armed,
                 else if (effective_pwm[i] > max_pwm[i])
                 {
                     effective_pwm[i] = max_pwm[i];
-                }
-                if(i ==2)
-                {
-                    printf("PWM_LIMIT_STATE_ON Value:%d\n", effective_pwm[i] );
                 }
             }
 

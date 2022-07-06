@@ -20,8 +20,8 @@ buildliner_add_app_def(ld
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/ld_msg_overrides.json
     
     REFERENCE_CONFIG
-        ${PROJECT_SOURCE_DIR}/apps/ld/fsw/mission_inc
-        ${PROJECT_SOURCE_DIR}/apps/ld/fsw/platform_inc
+        ${PROJECT_SOURCE_DIR}/apps/ld/multicopter/fsw/mission_inc
+        ${PROJECT_SOURCE_DIR}/apps/ld/multicopter/fsw/platform_inc
         
     COMMANDER_DISPLAYS 
         ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr

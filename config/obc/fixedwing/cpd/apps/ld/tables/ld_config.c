@@ -39,50 +39,22 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 ** Global Variables
 */
 
-/* Default ULR config table data */
+/* Default LD config table data */
 LD_ConfigTbl_t LD_ConfigTbl =
 {
-	    /** \brief Multicopter max climb rate.
+	    /** \brief Fixed Wing max climb rate.
 	     *
-	     *  \par Limits:
-	     *  	default 0.5.
+	     *  \par Limits: [5, 20)]
+	     *  	default 10.0.
 	     */
-	    0.5,
+	    10.0f,
 
-	    /** \brief Multicopter max horizontal velocity.
+	    /** \brief Fixed Wing max horizontal velocity.
 	     *
-	     *  \par Limits:
-	     *  	default 1.5.
+	     *  \par Limits: [0.5, 10)
+	     *  	default 5.0.
 	     */
-	    1.50,
-
-	    /** \brief Multicopter max rotation.
-	     *
-	     *  \par Limits:
-	     *  	default 20.0.
-	     */
-	    20.0,
-
-	    /** \brief Multicopter specific force threshold.
-	     *
-	     *  \par Limits:
-	     *  	Min > Max (incr.) 0.1 > 10 , default 2.0.
-	     */
-	    2.0,
-
-	    /** \brief Multicopter free-fall trigger time.
-	     *
-	     *  \par Limits:
-	     *  	Min > Max (incr.) 0.02 > 5 , default 0.3.
-	     */
-	    0.3,
-
-	    /** \brief Multicopter Flight stick down threshold for landing.
-	     *
-	     *  \par Limits:
-	     *  	default 0.15.
-	     */
-	    0.15,
+	    5.0f,
 
 	    /** \brief Multicopter maximum altitude.
 	     *
@@ -124,8 +96,14 @@ LD_ConfigTbl_t LD_ConfigTbl =
          *  \par Limits:
          *      default 0.5.
          */
-        0.3f,
-        
+        0.5f,
+
+		/**
+		 * @brief Airspeed max
+		 * 
+		 */
+		8.0f,
+
         /** \brief Min Thust No Altitude Lock Land Timout.
          *
          *  \par Limits:

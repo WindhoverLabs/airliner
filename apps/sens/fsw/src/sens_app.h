@@ -76,8 +76,8 @@ typedef struct
     uint64                        LastGyroTime;
     PX4_SensorMagMsg_t            SensorMagMsg;
     uint64                        LastMagTime;
-    PX4_ActuatorControlsMsg_t     ActuatorControls0Msg;
-    uint64                        LastActuatorControls0Time;
+//    PX4_ActuatorControlsMsg_t     ActuatorControls0Msg;
+//    uint64                        LastActuatorControls0Time;
     PX4_InputRcMsg_t              InputRcMsg;
     uint64                        LastInputRcTime;
     PX4_DifferentialPressureMsg_t DifferentialPressureMsg;

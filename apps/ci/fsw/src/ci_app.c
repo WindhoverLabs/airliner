@@ -1107,6 +1107,7 @@ void CI_IngestCommands(void)
             CI_ProcessIngestCmd(CmdMsgPtr, MsgSize);
         }
     }while(MsgSize > 0);
+
 }
     
 
@@ -1172,7 +1173,6 @@ int32 CI_RcvMsg(int32 iBlocking)
         CI_ReportHousekeeping();
     	if(TRUE == CI_AppData.IngestActive)
     	{
-    		printf("*** TIMEOUT ***\n");
             CI_IngestCommands();
     	}
         iStatus = CFE_SUCCESS;
