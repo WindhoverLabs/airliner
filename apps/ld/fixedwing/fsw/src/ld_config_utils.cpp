@@ -98,14 +98,6 @@ int32 LD::ValidateConfigTbl(void* ConfigTblPtr)
     LD_ConfigTbl_t* LD_ConfigTblPtr = (LD_ConfigTbl_t*)(ConfigTblPtr);
     char Param[LD_PARAM_NAME_MAX_LEN];
 
-    if (LD_ConfigTblPtr->LD_FFALL_THR < LD_FFALL_THR_MIN ||
-        LD_ConfigTblPtr->LD_FFALL_THR > LD_FFALL_THR_MAX)
-    {
-        snprintf(Param, LD_PARAM_NAME_MAX_LEN, "LD_FFALL_THR");
-        iStatus = -1;
-        goto LD_ValidateConfigTbl_Exit_Tag;
-    }
-    
     if (LD_ConfigTblPtr->LD_FFALL_TTRI < LD_FFALL_TTRI_MIN ||
         LD_ConfigTblPtr->LD_FFALL_TTRI > LD_FFALL_TTRI_MAX)
     {

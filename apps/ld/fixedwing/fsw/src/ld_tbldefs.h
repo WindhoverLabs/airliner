@@ -52,8 +52,7 @@ extern "C" {
  ** Local Defines
  *************************************************************************/
 #define LD_PARAM_NAME_MAX_LEN     (32)
-#define LD_FFALL_THR_MIN                 (0.1f)
-#define LD_FFALL_THR_MAX                 (10.0f)
+
 #define LD_FFALL_TTRI_MIN                (0.02f)
 #define LD_FFALL_TTRI_MAX                (5.0f)
 #define LD_MAN_DWNTHR_MIN                (0.0f)
@@ -108,15 +107,6 @@ typedef struct
      *      default 20.0.
      */
     float LD_ROT_MAX;
-
-    /** \ldcfg LD_FFALL_THR
-     *
-     *  \brief Multicopter specific force threshold.
-     *
-     *  \par Limits:
-     *      Min > Max (incr.) 0.1 > 10 , default 2.0.
-     */
-    float LD_FFALL_THR;
 
     /** \ldcfg LD_FFALL_TTRI
      *
@@ -189,6 +179,20 @@ typedef struct
      *      default 0.5f.
      */
     float LD_LANDSPEED;
+
+    /**
+     * Airspeed max
+     *
+     * Maximum airspeed allowed in the landed state (m/s)
+     *
+     * @unit m/s
+     * @min 4
+     * @max 20
+     * @decimal 1
+     *
+     * @group Land Detector
+     */
+    float LD_LNDFW_AIRSPD_MAX;
     
     /** \ldcfg LD_MIN_THR_NO_ALT_TIMEOUT
      *

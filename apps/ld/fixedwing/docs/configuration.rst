@@ -95,8 +95,6 @@ metrics, not configuration.  This table is defined by the
 +                               |                                    +-------------------------------------------+
 |                               |                                    | :ld:`LD_ConfigTbl_t::LD_ROT_MAX`          |
 +                               |                                    +-------------------------------------------+
-|                               |                                    | :ld:`LD_ConfigTbl_t::LD_FFALL_THR`        |
-+                               |                                    +-------------------------------------------+
 |                               |                                    | :ld:`LD_ConfigTbl_t::LD_FFALL_TTRI`       |
 +                               |                                    +-------------------------------------------+
 |                               |                                    | :ld:`LD_ConfigTbl_t::LD_MAN_DWNTHR`       |

@@ -100,6 +100,9 @@ typedef struct
     /** \brief The vehicle local position message */
     PX4_VehicleLocalPositionMsg_t VehicleLocalPositionMsg;
 
+    /** @brief The vehicle sensor combined message */
+    PX4_SensorCombinedMsg_t VehicleSensorCombinedMsg;
+
     /** \brief The vehicle control mode message */
     PX4_VehicleControlModeMsg_t VehicleControlModeMsg;
 
@@ -651,7 +654,14 @@ private:
      **       None
      **
      *************************************************************************/
-    void DetectStateChange(void);
+    void DetectAndSendStateChangeEvent(void);
+
+
+    float _velocity_xy_filtered{0.0f};
+	float _velocity_z_filtered{0.0f};
+	float _airspeed_filtered{0.0f};
+	float _accel_horz_lp{0.0f};
+
 
 public:
     /************************************************************************/
