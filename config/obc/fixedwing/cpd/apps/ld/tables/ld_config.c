@@ -42,71 +42,97 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 /* Default LD config table data */
 LD_ConfigTbl_t LD_ConfigTbl =
 {
-	    /** \brief Fixed Wing max climb rate.
+		/** \ldcfg LD_Z_VEL_MAX
+		 *
+		 *  \brief Fixed Wing max climb rate.
 	     *
 	     *  \par Limits: [5, 20)]
 	     *  	default 10.0.
 	     */
 	    10.0f,
 
-	    /** \brief Fixed Wing max horizontal velocity.
+		/** \ldcfg LD_XY_VEL_MAX
+		 *
+		 *  \brief Fixed Wing max horizontal velocity.
 	     *
 	     *  \par Limits: [0.5, 10)
 	     *  	default 5.0.
 	     */
-	    5.0f,
+	    2.0f,
 
-	    /** \brief Multicopter maximum altitude.
+		/** \ldcfg LD_ALT_MAX
+		 *
+		 *  \brief Fixed Wing maximum altitude.
 	     *
-	     *  \par Limits:
+	     *  \par Limits: [-1.0, 10000.0)
 	     *  	default 10000.0.
 	     */
 	    10000.0,
 
-	    /** \brief Multicopter low throttle threshold.
+		/** \ldcfg LD_LOW_T_THR
+		 *
+		 *  \brief Fixed Wing low throttle threshold.
 	     *
-	     *  \par Limits:
+	     *  \par Limits: [0.1, 0.9)
 	     *  	default 0.3.
 	     */
 	    0.35,
 
-	    /** \brief Multicopter minimum throttle in manual mode.
+		/** \ldcfg LD_MAN_MIN_THR
+		 *
+		 *  \brief Fixed Wing minimum throttle in manual mode.
 	     *
-	     *  \par Limits:
+	     *  \par Limits: [0.0, 1.0)
 	     *  	default 0.08.
 	     */
 	    0.08,
 
-	    /** \brief Multicopter takeoff stick up threshold in position control mode.
+		/** \ldcfg LD_POS_STK_UP_THRES
+		 *
+		 *  \brief Fixed Wing takeoff stick up threshold in position control mode.
 	     *
-	     *  \par Limits:
+	     *  \par Limits: [0.5, 1.0)
 	     *  	default 0.65.
 	     */
 	    0.65,
 
-	    /** \brief Multicopter takeoff stick down threshold in position control mode.
+		/** \ldcfg LD_POS_STK_DW_THRES
+		 *
+		 *  \brief Fixed Wing takeoff stick down threshold in position control mode.
 	     *
-	     *  \par Limits:
+	     *  \par Limits: [0.0, 0.5)
 	     *  	default 0.15.
 	     */
 	    0.15,
 
-        /** \brief Landing descend rate.
+		/** \ldcfg LD_LANDSPEED
+		 *
+		 *  \brief Landing descend rate.
          *
-         *  \par Limits:
+         *  \par Limits: [0.0, 10.0)
          *      default 0.5.
          */
         0.5f,
 
 		/**
-		 * @brief Airspeed max
-		 * 
+		 * \ldcfg LD_LNDFW_AIRSPD_MAX Airspeed max
+		 *
+		 * \brief Maximum airspeed allowed in the landed state (m/s)
+		 *
+		 * @unit m/s
+		 * @min 4
+		 * @max 20
+		 * @decimal 1
+		 *
+		 * @group Land Detector
 		 */
 		8.0f,
 
-        /** \brief Min Thust No Altitude Lock Land Timout.
+		/** \ldcfg LD_MIN_THR_NO_ALT_TIMEOUT
+		 *
+		 *  \brief Min Thust No Altitude Lock Land Timout.
          *
-         *  \par Limits:
+         *  \par Limits: [1, 9000000)
          *      default 8000000.
          */
         8000000

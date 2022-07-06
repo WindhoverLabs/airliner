@@ -85,7 +85,7 @@ typedef struct
      *
      *  \brief Fixed Wing max climb rate.
      *
-     *  \par Limits: [5, 20)]
+     *  \par Limits: [5, 20)
      *  	default 10.0.
      */
     float LD_Z_VEL_MAX;
@@ -101,45 +101,45 @@ typedef struct
 
     /** \ldcfg LD_ALT_MAX
      *
-     *  \brief Multicopter maximum altitude.
+     *  \brief Fixed Wing  maximum altitude.
      *
-     *  \par Limits:
+     *  \par Limits: [-1.0, 10000.0)
      *      default 10000.0.
      */
     float LD_ALT_MAX;
 
     /** \ldcfg LD_LOW_T_THR
      *
-     *  \brief Multicopter low throttle threshold
+     *  \brief Fixed Wing  low throttle threshold
      *
-     *  \par Limits:
+     *  \par Limits: [0.1, 0.9)
      *      default 0.3
      */
     float LD_LOW_T_THR;
 
     /** \ldcfg LD_MAN_MIN_THR
      *
-     *  \brief Multicopter minimum throttle in manual mode.
+     *  \brief Fixed Wing  minimum throttle in manual mode.
      *
-     *  \par Limits:
+     *  \par Limits: [0.0, 1.0)
      *      default 0.08.
      */
     float LD_MAN_MIN_THR;
 
     /** \ldcfg LD_POS_STK_UP_THRES
      *
-     *  \brief Multicopter takeoff stick up threshold in position control mode.
+     *  \brief Fixed Wing  takeoff stick up threshold in position control mode.
      *
-     *  \par Limits:
+     *  \par Limits: [0.5, 1.0)
      *      default 0.65.
      */
     float LD_POS_STK_UP_THRES;
 
     /** \ldcfg LD_POS_STK_DW_THRES
      *
-     *  \brief Multicopter takeoff stick down threshold in position control mode.
+     *  \brief Fixed Wing  takeoff stick down threshold in position control mode.
      *
-     *  \par Limits:
+     *  \par Limits: [0.0, 0.5)
      *      default 0.15.
      */
     float LD_POS_STK_DW_THRES;
@@ -148,7 +148,7 @@ typedef struct
      *
      *  \brief Landing descend rate.
      *
-     *  \par Limits:
+     *  \par Limits: [0.0, 10.0)
      *      default 0.5f.
      */
     float LD_LANDSPEED;
@@ -171,7 +171,7 @@ typedef struct
      *
      *  \brief Timeout for detecting land when using min thrust with no altitude lock.
      *
-     *  \par Limits:
+     *  \par Limits: [1, 9000000)
      *      default 8000000.
      */
     uint64 LD_MIN_THR_NO_ALT_TIMEOUT;
