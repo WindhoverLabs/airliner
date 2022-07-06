@@ -105,12 +105,14 @@ void FixedwingAttitudeControl::ReportHousekeeping()
 
    /* TODO:  Add code to update housekeeping data, if needed, here.  */
 
+#if 1
    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&FAC_AppData.HkTlm);
    iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&FAC_AppData.HkTlm);
    if (iStatus != CFE_SUCCESS)
    {
       /* TODO: Decide what to do if the send message fails. */
    }
+#endif
 
    return;
 }

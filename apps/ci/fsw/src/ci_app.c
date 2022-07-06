@@ -1273,22 +1273,32 @@ void CI_ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
 
             case CI_AUTH_CMD_CC:
                 CI_CmdAuthorize(MsgPtr);
+                (void) CFE_EVS_SendEvent(CI_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                  "Recvd Auth cmd (%u)", (unsigned int)uiCmdCode);
                 break;
 
             case CI_DEAUTH_CMD_CC:
                 CI_CmdDeauthorize(MsgPtr);
+                (void) CFE_EVS_SendEvent(CI_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                  "Recvd Deauth cmd (%u)", (unsigned int)uiCmdCode);
                 break;
 
             case CI_REG_CMD_CC:
                 CI_CmdRegister(MsgPtr);
+                (void) CFE_EVS_SendEvent(CI_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                  "Recvd Register cmd (%u)", (unsigned int)uiCmdCode);
                 break;
 
             case CI_DEREG_CMD_CC:
                 CI_CmdDeregister(MsgPtr);
+                (void) CFE_EVS_SendEvent(CI_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                  "Recvd Deregister cmd (%u)", (unsigned int)uiCmdCode);
                 break;
 
             case CI_UPDT_CMD_CC:
                 CI_UpdateCmdReg(MsgPtr);
+                (void) CFE_EVS_SendEvent(CI_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                  "Recvd Update cmd (%u)", (unsigned int)uiCmdCode);
                 break;
 
             default:
