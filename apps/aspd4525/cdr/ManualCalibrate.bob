@@ -34,7 +34,7 @@
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>AirGasConstant</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AirGasConstant&lt;VDouble&gt;("")</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AirGasConstant&lt;VDouble&gt;(8.3144598)</pv_name>
     <x>152</x>
     <y>50</y>
     <width>188</width>
@@ -111,7 +111,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/ManualCalibrate', args);
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>AirMolarMass</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AirMolarMass&lt;VDouble&gt;("")</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AirMolarMass&lt;VDouble&gt;(0.0289644)</pv_name>
     <x>152</x>
     <y>80</y>
     <width>188</width>
@@ -133,7 +133,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/ManualCalibrate', args);
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>GravityAccel</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_GravityAccel&lt;VDouble&gt;("")</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_GravityAccel&lt;VDouble&gt;(9.80665)</pv_name>
     <x>152</x>
     <y>110</y>
     <width>188</width>
@@ -155,7 +155,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/ManualCalibrate', args);
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>PressureMaximum_PSI</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PressureMaximum_PSI&lt;VDouble&gt;("")</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PressureMaximum_PSI&lt;VDouble&gt;(1.0)</pv_name>
     <x>152</x>
     <y>140</y>
     <width>188</width>
@@ -177,7 +177,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/ManualCalibrate', args);
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>PressureMinimum_PSI</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PressureMinimum_PSI&lt;VDouble&gt;("")</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_PressureMinimum_PSI&lt;VDouble&gt;(0.0)</pv_name>
     <x>152</x>
     <y>170</y>
     <width>188</width>
@@ -199,7 +199,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/ManualCalibrate', args);
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>TemperatureMaximum_Celcius</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TemperatureMaximum_Celcius&lt;VDouble&gt;("")</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TemperatureMaximum_Celcius&lt;VDouble&gt;(150.0)</pv_name>
     <x>152</x>
     <y>200</y>
     <width>188</width>
@@ -221,7 +221,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/ManualCalibrate', args);
   </widget>
   <widget type="textentry" version="3.0.0">
     <name>TemperatureMinimum_Celcius</name>
-    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TemperatureMinimum_Celcius&lt;VDouble&gt;("")</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_TemperatureMinimum_Celcius&lt;VDouble&gt;(-50.0)</pv_name>
     <x>152</x>
     <y>230</y>
     <width>188</width>

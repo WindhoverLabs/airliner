@@ -46,6 +46,7 @@
 #define LD_MAIN_TASK_PERF_ID        (75)
 #define LGC_MAIN_TASK_PERF_ID       (76)
 #define MAC_MAIN_TASK_PERF_ID       (77)
+#define FAC_MAIN_TASK_PERF_ID       (77)
 #define MPC_MAIN_TASK_PERF_ID       (78)
 #define MPU6050_MAIN_TASK_PERF_ID   (79)
 #define MPU6050_RECEIVE_PERF_ID     (80)

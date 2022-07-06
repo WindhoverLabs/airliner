@@ -202,6 +202,24 @@ modules:
           EA_MAIN_TASK_PERF_ID:
             id: 70
 
+      fac:
+        definition: ${PROJECT_SOURCE_DIR}/apps/fac/wh_design.yaml
+        telemetry:
+          FAC_HK_TLM_MID:
+            msgID: 0x0B58
+          FAC_OUT_DATA_MID:
+            msgID: 0x0B59
+        commands:
+          FAC_CMD_MID:
+            msgID: 0x1B5A
+          FAC_SEND_HK_MID:
+            msgID: 0x1B5B
+          FAC_WAKEUP_MID:
+            msgID: 0x1B5C
+        perfids:
+          FAC_MAIN_TASK_PERF_ID:
+            id: 50
+
       fm:
         definition: ${PROJECT_SOURCE_DIR}/apps/fm/wh_design.yaml
         telemetry: 
