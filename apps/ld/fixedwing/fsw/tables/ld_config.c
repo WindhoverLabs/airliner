@@ -42,14 +42,18 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 /* Default LD config table data */
 LD_ConfigTbl_t LD_ConfigTbl =
 {
-	    /** \brief Fixed Wing max climb rate.
+		/** \ldcfg LD_Z_VEL_MAX
+		 *
+		 *  \brief Fixed Wing max climb rate.
 	     *
 	     *  \par Limits: [5, 20)]
 	     *  	default 10.0.
 	     */
 	    10.0f,
 
-	    /** \brief Fixed Wing max horizontal velocity.
+		/** \ldcfg LD_XY_VEL_MAX
+		 *
+		 *  \brief Fixed Wing max horizontal velocity.
 	     *
 	     *  \par Limits: [0.5, 10)
 	     *  	default 5.0.
@@ -127,3 +131,4 @@ LD_ConfigTbl_t LD_ConfigTbl =
 /*=======================================================================================
 ** End of file ld_config.c
 **=====================================================================================*/
+    
