@@ -61,7 +61,6 @@ enum LaunchDetectionResult {
 class CatapultLaunchMethod
 {
 public:
-    CatapultLaunchMethod(float thresholdAccel, float thresholdTime, float motorDelay, float pitchMaxPreThrottle);
     CatapultLaunchMethod();
     ~CatapultLaunchMethod();
 
@@ -69,6 +68,7 @@ public:
     LaunchDetectionResult getLaunchDetected() const ;
     void reset();
     float getPitchMax(float pitchMaxDefault);
+    void Initialize(float thresholdAccel, float thresholdTime, float motorDelay, float pitchMaxPreThrottle);
 
 private:
     uint64 last_timestamp{0};

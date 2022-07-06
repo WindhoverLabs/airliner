@@ -49,11 +49,6 @@ namespace launchdetection
 class LaunchDetector
 {
 public:
-    LaunchDetector(float newThresholdAccel,
-                   float newThresholdTime,
-                   float newMotorDelay,
-                   float newPitchMaxPreThrottle,
-                   bool newLaunchDetectionEnabled);
     LaunchDetector();
     ~LaunchDetector();
 
@@ -64,10 +59,16 @@ public:
 
 	void update(float accel_x);
     launchdetection::LaunchDetectionResult getLaunchDetected();
-    bool launchDetectionEnabled() { return launchDetectionOn == true; }
+    bool launchDetectionEnabled() { return launchDetectionOn; }
 
 	/* Returns a maximum pitch in deg. Different launch methods may impose upper pitch limits during launch */
 	float getPitchMax(float pitchMaxDefault);
+
+    void UpdateParamsFromTable(float newThresholdAccel,
+                    float newThresholdTime,
+                    float newMotorDelay,
+                    float newPitchMaxPreThrottle,
+                    bool newLaunchDetectionEnabled);
 
 private:
 	/* holds an index to the launchMethod in the array launchMethods
@@ -86,7 +87,7 @@ private:
     float motorDelay;
     float pitchMaxPreThrottle; /**< Upper pitch limit before throttle is turned on.
                                Can be used to make sure that the AC does not climb
-                               too much while attached to a bungee */
+                               too much while attached to a bungee. In radians. */
 
     bool launchDetectionOn;
 };

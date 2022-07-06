@@ -45,19 +45,6 @@
 namespace launchdetection
 {
 
-CatapultLaunchMethod::CatapultLaunchMethod(float newThresholdAccel,
-                                           float newThresholdTime,
-                                           float newMotorDelay,
-                                           float newPitchMaxPreThrottle) :
-    //TODO:Move these values to a CFE table
-    thresholdAccel{newThresholdAccel},
-    thresholdTime{newThresholdTime},
-    motorDelay{newMotorDelay},
-    pitchMaxPreThrottle{newPitchMaxPreThrottle}
-{
-    last_timestamp = PX4LIB_GetPX4TimeUs();
-}
-
 CatapultLaunchMethod::CatapultLaunchMethod()
 {
 
@@ -145,6 +132,19 @@ float CatapultLaunchMethod::getPitchMax(float pitchMaxDefault)
 	} else {
         return pitchMaxPreThrottle;
 	}
+}
+
+void CatapultLaunchMethod::Initialize(float newThresholdAccel,
+                                      float newThresholdTime,
+                                      float newMotorDelay,
+                                      float newPitchMaxPreThrottle)
+{
+    last_timestamp = PX4LIB_GetPX4TimeUs();
+
+    thresholdAccel = newThresholdAccel;
+    thresholdTime = newThresholdTime;
+    motorDelay = newMotorDelay;
+    pitchMaxPreThrottle = newPitchMaxPreThrottle;
 }
 
 } // namespace launchdetection
