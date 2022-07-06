@@ -43,28 +43,6 @@
 namespace launchdetection
 {
 
-LaunchDetector::LaunchDetector(float newThresholdAccel,
-                               float newThresholdTime,
-                               float newMotorDelay,
-                               float newPitchMaxPreThrottle,
-                               bool newLaunchDetectionEnabled) :
-    thresholdAccel{newThresholdAccel},
-    thresholdTime{newThresholdTime},
-    motorDelay{newMotorDelay},
-    pitchMaxPreThrottle{newPitchMaxPreThrottle},
-    launchDetectionOn{newLaunchDetectionEnabled}
-//	launchdetection_on(this, "ALL_ON")
-{
-	/* init all detectors */
-    launchMethod = CatapultLaunchMethod{thresholdAccel,
-                                        thresholdTime,
-                                        motorDelay,
-                                        pitchMaxPreThrottle};
-
-	/* update all parameters of all detectors */
-//	updateParams();
-}
-
 LaunchDetector::LaunchDetector() :
     thresholdAccel{0},
     thresholdTime{0},
@@ -74,10 +52,7 @@ LaunchDetector::LaunchDetector() :
 //	launchdetection_on(this, "ALL_ON")
 {
     /* init all detectors */
-    launchMethod = CatapultLaunchMethod{thresholdAccel,
-                                        thresholdTime,
-                                        motorDelay,
-                                        pitchMaxPreThrottle};
+    launchMethod = CatapultLaunchMethod{};
 
     /* update all parameters of all detectors */
 //	updateParams();
@@ -111,6 +86,11 @@ LaunchDetectionResult LaunchDetector::getLaunchDetected()
 	return LAUNCHDETECTION_RES_NONE;
 }
 
+/**
+ * @brief LaunchDetector::getPitchMax
+ * @param pitchMaxDefault
+ * @return PitchMax in radians.
+ */
 float LaunchDetector::getPitchMax(float pitchMaxDefault)
 {
 	if (!launchDetectionEnabled()) {
@@ -135,4 +115,19 @@ float LaunchDetector::getPitchMax(float pitchMaxDefault)
     return launchMethod.getPitchMax(pitchMaxDefault);
 }
 
+void LaunchDetector::Initialize(float newThresholdAccel,
+                                float newThresholdTime,
+                                float newMotorDelay,
+                                float newPitchMaxPreThrottle,
+                                bool newLaunchDetectionEnabled)
+{
+    thresholdAccel = newThresholdAccel;
+    thresholdTime = newThresholdTime;
+    motorDelay = newMotorDelay;
+    pitchMaxPreThrottle = newPitchMaxPreThrottle;
+    launchDetectionOn = newLaunchDetectionEnabled;
+
+    launchMethod.Initialize(thresholdAccel,thresholdTime, motorDelay, newPitchMaxPreThrottle );
+
+}
 } // namespace launchdetection

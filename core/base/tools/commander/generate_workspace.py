@@ -97,7 +97,7 @@ def copyAll(src_path, dst_path, is_templated=False, rootModule=None, targetModul
     
         
 def getCpuId(rootModule, modPath):
-    cpuID = modPath.split("/")[1]
+    cpuID = modPath.split("/")[0]
     
     return cpuID
         
@@ -120,7 +120,7 @@ def generateCommanderDisplay(rootModule, targetModule, templateDir, templateFile
         outFileName = os.path.join(outPath, outputName)
         os.makedirs(outPath, exist_ok=True)
         
-        j2Env = jinja2.Environment(loader=jinja2.FileSystemLoader(templateDir))  
+        j2Env = jinja2.Environment(loader=jinja2.FileSystemLoader(templateDir))
         output = j2Env.get_template(templateFile).render(data)
             
         # If there is an existing file, only write the file if the contents have changed.

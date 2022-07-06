@@ -8,6 +8,7 @@
 *************************************************************************/
 #include "cfe_tbl_filedef.h"
 #include "fpc_tbldefs.h"
+#include "fpc_mission_cfg.h"
 
 /************************************************************************
 ** Local Defines
@@ -394,49 +395,48 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
 
 
     /**
-     * P_LIM_MIN
-     * Minimum thrust in auto thrust control
+     * P_LIM_MIN_RADIANS
+     * Negative pitch limit
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * The minimum negative pitch the controller will output.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit deg
+     * @min -60.0
+     * @max 0.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
-    -45.0f,
+    DEG_TO_RADIANS(-45.0f),
 
     /**
-     * P_LIM_MAX
-     * Minimum thrust in auto thrust control
+     * P_LIM_MAX_RADIANS
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * The maximum positive pitch the controller will output.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit deg
+     * @min 0.0
+     * @max 60.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
-    45.0f,
+    DEG_TO_RADIANS(45.0f),
 
     /**
-     * R_LIM
-     * Minimum thrust in auto thrust control
+     * R_LIM_RADIANS
+     * Controller roll limit
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * The maximum roll the controller will output.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit deg
+     * @min 35.0
+     * @max 65.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
-    50.0f,
+    DEG_TO_RADIANS(50.0f),
 
     /**
      * THR_MIN
@@ -526,7 +526,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
     0.0f,
 
     /**
-     * MAN_R_MAX
+     * MAN_R_MAX_RADIANS
      * Minimum thrust in auto thrust control
      *
      * It's recommended to set it > 0 to avoid free fall with zero thrust.
@@ -538,10 +538,10 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    45.0f,
+    DEG_TO_RADIANS(45.0f),
 
     /**
-     * MAN_P_MAX
+     * MAN_P_MAX_RADIANS
      * Minimum thrust in auto thrust control
      *
      * It's recommended to set it > 0 to avoid free fall with zero thrust.
@@ -553,10 +553,10 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    45.0f,
+    DEG_TO_RADIANS(45.0f),
 
     /**
-     * RSP_OFF
+     * RSP_OFF_RADIANS
      * Minimum thrust in auto thrust control
      *
      * It's recommended to set it > 0 to avoid free fall with zero thrust.
@@ -568,10 +568,10 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    DEG_TO_RADIANS(0.0f),
 
     /**
-     * PSP_OFF
+     * PSP_OFF_RADIANS
      * Minimum thrust in auto thrust control
      *
      * It's recommended to set it > 0 to avoid free fall with zero thrust.
@@ -583,7 +583,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    DEG_TO_RADIANS(0.0f),
 
     /**
      * THR_LND_MAX
@@ -601,19 +601,16 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
     1.0f,
 
     /**
-     * LND_ANG
-     * Minimum thrust in auto thrust control
+     * Landing slope angle in degrees
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
-     *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit deg
+     * @min 1.0
+     * @max 15.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
-    5.0f,
+    DEG_TO_RADIANS(5.0f),
 
     /**
      * LND_HVIRT
@@ -661,49 +658,49 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
     -1.0f,
 
     /**
-     * LND_HHDIST
-     * Minimum thrust in auto thrust control
+      LND_HHDIST
+     * Landing heading hold horizontal distance.
+     * Set to 0 to disable heading hold.
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
-     *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit m
+     * @min 0
+     * @max 30.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
     15.0f,
 
     /**
-     * LND_FL_PMIN
-     * Minimum thrust in auto thrust control
+     * Flare, minimum pitch
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * Minimum pitch during flare, a positive sign means nose up
+     * Applied once FW_LND_TLALT is reached
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit deg
+     * @min 0
+     * @max 15.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
-    2.5f,
+    DEG_TO_RADIANS(2.5f),
 
     /**
-     * LND_FL_PMAX
-     * Minimum thrust in auto thrust control
+     * LND_FL_PMAX_RADIANS
+     * Flare, maximum pitch
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * Maximum pitch during flare, a positive sign means nose up
+     * Applied once FW_LND_TLALT is reached
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit deg
+     * @min 0
+     * @max 45.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
-    15.0f,
+    DEG_TO_RADIANS(15.0f),
 
     /**
      * LND_USETER
@@ -762,7 +759,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.5
          * @group FW Launch detection
          */
-         0,
+         30,
 
         /**
          * Catapult time threshold.
@@ -776,7 +773,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.05
          * @group FW Launch detection
          */
-         0,
+         0.05f,
 
         /**
          * Motor delay
@@ -794,7 +791,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          0,
 
         /**
-         * LAUN_CAT_PMAX
+         * LAUN_CAT_PMAX_RADIANS
          * Maximum pitch before the throttle is powered up (during motor delay phase)
          *
          * This is an extra limit for the maximum pitch which is imposed in the phase before the throttle turns on.
@@ -807,7 +804,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.5
          * @group FW Launch detection
          */
-        0
+        DEG_TO_RADIANS(30)
     },
     {
         /**
