@@ -100,14 +100,6 @@ int32 SENS::InitPipe()
 					 (unsigned int)iStatus);
             goto SENS_InitPipe_Exit_Tag;
         }
-        iStatus = CFE_SB_SubscribeEx(PX4_ACTUATOR_CONTROLS_0_MID, SchPipeId, CFE_SB_Default_Qos, 1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(SENS_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-					 "CMD Pipe failed to subscribe to PX4_ACTUATOR_CONTROLS_0_MID. (0x%08lX)",
-					 iStatus);
-            goto SENS_InitPipe_Exit_Tag;
-        }
         iStatus = CFE_SB_SubscribeEx(PX4_INPUT_RC_MID, SchPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
@@ -340,10 +332,6 @@ int32 SENS::RcvSchPipeMsg(int32 iBlocking)
                 memcpy(&HkTlm.SensorCombinedMsg, &SensorCombinedMsg, sizeof(SensorCombinedMsg));
                 ReportHousekeeping();
                 break;
-
-//            case PX4_ACTUATOR_CONTROLS_0_MID:
-//                memcpy(&CVT.ActuatorControls0Msg, MsgPtr, sizeof(CVT.ActuatorControls0Msg));
-//                break;
 
             case PX4_INPUT_RC_MID:
                 memcpy(&CVT.InputRcMsg, MsgPtr, sizeof(CVT.InputRcMsg));
