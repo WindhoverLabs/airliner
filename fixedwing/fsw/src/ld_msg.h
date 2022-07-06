@@ -157,6 +157,19 @@ typedef struct
 
     uint8 state;
 
+    float velocity_xy_filtered_f;
+    float velocity_xy_unfiltered_f;
+    float velocity_z_filtered_f;
+    float velocity_z_unfiltered_f;
+    float airspeed_filtered_f;
+    float airspeed_unfiltered_f;
+    float accel_xy_filtered_f;
+    float accel_xy_unfiltered_f;
+    boolean static_xy_b;
+    boolean static_z_b;
+    boolean static_air_b;
+    boolean landDetected_b;
+
 }LD_HkTlm_t;
 
 

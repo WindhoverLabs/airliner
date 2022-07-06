@@ -801,30 +801,42 @@ osalbool LD::DetectLandedState()
 
     if (PX4LIB_GetPX4ElapsedTimeUs(CVT.VehicleLocalPositionMsg.Timestamp) < 500*1000)  /*TODO MACRO this*/
     {
-
 		// horizontal velocity
-		float val = 0.97f * _velocity_xy_filtered + 0.03f * sqrtf(CVT.VehicleLocalPositionMsg.VX * CVT.VehicleLocalPositionMsg.VX + CVT.VehicleLocalPositionMsg.VY *
+        HkTlm.velocity_xy_unfiltered_f = 
+            sqrtf(CVT.VehicleLocalPositionMsg.VX * CVT.VehicleLocalPositionMsg.VX + CVT.VehicleLocalPositionMsg.VY *
 				CVT.VehicleLocalPositionMsg.VY);
+
+		float val = 0.97f * _velocity_xy_filtered + 0.03f * HkTlm.velocity_xy_unfiltered_f;
 
 		if (std::isfinite(val)) {
 			_velocity_xy_filtered = val;
+            HkTlm.velocity_xy_filtered_f = val;
 		}
 
 		// vertical velocity
+        HkTlm.velocity_z_unfiltered_f = CVT.VehicleLocalPositionMsg.VZ;
 		val = 0.99f * _velocity_z_filtered + 0.01f * fabsf(CVT.VehicleLocalPositionMsg.VZ);
 
 		if (std::isfinite(val)) {
 			_velocity_z_filtered = val;
+            HkTlm.velocity_z_filtered_f = val;
 		}
 
+        // Air Speed
+        HkTlm.airspeed_unfiltered_f = CVT.AirspeedMsg.TrueAirspeedUnfiltered;
 		_airspeed_filtered = 0.95f * _airspeed_filtered + 0.05f * CVT.AirspeedMsg.TrueAirspeedUnfiltered;
+
+        HkTlm.airspeed_filtered_f = _airspeed_filtered;
 
         #if 0
 		// a leaking lowpass prevents biases from building up, but
 		// gives a mostly correct response for short impulses
 		const float acc_hor = sqrtf(CVT.VehicleSensorCombinedMsg.Acc[0] * CVT.VehicleSensorCombinedMsg.Acc[0] +
 					    CVT.VehicleSensorCombinedMsg.Acc[1] * CVT.VehicleSensorCombinedMsg.Acc[1]);
+        HkTlm.accel_xy_unfiltered_f = acc_hor;
 		_accel_horz_lp = _accel_horz_lp * 0.8f + acc_hor * 0.18f;
+
+        HkTlm.accel_xy_filtered_f = _accel_horz_lp;
 
 		// crude land detector for fixedwing
 		landDetected_b = _velocity_xy_filtered < _params.maxVelocity
@@ -832,9 +844,15 @@ osalbool LD::DetectLandedState()
 			       && _airspeed_filtered < _params.maxAirSpeed
 			       && _accel_horz_lp < _params.maxIntVelocity;
         #else
-		landDetected_b = _velocity_xy_filtered < ConfigTblPtr->LD_XY_VEL_MAX
-			       && _velocity_z_filtered < ConfigTblPtr->LD_Z_VEL_MAX
-			       && _airspeed_filtered < ConfigTblPtr->LD_LNDFW_AIRSPD_MAX;
+
+        HkTlm.static_xy_b = _velocity_xy_filtered < ConfigTblPtr->LD_XY_VEL_MAX;
+        HkTlm.static_z_b = _velocity_z_filtered < ConfigTblPtr->LD_Z_VEL_MAX;
+        HkTlm.static_air_b = _airspeed_filtered < ConfigTblPtr->LD_LNDFW_AIRSPD_MAX;
+
+		landDetected_b = HkTlm.static_xy_b
+			       && HkTlm.static_z_b
+			       && HkTlm.static_air_b;
+
         #endif
     }
     else
@@ -842,6 +860,7 @@ osalbool LD::DetectLandedState()
         landDetected_b = TRUE;
     }
 
+    HkTlm.landDetected_b = landDetected_b;
     return (landDetected_b);
 }
 

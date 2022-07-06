@@ -53,10 +53,10 @@ extern "C" {
  *************************************************************************/
 #define LD_PARAM_NAME_MAX_LEN     (32)
 
-#define LD_FFALL_TTRI_MIN                (0.02f)
-#define LD_FFALL_TTRI_MAX                (5.0f)
-#define LD_MAN_DWNTHR_MIN                (0.0f)
-#define LD_MAN_DWNTHR_MAX                (1.0f)
+#define LD_Z_VEL_MAX_MIN                 (5.0f)
+#define LD_Z_VEL_MAX_MAX                 (20.0f)
+#define LD_XY_VEL_MAX_MIN                (0.5f)
+#define LD_XY_VEL_MAX_MAX                (10.0f)
 #define LD_ALT_MAX_MIN                   (-1.0f)
 #define LD_ALT_MAX_MAX                   (10000)
 #define LD_LOW_T_THR_MIN                 (0.1f)
@@ -83,48 +83,21 @@ typedef struct
 {
     /** \ldcfg LD_Z_VEL_MAX
      *
-     *  \brief Multicopter max climb rate.
+     *  \brief Fixed Wing max climb rate.
      *
-     *  \par Limits:
-     *      default 0.5.
+     *  \par Limits: [5, 20)]
+     *  	default 10.0.
      */
     float LD_Z_VEL_MAX;
 
     /** \ldcfg LD_XY_VEL_MAX
      *
-     *  \brief Multicopter max horizontal velocity.
+     *  \brief Fixed Wing max horizontal velocity.
      *
-     *  \par Limits:
-     *      default 1.5.
+     *  \par Limits: [0.5, 10)
+     *  	default 5.0.
      */
     float LD_XY_VEL_MAX;
-
-    /** \ldcfg LD_ROT_MAX
-     *
-     *  \brief Multicopter max rotation.
-     *
-     *  \par Limits:
-     *      default 20.0.
-     */
-    float LD_ROT_MAX;
-
-    /** \ldcfg LD_FFALL_TTRI
-     *
-     *  \brief Multicopter free-fall trigger time.
-     *
-     *  \par Limits:
-     *      Min > Max (incr.) 0.02 > 5 , default 0.3.
-     */
-    float LD_FFALL_TTRI;
-
-    /** \ldcfg LD_MAN_DWNTHR
-     *
-     *  \brief Multicopter Flight stick down threshold for landing.
-     *
-     *  \par Limits:
-     *      default 0.15.
-     */
-    float LD_MAN_DWNTHR;
 
     /** \ldcfg LD_ALT_MAX
      *
@@ -181,9 +154,9 @@ typedef struct
     float LD_LANDSPEED;
 
     /**
-     * Airspeed max
+     * \ldcfg LD_LNDFW_AIRSPD_MAX Airspeed max
      *
-     * Maximum airspeed allowed in the landed state (m/s)
+     * \brief Maximum airspeed allowed in the landed state (m/s)
      *
      * @unit m/s
      * @min 4
