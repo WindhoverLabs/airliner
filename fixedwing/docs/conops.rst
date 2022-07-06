@@ -15,9 +15,7 @@ TODO: Add common troubleshooting procedures.
 The following operations are carried out by the LD Application:
 1.Detect if vehicle is in free fall state
 
-1) If parameter LD_FFALL_THR is set to zero or invalid, disable free-fall detection.
-2) Get x,y,z accelerations acting on the vehicle and compute the net acceleration.
-3) If acceleration is less than LD_FFALL_THR, flag state to true.
+1) flag state is set to false, as fixed wing is never in free fall.
 2.Detect if vehicle is has ground contact state
 
 1) If the vehicle is not armed then it is in ground contact state.
