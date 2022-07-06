@@ -55,7 +55,7 @@
 {%- endif -%}
 
 <display version="2.0.0">
-   <name>($(CPUID)) TO - Query Msg Flow</name>
+   <name>($(CPUID)) TO - Remove Msg Flow</name>
   <macros>
     <CPUID>{{ cpu_id }}</CPUID>
     <include_parent_macros>true</include_parent_macros>
@@ -93,7 +93,7 @@ if (msgName === undefined || msgName === null) {
   <grid_step_y>6</grid_step_y>
   <widget type="label" version="2.0.0">
     <name>Label_49</name>
-    <text>($(CPUID) - $(APP)) TO - Query Message Flow</text>
+    <text>($(CPUID) - $(APP)) TO - Remove Message Flow</text>
     <x>30</x>
     <y>10</y>
     <width>313</width>
@@ -129,7 +129,7 @@ if (msgName === undefined || msgName === null) {
   </widget>
   <widget type="combo" version="2.0.0">
     <name>msgIdInput</name>
-    <pv_name>loc://$(APP)_$(CPUID)_TO_QueryMessageFlow_MsgID&lt;VString&gt;("")</pv_name>
+    <pv_name>loc://$(APP)_$(CPUID)_TO_RemoveMessageFlow_MsgID&lt;VString&gt;("")</pv_name>
     <x>132</x>
     <y>40</y>
     <width>210</width>
@@ -222,7 +222,7 @@ Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/apps/to/RemoveMessageFlow', {
           </script>
         </action>
       </actions>
-      <text>Query</text>
+      <text>Remove</text>
       <x>132</x>
       <y>40</y>
       <width>84</width>
@@ -256,7 +256,7 @@ Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/apps/to/RemoveMessageFlow', {
     </widget>
     <widget type="combo" version="2.0.0">
       <name>ChannelIdx_{{ cpu }}</name>
-      <pv_name>loc://$(APP)_$(CPUID)_TO_QueryMessageFlow_ChannelIndex_{{ cpu }}&lt;VString&gt;("")</pv_name>
+      <pv_name>loc://$(APP)_$(CPUID)_TO_RemoveMessageFlow_ChannelIndex_{{ cpu }}&lt;VString&gt;("")</pv_name>
       <x>114</x>
       <y>6</y>
       <width>210</width>
