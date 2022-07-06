@@ -28,12 +28,14 @@ uint16 ASPD4525_MATH_GetDiffPressureDataCounts(
 ) {
     uint16 uDiffPressureCnt = 0;
     if (configTblP!=NULL) {
-        float pMinPSI = configTblP->fPressureMinimum_PSI;
+        float pMinPSI = configTblP->fPressureMinimum_PSI; 
         float pMaxPSI = configTblP->fPressureMaximum_PSI;
-        float pPsi = fabsf(fDiffPressure) + ((pMinPSI+pMaxPSI)/2);
+        float m = (pMaxPSI-pMinPSI)/(((float)(ASPD4525_MATH_PRESSURE_COUNTS_MAX))*0.9);
+        float b = pMinPSI - (m * (((float)(ASPD4525_MATH_PRESSURE_COUNTS_MAX))*0.05));
+        float P = ASPD4525_MATH_HECTOPASCALS2PSI(fDiffPressure);
+        float fX = ( P - b ) / m;
         
-        uDiffPressureCnt = (uint16)(ASPD4525_MATH_PRESSURE_COUNTS_MAX*0.05) +
-            (uint16)(((pPsi-pMinPSI)*(ASPD4525_MATH_PRESSURE_COUNTS_MAX*0.9))/(pMaxPSI-pMinPSI));
+        uDiffPressureCnt = (uint16)(fX);
     }
     return uDiffPressureCnt;
 }
@@ -46,7 +48,7 @@ uint32 ASPD4525_MATH_PackOutGoingData(
     uint32 returnData = 
         ((uint32)(status&(ASPD4525_STATUS_MASK>>ASPD4525_STATUS_SHIFT)))<<ASPD4525_STATUS_SHIFT |
         ((uint32)(uDiffPressureDataCounts&(ASPD4525_DIFF_PRESSURE_MASK>>ASPD4525_DIFF_PRESSURE_SHIFT)))<<ASPD4525_DIFF_PRESSURE_SHIFT |
-        ((uint32)(status&(ASPD4525_TEMPERATURE_MASK>>ASPD4525_TEMPERATURE_SHIFT)))<<ASPD4525_TEMPERATURE_SHIFT;
+        ((uint32)(uTempDataCounts&(ASPD4525_TEMPERATURE_MASK>>ASPD4525_TEMPERATURE_SHIFT)))<<ASPD4525_TEMPERATURE_SHIFT;
     return returnData;
 }
 

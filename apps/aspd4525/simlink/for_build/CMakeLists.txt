@@ -67,11 +67,16 @@ buildliner_add_app_unit_test(ASPD4525-UT
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_cds_tbl_test.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_cmds_test.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_config_tbl_test.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_math_test.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_testrunner.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_test_utils.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_sedlib_stubs.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/aspd4525_cvt_stubs.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_app.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_cds_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_config_utils.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_symbols.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/aspd4525_math.c
         
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
