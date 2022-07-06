@@ -1443,7 +1443,7 @@
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_102</name>
-      <text>Multicopter Position Control</text>
+      <text>Fixedwing Position Control</text>
       <y>139</y>
       <width>204</width>
       <font>
@@ -1461,7 +1461,7 @@
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_103</name>
-      <text>Multicopter Attitude Control</text>
+      <text>Fixedwing Attitude Control</text>
       <y>111</y>
       <width>204</width>
       <font>
@@ -1597,7 +1597,7 @@
       <name>NoOp_94</name>
       <actions>
         <action type="open_display">
-          <file>cpd/apps/mpc/Main.bob</file>
+          <file>cpd/apps/fpc/Main.bob</file>
           <target>tab</target>
         </action>
       </actions>
