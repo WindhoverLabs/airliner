@@ -912,7 +912,37 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.01
          * @group Runway Takeoff
          */
-         1.3
+         1.3,
+
+        /**
+         * AIRSPD_MIN
+         * Minimum thrust in auto thrust control
+         *
+         * It's recommended to set it > 0 to avoid free fall with zero thrust.
+         *
+         * @unit norm
+         * @min 0.05
+         * @max 1.0
+         * @decimal 2
+         * @increment 0.01
+         * @group Fixedwing Position Control
+         */
+        10.0,
+
+        /**
+         * CLMBOUT_DIFF
+         * Minimum thrust in auto thrust control
+         *
+         * It's recommended to set it > 0 to avoid free fall with zero thrust.
+         *
+         * @unit norm
+         * @min 0.05
+         * @max 1.0
+         * @decimal 2
+         * @increment 0.01
+         * @group Fixedwing Position Control
+         */
+        10.0f
     }
 };
 

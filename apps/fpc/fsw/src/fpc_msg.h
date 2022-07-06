@@ -47,6 +47,7 @@
 extern "C" {
 #endif
 
+
 /************************************************************************
 ** Local Defines
 *************************************************************************/
@@ -163,6 +164,38 @@ typedef struct
     uint32  uiCounter;
 } FPC_OutData_t;
 
+typedef  enum {
+    THROTTLE_RAMP      = 0, /**< ramping up throttle */
+    CLAMPED_TO_RUNWAY  = 1, /**< clamped to runway, controlling yaw directly (wheel or rudder) */
+    TAKEOFF            = 2, /**< taking off, get ground clearance, roll 0 */
+    CLIMBOUT           = 3, /**< climbout to safe height before navigation, roll limited */
+        FLY                = 4 /**< fly towards takeoff waypoint */
+}RunwayTakeoffState;
+
+typedef struct
+{
+    /** state variables **/
+    RunwayTakeoffState _state;
+    osalbool _initialized;
+    uint64 _initialized_time;
+    float _init_yaw;
+    osalbool _climbout;
+    unsigned _throttle_ramp_time;
+//    math::Vector2F _start_wp;
+
+        /** parameters **/
+    osalbool _runway_takeoff_enabled;
+    int32 _heading_mode;
+    float _nav_alt;
+    float _takeoff_throttle;
+    float _runway_pitch_sp;
+    float _max_takeoff_pitch;
+    float _max_takeoff_roll;
+    float _min_airspeed_scaling;
+    float _airspeed_min;
+    float _climbout_diff;
+} Runway;
+
 /** 
 **  \brief FPC application housekeeping data
 */
@@ -179,6 +212,7 @@ typedef struct
         \brief Count of failed commands */
     uint8              usCmdErrCnt; 
 
+    Runway _runway_takeoff;
 } FPC_HkTlm_t;
 
 #ifdef __cplusplus
