@@ -56,34 +56,6 @@ LD_ConfigTbl_t LD_ConfigTbl =
 	     */
 	    5.0f,
 
-	    /** \brief Multicopter max rotation.
-	     *
-	     *  \par Limits:
-	     *  	default 20.0.
-	     */
-	    20.0,
-
-	    /** \brief Multicopter specific force threshold.
-	     *
-	     *  \par Limits:
-	     *  	Min > Max (incr.) 0.1 > 10 , default 2.0.
-	     */
-	    1.4,
-
-	    /** \brief Multicopter free-fall trigger time.
-	     *
-	     *  \par Limits:
-	     *  	Min > Max (incr.) 0.02 > 5 , default 0.3.
-	     */
-	    0.3,
-
-	    /** \brief Multicopter Flight stick down threshold for landing.
-	     *
-	     *  \par Limits:
-	     *  	default 0.15.
-	     */
-	    0.15,
-
 	    /** \brief Multicopter maximum altitude.
 	     *
 	     *  \par Limits:

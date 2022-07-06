@@ -98,22 +98,22 @@ int32 LD::ValidateConfigTbl(void* ConfigTblPtr)
     LD_ConfigTbl_t* LD_ConfigTblPtr = (LD_ConfigTbl_t*)(ConfigTblPtr);
     char Param[LD_PARAM_NAME_MAX_LEN];
 
-    if (LD_ConfigTblPtr->LD_FFALL_TTRI < LD_FFALL_TTRI_MIN ||
-        LD_ConfigTblPtr->LD_FFALL_TTRI > LD_FFALL_TTRI_MAX)
+    if (LD_ConfigTblPtr->LD_Z_VEL_MAX < LD_Z_VEL_MAX_MIN ||
+        LD_ConfigTblPtr->LD_Z_VEL_MAX > LD_Z_VEL_MAX_MAX)
     {
-        snprintf(Param, LD_PARAM_NAME_MAX_LEN, "LD_FFALL_TTRI");
+        snprintf(Param, LD_PARAM_NAME_MAX_LEN, "LD_Z_VEL_MAX");
         iStatus = -1;
         goto LD_ValidateConfigTbl_Exit_Tag;
     }
-    
-    if (LD_ConfigTblPtr->LD_MAN_DWNTHR < LD_MAN_DWNTHR_MIN ||
-        LD_ConfigTblPtr->LD_MAN_DWNTHR > LD_MAN_DWNTHR_MAX)
+
+    if (LD_ConfigTblPtr->LD_XY_VEL_MAX < LD_XY_VEL_MAX_MIN ||
+        LD_ConfigTblPtr->LD_XY_VEL_MAX > LD_XY_VEL_MAX_MAX)
     {
-        snprintf(Param, LD_PARAM_NAME_MAX_LEN, "LD_MAN_DWNTHR");
+        snprintf(Param, LD_PARAM_NAME_MAX_LEN, "LD_XY_VEL_MAX");
         iStatus = -1;
         goto LD_ValidateConfigTbl_Exit_Tag;
     }
-    
+
     if (LD_ConfigTblPtr->LD_ALT_MAX < LD_ALT_MAX_MIN ||
         LD_ConfigTblPtr->LD_ALT_MAX > LD_ALT_MAX_MAX)
     {
