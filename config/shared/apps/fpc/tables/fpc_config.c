@@ -658,17 +658,16 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
     -1.0f,
 
     /**
-     * LND_HHDIST
-     * Minimum thrust in auto thrust control
+      LND_HHDIST
+     * Landing heading hold horizontal distance.
+     * Set to 0 to disable heading hold.
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
-     *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit m
+     * @min 0
+     * @max 30.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
     15.0f,
 
