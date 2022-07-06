@@ -779,12 +779,23 @@ void FPC::UpdateParamsFromTable(void)
 
     }
 
-    _launchDetector.Initialize(ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_A,
+    _launchDetector.UpdateParamsFromTable(ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_A,
                                ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_T,
                                ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_MDEL,
                                ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_PMAX_RADIANS,
                                ConfigTblPtr->FPC_Launch_Detection.LAUN_ALL_ON
                                );
+
+    _runway_takeoff.UpdateParamsFromTable(ConfigTblPtr->FPC_Runway_Takeoff.RWTO_TKOFF,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.RWTO_HDG,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.NAV_ALT,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.MAX_THR,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.PSP,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.MAX_PITCH,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.MAX_ROLL,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_SCL,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_MIN,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.CLMBOUT_DIFF);
 }
 
 
@@ -866,7 +877,25 @@ void FPC::ReportHousekeeping()
 {
     /* TODO:  Add code to update housekeeping data, if needed, here.  */
 
+
+    HkTlm._runway_takeoff._state = static_cast<RunwayTakeoffState>((int)_runway_takeoff.getState());
+    HkTlm._runway_takeoff._initialized = _runway_takeoff.getInitialized();
+    HkTlm._runway_takeoff._airspeed_min = _runway_takeoff.getAirspeed_min();
+    HkTlm._runway_takeoff._climbout = _runway_takeoff.getClimbout_diff();
+    HkTlm._runway_takeoff._throttle_ramp_time = _runway_takeoff.getThrottle_ramp_time();
+    HkTlm._runway_takeoff._runway_takeoff_enabled = _runway_takeoff.get_runway_takeoff_enabled();
+    HkTlm._runway_takeoff._heading_mode = _runway_takeoff.getHeading_mode();
+    HkTlm._runway_takeoff._nav_alt = _runway_takeoff.getNav_alt();
+    HkTlm._runway_takeoff._takeoff_throttle = _runway_takeoff.getTakeoff_throttle();
+    HkTlm._runway_takeoff._runway_pitch_sp = _runway_takeoff.getRunway_pitch_sp();
+    HkTlm._runway_takeoff._max_takeoff_pitch = _runway_takeoff.getMax_takeoff_pitch();
+    HkTlm._runway_takeoff._max_takeoff_roll = _runway_takeoff.getMax_takeoff_roll();
+    HkTlm._runway_takeoff._min_airspeed_scaling = _runway_takeoff.getMinAirspeedScaling();
+    HkTlm._runway_takeoff._airspeed_min = _runway_takeoff.getAirspeed_min();
+    HkTlm._runway_takeoff._climbout_diff = _runway_takeoff.getClimbout_diff();
+
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
+
     int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&HkTlm);
     if (iStatus != CFE_SUCCESS)
     {

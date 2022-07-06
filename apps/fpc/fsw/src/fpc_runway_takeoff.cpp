@@ -55,38 +55,13 @@ namespace runwaytakeoff
  * @param takeoffEnabled
  * @param headingMode
  */
-RunwayTakeoff::RunwayTakeoff(osalbool takeoffEnabled,
-                             int32 headingMode,
-                             float navAlt,
-                             float takeffThrottle,
-                             float pitchSetpoint,
-                             float maxPitch,
-                             float maxRoll,
-                             float airspeedScaleFactor,
-                             float airspeedMin,
-                             float climboutDiff) :
+RunwayTakeoff::RunwayTakeoff():
 	_state(),
 	_initialized(false),
 	_initialized_time(0),
 	_init_yaw(0),
 	_climbout(false),
-	_throttle_ramp_time(2 * 1e6),
-    _runway_takeoff_enabled(takeoffEnabled),
-    _heading_mode(headingMode),
-    _nav_alt(navAlt),
-    _takeoff_throttle(takeffThrottle),
-    _runway_pitch_sp(pitchSetpoint),
-    _max_takeoff_pitch(maxPitch),
-    _max_takeoff_roll(maxRoll),
-    _min_airspeed_scaling(airspeedScaleFactor),
-    _airspeed_min(airspeedMin),
-    _climbout_diff(climboutDiff)
-{
-
-//	updateParams();
-}
-
-RunwayTakeoff::RunwayTakeoff()
+    _throttle_ramp_time(2 * 1e6)
 {
 
 }
@@ -305,6 +280,84 @@ void RunwayTakeoff::reset()
 {
 	_initialized = false;
 	_state = RunwayTakeoffState::THROTTLE_RAMP;
+}
+
+void RunwayTakeoff::UpdateParamsFromTable(osalbool takeoffEnabled,
+                                          int32 headingMode,
+                                          float navAlt,
+                                          float takeffThrottle,
+                                          float pitchSetpoint,
+                                          float maxPitch,
+                                          float maxRoll,
+                                          float airspeedScaleFactor,
+                                          float airspeedMin,
+                                          float climboutDiff)
+{
+    _runway_takeoff_enabled = takeoffEnabled;
+    _heading_mode = headingMode;
+    _nav_alt = navAlt;
+    _takeoff_throttle = takeffThrottle;
+    _runway_pitch_sp = pitchSetpoint;
+    _max_takeoff_pitch = maxPitch;
+    _max_takeoff_roll = maxRoll;
+    _min_airspeed_scaling = airspeedScaleFactor;
+    _airspeed_min = airspeedMin;
+    _climbout_diff = climboutDiff;
+}
+
+int32 RunwayTakeoff::getHeading_mode() const
+{
+    return _heading_mode;
+}
+
+float RunwayTakeoff::getNav_alt() const
+{
+    return _nav_alt;
+}
+
+float RunwayTakeoff::getTakeoff_throttle() const
+{
+    return _takeoff_throttle;
+}
+
+float RunwayTakeoff::getRunway_pitch_sp() const
+{
+    return _runway_pitch_sp;
+}
+
+float RunwayTakeoff::getMax_takeoff_pitch() const
+{
+    return _max_takeoff_pitch;
+}
+
+float RunwayTakeoff::getMax_takeoff_roll() const
+{
+    return _max_takeoff_roll;
+}
+
+float RunwayTakeoff::getMin_airspeed_scaling() const
+{
+    return _min_airspeed_scaling;
+}
+
+float RunwayTakeoff::getAirspeed_min() const
+{
+    return _airspeed_min;
+}
+
+float RunwayTakeoff::getClimbout_diff() const
+{
+    return _climbout_diff;
+}
+
+osalbool RunwayTakeoff::getInitialized() const
+{
+    return _initialized;
+}
+
+unsigned RunwayTakeoff::getThrottle_ramp_time() const
+{
+    return _throttle_ramp_time;
 }
 
 }

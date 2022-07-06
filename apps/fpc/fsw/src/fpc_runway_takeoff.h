@@ -46,6 +46,10 @@
 
 #include "math/Vector2F.hpp"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 namespace runwaytakeoff
 {
 
@@ -60,23 +64,13 @@ enum RunwayTakeoffState {
 class RunwayTakeoff
 {
 public:
-    RunwayTakeoff(osalbool takeoffEnabled,
-                  int32 headingMode,
-                  float navAlt,
-                  float takeffThrottle,
-                  float pitchSetpoint,
-                  float maxPitch,
-                  float maxRoll,
-                  float airspeedScaleFactor,
-                  float airspeedMin,
-                  float climboutDiff);
      RunwayTakeoff();
 	~RunwayTakeoff();
 
 	void init(float yaw, double current_lat, double current_lon);
     void update(float airspeed, float alt_agl, double current_lat, double current_lon);
 
-	RunwayTakeoffState getState() { return _state; }
+    RunwayTakeoffState getState() { return _state; }
     osalbool isInitialized() { return _initialized; }
 
     osalbool runwayTakeoffEnabled() { return (osalbool)_runway_takeoff_enabled; }
@@ -93,18 +87,52 @@ public:
 	float getMinPitch(float sp_min, float climbout_min, float min);
 	float getMaxPitch(float max);
     math::Vector2F getStartWP();
+    osalbool get_runway_takeoff_enabled(){return _runway_takeoff_enabled;}
 
 	void reset();
 
+    void UpdateParamsFromTable(osalbool takeoffEnabled,
+                    int32 headingMode,
+                    float navAlt,
+                    float takeffThrottle,
+                    float pitchSetpoint,
+                    float maxPitch,
+                    float maxRoll,
+                    float airspeedScaleFactor,
+                    float airspeedMin,
+                    float climboutDiff);
+
+    int32 getHeading_mode() const;
+
+    float getNav_alt() const;
+
+    float getTakeoff_throttle() const;
+
+    float getRunway_pitch_sp() const;
+
+    float getMax_takeoff_pitch() const;
+
+    float getMax_takeoff_roll() const;
+
+    float getMin_airspeed_scaling() const;
+
+    float getAirspeed_min() const;
+
+    float getClimbout_diff() const;
+
+    osalbool getInitialized() const;
+
+    unsigned getThrottle_ramp_time() const;
+
 protected:
 private:
-	/** state variables **/
+    /** state variables **/
 	RunwayTakeoffState _state;
     osalbool _initialized;
     uint64 _initialized_time;
 	float _init_yaw;
     osalbool _climbout;
-	unsigned _throttle_ramp_time;
+    unsigned _throttle_ramp_time;
     math::Vector2F _start_wp;
 
 	/** parameters **/
@@ -122,5 +150,8 @@ private:
 };
 
 }
+#ifdef __cplusplus
+}
+#endif
 
 #endif // RUNWAYTAKEOFF_H

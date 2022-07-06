@@ -115,7 +115,7 @@ float LaunchDetector::getPitchMax(float pitchMaxDefault)
     return launchMethod.getPitchMax(pitchMaxDefault);
 }
 
-void LaunchDetector::Initialize(float newThresholdAccel,
+void LaunchDetector::UpdateParamsFromTable(float newThresholdAccel,
                                 float newThresholdTime,
                                 float newMotorDelay,
                                 float newPitchMaxPreThrottle,
@@ -127,7 +127,7 @@ void LaunchDetector::Initialize(float newThresholdAccel,
     pitchMaxPreThrottle = newPitchMaxPreThrottle;
     launchDetectionOn = newLaunchDetectionEnabled;
 
-    launchMethod.Initialize(thresholdAccel,thresholdTime, motorDelay, newPitchMaxPreThrottle );
+    launchMethod.Initialize(thresholdAccel,thresholdTime, motorDelay, newPitchMaxPreThrottle);
 
 }
 } // namespace launchdetection
