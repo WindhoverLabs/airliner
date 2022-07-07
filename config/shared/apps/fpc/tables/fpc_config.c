@@ -814,7 +814,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @boolean
          * @group Runway Takeoff
          */
-        FALSE,
+        TRUE,
 
         /**
          * RWTO_HDG
