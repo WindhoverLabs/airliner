@@ -1358,7 +1358,6 @@ void SIMLINK_ListenerTaskMain(void)
                                 SIMLINK_AppData.BaroMsg[0].Pressure = decodedMsg.abs_pressure;
                                 SIMLINK_AppData.BaroMsg[0].Temperature = decodedMsg.temperature;
                                 SIMLINK_AppData.BaroMsg[0].BarometricAltitude = decodedMsg.pressure_alt;
-                                SIMLINK_AppData.BaroMsg[0].DiffPressure = decodedMsg.diff_pressure;
 
                             	rc = CVT_SetContent(SIMLINK_AppData.BaroContainer[0], &SIMLINK_AppData.BaroMsg[0], sizeof(SIMLINK_Baro_Msg_t));
                             	if(CVT_SUCCESS == rc)
@@ -1373,6 +1372,29 @@ void SIMLINK_ListenerTaskMain(void)
                                                              rc);
                             	}
                             }
+
+                            if(decodedMsg.fields_updated & (uint32_t)SIMLINK_DIFF_PRESS)
+                            {
+                                int32 rc;
+
+                                /* Update the outgoing message for consumers. */
+                                SIMLINK_AppData.BaroMsg[0].DiffPressure = decodedMsg.diff_pressure;
+
+                            	rc = CVT_SetContent(SIMLINK_AppData.BaroContainer[0], &SIMLINK_AppData.BaroMsg[0], sizeof(SIMLINK_Baro_Msg_t));
+                            	if(CVT_SUCCESS == rc)
+                            	{
+                                    SIMLINK_AppData.HkTlm.DataOutMetrics.DiffPressMsgCount[0]++;
+                            	}
+                            	else
+                            	{
+                                    (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
+                                                             "Failed to set Baro %d container. (%li)",
+                        									 i,
+                                                             rc);
+                            	}
+                            }
+
+
 
                             break;
                         }
