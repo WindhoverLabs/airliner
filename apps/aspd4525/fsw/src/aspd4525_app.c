@@ -983,12 +983,24 @@ void ASPD4525_ReportHousekeeping()
 void ASPD4525_SendOutData()
 {
     /* TODO:  Add code to update output data, if needed, here.  */
-
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&ASPD4525_AppData.OutData);
-    int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&ASPD4525_AppData.OutData);
-    if (iStatus != CFE_SUCCESS)
     {
-        /* TODO: Decide what to do if the send message fails. */
+        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&ASPD4525_AppData.OutData);
+        int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&ASPD4525_AppData.OutData);
+        if (iStatus != CFE_SUCCESS)
+        {
+            /* TODO: Decide what to do if the send message fails. */
+        }
+    }
+
+
+    {
+
+        CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&ASPD4525_AppData.PX4_AirspeedMsg);
+        int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&ASPD4525_AppData.PX4_AirspeedMsg);
+        if (iStatus != CFE_SUCCESS)
+        {
+            /* TODO: Decide what to do if the send message fails. */
+        }
     }
 }
 
