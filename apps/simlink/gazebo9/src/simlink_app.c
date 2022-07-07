@@ -1261,25 +1261,16 @@ void SIMLINK_ListenerTaskMain(void)
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.sysid = msg.sysid;
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.compid = msg.compid;
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.time_usec = decodedMsg.time_usec;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xacc = decodedMsg.xacc;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.yacc = decodedMsg.yacc;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zacc = decodedMsg.zacc;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xgyro = decodedMsg.xgyro;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ygyro = decodedMsg.ygyro;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zgyro = decodedMsg.zgyro;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xmag = decodedMsg.xmag;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ymag = decodedMsg.ymag;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zmag = decodedMsg.zmag;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.abs_pressure = decodedMsg.abs_pressure;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.diff_pressure = decodedMsg.diff_pressure;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.pressure_alt = decodedMsg.pressure_alt;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.temperature = decodedMsg.temperature;
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.fields_updated = decodedMsg.fields_updated;
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.id = decodedMsg.id;
 
                             if(decodedMsg.fields_updated & (uint32_t)SIMLINK_ACCEL)
                             {
                                 int32 rc;
+
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xacc = decodedMsg.xacc;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.yacc = decodedMsg.yacc;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zacc = decodedMsg.zacc;
 
                                 /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.AccelMsg[0].TimeUsec = decodedMsg.time_usec;
@@ -1305,6 +1296,10 @@ void SIMLINK_ListenerTaskMain(void)
                             {
                                 int32 rc;
 
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xgyro = decodedMsg.xgyro;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ygyro = decodedMsg.ygyro;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zgyro = decodedMsg.zgyro;
+
                                 /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.GyroMsg[0].TimeUsec = decodedMsg.time_usec;
                                 SIMLINK_AppData.GyroMsg[0].X = decodedMsg.xgyro;
@@ -1328,6 +1323,10 @@ void SIMLINK_ListenerTaskMain(void)
                             if(decodedMsg.fields_updated & (uint32_t)SIMLINK_MAG)
                             {
                                 int32 rc;
+
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xmag = decodedMsg.xmag;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ymag = decodedMsg.ymag;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zmag = decodedMsg.zmag;
 
                                 /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.MagMsg[0].TimeUsec = decodedMsg.time_usec;
@@ -1353,6 +1352,10 @@ void SIMLINK_ListenerTaskMain(void)
                             {
                                 int32 rc;
 
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.abs_pressure = decodedMsg.abs_pressure;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.pressure_alt = decodedMsg.pressure_alt;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.temperature = decodedMsg.temperature;
+
                                 /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.BaroMsg[0].TimeUsec = decodedMsg.time_usec;
                                 SIMLINK_AppData.BaroMsg[0].Pressure = decodedMsg.abs_pressure;
@@ -1376,6 +1379,8 @@ void SIMLINK_ListenerTaskMain(void)
                             if(decodedMsg.fields_updated & (uint32_t)SIMLINK_DIFF_PRESS)
                             {
                                 int32 rc;
+
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.diff_pressure = decodedMsg.diff_pressure;
 
                                 /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.BaroMsg[0].DiffPressure = decodedMsg.diff_pressure;
