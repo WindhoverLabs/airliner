@@ -30,11 +30,6 @@
 **    ObjSize - size of the entire table
 **
 */
-static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
-{
-    "FAC_ParamTbl", "FAC.PARAM_TBL", "FAC default param table",
-    "fac_param.tbl", sizeof(FAC_ParamTbl_t)
-};
 
 /************************************************************************
 ** External Global Variables
@@ -610,7 +605,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @unit degrees
 	 * @group FW Attitude Control
 	 */
-	90,
+	90.0f,
 
 	/**
 	 * Acro body y max rate (FW_ACRO_Y_MAX).
@@ -623,7 +618,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @unit degrees
 	 * @group FW Attitude Control
 	 */
-	90,
+	90.0f,
 
 	/**
 	 * Acro body z max rate (FW_ACRO_Z_MAX).
@@ -636,7 +631,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @unit degrees
 	 * @group FW Attitude Control
 	 */
-	45,
+	45.0f,
 
 	/**
 	 * Threshold for Rattitude mode (FW_RATT_TH).
@@ -757,6 +752,8 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 */
 	0
 };
+
+CFE_TBL_FILEDEF(FAC_ParamTbl, FAC.PARAM_TBL, FAC dflt param table, fac_param.tbl)
 
 /************************************************************************
 ** Local Variables
