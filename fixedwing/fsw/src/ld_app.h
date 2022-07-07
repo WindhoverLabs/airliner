@@ -141,6 +141,9 @@ public:
     /** \brief Command Pipe ID */
     CFE_SB_PipeId_t CmdPipeId;
 
+    /** \brief Command Pipe ID */
+    CFE_SB_PipeId_t DataPipeId;
+
     /* Task-related */
     /** \brief Task Run Status */
     uint32 uiRunStatus;
@@ -325,6 +328,27 @@ public:
      **
      *************************************************************************/
     int32 RcvSchPipeMsg(int32 iBlocking);
+
+
+    /************************************************************************/
+    /** \brief Receive and process messages from the data pipe.
+     **
+     **  \par Description
+     **       This function receives and processes messages
+     **       for the LD application from the Data pipe.  This function
+     **       will pend for the type defined by CFE_SB_POLL, allowing
+     **       it to wait for messages, i.e. wakeup messages on Data.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     **  \returns
+     **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
+     **  \retstmt Return codes from #CFE_SB_RcvMsg            \endcode
+     **  \endreturns
+     **
+     *************************************************************************/
+    int32 RcvDataPipeMsg();
 
     /************************************************************************/
     /** \brief Landing Detector Task incoming command processing
