@@ -5,30 +5,30 @@
   commander:
     displays: cdr
   events: 
-    MAC_INF_EID: 
+    FAC_INF_EID: 
       id: 1
-    MAC_INIT_INF_EID: 
+    FAC_INIT_INF_EID: 
       id: 2
-    MAC_CMD_INF_EID: 
+    FAC_CMD_INF_EID: 
       id: 3
-    MAC_INIT_ERR_EID: 
+    FAC_INIT_ERR_EID: 
       id: 4
-    MAC_CONFIG_TABLE_ERR_EID: 
+    FAC_CONFIG_TABLE_ERR_EID: 
       id: 5
-    MAC_PIPE_ERR_EID: 
+    FAC_PIPE_ERR_EID: 
       id: 6
-    MAC_MSGID_ERR_EID: 
+    FAC_MSGID_ERR_EID: 
       id: 7
-    MAC_MSGLEN_ERR_EID: 
+    FAC_MSGLEN_ERR_EID: 
       id: 8
-    MAC_TBL_VALIDATE_ERR_EID: 
+    FAC_TBL_VALIDATE_ERR_EID: 
       id: 9
   telemetry: 
-    MAC_HK_TLM_MID: 
+    FAC_HK_TLM_MID: 
       msgID: 
-      struct: MAC_HkTlm_t
+      struct: FAC_HkTlm_t
   commands: 
-    MAC_CMD_MID: 
+    FAC_CMD_MID: 
       msgID: 
       commands: 
         Noop: 
@@ -37,58 +37,58 @@
         Reset: 
           cc: 1
           struct: CFE_SB_CmdHdr_t
-    MAC_RUN_CONTROLLER_MID: 
+    FAC_RUN_CONTROLLER_MID: 
       msgID: 
       commands: 
         RunController: 
           cc: 0
           struct: CFE_SB_CmdHdr_t
-    MAC_SEND_HK_MID: 
+    FAC_SEND_HK_MID: 
       msgID: 
       commands: 
         SendHK: 
           cc: 0
           struct: CFE_SB_CmdHdr_t
   perfids: 
-    MAC_MAIN_TASK_PERF_ID: 
+    FAC_MAIN_TASK_PERF_ID: 
       id: 
   config: 
-    MAC_SB_TIMEOUT: 
-      name: MAC_SB_TIMEOUT
+    FAC_SB_TIMEOUT: 
+      name: FAC_SB_TIMEOUT
       value: CFE_SB_PEND_FOREVER
-    MAC_MISSION_REV: 
-      name: MAC_MISSION_REV
+    FAC_MISSION_REV: 
+      name: FAC_MISSION_REV
       value: 0
-    MAC_SCH_PIPE_DEPTH: 
-      name: MAC_SCH_PIPE_DEPTH
+    FAC_SCH_PIPE_DEPTH: 
+      name: FAC_SCH_PIPE_DEPTH
       value: 15
-    MAC_SCH_PIPE_NAME: 
-      name: MAC_SCH_PIPE_NAME
-      value: MAC_SCH_PIPE
-    MAC_SCH_PIPE_PEND_TIME: 
-      name: MAC_SCH_PIPE_PEND_TIME
+    FAC_SCH_PIPE_NAME: 
+      name: FAC_SCH_PIPE_NAME
+      value: FAC_SCH_PIPE
+    FAC_SCH_PIPE_PEND_TIME: 
+      name: FAC_SCH_PIPE_PEND_TIME
       value: 2000
-    MAC_WAKEUP_MID_MAX_MSG_COUNT: 
-      name: MAC_WAKEUP_MID_MAX_MSG_COUNT
+    FAC_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: FAC_WAKEUP_MID_MAX_MSG_COUNT
       value: 1
-    MAC_SEND_HK_MID_MAX_MSG_COUNT: 
-      name: MAC_SEND_HK_MID_MAX_MSG_COUNT
+    FAC_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: FAC_SEND_HK_MID_MAX_MSG_COUNT
       value: 1
-    MAC_CMD_PIPE_DEPTH: 
-      name: MAC_CMD_PIPE_DEPTH
+    FAC_CMD_PIPE_DEPTH: 
+      name: FAC_CMD_PIPE_DEPTH
       value: 15
-    MAC_CMD_PIPE_NAME: 
-      name: MAC_CMD_PIPE_NAME
-      value: MAC_CMD_PIPE
-    MAC_DATA_PIPE_DEPTH: 
-      name: MAC_DATA_PIPE_DEPTH
+    FAC_CMD_PIPE_NAME: 
+      name: FAC_CMD_PIPE_NAME
+      value: FAC_CMD_PIPE
+    FAC_DATA_PIPE_DEPTH: 
+      name: FAC_DATA_PIPE_DEPTH
       value: 4
-    MAC_DATA_PIPE_NAME: 
-      name: MAC_DATA_PIPE_NAME
-      value: MAC_DATA_PIPE
-    MAC_CONFIG_TABLE_FILENAME: 
-      name: MAC_CONFIG_TABLE_FILENAME
+    FAC_DATA_PIPE_NAME: 
+      name: FAC_DATA_PIPE_NAME
+      value: FAC_DATA_PIPE
+    FAC_CONFIG_TABLE_FILENAME: 
+      name: FAC_CONFIG_TABLE_FILENAME
       value: /cf/apps/fac_param.tbl
-    MAC_STARTUP_TIMEOUT_MSEC: 
-      name: MAC_STARTUP_TIMEOUT_MSEC
+    FAC_STARTUP_TIMEOUT_MSEC: 
+      name: FAC_STARTUP_TIMEOUT_MSEC
       value: 1000
