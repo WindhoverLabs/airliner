@@ -404,7 +404,7 @@ typedef struct
 	 * @boolean
 	 * @group FW Attitude Control
 	 */
-	float FW_W_EN;
+	int32 FW_W_EN;
 
 	/**
 	 * Wheel steering rate proportional gain
