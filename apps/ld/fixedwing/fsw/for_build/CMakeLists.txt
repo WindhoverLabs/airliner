@@ -20,8 +20,8 @@ buildliner_add_app_def(ld
     DESIGN_DEFINITION ${CMAKE_CURRENT_SOURCE_DIR}/ld_msg_overrides.json
     
     REFERENCE_CONFIG
-        ${PROJECT_SOURCE_DIR}/apps/ld/multicopter/fsw/mission_inc
-        ${PROJECT_SOURCE_DIR}/apps/ld/multicopter/fsw/platform_inc
+        ${PROJECT_SOURCE_DIR}/apps/ld/fixedwing/fsw/mission_inc
+        ${PROJECT_SOURCE_DIR}/apps/ld/fixedwing/fsw/platform_inc
         
     COMMANDER_DISPLAYS 
         ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
@@ -53,7 +53,7 @@ buildliner_add_app_unit_test(ld-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ld_msg.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ld_tbldefs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ld_version.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
+        ${PROJECT_SOURCE_DIR}/apps/cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

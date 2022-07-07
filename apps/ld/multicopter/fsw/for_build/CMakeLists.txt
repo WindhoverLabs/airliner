@@ -53,7 +53,7 @@ buildliner_add_app_unit_test(ld-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ld_msg.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ld_tbldefs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/ld_version.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
+        ${PROJECT_SOURCE_DIR}/apps/cfs_lib/fsw/src/cfs_utils.c
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
