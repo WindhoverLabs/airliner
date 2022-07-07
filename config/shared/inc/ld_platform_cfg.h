@@ -29,7 +29,7 @@ extern "C" {
 **  \par Limits:
 **       minimum of 1, max of CFE_SB_MAX_PIPE_DEPTH.
 */
-#define LD_SCH_PIPE_DEPTH             (15)
+#define LD_SCH_PIPE_DEPTH             (4)
 
 /** \brief Pipe name for the Scheduler pipe 
 **
@@ -85,7 +85,7 @@ extern "C" {
 **  \par Limits:
 **       minimum of 1, max of CFE_SB_MAX_PIPE_DEPTH.
 */
-#define LD_DATA_PIPE_DEPTH            (4)
+#define LD_DATA_PIPE_DEPTH            (15)
 
 /** \brief Pipe name for the Scheduler pipe 
 **

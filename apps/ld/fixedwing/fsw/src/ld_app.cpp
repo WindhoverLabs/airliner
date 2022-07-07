@@ -155,140 +155,6 @@ int32 LD::InitPipe()
             goto LD_InitPipe_Exit_Tag;
         }
 
-        /* Subscribe to actuator armed */
-        iStatus = CFE_SB_SubscribeEx(PX4_ACTUATOR_ARMED_MID, 
-                                     SchPipeId,
-                                     CFE_SB_Default_Qos, 
-                                     1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "Sch Pipe failed to subscribe to PX4_ACTUATOR_ARMED_MID. (0x%08lX)",
-                    iStatus);
-            goto LD_InitPipe_Exit_Tag;
-        }
-
-        /* Subscribe to airspeeed */
-        iStatus = CFE_SB_SubscribeEx(PX4_AIRSPEED_MID, 
-                                     SchPipeId,
-                                     CFE_SB_Default_Qos,
-                                     1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "Sch Pipe failed to subscribe to PX4_AIRSPEED_MID. (0x%08lX)",
-                    iStatus);
-            goto LD_InitPipe_Exit_Tag;
-        }
-
-        /*TODO Remove if not needed*/
-        /* Subscribe to actuator controls */
-        iStatus = CFE_SB_SubscribeEx(PX4_ACTUATOR_CONTROLS_0_MID,
-                                     SchPipeId,
-                                     CFE_SB_Default_Qos,
-                                     1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "Sch Pipe failed to subscribe to PX4_ACTUATOR_CONTROLS_0_MID. (0x%08lX)",
-                    iStatus);
-            goto LD_InitPipe_Exit_Tag;
-        }
-
-        /*TODO Remove if not needed*/
-        /* Subscribe to control state */
-        iStatus = CFE_SB_SubscribeEx(PX4_CONTROL_STATE_MID,
-                                     SchPipeId,
-                                     CFE_SB_Default_Qos, 
-                                     1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "Sch Pipe failed to subscribe to PX4_CONTROL_STATE_MID. (0x%08lX)",
-                    iStatus);
-            goto LD_InitPipe_Exit_Tag;
-        }
-
-        /*TODO Remove if not needed*/
-        /* Subscribe to battery status */
-        iStatus = CFE_SB_SubscribeEx(PX4_BATTERY_STATUS_MID,
-                                     SchPipeId,
-                                     CFE_SB_Default_Qos,
-                                     1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "Sch Pipe failed to subscribe to PX4_BATTERY_STATUS_MID. (0x%08lX)",
-                    iStatus);
-            goto LD_InitPipe_Exit_Tag;
-        }
-
-        /*TODO Remove if not needed*/
-        /* Subscribe to vehicle attitude */
-        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_ATTITUDE_MID,
-                                     SchPipeId,
-                                     CFE_SB_Default_Qos,
-                                     1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "Sch Pipe failed to subscribe to PX4_VEHICLE_ATTITUDE_MID. (0x%08lX)",
-                    iStatus);
-            goto LD_InitPipe_Exit_Tag;
-        }
-
-        /*TODO Remove if not needed*/
-        /* Subscribe to manual control setpoint */
-        iStatus = CFE_SB_SubscribeEx(PX4_MANUAL_CONTROL_SETPOINT_MID,
-                                     SchPipeId,
-                                     CFE_SB_Default_Qos,
-                                     1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "Sch Pipe failed to subscribe to PX4_MANUAL_CONTROL_SETPOINT_MID. (0x%08lX)",
-                    iStatus);
-            goto LD_InitPipe_Exit_Tag;
-        }
-
-        /* Subscribe to vehicle local position */
-        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_LOCAL_POSITION_MID,
-                                     SchPipeId,
-                                     CFE_SB_Default_Qos,
-                                     1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "Sch Pipe failed to subscribe to PX4_VEHICLE_LOCAL_POSITION_MID. (0x%08lX)",
-                    iStatus);
-            goto LD_InitPipe_Exit_Tag;
-        }
-
-        iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_COMBINED_MID,
-                                     SchPipeId,  /*MSR: TODO Should this be DataPipeId*/
-                                     CFE_SB_Default_Qos,
-                                     1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "Sch Pipe failed to subscribe to PX4_SENSOR_COMBINED_MID. (0x%08lX)",
-                    iStatus);
-            goto LD_InitPipe_Exit_Tag;
-        }
-
-        /*TODO Remove if not needed*/
-        /* Subscribe to vehicle control mode */
-        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_CONTROL_MODE_MID,
-                                     SchPipeId,
-                                     CFE_SB_Default_Qos,
-                                     1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "Sch Pipe failed to subscribe to PX4_VEHICLE_CONTROL_MODE_MID. (0x%08lX)",
-                    iStatus);
-            goto LD_InitPipe_Exit_Tag;
-        }
     }
     else
     {
@@ -318,6 +184,153 @@ int32 LD::InitPipe()
                 "Failed to create CMD pipe (0x%08lX)", iStatus);
         goto LD_InitPipe_Exit_Tag;
     }
+
+    /* Init Data pipe and subscribe to Data messages */
+    iStatus = CFE_SB_CreatePipe(&DataPipeId, LD_DATA_PIPE_DEPTH, LD_DATA_PIPE_NAME);
+    if (iStatus == CFE_SUCCESS)
+    {
+        /* Subscribe to actuator armed */
+        iStatus = CFE_SB_SubscribeEx(PX4_ACTUATOR_ARMED_MID, 
+                                     DataPipeId,
+                                     CFE_SB_Default_Qos, 
+                                     1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                    "Data Pipe failed to subscribe to PX4_ACTUATOR_ARMED_MID. (0x%08lX)",
+                    iStatus);
+            goto LD_InitPipe_Exit_Tag;
+        }
+
+        /* Subscribe to airspeeed */
+        iStatus = CFE_SB_SubscribeEx(PX4_AIRSPEED_MID, 
+                                     DataPipeId,
+                                     CFE_SB_Default_Qos,
+                                     1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                    "Data Pipe failed to subscribe to PX4_AIRSPEED_MID. (0x%08lX)",
+                    iStatus);
+            goto LD_InitPipe_Exit_Tag;
+        }
+
+        /*TODO Remove if not needed*/
+        /* Subscribe to actuator controls */
+        iStatus = CFE_SB_SubscribeEx(PX4_ACTUATOR_CONTROLS_0_MID,
+                                     DataPipeId,
+                                     CFE_SB_Default_Qos,
+                                     1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                    "Data Pipe failed to subscribe to PX4_ACTUATOR_CONTROLS_0_MID. (0x%08lX)",
+                    iStatus);
+            goto LD_InitPipe_Exit_Tag;
+        }
+
+        /*TODO Remove if not needed*/
+        /* Subscribe to control state */
+        iStatus = CFE_SB_SubscribeEx(PX4_CONTROL_STATE_MID,
+                                     DataPipeId,
+                                     CFE_SB_Default_Qos, 
+                                     1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                    "Data Pipe failed to subscribe to PX4_CONTROL_STATE_MID. (0x%08lX)",
+                    iStatus);
+            goto LD_InitPipe_Exit_Tag;
+        }
+
+        /*TODO Remove if not needed*/
+        /* Subscribe to battery status */
+        iStatus = CFE_SB_SubscribeEx(PX4_BATTERY_STATUS_MID,
+                                     DataPipeId,
+                                     CFE_SB_Default_Qos,
+                                     1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                    "Data Pipe failed to subscribe to PX4_BATTERY_STATUS_MID. (0x%08lX)",
+                    iStatus);
+            goto LD_InitPipe_Exit_Tag;
+        }
+
+        /*TODO Remove if not needed*/
+        /* Subscribe to vehicle attitude */
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_ATTITUDE_MID,
+                                     DataPipeId,
+                                     CFE_SB_Default_Qos,
+                                     1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                    "Data Pipe failed to subscribe to PX4_VEHICLE_ATTITUDE_MID. (0x%08lX)",
+                    iStatus);
+            goto LD_InitPipe_Exit_Tag;
+        }
+
+        /*TODO Remove if not needed*/
+        /* Subscribe to manual control setpoint */
+        iStatus = CFE_SB_SubscribeEx(PX4_MANUAL_CONTROL_SETPOINT_MID,
+                                     DataPipeId,
+                                     CFE_SB_Default_Qos,
+                                     1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                    "Data Pipe failed to subscribe to PX4_MANUAL_CONTROL_SETPOINT_MID. (0x%08lX)",
+                    iStatus);
+            goto LD_InitPipe_Exit_Tag;
+        }
+
+        /* Subscribe to vehicle local position */
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_LOCAL_POSITION_MID,
+                                     DataPipeId,
+                                     CFE_SB_Default_Qos,
+                                     1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                    "Data Pipe failed to subscribe to PX4_VEHICLE_LOCAL_POSITION_MID. (0x%08lX)",
+                    iStatus);
+            goto LD_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_COMBINED_MID,
+                                     DataPipeId,  /*MSR: TODO Should this be DataPipeId*/
+                                     CFE_SB_Default_Qos,
+                                     1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                    "Data Pipe failed to subscribe to PX4_SENSOR_COMBINED_MID. (0x%08lX)",
+                    iStatus);
+            goto LD_InitPipe_Exit_Tag;
+        }
+
+        /*TODO Remove if not needed*/
+        /* Subscribe to vehicle control mode */
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_CONTROL_MODE_MID,
+                                     DataPipeId,
+                                     CFE_SB_Default_Qos,
+                                     1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(LD_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                    "Data Pipe failed to subscribe to PX4_VEHICLE_CONTROL_MODE_MID. (0x%08lX)",
+                    iStatus);
+            goto LD_InitPipe_Exit_Tag;
+        }
+    }
+    else
+    {
+        (void) CFE_EVS_SendEvent(LD_PIPE_INIT_ERR_EID, CFE_EVS_ERROR,
+                "Failed to create Data pipe (0x%08lX)", iStatus);
+        goto LD_InitPipe_Exit_Tag;
+    }
+
 
 LD_InitPipe_Exit_Tag:
     return (iStatus);
@@ -442,6 +455,57 @@ int32 LD::RcvSchPipeMsg(int32 iBlocking)
                 ReportHousekeeping();
                 break;
             }
+            default:
+            {
+                (void) CFE_EVS_SendEvent(LD_MSGID_ERR_EID, CFE_EVS_ERROR,
+                        "Recvd invalid SCH msgId (0x%04X)", MsgId);
+                break;
+            }
+        }
+    }
+    else if (iStatus == CFE_SB_NO_MESSAGE)
+    {
+        iStatus = CFE_SUCCESS;
+    }
+    else if (iStatus == CFE_SB_TIME_OUT)
+    {
+        iStatus = CFE_SUCCESS;
+    }
+    else
+    {
+        (void) CFE_EVS_SendEvent(LD_RCVMSG_ERR_EID, CFE_EVS_ERROR,
+                "SCH pipe read error (0x%08lX).", iStatus);
+    }
+
+    return (iStatus);
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Receive and Process Messages                                    */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+int32 LD::RcvDataPipeMsg()
+{
+    int32 iStatus = CFE_SUCCESS;
+    CFE_SB_Msg_t* MsgPtr = NULL;
+    CFE_SB_MsgId_t MsgId;
+
+    /* Stop Performance Log entry */
+    CFE_ES_PerfLogExit(LD_MAIN_TASK_PERF_ID);
+
+    /* Wait for WakeUp messages from scheduler */
+    iStatus = CFE_SB_RcvMsg(&MsgPtr, DataPipeId, CFE_SB_POLL);
+
+    /* Start Performance Log entry */
+    CFE_ES_PerfLogEntry(LD_MAIN_TASK_PERF_ID);
+
+    if (iStatus == CFE_SUCCESS)
+    {
+        MsgId = CFE_SB_GetMsgId(MsgPtr);
+        switch (MsgId)
+        {
             case PX4_ACTUATOR_ARMED_MID:
             {
                 CFE_PSP_MemCpy(&CVT.ActuatorArmedMsg, MsgPtr, 
@@ -511,7 +575,7 @@ int32 LD::RcvSchPipeMsg(int32 iBlocking)
             default:
             {
                 (void) CFE_EVS_SendEvent(LD_MSGID_ERR_EID, CFE_EVS_ERROR,
-                        "Recvd invalid SCH msgId (0x%04X)", MsgId);
+                        "Recvd invalid Data msgId (0x%04X)", MsgId);
                 break;
             }
         }
@@ -527,7 +591,7 @@ int32 LD::RcvSchPipeMsg(int32 iBlocking)
     else
     {
         (void) CFE_EVS_SendEvent(LD_RCVMSG_ERR_EID, CFE_EVS_ERROR,
-                "SCH pipe read error (0x%08lX).", iStatus);
+                "Data pipe read error (0x%08lX).", iStatus);
     }
 
     return (iStatus);
@@ -745,6 +809,7 @@ void LD::AppMain()
     while (CFE_ES_RunLoop(&uiRunStatus) == TRUE)
     {
         RcvSchPipeMsg(LD_SCH_PIPE_PEND_TIME);
+        RcvDataPipeMsg();
 
         iStatus = AcquireConfigPointers();
         if (iStatus != CFE_SUCCESS)

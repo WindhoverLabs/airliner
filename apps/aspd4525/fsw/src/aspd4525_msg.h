@@ -42,6 +42,7 @@
 ** Includes
 *************************************************************************/
 #include "cfe.h"
+#include "aspd4525_config.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -119,8 +120,14 @@ extern "C" {
 **  \sa #ASPD4525_NOOP_CC
 */
 #define ASPD4525_RESET_CC                (1)
-
 #define ASPD4525_MAN_CALIB_CC            (2)
+#define ASPD4525_LAB_CALIB_CC            (3)
+
+#define ASPD4525_TEMP_CALIB_CC           (5)
+#define ASPD4525_PHYSICS_CALIB_CC        (6)
+#define ASPD4525_AIR_COL_CALIB_CC        (7)
+
+#define ASPD4525_SET_AIR_DENSITY_MODE_CC (8)
 
 /************************************************************************
 ** Local Structure Declarations
@@ -146,6 +153,73 @@ typedef struct {
 	float fGravitationalAccereleration_SI;					/* m/s^2 */
 	float fAirMolarMass_SI;									/* kg/mol */
 } ASPD4525_ManCalibArgCmd_t;
+
+typedef struct {
+    uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
+    uint32 uPCountLow;
+	float fVelocityLow_SI;                                  /* m/s */
+    uint32 uPCountHigh;
+	float fVelocityHigh_SI;                                 /* m/s */
+} ASPD4525_LabCalibArgCmd_t;
+
+typedef struct {
+    uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
+    uint32 uTCountLow;
+	float fTemperatureLow_Celcius;                          /* degrees Celsius */
+    uint32 uTCountHigh;
+	float fTemperatureHigh_Celcius;                         /* degrees Celsius */
+} ASPD4525_TempCalibArgCmd_t;
+
+typedef struct {
+    uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
+	float fAirGasConstantR_SI;								/* J/(mol.K) */
+	float fGravitationalAccereleration_SI;					/* m/s^2 */
+	float fAirMolarMass_SI;									/* kg/mol */
+} ASPD4525_PhysicsCalibArgCmd_t;
+
+typedef struct {
+    uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+	float fh_b0;								            /* m */
+	float fh_b1;								            /* m */
+	float fh_b2;								            /* m */
+	float fh_b3;								            /* m */
+	float fh_b4;								            /* m */
+	float fh_b5;								            /* m */
+	float fh_b6;								            /* m */
+
+	float frho_b0;								            /* kg/m^3 */
+	float frho_b1;								            /* kg/m^3 */
+	float frho_b2;								            /* kg/m^3 */
+	float frho_b3;								            /* kg/m^3 */
+	float frho_b4;								            /* kg/m^3 */
+	float frho_b5;								            /* kg/m^3 */
+	float frho_b6;								            /* kg/m^3 */
+
+	float fT_b0;								            /* K (kelvins) */
+	float fT_b1;								            /* K (kelvins) */
+	float fT_b2;								            /* K (kelvins) */
+	float fT_b3;								            /* K (kelvins) */
+	float fT_b4;								            /* K (kelvins) */
+	float fT_b5;								            /* K (kelvins) */
+	float fT_b6;								            /* K (kelvins) */
+
+	float fL_b0;								            /* K/m */
+	float fL_b1;								            /* K/m */
+	float fL_b2;								            /* K/m */
+	float fL_b3;								            /* K/m */
+	float fL_b4;								            /* K/m */
+	float fL_b5;								            /* K/m */
+	float fL_b6;								            /* K/m */
+
+} ASPD4525_AirColCalibArgCmd_t;
+
+
+typedef struct {
+    uint8 CmdHeader[CFE_SB_CMD_HDR_SIZE];
+	ASPD4525_CONFIG_AirDensity_Modes_t uAirDensityCalculationMode;	/* Modes described in aspd4525_config.h */
+} ASPD4525_AirDensityModeArgCmd_t;
+
 
 /** 
 **  \brief TODO Elaborate this struct
@@ -198,6 +272,12 @@ typedef struct
     float  fIndicatedAirSpeed;
     float  fTrueAirSpeed;
 
+	float fPressureMinimum_PSI;										/* PSI */
+	float fPressureMaximum_PSI;										/* PSI */
+	float fTemperatureMinimum_Celcius;								/* degrees Celsius */
+	float fTemperatureMaximum_Celcius;								/* degrees Celsius */
+
+	ASPD4525_CONFIG_AirDensity_Modes_t uAirDensityCalculationMode;	/* Modes described in aspd4525_config.h */
 } ASPD4525_HkTlm_t;
 
 

@@ -38,10 +38,16 @@ extern "C" {
 #define ASPD4525_MATH_PSI2PASCALS(psi)           (((float) 6894.76)*(psi))
 
 /**
- * @brief This macro can be used to convert Pressure in PSI to Pressure in Pascals
+ * @brief This macro can be used to convert Pressure in hPa to Pressure in psi
  * 
  */
 #define ASPD4525_MATH_HECTOPASCALS2PSI(hPa)           (((float) 0.0145038)*(hPa))
+
+/**
+ * @brief This can be used to convert pressure in psi to pressure in hectopascals
+ * 
+ */
+#define ASPD4525_MATH_PSI2HECTOPASCALS(psi)           (((float) 68.9475729318)*(psi))
 
 /**
  * @brief This macro can be used to convert Pressure in atms to Pressure in Pascals
@@ -89,6 +95,9 @@ float ASPD4525_MATH_GetTemperature(
 /**
  * @brief This function returns the fixed point temperature counts device outputs
  * 
+ * The Documentation for this function can be found at
+ * https://windhoverlabs.atlassian.net/l/c/J1og33nF
+ * 
  * @param configTblP config table pointer
  * @param fTemperature floating point temperature in Kelvin
  * @return uint16 Temperature Counts
@@ -100,6 +109,9 @@ uint16 ASPD4525_MATH_GetTempDataCounts(
 
 /**
  * @brief This function returns the fixed point pressure difference counts device outputs
+ * 
+ * The Documentation for this function can be found at
+ * https://windhoverlabs.atlassian.net/l/c/1XUcHZKL
  * 
  * @param configTblP config table pointer
  * @param fDiffPressure foating point preesure difference in hPa

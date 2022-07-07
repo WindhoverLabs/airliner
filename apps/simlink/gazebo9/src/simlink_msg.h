@@ -317,6 +317,7 @@ typedef struct
     uint32 AccelMsgCount[SIMLINK_ACCEL_DEVICE_COUNT];
     uint32 MagMsgCount[SIMLINK_MAG_DEVICE_COUNT];
     uint32 BaroMsgCount[SIMLINK_BARO_DEVICE_COUNT];
+    uint32 DiffPressMsgCount[SIMLINK_DEFFPRESS_DEVICE_COUNT];
     uint32 PwmMsgCount;
     uint32 HeartbeatCount;
 } SIMLINK_DataOutMetrics_t;

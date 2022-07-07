@@ -5,9 +5,35 @@
 extern "C" {
 #endif /*__cplusplus*/
 
-#define ASPD4525_CONFIG_AIRDENSITY_NO_ALTITUDE_MODE              (0)
-#define ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_MODE                 (1)
-#define ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_TEMPERATURE_MODE     (2)
+
+/* Config Table Modes for Air Density Calculation. */
+typedef enum {
+
+/** \brief <tt> 'ASPD4525_CONFIG_AIRDENSITY_NO_ALTITUDE_MODE - ' </tt>
+**  \mode <tt> 'ASPD4525_CONFIG_AIRDENSITY_NO_ALTITUDE_MODE - ' </tt>
+**  
+**  \par Type: Congiuration
+**
+**
+*/
+    ASPD4525_CONFIG_AIRDENSITY_NO_ALTITUDE_MODE = 0,
+
+/** \brief <tt> 'ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_MODE - ' </tt>
+**  \mode <tt> 'ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_MODE - ' </tt>
+**  
+**  \par Type: Congiuration
+**
+*/
+    ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_MODE,
+
+/** \brief <tt> 'ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_TEMPERATURE_MODE - ' </tt>
+**  \mode <tt> 'ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_TEMPERATURE_MODE - ' </tt>
+**  
+**  \par Type: Congiuration
+**
+*/
+    ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_TEMPERATURE_MODE
+} ASPD4525_CONFIG_AirDensity_Modes_t;
 
 #ifdef __cplusplus
 }

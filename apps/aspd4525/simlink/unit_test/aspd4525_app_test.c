@@ -447,6 +447,8 @@ void Test_ASPD4525_AppMain_ProcessNewData_InvalidMsgID(void)
 {
     ASPD4525_InData_t  InMsg;
     int32 DataPipe;
+    char message[100];
+
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and gives it data to process. */
@@ -463,7 +465,9 @@ void Test_ASPD4525_AppMain_ProcessNewData_InvalidMsgID(void)
     ASPD4525_AppMain();
 
     /* Verify results */
-    UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==3,"Event Count = 3");
+    uint32 result = Ut_CFE_EVS_GetEventQueueDepth();
+    sprintf(message, "Event Count = 4, got %ld\n", result);
+    UtAssert_True(result==4, message);
     UtAssert_EventSent(ASPD4525_MSGID_ERR_EID, CFE_EVS_ERROR, "", "Error Event Sent");
 }
 
