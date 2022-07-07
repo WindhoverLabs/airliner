@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<display version="2.0.0">
+  <name>($(CPUID)) ASPD4525-Air Density Mode</name>
+  <x>100</x>
+  <y>100</y>
+  <width>700</width>
+  <height>280</height>
+  <widget type="label" version="2.0.0">
+    <name>AirDensityModeLabel</name>
+    <text>Air Density Mode</text>
+    <x>30</x>
+    <y>198</y>
+    <width>170</width>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Title</name>
+    <text>($(CPUID)) ASPD4525-Air Density Mode</text>
+    <x>10</x>
+    <y>10</y>
+    <width>241</width>
+    <font>
+      <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <horizontal_alignment>1</horizontal_alignment>
+    <vertical_alignment>1</vertical_alignment>
+    <wrap_words>false</wrap_words>
+    <actions>
+    </actions>
+    <border_color>
+      <color red="0" green="128" blue="255">
+      </color>
+    </border_color>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>SetAirDensityMode</name>
+    <actions>
+      <action type="execute">
+        <script file="EmbeddedJs">
+          <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var AirDensityMode = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'AirDensityModeSpinner')));
+
+var args;
+
+//if( AirGasConstant != 0 ) {
+  args = {
+                'uAirDensityCalculationMode': AirDensityMode
+         };
+//  }
+//else {
+  //    args = {"Payload.DumpFilename":"",
+//		"Payload.TableName":''",
+//		"Payload.ActiveTblFlag":"" };
+//}
+
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/SetAirDensityMode', args);]]></text>
+        </script>
+      </action>
+    </actions>
+    <text>Set Air Density Mode</text>
+    <x>30</x>
+    <y>237</y>
+    <width>620</width>
+    <height>20</height>
+    <foreground_color>
+      <color red="253" green="255" blue="255">
+      </color>
+    </foreground_color>
+    <background_color>
+      <color red="34" green="45" blue="75">
+      </color>
+    </background_color>
+    <tooltip>$(actions)</tooltip>
+    <border_alarm_sensitive>false</border_alarm_sensitive>
+  </widget>
+  <widget type="combo" version="2.0.0">
+    <name>AirDensityModeSpinner</name>
+    <pv_name>loc://$(APP)_$(CPUID)_$(DID)_AirDensityMode&lt;VEnum&gt;(1,"ASPD4525_CONFIG_AIRDENSITY_NO_ALTITUDE_MODE","ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_MODE","ASPD4525_CONFIG_AIRDENSITY_ALTITUDE_TEMPERATURE_MODE")</pv_name>
+    <x>150</x>
+    <y>198</y>
+    <width>500</width>
+    <height>20</height>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Help</name>
+    <actions>
+      <action type="open_webpage">
+        <url>https://windhoverlabs.atlassian.net/wiki/spaces/~626004280f5cf500697ed4c2/pages/2495217691/Commander+Display+Manuals#Air-Density-Mode</url>
+        <description>Open Web Page</description>
+      </action>
+    </actions>
+    <text>Help</text>
+    <x>377</x>
+    <y>70</y>
+    <tooltip>$(actions)</tooltip>
+  </widget>
+  <widget type="picture" version="2.0.0">
+    <name>Picture</name>
+    <x>207</x>
+    <y>40</y>
+  </widget>
+  <widget type="label" version="2.0.0">
+    <name>Label_6</name>
+    <text>Scan QR Code for Help</text>
+    <x>180</x>
+    <y>154</y>
+    <width>310</width>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+</display>

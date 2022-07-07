@@ -734,7 +734,7 @@ uint32 ASPD4525_PrepareOutgoingData(
     
     returnData = ASPD4525_MATH_ByteFlip(packedData);
 
-    //printf("MSR_TODO ASPD4525_PrepareOutgoingData: 0x%08x  0x%08x\n", packedData, returnData);
+    //printf("MSR_TODO ASPD4525_PrepareOutgoingData: %f  0x%08x  0x%08x  0x%08x\n", fTemperature, uTempDataCounts, packedData, returnData);
     return returnData;
 }
 
@@ -775,7 +775,7 @@ void ASPD4525_ProcessNewData()
 
         ASPD4525_AppData.HkTlm.ASPD4525_Simlink_OUT = 
             ASPD4525_PrepareOutgoingData(
-                ASPD4525_AppData.HkTlm.Temperature_OUT,
+                ASPD4525_MATH_CELSIUS2KELVIN(ASPD4525_AppData.HkTlm.Temperature_OUT),
                 ASPD4525_AppData.HkTlm.DiffPressure_OUT,
                 ASPD4525_AppData.HkTlm.Status_OUT
             );

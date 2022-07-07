@@ -30,6 +30,7 @@ CFE_APP, /embedded/GPS.so,       GPS_AppMain,     GPS,       67, 32768, 0x0, 0, 
 CFE_APP, /embedded/CI.so,        CI_AppMain,      CI,      115, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/TO.so,        TO_AppMain,      TO,        124, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/SCH.so,       SCH_AppMain,     SCH,       10, 40960, 0x0, 0, 0;
+CFE_APP, /embedded/ASPD4525.so,  ASPD4525_AppMain,ASPD4525,  56, 32768, 0x0, 0, 2;
 !CFE_APP, /embedded/SBN.so,       SBN_AppMain,     SBN,       37, 32768, 0x0, 0, 2;
 !CFE_LIB, /embedded/PRMLIB.so,    PRMLIB_LibInit,  PRMLIB,      0,     0, 0x0, 0, 2;
 CFE_LIB, /embedded/PX4LIB.so,    PX4LIB_LibInit,  PX4LIB,    0,     0, 0x0, 0, 2;
