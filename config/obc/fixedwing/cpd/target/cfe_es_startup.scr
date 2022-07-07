@@ -7,6 +7,7 @@ CFE_LIB, /embedded/IPC_LIB.so,   IPC_LibInit,     IPC_LIB,    0,     0, 0x0, 0, 
 CFE_APP, /embedded/HS.so,        HS_AppMain,      HS,       105, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/SENS.so,      SENS_AppMain,    SENS,      20, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/LD.so,        LD_AppMain,      LD,        55, 65536, 0x0, 0, 0;
+CFE_APP, /embedded/ASPD4525.so,  ASPD4525_AppMain, ASPD4525, 58, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/QAE.so,       QAE_AppMain,     QAE,       25, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/PE.so,        PE_AppMain,      PE,        70, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/AMC.so,       AMC_AppMain,     AMC,       40, 65536, 0x0, 0, 0;

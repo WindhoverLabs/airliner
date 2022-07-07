@@ -241,20 +241,10 @@ int32 ASPD4525_InitData()
     /* Init input data */
     memset((void*)&ASPD4525_AppData.InData, 0x00, sizeof(ASPD4525_AppData.InData));
 
-    /* Init output data */
-    memset((void*)&ASPD4525_AppData.OutData, 0x00, sizeof(ASPD4525_AppData.OutData));
-    CFE_SB_InitMsg(&ASPD4525_AppData.OutData,
-                   ASPD4525_OUT_DATA_MID, sizeof(ASPD4525_AppData.OutData), TRUE);
-
-                   //PX4_AirspeedMsg_t  TODO
-
     /* Init housekeeping packet */
-    memset((void*)&ASPD4525_AppData.HkTlm, 0x00, sizeof(ASPD4525_AppData.HkTlm));
     CFE_SB_InitMsg(&ASPD4525_AppData.HkTlm,
                    ASPD4525_HK_TLM_MID, sizeof(ASPD4525_AppData.HkTlm), TRUE);
 
-
-    memset((void*)&ASPD4525_AppData.PX4_AirspeedMsg, 0x00, sizeof(ASPD4525_AppData.PX4_AirspeedMsg));
     CFE_SB_InitMsg(&ASPD4525_AppData.PX4_AirspeedMsg,
                    PX4_AIRSPEED_MID, sizeof(ASPD4525_AppData.PX4_AirspeedMsg), TRUE);
 
@@ -982,14 +972,8 @@ void ASPD4525_ReportHousekeeping()
 
 void ASPD4525_SendOutData()
 {
-    /* TODO:  Add code to update output data, if needed, here.  */
-
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&ASPD4525_AppData.OutData);
-    int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&ASPD4525_AppData.OutData);
-    if (iStatus != CFE_SUCCESS)
-    {
-        /* TODO: Decide what to do if the send message fails. */
-    }
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&ASPD4525_AppData.PX4_AirspeedMsg);
+    (void) CFE_SB_SendMsg((CFE_SB_Msg_t*)&ASPD4525_AppData.PX4_AirspeedMsg);
 }
 
 
