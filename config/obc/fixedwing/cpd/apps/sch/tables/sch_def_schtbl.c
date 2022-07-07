@@ -124,9 +124,6 @@ ULR_SEND_HK_MIDX				1Hz
 #define CF_SEND_HK_MIDX               57
 #define CF_WAKE_UP_REQ_CMD_MIDX       58
 
-#define MAC_SEND_HK_MIDX              60
-#define MAC_RUN_CONTROLLER_MIDX       61
-
 #define AMC_UPDATE_MOTORS_MIDX        65
 #define AMC_SEND_HK_MIDX              66
 #define SED_SEND_HK_MIDX              67
@@ -157,6 +154,9 @@ ULR_SEND_HK_MIDX				1Hz
 
 #define LGC_WAKEUP_MIDX               93
 #define LGC_SEND_HK_MIDX              94
+
+#define FAC_SEND_HK_MIDX              96
+#define FAC_RUN_CONTROLLER_MIDX       97
 
 #define SBN_WAKEUP_MIDX               98
 #define SBN_SEND_HK_MIDX              99
@@ -197,7 +197,7 @@ ULR_SEND_HK_MIDX				1Hz
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	CI_INGEST_COMMANDS_MIDX,  SCH_GROUP_NONE }, \
      { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  HMC5883_WAKEUP_MIDX,      SCH_GROUP_NONE }, \
      { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  LD_WAKEUP_MIDX,           SCH_GROUP_NONE }, \
-     { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  MAC_RUN_CONTROLLER_MIDX,  SCH_GROUP_NONE }, \
+     { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  FAC_RUN_CONTROLLER_MIDX,  SCH_GROUP_NONE }, \
      { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  FPC_WAKEUP_MIDX,          SCH_GROUP_NONE }, \
      { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	MS5611_MEASURE_MIDX,	  SCH_GROUP_NONE }, \
      { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  QAE_WAKEUP_MIDX,          SCH_GROUP_NONE }, \
@@ -614,7 +614,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_1,
 	    SCH_50HZ_GROUP_1,
 	    SCH_25HZ_GROUP_1,
-		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	MAC_SEND_HK_MIDX,         SCH_GROUP_NONE },
+		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	FAC_SEND_HK_MIDX,         SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -625,7 +625,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_2,
 	    SCH_25HZ_GROUP_2,
-                { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	FPC_SEND_HK_MIDX,         SCH_GROUP_NONE },
+        { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	FPC_SEND_HK_MIDX,         SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },

@@ -54,6 +54,14 @@
 #define MPC_WAKEUP_MID                            CMD_MSG(  150 )  /* 0x096 */
 
 
+/* FPC                                                                      */
+#define FPC_DIAG_TLM_MID                          TLM_MSG(  146 )  /* 0x092 */
+#define FPC_HK_TLM_MID                            TLM_MSG(  147 )  /* 0x093 */
+#define FPC_CMD_MID                               CMD_MSG(  148 )  /* 0x094 */
+#define FPC_SEND_HK_MID                           CMD_MSG(  149 )  /* 0x095 */
+#define FPC_WAKEUP_MID                            CMD_MSG(  150 )  /* 0x096 */
+
+
 /* NAV                                                                      */
 #define NAV_HK_TLM_MID                            TLM_MSG(  151 )  /* 0x097 */
 #define NAV_CMD_MID                               CMD_MSG(  152 )  /* 0x098 */
@@ -324,12 +332,5 @@
 #define ASPD4525_WAKEUP_MID                       CMD_MSG(  346 )  /* 0x15a */
 #define ASPD4525_OUT_DATA_MID                     TLM_MSG(  347 )  /* 0x15b */
 #define ASPD4525_HK_TLM_MID                       TLM_MSG(  348 )  /* 0x15c */
-
-/* FPC                                                                      */
-#define FPC_DIAG_TLM_MID                          TLM_MSG(  349 )  /* 0x15d */
-#define FPC_HK_TLM_MID                            TLM_MSG(  350 )  /* 0x15e */
-#define FPC_CMD_MID                               CMD_MSG(  351 )  /* 0x15f */
-#define FPC_SEND_HK_MID                           CMD_MSG(  352 )  /* 0x160 */
-#define FPC_WAKEUP_MID                            CMD_MSG(  353 )  /* 0x161 */
 
 #endif
