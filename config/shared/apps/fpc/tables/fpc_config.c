@@ -130,7 +130,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW TECS
      */
-    2.0f,
+    0.7f,
 
     /**
      * T_SINK_MAX
@@ -378,7 +378,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW TECS
      */
-    10.0,
+    0.6,
 
     /**
      * AIRSPD_TRIM
@@ -393,7 +393,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW TECS
      */
-    15.0f,
+    1.0f,
 
     /**
      * AIRSPD_MAX
@@ -409,7 +409,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW TECS
      */
-    20.0f,
+    10.0f,
 
     /**
      * ARSP_MODE
@@ -433,7 +433,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW L1 Control
      */
-    DEG_TO_RADIANS(-45.0f),
+    DEG_TO_RADIANS(10.0f),
 
     /**
      * P_LIM_MAX_RADIANS
@@ -447,7 +447,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW L1 Control
      */
-    DEG_TO_RADIANS(45.0f),
+    DEG_TO_RADIANS(10.0f),
 
     /**
      * R_LIM_RADIANS
@@ -579,7 +579,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    DEG_TO_RADIANS(45.0f),
+    DEG_TO_RADIANS(10.0f),
 
     /**
      * RSP_OFF_RADIANS
@@ -869,7 +869,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 1
          * @group Runway Takeoff
          */
-        5.0,
+        100.0,
         /**
          * MAX_THR
          * Max throttle during runway takeoff.
@@ -911,7 +911,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.5
          * @group Runway Takeoff
          */
-        20.0,
+        10.0,
         /**
          * Max roll during climbout.
          * Roll is limited during climbout to ensure enough lift and prevents aggressive
@@ -938,7 +938,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.01
          * @group Runway Takeoff
          */
-         1.3,
+         1.2,
 
         /**
          * AIRSPD_MIN
@@ -953,7 +953,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.01
          * @group Fixedwing Position Control
          */
-        10.0,
+        2.0,
 
         /**
          * CLMBOUT_DIFF
