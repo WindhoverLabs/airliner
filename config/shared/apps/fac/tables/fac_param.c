@@ -30,11 +30,6 @@
 **    ObjSize - size of the entire table
 **
 */
-static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
-{
-    "FAC_ParamTbl", "FAC.PARAM_TBL", "FAC default param table",
-    "fac_param.tbl", sizeof(FAC_ParamTbl_t)
-};
 
 /************************************************************************
 ** External Global Variables
@@ -98,7 +93,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.08f,
+	0.01f,
 
 	/**
 	 * Pitch rate integrator gain (FW_PR_I).
@@ -128,7 +123,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	60.0f,
+	5.0f,
 
 	/**
 	 * Maximum negative / down pitch rate (FW_P_RMAX_NEG).
@@ -143,7 +138,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	60.0f,
+	20.0f,
 
 	/**
 	 * Pitch rate integrator limit (FW_PR_IMAX).
@@ -157,7 +152,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.4f,
+	0.2f,
 
 	/**
 	 * Roll rate proportional Gain (FW_RR_P).
@@ -172,7 +167,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.05f,
+	0.01f,
 
 	/**
 	 * Roll rate integrator Gain (FW_RR_I).
@@ -215,7 +210,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	70.0f,
+	10.0f,
 
 	/**
 	 * Yaw rate proportional gain (FW_YR_P).
@@ -230,7 +225,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.05f,
+	0.02f,
 
 	/**
 	 * Yaw rate integrator gain (FW_YR_I).
@@ -505,7 +500,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	45.0f,
+	10.0f,
 
 	/**
 	 * Scale factor for flaps (FW_FLAPS_SCL).
@@ -610,7 +605,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @unit degrees
 	 * @group FW Attitude Control
 	 */
-	90,
+	90.0f,
 
 	/**
 	 * Acro body y max rate (FW_ACRO_Y_MAX).
@@ -623,7 +618,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @unit degrees
 	 * @group FW Attitude Control
 	 */
-	90,
+	90.0f,
 
 	/**
 	 * Acro body z max rate (FW_ACRO_Z_MAX).
@@ -636,7 +631,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @unit degrees
 	 * @group FW Attitude Control
 	 */
-	45,
+	45.0f,
 
 	/**
 	 * Threshold for Rattitude mode (FW_RATT_TH).
@@ -757,6 +752,8 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 */
 	0
 };
+
+CFE_TBL_FILEDEF(FAC_ParamTbl, FAC.PARAM_TBL, FAC dflt param table, fac_param.tbl)
 
 /************************************************************************
 ** Local Variables

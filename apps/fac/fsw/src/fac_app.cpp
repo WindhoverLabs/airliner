@@ -982,25 +982,25 @@ void FAC::RunController(void)
 		float gspd_scaling_trim = (ParamTblPtr->FW_AIRSPD_MIN * 0.6f);
 		float groundspeed_scaler = gspd_scaling_trim / ((groundspeed < gspd_scaling_trim) ? gspd_scaling_trim : groundspeed);
 
-		// in STABILIZED mode we need to generate the attitude setpoint
-		// from manual user inputs
-		if (!CVT.VControlMode.ControlClimbRateEnabled && !CVT.VControlMode.ControlOffboardEnabled)
-		{
-			CVT.VAttSp.Timestamp = now;
-			CVT.VAttSp.RollBody = CVT.ManualControlSp.Y * ParamTblPtr->FW_MAN_R_MAX + math::radians(ParamTblPtr->FW_RSP_OFF);
-			CVT.VAttSp.RollBody = math::constrain(CVT.VAttSp.RollBody, -ParamTblPtr->FW_MAN_R_MAX, ParamTblPtr->FW_MAN_R_MAX);
-			CVT.VAttSp.PitchBody = -CVT.ManualControlSp.X * ParamTblPtr->FW_MAN_P_MAX + math::radians(ParamTblPtr->FW_PSP_OFF);
-			CVT.VAttSp.PitchBody = math::constrain(CVT.VAttSp.PitchBody, -ParamTblPtr->FW_MAN_P_MAX, ParamTblPtr->FW_MAN_P_MAX);
-			CVT.VAttSp.YawBody = 0.0f;
-			CVT.VAttSp.Thrust = CVT.ManualControlSp.Z;
-
-			math::Quaternion q(math::Euler(CVT.VAttSp.RollBody, CVT.VAttSp.PitchBody, CVT.VAttSp.YawBody));
-			q.copyTo(CVT.VAttSp.Q_D);
-			CVT.VAttSp.Q_D_Valid = true;
-
-			CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&CVT.VAttSp);
-			CFE_SB_SendMsg((CFE_SB_Msg_t*)&CVT.VAttSp);
-		}
+//		// in STABILIZED mode we need to generate the attitude setpoint
+//		// from manual user inputs
+//		if (!CVT.VControlMode.ControlClimbRateEnabled && !CVT.VControlMode.ControlOffboardEnabled)
+//		{
+//			CVT.VAttSp.Timestamp = now;
+//			CVT.VAttSp.RollBody = CVT.ManualControlSp.Y * ParamTblPtr->FW_MAN_R_MAX + math::radians(ParamTblPtr->FW_RSP_OFF);
+//			CVT.VAttSp.RollBody = math::constrain(CVT.VAttSp.RollBody, -ParamTblPtr->FW_MAN_R_MAX, ParamTblPtr->FW_MAN_R_MAX);
+//			CVT.VAttSp.PitchBody = -CVT.ManualControlSp.X * ParamTblPtr->FW_MAN_P_MAX + math::radians(ParamTblPtr->FW_PSP_OFF);
+//			CVT.VAttSp.PitchBody = math::constrain(CVT.VAttSp.PitchBody, -ParamTblPtr->FW_MAN_P_MAX, ParamTblPtr->FW_MAN_P_MAX);
+//			CVT.VAttSp.YawBody = 0.0f;
+//			CVT.VAttSp.Thrust = CVT.ManualControlSp.Z;
+//
+//			math::Quaternion q(math::Euler(CVT.VAttSp.RollBody, CVT.VAttSp.PitchBody, CVT.VAttSp.YawBody));
+//			q.copyTo(CVT.VAttSp.Q_D);
+//			CVT.VAttSp.Q_D_Valid = true;
+//
+//			CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&CVT.VAttSp);
+//			CFE_SB_SendMsg((CFE_SB_Msg_t*)&CVT.VAttSp);
+//		}
 
 		/* reset integrals where needed */
 		if (CVT.VAttSp.RollResetIntegral)
@@ -1135,7 +1135,7 @@ void FAC::RunController(void)
 		{
 			// pure rate control
 			_roll_ctrl.set_bodyrate_setpoint(CVT.ManualControlSp.Y * math::radians(ParamTblPtr->FW_ACRO_X_MAX));
-			_pitch_ctrl.set_bodyrate_setpoint(CVT.ManualControlSp.X * math::radians(ParamTblPtr->FW_ACRO_Y_MAX));
+			_pitch_ctrl.set_bodyrate_setpoint(-CVT.ManualControlSp.X * math::radians(ParamTblPtr->FW_ACRO_Y_MAX));
 			_yaw_ctrl.set_bodyrate_setpoint(CVT.ManualControlSp.R * math::radians(ParamTblPtr->FW_ACRO_Z_MAX));
 
 			float roll_u = _roll_ctrl.control_bodyrate(control_input);
@@ -1173,7 +1173,7 @@ void FAC::RunController(void)
 	{
 		/* Manual/direct control */
 		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_ROLL]  = CVT.ManualControlSp.Y * ParamTblPtr->FW_MAN_R_SC + ParamTblPtr->TRIM_ROLL;
-		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_PITCH] = CVT.ManualControlSp.X * ParamTblPtr->FW_MAN_P_SC + ParamTblPtr->TRIM_PITCH;
+		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_PITCH] = -CVT.ManualControlSp.X * ParamTblPtr->FW_MAN_P_SC + ParamTblPtr->TRIM_PITCH;
 		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_YAW]   = CVT.ManualControlSp.R * ParamTblPtr->FW_MAN_Y_SC + ParamTblPtr->TRIM_YAW;
 		m_ActuatorControls0.Control[PX4_ACTUATOR_CONTROL_THROTTLE] = CVT.ManualControlSp.Z;
 	}

@@ -29,6 +29,7 @@ float ECL_YawController::control_attitude(const struct ECL_ControlData &ctl_data
 		if (PX4LIB_GetPX4ElapsedTimeUs(last_print) > 5e6) {
 			/* TODO: Replace with CFE EVS event message */
 			//warnx("invalid param setting FW_YCO_METHOD");
+			printf("invalid param setting FW_YCO_METHOD\n");
 			last_print = PX4LIB_GetPX4TimeUs();
 		}
 	}

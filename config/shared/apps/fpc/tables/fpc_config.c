@@ -53,122 +53,146 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
 {
     /**
      * L1_PERIOD
-     * Minimum thrust in auto thrust control
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This is the L1 distance and defines the tracking
+     * point ahead of the aircraft its following.
+     * A value of 18-25 meters works for most aircraft. Shorten
+     * slowly during tuning until response is sharp without oscillation.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit m
+     * @min 12.0
+     * @max 50.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
     20.0f,
 
     /**
      * L1_DAMPING
-     * Minimum thrust in auto thrust control
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * Damping factor for L1 control.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
+     * @min 0.6
+     * @max 0.9
      * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @increment 0.05
+     * @group FW L1 Control
      */
     0.75f,
 
     /**
      * T_TIME_CONST
-     * Minimum thrust in auto thrust control
+     * TECS time constant
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This is the time constant of the TECS control algorithm (in seconds).
+     * Smaller values make it faster to respond, larger values make it slower
+     * to respond.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit s
+     * @min 1.0
+     * @max 10.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW TECS
      */
     5.0f,
 
     /**
      * T_THRO_CONST
-     * Minimum thrust in auto thrust control
+     * TECS Throttle time constant
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This is the time constant of the TECS throttle control algorithm (in seconds).
+     * Smaller values make it faster to respond, larger values make it slower
+     * to respond.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit s
+     * @min 1.0
+     * @max 10.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW TECS
      */
     8.0f,
 
     /**
      * T_SINK_MIN
-     * Minimum thrust in auto thrust control
+     * Minimum descent rate
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This is the sink rate of the aircraft with the throttle
+     * set to THR_MIN and flown at the same airspeed as used
+     * to measure FW_T_CLMB_MAX.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit m/s
+     * @min 1.0
+     * @max 5.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW TECS
      */
-    2.0f,
+    0.7f,
 
     /**
      * T_SINK_MAX
-     * Minimum thrust in auto thrust control
+     * Maximum descent rate
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This sets the maximum descent rate that the controller will use.
+     * If this value is too large, the aircraft can over-speed on descent.
+     * This should be set to a value that can be achieved without
+     * exceeding the lower pitch angle limit and without over-speeding
+     * the aircraft.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit m/s
+     * @min 2.0
+     * @max 15.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW TECS
      */
     5.0f,
 
     /**
      * T_CLMB_MAX
-     * Minimum thrust in auto thrust control
+     * Maximum climb rate
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This is the best climb rate that the aircraft can achieve with
+     * the throttle set to THR_MAX and the airspeed set to the
+     * default value. For electric aircraft make sure this number can be
+     * achieved towards the end of flight when the battery voltage has reduced.
+     * The setting of this parameter can be checked by commanding a positive
+     * altitude change of 100m in loiter, RTL or guided mode. If the throttle
+     * required to climb is close to THR_MAX and the aircraft is maintaining
+     * airspeed, then this parameter is set correctly. If the airspeed starts
+     * to reduce, then the parameter is set to high, and if the throttle
+     * demand required to climb and maintain speed is noticeably less than
+     * FW_THR_MAX, then either FW_T_CLMB_MAX should be increased or
+     * FW_THR_MAX reduced.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit m/s
+     * @min 1.0
+     * @max 15.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW TECS
      */
     5.0f,
 
 
     /**
      * CLMBOUT_DIFF
-     * Minimum thrust in auto thrust control
+     * Climbout Altitude difference
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * If the altitude error exceeds this parameter, the system will climb out
+     * with maximum throttle and minimum airspeed until it is closer than this
+     * distance to the desired altitude. Mostly used for takeoff waypoints / modes.
+     * Set to 0 to disable climbout mode (not recommended).
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit m
+     * @min 0.0
+     * @max 150.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
     10.0f,
 
@@ -342,48 +366,50 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
 
     /**
      * AIRSPD_MIN
-     * Minimum thrust in auto thrust control
+     * Minimum Airspeed
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * If the airspeed falls below this value, the TECS controller will try to
+     * increase airspeed more aggressively.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit m/s
+     * @min 0.0
+     * @max 40
+     * @decimal 1
+     * @increment 0.5
+     * @group FW TECS
      */
-    10.0,
+    0.6,
 
     /**
      * AIRSPD_TRIM
-     * Minimum thrust in auto thrust control
+     * Cruise Airspeed
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * The fixed wing controller tries to fly at this airspeed.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit m/s
+     * @min 0.0
+     * @max 40
+     * @decimal 1
+     * @increment 0.5
+     * @group FW TECS
      */
-    15.0f,
+    1.0f,
 
     /**
      * AIRSPD_MAX
-     * Minimum thrust in auto thrust control
+     * Maximum Airspeed
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * If the airspeed is above this value, the TECS controller will try to decrease
+     * airspeed more aggressively.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit m/s
+     * @min 0.0
+     * @max 40
+     * @decimal 1
+     * @increment 0.5
+     * @group FW TECS
      */
-    20.0f,
+    10.0f,
 
     /**
      * ARSP_MODE
@@ -407,7 +433,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW L1 Control
      */
-    DEG_TO_RADIANS(-45.0f),
+    DEG_TO_RADIANS(10.0f),
 
     /**
      * P_LIM_MAX_RADIANS
@@ -421,7 +447,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW L1 Control
      */
-    DEG_TO_RADIANS(45.0f),
+    DEG_TO_RADIANS(10.0f),
 
     /**
      * R_LIM_RADIANS
@@ -451,7 +477,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.0f,
+    0.2f,
 
     /**
      * THR_MAX
@@ -486,16 +512,16 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
 
     /**
      * THR_CRUISE
-     * Minimum thrust in auto thrust control
+     * Cruise throttle
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This is the throttle setting required to achieve the desired cruise speed. Most airframes have a value of 0.5-0.7.
      *
      * @unit norm
-     * @min 0.05
+     * @min 0.0
      * @max 1.0
      * @decimal 2
      * @increment 0.01
-     * @group Fixedwing Position Control
+     * @group FW L1 Control
      */
     0.6f,
 
@@ -553,7 +579,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    DEG_TO_RADIANS(45.0f),
+    DEG_TO_RADIANS(10.0f),
 
     /**
      * RSP_OFF_RADIANS
@@ -843,7 +869,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 1
          * @group Runway Takeoff
          */
-        5.0,
+        100.0,
         /**
          * MAX_THR
          * Max throttle during runway takeoff.
@@ -885,7 +911,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.5
          * @group Runway Takeoff
          */
-        20.0,
+        10.0,
         /**
          * Max roll during climbout.
          * Roll is limited during climbout to ensure enough lift and prevents aggressive
@@ -912,7 +938,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.01
          * @group Runway Takeoff
          */
-         1.3,
+         1.2,
 
         /**
          * AIRSPD_MIN
@@ -927,7 +953,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.01
          * @group Fixedwing Position Control
          */
-        10.0,
+        2.0,
 
         /**
          * CLMBOUT_DIFF
