@@ -5,7 +5,7 @@
     <APP>fpc</APP>
     <CPUID>{{ cpu_id }}</CPUID>
   </macros>
-  <width>650</width>
+  <width>850</width>
   <height>750</height>
   <background_color>
     <color name="Display Background" red="255" green="255" blue="255">
@@ -312,6 +312,184 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       <border_alarm_sensitive>false</border_alarm_sensitive>
       <show_confirm_dialog>true</show_confirm_dialog>
       <confirm_message>This command may abort a landing. Are your sure you want to do this?</confirm_message>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Runway</name>
+    <x>324</x>
+    <y>246</y>
+    <width>444</width>
+    <height>312</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="label" version="2.0.0">
+      <name>Label_2</name>
+      <text>_state</text>
+      <x>6</x>
+      <y>12</y>
+      <width>97</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_2</name>
+      <pv_name>/cfs/$(CPUID)/apps/fpc/FPC_HK_TLM_MID._runway_takeoff._state</pv_name>
+      <x>126</x>
+      <y>12</y>
+      <width>264</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_4</name>
+      <text>_initialized</text>
+      <x>6</x>
+      <y>32</y>
+      <width>97</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_4</name>
+      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._runway_takeoff._initialized</pv_name>
+      <x>126</x>
+      <y>32</y>
+      <width>264</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_5</name>
+      <text>_initialized_time</text>
+      <y>52</y>
+      <width>108</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_5</name>
+      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._runway_takeoff._initialized_time</pv_name>
+      <x>126</x>
+      <y>50</y>
+      <width>264</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_6</name>
+      <text>_init_yaw</text>
+      <y>72</y>
+      <width>108</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_6</name>
+      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._runway_takeoff._init_yaw</pv_name>
+      <x>126</x>
+      <y>68</y>
+      <width>264</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_7</name>
+      <text>_climbout</text>
+      <y>92</y>
+      <width>108</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_7</name>
+      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._runway_takeoff._climbout</pv_name>
+      <x>126</x>
+      <y>86</y>
+      <width>264</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
     </widget>
   </widget>
 </display>
