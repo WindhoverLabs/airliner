@@ -136,7 +136,7 @@ if (msgName === undefined || msgName === null) {
     </items>
     <items_from_pv>false</items_from_pv>
   </widget>
-  
+
 {%- set group_y      = namespace(value=70)   -%}
 {%- set group_height = 95   -%}
 {%- for cpu in cpus %}
@@ -255,10 +255,10 @@ Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/apps/to/QueryMessageFlow', {
       <items_from_pv>false</items_from_pv>
     </widget>
   </widget>
-  
+
     {%- set group_y.value = group_y.value + group_height   -%}
   {%- endfor   -%}
-  
+
   <widget type="label" version="2.0.0">
     <name>msgName</name>
     <text>Message ID</text>

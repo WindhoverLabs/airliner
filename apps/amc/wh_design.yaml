@@ -7,9 +7,9 @@
   events: 
     AMC_INIT_INF_EID: 
       id: 1
-    AMC_PWM_CFGTBL_MIN_LT_DISARMED_ERR_EID: 
+    AMC_CFGTBL_MIN_LT_DISARMED_ERR_EID: 
       id: 2
-    AMC_PWM_CFGTBL_MAX_LT_MIN_ERR_EID: 
+    AMC_CFGTBL_MAX_LT_MIN_ERR_EID: 
       id: 3
     AMC_CMD_NOOP_EID: 
       id: 4
@@ -19,11 +19,11 @@
       id: 6
     AMC_MIXER_INIT_ERR_EID: 
       id: 7
-    AMC_PWM_CFGTBL_MANAGE_ERR_EID: 
+    AMC_CFGTBL_MANAGE_ERR_EID: 
       id: 8
     AMC_MIXER_CFGTBL_MANAGE_ERR_EID: 
       id: 9
-    AMC_PWM_CFGTBL_GETADDR_ERR_EID: 
+    AMC_CFGTBL_GETADDR_ERR_EID: 
       id: 10
     AMC_MIXER_CFGTBL_GETADDR_ERR_EID: 
       id: 11
@@ -37,11 +37,11 @@
       id: 15
     AMC_DEVICE_INIT_ERR_EID: 
       id: 16
-    AMC_PWM_CFGTBL_REG_ERR_EID: 
+    AMC_CFGTBL_REG_ERR_EID: 
       id: 17
     AMC_MIXER_CFGTBL_REG_ERR_EID: 
       id: 18
-    AMC_PWM_CFGTBL_LOAD_ERR_EID: 
+    AMC_CFGTBL_LOAD_ERR_EID: 
       id: 19
     AMC_MIXER_CFGTBL_LOAD_ERR_EID: 
       id: 20
@@ -102,6 +102,15 @@
         DebugCmd: 
           cc: 6
           struct: AMC_DebugCmd_t
+        SetOutputScaler: 
+          cc: 7
+          struct: AMC_SimpleSetOutputScalerCmd_t
+        SetControl: 
+          cc: 8
+          struct: AMC_SimpleSetControlCmd_t
+        SetControlScaler: 
+          cc: 9
+          struct: AMC_SimpleSetControlScalerCmd_t
     AMC_SEND_HK_MID: 
       msgID: 
       commands: 
@@ -161,9 +170,9 @@
     AMC_DATA_PIPE_NAME: 
       name: AMC_DATA_PIPE_NAME
       value: AMC_DATA_PIPE
-    AMC_PWM_CONFIG_TABLE_FILENAME: 
-      name: AMC_PWM_CONFIG_TABLE_FILENAME
-      value: /cf/apps/amc_pwmcfg.tbl
+    AMC_CONFIG_TABLE_FILENAME: 
+      name: AMC_CONFIG_TABLE_FILENAME
+      value: /cf/apps/amc_config.tbl
     AMC_STARTUP_TIMEOUT_MSEC: 
       name: AMC_STARTUP_TIMEOUT_MSEC
       value: 1000

@@ -1073,7 +1073,7 @@ void SIMLINK_ProcessPwmOutputs(void)
 		if(updateCount != SIMLINK_AppData.PwmUpdateCount)
 		{
 			osalbool sendMsg = false;
-            osalbool armed   = false;
+                        osalbool armed   = false;
 
 			SIMLINK_AppData.PwmUpdateCount = updateCount;
 
@@ -1100,6 +1100,33 @@ void SIMLINK_ProcessPwmOutputs(void)
 					//{
 						sendMsg = true;
 					//}
+
+                                    // Scale everything else to [-1, 1]
+                                    if(i==2 || i==7 || i==5 || i==6 | i==8 || i==3)
+                                    {
+
+//                                        inValue = (-A D + A Y + B C - B Y)/(C - D) and C!=D and A!=B
+                                        //Reverse values from SEDPWM_Map_To_SIMLINK
+                                        float  inMin = 1000;
+                                        float outMax = 1.0f;
+                                        float outMin = 0.0f;
+                                        float inMax = 2000;
+                                        float out = actuatorControlsMsg.controls[i];
+
+                                        float inValue = ((-inMin * outMax) + (inMin * out) + (inMax * outMin) - (inMax*out))/(outMin - outMax);
+                                        /**
+                                         * @brief PWM_SIM_PWM_MIN_MAGIC
+                                         *     /* Use the mapping equation:  Y = (X-A)/(B-A) * (D-C) + C */
+                                        //float out = ((inValue - in_min) / (in_max - in_min)) * (out_max - out_min)
+                                         //       + out_min;
+                                        const uint16_t PWM_SIM_PWM_MIN_MAGIC = 1000;
+                                        const uint16_t PWM_SIM_PWM_MAX_MAGIC = 2000;
+                                        actuatorControlsMsg.controls[i] = inValue;
+                                        const float pwm_center = (PWM_SIM_PWM_MAX_MAGIC + PWM_SIM_PWM_MIN_MAGIC) / 2.f;
+                                        const float pwm_delta = (PWM_SIM_PWM_MAX_MAGIC - PWM_SIM_PWM_MIN_MAGIC) / 2.f;
+
+                                        actuatorControlsMsg.controls[i] = (actuatorControlsMsg.controls[i] - pwm_center) / pwm_delta;
+                                    }
 				}
 			}
 
@@ -1234,25 +1261,16 @@ void SIMLINK_ListenerTaskMain(void)
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.sysid = msg.sysid;
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.compid = msg.compid;
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.time_usec = decodedMsg.time_usec;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xacc = decodedMsg.xacc;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.yacc = decodedMsg.yacc;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zacc = decodedMsg.zacc;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xgyro = decodedMsg.xgyro;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ygyro = decodedMsg.ygyro;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zgyro = decodedMsg.zgyro;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xmag = decodedMsg.xmag;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ymag = decodedMsg.ymag;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zmag = decodedMsg.zmag;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.abs_pressure = decodedMsg.abs_pressure;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.diff_pressure = decodedMsg.diff_pressure;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.pressure_alt = decodedMsg.pressure_alt;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.temperature = decodedMsg.temperature;
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.fields_updated = decodedMsg.fields_updated;
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.id = decodedMsg.id;
 
                             if(decodedMsg.fields_updated & (uint32_t)SIMLINK_ACCEL)
                             {
                                 int32 rc;
+
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xacc = decodedMsg.xacc;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.yacc = decodedMsg.yacc;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zacc = decodedMsg.zacc;
 
                                 /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.AccelMsg[0].TimeUsec = decodedMsg.time_usec;
@@ -1278,6 +1296,10 @@ void SIMLINK_ListenerTaskMain(void)
                             {
                                 int32 rc;
 
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xgyro = decodedMsg.xgyro;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ygyro = decodedMsg.ygyro;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zgyro = decodedMsg.zgyro;
+
                                 /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.GyroMsg[0].TimeUsec = decodedMsg.time_usec;
                                 SIMLINK_AppData.GyroMsg[0].X = decodedMsg.xgyro;
@@ -1301,6 +1323,10 @@ void SIMLINK_ListenerTaskMain(void)
                             if(decodedMsg.fields_updated & (uint32_t)SIMLINK_MAG)
                             {
                                 int32 rc;
+
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xmag = decodedMsg.xmag;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ymag = decodedMsg.ymag;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zmag = decodedMsg.zmag;
 
                                 /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.MagMsg[0].TimeUsec = decodedMsg.time_usec;
@@ -1326,6 +1352,10 @@ void SIMLINK_ListenerTaskMain(void)
                             {
                                 int32 rc;
 
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.abs_pressure = decodedMsg.abs_pressure;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.pressure_alt = decodedMsg.pressure_alt;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.temperature = decodedMsg.temperature;
+
                                 /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.BaroMsg[0].TimeUsec = decodedMsg.time_usec;
                                 SIMLINK_AppData.BaroMsg[0].Pressure = decodedMsg.abs_pressure;
@@ -1345,6 +1375,31 @@ void SIMLINK_ListenerTaskMain(void)
                                                              rc);
                             	}
                             }
+
+                            if(decodedMsg.fields_updated & (uint32_t)SIMLINK_DIFF_PRESS)
+                            {
+                                int32 rc;
+
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.diff_pressure = decodedMsg.diff_pressure;
+
+                                /* Update the outgoing message for consumers. */
+                                SIMLINK_AppData.BaroMsg[0].DiffPressure = decodedMsg.diff_pressure;
+
+                            	rc = CVT_SetContent(SIMLINK_AppData.BaroContainer[0], &SIMLINK_AppData.BaroMsg[0], sizeof(SIMLINK_Baro_Msg_t));
+                            	if(CVT_SUCCESS == rc)
+                            	{
+                                    SIMLINK_AppData.HkTlm.DataOutMetrics.DiffPressMsgCount[0]++;
+                            	}
+                            	else
+                            	{
+                                    (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
+                                                             "Failed to set Baro %d container. (%li)",
+                        									 i,
+                                                             rc);
+                            	}
+                            }
+
+
 
                             break;
                         }

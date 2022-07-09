@@ -1616,9 +1616,9 @@ modules:
               CFE_TIME_1HZ_TASK_FLAGS:
                 name: CFE_TIME_1HZ_TASK_FLAGS
                 value: OS_ENABLE_CORE_0
-        definition: /home/mbenson/git/airliner/core/cfe/wh_design.yaml
+        definition: /home/young/data/git/squeaky-weasel/software/airliner/public/core/base/cfe/wh_design.yaml
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/airliner
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/airliner
   cf:
     short_name: cf
     long_name: CFDP File Delivery
@@ -2417,9 +2417,9 @@ modules:
       CF_MISSION_REV:
         name: CF_MISSION_REV
         value: 0
-    definition: /home/mbenson/git/airliner/apps/cf/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/cf/wh_design.yaml
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/CF.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/CF.so
   ci:
     short_name: ci
     long_name: Command Ingest
@@ -2619,9 +2619,116 @@ modules:
       CI_CMD_MAX_TIMEOUT:
         name: CI_CMD_MAX_TIMEOUT
         value: 20
-    definition: /home/mbenson/git/airliner/apps/ci/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/ci/wh_design.yaml
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/CI.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/CI.so
+  fac:
+    short_name: fac
+    long_name: Fixedwing Attitude Control Application
+    events:
+      FAC_RESERVED_EID:
+        id: 0
+      FAC_INF_EID:
+        id: 1
+      FAC_INIT_INF_EID:
+        id: 2
+      FAC_CONFIG_TABLE_INF_EID:
+        id: 3
+      FAC_CDS_INF_EID:
+        id: 4
+      FAC_CMD_INF_EID:
+        id: 5
+      FAC_ERR_EID:
+        id: 6
+      FAC_INIT_ERR_EID:
+        id: 7
+      FAC_CONFIG_TABLE_ERR_EID:
+        id: 8
+      FAC_CDS_ERR_EID:
+        id: 9
+      FAC_CMD_ERR_EID:
+        id: 10
+      FAC_PIPE_ERR_EID:
+        id: 11
+      FAC_MSGID_ERR_EID:
+        id: 12
+      FAC_MSGLEN_ERR_EID:
+        id: 13
+    telemetry:
+      FAC_HK_TLM_MID:
+        msgID:
+        struct: FAC_HkTlm_t
+    commands:
+      FAC_CMD_MID:
+        msgID:
+        commands:
+          Noop:
+            cc: 0
+            struct: FAC_NoArgCmd_t
+          Reset:
+            cc: 1
+            struct: FAC_NoArgCmd_t
+      FAC_SEND_HK_MID:
+        msgID:
+        commands:
+          SendHK:
+            cc: 0
+            struct: FAC_NoArgCmd_t
+      FAC_WAKEUP_MID:
+        msgID:
+        commands:
+          WakeUp:
+            cc: 0
+            struct: FAC_NoArgCmd_t
+    perfids:
+      FAC_MAIN_TASK_PERF_ID:
+        id:
+    config:
+      FAC_SB_TIMEOUT:
+        name: FAC_SB_TIMEOUT
+        value: CFE_SB_PEND_FOREVER
+      FAC_MISSION_REV:
+        name: FAC_MISSION_REV
+        value: 0
+      FAC_SCH_PIPE_DEPTH:
+        name: FAC_SCH_PIPE_DEPTH
+        value: 2
+      FAC_SCH_PIPE_NAME:
+        name: FAC_SCH_PIPE_NAME
+        value: FAC_SCH_PIPE
+      FAC_SCH_PIPE_PEND_TIME:
+        name: FAC_SCH_PIPE_PEND_TIME
+        value: 2000
+      FAC_SCH_PIPE_WAKEUP_RESERVED:
+        name: FAC_SCH_PIPE_WAKEUP_RESERVED
+        value: 1
+      FAC_SCH_PIPE_SEND_HK_RESERVED:
+        name: FAC_SCH_PIPE_SEND_HK_RESERVED
+        value: 1
+      FAC_CMD_PIPE_DEPTH:
+        name: FAC_CMD_PIPE_DEPTH
+        value: 4
+      FAC_CMD_PIPE_NAME:
+        name: FAC_CMD_PIPE_NAME
+        value: FAC_CMD_PIPE
+      FAC_DATA_PIPE_DEPTH:
+        name: FAC_DATA_PIPE_DEPTH
+        value: 5
+      FAC_DATA_PIPE_NAME:
+        name: FAC_DATA_PIPE_NAME
+        value: FAC_DATA_PIPE
+      FAC_CONFIG_TABLE_FILENAME:
+        name: FAC_CONFIG_TABLE_FILENAME
+        value: /cf/apps/fac_config.tbl
+      FAC_STARTUP_TIMEOUT_MSEC:
+        name: FAC_STARTUP_TIMEOUT_MSEC
+        value: 1000
+      FAC_CUSTOM_DEV_PATH:
+        name: FAC_CUSTOM_DEV_PATH
+        value: /tmp/ttyS0
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/fac/wh_design.yaml
+    elf_files:
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/FAC.so
   sch:
     short_name: sch
     long_name: Scheduler
@@ -2845,9 +2952,9 @@ modules:
       SCH_AD_CHILD_TASK_FLAGS:
         name: SCH_AD_CHILD_TASK_FLAGS
         value: OS_ENABLE_CORE_0
-    definition: /home/mbenson/git/airliner/apps/sch/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/sch/wh_design.yaml
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/SCH.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/SCH.so
   to:
     short_name: to
     long_name: Telemetry Output
@@ -3069,9 +3176,9 @@ modules:
       TO_MAX_PROTOBUF_ENC_LEN:
         name: TO_MAX_PROTOBUF_ENC_LEN
         value: 5000
-    definition: /home/mbenson/git/airliner/apps/to/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/to/wh_design.yaml
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/TO.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/TO.so
   ak8963:
     short_name: ak8963
     long_name: TBD
@@ -3209,7 +3316,7 @@ modules:
       AK8963_MAG_UNIT:
         name: AK8963_MAG_UNIT
         value: 1.0f
-    definition: /home/mbenson/git/airliner/apps/ak8963/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/ak8963/wh_design.yaml
   amc:
     short_name: amc
     long_name: Actuator Motor Control
@@ -3355,7 +3462,7 @@ modules:
       AMC_MAX_PARAMS:
         name: AMC_MAX_PARAMS
         value: 3
-    definition: /home/mbenson/git/airliner/apps/amc/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/amc/wh_design.yaml
   bat:
     short_name: bat
     long_name: Battery Manager
@@ -3467,7 +3574,7 @@ modules:
       BAT_STARTUP_TIMEOUT_MSEC:
         name: BAT_STARTUP_TIMEOUT_MSEC
         value: 1000
-    definition: /home/mbenson/git/airliner/apps/bat/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/bat/wh_design.yaml
   ea:
     short_name: ea
     long_name: External Application
@@ -3594,7 +3701,7 @@ modules:
       EA_MAX_PATH_LEN:
         name: EA_MAX_PATH_LEN
         value: 96
-    definition: /home/mbenson/git/airliner/apps/ea/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/ea/wh_design.yaml
   gps:
     short_name: gps
     long_name: GPS Driver
@@ -3707,7 +3814,7 @@ modules:
       GPS_STARTUP_TIMEOUT_MSEC:
         name: GPS_STARTUP_TIMEOUT_MSEC
         value: 1000
-    definition: /home/mbenson/git/airliner/apps/gps/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/gps/wh_design.yaml
   hmc5883:
     short_name: hmc5883
     long_name:
@@ -3846,7 +3953,7 @@ modules:
       HMC5883_CALC_MAG_RANGE:
         name: HMC5883_CALC_MAG_RANGE
         value: 1.3
-    definition: /home/mbenson/git/airliner/apps/hmc5883/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/hmc5883/wh_design.yaml
   ld:
     short_name: ld
     long_name: Landing Determination
@@ -3958,7 +4065,7 @@ modules:
       LD_STARTUP_TIMEOUT_MSEC:
         name: LD_STARTUP_TIMEOUT_MSEC
         value: 1000
-    definition: /home/mbenson/git/airliner/apps/ld/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/ld/wh_design.yaml
   lgc:
     short_name: lgc
     long_name: Landing Gear Control
@@ -4070,7 +4177,7 @@ modules:
       LGC_MAX_GEAR_OUTPUTS:
         name: LGC_MAX_GEAR_OUTPUTS
         value: 1
-    definition: /home/mbenson/git/airliner/apps/lgc/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/lgc/wh_design.yaml
   mac:
     short_name: mac
     long_name: Multicopter Attitude Controller
@@ -4165,7 +4272,7 @@ modules:
       MAC_STARTUP_TIMEOUT_MSEC:
         name: MAC_STARTUP_TIMEOUT_MSEC
         value: 1000
-    definition: /home/mbenson/git/airliner/apps/mac/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/mac/wh_design.yaml
   mpc:
     short_name: mpc
     long_name: Multicopter Position Controller
@@ -4302,7 +4409,7 @@ modules:
       DIRECTION_CHANGE_TRIGGER_TIME_US:
         name: DIRECTION_CHANGE_TRIGGER_TIME_US
         value: 100000
-    definition: /home/mbenson/git/airliner/apps/mpc/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/mpc/wh_design.yaml
   mpu6050:
     short_name: mpu6050
     long_name:
@@ -4479,7 +4586,7 @@ modules:
       MPU6050_TEMP_SENS:
         name: MPU6050_TEMP_SENS
         value: 340
-    definition: /home/mbenson/git/airliner/apps/mpu6050/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/mpu6050/wh_design.yaml
   mpu9250:
     short_name: mpu9250
     long_name:
@@ -4658,7 +4765,7 @@ modules:
       MPU9250_TEMP_SENS:
         name: MPU9250_TEMP_SENS
         value: 361
-    definition: /home/mbenson/git/airliner/apps/mpu9250/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/mpu9250/wh_design.yaml
   ms5607:
     short_name: ms5607
     long_name:
@@ -4782,7 +4889,7 @@ modules:
       MS5607_PRESS_TEMP_MEAS_RATIO:
         name: MS5607_PRESS_TEMP_MEAS_RATIO
         value: 3
-    definition: /home/mbenson/git/airliner/apps/ms5607/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/ms5607/wh_design.yaml
   ms5611:
     short_name: ms5611
     long_name:
@@ -4897,7 +5004,7 @@ modules:
       MS5611_PRESS_TEMP_MEAS_RATIO:
         name: MS5611_PRESS_TEMP_MEAS_RATIO
         value: 3
-    definition: /home/mbenson/git/airliner/apps/ms5611/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/ms5611/wh_design.yaml
   nav:
     short_name: nav
     long_name: Navigation
@@ -5022,7 +5129,7 @@ modules:
       NAV_STARTUP_TIMEOUT_MSEC:
         name: NAV_STARTUP_TIMEOUT_MSEC
         value: 1000
-    definition: /home/mbenson/git/airliner/apps/nav/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/nav/wh_design.yaml
   pe:
     short_name: pe
     long_name: Position Estimator
@@ -5290,7 +5397,7 @@ modules:
       FLOW_GYRO_HP_CUTOFF:
         name: FLOW_GYRO_HP_CUTOFF
         value: 0.001
-    definition: /home/mbenson/git/airliner/apps/pe/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/pe/wh_design.yaml
   qae:
     short_name: qae
     long_name: Attitude Estimator
@@ -5407,7 +5514,7 @@ modules:
       AE_STARTUP_TIMEOUT_MSEC:
         name: AE_STARTUP_TIMEOUT_MSEC
         value: 1000
-    definition: /home/mbenson/git/airliner/apps/qae/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/qae/wh_design.yaml
   rcin:
     short_name: rcin
     long_name: Radio Control Input
@@ -5518,7 +5625,7 @@ modules:
       RCIN_MAX_EVENT_FILTERS:
         name: RCIN_MAX_EVENT_FILTERS
         value: 32
-    definition: /home/mbenson/git/airliner/apps/rcin/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/rcin/wh_design.yaml
   rgbled:
     short_name: rgbled
     long_name: RGB LED Control
@@ -5622,7 +5729,7 @@ modules:
       RGBLED_STARTUP_TIMEOUT_MSEC:
         name: RGBLED_STARTUP_TIMEOUT_MSEC
         value: 1000
-    definition: /home/mbenson/git/airliner/apps/rgbled/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/rgbled/wh_design.yaml
   sc:
     short_name: sc
     long_name: Stored Command
@@ -5991,9 +6098,9 @@ modules:
       SC_MISSION_REV:
         name: SC_MISSION_REV
         value: 0
-    definition: /home/mbenson/git/airliner/apps/sc/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/sc/wh_design.yaml
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/SC.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/SC.so
   sens:
     short_name: sens
     long_name: Sensor Application
@@ -6106,7 +6213,7 @@ modules:
       SENS_MAX_BARO_TIME_DELTA:
         name: SENS_MAX_BARO_TIME_DELTA
         value: 100
-    definition: /home/mbenson/git/airliner/apps/sens/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/sens/wh_design.yaml
   sonar:
     short_name: sonar
     long_name: Sonar Driver
@@ -6227,7 +6334,7 @@ modules:
       SONAR_MAX_DISTANCE:
         name: SONAR_MAX_DISTANCE
         value: 8.5
-    definition: /home/mbenson/git/airliner/apps/sonar/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/sonar/wh_design.yaml
   ulr:
     short_name: ulr
     long_name: uLanding Radar Driver
@@ -6353,7 +6460,7 @@ modules:
       ULR_MUTEX_NAME:
         name: ULR_MUTEX_NAME
         value: ULR_MUTEX
-    definition: /home/mbenson/git/airliner/apps/ulr/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/ulr/wh_design.yaml
   vc:
     short_name: vc
     long_name: Video Control
@@ -6548,7 +6655,7 @@ modules:
       VC_BUFFER_TIMEOUTS_ALLOWED:
         name: VC_BUFFER_TIMEOUTS_ALLOWED
         value: 2
-    definition: /home/mbenson/git/airliner/apps/vc/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/vc/wh_design.yaml
   vm:
     short_name: vm
     long_name: Vehicle Manager
@@ -6800,31 +6907,31 @@ modules:
       VM_MINIMUM_VALID_BATTERY_VOLTAGE:
         name: VM_MINIMUM_VALID_BATTERY_VOLTAGE
         value: 2
-    definition: /home/mbenson/git/airliner/apps/vm/wh_design.yaml
+    definition: /home/young/data/git/squeaky-weasel/software/airliner/public/apps/vm/wh_design.yaml
   cfs_lib:
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/CFS_LIB.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/CFS_LIB.so
   cs:
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/CS.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/CS.so
   ds:
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/DS.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/DS.so
   fm:
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/FM.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/FM.so
   hk:
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/HK.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/HK.so
   hs:
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/HS.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/HS.so
   lc:
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/LC.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/LC.so
   md:
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/MD.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/MD.so
   mm:
     elf_files:
-      - /home/mbenson/git/airliner/build/tutorial/cfs/target/target/exe/cf/apps/MM.so
+      - /home/young/data/git/squeaky-weasel/software/airliner/public/build/obc/fixedwing/ppd/sitl/target/target/exe/cf/apps/MM.so

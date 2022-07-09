@@ -1,0 +1,12 @@
+---
+config_base: ${PROJECT_SOURCE_DIR}
+cpu_id: cpd 
+commander:
+  server_overlay: ${PROJECT_SOURCE_DIR}/config/obc/fixedwing/ppd/sitl/server_overlay
+modules:
+  core:
+    modules:
+      osal:
+        definition: ${PROJECT_SOURCE_DIR}/core/osal/posix-fast/wh_design.yaml
+      psp:
+        definition: ${PROJECT_SOURCE_DIR}/core/psp/pc-linux-wh/wh_design.yaml

@@ -119,7 +119,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_ACTUATOR_DIRECT_MID,      1, TO_PQUEUE_LOW_IDX},
 //        {PX4_ACTUATOR_OUTPUTS_MID,     1, TO_PQUEUE_LOW_IDX},
 //        {PX4_ADC_REPORT_MID,           1, TO_PQUEUE_LOW_IDX},
-//        {PX4_AIRSPEED_MID,             1, TO_PQUEUE_LOW_IDX},
+        {PX4_AIRSPEED_MID,             1, TO_PQUEUE_HIGH_IDX},
 //        {PX4_ATT_POS_MOCAP_MID,        1, TO_PQUEUE_LOW_IDX},
 //        {PX4_BATTERY_STATUS_MID,       1, TO_PQUEUE_LOW_IDX},
 //        {PX4_CAMERA_TRIGGER_MID,       1, TO_PQUEUE_LOW_IDX},

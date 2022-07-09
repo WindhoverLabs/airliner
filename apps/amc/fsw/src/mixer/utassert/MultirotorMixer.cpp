@@ -13,9 +13,8 @@
  */
 
 MultirotorMixer::MultirotorMixer(
-	ControlCallback control_cb,
-	cpuaddr cb_handle) :
-    	Mixer(control_cb, cb_handle),
+	ControlCallback control_cb) :
+    	Mixer(control_cb),
 		m_ThrustFactor(0.0f)
 {
 //    memset(&m_SaturationStatus, 0, sizeof(m_SaturationStatus));

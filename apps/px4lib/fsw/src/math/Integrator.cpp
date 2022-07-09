@@ -44,7 +44,7 @@
 //#include <drivers/drv_hrt.h>
 #include <time.h>
 #include <errno.h>
-
+#include "px4lib.h"
 
 ///* TODO */
 //uint64 PX4LIB_GetPX4TimeUs(void)
@@ -68,17 +68,23 @@
 //}
 
 /* TODO */
-uint64 PX4LIB_GetPX4TimeUs(void)
-{
-    uint64 outTime = 0;
-    OS_time_t localTime = {};
+//uint64 PX4LIB_GetPX4TimeUs(void)
+//{
+//    uint64 outTime = 0;
+//    OS_time_t localTime = {};
 
-    CFE_PSP_GetTime(&localTime);
+//    CFE_PSP_GetTime(&localTime);
 
-    outTime = (localTime.seconds * 1000000) + localTime.microsecs;
+//    outTime = (localTime.seconds * 1000000) + localTime.microsecs;
 
-    return outTime;
-}
+//    return outTime;
+//}
+
+//uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then)
+//{
+//    uint64 delta = PX4LIB_GetPX4TimeUs() - then;
+//    return delta;
+//}
 
 
 Integrator::Integrator(uint64 auto_reset_interval, boolean coning_compensation) :
