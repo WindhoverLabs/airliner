@@ -372,17 +372,17 @@ public:
     void ReportHousekeeping(void);
 
     /************************************************************************/
-    /** \brief Sends the Actuator Output message.
+    /** \brief Sends the Output message.
      **
      **  \par Description
-     **       This function publishes the actuator output message containing
-     **       the commanding values to the motors.
+     **       This function publishes the FAC output messages containing
+     **       the attitude control values.
      **
      **  \par Assumptions, External Events, and Notes:
      **       None
      **
      *************************************************************************/
-    void SendActuatorControls(void);
+     void SendOutputData(CFE_SB_Msg_t*);
 
     /************************************************************************/
     /** \brief Verify Command Length

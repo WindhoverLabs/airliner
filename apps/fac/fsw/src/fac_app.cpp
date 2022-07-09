@@ -299,29 +299,27 @@ int32 FAC::InitData()
 {
     int32  iStatus = CFE_SUCCESS;
 
-    CFE_SB_InitMsg(&CVT.Airspeed, PX4_AIRSPEED_MID, sizeof(CVT.Airspeed), TRUE);
-    CFE_SB_InitMsg(&CVT.BatteryStatus, PX4_BATTERY_STATUS_MID, sizeof(CVT.BatteryStatus), TRUE);
-    CFE_SB_InitMsg(&CVT.ManualControlSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(CVT.ManualControlSp), TRUE);
-    CFE_SB_InitMsg(&CVT.VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(CVT.VAttSp), TRUE);
-    CFE_SB_InitMsg(&CVT.VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(CVT.VAtt), TRUE);
-    CFE_SB_InitMsg(&CVT.VGlobalPosition, PX4_VEHICLE_GLOBAL_POSITION_MID, sizeof(CVT.VGlobalPosition), TRUE);
-    CFE_SB_InitMsg(&CVT.VControlMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(CVT.VControlMode), TRUE);
-    CFE_SB_InitMsg(&CVT.VLandDetected, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(CVT.VLandDetected), TRUE);
-    CFE_SB_InitMsg(&CVT.VehicleStatus, PX4_VEHICLE_STATUS_MID, sizeof(CVT.VehicleStatus), TRUE);
+    CFE_SB_InitMsg((void*)&CVT.Airspeed, PX4_AIRSPEED_MID, sizeof(CVT.Airspeed), TRUE);
+    CFE_SB_InitMsg((void*)&CVT.BatteryStatus, PX4_BATTERY_STATUS_MID, sizeof(CVT.BatteryStatus), TRUE);
+    CFE_SB_InitMsg((void*)&CVT.ManualControlSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(CVT.ManualControlSp), TRUE);
+    CFE_SB_InitMsg((void*)&CVT.VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(CVT.VAttSp), TRUE);
+    CFE_SB_InitMsg((void*)&CVT.VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(CVT.VAtt), TRUE);
+    CFE_SB_InitMsg((void*)&CVT.VGlobalPosition, PX4_VEHICLE_GLOBAL_POSITION_MID, sizeof(CVT.VGlobalPosition), TRUE);
+    CFE_SB_InitMsg((void*)&CVT.VControlMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(CVT.VControlMode), TRUE);
+    CFE_SB_InitMsg((void*)&CVT.VLandDetected, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(CVT.VLandDetected), TRUE);
+    CFE_SB_InitMsg((void*)&CVT.VehicleStatus, PX4_VEHICLE_STATUS_MID, sizeof(CVT.VehicleStatus), TRUE);
 
     /* Init actuator outputs message */
-    CFE_SB_InitMsg(&m_ActuatorControls0,
+    CFE_SB_InitMsg((void*)&m_ActuatorControls0,
             PX4_ACTUATOR_CONTROLS_0_MID, sizeof(m_ActuatorControls0), TRUE);
-    CFE_SB_InitMsg(&m_ActuatorControls2,
+    CFE_SB_InitMsg((void*)&m_ActuatorControls2,
             PX4_ACTUATOR_CONTROLS_2_MID, sizeof(m_ActuatorControls2), TRUE);
 
     /* Init housekeeping message. */
-    CFE_SB_InitMsg(&HkTlm, FAC_HK_TLM_MID, sizeof(HkTlm), TRUE);
+    CFE_SB_InitMsg((void*)&HkTlm, FAC_HK_TLM_MID, sizeof(HkTlm), TRUE);
 
     /* Init vehicle rates setpoint message. */
-    CFE_SB_InitMsg((CFE_SB_Msg_t*)&m_VehicleRatesSetpoint, PX4_VEHICLE_RATES_SETPOINT_MID, sizeof(m_VehicleRatesSetpoint), TRUE);
-
-    CFE_SB_InitMsg((CFE_SB_Msg_t*)&CVT.VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(CVT.VAttSp), TRUE);
+    CFE_SB_InitMsg((void*)&m_VehicleRatesSetpoint, PX4_VEHICLE_RATES_SETPOINT_MID, sizeof(m_VehicleRatesSetpoint), TRUE);
     
     UpdateParams();
 
@@ -677,10 +675,10 @@ void FAC::ReportHousekeeping()
 /* Publish Output Data                                             */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void FAC::SendActuatorControls()
+void FAC::SendOutputData(CFE_SB_Msg_t* MsgPtr)
 {
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_ActuatorControls0);
-    CFE_SB_SendMsg((CFE_SB_Msg_t*)&m_ActuatorControls0);
+    CFE_SB_TimeStampMsg(MsgPtr);
+    CFE_SB_SendMsg(MsgPtr);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -998,8 +996,7 @@ void FAC::RunController(void)
 //			q.copyTo(CVT.VAttSp.Q_D);
 //			CVT.VAttSp.Q_D_Valid = true;
 //
-//			CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&CVT.VAttSp);
-//			CFE_SB_SendMsg((CFE_SB_Msg_t*)&CVT.VAttSp);
+//          SendOutputData((CFE_SB_Msg_t*)&CVT.VAttSp);
 //		}
 
 		/* reset integrals where needed */
@@ -1166,8 +1163,7 @@ void FAC::RunController(void)
 
 		m_VehicleRatesSetpoint.Timestamp = now;
 
-	    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_VehicleRatesSetpoint);
-	    CFE_SB_SendMsg((CFE_SB_Msg_t*)&m_VehicleRatesSetpoint);
+		SendOutputData((CFE_SB_Msg_t*)&m_VehicleRatesSetpoint);
 	}
 	else
 	{
@@ -1201,12 +1197,8 @@ void FAC::RunController(void)
 	    CVT.VControlMode.ControlManualEnabled)
 	{
 		/* publish the actuator controls */
-
-	    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_ActuatorControls0);
-	    CFE_SB_SendMsg((CFE_SB_Msg_t*)&m_ActuatorControls0);
-
-	    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&m_ActuatorControls2);
-	    CFE_SB_SendMsg((CFE_SB_Msg_t*)&m_ActuatorControls2);
+		SendOutputData((CFE_SB_Msg_t*)&m_ActuatorControls0);
+		SendOutputData((CFE_SB_Msg_t*)&m_ActuatorControls2);
 	}
 
 }
