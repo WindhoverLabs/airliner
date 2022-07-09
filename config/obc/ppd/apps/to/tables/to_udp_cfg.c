@@ -109,6 +109,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {FROM_CPD(VM_HK_TLM_MID),                1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(ZUSUP_DIAG_TLM_MID),           1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(ZUSUP_HK_TLM_MID),             1, TO_PQUEUE_CPD_HK_IDX},
+        {FROM_CPD(ASPD4525_HK_TLM_MID),          1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(SBND_HK_TLM_MID),              1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(PE_DIAG_TLM_MID),              1, TO_PQUEUE_CPD_HIGH_IDX},
 

@@ -948,7 +948,23 @@ modules:
             msgID: 0x1b17              # CMD_MSG(  279 )
           HMC5883_WAKEUP_MID:
             msgID: 0x1b18              # CMD_MSG(  280 )
+
     
+      aspd4525:
+        definition: ${PROJECT_SOURCE_DIR}/apps/aspd4525/wh_design.yaml
+        commands:
+          ASPD4525_CMD_MID:
+            msgID: 0x1b58              # CMD_MSG(  344 )
+          ASPD4525_SEND_HK_MID:
+            msgID: 0x1b59              # CMD_MSG(  345 )
+          ASPD4525_WAKEUP_MID:
+            msgID: 0x1b5a              # CMD_MSG(  346 )
+        telemetry:
+          ASPD4525_OUT_DATA_MID:
+            msgID: 0x0b5b              # TLM_MSG(  347 )
+          ASPD4525_HK_TLM_MID:
+            msgID: 0x0b5c              # TLM_MSG(  348 )
+
       icm20689:
         definition: ${PROJECT_SOURCE_DIR}/../private/apps/icm20689/wh_design.yaml
         telemetry:
