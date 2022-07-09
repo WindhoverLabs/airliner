@@ -83,7 +83,7 @@ int32 SIMLINK_InitConfigTbl()
     /* Register Config table */
     iStatus = CFE_TBL_Register(&SIMLINK_AppData.ConfigTblHdl,
                                SIMLINK_CONFIG_TABLENAME,
-                               (sizeof(SIMLINK_ConfigTblEntry_t) * SIMLINK_CONFIG_TABLE_MAX_ENTRIES),
+                               (sizeof(SIMLINK_ConfigTbl_t) * SIMLINK_CONFIG_TABLE_MAX_ENTRIES),
                                CFE_TBL_OPT_DEFAULT,
                                SIMLINK_ValidateConfigTbl);
     if (iStatus != CFE_SUCCESS)
@@ -126,7 +126,7 @@ SIMLINK_InitConfigTbl_Exit_Tag:
 int32 SIMLINK_ValidateConfigTbl(void* ConfigTblPtr)
 {
     int32  iStatus=0;
-    SIMLINK_ConfigTblEntry_t* SIMLINK_ConfigTblPtr = (SIMLINK_ConfigTblEntry_t*)(ConfigTblPtr);
+    SIMLINK_ConfigTbl_t* SIMLINK_ConfigTblPtr = (SIMLINK_ConfigTbl_t*)(ConfigTblPtr);
 
     if (ConfigTblPtr == NULL)
     {
@@ -207,7 +207,8 @@ int32 SIMLINK_AcquireConfigPointers(void)
     }
     else if(iStatus != CFE_SUCCESS)
     {
-	SIMLINK_AppData.ConfigTblPtr = 0;
+    	exit(-1);
+	    SIMLINK_AppData.ConfigTblPtr = 0;
         (void) CFE_EVS_SendEvent(SIMLINK_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to get Config table's address (0x%08X)",
                                  (unsigned int)iStatus);

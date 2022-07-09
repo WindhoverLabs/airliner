@@ -42,6 +42,7 @@
 ** Includes
 *************************************************************************/
 #include "cfe.h"
+#include "simlink_platform_cfg.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -69,36 +70,17 @@ extern "C" {
 ** Local Structure Declarations
 *************************************************************************/
 
+typedef  struct
+{
+	float Minimum;
+	float Maximum;
+} SIMLINK_PwmChannel_t;
+
 /** \brief Definition for a single config table entry */
 typedef struct
 {
-    int32  iParam;
-
-    /* TODO:  Add type declaration for config parameters here.
-    **
-    ** Examples:
-    **    int8/char            cParam;
-    **    int8/char            cParams[16];
-    **    uint8/unsigned char  ucParam;
-    **    uint8/unsigned char  ucParams[16];
-    **
-    **    int16   sParam;
-    **    int16   sParams[8];
-    **    uint16  usParam;
-    **    uint16  usParams[8];
-    **
-    **    int32   iParam;
-    **    int32   iParams[5];
-    **    uint32  uiParam;
-    **    uint32  uiParams[5];
-    **
-    **    float  fParam;
-    **    float  fParams[3];
-    **
-    **    double  dParam;
-    **    double  dParams[3];
-    */
-} SIMLINK_ConfigTblEntry_t;
+    SIMLINK_PwmChannel_t PWM[SIMLINK_MAX_PWM_OUTPUTS];
+} SIMLINK_ConfigTbl_t;
 
 
 /** \brief Definition for Critical Data Storage (CDS) table entry */

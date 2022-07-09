@@ -96,7 +96,7 @@ typedef struct
     CFE_TBL_Handle_t  ConfigTblHdl;
 
     /** \brief Config Table Pointer */
-    SIMLINK_ConfigTblEntry_t*  ConfigTblPtr;
+    SIMLINK_ConfigTbl_t*  ConfigTblPtr;
 
     /* Critical Data Storage (CDS) table-related */
 
