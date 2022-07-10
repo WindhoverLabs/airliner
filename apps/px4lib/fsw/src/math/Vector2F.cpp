@@ -147,6 +147,10 @@ Vector2F Vector2F::operator-() const
     return res;
 }
 
+float Vector2F::operator %(const Vector2F &v) const
+{
+    return data[0] * v.data[1] - data[1] * v.data[0];
+}
 
 Vector2F Vector2F::EMult(const Vector2F &vecIn)
 {
@@ -157,7 +161,6 @@ Vector2F Vector2F::EMult(const Vector2F &vecIn)
 
 	return res;
 }
-
 
 
 void Vector2F::Constrain(uint32 i, float min, float max)
@@ -183,6 +186,19 @@ Vector2F Vector2F::Normalized(void)
 	res[1] = data[1] / mag;
 
 	return res;
+}
+
+
+void Vector2F::Normalize(void)
+{
+    Vector2F res;
+    float mag = Length();
+
+    res[0] = data[0] / mag;
+    res[1] = data[1] / mag;
+
+    data[0] = res[0];
+    data[1] = res[1];
 }
 
 Matrix1F2 Vector2F::Transpose(void)

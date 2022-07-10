@@ -20,8 +20,8 @@
 #define ASPD4525_SED_STATUS_PIPE_NAME          ("IIC1_STATUS")
 
 /* Message IDs. */
-#define IIC_CMD_MSG_ID                       (0x1838)
-#define IIC_RESPONSE_MSG_ID                  (0x0839)
+#define IIC_CMD_MSG_ID                       (0x183a)
+#define IIC_RESPONSE_MSG_ID                  (0x083b)
 
 /* Number of retry attempts to wait for a status message. */
 #define ASPD4525_POLL_RETRY_ATTEMPTS           (10)
@@ -305,7 +305,8 @@ boolean ASPD4525_Custom_Receive(uint8 *Buffer, size_t Length)
     /* Set command code. */
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&ASPD4525_AppCustomData.TransferCmd, IIC_WRITE_CC);
 
-    iStatus = ASPD4525_SendWaitVerify(ASPD4525_I2C_ADDRESS, 0, 0);
+    //iStatus = ASPD4525_SendWaitVerify(ASPD4525_I2C_ADDRESS, 0, 0);
+    iStatus = ASPD4525_SendWaitVerify(ASPD4525_I2C_ADDRESS, 0, 1);
     if(iStatus != CFE_SUCCESS)
     {
         returnBool = FALSE;

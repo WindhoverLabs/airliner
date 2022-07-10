@@ -13,6 +13,7 @@
 
 #include "cfe.h"
 #include "aspd4525_tbldefs.h"
+#include "aspd4525_msg.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -65,6 +66,9 @@ extern "C" {
 /**
  * @brief This function returns the floating point differential pressure in Pascals
  * 
+ * The Docukmentation for this function can be found at
+ * https://windhoverlabs.atlassian.net/l/c/1ksRiAiV
+ * 
  * @param configTblP config table pointer
  * @param pressureDataCounts Pressaure diff counts
  * @return float Pressure Difference in Pascals
@@ -76,6 +80,9 @@ float ASPD4525_MATH_GetDeltaPressure(
 
 /**
  * @brief This function returns the floating point temperature in Celcius
+ * 
+ * The Documentation for this function can be found at
+ * https://windhoverlabs.atlassian.net/l/c/SHmvwYUf
  * 
  * @param configTblP config table pointer
  * @param temperatureDataCounts Temperature Counts
@@ -89,6 +96,9 @@ float ASPD4525_MATH_GetTemperature(
 /**
  * @brief This function returns the fixed point temperature counts device outputs
  * 
+ * The Documentation for this function can be found at
+ * https://windhoverlabs.atlassian.net/l/c/APYc13Da
+ * 
  * @param configTblP config table pointer
  * @param fTemperature floating point temperature in Kelvin
  * @return uint16 Temperature Counts
@@ -101,6 +111,9 @@ uint16 ASPD4525_MATH_GetTempDataCounts(
 /**
  * @brief This function returns the fixed point pressure difference counts device outputs
  * 
+ * The Documentation for this function can be found at
+ * https://windhoverlabs.atlassian.net/l/c/SG7TR35J
+ * 
  * @param configTblP config table pointer
  * @param fDiffPressure foating point preesure difference in hPa
  * @return uint16 Pressure Difference Counts
@@ -108,6 +121,34 @@ uint16 ASPD4525_MATH_GetTempDataCounts(
 uint16 ASPD4525_MATH_GetDiffPressureDataCounts(
     ASPD4525_ConfigTblEntry_t configTblP, 
     float fDiffPressure
+);
+
+/**
+ * @brief This function calibrates the Pressures for AirSpeed Measurements
+ * 
+ * The Documentation for this function can be found at
+ * https://windhoverlabs.atlassian.net/l/c/wLkZ03kF
+ * 
+ * @param configTblP config table pointer
+ * @param labCalibArgCmdPtr Struct pointer to the command argument sent from commander
+ */
+void ASPD4525_MATH_CalibrateAirSpeedPressures(
+    ASPD4525_ConfigTblEntry_t* configTblP, 
+    ASPD4525_LabCalibArgCmd_t* labCalibArgCmdPtr
+);
+
+/**
+ * @brief This function calibrates the temperature
+ * 
+ * The Documentation for this function can be found at
+ * https://windhoverlabs.atlassian.net/l/c/ydPyKomc
+ * 
+ * @param configTblP config table pointer
+ * @param tempCalibArgCmdPtr Struct pointer to the command argument sent from commander
+ */
+void ASPD4525_MATH_CalibrateTemperature(
+    ASPD4525_ConfigTblEntry_t* configTblP,
+    ASPD4525_TempCalibArgCmd_t* tempCalibArgCmdPtr
 );
 
 #ifdef __cplusplus

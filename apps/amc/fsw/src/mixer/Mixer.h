@@ -129,6 +129,7 @@
 #define MIXER_H
 
 #include "cfe.h"
+#include "MixerTables.h"
 
 /**
  * Abstract class defining a mixer mixing zero or more inputs to
@@ -137,13 +138,6 @@
 class Mixer
 {
 public:
-	 struct MixerScaler_t {
-	     float negative_scale;
-	     float positive_scale;
-	     float offset;
-	     float min_output;
-	     float max_output;
-	 };
 
 	/** next mixer in a list */
 	Mixer				*m_Next;
@@ -157,7 +151,7 @@ public:
 	 * @param control		The returned control
 	 * @return			Zero if the value was fetched, nonzero otherwise.
 	 */
-	typedef int32	(* ControlCallback)(cpuaddr handle,
+	typedef int32	(* ControlCallback)(
 					    uint8 control_group,
 					    uint8 control_index,
 					    float &control);
@@ -167,8 +161,11 @@ public:
 	 *
 	 * @param control_cb		Callback invoked when reading controls.
 	 */
-	Mixer(ControlCallback control_cb, cpuaddr cb_handle);
+	Mixer(ControlCallback control_cb);
+	Mixer(void);
 	virtual ~Mixer() {};
+
+	virtual int32       Initialize(void) {};
 
 	/**
 	 * Perform the mixing function.
@@ -208,10 +205,11 @@ public:
 	 */
 	virtual void 			set_thrust_factor(float val) {};
 
+	void set_callback(ControlCallback control_cb);
+
 protected:
 	/** client-supplied callback used when fetching control values */
 	ControlCallback	m_ControlCb;
-	cpuaddr			m_CbHandle;
 
 	/**
 	 * Invoke the client callback to fetch a control value.
@@ -229,7 +227,7 @@ protected:
 	 * @param input			The value to be scaled.
 	 * @return			The scaled value.
 	 */
-	static float			scale(const MixerScaler_t &scaler, float input);
+	static float			scale(const AMC_Mixer_Scaler_t &scaler, float input);
 
 	/**
 	 * Validate a scaler
@@ -237,7 +235,7 @@ protected:
 	 * @param scaler		The scaler to be validated.
 	 * @return			Zero if good, nonzero otherwise.
 	 */
-	static int32			scale_check(const MixerScaler_t &scaler);
+	static int32			scale_check(const AMC_Mixer_Scaler_t &scaler);
 
 private:
 

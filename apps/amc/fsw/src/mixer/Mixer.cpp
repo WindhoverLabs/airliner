@@ -39,12 +39,16 @@
 /* Mixer constructor.                                              */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-Mixer::Mixer(ControlCallback ControlCb, cpuaddr CbHandle) :
-    m_Next(nullptr),
-    m_ControlCb(ControlCb),
-    m_CbHandle(CbHandle)
+Mixer::Mixer() :
+    m_Next(nullptr)
 {
     return;
+}
+
+
+void Mixer::set_callback(ControlCallback control_cb)
+{
+	m_ControlCb = control_cb;
 }
 
 
@@ -57,7 +61,7 @@ float Mixer::get_control(uint8 group, uint8 index)
 {
     float   value;
 
-    m_ControlCb(m_CbHandle, group, index, value);
+    m_ControlCb(group, index, value);
 
     return value;
 }
@@ -68,26 +72,26 @@ float Mixer::get_control(uint8 group, uint8 index)
 /* Mixer scale function.                                           */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-float Mixer::scale(const MixerScaler_t &scaler, float input)
+float Mixer::scale(const AMC_Mixer_Scaler_t &scaler, float input)
 {
     float output;
 
     if (input < 0.0f)
     {
-        output = (input * scaler.negative_scale) + scaler.offset;
+        output = (input * scaler.NegativeScale) + scaler.Offset;
     }
     else
     {
-        output = (input * scaler.positive_scale) + scaler.offset;
+        output = (input * scaler.PositiveScale) + scaler.Offset;
     }
 
-    if (output > scaler.max_output)
+    if (output > scaler.MaxOutput)
     {
-        output = scaler.max_output;
+        output = scaler.MaxOutput;
     }
-    else if (output < scaler.min_output)
+    else if (output < scaler.MinOutput)
     {
-        output = scaler.min_output;
+        output = scaler.MinOutput;
     }
 
     return output;
@@ -99,25 +103,25 @@ float Mixer::scale(const MixerScaler_t &scaler, float input)
 /* Mixer scale_check function.                                     */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 Mixer::scale_check(const MixerScaler_t &scaler)
+int32 Mixer::scale_check(const AMC_Mixer_Scaler_t &scaler)
 {
-    if (scaler.offset > 1.001f) {
+    if (scaler.Offset > 1.001f) {
         return 1;
     }
 
-    if (scaler.offset < -1.001f) {
+    if (scaler.Offset < -1.001f) {
         return 2;
     }
 
-    if (scaler.min_output > scaler.max_output) {
+    if (scaler.MinOutput > scaler.MaxOutput) {
         return 3;
     }
 
-    if (scaler.min_output < -1.001f) {
+    if (scaler.MinOutput < -1.001f) {
         return 4;
     }
 
-    if (scaler.max_output > 1.001f) {
+    if (scaler.MaxOutput > 1.001f) {
         return 5;
     }
 

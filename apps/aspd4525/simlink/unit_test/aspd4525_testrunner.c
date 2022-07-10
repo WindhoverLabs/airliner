@@ -37,6 +37,7 @@
 #include "aspd4525_cmds_test.h"
 #include "aspd4525_config_tbl_test.h"
 #include "aspd4525_cds_tbl_test.h"
+#include "aspd4525_math_test.h"
 
 int main(void)
 {   
@@ -44,6 +45,7 @@ int main(void)
     ASPD4525_Cmds_Test_AddTestCases();
     ASPD4525_Config_Tbl_Test_AddTestCases();
     ASPD4525_CDS_Tbl_Test_AddTestCases();
+    ASPD4525_MATH_Test_AddTestCases();
 
     return(UtTest_Run());
 

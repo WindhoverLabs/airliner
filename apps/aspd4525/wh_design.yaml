@@ -35,9 +35,6 @@
     ASPD4525_HK_TLM_MID: 
       msgID: 
       struct: ASPD4525_HkTlm_t
-    PX4_AIRSPEED_MID:
-      msgID:
-      struct: PX4_AirspeedMsg_t
   commands: 
     ASPD4525_CMD_MID: 
       msgID: 
@@ -51,6 +48,21 @@
         ManualCalibrate: 
           cc: 2
           struct: ASPD4525_ManCalibArgCmd_t
+        LabCalibrate:
+          cc: 3
+          struct: ASPD4525_LabCalibArgCmd_t
+        TempCalibrate:
+          cc: 5
+          struct: ASPD4525_TempCalibArgCmd_t
+        PhysicsCalibrate:
+          cc: 6
+          struct: ASPD4525_PhysicsCalibArgCmd_t
+        AirColumnCalibrate: 
+          cc: 7
+          struct: ASPD4525_AirColCalibArgCmd_t
+        SetAirDensityMode: 
+          cc: 8
+          struct: ASPD4525_AirDensityModeArgCmd_t
     ASPD4525_SEND_HK_MID: 
       msgID: 
       commands: 

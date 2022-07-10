@@ -52,8 +52,8 @@ ASPD4525_ConfigTblEntry_t ASPD4525_ConfigTbl[ASPD4525_CONFIG_TABLE_MAX_ENTRIES] 
 {
     /* Entry 1 */
     {
-        .fPressureMinimum_PSI = 0.0,
-        .fPressureMaximum_PSI = 1.0,
+        .fPressureMinimum_PSI = -0.5,
+        .fPressureMaximum_PSI = 0.5,
         .fTemperatureMinimum_Celcius = -50.0,
         .fTemperatureMaximum_Celcius = 150.0,
         .fAirGasConstantR_SI = 8.3144598,

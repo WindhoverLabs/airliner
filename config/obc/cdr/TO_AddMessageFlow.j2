@@ -182,11 +182,11 @@ if (msgName === undefined || msgName === null) {
     <maximum>1.7976931348623157E308</maximum>
     <limits_from_pv>false</limits_from_pv>
   </widget>
-  
+
 {%- set group_y      = namespace(value=85)   -%}
 {%- set group_height = 120   -%}
 {%- for cpu in cpus %}
-  
+
   <widget type="group" version="2.0.0">
     <name>{{ cpu }}</name>
     <x>6</x>
@@ -274,7 +274,7 @@ if(ChannelIdx == "{{ channel.name }}") {
 }
   {%- endif %}
 {%- endfor %}
-    
+
 
 
 Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/apps/to/AddMessageFlow', {
@@ -367,7 +367,7 @@ Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/apps/to/AddMessageFlow', {
       </items>
       <items_from_pv>false</items_from_pv>
     </widget>
-    
+
     {% if root.modules[cpu].modules.apps.modules.sbnd is defined %}
     <widget type="action_button" version="3.0.0">
       <name>NoOp_1</name>
@@ -409,7 +409,7 @@ else if(MsgID == '{{- msg.name-}}') {
 
 
 Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/apps/sbnd/AddCommand', {
-    'MsgID': msgIDOut
+    'Mid': msgIDOut
 });
 
 
@@ -434,11 +434,11 @@ Yamcs.issueCommand(widget, '/cfs/{{ cpu }}/apps/sbnd/AddCommand', {
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     {% endif %}
-  
+
   </widget>
     {%- set group_y.value = group_y.value + group_height   -%}
   {%- endfor   -%}
-  
+
   <widget type="label" version="2.0.0">
     <name>msgName</name>
     <text>Message ID</text>

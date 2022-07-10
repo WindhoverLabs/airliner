@@ -429,6 +429,32 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/SendHK', {});]]></text>
         <tooltip>$(actions)</tooltip>
       </widget>
     </widget>
+    <widget type="group" version="2.0.0">
+      <name>Air Density</name>
+      <y>270</y>
+      <width>222</width>
+      <height>69</height>
+      <font>
+        <font family="Liberation Sans" style="BOLD" size="14.0">
+        </font>
+      </font>
+      <widget type="action_button" version="3.0.0">
+        <name>Action Button_13</name>
+        <actions>
+          <action type="open_display">
+            <file>AirDensityMode.opi</file>
+            <target>tab</target>
+            <description>Open Display</description>
+          </action>
+        </actions>
+        <text>Air Density Mode</text>
+        <x>6</x>
+        <y>5</y>
+        <width>150</width>
+        <height>20</height>
+        <tooltip>$(actions)</tooltip>
+      </widget>
+    </widget>
   </widget>
   <widget type="group" version="2.0.0">
     <name>Measurements</name>
@@ -507,5 +533,18 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/aspd4525/SendHK', {});]]></text>
       <y>78</y>
       <width>184</width>
     </widget>
+  </widget>
+  <widget type="action_button" version="3.0.0">
+    <name>Help</name>
+    <actions>
+      <action type="open_webpage">
+        <url>https://windhoverlabs.atlassian.net/l/c/rXauQY5v</url>
+        <description>Open Web Page</description>
+      </action>
+    </actions>
+    <text>Help</text>
+    <x>306</x>
+    <y>451</y>
+    <tooltip>$(actions)</tooltip>
   </widget>
 </display>

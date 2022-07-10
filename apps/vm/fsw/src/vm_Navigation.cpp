@@ -459,8 +459,13 @@ osalbool VM_Navigation::AllMessagesReceivedAtLeastOnce()
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 osalbool VM_Navigation::IsStabilizationRequired(void)
 {
+//	return (status.is_rotary_wing ||		// is a rotary wing, or
+//		status.vtol_fw_permanent_stab || 	// is a VTOL in fixed wing mode and stabilisation is on, or
+//		(vtol_status.vtol_in_trans_mode && 	// is currently a VTOL transitioning AND
+//			!status.is_rotary_wing));	// is a fixed wing, ie: transitioning back to rotary wing mode
+
     /* Being a rotary wing qualifies for stabilization */
-    return true;
+    return App.VehicleStatusMsg.IsRotaryWing;
 }
 
 

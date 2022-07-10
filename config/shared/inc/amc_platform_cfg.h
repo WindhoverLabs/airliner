@@ -9,6 +9,10 @@ extern "C" {
 ** amc Platform Configuration Parameter Definitions
 */
 
+#define AMC_MULTIROTOR_MIXER_MAX_MIXERS   (1)
+#define AMC_SIMPLE_MIXER_MAX_MIXERS       (10)
+#define AMC_SIMPLE_MIXER_MAX_CONTROLS     (2)
+
 /** \brief Mission specific version number for AMC application
 **  
 **  \par Description:
@@ -100,9 +104,9 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define AMC_PWM_CONFIG_TABLE_FILENAME      ("/cf/apps/amc_pwmcfg.tbl")
-
-#define AMC_MIXER_CONFIG_TABLE_FILENAME      ("/cf/apps/amc_mixercfg.tbl")
+#define AMC_CONFIG_TABLE_FILENAME                   "/cf/apps/amc_config.tbl"
+#define AMC_MULTICOPTER_MIXER_CONFIG_TABLE_FILENAME "/cf/apps/amc_mc_mixercfg.tbl"
+#define AMC_SIMPLE_MIXER_CONFIG_TABLE_FILENAME      "/cf/apps/amc_s_mixercfg.tbl"
 
 /** \brief The timeout value, in milliseconds, to wait for ES application startup sync.
 **
