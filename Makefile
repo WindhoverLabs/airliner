@@ -253,7 +253,9 @@ obc-fixedwing-sitl:: obc/fixedwing/ppd/sitl obc/fixedwing/cpd/sitl obc/fixedwing
 	@ln -s cf build/obc/fixedwing/cpd/sitl/target/target/exe/ram || /bin/true
 	@echo 'Done'
 	
-	
+obc-hitl:: obc/ppd obc/cpd obc/simlink/hitl
+	@echo 'Done'
+
 docs-doxygen:
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
 	(cd build/${SPHINX_FSW_BUILD}/target; /usr/bin/cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
