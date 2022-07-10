@@ -450,8 +450,6 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
     int32 iStatus = CFE_SUCCESS;
     CFE_SB_MsgPtr_t msg;
 
-	printf("%s %u\n", __FILE__, __LINE__);
-
     while(TO_OutputChannel_Status(ChannelIdx) == TO_CHANNEL_ENABLED)
     {
         if(TO_Channel_State(ChannelIdx) == TO_CHANNEL_OPENED)

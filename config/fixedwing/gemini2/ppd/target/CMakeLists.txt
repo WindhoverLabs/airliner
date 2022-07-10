@@ -210,10 +210,12 @@ buildliner_add_app(
         ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_map.h
 )
 
+
 buildliner_add_app(
     sbnd
+    EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/sbnd
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbnd
     CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/sbnd/shm/sbnd_custom.cpp
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd/shm/sbnd_custom.cpp
 )

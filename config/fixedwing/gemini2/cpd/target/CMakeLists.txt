@@ -399,11 +399,12 @@ buildliner_add_app(
     CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/zusup
 )
 
+
 buildliner_add_app(
     sbnd
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbnd
     CONFIG_SOURCES
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd/shm/sbnd_custom.cpp
 )

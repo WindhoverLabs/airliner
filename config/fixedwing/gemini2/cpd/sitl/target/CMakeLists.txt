@@ -59,6 +59,14 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    ipc_lib
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ipc_lib/fsw/for_build
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/ipc_lib/ipc_lib_custom.c
+)
+
+buildliner_add_app(
     pq_lib
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
@@ -104,6 +112,16 @@ buildliner_add_app(
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch
     CONFIG_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch/sch_custom_v1.c
+)
+
+
+buildliner_add_app(
+    sbnd
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sbnd
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd/shm/sbnd_custom.cpp
 )
 
 buildliner_add_app(

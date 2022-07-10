@@ -15,19 +15,19 @@
 **       file index numbers for command arguments.
 */
 /* All events */
-#define FILE_ALL_EVENTS                     0
+#define FILE_ALL_PPD_EVENTS                 (0)
+#define FILE_ALL_CPD_EVENTS                 (1)
 /* All housekeeping packets */
-#define FILE_ALL_APP_HK_PKTS                1
+#define FILE_ALL_PPD_APP_HK_PKTS            (2)
+#define FILE_ALL_CPD_APP_HK_PKTS            (3)
 /* Log all flight application messages */
-#define FILE_FLIGHT_APP_TLM_PKTS            2
-/* Log just default flight application messages */
-#define FILE_FLIGHT_DEFAULT_APP_TLM_PKTS    3
+#define FILE_FLIGHT_APP_TLM_PKTS            (4)
+/* Log just minimum flight application messages */
+#define FILE_MINIMUM_FLIGHT_APP_TLM_PKTS    (5)
 /* Log just sensor application messages */
-#define FILE_FLIGHT_SENSOR_APP_TLM_PKTS     4
+#define FILE_FLIGHT_SENSOR_APP_TLM_PKTS     (6)
 /* Log all flight messages at a low rate */
-#define FILE_FLIGHT_MIN_APP_TLM_PKTS        5
-/* CFE core applications commands */
-#define FILE_CORE_APP_CMD_PKTS              6
+#define FILE_LOWRATE_FLIGHT_APP_TLM_PKTS    (7)
 
 
 /*
@@ -38,110 +38,154 @@ DS_DestFileTable_t DS_DestFileTable =
   /* .Descriptor = */ "Events",
   /* .File       = */
   {
-    /* File Index 00 -- event packets only */
+    /* File Index 00 -- PPD event packets only */
     {
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
       /* .Pathname      = */ "/cf/log/",
-      /* .Basename      = */ "events",
-      /* .Extension     = */ ".dat",
+      /* .Basename      = */ "ppd_events",
+      /* .Extension     = */ ".log",
 
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_ENABLED,
       /* .MaxFileSize   = */ (1024 * 1024 * 200),         /* 200 M-bytes */
       /* .MaxFileAge    = */ (60 * 60 * 2),               /* 2 hours */
-      /* .SequenceCount = */ 1000,
+      /* .SequenceCount = */ 0,
     },
-    /* File Index 01 -- application housekeeping packets */
+    /* File Index 01 -- CPD event packets only */
+	{
+#if (DS_MOVE_FILES == TRUE)
+      /* .Movename      = */ DS_EMPTY_STRING,
+#endif
+      /* .Pathname      = */ "/cf/log/",
+      /* .Basename      = */ "cpd_events",
+      /* .Extension     = */ ".log",
+      /* .FileNameType  = */ DS_BY_COUNT,
+      /* .EnableState   = */ DS_ENABLED,
+      /* .MaxFileSize   = */ (1024 * 1024 * 200),         /* 200 M-bytes */
+      /* .MaxFileAge    = */ (60 * 60 * 2),               /* 2 hours */
+      /* .SequenceCount = */ 0,
+    },
+    /* File Index 02 -- PPD housekeeping packets */
     {
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
       /* .Pathname      = */ "/cf/log/",
-      /* .Basename      = */ "hk",
-      /* .Extension     = */ ".hk",
+      /* .Basename      = */ "ppd_hk",
+      /* .Extension     = */ ".log",
 
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_ENABLED,
       /* .MaxFileSize   = */ (1024 * 1024 * 200),         /* 200 M-bytes */
       /* .MaxFileAge    = */ (60 * 60 * 2),             /* 2 hours */
-      /* .SequenceCount = */ 2000,
+      /* .SequenceCount = */ 0,
     },
-    /* File Index 02 -- application telemetry packets */
+    /* File Index 03 -- CPD housekeeping packets */
     {
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
       /* .Pathname      = */ "/cf/log/",
-      /* .Basename      = */ "flight",
-      /* .Extension     = */ ".tlm",
+      /* .Basename      = */ "cpd_hk",
+      /* .Extension     = */ ".log",
+
+      /* .FileNameType  = */ DS_BY_COUNT,
+      /* .EnableState   = */ DS_ENABLED,
+      /* .MaxFileSize   = */ (1024 * 1024 * 200),         /* 200 M-bytes */
+      /* .MaxFileAge    = */ (60 * 60 * 2),             /* 2 hours */
+      /* .SequenceCount = */ 0,
+    },
+    /* File Index 04 -- all flight application messages */
+    {
+#if (DS_MOVE_FILES == TRUE)
+      /* .Movename      = */ DS_EMPTY_STRING,
+#endif
+      /* .Pathname      = */ "/cf/log/",
+      /* .Basename      = */ "all_flight",
+      /* .Extension     = */ ".log",
 
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_ENABLED,
       /* .MaxFileSize   = */ (1024 * 1024 * 200),       /* 200 M-bytes */
       /* .MaxFileAge    = */ (60 * 60 * 2),             /* 2 hours */
-      /* .SequenceCount = */ 3000,
+      /* .SequenceCount = */ 0,
     },
-    /* File Index 03 -- hardware telemetry packets */
-    {
+    /* File Index 05 -- minimum flight application messages */
+	{
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
       /* .Pathname      = */ "/cf/log/",
-      /* .Basename      = */ "default",
-      /* .Extension     = */ ".tlm",
+      /* .Basename      = */ "minimum_flight",
+      /* .Extension     = */ ".log",
 
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_DISABLED,
       /* .MaxFileSize   = */ (1024 * 1024 * 200),       /* 200 M-bytes */
       /* .MaxFileAge    = */ (60 * 60 * 2),             /* 2 hours */
-      /* .SequenceCount = */ 4000,
+      /* .SequenceCount = */ 0,
     },
-    /* File Index 04 -- cFE housekeeping packets */
+    /* File Index 06 -- sensor application messages */
     {
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
       /* .Pathname      = */ "/cf/log/",
       /* .Basename      = */ "sensor",
-      /* .Extension     = */ ".tlm",
+      /* .Extension     = */ ".log",
 
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_DISABLED,
       /* .MaxFileSize   = */ (1024 * 1024 * 200),       /* 200 M-bytes */
       /* .MaxFileAge    = */ (60 * 60 * 2),             /* 2 hours */
-      /* .SequenceCount = */ 5000,
+      /* .SequenceCount = */ 0,
     },
-    /* File Index 05 -- cFE telemetry packets */
+    /* File Index 07 -- flight messages at a low rate */
     {
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
       /* .Pathname      = */ "/cf/log/",
-      /* .Basename      = */ "minimum",
-      /* .Extension     = */ ".tlm",
+      /* .Basename      = */ "lowrate_flight",
+      /* .Extension     = */ ".log",
 
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_DISABLED,
       /* .MaxFileSize   = */ (1024 * 1024 * 200),       /* 200 M-bytes */
       /* .MaxFileAge    = */ (60 * 60 * 2),             /* 2 hours */
-      /* .SequenceCount = */ 6000,
+      /* .SequenceCount = */ 0,
+    },
+    /* File Index 07 -- flight messages at a low rate */
+    {
+#if (DS_MOVE_FILES == TRUE)
+      /* .Movename      = */ DS_EMPTY_STRING,
+#endif
+	  /* .Pathname      = */ DS_EMPTY_STRING,
+      /* .Basename      = */ DS_EMPTY_STRING,
+      /* .Extension     = */ DS_EMPTY_STRING,
+
+      /* .FileNameType  = */ DS_UNUSED,
+      /* .EnableState   = */ DS_UNUSED,
+      /* .MaxFileSize   = */ DS_UNUSED,
+      /* .MaxFileAge    = */ DS_UNUSED,
+      /* .SequenceCount = */ DS_UNUSED,
     },
     /* File Index 06 */
     {
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
-      /* .Pathname      = */ "/cf/log/",
-      /* .Basename      = */ "commands",
-      /* .Extension     = */ ".cmd",
+      /* .Pathname      = */ DS_EMPTY_STRING,
+      /* .Basename      = */ DS_EMPTY_STRING,
+      /* .Extension     = */ DS_EMPTY_STRING,
 
-      /* .FileNameType  = */ DS_BY_COUNT,
-      /* .EnableState   = */ DS_ENABLED,
-      /* .MaxFileSize   = */ (1024 * 1024 * 200),       /* 200 M-bytes */
-      /* .MaxFileAge    = */ (60 * 60 * 2),             /* 2 hours */
-      /* .SequenceCount = */ 7000,
+      /* .FileNameType  = */ DS_UNUSED,
+      /* .EnableState   = */ DS_UNUSED,
+      /* .MaxFileSize   = */ DS_UNUSED,
+      /* .MaxFileAge    = */ DS_UNUSED,
+      /* .SequenceCount = */ DS_UNUSED,
     },
     /* File Index 07 */
     {
@@ -232,52 +276,7 @@ DS_DestFileTable_t DS_DestFileTable =
       /* .MaxFileSize   = */ DS_UNUSED,
       /* .MaxFileAge    = */ DS_UNUSED,
       /* .SequenceCount = */ DS_UNUSED,
-    },
-    /* File Index 13 */
-    {
-#if (DS_MOVE_FILES == TRUE)
-      /* .Movename      = */ DS_EMPTY_STRING,
-#endif
-      /* .Pathname      = */ DS_EMPTY_STRING,
-      /* .Basename      = */ DS_EMPTY_STRING,
-      /* .Extension     = */ DS_EMPTY_STRING,
-
-      /* .FileNameType  = */ DS_UNUSED,
-      /* .EnableState   = */ DS_UNUSED,
-      /* .MaxFileSize   = */ DS_UNUSED,
-      /* .MaxFileAge    = */ DS_UNUSED,
-      /* .SequenceCount = */ DS_UNUSED,
-    },
-    /* File Index 14 */
-    {
-#if (DS_MOVE_FILES == TRUE)
-      /* .Movename      = */ DS_EMPTY_STRING,
-#endif
-      /* .Pathname      = */ DS_EMPTY_STRING,
-      /* .Basename      = */ DS_EMPTY_STRING,
-      /* .Extension     = */ DS_EMPTY_STRING,
-
-      /* .FileNameType  = */ DS_UNUSED,
-      /* .EnableState   = */ DS_UNUSED,
-      /* .MaxFileSize   = */ DS_UNUSED,
-      /* .MaxFileAge    = */ DS_UNUSED,
-      /* .SequenceCount = */ DS_UNUSED,
-    },
-    /* File Index 15 */
-    {
-#if (DS_MOVE_FILES == TRUE)
-      /* .Movename      = */ DS_EMPTY_STRING,
-#endif
-      /* .Pathname      = */ DS_EMPTY_STRING,
-      /* .Basename      = */ DS_EMPTY_STRING,
-      /* .Extension     = */ DS_EMPTY_STRING,
-
-      /* .FileNameType  = */ DS_UNUSED,
-      /* .EnableState   = */ DS_UNUSED,
-      /* .MaxFileSize   = */ DS_UNUSED,
-      /* .MaxFileAge    = */ DS_UNUSED,
-      /* .SequenceCount = */ DS_UNUSED,
-    },
+    }
   }
 };
 
