@@ -44,7 +44,7 @@ AMC_ConfigTbl_t AMC_ConfigTbl =
 {
     900,                  /* PwmDisarmed */
     1100,                 /* PwmMin      */
-    2000                  /* PwmMax      */
+    19500                 /* PwmMax      */
 };
 
 /*
