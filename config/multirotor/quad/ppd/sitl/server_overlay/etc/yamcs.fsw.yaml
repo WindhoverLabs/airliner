@@ -93,6 +93,7 @@ dataLinks:
     stream: tc_realtime
     host: 127.0.0.1
     port: 5010
+    enabledAtStartup: false
     commandPostprocessorClassName: com.windhoverlabs.yamcs.tctm.ccsds.CfsCommandPostprocessorRFC1055
     commandPostprocessorArgs:
       swapChecksumFc: true
