@@ -247,7 +247,7 @@
 **       thus the value can be anything from zero to 4,294,967,295.
 **       (limit is not verified)
 */
-#define DS_FILE_HDR_SUBTYPE             12345
+#define DS_FILE_HDR_SUBTYPE             12346
 
 
 /**

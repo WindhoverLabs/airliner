@@ -48,6 +48,22 @@ services:
       file: "etc/registry.yaml"
 
 dataLinks:
+  - name: ds-logs
+    class: com.windhoverlabs.yamcs.cfs.ds.CfsDsPlugin
+    stream: tm_realtime
+    buckets: ["cfdpDown"]
+    DS_FILE_HDR_SUBTYPE: 12346
+    DS_TOTAL_FNAME_BUFSIZE: 64
+    packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+    packetPreprocessorArgs:
+      byteOrder: LITTLE_ENDIAN
+      timestampFormat: CFE_SB_TIME_32_16_SUBS
+      timeEncoding:
+        useLocalGenerationTime: false
+        epoch: CUSTOM
+        epochUTC: "1970-01-01T00:00:00Z"
+        timeIncludesLeapSeconds: false
+        
   - name: tmtc_cpd
     class: com.windhoverlabs.yamcs.tctm.SerialATTmTcDatalink
     device: /dev/ttyUSB0

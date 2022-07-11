@@ -44,13 +44,13 @@ DS_DestFileTable_t DS_DestFileTable =
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
       /* .Pathname      = */ "/cf/log/",
-      /* .Basename      = */ "ppd_events",
+      /* .Basename      = */ "ppdevt",
       /* .Extension     = */ ".log",
 
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_ENABLED,
       /* .MaxFileSize   = */ (1024 * 1024 * 200),         /* 200 M-bytes */
-      /* .MaxFileAge    = */ (60 * 60 * 2),               /* 2 hours */
+      /* .MaxFileAge    = */ (60 * 10),                   /* 10 minutes  */
       /* .SequenceCount = */ 0,
     },
     /* File Index 01 -- CPD event packets only */
@@ -59,12 +59,12 @@ DS_DestFileTable_t DS_DestFileTable =
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
       /* .Pathname      = */ "/cf/log/",
-      /* .Basename      = */ "cpd_events",
+      /* .Basename      = */ "cpdevt",
       /* .Extension     = */ ".log",
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_ENABLED,
       /* .MaxFileSize   = */ (1024 * 1024 * 200),         /* 200 M-bytes */
-      /* .MaxFileAge    = */ (60 * 60 * 2),               /* 2 hours */
+      /* .MaxFileAge    = */ (60 * 10),                   /* 10 minutes  */
       /* .SequenceCount = */ 0,
     },
     /* File Index 02 -- PPD housekeeping packets */
@@ -73,13 +73,13 @@ DS_DestFileTable_t DS_DestFileTable =
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
       /* .Pathname      = */ "/cf/log/",
-      /* .Basename      = */ "ppd_hk",
+      /* .Basename      = */ "ppdhk",
       /* .Extension     = */ ".log",
 
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_ENABLED,
       /* .MaxFileSize   = */ (1024 * 1024 * 200),         /* 200 M-bytes */
-      /* .MaxFileAge    = */ (60 * 60 * 2),             /* 2 hours */
+      /* .MaxFileAge    = */ (60 * 10),                   /* 10 minutes  */
       /* .SequenceCount = */ 0,
     },
     /* File Index 03 -- CPD housekeeping packets */
@@ -88,13 +88,13 @@ DS_DestFileTable_t DS_DestFileTable =
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
       /* .Pathname      = */ "/cf/log/",
-      /* .Basename      = */ "cpd_hk",
+      /* .Basename      = */ "cpdhk",
       /* .Extension     = */ ".log",
 
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_ENABLED,
       /* .MaxFileSize   = */ (1024 * 1024 * 200),         /* 200 M-bytes */
-      /* .MaxFileAge    = */ (60 * 60 * 2),             /* 2 hours */
+      /* .MaxFileAge    = */ (60 * 10),                   /* 10 minutes  */
       /* .SequenceCount = */ 0,
     },
     /* File Index 04 -- all flight application messages */
@@ -103,13 +103,13 @@ DS_DestFileTable_t DS_DestFileTable =
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
       /* .Pathname      = */ "/cf/log/",
-      /* .Basename      = */ "all_flight",
+      /* .Basename      = */ "allflt",
       /* .Extension     = */ ".log",
 
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_ENABLED,
-      /* .MaxFileSize   = */ (1024 * 1024 * 200),       /* 200 M-bytes */
-      /* .MaxFileAge    = */ (60 * 60 * 2),             /* 2 hours */
+      /* .MaxFileSize   = */ (1024 * 1024 * 200),         /* 200 M-bytes */
+      /* .MaxFileAge    = */ (60 * 10),                   /* 10 minutes  */
       /* .SequenceCount = */ 0,
     },
     /* File Index 05 -- minimum flight application messages */
@@ -118,13 +118,13 @@ DS_DestFileTable_t DS_DestFileTable =
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
       /* .Pathname      = */ "/cf/log/",
-      /* .Basename      = */ "minimum_flight",
+      /* .Basename      = */ "minflt",
       /* .Extension     = */ ".log",
 
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_DISABLED,
-      /* .MaxFileSize   = */ (1024 * 1024 * 200),       /* 200 M-bytes */
-      /* .MaxFileAge    = */ (60 * 60 * 2),             /* 2 hours */
+      /* .MaxFileSize   = */ (1024 * 1024 * 200),         /* 200 M-bytes */
+      /* .MaxFileAge    = */ (60 * 10),                   /* 10 minutes  */
       /* .SequenceCount = */ 0,
     },
     /* File Index 06 -- sensor application messages */
@@ -138,8 +138,8 @@ DS_DestFileTable_t DS_DestFileTable =
 
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_DISABLED,
-      /* .MaxFileSize   = */ (1024 * 1024 * 200),       /* 200 M-bytes */
-      /* .MaxFileAge    = */ (60 * 60 * 2),             /* 2 hours */
+      /* .MaxFileSize   = */ (1024 * 1024 * 200),         /* 200 M-bytes */
+      /* .MaxFileAge    = */ (60 * 10),                   /* 10 minutes  */
       /* .SequenceCount = */ 0,
     },
     /* File Index 07 -- flight messages at a low rate */
@@ -148,13 +148,13 @@ DS_DestFileTable_t DS_DestFileTable =
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
       /* .Pathname      = */ "/cf/log/",
-      /* .Basename      = */ "lowrate_flight",
+      /* .Basename      = */ "lowflt",
       /* .Extension     = */ ".log",
 
       /* .FileNameType  = */ DS_BY_COUNT,
       /* .EnableState   = */ DS_DISABLED,
-      /* .MaxFileSize   = */ (1024 * 1024 * 200),       /* 200 M-bytes */
-      /* .MaxFileAge    = */ (60 * 60 * 2),             /* 2 hours */
+      /* .MaxFileSize   = */ (1024 * 1024 * 200),         /* 200 M-bytes */
+      /* .MaxFileAge    = */ (60 * 10),                   /* 10 minutes  */
       /* .SequenceCount = */ 0,
     },
     /* File Index 07 -- flight messages at a low rate */

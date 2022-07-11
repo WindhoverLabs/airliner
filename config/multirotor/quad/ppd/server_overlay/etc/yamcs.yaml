@@ -22,6 +22,8 @@ secretKey: changeme
 #The bucket with name of "displays" must ALWAYS be called "displays". The YAMCS Webapp looks for a bucket with ths exact name when loading displays from the filesystem. 
 #See yamcs/yamcs-web/src/main/java/org/yamcs/web/WebPlugin.java for details.
 buckets:
+  - name: cfdpDown
+    path: cfdp_download
   - name: cfdpUp
     path: cfdp_upload
   - name: displays

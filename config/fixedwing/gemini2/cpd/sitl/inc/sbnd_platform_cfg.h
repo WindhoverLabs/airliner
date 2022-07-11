@@ -80,7 +80,7 @@ extern "C" {
 */
 #define SBND_CMD_PIPE_NAME              ("SBND_CMD_PIPE")
 
-#define SBND_CONFIG_MAX_MIDS            (32)
+#define SBND_CONFIG_MAX_MIDS            (170)
 
 #define SBND_DATA_MID_MAX_MSG_COUNT      (1)
 
@@ -116,12 +116,10 @@ extern "C" {
 #define SBND_STARTUP_TIMEOUT_MSEC    (1000)
 
 
-
 #define SBND_READ_SHMEM_KEY_FILE_ENV_VAR_NAME "SBND_READ_SHMEM_KEY_FILE"
 #define SBND_DEFAULT_READ_SHMEM_KEY_FILE      ".sbnd_ppd_shmem"
 #define SBND_WRITE_SHMEM_KEY_FILE_ENV_VAR_NAME "SBND_WRITE_SHMEM_KEY_FILE"
 #define SBND_DEFAULT_WRITE_SHMEM_KEY_FILE      ".sbnd_cpd_shmem"
-
 
 
 #ifdef __cplusplus

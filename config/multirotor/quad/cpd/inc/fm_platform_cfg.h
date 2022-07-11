@@ -128,7 +128,7 @@
 **  \par Limits:
 **       The FM application places no limits on this unsigned 32 bit value.
 */
-#define FM_DIR_LIST_FILE_SUBTYPE        12345
+#define FM_DIR_LIST_FILE_SUBTYPE        12346
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
