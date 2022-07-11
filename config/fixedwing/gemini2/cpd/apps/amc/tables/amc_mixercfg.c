@@ -8,6 +8,7 @@
 #include <mixer/MixerTables.h>
 #include "cfe_tbl_filedef.h"
 #include "amc_tbldefs.h"
+#include "px4_msgs.h"
 
 /*
 ** Local Defines
@@ -201,17 +202,17 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
 			/* Controls */
 			{
 				{   0,  /* Control Group */
-					PX4_ACTUATOR_CONTROL_THROTTLE,  /* Control Index */
+					7,  /* Control Index */
 					/* Scaler */
 					{
-						 0.0, /* Negative Scale */
-						 2.0, /* Positive Scale */
-						-1.0, /* Offset         */
+						 1.0, /* Negative Scale */
+						 1.0, /* Positive Scale */
+						 0.0, /* Offset            */
 						-1.0, /* Minimum Output */
 						 1.0  /* Maximum Output */
 					}
 				}
-                }
+			}
         },
         /* Actuator 6 - Left Aileron */
         {
