@@ -215,6 +215,16 @@ int32 FAC::InitPipe()
             goto FAC_InitPipe_Exit_Tag;
         }
 
+
+        iStatus = CFE_SB_SubscribeEx(PX4_AIRSPEED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+                                     "DATA Pipe failed to subscribe to PX4_AIRSPEED_MID. (0x%08X)",
+                                     (unsigned int)iStatus);
+            goto FAC_InitPipe_Exit_Tag;
+        }
+
         iStatus = CFE_SB_SubscribeEx(PX4_MANUAL_CONTROL_SETPOINT_MID, DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
