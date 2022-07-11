@@ -42,10 +42,6 @@ services:
           bucket: cfdpDown
       receiverFaultHandlers:
         AckLimitReached: suspend
-  - class: com.windhoverlabs.yamcs.RegistryService
-    name: fsw
-    args:
-      file: "etc/registry.yaml"
 
 dataLinks:
   - name: ds-logs
