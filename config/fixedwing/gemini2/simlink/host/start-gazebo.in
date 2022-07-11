@@ -13,7 +13,7 @@ then
 	#export GAZEBO_MODEL_DATABASE_URI=""
 	export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:@GAZEBO_PLUGIN_BUILD_DIR@/msgs/:@GAZEBO_PLUGIN_BUILD_DIR@
 
-	gzserver --verbose @GAZEBO_WORLDS_DIR@/gemini2.sdf &
+	gzserver --verbose @GAZEBO_WORLDS_DIR@/gemini2_world.sdf &
 	SIM_PID=`echo $!`
 
 	if [[ -n "$HEADLESS" ]]; then
