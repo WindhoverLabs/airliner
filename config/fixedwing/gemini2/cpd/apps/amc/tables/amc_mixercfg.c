@@ -83,97 +83,58 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
 
     /* Simple Mixers */
     {
-        /* Actuator 0 - Unused */
+        /* Actuator 1 - Right Aileron */
         {
-            1,   /* Control Count */
+            2,   /* Control Count */
             /* Output Scaler */
             {
-               1.0,  /* Negative Scale */
-               1.0,  /* Positive Scale */
-               0.0,  /* Offset         */
-              -1.0,  /* Minimum Output */
-               1.0   /* Maximum Output */
-           },
-           /* Controls */
-           {
-               {   0,  /* Control Group */
-                   7,  /* Control Index */
-                   /* Scaler */
-                   {  1.0, /* Negative Scale */
-                      1.0, /* Positive Scale */
-                      0, /* Offset            */
-                     -1.0, /* Minimum Output */
-                      1.0  /* Maximum Output */
-                   }
-               }
+                1.0,  /* Negative Scale */
+                1.0,  /* Positive Scale */
+                0.0,  /* Offset         */
+               -1.0,  /* Minimum Output */
+                1.0   /* Maximum Output */
             },
+            /* Controls */
+            {
+                {   0,  /* Control Group */
+                    0,  /* Control Index */
+                    /* Scaler */
+                    {
+                         1.0, /* Negative Scale */
+                         1.0, /* Positive Scale */
+                         0.0, /* Offset            */
+                        -1.0, /* Minimum Output */
+                         1.0  /* Maximum Output */
+                    }
+                },
+                {   3,  /* Control Group */
+                    0,  /* Control Index */
+                    /* Scaler */
+                    {
+                         1.0, /* Negative Scale */
+                         1.0, /* Positive Scale */
+                         0.0, /* Offset            */
+                        -1.0, /* Minimum Output */
+                         1.0  /* Maximum Output */
+                    }
+                }
+            }
         },
-        /* Actuator 1 - Unused */
+        /* Actuator 2 - Elevator */
         {
             1,   /* Control Count */
             /* Output Scaler */
             {
                1.0,  /* Negative Scale */
                1.0,  /* Positive Scale */
-               0.0,  /* Offset         */
+              -0.1,  /* Offset         */
               -1.0,  /* Minimum Output */
                1.0   /* Maximum Output */
            },
            /* Controls */
            {
                {   0,  /* Control Group */
-                   6,  /* Control Index */
-                   /* Scaler */
-                   {
-                	  1.0, /* Negative Scale */
-                      1.0, /* Positive Scale */
-                      0.0, /* Offset         */
-					 -1.0, /* Minimum Output */
-                      1.0  /* Maximum Output */
-                   }
-               }
-            },
-        },
-        /* Actuator 2 - Rudder */
-        {
-            1,   /* Control Count */
-            /* Output Scaler */
-            {
-               1.0,  /* Negative Scale */
-               1.0,  /* Positive Scale */
-               0.0,  /* Offset         */
-              -1.0,  /* Minimum Output */
-               1.0   /* Maximum Output */
-           },
-           /* Controls */
-           {
-               {   0,  /* Control Group */
-                   2,  /* Control Index */
-                   /* Scaler */
-                   {  1.0, /* Negative Scale */
-                      1.0, /* Positive Scale */
-                      0.0, /* Offset            */
-                     -1.0, /* Minimum Output */
-                      1.0  /* Maximum Output */
-                   }
-               }
-            },
-        },
-        /* Actuator 3 - Left Flap */
-        {
-            1,   /* Control Count */
-            /* Output Scaler */
-            {
-               1.0,  /* Negative Scale */
-               1.0,  /* Positive Scale */
-               0.0,  /* Offset         */
-              -1.0,  /* Minimum Output */
-               1.0   /* Maximum Output */
-           },
-           /* Controls */
-           {
-               {   0,  /* Control Group */
-                   4,  /* Control Index */
+                   1,  /* Control Index */
                    /* Scaler */
                    {
                 	  1.0, /* Negative Scale */
@@ -185,7 +146,7 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
                }
             },
         },
-        /* Actuator 4 - Real Throttle */
+        /* Actuator 3 - Left Throttle */
         {
             1,   /* Control Count */
             /* Output Scaler */
@@ -212,9 +173,9 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
                }
             },
         },
-        /* Actuator 5 - Left Aileron */
+        /* Actuator 4 - Rudder/Nose Gear */
         {
-            2,   /* Control Count */
+            1,   /* Control Count */
             /* Output Scaler */
             {
                1.0,  /* Negative Scale */
@@ -226,118 +187,183 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
            /* Controls */
            {
                {   0,  /* Control Group */
-                   0,  /* Control Index */
+                   2,  /* Control Index */
                    /* Scaler */
-                   {
-                	 -1.0, /* Negative Scale */
-                     -1.0, /* Positive Scale */
+                   {  1.0, /* Negative Scale */
+                      1.0, /* Positive Scale */
                       0.0, /* Offset            */
                      -1.0, /* Minimum Output */
                       1.0  /* Maximum Output */
                    }
-               },
+               }
+            },
+        },
+        /* Actuator 5 - Unused */
+        {
+            1,   /* Control Count */
+            /* Output Scaler */
+            {
+               1.0,  /* Negative Scale */
+               1.0,  /* Positive Scale */
+               0.0,  /* Offset         */
+              -1.0,  /* Minimum Output */
+               1.0   /* Maximum Output */
+           },
+           /* Controls */
+           {
+               {   0,  /* Control Group */
+                   7,  /* Control Index */
+                   /* Scaler */
+                   {  1.0, /* Negative Scale */
+                      1.0, /* Positive Scale */
+                      0, /* Offset            */
+                     -1.0, /* Minimum Output */
+                      1.0  /* Maximum Output */
+                   }
+               }
+            },
+        },
+        /* Actuator 6 - Left Aileron */
+        {
+            2,   /* Control Count */
+            /* Output Scaler */
+            {
+               1.0,  /* Negative Scale */
+               1.0,  /* Positive Scale */
+               0.0,  /* Offset         */
+              -1.0,  /* Minimum Output */
+               1.0   /* Maximum Output */
+            },
+            /* Controls */
+            {
+                {   0,  /* Control Group */
+                    0,  /* Control Index */
+                    /* Scaler */
+                    {
+                	    -1.0, /* Negative Scale */
+                        -1.0, /* Positive Scale */
+                         0.0, /* Offset            */
+                        -1.0, /* Minimum Output */
+                         1.0  /* Maximum Output */
+                    }
+                },
                 {   3,  /* Control Group */
                     5,  /* Control Index */
                     /* Scaler */
                     {
-                       1.0, /* Negative Scale */
-                       1.0, /* Positive Scale */
-                       0.0, /* Offset            */
-                      -1.0, /* Minimum Output */
-                       1.0  /* Maximum Output */
+                         1.0, /* Negative Scale */
+                         1.0, /* Positive Scale */
+                         0.0, /* Offset            */
+                        -1.0, /* Minimum Output */
+                         1.0  /* Maximum Output */
                     }
                 }
-            },
+            }
         },
-        /* Actuator 6 - Right Aileron */
+        /* Actuator 7 - Unused */
         {
-            2,   /* Control Count */
+            1,   /* Control Count */
             /* Output Scaler */
             {
-               1.0,  /* Negative Scale */
-               1.0,  /* Positive Scale */
-               0.0,  /* Offset         */
-              -1.0,  /* Minimum Output */
-               1.0   /* Maximum Output */
-           },
-           /* Controls */
-           {
-               {   0,  /* Control Group */
-                   0,  /* Control Index */
-                   /* Scaler */
-                   {
-                	  1.0, /* Negative Scale */
-                      1.0, /* Positive Scale */
-                      0.0, /* Offset            */
-                     -1.0, /* Minimum Output */
-                      1.0  /* Maximum Output */
-                   }
-               },
-                {   3,  /* Control Group */
-                    0,  /* Control Index */
+                 1.0,  /* Negative Scale */
+                 1.0,  /* Positive Scale */
+                 0.0,  /* Offset         */
+                -1.0,  /* Minimum Output */
+                 1.0   /* Maximum Output */
+            },
+            /* Controls */
+            {
+                {   0,  /* Control Group */
+                    7,  /* Control Index */
                     /* Scaler */
                     {
-                       1.0, /* Negative Scale */
-                       1.0, /* Positive Scale */
-                       0.0, /* Offset            */
-                      -1.0, /* Minimum Output */
-                       1.0  /* Maximum Output */
+                         1.0, /* Negative Scale */
+                         1.0, /* Positive Scale */
+                         0.0, /* Offset            */
+                        -1.0, /* Minimum Output */
+                         1.0  /* Maximum Output */
                     }
                 }
             },
         },
-        /* Actuator 7 - Real Elevator */
+        /* Actuator 8 - Right Throttle */
         {
             1,   /* Control Count */
             /* Output Scaler */
             {
-               1.0,  /* Negative Scale */
-               1.0,  /* Positive Scale */
-              -0.1,  /* Offset         */
-              -1.0,  /* Minimum Output */
-               1.0   /* Maximum Output */
-           },
-           /* Controls */
-           {
-               {   0,  /* Control Group */
-                   1,  /* Control Index */
-                   /* Scaler */
-                   {
-                	  1.0, /* Negative Scale */
-                      1.0, /* Positive Scale */
-                      0.0, /* Offset            */
-                     -1.0, /* Minimum Output */
-                      1.0  /* Maximum Output */
-                   }
-               }
+                 1.0,  /* Negative Scale */
+                 1.0,  /* Positive Scale */
+                 0.0,  /* Offset         */
+                -1.0,  /* Minimum Output */
+                 1.0   /* Maximum Output */
             },
+            /* Controls */
+            {
+                {   0,  /* Control Group */
+                    3,  /* Control Index */
+                    /* Scaler */
+                    {
+                	     0.0, /* Negative Scale */
+                         2.0, /* Positive Scale */
+                        -1.0, /* Offset         */
+                        -1.0, /* Minimum Output */
+                         1.0  /* Maximum Output */
+                    }
+                }
+            }
         },
-        /* Actuator 8 - Right Flap */
+        /* Actuator 9 - Left Flap */
         {
             1,   /* Control Count */
             /* Output Scaler */
             {
-               1.0,  /* Negative Scale */
-               1.0,  /* Positive Scale */
-               0.0,  /* Offset         */
-              -1.0,  /* Minimum Output */
-               1.0   /* Maximum Output */
-           },
-           /* Controls */
-           {
-               {   0,  /* Control Group */
-                   4,  /* Control Index */
-                   /* Scaler */
-                   {
-                	  1.0, /* Negative Scale */
-                      1.0, /* Positive Scale */
-                      0.0, /* Offset            */
-                     -1.0, /* Minimum Output */
-                      1.0  /* Maximum Output */
-                   }
-               }
+                1.0,  /* Negative Scale */
+                1.0,  /* Positive Scale */
+                0.0,  /* Offset         */
+                0.0,  /* Minimum Output */
+                0.0   /* Maximum Output */
             },
+            /* Controls */
+            {
+                {   0,  /* Control Group */
+                    4,  /* Control Index */
+                    /* Scaler */
+                    {
+                	    1.0, /* Negative Scale */
+                        1.0, /* Positive Scale */
+                        0.0, /* Offset            */
+                        0.0, /* Minimum Output */
+                        0.0  /* Maximum Output */
+                    }
+                }
+            }
         },
+        /* Actuator 10 - Right Flap */
+        {
+            1,   /* Control Count */
+            /* Output Scaler */
+            {
+                1.0,  /* Negative Scale */
+                1.0,  /* Positive Scale */
+                0.0,  /* Offset         */
+                0.0,  /* Minimum Output */
+                0.0   /* Maximum Output */
+            },
+            /* Controls */
+            {
+                {   0,  /* Control Group */
+                    4,  /* Control Index */
+                    /* Scaler */
+                    {
+                	    1.0, /* Negative Scale */
+                        1.0, /* Positive Scale */
+                        0.0, /* Offset            */
+                        0.0, /* Minimum Output */
+                        0.0  /* Maximum Output */
+                    }
+                }
+            }
+        }
     }
 };
 
