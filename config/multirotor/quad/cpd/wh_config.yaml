@@ -202,6 +202,22 @@ modules:
           EA_MAIN_TASK_PERF_ID:
             id: 70
 
+      mac:
+        definition: ${PROJECT_SOURCE_DIR}/apps/mac/wh_design.yaml
+        telemetry:
+          MAC_HK_TLM_MID:
+            msgID: 0x0a8e
+        commands:
+          MAC_CMD_MID:
+            msgID: 0x1a8f
+          MAC_SEND_HK_MID:
+            msgID: 0x1a90
+          MAC_WAKEUP_MID:
+            msgID: 0x1a91
+        perfids:
+          MAC_MAIN_TASK_PERF_ID:
+            id: 77
+
       fm:
         definition: ${PROJECT_SOURCE_DIR}/apps/fm/wh_design.yaml
         telemetry: 
@@ -582,7 +598,7 @@ modules:
             msgID: 0x1a84              # CMD_MSG(  132 )
     
       ld:
-        definition: ${PROJECT_SOURCE_DIR}/apps/ld/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/apps/ld/multicopter/wh_design.yaml
         telemetry:
           LD_DIAG_TLM_MID:
             msgID: 0x0a85              # TLM_MSG(  133 )
@@ -608,34 +624,6 @@ modules:
             msgID: 0x1a8c              # CMD_MSG(  140 )
           LGC_WAKEUP_MID:
             msgID: 0x1a8d              # CMD_MSG(  141 )
-    
-      mac:
-        definition: ${PROJECT_SOURCE_DIR}/apps/mac/wh_design.yaml
-        telemetry:
-          MAC_HK_TLM_MID:
-            msgID: 0x0a8e              # TLM_MSG(  142 )
-        commands:
-          MAC_CMD_MID:
-            msgID: 0x1a8f              # CMD_MSG(  143 )
-          MAC_RUN_CONTROLLER_MID:
-            msgID: 0x1a90              # CMD_MSG(  144 )
-          MAC_SEND_HK_MID:
-            msgID: 0x1a91              # CMD_MSG(  145 )
-    
-      mpc:
-        definition: ${PROJECT_SOURCE_DIR}/apps/mpc/wh_design.yaml
-        telemetry:
-          MPC_DIAG_TLM_MID:
-            msgID: 0x0a92              # TLM_MSG(  146 )
-          MPC_HK_TLM_MID:
-            msgID: 0x0a93              # TLM_MSG(  147 )
-        commands:
-          MPC_CMD_MID:
-            msgID: 0x1a94              # CMD_MSG(  148 )
-          MPC_WAKEUP_MID:
-            msgID: 0x1a95              # CMD_MSG(  149 )
-          MPC_SEND_HK_MID:
-            msgID: 0x1a96              # CMD_MSG(  150 )
     
       nav:
         definition: ${PROJECT_SOURCE_DIR}/apps/nav/wh_design.yaml
@@ -907,6 +895,8 @@ modules:
             msgID: 0x0b0a              # TLM_MSG(  266 )
           PX4_SENSOR_CORRECTION_MID:
             msgID: 0x0b0b              # TLM_MSG(  267 )
+          PX4_POSITION_CONTROL_STATUS_MID:
+              msgID: 0x0b62              # TLM_MSG(  354 )
     
       bat:
         definition: ${PROJECT_SOURCE_DIR}/apps/bat/wh_design.yaml
@@ -948,23 +938,7 @@ modules:
             msgID: 0x1b17              # CMD_MSG(  279 )
           HMC5883_WAKEUP_MID:
             msgID: 0x1b18              # CMD_MSG(  280 )
-
     
-      aspd4525:
-        definition: ${PROJECT_SOURCE_DIR}/apps/aspd4525/wh_design.yaml
-        commands:
-          ASPD4525_CMD_MID:
-            msgID: 0x1b58              # CMD_MSG(  344 )
-          ASPD4525_SEND_HK_MID:
-            msgID: 0x1b59              # CMD_MSG(  345 )
-          ASPD4525_WAKEUP_MID:
-            msgID: 0x1b5a              # CMD_MSG(  346 )
-        telemetry:
-          ASPD4525_OUT_DATA_MID:
-            msgID: 0x0b5b              # TLM_MSG(  347 )
-          ASPD4525_HK_TLM_MID:
-            msgID: 0x0b5c              # TLM_MSG(  348 )
-
       icm20689:
         definition: ${PROJECT_SOURCE_DIR}/../private/apps/icm20689/wh_design.yaml
         telemetry:
@@ -1086,5 +1060,21 @@ modules:
             msgID: 0x1b3d              # CMD_MSG(  317 )
           ADSBR_WAKEUP_MID:
             msgID: 0x1b3e              # CMD_MSG(  318 )
+            
+      mpc:
+        definition: ${PROJECT_SOURCE_DIR}/apps/mpc/wh_design.yaml
+        telemetry:
+          MPC_DIAG_TLM_MID:
+            msgID: 0x0a92              # TLM_MSG(  146 )
+          MPC_HK_TLM_MID:
+            msgID: 0x0a93              # TLM_MSG(  147 )
+        commands:
+          MPC_CMD_MID:
+            msgID: 0x1a94              # CMD_MSG(  148 )
+          MPC_WAKEUP_MID:
+            msgID: 0x1a95              # CMD_MSG(  149 )
+          MPC_SEND_HK_MID:
+            msgID: 0x1a96              # CMD_MSG(  150 )  
+                               
             
             

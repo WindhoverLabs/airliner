@@ -97,7 +97,6 @@ dataLinks:
     stream: tc_realtime
     host: 192.168.2.153
     port: 5010
-    enabledAtStartup: false
     commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
     commandPostprocessorArgs:
       swapChecksumFc: true

@@ -73,6 +73,7 @@ int32 CI_InitCustom(void)
     }
 
     setsockopt(CI_AppCustomData.Socket, SOL_SOCKET, SO_REUSEADDR, &reuseaddr, sizeof(reuseaddr));
+    fcntl(CI_AppCustomData.Socket, F_SETFL, fcntl(CI_AppCustomData.Socket, F_GETFL, 0) | O_NONBLOCK);
 
     bzero((char *) &address, sizeof(address));
     address.sin_family      = AF_INET;

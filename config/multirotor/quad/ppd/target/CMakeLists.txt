@@ -99,13 +99,13 @@ buildliner_add_app(
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hk
 )
 
-buildliner_add_app(
-    hs
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hs
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/config/shared/apps/hs/hs_custom.c
-)
+#buildliner_add_app(
+#    hs
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hs
+#    CONFIG_SOURCES
+#        ${PROJECT_SOURCE_DIR}/config/shared/apps/hs/hs_custom.c
+#)
 
 buildliner_add_app(
     lc
@@ -188,32 +188,25 @@ buildliner_add_app(
 #        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_mon.c
 #        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_custom.c
 #)
+#
+#buildliner_add_app(
+#    bat
+#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/bat/fsw/for_build
+#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat
+#    CONFIG_SOURCES
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/bat_custom.cpp
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115.cpp
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_custom.c
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115.h
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_custom.h
+#        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_map.h
+#)
 
-buildliner_add_app(
-    hmc5883
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hmc5883/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/hmc5883
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/config/shared/apps/hmc5883/src/hmc5883_custom.c
-)
-
-buildliner_add_app(
-    bat
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/bat/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/bat_custom.cpp
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115.cpp
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_custom.c
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115.h
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_custom.h
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_map.h
-)
 
 buildliner_add_app(
     sbnd
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/sbnd
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbnd
     CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/sbnd/shm/sbnd_custom.cpp
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd/shm/sbnd_custom.cpp
 )

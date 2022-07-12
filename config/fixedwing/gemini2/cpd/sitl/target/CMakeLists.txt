@@ -114,7 +114,6 @@ buildliner_add_app(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch/sch_custom_v1.c
 )
 
-
 buildliner_add_app(
     sbnd
     EMBEDDED
@@ -169,6 +168,7 @@ buildliner_add_app(
 
 buildliner_add_app(
     lc
+    EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/lc/fsw/for_build
     CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/lc
     CONFIG_SOURCES
@@ -216,16 +216,14 @@ buildliner_add_app(
     vm
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/vm/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/vm
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/vm
 )
 
 buildliner_add_app(
     ld
     EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/multicopter/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/ld
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/fixedwing/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/fixedwing/gemini2/cpd/apps/ld
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/ld
 )
 
 buildliner_add_app(
