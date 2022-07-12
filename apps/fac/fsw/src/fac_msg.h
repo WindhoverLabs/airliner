@@ -151,6 +151,44 @@ typedef struct
         \brief Count of failed commands */
     uint8              usCmdErrCnt; 
 
+
+    /** \brief Count of AirSpeed Msg received */
+    uint32             AirSpeedMsgRcvCnt;
+
+    /** \brief Count of BatteryStatus Msg received */
+    uint32             BatteryStatusMsgRcvCnt;
+
+    /** \brief Count of ManualControlSp Msg received */
+    uint32             ManualControlSpMsgRcvCnt;
+
+    /** \brief Count of VAtt Msg received */
+    uint32             VAttMsgRcvCnt;
+
+    /** \brief Count of VAttSp Msg received */
+    uint32             VAttSpMsgRcvCnt;
+
+    /** \brief Count of VControlMode Msg received */
+    uint32             VControlModeMsgRcvCnt;
+
+    /** \brief Count of VGlobalPosition Msg received */
+    uint32             VGlobalPositionMsgRcvCnt;
+
+    /** \brief Count of VLandDetected Msg received */
+    uint32             VLandDetectedMsgRcvCnt;
+
+    /** \brief Count of VehicleStatus Msg received */
+    uint32             VehicleStatusMsgRcvCnt;
+
+
+    /** \brief Count of ActuatorControls0 Msg sent */
+    uint32             ActuatorControls0MsgSndCnt;
+
+    /** \brief Count of ActuatorControls2 Msg sent */
+    uint32             ActuatorControls2MsgSndCnt;
+
+    /** \brief Count of VehicleRatesSetpoint Msg sent */
+    uint32             VehicleRatesSetpointMsgSndCnt;
+
 } FAC_HkTlm_t;
 
 

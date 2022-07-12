@@ -315,11 +315,12 @@ int32 FAC::InitData()
     CFE_SB_InitMsg((void*)&m_ActuatorControls2,
             PX4_ACTUATOR_CONTROLS_2_MID, sizeof(m_ActuatorControls2), TRUE);
 
+    /* Init vehicle rates setpoint outputs message. */
+    CFE_SB_InitMsg((void*)&m_VehicleRatesSetpoint, PX4_VEHICLE_RATES_SETPOINT_MID, sizeof(m_VehicleRatesSetpoint), TRUE);
+
     /* Init housekeeping message. */
     CFE_SB_InitMsg((void*)&HkTlm, FAC_HK_TLM_MID, sizeof(HkTlm), TRUE);
 
-    /* Init vehicle rates setpoint message. */
-    CFE_SB_InitMsg((void*)&m_VehicleRatesSetpoint, PX4_VEHICLE_RATES_SETPOINT_MID, sizeof(m_VehicleRatesSetpoint), TRUE);
     
     UpdateParams();
 
@@ -1164,6 +1165,7 @@ void FAC::RunController(void)
 		m_VehicleRatesSetpoint.Timestamp = now;
 
 		SendOutputData((CFE_SB_Msg_t*)&m_VehicleRatesSetpoint);
+		HkTlm.VehicleRatesSetpointMsgSndCnt++;
 	}
 	else
 	{
@@ -1198,7 +1200,9 @@ void FAC::RunController(void)
 	{
 		/* publish the actuator controls */
 		SendOutputData((CFE_SB_Msg_t*)&m_ActuatorControls0);
+		HkTlm.ActuatorControls0MsgSndCnt++;
 		SendOutputData((CFE_SB_Msg_t*)&m_ActuatorControls2);
+		HkTlm.ActuatorControls2MsgSndCnt++;
 	}
 
 }
