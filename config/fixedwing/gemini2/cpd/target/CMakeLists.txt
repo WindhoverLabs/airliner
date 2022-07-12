@@ -72,7 +72,7 @@ buildliner_add_app(
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
     # TODO move this table build to sbn module?
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/pq_lib
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/pq_lib
 )
 
 
@@ -377,24 +377,6 @@ buildliner_add_app(
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/zusup/fsw/for_build
     CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/zusup
-)
-
-
-buildliner_add_app(
-    md
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/md/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/md
-)
-
-buildliner_add_app(
-    mm
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mm/fsw/for_build
-)
-
-buildliner_add_app(
-    sc
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sc/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/sc
 )
 
 #buildliner_add_app(
