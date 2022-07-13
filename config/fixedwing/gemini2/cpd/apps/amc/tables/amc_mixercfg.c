@@ -89,9 +89,9 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             1,   /* Control Count */
             /* Output Scaler */
             {
-                1.0,  /* Negative Scale */
-                1.0,  /* Positive Scale */
-                0.0,  /* Offset         */
+                0.5454545,  /* Negative Scale */
+                0.5272727,  /* Positive Scale */
+                0.0545454,  /* Offset         */
                -1.0,  /* Minimum Output */
                 1.0   /* Maximum Output */
             },
@@ -115,9 +115,9 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             1,   /* Control Count */
             /* Output Scaler */
             {
-               1.0,  /* Negative Scale */
-               1.0,  /* Positive Scale */
-              -0.1,  /* Offset         */
+               0.3818182,  /* Negative Scale */
+               0.4181818,  /* Positive Scale */
+               0.1454545,  /* Offset         */
               -1.0,  /* Minimum Output */
                1.0   /* Maximum Output */
            },
@@ -141,9 +141,9 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             1,   /* Control Count */
             /* Output Scaler */
             {
-               1.0,  /* Negative Scale */
-               1.0,  /* Positive Scale */
-               0.0,  /* Offset         */
+               0.7636363,  /* Negative Scale */
+               0.7636363,  /* Positive Scale */
+               0.1272727,  /* Offset         */
               -1.0,  /* Minimum Output */
                1.0   /* Maximum Output */
            },
@@ -168,9 +168,9 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             1,   /* Control Count */
             /* Output Scaler */
             {
-               1.0,  /* Negative Scale */
-               1.0,  /* Positive Scale */
-               0.0,  /* Offset         */
+               0.3818181,  /* Negative Scale */
+               0.3818181,  /* Positive Scale */
+               0.2363636,  /* Offset         */
               -1.0,  /* Minimum Output */
                1.0   /* Maximum Output */
            },
@@ -219,9 +219,9 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             1,   /* Control Count */
             /* Output Scaler */
             {
-                1.0,  /* Negative Scale */
-                1.0,  /* Positive Scale */
-                0.0,  /* Offset         */
+                0.7818181,  /* Negative Scale */
+                0.7272727,  /* Positive Scale */
+                0.0363636,  /* Offset         */
                -1.0,  /* Minimum Output */
                 1.0   /* Maximum Output */
             },
@@ -271,9 +271,9 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             1,   /* Control Count */
             /* Output Scaler */
             {
-                 1.0,  /* Negative Scale */
-                 1.0,  /* Positive Scale */
-                 0.0,  /* Offset         */
+                 0.7636364,  /* Negative Scale */
+                 0.7636364,  /* Positive Scale */
+                 0.1272727,  /* Offset         */
                 -1.0,  /* Minimum Output */
                  1.0   /* Maximum Output */
             },

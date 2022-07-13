@@ -135,25 +135,28 @@ int32 AMC::ValidateCfgTbl(void* ConfigTblPtr)
     AMC_ConfigTbl_t* AMC_ConfigTblPtr =
             (AMC_ConfigTbl_t*)(ConfigTblPtr);
 
-    if(AMC_ConfigTblPtr->PwmMin < AMC_ConfigTblPtr->PwmDisarmed)
+    for(uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; ++i)
     {
-        CFE_EVS_SendEvent(AMC_CFGTBL_MIN_LT_DISARMED_ERR_EID,
-                CFE_EVS_ERROR,
-                "Tbl Vldt: Min (%u) less than Disarmed (%u) speed.",
-                (unsigned int)AMC_ConfigTblPtr->PwmMin,
-                (unsigned int)AMC_ConfigTblPtr->PwmDisarmed);
-        iStatus = -1;
-        goto AMC_ValidateCfgTbl_Exit_Tag;
-    }
+        if(AMC_ConfigTblPtr->Channel[i].PwmMin < AMC_ConfigTblPtr->Channel[i].PwmSafe)
+		{
+			CFE_EVS_SendEvent(AMC_CFGTBL_MIN_LT_DISARMED_ERR_EID,
+					CFE_EVS_ERROR,
+					"Tbl Vldt: Min (%u) less than Disarmed (%u) speed.",
+					(unsigned int)AMC_ConfigTblPtr->Channel[i].PwmMin,
+					(unsigned int)AMC_ConfigTblPtr->Channel[i].PwmSafe);
+			iStatus = -1;
+			goto AMC_ValidateCfgTbl_Exit_Tag;
+		}
 
-    if(AMC_ConfigTblPtr->PwmMax < AMC_ConfigTblPtr->PwmMin)
-    {
-        CFE_EVS_SendEvent(AMC_CFGTBL_MAX_LT_MIN_ERR_EID, CFE_EVS_ERROR,
-                "Tbl Vldt: Max (%u) less than Min (%u) speed.",
-                (unsigned int)AMC_ConfigTblPtr->PwmMax,
-                (unsigned int)AMC_ConfigTblPtr->PwmMin);
-        iStatus = -1;
-        goto AMC_ValidateCfgTbl_Exit_Tag;
+		if(AMC_ConfigTblPtr->Channel[i].PwmMax < AMC_ConfigTblPtr->Channel[i].PwmMin)
+		{
+			CFE_EVS_SendEvent(AMC_CFGTBL_MAX_LT_MIN_ERR_EID, CFE_EVS_ERROR,
+					"Tbl Vldt: Max (%u) less than Min (%u) speed.",
+					(unsigned int)AMC_ConfigTblPtr->Channel[i].PwmMax,
+					(unsigned int)AMC_ConfigTblPtr->Channel[i].PwmMin);
+			iStatus = -1;
+			goto AMC_ValidateCfgTbl_Exit_Tag;
+		}
     }
 
 AMC_ValidateCfgTbl_Exit_Tag:

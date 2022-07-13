@@ -42,9 +42,16 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 /* Default config table data */
 AMC_ConfigTbl_t AMC_ConfigTbl =
 {
-    900,                  /* PwmDisarmed */
-    1100,                 /* PwmMin      */
-    19500                 /* PwmMax      */
+    /* Actuator  1 - Right Aileron    */  900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1500,
+    /* Actuator  2 - Elevator         */  900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1500,
+    /* Actuator  3 - Left Throttle    */  900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_SAFE,   1500,
+    /* Actuator  4 - Rudder/Nose Gear */  900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1500,
+    /* Actuator  5 - Unused           */  900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1500,
+    /* Actuator  6 - Left Aileron     */  900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1500,
+    /* Actuator  7 - Unused           */  900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1500,
+    /* Actuator  8 - Right Throttle   */  900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_SAFE,   1500,
+    /* Actuator  9 - Left Flap        */  900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1500,
+    /* Actuator 10 - Right Flap       */  900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1500
 };
 
 /*

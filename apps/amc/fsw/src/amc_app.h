@@ -96,6 +96,8 @@ public:
     AMC(void);
     ~AMC();
 
+    uint16 PWM[AMC_MAX_MOTOR_OUTPUTS];
+
     /**\brief Scheduling Pipe ID */
     CFE_SB_PipeId_t SchPipeId;
 

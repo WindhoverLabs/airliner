@@ -412,6 +412,11 @@ void AMC::InitData(void)
     CFE_PSP_MemSet(&CVT.ActuatorControls1, 0, sizeof(CVT.ActuatorControls1));
     CFE_PSP_MemSet(&CVT.ActuatorControls2, 0, sizeof(CVT.ActuatorControls2));
     CFE_PSP_MemSet(&CVT.ActuatorControls3, 0, sizeof(CVT.ActuatorControls3));
+
+    for(uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; ++i)
+    {
+        PWM[i] = ConfigTblPtr->Channel[i].PwmInitial;
+    }
 }
 
 
@@ -440,15 +445,15 @@ int32 AMC::InitApp(void)
         goto AMC_InitApp_Exit_Tag;
     }
 
-    /* Initialize all internal data. */
-    InitData();
-
     /* Initialize the application to use tables. */
     iStatus = InitConfigTbl();
     if (iStatus != CFE_SUCCESS)
     {
         goto AMC_InitApp_Exit_Tag;
     }
+
+    /* Initialize all internal data. */
+    InitData();
 
     /* Initialize the Multirotor Mixer object. */
 	for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
@@ -1167,7 +1172,14 @@ void AMC::StopMotors(void)
 
     for (uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
     {
-        disarmed_pwm[i] = ConfigTblPtr->PwmDisarmed;
+    	if(AMC_PWM_DISARM_BEHAVIOR_SAFE == ConfigTblPtr->Channel[i].DisarmBehavior)
+    	{
+    		disarmed_pwm[i] = ConfigTblPtr->Channel[i].PwmSafe;
+    	}
+    	else
+    	{
+    		disarmed_pwm[i] = PWM[i];
+    	}
     }
 
     SetMotorOutputs(disarmed_pwm);
@@ -1185,13 +1197,12 @@ void AMC::UpdateMotors(void)
     uint16 disarmed_pwm[AMC_MAX_MOTOR_OUTPUTS];
     uint16 min_pwm[AMC_MAX_MOTOR_OUTPUTS];
     uint16 max_pwm[AMC_MAX_MOTOR_OUTPUTS];
-    uint16 pwm[AMC_MAX_MOTOR_OUTPUTS];
 
     for (uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
     {
-        disarmed_pwm[i] = ConfigTblPtr->PwmDisarmed;
-        min_pwm[i] = ConfigTblPtr->PwmMin;
-        max_pwm[i] = ConfigTblPtr->PwmMax;
+        disarmed_pwm[i] = ConfigTblPtr->Channel[i].PwmSafe;
+        min_pwm[i] = ConfigTblPtr->Channel[i].PwmMin;
+        max_pwm[i] = ConfigTblPtr->Channel[i].PwmMax;
     }
 
     /* Never actuate any motors unless the system is armed.  Check to see if
@@ -1204,7 +1215,7 @@ void AMC::UpdateMotors(void)
             SetMotorOutputs(disarmed_pwm);
         }
     }
-    else if(CVT.ActuatorArmed.Armed)
+
     {
         ActuatorOutputs.Timestamp = PX4LIB_GetPX4TimeUs();
 
@@ -1229,35 +1240,48 @@ void AMC::UpdateMotors(void)
 			ActuatorOutputs.Count += SimpleMixerObject[i].mix(&ActuatorOutputs.Output[ActuatorOutputs.Count], 0, 0);
 		}
 
-        PwmLimit_Calc(
-                CVT.ActuatorArmed.Armed,
-                FALSE/*_armed.prearmed*/,
-                ActuatorOutputs.Count,
-                reverse_mask,
-                disarmed_pwm,
-                min_pwm,
-                max_pwm,
-                ActuatorOutputs.Output,
-                pwm,
-                &PwmLimit);
+	    for (uint32 i = 0; i < ActuatorOutputs.Count; i++)
+	    {
+	    	if(AMC_PWM_DISARM_BEHAVIOR_SAFE == ConfigTblPtr->Channel[i].DisarmBehavior)
+	    	{
+				PwmLimit_Calc(
+						CVT.ActuatorArmed.Armed,
+						FALSE/*_armed.prearmed*/,
+						ActuatorOutputs.Count,
+						reverse_mask,
+						&disarmed_pwm[i],
+						&min_pwm[i],
+						&max_pwm[i],
+						&ActuatorOutputs.Output[i],
+						&PWM[i],
+						&PwmLimit);
+	    	}
+	    	else
+	    	{
+				PwmLimit_Calc(
+						TRUE,
+						FALSE/*_armed.prearmed*/,
+						ActuatorOutputs.Count,
+						reverse_mask,
+						&disarmed_pwm[i],
+						&min_pwm[i],
+						&max_pwm[i],
+						&ActuatorOutputs.Output[i],
+						&PWM[i],
+						&PwmLimit);
+	    	}
+	    }
 
         if(!CVT.ActuatorArmed.InEscCalibrationMode)
         {
             if(HkTlm.DebugEngaged != TRUE)
             {
-                SetMotorOutputs(pwm);
+                SetMotorOutputs(PWM);
             }
         }
 
         CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&ActuatorOutputs);
         CFE_SB_SendMsg((CFE_SB_Msg_t*)&ActuatorOutputs);
-    }
-    else
-    {
-        if(HkTlm.DebugEngaged != TRUE)
-        {
-            SetMotorOutputs(disarmed_pwm);
-        }
     }
 }
 

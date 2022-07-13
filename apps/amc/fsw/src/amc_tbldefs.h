@@ -58,6 +58,12 @@ extern "C" {
  */
 #define AMC_CONFIG_TABLENAME ("CONFIG_TBL")
 
+typedef enum
+{
+	AMC_PWM_DISARM_BEHAVIOR_SAFE   = 0,
+	AMC_PWM_DISARM_BEHAVIOR_IGNORE = 1
+} AMC_PwmDisarmBehavior_t;
+
 /**
  * \brief Defines the table identification name used for the Mixer
  * configuration table registration.
@@ -67,14 +73,24 @@ extern "C" {
 /** \brief Definition for a single config table entry */
 typedef struct
 {
-    /** \brief Motor disarmed value for this device. */
-    uint32          PwmDisarmed;
+    /** \brief Motor safe value for this device. */
+    uint32                   PwmSafe;
 
     /** \brief Motor minimum value for this device.  Keep this high enough to overcome stiction but low enough not to cause lift or thrust.*/
-    uint32          PwmMin;
+    uint32                   PwmMin;
 
     /** \brief Motor maximum value for this device. */
-    uint32          PwmMax;
+    uint32                   PwmMax;
+
+    AMC_PwmDisarmBehavior_t  DisarmBehavior;
+
+    /** \brief Initial value at startup.  This is applied at startup, if Disarmed behavior is set to ignore.. */
+    uint32                   PwmInitial;
+} AMC_PwmChannel_t;
+
+typedef struct
+{
+	AMC_PwmChannel_t 	Channel[AMC_MAX_MOTOR_OUTPUTS];
 } AMC_ConfigTbl_t;
 
 
