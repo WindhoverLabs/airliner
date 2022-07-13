@@ -1,0 +1,15 @@
+uri:
+  http://localhost:8090/api/archive/
+instance:
+  fsw
+method:
+  exportParameterValues
+param_array:
+  - /cfs/cpd/apps/px4lib/PX4_AIRSPEED_MID.IndicatedAirspeed
+  - /cfs/cpd/apps/px4lib/PX4_SENSOR_ACCEL_MID.X
+start:
+  '1970-01-12T14:04:11.25Z' #Date Format needs to be in RFC 3339 format of Packet time in yamcs
+stop:
+  '1970-01-12T14:05:11.25Z' #Date Format needs to be in RFC 3339 format of Packet time in yamcs
+output_csv_file:
+  param_log.csv
