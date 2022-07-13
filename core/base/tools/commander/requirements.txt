@@ -1,1 +1,1 @@
-yamcs-client
+PyYAML==5.3.1
