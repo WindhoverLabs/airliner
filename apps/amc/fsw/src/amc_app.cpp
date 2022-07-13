@@ -415,7 +415,7 @@ void AMC::InitData(void)
 
     for(uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; ++i)
     {
-        PWM[i] = ConfigTblPtr->Channel[i].PwmInitial;
+    	HkTlm.PWM[i] = ConfigTblPtr->Channel[i].PwmInitial;
     }
 }
 
@@ -1178,7 +1178,7 @@ void AMC::StopMotors(void)
     	}
     	else
     	{
-    		disarmed_pwm[i] = PWM[i];
+    		disarmed_pwm[i] = HkTlm.PWM[i];
     	}
     }
 
@@ -1206,7 +1206,7 @@ void AMC::UpdateMotors(void)
     	}
     	else
     	{
-    		disarmed_pwm[i] = PWM[i];
+    		disarmed_pwm[i] = HkTlm.PWM[i];
     	}
         min_pwm[i] = ConfigTblPtr->Channel[i].PwmMin;
         max_pwm[i] = ConfigTblPtr->Channel[i].PwmMax;
@@ -1260,7 +1260,7 @@ void AMC::UpdateMotors(void)
 						&min_pwm[i],
 						&max_pwm[i],
 						&ActuatorOutputs.Output[i],
-						&PWM[i],
+						&HkTlm.PWM[i],
 						&PwmLimit);
 	    	}
 	    	else
@@ -1274,7 +1274,7 @@ void AMC::UpdateMotors(void)
 						&min_pwm[i],
 						&max_pwm[i],
 						&ActuatorOutputs.Output[i],
-						&PWM[i],
+						&HkTlm.PWM[i],
 						&PwmLimit);
 	    	}
 	    }
@@ -1283,7 +1283,7 @@ void AMC::UpdateMotors(void)
         {
             if(HkTlm.DebugEngaged != TRUE)
             {
-                SetMotorOutputs(PWM);
+                SetMotorOutputs(HkTlm.PWM);
             }
         }
 
