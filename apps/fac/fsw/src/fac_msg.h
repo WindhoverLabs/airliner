@@ -151,6 +151,19 @@ typedef struct
         \brief Count of failed commands */
     uint8              usCmdErrCnt; 
 
+    /** \brief Count of failed sch msg */
+    uint8              usSchErrCnt;
+
+    /** \brief Count of failed input data msg */
+    uint8              usDataErrCnt;
+
+
+    /** \brief Count of SendHk Msg received */
+    uint32             SendHkMsgRcvCnt;
+
+    /** \brief Count of RunController Msg received */
+    uint32             RunControllerMsgRcvCnt;
+
 
     /** \brief Count of AirSpeed Msg received */
     uint32             AirSpeedMsgRcvCnt;
