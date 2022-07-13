@@ -115,8 +115,8 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             1,   /* Control Count */
             /* Output Scaler */
             {
-               0.4581818,  /* Negative Scale */
-               0.5018182,  /* Positive Scale */
+               0.3054545,  /* Negative Scale */
+               0.3345454,  /* Positive Scale */
                0.1454545,  /* Offset         */
               -1.0,  /* Minimum Output */
                1.0   /* Maximum Output */
