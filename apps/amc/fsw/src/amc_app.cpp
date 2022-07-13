@@ -1200,7 +1200,14 @@ void AMC::UpdateMotors(void)
 
     for (uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
     {
-        disarmed_pwm[i] = ConfigTblPtr->Channel[i].PwmSafe;
+    	if(AMC_PWM_DISARM_BEHAVIOR_SAFE == ConfigTblPtr->Channel[i].DisarmBehavior)
+    	{
+    		disarmed_pwm[i] = ConfigTblPtr->Channel[i].PwmSafe;
+    	}
+    	else
+    	{
+    		disarmed_pwm[i] = PWM[i];
+    	}
         min_pwm[i] = ConfigTblPtr->Channel[i].PwmMin;
         max_pwm[i] = ConfigTblPtr->Channel[i].PwmMax;
     }
@@ -1240,7 +1247,7 @@ void AMC::UpdateMotors(void)
 			ActuatorOutputs.Count += SimpleMixerObject[i].mix(&ActuatorOutputs.Output[ActuatorOutputs.Count], 0, 0);
 		}
 
-	    for (uint32 i = 0; i < ActuatorOutputs.Count; i++)
+	    for (uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
 	    {
 	    	if(AMC_PWM_DISARM_BEHAVIOR_SAFE == ConfigTblPtr->Channel[i].DisarmBehavior)
 	    	{

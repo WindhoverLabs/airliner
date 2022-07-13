@@ -43,7 +43,7 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 SENS_ConfigTbl_t SENS_ConfigTbl =
 {
     /* Values here based on: 
-    * https://docs.google.com/spreadsheets/d/1xPqkTHAf2wl8wOg2jMkgnUfDI57PnTrvU2llw14ucBs/edit?usp=sharing
+    * https://docs.google.com/spreadsheets/d/1paD_elfTrYbCI3wqHR-x-OO1nnJUPQNuIw-M6-BSDVA/edit?usp=sharing
     *
     * Expected RC mapping:
     * CH 1: Roll
@@ -53,62 +53,62 @@ SENS_ConfigTbl_t SENS_ConfigTbl =
     */
    
     /* RC%d_MIN  (0..17)    */
-								1000.0f, // Throttle min
-								1000.0f, // Roll min
-								1000.0f, // Pitch min
-								1000.0f, // Yaw min
-		                        1000.0f,
-		                        1000.0f,
-		                        1000.0f,
-		                        1000.0f,
-								1000.0f,
-								1000.0f,
-								1000.0f,
-								1000.0f,
-								1000.0f,
-								1000.0f,
-								1000.0f,
-								1000.0f,
-								1000.0f,
-								1000.0f,
+								982.0f, // Throttle min
+								982.0f, // Roll min
+								982.0f, // Pitch min
+								982.0f, // Yaw min
+		                        982.0f,
+		                        982.0f,
+		                        982.0f,
+		                        982.0f,
+								982.0f,
+								982.0f,
+								982.0f,
+								982.0f,
+								982.0f,
+								982.0f,
+								982.0f,
+								982.0f,
+								982.0f,
+								982.0f,
     /* RC%d_TRIM (0..17)    */
-								1000.0f,  // Throttle trim - set this equal to min
-								1500.0f, // Roll trim
-								1500.0f, // Pitch trim
-								1500.0f, // Yaw trim
-		                        1500.0f,
-		                        1500.0f,
-		                        1500.0f,
-		                        1500.0f,
-								1500.0f,
-								1500.0f,
-								1500.0f,
-								1500.0f,
-								1500.0f,
-								1500.0f,
-								1500.0f,
-								1500.0f,
-								1500.0f,
-								1500.0f,
+								982.0f,  // Throttle trim - set this equal to min
+								1493.0f, // Roll trim
+								1493.0f, // Pitch trim
+								1493.0f, // Yaw trim
+		                        1493.0f,
+		                        1493.0f,
+		                        1493.0f,
+		                        1493.0f,
+								1493.0f,
+								1493.0f,
+								1493.0f,
+								1493.0f,
+								1493.0f,
+								1493.0f,
+								1493.0f,
+								1493.0f,
+								1493.0f,
+								1493.0f,
 	/* RC%d_MAX  (0..17)    */
-								2000.0f, // Throttle max
-								2000.0f, // Roll max
-								2000.0f, // Pitch max
-								2000.0f, // Yaw max
-		                        2000.0f,
-		                        2000.0f,
-		                        2000.0f,
-		                        2000.0f,
-								2000.0f,
-								2000.0f,
-								2000.0f,
-								2000.0f,
-								2000.0f,
-								2000.0f,
-								2000.0f,
-								2000.0f,
-								2000.0f,
-								2000.0f,
+								2006.0f, // Throttle max
+								2006.0f, // Roll max
+								2006.0f, // Pitch max
+								2006.0f, // Yaw max
+		                        2006.0f,
+		                        2006.0f,
+		                        2006.0f,
+		                        2006.0f,
+								2006.0f,
+								2006.0f,
+								2006.0f,
+								2006.0f,
+								2006.0f,
+								2006.0f,
+								2006.0f,
+								2006.0f,
+								2006.0f,
+								2006.0f,
 	/* RC%d_REV  (0..17)    */
 								1.0f,
 								1.0f,

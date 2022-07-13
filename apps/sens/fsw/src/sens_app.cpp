@@ -898,6 +898,7 @@ void SENS::ProcessRCInput(void)
 			ManualControlSetpointMsg.X = GetRcValue(PX4_RC_CHANNELS_FUNCTION_PITCH, -1.0, 1.0);
 			ManualControlSetpointMsg.R = GetRcValue(PX4_RC_CHANNELS_FUNCTION_YAW, -1.0, 1.0);
 			ManualControlSetpointMsg.Z = GetRcValue(PX4_RC_CHANNELS_FUNCTION_THROTTLE, 0.0, 1.0);
+
 			ManualControlSetpointMsg.Flaps = GetRcValue(PX4_RC_CHANNELS_FUNCTION_FLAPS, -1.0, 1.0);
 			ManualControlSetpointMsg.Aux1 = GetRcValue(PX4_RC_CHANNELS_FUNCTION_AUX_1, -1.0, 1.0);
 			ManualControlSetpointMsg.Aux2 = GetRcValue(PX4_RC_CHANNELS_FUNCTION_AUX_2, -1.0, 1.0);
@@ -906,10 +907,10 @@ void SENS::ProcessRCInput(void)
 			ManualControlSetpointMsg.Aux5 = GetRcValue(PX4_RC_CHANNELS_FUNCTION_AUX_5, -1.0, 1.0);
 
 			/* Filter controls */
-			ManualControlSetpointMsg.Y = math::constrain(FilterRoll.apply(ManualControlSetpointMsg.Y), -1.f, 1.f);
-			ManualControlSetpointMsg.X = math::constrain(FilterPitch.apply(ManualControlSetpointMsg.X), -1.f, 1.f);
-			ManualControlSetpointMsg.R = math::constrain(FilterYaw.apply(ManualControlSetpointMsg.R), -1.f, 1.f);
-			ManualControlSetpointMsg.Z = math::constrain(FilterThrottle.apply(ManualControlSetpointMsg.Z), 0.f, 1.f);
+			//ManualControlSetpointMsg.Y = math::constrain(FilterRoll.apply(ManualControlSetpointMsg.Y), -1.f, 1.f);
+			//ManualControlSetpointMsg.X = math::constrain(FilterPitch.apply(ManualControlSetpointMsg.X), -1.f, 1.f);
+			//ManualControlSetpointMsg.R = math::constrain(FilterYaw.apply(ManualControlSetpointMsg.R), -1.f, 1.f);
+			//ManualControlSetpointMsg.Z = math::constrain(FilterThrottle.apply(ManualControlSetpointMsg.Z), 0.f, 1.f););
 
 			if (ConfigTblPtr->MapFlightMode > 0)
 			{

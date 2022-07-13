@@ -214,33 +214,7 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
 				}
 			}
         },
-        /* Actuator 6 - Left Aileron */
-        {
-            1,   /* Control Count */
-            /* Output Scaler */
-            {
-                0.9381818,  /* Negative Scale */
-                0.8727272,  /* Positive Scale */
-                0.0363636,  /* Offset         */
-               -1.0,  /* Minimum Output */
-                1.0   /* Maximum Output */
-            },
-            /* Controls */
-            {
-                {   0,  /* Control Group */
-                    PX4_ACTUATOR_CONTROL_ROLL,  /* Control Index */
-                    /* Scaler */
-                    {
-                        -1.0, /* Negative Scale */
-                        -1.0, /* Positive Scale */
-                         0.0, /* Offset            */
-                        -1.0, /* Minimum Output */
-                         1.0  /* Maximum Output */
-                    }
-                }
-            }
-        },
-        /* Actuator 7 - Unused */
+        /* Actuator 6 - Unused */
         {
             1,   /* Control Count */
             /* Output Scaler */
@@ -265,6 +239,32 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
                     }
                 }
             },
+        },
+        /* Actuator 7 - Left Aileron */
+        {
+            1,   /* Control Count */
+            /* Output Scaler */
+            {
+                0.9381818,  /* Negative Scale */
+                0.8727272,  /* Positive Scale */
+                0.0363636,  /* Offset         */
+               -1.0,  /* Minimum Output */
+                1.0   /* Maximum Output */
+            },
+            /* Controls */
+            {
+                {   0,  /* Control Group */
+                    PX4_ACTUATOR_CONTROL_ROLL,  /* Control Index */
+                    /* Scaler */
+                    {
+                         1.0, /* Negative Scale */
+                         1.0, /* Positive Scale */
+                         0.0, /* Offset            */
+                        -1.0, /* Minimum Output */
+                         1.0  /* Maximum Output */
+                    }
+                }
+            }
         },
         /* Actuator 8 - Right Throttle */
         {
