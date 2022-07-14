@@ -1,0 +1,41 @@
+{
+    "Airliner": {
+        "apps": {
+            "ASPD4525": {
+                "operations": {
+                    "Noop":             { "airliner_cc":  0, "macro": "ASPD4525_CMD_MID", "airliner_msg": "ASPD4525_NoArgCmd_t" },
+                    "Reset":            { "airliner_cc":  1, "macro": "ASPD4525_CMD_MID", "airliner_msg": "ASPD4525_NoArgCmd_t" },
+                    "ASPD4525_HkTlm_t":      {                    "macro": "ASPD4525_HK_TLM_MID", "airliner_msg": "ASPD4525_HkTlm_t" },
+                    "SendHk":           { "airliner_cc":  0, "macro": "ASPD4525_SEND_HK_MID", "airliner_msg": "ASPD4525_NoArgCmd_t"},
+                    "Wakeup":           { "airliner_cc":  0, "macro": "ASPD4525_WAKEUP_MID", "airliner_msg": "ASPD4525_NoArgCmd_t"}
+                },    
+                "scheduler": {
+                    "activities": [
+                        "ASPD4525_SEND_HK_MID",
+                        "ASPD4525_WAKEUP_MID"
+                    ]
+                },
+                "events": [
+                    {"macro": "ASPD4525_INF_EID",              "id": 1},
+                    {"macro": "ASPD4525_INIT_INF_EID",         "id": 2},
+                    {"macro": "ASPD4525_CONFIG_TABLE_INF_EID", "id": 3},
+                    {"macro": "ASPD4525_CDS_INF_EID",          "id": 4},
+                    {"macro": "ASPD4525_CMD_INF_EID",          "id": 5},
+                    {"macro": "ASPD4525_ERR_EID",              "id": 6},
+                    {"macro": "ASPD4525_INIT_ERR_EID",         "id": 7},
+                    {"macro": "ASPD4525_CONFIG_TABLE_ERR_EID", "id": 8},
+                    {"macro": "ASPD4525_CDS_ERR_EID",          "id": 9},
+                    {"macro": "ASPD4525_CMD_ERR_EID",          "id": 10},
+                    {"macro": "ASPD4525_PIPE_ERR_EID",         "id": 11},
+                    {"macro": "ASPD4525_MSGID_ERR_EID",        "id": 12},
+                    {"macro": "ASPD4525_MSGLEN_ERR_EID",       "id": 13}
+                ],
+                "config": {
+                },
+                "tables": [
+                    {"id": "CONFIG_TBL",  "title": "ASPD4525 Configuration",  "isDumpTable": false}
+                ]
+            }
+        }
+    }
+}

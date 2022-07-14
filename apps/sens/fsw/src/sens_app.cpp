@@ -100,14 +100,6 @@ int32 SENS::InitPipe()
 					 (unsigned int)iStatus);
             goto SENS_InitPipe_Exit_Tag;
         }
-        iStatus = CFE_SB_SubscribeEx(PX4_ACTUATOR_CONTROLS_0_MID, SchPipeId, CFE_SB_Default_Qos, 1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(SENS_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-					 "CMD Pipe failed to subscribe to PX4_ACTUATOR_CONTROLS_0_MID. (0x%08lX)",
-					 iStatus);
-            goto SENS_InitPipe_Exit_Tag;
-        }
         iStatus = CFE_SB_SubscribeEx(PX4_INPUT_RC_MID, SchPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
@@ -339,10 +331,6 @@ int32 SENS::RcvSchPipeMsg(int32 iBlocking)
             	ProcessCmdPipe();
                 memcpy(&HkTlm.SensorCombinedMsg, &SensorCombinedMsg, sizeof(SensorCombinedMsg));
                 ReportHousekeeping();
-                break;
-
-            case PX4_ACTUATOR_CONTROLS_0_MID:
-                memcpy(&CVT.ActuatorControls0Msg, MsgPtr, sizeof(CVT.ActuatorControls0Msg));
                 break;
 
             case PX4_INPUT_RC_MID:
@@ -910,6 +898,7 @@ void SENS::ProcessRCInput(void)
 			ManualControlSetpointMsg.X = GetRcValue(PX4_RC_CHANNELS_FUNCTION_PITCH, -1.0, 1.0);
 			ManualControlSetpointMsg.R = GetRcValue(PX4_RC_CHANNELS_FUNCTION_YAW, -1.0, 1.0);
 			ManualControlSetpointMsg.Z = GetRcValue(PX4_RC_CHANNELS_FUNCTION_THROTTLE, 0.0, 1.0);
+
 			ManualControlSetpointMsg.Flaps = GetRcValue(PX4_RC_CHANNELS_FUNCTION_FLAPS, -1.0, 1.0);
 			ManualControlSetpointMsg.Aux1 = GetRcValue(PX4_RC_CHANNELS_FUNCTION_AUX_1, -1.0, 1.0);
 			ManualControlSetpointMsg.Aux2 = GetRcValue(PX4_RC_CHANNELS_FUNCTION_AUX_2, -1.0, 1.0);
@@ -918,10 +907,10 @@ void SENS::ProcessRCInput(void)
 			ManualControlSetpointMsg.Aux5 = GetRcValue(PX4_RC_CHANNELS_FUNCTION_AUX_5, -1.0, 1.0);
 
 			/* Filter controls */
-			ManualControlSetpointMsg.Y = math::constrain(FilterRoll.apply(ManualControlSetpointMsg.Y), -1.f, 1.f);
-			ManualControlSetpointMsg.X = math::constrain(FilterPitch.apply(ManualControlSetpointMsg.X), -1.f, 1.f);
-			ManualControlSetpointMsg.R = math::constrain(FilterYaw.apply(ManualControlSetpointMsg.R), -1.f, 1.f);
-			ManualControlSetpointMsg.Z = math::constrain(FilterThrottle.apply(ManualControlSetpointMsg.Z), 0.f, 1.f);
+			//ManualControlSetpointMsg.Y = math::constrain(FilterRoll.apply(ManualControlSetpointMsg.Y), -1.f, 1.f);
+			//ManualControlSetpointMsg.X = math::constrain(FilterPitch.apply(ManualControlSetpointMsg.X), -1.f, 1.f);
+			//ManualControlSetpointMsg.R = math::constrain(FilterYaw.apply(ManualControlSetpointMsg.R), -1.f, 1.f);
+			//ManualControlSetpointMsg.Z = math::constrain(FilterThrottle.apply(ManualControlSetpointMsg.Z), 0.f, 1.f););
 
 			if (ConfigTblPtr->MapFlightMode > 0)
 			{

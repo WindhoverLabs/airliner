@@ -62,32 +62,32 @@ def copyAll(src_path, dst_path, is_templated=False, rootModule=None, targetModul
             os.remove(dst_file)
         if not is_templated:
             shutil.copy(src_file, dst_file)
-        # else:
-        #     cpuID = getCpuId(rootModule, modPath)
-        #
-        #     data = {'module': targetModule, 'root': rootModule, "cpu_id": cpuID}
-        #     if 'module_type' in targetModule:
-        #         module_type = targetModule['module_type']
-        #     else:
-        #         module_type = 'NOT_SUPPORTED'
-        #
-        #     j2Env = jinja2.Environment(loader=jinja2.FileSystemLoader(src_path))
-        #     output = j2Env.get_template(file).render(data)
-        #
-        #     # If there is an existing file, only write the file if the contents have changed.
-        #     writeFile = True
-        #
-        #     if os.path.exists(dst_file):
-        #         # It does exist.  Now load it.
-        #         with open(dst_file, 'r') as outFile:
-        #             oldData = outFile.read()
-        #             if oldData == output:
-        #                 writeFile = False
-        #
-        #     if writeFile:
-        #         # Save the results
-        #         with open(dst_file, "w") as dst_file:
-        #             dst_file.write(output)
+        else:
+            cpuID = getCpuId(rootModule, modPath)
+
+            data = {'module': targetModule, 'root': rootModule, "cpu_id": cpuID}
+            if 'module_type' in targetModule:
+                module_type = targetModule['module_type']
+            else:
+                module_type = 'NOT_SUPPORTED'
+
+            j2Env = jinja2.Environment(loader=jinja2.FileSystemLoader(src_path))
+            output = j2Env.get_template(file).render(data)
+
+            # If there is an existing file, only write the file if the contents have changed.
+            writeFile = True
+
+            if os.path.exists(dst_file):
+                # It does exist.  Now load it.
+                with open(dst_file, 'r') as outFile:
+                    oldData = outFile.read()
+                    if oldData == output:
+                        writeFile = False
+
+            if writeFile:
+                # Save the results
+                with open(dst_file, "w") as dst_file:
+                    dst_file.write(output)
 
     for folder in folders: # Merge again with the subdirectories
         scr_folder = src_path + "/" + folder
@@ -120,7 +120,7 @@ def generateCommanderDisplay(rootModule, targetModule, templateDir, templateFile
         outFileName = os.path.join(outPath, outputName)
         os.makedirs(outPath, exist_ok=True)
         
-        j2Env = jinja2.Environment(loader=jinja2.FileSystemLoader(templateDir))  
+        j2Env = jinja2.Environment(loader=jinja2.FileSystemLoader(templateDir))
         output = j2Env.get_template(templateFile).render(data)
             
         # If there is an existing file, only write the file if the contents have changed.
@@ -168,30 +168,30 @@ def parseModule(rootModule, currentModule, currentModuleName, dirBase, cdrBasePa
             else:
                 print("Cannot populate displays for '/" + modPath + "'.  'displays' '" + srcPath + "' not found.  Skipping.")
                 
-        # if 'templates' in currentModule['commander']:
-        #     for cdrTypeName in currentModule['commander']['templates']:
-        #         objDisplayType = currentModule['commander']['templates'][cdrTypeName]
-        #
-        #         # Get the template directory
-        #         cdrDirectory = os.path.dirname(os.path.join(dirBase, objDisplayType['template']))
-        #
-        #         # Get the template filename
-        #         cdrFileName = os.path.basename(objDisplayType['template'])
-        #
-        #         if not os.path.isfile(cdrDirectory + "/" + cdrFileName):
-        #             print("Cannot generate from template '/" + modPath + cdrTypeName + "'.  File '" + cdrDirectory + "/" + cdrFileName + "' not found.  Skipping.")
-        #         else:
-        #             outFileName = objDisplayType['output']
-        #
-        #             if 'scope' in objDisplayType.keys():
-        #                 if objDisplayType['scope'] == 'GLOBAL':
-        #                     generateCommanderDisplay(rootModule, rootModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath, "")
-        #                 else:
-        #                     generateCommanderDisplay(rootModule, currentModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath, modPath)
-        #             else:
-        #                 generateCommanderDisplay(rootModule, currentModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath, modPath)
-        #
-        #                 # parseModuleCommanderTemplates(rootModule, currentModule, dirBase, cdrBasePath, modPath)
+        if 'templates' in currentModule['commander']:
+            for cdrTypeName in currentModule['commander']['templates']:
+                objDisplayType = currentModule['commander']['templates'][cdrTypeName]
+
+                # Get the template directory
+                cdrDirectory = os.path.dirname(os.path.join(dirBase, objDisplayType['template']))
+
+                # Get the template filename
+                cdrFileName = os.path.basename(objDisplayType['template'])
+
+                if not os.path.isfile(cdrDirectory + "/" + cdrFileName):
+                    print("Cannot generate from template '/" + modPath + cdrTypeName + "'.  File '" + cdrDirectory + "/" + cdrFileName + "' not found.  Skipping.")
+                else:
+                    outFileName = objDisplayType['output']
+
+                    if 'scope' in objDisplayType.keys():
+                        if objDisplayType['scope'] == 'GLOBAL':
+                            generateCommanderDisplay(rootModule, rootModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath, "")
+                        else:
+                            generateCommanderDisplay(rootModule, currentModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath, modPath)
+                    else:
+                        generateCommanderDisplay(rootModule, currentModule, cdrDirectory, cdrFileName, outFileName, cdrBasePath, modPath)
+
+                        # parseModuleCommanderTemplates(rootModule, currentModule, dirBase, cdrBasePath, modPath)
     
     if 'modules' in currentModule.keys():
         for moduleName in currentModule['modules']:    

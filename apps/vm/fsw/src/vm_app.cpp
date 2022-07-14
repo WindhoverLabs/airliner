@@ -1446,8 +1446,24 @@ void VM::Initialization()
     VehicleStatusMsg.HilState = PX4_HIL_STATE_OFF;
     VehicleStatusMsg.Failsafe = false;
     VehicleStatusMsg.SystemType = PX4_SYSTEM_TYPE_HEXAROTOR;
-    VehicleStatusMsg.IsRotaryWing = true;
-    VehicleStatusMsg.IsVtol = false;
+    if(VM_VEHICLE_TYPE_ROTARY_WING == ConfigTblPtr->VEHICLE_TYPE)
+    {
+        VehicleStatusMsg.IsRotaryWing = true;
+    }
+    else
+    {
+        VehicleStatusMsg.IsRotaryWing = false;
+    }
+
+    if(VM_VEHICLE_TYPE_VTOL == ConfigTblPtr->VEHICLE_TYPE)
+    {
+        VehicleStatusMsg.IsVtol = true;
+    }
+    else
+    {
+        VehicleStatusMsg.IsVtol = false;
+    }
+
     VehicleStatusMsg.VtolFwPermanentStab = false;
     VehicleStatusMsg.InTransitionMode = false;
     VehicleStatusMsg.RcSignalLost = true;
@@ -1477,8 +1493,6 @@ void VM::Initialization()
     /* update parameters */
     if (!ActuatorArmedMsg.Armed)
     {
-        VehicleStatusMsg.IsRotaryWing = true;
-        VehicleStatusMsg.IsVtol = false;
         VehicleStatusMsg.SystemID = ConfigTblPtr->MAV_SYS_ID;
         VehicleStatusMsg.ComponentID = ConfigTblPtr->MAV_COMP_ID;
     }

@@ -74,8 +74,8 @@ typedef enum {
 */
     AMC_INIT_INF_EID = 1,
 
-/** \brief <tt> 'PWM Tbl Vldt: Min (\%u) less than Disarmed (\%u) speed.' </tt>
-**  \event <tt> 'PWM Tbl Vldt: Min (\%u) less than Disarmed (\%u) speed.' </tt>
+/** \brief <tt> 'Tbl Vldt: Min (\%u) less than Disarmed (\%u) speed.' </tt>
+**  \event <tt> 'Tbl Vldt: Min (\%u) less than Disarmed (\%u) speed.' </tt>
 **  
 **  \par Type: ERROR
 **
@@ -85,10 +85,10 @@ typedef enum {
 **  The second \c %d field contains the 'Disarmed' value defined in the table.
 **
 */
-    AMC_PWM_CFGTBL_MIN_LT_DISARMED_ERR_EID = 2,
+    AMC_CFGTBL_MIN_LT_DISARMED_ERR_EID = 2,
 
-/** \brief <tt> 'PWM Tbl Vldt: Max (\%u) less than Min (\%u) speed.' </tt>
-**  \event <tt> 'PWM Tbl Vldt: Max (\%u) less than Min (\%u) speed.' </tt>
+/** \brief <tt> 'Tbl Vldt: Max (\%u) less than Min (\%u) speed.' </tt>
+**  \event <tt> 'Tbl Vldt: Max (\%u) less than Min (\%u) speed.' </tt>
 **
 **  \par Type: ERROR
 **
@@ -98,7 +98,7 @@ typedef enum {
 **  The second \c %d field contains the 'Minimum' value defined in the table.
 **
 */
-    AMC_PWM_CFGTBL_MAX_LT_MIN_ERR_EID = 3,
+    AMC_CFGTBL_MAX_LT_MIN_ERR_EID = 3,
 
 /** \brief <tt> 'Recvd NOOP. Version \%d.\%d.\%d.\%d' </tt>
 **  \event <tt> 'Recvd NOOP. Version \%d.\%d.\%d.\%d' </tt>
@@ -170,8 +170,8 @@ typedef enum {
 */
     AMC_MIXER_INIT_ERR_EID = 7,
 
-/** \brief <tt> 'Failed to manage PWM Config table (0x\%08X)' </tt>
-**  \event <tt> 'Failed to manage PWM Config table (0x\%08X)' </tt>
+/** \brief <tt> 'Failed to manage Config table (0x\%08X)' </tt>
+**  \event <tt> 'Failed to manage Config table (0x\%08X)' </tt>
 **
 **  \par Type: ERROR
 **
@@ -181,7 +181,7 @@ typedef enum {
 **  #CFE_TBL_Manage function.
 **
 */
-    AMC_PWM_CFGTBL_MANAGE_ERR_EID = 8,
+    AMC_CFGTBL_MANAGE_ERR_EID = 8,
 
 /** \brief <tt> 'Failed to manage Mixer Config table (0x\%08X)' </tt>
 **  \event <tt> 'Failed to manage Mixer Config table (0x\%08X)' </tt>
@@ -196,8 +196,8 @@ typedef enum {
 */
     AMC_MIXER_CFGTBL_MANAGE_ERR_EID = 9,
 
-/** \brief <tt> 'Failed to get PWM Config table's address (0x\%08X)' </tt>
-**  \event <tt> 'Failed to get PWM Config table's address (0x\%08X)' </tt>
+/** \brief <tt> 'Failed to get Config table's address (0x\%08X)' </tt>
+**  \event <tt> 'Failed to get Config table's address (0x\%08X)' </tt>
 **  
 **  \par Type: ERROR
 **
@@ -207,7 +207,7 @@ typedef enum {
 **  #CFE_TBL_GetAddress function.
 **
 */
-    AMC_PWM_CFGTBL_GETADDR_ERR_EID = 10,
+    AMC_CFGTBL_GETADDR_ERR_EID = 10,
 
 /** \brief <tt> 'Failed to get Mixer Config table's address (0x\%08X)' </tt>
 **  \event <tt> 'Failed to get Mixer Config table's address (0x\%08X)' </tt>
@@ -299,21 +299,21 @@ typedef enum {
 */
     AMC_DEVICE_INIT_ERR_EID = 16,
 
-/** \brief <tt> 'Failed to register PWM table (0x%08X)' </tt>
-**  \event <tt> 'Failed to register PWM table (0x%08X)' </tt>
+/** \brief <tt> 'Failed to register table (0x%08X)' </tt>
+**  \event <tt> 'Failed to register table (0x%08X)' </tt>
 **
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
 **  This event message is issued when the CFS AMC Task fails to
-**  register the PWM configuration table.
+**  register the configuration table.
 **
 **  The 32 bit hexadecimal number is the error code returned by CFE
 **  #CFE_TBL_Register function.
 **
 */
-    AMC_PWM_CFGTBL_REG_ERR_EID = 17,
+    AMC_CFGTBL_REG_ERR_EID = 17,
 
 /** \brief <tt> 'Failed to register Mixer table (0x%08X)' </tt>
 **  \event <tt> 'Failed to register Mixer table (0x%08X)' </tt>
@@ -331,21 +331,21 @@ typedef enum {
 */
     AMC_MIXER_CFGTBL_REG_ERR_EID = 18,
 
-/** \brief <tt> 'Failed to load PWM Config Table (0x%08X)' </tt>
-**  \event <tt> 'Failed to load PWM Config Table (0x%08X)' </tt>
+/** \brief <tt> 'Failed to load Config Table (0x%08X)' </tt>
+**  \event <tt> 'Failed to load Config Table (0x%08X)' </tt>
 **
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
 **  This event message is issued when the CFS AMC Task fails to
-**  load the PWM configuration table.
+**  load the configuration table.
 **
 **  The 32 bit hexadecimal number is the error code returned by CFE
 **  #CFE_TBL_Load function.
 **
 */
-    AMC_PWM_CFGTBL_LOAD_ERR_EID = 19,
+    AMC_CFGTBL_LOAD_ERR_EID = 19,
 
 /** \brief <tt> 'Failed to load Mixer Config Table (0x%08X)' </tt>
 **  \event <tt> 'Failed to load Mixer Config Table (0x%08X)' </tt>

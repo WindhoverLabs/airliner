@@ -65,17 +65,17 @@ const float &constrain(const float &val, const float &min_val, const float &max_
 
 float radians(float degrees)
 {
-	return (degrees / 180.0f) * M_PI_F;
+    return (degrees / 180.0f) * M_PI_F;
 }
 
 double radians(double degrees)
 {
-	return (degrees / 180.0) * M_PI;
+    return (degrees / 180.0) * M_PI;
 }
 
 float degrees(float radians)
 {
-	return (radians / M_PI_F) * 180.0f;
+    return (radians / M_PI_F) * 180.0f;
 }
 
 double degrees(double radians)

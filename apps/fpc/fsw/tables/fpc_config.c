@@ -35,6 +35,8 @@ static CFE_TBL_FileDef_t CFE_TBL_FileDef =
     "FPC_ConfigTbl", "FPC.CONFIG_TBL", "FPC default config table",
     "fpc_config.tbl", (sizeof(FPC_ConfigTbl_t))
 };
+//Insert error since for now we will be using the table from config/shared
+Error
 
 /************************************************************************
 ** External Global Variables
@@ -745,6 +747,12 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @group Fixedwing Position Control
      */
     0.0f,
+
+   .FPC_Launch_Detection =
+    {
+        .LAUN_ALL_ON = {FALSE},
+
+    }
 };
 
 

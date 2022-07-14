@@ -1,6 +1,10 @@
 #ifndef FPC_LANDING_SLOPE_H
 #define FPC_LANDING_SLOPE_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <math.h>
 
 #include "math/Matrix3F3.hpp"
@@ -8,7 +12,6 @@
 #include "math/Euler.hpp"
 #include "math/Dcm.hpp"
 #include "math/Expo.hpp"
-#include "math/Limits.hpp"
 #include "math/Functions.hpp"
 
 /**
@@ -31,8 +34,6 @@ private:
 	void calculateSlopeValues();
 
 public:
-	Landingslope() = default;
-	~Landingslope() = default;
 
 	/**
 	 *
@@ -98,5 +99,9 @@ public:
 
 };
 
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* FPC_LANDING_SLOPE_H */

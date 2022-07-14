@@ -44,7 +44,7 @@ set( CTEST_VALGRIND_COMMAND_OPTIONS "--tool=memcheck --leak-check=full --show-re
 enable_testing()
 
 set(ELF2CFETBL_BIN ${PROJECT_BINARY_DIR}/../host/tools/elf2cfetbl)
-set(_MAVLINK_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tools)
+set(_MAVLINK_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tools/mavlink/v2.0)
 
 # Set paths from all 3 major core components:  CFE, OSAL, and PSP.
 include(core/base/cfe/set-paths.cmake)

@@ -5,6 +5,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+#include <math.h>
 
 /*
 ** FPC Mission Configuration Parameter Definitions
@@ -14,6 +15,7 @@ extern "C" {
 
 #define FPC_SB_TIMEOUT         CFE_SB_PEND_FOREVER  /* Can be a value in milliseconds */
 
+#define DEG_TO_RADIANS(d) (d * M_PI / 180.0)
 #ifdef __cplusplus
 }
 #endif

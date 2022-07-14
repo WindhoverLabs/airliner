@@ -1,0 +1,518 @@
+---
+config_base: ${PROJECT_SOURCE_DIR}
+cpu_id: ppd
+commander:
+  server_overlay: ${PROJECT_SOURCE_DIR}/config/multirotor/quad/ppd/server_overlay
+modules:
+  core:
+    modules:   
+      cfe:
+        modules:
+          cfe_es:
+            telemetry:
+              CFE_ES_HK_TLM_MID:
+                msgID: 0x080f
+              CFE_ES_APP_TLM_MID:
+                msgID: 0x0817
+              CFE_ES_MEMSTATS_TLM_MID:
+                msgID: 0x081c
+              CFE_ES_SHELL_TLM_MID:
+                msgID: 0x081b
+            commands:
+              CFE_ES_CMD_MID:
+                msgID: 0x1804
+              CFE_ES_SEND_HK_MID:
+                msgID: 0x1805
+          cfe_evs:
+            telemetry:
+              CFE_EVS_HK_TLM_MID:
+                msgID: 0x0810
+              CFE_EVS_EVENT_MSG_MID:
+                msgID: 0x0815
+            commands:
+              CFE_EVS_CMD_MID:
+                msgID: 0x1800
+              CFE_EVS_SEND_HK_MID:
+                msgID: 0x1806
+          cfe_sb:
+            telemetry:
+              CFE_SB_HK_TLM_MID:
+                msgID: 0x0811
+              CFE_SB_STATS_TLM_MID:
+                msgID: 0x0816
+              CFE_SB_ALLSUBS_TLM_MID:
+                msgID: 0x0819
+              CFE_SB_ONESUB_TLM_MID:
+                msgID: 0x081a
+            commands:
+              CFE_SB_CMD_MID:
+                msgID: 0x1801
+              CFE_SB_SEND_HK_MID:
+                msgID: 0x1807
+          cfe_tbl:
+            telemetry:
+              CFE_TBL_HK_TLM_MID:
+                msgID: 0x0812
+              CFE_TBL_REG_TLM_MID:
+                msgID: 0x0818
+            commands:
+              CFE_TBL_CMD_MID:
+                msgID: 0x0802
+              CFE_TBL_SEND_HK_MID:
+                msgID: 0x1808
+          cfe_time:
+            telemetry:
+              CFE_TIME_DIAG_TLM_MID:
+                msgID: 0x0814
+              CFE_TIME_HK_TLM_MID:
+                msgID: 0x0813
+            commands:
+              CFE_TIME_CMD_MID:
+                msgID: 0x1803
+              CFE_TIME_SEND_HK_MID:
+                msgID: 0x1809
+              CFE_TIME_DATA_CMD_MID:
+                msgID: 0x180c
+              CFE_TIME_TONE_CMD_MID:
+                msgID: 0x180a
+              CFE_TIME_FAKE_CMD_MID:
+                msgID: 0x180d
+              CFE_TIME_1HZ_CMD_MID:
+                msgID: 0x180b
+              CFE_TIME_SEND_CMD_MID:
+                msgID: 0x180e   
+      osal:
+        definition: ${PROJECT_SOURCE_DIR}/core/osal/posix-fast/wh_design.yaml
+      psp:
+        definition: ${PROJECT_SOURCE_DIR}/core/psp/obc-ppd/wh_design.yaml
+        
+  apps:
+    modules:          
+      cf:
+        definition: ${PROJECT_SOURCE_DIR}/apps/cf/wh_design.yaml
+        telemetry: 
+          CF_CONFIG_TLM_MID: 
+            msgID: 0x081d              # TLM_MSG(   29 )
+          CF_HK_TLM_MID: 
+            msgID: 0x081e              # TLM_MSG(   30 )
+          CF_SPACE_TO_GND_PDU_MID:
+            msgID: 0x081f              # CMD_MSG(   31 )
+          CF_TRANS_TLM_MID:
+            msgID: 0x0820              # TLM_MSG(   32 )
+          CF_XCHANNEL_INCOMING_PDU_MID:
+            msgID: 0x0821              # CMD_MSG(   33 )
+          CF_XCHANNEL_OUTGOING_PDU_MID:
+            msgID: 0x1822              # CMD_MSG(   34 )
+        commands:
+          CF_CMD_MID: 
+            msgID: 0x1823              # CMD_MSG(   35 )
+          CF_INCOMING_PDU_MID: 
+            msgID: 0x1824              # TLM_MSG(   36 )
+          CF_SEND_HK_MID: 
+            msgID: 0x1825              # CMD_MSG(   37 )
+          CF_WAKE_UP_REQ_CMD_MID:
+            msgID: 0x1826              # CMD_MSG(   38 )
+        perfids: 
+          CF_APPMAIN_PERF_ID:
+            id: 33
+          CF_CYCLE_ENG_PERF_ID: 
+            id: 36
+          CF_FCLOSE_PERF_ID: 
+            id: 37
+          CF_FILESIZE_PERF_ID: 
+            id: 38
+          CF_FOPEN_PERF_ID: 
+            id: 39
+          CF_FREAD_PERF_ID: 
+            id: 40
+          CF_FWRITE_PERF_ID: 
+            id: 41
+          CF_QDIRFILES_PERF_ID: 
+            id: 42
+          CF_REDLIGHT_PERF_ID: 
+            id: 43
+            
+      ci:
+        definition: ${PROJECT_SOURCE_DIR}/apps/ci/wh_design.yaml
+        telemetry:
+          CI_HK_TLM_MID:
+            msgID: 0x0827              # TLM_MSG(   39 )
+        commands:
+          CI_CMD_MID:
+            msgID: 0x1828              # CMD_MSG(   40 )
+          CI_INGEST_COMMANDS_MID:
+            msgID: 0x1829              # CMD_MSG(   41 )
+          CI_PROCESS_TIMEOUTS_MID:
+            msgID: 0x182a              # CMD_MSG(   42 )
+          CI_SEND_HK_MID:
+            msgID: 0x182b              # CMD_MSG(   43 )
+          CI_WAKEUP_MID:
+            msgID: 0x182c              # CMD_MSG(   44 )
+        perfids:
+          CI_MAIN_TASK_PERF_ID:
+            id: 34
+          CI_SOCKET_RCV_PERF_ID:
+            id: 35
+
+      cs:
+        definition: ${PROJECT_SOURCE_DIR}/apps/cs/wh_design.yaml
+        telemetry: 
+          CS_HK_TLM_MID: 
+            msgID: 0x082d              # TLM_MSG(   45 )
+        commands: 
+          CS_BACKGROUND_CYCLE_MID: 
+            msgID: 0x182e              # CMD_MSG(   46 )
+          CS_CMD_MID: 
+            msgID: 0x182f              # CMD_MSG(   47 )
+          CS_SEND_HK_MID: 
+            msgID: 0x1830              # CMD_MSG(   48 )
+        perfids: 
+          CS_APPMAIN_PERF_ID: 
+            id: 44
+
+      ds:
+        definition: ${PROJECT_SOURCE_DIR}/apps/ds/wh_design.yaml
+        telemetry: 
+          DS_DIAG_TLM_MID: 
+            msgID: 0x0835              # TLM_MSG(   53 )
+          DS_HK_TLM_MID: 
+            msgID: 0x0836              # TLM_MSG(   54 )
+        commands: 
+          DS_CMD_MID: 
+            msgID: 0x1837              # CMD_MSG(   55 )
+          DS_SEND_HK_MID: 
+            msgID: 0x1838              # CMD_MSG(   56 )
+        perfids: 
+          DS_APPMAIN_PERF_ID: 
+            id: 45
+    
+      ea:
+        definition: ${PROJECT_SOURCE_DIR}/apps/ea/wh_design.yaml
+        telemetry:
+          EA_HK_TLM_MID:
+            msgID: 0x0857              # TLM_MSG(   57 )
+        commands:
+          EA_CMD_MID:
+            msgID: 0x1858              # CMD_MSG(   58 )
+          EA_SEND_HK_MID:
+            msgID: 0x1859              # CMD_MSG(   59 )
+          EA_WAKEUP_MID:
+            msgID: 0x185a              # CMD_MSG(   60 )
+        perfids:
+          EA_MAIN_TASK_PERF_ID:
+            id: 70
+
+      fm:
+        definition: ${PROJECT_SOURCE_DIR}/apps/fm/wh_design.yaml
+        telemetry: 
+          FM_DIR_LIST_TLM_MID: 
+            msgID: 0x083d              # TLM_MSG(   61 )
+          FM_FILE_INFO_TLM_MID: 
+            msgID: 0x083e              # TLM_MSG(   62 )
+          FM_FREE_SPACE_TLM_MID: 
+            msgID: 0x083f              # TLM_MSG(   63 )
+          FM_HK_TLM_MID: 
+            msgID: 0x0840              # TLM_MSG(   64 )
+          FM_OPEN_FILES_TLM_MID: 
+            msgID: 0x0841              # TLM_MSG(   65 )
+        commands: 
+          FM_CMD_MID: 
+            msgID: 0x1842              # CMD_MSG(   66 )
+          FM_SEND_HK_MID: 
+            msgID: 0x1843              # CMD_MSG(   67 )
+        perfids: 
+          FM_APPMAIN_PERF_ID: 
+            id: 46
+          FM_CHILD_TASK_PERF_ID: 
+            id: 47
+
+      hk:
+        definition: ${PROJECT_SOURCE_DIR}/apps/hk/wh_design.yaml
+        telemetry: 
+          HK_HK_TLM_MID: 
+            msgID: 0x0844              # TLM_MSG(   68 )
+        commands: 
+          HK_CMD_MID: 
+            msgID: 0x1845              # CMD_MSG(   69 )
+          HK_SEND_COMBINED_PKT_MID: 
+            msgID: 0x1846              # CMD_MSG(   70 )
+          HK_SEND_HK_MID: 
+            msgID: 0x1847              # CMD_MSG(   71 )
+        perfids: 
+          HK_APPMAIN_PERF_ID: 
+            id: 48
+
+      hs:
+        definition: ${PROJECT_SOURCE_DIR}/apps/hs/wh_design.yaml
+        telemetry: 
+          HS_HK_TLM_MID: 
+            msgID: 0x0848              # TLM_MSG(   72 )
+        commands: 
+          HS_CMD_MID: 
+            msgID: 0x1849              # CMD_MSG(   73 )
+          HS_SEND_HK_MID: 
+            msgID: 0x184a              # CMD_MSG(   74 )
+          HS_WAKEUP_MID: 
+            msgID: 0x184b              # CMD_MSG(   75 )
+        perfids: 
+          HS_APPMAIN_PERF_ID: 
+            id: 49
+          HS_IDLETASK_PERF_ID: 
+            id: 50
+    
+      lc:
+        definition: ${PROJECT_SOURCE_DIR}/apps/lc/wh_design.yaml
+        telemetry: 
+          LC_HK_TLM_MID: 
+            msgID: 0x084c              # TLM_MSG(   76 )
+        commands: 
+          LC_CMD_MID: 
+            msgID: 0x184d              # CMD_MSG(   77 )
+          LC_SAMPLE_AP_MID: 
+            msgID: 0x184e              # CMD_MSG(   78 )
+          LC_SEND_HK_MID: 
+            msgID: 0x184f              # CMD_MSG(   79 )
+        perfids: 
+          LC_APPMAIN_PERF_ID: 
+            id: 51
+          LC_WDT_SEARCH_PERF_ID: 
+            id: 52
+
+      md:
+        definition: ${PROJECT_SOURCE_DIR}/apps/md/wh_design.yaml
+        telemetry: 
+          MD_DWELL_PKT_MID_BASE: 
+            msgID: 0x0850              # TLM_MSG(   80 )
+          MD_HK_TLM_MID: 
+            msgID: 0x0851              # TLM_MSG(   81 )
+        commands: 
+          MD_CMD_MID: 
+            msgID: 0x1852              # CMD_MSG(   82 )
+          MD_SEND_HK_MID: 
+            msgID: 0x1853              # CMD_MSG(   83 )
+          MD_WAKEUP_MID: 
+            msgID: 0x1854              # CMD_MSG(   84 )
+        perfids: 
+          MD_APPMAIN_PERF_ID: 
+            id: 53
+
+      mm:
+        definition: ${PROJECT_SOURCE_DIR}/apps/mm/wh_design.yaml
+        telemetry: 
+          MM_HK_TLM_MID: 
+            msgID: 0x0855              # TLM_MSG(   85 )
+        commands: 
+          MM_CMD_MID: 
+            msgID: 0x1856              # CMD_MSG(   86 )
+          MM_SEND_HK_MID: 
+            msgID: 0x1857              # CMD_MSG(   87 )
+        perfids: 
+          MM_APPMAIN_PERF_ID: 
+            id: 54
+          MM_EEPROM_FILELOAD_PERF_ID: 
+            id: 55
+          MM_EEPROM_FILL_PERF_ID: 
+            id: 56
+          MM_EEPROM_POKE_PERF_ID: 
+            id: 57
+          MM_SEGBREAK_PERF_ID: 
+            id: 58
+
+      sc:
+        definition: ${PROJECT_SOURCE_DIR}/apps/sc/wh_design.yaml
+        telemetry:
+          SC_HK_TLM_MID:
+            msgID: 0x085f              # TLM_MSG(   95 )
+        commands:
+          SC_1HZ_WAKEUP_MID:
+            msgID: 0x1860              # CMD_MSG(   96 )
+          SC_CMD_MID:
+            msgID: 0x1861              # CMD_MSG(   97 )
+          SC_SEND_HK_MID:
+            msgID: 0x1862              # CMD_MSG(   98 )
+        perfids:
+          SC_APPMAIN_PERF_ID:
+            id: 59
+
+      sch:
+        definition: ${PROJECT_SOURCE_DIR}/apps/sch/wh_design.yaml
+        telemetry:
+          SCH_ACTIVITY_DONE_MID:
+            msgID: 0x0863              # TLM_MSG(   99 )
+          SCH_DIAG_TLM_MID:
+            msgID: 0x0864              # TLM_MSG(  100 )
+          SCH_HK_TLM_MID:
+            msgID: 0x0865              # TLM_MSG(  101 )
+        commands:
+          SCH_CMD_MID:
+            msgID: 0x1866              # CMD_MSG(  102 )
+          SCH_SEND_HK_MID:
+            msgID: 0x1867              # CMD_MSG(  103 )
+        perfids:
+          SCH_APPMAIN_PERF_ID:
+            id: 60
+
+      to:
+        definition: ${PROJECT_SOURCE_DIR}/apps/to/wh_design.yaml
+        commander:
+          displays: cdr
+          templates:
+            _ADD_MESSAGE_FLOW:
+              template: "../../config/multirotor/cdr/TO_AddMessageFlow.j2"
+              output: "TO_AddMessageFlow.bob"
+              scope: GLOBAL
+            _QUERY_MESSAGE_FLOW:
+              template: "cdr/resources/templates/TO_QueryMessageFlow.j2"
+              output: "TO_QueryMessageFlow.bob"
+              scope: GLOBAL
+            _REMOVE_MESSAGE_FLOW:
+              template: "../../config/multirotor/cdr/TO_RemoveMessageFlow.j2"
+              output: "TO_RemoveMessageFlow.bob"
+              scope: GLOBAL
+            _TLM_MANAGEMENT_FLOW:
+              template: "cdr/resources/templates/TO_TlmManagement.j2"
+              output: "TO_TlmManagement.bob"
+              scope: GLOBAL
+        telemetry:
+          TO_DIAG_MSG_FLOW_MID: 
+            msgID: 0x0869              # TLM_MSG(  105 )
+          TO_DIAG_TLM_MID:
+            msgID: 0x086a              # TLM_MSG(  106 )
+          TO_HK_TLM_MID:
+            msgID: 0x086b              # TLM_MSG(  107 )
+        commands:
+          TO_CMD_MID:
+            msgID: 0x186c              # CMD_MSG(  108 )
+            commands: 
+              EnableChannel:
+                cc: 10
+                struct: TO_EnableChannelCmd_t
+              DisableChannel:
+                cc: 11
+                struct: TO_DisableChannelCmd_t   
+          TO_SEND_HK_MID:
+            msgID: 0x186d              # CMD_MSG(  109 ) 
+          TO_SEND_TLM_MID:
+            msgID: 0x186e              # CMD_MSG(  110 )
+        msg_def_overrides:
+          - parent: TO_EnableChannelCmd_t
+            member: DestinationAddress
+            type: string
+        tables:
+          _TO_CONFIG:
+            channel:
+              - name: "ground"
+                instance:
+                -  name: "default"
+                   output: "to_config.c"
+                   id: 1
+                   is_backup: false
+                   priority_queue:
+                     - name:  "CPD_SINGLE_PASS"
+                       type:  "SINGLE"
+                       depth: 20
+                     - name:  "PPD_SINGLE_PASS"
+                       type:  "SINGLE"
+                       depth: 20
+                     - name:  "CPD_HIGH_OPS_RSRVD"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "PPD_HIGH_OPS_RSRVD"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "CPD_HIGH"
+                       type:  "FIFO"
+                       depth: 64
+                     - name:  "CPD_EVENTS"
+                       type:  "FIFO"
+                       depth: 50
+                     - name:  "CPD_CFDP"
+                       type:  "FIFO"
+                       depth: 64
+                     - name:  "CPD_SHELL"
+                       type:  "FIFO"
+                       depth: 40
+                     - name:  "CPD_HK"
+                       type:  "FIFO"
+                       depth: 20
+                     - name:  "PPD_HIGH"
+                       type:  "FIFO"
+                       depth: 20
+                     - name:  "PPD_EVENTS"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "PPD_CFDP"
+                       type:  "FIFO"
+                       depth: 32
+                     - name:  "PPD_SHELL"
+                       type:  "FIFO"
+                       depth: 64
+                     - name:  "PPD_HK"
+                       type:  "FIFO"
+                       depth: 50
+                     - name:  "CPD_PX4LOW"
+                       type:  "FIFO"
+                       depth: 64
+                     - name:  "PPD_PX4LOW"
+                       type:  "FIFO"
+                       depth: 40
+                   message_flow:
+                     - msg: "AMC_HK_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "BAT_HK_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CF_CONFIG_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CF_HK_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CF_SPACE_TO_GND_PDU_MID"
+                       depth: 32
+                       pqueue: "CPD_CFDP"
+                     - msg: "CF_TRANS_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+                     - msg: "CFE_ES_APP_TLM_MID"
+                       depth: 1
+                       pqueue: "CPD_HK"
+
+      sbnd:
+        definition: ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/wh_design.yaml
+        telemetry:
+          SBND_HK_TLM_MID:
+            msgID: 0x08a4              # TLM_MSG(  164 )
+        commands:
+          SBND_CMD_MID:
+            msgID: 0x18a5              # CMD_MSG(  165 )
+          SBND_SEND_HK_MID:
+            msgID: 0x18a6              # CMD_MSG(  166 )
+          SBND_WAKEUP_MID:
+            msgID: 0x18a7              # CMD_MSG(  167 )
+        perfids:
+          SBND_MAIN_TASK_PERF_ID:
+            id: 115
+            
+      vc:
+        definition: ${PROJECT_SOURCE_DIR}/apps/vc/wh_design.yaml
+        telemetry:
+          VC_HK_TLM_MID:
+            msgID: 0x0932              # TLM_MSG(  306 )
+        commands:
+          VC_CMD_MID:
+            msgID: 0x1933              # CMD_MSG(  307 )
+          VC_PROCESS_CMDS_MID:
+            msgID: 0x1934              # CMD_MSG(  308 )
+          VC_SEND_HK_MID:
+            msgID: 0x1935              # CMD_MSG(  309 )
+        perfids:
+          VC_DEVICE_GET_PERF_ID:
+            id: 107
+          VC_MAIN_TASK_PERF_ID:
+            id: 108
+          VC_SOCKET_SEND_PERF_ID:
+            id: 109
+            
+      

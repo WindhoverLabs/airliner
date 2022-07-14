@@ -60,15 +60,231 @@ extern "C" {
  */
 #define FPC_CONFIG_TABLENAME          ("CONFIG_TBL")
 
-/**
- * \brief Defines the table file name used for table registration.
- */
-#define FPC_CDS_TABLENAME  ("fpc_CdsTbl")
-
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
+typedef struct
+{
+    /**
+     * @file launchdetection_params.c
+     *
+     * Parameters for launchdetection
+     *
+     * @author Thomas Gubler <thomasgubler@gmail.com>
+     */
 
+    /*
+     * Catapult launch detection parameters, accessible via MAVLink
+     *
+     */
+
+    /**
+     * Launch detection
+     *
+     * @boolean
+     * @group FW Launch detection
+     */
+    boolean LAUN_ALL_ON;
+
+    /**
+     * Catapult accelerometer threshold.
+     *
+     * LAUN_CAT_A for LAUN_CAT_T serves as threshold to trigger launch detection.
+     *
+     * @unit m/s/s
+     * @min 0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW Launch detection
+     */
+    float LAUN_CAT_A;
+
+    /**
+     * Catapult time threshold.
+     *
+     * LAUN_CAT_A for LAUN_CAT_T serves as threshold to trigger launch detection.
+     *
+     * @unit s
+     * @min 0.0
+     * @max 5.0
+     * @decimal 2
+     * @increment 0.05
+     * @group FW Launch detection
+     */
+    float LAUN_CAT_T;
+
+    /**
+     * Motor delay
+     *
+     * Delay between starting attitude control and powering up the throttle (giving throttle control to the controller)
+     * Before this timespan is up the throttle will be set to FW_THR_IDLE, set to 0 to deactivate
+     *
+     * @unit s
+     * @min 0.0
+     * @max 10.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW Launch detection
+     */
+    float LAUN_CAT_MDEL;
+
+    /**
+     * Maximum pitch before the throttle is powered up (during motor delay phase)
+     *
+     * This is an extra limit for the maximum pitch which is imposed in the phase before the throttle turns on.
+     * This allows to limit the maximum pitch angle during a bungee launch (make the launch less steep).
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 45.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW Launch detection
+     */
+    float LAUN_CAT_PMAX_RADIANS;
+
+} FPC_Launch_Detection_t;
+
+typedef struct
+{
+    /**
+     * @file runway_takeoff_params.c
+     *
+     * Parameters for runway takeoff
+     *
+     * @author Andreas Antener <andreas@uaventure.com>
+     */
+
+    /**
+     * Runway takeoff with landing gear
+     *
+     * @boolean
+     * @group Runway Takeoff
+     */
+    boolean RWTO_TKOFF;
+    /**
+     * Specifies which heading should be held during runnway takeoff.
+     *
+     * 0: airframe heading, 1: heading towards takeoff waypoint
+     *
+     * @value 0 Airframe
+     * @value 1 Waypoint
+     * @min 0
+     * @max 1
+     * @group Runway Takeoff
+     */
+    int32 RWTO_HDG;
+    /**
+     * Altitude AGL at which we have enough ground clearance to allow some roll.
+     * Until RWTO_NAV_ALT is reached the plane is held level and only
+     * rudder is used to keep the heading (see RWTO_HDG). This should be below
+     * FW_CLMBOUT_DIFF if FW_CLMBOUT_DIFF > 0.
+     *
+     * @unit m
+     * @min 0.0
+     * @max 100.0
+     * @decimal 1
+     * @increment 1
+     * @group Runway Takeoff
+     */
+    float NAV_ALT;
+    /**
+     * Max throttle during runway takeoff.
+     * (Can be used to test taxi on runway)
+     *
+     * @unit norm
+     * @min 0.0
+     * @max 1.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Runway Takeoff
+     */
+    float MAX_THR;
+    /**
+     * Pitch setpoint during taxi / before takeoff airspeed is reached.
+     * A taildragger with stearable wheel might need to pitch up
+     * a little to keep it's wheel on the ground before airspeed
+     * to takeoff is reached.
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 20.0
+     * @decimal 1
+     * @increment 0.5
+     * @group Runway Takeoff
+     */
+    float PSP;
+    /**
+     * Max pitch during takeoff.
+     * Fixed-wing settings are used if set to 0. Note that there is also a minimum
+     * pitch of 10 degrees during takeoff, so this must be larger if set.
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 60.0
+     * @decimal 1
+     * @increment 0.5
+     * @group Runway Takeoff
+     */
+     float MAX_PITCH;
+    /**
+     * Max roll during climbout.
+     * Roll is limited during climbout to ensure enough lift and prevents aggressive
+     * navigation before we're on a safe height.
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 60.0
+     * @decimal 1
+     * @increment 0.5
+     * @group Runway Takeoff
+     */
+     float MAX_ROLL;
+    /**
+     * Min. airspeed scaling factor for takeoff.
+     * Pitch up will be commanded when the following airspeed is reached:
+     * FW_AIRSPD_MIN * RWTO_AIRSPD_SCL
+     *
+     * @unit norm
+     * @min 0.0
+     * @max 2.0
+     * @decimal 2
+     * @increment 0.01
+     * @group Runway Takeoff
+     */
+     float AIRSPD_SCL;
+
+     /**
+      * AIRSPD_MIN
+      * Minimum thrust in auto thrust control
+      *
+      * It's recommended to set it > 0 to avoid free fall with zero thrust.
+      *
+      * @unit norm
+      * @min 0.05
+      * @max 1.0
+      * @decimal 2
+      * @increment 0.01
+      * @group Fixedwing Position Control
+      */
+     float AIRSPD_MIN;
+
+     /**
+      * CLMBOUT_DIFF
+      * Minimum thrust in auto thrust control
+      *
+      * It's recommended to set it > 0 to avoid free fall with zero thrust.
+      *
+      * @unit norm
+      * @min 0.05
+      * @max 1.0
+      * @decimal 2
+      * @increment 0.01
+      * @group Fixedwing Position Control
+      */
+
+     float CLMBOUT_DIFF;
+} FPC_Runway_Takeoff_t;
 
 /** \brief Definition for a single config table entry
  * This table originated from the params in
@@ -104,11 +320,51 @@ typedef struct
     float AIRSPD_MAX;
 
 
-    int32_t ARSP_MODE;
+    boolean ARSP_MODE;
 
-    float P_LIM_MIN;
-    float P_LIM_MAX;
-    float R_LIM;
+    /**
+     * P_LIM_MIN_RADIANS
+     * Negative pitch limit
+     *
+     * The minimum negative pitch the controller will output.
+     *
+     * @unit deg
+     * @min -60.0
+     * @max 0.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
+     */
+    float P_LIM_MIN_RADIANS;
+
+    /**
+     * Positive pitch limit
+     *
+     * The maximum positive pitch the controller will output.
+     *
+     * @unit deg
+     * @min 0.0
+     * @max 60.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
+     */
+    float P_LIM_MAX_RADIANS;
+
+    /**
+     * R_LIM_RADIANS
+     * Controller roll limit
+     *
+     * The maximum roll the controller will output.
+     *
+     * @unit deg
+     * @min 35.0
+     * @max 65.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
+     */
+    float R_LIM_RADIANS;
 
     float THR_MIN;
     float THR_MAX;
@@ -123,14 +379,14 @@ typedef struct
      *
      *  \par Limits:
      */
-    float MAN_R_MAX;
+    float MAN_R_MAX_RADIANS;
     /** \brief Pitch max in degrees.
      *
      *  \par
      *
      *  \par Limits:
      */
-    float MAN_P_MAX;
+    float MAN_P_MAX_RADIANS;
 
     /** \brief Roll Speed offset in degrees.
      *
@@ -138,7 +394,7 @@ typedef struct
      *
      *  \par Limits:
      */
-    float RSP_OFF;
+    float RSP_OFF_RADIANS;
 
     /** \brief Pitch Speed offset in degrees.
      *
@@ -146,11 +402,21 @@ typedef struct
      *
      *  \par Limits:
      */
-    float PSP_OFF;
+    float PSP_OFF_RADIANS;
 
     float THR_LND_MAX;
 
-    float LND_ANG;
+    /**
+     * Landing slope angle in degrees
+     *
+     * @unit deg
+     * @min 1.0
+     * @max 15.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
+     */
+    float LND_ANG_RADIANS;
 
     float LND_HVIRT;
 
@@ -159,37 +425,46 @@ typedef struct
     float LND_TLALT;
     float LND_HHDIST;
 
-    /** \brief in degrees.
+    /**
+     * Flare, minimum pitch
      *
-     *  \par
+     * Minimum pitch during flare, a positive sign means nose up
+     * Applied once FW_LND_TLALT is reached
      *
-     *  \par Limits:
+     * @unit deg
+     * @min 0
+     * @max 15.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
-    float LND_FL_PMIN;
+    float LND_FL_PMIN_RADIANS;
 
 
-    /** \brief in degrees.
+    /**
+     * Flare, maximum pitch
      *
-     *  \par
+     * Maximum pitch during flare, a positive sign means nose up
+     * Applied once FW_LND_TLALT is reached
      *
-     *  \par Limits:
+     * @unit deg
+     * @min 0
+     * @max 45.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
-    float LND_FL_PMAX;
+    float LND_FL_PMAX_RADIANS;
 
-    int32_t LND_USETER;
+    int32 LND_USETER;
 
     float LND_AIRSPD_SC;
+
+    FPC_Launch_Detection_t FPC_Launch_Detection;
+
+    FPC_Runway_Takeoff_t FPC_Runway_Takeoff;
+
 } FPC_ConfigTbl_t;
-
-
-
-/** \brief Definition for Critical Data Storage (CDS) table entry */
-typedef struct
-{
-    int32  iParam;
-
-    /* TODO:  Add type declaration for CDS data here. */
-} FPC_CdsTbl_t;
 
 /************************************************************************
 ** External Global Variables

@@ -72,13 +72,10 @@ public:
 	 *				tuned to ensure that rotors never stall at the
 	 * 				low end of their control range.
 	 */
-	MultirotorMixer(
-			ControlCallback control_cb,
-			cpuaddr cb_handle
-			);
+	MultirotorMixer();
 	~MultirotorMixer();
 
-    int32 SetConfigTablePtr(MultirotorMixer_ConfigTablePtr_t &ConfigTablePtr);
+    int32 SetConfig(AMC_MultirotorMixer_Config_t *config);
 
 	virtual uint32		mix(float *outputs, uint32 space, uint16 *status_reg);
 	virtual uint16		get_saturation_status(void);
@@ -94,6 +91,10 @@ public:
 	 * @param[in]  val   The value
 	 */
 	virtual void			set_thrust_factor(float val);
+
+    static int32 ValidateConfigTable(void* ConfigTblPtr);
+    int32 AcquireConfigPointers(void);
+    virtual int32 Initialize(void);
 
 private:
 	float 			   m_ThrustFactor;
@@ -118,8 +119,8 @@ private:
 
 	void update_saturation_status(uint32 index, bool clipping_high, bool clipping_low);
 
-	float 			   m_OutputsPrev[MULTIROTOR_MIXER_MAX_ROTOR_COUNT];
-	MultirotorMixer_ConfigTablePtr_t m_ConfigTablePtr;
+	float 			   m_OutputsPrev[AMC_MULTIROTOR_MIXER_MAX_ROTOR_COUNT];
+	AMC_MultirotorMixer_Config_t *m_Config;
 
 	/* do not allow to copy due to ptr data members */
 	MultirotorMixer(const MultirotorMixer &);
