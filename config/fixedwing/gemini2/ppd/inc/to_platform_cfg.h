@@ -40,7 +40,7 @@ extern "C" {
 **       only and can be changed by command at runtime.
 **
 */
-#define TO_UDP_CHANNEL_ADDRESS         "192.168.2.97"
+#define TO_UDP_CHANNEL_ADDRESS         "192.168.2.22"
 
 
 /** \tocfg Default telemetry destination UDP port

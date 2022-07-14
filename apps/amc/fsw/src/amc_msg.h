@@ -208,6 +208,7 @@ typedef struct
     uint64             Timestamp;
     uint32             Count;
     float              Output[PX4_ACTUATOR_OUTPUTS_MAX];
+    uint16             PWM[AMC_MAX_MOTOR_OUTPUTS];
     uint8              DebugArmed;
     uint8              DebugEngaged;
     int                ArmedTimeout;

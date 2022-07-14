@@ -30,7 +30,7 @@
 **       The string length (including string terminator) cannot exceed
 **       #OS_MAX_PATH_LEN.  (limit is not verified)
 */
-#define DS_DEF_DEST_FILENAME            "/cf/apps/ds_file_tbl.tbl"
+#define DS_DEF_DEST_FILENAME            "/ram/apps/ds_file_tbl.tbl"
 
 
 /**
@@ -133,7 +133,7 @@
 **       The string length (including string terminator) cannot exceed
 **       #OS_MAX_PATH_LEN.  (limit is not verified)
 */
-#define DS_DEF_FILTER_FILENAME          "/cf/apps/ds_filter_tbl.tbl"
+#define DS_DEF_FILTER_FILENAME          "/ram/apps/ds_filter_tbl.tbl"
 
 
 /**
@@ -202,7 +202,7 @@
 **       the filename type to "count".  This value should match
 **       the definition for #DS_MAX_SEQUENCE_COUNT, below.
 */
-#define DS_SEQUENCE_DIGITS              8
+#define DS_SEQUENCE_DIGITS              4
 
 
 /**

@@ -50,7 +50,7 @@ PQ_ChannelTbl_t PQ_ConfigTbl =
         {SBN_UNSUB_MID,               64, PQ_PQUEUE_MEDIUM_IDX},
         {SBN_ALLSUB_MID,               1, PQ_PQUEUE_HIGH_IDX},
         {AMC_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
-        {MAC_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
+        {FAC_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
         {FPC_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
         {ULR_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},
         {GPS_HK_TLM_MID,               1, PQ_PQUEUE_LOW_IDX},

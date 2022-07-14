@@ -104,7 +104,7 @@ dataLinks:
   - name: tm_ppd
     class: org.yamcs.tctm.UdpTmDataLink
     stream: tm_realtime
-    port: 5011
+    port: 5012
     maxLength: 32768 #32KB is the default for CCSDS
     packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
     packetPreprocessorArgs:

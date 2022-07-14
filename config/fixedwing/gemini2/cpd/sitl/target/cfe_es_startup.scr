@@ -4,7 +4,6 @@ CFE_LIB, /embedded/SED_LIB.so,   SEDLIB_LibInit,  SED_LIB,    0,     0, 0x0, 0, 
 CFE_LIB, /embedded/SLIP_LIB.so,  SLIP_LibInit,    SLIP_LIB,   0,     0, 0x0, 0, 0;
 CFE_LIB, /embedded/IO_LIB.so,    IO_LibInit,      IO_LIB,     0,     0, 0x0, 0, 0;
 CFE_LIB, /embedded/IPC_LIB.so,   IPC_LibInit,     IPC_LIB,    0,     0, 0x0, 0, 0;
-CFE_APP, /embedded/HS.so,        HS_AppMain,      HS,       105, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/SENS.so,      SENS_AppMain,    SENS,      20, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/LD.so,        LD_AppMain,      LD,        55, 65536, 0x0, 0, 0;
 CFE_APP, /embedded/QAE.so,       QAE_AppMain,     QAE,       25, 65536, 0x0, 0, 0;
@@ -28,8 +27,8 @@ CFE_APP, /embedded/RCIN.so,      RCIN_AppMain,    RCIN,      63, 32768, 0x0, 0, 
 CFE_APP, /embedded/GPS.so,       GPS_AppMain,     GPS,       67, 32768, 0x0, 0, 2;
 CFE_APP, /embedded/CI.so,        CI_AppMain,      CI,      115, 32768, 0x0, 0, 0;
 CFE_APP, /embedded/TO.so,        TO_AppMain,      TO,        124, 32768, 0x0, 0, 2;
-CFE_APP, /embedded/SCH.so,       SCH_AppMain,     SCH,       10, 40960, 0x0, 0, 0;
 CFE_APP, /embedded/ASPD4525.so,  ASPD4525_AppMain,ASPD4525,  56, 32768, 0x0, 0, 2;
+CFE_APP, /embedded/SCH.so,       SCH_AppMain,     SCH,       10, 40960, 0x0, 0, 0;
 !CFE_APP, /embedded/SBN.so,       SBN_AppMain,     SBN,       37, 32768, 0x0, 0, 2;
 !CFE_LIB, /embedded/PRMLIB.so,    PRMLIB_LibInit,  PRMLIB,      0,     0, 0x0, 0, 2;
 CFE_LIB, /embedded/PX4LIB.so,    PX4LIB_LibInit,  PX4LIB,    0,     0, 0x0, 0, 2;

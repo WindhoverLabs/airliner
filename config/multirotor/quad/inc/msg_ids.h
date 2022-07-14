@@ -3,9 +3,9 @@
 
 #include "msg_ids_common.h"
 
-#define FROM_PPD(X)     (PPD_CPU_BASE     + (X & 0xf9ff))
-#define FROM_CPD(X)     (CPD_CPU_BASE     + (X & 0xf9ff))
-#define FROM_SIMLINK(X) (SIMLINK_CPU_BASE + (X & 0xf9ff))
+#define FROM_PPD(X)     (PPD_CPU_BASE + X)
+#define FROM_CPD(X)     (CPD_CPU_BASE + X)
+#define FROM_SIMLINK(X) (SIMLINK_CPU_BASE + X)
 
 
 /* General Airliner flight applications                                     */
@@ -184,6 +184,7 @@
 #define PX4_VTOL_VEHICLE_STATUS_MID               TLM_MSG(  265 )  /* 0x109 */
 #define PX4_WIND_ESTIMATE_MID                     TLM_MSG(  266 )  /* 0x10a */
 #define PX4_SENSOR_CORRECTION_MID                 TLM_MSG(  267 )  /* 0x10b */
+#define PX4_POSITION_CONTROL_STATUS_MID           TLM_MSG(  354 )  /* 0x162 */
 
 
 /* Vehicle specific driver applications                                     */

@@ -106,8 +106,8 @@ typedef struct {
 
 typedef struct
 {
-	uint8  ControlCount;	/**< number of inputs */
-	AMC_Mixer_Scaler_t    OutputScaler;	/**< scaling for the output */
+	uint8                       ControlCount;	  /**< number of inputs */
+	AMC_Mixer_Scaler_t          OutputScaler;	  /**< scaling for the output */
 	AMC_SimpleMixer_Control_t   Controls[AMC_SIMPLE_MIXER_MAX_CONTROLS];	/**< actual size of the array is set by control_count */
 } AMC_SimpleMixer_Config_t;
 

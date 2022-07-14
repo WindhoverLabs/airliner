@@ -101,7 +101,7 @@ int32 FPC::InitEvent()
      * limits the number of filters per app.  An explicit CFE_EVS_NO_FILTER 
      * (the default) has been provided as an example. */
     EventTbl[  ind].EventID = FPC_RESERVED_EID;
-    EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
+    EventTbl[ind++].Mask    = CFE_EVS_FIRST_32_STOP;
 
     EventTbl[  ind].EventID = FPC_INF_EID;
     EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;

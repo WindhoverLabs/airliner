@@ -309,7 +309,7 @@ osalbool TO_PriorityQueue_Query(uint16 ChannelIdx, uint16 PQueueIdx)
     {
         (void) CFE_EVS_SendEvent(TO_PQUEUE_INFO_EID,
                                  CFE_EVS_INFORMATION,
-                                 "CHANNEL=%d PQI=%u S=%u ML=%u QT=%u",
+                                 "CHANNEL=%d PQI=%u S=%u D=%u QT=%u",
                                  ChannelIdx,
                                  PQueueIdx,
                                  channel->ConfigTblPtr->PriorityQueue[PQueueIdx].State,
