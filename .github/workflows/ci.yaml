@@ -21,22 +21,22 @@ jobs:
           python-version: 3.6
       - name: Install dependencies
         run: |
-          sudo apt-get install libdwarf-dev
-          sudo apt-get install libelf-dev
-          sudo apt-get install libsqlite3-dev
-          sudo apt-get install g++
-          sudo apt-get install libgazebo9-dev
-          sudo apt-get install libboost-all-dev
-          sudo apt-get install python3-opencv
-          sudo apt-get install libopencv-dev
-          sudo apt-get install libgstreamer-plugins-base1.0-dev
-          sudo apt-get install default-jre
-          sudo apt-get install openjdk-8-jdk
-          sudo apt-get install gcc-multilib
-          sudo apt-get install g++-multilib
-          sudo apt-get install cmake
-          sudo apt-get install libeigen3-dev
-          sudo apt-get install  librxtx-java
+          sudo apt-get install -y libdwarf-dev
+          sudo apt-get install -y libelf-dev
+          sudo apt-get install -y libsqlite3-dev
+          sudo apt-get install -y g++
+          sudo apt-get install -y libgazebo9-dev
+          sudo apt-get install -y libboost-all-dev
+          sudo apt-get install -y python3-opencv
+          sudo apt-get install -y libopencv-dev
+          sudo apt-get install -y libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y default-jre
+          sudo apt-get install -y openjdk-8-jdk
+          sudo apt-get install -y gcc-multilib
+          sudo apt-get install -y g++-multilib
+          sudo apt-get install -y cmake
+          sudo apt-get install -y libeigen3-dev
+          sudo apt-get install -y librxtx-java
           python -m pip install --upgrade pip
           pip install -r src/requirements.txt
       - name: Checkout submodules
