@@ -80,7 +80,7 @@ enum vtol_type {
 };
 
 
-/** \brief Pipe name for the Scheduler pipe
+/** \brief Pipe name for the Data pipe
 **
 **  \par Limits:
 **       Note, this name must fit in OS_MAX_API_NAME.
