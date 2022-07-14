@@ -38,7 +38,8 @@ jobs:
           sudo apt-get install -y cmake
           sudo apt-get install -y libeigen3-dev
           sudo apt-get install -y librxtx-java
-          python -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip
+          pip3 install virtualenv
       - name: Checkout submodules
         run: |
           git submodule update --init --recursive
