@@ -127,7 +127,12 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sch
     CONFIG_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sch/sch_custom_v1.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sch/sch_custom_v2.c
+)
+buildliner_add_app_unit_test_src(
+    sch
+    SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sch/sch_custom_v2.c
 )
 
 buildliner_add_app(

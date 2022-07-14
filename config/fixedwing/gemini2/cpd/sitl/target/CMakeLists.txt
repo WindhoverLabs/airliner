@@ -113,6 +113,11 @@ buildliner_add_app(
     CONFIG_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch/sch_custom_v1.c
 )
+buildliner_add_app_unit_test_src(
+    sch
+    SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch/sch_custom_v1.c
+)
 
 buildliner_add_app(
     sbnd
