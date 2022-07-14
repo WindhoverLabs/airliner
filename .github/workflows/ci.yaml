@@ -39,9 +39,12 @@ jobs:
           sudo apt-get install -y libeigen3-dev
           sudo apt-get install -y librxtx-java
           python -m pip install --upgrade pip
-          pip install -r src/requirements.txt
       - name: Checkout submodules
-        run: git submodule update --init --recursive
-      - name: Run tests with pytest
-        run: pytest --cov=src --cov=xtce_generator --cov=tlm_cmd_merger
+        run: |
+          git submodule update --init --recursive
+      - name: Build gemini2-sitl
+        run: |
+          make python-env
+          source venv/bin/activate
+          make gemini2-sitl
 
