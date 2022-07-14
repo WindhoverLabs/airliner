@@ -372,6 +372,18 @@ public:
     void ReportHousekeeping(void);
 
     /************************************************************************/
+    /** \brief Resets FAC housekeeping data
+     **
+     **  \par Description
+     **       This function resets the housekeeping data
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     *************************************************************************/
+    void ResetHousekeeping(void);
+
+    /************************************************************************/
     /** \brief Sends the Output message.
      **
      **  \par Description
