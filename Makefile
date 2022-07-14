@@ -144,8 +144,8 @@ quad-workspace::
 	@echo 'Generating CPD ground tools data.'
 	@make -C build/multirotor/quad/cpd/target ground-tools
 	@echo 'Adding XTCE configuration to registries.'
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/multirotor/quad/cpd/target/wh_defs.yaml --overwrite build/multirotor/quad/cpd/target/wh_defs.yaml
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/multirotor/quad/ppd/target/wh_defs.yaml --overwrite build/multirotor/quad/ppd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/multirotor/quad/cpd/target/wh_defs.yaml --nostdin --overwrite build/multirotor/quad/cpd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/multirotor/quad/ppd/target/wh_defs.yaml --nostdin --overwrite build/multirotor/quad/ppd/target/wh_defs.yaml
 	@echo 'Generating combined registry.'
 	@rm -Rf build/multirotor/quad/commander_workspace >/dev/null
 	@mkdir -p build/multirotor/quad/commander_workspace/etc
@@ -164,8 +164,8 @@ gemini2-workspace::
 	@echo 'Generating CPD ground tools data.'
 	@make -C build/fixedwing/gemini2/cpd/target ground-tools
 	@echo 'Adding XTCE configuration to registries.'
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/cpd/target/wh_defs.yaml --overwrite build/fixedwing/gemini2/cpd/target/wh_defs.yaml
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/ppd/target/wh_defs.yaml --overwrite build/fixedwing/gemini2/ppd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/cpd/target/wh_defs.yaml --nostdin --overwrite build/fixedwing/gemini2/cpd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/ppd/target/wh_defs.yaml --nostdin --overwrite build/fixedwing/gemini2/ppd/target/wh_defs.yaml
 	@echo 'Generating combined registry.'
 	@rm -Rf build/fixedwing/gemini2/commander_workspace >/dev/null
 	@mkdir -p build/fixedwing/gemini2/commander_workspace/etc
@@ -187,9 +187,9 @@ workspace-quad-sitl::
 	@echo 'Generating Simlink ground tools data.'
 	@make -C build/multirotor/quad/simlink/target ground-tools
 	@echo 'Adding XTCE configuration to registries.'
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/multirotor/quad/cpd/sitl/target/wh_defs.yaml --overwrite build/multirotor/quad/cpd/sitl/target/wh_defs.yaml
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/multirotor/quad/ppd/sitl/target/wh_defs.yaml --overwrite build/multirotor/quad/ppd/sitl/target/wh_defs.yaml
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/multirotor/quad/simlink/target/wh_defs.yaml --overwrite build/multirotor/quad/simlink/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/multirotor/quad/cpd/sitl/target/wh_defs.yaml --nostdin --overwrite build/multirotor/quad/cpd/sitl/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/multirotor/quad/ppd/sitl/target/wh_defs.yaml --nostdin --overwrite build/multirotor/quad/ppd/sitl/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/multirotor/quad/simlink/target/wh_defs.yaml --nostdin --overwrite build/multirotor/quad/simlink/target/wh_defs.yaml
 	@echo 'Generating combined registry.'
 	@rm -Rf build/multirotor/quad/sitl_commander_workspace >/dev/null
 	@mkdir -p build/multirotor/quad/sitl_commander_workspace/etc
@@ -213,9 +213,9 @@ gemini2-sitl-workspace::
 	@echo 'Generating Simlink ground tools data.'
 	@make -C build/fixedwing/gemini2/simlink/target ground-tools
 	@echo 'Adding XTCE configuration to registries.'
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/cpd/sitl/target/wh_defs.yaml --overwrite build/fixedwing/gemini2/cpd/sitl/target/wh_defs.yaml
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/ppd/sitl/target/wh_defs.yaml --overwrite build/fixedwing/gemini2/ppd/sitl/target/wh_defs.yaml
-	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/simlink/target/wh_defs.yaml --overwrite build/fixedwing/gemini2/simlink/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/cpd/sitl/target/wh_defs.yaml --nostdin --overwrite build/fixedwing/gemini2/cpd/sitl/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/ppd/sitl/target/wh_defs.yaml --nostdin --overwrite build/fixedwing/gemini2/ppd/sitl/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/simlink/target/wh_defs.yaml --nostdin --overwrite build/fixedwing/gemini2/simlink/target/wh_defs.yaml
 	@echo 'Generating combined registry.'
 	@rm -Rf build/fixedwing/gemini2/sitl_commander_workspace >/dev/null
 	@mkdir -p build/fixedwing/gemini2/sitl_commander_workspace/etc
