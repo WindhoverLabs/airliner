@@ -39,3 +39,7 @@ uint64 PX4LIB_GetPX4TimeUs(void)
 	return 0;
 }
 
+uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then)
+{
+	return 0;
+}

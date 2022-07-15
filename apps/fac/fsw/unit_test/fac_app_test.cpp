@@ -457,8 +457,9 @@ void Test_FAC_AppMain_ProcessNewData_InvalidMsgID(void)
 void Test_FAC_RunController(void)
 {
 	/* Set inputs */
+#if 0
     oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
-
+#endif
 }
 
 
@@ -466,6 +467,7 @@ void Test_FAC_RunController(void)
 void Test_FAC_ControlAttitude(void)
 {
 	/* Set inputs */
+#if 0
     oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
     oFAC.CVT.VAttSp.Q_D[0] = 0.7084835768f;
     oFAC.CVT.VAttSp.Q_D[1] = -0.0144501235f;
@@ -507,6 +509,7 @@ void Test_FAC_ControlAttitude(void)
     UtAssert_DoubleCmpAbs(oFAC.m_AngularRatesSetpoint[1], -0.01081879158, FLT_EPSILON,"oFAC.m_AngularRatesSetpoint[1] = -0.01081879158");
     UtAssert_DoubleCmpAbs(oFAC.m_AngularRatesSetpoint[2], 0.00295280106, FLT_EPSILON,"oFAC.m_AngularRatesSetpoint[2] = 0.00295280106");
     UtAssert_DoubleCmpAbs(oFAC.m_AngularRatesIntegralError[2], -0.00006852150, FLT_EPSILON,"oFAC.m_AngularRatesIntegralError[2] = -0.00006852150");
+#endif
 }
 
 

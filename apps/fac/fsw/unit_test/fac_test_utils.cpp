@@ -56,6 +56,7 @@ extern FAC_ParamTbl_t FAC_ParamTbl;
  */
 extern FAC_ParamTbl_t FAC_ParamTbl;
 
+#if 0
 FAC_ParamTbl_t FAC_ParamTblNominal =
 {
     5.0,		/* MC_ROLL_P 	   */
@@ -98,6 +99,7 @@ FAC_ParamTbl_t FAC_ParamTblNominal =
     0.0,		/* SENS_BOARD_Y_OFF */
     0.0 		/* SENS_BOARD_Z_OFF */
 };
+#endif
 
 /*
  * Function Definitions
