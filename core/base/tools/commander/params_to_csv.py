@@ -36,7 +36,7 @@ def write_csv(
         epoch_ms_delta_col,
         param_dict,
         param_headers):
-    csv_header = ['Time', 'delta_epoch_ms']
+    csv_header = ['Time', 'delta_time_ms']
     for param_header in param_headers:
         csv_header.append(param_header)
         param_cnt_header = param_header + 'cnt'
