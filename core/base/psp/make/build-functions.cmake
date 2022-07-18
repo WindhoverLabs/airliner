@@ -245,12 +245,12 @@ function(psp_add_executable)
         target_link_libraries(${TARGET_BINARY} PUBLIC ${PARSED_ARGS_LIBS})
     endif()
     
-    if(PARSED_ARGS_COMPILE_FLAGS)
+    if(COMPILE_FLAGS OR PARSED_ARGS_COMPILE_FLAGS)
         set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} ${PARSED_ARGS_COMPILE_FLAGS}")
         set_target_properties(${TARGET_BINARY} PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} ${PARSED_ARGS_COMPILE_FLAGS}")
     endif()
-    
-    if(PARSED_ARGS_LINK_FLAGS)
+
+    if(LINK_FLAGS OR PARSED_ARGS_LINK_FLAGS)
         set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES LINK_FLAGS "${LINK_FLAGS} ${PARSED_ARGS_LINK_FLAGS}")
         set_target_properties(${TARGET_BINARY} PROPERTIES LINK_FLAGS "${LINK_FLAGS} ${PARSED_ARGS_LINK_FLAGS}")
     endif()
@@ -280,17 +280,6 @@ function(psp_add_executable)
     # because they aren't being used.
     set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES ENABLE_EXPORTS TRUE)
     set_target_properties(${TARGET_BINARY}                PROPERTIES ENABLE_EXPORTS TRUE)
-        
-    # Add in the various flags also supplied by the PSP.
-    if(COMPILE_FLAGS)
-        set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES COMPILE_FLAGS ${COMPILE_FLAGS})
-        set_target_properties(${TARGET_BINARY}                PROPERTIES COMPILE_FLAGS ${COMPILE_FLAGS})
-    endif()
-    if(LINK_FLAGS)
-        set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES LINK_FLAGS ${LINK_FLAGS})
-        set_target_properties(${TARGET_BINARY_WITH_SYMTAB}    PROPERTIES LINK_FLAGS ${LINK_FLAGS})
-        set_target_properties(${TARGET_BINARY}                PROPERTIES LINK_FLAGS ${LINK_FLAGS})
-    endif()
         
     # Link in the various libraries specified by the PSP
     target_link_libraries(${TARGET_BINARY_WITHOUT_SYMTAB} PUBLIC ${LINK_FLAGS} ${PSP_LIBS})
@@ -718,6 +707,7 @@ function(psp_buildliner_add_app_unit_test)
     )
     
     if(${GCOV_SUPPORTED})
+
         psp_add_executable(${PARSED_ARGS_TARGET}-gcov
             EXCLUDE_FROM_ALL
 
