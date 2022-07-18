@@ -80,7 +80,7 @@ enum vtol_type {
 };
 
 
-/** \brief Pipe name for the Scheduler pipe
+/** \brief Pipe name for the Data pipe
 **
 **  \par Limits:
 **       Note, this name must fit in OS_MAX_API_NAME.
@@ -370,6 +370,18 @@ public:
      **
      *************************************************************************/
     void ReportHousekeeping(void);
+
+    /************************************************************************/
+    /** \brief Resets FAC housekeeping data
+     **
+     **  \par Description
+     **       This function resets the housekeeping data
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     *************************************************************************/
+    void ResetHousekeeping(void);
 
     /************************************************************************/
     /** \brief Sends the Output message.
