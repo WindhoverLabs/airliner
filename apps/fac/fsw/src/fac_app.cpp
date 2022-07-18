@@ -315,11 +315,12 @@ int32 FAC::InitData()
     CFE_SB_InitMsg((void*)&m_ActuatorControls2,
             PX4_ACTUATOR_CONTROLS_2_MID, sizeof(m_ActuatorControls2), TRUE);
 
+    /* Init vehicle rates setpoint outputs message. */
+    CFE_SB_InitMsg((void*)&m_VehicleRatesSetpoint, PX4_VEHICLE_RATES_SETPOINT_MID, sizeof(m_VehicleRatesSetpoint), TRUE);
+
     /* Init housekeeping message. */
     CFE_SB_InitMsg((void*)&HkTlm, FAC_HK_TLM_MID, sizeof(HkTlm), TRUE);
 
-    /* Init vehicle rates setpoint message. */
-    CFE_SB_InitMsg((void*)&m_VehicleRatesSetpoint, PX4_VEHICLE_RATES_SETPOINT_MID, sizeof(m_VehicleRatesSetpoint), TRUE);
     
     UpdateParams();
 
@@ -427,6 +428,7 @@ int32 FAC::RcvSchPipeMsg(int32 iBlocking)
         {
             case FAC_SEND_HK_MID:
             {
+                HkTlm.SendHkMsgRcvCnt++;
                 ProcessNewCmds();
                 ReportHousekeeping();
                 break;
@@ -434,6 +436,7 @@ int32 FAC::RcvSchPipeMsg(int32 iBlocking)
 
             case FAC_RUN_CONTROLLER_MID:
             {
+                HkTlm.RunControllerMsgRcvCnt++;
             	if(ProcessIncomingData() == true)
             	{
                     RunController();
@@ -443,6 +446,7 @@ int32 FAC::RcvSchPipeMsg(int32 iBlocking)
 
             default:
             {
+                HkTlm.usSchErrCnt++;
                 (void) CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
                                   "Recvd invalid SCH msgId (0x%04X)", MsgId);
                 break;
@@ -491,60 +495,70 @@ osalbool FAC::ProcessIncomingData()
             {
 				case PX4_AIRSPEED_MID:
 				{
+					HkTlm.AirSpeedMsgRcvCnt++;
 					CFE_PSP_MemCpy(&CVT.Airspeed, MsgPtr, sizeof(CVT.Airspeed));
 					break;
 				}
 
 				case PX4_BATTERY_STATUS_MID:
 				{
+					HkTlm.BatteryStatusMsgRcvCnt++;
 					CFE_PSP_MemCpy(&CVT.BatteryStatus, MsgPtr, sizeof(CVT.BatteryStatus));
 					break;
 				}
 
 				case PX4_MANUAL_CONTROL_SETPOINT_MID:
 				{
+					HkTlm.ManualControlSpMsgRcvCnt++;
 					CFE_PSP_MemCpy(&CVT.ManualControlSp, MsgPtr, sizeof(CVT.ManualControlSp));
 					break;
 				}
 
 				case PX4_VEHICLE_ATTITUDE_MID:
 				{
+					HkTlm.VAttMsgRcvCnt++;
 					CFE_PSP_MemCpy(&CVT.VAtt, MsgPtr, sizeof(CVT.VAtt));
 					break;
 				}
 
 				case PX4_VEHICLE_ATTITUDE_SETPOINT_MID:
 				{
+					HkTlm.VAttSpMsgRcvCnt++;
 					CFE_PSP_MemCpy(&CVT.VAttSp, MsgPtr, sizeof(CVT.VAttSp));
 					break;
 				}
 
 				case PX4_VEHICLE_CONTROL_MODE_MID:
 				{
+					HkTlm.VControlModeMsgRcvCnt++;
 					CFE_PSP_MemCpy(&CVT.VControlMode, MsgPtr, sizeof(CVT.VControlMode));
 					break;
 				}
 
 				case PX4_VEHICLE_GLOBAL_POSITION_MID:
 				{
+					HkTlm.VGlobalPositionMsgRcvCnt++;
 					CFE_PSP_MemCpy(&CVT.VGlobalPosition, MsgPtr, sizeof(CVT.VGlobalPosition));
 					break;
 				}
 
 				case PX4_VEHICLE_LAND_DETECTED_MID:
 				{
+					HkTlm.VLandDetectedMsgRcvCnt++;
 					CFE_PSP_MemCpy(&CVT.VLandDetected, MsgPtr, sizeof(CVT.VLandDetected));
 					break;
 				}
 
 				case PX4_VEHICLE_STATUS_MID:
 				{
+					HkTlm.VehicleStatusMsgRcvCnt++;
 					CFE_PSP_MemCpy(&CVT.VehicleStatus, MsgPtr, sizeof(CVT.VehicleStatus));
 					break;
 				}
 
                 default:
 				{
+					HkTlm.usDataErrCnt++;
                     (void) CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
                                       "Recvd invalid DATA msgId (0x%04X)", (unsigned short)MsgId);
                     break;
@@ -643,8 +657,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 break;
 
             case FAC_RESET_CC:
-                HkTlm.usCmdCnt = 0;
-                HkTlm.usCmdErrCnt = 0;
+                ResetHousekeeping();
                 (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
                                   "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
                 break;
@@ -669,6 +682,35 @@ void FAC::ReportHousekeeping()
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&HkTlm);
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Reset FAC Housekeeping data                                     */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void FAC::ResetHousekeeping()
+{
+	HkTlm.usCmdCnt = 0;
+	HkTlm.usCmdErrCnt = 0;
+	HkTlm.usSchErrCnt = 0;
+	HkTlm.usDataErrCnt = 0;
+
+	HkTlm.SendHkMsgRcvCnt = 0;
+	HkTlm.RunControllerMsgRcvCnt = 0;
+
+	HkTlm.AirSpeedMsgRcvCnt = 0;
+	HkTlm.BatteryStatusMsgRcvCnt = 0;
+	HkTlm.ManualControlSpMsgRcvCnt = 0;
+	HkTlm.VAttMsgRcvCnt = 0;
+	HkTlm.VAttSpMsgRcvCnt = 0;
+	HkTlm.VControlModeMsgRcvCnt = 0;
+	HkTlm.VGlobalPositionMsgRcvCnt = 0;
+	HkTlm.VLandDetectedMsgRcvCnt = 0;
+	HkTlm.VehicleStatusMsgRcvCnt = 0;
+
+	HkTlm.ActuatorControls0MsgSndCnt = 0;
+	HkTlm.ActuatorControls2MsgSndCnt = 0;
+	HkTlm.VehicleRatesSetpointMsgSndCnt = 0;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -1164,6 +1206,7 @@ void FAC::RunController(void)
 		m_VehicleRatesSetpoint.Timestamp = now;
 
 		SendOutputData((CFE_SB_Msg_t*)&m_VehicleRatesSetpoint);
+		HkTlm.VehicleRatesSetpointMsgSndCnt++;
 	}
 	else
 	{
@@ -1198,7 +1241,9 @@ void FAC::RunController(void)
 	{
 		/* publish the actuator controls */
 		SendOutputData((CFE_SB_Msg_t*)&m_ActuatorControls0);
+		HkTlm.ActuatorControls0MsgSndCnt++;
 		SendOutputData((CFE_SB_Msg_t*)&m_ActuatorControls2);
+		HkTlm.ActuatorControls2MsgSndCnt++;
 	}
 
 }

@@ -73,7 +73,7 @@ extern "C" {
 */
 #define FAC_CMD_PIPE_DEPTH             (15)
 
-/** \brief Pipe name for the Scheduler pipe 
+/** \brief Pipe name for the Command pipe
 **
 **  \par Limits:
 **       Note, this name must fit in OS_MAX_API_NAME.
