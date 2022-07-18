@@ -152,7 +152,7 @@ int32 FAC::InitPipe()
         if (iStatus != CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
-                                     "CMD Pipe failed to subscribe to FAC_SEND_HK_MID. (0x%08X)",
+                                     "SCH Pipe failed to subscribe to FAC_SEND_HK_MID. (0x%08X)",
                                      (unsigned int)iStatus);
             goto FAC_InitPipe_Exit_Tag;
         }
@@ -161,7 +161,7 @@ int32 FAC::InitPipe()
         if (iStatus != CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
-                                     "CMD Pipe failed to subscribe to FAC_RUN_CONTROLLER_MID. (0x%08X)",
+                                     "SCH Pipe failed to subscribe to FAC_RUN_CONTROLLER_MID. (0x%08X)",
                                      (unsigned int)iStatus);
             goto FAC_InitPipe_Exit_Tag;
         }
