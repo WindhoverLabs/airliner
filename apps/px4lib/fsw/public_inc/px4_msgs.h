@@ -381,6 +381,7 @@ typedef enum
     PX4_VEHICLE_CMD_NAV_GUIDED_LIMITS            =    90,
     PX4_VEHICLE_CMD_NAV_GUIDED_MASTER            =    91,
     PX4_VEHICLE_CMD_NAV_GUIDED_ENABLE            =    92,
+    PX4_VEHICLE_CMD_DELAY                        =    93,
     PX4_VEHICLE_CMD_NAV_LAST                     =    95,
     PX4_VEHICLE_CMD_CONDITION_DELAY              =   112,
     PX4_VEHICLE_CMD_CONDITION_CHANGE_ALT         =   113,

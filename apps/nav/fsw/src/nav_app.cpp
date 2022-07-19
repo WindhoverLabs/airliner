@@ -1908,8 +1908,8 @@ osalbool NAV::IsMissionItemReached()
 
 
         else if (!CVT.VehicleStatusMsg.IsRotaryWing &&
-               (MissionItem.NavCmd == PX4_VehicleCmd_t::PX4_NAV_CMD_LOITER_UNLIMITED ||
-                MissionItem.NavCmd == PX4_VehicleCmd_t::PX4_NAV_CMD_LOITER_TIME_LIMIT)) {
+               (MissionItem.NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_LOITER_UNLIM ||
+                MissionItem.NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_LOITER_TIME)) {
             /* Loiter mission item on a non rotary wing: the aircraft is going to circle the
              * coordinates with a radius equal to the loiter_radius field. It is not flying
              * through the waypoint center.
@@ -1918,16 +1918,16 @@ osalbool NAV::IsMissionItemReached()
              */
 
             if (Dist >= 0.0f && Dist <= fabsf(GetDefaultAcceptedRadius()* 1.2f)
-                && dist_z <= GetAltitudeAcceptedRadius()) {
+                && DistZ <= GetAltitudeAcceptedRadius()) {
 
                 WaypointPositionReached = TRUE;
 
             } else {
-                _time_first_inside_orbit = 0;
+                TimeFirstInsideOrbit = 0;
             }
 
         } else if (!CVT.VehicleStatusMsg.IsRotaryWing &&
-               (MissionItem.NavCmd == PX4_VehicleCmd_t::PX4_NAV_CMD_LOITER_TO_ALT)) {
+               (MissionItem.NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_LOITER_TO_ALT)) {
 
 
             // NAV_CMD_LOITER_TO_ALT only uses mission item altitude once it's in the loiter
@@ -1948,28 +1948,27 @@ osalbool NAV::IsMissionItemReached()
 
                 SetAcceptedRadius(fabsf(MissionItem.LoiterRadius) * 1.2f);
 
-                if (dist >= 0.0f && dist <= GetDefaultAcceptedRadius()
-                    && dist_z <= GetAltitudeAcceptedRadius()) {
+                if (Dist >= 0.0f && Dist <= GetDefaultAcceptedRadius()
+                    && DistZ <= GetAltitudeAcceptedRadius()) {
 
                     // now set the loiter to the final altitude in the NAV_CMD_LOITER_TO_ALT mission item
-                    PositionSetpointTripletMsg.Current.Alt = altitude_amsl;
-                    _navigator->set_position_setpoint_triplet_updated();
+                    PositionSetpointTripletMsg.Current.Alt = AltAsml;
                 }
 
             } else {
-                if (dist >= 0.0f && dist <= _navigator->get_acceptance_radius(fabsf(_mission_item.loiter_radius) * 1.2f)
-                    && dist_z <= _navigator->get_altitude_acceptance_radius()) {
+                SetAcceptedRadius(fabsf(MissionItem.LoiterRadius) * 1.2f);
+                if (Dist >= 0.0f && Dist <= GetDefaultAcceptedRadius()
+                    && DistZ <= GetAltitudeAcceptedRadius()) {
 
                     WaypointPositionReached = TRUE;
 
                     // set required yaw from bearing to the next mission item
-                    if (_mission_item.force_heading) {
-                        struct position_setpoint_s next_sp = _navigator->get_position_setpoint_triplet()->next;
+                    if (MissionItem.ForceHeading) {
 
-                        if (next_sp.valid) {
-                            _mission_item.yaw = get_bearing_to_next_waypoint(_navigator->get_global_position()->lat,
-                                        _navigator->get_global_position()->lon,
-                                        next_sp.lat, next_sp.lon);
+                        if (PositionSetpointTripletMsg.Next.Valid) {
+                            MissionItem.Yaw = get_bearing_to_next_waypoint(CVT.VehicleGlobalPosition.Lat,
+                                        CVT.VehicleGlobalPosition.Lon,
+                                        PositionSetpointTripletMsg.Next.Lat, PositionSetpointTripletMsg.Next.Lon);
 
                             WaypointPositionReached = FALSE;
 
@@ -1980,10 +1979,10 @@ osalbool NAV::IsMissionItemReached()
                 }
             }
 
-        } else if (_mission_item.nav_cmd == NAV_CMD_DELAY) {
-            _waypoint_position_reached = true;
-            _waypoint_yaw_reached = true;
-            _time_wp_reached = now;
+        } else if (MissionItem.NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_DELAY) {
+            WaypointPositionReached = TRUE;
+            WaypointYawReached = TRUE;
+            TimeWpReached = TRUE;
 
         }
 
