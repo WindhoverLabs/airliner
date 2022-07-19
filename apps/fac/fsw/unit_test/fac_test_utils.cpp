@@ -54,52 +54,58 @@ extern FAC_ParamTbl_t FAC_ParamTbl;
 /*
  * Config table for testing
  */
-extern FAC_ParamTbl_t FAC_ParamTbl;
-
-#if 0
 FAC_ParamTbl_t FAC_ParamTblNominal =
 {
-    5.0,		/* MC_ROLL_P 	   */
-    0.1,		/* MC_ROLLRATE_P   */
-    0.05,		/* MC_ROLLRATE_I   */
-    0.30,		/* MC_RR_INT_LIM   */
-    0.001,		/* MC_ROLLRATE_D   */
-    0.0,		/* MC_ROLLRATE_FF  */
-    5.0,		/* MC_PITCH_P      */
-    0.1,		/* MC_PITCHRATE_P  */
-    0.05,		/* MC_PITCHRATE_I  */
-    0.30,		/* MC_PR_INT_LIM   */
-    0.001,		/* MC_PITCHRATE_D  */
-    0.0,		/* MC_PITCHRATE_FF */
-    1.0,		/* MC_TPA_BREAK_P  */
-    1.0,		/* MC_TPA_BREAK_I  */
-    1.0,		/* MC_TPA_BREAK_D  */
-    0.0,		/* MC_TPA_RATE_P   */
-    0.0,		/* MC_TPA_RATE_I   */
-    0.0,		/* MC_TPA_RATE_D   */
-    2.8,		/* MC_YAW_P        */
-    0.08,		/* MC_YAWRATE_P	   */
-    0.1,		/* MC_YAWRATE_I    */
-    0.30,       /* MC_YR_INT_LIM   */
-    0.0,        /* MC_YAWRATE_D    */
-    0.0,        /* MC_YAWRATE_FF   */
-    220.0,      /* MC_ROLLRATE_MAX */
-    220.0,      /* MC_PITCHRATE_MAX */
-    200.0,      /* MC_YAWRATE_MAX   */
-    45.0,       /* MC_YAWRAUTO_MAX  */
-    360.0,      /* MC_ACRO_R_MAX    */
-    360.0,		/* MC_ACRO_P_MAX    */
-    360.0,      /* MC_ACRO_Y_MAX    */
-    0.8,        /* MC_RATT_TH	    */
-    0.2,        /* MC_ROLL_TC		*/
-    0.2,		/* MC_PITCH_TC      */
-    0,			/* MC_BAT_SCALE_EN  */
-    0,			/* SENS_BOARD_ROT   */
-    0.0,		/* SENS_BOARD_X_OFF */
-    0.0,		/* SENS_BOARD_Y_OFF */
-    0.0 		/* SENS_BOARD_Z_OFF */
+    0.4f,    /* Attitude Roll Time Constant (FW_R_TC) */
+    0.4f,    /* Attitude pitch time constant (FW_P_TC) */
+    0.01f,   /* Pitch rate proportional gain (FW_PR_P) */
+    0.02f,   /* Pitch rate integrator gain (FW_PR_I) */
+    5.0f,    /* Maximum positive / up pitch rate (FW_P_RMAX_POS) */
+    20.0f,   /* Maximum negative / down pitch rate (FW_P_RMAX_NEG) */
+    0.2f,    /* Pitch rate integrator limit (FW_PR_IMAX) */
+    0.01f,   /* Roll rate proportional Gain (FW_RR_P) */
+    0.01f,   /* Roll rate integrator Gain (FW_RR_I) */
+    0.2f,    /* Roll integrator anti-windup (FW_RR_IMAX) */
+    10.0f,   /* Maximum roll rate (FW_R_RMAX) */
+    0.02f,   /* Yaw rate proportional gain (FW_YR_P) */
+    0.0f,    /* Yaw rate integrator gain (FW_YR_I) */
+    0.2f,    /* Yaw rate integrator limit (FW_YR_IMAX) */
+    0.0f,    /* Maximum yaw rate (FW_Y_RMAX) */
+    0.0f,    /* Roll control to yaw control feedforward gain (FW_RLL_TO_YAW_FF) */
+    0,       /* Enable wheel steering controller (FW_W_EN) */
+    0.5f,    /* Wheel steering rate proportional gain (FW_WR_P) */
+    0.1f,    /* Wheel steering rate integrator gain (FW_WR_I) */
+    1.0f,    /* Wheel steering rate integrator limit (FW_WR_IMAX) */
+    0.0f,    /* Maximum wheel steering rate (FW_W_RMAX) */
+    0.5f,    /* Roll rate feed forward (FW_RR_FF) */
+    0.5f,    /* Pitch rate feed forward (FW_PR_FF) */
+    0.3f,    /* Yaw rate feed forward (FW_YR_FF) */
+    0.2f,    /* Wheel steering rate feed forward (FW_WR_FF) */
+    1000.0f, /* Minimal speed for yaw coordination (FW_YCO_VMIN) */
+    0,       /* Method used for yaw coordination (FW_YCO_METHOD) */
+    0.0f,    /* Roll setpoint offset (FW_RSP_OFF) */
+    0.0f,    /* Pitch setpoint offset (FW_PSP_OFF) */
+    45.0f,   /* Max manual roll (FW_MAN_R_MAX) */
+    10.0f,   /* Max manual pitch (FW_MAN_P_MAX) */
+    1.0f,    /* Scale factor for flaps (FW_FLAPS_SCL) */
+    0.0f,    /* Scale factor for flaperons (FW_FLAPERON_SCL) */
+    0,       /* Disable airspeed sensor (FW_ARSP_MODE) */
+    1.0f,    /* Manual roll scale (FW_MAN_R_SC) */
+    1.0f,    /* Manual pitch scale (FW_MAN_P_SC) */
+    1.0f,    /* Manual yaw scale (FW_MAN_Y_SC) */
+    0,       /* Whether to scale throttle by battery power level (FW_BAT_SCALE_EN) */
+    90.0f,   /* Acro body x max rate (FW_ACRO_X_MAX) */
+    90.0f,   /* Acro body y max rate (FW_ACRO_Y_MAX) */
+    45.0f,   /* Acro body z max rate (FW_ACRO_Z_MAX) */
+    0.8f,    /* Threshold for Rattitude mode (FW_RATT_TH) */
+    10.0f,   /* Minimum Airspeed (FW_AIRSPD_MIN) */
+    20.0f,   /* Maximum Airspeed (FW_AIRSPD_MAX) */
+    15.0f,   /* Cruise Airspeed (FW_AIRSPD_TRIM) */
+    0.0f,    /* Roll trim (TRIM_ROLL) */
+    0.0f,    /* Pitch trim (TRIM_PITCH) */
+    0.0f,    /* Yaw trim (TRIM_YAW) */
+    0        /* VTOL Type (Tailsitter=0, Tiltrotor=1, Standard=2) (VT_TYPE) */
 };
-#endif
 
 /*
  * Function Definitions
@@ -120,7 +126,11 @@ void FAC_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
+#if 0
     Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTbl);
+#else
+    Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTblNominal);
+#endif
 }
 
 void FAC_Test_TearDown(void)

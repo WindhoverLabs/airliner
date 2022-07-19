@@ -68,8 +68,7 @@ FAC oFAC;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 FAC::FAC()
 {
-    _flaps_applied = 0;
-    _flaperons_applied = 0;
+    Init();
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -80,6 +79,36 @@ FAC::FAC()
 FAC::~FAC()
 {
 
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Initialize member variables.                                    */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void FAC::Init(void)
+{
+    CFE_PSP_MemSet((void*)EventTbl, 0x00, sizeof(EventTbl));
+
+    SchPipeId = 0;
+    CmdPipeId = 0;
+    DataPipeId = 0;
+
+    uiRunStatus = CFE_ES_APP_RUN;
+
+    ParamTblHdl = 0;
+    ParamTblPtr = NULL;
+
+    CFE_PSP_MemSet((void*)&m_ActuatorControls0, 0x00, sizeof(PX4_ActuatorControlsMsg_t));
+    CFE_PSP_MemSet((void*)&m_ActuatorControls2, 0x00, sizeof(PX4_ActuatorControlsMsg_t));
+    CFE_PSP_MemSet((void*)&m_VehicleRatesSetpoint, 0x00, sizeof(PX4_VehicleRatesSetpointMsg_t));
+
+    CFE_PSP_MemSet((void*)&HkTlm, 0x00, sizeof(FAC_HkTlm_t));
+
+    CFE_PSP_MemSet((void*)&CVT, 0x00, sizeof(FAC_CurrentValueTable_t));
+
+    _flaps_applied = 0;
+    _flaperons_applied = 0;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -63,8 +63,7 @@ int32 hookCalledCount = 0;
 void Test_FAC_InitEvent_Fail_Register(void)
 {
     /* Set a fail result for EVS */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_EVENTS_SERVICE | CFE_EVS_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
 
     int32 expected = CFE_EVS_APP_NOT_REGISTERED;
 
@@ -87,8 +86,7 @@ void Test_FAC_InitEvent_Fail_Register(void)
 void Test_FAC_InitPipe_Fail_CreateSCHPipe(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 1);
@@ -102,13 +100,12 @@ void Test_FAC_InitPipe_Fail_CreateSCHPipe(void)
 
 
 /**
- * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for wakeup
+ * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for SendHK
  */
 void Test_FAC_InitPipe_Fail_SubscribeSendHK(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 1);
@@ -123,13 +120,12 @@ void Test_FAC_InitPipe_Fail_SubscribeSendHK(void)
 
 
 /**
- * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for sendhk
+ * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for RunController
  */
 void Test_FAC_InitPipe_Fail_SubscribeRunController(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 2);
@@ -149,8 +145,7 @@ void Test_FAC_InitPipe_Fail_SubscribeRunController(void)
 void Test_FAC_InitPipe_Fail_CreateCMDPipe(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 2);
@@ -169,8 +164,7 @@ void Test_FAC_InitPipe_Fail_CreateCMDPipe(void)
 void Test_FAC_InitPipe_Fail_SubscribeCMD(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBE_INDEX, expected, 1);
@@ -189,8 +183,7 @@ void Test_FAC_InitPipe_Fail_SubscribeCMD(void)
 void Test_FAC_InitPipe_Fail_CreateDATAPipe(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 3);
@@ -202,11 +195,14 @@ void Test_FAC_InitPipe_Fail_CreateDATAPipe(void)
     UtAssert_True (result == expected, "InitPipe, fail SB create DATA pipe");
 }
 
+
+/**
+ * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for BatteryStatus
+ */
 void Test_FAC_InitPipe_Fail_SubscribeBatteryStatus(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 3);
@@ -219,11 +215,13 @@ void Test_FAC_InitPipe_Fail_SubscribeBatteryStatus(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_BATTERY_STATUS_MID");
 }
 
+/**
+ * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for ManualControlSp
+ */
 void Test_FAC_InitPipe_Fail_SubscribeManualControlSp(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 4);
@@ -236,11 +234,13 @@ void Test_FAC_InitPipe_Fail_SubscribeManualControlSp(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_MANUAL_CONTROL_SETPOINT_MID");
 }
 
+/**
+ * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for VAttSp
+ */
 void Test_FAC_InitPipe_Fail_SubscribeVAttSp(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 5);
@@ -253,11 +253,13 @@ void Test_FAC_InitPipe_Fail_SubscribeVAttSp(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_ATTITUDE_SETPOINT_MID");
 }
 
+/**
+ * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for VAtt
+ */
 void Test_FAC_InitPipe_Fail_SubscribeVAtt(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 6);
@@ -270,11 +272,13 @@ void Test_FAC_InitPipe_Fail_SubscribeVAtt(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_ATTITUDE_MID");
 }
 
+/**
+ * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for VControlMode
+ */
 void Test_FAC_InitPipe_Fail_SubscribeVControlMode(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 7);
@@ -287,11 +291,13 @@ void Test_FAC_InitPipe_Fail_SubscribeVControlMode(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_CONTROL_MODE_MID");
 }
 
+/**
+ * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for VehicleStatus
+ */
 void Test_FAC_InitPipe_Fail_SubscribeVehicleStatus(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 8);
@@ -304,11 +310,13 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleStatus(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_STATUS_MID");
 }
 
+/**
+ * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for VGlobalPosition
+ */
 void Test_FAC_InitPipe_Fail_SubscribeVGlobalPosition(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 9);
@@ -321,11 +329,13 @@ void Test_FAC_InitPipe_Fail_SubscribeVGlobalPosition(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_GLOBAL_POSITION_MID");
 }
 
+/**
+ * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for VLandDetected
+ */
 void Test_FAC_InitPipe_Fail_SubscribeVLandDetected(void)
 {
     /* Set a fail result for SB */
-    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
-                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 10);
@@ -338,23 +348,29 @@ void Test_FAC_InitPipe_Fail_SubscribeVLandDetected(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_LAND_DETECTED_MID");
 }
 
+
 /**************************************************************************
  * Tests for FAC_InitData()
  **************************************************************************/
 /**
  * Test FAC_InitData()
  */
-void Test_FAC_InitData(void)
+void Test_FAC_InitDataNominal(void)
 {
     /* Set a fail result */
-    int32 result = -1;
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
+    int32 conf_result = -1;
     int32 expected = CFE_SUCCESS;
 
     /* Initialize the table so the table pointer is set. */
-    oFAC.InitConfigTbl();
+    conf_result = oFAC.InitConfigTbl();
 
     /* Execute the function being tested */
-    result = oFAC.InitData();
+    if (conf_result == CFE_SUCCESS)
+    {
+        result = oFAC.InitData();
+    }
 
     /* Verify results */
     UtAssert_True (result == expected, "InitData");
@@ -460,8 +476,10 @@ void Test_FAC_InitApp_Nominal(void)
  */
 void Test_FAC_AppMain_Fail_RegisterApp(void)
 {
+    int32 expected = CFE_ES_ERR_APP_REGISTER;
+
     /* fail the register app */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX, CFE_ES_ERR_APP_REGISTER, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX, expected, 1);
 
     /* Execute the function being tested */
     oFAC.AppMain();
@@ -473,8 +491,10 @@ void Test_FAC_AppMain_Fail_RegisterApp(void)
  */
 void Test_FAC_AppMain_Fail_InitApp(void)
 {
+    int32 expected = CFE_EVS_APP_NOT_REGISTERED;
+
     /* fail the register app */
-    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, CFE_EVS_APP_NOT_REGISTERED, 1);
+    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, expected, 1);
 
     /* Execute the function being tested */
     oFAC.AppMain();
@@ -499,7 +519,7 @@ void Test_FAC_AppMain_Fail_AcquireConfigPtrs(void)
  */
 void Test_FAC_AppMain_InvalidSchMessage(void)
 {
-    /* The following will emulate behavior of receiving a SCH message to send HK */
+    /* The following will emulate the behavior of receiving a invalid SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, 0, 1);
 
@@ -526,9 +546,9 @@ int32 Test_FAC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 /**
  * Test FAC_AppMain(), Nominal - SendHK
  */
-void Test_FAC_AppMain_Nominal_SendHK(void)
+void Test_FAC_AppMain_Nominal_SendHK(void)    // check this
 {
-    /* The following will emulate behavior of receiving a SCH message to WAKEUP */
+    /* The following will emulate behavior of receiving a FAC_SEND_HK_MID message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
 
@@ -548,11 +568,11 @@ void Test_FAC_AppMain_Nominal_SendHK(void)
 
 
 /**
- * Test FAC_AppMain(), Nominal - Wakeup
+ * Test FAC_AppMain(), Nominal - RunController
  */
-void Test_FAC_AppMain_Nominal_Wakeup(void)
+void Test_FAC_AppMain_Nominal_RunController(void)
 {
-    /* The following will emulate behavior of receiving a SCH message to WAKEUP */
+    /* The following will emulate behavior of receiving a FAC_RUN_CONTROLLER_MID message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
@@ -575,7 +595,7 @@ void Test_FAC_AppMain_ProcessNewData_InvalidMsgID(void)
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
-    CFE_SB_InitMsg (&InMsg, 0x0000, sizeof(PX4_ActuatorArmedMsg_t), TRUE);
+    CFE_SB_InitMsg (&InMsg, PX4_ACTUATOR_ARMED_MID, sizeof(PX4_ActuatorArmedMsg_t), TRUE);
     Ut_CFE_SB_AddMsgToPipe(&InMsg, DataPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -664,8 +684,10 @@ void Test_FAC_UpdateParams(void)
  **************************************************************************/
 void FAC_App_Test_AddTestCases(void)
 {
+
     UtTest_Add(Test_FAC_InitEvent_Fail_Register, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_InitEvent_Fail_Register");
+
     UtTest_Add(Test_FAC_InitPipe_Fail_CreateSCHPipe, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_InitPipe_Fail_CreateSCHPipe");
     UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeSendHK, FAC_Test_Setup, FAC_Test_TearDown,
@@ -679,23 +701,24 @@ void FAC_App_Test_AddTestCases(void)
     UtTest_Add(Test_FAC_InitPipe_Fail_CreateDATAPipe, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_InitPipe_Fail_CreateDATAPipe");
     UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeBatteryStatus, FAC_Test_Setup, FAC_Test_TearDown,
-                   "Test_FAC_InitPipe_Fail_SubscribeBatteryStatus");
+               "Test_FAC_InitPipe_Fail_SubscribeBatteryStatus");
     UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeManualControlSp, FAC_Test_Setup, FAC_Test_TearDown,
-                       "Test_FAC_InitPipe_Fail_SubscribeManualControlSp");
+               "Test_FAC_InitPipe_Fail_SubscribeManualControlSp");
     UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeVAttSp, FAC_Test_Setup, FAC_Test_TearDown,
-                           "Test_FAC_InitPipe_Fail_SubscribeVAttSp");
+               "Test_FAC_InitPipe_Fail_SubscribeVAttSp");
     UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeVAtt, FAC_Test_Setup, FAC_Test_TearDown,
-                           "Test_FAC_InitPipe_Fail_SubscribeVAtt");
+               "Test_FAC_InitPipe_Fail_SubscribeVAtt");
     UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeVControlMode, FAC_Test_Setup, FAC_Test_TearDown,
-                           "Test_FAC_InitPipe_Fail_SubscribeVControlMode");
+               "Test_FAC_InitPipe_Fail_SubscribeVControlMode");
     UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeVehicleStatus, FAC_Test_Setup, FAC_Test_TearDown,
-                           "Test_FAC_InitPipe_Fail_SubscribeVehicleStatus");
+               "Test_FAC_InitPipe_Fail_SubscribeVehicleStatus");
     UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeVGlobalPosition, FAC_Test_Setup, FAC_Test_TearDown,
-                           "Test_FAC_InitPipe_Fail_SubscribeVGlobalPosition");
+               "Test_FAC_InitPipe_Fail_SubscribeVGlobalPosition");
     UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeVLandDetected, FAC_Test_Setup, FAC_Test_TearDown,
-                           "Test_FAC_InitPipe_Fail_SubscribeVLandDetected");
-    UtTest_Add(Test_FAC_InitData, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_InitData");
+               "Test_FAC_InitPipe_Fail_SubscribeVLandDetected");
+
+    UtTest_Add(Test_FAC_InitDataNominal, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_InitDataNominal");
 
     UtTest_Add(Test_FAC_InitApp_Fail_InitEvent, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_InitApp_Fail_InitEvent");
@@ -718,8 +741,11 @@ void FAC_App_Test_AddTestCases(void)
                "Test_FAC_AppMain_InvalidSchMessage");
     UtTest_Add(Test_FAC_AppMain_Nominal_SendHK, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_AppMain_Nominal_SendHK");
-    UtTest_Add(Test_FAC_AppMain_Nominal_Wakeup, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_AppMain_Nominal_Wakeup");
+    UtTest_Add(Test_FAC_AppMain_Nominal_RunController, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_AppMain_Nominal_RunController");
+
+    UtTest_Add(Test_FAC_AppMain_ProcessNewData_InvalidMsgID, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_AppMain_ProcessNewData_InvalidMsgID");
 
     UtTest_Add(Test_FAC_RunController, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_RunController");

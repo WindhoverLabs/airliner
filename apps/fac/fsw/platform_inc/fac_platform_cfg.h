@@ -6,7 +6,7 @@ extern "C" {
 #endif
 
 /*
-** fac Platform Configuration Parameter Definitions
+** FAC Platform Configuration Parameter Definitions
 */
 
 /** \brief Mission specific version number for FAC application
@@ -22,7 +22,7 @@ extern "C" {
 **       Must be defined as a numeric value that is greater than
 **       or equal to zero.
 */
-#define FAC_MISSION_REV                (0)
+#define FAC_MISSION_REV                (1)
 
 /** \brief Pipe depth for the Scheduler pipe 
 **

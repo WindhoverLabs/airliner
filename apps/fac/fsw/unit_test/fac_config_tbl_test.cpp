@@ -50,15 +50,49 @@
 #include "ut_cfe_time_stubs.h"
 
 
-void FAC_Config_Tbl_Test_Case1(void)
+/**************************************************************************
+ * Tests for FAC_InitConfigTbl()
+ **************************************************************************/
+void Test_FAC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
 {
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
 
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oFAC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail AcquireConfigPtrs");
+}
+
+/**
+ * Test FAC_InitConfigTbl(), Nominal
+ */
+void Test_FAC_InitConfigTbl_Nominal(void)
+{
+    /* Set a fail result */
+    int32 result = -1;
+    int32 expected = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = oFAC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitConfigTbl, Nominal");
 }
 
 
 void FAC_Config_Tbl_Test_AddTestCases(void)
 {
-    UtTest_Add(FAC_Config_Tbl_Test_Case1, FAC_Test_Setup, FAC_Test_TearDown, "FAC_Config_Tbl_Test_Case1");
+    UtTest_Add(Test_FAC_InitConfigTbl_Fail_AcquireConfigPtrs, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_InitConfigTbl_Fail_AcquireConfigPtrs");
+    UtTest_Add(Test_FAC_InitConfigTbl_Nominal, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_InitConfigTbl_Nominal");
 }
 
 
