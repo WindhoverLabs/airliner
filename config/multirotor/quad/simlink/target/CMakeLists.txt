@@ -105,6 +105,7 @@ buildliner_add_app(
     ms5611
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ms5611/simlink/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/apps/ms5611
+    INCLUDES   ${CMAKE_CURRENT_SOURCE_DIR}/apps/ms5611/src/
 )
 
 
