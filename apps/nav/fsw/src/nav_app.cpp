@@ -1823,6 +1823,52 @@ osalbool NAV::IsMissionItemReached()
         Dist= get_distance_to_point_global_wgs84(MissionItem.Lat,
                 MissionItem.Lon, AltAsml, CVT.VehicleGlobalPosition.Lat, CVT.VehicleGlobalPosition.Lon, CVT.VehicleGlobalPosition.Alt,
                 &DistXy, &DistZ);
+
+
+
+        /* FW special case for NAV_CMD_WAYPOINT to achieve altitude via loiter */
+        if (!CVT.VehicleStatusMsg.IsRotaryWingng &&
+            (_mission_item.nav_cmd == PX4_VehicleCmd_t::NAV_CMD_WAYPOINT)) {
+
+            PX4_PositionSetpoint_t curr_sp = &_navigator->get_position_setpoint_triplet()->current;
+
+            /* close to waypoint, but altitude error greater than twice acceptance */
+            if ((dist >= 0.0f)
+                && (dist_z > 2 * _navigator->get_altitude_acceptance_radius())
+                && (dist_xy < 2 * _navigator->get_loiter_radius())) {
+
+                /* SETPOINT_TYPE_POSITION -> SETPOINT_TYPE_LOITER */
+                if (curr_sp->type == position_setpoint_s::SETPOINT_TYPE_POSITION) {
+                    curr_sp->type = position_setpoint_s::SETPOINT_TYPE_LOITER;
+                    curr_sp->loiter_radius = _navigator->get_loiter_radius();
+                    curr_sp->loiter_direction = 1;
+                    _navigator->set_position_setpoint_triplet_updated();
+                }
+
+            } else {
+                /* restore SETPOINT_TYPE_POSITION */
+                if (curr_sp->type == position_setpoint_s::SETPOINT_TYPE_LOITER) {
+                    /* loiter acceptance criteria required to revert back to SETPOINT_TYPE_POSITION */
+                    if ((dist >= 0.0f)
+                        && (dist_z < _navigator->get_loiter_radius())
+                        && (dist_xy <= _navigator->get_loiter_radius() * 1.2f)) {
+
+                        curr_sp->type = position_setpoint_s::SETPOINT_TYPE_POSITION;
+                        _navigator->set_position_setpoint_triplet_updated();
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
         if (MissionItem.NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_TAKEOFF
                 && CVT.VehicleStatusMsg.IsRotaryWing)
         {
