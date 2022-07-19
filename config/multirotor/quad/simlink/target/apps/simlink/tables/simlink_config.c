@@ -43,7 +43,7 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 	*/
 
     "SIMLINK_ConfigTbl", "SIMLINK.CONFIG_TBL", "SIMLINK default config table",
-    "simlink_cfg.tbl", sizeof(SIMLINK_ConfigTblEntry_t)
+    "simlink_cfg.tbl", sizeof(SIMLINK_ConfigTbl_t)
 };
 
 
@@ -58,9 +58,24 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 /**
 **  \brief Default SIMLINK config table data
 */
-SIMLINK_ConfigTblEntry_t SIMLINK_ConfigTbl =
+SIMLINK_ConfigTbl_t SIMLINK_ConfigTbl =
 {
-    123
+	/*  0 */  0.0f,  1.0f,
+	/*  1 */  0.0f,  1.0f,
+	/*  2 */  0.0f,  1.0f,
+	/*  3 */  0.0f,  1.0f,
+	/*  4 */  0.0f,  0.0f,
+	/*  5 */  0.0f,  0.0f,
+	/*  6 */  0.0f,  0.0f,
+	/*  7 */  0.0f,  0.0f,
+	/*  8 */  0.0f,  0.0f,
+	/*  9 */  0.0f,  0.0f,
+	/* 10 */  0.0f,  0.0f,
+	/* 11 */  0.0f,  0.0f,
+	/* 12 */  0.0f,  0.0f,
+	/* 13 */  0.0f,  0.0f,
+	/* 14 */  0.0f,  0.0f,
+	/* 15 */  0.0f,  0.0f
 };
 
 /************************************************************************
