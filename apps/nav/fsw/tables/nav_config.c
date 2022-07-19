@@ -47,14 +47,14 @@ NAV_ConfigTbl_t NAV_ConfigTbl =
 	 *  \par Limits:
 	 *       Min > Max (incr.) 0.05 > 200.0 , default 2.0.
 	 */
-	2.0,
+        2.0, error
 
 	/** \brief Altitude Acceptance Radius.
 	 *
 	 *  \par Limits:
 	 *       Min > Max (incr.) 0.05 > 200 , default 0.8.
 	 */
-	0.8,
+        20,
 
 	/** \brief The Loiter Radius.
 	 *

@@ -54,7 +54,7 @@ NAV_ConfigTbl_t NAV_ConfigTbl =
 	 *  \par Limits:
 	 *       Min > Max (incr.) 0.05 > 200 , default 0.8.
 	 */
-	1.2,
+    10,
 
 	/** \brief The Loiter Radius.
 	 *

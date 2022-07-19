@@ -2143,11 +2143,12 @@ void NAV::SetMissionFaliure(const char* reason)
 void NAV::ConvertMissionItemToCurrentSetpoint(PX4_PositionSetpoint_t *PosSetpoint,
         NAV_MissionItem_t *Item)
 {
-    if (!(!Item->NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_WAYPOINT
-            || !Item->NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_LOITER_UNLIM
-            || !Item->NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_LOITER_TIME
-            || !Item->NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_LAND
-            || !Item->NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_TAKEOFF))
+//    if (!(!Item->NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_WAYPOINT
+//            || !Item->NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_LOITER_UNLIM
+//            || !Item->NavCmd == PX4_qVehicleCmd_t::PX4_VEHICLE_CMD_NAV_LOITER_TIME
+//            || !Item->NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_LAND
+//            || !Item->NavCmd == PX4_VehicleCmd_t::PX4_VEHICLE_CMD_NAV_TAKEOFF))
+        if (true)
     {
         PosSetpoint->Lat = Item->Lat;
         PosSetpoint->Lon = Item->Lon;
