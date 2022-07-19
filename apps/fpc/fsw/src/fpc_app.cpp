@@ -893,6 +893,8 @@ void FPC::ReportHousekeeping()
     HkTlm._runway_takeoff._min_airspeed_scaling = _runway_takeoff.getMinAirspeedScaling();
     HkTlm._runway_takeoff._airspeed_min = _runway_takeoff.getAirspeed_min();
     HkTlm._runway_takeoff._climbout_diff = _runway_takeoff.getClimbout_diff();
+    HkTlm._land_onslope= _land_onslope;
+
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
 

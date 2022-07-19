@@ -94,6 +94,7 @@ typedef struct
     PX4_VehicleLocalPositionMsg_t  VehicleLocalPositionMsg;
     /** \brief The vehicle command message */
     PX4_VehicleCommandMsg_t        VehicleCommandMsg;
+    PX4_Position_Control_Status_t  VehiclePosControlStatusMsg;
 }NAV_CurrentValueTable_t;
 
 /**

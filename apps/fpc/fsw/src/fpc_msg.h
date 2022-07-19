@@ -213,6 +213,8 @@ typedef struct
     uint8              usCmdErrCnt; 
 
     Runway _runway_takeoff;
+
+    boolean _land_onslope;
 } FPC_HkTlm_t;
 
 #ifdef __cplusplus
