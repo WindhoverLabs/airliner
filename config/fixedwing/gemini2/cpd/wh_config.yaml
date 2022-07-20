@@ -210,9 +210,9 @@ modules:
         commands:
           FAC_CMD_MID:
             msgID: 0x1a8f
-          FAC_SEND_HK_MID:
+          FAC_RUN_CONTROLLER_MID:
             msgID: 0x1a90
-          FAC_WAKEUP_MID:
+          FAC_SEND_HK_MID:
             msgID: 0x1a91
         perfids:
           FAC_MAIN_TASK_PERF_ID:

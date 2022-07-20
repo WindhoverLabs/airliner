@@ -51,6 +51,8 @@
 extern FAC cpyFAC;
 extern FAC_ParamTbl_t FAC_ParamTbl;
 
+extern Ut_CFE_PSP_MEMUTILS_HookTable_t         Ut_CFE_PSP_MEMUTILS_HookTable;
+extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t   Ut_CFE_PSP_MEMUTILS_ReturnCodeTable[UT_CFE_PSP_MEMUTILS_MAX_INDEX];
 /*
  * Config table for testing
  */
@@ -131,8 +133,13 @@ void FAC_Test_Setup(void)
 #else
     Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTblNominal);
 #endif
+
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
 }
 
 void FAC_Test_TearDown(void)
 {
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
 }
