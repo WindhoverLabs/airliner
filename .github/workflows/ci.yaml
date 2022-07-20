@@ -1,0 +1,51 @@
+name: Build obc-fixedwing-sitl
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Python 3
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libdwarf-dev
+          sudo apt-get install -y libelf-dev
+          sudo apt-get install -y libsqlite3-dev
+          sudo apt-get install -y g++
+          sudo apt-get install -y libgazebo9-dev
+          sudo apt-get install -y libboost-all-dev
+          sudo apt-get install -y python3-opencv
+          sudo apt-get install -y libopencv-dev
+          sudo apt-get install -y libgstreamer-plugins-base1.0-dev
+          sudo apt-get install -y default-jre
+          sudo apt-get install -y openjdk-8-jdk
+          sudo apt-get install -y gcc-multilib
+          sudo apt-get install -y g++-multilib
+          sudo apt-get install -y cmake
+          sudo apt-get install -y libeigen3-dev
+          sudo apt-get install -y librxtx-java
+          python3 -m pip install --upgrade pip
+          pip3 install virtualenv
+      - name: Checkout submodules
+        run: |
+          git submodule update --init --recursive
+      - name: Build gemini2-sitl
+        run: |
+          make python-env
+          source venv/bin/activate
+          make gemini2-sitl
+
