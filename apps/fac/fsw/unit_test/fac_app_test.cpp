@@ -64,7 +64,6 @@ void Test_FAC_InitEvent_Fail_Register(void)
 {
     /* Set a fail result for EVS */
     int32 result = CFE_SUCCESS;
-
     int32 expected = CFE_EVS_APP_NOT_REGISTERED;
 
     Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, expected, 1);
@@ -542,7 +541,6 @@ int32 Test_FAC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     int i = 0;
 
     pMsg = (unsigned char*)MsgPtr;
-    hookCalledCount++;
 
     printf("SendHK_SendMsgHook:\n");
     for (i = 0; i < len; i++)
@@ -567,15 +565,15 @@ void Test_FAC_AppMain_Nominal_SendHK(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Used to verify HK was transmitted correctly. */
-    hookCalledCount = 0;
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, (void*)&Test_FAC_AppMain_Nominal_SendHK_SendMsgHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+               (void*)&Test_FAC_AppMain_Nominal_SendHK_SendMsgHook);
 
     /* Execute the function being tested */
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True (hookCalledCount == 1, "AppMain_Nominal_SendHK");
-
+    UtAssert_True (((oFAC.HkTlm.SendHkMsgRcvCnt == 1) && (oFAC.HkTlm.HkMsgSndCnt == 1)),
+                    "AppMain_Nominal_SendHK");
 }
 
 
@@ -628,8 +626,8 @@ int32 Test_FAC_AppMain_ProcessNewData_IncomingDataHook(void *dst, void *src, uin
  */
 void Test_FAC_AppMain_ProcessNewData_InvalidMsgID(void)
 {
-	PX4_ActuatorArmedMsg_t  InMsg;
     int32 DataPipe;
+    PX4_ActuatorArmedMsg_t  InMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
@@ -1065,10 +1063,8 @@ void FAC_App_Test_AddTestCases(void)
 
     UtTest_Add(Test_FAC_RunController, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_RunController");
-
     UtTest_Add(Test_FAC_ControlAttitude, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_ControlAttitude");
-
     UtTest_Add(Test_FAC_UpdateParams, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_UpdateParams");
 

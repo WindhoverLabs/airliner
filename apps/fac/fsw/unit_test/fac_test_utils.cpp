@@ -143,3 +143,20 @@ void FAC_Test_TearDown(void)
     memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
     memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
 }
+
+void FAC_Test_PrintCmdMsg(void *pMsg, uint32 size)
+{
+    unsigned char *pTmp;
+    int i = 0;
+
+    pTmp = (unsigned char*)pMsg;
+    printf("Cmd message:");
+    for (i = 0; i < size; i++)
+    {
+        printf("%x ", *pTmp);
+        pTmp++;
+    }
+    printf("\n");
+
+    return;
+}

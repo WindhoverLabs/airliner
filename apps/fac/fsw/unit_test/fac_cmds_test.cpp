@@ -39,6 +39,7 @@
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
 #include "ut_cfe_sb_stubs.h"
+#include "ut_cfe_sb_hooks.h"
 #include "ut_cfe_es_stubs.h"
 #include "ut_cfe_es_hooks.h"
 #include "ut_cfe_evs_stubs.h"
@@ -49,43 +50,148 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
-int32 FAC_Cmds_Test_UT_CFE_SB_SubscribeHook1(CFE_SB_MsgId_t MsgId, CFE_SB_PipeId_t PipeId,
-                                                CFE_SB_Qos_t Quality, uint16 MsgLim)
+
+/**
+ * Test FAC_ProcessNewCmds, InvalidCmd
+ */
+void Test_FAC_ProcessNewCmds_InvalidCmd(void)
 {
-    return 5;
-}
+    int32           CmdPipe;
+    FAC_NoArgCmd_t  InMsg;
 
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_AIRSPEED_MID, sizeof(FAC_NoArgCmd_t), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
 
-int32 FAC_Cmds_Test_UT_CFE_SB_SubscribeHook2(CFE_SB_MsgId_t MsgId, CFE_SB_PipeId_t PipeId,
-                                                CFE_SB_Qos_t Quality, uint16 MsgLim)
-{
-    return 6;
-}
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
 
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-void FAC_Function2_Test_Case1(void)
-{
-/*    int32 Result;
-
-    Variable3 = 3;
-
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SUBSCRIBE_INDEX, &FAC_Cmds_Test_UT_CFE_SB_SubscribeHook1);
-*/
     /* Execute the function being tested */
-/*    Result = FAC_Function2();*/
-    
+    oFAC.AppMain();
+
     /* Verify results */
-/*    UtAssert_True (Variable4 == 4, "Variable4 == 4");
-    UtAssert_True (Result == 25, "Result == 25");
+    UtAssert_True(oFAC.HkTlm.usCmdErrCnt == 1, "ProcessNewCmds, InvalidCmd");
+}
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
-*/
-} /* end FAC_Function2_Test_Case1 */
+/**
+ * Test FAC_ProcessNewCmds, InvalidCmdCode
+ */
+void Test_FAC_ProcessNewCmds_InvalidCmdCode(void)
+{
+    int32              CmdPipe;
+    FAC_NoArgCmd_t     InMsg;
 
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, FAC_CMD_MID, sizeof(FAC_NoArgCmd_t), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)4);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&InMsg, sizeof(FAC_NoArgCmd_t));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True(oFAC.HkTlm.usCmdErrCnt == 1, "ProcessNewCmds, InvalidCmdCode");
+}
+
+/**
+ * Test FAC_ProcessNewCmds, CmdPipeError
+ */
+void Test_FAC_ProcessNewCmds_CmdPipeError(void)
+{
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_BAD_ARGUMENT, 1);
+
+    /* Execute the function being tested */
+    oFAC.ProcessNewCmds();
+
+    /* Verify results */
+    UtAssert_True(oFAC.uiRunStatus == CFE_ES_APP_ERROR, "ProcessNewCmds, CmdPipeError");
+}
+
+/**
+ * Test FAC_ProcessNewCmds, Noop
+ */
+void Test_FAC_ProcessNewCmds_Noop(void)
+{
+    int32              CmdPipe;
+    FAC_NoArgCmd_t     InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, FAC_CMD_MID, sizeof(FAC_NoArgCmd_t), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)FAC_NOOP_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&InMsg, sizeof(FAC_NoArgCmd_t));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True(oFAC.HkTlm.usCmdCnt == 1, "ProcessNewCmds, Noop");
+}
+
+/**
+ * Test FAC_ProcessNewCmds, Reset
+ */
+void Test_FAC_ProcessNewCmds_Reset(void)
+{
+    int32              CmdPipe;
+    FAC_NoArgCmd_t     InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, FAC_CMD_MID, sizeof(FAC_NoArgCmd_t), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)FAC_RESET_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&InMsg, sizeof(FAC_NoArgCmd_t));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True(((oFAC.HkTlm.SendHkMsgRcvCnt == 0) && (oFAC.HkTlm.HkMsgSndCnt == 0)
+                  && (oFAC.HkTlm.usCmdCnt == 0) && (oFAC.HkTlm.usCmdErrCnt == 0)),
+				  "ProcessNewCmds, Reset");
+}
 
 void FAC_Cmds_Test_AddTestCases(void)
 {
-    UtTest_Add(FAC_Function2_Test_Case1, FAC_Test_Setup, FAC_Test_TearDown, "FAC_Function2_Test_Case1");
+    UtTest_Add(Test_FAC_ProcessNewCmds_InvalidCmd, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessNewCmds_InvalidCmd");
+    UtTest_Add(Test_FAC_ProcessNewCmds_InvalidCmdCode, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessNewCmds_InvalidCmdCode");
+    UtTest_Add(Test_FAC_ProcessNewCmds_CmdPipeError, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessNewCmds_CmdPipeError");
+    UtTest_Add(Test_FAC_ProcessNewCmds_Noop, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessNewCmds_Noop");
+    UtTest_Add(Test_FAC_ProcessNewCmds_Reset, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessNewCmds_Reset");
 } /* end FAC_Cmds_Test_AddTestCases */
 
 

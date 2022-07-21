@@ -53,6 +53,89 @@
 /**************************************************************************
  * Tests for FAC_InitConfigTbl()
  **************************************************************************/
+/**
+ * Test FAC_InitConfigTbl(), fail TBL Register
+ */
+void Test_FAC_InitConfigTbl_Fail_TblRegister(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NO_ACCESS;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oFAC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Register");
+}
+
+/**
+ * Test FAC_InitConfigTbl(), fail TBL Load
+ */
+void Test_FAC_InitConfigTbl_Fail_TblLoad(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_INFO_UPDATE_PENDING;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oFAC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Load");
+}
+
+/**
+ * Test FAC_InitConfigTbl(), fail TBL Manage
+ */
+void Test_FAC_InitConfigTbl_Fail_TblManage(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oFAC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Manage");
+}
+
+/**
+ * Test FAC_InitConfigTbl(), fail TBL GetAddress
+ */
+void Test_FAC_InitConfigTbl_Fail_TblGetAddress(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NEVER_LOADED;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oFAC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL GetAddress");
+}
+
+/**
+ * Test FAC_InitConfigTbl(), fail AcquireConfigPtrs
+ */
 void Test_FAC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
 {
     /* Set a fail result */
@@ -89,6 +172,14 @@ void Test_FAC_InitConfigTbl_Nominal(void)
 
 void FAC_Config_Tbl_Test_AddTestCases(void)
 {
+    UtTest_Add(Test_FAC_InitConfigTbl_Fail_TblRegister, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_InitConfigTbl_Fail_TblRegister");
+    UtTest_Add(Test_FAC_InitConfigTbl_Fail_TblLoad, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_InitConfigTbl_Fail_TblLoad");
+    UtTest_Add(Test_FAC_InitConfigTbl_Fail_TblManage, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_InitConfigTbl_Fail_TblManage");
+    UtTest_Add(Test_FAC_InitConfigTbl_Fail_TblGetAddress, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_InitConfigTbl_Fail_TblGetAddress");
     UtTest_Add(Test_FAC_InitConfigTbl_Fail_AcquireConfigPtrs, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_InitConfigTbl_Fail_AcquireConfigPtrs");
     UtTest_Add(Test_FAC_InitConfigTbl_Nominal, FAC_Test_Setup, FAC_Test_TearDown,

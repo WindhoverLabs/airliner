@@ -186,7 +186,8 @@ int32 FAC::InitPipe()
             goto FAC_InitPipe_Exit_Tag;
         }
 
-        iStatus = CFE_SB_SubscribeEx(FAC_RUN_CONTROLLER_MID, SchPipeId, CFE_SB_Default_Qos, 1);
+        iStatus = CFE_SB_SubscribeEx(FAC_RUN_CONTROLLER_MID, SchPipeId, CFE_SB_Default_Qos,
+                                     FAC_SCH_PIPE_RUN_CONTROLLER_RESERVED);
         if (iStatus != CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
@@ -458,8 +459,8 @@ int32 FAC::RcvSchPipeMsg(int32 iBlocking)
             case FAC_SEND_HK_MID:
             {
                 HkTlm.SendHkMsgRcvCnt++;
-                ProcessNewCmds();
                 ReportHousekeeping();
+                ProcessNewCmds();
                 break;
             }
 
@@ -709,6 +710,7 @@ void FAC::ReportHousekeeping()
 {
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&HkTlm);
+    HkTlm.HkMsgSndCnt++;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -739,6 +741,8 @@ void FAC::ResetHousekeeping()
 	HkTlm.ActuatorControls0MsgSndCnt = 0;
 	HkTlm.ActuatorControls2MsgSndCnt = 0;
 	HkTlm.VehicleRatesSetpointMsgSndCnt = 0;
+
+	HkTlm.HkMsgSndCnt = 0;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
