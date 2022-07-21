@@ -44,6 +44,7 @@
 #include "cfe.h"
 #include "simlink_platform_cfg.h"
 #include "simlink_mission_cfg.h"
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -358,6 +359,7 @@ typedef struct
 
     SIMLINK_DataInMetrics_t  DataInMetrics;
     SIMLINK_DataOutMetrics_t DataOutMetrics;
+    bool                     PwmEnabled;
 
 } SIMLINK_HkTlm_t;
 
