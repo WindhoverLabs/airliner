@@ -257,7 +257,7 @@ buildliner_add_app(
     mac
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/mac/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/mac
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/multirotor/quad/cpd/apps/mac
 )
 
 
@@ -279,7 +279,7 @@ buildliner_add_app(
     ld
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/multicopter/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/multicopter/gemini2/cpd/apps/ld
+    CONFIG     ${PROJECT_SOURCE_DIR}/config/multirotor/quad/cpd/apps/ld
 )
 
 buildliner_add_app(
