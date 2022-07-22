@@ -6,7 +6,7 @@ The purpose of the script is to download and format a csv file from yamcs that c
 
 ## Usage
 ### Environment Generation
-Before using the code, the python environment is to be set for the script to run corrently.
+Before using the code, the python environment is to be set for the script to run correctly.
 We do this by setting up a virtual environment for the script.
 This is done by invoking the following set of commands in this folder.
 
@@ -18,7 +18,7 @@ The last command activates the virtual environment.  To deactivate the environme
 
     deactivate
 
-Leave the virutal environment acitavated to run the script.
+Leave the virtual environment activated to run the script.
 ### Running the script
 The following command runs the script.
 
@@ -56,3 +56,13 @@ This is the path to the csv file that is dumped by yamcs when the REST Api metho
 
 ### output_csv_file
 This is the path of the csv output file, which has formatted data of the fields that are requested.
+
+## Get The Flight Logs After Flight Test
+Throughout the flight test, the `ds` application is always recording all the data from flight software.
+The following are the steps to re-insert this data into YAMCS to ensure the ground system has all the data 
+necessary for post-flight processes.
+
+
+1. Download the archived workspace. From GDrive or the location that it was archived on. 
+2. Download the ds logs.
+3. Untar workspace if needed,.
