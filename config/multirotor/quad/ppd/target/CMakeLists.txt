@@ -208,5 +208,5 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbnd
     CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd/shm/sbnd_custom.cpp
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/sbnd/shm/sbnd_custom.cpp
 )
