@@ -61,7 +61,7 @@ int32 FAC::InitConfigTbl()
     {
         /* Note, a critical table could return another nominal code.  If this table is
          * made critical this logic would have to change. */
-        (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to register param table (0x%08X)",
                                  (unsigned int)iStatus);
         goto FAC_InitConfigTbl_Exit_Tag;
@@ -75,7 +75,7 @@ int32 FAC::InitConfigTbl()
     {
         /* Note, CFE_SUCCESS is for a successful full table load.  If a partial table
            load is desired then this logic would have to change. */
-        (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to load Config Table (0x%08X)",
                                  (unsigned int)iStatus);
         goto FAC_InitConfigTbl_Exit_Tag;
@@ -469,7 +469,7 @@ FAC_ValidateConfigTbl_Exit_Tag:
 
     if (iStatus != CFE_SUCCESS)
     {
-        (void) CFE_EVS_SendEvent(FAC_TBL_VALIDATE_ERR_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(FAC_TBL_VALIDATE_ERR_EID, CFE_EVS_ERROR,
                                  "Table validation failed for parameter (%s)",
                                  Param);
     }
@@ -497,7 +497,7 @@ int32 FAC::AcquireConfigPointers(void)
     iStatus = CFE_TBL_Manage(ParamTblHdl);
     if ((iStatus != CFE_SUCCESS) && (iStatus != CFE_TBL_INFO_UPDATED))
     {
-        (void) CFE_EVS_SendEvent(FAC_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(FAC_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to manage PWM Config table (0x%08X)",
                                  (unsigned int)iStatus);
         goto FAC_AcquireConfigPointers_Exit_Tag;
@@ -516,7 +516,7 @@ int32 FAC::AcquireConfigPointers(void)
     else if(iStatus != CFE_SUCCESS)
     {
         ParamTblPtr = 0;
-        (void) CFE_EVS_SendEvent(FAC_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(FAC_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to get Param table's address (0x%08X)",
                                  (unsigned int)iStatus);
     }

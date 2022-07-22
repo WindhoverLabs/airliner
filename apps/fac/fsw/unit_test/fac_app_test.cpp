@@ -51,7 +51,8 @@
 #include "ut_cfe_time_stubs.h"
 
 
-int32 hookCalledCount = 0;
+int32 WriteToSysLog_HookCalledCnt = 0;
+int32 SendEvent_HookCalledCnt = 0;
 
 /**************************************************************************
  * Tests for FAC_InitEvent()
@@ -471,6 +472,46 @@ void Test_FAC_InitApp_Nominal(void)
  * Tests for FAC_AppMain()
  **************************************************************************/
 /**
+ * Test FAC_AppMain(), WriteToSysLogHook
+ */
+int32 Test_FAC_AppMain_WriteToSysLogHook(const char *StringPtr, ...)
+{
+    va_list   Ptr;
+    char      Buf[256];
+
+    WriteToSysLog_HookCalledCnt++;
+
+    va_start(Ptr, StringPtr);
+    vsnprintf(Buf, (size_t)CFE_EVS_MAX_MESSAGE_LENGTH, StringPtr, Ptr);
+    va_end(Ptr);
+
+    printf("###AppMain_WriteToSysLogHook:\n");
+    printf("%s\n", Buf);
+
+    return WriteToSysLog_HookCalledCnt;
+}
+
+/**
+ * Test FAC_AppMain(), SendEventHook
+ */
+int32 Test_FAC_AppMain_SendEventHook(uint16 EventID, uint16 EventType, const char *EventText, ...)
+{
+    va_list  Ptr;
+    char     Buf[256];
+
+    SendEvent_HookCalledCnt++;
+
+    va_start(Ptr, EventText);
+    vsnprintf(Buf, (size_t)CFE_EVS_MAX_MESSAGE_LENGTH, EventText, Ptr);
+    va_end(Ptr);
+
+    printf("###AppMain_SendEventHook:\n");
+    printf("%s\n", Buf);
+
+    return SendEvent_HookCalledCnt;
+}
+
+/**
  * Test FAC_AppMain(), Fail RegisterApp
  */
 void Test_FAC_AppMain_Fail_RegisterApp(void)
@@ -495,8 +536,15 @@ void Test_FAC_AppMain_Fail_InitApp(void)
     /* fail the register app */
     Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, expected, 1);
 
+    WriteToSysLog_HookCalledCnt = 0;
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_WRITETOSYSLOG_INDEX,
+               (void*)&Test_FAC_AppMain_WriteToSysLogHook);
+
     /* Execute the function being tested */
     oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True (WriteToSysLog_HookCalledCnt == 3, "AppMain, Fail_InitApp");
 }
 
 
@@ -508,8 +556,14 @@ void Test_FAC_AppMain_Fail_AcquireConfigPtrs(void)
     /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, CFE_TBL_ERR_INVALID_HANDLE, 2);
 
+    SendEvent_HookCalledCnt = 0;
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX, (void*)Test_FAC_AppMain_SendEventHook);
+
     /* Execute the function being tested */
     oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True (SendEvent_HookCalledCnt == 3, "AppMain, Fail_AcquireConfigPtrs");
 }
 
 
@@ -542,7 +596,7 @@ int32 Test_FAC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 
     pMsg = (unsigned char*)MsgPtr;
 
-    printf("SendHK_SendMsgHook:\n");
+    printf("###SendHK_SendMsgHook:\n");
     for (i = 0; i < len; i++)
     {
         printf("0x%x ", *pMsg);
@@ -603,7 +657,7 @@ int32 Test_FAC_AppMain_ProcessNewData_IncomingDataHook(void *dst, void *src, uin
     int i = 0;
 
     pMsg = (unsigned char*)src;
-    printf("IncomingDataHook: ");
+    printf("###IncomingDataHook: ");
     for (i = 0; i < size; i++)
     {
         printf("0x%x ", *pMsg);
