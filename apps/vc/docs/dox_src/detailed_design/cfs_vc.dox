@@ -23,7 +23,7 @@
            <LI> \subpage cfsvccfg
            <LI> \subpage cfsvccons
            <LI> \subpage cfsvcfaqs
-           <LI> \subpage amc_events.h "VC Application Event Message Reference" <BR>
+           <LI> \subpage vc_events.h "VC Application Event Message Reference" <BR>
        </UL>
 **/
 

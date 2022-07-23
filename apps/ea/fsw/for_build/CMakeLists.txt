@@ -80,8 +80,8 @@ buildliner_add_app_unit_test(ea-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/valgrind.supp
 )
 
-add_dependencies(ea-ut ea)
-add_dependencies(ea-ut-gcov ea)
+#add_dependencies(ea-ut ea)
+#add_dependencies(ea-ut-gcov ea)
 
 add_custom_target(
     ea-ut-input-files

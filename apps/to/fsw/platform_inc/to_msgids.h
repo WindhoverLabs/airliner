@@ -32,6 +32,8 @@
  */
 #define TO_DIAG_MSG_FLOW_MID           (0x0912)
 
+#define CF_SPACE_TO_GND_PDU_MID        (0x0913)
+
 #endif 
 
 /************************/

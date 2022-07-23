@@ -48,6 +48,7 @@
 #include "fpc_app.h"
 #include "fpc_msg.h"
 #include "fpc_version.h"
+#include "fpc_msgids.h"
 
 #include "math/Limits.hpp"
 #include "math/Vector2F.hpp"

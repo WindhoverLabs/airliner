@@ -97,6 +97,7 @@ extern "C" {
 #define PX4_WIND_ESTIMATE_MID				0x0a5a
 #define PX4_SENSOR_CORRECTION_MID			0x0a5b
 
+
 #ifdef __cplusplus
 }
 #endif

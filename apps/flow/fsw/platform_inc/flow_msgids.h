@@ -7,8 +7,10 @@ extern "C" {
 
 #define FLOW_HK_TLM_MID    0x0000
 #define FLOW_SEND_HK_MID   0x0000
-#define FLOW_WAKEUP_MID       0x0000
+#define FLOW_WAKEUP_MID    0x0000
 #define FLOW_CMD_MID       0x0000
+#define FLOW_FRAME_MID     0x0000
+#define FLOW_DIAG_TLM_MID  0x0000
 
 #ifdef __cplusplus
 }

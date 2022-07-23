@@ -1,4 +1,4 @@
-include(../set-vars.cmake)
+include(../../set-vars.cmake)
 
 # Put target specific functions here.  This is where we build most everything.  Everything that either uses the
 # cross toolchain or has target independent functions.
@@ -295,6 +295,26 @@ buildliner_add_app(
     sonar
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sonar/fsw/for_build
 )
+
+buildliner_add_app(
+    sedlib
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sedlib/fsw/for_build
+)
+
+buildliner_add_app(
+    sed
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sed/fsw/for_build
+)
+
+buildliner_add_app(
+    sbnd
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
+)
+
+#buildliner_add_app(
+#    zusup
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/zusup/fsw/for_build
+#)
 
 
 
