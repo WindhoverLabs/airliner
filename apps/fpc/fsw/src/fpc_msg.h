@@ -164,7 +164,7 @@ typedef struct
     uint32  uiCounter;
 } FPC_OutData_t;
 
-typedef  enum {
+typedef enum {
     THROTTLE_RAMP      = 0, /**< ramping up throttle */
     CLAMPED_TO_RUNWAY  = 1, /**< clamped to runway, controlling yaw directly (wheel or rudder) */
     TAKEOFF            = 2, /**< taking off, get ground clearance, roll 0 */
@@ -196,6 +196,14 @@ typedef struct
     float _climbout_diff;
 } Runway;
 
+
+typedef enum  {
+    FW_POSCTRL_MODE_AUTO = 0,
+    FW_POSCTRL_MODE_POSITION = 1,
+    FW_POSCTRL_MODE_ALTITUDE = 2,
+    FW_POSCTRL_MODE_OTHER = 3
+} HK_FW_POSCTRL_MODE;		///< used to check the mode in the last control loop iteration. Use to check if the last iteration was in the same mode.
+
 /** 
 **  \brief FPC application housekeeping data
 */
@@ -211,8 +219,13 @@ typedef struct
     /** \fpctlmmnemonic \FPC_CMDRJCTCNT
         \brief Count of failed commands */
     uint8              usCmdErrCnt; 
+    HK_FW_POSCTRL_MODE ControlModeCurrent;
 
-    Runway _runway_takeoff;
+    float	       _hold_alt;
+    float              m_Hold_Alt;
+
+    Runway             _runway_takeoff;
+
 } FPC_HkTlm_t;
 
 #ifdef __cplusplus

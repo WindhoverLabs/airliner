@@ -529,7 +529,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
     <name>Group</name>
     <x>564</x>
     <y>53</y>
-    <width>204</width>
+    <width>324</width>
     <height>193</height>
     <style>3</style>
     <transparent>true</transparent>
@@ -673,24 +673,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
         </color>
       </border_color>
     </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_9</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.ControlModeCurrent</pv_name>
-      <x>128</x>
-      <y>159</y>
-      <width>76</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <precision>0</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
-    </widget>
     <widget type="label" version="2.0.0">
       <name>Label_24</name>
       <text>Previous Pos Valid</text>
@@ -711,6 +693,24 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_POSITION_SETPOINT_TRIPLET_MID.Previous.Valid</pv_name>
       <x>152</x>
       <y>127</y>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_9</name>
+      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.ControlModeCurrent</pv_name>
+      <x>128</x>
+      <y>159</y>
+      <width>184</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
     </widget>
   </widget>
 </display>

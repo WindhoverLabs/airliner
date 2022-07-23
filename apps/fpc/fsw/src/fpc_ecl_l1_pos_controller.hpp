@@ -76,20 +76,20 @@ class ECL_L1_Pos_Controller
 {
 public:
     ECL_L1_Pos_Controller()
-//        :
-//        _lateral_accel(0.0),
-//        _L1_distance(20.0),
-//        _circle_mode(FALSE),
-//        _nav_bearing(0.0),
-//        _bearing_error(0.0),
-//        _crosstrack_error(0.0),
-//        _target_bearing(0.0),
-//        _L1_period(25.0),
-//        _L1_damping(0.75),
-//        _L1_ratio(5.0),
-//        _K_L1(2.0),
-//        _heading_omega(1.0),
-//        _roll_lim_rad((float)math::radians((float)10.0f))
+        :
+        _lateral_accel(0.0),
+        _L1_distance(20.0),
+        _circle_mode(FALSE),
+        _nav_bearing(0.0),
+        _bearing_error(0.0),
+        _crosstrack_error(0.0),
+        _target_bearing(0.0),
+        _L1_period(25.0),
+        _L1_damping(0.75),
+        _L1_ratio(5.0),
+        _K_L1(2.0),
+        _heading_omega(1.0),
+        _roll_lim_rad((10.0f / 180.0) * M_PI)
 	{
 	}
 
