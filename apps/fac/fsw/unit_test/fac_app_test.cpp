@@ -50,11 +50,12 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
+#include <iostream>
 
 int32 WriteToSysLog_HookCalledCnt = 0;
 int32 SendEvent_HookCalledCnt = 0;
 
-double UpdateParams_ParamChecksum = 0.0f;
+double UpdateParams_ParamChecksum = 0.0;
 
 /**************************************************************************
  * Tests for FAC_InitEvent()
@@ -1041,7 +1042,6 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
 
     pTbl = oFAC.ParamTblPtr;
 
-#if 1
     UpdateParams_ParamChecksum = (
           (double)pTbl->FW_R_TC + (double)pTbl->FW_P_TC +
           (double)pTbl->FW_PR_P + (double)pTbl->FW_PR_I +
@@ -1068,67 +1068,52 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
           (double)pTbl->FW_AIRSPD_MIN + (double)pTbl->FW_AIRSPD_MAX + (double)pTbl->FW_AIRSPD_TRIM +
           (double)pTbl->TRIM_ROLL + (double)pTbl->TRIM_PITCH + (double)pTbl->TRIM_YAW +
           (double)pTbl->VT_TYPE);
-#else
-    UpdateParams_ParamChecksum = (
-          pTbl->FW_R_TC + pTbl->FW_P_TC +
-          pTbl->FW_PR_P + pTbl->FW_PR_I +
-          pTbl->FW_P_RMAX_POS + pTbl->FW_P_RMAX_NEG +
-          pTbl->FW_PR_IMAX +
-          pTbl->FW_RR_P + pTbl->FW_RR_I +
-          pTbl->FW_RR_IMAX + pTbl->FW_R_RMAX +
-          pTbl->FW_YR_P + pTbl->FW_YR_I +
-          pTbl->FW_YR_IMAX + pTbl->FW_Y_RMAX +
-          pTbl->FW_RLL_TO_YAW_FF +
-          (float)pTbl->FW_W_EN + pTbl->FW_WR_P +
-          pTbl->FW_WR_I + pTbl->FW_WR_IMAX + pTbl->FW_W_RMAX +
-          pTbl->FW_RR_FF + pTbl->FW_PR_FF +
-          pTbl->FW_YR_FF + pTbl->FW_WR_FF +
-          pTbl->FW_YCO_VMIN + (float)pTbl->FW_YCO_METHOD +
-          pTbl->FW_RSP_OFF + pTbl->FW_PSP_OFF +
-          pTbl->FW_MAN_R_MAX + pTbl->FW_MAN_P_MAX +
-          pTbl->FW_FLAPS_SCL + pTbl->FW_FLAPERON_SCL +
-          (float)pTbl->FW_ARSP_MODE +
-          pTbl->FW_MAN_R_SC + pTbl->FW_MAN_P_SC + pTbl->FW_MAN_Y_SC +
-          (float)pTbl->FW_BAT_SCALE_EN +
-          pTbl->FW_ACRO_X_MAX + pTbl->FW_ACRO_Y_MAX + pTbl->FW_ACRO_Z_MAX +
-          pTbl->FW_RATT_TH +
-          pTbl->FW_AIRSPD_MIN + pTbl->FW_AIRSPD_MAX + pTbl->FW_AIRSPD_TRIM +
-          pTbl->TRIM_ROLL + pTbl->TRIM_PITCH + pTbl->TRIM_YAW +
-          (float)pTbl->VT_TYPE);
-#endif
-    printf("\nParam Table Checksum Value: %f\n", UpdateParams_ParamChecksum);
+    std::cout.precision(17);
+    std::cout << "Checksum(with Max precision): " << UpdateParams_ParamChecksum << std::endl;
 
-    printf("\nParam Table Values:\n");
-    printf("FW_R_TC: %f, FW_P_TC: %f\n", pTbl->FW_R_TC, pTbl->FW_P_TC);
-    printf("FW_PR_P: %f, FW_PR_I: %f\n", pTbl->FW_PR_P, pTbl->FW_PR_I);
-    printf("FW_P_RMAX_POS: %f, FW_P_RMAX_NEG: %f\n", pTbl->FW_P_RMAX_POS, pTbl->FW_P_RMAX_NEG);
-    printf("FW_PR_IMAX: %f\n", pTbl->FW_PR_IMAX);
-    printf("FW_RR_P: %f, FW_RR_I: %f\n", pTbl->FW_RR_P, pTbl->FW_RR_I);
-    printf("FW_RR_IMAX: %f, FW_R_RMAX: %f\n", pTbl->FW_RR_IMAX, pTbl->FW_R_RMAX);
-    printf("FW_YR_P: %f, FW_YR_I: %f\n", pTbl->FW_YR_P, pTbl->FW_YR_I);
-    printf("FW_YR_IMAX: %f, FW_Y_RMAX: %f\n", pTbl->FW_YR_IMAX, pTbl->FW_Y_RMAX);
-    printf("FW_RLL_TO_YAW_FF: %f\n", pTbl->FW_RLL_TO_YAW_FF);
-    printf("FW_W_EN: %ld, FW_WR_P: %f\n", pTbl->FW_W_EN, pTbl->FW_WR_P);
-    printf("FW_WR_I: %f, FW_WR_IMAX: %f, FW_W_RMAX: %f\n",
-             pTbl->FW_WR_I, pTbl->FW_WR_IMAX, pTbl->FW_W_RMAX);
-    printf("FW_RR_FF: %f, FW_PR_FF: %f\n", pTbl->FW_RR_FF, pTbl->FW_PR_FF);
-    printf("FW_YR_FF: %f, FW_WR_FF: %f\n", pTbl->FW_YR_FF, pTbl->FW_WR_FF);
-    printf("FW_YCO_VMIN: %f, FW_YCO_METHOD: %ld\n", pTbl->FW_YCO_VMIN, pTbl->FW_YCO_METHOD);
-    printf("FW_RSP_OFF: %f, FW_PSP_OFF: %f\n", pTbl->FW_RSP_OFF, pTbl->FW_PSP_OFF);
-    printf("FW_MAN_R_MAX: %f, FW_MAN_P_MAX: %f\n", pTbl->FW_MAN_R_MAX, pTbl->FW_MAN_P_MAX);
-    printf("FW_FLAPS_SCL: %f, FW_FLAPERON_SCL: %f\n", pTbl->FW_FLAPS_SCL, pTbl->FW_FLAPERON_SCL);
-    printf("FW_ARSP_MODE: %ld\n", pTbl->FW_ARSP_MODE);
-    printf("FW_MAN_R_SC: %f, FW_MAN_P_SC: %f, FW_MAN_Y_SC: %f\n",
-             pTbl->FW_MAN_R_SC, pTbl->FW_MAN_P_SC, pTbl->FW_MAN_Y_SC);
-    printf("FW_BAT_SCALE_EN: %ld\n", pTbl->FW_BAT_SCALE_EN);
-    printf("FW_ACRO_X_MAX: %f, FW_ACRO_Y_MAX: %f, FW_ACRO_Z_MAX: %f\n",
-             pTbl->FW_ACRO_X_MAX, pTbl->FW_ACRO_Y_MAX, pTbl->FW_ACRO_Z_MAX);
-    printf("FW_RATT_TH: %f\n", pTbl->FW_RATT_TH);
-    printf("FW_AIRSPD_MIN: %f, FW_AIRSPD_MAX: %f, FW_AIRSPD_TRIM: %f\n",
-             pTbl->FW_AIRSPD_MIN, pTbl->FW_AIRSPD_MAX, pTbl->FW_AIRSPD_TRIM);
-    printf("TRIM_ROLL: %f, TRIM_PITCH: %f, TRIM_YAW: %f\n",
-             pTbl->TRIM_ROLL, pTbl->TRIM_PITCH, pTbl->TRIM_YAW);
-    printf("VT_TYPE: %ld\n", pTbl->VT_TYPE);
+    std::cout.precision(7);
+    std::cout << std::endl << "Param Table Values:" << std::endl;
+    std::cout << "FW_R_TC: " << pTbl->FW_R_TC << ", FW_P_TC: " << pTbl->FW_P_TC << std::endl;
+    std::cout << "FW_PR_P: " << pTbl->FW_PR_P << ", FW_PR_I: " << pTbl->FW_PR_I << std::endl;
+    std::cout << "FW_P_RMAX_POS: " << pTbl->FW_P_RMAX_POS << ", FW_P_RMAX_NEG: "
+              << pTbl->FW_P_RMAX_NEG << std::endl;
+    std::cout << "FW_PR_IMAX: " << pTbl->FW_PR_IMAX << std::endl;
+    std::cout << "FW_RR_P: " << pTbl->FW_RR_P << ", FW_RR_I: " << pTbl->FW_RR_I << std::endl;
+    std::cout << "FW_RR_IMAX: " << pTbl->FW_RR_IMAX << ", FW_R_RMAX: " << pTbl->FW_R_RMAX
+              << std::endl;
+    std::cout << "FW_YR_P: " << pTbl->FW_YR_P << ", FW_YR_I: " << pTbl->FW_YR_I << std::endl;
+    std::cout << "FW_YR_IMAX: " << pTbl->FW_YR_IMAX << ", FW_Y_RMAX: " << pTbl->FW_Y_RMAX
+              << std::endl;
+    std::cout << "FW_RLL_TO_YAW_FF: " << pTbl->FW_RLL_TO_YAW_FF << std::endl;
+    std::cout << "FW_W_EN: " << pTbl->FW_W_EN << ", FW_WR_P: " << pTbl->FW_WR_P << std::endl;
+    std::cout << "FW_WR_I: " << pTbl->FW_WR_I << ", FW_WR_IMAX: " << pTbl->FW_WR_IMAX
+              << ", FW_W_RMAX: " << pTbl->FW_W_RMAX << std::endl;
+    std::cout << "FW_RR_FF: " << pTbl->FW_RR_FF << ", FW_PR_FF: " << pTbl->FW_PR_FF
+              << std::endl;
+    std::cout << "FW_YR_FF: " << pTbl->FW_YR_FF << ", FW_WR_FF: " << pTbl->FW_WR_FF
+              << std::endl;
+    std::cout << "FW_YCO_VMIN: " << pTbl->FW_YCO_VMIN << ", FW_YCO_METHOD: "
+              << pTbl->FW_YCO_METHOD << std::endl;
+    std::cout << "FW_RSP_OFF: " << pTbl->FW_RSP_OFF << ", FW_PSP_OFF: " << pTbl->FW_PSP_OFF
+              << std::endl;
+    std::cout << "FW_MAN_R_MAX: " << pTbl->FW_MAN_R_MAX << ", FW_MAN_P_MAX: "
+              << pTbl->FW_MAN_P_MAX << std::endl;
+    std::cout << "FW_FLAPS_SCL: " << pTbl->FW_FLAPS_SCL << ", FW_FLAPERON_SCL: "
+              << pTbl->FW_FLAPERON_SCL << std::endl;
+    std::cout << "FW_ARSP_MODE: " << pTbl->FW_ARSP_MODE << std::endl;
+    std::cout << "FW_MAN_R_SC: " << pTbl->FW_MAN_R_SC << ", FW_MAN_P_SC: "
+              << pTbl->FW_MAN_P_SC << ", FW_MAN_Y_SC: " << pTbl->FW_MAN_Y_SC << std::endl;
+    std::cout << "FW_BAT_SCALE_EN: " << pTbl->FW_BAT_SCALE_EN << std::endl;
+    std::cout << "FW_ACRO_X_MAX: " << pTbl->FW_ACRO_X_MAX << ", FW_ACRO_Y_MAX: "
+              << pTbl->FW_ACRO_Y_MAX << ", FW_ACRO_Z_MAX: " << pTbl->FW_ACRO_Z_MAX
+              << std::endl;
+    std::cout << "FW_RATT_TH: " << pTbl->FW_RATT_TH << std::endl;
+    std::cout << "FW_AIRSPD_MIN: " << pTbl->FW_AIRSPD_MIN << ", FW_AIRSPD_MAX: "
+              << pTbl->FW_AIRSPD_MAX << ", FW_AIRSPD_TRIM: " << pTbl->FW_AIRSPD_TRIM
+              << std::endl;
+    std::cout << "TRIM_ROLL: " << pTbl->TRIM_ROLL << ", TRIM_PITCH: " << pTbl->TRIM_PITCH
+              << ", TRIM_YAW: " << pTbl->TRIM_YAW << std::endl;
+    std::cout << "VT_TYPE: " << pTbl->VT_TYPE << std::endl;
 }
 
 /**
@@ -1136,7 +1121,7 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
  */
 void Test_FAC_UpdateParams(void)
 {
-    UpdateParams_ParamChecksum = 0.0f;
+    UpdateParams_ParamChecksum = 0.0;
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
                 (void*)Test_FAC_UpdateParams_SendEventHook);
 
@@ -1144,7 +1129,8 @@ void Test_FAC_UpdateParams(void)
     oFAC.InitApp();
 
     /* Verify results */
-//    UtAssert_True(TRUE, "FAC_UpdateParams");
+    UtAssert_DoubleCmpAbs(UpdateParams_ParamChecksum, 1369.37, FLT_EPSILON,
+                          "FAC UpdateParams");
 }
 
 
