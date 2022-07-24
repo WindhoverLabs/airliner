@@ -1069,7 +1069,8 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
           (double)pTbl->TRIM_ROLL + (double)pTbl->TRIM_PITCH + (double)pTbl->TRIM_YAW +
           (double)pTbl->VT_TYPE);
     std::cout.precision(17);
-    std::cout << "Checksum(with Max precision): " << UpdateParams_ParamChecksum << std::endl;
+    std::cout << std::endl << "Params Checksum(with Max precision): "
+              << UpdateParams_ParamChecksum << std::endl;
 
     std::cout.precision(7);
     std::cout << std::endl << "Param Table Values:" << std::endl;
@@ -1114,6 +1115,9 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
     std::cout << "TRIM_ROLL: " << pTbl->TRIM_ROLL << ", TRIM_PITCH: " << pTbl->TRIM_PITCH
               << ", TRIM_YAW: " << pTbl->TRIM_YAW << std::endl;
     std::cout << "VT_TYPE: " << pTbl->VT_TYPE << std::endl;
+
+    printf("\n###Updated ECL Values:\n");
+    FAC_Test_PrintEclValues();
 }
 
 /**
@@ -1124,6 +1128,9 @@ void Test_FAC_UpdateParams(void)
     UpdateParams_ParamChecksum = 0.0;
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
                 (void*)Test_FAC_UpdateParams_SendEventHook);
+
+    printf("###Initial ECL Values:\n");
+    FAC_Test_PrintEclValues();
 
     /* Execute the function being tested */
     oFAC.InitApp();

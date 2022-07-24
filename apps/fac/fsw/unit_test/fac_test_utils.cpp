@@ -160,3 +160,42 @@ void FAC_Test_PrintCmdMsg(void *pMsg, uint32 size)
 
     return;
 }
+
+void FAC_Test_PrintEclValues()
+{
+    ECL_PitchController *pPitch = &oFAC._pitch_ctrl;
+    ECL_RollController  *pRoll = &oFAC._roll_ctrl;
+    ECL_YawController   *pYaw = &oFAC._yaw_ctrl;
+    ECL_WheelController *pWheel = &oFAC._wheel_ctrl;
+
+    printf("PitchController::_tc: %f\n", pPitch->get_time_constant());
+    printf("PitchController::_k_p: %f\n", pPitch->get_k_p());
+    printf("PitchController::_k_i: %f\n", pPitch->get_k_i());
+    printf("PitchController::_k_ff: %f\n", pPitch->get_k_ff());
+    printf("PitchController::_integrator_max: %f\n", pPitch->get_integrator_max());
+    printf("PitchController::_max_rate: %f\n", pPitch->get_max_rate_pos());
+    printf("PitchController::_max_rate_neg: %f\n", pPitch->get_max_rate_neg());
+
+    printf("RollController::_tc: %f\n", pRoll->get_time_constant());
+    printf("RollController::_k_p: %f\n", pRoll->get_k_p());
+    printf("RollController::_k_i: %f\n", pRoll->get_k_i());
+    printf("RollController::_k_ff: %f\n", pRoll->get_k_ff());
+    printf("RollController::_integrator_max: %f\n", pRoll->get_integrator_max());
+    printf("RollController::_max_rate: %f\n", pRoll->get_max_rate());
+
+    printf("YawController::_k_p: %f\n", pYaw->get_k_p());
+    printf("YawController::_k_i: %f\n", pYaw->get_k_i());
+    printf("YawController::_k_ff: %f\n", pYaw->get_k_ff());
+    printf("YawController::_integrator_max: %f\n", pYaw->get_integrator_max());
+    printf("YawController::_coordinated_min_speed: %f\n", pYaw->get_coordinated_min_speed());
+    printf("YawController::_coordinated_method: %d\n", pYaw->get_coordinated_method());
+    printf("YawController::_max_rate: %f\n", pYaw->get_max_rate());
+
+    printf("WheelController::_k_p: %f\n", pWheel->get_k_p());
+    printf("WheelController::_k_i: %f\n", pWheel->get_k_i());
+    printf("WheelController::_k_ff: %f\n", pWheel->get_k_ff());
+    printf("WheelController::_integrator_max: %f\n", pWheel->get_integrator_max());
+    printf("WheelController::_max_rate: %f\n", pWheel->get_max_rate());
+
+    return;
+}

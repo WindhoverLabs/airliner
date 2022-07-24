@@ -50,6 +50,36 @@ public:
 	float get_desired_rate();
 	float get_desired_bodyrate();
 
+	float get_time_constant()
+	{
+		return _tc;
+	}
+
+	float get_k_p()
+	{
+		return _k_p;
+	}
+
+	float get_k_i()
+	{
+		return _k_i;
+	}
+
+	float get_k_ff()
+	{
+		return _k_ff;
+	}
+
+	float get_integrator_max()
+	{
+		return _integrator_max;
+	}
+
+	float get_max_rate()
+	{
+		return _max_rate;
+	}
+
 	void  reset_integrator();
 
 	void init(void);
