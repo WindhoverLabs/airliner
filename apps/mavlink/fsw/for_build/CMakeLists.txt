@@ -18,13 +18,13 @@ buildliner_add_app_def(mavlink
    
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
-        ${PROJECT_SOURCE_DIR}/mavlink/include/mavlink/v1.0/common/
+        ${PROJECT_SOURCE_DIR}/tools/mavlink/v2.0/common/
 
     DESIGN_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in 
     
     REFERENCE_CONFIG
-        ${PROJECT_SOURCE_DIR}/apps/mavlink/fsw/mission_inc
-        ${PROJECT_SOURCE_DIR}/apps/mavlink/fsw/platform_inc  
+        ${CMAKE_CURRENT_SOURCE_DIR}/../mission_inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../platform_inc  
 )
 
 buildliner_add_app_unit_test(MAVLINK-UT

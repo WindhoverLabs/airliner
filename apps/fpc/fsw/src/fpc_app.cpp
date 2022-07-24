@@ -47,6 +47,7 @@
 
 #include "fpc_app.h"
 #include "fpc_msg.h"
+#include "px4lib_msgids.h"
 #include "fpc_version.h"
 #include "fpc_msgids.h"
 

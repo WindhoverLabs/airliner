@@ -30,6 +30,11 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    pblib
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pblib/fsw/for_build
+)
+
+buildliner_add_app(
     px4lib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
 )
@@ -44,10 +49,11 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sliplib/fsw/for_build
 )
 
-#buildliner_add_app(
-#    sim
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sim/fsw/for_build
-#)
+buildliner_add_app(
+    sim
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sim/fsw/for_build
+    INCLUDES ${PROJECT_SOURCE_DIR}/tools/mavlink/v2.0/
+)
 
 buildliner_add_app(
     sch
@@ -114,15 +120,15 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/fac/fsw/for_build
 )
 
-#buildliner_add_app(
-#    fpc
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fpc/fsw/for_build
-#)
+buildliner_add_app(
+    fpc
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fpc/fsw/for_build
+)
 
-#buildliner_add_app(
-#    flow
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/flow/fsw/for_build
-#)
+buildliner_add_app(
+    flow
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/flow/fsw/for_build
+)
 
 buildliner_add_app(
     to
@@ -169,11 +175,6 @@ buildliner_add_app(
         ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/platform_inc
         ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/platform_inc
 )
-
-#buildliner_add_app(
-#    mavlink
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mavlink/fsw/for_build
-#)
 
 buildliner_add_app(
     ulr
@@ -277,19 +278,15 @@ buildliner_add_app(
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4br/fsw/for_build
 #)
 
-# SBN is not yet converted to the Windhover cmake build system.  Omit this
-# from the build, for now.
-#buildliner_add_app(
-#    sbn
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
-#)
+buildliner_add_app(
+    sbn
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
+)
 
-# SG33BL is not yet fully to the Windhover cmake build system.  Omit this
-# from the build, for now.
-#buildliner_add_app(
-#    sg33bl
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sg33bl/fsw/for_build
-#)
+buildliner_add_app(
+    sg33bl
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sg33bl/fsw/for_build
+)
 
 buildliner_add_app(
     sonar

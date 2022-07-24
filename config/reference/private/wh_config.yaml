@@ -70,9 +70,6 @@ modules:
       mac:
         definition: ${PROJECT_SOURCE_DIR}/apps/mac/wh_design.yaml
     
-      mavlink:
-        definition: ${PROJECT_SOURCE_DIR}/apps/mavlink/wh_design.yaml
-    
       mpc:
         definition: ${PROJECT_SOURCE_DIR}/apps/mpc/wh_design.yaml
     

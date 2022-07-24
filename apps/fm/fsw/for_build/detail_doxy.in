@@ -26,7 +26,7 @@ MULTILINE_CPP_IS_BRIEF = NO
 DETAILS_AT_TOP         = NO
 INHERIT_DOCS           = YES
 SEPARATE_MEMBER_PAGES  = NO
-TAB_SIZE               = 8
+TAB_SIZE               = 4
 ALIASES               += "event=\xrefitem cfeevents \"Event Message\" \"cFE Event Message Cross Reference\" "
 ALIASES               += "retdesc=<TD WIDTH=\"80%\"> "
 ALIASES               += "retcode=<TR><TD WIDTH=\"20%\" VALIGN=TOP> "

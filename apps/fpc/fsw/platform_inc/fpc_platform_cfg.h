@@ -113,6 +113,12 @@ extern "C" {
 #define FPC_CUSTOM_DEV_PATH       "/tmp/ttyS0"
 
 
+
+#define FPC_NUM_MSG                    (11)
+
+#define FPC_1SECOND_MICRO              (1e6)
+
+
 #ifdef __cplusplus
 }
 #endif
