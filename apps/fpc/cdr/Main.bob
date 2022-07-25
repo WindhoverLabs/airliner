@@ -276,10 +276,10 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/mpc/SendHK', {});]]></text>
   </widget>
   <widget type="group" version="2.0.0">
     <name>Flight</name>
-    <x>288</x>
+    <x>294</x>
     <y>42</y>
-    <width>258</width>
-    <height>156</height>
+    <width>458</width>
+    <height>318</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -313,11 +313,265 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       <show_confirm_dialog>true</show_confirm_dialog>
       <confirm_message>This command may abort a landing. Are your sure you want to do this?</confirm_message>
     </widget>
+    <widget type="group" version="2.0.0">
+      <name>Group</name>
+      <x>6</x>
+      <y>48</y>
+      <width>406</width>
+      <height>231</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_9</name>
+        <text>Control Manual</text>
+        <x>30</x>
+        <width>98</width>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="led" version="2.0.0">
+        <name>LED_3</name>
+        <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_CONTROL_MODE_MID.ControlManualEnabled</pv_name>
+        <x>148</x>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_14</name>
+        <text>Control Attitude</text>
+        <x>30</x>
+        <y>20</y>
+        <width>98</width>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="led" version="2.0.0">
+        <name>LED_6</name>
+        <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_CONTROL_MODE_MID.ControlAttitudeEnabled</pv_name>
+        <x>148</x>
+        <y>22</y>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_18</name>
+        <text>Control Velocity</text>
+        <x>30</x>
+        <y>43</y>
+        <width>123</width>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="led" version="2.0.0">
+        <name>LED_10</name>
+        <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_CONTROL_MODE_MID.ControlVelocityEnabled</pv_name>
+        <x>148</x>
+        <y>44</y>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_19</name>
+        <text>Control Auto</text>
+        <x>30</x>
+        <y>67</y>
+        <width>111</width>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="led" version="2.0.0">
+        <name>LED_11</name>
+        <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_CONTROL_MODE_MID.ControlAutoEnabled</pv_name>
+        <x>148</x>
+        <y>66</y>
+      </widget>
+      <widget type="led" version="2.0.0">
+        <name>LED_12</name>
+        <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_CONTROL_MODE_MID.ControlPositionEnabled</pv_name>
+        <x>148</x>
+        <y>88</y>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_20</name>
+        <text>Control Position</text>
+        <x>30</x>
+        <y>87</y>
+        <width>128</width>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="led" version="2.0.0">
+        <name>LED_13</name>
+        <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_POSITION_SETPOINT_TRIPLET_MID.Current.Valid</pv_name>
+        <x>352</x>
+        <y>3</y>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_21</name>
+        <text>Current Pos Valid</text>
+        <x>234</x>
+        <width>128</width>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_24</name>
+        <text>Prev Pos Valid</text>
+        <x>234</x>
+        <y>20</y>
+        <width>128</width>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="led" version="2.0.0">
+        <name>LED_14</name>
+        <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_POSITION_SETPOINT_TRIPLET_MID.Previous.Valid</pv_name>
+        <x>352</x>
+        <y>25</y>
+      </widget>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_22</name>
+      <text>Mode</text>
+      <x>48</x>
+      <y>174</y>
+      <width>108</width>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_8</name>
+      <text> Hold Alt</text>
+      <x>36</x>
+      <y>194</y>
+      <width>57</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label_10</name>
+      <text>Tecs</text>
+      <x>36</x>
+      <y>214</y>
+      <width>57</width>
+      <horizontal_alignment>2</horizontal_alignment>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_color>
+        <color red="0" green="128" blue="255">
+        </color>
+      </border_color>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_9</name>
+      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.ControlModeCurrent</pv_name>
+      <x>166</x>
+      <y>175</y>
+      <width>248</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_8</name>
+      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hold_alt</pv_name>
+      <x>166</x>
+      <y>195</y>
+      <width>248</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>Text Update_10</name>
+      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.tecsMode</pv_name>
+      <x>166</x>
+      <y>215</y>
+      <width>248</width>
+      <height>18</height>
+      <background_color>
+        <color red="255" green="255" blue="255">
+        </color>
+      </background_color>
+      <precision>0</precision>
+      <vertical_alignment>1</vertical_alignment>
+      <wrap_words>false</wrap_words>
+      <actions>
+      </actions>
+      <border_width>1</border_width>
+    </widget>
   </widget>
   <widget type="group" version="2.0.0">
     <name>Runway</name>
-    <x>268</x>
-    <y>246</y>
+    <x>316</x>
+    <y>456</y>
     <width>444</width>
     <height>174</height>
     <font>
@@ -479,227 +733,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       <x>126</x>
       <y>86</y>
       <width>264</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <precision>0</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_8</name>
-      <text> Hold_Alt</text>
-      <y>112</y>
-      <width>108</width>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_8</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hold_alt</pv_name>
-      <x>126</x>
-      <y>112</y>
-      <width>264</width>
-      <height>18</height>
-      <background_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </background_color>
-      <precision>0</precision>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_width>1</border_width>
-    </widget>
-  </widget>
-  <widget type="group" version="2.0.0">
-    <name>Group</name>
-    <x>564</x>
-    <y>53</y>
-    <width>324</width>
-    <height>193</height>
-    <style>3</style>
-    <transparent>true</transparent>
-    <widget type="label" version="2.0.0">
-      <name>Label_9</name>
-      <text>Control Manual</text>
-      <x>30</x>
-      <width>98</width>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="led" version="2.0.0">
-      <name>LED_3</name>
-      <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_CONTROL_MODE_MID.ControlManualEnabled</pv_name>
-      <x>148</x>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_14</name>
-      <text>Control Attitude</text>
-      <x>32</x>
-      <y>20</y>
-      <width>98</width>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="led" version="2.0.0">
-      <name>LED_6</name>
-      <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_CONTROL_MODE_MID.ControlAttitudeEnabled</pv_name>
-      <x>149</x>
-      <y>22</y>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_18</name>
-      <text>Control Velocity</text>
-      <x>32</x>
-      <y>43</y>
-      <width>123</width>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="led" version="2.0.0">
-      <name>LED_10</name>
-      <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_CONTROL_MODE_MID.ControlVelocityEnabled</pv_name>
-      <x>151</x>
-      <y>47</y>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_19</name>
-      <text>Control Auto</text>
-      <x>18</x>
-      <y>67</y>
-      <width>111</width>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="led" version="2.0.0">
-      <name>LED_11</name>
-      <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_CONTROL_MODE_MID.ControlAutoEnabled</pv_name>
-      <x>152</x>
-      <y>67</y>
-    </widget>
-    <widget type="led" version="2.0.0">
-      <name>LED_12</name>
-      <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_CONTROL_MODE_MID.ControlPositionEnabled</pv_name>
-      <x>152</x>
-      <y>87</y>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_20</name>
-      <text>Control Position</text>
-      <y>87</y>
-      <width>128</width>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="led" version="2.0.0">
-      <name>LED_13</name>
-      <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_POSITION_SETPOINT_TRIPLET_MID.Current.Valid</pv_name>
-      <x>152</x>
-      <y>107</y>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_21</name>
-      <text>Current Pos Valid</text>
-      <y>107</y>
-      <width>128</width>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_22</name>
-      <text>ControlModeCurrent</text>
-      <y>157</y>
-      <width>108</width>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="label" version="2.0.0">
-      <name>Label_24</name>
-      <text>Previous Pos Valid</text>
-      <y>127</y>
-      <width>128</width>
-      <horizontal_alignment>2</horizontal_alignment>
-      <vertical_alignment>1</vertical_alignment>
-      <wrap_words>false</wrap_words>
-      <actions>
-      </actions>
-      <border_color>
-        <color red="0" green="128" blue="255">
-        </color>
-      </border_color>
-    </widget>
-    <widget type="led" version="2.0.0">
-      <name>LED_14</name>
-      <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_POSITION_SETPOINT_TRIPLET_MID.Previous.Valid</pv_name>
-      <x>152</x>
-      <y>127</y>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_9</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.ControlModeCurrent</pv_name>
-      <x>128</x>
-      <y>159</y>
-      <width>184</width>
       <height>18</height>
       <background_color>
         <color red="255" green="255" blue="255">
