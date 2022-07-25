@@ -6,7 +6,7 @@
  */
 
 #include "px4br_routes.h"
-#include "msg_ids.h"
+#include "px4br_msgids.h"
 #include "px4br_serialization.h"
 #include "pb_msgs/actuator_armed.pb.h"
 #include <pb_msgs/actuator_armed.pb.h>

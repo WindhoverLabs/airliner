@@ -46,13 +46,16 @@ buildliner_add_app_def(fpc
    
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
+        ${PX4_MSGS_DIR}
 
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
     
-    
     REFERENCE_CONFIG
-        ${PROJECT_SOURCE_DIR}/apps/fpc/fsw/mission_inc
-        ${PROJECT_SOURCE_DIR}/apps/fpc/fsw/platform_inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../mission_inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../platform_inc
+        
+    COMMANDER_DISPLAYS 
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
 )
 
 buildliner_add_app_unit_test(FPC-UT

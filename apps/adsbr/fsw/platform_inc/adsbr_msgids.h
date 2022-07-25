@@ -10,8 +10,6 @@ extern "C" {
 ******        by the developer or mission integrator!
 ******/
 
-#include "msg_ids.h"
-
 /**
 ** \brief ADSBR application-specific command MID
 */

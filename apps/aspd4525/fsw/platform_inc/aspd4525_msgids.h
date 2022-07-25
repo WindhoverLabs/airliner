@@ -10,8 +10,6 @@ extern "C" {
 ******        by the developer or mission integrator!
 ******/
 
-#include "msg_ids.h"
-
 /**
 ** \brief ASPD4525 application-specific command MID
 */
@@ -36,6 +34,9 @@ extern "C" {
 ** \brief Application housekeeping telemetry data
 */
 #define ASPD4525_HK_TLM_MID              (0x08BB)
+
+
+#define PX4_AIRSPEED_MID                 (0x08BC)
 
 
 #ifdef __cplusplus
