@@ -2441,26 +2441,26 @@ DS_FilterTable_t DS_FilterTable =
     },
     /* Packet Index 199 */
     {
-      /* .MessageID = */ DS_UNUSED,
+      /* .MessageID = */ FROM_CPD(ZUSUP_HK_TLM_MID),
       /* .Filter    = */
       {
         /* File table index, filter type, N, X, O */
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED }
+  	    	{ FILE_ALL_CPD_APP_HK_PKTS, DS_BY_COUNT, 1, 1, 0 },
+  	    	{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+  	    	{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+  	    	{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED }
       }
     },
     /* Packet Index 200 */
     {
-      /* .MessageID = */ DS_UNUSED,
+      /* .MessageID = */ FROM_CPD(ZUSUP_DIAG_TLM_MID),
       /* .Filter    = */
       {
         /* File table index, filter type, N, X, O */
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
-        { DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED }
+  	    	{ FILE_ALL_CPD_APP_HK_PKTS, DS_BY_COUNT, 1, 1, 0 },
+  	    	{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+  	    	{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED },
+  	    	{ DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED, DS_UNUSED }
       }
     },
     /* Packet Index 201 */

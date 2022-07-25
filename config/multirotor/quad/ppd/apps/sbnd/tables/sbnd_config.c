@@ -45,37 +45,37 @@ SBND_ConfigTbl_t SBND_ConfigTbl =
 {
     {
         /* Mids[0] */
-        PE_HK_TLM_MID,
+        FROM_CPD(AMC_CMD_MID),
         /* Mids[1] */
         CF_SPACE_TO_GND_PDU_MID,
         /* Mids[2] */
         CF_INCOMING_PDU_MID,
         /* Mids[3] */
-        CFE_TIME_HK_TLM_MID,
-        /* Mids[4] */
-        CFE_TIME_DIAG_TLM_MID,
-        /* Mids[5] */
         SBND_HK_TLM_MID,
+        /* Mids[4] */
+        0x0,
+        /* Mids[5] */
+        0x0,
         /* Mids[6] */
-        AMC_HK_TLM_MID,
+        0x0,
         /* Mids[7] */
-        PX4_SENSOR_COMBINED_MID,
+        0x0,
         /* Mids[8] */
-        PX4_ACTUATOR_CONTROLS_0_MID,
+        0x0,
         /* Mids[9] */
-        PX4_ACTUATOR_OUTPUTS_MID,
+        0x0,
         /* Mids[10] */
-        PX4_SENSOR_ACCEL_MID,
+        0x0,
         /* Mids[11] */
-        PX4_SENSOR_BARO_MID,
+        0x0,
         /* Mids[12] */
-        PX4_SENSOR_GYRO_MID,
+        0x0,
         /* Mids[13] */
-        PX4_SENSOR_MAG_MID,
+        0x0,
         /* Mids[14] */
-        PE_DIAG_TLM_MID,
+        0x0,
         /* Mids[15] */
-        PX4_VEHICLE_GPS_POSITION_MID,
+        0x0,
         /* Mids[16] */
         0x0,
         /* Mids[17] */
