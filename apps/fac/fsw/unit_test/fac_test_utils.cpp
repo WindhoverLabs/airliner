@@ -46,7 +46,10 @@
 #include "ut_cfe_es_stubs.h"
 #include "ut_cfe_evs_stubs.h"
 
+#include "math/Limits.hpp"
+
 #include <time.h>
+#include <float.h>
 
 extern FAC cpyFAC;
 extern FAC_ParamTbl_t FAC_ParamTbl;
@@ -174,14 +177,14 @@ void FAC_Test_PrintEclValues()
     printf("PitchController::_k_ff: %f\n", pPitch->get_k_ff());
     printf("PitchController::_integrator_max: %f\n", pPitch->get_integrator_max());
     printf("PitchController::_max_rate: %f\n", pPitch->get_max_rate_pos());
-    printf("PitchController::_max_rate_neg: %f\n", pPitch->get_max_rate_neg());
+    printf("PitchController::_max_rate_neg: %f\n\n", pPitch->get_max_rate_neg());
 
     printf("RollController::_tc: %f\n", pRoll->get_time_constant());
     printf("RollController::_k_p: %f\n", pRoll->get_k_p());
     printf("RollController::_k_i: %f\n", pRoll->get_k_i());
     printf("RollController::_k_ff: %f\n", pRoll->get_k_ff());
     printf("RollController::_integrator_max: %f\n", pRoll->get_integrator_max());
-    printf("RollController::_max_rate: %f\n", pRoll->get_max_rate());
+    printf("RollController::_max_rate: %f\n\n", pRoll->get_max_rate());
 
     printf("YawController::_k_p: %f\n", pYaw->get_k_p());
     printf("YawController::_k_i: %f\n", pYaw->get_k_i());
@@ -189,13 +192,134 @@ void FAC_Test_PrintEclValues()
     printf("YawController::_integrator_max: %f\n", pYaw->get_integrator_max());
     printf("YawController::_coordinated_min_speed: %f\n", pYaw->get_coordinated_min_speed());
     printf("YawController::_coordinated_method: %d\n", pYaw->get_coordinated_method());
-    printf("YawController::_max_rate: %f\n", pYaw->get_max_rate());
+    printf("YawController::_max_rate: %f\n\n", pYaw->get_max_rate());
 
     printf("WheelController::_k_p: %f\n", pWheel->get_k_p());
     printf("WheelController::_k_i: %f\n", pWheel->get_k_i());
     printf("WheelController::_k_ff: %f\n", pWheel->get_k_ff());
     printf("WheelController::_integrator_max: %f\n", pWheel->get_integrator_max());
-    printf("WheelController::_max_rate: %f\n", pWheel->get_max_rate());
+    printf("WheelController::_max_rate: %f\n\n", pWheel->get_max_rate());
 
     return;
+}
+
+uint32 FAC_Test_ValidateEclValues()
+{
+    uint32 bResult = 0x0;
+    FAC_ParamTbl_t *pTbl = oFAC.ParamTblPtr;
+    ECL_PitchController *pPitch = &oFAC._pitch_ctrl;
+    ECL_RollController  *pRoll = &oFAC._roll_ctrl;
+    ECL_YawController   *pYaw = &oFAC._yaw_ctrl;
+    ECL_WheelController *pWheel = &oFAC._wheel_ctrl;
+
+    if (fabs(pPitch->get_time_constant() - pTbl->FW_P_TC) > FLT_EPSILON)
+    {
+        bResult |= 0x01;
+    }
+    if (fabs(pPitch->get_k_p() - pTbl->FW_PR_P) > FLT_EPSILON)
+    {
+        bResult |= 0x02;
+    }
+    if (fabs(pPitch->get_k_i() - pTbl->FW_PR_I) > FLT_EPSILON)
+    {
+        bResult |= 0x04;
+    }
+    if (fabs(pPitch->get_k_ff() - pTbl->FW_PR_FF) > FLT_EPSILON)
+    {
+        bResult |= 0x08;
+    }
+    if (fabs(pPitch->get_integrator_max() - pTbl->FW_PR_IMAX) > FLT_EPSILON)
+    {
+        bResult |= 0x10;
+    }
+    if (fabs(pPitch->get_max_rate_pos() -
+             math::radians(pTbl->FW_P_RMAX_POS)) > FLT_EPSILON)
+    {
+        bResult |= 0x20;
+    }
+    if (fabs(pPitch->get_max_rate_neg() -
+             math::radians(pTbl->FW_P_RMAX_NEG)) > FLT_EPSILON)
+    {
+        bResult |= 0x40;
+    }
+
+    if (fabs(pRoll->get_time_constant() - pTbl->FW_R_TC) > FLT_EPSILON)
+    {
+        bResult |= 0x100;
+    }
+    if (fabs(pRoll->get_k_p() - pTbl->FW_RR_P) > FLT_EPSILON)
+    {
+        bResult |= 0x200;
+    }
+    if (fabs(pRoll->get_k_i() - pTbl->FW_RR_I) > FLT_EPSILON)
+    {
+        bResult |= 0x400;
+    }
+    if (fabs(pRoll->get_k_ff() - pTbl->FW_RR_FF) > FLT_EPSILON)
+    {
+        bResult |= 0x800;
+    }
+    if (fabs(pRoll->get_integrator_max() - pTbl->FW_RR_IMAX) > FLT_EPSILON)
+    {
+        bResult |= 0x1000;
+    }
+    if (fabs(pRoll->get_max_rate() -
+             math::radians(pTbl->FW_R_RMAX)) > FLT_EPSILON)
+    {
+        bResult |= 0x2000;
+    }
+
+    if (fabs(pYaw->get_k_p() - pTbl->FW_YR_P) > FLT_EPSILON)
+    {
+        bResult |= 0x20000;
+    }
+    if (fabs(pYaw->get_k_i() - pTbl->FW_YR_I) > FLT_EPSILON)
+    {
+        bResult |= 0x40000;
+    }
+    if (fabs(pYaw->get_k_ff() - pTbl->FW_YR_FF) > FLT_EPSILON)
+    {
+        bResult |= 0x80000;
+    }
+    if (fabs(pYaw->get_integrator_max() - pTbl->FW_YR_IMAX) > FLT_EPSILON)
+    {
+        bResult |= 0x100000;
+    }
+    if (fabs(pYaw->get_coordinated_min_speed() - pTbl->FW_YCO_VMIN) > FLT_EPSILON)
+    {
+        bResult |= 0x200000;
+    }
+    if (fabs((float)pYaw->get_coordinated_method() - (float)pTbl->FW_YCO_METHOD) > FLT_EPSILON)
+    {
+        bResult |= 0x400000;
+    }
+    if (fabs(pYaw->get_max_rate() - math::radians(pTbl->FW_Y_RMAX)) > FLT_EPSILON)
+    {
+        bResult |= 0x800000;
+    }
+
+    if (fabs(pWheel->get_k_p() - pTbl->FW_WR_P) > FLT_EPSILON)
+    {
+        bResult |= 0x02000000;
+    }
+    if (fabs(pWheel->get_k_i() - pTbl->FW_WR_I) > FLT_EPSILON)
+    {
+        bResult |= 0x04000000;
+    }
+    if (fabs(pWheel->get_k_ff() - pTbl->FW_WR_FF) > FLT_EPSILON)
+    {
+        bResult |= 0x08000000;
+    }
+    if (fabs(pWheel->get_integrator_max() - pTbl->FW_WR_IMAX) > FLT_EPSILON)
+    {
+        bResult |= 0x10000000;
+    }
+    if (fabs(pWheel->get_max_rate() - math::radians(pTbl->FW_W_RMAX)) > FLT_EPSILON)
+    {
+        bResult |= 0x20000000;
+    }
+
+    printf("Test_ValidateEclValues: bResult is 0x%08x\n", (unsigned int)bResult);
+
+    return bResult;
 }

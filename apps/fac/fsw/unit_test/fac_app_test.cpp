@@ -54,6 +54,7 @@
 
 int32 WriteToSysLog_HookCalledCnt = 0;
 int32 SendEvent_HookCalledCnt = 0;
+uint32  UpdateParams_ValidateStatus = 0x0;
 
 double UpdateParams_ParamChecksum = 0.0;
 
@@ -1118,6 +1119,8 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
 
     printf("\n###Updated ECL Values:\n");
     FAC_Test_PrintEclValues();
+
+    UpdateParams_ValidateStatus = FAC_Test_ValidateEclValues();
 }
 
 /**
@@ -1126,6 +1129,7 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
 void Test_FAC_UpdateParams(void)
 {
     UpdateParams_ParamChecksum = 0.0;
+    UpdateParams_ValidateStatus = 0x0;
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
                 (void*)Test_FAC_UpdateParams_SendEventHook);
 
@@ -1136,8 +1140,15 @@ void Test_FAC_UpdateParams(void)
     oFAC.InitApp();
 
     /* Verify results */
-    UtAssert_DoubleCmpAbs(UpdateParams_ParamChecksum, 1369.37, FLT_EPSILON,
-                          "FAC UpdateParams");
+    if ((UpdateParams_ValidateStatus == 0x0) &&
+        (fabs((float)UpdateParams_ParamChecksum - (float)1369.37) <= FLT_EPSILON))
+    {
+        UtAssert_True(TRUE, "FAC UpdateParams");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "FAC UpdateParams");
+    }
 }
 
 
