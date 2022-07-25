@@ -204,6 +204,15 @@ typedef enum  {
     FW_POSCTRL_MODE_OTHER = 3
 } HK_FW_POSCTRL_MODE;		///< used to check the mode in the last control loop iteration. Use to check if the last iteration was in the same mode.
 
+
+typedef enum {
+        ECL_TECS_MODE_NORMAL = 0,
+        ECL_TECS_MODE_UNDERSPEED,
+        ECL_TECS_MODE_BAD_DESCENT,
+        ECL_TECS_MODE_CLIMBOUT
+}ECL_TECS_MODE;
+
+
 /** 
 **  \brief FPC application housekeeping data
 */
@@ -224,6 +233,7 @@ typedef struct
     float	       _hold_alt;
     float              m_Hold_Alt;
 
+    ECL_TECS_MODE       tecsMode;
     Runway             _runway_takeoff;
 
 } FPC_HkTlm_t;
