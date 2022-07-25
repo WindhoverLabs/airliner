@@ -87,7 +87,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {FROM_CPD(LC_HK_TLM_MID),                1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(LD_DIAG_TLM_MID),              1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(LD_HK_TLM_MID),                1, TO_PQUEUE_CPD_HK_IDX},
-        {FROM_CPD(MAC_HK_TLM_MID),               1, TO_PQUEUE_CPD_HK_IDX},
+        {FROM_CPD(FAC_HK_TLM_MID),               1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(MD_HK_TLM_MID),                1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(MM_HK_TLM_MID),                1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(FPC_DIAG_TLM_MID),             1, TO_PQUEUE_CPD_HK_IDX},

@@ -205,7 +205,9 @@ SBND_ConfigTbl_t SBND_ConfigTbl =
     	    /* 158 */  PX4_VTOL_VEHICLE_STATUS_MID,
     	    /* 159 */  PX4_WIND_ESTIMATE_MID,
     	    /* 160 */  PX4_SENSOR_CORRECTION_MID,
-    	    /* 161 */  PX4_POSITION_CONTROL_STATUS_MID
+    	    /* 161 */  PX4_POSITION_CONTROL_STATUS_MID,
+    	    /* 162 */  ZUSUP_HK_TLM_MID,
+    	    /* 163 */  ZUSUP_DIAG_TLM_MID
     }
 };
 
