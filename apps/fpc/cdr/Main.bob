@@ -493,8 +493,8 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
     </widget>
     <widget type="label" version="2.0.0">
       <name>Label_8</name>
-      <text>m_Hold_Alt</text>
-      <y>118</y>
+      <text> Hold_Alt</text>
+      <y>112</y>
       <width>108</width>
       <horizontal_alignment>2</horizontal_alignment>
       <vertical_alignment>1</vertical_alignment>
@@ -508,7 +508,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_8</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.m_Hold_Alt</pv_name>
+      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hold_alt</pv_name>
       <x>126</x>
       <y>112</y>
       <width>264</width>
