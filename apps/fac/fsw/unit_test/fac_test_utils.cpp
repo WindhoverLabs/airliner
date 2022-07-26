@@ -55,7 +55,9 @@ extern FAC cpyFAC;
 extern FAC_ParamTbl_t FAC_ParamTbl;
 
 extern Ut_CFE_PSP_MEMUTILS_HookTable_t         Ut_CFE_PSP_MEMUTILS_HookTable;
-extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t   Ut_CFE_PSP_MEMUTILS_ReturnCodeTable[UT_CFE_PSP_MEMUTILS_MAX_INDEX];
+extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t
+                  Ut_CFE_PSP_MEMUTILS_ReturnCodeTable[UT_CFE_PSP_MEMUTILS_MAX_INDEX];
+
 /*
  * Config table for testing
  */

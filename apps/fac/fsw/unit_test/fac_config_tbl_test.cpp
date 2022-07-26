@@ -51,10 +51,10 @@
 
 
 /**************************************************************************
- * Tests for FAC_InitConfigTbl()
+ * Tests for FAC InitConfigTbl()
  **************************************************************************/
 /**
- * Test FAC_InitConfigTbl(), fail TBL Register
+ * Test FAC InitConfigTbl(), fail TBL Register
  */
 void Test_FAC_InitConfigTbl_Fail_TblRegister(void)
 {
@@ -74,7 +74,7 @@ void Test_FAC_InitConfigTbl_Fail_TblRegister(void)
 }
 
 /**
- * Test FAC_InitConfigTbl(), fail TBL Load
+ * Test FAC InitConfigTbl(), fail TBL Load
  */
 void Test_FAC_InitConfigTbl_Fail_TblLoad(void)
 {
@@ -94,7 +94,7 @@ void Test_FAC_InitConfigTbl_Fail_TblLoad(void)
 }
 
 /**
- * Test FAC_InitConfigTbl(), fail TBL Manage
+ * Test FAC InitConfigTbl(), fail TBL Manage
  */
 void Test_FAC_InitConfigTbl_Fail_TblManage(void)
 {
@@ -114,7 +114,7 @@ void Test_FAC_InitConfigTbl_Fail_TblManage(void)
 }
 
 /**
- * Test FAC_InitConfigTbl(), fail TBL GetAddress
+ * Test FAC InitConfigTbl(), fail TBL GetAddress
  */
 void Test_FAC_InitConfigTbl_Fail_TblGetAddress(void)
 {
@@ -134,7 +134,7 @@ void Test_FAC_InitConfigTbl_Fail_TblGetAddress(void)
 }
 
 /**
- * Test FAC_InitConfigTbl(), fail AcquireConfigPtrs
+ * Test FAC InitConfigTbl(), fail AcquireConfigPtrs
  */
 void Test_FAC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
 {
@@ -154,7 +154,7 @@ void Test_FAC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
 }
 
 /**
- * Test FAC_InitConfigTbl(), Nominal
+ * Test FAC InitConfigTbl(), Nominal
  */
 void Test_FAC_InitConfigTbl_Nominal(void)
 {

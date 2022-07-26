@@ -48,12 +48,12 @@ extern "C" {
  * Function Definitions
  */
 
-void FAC_Test_Setup(void);
-void FAC_Test_TearDown(void);
+void    FAC_Test_Setup(void);
+void    FAC_Test_TearDown(void);
 
-void FAC_Test_PrintCmdMsg(void *pMsg, uint32 size);
-void FAC_Test_PrintEclValues();
-uint32 FAC_Test_ValidateEclValues();
+void    FAC_Test_PrintCmdMsg(void *pMsg, uint32 size);
+void    FAC_Test_PrintEclValues();
+uint32  FAC_Test_ValidateEclValues();
 
 extern FAC oFAC;
 

@@ -51,8 +51,11 @@
 #include "ut_cfe_time_stubs.h"
 
 
+/**************************************************************************
+ * Tests for FAC ProcessNewCmds()
+ **************************************************************************/
 /**
- * Test FAC_ProcessNewCmds, InvalidCmd
+ * Test FAC ProcessNewCmds, InvalidCmd
  */
 void Test_FAC_ProcessNewCmds_InvalidCmd(void)
 {
@@ -78,7 +81,7 @@ void Test_FAC_ProcessNewCmds_InvalidCmd(void)
 }
 
 /**
- * Test FAC_ProcessNewCmds, InvalidCmdCode
+ * Test FAC ProcessNewCmds, InvalidCmdCode
  */
 void Test_FAC_ProcessNewCmds_InvalidCmdCode(void)
 {
@@ -107,7 +110,7 @@ void Test_FAC_ProcessNewCmds_InvalidCmdCode(void)
 }
 
 /**
- * Test FAC_ProcessNewCmds, CmdPipeError
+ * Test FAC ProcessNewCmds, CmdPipeError
  */
 void Test_FAC_ProcessNewCmds_CmdPipeError(void)
 {
@@ -121,7 +124,7 @@ void Test_FAC_ProcessNewCmds_CmdPipeError(void)
 }
 
 /**
- * Test FAC_ProcessNewCmds, Noop
+ * Test FAC ProcessNewCmds, Noop
  */
 void Test_FAC_ProcessNewCmds_Noop(void)
 {
@@ -150,7 +153,7 @@ void Test_FAC_ProcessNewCmds_Noop(void)
 }
 
 /**
- * Test FAC_ProcessNewCmds, Reset
+ * Test FAC ProcessNewCmds, Reset
  */
 void Test_FAC_ProcessNewCmds_Reset(void)
 {

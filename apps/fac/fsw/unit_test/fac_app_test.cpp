@@ -52,18 +52,18 @@
 
 #include <iostream>
 
-int32 WriteToSysLog_HookCalledCnt = 0;
-int32 SendEvent_HookCalledCnt = 0;
+int32   WriteToSysLog_HookCalledCnt = 0;
+int32   SendEvent_HookCalledCnt = 0;
 uint32  UpdateParams_ValidateStatus = 0x0;
 
-double UpdateParams_ParamChecksum = 0.0;
+double  UpdateParams_ParamChecksum = 0.0;
 
 /**************************************************************************
- * Tests for FAC_InitEvent()
+ * Tests for FAC InitEvent()
  **************************************************************************/
 
 /**
- * Test FAC_InitEvent() with failed CFE_EVS_Register
+ * Test FAC InitEvent() with failed CFE_EVS_Register
  */
 void Test_FAC_InitEvent_Fail_Register(void)
 {
@@ -82,10 +82,10 @@ void Test_FAC_InitEvent_Fail_Register(void)
 
 
 /**************************************************************************
- * Tests for FAC_InitPipe()
+ * Tests for FAC InitPipe()
  **************************************************************************/
 /**
- * Test FAC_InitPipe(), fail SCH CFE_SB_CreatePipe
+ * Test FAC InitPipe(), fail SCH CFE_SB_CreatePipe
  */
 void Test_FAC_InitPipe_Fail_CreateSCHPipe(void)
 {
@@ -104,7 +104,7 @@ void Test_FAC_InitPipe_Fail_CreateSCHPipe(void)
 
 
 /**
- * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for SendHK
+ * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for SendHK
  */
 void Test_FAC_InitPipe_Fail_SubscribeSendHK(void)
 {
@@ -124,7 +124,7 @@ void Test_FAC_InitPipe_Fail_SubscribeSendHK(void)
 
 
 /**
- * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for RunController
+ * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for RunController
  */
 void Test_FAC_InitPipe_Fail_SubscribeRunController(void)
 {
@@ -144,7 +144,7 @@ void Test_FAC_InitPipe_Fail_SubscribeRunController(void)
 
 
 /**
- * Test FAC_InitPipe(), fail CMD CFE_SB_CreatePipe
+ * Test FAC InitPipe(), fail CMD CFE_SB_CreatePipe
  */
 void Test_FAC_InitPipe_Fail_CreateCMDPipe(void)
 {
@@ -163,7 +163,7 @@ void Test_FAC_InitPipe_Fail_CreateCMDPipe(void)
 
 
 /**
- * Test FAC_InitPipe(), fail CFE_SB_Subscribe for CMD msg
+ * Test FAC InitPipe(), fail CFE_SB_Subscribe for CMD msg
  */
 void Test_FAC_InitPipe_Fail_SubscribeCMD(void)
 {
@@ -182,7 +182,7 @@ void Test_FAC_InitPipe_Fail_SubscribeCMD(void)
 
 
 /**
- * Test FAC_InitPipe(), fail DATA CFE_SB_CreatePipe
+ * Test FAC InitPipe(), fail DATA CFE_SB_CreatePipe
  */
 void Test_FAC_InitPipe_Fail_CreateDATAPipe(void)
 {
@@ -201,7 +201,7 @@ void Test_FAC_InitPipe_Fail_CreateDATAPipe(void)
 
 
 /**
- * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for BatteryStatus
+ * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for BatteryStatus
  */
 void Test_FAC_InitPipe_Fail_SubscribeBatteryStatus(void)
 {
@@ -220,7 +220,7 @@ void Test_FAC_InitPipe_Fail_SubscribeBatteryStatus(void)
 }
 
 /**
- * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for ManualControlSp
+ * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for ManualControlSp
  */
 void Test_FAC_InitPipe_Fail_SubscribeManualControlSp(void)
 {
@@ -239,7 +239,7 @@ void Test_FAC_InitPipe_Fail_SubscribeManualControlSp(void)
 }
 
 /**
- * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for VAttSp
+ * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VAttSp
  */
 void Test_FAC_InitPipe_Fail_SubscribeVAttSp(void)
 {
@@ -258,7 +258,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVAttSp(void)
 }
 
 /**
- * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for VAtt
+ * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VAtt
  */
 void Test_FAC_InitPipe_Fail_SubscribeVAtt(void)
 {
@@ -277,7 +277,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVAtt(void)
 }
 
 /**
- * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for VControlMode
+ * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VControlMode
  */
 void Test_FAC_InitPipe_Fail_SubscribeVControlMode(void)
 {
@@ -296,7 +296,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVControlMode(void)
 }
 
 /**
- * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for VehicleStatus
+ * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VehicleStatus
  */
 void Test_FAC_InitPipe_Fail_SubscribeVehicleStatus(void)
 {
@@ -315,7 +315,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleStatus(void)
 }
 
 /**
- * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for VGlobalPosition
+ * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VGlobalPosition
  */
 void Test_FAC_InitPipe_Fail_SubscribeVGlobalPosition(void)
 {
@@ -334,7 +334,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVGlobalPosition(void)
 }
 
 /**
- * Test FAC_InitPipe(), fail CFE_SB_SubscribeEx for VLandDetected
+ * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VLandDetected
  */
 void Test_FAC_InitPipe_Fail_SubscribeVLandDetected(void)
 {
@@ -354,10 +354,10 @@ void Test_FAC_InitPipe_Fail_SubscribeVLandDetected(void)
 
 
 /**************************************************************************
- * Tests for FAC_InitData()
+ * Tests for FAC InitData()
  **************************************************************************/
 /**
- * Test FAC_InitData()
+ * Test FAC InitData()
  */
 void Test_FAC_InitDataNominal(void)
 {
@@ -382,10 +382,10 @@ void Test_FAC_InitDataNominal(void)
 
 
 /**************************************************************************
- * Tests for FAC_InitApp()
+ * Tests for FAC InitApp()
  **************************************************************************/
 /**
- * Test FAC_InitApp(), fail init event
+ * Test FAC InitApp(), fail init event
  */
 void Test_FAC_InitApp_Fail_InitEvent(void)
 {
@@ -403,7 +403,7 @@ void Test_FAC_InitApp_Fail_InitEvent(void)
 
 
 /**
- * Test FAC_InitApp(), fail init pipe
+ * Test FAC InitApp(), fail init pipe
  */
 void Test_FAC_InitApp_Fail_InitPipe(void)
 {
@@ -421,7 +421,7 @@ void Test_FAC_InitApp_Fail_InitPipe(void)
 
 
 /**
- * Test FAC_InitApp(), fail init data.
+ * Test FAC InitApp(), fail init data.
  * NOTE: no current way to fail FAC_InitData() in default
  */
 void Test_FAC_InitApp_Fail_InitData(void)
@@ -438,7 +438,7 @@ void Test_FAC_InitApp_Fail_InitData(void)
 
 
 /**
- * Test FAC_InitApp(), fail init config table
+ * Test FAC InitApp(), fail init config table
  */
 void Test_FAC_InitApp_Fail_InitConfigTbl(void)
 {
@@ -456,7 +456,7 @@ void Test_FAC_InitApp_Fail_InitConfigTbl(void)
 
 
 /**
- * Test FAC_InitApp(), Nominal
+ * Test FAC InitApp(), Nominal
  */
 void Test_FAC_InitApp_Nominal(void)
 {
@@ -476,7 +476,7 @@ void Test_FAC_InitApp_Nominal(void)
  * Tests for FAC_AppMain()
  **************************************************************************/
 /**
- * Test FAC_AppMain(), WriteToSysLogHook
+ * Test FAC AppMain(), WriteToSysLogHook
  */
 int32 Test_FAC_AppMain_WriteToSysLogHook(const char *StringPtr, ...)
 {
@@ -496,7 +496,7 @@ int32 Test_FAC_AppMain_WriteToSysLogHook(const char *StringPtr, ...)
 }
 
 /**
- * Test FAC_AppMain(), SendEventHook
+ * Test FAC AppMain(), SendEventHook
  */
 int32 Test_FAC_AppMain_SendEventHook(uint16 EventID, uint16 EventType, const char *EventText, ...)
 {
@@ -516,7 +516,7 @@ int32 Test_FAC_AppMain_SendEventHook(uint16 EventID, uint16 EventType, const cha
 }
 
 /**
- * Test FAC_AppMain(), Fail RegisterApp
+ * Test FAC AppMain(), Fail RegisterApp
  */
 void Test_FAC_AppMain_Fail_RegisterApp(void)
 {
@@ -531,7 +531,7 @@ void Test_FAC_AppMain_Fail_RegisterApp(void)
 
 
 /**
- * Test FAC_AppMain(), Fail InitApp
+ * Test FAC AppMain(), Fail InitApp
  */
 void Test_FAC_AppMain_Fail_InitApp(void)
 {
@@ -553,7 +553,7 @@ void Test_FAC_AppMain_Fail_InitApp(void)
 
 
 /**
- * Test FAC_AppMain(), Fail AcquireConfigPtrs
+ * Test FAC AppMain(), Fail AcquireConfigPtrs
  */
 void Test_FAC_AppMain_Fail_AcquireConfigPtrs(void)
 {
@@ -572,7 +572,7 @@ void Test_FAC_AppMain_Fail_AcquireConfigPtrs(void)
 
 
 /**
- * Test FAC_AppMain(), Invalid Schedule Message
+ * Test FAC AppMain(), Invalid Schedule Message
  */
 void Test_FAC_AppMain_InvalidSchMessage(void)
 {
@@ -589,7 +589,7 @@ void Test_FAC_AppMain_InvalidSchMessage(void)
 
 
 /**
- * Hook to support: FAC_AppMain(), Nominal - SendHK
+ * Hook to support: FAC AppMain(), Nominal - SendHK
  */
 int32 Test_FAC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
@@ -612,7 +612,7 @@ int32 Test_FAC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 }
 
 /**
- * Test FAC_AppMain(), Nominal - SendHK
+ * Test FAC AppMain(), Nominal - SendHK
  */
 void Test_FAC_AppMain_Nominal_SendHK(void)
 {
@@ -636,7 +636,7 @@ void Test_FAC_AppMain_Nominal_SendHK(void)
 
 
 /**
- * Test FAC_AppMain(), Nominal - RunController
+ * Test FAC AppMain(), Nominal - RunController
  */
 void Test_FAC_AppMain_Nominal_RunController(void)
 {
@@ -653,7 +653,7 @@ void Test_FAC_AppMain_Nominal_RunController(void)
 
 
 /**
- * Test FAC_AppMain(), ProcessNewData IncomingDataHook
+ * Test FAC AppMain(), ProcessNewData IncomingDataHook
  */
 int32 Test_FAC_AppMain_ProcessNewData_IncomingDataHook(void *dst, void *src, uint32 size)
 {
@@ -680,7 +680,7 @@ int32 Test_FAC_AppMain_ProcessNewData_IncomingDataHook(void *dst, void *src, uin
 }
 
 /**
- * Test FAC_AppMain(), ProcessNewData - InvalidMsgID
+ * Test FAC AppMain(), ProcessNewData - InvalidMsgID
  */
 void Test_FAC_AppMain_ProcessNewData_InvalidMsgID(void)
 {
@@ -711,7 +711,7 @@ void Test_FAC_AppMain_ProcessNewData_InvalidMsgID(void)
 }
 
 /**
- * Test FAC_AppMain(), ProcessNewData - Airspeed
+ * Test FAC AppMain(), ProcessNewData - Airspeed
  */
 void Test_FAC_AppMain_ProcessNewData_Airspeed(void)
 {
@@ -738,7 +738,7 @@ void Test_FAC_AppMain_ProcessNewData_Airspeed(void)
 }
 
 /**
- * Test FAC_AppMain(), ProcessNewData - BatteryStatus
+ * Test FAC AppMain(), ProcessNewData - BatteryStatus
  */
 void Test_FAC_AppMain_ProcessNewData_BatteryStatus(void)
 {
@@ -766,7 +766,7 @@ void Test_FAC_AppMain_ProcessNewData_BatteryStatus(void)
 }
 
 /**
- * Test FAC_AppMain(), ProcessNewData - ManualControlSp
+ * Test FAC AppMain(), ProcessNewData - ManualControlSp
  */
 void Test_FAC_AppMain_ProcessNewData_ManualControlSp(void)
 {
@@ -795,7 +795,7 @@ void Test_FAC_AppMain_ProcessNewData_ManualControlSp(void)
 }
 
 /**
- * Test FAC_AppMain(), ProcessNewData - VAtt
+ * Test FAC AppMain(), ProcessNewData - VAtt
  */
 void Test_FAC_AppMain_ProcessNewData_VAtt(void)
 {
@@ -823,7 +823,7 @@ void Test_FAC_AppMain_ProcessNewData_VAtt(void)
 }
 
 /**
- * Test FAC_AppMain(), ProcessNewData - VAttSp
+ * Test FAC AppMain(), ProcessNewData - VAttSp
  */
 void Test_FAC_AppMain_ProcessNewData_VAttSp(void)
 {
@@ -851,7 +851,7 @@ void Test_FAC_AppMain_ProcessNewData_VAttSp(void)
 }
 
 /**
- * Test FAC_AppMain(), ProcessNewData - VControlMode
+ * Test FAC AppMain(), ProcessNewData - VControlMode
  */
 void Test_FAC_AppMain_ProcessNewData_VControlMode(void)
 {
@@ -880,7 +880,7 @@ void Test_FAC_AppMain_ProcessNewData_VControlMode(void)
 }
 
 /**
- * Test FAC_AppMain(), ProcessNewData - VGlobalPosition
+ * Test FAC AppMain(), ProcessNewData - VGlobalPosition
  */
 void Test_FAC_AppMain_ProcessNewData_VGlobalPosition(void)
 {
@@ -909,7 +909,7 @@ void Test_FAC_AppMain_ProcessNewData_VGlobalPosition(void)
 }
 
 /**
- * Test FAC_AppMain(), ProcessNewData - VLandDetected
+ * Test FAC AppMain(), ProcessNewData - VLandDetected
  */
 void Test_FAC_AppMain_ProcessNewData_VLandDetected(void)
 {
@@ -938,7 +938,7 @@ void Test_FAC_AppMain_ProcessNewData_VLandDetected(void)
 }
 
 /**
- * Test FAC_AppMain(), ProcessNewData - VehicleStatus
+ * Test FAC AppMain(), ProcessNewData - VehicleStatus
  */
 void Test_FAC_AppMain_ProcessNewData_VehicleStatus(void)
 {
@@ -1026,7 +1026,7 @@ void Test_FAC_ControlAttitude(void)
 
 
 /**
- * Test FAC_UpdateParams(), SendEventHook
+ * Test FAC UpdateParams(), SendEventHook
  */
 int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, const char *EventText, ...)
 {
@@ -1124,7 +1124,7 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
 }
 
 /**
- * Test FAC_UpdateParams(), UpdateParams
+ * Test FAC UpdateParams(), UpdateParams
  */
 void Test_FAC_UpdateParams(void)
 {
@@ -1141,7 +1141,7 @@ void Test_FAC_UpdateParams(void)
 
     /* Verify results */
     if ((UpdateParams_ValidateStatus == 0x0) &&
-        (fabs((float)UpdateParams_ParamChecksum - (float)1369.37) <= FLT_EPSILON))
+        (fabs(UpdateParams_ParamChecksum - (double)1369.37) <= FLT_EPSILON)) // Fail with DBL_EPSILON
     {
         UtAssert_True(TRUE, "FAC UpdateParams");
     }
