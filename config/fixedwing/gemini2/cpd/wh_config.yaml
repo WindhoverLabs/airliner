@@ -278,93 +278,95 @@ modules:
         tables:
           _XCT:
             content:
-              - name: "AMC"
+              - name: "AMC"                #  0
+                type: "APP_MAIN"       
+              - name: "ASPD4525"           #  1
                 type: "APP_MAIN"
-              - name: "CF"
+              - name: "CF"                 #  2
                 type: "APP_MAIN"
-              - name: "CFE_ES"
+              - name: "CFE_ES"             #  3
                 type: "APP_MAIN"
-              - name: "ES_PerfFileWriter"
+              - name: "ES_PerfFileWriter"  #  4
                 type: "APP_CHILD"
-              - name: "CFE_EVS"
+              - name: "CFE_EVS"            #  5
                 type: "APP_MAIN"
-              - name: "CFE_SB"
+              - name: "CFE_SB"             #  6
                 type: "APP_MAIN"
-              - name: "CFE_TBL"
+              - name: "CFE_TBL"            #  7
                 type: "APP_MAIN"
-              - name: "CFE_TIME"
+              - name: "CFE_TIME"           #  8
                 type: "APP_MAIN"
-              - name: "TIME_TONE_TASK"
+              - name: "TIME_TONE_TASK"     #  9
                 type: "APP_MAIN"
-              - name: "TIME_1HZ_TASK"
+              - name: "TIME_1HZ_TASK"      # 10
                 type: "APP_MAIN"
-              - name: "CI"
+              - name: "CI"                 # 11
                 type: "APP_MAIN"
-              - name: "CI_LISTENER"
+              - name: "CI_LISTENER"        # 12
                 type: "APP_CHILD"
-              - name: "CS"
+              - name: "CS"                 # 13
                 type: "APP_MAIN"
-              - name: "CS_RecmpOSTsk"
+              - name: "CS_RecmpOSTsk"      # 14
                 type: "APP_CHILD"
-              - name: "CS_RecmpCfeCoreTsk"
+              - name: "CS_RecmpCfeCoreTsk" # 15
                 type: "APP_CHILD"
-              - name: "CS_RecmpMemoryTsk"
+              - name: "CS_RecmpMemoryTsk"  # 16
                 type: "APP_CHILD"
-              - name: "CS_RecmpEepromTsk"
+              - name: "CS_RecmpEepromTsk"  # 17
                 type: "APP_CHILD"
-              - name: "CS_RecmpAppTsk"
+              - name: "CS_RecmpAppTsk"     # 18
                 type: "APP_CHILD"
-              - name: "CS_RecmpTableTsk"
+              - name: "CS_RecmpTableTsk"   # 19
                 type: "APP_CHILD"
-              - name: "CS_OneShotTask"
+              - name: "CS_OneShotTask"     # 20
                 type: "APP_CHILD"
-              - name: "FM"
+              - name: "FAC"                # 21
                 type: "APP_MAIN"
-              - name: "FM_CHILD_TASK"
+              - name: "FM"                 # 22
+                type: "APP_MAIN"
+              - name: "FPC"                # 23
+                type: "APP_MAIN"
+              - name: "FM_CHILD_TASK"      # 24
                 type: "APP_CHILD"
-              - name: "HS"
+              - name: "GPS"                # 25
                 type: "APP_MAIN"
-              - name: "HS_IDLE_TASK"
+              - name: "HMC5883"            # 26
+                type: "APP_MAIN"
+              - name: "HS"                 # 27
+                type: "APP_MAIN"
+              - name: "HS_IDLE_TASK"       # 28
                 type: "APP_CHILD"
-              - name: "LD"
+              - name: "ICM20689"           # 29
                 type: "APP_MAIN"
-              - name: "MAC"
+              - name: "LD"                 # 30
                 type: "APP_MAIN"
-              - name: "MD"
+              - name: "MD"                 # 31
                 type: "APP_MAIN"
-              - name: "MM"
+              - name: "MM"                 # 32
                 type: "APP_MAIN"
-              - name: "MPC"
+              - name: "MS5611"             # 33
                 type: "APP_MAIN"
-              - name: "NAV"
+              - name: "NAV"                # 34
                 type: "APP_MAIN"
-              - name: "PE"
+              - name: "PE"                 # 35
                 type: "APP_MAIN"
-              - name: "QAE"
+              - name: "QAE"                # 36
                 type: "APP_MAIN"
-              - name: "SBN"
+              - name: "RCIN"               # 37
                 type: "APP_MAIN"
-              - name: "sbn_recvs_0"
+              - name: "SBND"               # 38
+                type: "APP_MAIN"
+              - name: "SC"                 # 39
+                type: "APP_MAIN"
+              - name: "SCH"                # 40
+                type: "APP_MAIN"
+              - name: "SCH_AD_TASK"        # 41
                 type: "APP_CHILD"
-              - name: "sbn_recv_0"
-                type: "APP_CHILD"
-              - name: "PQ_OUTCH_0"
-                type: "APP_CHILD"
-              - name: "SC"
+              - name: "TO"                 # 42
                 type: "APP_MAIN"
-              - name: "SCH"
+              - name: "VM"                 # 43
                 type: "APP_MAIN"
-              - name: "SCH_AD_TASK"
-                type: "APP_CHILD"
-              - name: "SED"
-                type: "APP_MAIN"
-              - name: "SED_EVENTS"
-                type: "APP_CHILD"
-              - name: "TO"
-                type: "APP_MAIN"
-              - name: "TO_OUTCH_0"
-                type: "APP_CHILD"
-              - name: "VM"
+              - name: "ZUSUP"              # 44
                 type: "APP_MAIN"
     
       lc:
