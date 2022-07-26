@@ -272,6 +272,8 @@ public:
         FW_POSCTRL_MODE_OTHER = 3
     } ControlModeCurrent{FW_POSCTRL_MODE_OTHER};		///< used to check the mode in the last control loop iteration. Use to check if the last iteration was in the same mode.
 
+    bool use_tecs_pitch = TRUE;
+
 
     /************************************************************************
     ** Local Function Prototypes
