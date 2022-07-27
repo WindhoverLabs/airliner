@@ -42,6 +42,7 @@
 ** Includes
 *************************************************************************/
 #include "cfe.h"
+#include "px4_msgs.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -164,7 +165,7 @@ typedef struct
     uint32  uiCounter;
 } FPC_OutData_t;
 
-typedef  enum {
+typedef enum {
     THROTTLE_RAMP      = 0, /**< ramping up throttle */
     CLAMPED_TO_RUNWAY  = 1, /**< clamped to runway, controlling yaw directly (wheel or rudder) */
     TAKEOFF            = 2, /**< taking off, get ground clearance, roll 0 */
@@ -176,15 +177,15 @@ typedef struct
 {
     /** state variables **/
     RunwayTakeoffState _state;
-    osalbool _initialized;
+    boolean _initialized;
     uint64 _initialized_time;
     float _init_yaw;
-    osalbool _climbout;
-    unsigned _throttle_ramp_time;
+    boolean _climbout;
+    unsigned int _throttle_ramp_time;
 //    math::Vector2F _start_wp;
 
         /** parameters **/
-    osalbool _runway_takeoff_enabled;
+    boolean _runway_takeoff_enabled;
     int32 _heading_mode;
     float _nav_alt;
     float _takeoff_throttle;
@@ -195,6 +196,23 @@ typedef struct
     float _airspeed_min;
     float _climbout_diff;
 } Runway;
+
+
+typedef enum  {
+    FW_POSCTRL_MODE_AUTO = 0,
+    FW_POSCTRL_MODE_POSITION = 1,
+    FW_POSCTRL_MODE_ALTITUDE = 2,
+    FW_POSCTRL_MODE_OTHER = 3
+} HK_FW_POSCTRL_MODE;		///< used to check the mode in the last control loop iteration. Use to check if the last iteration was in the same mode.
+
+
+typedef enum {
+        ECL_TECS_MODE_NORMAL = 0,
+        ECL_TECS_MODE_UNDERSPEED,
+        ECL_TECS_MODE_BAD_DESCENT,
+        ECL_TECS_MODE_CLIMBOUT
+}ECL_TECS_MODE;
+
 
 /** 
 **  \brief FPC application housekeeping data
@@ -211,8 +229,27 @@ typedef struct
     /** \fpctlmmnemonic \FPC_CMDRJCTCNT
         \brief Count of failed commands */
     uint8              usCmdErrCnt; 
+    HK_FW_POSCTRL_MODE ControlModeCurrent;
 
-    Runway _runway_takeoff;
+    float	       _hold_alt;
+    float              m_Hold_Alt;
+
+    boolean	m_Hdg_Hold_Enabled;
+
+    ECL_TECS_MODE       tecsMode;
+
+    uint64                 _time_started_landing;
+    boolean use_tecs_pitch;
+    PX4_PositionSetpoint_t _hdg_hold_prev_wp;		///< position where heading hold started */
+    PX4_PositionSetpoint_t _hdg_hold_curr_wp;		///< position to which heading hold flies */
+
+    /* throttle and airspeed states */
+    boolean    _airspeed_valid;				///< flag if a valid airspeed estimate exists
+    uint64  _airspeed_last_received;			///< last time airspeed was received. Used to detect timeouts.
+    float   _airspeed;
+    float   _eas2tas;
+    Runway             _runway_takeoff;
+
 } FPC_HkTlm_t;
 
 #ifdef __cplusplus
