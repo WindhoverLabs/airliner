@@ -8,6 +8,7 @@
 #include "cf_msgids.h"
 #include "cf_defs.h"
 #include "to_platform_cfg.h"
+#include "sbnd_platform_cfg.h"
 
 static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 {
@@ -38,16 +39,24 @@ cf_config_table_t     CF_ConfigTable =
     "20",   /* InactivityTimeout (secs, string)     */
     "200",  /* OutgoingFileChunkSize (bytes, string)*/
     "no",   /* SaveIncompleteFiles (yes,no, string) */
-    "0.24", /* Flight EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+    "0.2",  /* Flight EntityId - 2 byte dotted-decimal string eg. "0.255"*/
 
     { /* Input Channel Array */
     
         { /* Input Channel 0 */
-            
-            CF_INCOMING_PDU_MID,
+
+        	CF_GND_TO_PPD_PDU_MID,
             0, /* Output Chan for Class 2 Uplink Responses, ACK-EOF,Nak,Fin etc) */
             0, /* spare */
         
+        }, /* end Input Channel 0 */
+
+        { /* Input Channel 0 */
+
+        	CF_CPD_TO_PPD_PDU_MID,
+            1, /* Output Chan for Class 2 Uplink Responses, ACK-EOF,Nak,Fin etc) */
+            0, /* spare */
+
         }, /* end Input Channel 0 */    
     
     }, /* end Input Channel Array */
@@ -57,258 +66,282 @@ cf_config_table_t     CF_ConfigTable =
         {   /* Playback Channel #0 */  
             CF_ENTRY_IN_USE,                /* Playback Channel Entry In Use */
             CF_ENABLED,                     /* Dequeue Enable */
-            CF_SPACE_TO_GND_PDU_MID,        /* Space To Gnd PDU MsgId */
+            CF_PPD_TO_GND_PDU_MID,          /* Space To Gnd PDU MsgId */
             100,                            /* Pending Queue Depth */
             100,                            /* History Queue Depth */
-            "OutputChan0",                  /* Playback Channel Name   */
-			TO_UDP_CF_THROTTLE_SEM_NAME,    /* Handshake Semaphore Name   */
+            "PPD",                          /* Playback Channel Name   */
+			TO_CF_THROTTLE_SEM_NAME,        /* Handshake Semaphore Name   */
         
             {   /* Polling Directory Array */
                 
                 { /* Polling Directory 0 */
                     CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
+					CF_ENABLED,     /* Enable State */
                     1,              /* Class (1 or 2)*/
-                    5,              /* Priority */                  
-                    CF_KEEP_FILE, /* Preserve files after successful transfer? */                    
+                    2,              /* Priority */
+                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll0/", /* SrcPath, no spaces, fwd slash at end */
-                    "cftesting/",    /* DstPath, no spaces */
+                    "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/cpd_to_gnd/class1/priority2/", /* SrcPath, no spaces, fwd slash at end */
+					"/cpd/",                        /* DstPath, no spaces */
                 },/* End Polling Directory 0 */
                 
                 { /* Polling Directory 1 */
                     CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
-                    1,              /* Class (1 or 2)*/
-                    0,              /* Priority */                  
-                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */                    
+					CF_ENABLED,     /* Enable State */
+                    2,              /* Class (1 or 2)*/
+                    2,              /* Priority */
+					CF_DELETE_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll1/", /* SrcPathname */
-                    "/gnd/",         /* DestPathname */
-                    
+                    "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/cpd_to_gnd/class2/priority2/", /* SrcPath, no spaces, fwd slash at end */
+					"/cpd/",                                     /* DstPath, no spaces */
                 },/* End Polling Directory 1 */
-                
                 
                 { /* Polling Directory 2 */
                     CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
+					CF_ENABLED,     /* Enable State */
                     1,              /* Class (1 or 2)*/
-                    5,              /* Priority */                  
-                    CF_DELETE_FILE, /* Preserve files after successful transfer? */                    
+                    4,              /* Priority */
+                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll2/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/cpd_to_gnd/class1/priority4/", /* SrcPath, no spaces, fwd slash at end */
+					"/cpd/",                                     /* DstPath, no spaces */
                 },/* End Polling Directory 2 */
                 
                 { /* Polling Directory 3 */
                     CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
-                    1,              /* Class (1 or 2)*/
-                    0,              /* Priority */                  
-                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */                    
+					CF_ENABLED,     /* Enable State */
+                    2,              /* Class (1 or 2)*/
+                    4,              /* Priority */
+					CF_DELETE_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll3/", /* SrcPathname */
-                    "/gnd/",         /* DestPathname */
-                    
+                    "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/cpd_to_gnd/class2/priority4/", /* SrcPath, no spaces, fwd slash at end */
+					"/cpd/",                                     /* DstPath, no spaces */
                 },/* End Polling Directory 3 */
                 
                 { /* Polling Directory 4 */
                     CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
+					CF_ENABLED,     /* Enable State */
                     1,              /* Class (1 or 2)*/
-                    5,              /* Priority */                  
-                    CF_DELETE_FILE, /* Preserve files after successful transfer? */                    
+                    6,              /* Priority */
+                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll4/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/cpd_to_gnd/class1/priority6/", /* SrcPath, no spaces, fwd slash at end */
+					"/cpd/",                                     /* DstPath, no spaces */
                 },/* End Polling Directory 4 */
                 
                 { /* Polling Directory 5 */
                     CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
-                    1,              /* Class (1 or 2)*/
-                    0,              /* Priority */                  
-                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */                    
+					CF_ENABLED,     /* Enable State */
+                    2,              /* Class (1 or 2)*/
+                    6,              /* Priority */
+					CF_DELETE_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll5/", /* SrcPathname */
-                    "/gnd/",         /* DestPathname */
-                    
+                    "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/cpd_to_gnd/class2/priority6/", /* SrcPath, no spaces, fwd slash at end */
+					"/cpd/",                                     /* DstPath, no spaces */
                 },/* End Polling Directory 5 */
                 
+
+
                 { /* Polling Directory 6 */
                     CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
+					CF_ENABLED,     /* Enable State */
                     1,              /* Class (1 or 2)*/
-                    5,              /* Priority */                  
-                    CF_DELETE_FILE, /* Preserve files after successful transfer? */                    
+                    2,              /* Priority */
+                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll6/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/ppd_to_gnd/class1/priority2/", /* SrcPath, no spaces, fwd slash at end */
+					"/ppd/",                                     /* DstPath, no spaces */
                 },/* End Polling Directory 6 */
                 
                 { /* Polling Directory 7 */
                     CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
-                    1,              /* Class (1 or 2)*/
-                    0,              /* Priority */                  
-                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */                    
+					CF_ENABLED,     /* Enable State */
+                    2,              /* Class (1 or 2)*/
+                    2,              /* Priority */
+					CF_DELETE_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch0poll7/", /* SrcPathname */
-                    "/gnd/",         /* DestPathname */
-                    
-                },/* End Polling Directory 7 */                
+                    "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/ppd_to_gnd/class2/priority2/", /* SrcPath, no spaces, fwd slash at end */
+					"/ppd/",                                     /* DstPath, no spaces */
+                },/* End Polling Directory 7 */
                 
-            }, /* End Polling Directory Array */
-        
-        },  /* End Playback Channel #0 */
-        
+                { /* Polling Directory 8 */
+                    CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
+					CF_ENABLED,     /* Enable State */
+                    1,              /* Class (1 or 2)*/
+                    4,              /* Priority */
+                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */
+                    0,              /* Reserved1 */
+                    0,              /* Reserved2 */
+                    0,              /* Reserved3 */
+                    "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/ppd_to_gnd/class1/priority4/", /* SrcPath, no spaces, fwd slash at end */
+					"/ppd/",                                     /* DstPath, no spaces */
+                },/* End Polling Directory 8 */
+                
+                { /* Polling Directory 9 */
+                    CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
+					CF_ENABLED,     /* Enable State */
+                    2,              /* Class (1 or 2)*/
+                    4,              /* Priority */
+					CF_DELETE_FILE,   /* Preserve files after successful transfer? */
+                    0,              /* Reserved1 */
+                    0,              /* Reserved2 */
+                    0,              /* Reserved3 */
+                    "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/ppd_to_gnd/class2/priority4/", /* SrcPath, no spaces, fwd slash at end */
+					"/ppd/",                                     /* DstPath, no spaces */
+                },/* End Polling Directory 9 */
+                
+                { /* Polling Directory 10 */
+                    CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
+					CF_ENABLED,     /* Enable State */
+                    1,              /* Class (1 or 2)*/
+                    6,              /* Priority */
+                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */
+                    0,              /* Reserved1 */
+                    0,              /* Reserved2 */
+                    0,              /* Reserved3 */
+                    "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/ppd_to_gnd/class1/priority6/", /* SrcPath, no spaces, fwd slash at end */
+					"/ppd/",                                     /* DstPath, no spaces */
+                },/* End Polling Directory 10 */
+                
+                { /* Polling Directory 11 */
+                    CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
+					CF_ENABLED,     /* Enable State */
+                    2,              /* Class (1 or 2)*/
+                    6,              /* Priority */
+					CF_DELETE_FILE,   /* Preserve files after successful transfer? */
+                    0,              /* Reserved1 */
+                    0,              /* Reserved2 */
+                    0,              /* Reserved3 */
+                    "0.1",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/ppd_to_gnd/class2/priority6/", /* SrcPath, no spaces, fwd slash at end */
+					"/ppd/",                                     /* DstPath, no spaces */
+                },/* End Polling Directory 11 */
 
-        {   /* Playback Channel #1 */  
-            CF_ENTRY_UNUSED,                /* Playback Channel Entry In Use */
-            CF_DISABLED,                    /* Dequeue Enable */
-            CF_SPACE_TO_GND_PDU_MID,        /* Space To Gnd PDU MsgId */
+            }, /* End Polling Directory Array */
+
+        },  /* End Playback Channel #0 */
+
+        {   /* Playback Channel #1 */
+            CF_ENTRY_IN_USE,                /* Playback Channel Entry In Use */
+            CF_ENABLED,                     /* Dequeue Enable */
+            CF_PPD_TO_CPD_PDU_MID,          /* Space To Gnd PDU MsgId */
             100,                            /* Pending Queue Depth */
             100,                            /* History Queue Depth */
-            "OutputChan1",                  /* Playback Channel Name   */
-            "TO_CF_CH1_SEM",                /* Handshake Semaphore Name   */
-        
+            "CPD",                          /* Playback Channel Name   */
+			SBND_CF_THROTTLE_SEM_NAME,      /* Handshake Semaphore Name   */
+
             {   /* Polling Directory Array */
                 
                 { /* Polling Directory 0 */
-                    CF_ENTRY_UNUSED,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
+                    CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
+					CF_ENABLED,     /* Enable State */
                     1,              /* Class (1 or 2)*/
-                    0,              /* Priority */                  
-                    CF_DELETE_FILE, /* Preserve files after successful transfer? */                    
+                    2,              /* Priority */
+                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll0/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "0.3",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/ppd_to_gnd/class1/priority2/",  /* SrcPath, no spaces, fwd slash at end */
+					"/ram/downlink/cpd_to_gnd/class1/priority2/", /* DstPath, no spaces */
                 },/* End Polling Directory 0 */
                 
                 { /* Polling Directory 1 */
-                    CF_ENTRY_UNUSED,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
-                    1,              /* Class (1 or 2)*/
-                    0,              /* Priority */                  
-                    CF_DELETE_FILE, /* Preserve files after successful transfer? */                    
+                    CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
+					CF_ENABLED,     /* Enable State */
+                    2,              /* Class (1 or 2)*/
+                    2,              /* Priority */
+					CF_DELETE_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll1/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
-                }, /* End Polling Directory 1 */
-                
+                    "0.3",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/ppd_to_gnd/class2/priority2/",  /* SrcPath, no spaces, fwd slash at end */
+					"/ram/downlink/cpd_to_gnd/class2/priority2/", /* DstPath, no spaces */
+                },/* End Polling Directory 1 */
+
                 { /* Polling Directory 2 */
-                    CF_ENTRY_UNUSED,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
+                    CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
+					CF_ENABLED,     /* Enable State */
                     1,              /* Class (1 or 2)*/
-                    0,              /* Priority */                  
-                    CF_DELETE_FILE, /* Preserve files after successful transfer? */                    
+                    4,              /* Priority */
+                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll2/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "0.3",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/ppd_to_gnd/class1/priority4/",  /* SrcPath, no spaces, fwd slash at end */
+					"/ram/downlink/cpd_to_gnd/class1/priority4/", /* DstPath, no spaces */
                 },/* End Polling Directory 2 */
-                
+
                 { /* Polling Directory 3 */
-                    CF_ENTRY_UNUSED,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
-                    1,              /* Class (1 or 2)*/
-                    0,              /* Priority */                  
-                    CF_DELETE_FILE, /* Preserve files after successful transfer? */                    
+                    CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
+					CF_ENABLED,     /* Enable State */
+                    2,              /* Class (1 or 2)*/
+                    4,              /* Priority */
+					CF_DELETE_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll3/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
-                }, /* End Polling Directory 3 */
-                
+                    "0.3",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/ppd_to_gnd/class2/priority4/",  /* SrcPath, no spaces, fwd slash at end */
+					"/ram/downlink/cpd_to_gnd/class2/priority4/", /* DstPath, no spaces */
+                },/* End Polling Directory 3 */
+
                 { /* Polling Directory 4 */
-                    CF_ENTRY_UNUSED,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
+                    CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
+					CF_ENABLED,     /* Enable State */
                     1,              /* Class (1 or 2)*/
-                    0,              /* Priority */                  
-                    CF_DELETE_FILE, /* Preserve files after successful transfer? */                    
+                    6,              /* Priority */
+                    CF_KEEP_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll4/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
+                    "0.3",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/ppd_to_gnd/class1/priority6/",  /* SrcPath, no spaces, fwd slash at end */
+					"/ram/downlink/cpd_to_gnd/class1/priority6/", /* DstPath, no spaces */
                 },/* End Polling Directory 4 */
-                
+
                 { /* Polling Directory 5 */
-                    CF_ENTRY_UNUSED,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
-                    1,              /* Class (1 or 2)*/
-                    0,              /* Priority */                  
-                    CF_DELETE_FILE, /* Preserve files after successful transfer? */                    
+                    CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
+					CF_ENABLED,     /* Enable State */
+                    2,              /* Class (1 or 2)*/
+                    6,              /* Priority */
+					CF_DELETE_FILE,   /* Preserve files after successful transfer? */
                     0,              /* Reserved1 */
                     0,              /* Reserved2 */
                     0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll5/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
-                }, /* End Polling Directory 5 */
-                
-                { /* Polling Directory 6 */
-                    CF_ENTRY_UNUSED,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
-                    1,              /* Class (1 or 2)*/
-                    0,              /* Priority */                  
-                    CF_DELETE_FILE, /* Preserve files after successful transfer? */                    
-                    0,              /* Reserved1 */
-                    0,              /* Reserved2 */
-                    0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll6/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
-                },/* End Polling Directory 6 */
-                
-                { /* Polling Directory 7 */
-                    CF_ENTRY_UNUSED,/* Poll Directory In Use or Not */
-                    CF_DISABLED,    /* Enable State */
-                    1,              /* Class (1 or 2)*/
-                    0,              /* Priority */                  
-                    CF_DELETE_FILE, /* Preserve files after successful transfer? */                    
-                    0,              /* Reserved1 */
-                    0,              /* Reserved2 */
-                    0,              /* Reserved3 */
-                    "0.23",         /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
-                    "/cf/ch1poll7/", /* SrcPathname */
-                    "cftesting/",    /* DstPathname */
-                }, /* End Polling Directory 7 */                
+                    "0.3",          /* Gnd EntityId - 2 byte dotted-decimal string eg. "0.255"*/
+                    "/cf/downlink/ppd_to_gnd/class2/priority6/",  /* SrcPath, no spaces, fwd slash at end */
+					"/ram/downlink/cpd_to_gnd/class2/priority6/", /* DstPath, no spaces */
+                },/* End Polling Directory 5 */
                 
             }, /* End Polling Directory Array */
         
