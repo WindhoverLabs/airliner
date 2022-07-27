@@ -228,7 +228,7 @@ buildliner_add_app(
     ci
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/ci
     CONFIG_SOURCES
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci/ci_slip_sed.c
 )
