@@ -4,6 +4,9 @@
 
 #define CFE_CMD_MID_BASE (0x1800)
 #define CFE_TLM_MID_BASE (0x0800)
+#define CPD_CPU_BASE       (0x0200)
+#define PPD_CPU_BASE       (0x0000)
+#define SIMLINK_CPU_BASE   (0x0400)
 
 
 /**

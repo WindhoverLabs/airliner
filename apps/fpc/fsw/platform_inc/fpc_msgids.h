@@ -10,8 +10,6 @@ extern "C" {
 ******        by the developer or mission integrator!
 ******/
 
-#include "msg_ids.h"
-
 /**
 ** \brief FPC application-specific command MID
 */
@@ -36,6 +34,11 @@ extern "C" {
 ** \brief Application housekeeping telemetry data
 */
 #define FPC_HK_TLM_MID              (0x0c61)
+
+
+#define PX4_MANUAL_CONTROL_SETPOINT_MID     0x0a5c
+#define PX4_AIRSPEED_MID                    0x0a5d
+#define PX4_VEHICLE_GLOBAL_POSITION_MID     0x0a5e
 
 
 #ifdef __cplusplus

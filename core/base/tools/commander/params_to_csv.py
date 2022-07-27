@@ -63,7 +63,6 @@ def write_csv(
 
 def parse_csv(yaml_dict):
     csv_data = pd.read_csv(yaml_dict['yamcs_csv_file'])
-
     time_col = csv_data['Time']
     new_time_col = []
     delta_time_ms = []

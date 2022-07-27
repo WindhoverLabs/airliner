@@ -57,8 +57,10 @@ buildliner_add_app_def(sbn
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
 
+    DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
+    
     REFERENCE_CONFIG
-        ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/platform_inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../platform_inc
         
     COMMANDER_DISPLAYS 
         ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr

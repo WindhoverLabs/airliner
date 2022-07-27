@@ -132,7 +132,7 @@ private:
     uint64 _initialized_time;
 	float _init_yaw;
     osalbool _climbout;
-    unsigned _throttle_ramp_time;
+    unsigned int _throttle_ramp_time;
     math::Vector2F _start_wp;
 
 	/** parameters **/

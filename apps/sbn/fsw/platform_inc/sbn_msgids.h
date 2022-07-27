@@ -26,9 +26,13 @@
 /*
 ** Local Defines
 */
-#define SBN_CMD_MID      0x18FA
+#define SBN_CMD_MID      0x0001
+#define SBN_TLM_MID      0x0002
+#define SBN_SUB_MID      0x0003
+#define SBN_UNSUB_MID    0x0004
+#define SBN_ALLSUB_MID   0x0005
 
-#define SBN_TLM_MID               0x08FC
+
 /*
 ** Include Files
 */

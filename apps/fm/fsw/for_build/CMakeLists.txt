@@ -12,7 +12,7 @@
  #    notice, this list of conditions and the following disclaimer in
  #    the documentation and/or other materials provided with the
  #    distribution.
- # 3. Neither the name Windhover Labs nor the names of its contributors 
+ # 3. Neither the name Windhover Labs nor the names of its contributors
  #    may be used to endorse or promote products derived from this software
  #    without specific prior written permission.
  #
@@ -58,8 +58,8 @@ buildliner_add_app_def(fm
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
     
     REFERENCE_CONFIG
-        ${PROJECT_SOURCE_DIR}/apps/fm/fsw/mission_inc
-        ${PROJECT_SOURCE_DIR}/apps/fm/fsw/platform_inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../mission_inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../platform_inc
         
     COMMANDER_DISPLAYS 
         ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr

@@ -259,7 +259,7 @@
 **       (#HS_WATCHDOG_TIMEOUT_VALUE * 1000) - HS runtime in ms
 **       otherwise HS may not be able to service the watchdog in time.
 */
-#define HS_WAKEUP_TIMEOUT 1200
+#define HS_WAKEUP_TIMEOUT (CFE_SB_PEND_FOREVER)
 
 /** \hscfg CPU aliveness output string
 **
@@ -557,7 +557,7 @@
 **       The result of the conversion must be a 32 bit signed integer 
 **       (between -2147483648 and 2147483647).
 */
-#define HS_UTIL_CONV_DIV                       635491
+#define HS_UTIL_CONV_DIV                       (500000)
 
 /** \hscfg CPU Utilization Conversion Factor Multiplication 2 (custom)
 **

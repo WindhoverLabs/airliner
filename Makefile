@@ -45,7 +45,7 @@ GENERIC_TARGET_NAMES := $(shell echo ${GENERIC_TARGET_PATHS} )
 BUILD_TYPES  := host target
 ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
-REMOTE_ADDRESS := '192.168.2.14'
+REMOTE_ADDRESS := '192.168.4.120'
 
 export PROJECT_SOURCE_DIR=${PWD}
 
@@ -262,6 +262,14 @@ docs-sphinx:
 docs: docs-doxygen docs-sphinx
 	@echo 'Completed'
 
+
+flight-release:: gemini2 gemini2-sitl gemini2-workspace gemini2-sitl-workspace reference reference/private 
+	(cd build/fixedwing/gemini2/ppd/sitl/target; ctest > test_results.txt || true)
+	(cd build/fixedwing/gemini2/cpd/sitl/target; ctest > test_results.txt || true)
+	(cd build/fixedwing/gemini2/ppd/target; ctest -R "\build" > test_results.txt || true)
+	(cd build/fixedwing/gemini2/cpd/target; ctest -R "\build" > test_results.txt || true)
+	@echo 'Completed'
+	
 
 python-env::
 	virtualenv -p python3 venv || exit -1

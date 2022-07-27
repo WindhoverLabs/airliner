@@ -45,7 +45,7 @@
 #include "math/Vector2F.hpp"
 #include "px4lib.h"
 #include "math/Limits.hpp"
-
+#include "fpc_events.h"
 
 namespace runwaytakeoff
 {
@@ -92,6 +92,8 @@ void RunwayTakeoff::update(float airspeed, float alt_agl,
             auto elapsed_time = PX4LIB_GetPX4TimeUs() - _initialized_time;
             if (elapsed_time > _throttle_ramp_time) {
                 _state = RunwayTakeoffState::CLAMPED_TO_RUNWAY;
+                (void) CFE_EVS_SendEvent(FPC_INF_EID, CFE_EVS_INFORMATION,
+                                  "_state = RunwayTakeoffState::CLAMPED_TO_RUNWAY");
             }
 
             break;
