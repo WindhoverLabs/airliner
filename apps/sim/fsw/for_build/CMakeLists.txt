@@ -39,7 +39,7 @@ buildliner_add_app_def(simlib
    
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
-        ${_MAVLINK_INCLUDE_DIR}/v2.0/common/
+        ${_MAVLINK_INCLUDE_DIR}/common/
 
     # This application has a public include header.  Add it so all the other applications can access it.
     PUBLIC_INCLUDES
@@ -65,7 +65,7 @@ buildliner_add_app_def(sim
 
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
-        ${_MAVLINK_INCLUDE_DIR}/v2.0/common/
+        ${_MAVLINK_INCLUDE_DIR}/common/
 
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
     
