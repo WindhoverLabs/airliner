@@ -95,19 +95,19 @@ modules:
             msgID: 0x0a1d              # TLM_MSG(   29 )
           CF_HK_TLM_MID: 
             msgID: 0x0a1e              # TLM_MSG(   30 )
-          CF_SPACE_TO_GND_PDU_MID:
-            msgID: 0x0a1f              # TLM_MSG(   31 )
           CF_TRANS_TLM_MID:
             msgID: 0x0a20              # TLM_MSG(   32 )
-          CF_XCHANNEL_INCOMING_PDU_MID:
-            msgID: 0x0a21              # TLM_MSG(   33 )
-          CF_XCHANNEL_OUTGOING_PDU_MID:
-            msgID: 0x1a22              # TLM_MSG(   34 )
+          CF_PPD_TO_GND_PDU_MID:
+            msgID: 0x0821              # TLM_MSG(   33 )
+          CF_CPD_TO_GND_PDU_MID:
+            msgID: 0x0a22              # TLM_MSG(   34 )
         commands:
           CF_CMD_MID: 
             msgID: 0x1a23              # CMD_MSG(   35 )
-          CF_INCOMING_PDU_MID: 
+          CF_CPD_TO_PPD_PDU_MID: 
             msgID: 0x1a24              # TLM_MSG(   36 )
+          CF_PPD_TO_CPD_PDU_MID:
+            msgID: 0x081f              # CMD_MSG(   31 )
           CF_SEND_HK_MID: 
             msgID: 0x1a25              # CMD_MSG(   37 )
           CF_WAKE_UP_REQ_CMD_MID:
@@ -574,8 +574,8 @@ modules:
                      - msg: "CF_HK_TLM_MID"
                        depth: 1
                        pqueue: "CPD_HK"
-                     - msg: "CF_SPACE_TO_GND_PDU_MID"
-                       depth: 32
+                     - msg: "CF_CPD_TO_PPD_PDU_MID"
+                       depth: 4
                        pqueue: "CPD_CFDP"
                      - msg: "CF_TRANS_TLM_MID"
                        depth: 1

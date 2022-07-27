@@ -5,9 +5,19 @@
 #include "cfe_mission_cfg.h"
 #include "cfe_platform_cfg.h"
 
+#define FROM_PPD(X)     (PPD_CPU_BASE + X)
+#define FROM_CPD(X)     (CPD_CPU_BASE + X)
+#define TO_PPD(X)       (PPD_CPU_BASE + X)
+#define TO_CPD(X)       (CPD_CPU_BASE + X)
+#define FROM_SIMLINK(X) (SIMLINK_CPU_BASE + X)
+
 
 #define CMD_MSG(X)      (CFE_MSG_CPU_BASE + CFE_CMD_MID_BASE + X)
 #define TLM_MSG(X)      (CFE_MSG_CPU_BASE + CFE_TLM_MID_BASE + X)
+#define CPD_CMD_MSG(X)  (CPD_CPU_BASE + CFE_CMD_MID_BASE + X)
+#define CPD_TLM_MSG(X)  (CPD_CPU_BASE + CFE_TLM_MID_BASE + X)
+#define PPD_CMD_MSG(X)  (PPD_CPU_BASE + CFE_CMD_MID_BASE + X)
+#define PPD_TLM_MSG(X)  (PPD_CPU_BASE + CFE_TLM_MID_BASE + X)
 
 
 /* Core                                                                    */
@@ -49,12 +59,12 @@
 /* CF                                                                      */
 #define CF_CONFIG_TLM_MID                         TLM_MSG(   29 )  /* 0x1d */
 #define CF_HK_TLM_MID                             TLM_MSG(   30 )  /* 0x1e */
-#define CF_SPACE_TO_GND_PDU_MID                   TLM_MSG(   31 )  /* 0x1f */
+#define CF_PPD_TO_CPD_PDU_MID                 CPD_CMD_MSG(   31 )  /* 0x1f */
 #define CF_TRANS_TLM_MID                          TLM_MSG(   32 )  /* 0x20 */
-#define CF_XCHANNEL_INCOMING_PDU_MID              TLM_MSG(   33 )  /* 0x21 */
-#define CF_XCHANNEL_OUTGOING_PDU_MID              TLM_MSG(   34 )  /* 0x22 */
+#define CF_PPD_TO_GND_PDU_MID                 PPD_TLM_MSG(   33 )  /* 0x21 */
+#define CF_CPD_TO_GND_PDU_MID                 CPD_TLM_MSG(   34 )  /* 0x22 */
 #define CF_CMD_MID                                CMD_MSG(   35 )  /* 0x23 */
-#define CF_INCOMING_PDU_MID                       CMD_MSG(   36 )  /* 0x24 */
+#define CF_CPD_TO_PPD_PDU_MID                 PPD_CMD_MSG(   36 )  /* 0x24 */
 #define CF_SEND_HK_MID                            CMD_MSG(   37 )  /* 0x25 */
 #define CF_WAKE_UP_REQ_CMD_MID                    CMD_MSG(   38 )  /* 0x26 */
 
@@ -177,5 +187,7 @@
 #define TO_SEND_HK_MID                            CMD_MSG(  109 )  /* 0x6d */
 #define TO_SEND_TLM_MID                           CMD_MSG(  110 )  /* 0x6e */
 
+#define CF_GND_TO_PPD_PDU_MID                 PPD_CMD_MSG(  111 ) /* 0x6f */
+#define CF_GND_TO_CPD_PDU_MID                 CPD_CMD_MSG(  112 ) /* 0x70 */
 
 #endif

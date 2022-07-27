@@ -47,9 +47,9 @@ SBND_ConfigTbl_t SBND_ConfigTbl =
         /* Mids[0] */
         FROM_CPD(AMC_CMD_MID),
         /* Mids[1] */
-        CF_SPACE_TO_GND_PDU_MID,
+		CF_PPD_TO_CPD_PDU_MID,
         /* Mids[2] */
-        CF_INCOMING_PDU_MID,
+        0,
         /* Mids[3] */
         SBND_HK_TLM_MID,
         /* Mids[4] */

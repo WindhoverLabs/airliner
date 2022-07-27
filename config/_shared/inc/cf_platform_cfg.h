@@ -192,7 +192,7 @@
 **      added.
 **
 */
-#define CF_MAX_POLLING_DIRS_PER_CHAN        8
+#define CF_MAX_POLLING_DIRS_PER_CHAN        16
 
 
 /**

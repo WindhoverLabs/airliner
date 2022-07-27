@@ -206,7 +206,8 @@ SBND_ConfigTbl_t SBND_ConfigTbl =
     	    /* 159 */  PX4_WIND_ESTIMATE_MID,
     	    /* 160 */  PX4_SENSOR_CORRECTION_MID,
     	    /* 161 */  PX4_POSITION_CONTROL_STATUS_MID,
-    	    /* 162 */  HS_HK_TLM_MID
+    	    /* 162 */  HS_HK_TLM_MID,
+			/* 163 */  CF_CPD_TO_PPD_PDU_MID
     }
 };
 

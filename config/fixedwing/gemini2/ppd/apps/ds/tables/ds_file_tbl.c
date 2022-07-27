@@ -43,7 +43,7 @@ DS_DestFileTable_t DS_DestFileTable =
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
-      /* .Pathname      = */ "/cf/log/",
+      /* .Pathname      = */ "/cf/downlink/ppd_to_gnd/class2/priority4/",
       /* .Basename      = */ "ppdevt",
       /* .Extension     = */ ".log",
 
@@ -58,7 +58,7 @@ DS_DestFileTable_t DS_DestFileTable =
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
-      /* .Pathname      = */ "/cf/log/",
+      /* .Pathname      = */ "/cf/downlink/ppd_to_gnd/class2/priority4/",
       /* .Basename      = */ "cpdevt",
       /* .Extension     = */ ".log",
       /* .FileNameType  = */ DS_BY_COUNT,
@@ -72,7 +72,7 @@ DS_DestFileTable_t DS_DestFileTable =
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
-      /* .Pathname      = */ "/cf/log/",
+      /* .Pathname      = */ "/cf/downlink/ppd_to_gnd/class2/priority4/",
       /* .Basename      = */ "ppdhk",
       /* .Extension     = */ ".log",
 
@@ -87,7 +87,7 @@ DS_DestFileTable_t DS_DestFileTable =
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
-      /* .Pathname      = */ "/cf/log/",
+      /* .Pathname      = */ "/cf/downlink/ppd_to_gnd/class2/priority4/",
       /* .Basename      = */ "cpdhk",
       /* .Extension     = */ ".log",
 
@@ -102,7 +102,7 @@ DS_DestFileTable_t DS_DestFileTable =
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
-      /* .Pathname      = */ "/cf/log/",
+      /* .Pathname      = */ "/cf/downlink/ppd_to_gnd/class2/priority4/",
       /* .Basename      = */ "allflt",
       /* .Extension     = */ ".log",
 
@@ -117,7 +117,7 @@ DS_DestFileTable_t DS_DestFileTable =
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
-      /* .Pathname      = */ "/cf/log/",
+      /* .Pathname      = */ "/cf/downlink/ppd_to_gnd/class2/priority4/",
       /* .Basename      = */ "minflt",
       /* .Extension     = */ ".log",
 
@@ -132,7 +132,7 @@ DS_DestFileTable_t DS_DestFileTable =
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
-      /* .Pathname      = */ "/cf/log/",
+      /* .Pathname      = */ "/cf/downlink/ppd_to_gnd/class2/priority4/",
       /* .Basename      = */ "sensor",
       /* .Extension     = */ ".log",
 
@@ -147,7 +147,7 @@ DS_DestFileTable_t DS_DestFileTable =
 #if (DS_MOVE_FILES == TRUE)
       /* .Movename      = */ DS_EMPTY_STRING,
 #endif
-      /* .Pathname      = */ "/cf/log/",
+      /* .Pathname      = */ "/cf/downlink/ppd_to_gnd/class2/priority4/",
       /* .Basename      = */ "lowflt",
       /* .Extension     = */ ".log",
 

@@ -46,7 +46,7 @@ TO_ChannelTbl_t TO_BackupConfigTbl =
         {CF_HK_TLM_MID,                1, TO_PQUEUE_MEDIUM_IDX},
         {CF_TRANS_TLM_MID,             1, TO_PQUEUE_MEDIUM_IDX},
         {CF_CONFIG_TLM_MID,            1, TO_PQUEUE_MEDIUM_IDX},
-        {CF_SPACE_TO_GND_PDU_MID,     32, TO_PQUEUE_CFDP_IDX},
+        {CF_CPD_TO_GND_PDU_MID,       32, TO_PQUEUE_CFDP_IDX},
         {HS_HK_TLM_MID,                1, TO_PQUEUE_MEDIUM_IDX},
         {CI_HK_TLM_MID,                1, TO_PQUEUE_MEDIUM_IDX},
   },{
