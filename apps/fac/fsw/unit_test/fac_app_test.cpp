@@ -979,6 +979,18 @@ void Test_FAC_RunController(void)
 void Test_FAC_ControlAttitude(void)
 {
     /* Set inputs */
+    oFAC.CVT.VAtt.Q[0] = 0.7083791494f;
+    oFAC.CVT.VAtt.Q[1] = -0.0311437733f;
+    oFAC.CVT.VAtt.Q[2] = -0.0508509092f;
+    oFAC.CVT.VAtt.Q[3] = 0.7033087611f;
+
+    oFAC.CVT.VAttSp.RollBody = 0.0f;    // fix this
+    oFAC.CVT.VAttSp.PitchBody = 0.0f;   // fix this
+    oFAC.CVT.VAttSp.YawBody = 0.0f;     // fix this
+    oFAC.CVT.VAttSp.YawSpMoveRate = 0.0000000000f;
+    oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
+    oFAC.CVT.VAttSp.DisableMcYawControl = FALSE;
+
 #if 0
     oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
     oFAC.CVT.VAttSp.Q_D[0] = 0.7084835768f;
