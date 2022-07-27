@@ -87,7 +87,7 @@ dataLinks:
           timeIncludesLeapSeconds: false
     tc_config:
       spacecraftId: 1
-      commandPostprocessorClassName: com.windhoverlabs.yamcs.tctm.ccsds.CfsCommandPostprocessorRFC1055
+      commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
       commandPostprocessorArgs:
         swapChecksumFc: false
       stream: tc_realtime
