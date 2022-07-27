@@ -897,6 +897,11 @@ void FPC::ReportHousekeeping()
     HkTlm.tecsMode = static_cast<ECL_TECS_MODE>((int)_tecs.tecs_mode());
     HkTlm._hold_alt = _hold_alt;
     HkTlm.use_tecs_pitch = use_tecs_pitch;
+    HkTlm._airspeed_valid = _airspeed_valid;
+    HkTlm._airspeed_last_received = _airspeed_last_received;
+    HkTlm._airspeed = _airspeed;
+    HkTlm._eas2tas = _eas2tas;
+    HkTlm.m_Hdg_Hold_Enabled = m_Hdg_Hold_Enabled;
 
     CFE_PSP_MemCpy(&HkTlm._hdg_hold_curr_wp, &_hdg_hold_curr_wp, sizeof(_hdg_hold_curr_wp));
     CFE_PSP_MemCpy(&HkTlm._hdg_hold_prev_wp, &_hdg_hold_prev_wp, sizeof(_hdg_hold_prev_wp));

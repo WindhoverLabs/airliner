@@ -234,12 +234,20 @@ typedef struct
     float	       _hold_alt;
     float              m_Hold_Alt;
 
+    boolean	m_Hdg_Hold_Enabled;
+
     ECL_TECS_MODE       tecsMode;
 
     uint64                 _time_started_landing;
     boolean use_tecs_pitch;
     PX4_PositionSetpoint_t _hdg_hold_prev_wp;		///< position where heading hold started */
     PX4_PositionSetpoint_t _hdg_hold_curr_wp;		///< position to which heading hold flies */
+
+    /* throttle and airspeed states */
+    boolean    _airspeed_valid;				///< flag if a valid airspeed estimate exists
+    uint64  _airspeed_last_received;			///< last time airspeed was received. Used to detect timeouts.
+    float   _airspeed;
+    float   _eas2tas;
     Runway             _runway_takeoff;
 
 } FPC_HkTlm_t;
