@@ -975,9 +975,49 @@ void Test_FAC_RunController(void)
 }
 
 
+int32 Test_FAC_ControlAttitude_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
+{
+    int32 iStatus = CFE_SUCCESS;
+    CFE_SB_MsgId_t  MsgId;
+
+    printf("###ControlAttitude_SendMsgHook:\n");
+
+    MsgId = CFE_SB_GetMsgId(MsgPtr);
+    switch (MsgId)
+    {
+        case PX4_VEHICLE_RATES_SETPOINT_MID:
+            printf("Received PX4_VEHICLE_RATES_SETPOINT_MID\n");
+            break;
+        case PX4_ACTUATOR_CONTROLS_0_MID:
+            printf("Received PX4_ACTUATOR_CONTROLS_0_MID\n");
+            break;
+        case PX4_ACTUATOR_CONTROLS_2_MID:
+            printf("Received PX4_ACTUATOR_CONTROLS_2_MID\n");
+            break;
+        default:
+            printf("Received Invalid Message ID\n");
+            break;
+    }
+
+    return 0;
+}
 
 void Test_FAC_ControlAttitude(void)
 {
+    int32  iStatus = CFE_SUCCESS;
+    int32  DataPipe;
+    FAC_ParamTbl_t *pTbl = NULL;
+    PX4_VehicleControlModeMsg_t  InMsg;
+
+    oFAC.CVT.VehicleStatus.InTransitionMode = false;     // check this
+    oFAC.CVT.VehicleStatus.EngineFailure = false;
+    oFAC.CVT.VehicleStatus.EngineFailureCmd = false;
+    oFAC.CVT.VehicleStatus.IsRotaryWing = false;
+
+    oFAC.CVT.VAttSp.RollResetIntegral = true;
+    oFAC.CVT.VAttSp.PitchResetIntegral = true;
+    oFAC.CVT.VAttSp.YawResetIntegral = true;
+
     /* Set inputs */
     oFAC.CVT.VAtt.Q[0] = 0.7083791494f;
     oFAC.CVT.VAtt.Q[1] = -0.0311437733f;
@@ -991,7 +1031,60 @@ void Test_FAC_ControlAttitude(void)
     oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
     oFAC.CVT.VAttSp.DisableMcYawControl = FALSE;
 
+    DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID,
+                     sizeof(PX4_VehicleControlModeMsg_t), TRUE);
+
+#if 1
+    /*
+     * ControlAttitude in TailSitter status
+     */
+    oFAC.CVT.VehicleStatus.IsVtol = true;
+    oFAC.CVT.VLandDetected.Landed = true;
+    oFAC.CVT.BatteryStatus.Scale = 0.0f;    // check this
+
+    InMsg.ControlTerminationEnabled = false;
+    InMsg.ControlRattitudeEnabled = false;
+    InMsg.ControlRatesEnabled = false;
+    InMsg.ControlAttitudeEnabled = false;
+    InMsg.ControlManualEnabled = false;
+    InMsg.ControlAutoEnabled = false;        // check this
+#else
+    /*
+     * ControlAttitude in ControlRatesEnabled status
+     */
+    oFAC.CVT.VehicleStatus.IsVtol = false;
+    oFAC.CVT.VLandDetected.Landed = false;
+    oFAC.CVT.BatteryStatus.Scale = 0.0f;    // check this
+
+    InMsg.ControlTerminationEnabled = false;
+    InMsg.ControlRattitudeEnabled = false;
+    InMsg.ControlRatesEnabled = true;
+    InMsg.ControlAttitudeEnabled = false;
+    InMsg.ControlManualEnabled = false;
+    InMsg.ControlAutoEnabled = false;        // check this
+#endif
+
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+               (void*)&Test_FAC_ControlAttitude_SendMsgHook);
+
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+//    UtAssert_True(TRUE, "FAC ControlAttitude");
+}
+
 #if 0
+void Test_FAC_ControlAttitude(void)
+{
     oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
     oFAC.CVT.VAttSp.Q_D[0] = 0.7084835768f;
     oFAC.CVT.VAttSp.Q_D[1] = -0.0144501235f;
@@ -1033,8 +1126,8 @@ void Test_FAC_ControlAttitude(void)
     UtAssert_DoubleCmpAbs(oFAC.m_AngularRatesSetpoint[1], -0.01081879158, FLT_EPSILON,"oFAC.m_AngularRatesSetpoint[1] = -0.01081879158");
     UtAssert_DoubleCmpAbs(oFAC.m_AngularRatesSetpoint[2], 0.00295280106, FLT_EPSILON,"oFAC.m_AngularRatesSetpoint[2] = 0.00295280106");
     UtAssert_DoubleCmpAbs(oFAC.m_AngularRatesIntegralError[2], -0.00006852150, FLT_EPSILON,"oFAC.m_AngularRatesIntegralError[2] = -0.00006852150");
-#endif
 }
+#endif
 
 
 /**
