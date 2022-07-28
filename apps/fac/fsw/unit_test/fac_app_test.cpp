@@ -1035,7 +1035,7 @@ void Test_FAC_ControlAttitude(void)
     CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID,
                      sizeof(PX4_VehicleControlModeMsg_t), TRUE);
 
-#if 1
+#if defined(FAC_TEST_TAILSITTER_MODE)
     /*
      * ControlAttitude in TailSitter status
      */
@@ -1049,9 +1049,9 @@ void Test_FAC_ControlAttitude(void)
     InMsg.ControlAttitudeEnabled = false;
     InMsg.ControlManualEnabled = false;
     InMsg.ControlAutoEnabled = false;        // check this
-#else
+#elif defined(FAC_TEST_CONTROLRATESENABLED_MODE)
     /*
-     * ControlAttitude in ControlRatesEnabled status
+     * ControlAttitude in ControlRatesEnabled mode
      */
     oFAC.CVT.VehicleStatus.IsVtol = false;
     oFAC.CVT.VLandDetected.Landed = false;
@@ -1060,6 +1060,20 @@ void Test_FAC_ControlAttitude(void)
     InMsg.ControlTerminationEnabled = false;
     InMsg.ControlRattitudeEnabled = false;
     InMsg.ControlRatesEnabled = true;
+    InMsg.ControlAttitudeEnabled = true;
+    InMsg.ControlManualEnabled = false;
+    InMsg.ControlAutoEnabled = false;        // check this
+#else
+    /*
+     * ControlAttitude in default status
+     */
+    oFAC.CVT.VehicleStatus.IsVtol = true;
+    oFAC.CVT.VLandDetected.Landed = true;
+    oFAC.CVT.BatteryStatus.Scale = 0.0f;    // check this
+
+    InMsg.ControlTerminationEnabled = false;
+    InMsg.ControlRattitudeEnabled = false;
+    InMsg.ControlRatesEnabled = false;
     InMsg.ControlAttitudeEnabled = false;
     InMsg.ControlManualEnabled = false;
     InMsg.ControlAutoEnabled = false;        // check this
@@ -1233,8 +1247,11 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
  */
 void Test_FAC_UpdateParams(void)
 {
+    double expected_checksum = 0.0;
+
     UpdateParams_ParamChecksum = 0.0;
     UpdateParams_ValidateStatus = 0x0;
+
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
                 (void*)Test_FAC_UpdateParams_SendEventHook);
 
@@ -1245,8 +1262,16 @@ void Test_FAC_UpdateParams(void)
     oFAC.InitApp();
 
     /* Verify results */
+#if defined(FAC_TEST_TAILSITTER_MODE)
+    expected_checksum = 1369.37;
+#elif defined(FAC_TEST_CONTROLRATESENABLED_MODE)
+    expected_checksum = 1371.37;
+#else
+    expected_checksum = 1369.37;
+#endif
+
     if ((UpdateParams_ValidateStatus == 0x0) &&
-        (fabs(UpdateParams_ParamChecksum - (double)1369.37) <= FLT_EPSILON)) // Fail with DBL_EPSILON
+        (fabs(UpdateParams_ParamChecksum - expected_checksum) <= FLT_EPSILON)) // Fail with DBL_EPSILON
     {
         UtAssert_True(TRUE, "FAC UpdateParams");
     }

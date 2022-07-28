@@ -58,6 +58,8 @@ extern Ut_CFE_PSP_MEMUTILS_HookTable_t         Ut_CFE_PSP_MEMUTILS_HookTable;
 extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t
                   Ut_CFE_PSP_MEMUTILS_ReturnCodeTable[UT_CFE_PSP_MEMUTILS_MAX_INDEX];
 
+
+#if defined(FAC_TEST_TAILSITTER_MODE)
 /*
  * Config table for Tailsitter
  */
@@ -113,7 +115,7 @@ FAC_ParamTbl_t FAC_ParamTblTailsitter =
     0.0f,    /* Yaw trim (TRIM_YAW) */
     0        /* VTOL Type (Tailsitter=0, Tiltrotor=1, Standard=2) (VT_TYPE) */
 };
-
+#elif defined(FAC_TEST_CONTROLRATESENABLED_MODE)
 /*
  * Config table for ControlRatesEnabled
  */
@@ -169,6 +171,7 @@ FAC_ParamTbl_t FAC_ParamTblControlRates =
     0.0f,    /* Yaw trim (TRIM_YAW) */
     2        /* VTOL Type (Tailsitter=0, Tiltrotor=1, Standard=2) (VT_TYPE) */
 };
+#endif
 
 /*
  * Function Definitions
@@ -189,10 +192,12 @@ void FAC_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-#if 0
-    Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTbl);
-#else
+#if defined(FAC_TEST_TAILSITTER_MODE)
     Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTblTailsitter);
+#elif defined(FAC_TEST_CONTROLRATESENABLED_MODE)
+    Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTblControlRates);
+#else
+    Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTbl);
 #endif
 
     memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
@@ -263,7 +268,7 @@ void FAC_Test_PrintEclValues()
 
 uint32 FAC_Test_ValidateEclValues()
 {
-    uint32 bResult = 0x0;
+    uint32 uResult = 0x0;
     FAC_ParamTbl_t *pTbl = oFAC.ParamTblPtr;
     ECL_PitchController *pPitch = &oFAC._pitch_ctrl;
     ECL_RollController  *pRoll = &oFAC._roll_ctrl;
@@ -272,112 +277,112 @@ uint32 FAC_Test_ValidateEclValues()
 
     if (fabs(pPitch->get_time_constant() - pTbl->FW_P_TC) > FLT_EPSILON)
     {
-        bResult |= 0x01;
+        uResult |= 0x01;
     }
     if (fabs(pPitch->get_k_p() - pTbl->FW_PR_P) > FLT_EPSILON)
     {
-        bResult |= 0x02;
+        uResult |= 0x02;
     }
     if (fabs(pPitch->get_k_i() - pTbl->FW_PR_I) > FLT_EPSILON)
     {
-        bResult |= 0x04;
+        uResult |= 0x04;
     }
     if (fabs(pPitch->get_k_ff() - pTbl->FW_PR_FF) > FLT_EPSILON)
     {
-        bResult |= 0x08;
+        uResult |= 0x08;
     }
     if (fabs(pPitch->get_integrator_max() - pTbl->FW_PR_IMAX) > FLT_EPSILON)
     {
-        bResult |= 0x10;
+        uResult |= 0x10;
     }
     if (fabs(pPitch->get_max_rate_pos() -
              math::radians(pTbl->FW_P_RMAX_POS)) > FLT_EPSILON)
     {
-        bResult |= 0x20;
+        uResult |= 0x20;
     }
     if (fabs(pPitch->get_max_rate_neg() -
              math::radians(pTbl->FW_P_RMAX_NEG)) > FLT_EPSILON)
     {
-        bResult |= 0x40;
+        uResult |= 0x40;
     }
 
     if (fabs(pRoll->get_time_constant() - pTbl->FW_R_TC) > FLT_EPSILON)
     {
-        bResult |= 0x100;
+        uResult |= 0x100;
     }
     if (fabs(pRoll->get_k_p() - pTbl->FW_RR_P) > FLT_EPSILON)
     {
-        bResult |= 0x200;
+        uResult |= 0x200;
     }
     if (fabs(pRoll->get_k_i() - pTbl->FW_RR_I) > FLT_EPSILON)
     {
-        bResult |= 0x400;
+        uResult |= 0x400;
     }
     if (fabs(pRoll->get_k_ff() - pTbl->FW_RR_FF) > FLT_EPSILON)
     {
-        bResult |= 0x800;
+        uResult |= 0x800;
     }
     if (fabs(pRoll->get_integrator_max() - pTbl->FW_RR_IMAX) > FLT_EPSILON)
     {
-        bResult |= 0x1000;
+        uResult |= 0x1000;
     }
     if (fabs(pRoll->get_max_rate() -
              math::radians(pTbl->FW_R_RMAX)) > FLT_EPSILON)
     {
-        bResult |= 0x2000;
+        uResult |= 0x2000;
     }
 
     if (fabs(pYaw->get_k_p() - pTbl->FW_YR_P) > FLT_EPSILON)
     {
-        bResult |= 0x20000;
+        uResult |= 0x20000;
     }
     if (fabs(pYaw->get_k_i() - pTbl->FW_YR_I) > FLT_EPSILON)
     {
-        bResult |= 0x40000;
+        uResult |= 0x40000;
     }
     if (fabs(pYaw->get_k_ff() - pTbl->FW_YR_FF) > FLT_EPSILON)
     {
-        bResult |= 0x80000;
+        uResult |= 0x80000;
     }
     if (fabs(pYaw->get_integrator_max() - pTbl->FW_YR_IMAX) > FLT_EPSILON)
     {
-        bResult |= 0x100000;
+        uResult |= 0x100000;
     }
     if (fabs(pYaw->get_coordinated_min_speed() - pTbl->FW_YCO_VMIN) > FLT_EPSILON)
     {
-        bResult |= 0x200000;
+        uResult |= 0x200000;
     }
     if (fabs((float)pYaw->get_coordinated_method() - (float)pTbl->FW_YCO_METHOD) > FLT_EPSILON)
     {
-        bResult |= 0x400000;
+        uResult |= 0x400000;
     }
     if (fabs(pYaw->get_max_rate() - math::radians(pTbl->FW_Y_RMAX)) > FLT_EPSILON)
     {
-        bResult |= 0x800000;
+        uResult |= 0x800000;
     }
 
     if (fabs(pWheel->get_k_p() - pTbl->FW_WR_P) > FLT_EPSILON)
     {
-        bResult |= 0x02000000;
+        uResult |= 0x02000000;
     }
     if (fabs(pWheel->get_k_i() - pTbl->FW_WR_I) > FLT_EPSILON)
     {
-        bResult |= 0x04000000;
+        uResult |= 0x04000000;
     }
     if (fabs(pWheel->get_k_ff() - pTbl->FW_WR_FF) > FLT_EPSILON)
     {
-        bResult |= 0x08000000;
+        uResult |= 0x08000000;
     }
     if (fabs(pWheel->get_integrator_max() - pTbl->FW_WR_IMAX) > FLT_EPSILON)
     {
-        bResult |= 0x10000000;
+        uResult |= 0x10000000;
     }
     if (fabs(pWheel->get_max_rate() - math::radians(pTbl->FW_W_RMAX)) > FLT_EPSILON)
     {
-        bResult |= 0x20000000;
+        uResult |= 0x20000000;
     }
 
-    printf("Test_ValidateEclValues: bResult is 0x%08x\n", (unsigned int)bResult);
+    printf("Test_ValidateEclValues: uResult is 0x%08x\n", (unsigned int)uResult);
 
-    return bResult;
+    return uResult;
 }

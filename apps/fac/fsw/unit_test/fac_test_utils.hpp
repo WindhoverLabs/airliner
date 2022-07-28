@@ -44,6 +44,12 @@
 extern "C" {
 #endif
 
+#if 0
+    #define   FAC_TEST_TAILSITTER_MODE
+#else
+    #define   FAC_TEST_CONTROLRATESENABLED_MODE
+#endif
+
 /*
  * Function Definitions
  */
