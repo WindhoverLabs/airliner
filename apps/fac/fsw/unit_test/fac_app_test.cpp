@@ -977,26 +977,76 @@ void Test_FAC_RunController(void)
 
 int32 Test_FAC_ControlAttitude_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
 {
-    int32 iStatus = CFE_SUCCESS;
+    unsigned char   *pBuff = NULL;
+    uint16          msgLen = 0;
+    int             i = 0;
     CFE_SB_MsgId_t  MsgId;
 
-    printf("###ControlAttitude_SendMsgHook:\n");
+    pBuff = (unsigned char*)MsgPtr;
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr) - 7;
+    printf("###ControlAttitude_SendMsgHook: MsgLen(%u)\n", msgLen);
+    for (i = 0; i < msgLen; i++)
+    {
+        printf("0x%x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
 
     MsgId = CFE_SB_GetMsgId(MsgPtr);
     switch (MsgId)
     {
         case PX4_VEHICLE_RATES_SETPOINT_MID:
-            printf("Received PX4_VEHICLE_RATES_SETPOINT_MID\n");
+        {
+            PX4_VehicleRatesSetpointMsg_t  VRatesSp;
+            CFE_PSP_MemCpy(&VRatesSp, MsgPtr, sizeof(VRatesSp));
+
+            printf("Sent PX4_VEHICLE_RATES_SETPOINT_MID:\n");
+            printf("Roll: %f\n", VRatesSp.Roll);
+            printf("Pitch: %f\n", VRatesSp.Pitch);
+            printf("Yaw: %f\n", VRatesSp.Yaw);
+            printf("Thrust: %f\n\n", VRatesSp.Thrust);
             break;
+        }
+
         case PX4_ACTUATOR_CONTROLS_0_MID:
-            printf("Received PX4_ACTUATOR_CONTROLS_0_MID\n");
+        {
+            PX4_ActuatorControlsMsg_t  AControls0;
+            CFE_PSP_MemCpy(&AControls0, MsgPtr, sizeof(AControls0));
+
+            printf("Sent PX4_ACTUATOR_CONTROLS_0_MID\n");
+            printf("Control[Roll]: %f\n", AControls0.Control[0]);
+            printf("Control[Pitch]: %f\n", AControls0.Control[1]);
+            printf("Control[Yaw]: %f\n", AControls0.Control[2]);
+            printf("Control[Throttle]: %f\n", AControls0.Control[3]);
+            printf("Control[Flaps]: %f\n", AControls0.Control[4]);
+            printf("Control[Spoilers]: %f\n", AControls0.Control[5]);
+            printf("Control[Airbrakes]: %f\n", AControls0.Control[6]);
+            printf("Control[LandingGear]: %f\n\n", AControls0.Control[7]);
             break;
+        }
+
         case PX4_ACTUATOR_CONTROLS_2_MID:
-            printf("Received PX4_ACTUATOR_CONTROLS_2_MID\n");
+        {
+            PX4_ActuatorControlsMsg_t  AControls2;
+            CFE_PSP_MemCpy(&AControls2, MsgPtr, sizeof(AControls2));
+
+            printf("Sent PX4_ACTUATOR_CONTROLS_2_MID\n");
+            printf("Control[Roll]: %f\n", AControls2.Control[0]);
+            printf("Control[Pitch]: %f\n", AControls2.Control[1]);
+            printf("Control[Yaw]: %f\n", AControls2.Control[2]);
+            printf("Control[Throttle]: %f\n", AControls2.Control[3]);
+            printf("Control[Flaps]: %f\n", AControls2.Control[4]);
+            printf("Control[Spoilers]: %f\n", AControls2.Control[5]);
+            printf("Control[Airbrakes]: %f\n", AControls2.Control[6]);
+            printf("Control[LandingGear]: %f\n\n", AControls2.Control[7]);
             break;
+        }
+
         default:
-            printf("Received Invalid Message ID\n");
+        {
+            printf("Sent Invalid Message ID\n");
             break;
+        }
     }
 
     return 0;
@@ -1004,9 +1054,7 @@ int32 Test_FAC_ControlAttitude_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
 
 void Test_FAC_ControlAttitude(void)
 {
-    int32  iStatus = CFE_SUCCESS;
     int32  DataPipe;
-    FAC_ParamTbl_t *pTbl = NULL;
     PX4_VehicleControlModeMsg_t  InMsg;
 
     oFAC.CVT.VehicleStatus.InTransitionMode = false;     // check this
@@ -1065,7 +1113,7 @@ void Test_FAC_ControlAttitude(void)
     InMsg.ControlAutoEnabled = false;        // check this
 #else
     /*
-     * ControlAttitude in default status
+     * ControlAttitude in default mode
      */
     oFAC.CVT.VehicleStatus.IsVtol = true;
     oFAC.CVT.VLandDetected.Landed = true;
