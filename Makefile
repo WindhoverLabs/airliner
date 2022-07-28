@@ -177,9 +177,8 @@ gemini2-workspace::
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/fixedwing/gemini2/cpd/target/wh_defs.yaml ${PWD}/build/fixedwing/gemini2/cpd/target/wh_defs.db ${PWD}/build/fixedwing/gemini2/commander_workspace/mdb/cpd.xml
 	@echo 'Generating PPD XTCE'
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/fixedwing/gemini2/ppd/target/wh_defs.yaml ${PWD}/build/fixedwing/gemini2/ppd/target/wh_defs.db ${PWD}/build/fixedwing/gemini2/commander_workspace/mdb/ppd.xml
-	
-	
-workspace-quad-sitl::
+
+quad-sitl-workspace::
 	@echo 'Generating PPD ground tools data.'
 	@make -C build/multirotor/quad/ppd/sitl/target ground-tools
 	@echo 'Generating CPD ground tools data.'
@@ -204,6 +203,32 @@ workspace-quad-sitl::
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/multirotor/quad/ppd/sitl/target/wh_defs.yaml ${PWD}/build/multirotor/quad/ppd/sitl/target/wh_defs.db ${PWD}/build/multirotor/quad/sitl_commander_workspace/mdb/ppd.xml
 	@echo 'Generating Simlink XTCE'
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/multirotor/quad/simlink/target/wh_defs.yaml ${PWD}/build/multirotor/quad/simlink/target/wh_defs.db ${PWD}/build/multirotor/quad/sitl_commander_workspace/mdb/simlink.xml
+
+quad-hitl-workspace::
+	@echo 'Generating PPD ground tools data.'
+	@make -C build/multirotor/quad/ppd/target ground-tools
+	@echo 'Generating CPD ground tools data.'
+	@make -C build/multirotor/quad/cpd/target ground-tools
+	@echo 'Generating Simlink ground tools data.'
+	@make -C build/multirotor/quad/simlink/hitl/target ground-tools
+	@echo 'Adding XTCE configuration to registries.'
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/multirotor/quad/cpd/target/wh_defs.yaml --overwrite build/multirotor/quad/cpd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/multirotor/quad/ppd/target/wh_defs.yaml --overwrite build/multirotor/quad/ppd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/multirotor/quad/simlink/hitl/target/wh_defs.yaml --overwrite build/multirotor/quad/simlink/hitl/target/wh_defs.yaml
+	@echo 'Generating combined registry.'
+	@rm -Rf build/multirotor/quad/hitl_commander_workspace >/dev/null
+	@mkdir -p build/multirotor/quad/hitl_commander_workspace/etc
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/multirotor/quad/hitl_commander_workspace/etc/registry.yaml --yaml_input build/multirotor/quad/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/multirotor/quad/hitl_commander_workspace/etc/registry.yaml --yaml_input build/multirotor/quad/ppd/target/wh_defs.yaml --yaml_path /modules/cpd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/multirotor/quad/hitl_commander_workspace/etc/registry.yaml --yaml_input build/multirotor/quad/simlink/hitl/target/wh_defs.yaml --yaml_path /modules/cpd
+	@echo 'Generating Commander workspace.'
+	@python3 core/base/tools/commander/generate_workspace.py build/multirotor/quad/hitl_commander_workspace/etc/registry.yaml build/multirotor/quad/hitl_commander_workspace/
+	@echo 'Generating CPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/multirotor/quad/cpd/target/wh_defs.yaml ${PWD}/build/multirotor/quad/cpd/target/wh_defs.db ${PWD}/build/multirotor/quad/hitl_commander_workspace/mdb/cpd.xml
+	@echo 'Generating PPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/multirotor/quad/ppd/target/wh_defs.yaml ${PWD}/build/multirotor/quad/ppd/target/wh_defs.db ${PWD}/build/multirotor/quad/hitl_commander_workspace/mdb/ppd.xml
+	@echo 'Generating Simlink XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/multirotor/quad/simlink/hitl/target/wh_defs.yaml ${PWD}/build/multirotor/quad/simlink/hitl/target/wh_defs.db ${PWD}/build/multirotor/quad/hitl_commander_workspace/mdb/simlink.xml
 
 gemini2-sitl-workspace::
 	@echo 'Generating PPD ground tools data.'
@@ -230,9 +255,33 @@ gemini2-sitl-workspace::
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/fixedwing/gemini2/ppd/sitl/target/wh_defs.yaml ${PWD}/build/fixedwing/gemini2/ppd/sitl/target/wh_defs.db ${PWD}/build/fixedwing/gemini2/sitl_commander_workspace/mdb/ppd.xml
 	@echo 'Generating Simlink XTCE'
 	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/fixedwing/gemini2/simlink/target/wh_defs.yaml ${PWD}/build/fixedwing/gemini2/simlink/target/wh_defs.db ${PWD}/build/fixedwing/gemini2/sitl_commander_workspace/mdb/simlink.xml
-#
-		
-	
+
+gemini2-hitl-workspace::
+	@echo 'Generating PPD ground tools data.'
+	@make -C build/fixedwing/gemini2/ppd/target ground-tools
+	@echo 'Generating CPD ground tools data.'
+	@make -C build/fixedwing/gemini2/cpd/target ground-tools
+	@echo 'Generating Simlink ground tools data.'
+	@make -C build/fixedwing/gemini2/simlink/hitl/target ground-tools
+	@echo 'Adding XTCE configuration to registries.'
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/cpd/target/wh_defs.yaml --overwrite build/fixedwing/gemini2/cpd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/ppd/target/wh_defs.yaml --overwrite build/fixedwing/gemini2/ppd/target/wh_defs.yaml
+	@yaml-merge  core/base/tools/commander/xtce_config.yaml build/fixedwing/gemini2/simlink/hitl/target/wh_defs.yaml --overwrite build/fixedwing/gemini2/simlink/hitl/target/wh_defs.yaml
+	@echo 'Generating combined registry.'
+	@rm -Rf build/fixedwing/gemini2/hitl_commander_workspace >/dev/null
+	@mkdir -p build/fixedwing/gemini2/hitl_commander_workspace/etc
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/fixedwing/gemini2/hitl_commander_workspace/etc/registry.yaml --yaml_input build/fixedwing/gemini2/cpd/target/wh_defs.yaml --yaml_path /modules/cpd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/fixedwing/gemini2/hitl_commander_workspace/etc/registry.yaml --yaml_input build/fixedwing/gemini2/ppd/target/wh_defs.yaml --yaml_path /modules/ppd
+	@python3 core/base/tools/config/yaml_path_merger.py --yaml_output build/fixedwing/gemini2/hitl_commander_workspace/etc/registry.yaml --yaml_input build/fixedwing/gemini2/simlink/hitl/target/wh_defs.yaml --yaml_path /modules/simlink
+	@echo 'Generating Commander workspace.'
+	@python3 core/base/tools/commander/generate_workspace.py build/fixedwing/gemini2/hitl_commander_workspace/etc/registry.yaml build/fixedwing/gemini2/hitl_commander_workspace/
+	@echo 'Generating CPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/fixedwing/gemini2/cpd/target/wh_defs.yaml ${PWD}/build/fixedwing/gemini2/cpd/target/wh_defs.db ${PWD}/build/fixedwing/gemini2/hitl_commander_workspace/mdb/cpd.xml
+	@echo 'Generating PPD XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/fixedwing/gemini2/ppd/target/wh_defs.yaml ${PWD}/build/fixedwing/gemini2/ppd/target/wh_defs.db ${PWD}/build/fixedwing/gemini2/hitl_commander_workspace/mdb/ppd.xml
+	@echo 'Generating Simlink XTCE'
+	@core/tools/auto-yamcs/src/generate_xtce.sh ${PWD}/build/fixedwing/gemini2/simlink/hitl/target/wh_defs.yaml ${PWD}/build/fixedwing/gemini2/simlink/hitl/target/wh_defs.db ${PWD}/build/fixedwing/gemini2/hitl_commander_workspace/mdb/simlink.xml
+
 quad-sitl:: multirotor/quad/ppd/sitl multirotor/quad/cpd/sitl multirotor/quad/simlink
 	@ln -s cf build/multirotor/quad/cpd/sitl/target/target/exe/ram || /bin/true
 	@echo 'Done'
@@ -240,16 +289,18 @@ quad-sitl:: multirotor/quad/ppd/sitl multirotor/quad/cpd/sitl multirotor/quad/si
 gemini2-sitl:: fixedwing/gemini2/ppd/sitl fixedwing/gemini2/cpd/sitl fixedwing/gemini2/simlink
 	@ln -s cf build/fixedwing/gemini2/cpd/sitl/target/target/exe/ram || /bin/true
 	@echo 'Done'
-	
+
 quad-hitl:: multirotor/quad/ppd multirotor/quad/cpd multirotor/quad/simlink/hitl
+	@echo 'Done'
+
+gemini2-hitl:: fixedwing/gemini2/ppd fixedwing/gemini2/cpd fixedwing/gemini2/simlink/hitl
 	@echo 'Done'
 
 docs-doxygen:
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
 	(cd build/${SPHINX_FSW_BUILD}/target; /usr/bin/cmake -DBUILDNAME:STRING=${SPHINX_FSW_BUILD} \
 		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR); make docs);
-	
-	
+
 docs-sphinx: 
 	@echo 'Building $$SPHINX_FSW_BUILD.'
 	mkdir -p build/${SPHINX_FSW_BUILD}/target; \
@@ -257,11 +308,9 @@ docs-sphinx:
 		-G"Eclipse CDT4 - Unix Makefiles" -DCMAKE_ECLIPSE_GENERATE_SOURCE_PROJECT=TRUE CMAKE_BUILD_TYPE=Debug $(ROOT_DIR));
 	@$(SPHINX_BUILD) -M html "$(SOURCE_DIR)" "$(SPHINX_BUILDDIR)" $(SPHINX_OPTS) -c build/$(SPHINX_FSW_BUILD)/target/docs $(O)
 	@echo 'Completed'
-	
-	
+
 docs: docs-doxygen docs-sphinx
 	@echo 'Completed'
-
 
 flight-release:: gemini2 gemini2-sitl gemini2-workspace gemini2-sitl-workspace reference reference/private 
 	(cd build/fixedwing/gemini2/ppd/sitl/target; ctest > test_results.txt || true)
@@ -269,7 +318,6 @@ flight-release:: gemini2 gemini2-sitl gemini2-workspace gemini2-sitl-workspace r
 	(cd build/fixedwing/gemini2/ppd/target; ctest -R "\build" > test_results.txt || true)
 	(cd build/fixedwing/gemini2/cpd/target; ctest -R "\build" > test_results.txt || true)
 	@echo 'Completed'
-	
 
 python-env::
 	virtualenv -p python3 venv || exit -1
@@ -282,13 +330,11 @@ python-env::
 	@echo 'Deactivate:                                                                     '
 	@echo '    deactivate                                                                  '
 	@echo '                                                                                '
-	
-	
+
 submodule-update: 
 	@echo 'Completed'
 	@echo 'Updating submodules'
 	git submodule update --init --recursive
-
 
 gemini2-remote-install::
 	@echo 'Installing onto test flight vehicle at $(REMOTE_ADDRESS)'
@@ -299,13 +345,11 @@ gemini2-remote-install::
 	scp build/fixedwing/gemini2/cpd/target/target/exe/airliner.elf windhover@$(REMOTE_ADDRESS):~
 	scp config/fixedwing/gemini2/ppd/target/airliner.service windhover@$(REMOTE_ADDRESS):~
 
-
 gemini2-local-install::
 	@echo 'Installing onto test flight vehicle at /media/${USER}/'
 	-sudo rm -Rf /media/${USER}/rootfs/opt/airliner
 	sudo cp -R build/fixedwing/gemini2/ppd/target/target/exe /media/${USER}/rootfs/opt/airliner
 	sudo cp build/fixedwing/gemini2/cpd/target/target/exe/airliner.elf /media/${USER}/rootfs/lib/firmware
-
 
 clean::
 	@echo 'Cleaning flight software builds                                                 '

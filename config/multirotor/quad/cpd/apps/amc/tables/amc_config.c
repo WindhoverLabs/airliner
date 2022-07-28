@@ -42,9 +42,10 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 /* Default config table data */
 AMC_ConfigTbl_t AMC_ConfigTbl =
 {
-    900,                  /* PwmDisarmed */
-    1100,                 /* PwmMin      */
-    19500                 /* PwmMax      */
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_SAFE, 900,
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_SAFE, 900,
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_SAFE, 900,
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_SAFE, 900
 };
 
 /*
