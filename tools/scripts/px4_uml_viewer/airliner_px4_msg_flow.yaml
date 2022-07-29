@@ -1,0 +1,1194 @@
+airliner_px4_msg_flow:
+  telemetry: 
+    PX4_ACTUATOR_ARMED_MID: 
+      msgID: 
+      sender: VM
+      struct: PX4_ActuatorArmedMsg_t
+      attributes:
+        - Timestamp:
+        - Armed:
+            users: [AMC, LD]
+        - Prearmed:
+        - ReadyToArm:
+        - Lockdown:
+            users: [AMC]
+        - ManualLockdown:
+        - ForceFailsafe:
+        - InEscCalibrationMode:
+            users: [AMC]
+      users: 
+        - AMC
+        - LD
+        # PE is subscribing and copying but not using this message
+    PX4_ACTUATOR_CONTROLS_0_MID: 
+      msgID: 
+      sender: FAC
+      struct: PX4_ActuatorControlsMsg_t
+      attributes:
+        - Timestamp:
+        - SampleTime:
+        - PrearmedControl[PX4_ACTUATOR_CONTROL_COUNT]:
+            users: [AMC, LD]
+      users:
+        - AMC
+        - LD
+    PX4_ACTUATOR_CONTROLS_1_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_ActuatorControlsMsg_t
+      attributes:
+        - Timestamp:
+        - SampleTime:
+        - PrearmedControl[PX4_ACTUATOR_CONTROL_COUNT]:
+            users: [AMC]
+      users:
+        - AMC
+    PX4_ACTUATOR_CONTROLS_2_MID: 
+      msgID: 
+      sender: FAC
+      struct: PX4_ActuatorControlsMsg_t
+      attributes:
+        - Timestamp:
+        - SampleTime:
+        - PrearmedControl[PX4_ACTUATOR_CONTROL_COUNT]:
+            users: [AMC]
+      users:
+        - AMC
+    PX4_ACTUATOR_CONTROLS_3_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_ActuatorControlsMsg_t
+      attributes:
+        - Timestamp:
+        - SampleTime:
+        - PrearmedControl[PX4_ACTUATOR_CONTROL_COUNT]:
+            users: [AMC]
+      users:
+        - AMC
+    PX4_ACTUATOR_DIRECT_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_ActuatorDirectMsg_t
+      users:
+    PX4_ACTUATOR_OUTPUTS_MID: 
+      msgID: 
+      sender: AMC
+      struct: PX4_ActuatorOutputsMsg_t
+      attributes:
+        - Timestamp:
+        - Count:
+        - Output[PX4_ACTUATOR_OUTPUTS_MAX]:
+      users:
+    PX4_ADC_REPORT_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_ActuatorOutputsMsg_t
+      users:
+    PX4_AIRSPEED_MID: 
+      msgID: 
+      sender: ASPD4525
+      # SENS has function that sends this message, which is dead unused code
+      struct: PX4_AirspeedMsg_t
+      attributes:
+        - Timestamp:
+        - IndicatedAirspeed:
+            users: [FAC, FPC]
+        - TrueAirspeed:
+            users: [FPC]
+        - TrueAirspeedUnfiltered:
+            users: [LD]
+        - AirTemperature:
+        - Confidence:
+      users:
+        - LD
+        - FPC
+        - FAC
+    PX4_ATT_POS_MOCAP_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_AttPosMoCapMsg_t
+      users:
+    PX4_BATTERY_STATUS_MID: 
+      msgID: 
+      sender: SENS
+      struct: PX4_BatteryStatusMsg_t
+      attributes:
+        - Timestamp:
+            users: [LD]
+        - Voltage:
+        - VoltageFiltered:
+            users: [VM]
+        - Current:
+        - CurrentFiltered:
+        - Discharged:
+        - Remaining:
+        - Scale:
+            users: [FAC]
+        - CellCount:
+        - Connected:
+        - Warning:
+            users: [LD, VM]
+      users:
+        - LD
+        - VM
+        - FAC
+    PX4_CAMERA_TRIGGER_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_CameraTriggerMsg_t
+      users: 
+    PX4_COMMANDER_STATE_MID: 
+      msgID: 
+      sender: VM
+      struct: PX4_CommanderStateMsg_t
+      attributes:
+        - Timestamp:
+        - MainState:
+      users: 
+    PX4_CONTROL_STATE_MID: 
+      msgID: 
+      sender: QAE
+      struct: PX4_ControlStateMsg_t
+      attributes:
+        - Timestamp:
+        - AccX:
+        - AccY:
+        - AccZ:
+        - VelX:
+        - VelY:
+        - VelZ:
+        - AccX:
+        - AccY:
+        - AccZ:
+        - Airspeed_filtered:
+        - VelVariance[3]:
+        - PosVariance[3]:
+        - Q[4]:
+        - DeltaQReset[4]:
+        - RollRate:
+        - PitchRate:
+        - YawRate:
+        - HorzAccMag:
+        - RollRateBias:
+        - PitchRateBias:
+        - YawRateBias:
+        - Airspeed_Valid:
+        - QuatResetCounter:
+      users:
+        # LD is subscribing and copying message, but not using it
+    PX4_CPULOAD_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_CpuLoadMsg_t
+      users:
+    PX4_DEBUG_KEY_VALUE_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_DebugKeyValueMsg_t
+      users:
+    PX4_DIFFERENTIAL_PRESSURE_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_DifferentialPressureMsg_t
+      attributes:
+        - Timestamp:
+            users: [SENS]
+        - ErrorCount:
+        - DifferentialPressureRaw:
+        - DifferentialPressureFiltered:
+        - Temperature:
+      users:
+        - SENS
+        # Note: Sender Not Yet Found
+    PX4_DISTANCE_SENSOR_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_DistanceSensorMsg_t
+      attributes:
+        - Timestamp:
+            users: [PE]
+        - MinDistance:
+            users: [PE]
+        - MaxDistance:
+            users: [PE]
+        - CurrentDistance:
+            users: [PE]
+        - Covariance:
+            users: [PE]
+        - Type:
+            users: [PE]
+        - ID:
+        - Orientation:
+      users: 
+        - PE
+        # Note: Sender Not Yet Found
+    PX4_FW_POS_CTRL_STATUS_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_FwPosCtrlStatusMsg_t
+      users:
+    PX4_FW_VIRTUAL_ATTITUDE_SETPOINT_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_FwVirtualAttitudeSetpointMsg_t
+      users:
+    PX4_FW_VIRTUAL_RATES_SETPOINT_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_FwVirtualRatesSetpointMsg_t
+      users:
+    PX4_EKF2_INNOVATIONS_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_Ekf2InnovationsMsg_t
+      users:
+    PX4_EKF2_REPLAY_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_Ekf2ReplayMsg_t
+      users:
+    PX4_ESC_REPORT_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_EscReport_t
+      users:
+    PX4_ESC_STATUS_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_EscReportMsg_t
+      users:
+    PX4_ESTIMATOR_STATUS_MID: 
+      msgID: 
+      sender: 
+        # PE initializes a write but doesn't write to it
+      struct: PX4_EstimatorStatusMsg_t
+      users:
+    PX4_FENCE_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_FenceMsg_t
+      users:
+    PX4_FENCE_VERTEX_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_FenceVertex_t
+      users:
+    PX4_FILTERED_BOTTOM_FLOW_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_FilteredBottomFlowMsg_t
+      users:
+    PX4_FOLLOW_TARGET_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_FollowTargetMsg_t
+      users:
+    PX4_GEOFENCE_RESULT_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_GeofenceResultMsg_t
+      users:
+        # VM is subscribing, but not copying or using this message
+    PX4_GPS_DUMP_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_GpsDumpMsg_t
+      users:
+    PX4_GPS_INJECT_DATA_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_GpsInjectDataMsg_t
+      users:
+    PX4_HIL_SENSOR_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_HilSensorMsg_t
+      users:
+    PX4_HOME_POSITION_MID: 
+      msgID: 
+      sender: VM
+      struct: PX4_HomePositionMsg_t
+      attributes:
+        - Timestamp:
+            users: [NAV]
+        - Lat:
+            users: [NAV]
+        - Lon:
+            users: [NAV]
+        - Alt:
+            users: [NAV]
+        - X:
+        - Y:
+        - Z:
+        - Yaw:
+            users: [NAV]
+        - DirectionX:
+        - DirectionY:
+        - DirectionZ:
+      users:
+        - NAV
+    PX4_INPUT_RC_MID: 
+      msgID: 
+      sender: RCIN
+      struct: PX4_InputRcMsg_t
+      attributes:
+        - Timestamp: 
+            users: [SENS]
+        - LastSignal:
+            users: [SENS]
+        - ChannelCount:
+            users: [SENS]
+        - RSSI:
+            users: [SENS]
+        - RcLostFrameCount:
+            users: [SENS]
+        - RcTotalFrameCount:
+        - RcPpmFrameLength:
+        - Values[PX4_RC_INPUT_MAC_CHANNELS]:
+            users: [SENS]
+        - RcFailSafe:
+            users: [SENS]
+        - RcLost:
+            users: [SENS]
+        - InputSource:
+      users: 
+        - SENS
+    PX4_LED_CONTROL_MID: 
+      msgID: 
+      sender: VM
+      struct: PX4_LedControlMsg_t
+      attributes:
+        - Timestamp:
+        - LedMask:
+        - Color:
+        - Mode:
+        - NumBlinks:
+        - Priority:
+      users:
+    PX4_LOG_MESSAGE_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_LogMessageMsg_t
+      users: 
+    PX4_MANUAL_CONTROL_SETPOINT_MID: 
+      msgID: 
+      sender: SENS
+      struct: PX4_ManualControlSetpointMsg_t
+      attributes:
+        - Timestamp: 
+            users: [LD]
+        - X:
+            users: [FPC, FAC]
+        - Y:
+            users: [FPC, FAC]
+        - Z:
+            users: [FPC, FAC]
+        - R:
+            users: [FPC, FAC]
+        - Flaps:
+            users: [FAC]
+        - Aux1:
+            users: [FAC]
+        - Aux2:
+            users: [FAC]
+        - Aux3:
+            users: [FAC]
+        - Aux4:
+        - Aux5:
+        - ModeSwitch:
+        - ReturnSwitch:
+        - RattitudeSwitch:
+        - PosctlSwitch:
+        - LoiterSwitch:
+        - AcroSwitch:
+        - OffboardSwitch:
+        - KillSwitch:
+        - TransitionSwitch:
+        - GearSwitch:
+        - ArmSwitch:
+        - StabSwitch:
+        - ManSwitch:
+        - ModeSlot:
+        - DataSource:
+        - AltctlSwitch:
+      users: 
+        - LD
+        - FAC
+        - FPC
+    PX4_MAVLINK_LOG_MID: 
+      msgID: 
+      sender:
+      struct: PX4_MavlinkLogMsg_t
+      users:
+    PX4_MC_ATT_CTRL_STATUS_MID: 
+      msgID:
+      sender: 
+      struct: PX4_McAttCtrlStatusMsg_t
+      users:
+    PX4_MC_VIRTUAL_ATTITUDE_SETPOINT_MID: 
+      msgID:
+      sender: 
+      struct: PX4_McVirtualAttitudeSetpointMsg_t
+      users:
+    PX4_MC_VIRTUAL_RATES_SETPOINT_MID: 
+      msgID:
+      sender: 
+      struct: PX4_McVirtualRatesSetpointMsg_t
+      users:
+    PX4_MISSION_MID: 
+      msgID:
+      sender: VM 
+      struct: PX4_MissionMsg_t
+      attributes:
+        - Timestamp:
+        - DatamanID:
+        - Count:
+        - CurrentSeq:
+      users:
+        # NAV subscribes and copies the message, but doesn't use it
+    PX4_MISSION_RESULT_MID: 
+      msgID: 
+      sender: NAV
+      struct: PX4_MissionResultMsg_t
+      attributes:
+        - Timestamp:
+        - InstanceCount:
+        - SeqReached:
+        - SeqCurrent:
+        - SeqTotal:
+        - ItemChangedIndex:
+        - ItemDoJumpRemaining:
+        - Warning:
+        - Reached:
+        - Finished:
+        - Failure:
+        - StayInFailsafe:
+        - FlightTermination:
+        - ItemDoJumpChanged:
+        - Valid:
+      users: 
+        # VM subscribes and copies the message, but doesn't use it
+    PX4_MULTIROTOR_MOTOR_LIMITS_MID: 
+      msgID: 
+      sender:
+      #struct: PX4_MultirotorMotorLimitsMsg_t
+      users:
+    PX4_OFFBOARD_CONTROL_MODE_MID: 
+      msgID:
+      sender: 
+      struct: PX4_OffboardControlModeMsg_t
+      users:
+    PX4_OPTICAL_FLOW_MID: 
+      msgID: 
+      sender:
+      struct: PX4_OpticalFlowMsg_t
+      attributes:
+        - Timestamp:
+        - PixelFlowXIntegral:
+            users: [PE]
+        - PixelFlowYIntegral:
+            users: [PE]
+        - GyroXRateIntegral:
+            users: [PE]
+        - GyroYRateIntegral:
+            users: [PE]
+        - GyroZRateIntegral:
+        - GroundDistance:
+        - IntegrationTimespan:
+            users: [PE]
+        - TimeSinceLastSonarUpdate:
+        - FrameCountSinceLastReadout:
+        - GyroTemperature:
+        - SensorID:
+        - Quality:
+            users: [PE]
+      users:
+        - PE
+        # PE is using it, but no one is writing to it
+    PX4_OUTPUT_PWM_MID: 
+      msgID: 
+      sender:
+      struct: PX4_OutputPwmMsg_t
+      users:
+    PX4_PARAMETER_UPDATE_MID: 
+      msgID: 
+      sender:
+      struct: PX4_ParameterUpdateMsg_t
+      users:
+    PX4_POSITION_SETPOINT_MID: 
+      msgID: 
+      sender:
+      struct: PX4_PositionSetpoint_t
+      users:
+    PX4_POSITION_SETPOINT_TRIPLET_MID: 
+      msgID: 
+      sender: NAV
+      struct: PX4_PositionSetpointTripletMsg_t
+      attributes:
+        - Timestamp:
+        - Previous:
+            users: [FPC]
+        - Current:
+            users: [FPC]
+        - Next:
+      users:
+        - FPC
+    PX4_PWM_INPUT_MID: 
+      msgID: 
+      sender:
+      struct: PX4_PwmInputMsg_t
+      users:
+    PX4_QSHELL_REQ_MID: 
+      msgID:
+      sender: 
+      struct: PX4_QShellReqMsg_t
+      users:
+    PX4_RC_CHANNELS_MID: 
+      msgID:
+      sender: SENS 
+      struct: PX4_RcChannelsMsg_t
+      attributes:
+        - Timestamp:
+        - TimestampLastValid:
+        - Channels[PX4_RC_INPUT_MAX_CHANNELS]:
+        - FrameDropCount:
+        - ChannelCount:
+        - Function[PX4_RC_CHANNELS_FUNCTION_COUNT]:
+        - RSSI:
+        - SignalLost:
+      users:
+    PX4_RC_PARAMETER_MAP_MID: 
+      msgID: 
+      sender:
+      struct: PX4_RcParameterMapMsg_t
+      users:
+    PX4_SAFETY_MID: 
+      msgID:
+      sender: 
+      struct: PX4_SafetyMsg_t
+      attributes:
+        - Timestamp:
+        - SafetySwitchAvailable:
+            users: [VM]
+        - SafetyOff:
+            users: [VM]
+      users:
+        - VM
+    PX4_SATELLITE_INFO_MID: 
+      msgID: 
+      sender:
+      struct: PX4_SatelliteInfoMsg_t
+      users:
+    PX4_SENSOR_ACCEL_MID: 
+      msgID:
+      sender: ICM20689
+      struct: PX4_SensorAccelMsg_t
+      attributes:
+        - Timestamp: 
+            users: [SENS, VM]
+        - IntegralDt:
+            users: [SENS]
+        - ErrorCount
+        - X:
+            users: [SENS]
+        - Y:
+            users: [SENS]
+        - Z:
+            users: [SENS]
+        - XIntegral:
+        - YIntegral:
+        - ZIntegral:
+        - Temperature:
+        - Range_m_s2:
+        - Scaling:
+        - DeviceID:
+        - XRaw:
+        - YRaw:
+        - ZRaw:
+        - TemperatureRaw:
+      users:
+        - SENS
+        - VM
+    PX4_SENSOR_BARO_MID: 
+      msgID: 
+      sender: MS5611
+      struct: PX4_SensorBaroMsg_t
+      attributes:
+        - Timestamp:
+            users: [SENS]
+        - ErrorCount:
+        - Pressure:
+            users: [FPC]
+        - Altitude:
+            users: [SENS]
+        - Temperature:
+            users: [SENS]
+      users:
+        - SENS
+        - FPC
+    PX4_SENSOR_COMBINED_MID: 
+      msgID: 
+      sender: SENS
+      struct: PX4_SensorCombinedMsg_t
+      attributes:
+        - Timestamp:
+            users: [VM]
+        - GyroRad[3]:
+            users: [QAE]
+        - GyroIntegralDt:
+        - AccTimestamp:
+        - AccInvalid:
+            users: [VM, QAE]
+        - Acc[3]:
+            users: [QAE, PE]
+        - AccIntegralDt:
+        - MagTimestamp:
+        - MagInvalid:
+            users: [VM, QAE]
+        - Mag[3]:
+            users: [QAE]
+        - BaroTimestamp:
+            users: [PE]
+        - BaroInvalid:
+        - BaroAlt:
+            users: [PE]
+        - BaroTemp:
+      users:
+        - VM
+        - QAE
+        - PE
+    PX4_SENSOR_GYRO_MID: 
+      msgID: 
+      sender: ICM20689
+      struct: PX4_SensorGyroMsg_t
+      attributes:
+        - Timestamp:
+            users: [SENS, VM]
+        - IntegralDt:
+            users: [SENS]
+        - ErrorCount:
+        - X:
+            users: [SENS]
+        - Y:
+            users: [SENS]
+        - Z:
+            users: [SENS]
+        - XIntegral:
+        - YIntegral:
+        - ZIntegral:
+        - Temperature:
+        - Range:
+        - Scaling:
+        - DeviceID:
+        - XRaw:
+        - YRaw:
+        - ZRaw:
+        - TemperatureRaw:
+      users:
+        - SENS
+        - VM
+    PX4_SENSOR_MAG_MID: 
+      msgID: 
+      sender: HMC5883
+      struct: PX4_SensorMagMsg_t
+      attributes:
+        - Timestamp:
+            users: [SENS, VM]
+        - ErrorCount
+        - X:
+            users: [SENS]
+        - Y:
+            users: [SENS]
+        - Z:
+            users: [SENS]
+        - Range:
+        - Scaling:
+        - Temperature:
+        - DeviceID:
+        - XRaw:
+        - YRaw:
+        - ZRaw:
+      users:
+        - SENS
+        - VM
+    PX4_SERVORAIL_STATUS_MID: 
+      msgID: 
+      sender:
+      struct: PX4_ServorailStatusMsg_t
+      users:
+    PX4_SUBSYSTEM_INFO_MID: 
+      msgID: 
+      sender:
+      struct: PX4_SubsystemInfoMsg_t
+      attributes:
+        - Timestamp:
+        - SubsystemType:
+            users: [VM]
+        - Present:
+            users: [VM]
+        - Enabled:
+            users: [VM]
+        - Ok:
+            users: [VM]
+      users:
+        - VM
+        # VM is reading it, but no one is sending it
+    PX4_SYSTEM_POWER_MID: 
+      msgID: 
+      sender:
+      struct: PX4_SystemPowerMsg_t
+      users:
+    PX4_TECS_STATUS_MID: 
+      msgID:
+      sender: FPC 
+      struct: PX4_TecsStatusMsg_t
+      attributes:
+        - Mode:
+        - Timestamp:
+        - AltitudeSp:
+        - AltitudeFiltered:
+        - FlightPathAngleSp:
+        - FlightPathAngle:
+        - AirspeedSp:
+        - AirspeedFiltered:
+        - AirspeedDerivativeSp:
+        - AirspeedDerivative:
+        - TotalEnergyError:
+        - EnergyDistributionError:
+        - TotalEnergyRateError:
+        - EnergyDistributionRateError:
+        - ThrottleInteg:
+        - PitchInteg:
+      users:
+    PX4_TELEMETRY_STATUS_MID: 
+      msgID:
+      sender: 
+      struct: PX4_TelemetryStatusMsg_t
+      users:
+        # VM subscribes and copies it, but doesn't use it
+    PX4_TEST_MOTOR_MID: 
+      msgID: 
+      sender:
+      struct: PX4_TestMotorMsg_t
+      users:
+    PX4_TIME_OFFSET_MID: 
+      msgID:
+      sender: 
+      struct: PX4_TimeOffsetMsg_t
+      users:
+    PX4_TRANSPONDER_REPORT_MID: 
+      msgID:
+      sender: 
+      struct: PX4_TransponderReportMsg_t
+      users:
+    PX4_UAVCAN_PARAMETER_REQUEST_MID: 
+      msgID:
+      sender: 
+      struct: PX4_UavCanParameterRequestMsg_t
+      users:
+    PX4_UAVCAN_PARAMETER_VALUE_MID: 
+      msgID:
+      sender: 
+      struct: PX4_UavCanParameterValueMsg_t
+      users:
+    PX4_VEHICLE_ATTITUDE_MID: 
+      msgID:
+      sender: QAE 
+      struct: PX4_VehicleAttitudeMsg_t
+      attributes:
+        - Timestamp: 
+            users: [FAC, VM]
+        - RollSpeed:
+            users: [FAC, PE]
+        - PitchSpeed:
+            users: [FAC, PE]
+        - YawSpeed:
+            users: [FAC, PE, FPC]
+        - Q[4]:
+            users: [FAC, PE, VM, FPC]
+        # LD is subscribing, copying, but not using message.  Should be removed.
+      users:
+        - VM
+        - PE
+        - FPC
+        - FAC
+    PX4_VEHICLE_ATTITUDE_SETPOINT_MID: 
+      msgID: 
+      sender: FPC
+      struct: PX4_VehicleAttitudeSetpointMsg_t
+      attributes:
+        - Timestamp:
+        - RollBody:
+            users: [FAC]
+        - PitchBody:
+            users: [FAC]
+        - YawBody:
+            users: [FAC]
+        - YawSpMoveRate:
+        - Q_D[4]:
+        - Q_D_Valid:
+        - Thrust:
+            users: [FAC]
+        - RollResetIntegral:
+            users: [FAC]
+        - PitchResetIntegral:
+            users: [FAC]
+        - YawResetIntegral:
+            users: [FAC]
+        - FwControlYaw:
+            users: [FAC]
+        - DisableMcYawControl:
+        - ApplyFlaps:
+            users: [FAC]
+        - LandingGear:
+      users:
+        - FAC
+        # PE is subscribing and copying message, but not using it.
+    PX4_VEHICLE_COMMAND_ACK_MID: 
+      msgID: 
+      sender: 
+      struct: PX4_VehicleCommandAckMsg_t
+      users:
+    PX4_VEHICLE_COMMAND_MID: 
+      msgID: 
+      sender: VM
+        # VM is sending the message, but not writing the message.
+      struct: PX4_VehicleCommandMsg_t
+      attributes:
+        - Timestamp:
+        - Param5:
+            users: [NAV]
+        - Param6:
+            users: [NAV]
+        - Param1:
+        - Param2:
+        - Param3:
+        - Param4:
+            users: [NAV]
+        - Param7:
+            users: [NAV]
+        - Command:
+            users: [NAV]
+        - TargetSystem:
+        - TargetComponent:
+        - SourceSystem:
+        - SourceComponent:
+        - Confirmation:
+      users:
+        - NAV
+    PX4_VEHICLE_CONTROL_MODE_MID: 
+      msgID: 
+      sender: VM
+      struct: PX4_VehicleControlModeMsg_t
+      attributes:
+        - Timestamp:
+        - Armed:
+            users: [FPC, SENS]
+        - ExternalManualOverrideOk:
+        - SystemHilEnabled:
+        - ControlManualEnabled:
+            users: [FAC, FPC, LD]
+        - ControlAutoEnabled:
+            users: [FAC, FPC]
+        - ControlOffboardEnabled:
+        - ControlRatesEnabled:
+            users: [FAC]
+        - ControlAttitudeEnabled:
+            users: [FAC, FPC, LD]
+        - ControlRattitudeEnabled:
+            users: [FAC]
+        - ControlForceEnabled:
+        - ControlAccelerationEnabled:
+        - ControlVelocityEnabled:
+            users: [FPC]
+        - ControlPositionEnabled:
+            users: [FPC]
+        - ControlAltitudeEnabled:
+            users: [FPC, LD]
+        - ControlClimbRateEnabled:
+        - ControlTerminationEnabled:
+            users: [FAC]
+        - ControlFixedHdgEnabled:
+      users:
+        - FPC
+        - SENS
+        - FAC
+        - LD
+    PX4_VEHICLE_FORCE_SETPOINT_MID: 
+      msgID:
+      sender: 
+      struct: PX4_VehicleForceSetpointMsg_t
+      users:
+    PX4_VEHICLE_GLOBAL_POSITION_MID: 
+      msgID: 
+      sender: PE
+      struct: PX4_VehicleGlobalPositionMsg_t
+      attributes:
+        - Timestamp:
+            users: [FPC, NAV, VM, QAE]
+        - TimeUtcUsec:
+        - Lat:
+            users: [FPC, NAV, VM, QAE]
+        - Lon:
+            users: [FPC, NAV, VM, QAE]
+        - Alt:
+            users: [FPC, NAV, VM]
+        - DeltaLatLon[2]:
+        - DeltaAlt:
+            users: [FPC]
+        - LatLonResetCounter:
+            users: [FPC]
+        - AltResetCounter:
+            users: [FPC]
+        - VelN:
+            users: [FPC, QAE, FAC, NAV]
+        - VelE:
+            users: [FPC, QAE, FAC, NAV]
+        - VelD:
+            users: [FPC, QAE]
+        - Yaw:
+            users: [NAV]
+        - EpH:
+            users: [QAE, VM]
+        - EpV:
+            users: [FPC, VM]
+        - EvH:
+        - EvV:
+        - TerrainAlt:
+            users: [FPC]
+        - PressureAlt:
+        - TerrainAltValid:
+            users: [FPC]
+        - DeadReckoning:
+      users:
+        - FPC
+        - NAV
+        - QAE
+        - VM
+        - FAC
+    PX4_VEHICLE_GLOBAL_VELOCITY_SETPOINT_MID: 
+      msgID: 
+      sender:
+      struct: PX4_VehicleGlobalVelocitySetpointMsg_t
+      users:
+    PX4_VEHICLE_GPS_POSITION_MID: 
+      msgID:
+      sender: GPS 
+      struct: PX4_VehicleGpsPositionMsg_t
+      attributes:
+        - Timestamp: 
+            users: [VM]
+        - TimeUtcUsec:
+            users: [PE]
+        - Lat:
+            users: [PE]
+        - Lon:
+            users: [PE]
+        - Alt:
+            users: [PE]
+        - AltEllipsoid:
+        - SVariance:
+            users: [PE]
+        - CVariance:
+        - EpH:
+            users: [PE]
+        - EpV:
+            users: [PE]
+        - HDOP:
+        - VDOP:
+        - NoisePerMs:
+        - JammingIndicator:
+        - Vel_m_s:
+        - Vel_n_m_s:
+            users: [PE]
+        - Vel_e_m_s:
+            users: [PE]
+        - Vel_d_m_s:
+            users: [PE]
+        - COG:
+        - TimestampTimeRelative:
+        - FixType:
+            users: [PE]
+        - VelNedValid:
+        - SatellitesUsed:
+            users: [PE]
+      users:
+        - VM
+        - PE
+    PX4_VEHICLE_LAND_DETECTED_MID: 
+      msgID: 
+      sender: LD
+      struct: PX4_VehicleLandDetectedMsg_t
+      attributes:
+        - Timestamp:
+        - AltMax:
+            users: [NAV]
+        - Landed:
+            users: [NAV, VM, PE, FPC, FAC]
+        - Freefall:
+            users: [VM, PE]
+        - GroundContact:
+            users: [NAV, VM]
+      users:
+        - NAV
+        - VM
+        - PE
+        - FPC
+        - FAC
+    PX4_VEHICLE_LOCAL_POSITION_MID: 
+      msgID: 
+      sender: PE
+      struct: PX4_VehicleLocalPositionMsg_t
+      attributes:
+        - Timestamp: 
+            users: [VM, LD]
+        - RefTimestamp:
+        - RefLat:
+        - RefLon:
+        - SurfaceBottomTimestamp:
+        - X:
+            users: [VM]
+        - Y:
+            users: [VM]
+        - Z:
+            users: [VM]
+        - Delta_XY[2]:
+        - Delta_Z:
+        - VX:
+            users: [LD]
+        - VY:
+            users: [LD]
+        - VZ:
+            users: [LD, FPC]
+        - Delta_VXY[2]:
+        - Delta_VZ:
+        - AX:
+        - AY:
+        - AZ:
+            users: [FPC]
+        - Yaw:
+            users: [NAV]
+        - RefAlt:
+        - DistBottom:
+            users: [VM, NAV]
+        - DistBottomRate:
+        - EpH:
+        - EpV:
+        - EvH:
+        - EvV:
+        - EstimatorType:
+        - XY_Valid:
+            users: [VM, LD]
+        - Z_Valid:
+            users: [VM, LD]
+        - V_XY_Valid:
+            users: [VM]
+        - V_Z_Valid:
+            users: [VM, FPC]
+        - XY_ResetCounter:
+        - Z_ResetCounter:
+        - VXY_ResetCounter:
+        - VZ_ResetCounter:
+        - XY_Global:
+        - Z_Global:
+        - DistBottomValid:
+      users:
+        - VM
+        - LD
+        - FPC
+        - NAV
+    PX4_VEHICLE_LOCAL_POSITION_SETPOINT_MID: 
+      msgID: 
+      sender:
+      struct: PX4_VehicleLocalPositionSetpointMsg_t
+      users:
+    PX4_VEHICLE_RATES_SETPOINT_MID: 
+      msgID: 
+      sender: FAC
+      struct: PX4_VehicleRatesSetpointMsg_t
+      attributes:
+        - Timestamp:
+        - Roll:
+        - Pitch:
+        - Yaw:
+        - Thrust:
+      users:
+    PX4_VEHICLE_STATUS_MID: 
+      msgID: 
+      sender: VM
+      struct: PX4_VehicleStatusMsg_t
+      attributes:
+        - Timestamp:
+            users: [NAV]
+        - SystemID:
+        - ComponentID:
+        - OnboardControlSensorsPresent:
+        - OnboardControlSensorsEnabled:
+        - OnboardControlSensorsHealth:
+        - NavState:
+            users: [NAV]
+        - ArmingState:
+            users: [NAV, PE]
+        - HilState:
+        - Failsafe:
+        - SystemType:
+        - IsRotaryWing:
+            users: [FPC, FAC, NAV]
+        - IsVtol:
+            users: [FPC, FAC]
+        - VtolFwPermanentStab:
+        - InTransitionMode:
+            users: [FPC, FAC]
+        - RcSignalLost:
+        - RcInputMode:
+        - DataLinkLost:
+        - DataLinkLostCounter:
+        - EngineFailure:
+            users: [FPC, FAC]
+        - EngineFailureCmd:
+            users: [FPC, FAC]
+        - MissionFailure:
+      users:
+        - NAV
+        - PE
+        - FPC
+        - FAC
+    PX4_VISION_POSITION_ESTIMATE_MID: 
+      msgID: 
+      sender:
+      struct: PX4_VisionPositionEstimateMsg_t
+      users:
+    PX4_VTOL_VEHICLE_STATUS_MID: 
+      msgID:
+      sender: 
+      struct: PX4_VtolVehicleStatusMsg_t
+      users:
+    PX4_WIND_ESTIMATE_MID: 
+      msgID:
+      sender: 
+      struct: PX4_WindEstimateMsg_t
+      users:
+    PX4_SENSOR_CORRECTION_MID: 
+      msgID: 
+      sender:
+      struct: PX4_SensorCorrectionMsg_t
+      users:
+        # VM is subscribing and copying the message, but not using it
+    PX4_POSITION_CONTROL_STATUS_MID:
+      msgID:
+      sender: FPC
+      struct: PX4_Position_Control_Status_t
+      attributes:
+        - Timestamp:
+        - NAV_ROLL:
+        - NAC_PITCH:
+        - NAV_BEARING:
+        - TARGET_BEARING:
+        - WP_DIST:
+        - XTRACK_ERRORP:
+        - TURN_DISTANCE:
+        - LANDING_HORIZONTAL_SLOPE_DISPLACEMENT:
+        - LANDING_SLOPE_ANGLE_RAD:
+        - LANDING_FLARE_LENGTH:
+        - ABORT_LANDING:
+      users:
