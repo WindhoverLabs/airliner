@@ -312,11 +312,15 @@ docs-sphinx:
 docs: docs-doxygen docs-sphinx
 	@echo 'Completed'
 
-flight-release:: gemini2 gemini2-sitl gemini2-workspace gemini2-sitl-workspace reference reference/private 
+flight-release:: gemini2 gemini2-sitl gemini2-workspace gemini2-sitl-workspace quad quad-sitl quad-workspace quad-sitl-workspace reference reference/private 
 	(cd build/fixedwing/gemini2/ppd/sitl/target; ctest > test_results.txt || true)
 	(cd build/fixedwing/gemini2/cpd/sitl/target; ctest > test_results.txt || true)
 	(cd build/fixedwing/gemini2/ppd/target; ctest -R "\build" > test_results.txt || true)
 	(cd build/fixedwing/gemini2/cpd/target; ctest -R "\build" > test_results.txt || true)
+	(cd build/multirotor/quad/ppd/sitl/target; ctest > test_results.txt || true)
+	(cd build/multirotor/quad/cpd/sitl/target; ctest > test_results.txt || true)
+	(cd build/multirotor/quad/ppd/target; ctest -R "\build" > test_results.txt || true)
+	(cd build/multirotor/quad/cpd/target; ctest -R "\build" > test_results.txt || true)
 	@echo 'Completed'
 
 python-env::

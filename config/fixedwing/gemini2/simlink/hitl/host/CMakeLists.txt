@@ -13,8 +13,6 @@ buildliner_build_cfe_host_tools(
         ${PROJECT_SOURCE_DIR}/config/shared/inc
 )
 
-
-
 add_subdirectory(${PROJECT_SOURCE_DIR}/tools/sitl_gazebo gazebo)
 set(GAZEBO_PLUGIN_BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR}/gazebo)
 set(GAZEBO_WORLDS_DIR ${PROJECT_SOURCE_DIR}/tools/sitl_gazebo/worlds)

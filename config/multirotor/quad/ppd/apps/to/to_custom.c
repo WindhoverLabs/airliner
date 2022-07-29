@@ -106,7 +106,7 @@ int32 TO_Custom_Init(void)
                       &TO_BackupConfigTbl,
                       TO_UDP_DUMP_TABLENAME, 
 					  TO_CF_MAX_PDUS,
-                      TO_UDP_CF_THROTTLE_SEM_NAME);
+                      TO_CF_THROTTLE_SEM_NAME);
 
     for (i=0; i < TO_MAX_CHANNELS; i++)
     {

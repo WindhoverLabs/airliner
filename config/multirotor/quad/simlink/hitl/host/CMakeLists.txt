@@ -25,4 +25,3 @@ target_include_directories(gazebo_gst_camera_plugin PRIVATE "/usr/lib/x86_64-lin
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/start-gazebo.in ${CMAKE_CURRENT_BINARY_DIR}/start-gazebo @ONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/start-jmavsim.in ${CMAKE_CURRENT_BINARY_DIR}/start-jmavsim @ONLY)
-

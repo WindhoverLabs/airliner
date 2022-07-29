@@ -27,21 +27,6 @@ services:
       byteOrder: LITTLE_ENDIAN
       appNameMax: 40
       eventMsgMax: 122
-  - class: org.yamcs.cfdp.CfdpService
-    name: cfdp0
-    args:
-      inStream: cfdp_in
-      outStream: cfdp_out
-      localEntities:
-        - name: "0.23"
-          id: 23
-          bucket: cfdpUp
-      remoteEntities:
-        - name: "0.24"
-          id: 24
-          bucket: cfdpDown
-      receiverFaultHandlers:
-        AckLimitReached: suspend
 
 dataLinks:    
   - name: tc_simlink

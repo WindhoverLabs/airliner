@@ -23,6 +23,7 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../target/cfe_es_startup.scr
 )
 
+
 buildliner_add_app(
     cfs_lib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/cfs_lib/fsw/for_build

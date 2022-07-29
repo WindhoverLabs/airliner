@@ -14,25 +14,32 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../inc
         ${PROJECT_SOURCE_DIR}/config/shared/inc
     FILESYS
-        /ram/apps
+        /cf/apps
         /cf/log
-        /cf/uplink
-        /cf/downlink/ch0/dir0/
-        /cf/downlink/ch0/dir1/
-        /cf/downlink/ch0/dir2/
-        /cf/downlink/ch0/dir3/
-        /cf/downlink/ch0/dir4/
-        /cf/downlink/ch0/dir5/
-        /cf/downlink/ch0/dir6/
-        /cf/downlink/ch0/dir7/
-        /cf/downlink/ch1/dir0/
-        /cf/downlink/ch1/dir1/
-        /cf/downlink/ch1/dir2/
-        /cf/downlink/ch1/dir3/
-        /cf/downlink/ch1/dir4/
-        /cf/downlink/ch1/dir5/
-        /cf/downlink/ch1/dir6/
-        /cf/downlink/ch1/dir7/
+        /cf/uplink/cpd_to_ppd/class1/priority2/
+        /cf/uplink/cpd_to_ppd/class2/priority2/
+        /cf/uplink/cpd_to_ppd/class1/priority4/
+        /cf/uplink/cpd_to_ppd/class2/priority4/
+        /cf/uplink/cpd_to_ppd/class1/priority6/
+        /cf/uplink/cpd_to_ppd/class2/priority6/
+        /cf/downlink/cpd_to_ppd/class1/priority2/
+        /cf/downlink/cpd_to_ppd/class2/priority2/
+        /cf/downlink/cpd_to_ppd/class1/priority4/
+        /cf/downlink/cpd_to_ppd/class2/priority4/
+        /cf/downlink/cpd_to_ppd/class1/priority6/
+        /cf/downlink/cpd_to_ppd/class2/priority6/
+        /cf/downlink/cpd_to_gnd/class1/priority2/
+        /cf/downlink/cpd_to_gnd/class2/priority2/
+        /cf/downlink/cpd_to_gnd/class1/priority4/
+        /cf/downlink/cpd_to_gnd/class2/priority4/
+        /cf/downlink/cpd_to_gnd/class1/priority6/
+        /cf/downlink/cpd_to_gnd/class2/priority6/
+        /cf/downlink/ppd_to_gnd/class1/priority2/
+        /cf/downlink/ppd_to_gnd/class2/priority2/
+        /cf/downlink/ppd_to_gnd/class1/priority4/
+        /cf/downlink/ppd_to_gnd/class2/priority4/
+        /cf/downlink/ppd_to_gnd/class1/priority6/
+        /cf/downlink/ppd_to_gnd/class2/priority6/
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
         
@@ -253,13 +260,6 @@ buildliner_add_app(
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc/amc_custom.cpp
 )
 
-buildliner_add_app(
-    mac
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mac/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/multirotor/quad/cpd/apps/mac
-)
-
 
 buildliner_add_app(
     sens
@@ -365,6 +365,13 @@ buildliner_add_app(
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/mpc/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/mpc
+)
+
+buildliner_add_app(
+    mac
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/mac/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/mac
 )
 
 

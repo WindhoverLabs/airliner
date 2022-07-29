@@ -149,7 +149,7 @@
 **      Lower Limit of 1, Upper limit of 255.
 **
 */
-#define CF_NUM_INPUT_CHANNELS               1
+#define CF_NUM_INPUT_CHANNELS               2
 
 
 /**
@@ -192,7 +192,7 @@
 **      added.
 **
 */
-#define CF_MAX_POLLING_DIRS_PER_CHAN        8
+#define CF_MAX_POLLING_DIRS_PER_CHAN        16
 
 
 /**
