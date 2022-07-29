@@ -248,6 +248,8 @@ typedef struct
     uint64  _airspeed_last_received;			///< last time airspeed was received. Used to detect timeouts.
     float   _airspeed;
     float   _eas2tas;
+
+    boolean             inControl;
     Runway             _runway_takeoff;
 
 } FPC_HkTlm_t;

@@ -254,6 +254,8 @@ public:
 
     boolean _last_manual{FALSE};				///< true if the last iteration was in manual mode (used to determine when a reset is needed)
 
+    boolean inControl = FALSE;
+
 
     enum FW_POSCTRL_MODE {
         FW_POSCTRL_MODE_AUTO = 0,

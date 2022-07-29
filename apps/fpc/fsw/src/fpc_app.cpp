@@ -904,6 +904,7 @@ void FPC::ReportHousekeeping()
     HkTlm._airspeed = _airspeed;
     HkTlm._eas2tas = _eas2tas;
     HkTlm.m_Hdg_Hold_Enabled = _hdg_hold_enabled;
+    HkTlm.inControl = inControl;
 
     CFE_PSP_MemCpy(&HkTlm._hdg_hold_curr_wp, &_hdg_hold_curr_wp, sizeof(_hdg_hold_curr_wp));
     CFE_PSP_MemCpy(&HkTlm._hdg_hold_prev_wp, &_hdg_hold_prev_wp, sizeof(_hdg_hold_prev_wp));
@@ -1162,6 +1163,12 @@ void FPC::Execute(void)
             m_PositionControlStatusMsg.WP_DIST = get_distance_to_next_waypoint(curr_pos[0], curr_pos[1], curr_wp[0], curr_wp[1]);
 
         }
+
+        inControl = TRUE;
+    }
+    else
+    {
+        inControl = FALSE;
     }
 
 }
@@ -1563,7 +1570,6 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
                     if (!_land_motor_lim) {
                         _land_motor_lim  = TRUE;
-//                        mavlink_log_info(&_mavlink_log_pub, "Landing, limiting throttle");
                         (void) CFE_EVS_SendEvent(FPC_INF_EID, CFE_EVS_INFORMATION,
                                           "Landing, limiting throttle");
                     }
