@@ -903,7 +903,7 @@ void FPC::ReportHousekeeping()
     HkTlm._airspeed_last_received = _airspeed_last_received;
     HkTlm._airspeed = _airspeed;
     HkTlm._eas2tas = _eas2tas;
-    HkTlm.m_Hdg_Hold_Enabled = m_Hdg_Hold_Enabled;
+    HkTlm.m_Hdg_Hold_Enabled = _hdg_hold_enabled;
 
     CFE_PSP_MemCpy(&HkTlm._hdg_hold_curr_wp, &_hdg_hold_curr_wp, sizeof(_hdg_hold_curr_wp));
     CFE_PSP_MemCpy(&HkTlm._hdg_hold_prev_wp, &_hdg_hold_prev_wp, sizeof(_hdg_hold_prev_wp));
@@ -1088,7 +1088,7 @@ void FPC::Execute(void)
     if (TRUE == m_VehicleControlModeMsg.ControlManualEnabled) {
         if (m_VehicleControlModeMsg.ControlAltitudeEnabled && (m_VehicleGlobalPositionMsg.AltResetCounter != m_Alt_Reset_Counter)) {
             //Careful for
-            m_Hold_Alt += m_VehicleGlobalPositionMsg.DeltaAlt;
+            _hold_alt += m_VehicleGlobalPositionMsg.DeltaAlt;
             // make TECS accept step in altitude and demanded altitude
             _tecs.handle_alt_step(m_VehicleGlobalPositionMsg.DeltaAlt, m_VehicleGlobalPositionMsg.Alt);
         }
@@ -1098,7 +1098,7 @@ void FPC::Execute(void)
             && m_VehicleGlobalPositionMsg.LatLonResetCounter != m_Pos_Reset_Counter) {
 
             // reset heading hold flag, which will re-initialise position control
-            m_Hdg_Hold_Enabled = FALSE;
+            _hdg_hold_enabled = FALSE;
         }
     }
 
