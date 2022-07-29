@@ -966,16 +966,10 @@ void Test_FAC_AppMain_ProcessNewData_VehicleStatus(void)
 }
 
 
-void Test_FAC_RunController(void)
-{
-    /* Set inputs */
-#if 0
-    oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
-#endif
-}
-
-
-int32 Test_FAC_ControlAttitude_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
+/**
+ * Test FAC RunController/UpdateParams(), SendMsgtHook
+ */
+int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
 {
     unsigned char   *pBuff = NULL;
     uint16          msgLen = 0;
@@ -983,8 +977,8 @@ int32 Test_FAC_ControlAttitude_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
     CFE_SB_MsgId_t  MsgId;
 
     pBuff = (unsigned char*)MsgPtr;
-    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr) - 7;
-    printf("###ControlAttitude_SendMsgHook: MsgLen(%u)\n", msgLen);
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);    // DataLenth + 7
+    printf("###RunController_SendMsgHook: MsgLen(%u)\n", msgLen);
     for (i = 0; i < msgLen; i++)
     {
         printf("0x%x ", *pBuff);
@@ -1052,26 +1046,54 @@ int32 Test_FAC_ControlAttitude_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
     return 0;
 }
 
-void Test_FAC_ControlAttitude(void)
+
+/**************************************************************************
+ * Tests for FAC_RunController()
+ **************************************************************************/
+/**
+ * Test FAC RunController()
+ */
+void Test_FAC_RunController(void)
 {
-    int32  DataPipe;
+    int32              DataPipe;
     PX4_VehicleControlModeMsg_t  InMsg;
 
+#if defined(FAC_TEST_TAILSITTER_STATUS)
+    /* RunController in TailSitter status */
+    oFAC.CVT.VehicleStatus.IsVtol = true;
+    oFAC.CVT.VLandDetected.Landed = true;
+#elif !defined(FAC_TEST_TAILSITTER_STATUS)
+    /* RunController in not TailSitter mode */
+    oFAC.CVT.VehicleStatus.IsVtol = false;
+    oFAC.CVT.VLandDetected.Landed = false;
+#else
+    /* RunController in default mode */
+    oFAC.CVT.VehicleStatus.IsVtol = true;
+    oFAC.CVT.VLandDetected.Landed = true;
+#endif
+
+    oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
     oFAC.CVT.VehicleStatus.InTransitionMode = false;     // check this
     oFAC.CVT.VehicleStatus.EngineFailure = false;
     oFAC.CVT.VehicleStatus.EngineFailureCmd = false;
     oFAC.CVT.VehicleStatus.IsRotaryWing = false;
 
-    oFAC.CVT.VAttSp.RollResetIntegral = true;
-    oFAC.CVT.VAttSp.PitchResetIntegral = true;
-    oFAC.CVT.VAttSp.YawResetIntegral = true;
+    oFAC.CVT.VLandDetected.Timestamp = PX4LIB_GetPX4TimeUs();
+
+    oFAC.CVT.BatteryStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.BatteryStatus.Scale = 0.0f;    // check this
 
     /* Set inputs */
+    oFAC.CVT.VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
     oFAC.CVT.VAtt.Q[0] = 0.7083791494f;
     oFAC.CVT.VAtt.Q[1] = -0.0311437733f;
     oFAC.CVT.VAtt.Q[2] = -0.0508509092f;
     oFAC.CVT.VAtt.Q[3] = 0.7033087611f;
 
+    oFAC.CVT.VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VAttSp.RollResetIntegral = true;
+    oFAC.CVT.VAttSp.PitchResetIntegral = true;
+    oFAC.CVT.VAttSp.YawResetIntegral = true;
     oFAC.CVT.VAttSp.RollBody = 0.0f;    // fix this
     oFAC.CVT.VAttSp.PitchBody = 0.0f;   // fix this
     oFAC.CVT.VAttSp.YawBody = 0.0f;     // fix this
@@ -1083,50 +1105,15 @@ void Test_FAC_ControlAttitude(void)
     CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID,
                      sizeof(PX4_VehicleControlModeMsg_t), TRUE);
 
-#if defined(FAC_TEST_TAILSITTER_MODE)
-    /*
-     * ControlAttitude in TailSitter status
-     */
-    oFAC.CVT.VehicleStatus.IsVtol = true;
-    oFAC.CVT.VLandDetected.Landed = true;
-    oFAC.CVT.BatteryStatus.Scale = 0.0f;    // check this
-
-    InMsg.ControlTerminationEnabled = false;
-    InMsg.ControlRattitudeEnabled = false;
-    InMsg.ControlRatesEnabled = false;
-    InMsg.ControlAttitudeEnabled = false;
-    InMsg.ControlManualEnabled = false;
-    InMsg.ControlAutoEnabled = false;        // check this
-#elif defined(FAC_TEST_CONTROLRATESENABLED_MODE)
-    /*
-     * ControlAttitude in ControlRatesEnabled mode
-     */
-    oFAC.CVT.VehicleStatus.IsVtol = false;
-    oFAC.CVT.VLandDetected.Landed = false;
-    oFAC.CVT.BatteryStatus.Scale = 0.0f;    // check this
-
+    InMsg.Timestamp = PX4LIB_GetPX4TimeUs();
     InMsg.ControlTerminationEnabled = false;
     InMsg.ControlRattitudeEnabled = false;
     InMsg.ControlRatesEnabled = true;
     InMsg.ControlAttitudeEnabled = true;
     InMsg.ControlManualEnabled = false;
     InMsg.ControlAutoEnabled = false;        // check this
-#else
-    /*
-     * ControlAttitude in default mode
-     */
-    oFAC.CVT.VehicleStatus.IsVtol = true;
-    oFAC.CVT.VLandDetected.Landed = true;
-    oFAC.CVT.BatteryStatus.Scale = 0.0f;    // check this
 
-    InMsg.ControlTerminationEnabled = false;
-    InMsg.ControlRattitudeEnabled = false;
-    InMsg.ControlRatesEnabled = false;
-    InMsg.ControlAttitudeEnabled = false;
-    InMsg.ControlManualEnabled = false;
-    InMsg.ControlAutoEnabled = false;        // check this
-#endif
-
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&InMsg);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1134,14 +1121,78 @@ void Test_FAC_ControlAttitude(void)
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-               (void*)&Test_FAC_ControlAttitude_SendMsgHook);
-
+               (void*)&Test_FAC_RunController_SendMsgHook);
 
     /* Execute the function being tested */
     oFAC.AppMain();
 
     /* Verify results */
-//    UtAssert_True(TRUE, "FAC ControlAttitude");
+//    UtAssert_True(TRUE, "FAC RunController");
+}
+
+
+/**
+ * Test FAC RunController(), ControlAttitude
+ */
+void Test_FAC_RunController_ControlAttitude(void)
+{
+#if defined(FAC_TEST_TAILSITTER_STATUS)
+    printf("Should undefine FAC_TEST_TAILSITTER_STATUS\n");
+    UtAssert_True(FALSE, "FAC RunController_ControlAttitude");
+    return;
+#endif
+
+    oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VehicleStatus.IsVtol = false;
+    oFAC.CVT.VehicleStatus.InTransitionMode = false;     // check this
+    oFAC.CVT.VehicleStatus.EngineFailure = false;
+    oFAC.CVT.VehicleStatus.EngineFailureCmd = false;
+    oFAC.CVT.VehicleStatus.IsRotaryWing = false;
+
+    oFAC.CVT.VLandDetected.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VLandDetected.Landed = false;
+
+    oFAC.CVT.BatteryStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.BatteryStatus.Scale = 0.0f;    // check this
+
+    oFAC.CVT.VControlMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VControlMode.ControlTerminationEnabled = false;
+    oFAC.CVT.VControlMode.ControlRattitudeEnabled = false;
+    oFAC.CVT.VControlMode.ControlRatesEnabled = true;
+    oFAC.CVT.VControlMode.ControlAttitudeEnabled = true;
+    oFAC.CVT.VControlMode.ControlManualEnabled = false;
+    oFAC.CVT.VControlMode.ControlAutoEnabled = false;        // check this
+
+    /* Set inputs */
+    oFAC.CVT.VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VAtt.Q[0] = 0.7083791494f;
+    oFAC.CVT.VAtt.Q[1] = -0.0311437733f;
+    oFAC.CVT.VAtt.Q[2] = -0.0508509092f;
+    oFAC.CVT.VAtt.Q[3] = 0.7033087611f;
+
+    oFAC.CVT.VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VAttSp.RollResetIntegral = true;
+    oFAC.CVT.VAttSp.PitchResetIntegral = true;
+    oFAC.CVT.VAttSp.YawResetIntegral = true;
+    oFAC.CVT.VAttSp.RollBody = 0.0f;    // fix this
+    oFAC.CVT.VAttSp.PitchBody = 0.0f;   // fix this
+    oFAC.CVT.VAttSp.YawBody = 0.0f;     // fix this
+    oFAC.CVT.VAttSp.YawSpMoveRate = 0.0000000000f;
+    oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
+    oFAC.CVT.VAttSp.DisableMcYawControl = FALSE;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+               (void*)&Test_FAC_RunController_SendMsgHook);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+//    UtAssert_True(TRUE, "FAC RunController_ControlAttitude");
 }
 
 #if 0
@@ -1310,9 +1361,9 @@ void Test_FAC_UpdateParams(void)
     oFAC.InitApp();
 
     /* Verify results */
-#if defined(FAC_TEST_TAILSITTER_MODE)
+#if defined(FAC_TEST_TAILSITTER_STATUS)
     expected_checksum = 1369.37;
-#elif defined(FAC_TEST_CONTROLRATESENABLED_MODE)
+#elif !defined(FAC_TEST_TAILSITTER_STATUS)
     expected_checksum = 1371.37;
 #else
     expected_checksum = 1369.37;
@@ -1419,8 +1470,8 @@ void FAC_App_Test_AddTestCases(void)
 
     UtTest_Add(Test_FAC_RunController, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_RunController");
-    UtTest_Add(Test_FAC_ControlAttitude, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ControlAttitude");
+    UtTest_Add(Test_FAC_RunController_ControlAttitude, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_RunController_ControlAttitude");
     UtTest_Add(Test_FAC_UpdateParams, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_UpdateParams");
 

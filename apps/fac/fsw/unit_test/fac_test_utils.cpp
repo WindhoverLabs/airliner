@@ -59,9 +59,9 @@ extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t
                   Ut_CFE_PSP_MEMUTILS_ReturnCodeTable[UT_CFE_PSP_MEMUTILS_MAX_INDEX];
 
 
-#if defined(FAC_TEST_TAILSITTER_MODE)
+#if defined(FAC_TEST_TAILSITTER_STATUS)
 /*
- * Config table for Tailsitter
+ * Config table for Tailsitter status
  */
 FAC_ParamTbl_t FAC_ParamTblTailsitter =
 {
@@ -115,11 +115,11 @@ FAC_ParamTbl_t FAC_ParamTblTailsitter =
     0.0f,    /* Yaw trim (TRIM_YAW) */
     0        /* VTOL Type (Tailsitter=0, Tiltrotor=1, Standard=2) (VT_TYPE) */
 };
-#elif defined(FAC_TEST_CONTROLRATESENABLED_MODE)
+#elif !defined(FAC_TEST_TAILSITTER_STATUS)
 /*
- * Config table for ControlRatesEnabled
+ * Config table for not TailSitter status
  */
-FAC_ParamTbl_t FAC_ParamTblControlRates =
+FAC_ParamTbl_t FAC_ParamTblNominal =
 {
     0.4f,    /* Attitude Roll Time Constant (FW_R_TC) */
     0.4f,    /* Attitude pitch time constant (FW_P_TC) */
@@ -192,10 +192,10 @@ void FAC_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-#if defined(FAC_TEST_TAILSITTER_MODE)
+#if defined(FAC_TEST_TAILSITTER_STATUS)
     Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTblTailsitter);
-#elif defined(FAC_TEST_CONTROLRATESENABLED_MODE)
-    Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTblControlRates);
+#elif !defined(FAC_TEST_TAILSITTER_STATUS)
+    Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTblNominal);
 #else
     Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTbl);
 #endif

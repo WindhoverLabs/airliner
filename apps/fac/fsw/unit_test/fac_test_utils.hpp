@@ -45,9 +45,9 @@ extern "C" {
 #endif
 
 #if 0
-    #define   FAC_TEST_TAILSITTER_MODE
+    #define   FAC_TEST_TAILSITTER_STATUS
 #else
-    #define   FAC_TEST_CONTROLRATESENABLED_MODE
+//    #define   FAC_TEST_CONTROLRATESENABLED_MODE
 #endif
 
 /*
@@ -62,6 +62,9 @@ void    FAC_Test_PrintEclValues();
 uint32  FAC_Test_ValidateEclValues();
 
 extern FAC oFAC;
+
+extern uint64 PX4LIB_GetPX4TimeUs(void);
+extern uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 
 
 #ifdef __cplusplus

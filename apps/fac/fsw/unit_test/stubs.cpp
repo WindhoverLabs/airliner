@@ -33,24 +33,41 @@
 
 #include "cfe.h"
 
+#include <time.h>
+
 extern "C" {
 uint64 PX4LIB_GetPX4TimeUs(void)
 {
-	uint64 outTime = 0;
-	OS_time_t localTime = {};
+    int              Status;
+    uint64           outTime = 0;
+    OS_time_t        localTime = {};
+    struct timespec  time;
 
-	CFE_PSP_GetTime(&localTime);
+#if 0
+    CFE_PSP_GetTime(&localTime);
+#else
+    Status = clock_gettime(CLOCK_REALTIME, &time);
+    if (Status == 0)
+    {
+        localTime.seconds = time.tv_sec;
+        localTime.microsecs = time.tv_nsec / 1000;
 
-	outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
-	          * static_cast<uint64>(1000000))
-	          + static_cast<uint64>(localTime.microsecs);
+        outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+                                 * static_cast<uint64>(1000000))
+                                 + static_cast<uint64>(localTime.microsecs);
+    }
+    else
+    {
+        outTime = 0;
+    }
+#endif
 
-	return outTime;
+    return outTime;
 }
 
 uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then)
 {
-	uint64 delta = PX4LIB_GetPX4TimeUs() - then;
-	return delta;
+    uint64 delta = PX4LIB_GetPX4TimeUs() - then;
+    return delta;
 }
 }
