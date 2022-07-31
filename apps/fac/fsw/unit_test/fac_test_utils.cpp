@@ -386,3 +386,12 @@ uint32 FAC_Test_ValidateEclValues()
 
     return uResult;
 }
+
+time_t FAC_Test_GetLocalTime(uint64 timestamp)
+{
+    time_t  local_time;
+
+    local_time = (time_t)(timestamp / 1000000);
+
+    return local_time;
+}

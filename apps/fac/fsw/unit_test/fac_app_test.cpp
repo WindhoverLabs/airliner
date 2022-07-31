@@ -50,6 +50,7 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
+#include <time.h>
 #include <iostream>
 
 int32   WriteToSysLog_HookCalledCnt = 0;
@@ -967,6 +968,27 @@ void Test_FAC_AppMain_ProcessNewData_VehicleStatus(void)
 
 
 /**
+ * Test FAC RunController(), SendEventHook
+ */
+int32 Test_FAC_RunController_SendEventHook
+            (uint16 EventID, uint16 EventType, const char *EventText, ...)
+{
+    va_list  Ptr;
+    char     Buf[256];
+
+    SendEvent_HookCalledCnt++;
+
+    va_start(Ptr, EventText);
+    vsnprintf(Buf, (size_t)CFE_EVS_MAX_MESSAGE_LENGTH, EventText, Ptr);
+    va_end(Ptr);
+
+    printf("###RunController_SendEventHook:\n");
+    printf("%s\n", Buf);
+
+    return SendEvent_HookCalledCnt;
+}
+
+/**
  * Test FAC RunController/UpdateParams(), SendMsgtHook
  */
 int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
@@ -975,6 +997,8 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
     uint16          msgLen = 0;
     int             i = 0;
     CFE_SB_MsgId_t  MsgId;
+    time_t          localTime;
+    struct tm       *loc_time;
 
     pBuff = (unsigned char*)MsgPtr;
     msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);    // DataLenth + 7
@@ -993,8 +1017,11 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
         {
             PX4_VehicleRatesSetpointMsg_t  VRatesSp;
             CFE_PSP_MemCpy(&VRatesSp, MsgPtr, sizeof(VRatesSp));
+            localTime = FAC_Test_GetLocalTime(VRatesSp.Timestamp);
+            loc_time = localtime(&localTime);
 
             printf("Sent PX4_VEHICLE_RATES_SETPOINT_MID:\n");
+            printf("Timestamp: %s", asctime(loc_time));
             printf("Roll: %f\n", VRatesSp.Roll);
             printf("Pitch: %f\n", VRatesSp.Pitch);
             printf("Yaw: %f\n", VRatesSp.Yaw);
@@ -1006,8 +1033,11 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
         {
             PX4_ActuatorControlsMsg_t  AControls0;
             CFE_PSP_MemCpy(&AControls0, MsgPtr, sizeof(AControls0));
+            localTime = FAC_Test_GetLocalTime(AControls0.Timestamp);
+            loc_time = localtime(&localTime);
 
             printf("Sent PX4_ACTUATOR_CONTROLS_0_MID\n");
+            printf("Timestamp: %s", asctime(loc_time));
             printf("Control[Roll]: %f\n", AControls0.Control[0]);
             printf("Control[Pitch]: %f\n", AControls0.Control[1]);
             printf("Control[Yaw]: %f\n", AControls0.Control[2]);
@@ -1023,8 +1053,11 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
         {
             PX4_ActuatorControlsMsg_t  AControls2;
             CFE_PSP_MemCpy(&AControls2, MsgPtr, sizeof(AControls2));
+            localTime = FAC_Test_GetLocalTime(AControls2.Timestamp);
+            loc_time = localtime(&localTime);
 
             printf("Sent PX4_ACTUATOR_CONTROLS_2_MID\n");
+            printf("Timestamp: %s", asctime(loc_time));
             printf("Control[Roll]: %f\n", AControls2.Control[0]);
             printf("Control[Pitch]: %f\n", AControls2.Control[1]);
             printf("Control[Yaw]: %f\n", AControls2.Control[2]);
@@ -1059,59 +1092,91 @@ void Test_FAC_RunController(void)
     PX4_VehicleControlModeMsg_t  InMsg;
 
 #if defined(FAC_TEST_TAILSITTER_STATUS)
-    /* RunController in TailSitter status */
-    oFAC.CVT.VehicleStatus.IsVtol = true;
-    oFAC.CVT.VLandDetected.Landed = true;
+    /* In TailSitter status */
+    oFAC.CVT.VehicleStatus.IsVtol = TRUE;
+    oFAC.CVT.VLandDetected.Landed = TRUE;
 #elif !defined(FAC_TEST_TAILSITTER_STATUS)
-    /* RunController in not TailSitter mode */
-    oFAC.CVT.VehicleStatus.IsVtol = false;
-    oFAC.CVT.VLandDetected.Landed = false;
+    /* In not TailSitter mode */
+    oFAC.CVT.VehicleStatus.IsVtol = FALSE;
+    oFAC.CVT.VLandDetected.Landed = FALSE;
 #else
-    /* RunController in default mode */
-    oFAC.CVT.VehicleStatus.IsVtol = true;
-    oFAC.CVT.VLandDetected.Landed = true;
+    /* In default mode */
+    oFAC.CVT.VehicleStatus.IsVtol = TRUE;
+    oFAC.CVT.VLandDetected.Landed = TRUE;
 #endif
 
     oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VehicleStatus.InTransitionMode = false;     // check this
-    oFAC.CVT.VehicleStatus.EngineFailure = false;
-    oFAC.CVT.VehicleStatus.EngineFailureCmd = false;
-    oFAC.CVT.VehicleStatus.IsRotaryWing = false;
+    oFAC.CVT.VehicleStatus.IsRotaryWing = FALSE;
+    oFAC.CVT.VehicleStatus.InTransitionMode = FALSE;     // check this
+    oFAC.CVT.VehicleStatus.EngineFailure = FALSE;
+    oFAC.CVT.VehicleStatus.EngineFailureCmd = FALSE;
 
     oFAC.CVT.VLandDetected.Timestamp = PX4LIB_GetPX4TimeUs();
 
     oFAC.CVT.BatteryStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.BatteryStatus.Scale = 0.0f;    // check this
+    oFAC.CVT.BatteryStatus.Scale = 0.0f;                 // check this
 
     /* Set inputs */
     oFAC.CVT.VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VAtt.RollSpeed = 0.0f;                      // fix this
+    oFAC.CVT.VAtt.PitchSpeed = 0.0f;                     // fix this
+    oFAC.CVT.VAtt.YawSpeed = 0.0f;                       // fix this
     oFAC.CVT.VAtt.Q[0] = 0.7083791494f;
     oFAC.CVT.VAtt.Q[1] = -0.0311437733f;
     oFAC.CVT.VAtt.Q[2] = -0.0508509092f;
     oFAC.CVT.VAtt.Q[3] = 0.7033087611f;
 
     oFAC.CVT.VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VAttSp.RollResetIntegral = true;
-    oFAC.CVT.VAttSp.PitchResetIntegral = true;
-    oFAC.CVT.VAttSp.YawResetIntegral = true;
-    oFAC.CVT.VAttSp.RollBody = 0.0f;    // fix this
-    oFAC.CVT.VAttSp.PitchBody = 0.0f;   // fix this
-    oFAC.CVT.VAttSp.YawBody = 0.0f;     // fix this
+    oFAC.CVT.VAttSp.RollBody = 0.0f;                     // fix this
+    oFAC.CVT.VAttSp.PitchBody = 0.0f;                    // fix this
+    oFAC.CVT.VAttSp.YawBody = 0.0f;                      // fix this
     oFAC.CVT.VAttSp.YawSpMoveRate = 0.0000000000f;
+    oFAC.CVT.VAttSp.Q_D[0] = 0.7084835768f;
+    oFAC.CVT.VAttSp.Q_D[1] = -0.0144501235f;
+    oFAC.CVT.VAttSp.Q_D[2] = -0.0355133303f;
+    oFAC.CVT.VAttSp.Q_D[3] = 0.7046850324f;
+    oFAC.CVT.VAttSp.Q_D_Valid = TRUE;                    // fix this
     oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
-    oFAC.CVT.VAttSp.DisableMcYawControl = FALSE;
+    oFAC.CVT.VAttSp.RollResetIntegral = TRUE;
+    oFAC.CVT.VAttSp.PitchResetIntegral = TRUE;
+    oFAC.CVT.VAttSp.YawResetIntegral = TRUE;
+    oFAC.CVT.VAttSp.FwControlYaw = FALSE;
+    oFAC.CVT.VAttSp.DisableMcYawControl = TRUE;
+    oFAC.CVT.VAttSp.ApplyFlaps = TRUE;
+
+    oFAC.CVT.ManualControlSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.ManualControlSp.X = 0.0f;                   // fix this
+    oFAC.CVT.ManualControlSp.Y = 0.0f;                   // fix this
+    oFAC.CVT.ManualControlSp.Z = 0.0f;                   // fix this
+    oFAC.CVT.ManualControlSp.R = 0.0f;                   // fix this
+    oFAC.CVT.ManualControlSp.Flaps = 0.0f;               // fix this
+    oFAC.CVT.ManualControlSp.Aux1 = 0.0f;                // fix this
+    oFAC.CVT.ManualControlSp.Aux2 = 0.0f;                // fix this
+    oFAC.CVT.ManualControlSp.Aux3 = 0.0f;                // fix this
+    oFAC.CVT.ManualControlSp.Aux4 = 0.0f;                // fix this
+    oFAC.CVT.ManualControlSp.Aux5 = 0.0f;                // fix this
 
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID,
                      sizeof(PX4_VehicleControlModeMsg_t), TRUE);
 
     InMsg.Timestamp = PX4LIB_GetPX4TimeUs();
-    InMsg.ControlTerminationEnabled = false;
-    InMsg.ControlRattitudeEnabled = false;
-    InMsg.ControlRatesEnabled = true;
-    InMsg.ControlAttitudeEnabled = true;
-    InMsg.ControlManualEnabled = false;
-    InMsg.ControlAutoEnabled = false;        // check this
+    InMsg.ExternalManualOverrideOk = FALSE;
+    InMsg.SystemHilEnabled = FALSE;
+    InMsg.ControlManualEnabled = TRUE;
+    InMsg.ControlAutoEnabled = FALSE;
+    InMsg.ControlOffboardEnabled = FALSE;
+    InMsg.ControlRatesEnabled = TRUE;
+    InMsg.ControlAttitudeEnabled = TRUE;
+    InMsg.ControlRattitudeEnabled = TRUE;
+    InMsg.ControlForceEnabled = FALSE;
+    InMsg.ControlAccelerationEnabled = FALSE;
+    InMsg.ControlVelocityEnabled = FALSE;
+    InMsg.ControlPositionEnabled = FALSE;
+    InMsg.ControlAltitudeEnabled = FALSE;
+    InMsg.ControlClimbRateEnabled = FALSE;
+    InMsg.ControlTerminationEnabled = FALSE;
+    InMsg.ControlFixedHdgEnabled = FALSE;
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&InMsg);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
@@ -1120,6 +1185,10 @@ void Test_FAC_RunController(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    SendEvent_HookCalledCnt = 0;
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FAC_RunController_SendEventHook);
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
                (void*)&Test_FAC_RunController_SendMsgHook);
 
@@ -1143,43 +1212,75 @@ void Test_FAC_RunController_ControlAttitude(void)
 #endif
 
     oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VehicleStatus.IsVtol = false;
-    oFAC.CVT.VehicleStatus.InTransitionMode = false;     // check this
-    oFAC.CVT.VehicleStatus.EngineFailure = false;
-    oFAC.CVT.VehicleStatus.EngineFailureCmd = false;
-    oFAC.CVT.VehicleStatus.IsRotaryWing = false;
+    oFAC.CVT.VehicleStatus.IsRotaryWing = FALSE;
+    oFAC.CVT.VehicleStatus.IsVtol = FALSE;
+    oFAC.CVT.VehicleStatus.InTransitionMode = FALSE;         // check this
+    oFAC.CVT.VehicleStatus.EngineFailure = FALSE;
+    oFAC.CVT.VehicleStatus.EngineFailureCmd = FALSE;
 
     oFAC.CVT.VLandDetected.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VLandDetected.Landed = false;
+    oFAC.CVT.VLandDetected.Landed = FALSE;
 
     oFAC.CVT.BatteryStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.BatteryStatus.Scale = 0.0f;    // check this
+    oFAC.CVT.BatteryStatus.Scale = 0.0f;                     // check this
 
     oFAC.CVT.VControlMode.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VControlMode.ControlTerminationEnabled = false;
-    oFAC.CVT.VControlMode.ControlRattitudeEnabled = false;
-    oFAC.CVT.VControlMode.ControlRatesEnabled = true;
-    oFAC.CVT.VControlMode.ControlAttitudeEnabled = true;
-    oFAC.CVT.VControlMode.ControlManualEnabled = false;
-    oFAC.CVT.VControlMode.ControlAutoEnabled = false;        // check this
+    oFAC.CVT.VControlMode.ExternalManualOverrideOk = FALSE;
+    oFAC.CVT.VControlMode.SystemHilEnabled = FALSE;
+    oFAC.CVT.VControlMode.ControlManualEnabled = TRUE;
+    oFAC.CVT.VControlMode.ControlAutoEnabled = FALSE;        // check this
+    oFAC.CVT.VControlMode.ControlOffboardEnabled = FALSE;    // check this
+    oFAC.CVT.VControlMode.ControlRatesEnabled = TRUE;
+    oFAC.CVT.VControlMode.ControlAttitudeEnabled = TRUE;
+    oFAC.CVT.VControlMode.ControlRattitudeEnabled = TRUE;
+    oFAC.CVT.VControlMode.ControlForceEnabled = FALSE;
+    oFAC.CVT.VControlMode.ControlAccelerationEnabled = FALSE;
+    oFAC.CVT.VControlMode.ControlVelocityEnabled = FALSE;
+    oFAC.CVT.VControlMode.ControlPositionEnabled = FALSE;
+    oFAC.CVT.VControlMode.ControlAltitudeEnabled = FALSE;
+    oFAC.CVT.VControlMode.ControlClimbRateEnabled = FALSE;
+    oFAC.CVT.VControlMode.ControlTerminationEnabled = FALSE;
+    oFAC.CVT.VControlMode.ControlFixedHdgEnabled = FALSE;
 
     /* Set inputs */
     oFAC.CVT.VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VAtt.RollSpeed = 0.0f;                          // fix this
+    oFAC.CVT.VAtt.PitchSpeed = 0.0f;                         // fix this
+    oFAC.CVT.VAtt.YawSpeed = 0.0f;                           // fix this
     oFAC.CVT.VAtt.Q[0] = 0.7083791494f;
     oFAC.CVT.VAtt.Q[1] = -0.0311437733f;
     oFAC.CVT.VAtt.Q[2] = -0.0508509092f;
     oFAC.CVT.VAtt.Q[3] = 0.7033087611f;
 
     oFAC.CVT.VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VAttSp.RollResetIntegral = true;
-    oFAC.CVT.VAttSp.PitchResetIntegral = true;
-    oFAC.CVT.VAttSp.YawResetIntegral = true;
-    oFAC.CVT.VAttSp.RollBody = 0.0f;    // fix this
-    oFAC.CVT.VAttSp.PitchBody = 0.0f;   // fix this
-    oFAC.CVT.VAttSp.YawBody = 0.0f;     // fix this
+    oFAC.CVT.VAttSp.RollBody = 0.0f;                         // fix this
+    oFAC.CVT.VAttSp.PitchBody = 0.0f;                        // fix this
+    oFAC.CVT.VAttSp.YawBody = 0.0f;                          // fix this
     oFAC.CVT.VAttSp.YawSpMoveRate = 0.0000000000f;
+    oFAC.CVT.VAttSp.Q_D[0] = 0.7084835768f;
+    oFAC.CVT.VAttSp.Q_D[1] = -0.0144501235f;
+    oFAC.CVT.VAttSp.Q_D[2] = -0.0355133303f;
+    oFAC.CVT.VAttSp.Q_D[3] = 0.7046850324f;
+    oFAC.CVT.VAttSp.Q_D_Valid = TRUE;                        // fix this
     oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
-    oFAC.CVT.VAttSp.DisableMcYawControl = FALSE;
+    oFAC.CVT.VAttSp.RollResetIntegral = TRUE;
+    oFAC.CVT.VAttSp.PitchResetIntegral = TRUE;
+    oFAC.CVT.VAttSp.YawResetIntegral = TRUE;
+    oFAC.CVT.VAttSp.FwControlYaw = FALSE;
+    oFAC.CVT.VAttSp.DisableMcYawControl = TRUE;
+    oFAC.CVT.VAttSp.ApplyFlaps = TRUE;
+
+    oFAC.CVT.ManualControlSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.ManualControlSp.X = 0.0f;                       // fix this
+    oFAC.CVT.ManualControlSp.Y = 0.0f;                       // fix this
+    oFAC.CVT.ManualControlSp.Z = 0.0f;                       // fix this
+    oFAC.CVT.ManualControlSp.R = 0.0f;                       // fix this
+    oFAC.CVT.ManualControlSp.Flaps = 0.0f;                   // fix this
+    oFAC.CVT.ManualControlSp.Aux1 = 0.0f;                    // fix this
+    oFAC.CVT.ManualControlSp.Aux2 = 0.0f;                    // fix this
+    oFAC.CVT.ManualControlSp.Aux3 = 0.0f;                    // fix this
+    oFAC.CVT.ManualControlSp.Aux4 = 0.0f;                    // fix this
+    oFAC.CVT.ManualControlSp.Aux5 = 0.0f;                    // fix this
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
