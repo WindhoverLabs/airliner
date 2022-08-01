@@ -38,29 +38,14 @@
 extern "C" {
 uint64 PX4LIB_GetPX4TimeUs(void)
 {
-    int              Status;
     uint64           outTime = 0;
     OS_time_t        localTime = {};
-    struct timespec  time;
 
-#if 0
     CFE_PSP_GetTime(&localTime);
-#else
-    Status = clock_gettime(CLOCK_REALTIME, &time);
-    if (Status == 0)
-    {
-        localTime.seconds = time.tv_sec;
-        localTime.microsecs = time.tv_nsec / 1000;
 
-        outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
-                                 * static_cast<uint64>(1000000))
-                                 + static_cast<uint64>(localTime.microsecs);
-    }
-    else
-    {
-        outTime = 0;
-    }
-#endif
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000000))
+              + static_cast<uint64>(localTime.microsecs);
 
     return outTime;
 }

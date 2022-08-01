@@ -35,6 +35,7 @@
 
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
+#include "ut_cfe_psp_timer_stubs.h"
 #include "ut_cfe_psp_memutils_stubs.h"
 #include "ut_cfe_tbl_stubs.h"
 #include "ut_cfe_tbl_hooks.h"
@@ -57,6 +58,10 @@ extern FAC_ParamTbl_t FAC_ParamTbl;
 extern Ut_CFE_PSP_MEMUTILS_HookTable_t         Ut_CFE_PSP_MEMUTILS_HookTable;
 extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t
                   Ut_CFE_PSP_MEMUTILS_ReturnCodeTable[UT_CFE_PSP_MEMUTILS_MAX_INDEX];
+
+extern Ut_CFE_PSP_TIMER_HookTable_t            Ut_CFE_PSP_TIMER_HookTable;
+extern Ut_CFE_PSP_TIMER_ReturnCodeTable_t
+                  Ut_CFE_PSP_TIMER_ReturnCodeTable[UT_CFE_PSP_TIMER_MAX_INDEX];
 
 
 #if defined(FAC_TEST_TAILSITTER_STATUS)
@@ -202,12 +207,18 @@ void FAC_Test_Setup(void)
 
     memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
     memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
+
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
 void FAC_Test_TearDown(void)
 {
     memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
     memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
+
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
 void FAC_Test_PrintCmdMsg(void *pMsg, uint32 size)
