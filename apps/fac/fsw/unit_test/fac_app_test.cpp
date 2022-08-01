@@ -559,11 +559,14 @@ void Test_FAC_AppMain_Fail_InitApp(void)
  */
 void Test_FAC_AppMain_Fail_AcquireConfigPtrs(void)
 {
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
     /* fail the register app */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, CFE_TBL_ERR_INVALID_HANDLE, 2);
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 2);
 
     SendEvent_HookCalledCnt = 0;
-    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX, (void*)Test_FAC_AppMain_SendEventHook);
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+                (void*)Test_FAC_AppMain_SendEventHook);
 
     /* Execute the function being tested */
     oFAC.AppMain();
@@ -596,19 +599,59 @@ void Test_FAC_AppMain_InvalidSchMessage(void)
 int32 Test_FAC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
     /* TODO:  Test the contents of your HK message here. */
-    unsigned char* pMsg = NULL;
-    uint16 len = sizeof(FAC_HkTlm_t);
-    int i = 0;
+    unsigned char* pBuff = NULL;
+    uint16         msgLen = 0;
+    int            i = 0;
+    CFE_SB_MsgId_t MsgId;
+    FAC_HkTlm_t    HkMsg;
 
-    pMsg = (unsigned char*)MsgPtr;
+    pBuff = (unsigned char*)MsgPtr;
 
-    printf("###SendHK_SendMsgHook:\n");
-    for (i = 0; i < len; i++)
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);    // DataLenth + 7
+    printf("###AppMain_SendHK_SendMsgHook: MsgLen(%u)\n", msgLen);
+    for (i = 0; i < msgLen; i++)
     {
-        printf("0x%x ", *pMsg);
-        pMsg++;
+        printf("0x%x ", *pBuff);
+        pBuff++;
     }
     printf("\n");
+
+    MsgId = CFE_SB_GetMsgId(MsgPtr);
+    switch (MsgId)
+    {
+        case FAC_HK_TLM_MID:
+        {
+            CFE_PSP_MemCpy((void*)&HkMsg, (void*)MsgPtr, sizeof(FAC_HkTlm_t));
+
+            printf("Sent FAC_HK_TLM_MID:\n");
+            printf("CmdCnt: %d\n", HkMsg.usCmdCnt);
+            printf("CmdErrCnt: %d\n", HkMsg.usCmdErrCnt);
+            printf("SchErrCnt: %d\n", HkMsg.usSchErrCnt);
+            printf("DataErrCnt: %d\n", HkMsg.usDataErrCnt);
+            printf("SendHkMsgRcvCnt: %ld\n", HkMsg.SendHkMsgRcvCnt);
+            printf("RunControllerMsgRcvCnt: %ld\n", HkMsg.RunControllerMsgRcvCnt);
+            printf("AirSpeedMsgRcvCnt: %ld\n", HkMsg.AirSpeedMsgRcvCnt);
+            printf("BatteryStatusMsgRcvCnt: %ld\n", HkMsg.BatteryStatusMsgRcvCnt);
+            printf("ManualControlSpMsgRcvCnt: %ld\n", HkMsg.ManualControlSpMsgRcvCnt);
+            printf("VAttMsgRcvCnt: %ld\n", HkMsg.VAttMsgRcvCnt);
+            printf("VAttSpMsgRcvCnt: %ld\n", HkMsg.VAttSpMsgRcvCnt);
+            printf("VControlModeMsgRcvCnt: %ld\n", HkMsg.VControlModeMsgRcvCnt);
+            printf("VGlobalPositionMsgRcvCnt: %ld\n", HkMsg.VGlobalPositionMsgRcvCnt);
+            printf("VLandDetectedMsgRcvCnt: %ld\n", HkMsg.VLandDetectedMsgRcvCnt);
+            printf("VehicleStatusMsgRcvCnt: %ld\n", HkMsg.VehicleStatusMsgRcvCnt);
+            printf("ActuatorControls0MsgSndCnt: %ld\n", HkMsg.ActuatorControls0MsgSndCnt);
+            printf("ActuatorControls2MsgSndCnt: %ld\n", HkMsg.ActuatorControls2MsgSndCnt);
+            printf("VehicleRatesSetpointMsgSndCnt: %ld\n", HkMsg.VehicleRatesSetpointMsgSndCnt);
+            printf("HkMsgSndCnt: %ld\n", HkMsg.HkMsgSndCnt);
+
+            break;
+        }
+        default:
+        {
+            printf("Sent Invalid Message\n");
+            break;
+        }
+    }
 
     return CFE_SUCCESS;
 }
@@ -659,15 +702,15 @@ void Test_FAC_AppMain_Nominal_RunController(void)
  */
 int32 Test_FAC_AppMain_ProcessNewData_IncomingDataHook(void *dst, void *src, uint32 size)
 {
-    unsigned char *pMsg = NULL;
+    unsigned char *pBuff = NULL;
     int i = 0;
 
-    pMsg = (unsigned char*)src;
+    pBuff = (unsigned char*)src;
     printf("###IncomingDataHook: ");
     for (i = 0; i < size; i++)
     {
-        printf("0x%x ", *pMsg);
-        pMsg ++;
+        printf("0x%x ", *pBuff);
+        pBuff ++;
     }
     printf("\n");
 
@@ -1008,7 +1051,7 @@ int32 Test_FAC_RunController_SendEventHook
 }
 
 /**
- * Test FAC RunController/UpdateParams(), SendMsgtHook
+ * Test FAC RunController, SendMsgtHook
  */
 int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
 {
@@ -1035,7 +1078,7 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
         case PX4_VEHICLE_RATES_SETPOINT_MID:
         {
             PX4_VehicleRatesSetpointMsg_t  VRatesSp;
-            CFE_PSP_MemCpy(&VRatesSp, MsgPtr, sizeof(VRatesSp));
+            CFE_PSP_MemCpy((void*)&VRatesSp, (void*)MsgPtr, sizeof(VRatesSp));
             localTime = FAC_Test_GetLocalTime(VRatesSp.Timestamp);
             loc_time = localtime(&localTime);
 
@@ -1051,7 +1094,7 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
         case PX4_ACTUATOR_CONTROLS_0_MID:
         {
             PX4_ActuatorControlsMsg_t  AControls0;
-            CFE_PSP_MemCpy(&AControls0, MsgPtr, sizeof(AControls0));
+            CFE_PSP_MemCpy((void*)&AControls0, (void*)MsgPtr, sizeof(AControls0));
             localTime = FAC_Test_GetLocalTime(AControls0.Timestamp);
             loc_time = localtime(&localTime);
 
@@ -1071,7 +1114,7 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
         case PX4_ACTUATOR_CONTROLS_2_MID:
         {
             PX4_ActuatorControlsMsg_t  AControls2;
-            CFE_PSP_MemCpy(&AControls2, MsgPtr, sizeof(AControls2));
+            CFE_PSP_MemCpy((void*)&AControls2, (void*)MsgPtr, sizeof(AControls2));
             localTime = FAC_Test_GetLocalTime(AControls2.Timestamp);
             loc_time = localtime(&localTime);
 
@@ -1322,53 +1365,6 @@ void Test_FAC_RunController_ControlAttitude(void)
     /* Verify results */
 //    UtAssert_True(TRUE, "FAC RunController_ControlAttitude");
 }
-
-#if 0
-void Test_FAC_ControlAttitude(void)
-{
-    oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
-    oFAC.CVT.VAttSp.Q_D[0] = 0.7084835768f;
-    oFAC.CVT.VAttSp.Q_D[1] = -0.0144501235f;
-    oFAC.CVT.VAttSp.Q_D[2] = -0.0355133303f;
-    oFAC.CVT.VAttSp.Q_D[3] = 0.7046850324f;
-    oFAC.CVT.ControlState.Q[0] = 0.7083791494f;
-    oFAC.CVT.ControlState.Q[1] = -0.0311437733f;
-    oFAC.CVT.ControlState.Q[2] = -0.0508509092f;
-    oFAC.CVT.ControlState.Q[3] = 0.7033087611f;
-    oFAC.m_Params.att_p[0] = 6.0000000000f;
-    oFAC.m_Params.att_p[1] = 6.0000000000f;
-    oFAC.m_Params.att_p[2] = 2.7999999523f;
-    oFAC.CVT.VControlMode.ControlVelocityEnabled = TRUE;
-    oFAC.CVT.VControlMode.ControlAutoEnabled = TRUE;
-    oFAC.CVT.VControlMode.ControlManualEnabled = FALSE;
-    oFAC.CVT.VAttSp.YawSpMoveRate = 0.0000000000f;
-    oFAC.m_Params.yaw_ff = 0.5000000000f;
-    oFAC.CVT.VAttSp.DisableMcYawControl = FALSE;
-    oFAC.m_Params.auto_rate_max[0] = 3.8397247791f;
-    oFAC.m_Params.auto_rate_max[1] = 3.8397247791f;
-    oFAC.m_Params.auto_rate_max[2] = 0.7853982449f;
-    oFAC.m_AngularRatesSetpoint[0] = 0.5145305991f;
-    oFAC.m_AngularRatesSetpoint[1] = -0.0270411316f;
-    oFAC.m_AngularRatesSetpoint[2] = 0.0020858147f;
-    oFAC.m_Params.mc_rate_max[0] = 3.8397247791f;
-    oFAC.m_Params.mc_rate_max[1] = 3.8397247791f;
-    oFAC.m_Params.mc_rate_max[2] = 3.4906587601f;
-    oFAC.m_AngularRatesIntegralError[0] = 0.000000f;
-    oFAC.m_AngularRatesIntegralError[1] = 0.000000f;
-    oFAC.m_AngularRatesIntegralError[2] = -0.0000685215f;
-
-    /* Run the function */
-    oFAC.ControlAttitude(0.0199999996f);
-
-	/* Check outputs */
-    UtAssert_True(oFAC.CVT.VAttSp.DisableMcYawControl == FALSE,"oFAC.CVT.VAttSp.DisableMcYawControl = FALSE");
-    UtAssert_DoubleCmpAbs(oFAC.m_ThrustSp, 0.33338829875, FLT_EPSILON, "oFAC.m_ThrustSp = 0.33338829875");
-    UtAssert_DoubleCmpAbs(oFAC.m_AngularRatesSetpoint[0], 0.27225777507, FLT_EPSILON,"oFAC.m_AngularRatesSetpoint[0] = 0.27225777507");
-    UtAssert_DoubleCmpAbs(oFAC.m_AngularRatesSetpoint[1], -0.01081879158, FLT_EPSILON,"oFAC.m_AngularRatesSetpoint[1] = -0.01081879158");
-    UtAssert_DoubleCmpAbs(oFAC.m_AngularRatesSetpoint[2], 0.00295280106, FLT_EPSILON,"oFAC.m_AngularRatesSetpoint[2] = 0.00295280106");
-    UtAssert_DoubleCmpAbs(oFAC.m_AngularRatesIntegralError[2], -0.00006852150, FLT_EPSILON,"oFAC.m_AngularRatesIntegralError[2] = -0.00006852150");
-}
-#endif
 
 
 /**

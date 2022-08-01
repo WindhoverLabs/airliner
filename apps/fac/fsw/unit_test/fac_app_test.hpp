@@ -31,8 +31,8 @@
 *
 *****************************************************************************/
 
-#ifndef FAC_APP_TEST_H
-#define FAC_APP_TEST_H
+#ifndef FAC_APP_TEST_HPP
+#define FAC_APP_TEST_HPP
 
 #ifdef __cplusplus
 extern "C" {
@@ -45,4 +45,4 @@ void FAC_App_Test_AddTestCases(void);
 }
 #endif
 
-#endif /* FAC_APP_TEST_H */
+#endif /* FAC_APP_TEST_HPP */

@@ -708,9 +708,9 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void FAC::ReportHousekeeping()
 {
+    HkTlm.HkMsgSndCnt++;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&HkTlm);
-    HkTlm.HkMsgSndCnt++;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -31,8 +31,8 @@
 *
 *****************************************************************************/
 
-#ifndef FAC_TEST_UTILS_H
-#define FAC_TEST_UTILS_H
+#ifndef FAC_TEST_UTILS_HPP
+#define FAC_TEST_UTILS_HPP
 
 /*
  * Includes
@@ -72,5 +72,5 @@ extern uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 }
 #endif
 
-#endif /* FAC_TEST_UTILS_H */
+#endif /* FAC_TEST_UTILS_HPP */
 
