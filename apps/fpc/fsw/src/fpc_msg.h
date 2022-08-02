@@ -250,6 +250,8 @@ typedef struct
     float   _eas2tas;
 
     boolean             inControl;
+
+    boolean            _runway_takeoff_enabled;
     Runway             _runway_takeoff;
 
 } FPC_HkTlm_t;
