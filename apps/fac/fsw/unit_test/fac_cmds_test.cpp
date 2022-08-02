@@ -196,5 +196,3 @@ void FAC_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_FAC_ProcessNewCmds_Reset, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_ProcessNewCmds_Reset");
 } /* end FAC_Cmds_Test_AddTestCases */
-
-

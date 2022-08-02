@@ -73,4 +73,3 @@ extern uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 #endif
 
 #endif /* FAC_TEST_UTILS_HPP */
-

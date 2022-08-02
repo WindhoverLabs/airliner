@@ -186,7 +186,7 @@ void FAC_Test_Setup(void)
 {
     /* initialize test environment to default state for every test */
 
-    CFE_PSP_MemCpy(&oFAC, &cpyFAC, sizeof(FAC));
+    CFE_PSP_MemCpy((void*)&oFAC, (void*)&cpyFAC, sizeof(FAC));
 
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();

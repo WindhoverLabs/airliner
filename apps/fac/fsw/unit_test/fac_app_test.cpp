@@ -581,7 +581,7 @@ void Test_FAC_AppMain_Fail_AcquireConfigPtrs(void)
  */
 void Test_FAC_AppMain_InvalidSchMessage(void)
 {
-    /* The following will emulate the behavior of receiving a invalid SCH message */
+    /* The following will emulate the behavior of receiving an invalid SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, PX4_BATTERY_STATUS_MID, 1);
 
@@ -607,7 +607,7 @@ int32 Test_FAC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 
     pBuff = (unsigned char*)MsgPtr;
 
-    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);    // DataLenth + 7
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);                /* DataLenth + 7 */
     printf("###AppMain_SendHK_SendMsgHook: MsgLen(%u)\n", msgLen);
     for (i = 0; i < msgLen; i++)
     {
@@ -661,7 +661,7 @@ int32 Test_FAC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
  */
 void Test_FAC_AppMain_Nominal_SendHK(void)
 {
-    /* The following will emulate behavior of receiving a FAC_SEND_HK_MID message */
+    /* The following will emulate the behavior of receiving FAC_SEND_HK_MID message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
 
@@ -685,7 +685,7 @@ void Test_FAC_AppMain_Nominal_SendHK(void)
  */
 void Test_FAC_AppMain_Nominal_RunController(void)
 {
-    /* The following will emulate behavior of receiving a FAC_RUN_CONTROLLER_MID message */
+    /* The following will emulate the behavior of receiving FAC_RUN_CONTROLLER_MID message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
@@ -751,7 +751,8 @@ void Test_FAC_AppMain_ProcessNewData_InvalidMsgID(void)
     UtAssert_True(oFAC.HkTlm.usDataErrCnt == 1, "AppMain_ProcessNewData_InvalidMsgID");
 #else
     UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==2,"Event Count = 2");
-    UtAssert_EventSent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR, "Recvd invalid DATA msgId (0x0000)", "Error Event Sent");
+    UtAssert_EventSent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
+                      "Recvd invalid DATA msgId (0x0000)", "Error Event Sent");
 #endif
 }
 
@@ -1063,7 +1064,7 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
     struct tm       *loc_time;
 
     pBuff = (unsigned char*)MsgPtr;
-    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);    // DataLenth + 7
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);             /* DataLenth + 7 */
     printf("###RunController_SendMsgHook: MsgLen(%u)\n", msgLen);
     for (i = 0; i < msgLen; i++)
     {
@@ -1143,7 +1144,7 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
 
 
 /**************************************************************************
- * Tests for FAC_RunController()
+ * Tests for FAC RunController()
  **************************************************************************/
 /**
  * Test FAC RunController()
@@ -1169,14 +1170,14 @@ void Test_FAC_RunController(void)
 
     oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
     oFAC.CVT.VehicleStatus.IsRotaryWing = FALSE;
-    oFAC.CVT.VehicleStatus.InTransitionMode = FALSE;     // check this
+    oFAC.CVT.VehicleStatus.InTransitionMode = FALSE;     // fix this
     oFAC.CVT.VehicleStatus.EngineFailure = FALSE;
     oFAC.CVT.VehicleStatus.EngineFailureCmd = FALSE;
 
     oFAC.CVT.VLandDetected.Timestamp = PX4LIB_GetPX4TimeUs();
 
     oFAC.CVT.BatteryStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.BatteryStatus.Scale = 0.0f;                 // check this
+    oFAC.CVT.BatteryStatus.Scale = 0.0f;                 // fix this
 
     /* Set inputs */
     oFAC.CVT.VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
@@ -1259,8 +1260,6 @@ void Test_FAC_RunController(void)
     /* Execute the function being tested */
     oFAC.AppMain();
 
-    /* Verify results */
-//    UtAssert_True(TRUE, "FAC RunController");
 }
 
 
@@ -1278,7 +1277,7 @@ void Test_FAC_RunController_ControlAttitude(void)
     oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
     oFAC.CVT.VehicleStatus.IsRotaryWing = FALSE;
     oFAC.CVT.VehicleStatus.IsVtol = FALSE;
-    oFAC.CVT.VehicleStatus.InTransitionMode = FALSE;         // check this
+    oFAC.CVT.VehicleStatus.InTransitionMode = FALSE;         // fix this
     oFAC.CVT.VehicleStatus.EngineFailure = FALSE;
     oFAC.CVT.VehicleStatus.EngineFailureCmd = FALSE;
 
@@ -1286,14 +1285,14 @@ void Test_FAC_RunController_ControlAttitude(void)
     oFAC.CVT.VLandDetected.Landed = FALSE;
 
     oFAC.CVT.BatteryStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.BatteryStatus.Scale = 0.0f;                     // check this
+    oFAC.CVT.BatteryStatus.Scale = 0.0f;                     // fix this
 
     oFAC.CVT.VControlMode.Timestamp = PX4LIB_GetPX4TimeUs();
     oFAC.CVT.VControlMode.ExternalManualOverrideOk = FALSE;
     oFAC.CVT.VControlMode.SystemHilEnabled = FALSE;
     oFAC.CVT.VControlMode.ControlManualEnabled = TRUE;
-    oFAC.CVT.VControlMode.ControlAutoEnabled = FALSE;        // check this
-    oFAC.CVT.VControlMode.ControlOffboardEnabled = FALSE;    // check this
+    oFAC.CVT.VControlMode.ControlAutoEnabled = FALSE;        // fix this
+    oFAC.CVT.VControlMode.ControlOffboardEnabled = FALSE;    // fix this
     oFAC.CVT.VControlMode.ControlRatesEnabled = TRUE;
     oFAC.CVT.VControlMode.ControlAttitudeEnabled = TRUE;
     oFAC.CVT.VControlMode.ControlRattitudeEnabled = TRUE;
@@ -1362,8 +1361,6 @@ void Test_FAC_RunController_ControlAttitude(void)
     /* Execute the function being tested */
     oFAC.AppMain();
 
-    /* Verify results */
-//    UtAssert_True(TRUE, "FAC RunController_ControlAttitude");
 }
 
 
@@ -1465,8 +1462,11 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
     UpdateParams_ValidateStatus = FAC_Test_ValidateEclValues();
 }
 
+/**************************************************************************
+ * Tests for FAC UpdateParams()
+ **************************************************************************/
 /**
- * Test FAC UpdateParams(), UpdateParams
+ * Test FAC UpdateParams()
  */
 void Test_FAC_UpdateParams(void)
 {
@@ -1600,5 +1600,3 @@ void FAC_App_Test_AddTestCases(void)
                "Test_FAC_UpdateParams");
 
 }
-
-

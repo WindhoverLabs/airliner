@@ -185,5 +185,3 @@ void FAC_Config_Tbl_Test_AddTestCases(void)
     UtTest_Add(Test_FAC_InitConfigTbl_Nominal, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_InitConfigTbl_Nominal");
 }
-
-
