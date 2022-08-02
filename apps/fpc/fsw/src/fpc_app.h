@@ -256,9 +256,6 @@ public:
 
     boolean inControl = FALSE;
 
-    PX4_VehicleControlModeMsg_t           m_PrevVehicleControlModeMsg;
-    PX4_PositionSetpointTripletMsg_t      m_PrevPositionSetpointTripletMsg;
-
 
     enum FW_POSCTRL_MODE {
         FW_POSCTRL_MODE_AUTO = 0,

@@ -494,8 +494,6 @@ int32 FPC::RcvMsg(int32 iBlocking)
                 ProcessNewData();
                 UpdateParamsFromTable();
                 Execute();
-                CFE_PSP_MemCpy(&m_PrevVehicleControlModeMsg, &m_VehicleControlModeMsg, sizeof(m_VehicleControlModeMsg));
-                CFE_PSP_MemCpy(&m_PrevPositionSetpointTripletMsg, &m_PositionSetpointTripletMsg, sizeof(m_PositionSetpointTripletMsg));
 
                 /* TODO:  Add more code here to handle other things when app wakes up */
 
@@ -1087,7 +1085,6 @@ extern "C" void FPC_AppMain(void)
 
 void FPC::Execute(void)
 {
-    if(m_VehicleControlModeMsg.ControlManualEnabled != m_PrevVehicleControlModeMsg.ControlManualEnabled){
         /* handle estimator reset events. we only adjust setpoins for manual modes*/
         if (TRUE == m_VehicleControlModeMsg.ControlManualEnabled) {
             if (m_VehicleControlModeMsg.ControlAltitudeEnabled && (m_VehicleGlobalPositionMsg.AltResetCounter != m_Alt_Reset_Counter)) {
@@ -1105,7 +1102,6 @@ void FPC::Execute(void)
                 _hdg_hold_enabled = FALSE;
             }
         }
-    }
 
     // update the reset counters in any case
     m_Alt_Reset_Counter = m_VehicleGlobalPositionMsg.AltResetCounter;
@@ -1317,14 +1313,11 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
     }
 
     if (m_VehicleControlModeMsg.ControlAutoEnabled && pos_sp_curr.Valid) {
-        if(m_VehicleControlModeMsg.ControlManualEnabled != m_PrevVehicleControlModeMsg.ControlManualEnabled &&
-                pos_sp_curr.Valid != m_PrevPositionSetpointTripletMsg.Current.Valid ){
             /* reset hold altitude */
             _hold_alt = m_VehicleGlobalPositionMsg.Alt;
 
             /* reset hold yaw */
             _hdg_hold_yaw = _yaw;
-         }
         /* AUTONOMOUS FLIGHT */
 
         ControlModeCurrent = FW_POSCTRL_MODE_AUTO;
@@ -1845,13 +1838,10 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
         if (ControlModeCurrent != FW_POSCTRL_MODE_POSITION) {
             /* Need to init because last loop iteration was in a different mode */
-            if(m_VehicleControlModeMsg.ControlVelocityEnabled != m_PrevVehicleControlModeMsg.ControlVelocityEnabled &&
-                    m_VehicleControlModeMsg.ControlAltitudeEnabled != m_PrevVehicleControlModeMsg.ControlAltitudeEnabled ){
             _hold_alt = m_VehicleGlobalPositionMsg.Alt;
             _hdg_hold_yaw = _yaw;
             _hdg_hold_enabled = FALSE; // this makes sure the waypoints are reset below
             _yaw_lock_engaged = FALSE;
-            }
 
             /* reset setpoints from other modes (auto) otherwise we won't
              * level out without new manual input */
@@ -1956,15 +1946,12 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
       }
 
     else if (m_VehicleControlModeMsg.ControlAltitudeEnabled) {
-
-        if(m_VehicleControlModeMsg.ControlAltitudeEnabled != m_PrevVehicleControlModeMsg.ControlAltitudeEnabled){
             /* ALTITUDE CONTROL: pitch stick moves altitude setpoint, throttle stick sets airspeed */
 
             if (ControlModeCurrent != FW_POSCTRL_MODE_POSITION && ControlModeCurrent != FW_POSCTRL_MODE_ALTITUDE) {
                 /* Need to init because last loop iteration was in a different mode */
                 _hold_alt = m_VehicleGlobalPositionMsg.Alt;
             }
-        }
 
         ControlModeCurrent = FW_POSCTRL_MODE_ALTITUDE;
 
