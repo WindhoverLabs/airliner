@@ -1118,7 +1118,7 @@ void FPC::Execute(void)
 //    }
      UpdateVehicleAttitude();
 
-    math::Vector2F curr_pos(m_VehicleGlobalPositionMsg.Lat, m_VehicleGlobalPositionMsg.Alt);
+    math::Vector2F curr_pos(m_VehicleGlobalPositionMsg.Lat, m_VehicleGlobalPositionMsg.Lon);
     math::Vector2F ground_speed(m_VehicleGlobalPositionMsg.VelN, m_VehicleGlobalPositionMsg.VelE);
 
 
