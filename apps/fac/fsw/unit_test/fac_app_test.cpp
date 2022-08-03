@@ -34,7 +34,6 @@
 #include "fac_app_test.hpp"
 #include "fac_app.hpp"
 #include "fac_test_utils.hpp"
-#include <float.h>
 
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
@@ -51,6 +50,7 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
+#include <float.h>
 #include <time.h>
 #include <iostream>
 
@@ -1013,9 +1013,9 @@ void Test_FAC_AppMain_ProcessNewData_VehicleStatus(void)
 
 
 /**
- * Test FAC RunController(), GetTimeHook
+ * Test FAC GetPSPTimeHook
  */
-void Test_FAC_RunController_GetTimeHook(OS_time_t *LocalTime)
+void Test_FAC_GetPSPTimeHook(OS_time_t *LocalTime)
 {
     int              iStatus;
     struct timespec  time;
@@ -1250,7 +1250,7 @@ void Test_FAC_RunController(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-               (void*)&Test_FAC_RunController_GetTimeHook);
+               (void*)&Test_FAC_GetPSPTimeHook);
     SendEvent_HookCalledCnt = 0;
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
                (void*)&Test_FAC_RunController_SendEventHook);
@@ -1351,7 +1351,7 @@ void Test_FAC_RunController_ControlAttitude(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-               (void*)&Test_FAC_RunController_GetTimeHook);
+               (void*)&Test_FAC_GetPSPTimeHook);
     SendEvent_HookCalledCnt = 0;
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
                (void*)&Test_FAC_RunController_SendEventHook);
