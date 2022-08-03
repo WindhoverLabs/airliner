@@ -31,52 +31,85 @@
  *
  *****************************************************************************/
 
+#include "fpc_cmds_test.h"
 #include "fpc_test_utils.h"
 
+#include "fpc_msg.h"
+
+#include "uttest.h"
+#include "ut_osapi_stubs.h"
+#include "ut_cfe_sb_stubs.h"
+#include "ut_cfe_sb_hooks.h"
+#include "ut_cfe_es_stubs.h"
+#include "ut_cfe_es_hooks.h"
+#include "ut_cfe_evs_stubs.h"
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
 #include "ut_cfe_psp_memutils_stubs.h"
 #include "ut_cfe_tbl_stubs.h"
-#include "ut_cfe_tbl_hooks.h"
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
-#include "ut_osapi_stubs.h"
-#include "ut_osfileapi_stubs.h"
-#include "ut_cfe_sb_stubs.h"
-#include "ut_cfe_es_stubs.h"
-#include "ut_cfe_evs_stubs.h"
 
-#include <time.h>
-
-/*
- * Config table for testing
+/**************************************************************************
+ * Tests for FPC ProcessNewCmds()
+ **************************************************************************/
+/**
+ * Test FPC ProcessNewCmds, InvalidCmd
  */
-FPC_ConfigTblEntry_t FPC_configtable = {
-        1 /* iParam*/
-};
-
-/*
- * Function Definitions
- */
-
-void FPC_Test_Setup(void)
+void Test_FPC_ProcessNewCmds_InvalidCmd(void)
 {
-    /* initialize test environment to default state for every test */
-
-    CFE_PSP_MemSet(&FPC_AppData, 0x00, sizeof(FPC_AppData_t));
-
-    Ut_CFE_EVS_Reset();
-    Ut_CFE_FS_Reset();
-    Ut_CFE_TIME_Reset();
-    Ut_CFE_TBL_Reset();
-    Ut_CFE_SB_Reset();
-    Ut_CFE_ES_Reset();
-    Ut_OSAPI_Reset();
-    Ut_OSFILEAPI_Reset();
-
-    Ut_CFE_TBL_AddTable(FPC_CONFIG_TABLE_FILENAME, (void *) &FPC_configtable);
 }
 
-void FPC_Test_TearDown(void) {
-    CFE_PSP_MemSet(&FPC_AppData, 0x00, sizeof(FPC_AppData_t));
+/**
+ * Test FPC ProcessNewCmds, InvalidCmdCode
+ */
+void Test_FPC_ProcessNewCmds_InvalidCmdCode(void)
+{
 }
+
+/**
+ * Test FPC ProcessNewCmds, CmdPipeError
+ */
+void Test_FPC_ProcessNewCmds_CmdPipeError(void)
+{
+}
+
+/**
+ * Test FPC ProcessNewCmds, Noop
+ */
+void Test_FPC_ProcessNewCmds_Noop(void)
+{
+}
+
+/**
+ * Test FPC ProcessNewCmds, Reset
+ */
+void Test_FPC_ProcessNewCmds_Reset(void)
+{
+}
+
+/**
+ * Test FPC ProcessNewCmds, DoGoGround
+ */
+void Test_FPC_ProcessNewCmds_DoGoGround(void)
+{
+}
+
+
+void FPC_Cmds_Test_AddTestCases(void)
+{
+    UtTest_Add(Test_FPC_ProcessNewCmds_InvalidCmd, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_ProcessNewCmds_InvalidCmd");
+    UtTest_Add(Test_FPC_ProcessNewCmds_InvalidCmdCode, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_ProcessNewCmds_InvalidCmdCode");
+    UtTest_Add(Test_FPC_ProcessNewCmds_CmdPipeError, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_ProcessNewCmds_CmdPipeError");
+    UtTest_Add(Test_FPC_ProcessNewCmds_Noop, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_ProcessNewCmds_Noop");
+    UtTest_Add(Test_FPC_ProcessNewCmds_Reset, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_ProcessNewCmds_Reset");
+    UtTest_Add(Test_FPC_ProcessNewCmds_DoGoGround, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_ProcessNewCmds_DoGoGround");
+} /* end FPC_Cmds_Test_AddTestCases */
+
+

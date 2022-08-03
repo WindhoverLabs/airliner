@@ -36,14 +36,16 @@
 #include "fpc_app_test.h"
 #include "fpc_cmds_test.h"
 #include "fpc_config_tbl_test.h"
-#include "fpc_cds_tbl_test.h"
+#include "fpc_test_utils.h"
+
+FPC oFPC{};
+FPC cpyFPC{};
 
 int main(void)
 {   
     FPC_App_Test_AddTestCases();
     FPC_Cmds_Test_AddTestCases();
     FPC_Config_Tbl_Test_AddTestCases();
-    FPC_CDS_Tbl_Test_AddTestCases();
 
     return(UtTest_Run());
 

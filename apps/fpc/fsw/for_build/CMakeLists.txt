@@ -61,14 +61,25 @@ buildliner_add_app_def(fpc
 buildliner_add_app_unit_test(FPC-UT
     UTASSERT 
     SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_app_test.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_cds_tbl_test.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_cmds_test.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_config_tbl_test.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_testrunner.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_test_utils.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_app_test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_cmds_test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_config_tbl_test.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_testrunner.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_test_utils.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs.cpp
+
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_app.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_config_utils.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_landing_slope.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_catapult_launch_method.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_launch_detector.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_runway_takeoff.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_ecl_l1_pos_controller.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_tecs.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fpc_symbols.c
+
+        ${PX4LIB_LIB_SOURCES}
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
         
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/

@@ -40,7 +40,7 @@
 
 #include "fpc_app.h"
 
-extern FPC_AppData_t  FPC_AppData;
+extern FPC   oFPC;
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,8 +50,11 @@ extern "C" {
  * Function Definitions
  */
 
-void FPC_Test_Setup(void);
-void FPC_Test_TearDown(void);
+void       FPC_Test_InitTest();
+void       FPC_Test_Setup(void);
+void       FPC_Test_TearDown(void);
+
+time_t     FPC_Test_GetLocalTime(uint64 timestamp);
 
 
 #ifdef __cplusplus

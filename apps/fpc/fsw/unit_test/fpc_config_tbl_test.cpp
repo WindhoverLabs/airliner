@@ -50,15 +50,66 @@
 #include "ut_cfe_time_stubs.h"
 
 
-void FPC_Config_Tbl_Test_Case1(void)
+/**************************************************************************
+ * Tests for FPC InitConfigTbl()
+ **************************************************************************/
+/**
+ * Test FPC InitConfigTbl(), fail TBL Register
+ */
+void Test_FPC_InitConfigTbl_Fail_TblRegister(void)
 {
+}
 
+/**
+ * Test FPC InitConfigTbl(), fail TBL Load
+ */
+void Test_FPC_InitConfigTbl_Fail_TblLoad(void)
+{
+}
+
+/**
+ * Test FPC InitConfigTbl(), fail TBL Manage
+ */
+void Test_FPC_InitConfigTbl_Fail_TblManage(void)
+{
+}
+
+/**
+ * Test FPC InitConfigTbl(), fail TBL GetAddress
+ */
+void Test_FPC_InitConfigTbl_Fail_TblGetAddress(void)
+{
+}
+
+/**
+ * Test FPC InitConfigTbl(), fail AcquireConfigPtrs
+ */
+void Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
+{
+}
+
+/**
+ * Test FPC InitConfigTbl(), Nominal
+ */
+void Test_FPC_InitConfigTbl_Nominal(void)
+{
 }
 
 
 void FPC_Config_Tbl_Test_AddTestCases(void)
 {
-    UtTest_Add(FPC_Config_Tbl_Test_Case1, FPC_Test_Setup, FPC_Test_TearDown, "FPC_Config_Tbl_Test_Case1");
+    UtTest_Add(Test_FPC_InitConfigTbl_Fail_TblRegister, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_InitConfigTbl_Fail_TblRegister");
+    UtTest_Add(Test_FPC_InitConfigTbl_Fail_TblLoad, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_InitConfigTbl_Fail_TblLoad");
+    UtTest_Add(Test_FPC_InitConfigTbl_Fail_TblManage, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_InitConfigTbl_Fail_TblManage");
+    UtTest_Add(Test_FPC_InitConfigTbl_Fail_TblGetAddress, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_InitConfigTbl_Fail_TblGetAddress");
+    UtTest_Add(Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs");
+    UtTest_Add(Test_FPC_InitConfigTbl_Nominal, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_InitConfigTbl_Nominal");
 }
 
 
