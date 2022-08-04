@@ -223,15 +223,15 @@ void FAC_Test_TearDown(void)
 
 void FAC_Test_PrintCmdMsg(void *pMsg, uint32 size)
 {
-    unsigned char *pTmp;
-    int i = 0;
+    unsigned char *pBuff;
+    int           i = 0;
 
-    pTmp = (unsigned char*)pMsg;
-    printf("Cmd message:");
+    pBuff = (unsigned char*)pMsg;
+    printf("Emulated Cmd message:");
     for (i = 0; i < size; i++)
     {
-        printf("%x ", *pTmp);
-        pTmp++;
+        printf("0x%02x ", *pBuff);
+        pBuff++;
     }
     printf("\n");
 
@@ -398,11 +398,20 @@ uint32 FAC_Test_ValidateEclValues()
     return uResult;
 }
 
-time_t FAC_Test_GetLocalTime(uint64 timestamp)
+time_t FAC_Test_GetTimeFromTimestamp(uint64 timestamp)
 {
     time_t  local_time;
 
     local_time = (time_t)(timestamp / 1000000);
+
+    return local_time;
+}
+
+time_t FAC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time)
+{
+    time_t   local_time;
+
+    local_time = (time_t)cfe_time.Seconds;
 
     return local_time;
 }

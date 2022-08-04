@@ -599,11 +599,14 @@ void Test_FAC_AppMain_InvalidSchMessage(void)
 int32 Test_FAC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
     /* TODO:  Test the contents of your HK message here. */
-    unsigned char* pBuff = NULL;
-    uint16         msgLen = 0;
-    int            i = 0;
-    CFE_SB_MsgId_t MsgId;
-    FAC_HkTlm_t    HkMsg;
+    unsigned char*     pBuff = NULL;
+    uint16             msgLen = 0;
+    int                i = 0;
+    CFE_SB_MsgId_t     MsgId;
+    time_t             localTime;
+    struct tm          *loc_time;
+    CFE_TIME_SysTime_t TimeFromMsg;
+    FAC_HkTlm_t        HkMsg;
 
     pBuff = (unsigned char*)MsgPtr;
 
@@ -611,10 +614,15 @@ int32 Test_FAC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     printf("###AppMain_SendHK_SendMsgHook: MsgLen(%u)\n", msgLen);
     for (i = 0; i < msgLen; i++)
     {
-        printf("0x%x ", *pBuff);
+        printf("0x%02x ", *pBuff);
         pBuff++;
     }
     printf("\n");
+
+    TimeFromMsg = CFE_SB_GetMsgTime(MsgPtr);
+    localTime = FAC_Test_GetTimeFromMsg(TimeFromMsg);
+    loc_time = localtime(&localTime);
+    printf("TimeFromMessage: %s", asctime(loc_time));
 
     MsgId = CFE_SB_GetMsgId(MsgPtr);
     switch (MsgId)
@@ -709,7 +717,7 @@ int32 Test_FAC_AppMain_ProcessNewData_IncomingDataHook(void *dst, void *src, uin
     printf("###IncomingDataHook: ");
     for (i = 0; i < size; i++)
     {
-        printf("0x%x ", *pBuff);
+        printf("0x%02x ", *pBuff);
         pBuff ++;
     }
     printf("\n");
@@ -1056,22 +1064,28 @@ int32 Test_FAC_RunController_SendEventHook
  */
 int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
 {
-    unsigned char   *pBuff = NULL;
-    uint16          msgLen = 0;
-    int             i = 0;
-    CFE_SB_MsgId_t  MsgId;
-    time_t          localTime;
-    struct tm       *loc_time;
+    unsigned char      *pBuff = NULL;
+    uint16             msgLen = 0;
+    int                i = 0;
+    CFE_SB_MsgId_t     MsgId;
+    time_t             localTime;
+    struct tm          *loc_time;
+    CFE_TIME_SysTime_t TimeFromMsg;
 
     pBuff = (unsigned char*)MsgPtr;
     msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);             /* DataLenth + 7 */
     printf("###RunController_SendMsgHook: MsgLen(%u)\n", msgLen);
     for (i = 0; i < msgLen; i++)
     {
-        printf("0x%x ", *pBuff);
+        printf("0x%02x ", *pBuff);
         pBuff++;
     }
     printf("\n");
+
+    TimeFromMsg = CFE_SB_GetMsgTime(MsgPtr);
+    localTime = FAC_Test_GetTimeFromMsg(TimeFromMsg);
+    loc_time = localtime(&localTime);
+    printf("TimeFromMessage: %s", asctime(loc_time));
 
     MsgId = CFE_SB_GetMsgId(MsgPtr);
     switch (MsgId)
@@ -1080,10 +1094,10 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
         {
             PX4_VehicleRatesSetpointMsg_t  VRatesSp;
             CFE_PSP_MemCpy((void*)&VRatesSp, (void*)MsgPtr, sizeof(VRatesSp));
-            localTime = FAC_Test_GetLocalTime(VRatesSp.Timestamp);
-            loc_time = localtime(&localTime);
 
             printf("Sent PX4_VEHICLE_RATES_SETPOINT_MID:\n");
+            localTime = FAC_Test_GetTimeFromTimestamp(VRatesSp.Timestamp);
+            loc_time = localtime(&localTime);
             printf("Timestamp: %s", asctime(loc_time));
             printf("Roll: %f\n", VRatesSp.Roll);
             printf("Pitch: %f\n", VRatesSp.Pitch);
@@ -1096,10 +1110,10 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
         {
             PX4_ActuatorControlsMsg_t  AControls0;
             CFE_PSP_MemCpy((void*)&AControls0, (void*)MsgPtr, sizeof(AControls0));
-            localTime = FAC_Test_GetLocalTime(AControls0.Timestamp);
-            loc_time = localtime(&localTime);
 
             printf("Sent PX4_ACTUATOR_CONTROLS_0_MID\n");
+            localTime = FAC_Test_GetTimeFromTimestamp(AControls0.Timestamp);
+            loc_time = localtime(&localTime);
             printf("Timestamp: %s", asctime(loc_time));
             printf("Control[Roll]: %f\n", AControls0.Control[0]);
             printf("Control[Pitch]: %f\n", AControls0.Control[1]);
@@ -1116,10 +1130,10 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
         {
             PX4_ActuatorControlsMsg_t  AControls2;
             CFE_PSP_MemCpy((void*)&AControls2, (void*)MsgPtr, sizeof(AControls2));
-            localTime = FAC_Test_GetLocalTime(AControls2.Timestamp);
-            loc_time = localtime(&localTime);
 
             printf("Sent PX4_ACTUATOR_CONTROLS_2_MID\n");
+            localTime = FAC_Test_GetTimeFromTimestamp(AControls2.Timestamp);
+            loc_time = localtime(&localTime);
             printf("Timestamp: %s", asctime(loc_time));
             printf("Control[Roll]: %f\n", AControls2.Control[0]);
             printf("Control[Pitch]: %f\n", AControls2.Control[1]);
