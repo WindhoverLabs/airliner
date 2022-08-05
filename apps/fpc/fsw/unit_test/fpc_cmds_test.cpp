@@ -89,9 +89,9 @@ void Test_FPC_ProcessNewCmds_Reset(void)
 }
 
 /**
- * Test FPC ProcessNewCmds, DoGoGround
+ * Test FPC ProcessNewCmds, DoGoAround
  */
-void Test_FPC_ProcessNewCmds_DoGoGround(void)
+void Test_FPC_ProcessNewCmds_DoGoAround(void)
 {
 }
 
@@ -108,8 +108,8 @@ void FPC_Cmds_Test_AddTestCases(void)
                "Test_FPC_ProcessNewCmds_Noop");
     UtTest_Add(Test_FPC_ProcessNewCmds_Reset, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_ProcessNewCmds_Reset");
-    UtTest_Add(Test_FPC_ProcessNewCmds_DoGoGround, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FPC_ProcessNewCmds_DoGoGround");
+    UtTest_Add(Test_FPC_ProcessNewCmds_DoGoAround, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_ProcessNewCmds_DoGoAround");
 } /* end FPC_Cmds_Test_AddTestCases */
 
 

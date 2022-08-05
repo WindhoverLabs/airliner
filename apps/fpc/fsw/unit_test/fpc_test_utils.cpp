@@ -177,11 +177,20 @@ void FPC_Test_TearDown(void) {
     memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
-time_t FPC_Test_GetLocalTime(uint64 timestamp)
+time_t FPC_Test_GetTimeFromTimestamp(uint64 timestamp)
 {
     time_t  local_time;
 
     local_time = (time_t)(timestamp / 1000000);
+
+    return local_time;
+}
+
+time_t FPC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time)
+{
+    time_t   local_time;
+
+    local_time = (time_t)cfe_time.Seconds;
 
     return local_time;
 }

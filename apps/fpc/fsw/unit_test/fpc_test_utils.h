@@ -54,7 +54,8 @@ void       FPC_Test_InitTest();
 void       FPC_Test_Setup(void);
 void       FPC_Test_TearDown(void);
 
-time_t     FPC_Test_GetLocalTime(uint64 timestamp);
+time_t     FPC_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t     FPC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
 
 #ifdef __cplusplus
