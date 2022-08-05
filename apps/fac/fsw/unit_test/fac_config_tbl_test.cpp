@@ -159,7 +159,8 @@ void Test_FAC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
 void Test_FAC_InitConfigTbl_Nominal(void)
 {
     /* Set a fail result */
-    int32 result = -1;
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
     int32 expected = CFE_SUCCESS;
 
     /* Execute the function being tested */

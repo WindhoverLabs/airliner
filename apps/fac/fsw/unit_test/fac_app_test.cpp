@@ -1020,6 +1020,9 @@ void Test_FAC_AppMain_ProcessNewData_VehicleStatus(void)
 }
 
 
+/**************************************************************************
+ * Tests for FAC RunController()
+ **************************************************************************/
 /**
  * Test FAC GetPSPTimeHook
  */
@@ -1156,10 +1159,6 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
     return 0;
 }
 
-
-/**************************************************************************
- * Tests for FAC RunController()
- **************************************************************************/
 /**
  * Test FAC RunController()
  */
@@ -1378,6 +1377,9 @@ void Test_FAC_RunController_ControlAttitude(void)
 }
 
 
+/**************************************************************************
+ * Tests for FAC UpdateParams()
+ **************************************************************************/
 /**
  * Test FAC UpdateParams(), SendEventHook
  */
@@ -1476,9 +1478,6 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
     UpdateParams_ValidateStatus = FAC_Test_ValidateEclValues();
 }
 
-/**************************************************************************
- * Tests for FAC UpdateParams()
- **************************************************************************/
 /**
  * Test FAC UpdateParams()
  */
