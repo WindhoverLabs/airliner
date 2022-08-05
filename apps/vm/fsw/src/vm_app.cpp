@@ -431,9 +431,6 @@ int32 VM::InitApp()
         goto VM_InitApp_Exit_Tag;
     }
 
-    /* Initialize the caution and warning helper */
-    m_caws.InitCAWS();
-
 VM_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
@@ -488,9 +485,6 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 uint64 timestamp;
 
                 ProcessDataPipe();
-
-                /* Update status in caution and warning */
-                m_caws.SetStatus(&VehicleStatusMsg);
 
                 /* Cyclic maintainance loop */
                 Execute();

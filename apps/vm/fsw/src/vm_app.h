@@ -138,8 +138,6 @@ public:
     CFE_TBL_Handle_t ConfigTblHdl;
     /** \brief Config Table Pointer */
     VM_ConfigTbl_t* ConfigTblPtr;
-    /** \brief Caution and Warning helper class */
-    CautionWarningHelper m_caws;
 
     /** \brief Input Data subscribed at the beginning of cycle */
     /** \brief Magnetometer message */
