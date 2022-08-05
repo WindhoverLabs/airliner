@@ -168,23 +168,6 @@ int32 VM::InitPipe()
     iStatus = CFE_SB_CreatePipe(&DataPipeId, VM_DATA_PIPE_DEPTH, VM_DATA_PIPE_NAME);
     if (iStatus == CFE_SUCCESS)
     {
-        iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_MAG_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_SENSOR_MAG_MID. (0x%08lX)",
-                    iStatus);
-            goto VM_InitPipe_Exit_Tag;
-        }
-
-        iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_GYRO_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_SENSOR_GYRO_MID. (0x%08lX)",
-                    iStatus);
-            goto VM_InitPipe_Exit_Tag;
-        }
 
         iStatus = CFE_SB_SubscribeEx(PX4_BATTERY_STATUS_MID, DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
@@ -316,15 +299,6 @@ int32 VM::InitPipe()
         {
             (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
                     "DATA Pipe failed to subscribe to PX4_OFFBOARD_CONTROL_MODE_MID. (0x%08lX)",
-                    iStatus);
-            goto VM_InitPipe_Exit_Tag;
-        }
-
-        iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_ACCEL_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_SENSOR_ACCEL_MID. (0x%08lX)",
                     iStatus);
             goto VM_InitPipe_Exit_Tag;
         }
@@ -623,20 +597,6 @@ void VM::ProcessDataPipe()
             MsgId = CFE_SB_GetMsgId(MsgPtr);
             switch (MsgId)
             {
-                case PX4_SENSOR_MAG_MID:
-                {
-                    CFE_PSP_MemCpy(&SensorMagMsg, MsgPtr, sizeof(SensorMagMsg));
-                    HkTlm.SensorMagMsgCount++;
-                    break;
-                }
-
-                case PX4_SENSOR_GYRO_MID:
-                {
-                    CFE_PSP_MemCpy(&SensorGyroMsg, MsgPtr, sizeof(SensorGyroMsg));
-                    HkTlm.SensorGyroMsgCount++;
-                    break;
-                }
-
                 case PX4_BATTERY_STATUS_MID:
                 {
                     CFE_PSP_MemCpy(&BatteryStatusMsg, MsgPtr, sizeof(BatteryStatusMsg));
@@ -711,13 +671,6 @@ void VM::ProcessDataPipe()
                 {
                     CFE_PSP_MemCpy(&PositionSetpointTripletMsg, MsgPtr, sizeof(PositionSetpointTripletMsg));
                     HkTlm.PositionSetpointTripletMsgCount++;
-                    break;
-                }
-
-                case PX4_SENSOR_ACCEL_MID:
-                {
-                    CFE_PSP_MemCpy(&SensorAccelMsg, MsgPtr, sizeof(SensorAccelMsg));
-                    HkTlm.SensorAccelMsgCount++;
                     break;
                 }
 
@@ -805,8 +758,6 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 HkTlm.usCmdCnt                        = 0;
                 HkTlm.usCmdErrCnt                     = 0;
                 HkTlm.WakeupCount                     = 0;
-                HkTlm.SensorMagMsgCount               = 0;
-                HkTlm.SensorGyroMsgCount              = 0;
                 HkTlm.BatteryStatusMsgCount           = 0;
                 HkTlm.TelemetryStatusMsgCount         = 0;
                 HkTlm.SubsystemInfoMsgCount           = 0;
@@ -816,7 +767,6 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 HkTlm.MissionResultMsgCount           = 0;
                 HkTlm.ManualControlSetpointMsgCount   = 0;
                 HkTlm.PositionSetpointTripletMsgCount = 0;
-                HkTlm.SensorAccelMsgCount             = 0;
                 HkTlm.SafetyMsgCount                  = 0;
                 HkTlm.SensorCorrectionMsgCount        = 0;
                 HkTlm.VehicleControlModeMsgCount      = 0;
