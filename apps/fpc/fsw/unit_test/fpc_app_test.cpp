@@ -52,12 +52,13 @@
 
 #include <time.h>
 #include <inttypes.h>
+#include <float.h>
 
 uint16   ProcessNewDataHook_MsgId = 0;
 int32    WriteToSysLog_HookCalledCnt = 0;
 int32    SendEvent_HookCalledCnt = 0;
 int32    SendHk_HookCalledCnt = 0;
-uint32   UpdateParams_ValidateStatus = 0x0;
+//uint32   UpdateParams_ValidateStatus = 0x0;
 
 double   UpdateParams_ParamChecksum = 0.0;
 
@@ -1403,6 +1404,45 @@ void Test_FAC_AppMain_ProcessNewData_SensorBaro(void)
                   "AppMain_ProcessNewData_SensorBaro");
 }
 
+/**************************************************************************
+ * Tests for FPC UpdateParamsFromTable()
+ **************************************************************************/
+/**
+ * Test FPC UpdateParamsFromTable(), SendMsgHook
+ */
+int32 Test_FPC_UpdateParamsFromTable_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
+{
+    return 0;
+}
+
+/**
+ * Test FPC UpdateParamsFromTable()
+ */
+void Test_FPC_UpdateParamsFromTable(void)
+{
+    double expected_checksum = 313.117959422;
+
+    UpdateParams_ParamChecksum = 0.0;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+               (void*)&Test_FPC_UpdateParamsFromTable_SendMsgHook);
+
+    oFPC.AppMain();
+
+    if (fabs(UpdateParams_ParamChecksum - expected_checksum) <= FLT_EPSILON) // Fail with DBL_EPSILON
+    {
+        UtAssert_True(TRUE, "FPC UpdateParamsFromTable");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "FPC UpdateParamsFromTable");
+    }
+}
 
 
 
@@ -1501,4 +1541,6 @@ void FPC_App_Test_AddTestCases(void)
     UtTest_Add(Test_FAC_AppMain_ProcessNewData_SensorBaro, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FAC_AppMain_ProcessNewData_SensorBaro");
 
+    UtTest_Add(Test_FPC_UpdateParamsFromTable, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_UpdateParamsFromTable");
 }

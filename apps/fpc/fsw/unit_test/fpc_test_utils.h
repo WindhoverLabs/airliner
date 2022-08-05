@@ -54,6 +54,7 @@ void       FPC_Test_InitTest();
 void       FPC_Test_Setup(void);
 void       FPC_Test_TearDown(void);
 
+void       FPC_Test_PrintCmdMsg(void *pMsg, uint32 size);
 time_t     FPC_Test_GetTimeFromTimestamp(uint64 timestamp);
 time_t     FPC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
@@ -63,4 +64,3 @@ time_t     FPC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 #endif
 
 #endif /* FPC_TEST_UTILS_H */
-

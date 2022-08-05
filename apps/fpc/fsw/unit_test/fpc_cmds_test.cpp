@@ -58,6 +58,34 @@
  */
 void Test_FPC_ProcessNewCmds_InvalidCmd(void)
 {
+    int32           CmdPipe;
+    FPC_NoArgCmd_t  InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_AIRSPEED_MID, sizeof(FPC_NoArgCmd_t), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&InMsg, sizeof(FPC_NoArgCmd_t));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFPC.AppMain();
+
+    /* Verify results */
+    if ((Ut_CFE_EVS_GetEventQueueDepth() == 2) && (oFPC.HkTlm.usCmdErrCnt == 1))
+    {
+        UtAssert_True(TRUE, "ProcessNewCmds, InvalidCmd");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, InvalidCmd");
+    }
 }
 
 /**
@@ -65,13 +93,47 @@ void Test_FPC_ProcessNewCmds_InvalidCmd(void)
  */
 void Test_FPC_ProcessNewCmds_InvalidCmdCode(void)
 {
+    int32              CmdPipe;
+    FPC_NoArgCmd_t     InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, FPC_CMD_MID, sizeof(FPC_NoArgCmd_t), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)20);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&InMsg, sizeof(FPC_NoArgCmd_t));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFPC.AppMain();
+
+    /* Verify results */
+    if ((Ut_CFE_EVS_GetEventQueueDepth() == 2) && (oFPC.HkTlm.usCmdErrCnt == 1))
+    {
+        UtAssert_True(TRUE, "ProcessNewCmds, InvalidCmdCode");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, InvalidCmdCode");
+    }
 }
 
 /**
  * Test FPC ProcessNewCmds, CmdPipeError
+ *    Not able to generate CmdPipeError in AppMain
  */
 void Test_FPC_ProcessNewCmds_CmdPipeError(void)
 {
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_BAD_ARGUMENT, 1);
+
+    /* Execute the function being tested */
+    oFPC.ProcessNewCmds();
 }
 
 /**
@@ -79,6 +141,28 @@ void Test_FPC_ProcessNewCmds_CmdPipeError(void)
  */
 void Test_FPC_ProcessNewCmds_Noop(void)
 {
+    int32              CmdPipe;
+    FPC_NoArgCmd_t     InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, FPC_CMD_MID, sizeof(FPC_NoArgCmd_t), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)FPC_NOOP_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&InMsg, sizeof(FPC_NoArgCmd_t));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFPC.AppMain();
+
+    /* Verify results */
+    UtAssert_True(oFPC.HkTlm.usCmdCnt == 1, "ProcessNewCmds, Noop");
 }
 
 /**
@@ -86,6 +170,29 @@ void Test_FPC_ProcessNewCmds_Noop(void)
  */
 void Test_FPC_ProcessNewCmds_Reset(void)
 {
+    int32              CmdPipe;
+    FPC_NoArgCmd_t     InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, FPC_CMD_MID, sizeof(FPC_NoArgCmd_t), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)FPC_RESET_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&InMsg, sizeof(FPC_NoArgCmd_t));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFPC.AppMain();
+
+    /* Verify results */
+    UtAssert_True(((oFPC.HkTlm.usCmdCnt == 0) && (oFPC.HkTlm.usCmdErrCnt == 0)),
+                                  "ProcessNewCmds, Reset");
 }
 
 /**
@@ -93,6 +200,28 @@ void Test_FPC_ProcessNewCmds_Reset(void)
  */
 void Test_FPC_ProcessNewCmds_DoGoAround(void)
 {
+    int32              CmdPipe;
+    FPC_NoArgCmd_t     InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, FPC_CMD_MID, sizeof(FPC_NoArgCmd_t), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)FPC_DO_GO_AROUND_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&InMsg, sizeof(FPC_NoArgCmd_t));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFPC.AppMain();
+
+    /* Verify results */
+    UtAssert_True(oFPC.HkTlm.usCmdCnt == 1, "ProcessNewCmds, DoGoAround");
 }
 
 
@@ -111,5 +240,3 @@ void FPC_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_FPC_ProcessNewCmds_DoGoAround, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_ProcessNewCmds_DoGoAround");
 } /* end FPC_Cmds_Test_AddTestCases */
-
-

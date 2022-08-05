@@ -58,6 +58,19 @@
  */
 void Test_FPC_InitConfigTbl_Fail_TblRegister(void)
 {
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NO_ACCESS;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oFPC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Register");
 }
 
 /**
@@ -65,6 +78,19 @@ void Test_FPC_InitConfigTbl_Fail_TblRegister(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblLoad(void)
 {
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_INFO_UPDATE_PENDING;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oFPC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Load");
 }
 
 /**
@@ -72,6 +98,19 @@ void Test_FPC_InitConfigTbl_Fail_TblLoad(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblManage(void)
 {
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oFPC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Manage");
 }
 
 /**
@@ -79,6 +118,19 @@ void Test_FPC_InitConfigTbl_Fail_TblManage(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblGetAddress(void)
 {
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NEVER_LOADED;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oFPC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL GetAddress");
 }
 
 /**
@@ -86,6 +138,19 @@ void Test_FPC_InitConfigTbl_Fail_TblGetAddress(void)
  */
 void Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
 {
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oFPC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail AcquireConfigPtrs");
 }
 
 /**
@@ -93,6 +158,16 @@ void Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
  */
 void Test_FPC_InitConfigTbl_Nominal(void)
 {
+    /* Set a fail result */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
+    int32 expected = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = oFPC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitConfigTbl, Nominal");
 }
 
 
@@ -111,5 +186,3 @@ void FPC_Config_Tbl_Test_AddTestCases(void)
     UtTest_Add(Test_FPC_InitConfigTbl_Nominal, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_InitConfigTbl_Nominal");
 }
-
-
