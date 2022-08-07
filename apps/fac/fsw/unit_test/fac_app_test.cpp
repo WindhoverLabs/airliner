@@ -492,7 +492,7 @@ int32 Test_FAC_AppMain_WriteToSysLogHook(const char *StringPtr, ...)
     va_end(Ptr);
 
     printf("###AppMain_WriteToSysLogHook:\n");
-    printf("%s\n", Buf);
+    printf("%s", Buf);
 
     return WriteToSysLog_HookCalledCnt;
 }
@@ -590,6 +590,8 @@ void Test_FAC_AppMain_InvalidSchMessage(void)
     /* Execute the function being tested */
     oFAC.AppMain();
 
+    /* Verify results */
+    UtAssert_True (oFAC.HkTlm.usSchErrCnt == 1, "AppMain, InvalidSchMessage");
 }
 
 

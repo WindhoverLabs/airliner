@@ -50,6 +50,10 @@ extern "C" {
 //    #define   FAC_TEST_CONTROLRATESENABLED_MODE
 #endif
 
+extern FAC oFAC;
+
+extern "C" FAC_ParamTbl_t FAC_ParamTbl;
+
 /*
  * Function Definitions
  */
@@ -63,10 +67,9 @@ uint32     FAC_Test_ValidateEclValues();
 time_t     FAC_Test_GetTimeFromTimestamp(uint64 timestamp);
 time_t     FAC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
-extern FAC oFAC;
 
-extern uint64 PX4LIB_GetPX4TimeUs(void);
-extern uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
+extern "C" uint64 PX4LIB_GetPX4TimeUs(void);
+extern "C" uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 
 
 #ifdef __cplusplus
