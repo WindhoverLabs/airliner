@@ -58,7 +58,7 @@ buildliner_add_app_def(fpc
         ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
 )
 
-buildliner_add_app_unit_test(FPC-UT
+buildliner_add_app_unit_test(fpc-ut
     UTASSERT 
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_app_test.cpp
@@ -87,4 +87,7 @@ buildliner_add_app_unit_test(FPC-UT
 
     VALGRIND_SUPPRESSION_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/valgrind.supp
+
+    REFERENCE_CUSTOM_SOURCE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../tables/fpc_config.c
 )

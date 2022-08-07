@@ -75,9 +75,14 @@ void Test_FPC_ProcessNewCmds_InvalidCmd(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     oFPC.AppMain();
+#else
+    FPC_AppMain();
+#endif
 
     /* Verify results */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     if ((Ut_CFE_EVS_GetEventQueueDepth() == 2) && (oFPC.HkTlm.usCmdErrCnt == 1))
     {
         UtAssert_True(TRUE, "ProcessNewCmds, InvalidCmd");
@@ -86,6 +91,7 @@ void Test_FPC_ProcessNewCmds_InvalidCmd(void)
     {
         UtAssert_True(FALSE, "ProcessNewCmds, InvalidCmd");
     }
+#endif
 }
 
 /**
@@ -111,9 +117,14 @@ void Test_FPC_ProcessNewCmds_InvalidCmdCode(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     oFPC.AppMain();
+#else
+    FPC_AppMain();
+#endif
 
     /* Verify results */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     if ((Ut_CFE_EVS_GetEventQueueDepth() == 2) && (oFPC.HkTlm.usCmdErrCnt == 1))
     {
         UtAssert_True(TRUE, "ProcessNewCmds, InvalidCmdCode");
@@ -122,6 +133,7 @@ void Test_FPC_ProcessNewCmds_InvalidCmdCode(void)
     {
         UtAssert_True(FALSE, "ProcessNewCmds, InvalidCmdCode");
     }
+#endif
 }
 
 /**
@@ -133,7 +145,10 @@ void Test_FPC_ProcessNewCmds_CmdPipeError(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_BAD_ARGUMENT, 1);
 
     /* Execute the function being tested */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     oFPC.ProcessNewCmds();
+#else
+#endif
 }
 
 /**
@@ -159,10 +174,16 @@ void Test_FPC_ProcessNewCmds_Noop(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     oFPC.AppMain();
+#else
+    FPC_AppMain();
+#endif
 
     /* Verify results */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     UtAssert_True(oFPC.HkTlm.usCmdCnt == 1, "ProcessNewCmds, Noop");
+#endif
 }
 
 /**
@@ -188,11 +209,17 @@ void Test_FPC_ProcessNewCmds_Reset(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     oFPC.AppMain();
+#else
+    FPC_AppMain();
+#endif
 
     /* Verify results */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     UtAssert_True(((oFPC.HkTlm.usCmdCnt == 0) && (oFPC.HkTlm.usCmdErrCnt == 0)),
                                   "ProcessNewCmds, Reset");
+#endif
 }
 
 /**
@@ -218,10 +245,16 @@ void Test_FPC_ProcessNewCmds_DoGoAround(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     oFPC.AppMain();
+#else
+    FPC_AppMain();
+#endif
 
     /* Verify results */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     UtAssert_True(oFPC.HkTlm.usCmdCnt == 1, "ProcessNewCmds, DoGoAround");
+#endif
 }
 
 

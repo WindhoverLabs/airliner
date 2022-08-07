@@ -51,8 +51,6 @@
 
 extern FPC  cpyFPC;
 
-//extern FPC_ConfigTbl_t FPC_ConfigTbl;
-
 extern Ut_CFE_PSP_MEMUTILS_HookTable_t         Ut_CFE_PSP_MEMUTILS_HookTable;
 extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t
                   Ut_CFE_PSP_MEMUTILS_ReturnCodeTable[UT_CFE_PSP_MEMUTILS_MAX_INDEX];

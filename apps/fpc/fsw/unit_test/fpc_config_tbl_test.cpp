@@ -173,6 +173,7 @@ void Test_FPC_InitConfigTbl_Nominal(void)
 
 void FPC_Config_Tbl_Test_AddTestCases(void)
 {
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     UtTest_Add(Test_FPC_InitConfigTbl_Fail_TblRegister, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_InitConfigTbl_Fail_TblRegister");
     UtTest_Add(Test_FPC_InitConfigTbl_Fail_TblLoad, FPC_Test_Setup, FPC_Test_TearDown,
@@ -185,4 +186,5 @@ void FPC_Config_Tbl_Test_AddTestCases(void)
                "Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs");
     UtTest_Add(Test_FPC_InitConfigTbl_Nominal, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_InitConfigTbl_Nominal");
+#endif
 }

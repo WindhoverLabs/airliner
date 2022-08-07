@@ -40,7 +40,17 @@
 
 #include "fpc_app.h"
 
+
+#if 0
+    #define     FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+#else
+    #define     FPC_UT_TEST_WITH_EXTERN_APPMAIN
+#endif
+
 extern FPC   oFPC;
+
+extern "C" void FPC_AppMain();
+extern "C" FPC_ConfigTbl_t FPC_ConfigTbl;
 
 #ifdef __cplusplus
 extern "C" {
@@ -57,6 +67,10 @@ void       FPC_Test_TearDown(void);
 void       FPC_Test_PrintCmdMsg(void *pMsg, uint32 size);
 time_t     FPC_Test_GetTimeFromTimestamp(uint64 timestamp);
 time_t     FPC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
+
+extern "C" uint64 PX4LIB_GetPX4TimeUs(void);
+extern "C" uint64 PX4LIB_GetPX4TimeMs(void);
+extern "C" uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 
 
 #ifdef __cplusplus
