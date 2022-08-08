@@ -2,7 +2,7 @@
 config_base: ${PROJECT_SOURCE_DIR}
 cpu_id: cpd
 commander:
-  server_overlay: ${PROJECT_SOURCE_DIR}/config/fixedwing/gemini2/ppd/server_overlay
+  server_overlay: ${PROJECT_SOURCE_DIR}/config/fixedwing/gemini2/ppd/sitl/server_overlay
 modules:
   core:
     modules:
