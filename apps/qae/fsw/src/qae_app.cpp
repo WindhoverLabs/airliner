@@ -359,7 +359,18 @@ int32 QAE::RcvSchPipeMsg(int32 iBlocking)
             {
                 /* Note: Currently event driven */
                 CFE_PSP_MemCpy(&CVT.SensorCombinedMsg, MsgPtr, sizeof(CVT.SensorCombinedMsg));
-                EstimateAttitude();
+                if(HkTlm.ReceivedCoreData)
+                {
+                    EstimateAttitude();
+                }
+                else
+                {
+                    HkTlm.ReceivedCoreData = ReceivedCoreSensorData();
+                    if(HkTlm.ReceivedCoreData)
+                    {
+                        EstimateAttitude();
+                    }
+                }
                 break;
             }
             case PX4_VEHICLE_GLOBAL_POSITION_MID:
@@ -981,6 +992,42 @@ osalbool QAE::UpdateEstimateAttitude(float dt)
     
 UpdateEstimateAttitude_Exit_Tag:
     return status;
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* QAE check for core sensor data.                                 */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+osalbool QAE::ReceivedCoreSensorData(void)
+{
+    osalbool returnBool = FALSE;
+    static osalbool eventIssued = FALSE;
+    osalbool SensorMagMsgReady = (CVT.SensorCombinedMsg.MagTimestamp > 0);
+    osalbool SensorGyroMsgReady = (CVT.SensorCombinedMsg.Timestamp > 0);
+    osalbool SensorAccelMsgReady = (CVT.SensorCombinedMsg.AccTimestamp > 0);
+
+    if(SensorMagMsgReady && SensorGyroMsgReady && SensorAccelMsgReady)
+    {
+        returnBool = TRUE;
+        (void) CFE_EVS_SendEvent(QAE_INIT_CORE_DATA_INF_EID, CFE_EVS_INFORMATION,
+                                 "All core sensor data received.");
+    }
+    else
+    {
+        if(!eventIssued)
+        {
+            (void) CFE_EVS_SendEvent(QAE_NOT_INIT_CORE_DATA_INF_EID, CFE_EVS_INFORMATION,
+                                     "Sensors not ready (SM=%u SG=%u SA=%u).",
+                                     SensorMagMsgReady,
+                                     SensorGyroMsgReady,
+                                     SensorAccelMsgReady);
+        }
+        eventIssued = TRUE;
+    }
+
+    return returnBool;
 }
 
 /************************/
