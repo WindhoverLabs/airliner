@@ -90,9 +90,9 @@ void Test_FAC_ProcessNewCmds_InvalidCmd(void)
 }
 
 /**
- * Test FAC ProcessNewCmds, InvalidCmdCode
+ * Test FAC ProcessAppCmds, InvalidCmdCode
  */
-void Test_FAC_ProcessNewCmds_InvalidCmdCode(void)
+void Test_FAC_ProcessAppCmds_InvalidCmdCode(void)
 {
     int32              CmdPipe;
     FAC_NoArgCmd_t     InMsg;
@@ -117,30 +117,41 @@ void Test_FAC_ProcessNewCmds_InvalidCmdCode(void)
     /* Verify results */
     if ((Ut_CFE_EVS_GetEventQueueDepth() == 2) && (oFAC.HkTlm.usCmdErrCnt == 1))
     {
-        UtAssert_True(TRUE, "ProcessNewCmds, InvalidCmdCode");
+        UtAssert_True(TRUE, "ProcessAppCmds, InvalidCmdCode");
     }
     else
     {
-        UtAssert_True(FALSE, "ProcessNewCmds, InvalidCmdCode");
+        UtAssert_True(FALSE, "ProcessAppCmds, InvalidCmdCode");
     }
 }
 
 /**
- * Test FAC ProcessNewCmds, CmdPipeError
- *    Not able to generate CmdPipeError in AppMain
+ * Test FAC ProcessAppCmds, CmdPipeError
  */
-void Test_FAC_ProcessNewCmds_CmdPipeError(void)
+void Test_FAC_ProcessAppCmds_CmdPipeError(void)
 {
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_BAD_ARGUMENT, 1);
+    int32              SchPipe;
+    FAC_NoArgCmd_t     InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, FAC_SEND_HK_MID, sizeof(FAC_NoArgCmd_t), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_BAD_ARGUMENT, 2);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oFAC.ProcessNewCmds();
+    oFAC.AppMain();
 }
 
 /**
- * Test FAC ProcessNewCmds, Noop
+ * Test FAC ProcessAppCmds, Noop
  */
-void Test_FAC_ProcessNewCmds_Noop(void)
+void Test_FAC_ProcessAppCmds_Noop(void)
 {
     int32              CmdPipe;
     FAC_NoArgCmd_t     InMsg;
@@ -163,13 +174,13 @@ void Test_FAC_ProcessNewCmds_Noop(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True(oFAC.HkTlm.usCmdCnt == 1, "ProcessNewCmds, Noop");
+    UtAssert_True(oFAC.HkTlm.usCmdCnt == 1, "ProcessAppCmds, Noop");
 }
 
 /**
- * Test FAC ProcessNewCmds, Reset
+ * Test FAC ProcessAppCmds, Reset
  */
-void Test_FAC_ProcessNewCmds_Reset(void)
+void Test_FAC_ProcessAppCmds_Reset(void)
 {
     int32              CmdPipe;
     FAC_NoArgCmd_t     InMsg;
@@ -194,19 +205,19 @@ void Test_FAC_ProcessNewCmds_Reset(void)
     /* Verify results */
     UtAssert_True(((oFAC.HkTlm.SendHkMsgRcvCnt == 0) && (oFAC.HkTlm.HkMsgSndCnt == 0)
                   && (oFAC.HkTlm.usCmdCnt == 0) && (oFAC.HkTlm.usCmdErrCnt == 0)),
-				  "ProcessNewCmds, Reset");
+				  "ProcessAppCmds, Reset");
 }
 
 void FAC_Cmds_Test_AddTestCases(void)
 {
     UtTest_Add(Test_FAC_ProcessNewCmds_InvalidCmd, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_ProcessNewCmds_InvalidCmd");
-    UtTest_Add(Test_FAC_ProcessNewCmds_InvalidCmdCode, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ProcessNewCmds_InvalidCmdCode");
-    UtTest_Add(Test_FAC_ProcessNewCmds_CmdPipeError, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ProcessNewCmds_CmdPipeError");
-    UtTest_Add(Test_FAC_ProcessNewCmds_Noop, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ProcessNewCmds_Noop");
-    UtTest_Add(Test_FAC_ProcessNewCmds_Reset, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ProcessNewCmds_Reset");
+    UtTest_Add(Test_FAC_ProcessAppCmds_InvalidCmdCode, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_InvalidCmdCode");
+    UtTest_Add(Test_FAC_ProcessAppCmds_CmdPipeError, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_CmdPipeError");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Noop, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Noop");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Reset, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Reset");
 } /* end FAC_Cmds_Test_AddTestCases */

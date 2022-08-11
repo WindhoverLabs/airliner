@@ -475,7 +475,21 @@ void Test_FAC_InitApp_Nominal(void)
 }
 
 /**************************************************************************
- * Tests for FAC_AppMain()
+ * Tests for extern FAC_AppMain()
+ **************************************************************************/
+/**
+ * Test FAC extern FAC_AppMain(), Nominal
+ */
+void Test_FAC_FAC_AppMain_Nominal(void)
+{
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    FAC_AppMain();
+}
+
+
+/**************************************************************************
+ * Tests for oFAC::AppMain()
  **************************************************************************/
 /**
  * Test FAC AppMain(), WriteToSysLogHook
@@ -573,6 +587,20 @@ void Test_FAC_AppMain_Fail_AcquireConfigPtrs(void)
 
     /* Verify results */
     UtAssert_True (SendEvent_HookCalledCnt == 3, "AppMain, Fail_AcquireConfigPtrs");
+}
+
+
+/**
+ * Test FAC AppMain(), SchPipeError
+ */
+void Test_FAC_AppMain_SchPipeError(void)
+{
+    int32 expected = CFE_SB_PIPE_RD_ERR;
+
+    /* The following will emulate the behavior of SCH pipe reading error */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 1);
+
+    oFAC.AppMain();
 }
 
 
@@ -708,9 +736,9 @@ void Test_FAC_AppMain_Nominal_RunController(void)
 
 
 /**
- * Test FAC AppMain(), ProcessNewData IncomingDataHook
+ * Test FAC AppMain(), ProcessIncomingDataHook
  */
-int32 Test_FAC_AppMain_ProcessNewData_IncomingDataHook(void *dst, void *src, uint32 size)
+int32 Test_FAC_AppMain_ProcessIncomingDataHook(void *dst, void *src, uint32 size)
 {
     unsigned char *pBuff = NULL;
     int i = 0;
@@ -735,9 +763,32 @@ int32 Test_FAC_AppMain_ProcessNewData_IncomingDataHook(void *dst, void *src, uin
 }
 
 /**
- * Test FAC AppMain(), ProcessNewData - InvalidMsgID
+ * Test FAC AppMain(), ProcessIncomingData - DataPipeError
  */
-void Test_FAC_AppMain_ProcessNewData_InvalidMsgID(void)
+void Test_FAC_AppMain_ProcessIncomingData_DataPipeError(void)
+{
+    int32              expected = CFE_SB_PIPE_RD_ERR;
+    int32              SchPipe;
+    FAC_NoArgCmd_t     InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, FAC_RUN_CONTROLLER_MID, sizeof(FAC_NoArgCmd_t), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
+
+    /* The following will emulate the behavior of SCH pipe reading error */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+}
+
+/**
+ * Test FAC AppMain(), ProcessIncomingData - InvalidMsgID
+ */
+void Test_FAC_AppMain_ProcessIncomingData_InvalidMsgID(void)
 {
     int32 DataPipe;
     PX4_ActuatorArmedMsg_t  InMsg;
@@ -758,7 +809,7 @@ void Test_FAC_AppMain_ProcessNewData_InvalidMsgID(void)
 
     /* Verify results */
 #if 1
-    UtAssert_True(oFAC.HkTlm.usDataErrCnt == 1, "AppMain_ProcessNewData_InvalidMsgID");
+    UtAssert_True(oFAC.HkTlm.usDataErrCnt == 1, "AppMain_ProcessIncomingData_InvalidMsgID");
 #else
     UtAssert_True(Ut_CFE_EVS_GetEventQueueDepth()==2,"Event Count = 2");
     UtAssert_EventSent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
@@ -767,9 +818,9 @@ void Test_FAC_AppMain_ProcessNewData_InvalidMsgID(void)
 }
 
 /**
- * Test FAC AppMain(), ProcessNewData - Airspeed
+ * Test FAC AppMain(), ProcessIncomingData - Airspeed
  */
-void Test_FAC_AppMain_ProcessNewData_Airspeed(void)
+void Test_FAC_AppMain_ProcessIncomingData_Airspeed(void)
 {
     int32              DataPipe;
     PX4_AirspeedMsg_t  InMsg;
@@ -784,19 +835,19 @@ void Test_FAC_AppMain_ProcessNewData_Airspeed(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_FAC_AppMain_ProcessNewData_IncomingDataHook);
+                         (void*)&Test_FAC_AppMain_ProcessIncomingDataHook);
 
     /* Execute the function being tested */
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True(oFAC.HkTlm.AirSpeedMsgRcvCnt == 1, "AppMain_ProcessNewData_Airspeed");
+    UtAssert_True(oFAC.HkTlm.AirSpeedMsgRcvCnt == 1, "AppMain_ProcessIncomingData_Airspeed");
 }
 
 /**
- * Test FAC AppMain(), ProcessNewData - BatteryStatus
+ * Test FAC AppMain(), ProcessIncomingData - BatteryStatus
  */
-void Test_FAC_AppMain_ProcessNewData_BatteryStatus(void)
+void Test_FAC_AppMain_ProcessIncomingData_BatteryStatus(void)
 {
     int32                   DataPipe;
     PX4_BatteryStatusMsg_t  InMsg;
@@ -812,19 +863,20 @@ void Test_FAC_AppMain_ProcessNewData_BatteryStatus(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_FAC_AppMain_ProcessNewData_IncomingDataHook);
+                         (void*)&Test_FAC_AppMain_ProcessIncomingDataHook);
 
     /* Execute the function being tested */
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True(oFAC.HkTlm.BatteryStatusMsgRcvCnt == 1, "AppMain_ProcessNewData_BatteryStatus");
+    UtAssert_True(oFAC.HkTlm.BatteryStatusMsgRcvCnt == 1,
+                  "AppMain_ProcessIncomingData_BatteryStatus");
 }
 
 /**
- * Test FAC AppMain(), ProcessNewData - ManualControlSp
+ * Test FAC AppMain(), ProcessIncomingData - ManualControlSp
  */
-void Test_FAC_AppMain_ProcessNewData_ManualControlSp(void)
+void Test_FAC_AppMain_ProcessIncomingData_ManualControlSp(void)
 {
     int32              DataPipe;
     PX4_ManualControlSetpointMsg_t  InMsg;
@@ -840,20 +892,20 @@ void Test_FAC_AppMain_ProcessNewData_ManualControlSp(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_FAC_AppMain_ProcessNewData_IncomingDataHook);
+                         (void*)&Test_FAC_AppMain_ProcessIncomingDataHook);
 
     /* Execute the function being tested */
     oFAC.AppMain();
 
     /* Verify results */
     UtAssert_True(oFAC.HkTlm.ManualControlSpMsgRcvCnt == 1,
-                   "AppMain_ProcessNewData_ManualControlSp");
+                   "AppMain_ProcessIncomingData_ManualControlSp");
 }
 
 /**
- * Test FAC AppMain(), ProcessNewData - VAtt
+ * Test FAC AppMain(), ProcessIncomingData - VAtt
  */
-void Test_FAC_AppMain_ProcessNewData_VAtt(void)
+void Test_FAC_AppMain_ProcessIncomingData_VAtt(void)
 {
     int32              DataPipe;
     PX4_VehicleAttitudeMsg_t  InMsg;
@@ -869,19 +921,19 @@ void Test_FAC_AppMain_ProcessNewData_VAtt(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_FAC_AppMain_ProcessNewData_IncomingDataHook);
+                         (void*)&Test_FAC_AppMain_ProcessIncomingDataHook);
 
     /* Execute the function being tested */
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True(oFAC.HkTlm.VAttMsgRcvCnt == 1, "AppMain_ProcessNewData_VAtt");
+    UtAssert_True(oFAC.HkTlm.VAttMsgRcvCnt == 1, "AppMain_ProcessIncomingData_VAtt");
 }
 
 /**
- * Test FAC AppMain(), ProcessNewData - VAttSp
+ * Test FAC AppMain(), ProcessIncomingData - VAttSp
  */
-void Test_FAC_AppMain_ProcessNewData_VAttSp(void)
+void Test_FAC_AppMain_ProcessIncomingData_VAttSp(void)
 {
     int32              DataPipe;
     PX4_VehicleAttitudeSetpointMsg_t  InMsg;
@@ -897,19 +949,19 @@ void Test_FAC_AppMain_ProcessNewData_VAttSp(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_FAC_AppMain_ProcessNewData_IncomingDataHook);
+                         (void*)&Test_FAC_AppMain_ProcessIncomingDataHook);
 
     /* Execute the function being tested */
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True(oFAC.HkTlm.VAttSpMsgRcvCnt == 1, "AppMain_ProcessNewData_VAttSp");
+    UtAssert_True(oFAC.HkTlm.VAttSpMsgRcvCnt == 1, "AppMain_ProcessIncomingData_VAttSp");
 }
 
 /**
- * Test FAC AppMain(), ProcessNewData - VControlMode
+ * Test FAC AppMain(), ProcessIncomingData - VControlMode
  */
-void Test_FAC_AppMain_ProcessNewData_VControlMode(void)
+void Test_FAC_AppMain_ProcessIncomingData_VControlMode(void)
 {
     int32              DataPipe;
     PX4_VehicleControlModeMsg_t  InMsg;
@@ -925,20 +977,20 @@ void Test_FAC_AppMain_ProcessNewData_VControlMode(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_FAC_AppMain_ProcessNewData_IncomingDataHook);
+                         (void*)&Test_FAC_AppMain_ProcessIncomingDataHook);
 
     /* Execute the function being tested */
     oFAC.AppMain();
 
     /* Verify results */
     UtAssert_True(oFAC.HkTlm.VControlModeMsgRcvCnt == 1,
-                   "AppMain_ProcessNewData_VControlMode");
+                   "AppMain_ProcessIncomingData_VControlMode");
 }
 
 /**
- * Test FAC AppMain(), ProcessNewData - VGlobalPosition
+ * Test FAC AppMain(), ProcessIncomingData - VGlobalPosition
  */
-void Test_FAC_AppMain_ProcessNewData_VGlobalPosition(void)
+void Test_FAC_AppMain_ProcessIncomingData_VGlobalPosition(void)
 {
     int32              DataPipe;
     PX4_VehicleGlobalPositionMsg_t  InMsg;
@@ -954,20 +1006,20 @@ void Test_FAC_AppMain_ProcessNewData_VGlobalPosition(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_FAC_AppMain_ProcessNewData_IncomingDataHook);
+                         (void*)&Test_FAC_AppMain_ProcessIncomingDataHook);
 
     /* Execute the function being tested */
     oFAC.AppMain();
 
     /* Verify results */
     UtAssert_True(oFAC.HkTlm.VGlobalPositionMsgRcvCnt == 1,
-                  "AppMain_ProcessNewData_VGlobalPosition");
+                  "AppMain_ProcessIncomingData_VGlobalPosition");
 }
 
 /**
- * Test FAC AppMain(), ProcessNewData - VLandDetected
+ * Test FAC AppMain(), ProcessIncomingData - VLandDetected
  */
-void Test_FAC_AppMain_ProcessNewData_VLandDetected(void)
+void Test_FAC_AppMain_ProcessIncomingData_VLandDetected(void)
 {
     int32              DataPipe;
     PX4_VehicleLandDetectedMsg_t  InMsg;
@@ -983,20 +1035,20 @@ void Test_FAC_AppMain_ProcessNewData_VLandDetected(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_FAC_AppMain_ProcessNewData_IncomingDataHook);
+                         (void*)&Test_FAC_AppMain_ProcessIncomingDataHook);
 
     /* Execute the function being tested */
     oFAC.AppMain();
 
     /* Verify results */
     UtAssert_True(oFAC.HkTlm.VLandDetectedMsgRcvCnt == 1,
-                   "AppMain_ProcessNewData_VLandDetected");
+                   "AppMain_ProcessIncomingData_VLandDetected");
 }
 
 /**
- * Test FAC AppMain(), ProcessNewData - VehicleStatus
+ * Test FAC AppMain(), ProcessIncomingData - VehicleStatus
  */
-void Test_FAC_AppMain_ProcessNewData_VehicleStatus(void)
+void Test_FAC_AppMain_ProcessIncomingData_VehicleStatus(void)
 {
     int32              DataPipe;
     PX4_VehicleStatusMsg_t  InMsg;
@@ -1011,14 +1063,14 @@ void Test_FAC_AppMain_ProcessNewData_VehicleStatus(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     Ut_CFE_PSP_MEMUTILS_SetFunctionHook(UT_CFE_PSP_MEMUTILS_MEMCPY_INDEX,
-                         (void*)&Test_FAC_AppMain_ProcessNewData_IncomingDataHook);
+                         (void*)&Test_FAC_AppMain_ProcessIncomingDataHook);
 
     /* Execute the function being tested */
     oFAC.AppMain();
 
     /* Verify results */
     UtAssert_True(oFAC.HkTlm.VehicleStatusMsgRcvCnt == 1,
-                  "AppMain_ProcessNewData_VehicleStatus");
+                  "AppMain_ProcessIncomingData_VehicleStatus");
 }
 
 
@@ -1162,26 +1214,119 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
 }
 
 /**
- * Test FAC RunController()
+ * Test FAC RunController, TailSitter
  */
-void Test_FAC_RunController(void)
+void Test_FAC_RunController_TailSitter(void)
 {
     int32              DataPipe;
     PX4_VehicleControlModeMsg_t  InMsg;
 
-#if defined(FAC_TEST_TAILSITTER_STATUS)
-    /* In TailSitter status */
     oFAC.CVT.VehicleStatus.IsVtol = TRUE;
-    oFAC.CVT.VLandDetected.Landed = TRUE;
-#elif !defined(FAC_TEST_TAILSITTER_STATUS)
-    /* In not TailSitter mode */
+    oFAC.CVT.VLandDetected.Landed = FALSE;
+
+    oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VehicleStatus.IsRotaryWing = FALSE;
+    oFAC.CVT.VehicleStatus.InTransitionMode = FALSE;     // fix this
+    oFAC.CVT.VehicleStatus.EngineFailure = FALSE;
+    oFAC.CVT.VehicleStatus.EngineFailureCmd = FALSE;
+
+    oFAC.CVT.VLandDetected.Timestamp = PX4LIB_GetPX4TimeUs();
+
+    oFAC.CVT.BatteryStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.BatteryStatus.Scale = 0.0f;                 // fix this
+
+    /* Set inputs */
+    oFAC.CVT.VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VAtt.RollSpeed = 0.0f;                      // fix this
+    oFAC.CVT.VAtt.PitchSpeed = 0.0f;                     // fix this
+    oFAC.CVT.VAtt.YawSpeed = 0.0f;                       // fix this
+    oFAC.CVT.VAtt.Q[0] = 0.7083791494f;
+    oFAC.CVT.VAtt.Q[1] = -0.0311437733f;
+    oFAC.CVT.VAtt.Q[2] = -0.0508509092f;
+    oFAC.CVT.VAtt.Q[3] = 0.7033087611f;
+
+    oFAC.CVT.VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VAttSp.RollBody = 0.0f;                     // fix this
+    oFAC.CVT.VAttSp.PitchBody = 0.0f;                    // fix this
+    oFAC.CVT.VAttSp.YawBody = 0.0f;                      // fix this
+    oFAC.CVT.VAttSp.YawSpMoveRate = 0.0000000000f;
+    oFAC.CVT.VAttSp.Q_D[0] = 0.7084835768f;
+    oFAC.CVT.VAttSp.Q_D[1] = -0.0144501235f;
+    oFAC.CVT.VAttSp.Q_D[2] = -0.0355133303f;
+    oFAC.CVT.VAttSp.Q_D[3] = 0.7046850324f;
+    oFAC.CVT.VAttSp.Q_D_Valid = TRUE;                    // fix this
+    oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
+    oFAC.CVT.VAttSp.RollResetIntegral = TRUE;
+    oFAC.CVT.VAttSp.PitchResetIntegral = TRUE;
+    oFAC.CVT.VAttSp.YawResetIntegral = TRUE;
+    oFAC.CVT.VAttSp.FwControlYaw = FALSE;
+    oFAC.CVT.VAttSp.DisableMcYawControl = TRUE;
+    oFAC.CVT.VAttSp.ApplyFlaps = TRUE;
+
+    oFAC.CVT.ManualControlSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.ManualControlSp.X = 0.0f;                   // fix this
+    oFAC.CVT.ManualControlSp.Y = 0.0f;                   // fix this
+    oFAC.CVT.ManualControlSp.Z = 0.0f;                   // fix this
+    oFAC.CVT.ManualControlSp.R = 0.0f;                   // fix this
+    oFAC.CVT.ManualControlSp.Flaps = 0.0f;               // fix this
+    oFAC.CVT.ManualControlSp.Aux1 = 0.0f;                // fix this
+    oFAC.CVT.ManualControlSp.Aux2 = 0.0f;                // fix this
+    oFAC.CVT.ManualControlSp.Aux3 = 0.0f;                // fix this
+    oFAC.CVT.ManualControlSp.Aux4 = 0.0f;                // fix this
+    oFAC.CVT.ManualControlSp.Aux5 = 0.0f;                // fix this
+
+    DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID,
+                     sizeof(PX4_VehicleControlModeMsg_t), TRUE);
+
+    InMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+    InMsg.ExternalManualOverrideOk = FALSE;
+    InMsg.SystemHilEnabled = FALSE;
+    InMsg.ControlManualEnabled = TRUE;
+    InMsg.ControlAutoEnabled = FALSE;
+    InMsg.ControlOffboardEnabled = FALSE;
+    InMsg.ControlRatesEnabled = TRUE;
+    InMsg.ControlAttitudeEnabled = TRUE;
+    InMsg.ControlRattitudeEnabled = TRUE;
+    InMsg.ControlForceEnabled = FALSE;
+    InMsg.ControlAccelerationEnabled = FALSE;
+    InMsg.ControlVelocityEnabled = FALSE;
+    InMsg.ControlPositionEnabled = FALSE;
+    InMsg.ControlAltitudeEnabled = FALSE;
+    InMsg.ControlClimbRateEnabled = FALSE;
+    InMsg.ControlTerminationEnabled = FALSE;
+    InMsg.ControlFixedHdgEnabled = FALSE;
+
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&InMsg);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+    SendEvent_HookCalledCnt = 0;
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FAC_RunController_SendEventHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+               (void*)&Test_FAC_RunController_SendMsgHook);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+}
+
+/**
+ * Test FAC RunController, AttitudeManual
+ */
+void Test_FAC_RunController_AttitudeManual(void)
+{
+    int32              DataPipe;
+    PX4_VehicleControlModeMsg_t  InMsg;
+
     oFAC.CVT.VehicleStatus.IsVtol = FALSE;
     oFAC.CVT.VLandDetected.Landed = FALSE;
-#else
-    /* In default mode */
-    oFAC.CVT.VehicleStatus.IsVtol = TRUE;
-    oFAC.CVT.VLandDetected.Landed = TRUE;
-#endif
 
     oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
     oFAC.CVT.VehicleStatus.IsRotaryWing = FALSE;
@@ -1279,16 +1424,115 @@ void Test_FAC_RunController(void)
 
 
 /**
+ * Test FAC RunController, PureRateControl
+ */
+void Test_FAC_RunController_PureRateControl(void)
+{
+    int32              DataPipe;
+    PX4_VehicleControlModeMsg_t  InMsg;
+
+    oFAC.CVT.VehicleStatus.IsVtol = FALSE;
+    oFAC.CVT.VLandDetected.Landed = FALSE;
+
+    oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VehicleStatus.IsRotaryWing = FALSE;
+    oFAC.CVT.VehicleStatus.InTransitionMode = FALSE;     // fix this
+    oFAC.CVT.VehicleStatus.EngineFailure = FALSE;
+    oFAC.CVT.VehicleStatus.EngineFailureCmd = FALSE;
+
+    oFAC.CVT.VLandDetected.Timestamp = PX4LIB_GetPX4TimeUs();
+
+    oFAC.CVT.BatteryStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.BatteryStatus.Scale = 0.0f;                 // fix this
+
+    /* Set inputs */
+    oFAC.CVT.VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VAtt.RollSpeed = 0.0f;                      // fix this
+    oFAC.CVT.VAtt.PitchSpeed = 0.0f;                     // fix this
+    oFAC.CVT.VAtt.YawSpeed = 0.0f;                       // fix this
+    oFAC.CVT.VAtt.Q[0] = 0.7083791494f;
+    oFAC.CVT.VAtt.Q[1] = -0.0311437733f;
+    oFAC.CVT.VAtt.Q[2] = -0.0508509092f;
+    oFAC.CVT.VAtt.Q[3] = 0.7033087611f;
+
+    oFAC.CVT.VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.VAttSp.RollBody = 0.0f;                     // fix this
+    oFAC.CVT.VAttSp.PitchBody = 0.0f;                    // fix this
+    oFAC.CVT.VAttSp.YawBody = 0.0f;                      // fix this
+    oFAC.CVT.VAttSp.YawSpMoveRate = 0.0000000000f;
+    oFAC.CVT.VAttSp.Q_D[0] = 0.7084835768f;
+    oFAC.CVT.VAttSp.Q_D[1] = -0.0144501235f;
+    oFAC.CVT.VAttSp.Q_D[2] = -0.0355133303f;
+    oFAC.CVT.VAttSp.Q_D[3] = 0.7046850324f;
+    oFAC.CVT.VAttSp.Q_D_Valid = TRUE;                    // fix this
+    oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
+    oFAC.CVT.VAttSp.RollResetIntegral = TRUE;
+    oFAC.CVT.VAttSp.PitchResetIntegral = TRUE;
+    oFAC.CVT.VAttSp.YawResetIntegral = TRUE;
+    oFAC.CVT.VAttSp.FwControlYaw = FALSE;
+    oFAC.CVT.VAttSp.DisableMcYawControl = TRUE;
+    oFAC.CVT.VAttSp.ApplyFlaps = TRUE;
+
+    oFAC.CVT.ManualControlSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    oFAC.CVT.ManualControlSp.X = 0.0f;                   // fix this
+    oFAC.CVT.ManualControlSp.Y = 0.0f;                   // fix this
+    oFAC.CVT.ManualControlSp.Z = 0.0f;                   // fix this
+    oFAC.CVT.ManualControlSp.R = 0.0f;                   // fix this
+    oFAC.CVT.ManualControlSp.Flaps = 0.0f;               // fix this
+    oFAC.CVT.ManualControlSp.Aux1 = 0.0f;                // fix this
+    oFAC.CVT.ManualControlSp.Aux2 = 0.0f;                // fix this
+    oFAC.CVT.ManualControlSp.Aux3 = 0.0f;                // fix this
+    oFAC.CVT.ManualControlSp.Aux4 = 0.0f;                // fix this
+    oFAC.CVT.ManualControlSp.Aux5 = 0.0f;                // fix this
+
+    DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID,
+                     sizeof(PX4_VehicleControlModeMsg_t), TRUE);
+
+    InMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+    InMsg.ExternalManualOverrideOk = FALSE;
+    InMsg.SystemHilEnabled = FALSE;
+    InMsg.ControlManualEnabled = TRUE;
+    InMsg.ControlAutoEnabled = FALSE;
+    InMsg.ControlOffboardEnabled = FALSE;
+    InMsg.ControlRatesEnabled = TRUE;
+    InMsg.ControlAttitudeEnabled = FALSE;
+    InMsg.ControlRattitudeEnabled = TRUE;
+    InMsg.ControlForceEnabled = FALSE;
+    InMsg.ControlAccelerationEnabled = FALSE;
+    InMsg.ControlVelocityEnabled = FALSE;
+    InMsg.ControlPositionEnabled = FALSE;
+    InMsg.ControlAltitudeEnabled = FALSE;
+    InMsg.ControlClimbRateEnabled = FALSE;
+    InMsg.ControlTerminationEnabled = FALSE;
+    InMsg.ControlFixedHdgEnabled = FALSE;
+
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&InMsg);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+    SendEvent_HookCalledCnt = 0;
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FAC_RunController_SendEventHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+               (void*)&Test_FAC_RunController_SendMsgHook);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+}
+
+
+/**
  * Test FAC RunController(), ControlAttitude
  */
 void Test_FAC_RunController_ControlAttitude(void)
 {
-#if defined(FAC_TEST_TAILSITTER_STATUS)
-    printf("Should undefine FAC_TEST_TAILSITTER_STATUS\n");
-    UtAssert_True(FALSE, "FAC RunController_ControlAttitude");
-    return;
-#endif
-
     oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
     oFAC.CVT.VehicleStatus.IsRotaryWing = FALSE;
     oFAC.CVT.VehicleStatus.IsVtol = FALSE;
@@ -1481,9 +1725,9 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
 }
 
 /**
- * Test FAC UpdateParams()
+ * Test FAC UpdateParams, Standard
  */
-void Test_FAC_UpdateParams(void)
+void Test_FAC_UpdateParams_Standard(void)
 {
     double expected_checksum = 0.0;
 
@@ -1500,22 +1744,49 @@ void Test_FAC_UpdateParams(void)
     oFAC.InitApp();
 
     /* Verify results */
-#if defined(FAC_TEST_TAILSITTER_STATUS)
-    expected_checksum = 1369.37;
-#elif !defined(FAC_TEST_TAILSITTER_STATUS)
     expected_checksum = 1371.37;
-#else
-    expected_checksum = 1369.37;
-#endif
 
     if ((UpdateParams_ValidateStatus == 0x0) &&
         (fabs(UpdateParams_ParamChecksum - expected_checksum) <= FLT_EPSILON)) // Fail with DBL_EPSILON
     {
-        UtAssert_True(TRUE, "FAC UpdateParams");
+        UtAssert_True(TRUE, "FAC UpdateParams_Standard");
     }
     else
     {
-        UtAssert_True(FALSE, "FAC UpdateParams");
+        UtAssert_True(FALSE, "FAC UpdateParams_Standard");
+    }
+}
+
+/**
+ * Test FAC UpdateParams, TailSitter()
+ */
+void Test_FAC_UpdateParams_TailSitter(void)
+{
+    double expected_checksum = 0.0;
+
+    UpdateParams_ParamChecksum = 0.0;
+    UpdateParams_ValidateStatus = 0x0;
+
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+                (void*)Test_FAC_UpdateParams_SendEventHook);
+
+    printf("###Initial ECL Values:\n");
+    FAC_Test_PrintEclValues();
+
+    /* Execute the function being tested */
+    oFAC.InitApp();
+
+    /* Verify results */
+    expected_checksum = 1369.37;
+
+    if ((UpdateParams_ValidateStatus == 0x0) &&
+        (fabs(UpdateParams_ParamChecksum - expected_checksum) <= FLT_EPSILON)) // Fail with DBL_EPSILON
+    {
+        UtAssert_True(TRUE, "FAC UpdateParams_TailSitter");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "FAC UpdateParams_TailSitter");
     }
 }
 
@@ -1573,12 +1844,17 @@ void FAC_App_Test_AddTestCases(void)
     UtTest_Add(Test_FAC_InitApp_Nominal, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_InitApp_Nominal");
 
+    UtTest_Add(Test_FAC_FAC_AppMain_Nominal, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_FAC_AppMain_Nominal");
+
     UtTest_Add(Test_FAC_AppMain_Fail_RegisterApp, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_AppMain_Fail_RegisterApp");
     UtTest_Add(Test_FAC_AppMain_Fail_InitApp, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_AppMain_Fail_InitApp");
     UtTest_Add(Test_FAC_AppMain_Fail_AcquireConfigPtrs, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_AppMain_Fail_AcquireConfigPtrs");
+    UtTest_Add(Test_FAC_AppMain_SchPipeError, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_AppMain_SchPipeError");
     UtTest_Add(Test_FAC_AppMain_InvalidSchMessage, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_AppMain_InvalidSchMessage");
     UtTest_Add(Test_FAC_AppMain_Nominal_SendHK, FAC_Test_Setup, FAC_Test_TearDown,
@@ -1586,32 +1862,40 @@ void FAC_App_Test_AddTestCases(void)
     UtTest_Add(Test_FAC_AppMain_Nominal_RunController, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_AppMain_Nominal_RunController");
 
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_InvalidMsgID, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_InvalidMsgID");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_Airspeed, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_Airspeed");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_BatteryStatus, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_BatteryStatus");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_ManualControlSp, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_ManualControlSp");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_VAtt, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_VAtt");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_VAttSp, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_VAttSp");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_VControlMode, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_VControlMode");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_VGlobalPosition, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_VGlobalPosition");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_VLandDetected, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_VLandDetected");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_VehicleStatus, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_VehicleStatus");
+    UtTest_Add(Test_FAC_AppMain_ProcessIncomingData_DataPipeError, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_AppMain_ProcessIncomingData_DataPipeError");
+    UtTest_Add(Test_FAC_AppMain_ProcessIncomingData_InvalidMsgID, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_AppMain_ProcessIncomingData_InvalidMsgID");
+    UtTest_Add(Test_FAC_AppMain_ProcessIncomingData_Airspeed, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_AppMain_ProcessIncomingData_Airspeed");
+    UtTest_Add(Test_FAC_AppMain_ProcessIncomingData_BatteryStatus, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_AppMain_ProcessIncomingData_BatteryStatus");
+    UtTest_Add(Test_FAC_AppMain_ProcessIncomingData_ManualControlSp, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_AppMain_ProcessIncomingData_ManualControlSp");
+    UtTest_Add(Test_FAC_AppMain_ProcessIncomingData_VAtt, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_AppMain_ProcessIncomingData_VAtt");
+    UtTest_Add(Test_FAC_AppMain_ProcessIncomingData_VAttSp, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_AppMain_ProcessIncomingData_VAttSp");
+    UtTest_Add(Test_FAC_AppMain_ProcessIncomingData_VControlMode, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_AppMain_ProcessIncomingData_VControlMode");
+    UtTest_Add(Test_FAC_AppMain_ProcessIncomingData_VGlobalPosition, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_AppMain_ProcessIncomingData_VGlobalPosition");
+    UtTest_Add(Test_FAC_AppMain_ProcessIncomingData_VLandDetected, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_AppMain_ProcessIncomingData_VLandDetected");
+    UtTest_Add(Test_FAC_AppMain_ProcessIncomingData_VehicleStatus, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_AppMain_ProcessIncomingData_VehicleStatus");
 
-    UtTest_Add(Test_FAC_RunController, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_RunController");
-    UtTest_Add(Test_FAC_RunController_ControlAttitude, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_RunController_ControlAttitude");
-    UtTest_Add(Test_FAC_UpdateParams, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_UpdateParams");
+    UtTest_Add(Test_FAC_RunController_TailSitter, FAC_Test_Setup_TailSitter,
+               FAC_Test_TearDown, "Test_FAC_RunController_TailSitter");
+    UtTest_Add(Test_FAC_RunController_AttitudeManual, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_RunController_AttitudeManual");
+    UtTest_Add(Test_FAC_RunController_PureRateControl, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_RunController_PureRateControl");
+    UtTest_Add(Test_FAC_RunController_ControlAttitude, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_RunController_ControlAttitude");
+    UtTest_Add(Test_FAC_UpdateParams_Standard, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_UpdateParams_Standard");
+    UtTest_Add(Test_FAC_UpdateParams_TailSitter, FAC_Test_Setup_TailSitter, FAC_Test_TearDown,
+               "Test_FAC_UpdateParams_TailSitter");
 
 }

@@ -170,6 +170,23 @@ void Test_FAC_InitConfigTbl_Nominal(void)
     UtAssert_True (result == expected, "InitConfigTbl, Nominal");
 }
 
+/**
+ * Test FAC ValidateParamTbl(), Nominal
+ */
+void Test_FAC_ValidateParamTbl_Nominal(void)
+{
+    /* Set a fail result */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
+    int32 expected = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = oFAC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "ValidateParamTbl, Nominal");
+}
+
 
 void FAC_Config_Tbl_Test_AddTestCases(void)
 {
@@ -185,4 +202,6 @@ void FAC_Config_Tbl_Test_AddTestCases(void)
                "Test_FAC_InitConfigTbl_Fail_AcquireConfigPtrs");
     UtTest_Add(Test_FAC_InitConfigTbl_Nominal, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_InitConfigTbl_Nominal");
+    UtTest_Add(Test_FAC_ValidateParamTbl_Nominal, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ValidateParamTbl_Nominal");
 }

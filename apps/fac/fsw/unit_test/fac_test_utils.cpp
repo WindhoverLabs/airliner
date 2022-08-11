@@ -52,8 +52,8 @@
 #include <time.h>
 #include <float.h>
 
+
 extern FAC cpyFAC;
-//extern FAC_ParamTbl_t FAC_ParamTbl;
 
 extern Ut_CFE_PSP_MEMUTILS_HookTable_t         Ut_CFE_PSP_MEMUTILS_HookTable;
 extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t
@@ -64,11 +64,10 @@ extern Ut_CFE_PSP_TIMER_ReturnCodeTable_t
                   Ut_CFE_PSP_TIMER_ReturnCodeTable[UT_CFE_PSP_TIMER_MAX_INDEX];
 
 
-#if defined(FAC_TEST_TAILSITTER_STATUS)
 /*
  * Config table for Tailsitter status
  */
-FAC_ParamTbl_t FAC_ParamTblTailsitter =
+FAC_ParamTbl_t FAC_ParamTblTailSitter =
 {
     0.4f,    /* Attitude Roll Time Constant (FW_R_TC) */
     0.4f,    /* Attitude pitch time constant (FW_P_TC) */
@@ -120,11 +119,11 @@ FAC_ParamTbl_t FAC_ParamTblTailsitter =
     0.0f,    /* Yaw trim (TRIM_YAW) */
     0        /* VTOL Type (Tailsitter=0, Tiltrotor=1, Standard=2) (VT_TYPE) */
 };
-#elif !defined(FAC_TEST_TAILSITTER_STATUS)
+
 /*
  * Config table for not TailSitter status
  */
-FAC_ParamTbl_t FAC_ParamTblNominal =
+FAC_ParamTbl_t FAC_ParamTblStandard =
 {
     0.4f,    /* Attitude Roll Time Constant (FW_R_TC) */
     0.4f,    /* Attitude pitch time constant (FW_P_TC) */
@@ -176,7 +175,6 @@ FAC_ParamTbl_t FAC_ParamTblNominal =
     0.0f,    /* Yaw trim (TRIM_YAW) */
     2        /* VTOL Type (Tailsitter=0, Tiltrotor=1, Standard=2) (VT_TYPE) */
 };
-#endif
 
 /*
  * Function Definitions
@@ -197,13 +195,38 @@ void FAC_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-#if defined(FAC_TEST_TAILSITTER_STATUS)
-    Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTblTailsitter);
-#elif !defined(FAC_TEST_TAILSITTER_STATUS)
-    Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTblNominal);
-#else
-    Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTbl);
-#endif
+    if (1)
+    {
+        Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTblStandard);
+    }
+    else
+    {
+        Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTbl);
+    }
+
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
+
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
+}
+
+void FAC_Test_Setup_TailSitter(void)
+{
+    /* initialize test environment to default state for every test */
+
+    CFE_PSP_MemCpy((void*)&oFAC, (void*)&cpyFAC, sizeof(FAC));
+
+    Ut_CFE_EVS_Reset();
+    Ut_CFE_FS_Reset();
+    Ut_CFE_TIME_Reset();
+    Ut_CFE_TBL_Reset();
+    Ut_CFE_SB_Reset();
+    Ut_CFE_ES_Reset();
+    Ut_OSAPI_Reset();
+    Ut_OSFILEAPI_Reset();
+
+    Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTblTailSitter);
 
     memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
     memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
