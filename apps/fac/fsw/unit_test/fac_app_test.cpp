@@ -1218,87 +1218,160 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
  */
 void Test_FAC_RunController_TailSitter(void)
 {
-    int32              DataPipe;
-    PX4_VehicleControlModeMsg_t  InMsg;
-
-    oFAC.CVT.VehicleStatus.IsVtol = TRUE;
-    oFAC.CVT.VLandDetected.Landed = FALSE;
-
-    oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VehicleStatus.IsRotaryWing = FALSE;
-    oFAC.CVT.VehicleStatus.InTransitionMode = FALSE;     // fix this
-    oFAC.CVT.VehicleStatus.EngineFailure = FALSE;
-    oFAC.CVT.VehicleStatus.EngineFailureCmd = FALSE;
-
-    oFAC.CVT.VLandDetected.Timestamp = PX4LIB_GetPX4TimeUs();
-
-    oFAC.CVT.BatteryStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.BatteryStatus.Scale = 0.0f;                 // fix this
+    int32                             DataPipe;
+    PX4_VehicleStatusMsg_t            VStatus;
+    PX4_BatteryStatusMsg_t            BatStat;
+    PX4_VehicleLandDetectedMsg_t      VLDetect;
+    PX4_VehicleGlobalPositionMsg_t    VGlobalPos;
+    PX4_VehicleAttitudeMsg_t          VAtt;
+    PX4_VehicleAttitudeSetpointMsg_t  VAttSp;
+    PX4_ManualControlSetpointMsg_t    MCSp;
+    PX4_AirspeedMsg_t                 ASpeed;
+    PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
-    oFAC.CVT.VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VAtt.RollSpeed = 0.0f;                      // fix this
-    oFAC.CVT.VAtt.PitchSpeed = 0.0f;                     // fix this
-    oFAC.CVT.VAtt.YawSpeed = 0.0f;                       // fix this
-    oFAC.CVT.VAtt.Q[0] = 0.7083791494f;
-    oFAC.CVT.VAtt.Q[1] = -0.0311437733f;
-    oFAC.CVT.VAtt.Q[2] = -0.0508509092f;
-    oFAC.CVT.VAtt.Q[3] = 0.7033087611f;
-
-    oFAC.CVT.VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VAttSp.RollBody = 0.0f;                     // fix this
-    oFAC.CVT.VAttSp.PitchBody = 0.0f;                    // fix this
-    oFAC.CVT.VAttSp.YawBody = 0.0f;                      // fix this
-    oFAC.CVT.VAttSp.YawSpMoveRate = 0.0000000000f;
-    oFAC.CVT.VAttSp.Q_D[0] = 0.7084835768f;
-    oFAC.CVT.VAttSp.Q_D[1] = -0.0144501235f;
-    oFAC.CVT.VAttSp.Q_D[2] = -0.0355133303f;
-    oFAC.CVT.VAttSp.Q_D[3] = 0.7046850324f;
-    oFAC.CVT.VAttSp.Q_D_Valid = TRUE;                    // fix this
-    oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
-    oFAC.CVT.VAttSp.RollResetIntegral = TRUE;
-    oFAC.CVT.VAttSp.PitchResetIntegral = TRUE;
-    oFAC.CVT.VAttSp.YawResetIntegral = TRUE;
-    oFAC.CVT.VAttSp.FwControlYaw = FALSE;
-    oFAC.CVT.VAttSp.DisableMcYawControl = TRUE;
-    oFAC.CVT.VAttSp.ApplyFlaps = TRUE;
-
-    oFAC.CVT.ManualControlSp.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.ManualControlSp.X = 0.0f;                   // fix this
-    oFAC.CVT.ManualControlSp.Y = 0.0f;                   // fix this
-    oFAC.CVT.ManualControlSp.Z = 0.0f;                   // fix this
-    oFAC.CVT.ManualControlSp.R = 0.0f;                   // fix this
-    oFAC.CVT.ManualControlSp.Flaps = 0.0f;               // fix this
-    oFAC.CVT.ManualControlSp.Aux1 = 0.0f;                // fix this
-    oFAC.CVT.ManualControlSp.Aux2 = 0.0f;                // fix this
-    oFAC.CVT.ManualControlSp.Aux3 = 0.0f;                // fix this
-    oFAC.CVT.ManualControlSp.Aux4 = 0.0f;                // fix this
-    oFAC.CVT.ManualControlSp.Aux5 = 0.0f;                // fix this
-
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID,
-                     sizeof(PX4_VehicleControlModeMsg_t), TRUE);
 
-    InMsg.Timestamp = PX4LIB_GetPX4TimeUs();
-    InMsg.ExternalManualOverrideOk = FALSE;
-    InMsg.SystemHilEnabled = FALSE;
-    InMsg.ControlManualEnabled = TRUE;
-    InMsg.ControlAutoEnabled = FALSE;
-    InMsg.ControlOffboardEnabled = FALSE;
-    InMsg.ControlRatesEnabled = TRUE;
-    InMsg.ControlAttitudeEnabled = TRUE;
-    InMsg.ControlRattitudeEnabled = TRUE;
-    InMsg.ControlForceEnabled = FALSE;
-    InMsg.ControlAccelerationEnabled = FALSE;
-    InMsg.ControlVelocityEnabled = FALSE;
-    InMsg.ControlPositionEnabled = FALSE;
-    InMsg.ControlAltitudeEnabled = FALSE;
-    InMsg.ControlClimbRateEnabled = FALSE;
-    InMsg.ControlTerminationEnabled = FALSE;
-    InMsg.ControlFixedHdgEnabled = FALSE;
+    CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
+    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.IsVtol = TRUE;
+    VStatus.IsRotaryWing = FALSE;
+    VStatus.InTransitionMode = FALSE;                       // fix this
+    VStatus.EngineFailure = FALSE;
+    VStatus.EngineFailureCmd = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VStatus);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
 
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&InMsg);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+    CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
+    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Voltage = 0.0f;                                 // fix this
+    BatStat.VoltageFiltered = 0.0f;                         // fix this
+    BatStat.Current = 0.0f;                                 // fix this
+    BatStat.CurrentFiltered = 0.0f;                         // fix this
+    BatStat.Discharged = 0.0f;                              // fix this
+    BatStat.Remaining = 0.0f;                               // fix this
+    BatStat.Scale = 0.0f;                                   // fix this
+    BatStat.CellCount = 0;                                  // fix this
+    BatStat.Connected = FALSE;                              // fix this
+    BatStat.Warning = PX4_BATTERY_WARNING_NONE;             // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&BatStat);
+    Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
+    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.AltMax = 0.0f;                                 // fix this
+    VLDetect.Landed = FALSE;
+    VLDetect.Freefall = FALSE;
+    VLDetect.GroundContact = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VLDetect);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VLDetect, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
+                    sizeof(VGlobalPos), TRUE);
+    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.Lat = 0.0;
+    VGlobalPos.Lon = 0.0;
+    VGlobalPos.Alt = 0.0f;
+    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.DeltaLatLon[1] = 0.0;
+    VGlobalPos.DeltaAlt = 0.0f;
+    VGlobalPos.LatLonResetCounter = 0;
+    VGlobalPos.AltResetCounter = 0;
+    VGlobalPos.VelN = 0.0f;
+    VGlobalPos.VelE = 0.0f;
+    VGlobalPos.VelD = 0.0f;
+    VGlobalPos.Yaw = 0.0f;
+    VGlobalPos.EpH = 0.0f;
+    VGlobalPos.EpV = 0.0f;
+    VGlobalPos.EvH = 0.0f;
+    VGlobalPos.EvV = 0.0f;
+    VGlobalPos.TerrainAlt = 0.0f;
+    VGlobalPos.PressureAlt = 0.0f;
+    VGlobalPos.TerrainAltValid = FALSE;
+    VGlobalPos.DeadReckoning = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
+    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.RollSpeed = 0.0f;                                 // fix this
+    VAtt.PitchSpeed = 0.0f;                                // fix this
+    VAtt.YawSpeed = 0.0f;                                  // fix this
+    VAtt.Q[0] = 0.7083791494f;
+    VAtt.Q[1] = -0.0311437733f;
+    VAtt.Q[2] = -0.0508509092f;
+    VAtt.Q[3] = 0.7033087611f;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAtt);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAtt, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID,
+                    sizeof(VAttSp), TRUE);
+    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.RollBody = 0.0f;                                // fix this
+    VAttSp.PitchBody = 0.0f;                               // fix this
+    VAttSp.YawBody = 0.0f;                                 // fix this
+    VAttSp.YawSpMoveRate = 0.0000000000f;
+    VAttSp.Q_D[0] = 0.7084835768f;
+    VAttSp.Q_D[1] = -0.0144501235f;
+    VAttSp.Q_D[2] = -0.0355133303f;
+    VAttSp.Q_D[3] = 0.7046850324f;
+    VAttSp.Q_D_Valid = TRUE;                               // fix this
+    VAttSp.Thrust = 0.3333882987f;
+    VAttSp.RollResetIntegral = TRUE;
+    VAttSp.PitchResetIntegral = TRUE;
+    VAttSp.YawResetIntegral = TRUE;
+    VAttSp.FwControlYaw = FALSE;
+    VAttSp.DisableMcYawControl = TRUE;
+    VAttSp.ApplyFlaps = TRUE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAttSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
+    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    MCSp.X = 0.0f;                                        // fix this
+    MCSp.Y = 0.0f;                                        // fix this
+    MCSp.Z = 0.0f;                                        // fix this
+    MCSp.R = 0.0f;                                        // fix this
+    MCSp.Flaps = 0.0f;                                    // fix this
+    MCSp.Aux1 = 0.0f;                                     // fix this
+    MCSp.Aux2 = 0.0f;                                     // fix this
+    MCSp.Aux3 = 0.0f;                                     // fix this
+    MCSp.Aux4 = 0.0f;                                     // fix this
+    MCSp.Aux5 = 0.0f;                                     // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&MCSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
+    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
+    ASpeed.IndicatedAirspeed = 0.0f;                      // fix this
+    ASpeed.TrueAirspeed = 0.0f;                           // fix this
+    ASpeed.TrueAirspeedUnfiltered = 0.0f;                 // fix this
+    ASpeed.AirTemperature = 0.0f;                         // fix this
+    ASpeed.Confidence = 0.0f;                             // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&ASpeed);
+    Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
+    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.ExternalManualOverrideOk = FALSE;
+    VCMode.SystemHilEnabled = FALSE;
+    VCMode.ControlManualEnabled = TRUE;
+    VCMode.ControlAutoEnabled = FALSE;
+    VCMode.ControlOffboardEnabled = FALSE;
+    VCMode.ControlRatesEnabled = TRUE;
+    VCMode.ControlAttitudeEnabled = TRUE;
+    VCMode.ControlRattitudeEnabled = TRUE;
+    VCMode.ControlForceEnabled = FALSE;
+    VCMode.ControlAccelerationEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlPositionEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlClimbRateEnabled = FALSE;
+    VCMode.ControlTerminationEnabled = FALSE;
+    VCMode.ControlFixedHdgEnabled = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VCMode);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VCMode, (CFE_SB_PipeId_t)DataPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
@@ -1317,92 +1390,341 @@ void Test_FAC_RunController_TailSitter(void)
     oFAC.AppMain();
 }
 
+
+void Test_FAC_RunController_RotaryWing(void)
+{
+    int32                             DataPipe;
+    PX4_VehicleStatusMsg_t            VStatus;
+    PX4_BatteryStatusMsg_t            BatStat;
+    PX4_VehicleLandDetectedMsg_t      VLDetect;
+    PX4_VehicleGlobalPositionMsg_t    VGlobalPos;
+    PX4_VehicleAttitudeMsg_t          VAtt;
+    PX4_VehicleAttitudeSetpointMsg_t  VAttSp;
+    PX4_ManualControlSetpointMsg_t    MCSp;
+    PX4_AirspeedMsg_t                 ASpeed;
+    PX4_VehicleControlModeMsg_t       VCMode;
+
+    /* Set inputs */
+    DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
+
+    CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
+    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.IsVtol = FALSE;
+    VStatus.IsRotaryWing = TRUE;
+    VStatus.InTransitionMode = FALSE;                       // fix this
+    VStatus.EngineFailure = FALSE;
+    VStatus.EngineFailureCmd = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VStatus);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
+    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Voltage = 0.0f;                                 // fix this
+    BatStat.VoltageFiltered = 0.0f;                         // fix this
+    BatStat.Current = 0.0f;                                 // fix this
+    BatStat.CurrentFiltered = 0.0f;                         // fix this
+    BatStat.Discharged = 0.0f;                              // fix this
+    BatStat.Remaining = 0.0f;                               // fix this
+    BatStat.Scale = 0.0f;                                   // fix this
+    BatStat.CellCount = 0;                                  // fix this
+    BatStat.Connected = FALSE;                              // fix this
+    BatStat.Warning = PX4_BATTERY_WARNING_NONE;             // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&BatStat);
+    Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
+    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.AltMax = 0.0f;                                 // fix this
+    VLDetect.Landed = FALSE;
+    VLDetect.Freefall = FALSE;
+    VLDetect.GroundContact = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VLDetect);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VLDetect, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
+                    sizeof(VGlobalPos), TRUE);
+    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.Lat = 0.0;
+    VGlobalPos.Lon = 0.0;
+    VGlobalPos.Alt = 0.0f;
+    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.DeltaLatLon[1] = 0.0;
+    VGlobalPos.DeltaAlt = 0.0f;
+    VGlobalPos.LatLonResetCounter = 0;
+    VGlobalPos.AltResetCounter = 0;
+    VGlobalPos.VelN = 0.0f;
+    VGlobalPos.VelE = 0.0f;
+    VGlobalPos.VelD = 0.0f;
+    VGlobalPos.Yaw = 0.0f;
+    VGlobalPos.EpH = 0.0f;
+    VGlobalPos.EpV = 0.0f;
+    VGlobalPos.EvH = 0.0f;
+    VGlobalPos.EvV = 0.0f;
+    VGlobalPos.TerrainAlt = 0.0f;
+    VGlobalPos.PressureAlt = 0.0f;
+    VGlobalPos.TerrainAltValid = FALSE;
+    VGlobalPos.DeadReckoning = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
+    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.RollSpeed = 0.0f;                              // fix this
+    VAtt.PitchSpeed = 0.0f;                             // fix this
+    VAtt.YawSpeed = 0.0f;                               // fix this
+    VAtt.Q[0] = 0.7083791494f;
+    VAtt.Q[1] = -0.0311437733f;
+    VAtt.Q[2] = -0.0508509092f;
+    VAtt.Q[3] = 0.7033087611f;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAtt);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAtt, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID,
+                    sizeof(VAttSp), TRUE);
+    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.RollBody = 0.0f;                            // fix this
+    VAttSp.PitchBody = 0.0f;                           // fix this
+    VAttSp.YawBody = 0.0f;                             // fix this
+    VAttSp.YawSpMoveRate = 0.0000000000f;
+    VAttSp.Q_D[0] = 0.7084835768f;
+    VAttSp.Q_D[1] = -0.0144501235f;
+    VAttSp.Q_D[2] = -0.0355133303f;
+    VAttSp.Q_D[3] = 0.7046850324f;
+    VAttSp.Q_D_Valid = TRUE;                           // fix this
+    VAttSp.Thrust = 0.3333882987f;
+    VAttSp.RollResetIntegral = TRUE;
+    VAttSp.PitchResetIntegral = TRUE;
+    VAttSp.YawResetIntegral = TRUE;
+    VAttSp.FwControlYaw = FALSE;
+    VAttSp.DisableMcYawControl = TRUE;
+    VAttSp.ApplyFlaps = TRUE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAttSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
+    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    MCSp.X = 0.0f;                                     // fix this
+    MCSp.Y = 0.0f;                                     // fix this
+    MCSp.Z = 0.0f;                                     // fix this
+    MCSp.R = 0.0f;                                     // fix this
+    MCSp.Flaps = 0.0f;                                 // fix this
+    MCSp.Aux1 = 0.0f;                                  // fix this
+    MCSp.Aux2 = 0.0f;                                  // fix this
+    MCSp.Aux3 = 0.0f;                                  // fix this
+    MCSp.Aux4 = 0.0f;                                  // fix this
+    MCSp.Aux5 = 0.0f;                                  // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&MCSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
+    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
+    ASpeed.IndicatedAirspeed = 0.0f;                   // fix this
+    ASpeed.TrueAirspeed = 0.0f;                        // fix this
+    ASpeed.TrueAirspeedUnfiltered = 0.0f;              // fix this
+    ASpeed.AirTemperature = 0.0f;                      // fix this
+    ASpeed.Confidence = 0.0f;                          // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&ASpeed);
+    Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
+    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.ExternalManualOverrideOk = FALSE;
+    VCMode.SystemHilEnabled = FALSE;
+    VCMode.ControlManualEnabled = TRUE;
+    VCMode.ControlAutoEnabled = FALSE;
+    VCMode.ControlOffboardEnabled = FALSE;
+    VCMode.ControlRatesEnabled = TRUE;
+    VCMode.ControlAttitudeEnabled = TRUE;
+    VCMode.ControlRattitudeEnabled = TRUE;
+    VCMode.ControlForceEnabled = FALSE;
+    VCMode.ControlAccelerationEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlPositionEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlClimbRateEnabled = FALSE;
+    VCMode.ControlTerminationEnabled = FALSE;
+    VCMode.ControlFixedHdgEnabled = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VCMode);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VCMode, (CFE_SB_PipeId_t)DataPipe);
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+    SendEvent_HookCalledCnt = 0;
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FAC_RunController_SendEventHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+               (void*)&Test_FAC_RunController_SendMsgHook);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+}
+
+
 /**
  * Test FAC RunController, AttitudeManual
  */
 void Test_FAC_RunController_AttitudeManual(void)
 {
-    int32              DataPipe;
-    PX4_VehicleControlModeMsg_t  InMsg;
-
-    oFAC.CVT.VehicleStatus.IsVtol = FALSE;
-    oFAC.CVT.VLandDetected.Landed = FALSE;
-
-    oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VehicleStatus.IsRotaryWing = FALSE;
-    oFAC.CVT.VehicleStatus.InTransitionMode = FALSE;     // fix this
-    oFAC.CVT.VehicleStatus.EngineFailure = FALSE;
-    oFAC.CVT.VehicleStatus.EngineFailureCmd = FALSE;
-
-    oFAC.CVT.VLandDetected.Timestamp = PX4LIB_GetPX4TimeUs();
-
-    oFAC.CVT.BatteryStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.BatteryStatus.Scale = 0.0f;                 // fix this
+    int32                             DataPipe;
+    PX4_VehicleStatusMsg_t            VStatus;
+    PX4_BatteryStatusMsg_t            BatStat;
+    PX4_VehicleLandDetectedMsg_t      VLDetect;
+    PX4_VehicleGlobalPositionMsg_t    VGlobalPos;
+    PX4_VehicleAttitudeMsg_t          VAtt;
+    PX4_VehicleAttitudeSetpointMsg_t  VAttSp;
+    PX4_ManualControlSetpointMsg_t    MCSp;
+    PX4_AirspeedMsg_t                 ASpeed;
+    PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
-    oFAC.CVT.VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VAtt.RollSpeed = 0.0f;                      // fix this
-    oFAC.CVT.VAtt.PitchSpeed = 0.0f;                     // fix this
-    oFAC.CVT.VAtt.YawSpeed = 0.0f;                       // fix this
-    oFAC.CVT.VAtt.Q[0] = 0.7083791494f;
-    oFAC.CVT.VAtt.Q[1] = -0.0311437733f;
-    oFAC.CVT.VAtt.Q[2] = -0.0508509092f;
-    oFAC.CVT.VAtt.Q[3] = 0.7033087611f;
-
-    oFAC.CVT.VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VAttSp.RollBody = 0.0f;                     // fix this
-    oFAC.CVT.VAttSp.PitchBody = 0.0f;                    // fix this
-    oFAC.CVT.VAttSp.YawBody = 0.0f;                      // fix this
-    oFAC.CVT.VAttSp.YawSpMoveRate = 0.0000000000f;
-    oFAC.CVT.VAttSp.Q_D[0] = 0.7084835768f;
-    oFAC.CVT.VAttSp.Q_D[1] = -0.0144501235f;
-    oFAC.CVT.VAttSp.Q_D[2] = -0.0355133303f;
-    oFAC.CVT.VAttSp.Q_D[3] = 0.7046850324f;
-    oFAC.CVT.VAttSp.Q_D_Valid = TRUE;                    // fix this
-    oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
-    oFAC.CVT.VAttSp.RollResetIntegral = TRUE;
-    oFAC.CVT.VAttSp.PitchResetIntegral = TRUE;
-    oFAC.CVT.VAttSp.YawResetIntegral = TRUE;
-    oFAC.CVT.VAttSp.FwControlYaw = FALSE;
-    oFAC.CVT.VAttSp.DisableMcYawControl = TRUE;
-    oFAC.CVT.VAttSp.ApplyFlaps = TRUE;
-
-    oFAC.CVT.ManualControlSp.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.ManualControlSp.X = 0.0f;                   // fix this
-    oFAC.CVT.ManualControlSp.Y = 0.0f;                   // fix this
-    oFAC.CVT.ManualControlSp.Z = 0.0f;                   // fix this
-    oFAC.CVT.ManualControlSp.R = 0.0f;                   // fix this
-    oFAC.CVT.ManualControlSp.Flaps = 0.0f;               // fix this
-    oFAC.CVT.ManualControlSp.Aux1 = 0.0f;                // fix this
-    oFAC.CVT.ManualControlSp.Aux2 = 0.0f;                // fix this
-    oFAC.CVT.ManualControlSp.Aux3 = 0.0f;                // fix this
-    oFAC.CVT.ManualControlSp.Aux4 = 0.0f;                // fix this
-    oFAC.CVT.ManualControlSp.Aux5 = 0.0f;                // fix this
-
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID,
-                     sizeof(PX4_VehicleControlModeMsg_t), TRUE);
 
-    InMsg.Timestamp = PX4LIB_GetPX4TimeUs();
-    InMsg.ExternalManualOverrideOk = FALSE;
-    InMsg.SystemHilEnabled = FALSE;
-    InMsg.ControlManualEnabled = TRUE;
-    InMsg.ControlAutoEnabled = FALSE;
-    InMsg.ControlOffboardEnabled = FALSE;
-    InMsg.ControlRatesEnabled = TRUE;
-    InMsg.ControlAttitudeEnabled = TRUE;
-    InMsg.ControlRattitudeEnabled = TRUE;
-    InMsg.ControlForceEnabled = FALSE;
-    InMsg.ControlAccelerationEnabled = FALSE;
-    InMsg.ControlVelocityEnabled = FALSE;
-    InMsg.ControlPositionEnabled = FALSE;
-    InMsg.ControlAltitudeEnabled = FALSE;
-    InMsg.ControlClimbRateEnabled = FALSE;
-    InMsg.ControlTerminationEnabled = FALSE;
-    InMsg.ControlFixedHdgEnabled = FALSE;
+    CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
+    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.IsVtol = FALSE;
+    VStatus.IsRotaryWing = FALSE;
+    VStatus.InTransitionMode = FALSE;                       // fix this
+    VStatus.EngineFailure = FALSE;
+    VStatus.EngineFailureCmd = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VStatus);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
 
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&InMsg);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+    CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
+    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Voltage = 0.0f;                                 // fix this
+    BatStat.VoltageFiltered = 0.0f;                         // fix this
+    BatStat.Current = 0.0f;                                 // fix this
+    BatStat.CurrentFiltered = 0.0f;                         // fix this
+    BatStat.Discharged = 0.0f;                              // fix this
+    BatStat.Remaining = 0.0f;                               // fix this
+    BatStat.Scale = 0.0f;                                   // fix this
+    BatStat.CellCount = 0;                                  // fix this
+    BatStat.Connected = FALSE;                              // fix this
+    BatStat.Warning = PX4_BATTERY_WARNING_NONE;             // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&BatStat);
+    Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
+    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.AltMax = 0.0f;                                 // fix this
+    VLDetect.Landed = FALSE;
+    VLDetect.Freefall = FALSE;
+    VLDetect.GroundContact = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VLDetect);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VLDetect, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
+                    sizeof(VGlobalPos), TRUE);
+    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.Lat = 0.0;
+    VGlobalPos.Lon = 0.0;
+    VGlobalPos.Alt = 0.0f;
+    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.DeltaLatLon[1] = 0.0;
+    VGlobalPos.DeltaAlt = 0.0f;
+    VGlobalPos.LatLonResetCounter = 0;
+    VGlobalPos.AltResetCounter = 0;
+    VGlobalPos.VelN = 0.0f;
+    VGlobalPos.VelE = 0.0f;
+    VGlobalPos.VelD = 0.0f;
+    VGlobalPos.Yaw = 0.0f;
+    VGlobalPos.EpH = 0.0f;
+    VGlobalPos.EpV = 0.0f;
+    VGlobalPos.EvH = 0.0f;
+    VGlobalPos.EvV = 0.0f;
+    VGlobalPos.TerrainAlt = 0.0f;
+    VGlobalPos.PressureAlt = 0.0f;
+    VGlobalPos.TerrainAltValid = FALSE;
+    VGlobalPos.DeadReckoning = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
+    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.RollSpeed = 0.0f;                              // fix this
+    VAtt.PitchSpeed = 0.0f;                             // fix this
+    VAtt.YawSpeed = 0.0f;                               // fix this
+    VAtt.Q[0] = 0.7083791494f;
+    VAtt.Q[1] = -0.0311437733f;
+    VAtt.Q[2] = -0.0508509092f;
+    VAtt.Q[3] = 0.7033087611f;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAtt);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAtt, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID,
+                    sizeof(VAttSp), TRUE);
+    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.RollBody = 0.0f;                            // fix this
+    VAttSp.PitchBody = 0.0f;                           // fix this
+    VAttSp.YawBody = 0.0f;                             // fix this
+    VAttSp.YawSpMoveRate = 0.0000000000f;
+    VAttSp.Q_D[0] = 0.7084835768f;
+    VAttSp.Q_D[1] = -0.0144501235f;
+    VAttSp.Q_D[2] = -0.0355133303f;
+    VAttSp.Q_D[3] = 0.7046850324f;
+    VAttSp.Q_D_Valid = TRUE;                           // fix this
+    VAttSp.Thrust = 0.3333882987f;
+    VAttSp.RollResetIntegral = TRUE;
+    VAttSp.PitchResetIntegral = TRUE;
+    VAttSp.YawResetIntegral = TRUE;
+    VAttSp.FwControlYaw = FALSE;
+    VAttSp.DisableMcYawControl = TRUE;
+    VAttSp.ApplyFlaps = TRUE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAttSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
+    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    MCSp.X = 0.0f;                                     // fix this
+    MCSp.Y = 0.0f;                                     // fix this
+    MCSp.Z = 0.0f;                                     // fix this
+    MCSp.R = 0.0f;                                     // fix this
+    MCSp.Flaps = 0.0f;                                 // fix this
+    MCSp.Aux1 = 0.0f;                                  // fix this
+    MCSp.Aux2 = 0.0f;                                  // fix this
+    MCSp.Aux3 = 0.0f;                                  // fix this
+    MCSp.Aux4 = 0.0f;                                  // fix this
+    MCSp.Aux5 = 0.0f;                                  // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&MCSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
+    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
+    ASpeed.IndicatedAirspeed = 0.0f;                   // fix this
+    ASpeed.TrueAirspeed = 0.0f;                        // fix this
+    ASpeed.TrueAirspeedUnfiltered = 0.0f;              // fix this
+    ASpeed.AirTemperature = 0.0f;                      // fix this
+    ASpeed.Confidence = 0.0f;                          // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&ASpeed);
+    Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
+    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.ExternalManualOverrideOk = FALSE;
+    VCMode.SystemHilEnabled = FALSE;
+    VCMode.ControlManualEnabled = TRUE;
+    VCMode.ControlAutoEnabled = FALSE;
+    VCMode.ControlOffboardEnabled = FALSE;
+    VCMode.ControlRatesEnabled = TRUE;
+    VCMode.ControlAttitudeEnabled = TRUE;
+    VCMode.ControlRattitudeEnabled = TRUE;
+    VCMode.ControlForceEnabled = FALSE;
+    VCMode.ControlAccelerationEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlPositionEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlClimbRateEnabled = FALSE;
+    VCMode.ControlTerminationEnabled = FALSE;
+    VCMode.ControlFixedHdgEnabled = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VCMode);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VCMode, (CFE_SB_PipeId_t)DataPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
@@ -1428,87 +1750,160 @@ void Test_FAC_RunController_AttitudeManual(void)
  */
 void Test_FAC_RunController_PureRateControl(void)
 {
-    int32              DataPipe;
-    PX4_VehicleControlModeMsg_t  InMsg;
-
-    oFAC.CVT.VehicleStatus.IsVtol = FALSE;
-    oFAC.CVT.VLandDetected.Landed = FALSE;
-
-    oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VehicleStatus.IsRotaryWing = FALSE;
-    oFAC.CVT.VehicleStatus.InTransitionMode = FALSE;     // fix this
-    oFAC.CVT.VehicleStatus.EngineFailure = FALSE;
-    oFAC.CVT.VehicleStatus.EngineFailureCmd = FALSE;
-
-    oFAC.CVT.VLandDetected.Timestamp = PX4LIB_GetPX4TimeUs();
-
-    oFAC.CVT.BatteryStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.BatteryStatus.Scale = 0.0f;                 // fix this
+    int32                             DataPipe;
+    PX4_VehicleStatusMsg_t            VStatus;
+    PX4_BatteryStatusMsg_t            BatStat;
+    PX4_VehicleLandDetectedMsg_t      VLDetect;
+    PX4_VehicleGlobalPositionMsg_t    VGlobalPos;
+    PX4_VehicleAttitudeMsg_t          VAtt;
+    PX4_VehicleAttitudeSetpointMsg_t  VAttSp;
+    PX4_ManualControlSetpointMsg_t    MCSp;
+    PX4_AirspeedMsg_t                 ASpeed;
+    PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
-    oFAC.CVT.VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VAtt.RollSpeed = 0.0f;                      // fix this
-    oFAC.CVT.VAtt.PitchSpeed = 0.0f;                     // fix this
-    oFAC.CVT.VAtt.YawSpeed = 0.0f;                       // fix this
-    oFAC.CVT.VAtt.Q[0] = 0.7083791494f;
-    oFAC.CVT.VAtt.Q[1] = -0.0311437733f;
-    oFAC.CVT.VAtt.Q[2] = -0.0508509092f;
-    oFAC.CVT.VAtt.Q[3] = 0.7033087611f;
-
-    oFAC.CVT.VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VAttSp.RollBody = 0.0f;                     // fix this
-    oFAC.CVT.VAttSp.PitchBody = 0.0f;                    // fix this
-    oFAC.CVT.VAttSp.YawBody = 0.0f;                      // fix this
-    oFAC.CVT.VAttSp.YawSpMoveRate = 0.0000000000f;
-    oFAC.CVT.VAttSp.Q_D[0] = 0.7084835768f;
-    oFAC.CVT.VAttSp.Q_D[1] = -0.0144501235f;
-    oFAC.CVT.VAttSp.Q_D[2] = -0.0355133303f;
-    oFAC.CVT.VAttSp.Q_D[3] = 0.7046850324f;
-    oFAC.CVT.VAttSp.Q_D_Valid = TRUE;                    // fix this
-    oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
-    oFAC.CVT.VAttSp.RollResetIntegral = TRUE;
-    oFAC.CVT.VAttSp.PitchResetIntegral = TRUE;
-    oFAC.CVT.VAttSp.YawResetIntegral = TRUE;
-    oFAC.CVT.VAttSp.FwControlYaw = FALSE;
-    oFAC.CVT.VAttSp.DisableMcYawControl = TRUE;
-    oFAC.CVT.VAttSp.ApplyFlaps = TRUE;
-
-    oFAC.CVT.ManualControlSp.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.ManualControlSp.X = 0.0f;                   // fix this
-    oFAC.CVT.ManualControlSp.Y = 0.0f;                   // fix this
-    oFAC.CVT.ManualControlSp.Z = 0.0f;                   // fix this
-    oFAC.CVT.ManualControlSp.R = 0.0f;                   // fix this
-    oFAC.CVT.ManualControlSp.Flaps = 0.0f;               // fix this
-    oFAC.CVT.ManualControlSp.Aux1 = 0.0f;                // fix this
-    oFAC.CVT.ManualControlSp.Aux2 = 0.0f;                // fix this
-    oFAC.CVT.ManualControlSp.Aux3 = 0.0f;                // fix this
-    oFAC.CVT.ManualControlSp.Aux4 = 0.0f;                // fix this
-    oFAC.CVT.ManualControlSp.Aux5 = 0.0f;                // fix this
-
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID,
-                     sizeof(PX4_VehicleControlModeMsg_t), TRUE);
 
-    InMsg.Timestamp = PX4LIB_GetPX4TimeUs();
-    InMsg.ExternalManualOverrideOk = FALSE;
-    InMsg.SystemHilEnabled = FALSE;
-    InMsg.ControlManualEnabled = TRUE;
-    InMsg.ControlAutoEnabled = FALSE;
-    InMsg.ControlOffboardEnabled = FALSE;
-    InMsg.ControlRatesEnabled = TRUE;
-    InMsg.ControlAttitudeEnabled = FALSE;
-    InMsg.ControlRattitudeEnabled = TRUE;
-    InMsg.ControlForceEnabled = FALSE;
-    InMsg.ControlAccelerationEnabled = FALSE;
-    InMsg.ControlVelocityEnabled = FALSE;
-    InMsg.ControlPositionEnabled = FALSE;
-    InMsg.ControlAltitudeEnabled = FALSE;
-    InMsg.ControlClimbRateEnabled = FALSE;
-    InMsg.ControlTerminationEnabled = FALSE;
-    InMsg.ControlFixedHdgEnabled = FALSE;
+    CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
+    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.IsVtol = FALSE;
+    VStatus.IsRotaryWing = FALSE;
+    VStatus.InTransitionMode = FALSE;                       // fix this
+    VStatus.EngineFailure = FALSE;
+    VStatus.EngineFailureCmd = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VStatus);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
 
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&InMsg);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
+    CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
+    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Voltage = 0.0f;                                 // fix this
+    BatStat.VoltageFiltered = 0.0f;                         // fix this
+    BatStat.Current = 0.0f;                                 // fix this
+    BatStat.CurrentFiltered = 0.0f;                         // fix this
+    BatStat.Discharged = 0.0f;                              // fix this
+    BatStat.Remaining = 0.0f;                               // fix this
+    BatStat.Scale = 0.0f;                                   // fix this
+    BatStat.CellCount = 0;                                  // fix this
+    BatStat.Connected = FALSE;                              // fix this
+    BatStat.Warning = PX4_BATTERY_WARNING_NONE;             // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&BatStat);
+    Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
+    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.AltMax = 0.0f;                                 // fix this
+    VLDetect.Landed = FALSE;
+    VLDetect.Freefall = FALSE;
+    VLDetect.GroundContact = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VLDetect);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VLDetect, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
+                    sizeof(VGlobalPos), TRUE);
+    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.Lat = 0.0;
+    VGlobalPos.Lon = 0.0;
+    VGlobalPos.Alt = 0.0f;
+    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.DeltaLatLon[1] = 0.0;
+    VGlobalPos.DeltaAlt = 0.0f;
+    VGlobalPos.LatLonResetCounter = 0;
+    VGlobalPos.AltResetCounter = 0;
+    VGlobalPos.VelN = 0.0f;
+    VGlobalPos.VelE = 0.0f;
+    VGlobalPos.VelD = 0.0f;
+    VGlobalPos.Yaw = 0.0f;
+    VGlobalPos.EpH = 0.0f;
+    VGlobalPos.EpV = 0.0f;
+    VGlobalPos.EvH = 0.0f;
+    VGlobalPos.EvV = 0.0f;
+    VGlobalPos.TerrainAlt = 0.0f;
+    VGlobalPos.PressureAlt = 0.0f;
+    VGlobalPos.TerrainAltValid = FALSE;
+    VGlobalPos.DeadReckoning = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
+    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.RollSpeed = 0.0f;                              // fix this
+    VAtt.PitchSpeed = 0.0f;                             // fix this
+    VAtt.YawSpeed = 0.0f;                               // fix this
+    VAtt.Q[0] = 0.7083791494f;
+    VAtt.Q[1] = -0.0311437733f;
+    VAtt.Q[2] = -0.0508509092f;
+    VAtt.Q[3] = 0.7033087611f;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAtt);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAtt, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID,
+                    sizeof(VAttSp), TRUE);
+    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.RollBody = 0.0f;                             // fix this
+    VAttSp.PitchBody = 0.0f;                            // fix this
+    VAttSp.YawBody = 0.0f;                              // fix this
+    VAttSp.YawSpMoveRate = 0.0000000000f;
+    VAttSp.Q_D[0] = 0.7084835768f;
+    VAttSp.Q_D[1] = -0.0144501235f;
+    VAttSp.Q_D[2] = -0.0355133303f;
+    VAttSp.Q_D[3] = 0.7046850324f;
+    VAttSp.Q_D_Valid = TRUE;                            // fix this
+    VAttSp.Thrust = 0.3333882987f;
+    VAttSp.RollResetIntegral = TRUE;
+    VAttSp.PitchResetIntegral = TRUE;
+    VAttSp.YawResetIntegral = TRUE;
+    VAttSp.FwControlYaw = FALSE;
+    VAttSp.DisableMcYawControl = TRUE;
+    VAttSp.ApplyFlaps = TRUE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAttSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
+    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    MCSp.X = 0.0f;                                      // fix this
+    MCSp.Y = 0.0f;                                      // fix this
+    MCSp.Z = 0.0f;                                      // fix this
+    MCSp.R = 0.0f;                                      // fix this
+    MCSp.Flaps = 0.0f;                                  // fix this
+    MCSp.Aux1 = 0.0f;                                   // fix this
+    MCSp.Aux2 = 0.0f;                                   // fix this
+    MCSp.Aux3 = 0.0f;                                   // fix this
+    MCSp.Aux4 = 0.0f;                                   // fix this
+    MCSp.Aux5 = 0.0f;                                   // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&MCSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
+    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
+    ASpeed.IndicatedAirspeed = 0.0f;                    // fix this
+    ASpeed.TrueAirspeed = 0.0f;                         // fix this
+    ASpeed.TrueAirspeedUnfiltered = 0.0f;               // fix this
+    ASpeed.AirTemperature = 0.0f;                       // fix this
+    ASpeed.Confidence = 0.0f;                           // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&ASpeed);
+    Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
+    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.ExternalManualOverrideOk = FALSE;
+    VCMode.SystemHilEnabled = FALSE;
+    VCMode.ControlManualEnabled = TRUE;
+    VCMode.ControlAutoEnabled = FALSE;
+    VCMode.ControlOffboardEnabled = FALSE;
+    VCMode.ControlRatesEnabled = TRUE;
+    VCMode.ControlAttitudeEnabled = FALSE;
+    VCMode.ControlRattitudeEnabled = TRUE;
+    VCMode.ControlForceEnabled = FALSE;
+    VCMode.ControlAccelerationEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlPositionEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlClimbRateEnabled = FALSE;
+    VCMode.ControlTerminationEnabled = FALSE;
+    VCMode.ControlFixedHdgEnabled = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VCMode);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VCMode, (CFE_SB_PipeId_t)DataPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
@@ -1529,80 +1924,163 @@ void Test_FAC_RunController_PureRateControl(void)
 
 
 /**
- * Test FAC RunController(), ControlAttitude
+ * Test FAC RunController(), ManualDirect
  */
-void Test_FAC_RunController_ControlAttitude(void)
+void Test_FAC_RunController_ManualDirect(void)
 {
-    oFAC.CVT.VehicleStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VehicleStatus.IsRotaryWing = FALSE;
-    oFAC.CVT.VehicleStatus.IsVtol = FALSE;
-    oFAC.CVT.VehicleStatus.InTransitionMode = FALSE;         // fix this
-    oFAC.CVT.VehicleStatus.EngineFailure = FALSE;
-    oFAC.CVT.VehicleStatus.EngineFailureCmd = FALSE;
-
-    oFAC.CVT.VLandDetected.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VLandDetected.Landed = FALSE;
-
-    oFAC.CVT.BatteryStatus.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.BatteryStatus.Scale = 0.0f;                     // fix this
-
-    oFAC.CVT.VControlMode.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VControlMode.ExternalManualOverrideOk = FALSE;
-    oFAC.CVT.VControlMode.SystemHilEnabled = FALSE;
-    oFAC.CVT.VControlMode.ControlManualEnabled = TRUE;
-    oFAC.CVT.VControlMode.ControlAutoEnabled = FALSE;        // fix this
-    oFAC.CVT.VControlMode.ControlOffboardEnabled = FALSE;    // fix this
-    oFAC.CVT.VControlMode.ControlRatesEnabled = TRUE;
-    oFAC.CVT.VControlMode.ControlAttitudeEnabled = TRUE;
-    oFAC.CVT.VControlMode.ControlRattitudeEnabled = TRUE;
-    oFAC.CVT.VControlMode.ControlForceEnabled = FALSE;
-    oFAC.CVT.VControlMode.ControlAccelerationEnabled = FALSE;
-    oFAC.CVT.VControlMode.ControlVelocityEnabled = FALSE;
-    oFAC.CVT.VControlMode.ControlPositionEnabled = FALSE;
-    oFAC.CVT.VControlMode.ControlAltitudeEnabled = FALSE;
-    oFAC.CVT.VControlMode.ControlClimbRateEnabled = FALSE;
-    oFAC.CVT.VControlMode.ControlTerminationEnabled = FALSE;
-    oFAC.CVT.VControlMode.ControlFixedHdgEnabled = FALSE;
+    int32                             DataPipe;
+    PX4_VehicleStatusMsg_t            VStatus;
+    PX4_BatteryStatusMsg_t            BatStat;
+    PX4_VehicleLandDetectedMsg_t      VLDetect;
+    PX4_VehicleGlobalPositionMsg_t    VGlobalPos;
+    PX4_VehicleAttitudeMsg_t          VAtt;
+    PX4_VehicleAttitudeSetpointMsg_t  VAttSp;
+    PX4_ManualControlSetpointMsg_t    MCSp;
+    PX4_AirspeedMsg_t                 ASpeed;
+    PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
-    oFAC.CVT.VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VAtt.RollSpeed = 0.0f;                          // fix this
-    oFAC.CVT.VAtt.PitchSpeed = 0.0f;                         // fix this
-    oFAC.CVT.VAtt.YawSpeed = 0.0f;                           // fix this
-    oFAC.CVT.VAtt.Q[0] = 0.7083791494f;
-    oFAC.CVT.VAtt.Q[1] = -0.0311437733f;
-    oFAC.CVT.VAtt.Q[2] = -0.0508509092f;
-    oFAC.CVT.VAtt.Q[3] = 0.7033087611f;
+    DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
-    oFAC.CVT.VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.VAttSp.RollBody = 0.0f;                         // fix this
-    oFAC.CVT.VAttSp.PitchBody = 0.0f;                        // fix this
-    oFAC.CVT.VAttSp.YawBody = 0.0f;                          // fix this
-    oFAC.CVT.VAttSp.YawSpMoveRate = 0.0000000000f;
-    oFAC.CVT.VAttSp.Q_D[0] = 0.7084835768f;
-    oFAC.CVT.VAttSp.Q_D[1] = -0.0144501235f;
-    oFAC.CVT.VAttSp.Q_D[2] = -0.0355133303f;
-    oFAC.CVT.VAttSp.Q_D[3] = 0.7046850324f;
-    oFAC.CVT.VAttSp.Q_D_Valid = TRUE;                        // fix this
-    oFAC.CVT.VAttSp.Thrust = 0.3333882987f;
-    oFAC.CVT.VAttSp.RollResetIntegral = TRUE;
-    oFAC.CVT.VAttSp.PitchResetIntegral = TRUE;
-    oFAC.CVT.VAttSp.YawResetIntegral = TRUE;
-    oFAC.CVT.VAttSp.FwControlYaw = FALSE;
-    oFAC.CVT.VAttSp.DisableMcYawControl = TRUE;
-    oFAC.CVT.VAttSp.ApplyFlaps = TRUE;
+    CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
+    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.IsVtol = FALSE;
+    VStatus.IsRotaryWing = FALSE;
+    VStatus.InTransitionMode = FALSE;                      // fix this
+    VStatus.EngineFailure = FALSE;
+    VStatus.EngineFailureCmd = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VStatus);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
 
-    oFAC.CVT.ManualControlSp.Timestamp = PX4LIB_GetPX4TimeUs();
-    oFAC.CVT.ManualControlSp.X = 0.0f;                       // fix this
-    oFAC.CVT.ManualControlSp.Y = 0.0f;                       // fix this
-    oFAC.CVT.ManualControlSp.Z = 0.0f;                       // fix this
-    oFAC.CVT.ManualControlSp.R = 0.0f;                       // fix this
-    oFAC.CVT.ManualControlSp.Flaps = 0.0f;                   // fix this
-    oFAC.CVT.ManualControlSp.Aux1 = 0.0f;                    // fix this
-    oFAC.CVT.ManualControlSp.Aux2 = 0.0f;                    // fix this
-    oFAC.CVT.ManualControlSp.Aux3 = 0.0f;                    // fix this
-    oFAC.CVT.ManualControlSp.Aux4 = 0.0f;                    // fix this
-    oFAC.CVT.ManualControlSp.Aux5 = 0.0f;                    // fix this
+    CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
+    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Voltage = 0.0f;                                 // fix this
+    BatStat.VoltageFiltered = 0.0f;                         // fix this
+    BatStat.Current = 0.0f;                                 // fix this
+    BatStat.CurrentFiltered = 0.0f;                         // fix this
+    BatStat.Discharged = 0.0f;                              // fix this
+    BatStat.Remaining = 0.0f;                               // fix this
+    BatStat.Scale = 0.0f;                                   // fix this
+    BatStat.CellCount = 0;                                  // fix this
+    BatStat.Connected = FALSE;                              // fix this
+    BatStat.Warning = PX4_BATTERY_WARNING_NONE;             // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&BatStat);
+    Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
+    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.AltMax = 0.0f;                                 // fix this
+    VLDetect.Landed = FALSE;
+    VLDetect.Freefall = FALSE;
+    VLDetect.GroundContact = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VLDetect);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VLDetect, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
+                    sizeof(VGlobalPos), TRUE);
+    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.Lat = 0.0;
+    VGlobalPos.Lon = 0.0;
+    VGlobalPos.Alt = 0.0f;
+    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.DeltaLatLon[1] = 0.0;
+    VGlobalPos.DeltaAlt = 0.0f;
+    VGlobalPos.LatLonResetCounter = 0;
+    VGlobalPos.AltResetCounter = 0;
+    VGlobalPos.VelN = 0.0f;
+    VGlobalPos.VelE = 0.0f;
+    VGlobalPos.VelD = 0.0f;
+    VGlobalPos.Yaw = 0.0f;
+    VGlobalPos.EpH = 0.0f;
+    VGlobalPos.EpV = 0.0f;
+    VGlobalPos.EvH = 0.0f;
+    VGlobalPos.EvV = 0.0f;
+    VGlobalPos.TerrainAlt = 0.0f;
+    VGlobalPos.PressureAlt = 0.0f;
+    VGlobalPos.TerrainAltValid = FALSE;
+    VGlobalPos.DeadReckoning = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
+    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.RollSpeed = 0.0f;                                // fix this
+    VAtt.PitchSpeed = 0.0f;                               // fix this
+    VAtt.YawSpeed = 0.0f;                                 // fix this
+    VAtt.Q[0] = 0.7083791494f;
+    VAtt.Q[1] = -0.0311437733f;
+    VAtt.Q[2] = -0.0508509092f;
+    VAtt.Q[3] = 0.7033087611f;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAtt);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAtt, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(VAttSp), TRUE);
+    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.RollBody = 0.0f;                               // fix this
+    VAttSp.PitchBody = 0.0f;                              // fix this
+    VAttSp.YawBody = 0.0f;                                // fix this
+    VAttSp.YawSpMoveRate = 0.0000000000f;
+    VAttSp.Q_D[0] = 0.7084835768f;
+    VAttSp.Q_D[1] = -0.0144501235f;
+    VAttSp.Q_D[2] = -0.0355133303f;
+    VAttSp.Q_D[3] = 0.7046850324f;
+    VAttSp.Q_D_Valid = TRUE;                              // fix this
+    VAttSp.Thrust = 0.3333882987f;
+    VAttSp.RollResetIntegral = TRUE;
+    VAttSp.PitchResetIntegral = TRUE;
+    VAttSp.YawResetIntegral = TRUE;
+    VAttSp.FwControlYaw = FALSE;
+    VAttSp.DisableMcYawControl = TRUE;
+    VAttSp.ApplyFlaps = TRUE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAttSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
+    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    MCSp.X = 0.0f;                                       // fix this
+    MCSp.Y = 0.0f;                                       // fix this
+    MCSp.Z = 0.0f;                                       // fix this
+    MCSp.R = 0.0f;                                       // fix this
+    MCSp.Flaps = 0.0f;                                   // fix this
+    MCSp.Aux1 = 0.0f;                                    // fix this
+    MCSp.Aux2 = 0.0f;                                    // fix this
+    MCSp.Aux3 = 0.0f;                                    // fix this
+    MCSp.Aux4 = 0.0f;                                    // fix this
+    MCSp.Aux5 = 0.0f;                                    // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&MCSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
+    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
+    ASpeed.IndicatedAirspeed = 0.0f;                     // fix this
+    ASpeed.TrueAirspeed = 0.0f;                          // fix this
+    ASpeed.TrueAirspeedUnfiltered = 0.0f;                // fix this
+    ASpeed.AirTemperature = 0.0f;                        // fix this
+    ASpeed.Confidence = 0.0f;                            // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&ASpeed);
+    Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
+    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.ExternalManualOverrideOk = FALSE;
+    VCMode.SystemHilEnabled = FALSE;
+    VCMode.ControlManualEnabled = TRUE;
+    VCMode.ControlAutoEnabled = FALSE;                   // fix this
+    VCMode.ControlOffboardEnabled = FALSE;               // fix this
+    VCMode.ControlRatesEnabled = FALSE;
+    VCMode.ControlAttitudeEnabled = FALSE;
+    VCMode.ControlRattitudeEnabled = FALSE;
+    VCMode.ControlForceEnabled = FALSE;
+    VCMode.ControlAccelerationEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlPositionEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlClimbRateEnabled = FALSE;
+    VCMode.ControlTerminationEnabled = FALSE;
+    VCMode.ControlFixedHdgEnabled = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VCMode);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VCMode, (CFE_SB_PipeId_t)DataPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
@@ -1620,6 +2098,360 @@ void Test_FAC_RunController_ControlAttitude(void)
     /* Execute the function being tested */
     oFAC.AppMain();
 
+}
+
+
+/**
+ * Test FAC RunController(), Auto
+ */
+void Test_FAC_RunController_Auto(void)
+{
+    int32                             DataPipe;
+    PX4_VehicleStatusMsg_t            VStatus;
+    PX4_BatteryStatusMsg_t            BatStat;
+    PX4_VehicleLandDetectedMsg_t      VLDetect;
+    PX4_VehicleGlobalPositionMsg_t    VGlobalPos;
+    PX4_VehicleAttitudeMsg_t          VAtt;
+    PX4_VehicleAttitudeSetpointMsg_t  VAttSp;
+    PX4_ManualControlSetpointMsg_t    MCSp;
+    PX4_AirspeedMsg_t                 ASpeed;
+    PX4_VehicleControlModeMsg_t       VCMode;
+
+    /* Set inputs */
+    DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
+
+    CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
+    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.IsVtol = FALSE;
+    VStatus.IsRotaryWing = FALSE;
+    VStatus.InTransitionMode = FALSE;                      // fix this
+    VStatus.EngineFailure = FALSE;
+    VStatus.EngineFailureCmd = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VStatus);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
+    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Voltage = 0.0f;                                 // fix this
+    BatStat.VoltageFiltered = 0.0f;                         // fix this
+    BatStat.Current = 0.0f;                                 // fix this
+    BatStat.CurrentFiltered = 0.0f;                         // fix this
+    BatStat.Discharged = 0.0f;                              // fix this
+    BatStat.Remaining = 0.0f;                               // fix this
+    BatStat.Scale = 0.0f;                                   // fix this
+    BatStat.CellCount = 0;                                  // fix this
+    BatStat.Connected = FALSE;                              // fix this
+    BatStat.Warning = PX4_BATTERY_WARNING_NONE;             // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&BatStat);
+    Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
+    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.AltMax = 0.0f;                                 // fix this
+    VLDetect.Landed = FALSE;
+    VLDetect.Freefall = FALSE;
+    VLDetect.GroundContact = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VLDetect);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VLDetect, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
+                    sizeof(VGlobalPos), TRUE);
+    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.Lat = 0.0;
+    VGlobalPos.Lon = 0.0;
+    VGlobalPos.Alt = 0.0f;
+    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.DeltaLatLon[1] = 0.0;
+    VGlobalPos.DeltaAlt = 0.0f;
+    VGlobalPos.LatLonResetCounter = 0;
+    VGlobalPos.AltResetCounter = 0;
+    VGlobalPos.VelN = 0.0f;
+    VGlobalPos.VelE = 0.0f;
+    VGlobalPos.VelD = 0.0f;
+    VGlobalPos.Yaw = 0.0f;
+    VGlobalPos.EpH = 0.0f;
+    VGlobalPos.EpV = 0.0f;
+    VGlobalPos.EvH = 0.0f;
+    VGlobalPos.EvV = 0.0f;
+    VGlobalPos.TerrainAlt = 0.0f;
+    VGlobalPos.PressureAlt = 0.0f;
+    VGlobalPos.TerrainAltValid = FALSE;
+    VGlobalPos.DeadReckoning = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
+    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.RollSpeed = 0.0f;                                 // fix this
+    VAtt.PitchSpeed = 0.0f;                                // fix this
+    VAtt.YawSpeed = 0.0f;                                  // fix this
+    VAtt.Q[0] = 0.7083791494f;
+    VAtt.Q[1] = -0.0311437733f;
+    VAtt.Q[2] = -0.0508509092f;
+    VAtt.Q[3] = 0.7033087611f;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAtt);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAtt, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(VAttSp), TRUE);
+    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.RollBody = 0.0f;                               // fix this
+    VAttSp.PitchBody = 0.0f;                              // fix this
+    VAttSp.YawBody = 0.0f;                                // fix this
+    VAttSp.YawSpMoveRate = 0.0000000000f;
+    VAttSp.Q_D[0] = 0.7084835768f;
+    VAttSp.Q_D[1] = -0.0144501235f;
+    VAttSp.Q_D[2] = -0.0355133303f;
+    VAttSp.Q_D[3] = 0.7046850324f;
+    VAttSp.Q_D_Valid = TRUE;                              // fix this
+    VAttSp.Thrust = 0.3333882987f;
+    VAttSp.RollResetIntegral = TRUE;
+    VAttSp.PitchResetIntegral = TRUE;
+    VAttSp.YawResetIntegral = TRUE;
+    VAttSp.FwControlYaw = FALSE;
+    VAttSp.DisableMcYawControl = TRUE;
+    VAttSp.ApplyFlaps = TRUE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAttSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
+    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    MCSp.X = 0.0f;                                        // fix this
+    MCSp.Y = 0.0f;                                        // fix this
+    MCSp.Z = 0.0f;                                        // fix this
+    MCSp.R = 0.0f;                                        // fix this
+    MCSp.Flaps = 0.0f;                                    // fix this
+    MCSp.Aux1 = 0.0f;                                     // fix this
+    MCSp.Aux2 = 0.0f;                                     // fix this
+    MCSp.Aux3 = 0.0f;                                     // fix this
+    MCSp.Aux4 = 0.0f;                                     // fix this
+    MCSp.Aux5 = 0.0f;                                     // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&MCSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
+    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
+    ASpeed.IndicatedAirspeed = 0.0f;                     // fix this
+    ASpeed.TrueAirspeed = 0.0f;                          // fix this
+    ASpeed.TrueAirspeedUnfiltered = 0.0f;                // fix this
+    ASpeed.AirTemperature = 0.0f;                        // fix this
+    ASpeed.Confidence = 0.0f;                            // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&ASpeed);
+    Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
+    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.ExternalManualOverrideOk = FALSE;
+    VCMode.SystemHilEnabled = FALSE;
+    VCMode.ControlManualEnabled = FALSE;
+    VCMode.ControlAutoEnabled = TRUE;                    // fix this
+    VCMode.ControlOffboardEnabled = FALSE;               // fix this
+    VCMode.ControlRatesEnabled = TRUE;
+    VCMode.ControlAttitudeEnabled = TRUE;
+    VCMode.ControlRattitudeEnabled = TRUE;
+    VCMode.ControlForceEnabled = FALSE;
+    VCMode.ControlAccelerationEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlPositionEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlClimbRateEnabled = FALSE;
+    VCMode.ControlTerminationEnabled = FALSE;
+    VCMode.ControlFixedHdgEnabled = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VCMode);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VCMode, (CFE_SB_PipeId_t)DataPipe);
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+    SendEvent_HookCalledCnt = 0;
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FAC_RunController_SendEventHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+               (void*)&Test_FAC_RunController_SendMsgHook);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+}
+
+
+/**
+ * Test FAC RunController(), Landed
+ */
+void Test_FAC_RunController_Landed(void)
+{
+    int32                             DataPipe;
+    PX4_VehicleStatusMsg_t            VStatus;
+    PX4_BatteryStatusMsg_t            BatStat;
+    PX4_VehicleLandDetectedMsg_t      VLDetect;
+    PX4_VehicleGlobalPositionMsg_t    VGlobalPos;
+    PX4_VehicleAttitudeMsg_t          VAtt;
+    PX4_VehicleAttitudeSetpointMsg_t  VAttSp;
+    PX4_ManualControlSetpointMsg_t    MCSp;
+    PX4_AirspeedMsg_t                 ASpeed;
+    PX4_VehicleControlModeMsg_t       VCMode;
+
+    /* Set inputs */
+    DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
+
+    CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
+    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.IsVtol = FALSE;
+    VStatus.IsRotaryWing = FALSE;
+    VStatus.InTransitionMode = FALSE;                      // fix this
+    VStatus.EngineFailure = FALSE;
+    VStatus.EngineFailureCmd = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VStatus);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
+    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Voltage = 0.0f;                                 // fix this
+    BatStat.VoltageFiltered = 0.0f;                         // fix this
+    BatStat.Current = 0.0f;                                 // fix this
+    BatStat.CurrentFiltered = 0.0f;                         // fix this
+    BatStat.Discharged = 0.0f;                              // fix this
+    BatStat.Remaining = 0.0f;                               // fix this
+    BatStat.Scale = 0.0f;                                   // fix this
+    BatStat.CellCount = 0;                                  // fix this
+    BatStat.Connected = FALSE;                              // fix this
+    BatStat.Warning = PX4_BATTERY_WARNING_NONE;             // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&BatStat);
+    Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
+    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.AltMax = 0.0f;                                 // fix this
+    VLDetect.Landed = TRUE;
+    VLDetect.Freefall = FALSE;
+    VLDetect.GroundContact = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VLDetect);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VLDetect, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
+                    sizeof(VGlobalPos), TRUE);
+    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
+    VGlobalPos.Lat = 0.0;
+    VGlobalPos.Lon = 0.0;
+    VGlobalPos.Alt = 0.0f;
+    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.DeltaLatLon[1] = 0.0;
+    VGlobalPos.DeltaAlt = 0.0f;
+    VGlobalPos.LatLonResetCounter = 0;
+    VGlobalPos.AltResetCounter = 0;
+    VGlobalPos.VelN = 0.0f;
+    VGlobalPos.VelE = 0.0f;
+    VGlobalPos.VelD = 0.0f;
+    VGlobalPos.Yaw = 0.0f;
+    VGlobalPos.EpH = 0.0f;
+    VGlobalPos.EpV = 0.0f;
+    VGlobalPos.EvH = 0.0f;
+    VGlobalPos.EvV = 0.0f;
+    VGlobalPos.TerrainAlt = 0.0f;
+    VGlobalPos.PressureAlt = 0.0f;
+    VGlobalPos.TerrainAltValid = FALSE;
+    VGlobalPos.DeadReckoning = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
+    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.RollSpeed = 0.0f;                                 // fix this
+    VAtt.PitchSpeed = 0.0f;                                // fix this
+    VAtt.YawSpeed = 0.0f;                                  // fix this
+    VAtt.Q[0] = 0.7083791494f;
+    VAtt.Q[1] = -0.0311437733f;
+    VAtt.Q[2] = -0.0508509092f;
+    VAtt.Q[3] = 0.7033087611f;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAtt);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAtt, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(VAttSp), TRUE);
+    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.RollBody = 0.0f;                               // fix this
+    VAttSp.PitchBody = 0.0f;                              // fix this
+    VAttSp.YawBody = 0.0f;                                // fix this
+    VAttSp.YawSpMoveRate = 0.0000000000f;
+    VAttSp.Q_D[0] = 0.7084835768f;
+    VAttSp.Q_D[1] = -0.0144501235f;
+    VAttSp.Q_D[2] = -0.0355133303f;
+    VAttSp.Q_D[3] = 0.7046850324f;
+    VAttSp.Q_D_Valid = TRUE;                              // fix this
+    VAttSp.Thrust = 0.3333882987f;
+    VAttSp.RollResetIntegral = TRUE;
+    VAttSp.PitchResetIntegral = TRUE;
+    VAttSp.YawResetIntegral = TRUE;
+    VAttSp.FwControlYaw = FALSE;
+    VAttSp.DisableMcYawControl = TRUE;
+    VAttSp.ApplyFlaps = TRUE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAttSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
+    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    MCSp.X = 0.0f;                                        // fix this
+    MCSp.Y = 0.0f;                                        // fix this
+    MCSp.Z = 0.0f;                                        // fix this
+    MCSp.R = 0.0f;                                        // fix this
+    MCSp.Flaps = 0.0f;                                    // fix this
+    MCSp.Aux1 = 0.0f;                                     // fix this
+    MCSp.Aux2 = 0.0f;                                     // fix this
+    MCSp.Aux3 = 0.0f;                                     // fix this
+    MCSp.Aux4 = 0.0f;                                     // fix this
+    MCSp.Aux5 = 0.0f;                                     // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&MCSp);
+    Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
+    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
+    ASpeed.IndicatedAirspeed = 0.0f;                      // fix this
+    ASpeed.TrueAirspeed = 0.0f;                           // fix this
+    ASpeed.TrueAirspeedUnfiltered = 0.0f;                 // fix this
+    ASpeed.AirTemperature = 0.0f;                         // fix this
+    ASpeed.Confidence = 0.0f;                             // fix this
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&ASpeed);
+    Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
+
+    CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
+    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.ExternalManualOverrideOk = FALSE;
+    VCMode.SystemHilEnabled = FALSE;
+    VCMode.ControlManualEnabled = TRUE;
+    VCMode.ControlAutoEnabled = FALSE;                    // fix this
+    VCMode.ControlOffboardEnabled = FALSE;                // fix this
+    VCMode.ControlRatesEnabled = TRUE;
+    VCMode.ControlAttitudeEnabled = TRUE;
+    VCMode.ControlRattitudeEnabled = TRUE;
+    VCMode.ControlForceEnabled = FALSE;
+    VCMode.ControlAccelerationEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlPositionEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlClimbRateEnabled = FALSE;
+    VCMode.ControlTerminationEnabled = FALSE;
+    VCMode.ControlFixedHdgEnabled = FALSE;
+    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VCMode);
+    Ut_CFE_SB_AddMsgToPipe((void*)&VCMode, (CFE_SB_PipeId_t)DataPipe);
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+    SendEvent_HookCalledCnt = 0;
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FAC_RunController_SendEventHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+               (void*)&Test_FAC_RunController_SendMsgHook);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
 }
 
 
@@ -1887,12 +2719,18 @@ void FAC_App_Test_AddTestCases(void)
 
     UtTest_Add(Test_FAC_RunController_TailSitter, FAC_Test_Setup_TailSitter,
                FAC_Test_TearDown, "Test_FAC_RunController_TailSitter");
+    UtTest_Add(Test_FAC_RunController_RotaryWing, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_RunController_RotaryWing");
     UtTest_Add(Test_FAC_RunController_AttitudeManual, FAC_Test_Setup,
                FAC_Test_TearDown, "Test_FAC_RunController_AttitudeManual");
     UtTest_Add(Test_FAC_RunController_PureRateControl, FAC_Test_Setup,
                FAC_Test_TearDown, "Test_FAC_RunController_PureRateControl");
-    UtTest_Add(Test_FAC_RunController_ControlAttitude, FAC_Test_Setup,
-               FAC_Test_TearDown, "Test_FAC_RunController_ControlAttitude");
+    UtTest_Add(Test_FAC_RunController_ManualDirect, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_RunController_ManualDirect");
+    UtTest_Add(Test_FAC_RunController_Auto, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_RunController_Auto");
+    UtTest_Add(Test_FAC_RunController_Landed, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_RunController_Landed");
     UtTest_Add(Test_FAC_UpdateParams_Standard, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_UpdateParams_Standard");
     UtTest_Add(Test_FAC_UpdateParams_TailSitter, FAC_Test_Setup_TailSitter, FAC_Test_TearDown,

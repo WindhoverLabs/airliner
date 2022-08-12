@@ -34,15 +34,8 @@
 #ifndef FAC_CMDS_TEST_HPP
 #define FAC_CMDS_TEST_HPP
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 void FAC_Cmds_Test_AddTestCases(void);
 
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* FAC_CMDS_TEST_HPP */
