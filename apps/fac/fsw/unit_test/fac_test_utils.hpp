@@ -54,6 +54,7 @@ extern "C" FAC_ParamTbl_t FAC_ParamTbl;
 
 void       FAC_Test_Setup(void);
 void       FAC_Test_Setup_TailSitter(void);
+void       FAC_Test_Setup_ParamInvalid(void);
 void       FAC_Test_TearDown(void);
 
 void       FAC_Test_PrintCmdMsg(void *pMsg, uint32 size);
