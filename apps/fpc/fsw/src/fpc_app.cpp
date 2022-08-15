@@ -887,9 +887,6 @@ void FPC::ReportHousekeeping()
     HkTlm._eas2tas = _eas2tas;
     HkTlm.m_Hdg_Hold_Enabled = m_Hdg_Hold_Enabled;
 
-    CFE_PSP_MemCpy(&HkTlm._hdg_hold_curr_wp, &_hdg_hold_curr_wp, sizeof(_hdg_hold_curr_wp));
-    CFE_PSP_MemCpy(&HkTlm._hdg_hold_prev_wp, &_hdg_hold_prev_wp, sizeof(_hdg_hold_prev_wp));
-
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
 
     int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&HkTlm);
@@ -1880,19 +1877,19 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
                     _hdg_hold_enabled = TRUE;
                     _hdg_hold_yaw = _yaw;
 
-                    GetWaypointHeadingDistance(_hdg_hold_yaw, _hdg_hold_prev_wp, _hdg_hold_curr_wp, TRUE);
+                    GetWaypointHeadingDistance(_hdg_hold_yaw, HkTlm._hdg_hold_prev_wp, HkTlm._hdg_hold_curr_wp, TRUE);
                 }
 
                 /* we have a valid heading hold position, are we too close? */
-                float dist = get_distance_to_next_waypoint(m_VehicleGlobalPositionMsg.Lat, m_VehicleGlobalPositionMsg.Lon, _hdg_hold_curr_wp.Lat,
-                        _hdg_hold_curr_wp.Lon);
+                float dist = get_distance_to_next_waypoint(m_VehicleGlobalPositionMsg.Lat, m_VehicleGlobalPositionMsg.Lon, HkTlm._hdg_hold_curr_wp.Lat,
+                        HkTlm._hdg_hold_curr_wp.Lon);
 
                 if (dist < HDG_HOLD_REACHED_DIST) {
-                    GetWaypointHeadingDistance(_hdg_hold_yaw, _hdg_hold_prev_wp, _hdg_hold_curr_wp, FALSE);
+                    GetWaypointHeadingDistance(_hdg_hold_yaw, HkTlm._hdg_hold_prev_wp, HkTlm._hdg_hold_curr_wp, FALSE);
                 }
 
-                math::Vector2F prev_wp{(float)_hdg_hold_prev_wp.Lat, (float)_hdg_hold_prev_wp.Lon};
-                math::Vector2F curr_wp{(float)_hdg_hold_curr_wp.Lat, (float)_hdg_hold_curr_wp.Lon};
+                math::Vector2F prev_wp{(float)HkTlm._hdg_hold_prev_wp.Lat, (float)HkTlm._hdg_hold_prev_wp.Lon};
+                math::Vector2F curr_wp{(float)HkTlm._hdg_hold_curr_wp.Lat, (float)HkTlm._hdg_hold_curr_wp.Lon};
 
                 /* populate l1 control setpoint */
                 _l1_control.navigate_waypoints(prev_wp, curr_wp, curr_pos, ground_speed);

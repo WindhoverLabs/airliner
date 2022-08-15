@@ -247,9 +247,6 @@ public:
 
     runwaytakeoff::RunwayTakeoff _runway_takeoff;
 
-    PX4_PositionSetpoint_t _hdg_hold_prev_wp {};		///< position where heading hold started */
-    PX4_PositionSetpoint_t _hdg_hold_curr_wp {};		///< position to which heading hold flies */
-
 
     TECS    _tecs;
     uint64 _last_tecs_update{0};
