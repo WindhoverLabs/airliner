@@ -182,16 +182,6 @@ public:
     int8 m_Pos_Reset_Counter{0};				/* captures the number of times the estimator has reset the horizontal position*/
     int8 m_Alt_Reset_Counter{0};				/* captures the number of times the estimator has reset the altitude state*/
 
-
-
-    float	m_Hold_Alt{0.0f};				///< hold altitude for altitude mode */
-    float	m_Takeoff_ground_alt{0.0f};			///< ground altitude at which plane was launched */
-    float	m_Hdg_Hold_Yaw{0.0f};				///< hold heading for velocity mode */
-    osalbool	m_Hdg_Hold_Enabled{FALSE};			///< heading hold enabled */
-    osalbool	m_Yaw_Lock_Engaged{FALSE};			///< yaw is locked for heading hold */
-    float	m_Althold_Epv{0.0f};				///< the position estimate accuracy when engaging alt hold */
-    osalbool	m_Was_In_Deadband{FALSE};			///< wether the last stick input was in althold deadband */
-
     /* throttle and airspeed states */
     osalbool    _airspeed_valid{FALSE};				///< flag if a valid airspeed estimate exists
     uint64  _airspeed_last_received{0};			///< last time airspeed was received. Used to detect timeouts.
@@ -254,6 +244,8 @@ public:
     uint64 _time_started_landing{0};			///< time at which landing started */
 
     boolean _last_manual{FALSE};				///< true if the last iteration was in manual mode (used to determine when a reset is needed)
+
+    boolean inControl = FALSE;
 
 
     enum FW_POSCTRL_MODE {

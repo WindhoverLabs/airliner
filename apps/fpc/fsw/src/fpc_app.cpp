@@ -873,6 +873,7 @@ void FPC::ReportHousekeeping()
     HkTlm._runway_takeoff._min_airspeed_scaling = _runway_takeoff.getMinAirspeedScaling();
     HkTlm._runway_takeoff._airspeed_min = _runway_takeoff.getAirspeed_min();
     HkTlm._runway_takeoff._climbout_diff = _runway_takeoff.getClimbout_diff();
+    HkTlm._runway_takeoff._runway_takeoff_enabled = _runway_takeoff.get_runway_takeoff_enabled();
     HkTlm.ControlModeCurrent = static_cast<HK_FW_POSCTRL_MODE>((int)ControlModeCurrent);
     HkTlm.tecsMode = static_cast<ECL_TECS_MODE>((int)_tecs.tecs_mode());
     HkTlm._hold_alt = _hold_alt;
@@ -881,7 +882,9 @@ void FPC::ReportHousekeeping()
     HkTlm._airspeed_last_received = _airspeed_last_received;
     HkTlm._airspeed = _airspeed;
     HkTlm._eas2tas = _eas2tas;
-    HkTlm.m_Hdg_Hold_Enabled = m_Hdg_Hold_Enabled;
+    HkTlm.m_Hdg_Hold_Enabled = _hdg_hold_enabled;
+    HkTlm.inControl = inControl;
+    HkTlm._runway_takeoff_initialized = _runway_takeoff.isInitialized();
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
 
@@ -1050,23 +1053,23 @@ extern "C" void FPC_AppMain(void)
 
 void FPC::Execute(void)
 {
-    /* handle estimator reset events. we only adjust setpoins for manual modes*/
-    if (TRUE == m_VehicleControlModeMsg.ControlManualEnabled) {
-        if (m_VehicleControlModeMsg.ControlAltitudeEnabled && (m_VehicleGlobalPositionMsg.AltResetCounter != m_Alt_Reset_Counter)) {
-            //Careful for
-            m_Hold_Alt += m_VehicleGlobalPositionMsg.DeltaAlt;
-            // make TECS accept step in altitude and demanded altitude
-            _tecs.handle_alt_step(m_VehicleGlobalPositionMsg.DeltaAlt, m_VehicleGlobalPositionMsg.Alt);
-        }
+        /* handle estimator reset events. we only adjust setpoins for manual modes*/
+        if (TRUE == m_VehicleControlModeMsg.ControlManualEnabled) {
+            if (m_VehicleControlModeMsg.ControlAltitudeEnabled && (m_VehicleGlobalPositionMsg.AltResetCounter != m_Alt_Reset_Counter)) {
+                //Careful for
+                _hold_alt += m_VehicleGlobalPositionMsg.DeltaAlt;
+                // make TECS accept step in altitude and demanded altitude
+                _tecs.handle_alt_step(m_VehicleGlobalPositionMsg.DeltaAlt, m_VehicleGlobalPositionMsg.Alt);
+            }
 
-        // adjust navigation waypoints in position control mode
-        if (m_VehicleControlModeMsg.ControlAltitudeEnabled && m_VehicleControlModeMsg.ControlVelocityEnabled
-            && m_VehicleGlobalPositionMsg.LatLonResetCounter != m_Pos_Reset_Counter) {
+            // adjust navigation waypoints in position control mode
+            if (m_VehicleControlModeMsg.ControlAltitudeEnabled && m_VehicleControlModeMsg.ControlVelocityEnabled
+                && m_VehicleGlobalPositionMsg.LatLonResetCounter != m_Pos_Reset_Counter) {
 
-            // reset heading hold flag, which will re-initialise position control
-            m_Hdg_Hold_Enabled = FALSE;
+                // reset heading hold flag, which will re-initialise position control
+                _hdg_hold_enabled = FALSE;
+            }
         }
-    }
 
     // update the reset counters in any case
     m_Alt_Reset_Counter = m_VehicleGlobalPositionMsg.AltResetCounter;
@@ -1079,7 +1082,7 @@ void FPC::Execute(void)
 //    }
      UpdateVehicleAttitude();
 
-    math::Vector2F curr_pos(m_VehicleGlobalPositionMsg.Lat, m_VehicleGlobalPositionMsg.Alt);
+    math::Vector2F curr_pos(m_VehicleGlobalPositionMsg.Lat, m_VehicleGlobalPositionMsg.Lon);
     math::Vector2F ground_speed(m_VehicleGlobalPositionMsg.VelN, m_VehicleGlobalPositionMsg.VelE);
 
     /*
@@ -1126,7 +1129,14 @@ void FPC::Execute(void)
             m_PositionControlStatusMsg.WP_DIST = get_distance_to_next_waypoint(curr_pos[0], curr_pos[1], curr_wp[0], curr_wp[1]);
 
         }
+
+        inControl = TRUE;
     }
+    else
+    {
+        inControl = FALSE;
+    }
+
 
 }
 
@@ -1269,15 +1279,14 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
     }
 
     if (m_VehicleControlModeMsg.ControlAutoEnabled && pos_sp_curr.Valid) {
+            /* reset hold altitude */
+            _hold_alt = m_VehicleGlobalPositionMsg.Alt;
+
+            /* reset hold yaw */
+            _hdg_hold_yaw = _yaw;
         /* AUTONOMOUS FLIGHT */
 
         ControlModeCurrent = FW_POSCTRL_MODE_AUTO;
-
-        /* reset hold altitude */
-        _hold_alt = m_VehicleGlobalPositionMsg.Alt;
-
-        /* reset hold yaw */
-        _hdg_hold_yaw = _yaw;
 
         /* get circle mode */
         bool was_circle_mode = _l1_control.circle_mode();
@@ -1527,7 +1536,6 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
                     if (!_land_motor_lim) {
                         _land_motor_lim  = TRUE;
-//                        mavlink_log_info(&_mavlink_log_pub, "Landing, limiting throttle");
                         (void) CFE_EVS_SendEvent(FPC_INF_EID, CFE_EVS_INFORMATION,
                                           "Landing, limiting throttle");
                     }
@@ -1787,8 +1795,10 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
             m_VehicleAttitudeSetpointMsg.RollResetIntegral = TRUE;
         }
 
+
     } else if (m_VehicleControlModeMsg.ControlVelocityEnabled &&
            m_VehicleControlModeMsg.ControlAltitudeEnabled) {
+
         /* POSITION CONTROL: pitch stick moves altitude setpoint, throttle stick sets airspeed,
            heading is set to a distant waypoint */
 
@@ -1803,7 +1813,9 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
              * level out without new manual input */
             m_VehicleAttitudeSetpointMsg.RollBody = m_ManualControlSetpointMsg.Y * ConfigTblPtr->MAN_R_MAX_RADIANS;
             m_VehicleAttitudeSetpointMsg.YawBody = 0;
-        }
+          }
+
+
 
         ControlModeCurrent = FW_POSCTRL_MODE_POSITION;
 
@@ -1897,14 +1909,15 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
             m_VehicleAttitudeSetpointMsg.RollBody = m_ManualControlSetpointMsg.Y * ConfigTblPtr->MAN_R_MAX_RADIANS;
             m_VehicleAttitudeSetpointMsg.YawBody = 0;
         }
+      }
 
-    } else if (m_VehicleControlModeMsg.ControlAltitudeEnabled) {
-        /* ALTITUDE CONTROL: pitch stick moves altitude setpoint, throttle stick sets airspeed */
+    else if (m_VehicleControlModeMsg.ControlAltitudeEnabled) {
+            /* ALTITUDE CONTROL: pitch stick moves altitude setpoint, throttle stick sets airspeed */
 
-        if (ControlModeCurrent != FW_POSCTRL_MODE_POSITION && ControlModeCurrent != FW_POSCTRL_MODE_ALTITUDE) {
-            /* Need to init because last loop iteration was in a different mode */
-            _hold_alt = m_VehicleGlobalPositionMsg.Alt;
-        }
+            if (ControlModeCurrent != FW_POSCTRL_MODE_POSITION && ControlModeCurrent != FW_POSCTRL_MODE_ALTITUDE) {
+                /* Need to init because last loop iteration was in a different mode */
+                _hold_alt = m_VehicleGlobalPositionMsg.Alt;
+            }
 
         ControlModeCurrent = FW_POSCTRL_MODE_ALTITUDE;
 
@@ -1940,8 +1953,8 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
         m_VehicleAttitudeSetpointMsg.RollBody = m_ManualControlSetpointMsg.Y * ConfigTblPtr->MAN_R_MAX_RADIANS;
         m_VehicleAttitudeSetpointMsg.YawBody = 0;
-
-    } else {
+      }
+     else {
         ControlModeCurrent = FW_POSCTRL_MODE_OTHER;
 
         /* do not publish the setpoint */
