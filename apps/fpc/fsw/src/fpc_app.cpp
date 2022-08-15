@@ -661,14 +661,6 @@ void FPC::ProcessNewCmds()
                     ProcessNewAppCmds(CmdMsgPtr);
                     break;
 
-                /* TODO:  Add code to process other subscribed commands here
-                **
-                ** Example:
-                **     case CFE_TIME_DATA_CMD_MID:
-                **         FPC_ProcessTimeDataCmd(CmdMsgPtr);
-                **         break;
-                */
-
                 default:
                     /* Bump the command error counter for an unknown command.
                      * (This should only occur if it was subscribed to with this
