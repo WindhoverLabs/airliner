@@ -211,127 +211,112 @@ int32 FPC::InitPipe()
                                  FPC_DATA_PIPE_NAME);
     if (iStatus == CFE_SUCCESS)
     {
-        //TODO:Add when air speed message exists
-//        iStatus = CFE_SB_Subscribe(ASPD4525_HK_TLM_MID, DataPipeId);
-//        if (iStatus != CFE_SUCCESS)
-//        {
-//            (void) CFE_EVS_SendEvent(FPC_INIT_ERR_EID, CFE_EVS_ERROR,
-//                                     "CMD Pipe failed to subscribe to FPC_CMD_MID. (0x%08X)",
-//                                     (unsigned int)iStatus);
-//            goto FPC_InitPipe_Exit_Tag;
-//        }
-        /* TODO:  Add CFE_SB_Subscribe() calls for other apps' output data here.
-        **
-        ** Examples:
-        **     CFE_SB_Subscribe(GNCEXEC_OUT_DATA_MID, DataPipeId);
-        */
+        iStatus = CFE_SB_SubscribeEx(PX4_MANUAL_CONTROL_SETPOINT_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_MANUAL_CONTROL_SETPOINT_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_CONTROL_MODE_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_VEHICLE_CONTROL_MODE_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_GLOBAL_POSITION_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_VEHICLE_GLOBAL_POSITION_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_LOCAL_POSITION_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_VEHICLE_LOCAL_POSITION_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_POSITION_SETPOINT_TRIPLET_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_POSITION_SETPOINT_TRIPLET_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_STATUS_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_VEHICLE_STATUS_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_LAND_DETECTED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_VEHICLE_LAND_DETECTED_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+
+        iStatus = CFE_SB_SubscribeEx(PX4_AIRSPEED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_AIRSPEED_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_ATTITUDE_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_VEHICLE_ATTITUDE_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_COMBINED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_SENSOR_COMBINED_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_BARO_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_SENSOR_BARO_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
     }
     else
     {
         (void) CFE_EVS_SendEvent(FPC_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to create Data pipe (0x%08X)",
                                  (unsigned int)iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_MANUAL_CONTROL_SETPOINT_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_MANUAL_CONTROL_SETPOINT_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_CONTROL_MODE_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_VEHICLE_CONTROL_MODE_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_GLOBAL_POSITION_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_VEHICLE_GLOBAL_POSITION_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_LOCAL_POSITION_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_VEHICLE_LOCAL_POSITION_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_POSITION_SETPOINT_TRIPLET_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_POSITION_SETPOINT_TRIPLET_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-
-    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_STATUS_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_VEHICLE_STATUS_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_LAND_DETECTED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_VEHICLE_LAND_DETECTED_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-
-    iStatus = CFE_SB_SubscribeEx(PX4_AIRSPEED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_AIRSPEED_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_ATTITUDE_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_VEHICLE_ATTITUDE_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_COMBINED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_SENSOR_COMBINED_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_BARO_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_SENSOR_BARO_MID. (0x%08lX)",
-                 iStatus);
         goto FPC_InitPipe_Exit_Tag;
     }
 
