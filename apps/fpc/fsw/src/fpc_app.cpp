@@ -906,6 +906,7 @@ void FPC::ReportHousekeeping()
     HkTlm._eas2tas = _eas2tas;
     HkTlm.m_Hdg_Hold_Enabled = _hdg_hold_enabled;
     HkTlm.inControl = inControl;
+    HkTlm._runway_takeoff_initialized = _runway_takeoff.isInitialized();
 
     CFE_PSP_MemCpy(&HkTlm._hdg_hold_curr_wp, &_hdg_hold_curr_wp, sizeof(_hdg_hold_curr_wp));
     CFE_PSP_MemCpy(&HkTlm._hdg_hold_prev_wp, &_hdg_hold_prev_wp, sizeof(_hdg_hold_prev_wp));

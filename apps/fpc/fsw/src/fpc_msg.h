@@ -252,6 +252,7 @@ typedef struct
     boolean             inControl;
 
     boolean            _runway_takeoff_enabled;
+    boolean            _runway_takeoff_initialized;
     Runway             _runway_takeoff;
 
 } FPC_HkTlm_t;
