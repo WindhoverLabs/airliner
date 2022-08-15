@@ -120,9 +120,6 @@ public:
 
     /* Inputs/Outputs */
 
-    /** \brief Input Data from I/O or other apps */
-    FPC_InData_t   InData;
-
     /** \brief Output Data published at the end of cycle */
     FPC_OutData_t  OutData;
 

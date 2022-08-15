@@ -100,7 +100,7 @@ int32 FPC::InitEvent()
     memset((void*)EventTbl, 0x00, sizeof(EventTbl));
 
     /* TODO: Choose the events you want to filter.  CFE_EVS_MAX_EVENT_FILTERS
-     * limits the number of filters per app.  An explicit CFE_EVS_NO_FILTER 
+     * limits the number of filters per app.  An explicit CFE_EVS_NO_FILTER
      * (the default) has been provided as an example. */
     EventTbl[  ind].EventID = FPC_RESERVED_EID;
     EventTbl[ind++].Mask    = CFE_EVS_FIRST_32_STOP;
@@ -323,7 +323,7 @@ int32 FPC::InitPipe()
 FPC_InitPipe_Exit_Tag:
     return (iStatus);
 }
-    
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -334,24 +334,16 @@ FPC_InitPipe_Exit_Tag:
 int32 FPC::InitData()
 {
     int32  iStatus=CFE_SUCCESS;
-
     /* Init input data */
-    memset((void*)&InData, 0x00, sizeof(InData));
     memset((void*)&m_LandingSlope, 0x00, sizeof(m_LandingSlope));
-
-    /* Init output data */
-
 
     /* Init output messages */
     memset((void*)&m_PositionControlStatusMsg, 0x00, sizeof(m_PositionControlStatusMsg));
     CFE_SB_InitMsg(&m_PositionControlStatusMsg,
         PX4_POSITION_CONTROL_STATUS_MID, sizeof(PX4_Position_Control_Status_t), TRUE);
-
-
     memset((void*)&m_VehicleAttitudeSetpointMsg, 0x00, sizeof(m_VehicleAttitudeSetpointMsg));
     CFE_SB_InitMsg(&m_VehicleAttitudeSetpointMsg,
         PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(m_VehicleAttitudeSetpointMsg), TRUE);
-
     memset((void*)&m_PX4_TecsStatusMsg, 0x00, sizeof(m_PX4_TecsStatusMsg));
     CFE_SB_InitMsg(&m_PX4_TecsStatusMsg,
         PX4_TECS_STATUS_MID, sizeof(m_PX4_TecsStatusMsg), TRUE);
@@ -368,6 +360,11 @@ int32 FPC::InitData()
     CFE_PSP_MemSet(&m_VehicleStatusMsg, 0, sizeof(m_VehicleStatusMsg));
     CFE_PSP_MemSet(&m_VehicleLandDetectedMsg, 0, sizeof(m_VehicleLandDetectedMsg));
     CFE_PSP_MemSet(&m_VehicleLocalPositionMsg, 0, sizeof(m_VehicleLocalPositionMsg));
+    CFE_PSP_MemSet(&m_VehicleGlobalPositionMsg, 0, sizeof(m_VehicleGlobalPositionMsg));
+    CFE_PSP_MemSet(&m_AirspeedMsg, 0, sizeof(m_AirspeedMsg));
+    CFE_PSP_MemSet(&m_VehicleAttitudeMsg, 0, sizeof(m_VehicleAttitudeMsg));
+    CFE_PSP_MemSet(&m_SensorCombinedMsg, 0, sizeof(m_SensorCombinedMsg));
+    CFE_PSP_MemSet(&m_SensorBaroMsg, 0, sizeof(m_SensorBaroMsg));
 
     return (iStatus);
 }
@@ -473,7 +470,7 @@ int32 FPC::RcvMsg(int32 iBlocking)
     {
         MsgId = CFE_SB_GetMsgId(MsgPtr);
         switch (MsgId)
-	{
+    {
             case FPC_WAKEUP_MID:
                 ProcessNewCmds();
                 ProcessNewData();
@@ -498,7 +495,7 @@ int32 FPC::RcvMsg(int32 iBlocking)
     }
     else if (iStatus == CFE_SB_NO_MESSAGE)
     {
-        /* TODO: If there's no incoming message, you can do something here, or 
+        /* TODO: If there's no incoming message, you can do something here, or
          * nothing.  Note, this section is dead code only if the iBlocking arg
          * is CFE_SB_PEND_FOREVER. */
         iStatus = CFE_SUCCESS;
@@ -506,7 +503,7 @@ int32 FPC::RcvMsg(int32 iBlocking)
     else if (iStatus == CFE_SB_TIME_OUT)
     {
         /* TODO: If there's no incoming message within a specified time (via the
-         * iBlocking arg, you can do something here, or nothing.  
+         * iBlocking arg, you can do something here, or nothing.
          * Note, this section is dead code only if the iBlocking arg
          * is CFE_SB_PEND_FOREVER. */
         iStatus = CFE_SUCCESS;
@@ -517,7 +514,7 @@ int32 FPC::RcvMsg(int32 iBlocking)
          * CFE_SB_PIPE_RD_ERROR).
          */
         (void) CFE_EVS_SendEvent(FPC_PIPE_ERR_EID, CFE_EVS_ERROR,
-			  "SB pipe read error (0x%08X), app will exit", (unsigned int)iStatus);
+              "SB pipe read error (0x%08X), app will exit", (unsigned int)iStatus);
         uiRunStatus= CFE_ES_APP_ERROR;
     }
 
