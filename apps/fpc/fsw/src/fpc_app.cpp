@@ -187,7 +187,7 @@ int32 FPC::InitPipe()
     if (iStatus == CFE_SUCCESS)
     {
         /* Subscribe to command messages */
-        iStatus = CFE_SB_Subscribe(FPC_CMD_MID, CmdPipeId);
+        iStatus = CFE_SB_SubscribeEx(FPC_CMD_MID, CmdPipeId, CFE_SB_Default_Qos, FPC_CMD_MID_RESERVED);
 
         if (iStatus != CFE_SUCCESS)
         {
