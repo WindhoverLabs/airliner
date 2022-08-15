@@ -1,20 +1,36 @@
+# argparse is imported to parse command line arguments in python
 import argparse
+
+# os.path is imported because it provides file pathname
+# libraries which can be used to parse parameter paths from YAMCS
 import os.path
 
+# requests is imported to make REST API calls to YAMCS server
 import requests
+
+# yaml library is imported to make reading yaml files simple
 import yaml
+
+# csv library is called to make operating with CSV files simple
 import csv
 
+# pandas library makes working with data structures simple
 import pandas as pd
+
+# datetime library makes working with timestamps simple
 import datetime as dt
 
 
+# This function is used to read a yaml file from the file system
 def read_yaml(yaml_file: str) -> dict:
     yaml_data = yaml.load(open(yaml_file, 'r'),
                           Loader=yaml.FullLoader)
     return yaml_data
 
 
+# This function is used to receive CSV file for the params from the YAMCS server.
+# The YAMCS server parameters are defined in the yaml dictionary
+# The file output is the intermediary CSV file that is used for further operations
 def rcv_csv_from_yamcs(yaml_dict):
     uri = yaml_dict['uri'] + yaml_dict['instance'] + ":" + yaml_dict['method']
     param_dict = {'parameters': yaml_dict['param_array'],
@@ -29,6 +45,7 @@ def rcv_csv_from_yamcs(yaml_dict):
                     csvfile.write(line + b'\n')
 
 
+# This function writes the csv file to the file system
 def write_csv(
         yaml_dict,
         time_col,
@@ -61,6 +78,7 @@ def write_csv(
         writer.writerows(csv_data)
 
 
+# This function parses the intermediary CSV file to generate data for the output csv file
 def parse_csv(yaml_dict):
     csv_data = pd.read_csv(yaml_dict['yamcs_csv_file'])
     time_col = csv_data['Time']
@@ -128,6 +146,7 @@ def parse_csv(yaml_dict):
               param_headers)
 
 
+# This is the main function for the script
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--file", help="yaml configuration file",
@@ -145,4 +164,5 @@ def main():
     print('Yamcs Params to CSV Successful.')
 
 
+# This is the main entry point for the script
 main()
