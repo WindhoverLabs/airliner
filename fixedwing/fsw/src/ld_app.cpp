@@ -1103,13 +1103,14 @@ void LD::Execute()
     const osalbool Freefall = (state == LandDetectionState::FREEFALL);
     const osalbool Land = (state == LandDetectionState::LANDED);
     const osalbool Ground = (state == LandDetectionState::GROUND_CONTACT);
+    const osalbool Manual = ManualControlPresent();
 
     if ((VehicleLandDetectedMsg.Freefall != Freefall) ||
         (VehicleLandDetectedMsg.Landed != Land) ||
         (VehicleLandDetectedMsg.GroundContact != Ground) ||
         (fabsf(VehicleLandDetectedMsg.AltMax - prev_altitude_max) > FLT_EPSILON))
     {
-        VehicleLandDetectedMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+        VehicleLandDetectedMsg.Timestamp = now;
         VehicleLandDetectedMsg.AltMax = altitude_max;
         VehicleLandDetectedMsg.Freefall = Freefall;
         VehicleLandDetectedMsg.Landed = Land;
@@ -1118,6 +1119,34 @@ void LD::Execute()
     }
 
     DetectAndSendStateChangeEvent();
+
+    /* If in manual mode. */
+    if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MANUAL || 
+       (ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MIXED && Manual))
+    {
+        /* Check the arm switch to determine state. */
+        if(CVT.ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON)
+        {
+            /* Set state to in-flight. */
+            VehicleLandDetectedMsg.Timestamp     = now;
+            VehicleLandDetectedMsg.AltMax        = altitude_max;
+            VehicleLandDetectedMsg.Freefall      = FALSE;
+            VehicleLandDetectedMsg.Landed        = FALSE;
+            VehicleLandDetectedMsg.GroundContact = FALSE;
+            HkTlm.state                          = LandDetectionState::FLYING;
+        }
+        else
+        {
+            /* Set state to landed. */
+            VehicleLandDetectedMsg.Timestamp     = now;
+            VehicleLandDetectedMsg.AltMax        = altitude_max;
+            VehicleLandDetectedMsg.Freefall      = FALSE;
+            VehicleLandDetectedMsg.Landed        = TRUE;
+            VehicleLandDetectedMsg.GroundContact = FALSE;
+            HkTlm.state                          = LandDetectionState::LANDED;
+        }
+    }
+
     SendVehicleLandDetectedMsg();
     SendDiag();
 }

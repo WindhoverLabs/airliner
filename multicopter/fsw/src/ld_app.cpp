@@ -1123,7 +1123,7 @@ void LD::Execute()
     const osalbool Freefall = (state == LandDetectionState::FREEFALL);
     const osalbool Land = (state == LandDetectionState::LANDED);
     const osalbool Ground = (state == LandDetectionState::GROUND_CONTACT);
-    const osalbool Manual = ManualControlPresent(); 
+    const osalbool Manual = ManualControlPresent();
 
     if ((VehicleLandDetectedMsg.Freefall != Freefall) ||
         (VehicleLandDetectedMsg.Landed != Land) ||
@@ -1153,7 +1153,7 @@ void LD::Execute()
             VehicleLandDetectedMsg.Freefall      = FALSE;
             VehicleLandDetectedMsg.Landed        = FALSE;
             VehicleLandDetectedMsg.GroundContact = FALSE;
-            HkTlm.state                          = LandDetectionState::FLYING;    
+            HkTlm.state                          = LandDetectionState::FLYING;
         }
         else
         {
