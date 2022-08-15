@@ -42,7 +42,7 @@ FAC cpyFAC;
 
 int main(void)
 {   
-	CFE_PSP_MemCpy(&oFAC, &cpyFAC, sizeof(FAC));
+    CFE_PSP_MemCpy((void*)&oFAC, (void*)&cpyFAC, sizeof(FAC));
 
     FAC_App_Test_AddTestCases();
     FAC_Cmds_Test_AddTestCases();
@@ -51,4 +51,3 @@ int main(void)
     return(UtTest_Run());
 
 }
-

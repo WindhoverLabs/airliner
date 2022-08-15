@@ -30,6 +30,16 @@ public:
 		_roll_ff = roll_ff;
 	}
 
+	float get_max_rate_pos()
+	{
+		return _max_rate;
+	}
+
+	float get_max_rate_neg()
+	{
+		return _max_rate_neg;
+	}
+
 	protected:
 		float _max_rate_neg;
 		float _roll_ff;

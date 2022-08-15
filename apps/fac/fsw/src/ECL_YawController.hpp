@@ -25,6 +25,16 @@ public:
 		_coordinated_method = coordinated_method;
 	}
 
+	float get_coordinated_min_speed()
+	{
+		return _coordinated_min_speed;
+	}
+
+	int32_t get_coordinated_method()
+	{
+		return _coordinated_method;
+	}
+
 	enum {
 		COORD_METHOD_OPEN = 0,
 		COORD_METHOD_CLOSEACC = 1
