@@ -70,7 +70,8 @@ buildliner_add_app_unit_test(vm-ut
     NO_MASSIF
 
     COVERAGE_EXCLUSIONS
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../../../tools/smc/lib/C++
+        ${PROJECT_SOURCE_DIR}/tools/smc/lib/C++/*
+        "/usr/include/c++/7/*"
 
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_app_test.cpp
