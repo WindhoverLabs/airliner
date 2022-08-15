@@ -1086,8 +1086,6 @@ void FPC::Execute(void)
     math::Vector2F curr_pos(m_VehicleGlobalPositionMsg.Lat, m_VehicleGlobalPositionMsg.Alt);
     math::Vector2F ground_speed(m_VehicleGlobalPositionMsg.VelN, m_VehicleGlobalPositionMsg.VelE);
 
-
-
     /*
      * Attempt to control position, on success (= sensors present and not in manual mode),
      * publish setpoint.
