@@ -779,40 +779,61 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
         {
             case FPC_NOOP_CC:
                 {
-                    HkTlm.usCmdCnt++;
-                    (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                      "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
-                                      (unsigned int)uiCmdCode,
-                                      FPC_MAJOR_VERSION,
-                                      FPC_MINOR_VERSION,
-                                      FPC_REVISION,
-                                      FPC_MISSION_REV);
+                    if(VerifyCmdLength(MsgPtr, sizeof(FPC_NoArgCmd_t)) == TRUE)
+                    {
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                          "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
+                                          (unsigned int)uiCmdCode,
+                                          FPC_MAJOR_VERSION,
+                                          FPC_MINOR_VERSION,
+                                          FPC_REVISION,
+                                          FPC_MISSION_REV);
+                    }
+                    else
+                    {
+                        HkTlm.usCmdErrCnt++;
+                    }
                     break;
                  }
 
             case FPC_RESET_CC:
                 {
-                    HkTlm.usCmdCnt = 0;
-                    HkTlm.usCmdErrCnt = 0;
-                    (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                      "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
+                   if(VerifyCmdLength(MsgPtr, sizeof(FPC_NoArgCmd_t)) == TRUE)
+                   {
+                       HkTlm.usCmdCnt = 0;
+                       HkTlm.usCmdErrCnt = 0;
+                       (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                         "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
+                   }
+                   else
+                   {
+                       HkTlm.usCmdErrCnt++;
+                   }
                     break;
 
                 }
             case FPC_DO_GO_AROUND_CC:
                 {
-                    HkTlm.usCmdCnt++;
-                    (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                      "Recvd FPC_DO_GO_AROUND cmd (%u)", (unsigned int)uiCmdCode);
-
-                    if (m_VehicleControlModeMsg.ControlAutoEnabled &&
-                        m_PositionSetpointTripletMsg.Current.Valid &&
-                        m_PositionSetpointTripletMsg.Current.Type == PX4_SETPOINT_TYPE_LAND)
+                    if(VerifyCmdLength(MsgPtr, sizeof(FPC_NoArgCmd_t)) == TRUE)
                     {
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                          "Recvd FPC_DO_GO_AROUND cmd (%u)", (unsigned int)uiCmdCode);
 
-                        m_PositionControlStatusMsg.ABORT_LANDING = TRUE;
-                        (void) CFE_EVS_SendEvent(FPC_POS_CRIT_EID, CFE_EVS_CRITICAL,
-                                       "Landing aborted");
+                        if (m_VehicleControlModeMsg.ControlAutoEnabled &&
+                            m_PositionSetpointTripletMsg.Current.Valid &&
+                            m_PositionSetpointTripletMsg.Current.Type == PX4_SETPOINT_TYPE_LAND)
+                        {
+
+                            m_PositionControlStatusMsg.ABORT_LANDING = TRUE;
+                            (void) CFE_EVS_SendEvent(FPC_POS_CRIT_EID, CFE_EVS_CRITICAL,
+                                           "Landing aborted");
+                        }
+                    }
+                    else
+                    {
+                        HkTlm.usCmdErrCnt++;
                     }
                     break;
 
