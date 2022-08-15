@@ -297,6 +297,14 @@ typedef enum {
      */
     LD_FLIGHT_DETECTED_EID              = 16,
 
+    LD_TBL_MODIFIED_ERROR_EID           = 17,
+
+    LD_MODE_CHANGED_EID                 = 18,
+
+    LD_MODE_CHANGE_ERROR_EID            = 19,
+
+    LD_STARTUP_MODE_EID                 = 20,
+
     /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     LD_EVT_CNT
 } LD_EventIds_t;
