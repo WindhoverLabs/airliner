@@ -120,9 +120,6 @@ public:
 
     /* Inputs/Outputs */
 
-    /** \brief Output Data published at the end of cycle */
-    FPC_OutData_t  OutData;
-
     /** \brief Housekeeping Telemetry for downlink */
     FPC_HkTlm_t  HkTlm;
 

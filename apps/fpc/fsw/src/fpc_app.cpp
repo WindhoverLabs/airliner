@@ -905,15 +905,6 @@ void FPC::ReportHousekeeping()
 
 void FPC::SendOutData()
 {
-    /* TODO:  Add code to update output data, if needed, here.  */
-
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&OutData);
-    int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&OutData);
-    if (iStatus != CFE_SUCCESS)
-    {
-        /* TODO: Decide what to do if the send message fails. */
-    }
-
     SendPositionControlStatusMsg();
     SendTecsStatusMsg();
     SendVehicleAttitudeSetpointMsg();
