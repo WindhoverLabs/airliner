@@ -338,16 +338,12 @@ int32 FPC::InitData()
     memset((void*)&m_LandingSlope, 0x00, sizeof(m_LandingSlope));
 
     /* Init output messages */
-    CFE_SB_InitMsg(&m_PositionControlStatusMsg,
-        PX4_POSITION_CONTROL_STATUS_MID, sizeof(PX4_Position_Control_Status_t), TRUE);
-    CFE_SB_InitMsg(&m_VehicleAttitudeSetpointMsg,
-        PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(m_VehicleAttitudeSetpointMsg), TRUE);
-    CFE_SB_InitMsg(&m_PX4_TecsStatusMsg,
-        PX4_TECS_STATUS_MID, sizeof(m_PX4_TecsStatusMsg), TRUE);
+    CFE_SB_InitMsg(&m_PositionControlStatusMsg,  PX4_POSITION_CONTROL_STATUS_MID, sizeof(PX4_Position_Control_Status_t), TRUE);
+    CFE_SB_InitMsg(&m_VehicleAttitudeSetpointMsg,PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(m_VehicleAttitudeSetpointMsg), TRUE);
+    CFE_SB_InitMsg(&m_PX4_TecsStatusMsg,PX4_TECS_STATUS_MID, sizeof(m_PX4_TecsStatusMsg), TRUE);
 
     /* Init housekeeping packet */
-    CFE_SB_InitMsg(&HkTlm,
-                   FPC_HK_TLM_MID, sizeof(HkTlm), TRUE);
+    CFE_SB_InitMsg(&HkTlm, FPC_HK_TLM_MID, sizeof(HkTlm), TRUE);
 
     /* Clear input messages */
     CFE_PSP_MemSet(&m_ManualControlSetpointMsg, 0, sizeof(m_ManualControlSetpointMsg));
