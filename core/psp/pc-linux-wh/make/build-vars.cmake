@@ -45,15 +45,6 @@ set(PSP_BB_UT_BSP_SRC
 )
 
 
-set(CORE_COVERAGE_EXCLUSIONS 
-    "/usr/*"
-    "*/unit_test/*"
-    "*/unit-test/*"
-    "*/unit_tests/*"
-    "*/unit-tests/*"
-    "${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/*"
-    "${PROJECT_SOURCE_DIR}/core/base/osal/src/tests/*"
-    "${PROJECT_SOURCE_DIR}/core/base/osal/src/ut-stubs/*"
-    "${PROJECT_SOURCE_DIR}/core/base/osal/ut_assert/src/*"
-    "/usr/include/c++/7/*"
+set(PSP_COVERAGE_EXCLUSIONS 
+    "/usr"
 )

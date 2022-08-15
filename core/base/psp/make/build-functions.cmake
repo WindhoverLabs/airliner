@@ -211,25 +211,22 @@ function(psp_buildliner_initialize)
     endif()
 
     set(CORE_COVERAGE_EXCLUSIONS 
-        "*/unit_test/*"
-        "*/unit-test/*"
-        "*/unit_tests/*"
-        "*/unit-tests/*"
-        "${PROJECT_SOURCE_DIR}/core/base/ut_assert/src/*"
-        "${PROJECT_SOURCE_DIR}/core/base/osal/src/tests/*"
-        "${PROJECT_SOURCE_DIR}/core/base/osal/src/ut-stubs/*"
-        "${PROJECT_SOURCE_DIR}/core/base/osal/ut_assert/src/*"
+        ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src
+        ${PROJECT_SOURCE_DIR}/core/base/osal/src/tests
+        ${PROJECT_SOURCE_DIR}/core/base/osal/src/ut-stubs
+        ${PROJECT_SOURCE_DIR}/core/base/osal/ut_assert/src
+        */unit_test
+        */unit-test
+        */unit_tests
+        */unit-tests
     )
-
-    string (REPLACE ";" " " CORE_COVERAGE_EXCLUSIONS_STRING "${CORE_COVERAGE_EXCLUSIONS}")
-    string (REPLACE ";" " " PSP_COVERAGE_EXCLUSIONS_STRING "${PSP_COVERAGE_EXCLUSIONS}")
 
     add_custom_target(coverage-report)
     set_target_properties(coverage-report PROPERTIES EXCLUDE_FROM_ALL TRUE)
     add_custom_target(init-coverage-report 
         COMMAND ${PROJECT_SOURCE_DIR}/core/base/tools/ci/init_coverage.sh ${CMAKE_BINARY_DIR}
-        COMMAND ${PROJECT_SOURCE_DIR}/core/base/tools/ci/add_exclusions.sh ${CMAKE_BINARY_DIR} ${CORE_COVERAGE_EXCLUSIONS_STRING}
-        COMMAND ${PROJECT_SOURCE_DIR}/core/base/tools/ci/add_exclusions.sh ${CMAKE_BINARY_DIR} ${PSP_COVERAGE_EXCLUSIONS_STRING}
+        COMMAND ${PROJECT_SOURCE_DIR}/core/base/tools/ci/add_exclusions.sh ${CMAKE_BINARY_DIR} ${CORE_COVERAGE_EXCLUSIONS}
+        COMMAND ${PROJECT_SOURCE_DIR}/core/base/tools/ci/add_exclusions.sh ${CMAKE_BINARY_DIR} ${PSP_COVERAGE_EXCLUSIONS}
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/
     )
 
