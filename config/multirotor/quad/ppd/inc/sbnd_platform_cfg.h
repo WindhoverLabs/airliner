@@ -115,6 +115,10 @@ extern "C" {
 */
 #define SBND_STARTUP_TIMEOUT_MSEC    (1000)
 
+#define SBND_CF_THROTTLE_SEM_NAME      "SBND_CF_SEM"
+#define SBND_CF_THROTTLE_SEM_MAX_COUNT (1)
+#define SBND_CF_PDU_MID                CF_PPD_TO_CPD_PDU_MID
+
 
 #ifdef __cplusplus
 }

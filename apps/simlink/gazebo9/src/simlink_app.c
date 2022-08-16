@@ -924,10 +924,11 @@ void SIMLINK_AppMain()
 
 int32 SIMLINK_InitListener(void)
 {
-    int32 status = CFE_SUCCESS;
-    char *simAddress = 0;
-    char *strSimPort = 0;
-    uint16 simPort = 0;
+    int32  status        = CFE_SUCCESS;
+    char  *simAddress    = 0;
+    char  *strSimPort    = 0;
+    char  *strPwmEnabled = 0;
+    uint16 simPort       = 0;
     struct             sockaddr_in servAddr;
     int                reuseaddr = 1;
     struct hostent    *he;
@@ -959,6 +960,18 @@ int32 SIMLINK_InitListener(void)
     }
 
 	simPort = atoi(strSimPort);
+
+    strPwmEnabled = getenv(SIMLINK_PWM_FLAG_ENV_VAR_NAME);
+    if(0 == strPwmEnabled)
+    {
+        OS_printf("%s environment variable not defined.  PWM enabled.\n", SIMLINK_PWM_FLAG_ENV_VAR_NAME);
+        SIMLINK_AppData.HkTlm.PwmEnabled = true;
+    }
+    else
+    {
+        OS_printf("SIMLINK PWM disabled.\n", SIMLINK_PWM_FLAG_ENV_VAR_NAME);
+        SIMLINK_AppData.HkTlm.PwmEnabled = false;
+    }
 
     SIMLINK_AppData.Socket = socket(AF_INET, SOCK_STREAM, 0);
     if(SIMLINK_AppData.Socket < 0)
@@ -1050,7 +1063,7 @@ int32 SIMLINK_SendHeartbeat(void)
 
     	while(length > 0)
     	{
-            bytesSent = send(SIMLINK_AppData.Socket, (char *)buffer[bytesSent], length, 0);
+            bytesSent = send(SIMLINK_AppData.Socket, (char *)&buffer[bytesSent], length, 0);
             if(bytesSent < 0)
             {
                 (void) CFE_EVS_SendEvent(SIMLINK_SOCKET_ERR_EID, CFE_EVS_ERROR,
@@ -1079,100 +1092,103 @@ void SIMLINK_ProcessPwmOutputs(void)
 	uint32 updateCount = 0;
 	uint32 size = sizeof(SIMLINK_AppData.PwmMsg);
 
-	status = CVT_GetContent(SIMLINK_AppData.PwmContainer, &updateCount, &SIMLINK_AppData.PwmMsg, &size);
-	if(CVT_SUCCESS != status)
-	{
-		(void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
-								 "Failed to get PWM container. (%li)",
-								 status);
-	}
-	else
-	{
-		if(updateCount != SIMLINK_AppData.PwmUpdateCount)
-		{
-			osalbool sendMsg = false;
-            osalbool armed   = false;
+    if(SIMLINK_AppData.HkTlm.PwmEnabled)
+    {
+        status = CVT_GetContent(SIMLINK_AppData.PwmContainer, &updateCount, &SIMLINK_AppData.PwmMsg, &size);
+        if(CVT_SUCCESS != status)
+        {
+            (void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get PWM container. (%li)",
+                                     status);
+        }
+        else
+        {
+            if(updateCount != SIMLINK_AppData.PwmUpdateCount)
+            {
+                osalbool sendMsg = false;
+                osalbool armed   = false;
 
-			SIMLINK_AppData.PwmUpdateCount = updateCount;
+                SIMLINK_AppData.PwmUpdateCount = updateCount;
 
-			mavlink_message_t mavlinkMessage = {};
-			uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
-			mavlink_hil_actuator_controls_t actuatorControlsMsg = {};
-			uint32_t length = 0;
+                mavlink_message_t mavlinkMessage = {};
+                uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+                mavlink_hil_actuator_controls_t actuatorControlsMsg = {};
+                uint32_t length = 0;
 
-			for(uint32_t i = 0; i < SIMLINK_MAX_PWM_OUTPUTS; ++i)
-			{
-				if(i <= SIMLINK_PWM_CHANNEL_COUNT)
-				{
-                    /* If any actuator control is non-zero. */
-                    if(SIMLINK_AppData.PwmMsg.Channel[i] >= FLT_EPSILON)
+                for(uint32_t i = 0; i < SIMLINK_MAX_PWM_OUTPUTS; ++i)
+                {
+                    if(i <= SIMLINK_PWM_CHANNEL_COUNT)
                     {
-                        /* Set the armed flag to true. */
-                        armed = true;
+                        /* If any actuator control is non-zero. */
+                        if(SIMLINK_AppData.PwmMsg.Channel[i] >= FLT_EPSILON)
+                        {
+                            /* Set the armed flag to true. */
+                            armed = true;
+                        }
+
+                        /* Y = (X-A)/(B-A) * (D-C) + C */
+                        actuatorControlsMsg.controls[i] =
+                                (((SIMLINK_AppData.PwmMsg.Channel[i] - SIMLINK_PWM_INPUT_MIN) /
+                                (SIMLINK_PWM_INPUT_MAX - SIMLINK_PWM_INPUT_MIN)) *
+                                (SIMLINK_AppData.ConfigTblPtr->PWM[i].Maximum - SIMLINK_AppData.ConfigTblPtr->PWM[i].Minimum)) +
+                                SIMLINK_AppData.ConfigTblPtr->PWM[i].Minimum;
+
+                        SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.controls[i] = actuatorControlsMsg.controls[i];
+                    }
+                }
+
+                actuatorControlsMsg.time_usec = 0;
+                actuatorControlsMsg.flags = 0;
+
+                if(armed == true)
+                {
+                    /* See MAV_MODE_FLAG_SAFETY_ARMED for this value. */
+                    actuatorControlsMsg.mode = 128;
+                }
+                else
+                {
+                    actuatorControlsMsg.mode = 0;
+                }
+
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.time_usec = actuatorControlsMsg.time_usec;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.flags = actuatorControlsMsg.flags;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.mode = actuatorControlsMsg.mode;
+
+                mavlink_msg_hil_actuator_controls_encode(1, 1, &mavlinkMessage, &actuatorControlsMsg);
+                length = mavlink_msg_to_send_buffer(buffer, &mavlinkMessage);
+
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.checksum = mavlinkMessage.checksum;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.magic = mavlinkMessage.magic;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.len = mavlinkMessage.len;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.incompat_flags = mavlinkMessage.incompat_flags;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.compat_flags = mavlinkMessage.compat_flags;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.seq = mavlinkMessage.seq;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.sysid = mavlinkMessage.sysid;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.compid = mavlinkMessage.compid;
+
+                if(SIMLINK_AppData.Socket != 0)
+                {
+                    ssize_t bytesSent = 0;
+
+                    while(length > 0)
+                    {
+                        bytesSent = send(SIMLINK_AppData.Socket, (char *)&buffer[bytesSent], length, 0);
+                        if(bytesSent < 0)
+                        {
+                            (void) CFE_EVS_SendEvent(SIMLINK_SOCKET_ERR_EID, CFE_EVS_ERROR,
+                                                     "Failed to send pwm message (%d)",
+                                                     errno);
+                            goto end_of_function;
+                        }
+
+                        length = length - bytesSent;
                     }
 
-    			    /* Y = (X-A)/(B-A) * (D-C) + C */
-    			    actuatorControlsMsg.controls[i] =
-    			    		(((SIMLINK_AppData.PwmMsg.Channel[i] - SIMLINK_PWM_INPUT_MIN) /
-					    	(SIMLINK_PWM_INPUT_MAX - SIMLINK_PWM_INPUT_MIN)) *
-							(SIMLINK_AppData.ConfigTblPtr->PWM[i].Maximum - SIMLINK_AppData.ConfigTblPtr->PWM[i].Minimum)) +
-							SIMLINK_AppData.ConfigTblPtr->PWM[i].Minimum;
-
-    			    SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.controls[i] = actuatorControlsMsg.controls[i];
-				}
-			}
-
-			actuatorControlsMsg.time_usec = 0;
-			actuatorControlsMsg.flags = 0;
-
-            if(armed == true)
-            {
-                /* See MAV_MODE_FLAG_SAFETY_ARMED for this value. */
-                actuatorControlsMsg.mode = 128;
+                    SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.Count++;
+                }
             }
-            else
-            {
-                actuatorControlsMsg.mode = 0;
-            }
-
-            SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.time_usec = actuatorControlsMsg.time_usec;
-	        SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.flags = actuatorControlsMsg.flags;
-	        SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.mode = actuatorControlsMsg.mode;
-
-			mavlink_msg_hil_actuator_controls_encode(1, 1, &mavlinkMessage, &actuatorControlsMsg);
-			length = mavlink_msg_to_send_buffer(buffer, &mavlinkMessage);
-
-            SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.checksum = mavlinkMessage.checksum;
-            SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.magic = mavlinkMessage.magic;
-            SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.len = mavlinkMessage.len;
-            SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.incompat_flags = mavlinkMessage.incompat_flags;
-            SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.compat_flags = mavlinkMessage.compat_flags;
-            SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.seq = mavlinkMessage.seq;
-            SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.sysid = mavlinkMessage.sysid;
-            SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.compid = mavlinkMessage.compid;
-
-	    	if(SIMLINK_AppData.Socket != 0)
-			{
-		    	ssize_t bytesSent = 0;
-
-		    	while(length > 0)
-			    {
-			        bytesSent = send(SIMLINK_AppData.Socket, (char *)&buffer[bytesSent], length, 0);
-			        if(bytesSent < 0)
-			        {
-			            (void) CFE_EVS_SendEvent(SIMLINK_SOCKET_ERR_EID, CFE_EVS_ERROR,
-			                                     "Failed to send pwm message (%d)",
-			                                     errno);
-			            goto end_of_function;
-			        }
-
-			        length = length - bytesSent;
-			    }
-
-			    SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.Count++;
-			}
-		}
-	}
+        }
+    }
 
 end_of_function:
 

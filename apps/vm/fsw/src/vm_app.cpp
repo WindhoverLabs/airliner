@@ -190,7 +190,7 @@ int32 VM::InitPipe()
         if (iStatus != CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_TELEMETRY_STATUS_MID. (0x%08lX)",
+                    "DATA Pipe failed to subscribe to PX4_BATTERY_STATUS_MID. (0x%08lX)",
                     iStatus);
             goto VM_InitPipe_Exit_Tag;
         }
@@ -208,7 +208,7 @@ int32 VM::InitPipe()
         if (iStatus != CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_VEHICLE_COMMAND_MID. (0x%08lX)",
+                    "DATA Pipe failed to subscribe to PX4_VEHICLE_CONTROL_MODE_MID. (0x%08lX)",
                     iStatus);
             goto VM_InitPipe_Exit_Tag;
         }
@@ -217,7 +217,7 @@ int32 VM::InitPipe()
         if (iStatus != CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_SUBSYSTEM_INFO_MID. (0x%08lX)",
+                    "DATA Pipe failed to subscribe to PX4_VEHICLE_GLOBAL_POSITION_MID. (0x%08lX)",
                     iStatus);
             goto VM_InitPipe_Exit_Tag;
         }
@@ -343,15 +343,6 @@ int32 VM::InitPipe()
         {
             (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
                     "DATA Pipe failed to subscribe to PX4_SENSOR_CORRECTION_MID. (0x%08lX)",
-                    iStatus);
-            goto VM_InitPipe_Exit_Tag;
-        }
-
-        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_STATUS_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_VEHICLE_STATUS_MID. (0x%08lX)",
                     iStatus);
             goto VM_InitPipe_Exit_Tag;
         }
@@ -519,6 +510,7 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 SendVehicleManagerStateMsg();
                 SendVehicleControlModeMsg();
                 SendActuatorArmedMsg();
+                SendVehicleStatusMsg();
 
                 break;
             }
@@ -749,13 +741,6 @@ void VM::ProcessDataPipe()
                     break;
                 }
 
-                case PX4_VEHICLE_STATUS_MID:
-                {
-                    CFE_PSP_MemCpy(&VehicleStatusMsg, MsgPtr, sizeof(VehicleStatusMsg));
-                    HkTlm.VehicleStatusMsgCount++;
-                    break;
-                }
-
                 case PX4_VEHICLE_CONTROL_MODE_MID:
                 {
                     CFE_PSP_MemCpy(&VehicleControlModeMsg, MsgPtr, sizeof(VehicleControlModeMsg));
@@ -840,7 +825,6 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 HkTlm.SensorAccelMsgCount             = 0;
                 HkTlm.SafetyMsgCount                  = 0;
                 HkTlm.SensorCorrectionMsgCount        = 0;
-                HkTlm.VehicleStatusMsgCount           = 0;
                 HkTlm.VehicleControlModeMsgCount      = 0;
                 HkTlm.SensorCombinedMsgCount          = 0;
                 HkTlm.VehicleCommandMsgCount          = 0;

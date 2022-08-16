@@ -79,7 +79,7 @@ extern "C" {
 **       Two channels in CF must not have the same semaphore name. This must be unique
 **       compared to other channels' throttling semaphores.
 */
-#define TO_UDP_CF_THROTTLE_SEM_NAME    "TO_CF_CH0_SEM"
+#define TO_CF_THROTTLE_SEM_NAME    "TO_CF_SEM"
 
 
 /** \tocfg The UDP channel Name
@@ -268,6 +268,15 @@ extern "C" {
 */
 #define TO_NUM_BYTES_IN_MEM_POOL        (200 * TO_MAX_BLOCK_SIZE)
 
+/** \tocfg The channel's default and maximum value for the CF
+ *         throttling semaphore
+**
+**  \par Limits:
+**       Must not be larger than the TO_DATA_PIPE_DEPTH
+*/
+#define TO_CF_MAX_PDUS    (4)
+
+#define TO_SPACE_TO_GND_PDU_MID         CF_PPD_TO_GND_PDU_MID
 
 #ifdef __cplusplus
 }

@@ -158,8 +158,6 @@ cf_config_table_t     CF_ConfigTable =
 					"/cpd/",                                     /* DstPath, no spaces */
                 },/* End Polling Directory 5 */
                 
-
-
                 { /* Polling Directory 6 */
                     CF_ENTRY_IN_USE,/* Poll Directory In Use or Not */
 					CF_ENABLED,     /* Enable State */

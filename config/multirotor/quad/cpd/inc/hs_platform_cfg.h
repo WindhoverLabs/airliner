@@ -557,7 +557,7 @@
 **       The result of the conversion must be a 32 bit signed integer 
 **       (between -2147483648 and 2147483647).
 */
-#define HS_UTIL_CONV_DIV                       635491
+#define HS_UTIL_CONV_DIV                       (500000)
 
 /** \hscfg CPU Utilization Conversion Factor Multiplication 2 (custom)
 **
