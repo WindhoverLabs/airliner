@@ -120,6 +120,7 @@ FAC_ParamTbl_t FAC_ParamTblTailSitter =
     0        /* VTOL Type (Tailsitter=0, Tiltrotor=1, Standard=2) (VT_TYPE) */
 };
 
+
 /*
  * Config table for Standard
  */
@@ -175,6 +176,7 @@ FAC_ParamTbl_t FAC_ParamTblStandard =
     0.0f,    /* Yaw trim (TRIM_YAW) */
     2        /* VTOL Type (Tailsitter=0, Tiltrotor=1, Standard=2) (VT_TYPE) */
 };
+
 
 /*
  * Config table for Invalid Params
@@ -232,6 +234,7 @@ FAC_ParamTbl_t FAC_ParamTblInvalid =
     3        /* VTOL Type (Tailsitter=0, Tiltrotor=1, Standard=2) (VT_TYPE) */
 };
 
+
 /*
  * Function Definitions
  */
@@ -267,6 +270,7 @@ void FAC_Test_Setup(void)
     memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
+
 void FAC_Test_Setup_TailSitter(void)
 {
     /* initialize test environment to default state for every test */
@@ -290,6 +294,7 @@ void FAC_Test_Setup_TailSitter(void)
     memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
     memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
+
 
 void FAC_Test_Setup_ParamInvalid(void)
 {
@@ -315,6 +320,7 @@ void FAC_Test_Setup_ParamInvalid(void)
     memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
+
 void FAC_Test_TearDown(void)
 {
     memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
@@ -323,6 +329,7 @@ void FAC_Test_TearDown(void)
     memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
     memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
+
 
 void FAC_Test_PrintCmdMsg(void *pMsg, uint32 size)
 {
@@ -340,6 +347,7 @@ void FAC_Test_PrintCmdMsg(void *pMsg, uint32 size)
 
     return;
 }
+
 
 void FAC_Test_PrintEclValues()
 {
@@ -379,6 +387,7 @@ void FAC_Test_PrintEclValues()
 
     return;
 }
+
 
 uint32 FAC_Test_ValidateEclValues()
 {
@@ -501,6 +510,7 @@ uint32 FAC_Test_ValidateEclValues()
     return uResult;
 }
 
+
 time_t FAC_Test_GetTimeFromTimestamp(uint64 timestamp)
 {
     time_t  local_time;
@@ -509,6 +519,7 @@ time_t FAC_Test_GetTimeFromTimestamp(uint64 timestamp)
 
     return local_time;
 }
+
 
 time_t FAC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time)
 {

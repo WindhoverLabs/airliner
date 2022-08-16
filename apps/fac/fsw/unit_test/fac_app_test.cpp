@@ -60,10 +60,10 @@ uint32  UpdateParams_ValidateStatus = 0x0;
 
 double  UpdateParams_ParamChecksum = 0.0;
 
+
 /**************************************************************************
  * Tests for FAC InitEvent()
  **************************************************************************/
-
 /**
  * Test FAC InitEvent() with failed CFE_EVS_Register
  */
@@ -221,6 +221,7 @@ void Test_FAC_InitPipe_Fail_SubscribeBatteryStatus(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_BATTERY_STATUS_MID");
 }
 
+
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for ManualControlSp
  */
@@ -239,6 +240,7 @@ void Test_FAC_InitPipe_Fail_SubscribeManualControlSp(void)
     UtAssert_True (result == expected,
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_MANUAL_CONTROL_SETPOINT_MID");
 }
+
 
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VAttSp
@@ -259,6 +261,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVAttSp(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_ATTITUDE_SETPOINT_MID");
 }
 
+
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VAtt
  */
@@ -277,6 +280,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVAtt(void)
     UtAssert_True (result == expected,
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_ATTITUDE_MID");
 }
+
 
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VControlMode
@@ -297,6 +301,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVControlMode(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_CONTROL_MODE_MID");
 }
 
+
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VehicleStatus
  */
@@ -316,6 +321,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleStatus(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_STATUS_MID");
 }
 
+
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VGlobalPosition
  */
@@ -334,6 +340,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVGlobalPosition(void)
     UtAssert_True (result == expected,
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_GLOBAL_POSITION_MID");
 }
+
 
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VLandDetected
@@ -474,6 +481,7 @@ void Test_FAC_InitApp_Nominal(void)
     UtAssert_True (result == expected, "InitApp, nominal");
 }
 
+
 /**************************************************************************
  * Tests for extern FAC_AppMain()
  **************************************************************************/
@@ -511,6 +519,7 @@ int32 Test_FAC_AppMain_WriteToSysLogHook(const char *StringPtr, ...)
     return WriteToSysLog_HookCalledCnt;
 }
 
+
 /**
  * Test FAC AppMain(), SendEventHook
  */
@@ -530,6 +539,7 @@ int32 Test_FAC_AppMain_SendEventHook(uint16 EventID, uint16 EventType, const cha
 
     return SendEvent_HookCalledCnt;
 }
+
 
 /**
  * Test FAC AppMain(), Fail RegisterApp
@@ -600,6 +610,23 @@ void Test_FAC_AppMain_SchPipeError(void)
     /* The following will emulate the behavior of SCH pipe reading error */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 1);
 
+    oFAC.AppMain();
+}
+
+
+/**
+ * Test FAC AppMain(), SchPipeNoMessage
+ */
+void Test_FAC_AppMain_SchPipeNoMessage(void)
+{
+    int32 expected = CFE_SB_NO_MESSAGE;
+
+    /* The following will emulate the behavior of SCH pipe: No message */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
     oFAC.AppMain();
 }
 
@@ -694,6 +721,7 @@ int32 Test_FAC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     return CFE_SUCCESS;
 }
 
+
 /**
  * Test FAC AppMain(), Nominal - SendHK
  */
@@ -762,6 +790,7 @@ int32 Test_FAC_AppMain_ProcessIncomingDataHook(void *dst, void *src, uint32 size
     }
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - DataPipeError
  */
@@ -784,6 +813,7 @@ void Test_FAC_AppMain_ProcessIncomingData_DataPipeError(void)
     /* Execute the function being tested */
     oFAC.AppMain();
 }
+
 
 /**
  * Test FAC AppMain(), ProcessIncomingData - InvalidMsgID
@@ -817,6 +847,7 @@ void Test_FAC_AppMain_ProcessIncomingData_InvalidMsgID(void)
 #endif
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - Airspeed
  */
@@ -843,6 +874,7 @@ void Test_FAC_AppMain_ProcessIncomingData_Airspeed(void)
     /* Verify results */
     UtAssert_True(oFAC.HkTlm.AirSpeedMsgRcvCnt == 1, "AppMain_ProcessIncomingData_Airspeed");
 }
+
 
 /**
  * Test FAC AppMain(), ProcessIncomingData - BatteryStatus
@@ -873,6 +905,7 @@ void Test_FAC_AppMain_ProcessIncomingData_BatteryStatus(void)
                   "AppMain_ProcessIncomingData_BatteryStatus");
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - ManualControlSp
  */
@@ -902,6 +935,7 @@ void Test_FAC_AppMain_ProcessIncomingData_ManualControlSp(void)
                    "AppMain_ProcessIncomingData_ManualControlSp");
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - VAtt
  */
@@ -930,6 +964,7 @@ void Test_FAC_AppMain_ProcessIncomingData_VAtt(void)
     UtAssert_True(oFAC.HkTlm.VAttMsgRcvCnt == 1, "AppMain_ProcessIncomingData_VAtt");
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - VAttSp
  */
@@ -957,6 +992,7 @@ void Test_FAC_AppMain_ProcessIncomingData_VAttSp(void)
     /* Verify results */
     UtAssert_True(oFAC.HkTlm.VAttSpMsgRcvCnt == 1, "AppMain_ProcessIncomingData_VAttSp");
 }
+
 
 /**
  * Test FAC AppMain(), ProcessIncomingData - VControlMode
@@ -987,6 +1023,7 @@ void Test_FAC_AppMain_ProcessIncomingData_VControlMode(void)
                    "AppMain_ProcessIncomingData_VControlMode");
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - VGlobalPosition
  */
@@ -1016,6 +1053,7 @@ void Test_FAC_AppMain_ProcessIncomingData_VGlobalPosition(void)
                   "AppMain_ProcessIncomingData_VGlobalPosition");
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - VLandDetected
  */
@@ -1044,6 +1082,7 @@ void Test_FAC_AppMain_ProcessIncomingData_VLandDetected(void)
     UtAssert_True(oFAC.HkTlm.VLandDetectedMsgRcvCnt == 1,
                    "AppMain_ProcessIncomingData_VLandDetected");
 }
+
 
 /**
  * Test FAC AppMain(), ProcessIncomingData - VehicleStatus
@@ -1095,6 +1134,7 @@ void Test_FAC_GetPSPTimeHook(OS_time_t *LocalTime)
     return;
 }
 
+
 /**
  * Test FAC RunController(), SendEventHook
  */
@@ -1115,6 +1155,7 @@ int32 Test_FAC_RunController_SendEventHook
 
     return SendEvent_HookCalledCnt;
 }
+
 
 /**
  * Test FAC RunController, SendMsgtHook
@@ -1212,6 +1253,7 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
 
     return 0;
 }
+
 
 /**
  * Test FAC RunController, TailSitter
@@ -2556,6 +2598,7 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
     UpdateParams_ValidateStatus = FAC_Test_ValidateEclValues();
 }
 
+
 /**
  * Test FAC UpdateParams, Standard
  */
@@ -2588,6 +2631,7 @@ void Test_FAC_UpdateParams_Standard(void)
         UtAssert_True(FALSE, "FAC UpdateParams_Standard");
     }
 }
+
 
 /**
  * Test FAC UpdateParams, TailSitter()
@@ -2687,6 +2731,8 @@ void FAC_App_Test_AddTestCases(void)
                "Test_FAC_AppMain_Fail_AcquireConfigPtrs");
     UtTest_Add(Test_FAC_AppMain_SchPipeError, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_AppMain_SchPipeError");
+    UtTest_Add(Test_FAC_AppMain_SchPipeNoMessage, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_AppMain_SchPipeNoMessage");
     UtTest_Add(Test_FAC_AppMain_InvalidSchMessage, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_AppMain_InvalidSchMessage");
     UtTest_Add(Test_FAC_AppMain_Nominal_SendHK, FAC_Test_Setup, FAC_Test_TearDown,

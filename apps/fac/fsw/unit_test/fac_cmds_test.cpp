@@ -89,6 +89,7 @@ void Test_FAC_ProcessNewCmds_InvalidCmd(void)
     }
 }
 
+
 /**
  * Test FAC ProcessAppCmds, InvalidCmdCode
  */
@@ -125,6 +126,7 @@ void Test_FAC_ProcessAppCmds_InvalidCmdCode(void)
     }
 }
 
+
 /**
  * Test FAC ProcessAppCmds, CmdPipeError
  */
@@ -147,6 +149,7 @@ void Test_FAC_ProcessAppCmds_CmdPipeError(void)
     /* Execute the function being tested */
     oFAC.AppMain();
 }
+
 
 /**
  * Test FAC ProcessAppCmds, Noop
@@ -176,6 +179,7 @@ void Test_FAC_ProcessAppCmds_Noop(void)
     /* Verify results */
     UtAssert_True(oFAC.HkTlm.usCmdCnt == 1, "ProcessAppCmds, Noop");
 }
+
 
 /**
  * Test FAC ProcessAppCmds, Reset
@@ -208,6 +212,31 @@ void Test_FAC_ProcessAppCmds_Reset(void)
 				  "ProcessAppCmds, Reset");
 }
 
+
+/**
+ * Test FAC VerifyCmdLength(), Fail CmdLength
+ */
+void Test_FAC_VerifyCmdLength_Fail_CmdLength(void)
+{
+    bool              bResult = TRUE;
+    bool              bExpected = FALSE;
+    FAC_NoArgCmd_t    CmdMsg;
+
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_NOOP_CC);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    bResult = oFAC.VerifyCmdLength((CFE_SB_MsgPtr_t)&CmdMsg, 16);
+
+    /* Verify results */
+    UtAssert_True (((bResult == bExpected) && (oFAC.HkTlm.usCmdErrCnt == 1)),
+                   "VerifyCmdLength, Fail CmdLength");
+}
+
+
+
 void FAC_Cmds_Test_AddTestCases(void)
 {
     UtTest_Add(Test_FAC_ProcessNewCmds_InvalidCmd, FAC_Test_Setup, FAC_Test_TearDown,
@@ -220,4 +249,6 @@ void FAC_Cmds_Test_AddTestCases(void)
                "Test_FAC_ProcessAppCmds_Noop");
     UtTest_Add(Test_FAC_ProcessAppCmds_Reset, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_ProcessAppCmds_Reset");
+    UtTest_Add(Test_FAC_VerifyCmdLength_Fail_CmdLength, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_VerifyCmdLength_Fail_CmdLength");
 } /* end FAC_Cmds_Test_AddTestCases */
