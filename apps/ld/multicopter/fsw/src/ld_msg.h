@@ -163,6 +163,8 @@ typedef struct
 
     uint8 state;
 
+    uint8 mode;
+
 }LD_HkTlm_t;
 
 
