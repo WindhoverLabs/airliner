@@ -163,6 +163,8 @@ typedef struct
 
     uint8 state;
 
+    uint8 mode;
+
     float velocity_xy_filtered_f;
     float velocity_xy_unfiltered_f;
     float velocity_z_filtered_f;
