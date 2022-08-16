@@ -414,6 +414,8 @@ int32 LD::InitApp()
                                  "Operational mode mixed");
     }
 
+    HkTlm.mode = ConfigTblPtr->LD_OP_MODE;
+
 LD_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
@@ -713,6 +715,7 @@ void LD::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 {
                     HkTlm.usCmdCnt++;
                     ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_AUTO;
+                    HkTlm.mode = ConfigTblPtr->LD_OP_MODE;
                     returnCode = CFE_TBL_Modified(ConfigTblHdl);
                     if(returnCode != CFE_SUCCESS)
                     {
@@ -740,6 +743,7 @@ void LD::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 {
                     HkTlm.usCmdCnt++;
                     ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_MANUAL;
+                    HkTlm.mode = ConfigTblPtr->LD_OP_MODE;
                     returnCode = CFE_TBL_Modified(ConfigTblHdl);
                     if(returnCode != CFE_SUCCESS)
                     {
@@ -766,6 +770,7 @@ void LD::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 {
                     HkTlm.usCmdCnt++;
                     ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_MIXED;
+                    HkTlm.mode = ConfigTblPtr->LD_OP_MODE;
                     returnCode = CFE_TBL_Modified(ConfigTblHdl);
                     if(returnCode != CFE_SUCCESS)
                     {
@@ -1223,7 +1228,8 @@ void LD::Execute()
        (ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MIXED && Manual))
     {
         /* Check the arm switch to determine state. */
-        if(CVT.ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON)
+        if(CVT.ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON
+           || CVT.ActuatorArmedMsg.Armed == TRUE)
         {
             /* Set state to in-flight. */
             VehicleLandDetectedMsg.Timestamp     = now;
