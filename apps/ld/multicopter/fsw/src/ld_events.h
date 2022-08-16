@@ -305,6 +305,8 @@ typedef enum {
 
     LD_STARTUP_MODE_EID                 = 20,
 
+    LD_MODE_WARNING_EID                 = 21,
+
     /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     LD_EVT_CNT
 } LD_EventIds_t;

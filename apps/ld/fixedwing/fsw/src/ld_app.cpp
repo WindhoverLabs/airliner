@@ -1188,6 +1188,8 @@ void LD::UpdateState()
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LD::Execute()
 {
+    static boolean warningEventIssued = FALSE;
+
     if (0 == publish_counter)
     {
         VehicleLandDetectedMsg.Freefall = FALSE;
@@ -1222,6 +1224,22 @@ void LD::Execute()
     }
 
     DetectAndSendStateChangeEvent();
+
+    if(!CVT.VehicleControlModeMsg.ControlManualEnabled
+       && ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MANUAL)
+    {
+        if(warningEventIssued == FALSE)
+        {
+            (void) CFE_EVS_SendEvent(LD_MODE_WARNING_EID,
+                                     CFE_EVS_INFORMATION,
+                                     "Op mode is manual. Auto disarm is disabled.");
+        }
+        warningEventIssued = TRUE;
+    }
+    else
+    {
+        warningEventIssued = FALSE;
+    }
 
     /* If in manual mode. */
     if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MANUAL || 
