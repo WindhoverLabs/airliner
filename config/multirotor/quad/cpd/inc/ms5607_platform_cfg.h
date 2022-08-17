@@ -100,7 +100,7 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define MS5607_CONFIG_TABLE_FILENAME      ("/cf/apps/ms5607_config.tbl")
+#define MS5607_CONFIG_TABLE_FILENAME      ("/ram/apps/ms5607_config.tbl")
 
 /** \brief The timeout value, in milliseconds, to wait for ES application startup sync.
 **

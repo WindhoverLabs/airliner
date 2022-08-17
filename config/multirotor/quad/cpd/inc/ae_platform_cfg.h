@@ -100,7 +100,7 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define AE_CONFIG_TABLE_FILENAME      ("/cf/apps/ae_config.tbl")
+#define AE_CONFIG_TABLE_FILENAME      ("/ram/apps/ae_config.tbl")
 
 /** \brief The timeout value, in milliseconds, to wait for ES application startup sync.
 **

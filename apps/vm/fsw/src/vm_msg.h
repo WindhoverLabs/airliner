@@ -796,9 +796,6 @@ typedef struct
     /** \brief Number of times the Vehicle GPS Position message has been received. */
     uint32 VehicleGpsPositionMsgCount;
 
-    /** \brief Number of times the Vehicle Status message has been received. */
-    uint32 VehicleStatusMsgCount;
-
     /** \brief Number of times the Vehicle Control Mode message has been received. */
     uint32 VehicleControlModeMsgCount;
 

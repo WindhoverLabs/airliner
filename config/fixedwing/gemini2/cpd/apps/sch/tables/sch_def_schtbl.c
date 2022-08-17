@@ -60,8 +60,6 @@ LD_WAKEUP_MIDX				  250Hz
 MD_SEND_HK_MIDX					1Hz
 MD_WAKEUP_MIDX					1Hz
 MM_SEND_HK_MIDX					1Hz
-MAC_SEND_HK_MIDX			    1Hz
-MAC_RUN_CONTROLLER_MIDX       250Hz
 FPC_SEND_HK_MIDX			    1Hz
 FPC_WAKEUP_MIDX			      250Hz
 SED_SEND_HK_MIDX			    1Hz
@@ -193,28 +191,28 @@ ULR_SEND_HK_MIDX				1Hz
 
 /* 250HZ Group  - 22 Activities  */
 #define SCH_250HZ_GROUP_1         \
-	 { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  AMC_UPDATE_MOTORS_MIDX,   SCH_GROUP_NONE }, \
-     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	CI_INGEST_COMMANDS_MIDX,  SCH_GROUP_NONE }, \
-     { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  HMC5883_WAKEUP_MIDX,      SCH_GROUP_NONE }, \
-     { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  LD_WAKEUP_MIDX,           SCH_GROUP_NONE }, \
-     { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  FAC_RUN_CONTROLLER_MIDX,  SCH_GROUP_NONE }, \
-     { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  FPC_WAKEUP_MIDX,          SCH_GROUP_NONE }, \
-     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	MS5611_MEASURE_MIDX,	  SCH_GROUP_NONE }, \
-     { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  QAE_WAKEUP_MIDX,          SCH_GROUP_NONE }, \
-     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SBND_WAKEUP_MIDX,         SCH_GROUP_NONE }, \
-     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SED_MEASURE_MIDX,	      SCH_GROUP_NONE }, \
-     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	SENS_WAKEUP_MIDX,         SCH_GROUP_NONE }, \
-     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	TO_SEND_TLM_MIDX,         SCH_GROUP_NONE }, \
-     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	ULR_MEASURE_MIDX,         SCH_GROUP_NONE }, \
-     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	VM_WAKEUP_MIDX,           SCH_GROUP_NONE }, \
-     { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	ICM20689_MEASURE_MIDX,	  SCH_GROUP_NONE }, \
-     { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
-     { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
-     { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
-     { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
-     { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
-     { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }, \
-     { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  AMC_UPDATE_MOTORS_MIDX,   SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  CI_INGEST_COMMANDS_MIDX,  SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  HMC5883_WAKEUP_MIDX,      SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  LD_WAKEUP_MIDX,           SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  FAC_RUN_CONTROLLER_MIDX,  SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  FPC_WAKEUP_MIDX,          SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  MS5611_MEASURE_MIDX,      SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  QAE_WAKEUP_MIDX,          SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  SBND_WAKEUP_MIDX,         SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  SED_MEASURE_MIDX,         SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  SENS_WAKEUP_MIDX,         SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,	 0,  TO_SEND_TLM_MIDX,         SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  ULR_MEASURE_MIDX,         SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  VM_WAKEUP_MIDX,           SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  ICM20689_MEASURE_MIDX,    SCH_GROUP_NONE }, \
+     { SCH_ENABLED,  SCH_ACTIVITY_SEND_MSG,  1,  0,  ZUSUP_WAKEUP_MIDX,        SCH_GROUP_NONE }, \
+     { SCH_UNUSED,   0,                      0,  0,  0,                        SCH_GROUP_NONE }, \
+     { SCH_UNUSED,   0,                      0,  0,  0,                        SCH_GROUP_NONE }, \
+     { SCH_UNUSED,   0,                      0,  0,  0,                        SCH_GROUP_NONE }, \
+     { SCH_UNUSED,   0,                      0,  0,  0,                        SCH_GROUP_NONE }, \
+     { SCH_UNUSED,   0,                      0,  0,  0,                        SCH_GROUP_NONE }, \
+     { SCH_UNUSED,   0,                      0,  0,  0,                        SCH_GROUP_NONE }
 
 
 /* 125HZ Group  - 1 Activity  */
@@ -230,7 +228,7 @@ ULR_SEND_HK_MIDX				1Hz
 	 { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	RCIN_WAKEUP_MIDX,         SCH_GROUP_NONE }
 
 #define SCH_50HZ_GROUP_2         \
-     { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  ASPD4525_WAKEUP_MIDX,      SCH_GROUP_NONE }
+         { SCH_ENABLED, SCH_ACTIVITY_SEND_MSG,  1,  0,  ASPD4525_WAKEUP_MIDX,      SCH_GROUP_NONE }
 
 #define SCH_50HZ_GROUP_3         \
 	 { SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE }
@@ -757,7 +755,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_2,
 	    SCH_50HZ_GROUP_4,
 	    SCH_25HZ_GROUP_4,
-                { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	ASPD4525_SEND_HK_MIDX,    SCH_GROUP_NONE },
+        { SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	ASPD4525_SEND_HK_MIDX,    SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
@@ -768,7 +766,7 @@ SCH_ScheduleEntry_t SCH_DefaultScheduleTable[SCH_TABLE_ENTRIES] =
 	    SCH_125HZ_GROUP_1,
 	    SCH_50HZ_GROUP_5,
 	    SCH_25HZ_GROUP_5,
-		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
+		{ SCH_ENABLED,	SCH_ACTIVITY_SEND_MSG,	1,	0,	ZUSUP_SEND_HK_MIDX,       SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },
 		{ SCH_UNUSED,	0,	                    0,	0,	0,	                      SCH_GROUP_NONE },

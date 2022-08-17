@@ -30,6 +30,11 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    pblib
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pblib/fsw/for_build
+)
+
+buildliner_add_app(
     px4lib
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
 )
@@ -40,8 +45,14 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    sliplib
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sliplib/fsw/for_build
+)
+
+buildliner_add_app(
     sim
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sim/fsw/for_build
+    INCLUDES ${PROJECT_SOURCE_DIR}/tools/mavlink/v2.0/
 )
 
 buildliner_add_app(
@@ -105,8 +116,46 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    fac
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fac/fsw/for_build
+)
+
+buildliner_add_app(
+    fpc
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/fpc/fsw/for_build
+)
+
+buildliner_add_app(
+    flow
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/flow/fsw/for_build
+)
+
+buildliner_add_app(
     to
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
+)
+
+buildliner_add_app(
+    adsbr
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/adsbr/fsw/for_build
+)
+
+buildliner_add_app(
+    ak8963
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ak8963/fsw/for_build
+)
+
+buildliner_add_app(
+    amc
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/amc/fsw/for_build
+    INCLUDES
+        ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/platform_inc
+        ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/platform_inc
+)
+
+buildliner_add_app(
+    aspd4525
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/aspd4525/fsw/for_build
 )
 
 buildliner_add_app(
@@ -117,14 +166,6 @@ buildliner_add_app(
 buildliner_add_app(
     vc
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/vc/fsw/for_build
-)
-
-buildliner_add_app(
-    amc
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/amc/fsw/for_build
-    INCLUDES
-        ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/platform_inc
-        ${PROJECT_SOURCE_DIR}/apps/prmlib/fsw/platform_inc
 )
 
 buildliner_add_app(
@@ -172,7 +213,7 @@ buildliner_add_app(
 
 buildliner_add_app(
     ld
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/fsw/for_build
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/fixedwing/fsw/for_build
 )
 
 buildliner_add_app(
@@ -206,6 +247,11 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
+    pq_lib
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/pq_lib/fsw/for_build
+)
+
+buildliner_add_app(
     qae
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/qae/fsw/for_build
 )
@@ -213,16 +259,6 @@ buildliner_add_app(
 buildliner_add_app(
     lgc
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/lgc/fsw/for_build
-)
-
-buildliner_add_app(
-    ak8963
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ak8963/fsw/for_build
-)
-
-buildliner_add_app(
-    cvt
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/cvt/fsw/for_build
 )
 
 buildliner_add_app(
@@ -242,19 +278,15 @@ buildliner_add_app(
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4br/fsw/for_build
 #)
 
-# SBN is not yet converted to the Windhover cmake build system.  Omit this
-# from the build, for now.
-#buildliner_add_app(
-#    sbn
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
-#)
+buildliner_add_app(
+    sbn
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/fsw/for_build
+)
 
-# SG33BL is not yet fully to the Windhover cmake build system.  Omit this
-# from the build, for now.
-#buildliner_add_app(
-#    sg33bl
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sg33bl/fsw/for_build
-#)
+buildliner_add_app(
+    sg33bl
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sg33bl/fsw/for_build
+)
 
 buildliner_add_app(
     sonar

@@ -45,69 +45,89 @@ SBND_ConfigTbl_t SBND_ConfigTbl =
 {
     {
         /* Mids[0] */
-        PE_HK_TLM_MID,
+        FROM_CPD(AMC_CMD_MID),
         /* Mids[1] */
-        CF_SPACE_TO_GND_PDU_MID,
+	CF_PPD_TO_CPD_PDU_MID,
         /* Mids[2] */
-        CF_INCOMING_PDU_MID,
+        0,
         /* Mids[3] */
-        CFE_TIME_HK_TLM_MID,
-        /* Mids[4] */
-        CFE_TIME_DIAG_TLM_MID,
-        /* Mids[5] */
         SBND_HK_TLM_MID,
+        /* Mids[4] */
+	FROM_CPD(CFE_ES_CMD_MID),
+        /* Mids[5] */
+	FROM_CPD(CFE_EVS_CMD_MID),
         /* Mids[6] */
-        AMC_HK_TLM_MID,
+	FROM_CPD(CFE_SB_CMD_MID),
         /* Mids[7] */
-        PX4_SENSOR_COMBINED_MID,
+	FROM_CPD(CFE_TBL_CMD_MID),
         /* Mids[8] */
-        PX4_ACTUATOR_CONTROLS_0_MID,
+	FROM_CPD(CFE_ES_CMD_MID),
         /* Mids[9] */
-        PX4_ACTUATOR_OUTPUTS_MID,
+	FROM_CPD(CF_CMD_MID),
         /* Mids[10] */
-        PX4_SENSOR_ACCEL_MID,
+	FROM_CPD(CI_CMD_MID),
         /* Mids[11] */
-        PX4_SENSOR_BARO_MID,
+	FROM_CPD(CS_CMD_MID),
         /* Mids[12] */
-        PX4_SENSOR_GYRO_MID,
+	FROM_CPD(CVT_CMD_MID),
         /* Mids[13] */
-        PX4_SENSOR_MAG_MID,
+	FROM_CPD(DS_CMD_MID),
         /* Mids[14] */
-        PE_DIAG_TLM_MID,
+	FROM_CPD(FM_CMD_MID),
         /* Mids[15] */
-        PX4_VEHICLE_GPS_POSITION_MID,
+	FROM_CPD(HK_CMD_MID),
         /* Mids[16] */
-        0x0,
+	FROM_CPD(HS_CMD_MID),
         /* Mids[17] */
-        0x0,
+	FROM_CPD(LC_CMD_MID),
         /* Mids[18] */
-        0x0,
+	FROM_CPD(MD_CMD_MID),
         /* Mids[19] */
-        0x0,
+	FROM_CPD(MM_CMD_MID),
         /* Mids[20] */
-        0x0,
+	FROM_CPD(SC_CMD_MID),
         /* Mids[21] */
-        0x0,
+	FROM_CPD(SCH_CMD_MID),
         /* Mids[22] */
-        0x0,
+	FROM_CPD(TO_CMD_MID),
         /* Mids[23] */
-        0x0,
+	FROM_CPD(AMC_CMD_MID),
         /* Mids[24] */
-        0x0,
+	FROM_CPD(LD_CMD_MID),
         /* Mids[25] */
-        0x0,
+	FROM_CPD(MAC_CMD_MID),
         /* Mids[26] */
-        0x0,
+	FROM_CPD(MPC_CMD_MID),
         /* Mids[27] */
-        0x0,
+	FROM_CPD(NAV_CMD_MID),
         /* Mids[28] */
-        0x0,
+	FROM_CPD(PE_CMD_MID),
         /* Mids[29] */
-        0x0,
+	FROM_CPD(QAE_CMD_MID),
         /* Mids[30] */
-        0x0,
+	FROM_CPD(SBND_CMD_MID),
         /* Mids[31] */
-        0x0,
+	FROM_CPD(SENS_CMD_MID),
+        /* Mids[32] */
+	FROM_CPD(VM_CMD_MID),
+        /* Mids[33] */
+	FROM_CPD(BAT_CMD_MID),
+        /* Mids[34] */
+	FROM_CPD(GPS_CMD_MID),
+        /* Mids[35] */
+	FROM_CPD(HMC5883_CMD_MID),
+        /* Mids[36] */
+	FROM_CPD(ICM20689_CMD_MID),
+        /* Mids[37] */
+	FROM_CPD(MS5611_CMD_MID),
+        /* Mids[38] */
+	FROM_CPD(RCIN_CMD_MID),
+        /* Mids[39] */
+	FROM_CPD(SED_CMD_MID),
+        /* Mids[40] */
+	FROM_CPD(VC_CMD_MID),
+        /* Mids[41] */
+	FROM_CPD(ZUSUP_CMD_MID)
     },
 };
 

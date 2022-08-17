@@ -102,7 +102,6 @@ void VM_Navigation::EnteredManual()
     App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_MANUAL;
 
     CFE_EVS_SendEvent(VM_NAVSM_ENTERED_MANUAL_INFO_EID, CFE_EVS_INFORMATION, "Navigation::Manual");
-    App.SendVehicleStatusMsg();
 }
 
 
@@ -118,7 +117,6 @@ void VM_Navigation::EnteredAltitudeControl()
     App.VehicleStatusMsg.NavState = PX4_NavigationState_t::PX4_NAVIGATION_STATE_ALTCTL;
 
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_ALTCTL_INFO_EID, CFE_EVS_INFORMATION, "Navigation::AltitudeControl");
-    App.SendVehicleStatusMsg();
 }
 
 
@@ -135,7 +133,6 @@ void VM_Navigation::EnteredPositionControl()
 
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_POSCTL_INFO_EID, CFE_EVS_INFORMATION,
             "Navigation::PositionControl");
-    App.SendVehicleStatusMsg();
 }
 
 
@@ -152,7 +149,6 @@ void VM_Navigation::EnteredAutoLoiter()
 
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_AUTOLOITER_INFO_EID, CFE_EVS_INFORMATION,
             "Navigation::AutoLoiter");
-    App.SendVehicleStatusMsg();
 }
 
 
@@ -169,7 +165,6 @@ void VM_Navigation::EnteredAutoReturnToLaunch()
 
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_RTL_INFO_EID, CFE_EVS_INFORMATION,
         "Navigation::AutoRTL");
-    App.SendVehicleStatusMsg();
 }
 
 
@@ -186,7 +181,6 @@ void VM_Navigation::EnteredAcrobatic()
 
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_ACRO_INFO_EID, CFE_EVS_INFORMATION,
         "Navigation::Acrobatic");
-    App.SendVehicleStatusMsg();
 }
 
 
@@ -203,7 +197,6 @@ void VM_Navigation::EnteredStabilize()
 
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_STABILIZE_INFO_EID, CFE_EVS_INFORMATION,
         "Navigation::Stabilize");
-    App.SendVehicleStatusMsg();
 }
 
 
@@ -220,7 +213,6 @@ void VM_Navigation::EnteredRattitude()
 
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_RATTITUDE_INFO_EID, CFE_EVS_INFORMATION,
         "Navigation::Rattitude");
-    App.SendVehicleStatusMsg();
 }
 
 
@@ -237,7 +229,6 @@ void VM_Navigation::EnteredAutoTakeoff()
 
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_AUTO_TAKEOFF_INFO_EID, CFE_EVS_INFORMATION,
         "Navigation::AutoTakeoff");
-    App.SendVehicleStatusMsg();
 }
 
 
@@ -254,7 +245,6 @@ void VM_Navigation::EnteredAutoLand()
 
     CFE_EVS_SendEvent(VM_NAVSN_ENTERED_AUTO_LAND_INFO_EID, CFE_EVS_INFORMATION,
         "Navigation::AutoLand");
-    App.SendVehicleStatusMsg();
 }
 
 

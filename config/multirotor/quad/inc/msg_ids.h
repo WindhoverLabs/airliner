@@ -3,10 +3,6 @@
 
 #include "msg_ids_common.h"
 
-#define FROM_PPD(X)     (PPD_CPU_BASE + X)
-#define FROM_CPD(X)     (CPD_CPU_BASE + X)
-#define FROM_SIMLINK(X) (SIMLINK_CPU_BASE + X)
-
 
 /* General Airliner flight applications                                     */
 
@@ -313,12 +309,6 @@
 #define SBUS_WAKEUP_MID                           CMD_MSG(  343 )  /* 0x157 */
 
 
-/* ASPD4525                                                                 */
-#define ASPD4525_CMD_MID                          CMD_MSG(  344 )  /* 0x158 */
-#define ASPD4525_SEND_HK_MID                      CMD_MSG(  345 )  /* 0x159 */
-#define ASPD4525_WAKEUP_MID                       CMD_MSG(  346 )  /* 0x15a */
-#define ASPD4525_OUT_DATA_MID                     TLM_MSG(  347 )  /* 0x15b */
-#define ASPD4525_HK_TLM_MID                       TLM_MSG(  348 )  /* 0x15c */
 
 
 #endif

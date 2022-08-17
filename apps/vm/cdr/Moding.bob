@@ -2,12 +2,9 @@
 <display version="2.0.0">
   <name>VM - Moding</name>
   <macros>
-    <CPUID>cpd</CPUID>
     <APP>vm</APP>
-    <include_parent_macros>true</include_parent_macros>
+    <CPUID>cpd</CPUID>
     <REGISTRY_PATH>/modules/$(CPUID)/modules/apps/modules/$(APP)</REGISTRY_PATH>
-@BUILDLINER_CDR_MACRO_BLOCK@
-@BUILDLINER_CDR_MACRO_BLOCK_CUSTOM@
   </macros>
   <width>200</width>
   <height>450</height>
@@ -534,7 +531,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Stabilized', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Manual', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/AltCtl', {});]]></text>
         </script>
       </action>
     </actions>
@@ -561,7 +558,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Manual', {});]]></text>
         <script file="EmbeddedJs">
           <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/Manual', {});]]></text>
+Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/vm/PosCtl', {});]]></text>
         </script>
       </action>
     </actions>

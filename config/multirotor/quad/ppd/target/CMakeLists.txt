@@ -12,9 +12,31 @@ buildliner_initialize(
         ${PROJECT_SOURCE_DIR}/config/shared/inc
     FILESYS
         /cf/apps
-        /cf/download
         /cf/log
-        /cf/upload
+        /cf/uplink/ppd_to_cpd/class1/priority2/
+        /cf/uplink/ppd_to_cpd/class2/priority2/
+        /cf/uplink/ppd_to_cpd/class1/priority4/
+        /cf/uplink/ppd_to_cpd/class2/priority4/
+        /cf/uplink/ppd_to_cpd/class1/priority6/
+        /cf/uplink/ppd_to_cpd/class2/priority6/
+        /cf/downlink/ppd_to_gnd/class1/priority2/
+        /cf/downlink/ppd_to_gnd/class2/priority2/
+        /cf/downlink/ppd_to_gnd/class1/priority4/
+        /cf/downlink/ppd_to_gnd/class2/priority4/
+        /cf/downlink/ppd_to_gnd/class1/priority6/
+        /cf/downlink/ppd_to_gnd/class2/priority6/
+        /cf/downlink/cpd_to_ppd/class1/priority2/
+        /cf/downlink/cpd_to_ppd/class2/priority2/
+        /cf/downlink/cpd_to_ppd/class1/priority4/
+        /cf/downlink/cpd_to_ppd/class2/priority4/
+        /cf/downlink/cpd_to_ppd/class1/priority6/
+        /cf/downlink/cpd_to_ppd/class2/priority6/
+        /cf/downlink/cpd_to_gnd/class1/priority2/
+        /cf/downlink/cpd_to_gnd/class2/priority2/
+        /cf/downlink/cpd_to_gnd/class1/priority4/
+        /cf/downlink/cpd_to_gnd/class2/priority4/
+        /cf/downlink/cpd_to_gnd/class1/priority6/
+        /cf/downlink/cpd_to_gnd/class2/priority6/
         /ram
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/../cfe_es_startup.scr
@@ -37,7 +59,6 @@ buildliner_add_app(
 
 buildliner_add_app(
     io_lib
-    EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/io_lib/fsw/for_build
 )
 
@@ -67,6 +88,15 @@ buildliner_add_app(
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sch
     CONFIG_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sch/sch_custom_rt.c
+)
+
+
+buildliner_add_app(
+    sbnd
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbnd
+    CONFIG_SOURCES
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/sbnd/shm/sbnd_custom.cpp
 )
 
 buildliner_add_app(
@@ -170,43 +200,3 @@ buildliner_add_app(
 #    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sbn/modules/udp/fsw/for_build
 #)
 
-#buildliner_add_app(
-#    sbn_uio_shm
-#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbn_uio_shm/fsw/for_build
-#)
-
-#buildliner_add_app(
-#    gps
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/gps/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps
-#    CONFIG_SOURCES
-#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_interface_uart/gps_serial.c
-#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_common.c
-#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_nav.c
-#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_cfg.c
-#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_ack.c
-#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_parser_ubx/gps_parser_ubx_mon.c
-#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/gps/src/gps_custom.c
-#)
-#
-#buildliner_add_app(
-#    bat
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/bat/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat
-#    CONFIG_SOURCES
-#        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/bat_custom.cpp
-#        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115.cpp
-#        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_custom.c
-#        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115.h
-#        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_custom.h
-#        ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/bat/ads1115_map.h
-#)
-
-
-buildliner_add_app(
-    sbnd
-    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/sbnd/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/sbnd
-    CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/sbnd/shm/sbnd_custom.cpp
-)

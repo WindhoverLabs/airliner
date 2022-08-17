@@ -96,6 +96,8 @@ extern "C" {
 #define PX4_VTOL_VEHICLE_STATUS_MID			0x0a59
 #define PX4_WIND_ESTIMATE_MID				0x0a5a
 #define PX4_SENSOR_CORRECTION_MID			0x0a5b
+#define PX4_POSITION_CONTROL_STATUS_MID     0x0a5c
+
 
 #ifdef __cplusplus
 }

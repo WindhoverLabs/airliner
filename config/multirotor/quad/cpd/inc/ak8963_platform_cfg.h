@@ -116,7 +116,7 @@ extern "C" {
 **       The length of each string, including the NULL terminator cannot exceed
 **       the #OS_MAX_PATH_LEN value.
 */
-#define AK8963_CONFIG_TABLE_FILENAME      ("/cf/apps/ak8963_config.tbl")
+#define AK8963_CONFIG_TABLE_FILENAME      ("/ram/apps/ak8963_config.tbl")
 
 /** \brief The timeout value, in milliseconds, to wait for ES application startup sync.
 **

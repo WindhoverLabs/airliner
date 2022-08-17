@@ -14,25 +14,32 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../inc
         ${PROJECT_SOURCE_DIR}/config/shared/inc
     FILESYS
-        /ram/apps
+        /cf/apps
         /cf/log
-        /cf/uplink
-        /cf/downlink/ch0/dir0/
-        /cf/downlink/ch0/dir1/
-        /cf/downlink/ch0/dir2/
-        /cf/downlink/ch0/dir3/
-        /cf/downlink/ch0/dir4/
-        /cf/downlink/ch0/dir5/
-        /cf/downlink/ch0/dir6/
-        /cf/downlink/ch0/dir7/
-        /cf/downlink/ch1/dir0/
-        /cf/downlink/ch1/dir1/
-        /cf/downlink/ch1/dir2/
-        /cf/downlink/ch1/dir3/
-        /cf/downlink/ch1/dir4/
-        /cf/downlink/ch1/dir5/
-        /cf/downlink/ch1/dir6/
-        /cf/downlink/ch1/dir7/
+        /cf/uplink/cpd_to_ppd/class1/priority2/
+        /cf/uplink/cpd_to_ppd/class2/priority2/
+        /cf/uplink/cpd_to_ppd/class1/priority4/
+        /cf/uplink/cpd_to_ppd/class2/priority4/
+        /cf/uplink/cpd_to_ppd/class1/priority6/
+        /cf/uplink/cpd_to_ppd/class2/priority6/
+        /cf/downlink/cpd_to_ppd/class1/priority2/
+        /cf/downlink/cpd_to_ppd/class2/priority2/
+        /cf/downlink/cpd_to_ppd/class1/priority4/
+        /cf/downlink/cpd_to_ppd/class2/priority4/
+        /cf/downlink/cpd_to_ppd/class1/priority6/
+        /cf/downlink/cpd_to_ppd/class2/priority6/
+        /cf/downlink/cpd_to_gnd/class1/priority2/
+        /cf/downlink/cpd_to_gnd/class2/priority2/
+        /cf/downlink/cpd_to_gnd/class1/priority4/
+        /cf/downlink/cpd_to_gnd/class2/priority4/
+        /cf/downlink/cpd_to_gnd/class1/priority6/
+        /cf/downlink/cpd_to_gnd/class2/priority6/
+        /cf/downlink/ppd_to_gnd/class1/priority2/
+        /cf/downlink/ppd_to_gnd/class2/priority2/
+        /cf/downlink/ppd_to_gnd/class1/priority4/
+        /cf/downlink/ppd_to_gnd/class2/priority4/
+        /cf/downlink/ppd_to_gnd/class1/priority6/
+        /cf/downlink/ppd_to_gnd/class2/priority6/
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
         
@@ -173,14 +180,14 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/mm/fsw/for_build
 )
 
-#buildliner_add_app(
-#    hs
-#    EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
-#    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/hs
-#    CONFIG_SOURCES
-#        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/hs/hs_custom.c
-#)
+buildliner_add_app(
+    hs
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/apps/hs/fsw/for_build
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/hs
+    CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../apps/hs/hs_custom.c
+)
 
 # This is temporarily removed until we can remove the OS dependency
 # in cf, i.e. "arpa/inet.h"
@@ -265,16 +272,14 @@ buildliner_add_app(
     vm
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/vm/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/vm
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/vm
 )
 
 buildliner_add_app(
     ld
     EMBEDDED
-#    DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/multicopter/fsw/for_build
-#    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/ld
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/fixedwing/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/fixedwing/gemini2/cpd/apps/ld
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/ld
 )
 
 buildliner_add_app(

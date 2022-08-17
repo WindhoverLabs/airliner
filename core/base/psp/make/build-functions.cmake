@@ -461,6 +461,8 @@ function(psp_buildliner_add_app)
     # Define the application name.
     set(PARSED_ARGS_APP_NAME ${ARGV0})
     cmake_parse_arguments(PARSED_ARGS "EMBEDDED" "DESIGN_DEFINITION" "CONFIG;CONFIG_SOURCES;INCLUDES;CONFIG_DEFINITION;COMPILE_OPTIONS" ${ARGN})
+
+    message("Adding ${PARSED_ARGS_APP_NAME}")
     
     # Set the embedded property, if present.
     if(PARSED_ARGS_EMBEDDED)

@@ -2,7 +2,7 @@
 ** File:
 **   $Id: hs_custom.h 1.3 2016/05/16 17:40:01EDT czogby Exp  $
 **
-**   Copyright © 2007-2016 United States Government as represented by the 
+**   Copyright ï¿½ 2007-2016 United States Government as represented by the 
 **   Administrator of the National Aeronautics and Space Administration. 
 **   All Other Rights Reserved.  
 **
@@ -174,8 +174,8 @@
 */
 #define HS_CR_SYNC_CALLBACK_ERR_EID 102
 
-/** \brief <tt> 'Mask 0x\%08X Base Time Ticks per Idle Ticks (frequency): \%i(\%i), \%i(\%i), \%i(\%i), \%i(\%i)' </tt>
-**  \event <tt> 'Mask 0x\%08X Base Time Ticks per Idle Ticks (frequency): \%i(\%i), \%i(\%i), \%i(\%i), \%i(\%i)' </tt>
+/** \brief <tt> 'Mask 0x\%08X Base Time Ticks per Idle Ticks (frequency): \%u(\%u), \%u(\%u), \%u(\%u), \%u(\%u)' </tt>
+**  \event <tt> 'Mask 0x\%08X Base Time Ticks per Idle Ticks (frequency): \%u(\%u), \%u(\%u), \%u(\%u), \%u(\%u)' </tt>
 **
 **  \par Type: INFORMATION
 **

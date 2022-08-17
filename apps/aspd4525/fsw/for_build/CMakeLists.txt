@@ -52,17 +52,9 @@ buildliner_add_app_def(aspd4525
     USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
     
-    MSG_OVERRIDES ${CMAKE_CURRENT_SOURCE_DIR}/aspd4525_msg_overrides.json
-
-    COMMANDER_PLUGIN
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
-    
     REFERENCE_CONFIG
         ${PROJECT_SOURCE_DIR}/apps/aspd4525/fsw/mission_inc
         ${PROJECT_SOURCE_DIR}/apps/aspd4525/fsw/platform_inc
-        
-    COMMANDER_DISPLAYS 
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
 )
 
 buildliner_add_app_unit_test(ASPD4525-UT
