@@ -1055,22 +1055,22 @@ extern "C" void FPC_AppMain(void)
 void FPC::Execute(void)
 {
         /* handle estimator reset events. we only adjust setpoins for manual modes*/
-        if (TRUE == m_VehicleControlModeMsg.ControlManualEnabled) {
-            if (m_VehicleControlModeMsg.ControlAltitudeEnabled && (m_VehicleGlobalPositionMsg.AltResetCounter != m_Alt_Reset_Counter)) {
-                //Careful for
-                _hold_alt += m_VehicleGlobalPositionMsg.DeltaAlt;
-                // make TECS accept step in altitude and demanded altitude
-                _tecs.handle_alt_step(m_VehicleGlobalPositionMsg.DeltaAlt, m_VehicleGlobalPositionMsg.Alt);
-            }
-
-            // adjust navigation waypoints in position control mode
-            if (m_VehicleControlModeMsg.ControlAltitudeEnabled && m_VehicleControlModeMsg.ControlVelocityEnabled
-                && m_VehicleGlobalPositionMsg.LatLonResetCounter != m_Pos_Reset_Counter) {
-
-                // reset heading hold flag, which will re-initialise position control
-                _hdg_hold_enabled = FALSE;
-            }
+    if (TRUE == m_VehicleControlModeMsg.ControlManualEnabled) {
+        if (m_VehicleControlModeMsg.ControlAltitudeEnabled && (m_VehicleGlobalPositionMsg.AltResetCounter != m_Alt_Reset_Counter)) {
+            //Careful for
+            _hold_alt += m_VehicleGlobalPositionMsg.DeltaAlt;
+            // make TECS accept step in altitude and demanded altitude
+            _tecs.handle_alt_step(m_VehicleGlobalPositionMsg.DeltaAlt, m_VehicleGlobalPositionMsg.Alt);
         }
+
+        // adjust navigation waypoints in position control mode
+        if (m_VehicleControlModeMsg.ControlAltitudeEnabled && m_VehicleControlModeMsg.ControlVelocityEnabled
+            && m_VehicleGlobalPositionMsg.LatLonResetCounter != m_Pos_Reset_Counter) {
+
+            // reset heading hold flag, which will re-initialise position control
+            _hdg_hold_enabled = FALSE;
+        }
+    }
 
     // update the reset counters in any case
     m_Alt_Reset_Counter = m_VehicleGlobalPositionMsg.AltResetCounter;
@@ -1086,11 +1086,12 @@ void FPC::Execute(void)
     math::Vector2F curr_pos(m_VehicleGlobalPositionMsg.Lat, m_VehicleGlobalPositionMsg.Lon);
     math::Vector2F ground_speed(m_VehicleGlobalPositionMsg.VelN, m_VehicleGlobalPositionMsg.VelE);
 
+    inControl = ControlPosition(curr_pos, ground_speed, m_PositionSetpointTripletMsg.Previous, m_PositionSetpointTripletMsg.Current);
     /*
      * Attempt to control position, on success (= sensors present and not in manual mode),
      * publish setpoint.
      */
-    if (ControlPosition(curr_pos, ground_speed, m_PositionSetpointTripletMsg.Previous, m_PositionSetpointTripletMsg.Current)) {
+    if (inControl) {
         m_VehicleAttitudeSetpointMsg.Timestamp = PX4LIB_GetPX4TimeMs();
 
         // add attitude setpoint offsets
@@ -1131,13 +1132,7 @@ void FPC::Execute(void)
 
         }
 
-        inControl = TRUE;
     }
-    else
-    {
-        inControl = FALSE;
-    }
-
 
 }
 
