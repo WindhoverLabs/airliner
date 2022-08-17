@@ -120,9 +120,33 @@ extern "C" {
 **
 **  \sa #FPC_NOOP_CC
 */
-#define FPC_RESET_CC                (1)
-
-#define FPC_DO_GO_AROUND_CC         (2)
+#define FPC_RESET_CC                           (1)
+#define FPC_DO_GO_AROUND_CC                    (2)
+#define FPC_SET_L1_PERIOD_CC                   (3)
+#define FPC_SET_L1_DAMPING_CC                  (4)
+#define FPC_SET_T_TIME_CONST_CC                (5)
+#define FPC_SET_T_THRO_CONST_CC                (6)
+#define FPC_SET_T_SINK_MIN_CC                  (7)
+#define FPC_SET_T_SINK_MAX_CC                  (8)
+#define FPC_SET_T_CLMB_MAX_CC                  (9)
+#define FPC_SET_CLMBOUT_DIFF_CC                (10)
+#define FPC_SET_T_HRATE_P_CC                   (11)
+#define FPC_SET_T_HRATE_FF_CC                  (12)
+#define FPC_SET_T_SRATE_P_CC                   (13)
+#define FPC_SET_T_THR_DAMP_CC                  (14)
+#define FPC_SET_T_INTEG_GAIN_CC                (15)
+#define FPC_SET_T_VERT_ACC_CC                  (16)
+#define FPC_SET_T_HGT_OMEGA_CC                 (17)
+#define FPC_SET_T_SPD_OMEGA_CC                 (18)
+#define FPC_SET_T_RLL2THR_CC                   (19)
+#define FPC_SET_T_SPDWEIGHT_CC                 (20)
+#define FPC_SET_T_PTCH_DAMP_CC                 (21)
+#define FPC_SET_AIRSPD_MIN_CC                  (21)
+#define FPC_SET_AIRSPD_TRIM_CC                 (22)
+#define FPC_SET_AIRSPD_MAX_CC                  (23)
+#define FPC_SET_ARSP_MODE_CC                   (24)
+#define FPC_SET_P_LIM_MIN_RADIANS_CC           (25)
+#define FPC_SET_R_LIM_RADIANS_CC               (27)
 
 /************************************************************************
 ** Local Structure Declarations
@@ -137,6 +161,240 @@ typedef struct
 {
     uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
 } FPC_NoArgCmd_t;
+
+
+/**
+**  \brief Add Message Flow command.
+*/
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_L1_PERIOD_Cmd_t;
+/**
+**  \brief Add Message Flow command.
+*/
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_L1_DAMPING_Cmd_t;
+
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_TIME_CONST_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_THRO_CONST_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_SINK_MIN_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_SINK_MAX_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_CLMB_MAX_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_CLMBOUT_DIFF_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_HRATE_P_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_HRATE_FF_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_SRATE_P_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_THR_DAMP_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_INTEG_GAIN_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_VERT_ACC_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_HGT_OMEGA_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_SPD_OMEGA_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_RLL2THR_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_SPDWEIGHT_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_T_PTCH_DAMP_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_AIRSPD_MIN_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_AIRSPD_TRIM_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float         NewValue;
+
+} FPC_Set_AIRSPD_MAX_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    boolean        NewValue;
+
+} FPC_Set_ARSP_MODE_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float        NewValue;
+
+} FPC_Set_P_LIM_MIN_RADIANS_Cmd_t;
+typedef struct
+{
+    /** \brief TC message headers */
+    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief Index of the channel for which this command applies */
+    float        NewValue;
+
+} FPC_Set_P_LIM_MAX_RADIANS_Cmd_t;
 
 /** 
 **  \brief TODO Elaborate this struct

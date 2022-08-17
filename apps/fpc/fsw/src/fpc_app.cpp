@@ -767,6 +767,7 @@ void FPC::UpdateParamsFromTable(void)
 void FPC::ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
 {
     uint32  uiCmdCode=0;
+    uint32  returnCode = 0;
 
     if (MsgPtr != NULL)
     {
@@ -834,6 +835,660 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                     break;
 
                 }
+
+            case FPC_SET_L1_PERIOD_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_L1_PERIOD_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_L1_PERIOD_Cmd_t *cmd = (FPC_Set_L1_PERIOD_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->L1_PERIOD = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "L1_PERIOD Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+             }
+
+            case FPC_SET_L1_DAMPING_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_L1_DAMPING_Cmd_t)) == TRUE)
+                {
+
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_L1_DAMPING_Cmd_t *cmd = (FPC_Set_L1_DAMPING_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->L1_DAMPING = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "L1_DAMPING Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_T_TIME_CONST_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_TIME_CONST_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_TIME_CONST_Cmd_t *cmd = (FPC_Set_T_TIME_CONST_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_TIME_CONST = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_TIME_CONST Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_T_THRO_CONST_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_THRO_CONST_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_THRO_CONST_Cmd_t *cmd = (FPC_Set_T_THRO_CONST_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_THRO_CONST = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_TIME_CONST Modified.");
+               }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+               break;
+            }
+            case FPC_SET_T_SINK_MIN_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_SINK_MIN_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_SINK_MIN_Cmd_t *cmd = (FPC_Set_T_SINK_MIN_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_SINK_MIN = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_TIME_CONST Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+              break;
+            }
+            case FPC_SET_T_SINK_MAX_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_SINK_MIN_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_SINK_MAX_Cmd_t *cmd = (FPC_Set_T_SINK_MAX_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_SINK_MAX = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_SINK_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_T_CLMB_MAX_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_CLMB_MAX_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_CLMB_MAX_Cmd_t *cmd = (FPC_Set_T_CLMB_MAX_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_CLMB_MAX = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_SINK_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_CLMBOUT_DIFF_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_CLMBOUT_DIFF_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_CLMBOUT_DIFF_Cmd_t *cmd = (FPC_Set_CLMBOUT_DIFF_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->CLMBOUT_DIFF = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "CLMBOUT_DIFF Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_T_HRATE_P_CC:
+            {
+               if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_HRATE_P_Cmd_t)) == TRUE)
+               {
+                   HkTlm.usCmdCnt++;
+                   FPC_Set_T_HRATE_P_Cmd_t *cmd = (FPC_Set_T_HRATE_P_Cmd_t*)MsgPtr;
+                   ConfigTblPtr->T_HRATE_P = cmd->NewValue;
+                   returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                   if(returnCode != CFE_SUCCESS)
+                   {
+                       (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                CFE_EVS_ERROR,
+                                                "CFE_TBL_Modified error (%d)",
+                                                (unsigned int)returnCode);
+                   }
+                   (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                            CFE_EVS_INFORMATION,
+                                            "T_HRATE_P Modified.");
+               }
+               else
+               {
+                   HkTlm.usCmdErrCnt++;
+               }
+               break;
+            }
+            case FPC_SET_T_HRATE_FF_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_HRATE_FF_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_HRATE_FF_Cmd_t *cmd = (FPC_Set_T_HRATE_FF_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_HRATE_FF = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_HRATE_FF Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+
+            case FPC_SET_T_SRATE_P_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_SRATE_P_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_SRATE_P_Cmd_t *cmd = (FPC_Set_T_SRATE_P_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_SRATE_P = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_SRATE_P Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_T_THR_DAMP_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_THR_DAMP_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_THR_DAMP_Cmd_t *cmd = (FPC_Set_T_THR_DAMP_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_THR_DAMP = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_T_INTEG_GAIN_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_INTEG_GAIN_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_INTEG_GAIN_Cmd_t *cmd = (FPC_Set_T_INTEG_GAIN_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_INTEG_GAIN = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_T_VERT_ACC_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_VERT_ACC_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_VERT_ACC_Cmd_t *cmd = (FPC_Set_T_VERT_ACC_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_VERT_ACC = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_T_HGT_OMEGA_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_HGT_OMEGA_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_HGT_OMEGA_Cmd_t *cmd = (FPC_Set_T_HGT_OMEGA_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_HGT_OMEGA = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_T_SPD_OMEGA_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_SPD_OMEGA_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_SPD_OMEGA_Cmd_t *cmd = (FPC_Set_T_SPD_OMEGA_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_SPD_OMEGA = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_T_RLL2THR_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_RLL2THR_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_RLL2THR_Cmd_t *cmd = (FPC_Set_T_RLL2THR_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_RLL2THR = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_T_SPDWEIGHT_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_SPDWEIGHT_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_SPDWEIGHT_Cmd_t *cmd = (FPC_Set_T_SPDWEIGHT_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_SPDWEIGHT = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_T_PTCH_DAMP_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_T_PTCH_DAMP_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_T_PTCH_DAMP_Cmd_t *cmd = (FPC_Set_T_PTCH_DAMP_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->T_PTCH_DAMP = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_PTCH_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_AIRSPD_MIN_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_AIRSPD_MIN_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_AIRSPD_MIN_Cmd_t *cmd = (FPC_Set_AIRSPD_MIN_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->AIRSPD_MIN = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "AIRSPD_MIN Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_AIRSPD_TRIM_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_AIRSPD_TRIM_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_AIRSPD_TRIM_Cmd_t *cmd = (FPC_Set_AIRSPD_TRIM_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->AIRSPD_TRIM = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "AIRSPD_TRIM Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_AIRSPD_MAX_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_AIRSPD_MAX_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_AIRSPD_MAX_Cmd_t *cmd = (FPC_Set_AIRSPD_MAX_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->AIRSPD_MAX = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "AIRSPD_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_ARSP_MODE_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_ARSP_MODE_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_ARSP_MODE_Cmd_t *cmd = (FPC_Set_ARSP_MODE_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->ARSP_MODE = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "ARSP_MODE Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_P_LIM_MIN_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_P_LIM_MIN_RADIANS_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_P_LIM_MIN_RADIANS_Cmd_t *cmd = (FPC_Set_P_LIM_MIN_RADIANS_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->P_LIM_MIN_RADIANS = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "P_LIM_MIN_RADIANS Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_P_LIM_MAX_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_P_LIM_MAX_RADIANS_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_P_LIM_MAX_RADIANS_Cmd_t *cmd = (FPC_Set_P_LIM_MAX_RADIANS_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->P_LIM_MAX_RADIANS = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "P_LIM_MAX_RADIANS Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_SET_P_LIM_MAX_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_Set_P_LIM_MAX_RADIANS_Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_Set_P_LIM_MAX_RADIANS_Cmd_t *cmd = (FPC_Set_P_LIM_MAX_RADIANS_Cmd_t*)MsgPtr;
+                    ConfigTblPtr->P_LIM_MAX_RADIANS = cmd->NewValue;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "P_LIM_MAX_RADIANS Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
             /* TODO:  Add code to process the rest of the FPC commands here */
 
             default:
