@@ -235,6 +235,7 @@ typedef struct
     float              m_Hold_Alt;
 
     boolean	m_Hdg_Hold_Enabled;
+    boolean	_yaw_lock_engaged;
 
     ECL_TECS_MODE       tecsMode;
 
@@ -248,6 +249,8 @@ typedef struct
     uint64  _airspeed_last_received;			///< last time airspeed was received. Used to detect timeouts.
     float   _airspeed;
     float   _eas2tas;
+
+    float   TecsPitch;
 
     boolean             inControl;
 

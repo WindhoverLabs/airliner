@@ -883,6 +883,7 @@ void FPC::ReportHousekeeping()
     HkTlm._airspeed = _airspeed;
     HkTlm._eas2tas = _eas2tas;
     HkTlm.m_Hdg_Hold_Enabled = _hdg_hold_enabled;
+    HkTlm._yaw_lock_engaged = _yaw_lock_engaged;
     HkTlm.inControl = inControl;
     HkTlm._runway_takeoff_initialized = _runway_takeoff.isInitialized();
 
@@ -2023,6 +2024,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
     if (use_tecs_pitch) {
         m_VehicleAttitudeSetpointMsg.PitchBody = GetTecsPitch();
+        HkTlm.TecsPitch = GetTecsPitch();
     }
 
     if (m_VehicleControlModeMsg.ControlPositionEnabled) {
