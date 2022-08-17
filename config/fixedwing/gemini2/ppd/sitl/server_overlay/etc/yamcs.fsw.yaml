@@ -23,11 +23,10 @@ services:
         warmupTime: 60
   - class: org.yamcs.tctm.cfs.CfsEventDecoder
     args:
-      msgIds: [0x0815, 0x0a15] #Always confirm this ID with CFE_EVS configuration
+      msgIds: [0x0815, 0x0a15, 0x0c15] #Always confirm this ID with CFE_EVS configuration
       byteOrder: LITTLE_ENDIAN
       appNameMax: 40
       eventMsgMax: 122
-
   - class: org.yamcs.cfdp.CfdpService
     name: cfdp1
     args:
@@ -59,12 +58,11 @@ services:
       receiverFaultHandlers:
         AckLimitReached: suspend
 
-
-dataLinks:
+dataLinks:   
   - name: ds-logs
     class: com.windhoverlabs.yamcs.cfs.ds.CfsDsPlugin
     stream: tm_realtime
-    buckets: ["cfdpDownCH1", "cfdpDownCH2"]
+    buckets: ["cfdpDownCH1","cfdpDownCH2"]
     DS_FILE_HDR_SUBTYPE: 12346
     DS_TOTAL_FNAME_BUFSIZE: 64
     packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
@@ -76,46 +74,40 @@ dataLinks:
         epoch: CUSTOM
         epochUTC: "1970-01-01T00:00:00Z"
         timeIncludesLeapSeconds: false
+         
+  - name: tc_cpd
+    class: org.yamcs.tctm.UdpTcDataLink
+    stream: tc_realtime
+    host: 127.0.0.1
+    port: 5110
+    commandPostprocessorClassName: com.windhoverlabs.yamcs.tctm.ccsds.CfsCommandPostprocessorRFC1055
+    commandPostprocessorArgs:
+      swapChecksumFc: true
+
+  - name: tm_cpd
+    class: org.yamcs.tctm.UdpTmDataLink
+    stream: tm_realtime
+    port: 5111
+    maxLength: 32768 #32KB is the default for CCSDS
+    packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+    packetPreprocessorArgs:
+      checkSequence: false
+      byteOrder: LITTLE_ENDIAN
+      useLocalGenerationTime: false
+      #errorDetection:
+      #tcoService:
+      timestampFormat: CFE_SB_TIME_32_16_SUBS
+      timeEncoding:
+        epoch: CUSTOM
+        epochUTC: "1970-01-01T00:00:00Z"
+        timeIncludesLeapSeconds: false
         
-  - name: tmtc_cpd
-    class: com.windhoverlabs.yamcs.tctm.SerialATTmTcDatalink
-    device: /dev/ttyUSB0
-    baudRate: 115200
-    flowControl: RTS_CTS
-    tm_config:
-      stream: tm_realtime
-      packetInputStreamClassName: com.windhoverlabs.yamcs.tctm.RFC1055PacketInputStream
-      packetInputStreamArgs:
-        asm: "1ACFFC1D"
-        minLength: 1024
-        maxLength: 1024
-        dropMalformed: false
-      spacecraftId: 1
-      maxPacketLength: 32768
-      packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
-      packetPreprocessorArgs:
-        byteOrder: LITTLE_ENDIAN
-        #            useLocalGenerationTime: true
-        #errorDetection:
-        #tcoService:
-        timestampFormat: CFE_SB_TIME_32_16_SUBS
-        timeEncoding:
-          useLocalGenerationTime: false
-          epoch: CUSTOM
-          epochUTC: "1970-01-01T00:00:00Z"
-          timeIncludesLeapSeconds: false
-    tc_config:
-      spacecraftId: 1
-      commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
-      commandPostprocessorArgs:
-        swapChecksumFc: false
-      stream: tc_realtime
-      
   - name: tc_ppd
     class: org.yamcs.tctm.UdpTcDataLink
     stream: tc_realtime
-    host: 192.168.2.153
+    host: 127.0.0.1
     port: 5010
+    enabledAtStartup: false
     commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
     commandPostprocessorArgs:
       swapChecksumFc: true
