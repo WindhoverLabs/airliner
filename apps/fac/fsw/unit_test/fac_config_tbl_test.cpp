@@ -51,7 +51,7 @@
 
 #include <string.h>
 
-bool   bInitConfigTbl_SendEventHook = FALSE;
+uint32  InitConfigTbl_ParamBit = 0x0;
 
 
 /**************************************************************************
@@ -443,9 +443,9 @@ void Test_FAC_InitConfigTbl_Fail_ValidateParamTbl_EachParam(void)
 
 
 /**
- * Test FAC InitConfigTbl(), SendEventHook
+ * Test FAC InitConfigTbl(), MultipleParam_SendEventHook
  */
-int32 Test_FAC_InitConfigTbl_SendEventHook
+int32 Test_FAC_InitConfigTbl_MultipleParam_SendEventHook
             (uint16 EventID, uint16 EventType, const char *EventText, ...)
 {
     va_list  Ptr;
@@ -457,7 +457,7 @@ int32 Test_FAC_InitConfigTbl_SendEventHook
     vsnprintf(Buf, (size_t)CFE_EVS_MAX_MESSAGE_LENGTH, EventText, Ptr);
     va_end(Ptr);
 
-    printf("###InitConfigTbl_SendEventHook:\n");
+    printf("###InitConfigTbl_MultipleParam_SendEventHook:\n");
     printf("%s\n", Buf);
 
     pSubStr1 = strstr(Buf, "FW_R_TC");
@@ -465,13 +465,14 @@ int32 Test_FAC_InitConfigTbl_SendEventHook
 
     printf("pSubStr1: %p, pSubStr2: %p\n", pSubStr1, pSubStr2);
 
-    if ((pSubStr1 != NULL) && (pSubStr2 != NULL))
+    if (pSubStr1 != NULL)
     {
-        bInitConfigTbl_SendEventHook = TRUE;
+        InitConfigTbl_ParamBit |= 0x1;
     }
-    else
+
+    if (pSubStr2 != NULL)
     {
-        bInitConfigTbl_SendEventHook = FALSE;
+        InitConfigTbl_ParamBit |= 0x2;
     }
 
     return 0;
@@ -485,8 +486,9 @@ void Test_FAC_InitConfigTbl_Fail_ValidateParamTbl_MultipleParam(void)
 {
     int32    resultInit = CFE_SUCCESS;
 
+    InitConfigTbl_ParamBit = 0x0;
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
-               (void*)&Test_FAC_InitConfigTbl_SendEventHook);
+               (void*)&Test_FAC_InitConfigTbl_MultipleParam_SendEventHook);
 
     /* Execute the function being tested */
     resultInit = oFAC.InitConfigTbl();
@@ -498,7 +500,7 @@ void Test_FAC_InitConfigTbl_Fail_ValidateParamTbl_MultipleParam(void)
         oFAC.ValidateParamTbl((void*)oFAC.ParamTblPtr);
     }
 
-    if ((resultInit == CFE_SUCCESS) && (bInitConfigTbl_SendEventHook == TRUE))
+    if ((resultInit == CFE_SUCCESS) && (InitConfigTbl_ParamBit == 0x3))
     {
         UtAssert_True (TRUE, "InitConfigTbl Fail ValidateParamTbl_MultipleParam");
     }

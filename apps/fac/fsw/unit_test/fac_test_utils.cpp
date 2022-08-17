@@ -142,7 +142,7 @@ FAC_ParamTbl_t FAC_ParamTblStandard =
     0.2f,    /* Yaw rate integrator limit (FW_YR_IMAX) */
     0.0f,    /* Maximum yaw rate (FW_Y_RMAX) */
     0.0f,    /* Roll control to yaw control feedforward gain (FW_RLL_TO_YAW_FF) */
-    0,       /* Enable wheel steering controller (FW_W_EN) */
+    1,       /* Enable wheel steering controller (FW_W_EN) */
     0.5f,    /* Wheel steering rate proportional gain (FW_WR_P) */
     0.1f,    /* Wheel steering rate integrator gain (FW_WR_I) */
     1.0f,    /* Wheel steering rate integrator limit (FW_WR_IMAX) */
@@ -158,12 +158,12 @@ FAC_ParamTbl_t FAC_ParamTblStandard =
     45.0f,   /* Max manual roll (FW_MAN_R_MAX) */
     10.0f,   /* Max manual pitch (FW_MAN_P_MAX) */
     1.0f,    /* Scale factor for flaps (FW_FLAPS_SCL) */
-    0.0f,    /* Scale factor for flaperons (FW_FLAPERON_SCL) */
+    0.02f,    /* Scale factor for flaperons (FW_FLAPERON_SCL) */
     0,       /* Disable airspeed sensor (FW_ARSP_MODE) */
     1.0f,    /* Manual roll scale (FW_MAN_R_SC) */
     1.0f,    /* Manual pitch scale (FW_MAN_P_SC) */
     1.0f,    /* Manual yaw scale (FW_MAN_Y_SC) */
-    0,       /* Whether to scale throttle by battery power level (FW_BAT_SCALE_EN) */
+    1,       /* Whether to scale throttle by battery power level (FW_BAT_SCALE_EN) */
     90.0f,   /* Acro body x max rate (FW_ACRO_X_MAX) */
     90.0f,   /* Acro body y max rate (FW_ACRO_Y_MAX) */
     45.0f,   /* Acro body z max rate (FW_ACRO_Z_MAX) */
@@ -508,6 +508,25 @@ uint32 FAC_Test_ValidateEclValues()
     printf("Test_ValidateEclValues: uResult is 0x%08x\n", (unsigned int)uResult);
 
     return uResult;
+}
+
+
+uint64 FAC_Test_GetTimeUs(void)
+{
+    int              iStatus;
+    uint64           outTime = 0;
+    struct timespec  time;
+
+    iStatus = clock_gettime(CLOCK_REALTIME, &time);
+    if (iStatus == 0)
+    {
+        outTime = static_cast<uint64>(static_cast<uint64>(time.tv_sec)
+                  * static_cast<uint64>(1000000))
+                  + static_cast<uint64>(static_cast<uint64>(time.tv_nsec)
+                    / static_cast<uint64>(1000));
+    }
+
+    return outTime;
 }
 
 
