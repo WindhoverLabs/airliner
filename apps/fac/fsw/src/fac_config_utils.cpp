@@ -493,6 +493,7 @@ void FAC::HandleTableUpdate(void)
         (void) CFE_EVS_SendEvent(FAC_TBL_MODIFIED_ERROR_EID, CFE_EVS_ERROR,
                 "CFE_TBL_Modified failed with code (%d)", Status);
     }
+    UpdateParams();
 }
 
 
@@ -588,7 +589,7 @@ osalbool FAC::InvalidFW_Y_RMAX(float param)
 
 osalbool FAC::InvalidFW_RLL_TO_YAW_FF(float param)
 {
-    return (param < FW_RLL_TO_YAW_FF_MIN || param > FW_RLL_TO_YAW_FF_MAX);
+    return (param < FW_RLL_TO_YAW_FF_MIN);
 }
 
 
