@@ -638,7 +638,9 @@ void FAC::ProcessNewCmds()
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 {
-    uint32  uiCmdCode=0;
+    uint32   uiCmdCode = 0;
+    osalbool sizeOk    = FALSE;
+    osalbool isCmdOk   = FALSE;
 
     if (MsgPtr != NULL)
     {
@@ -660,6 +662,1329 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 ResetHousekeeping();
                 (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
                                   "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
+                break;
+
+            case FAC_UPDATE_FW_R_TC_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_R_TC(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_R_TC = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_R_TC cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_P_TC_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_P_TC(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_P_TC = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_P_TC cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_PR_P_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_PR_P(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_PR_P = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_PR_P cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_PR_I_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_PR_I(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_PR_I = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_PR_I cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_P_RMAX_POS_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_P_RMAX_POS(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_P_RMAX_POS = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_P_RMAX_POS cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_P_RMAX_NEG_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_P_RMAX_NEG(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_P_RMAX_NEG = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_P_RMAX_NEG cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_PR_IMAX_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_PR_IMAX(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_PR_IMAX = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_PR_IMAX cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_RR_P_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_RR_P(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_RR_P = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_RR_P cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_RR_I_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_RR_I(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_RR_I = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_RR_I cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_RR_IMAX_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_RR_IMAX(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_RR_IMAX = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_RR_IMAX cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_R_RMAX_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_R_RMAX(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_R_RMAX = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_R_RMAX cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_YR_P_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_YR_P(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_YR_P = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_YR_P cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_YR_I_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_YR_I(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_YR_I = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_YR_I cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_YR_IMAX_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_YR_IMAX(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_YR_IMAX = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_YR_IMAX cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_Y_RMAX_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_Y_RMAX(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_Y_RMAX = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_Y_RMAX cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_RLL_TO_YAW_FF_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_RLL_TO_YAW_FF(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_RLL_TO_YAW_FF = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_RLL_TO_YAW_FF cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_W_EN_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamInt32Cmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamInt32Cmd_t *cmd = (FAC_UpdateParamInt32Cmd_t*)MsgPtr;
+                    if (InvalidFW_W_EN(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_W_EN = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_W_EN cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_WR_P_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_WR_P(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_WR_P = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_WR_P cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_WR_I_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_WR_I(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_WR_I = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_WR_I cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_WR_IMAX_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_WR_IMAX(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_WR_IMAX = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_WR_IMAX cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_W_RMAX_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_W_RMAX(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_W_RMAX = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_W_RMAX cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_RR_FF_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_RR_FF(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_RR_FF = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_RR_FF cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_PR_FF_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_PR_FF(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_PR_FF = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_PR_FF cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_YR_FF_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_YR_FF(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_YR_FF = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_YR_FF cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_WR_FF_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_WR_FF(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_WR_FF = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_WR_FF cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_YCO_VMIN_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_YCO_VMIN(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_YCO_VMIN = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_YCO_VMIN cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_YCO_METHOD_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamInt32Cmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamInt32Cmd_t *cmd = (FAC_UpdateParamInt32Cmd_t*)MsgPtr;
+                    if (InvalidFW_YCO_METHOD(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_YCO_METHOD = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_YCO_METHOD cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_RSP_OFF_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_RSP_OFF(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_RSP_OFF = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_RSP_OFF cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_PSP_OFF_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_PSP_OFF(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_PSP_OFF = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_PSP_OFF cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_MAN_R_MAX_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_MAN_R_MAX(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_MAN_R_MAX = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_MAN_R_MAX cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_MAN_P_MAX_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_MAN_P_MAX(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_MAN_P_MAX = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_MAN_P_MAX cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_FLAPS_SCL_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_FLAPS_SCL(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_FLAPS_SCL = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_FLAPS_SCL cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_FLAPERON_SCL_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_FLAPERON_SCL(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_FLAPERON_SCL = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_FLAPERON_SCL cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_ARSP_MODE_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamInt32Cmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamInt32Cmd_t *cmd = (FAC_UpdateParamInt32Cmd_t*)MsgPtr;
+                    if (InvalidFW_ARSP_MODE(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_ARSP_MODE = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_ARSP_MODE cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_MAN_R_SC_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_MAN_R_SC(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_MAN_R_SC = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_MAN_R_SC cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_MAN_P_SC_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_MAN_P_SC(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_MAN_P_SC = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_MAN_P_SC cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_MAN_Y_SC_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_MAN_Y_SC(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_MAN_Y_SC = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_MAN_Y_SC cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_BAT_SCALE_EN_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamInt32Cmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamInt32Cmd_t *cmd = (FAC_UpdateParamInt32Cmd_t*)MsgPtr;
+                    if (InvalidFW_BAT_SCALE_EN(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_BAT_SCALE_EN = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_BAT_SCALE_EN cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_ACRO_X_MAX_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_ACRO_X_MAX(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_ACRO_X_MAX = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_ACRO_X_MAX cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_ACRO_Y_MAX_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_ACRO_Y_MAX(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_ACRO_Y_MAX = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_ACRO_Y_MAX cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_ACRO_Z_MAX_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_ACRO_Z_MAX(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_ACRO_Z_MAX = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_ACRO_Z_MAX cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_RATT_TH_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_RATT_TH(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_RATT_TH = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_RATT_TH cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_AIRSPD_MIN_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_AIRSPD_MIN(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_AIRSPD_MIN = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_AIRSPD_MIN cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_AIRSPD_MAX_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_AIRSPD_MAX(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_AIRSPD_MAX = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_AIRSPD_MAX cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_FW_AIRSPD_TRIM_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidFW_AIRSPD_TRIM(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->FW_AIRSPD_TRIM = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_FW_AIRSPD_TRIM cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_TRIM_ROLL_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidTRIM_ROLL(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->TRIM_ROLL = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_TRIM_ROLL cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_TRIM_PITCH_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidTRIM_PITCH(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->TRIM_PITCH = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_TRIM_PITCH cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_TRIM_YAW_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamFloatCmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamFloatCmd_t *cmd = (FAC_UpdateParamFloatCmd_t*)MsgPtr;
+                    if (InvalidTRIM_YAW(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->TRIM_YAW = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_TRIM_YAW cmd (%f)", cmd->param);
+                    }
+                }
+                break;
+
+            case FAC_UPDATE_VT_TYPE_CC:
+                sizeOk = VerifyCmdLength(MsgPtr, sizeof(FAC_UpdateParamUint32Cmd_t));
+                if(TRUE == sizeOk)
+                {
+                    FAC_UpdateParamUint32Cmd_t *cmd = (FAC_UpdateParamUint32Cmd_t*)MsgPtr;
+                    if (InvalidVT_TYPE(cmd->param))
+                    {
+                        HkTlm.usCmdErrCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
+                                "Recvd invalid cmd CC %u", uiCmdCode);
+                    }
+                    else
+                    {
+                        isCmdOk = TRUE;
+                    }
+
+                    if(TRUE == isCmdOk)
+                    {
+                        ParamTblPtr->VT_TYPE = cmd->param;
+                        HandleTableUpdate();
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                "Executed UPDATE_VT_TYPE cmd (%f)", cmd->param);
+                    }
+                }
                 break;
 
             default:
