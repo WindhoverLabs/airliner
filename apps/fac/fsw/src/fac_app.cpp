@@ -673,7 +673,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -700,7 +700,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -727,7 +727,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -754,7 +754,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -781,7 +781,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -808,7 +808,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -835,7 +835,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -862,7 +862,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -889,7 +889,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -916,7 +916,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -943,7 +943,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -970,7 +970,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -997,7 +997,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1024,7 +1024,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1051,7 +1051,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1078,7 +1078,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1105,7 +1105,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1118,7 +1118,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                         HandleTableUpdate();
                         HkTlm.usCmdCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                "Executed UPDATE_FW_W_EN cmd (%f)", cmd->param);
+                                "Executed UPDATE_FW_W_EN cmd (%d)", (int) cmd->param);
                     }
                 }
                 break;
@@ -1132,7 +1132,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1159,7 +1159,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1186,7 +1186,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1213,7 +1213,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1240,7 +1240,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1267,7 +1267,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1294,7 +1294,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1321,7 +1321,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1348,7 +1348,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1375,7 +1375,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1388,7 +1388,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                         HandleTableUpdate();
                         HkTlm.usCmdCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                "Executed UPDATE_FW_YCO_METHOD cmd (%f)", cmd->param);
+                                "Executed UPDATE_FW_YCO_METHOD cmd (%d)", (int) cmd->param);
                     }
                 }
                 break;
@@ -1402,7 +1402,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1429,7 +1429,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1456,7 +1456,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1483,7 +1483,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1510,7 +1510,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1537,7 +1537,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1564,7 +1564,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1577,7 +1577,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                         HandleTableUpdate();
                         HkTlm.usCmdCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                "Executed UPDATE_FW_ARSP_MODE cmd (%f)", cmd->param);
+                                "Executed UPDATE_FW_ARSP_MODE cmd (%d)", (int) cmd->param);
                     }
                 }
                 break;
@@ -1591,7 +1591,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1618,7 +1618,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1645,7 +1645,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1672,7 +1672,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1685,7 +1685,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                         HandleTableUpdate();
                         HkTlm.usCmdCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                "Executed UPDATE_FW_BAT_SCALE_EN cmd (%f)", cmd->param);
+                                "Executed UPDATE_FW_BAT_SCALE_EN cmd (%d)", (int) cmd->param);
                     }
                 }
                 break;
@@ -1699,7 +1699,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1726,7 +1726,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1753,7 +1753,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1780,7 +1780,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1807,7 +1807,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1834,7 +1834,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1861,7 +1861,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1888,7 +1888,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1915,7 +1915,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1942,7 +1942,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1969,7 +1969,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                     {
                         HkTlm.usCmdErrCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_ERROR_EID, CFE_EVS_ERROR,
-                                "Recvd invalid cmd CC %u", uiCmdCode);
+                                "Recvd invalid cmd CC %u", (unsigned int) uiCmdCode);
                     }
                     else
                     {
@@ -1982,7 +1982,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                         HandleTableUpdate();
                         HkTlm.usCmdCnt++;
                         (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                "Executed UPDATE_VT_TYPE cmd (%f)", cmd->param);
+                                "Executed UPDATE_VT_TYPE cmd (%u)", (unsigned int) cmd->param);
                     }
                 }
                 break;

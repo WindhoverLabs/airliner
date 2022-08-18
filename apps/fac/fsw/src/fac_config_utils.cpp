@@ -488,7 +488,7 @@ void FAC::HandleTableUpdate(void)
     int32 Status = 0;
 
     Status = CFE_TBL_Modified(ParamTblHdl);
-    if(Status != CFE_SUCESS)
+    if(Status != CFE_SUCCESS)
     {
         (void) CFE_EVS_SendEvent(FAC_TBL_MODIFIED_ERROR_EID, CFE_EVS_ERROR,
                 "CFE_TBL_Modified failed with code (%d)", Status);
@@ -496,295 +496,295 @@ void FAC::HandleTableUpdate(void)
 }
 
 
-osalBool FAC::InvalidFW_R_TC(float param)
+osalbool FAC::InvalidFW_R_TC(float param)
 {
     return (param < FW_R_TC_MIN || param > FW_R_TC_MAX);
 }
 
 
-osalBool FAC::InvalidFW_P_TC(float param)
+osalbool FAC::InvalidFW_P_TC(float param)
 {
     return (param <FW_P_TC_MIN || param > FW_P_TC_MAX);
 }
 
 
-osalBool FAC::InvalidFW_PR_P(float param)
+osalbool FAC::InvalidFW_PR_P(float param)
 {
     return (param < FW_PR_P_MIN || param > FW_PR_P_MAX);
 }
 
 
-osalBool FAC::InvalidFW_PR_I(float param)
+osalbool FAC::InvalidFW_PR_I(float param)
 {
-    return (param < FW_PR_I_MIN || param > FW_PR_I_MAX):
+    return (param < FW_PR_I_MIN || param > FW_PR_I_MAX);
 }
 
 
-osalBool FAC::InvalidFW_P_RMAX_POS(float param)
+osalbool FAC::InvalidFW_P_RMAX_POS(float param)
 {
     return (param < FW_P_RMAX_POS_MIN || param > FW_P_RMAX_POS_MAX);
 }
 
 
-osalBool FAC::InvalidFW_P_RMAX_NEG(float param)
+osalbool FAC::InvalidFW_P_RMAX_NEG(float param)
 {
     return (param < FW_P_RMAX_NEG_MIN || param > FW_P_RMAX_NEG_MAX);
 }
 
 
-osalBool FAC::InvalidFW_PR_IMAX(float param)
+osalbool FAC::InvalidFW_PR_IMAX(float param)
 {
     return (param < FW_PR_IMAX_MIN || param > FW_PR_IMAX_MAX);
 }
 
 
-osalBool FAC::InvalidFW_RR_P(float param)
+osalbool FAC::InvalidFW_RR_P(float param)
 {
     return (param < FW_RR_P_MIN || param > FW_RR_P_MAX);
 }
 
 
-osalBool FAC::InvalidFW_RR_I(float param)
+osalbool FAC::InvalidFW_RR_I(float param)
 {
     return (param < FW_RR_I_MIN || param > FW_RR_I_MAX);
 }
 
 
-osalBool FAC::InvalidFW_RR_IMAX(float param)
+osalbool FAC::InvalidFW_RR_IMAX(float param)
 {
     return (param < FW_RR_IMAX_MIN || param > FW_RR_IMAX_MAX);
 }
 
 
-osalBool FAC::InvalidFW_R_RMAX(float param)
+osalbool FAC::InvalidFW_R_RMAX(float param)
 {
     return (param < FW_R_RMAX_MIN || param > FW_R_RMAX_MAX);
 }
 
 
-osalBool FAC::InvalidFW_YR_P(float param)
+osalbool FAC::InvalidFW_YR_P(float param)
 {
     return (param < FW_YR_P_MIN || param > FW_YR_P_MAX);
 }
 
 
-osalBool FAC::InvalidFW_YR_I(float param)
+osalbool FAC::InvalidFW_YR_I(float param)
 {
     return (param < FW_YR_I_MIN || param > FW_YR_I_MAX);
 }
 
 
-osalBool FAC::InvalidFW_YR_IMAX(float param)
+osalbool FAC::InvalidFW_YR_IMAX(float param)
 {
     return (param < FW_YR_IMAX_MIN || param > FW_YR_IMAX_MAX);
 }
 
 
-osalBool FAC::InvalidFW_Y_RMAX(float param)
+osalbool FAC::InvalidFW_Y_RMAX(float param)
 {
     return (param < FW_Y_RMAX_MIN || param > FW_Y_RMAX_MAX);
 }
 
 
-osalBool FAC::InvalidFW_RLL_TO_YAW_FF(float param)
+osalbool FAC::InvalidFW_RLL_TO_YAW_FF(float param)
 {
     return (param < FW_RLL_TO_YAW_FF_MIN || param > FW_RLL_TO_YAW_FF_MAX);
 }
 
 
-osalBool FAC::InvalidFW_W_EN(int32 param)
+osalbool FAC::InvalidFW_W_EN(int32 param)
 {
     return FALSE;
 }
 
 
-osalBool FAC::InvalidFW_WR_P(float param)
+osalbool FAC::InvalidFW_WR_P(float param)
 {
     return (param < FW_WR_P_MIN || param > FW_WR_P_MAX);
 }
 
 
-osalBool FAC::InvalidFW_WR_I(float param)
+osalbool FAC::InvalidFW_WR_I(float param)
 {
     return (param < FW_WR_I_MIN || param > FW_WR_I_MAX);
 }
 
 
-osalBool FAC::InvalidFW_WR_IMAX(float param)
+osalbool FAC::InvalidFW_WR_IMAX(float param)
 {
     return (param < FW_WR_IMAX_MIN || param > FW_WR_IMAX_MAX);
 }
 
 
-osalBool FAC::InvalidFW_W_RMAX(float param)
+osalbool FAC::InvalidFW_W_RMAX(float param)
 {
     return (param < FW_W_RMAX_MIN || param > FW_W_RMAX_MAX);
 }
 
 
-osalBool FAC::InvalidFW_RR_FF(float param)
+osalbool FAC::InvalidFW_RR_FF(float param)
 {
     return (param < FW_RR_FF_MIN || param > FW_RR_FF_MAX);
 }
 
 
-osalBool FAC::InvalidFW_PR_FF(float param)
+osalbool FAC::InvalidFW_PR_FF(float param)
 {
     return (param < FW_PR_FF_MIN || param > FW_PR_FF_MAX);
 }
 
 
-osalBool FAC::InvalidFW_YR_FF(float param)
+osalbool FAC::InvalidFW_YR_FF(float param)
 {
     return (param < FW_YR_FF_MIN || param > FW_YR_FF_MAX);
 }
 
 
-osalBool FAC::InvalidFW_WR_FF(float param)
+osalbool FAC::InvalidFW_WR_FF(float param)
 {
     return (param < FW_WR_FF_MIN || param > FW_WR_FF_MAX);
 }
 
 
-osalBool FAC::InvalidFW_YCO_VMIN(float param)
+osalbool FAC::InvalidFW_YCO_VMIN(float param)
 {
     return (param < FW_YCO_VMIN_MIN || param > FW_YCO_VMIN_MAX);
 }
 
 
-osalBool FAC::InvalidFW_YCO_METHOD(int32 param)
+osalbool FAC::InvalidFW_YCO_METHOD(int32 param)
 {
     return (param < FW_YCO_METHOD_MIN || param > FW_YCO_METHOD_MAX);
 }
 
 
-osalBool FAC::InvalidFW_RSP_OFF(float param)
+osalbool FAC::InvalidFW_RSP_OFF(float param)
 {
     return (param < FW_RSP_OFF_MIN || param > FW_RSP_OFF_MAX);
 }
 
 
-osalBool FAC::InvalidFW_PSP_OFF(float param)
+osalbool FAC::InvalidFW_PSP_OFF(float param)
 {
     return (param < FW_PSP_OFF_MIN || param > FW_PSP_OFF_MAX);
 }
 
 
-osalBool FAC::InvalidFW_MAN_R_MAX(float param)
+osalbool FAC::InvalidFW_MAN_R_MAX(float param)
 {
     return (param < FW_MAN_R_MAX_MIN || param > FW_MAN_R_MAX_MAX);
 }
 
 
-osalBool FAC::InvalidFW_MAN_P_MAX(float param)
+osalbool FAC::InvalidFW_MAN_P_MAX(float param)
 {
     return (param < FW_MAN_P_MAX_MIN || param > FW_MAN_P_MAX_MAX);
 }
 
 
-osalBool FAC::InvalidFW_FLAPS_SCL(float param)
+osalbool FAC::InvalidFW_FLAPS_SCL(float param)
 {
     return (param < FW_FLAPS_SCL_MIN || param > FW_FLAPS_SCL_MAX);
 }
 
 
-osalBool FAC::InvalidFW_FLAPERON_SCL(float param)
+osalbool FAC::InvalidFW_FLAPERON_SCL(float param)
 {
     return (param < FW_FLAPERON_SCL_MIN || param > FW_FLAPERON_SCL_MAX);
 }
 
 
-osalBool FAC::InvalidFW_ARSP_MODE(int32 param)
+osalbool FAC::InvalidFW_ARSP_MODE(int32 param)
 {
     return FALSE;
 }
 
 
-osalBool FAC::InvalidFW_MAN_R_SC(float param)
+osalbool FAC::InvalidFW_MAN_R_SC(float param)
 {
     return (param < FW_MAN_R_SC_MIN || param > FW_MAN_R_SC_MAX);
 }
 
 
-osalBool FAC::InvalidFW_MAN_P_SC(float param)
+osalbool FAC::InvalidFW_MAN_P_SC(float param)
 {
     return (param < FW_MAN_P_SC_MIN);
 }
 
 
-osalBool FAC::InvalidFW_MAN_Y_SC(float param)
+osalbool FAC::InvalidFW_MAN_Y_SC(float param)
 {
-    return (FAC_ParamTblPtr->FW_MAN_Y_SC < FW_MAN_Y_SC_MIN);
+    return (param < FW_MAN_Y_SC_MIN);
 }
 
 
-osalBool FAC::InvalidFW_BAT_SCALE_EN(int32 param)
+osalbool FAC::InvalidFW_BAT_SCALE_EN(int32 param)
 {
     return FALSE;
 }
 
 
-osalBool FAC::InvalidFW_ACRO_X_MAX(float param)
+osalbool FAC::InvalidFW_ACRO_X_MAX(float param)
 {
     return (param < FW_ACRO_X_MAX_MIN || param > FW_ACRO_X_MAX_MAX);
 }
 
 
-osalBool FAC::InvalidFW_ACRO_Y_MAX(float param)
+osalbool FAC::InvalidFW_ACRO_Y_MAX(float param)
 {
     return (param < FW_ACRO_Y_MAX_MIN || param > FW_ACRO_Y_MAX_MAX);
 }
 
 
-osalBool FAC::InvalidFW_ACRO_Z_MAX(float param)
+osalbool FAC::InvalidFW_ACRO_Z_MAX(float param)
 {
     return (param < FW_ACRO_Z_MAX_MIN || param > FW_ACRO_Z_MAX_MAX);
 }
 
 
-osalBool FAC::InvalidFW_RATT_TH(float param)
+osalbool FAC::InvalidFW_RATT_TH(float param)
 {
     return (param < FW_RATT_TH_MIN || param > FW_RATT_TH_MAX);
 }
 
 
-osalBool FAC::InvalidFW_AIRSPD_MIN(float param)
+osalbool FAC::InvalidFW_AIRSPD_MIN(float param)
 {
     return (param < FW_AIRSPD_MIN_MIN || param > FW_AIRSPD_MIN_MAX);
 }
 
 
-osalBool FAC::InvalidFW_AIRSPD_MAX(float param)
+osalbool FAC::InvalidFW_AIRSPD_MAX(float param)
 {
     return (param < FW_AIRSPD_MAX_MIN || param > FW_AIRSPD_MAX_MAX);
 }
 
 
-osalBool FAC::InvalidFW_AIRSPD_TRIM(float param)
+osalbool FAC::InvalidFW_AIRSPD_TRIM(float param)
 {
     return (param < FW_AIRSPD_TRIM_MIN || param > FW_AIRSPD_TRIM_MAX);
 }
 
 
-osalBool FAC::InvalidTRIM_ROLL(float param)
+osalbool FAC::InvalidTRIM_ROLL(float param)
 {
     return (param < TRIM_ROLL_MIN || param > TRIM_ROLL_MAX);
 }
 
 
-osalBool FAC::InvalidTRIM_PITCH(float param)
+osalbool FAC::InvalidTRIM_PITCH(float param)
 {
     return (param < TRIM_PITCH_MIN || param > TRIM_PITCH_MAX);
 }
 
 
-osalBool FAC::InvalidTRIM_YAW(float param)
+osalbool FAC::InvalidTRIM_YAW(float param)
 {
     return (param < TRIM_YAW_MIN || param > TRIM_YAW_MAX);
 }
 
 
-osalBool FAC::InvalidVT_TYPE(uint32 param)
+osalbool FAC::InvalidVT_TYPE(uint32 param)
 {
     return (param < VT_TYPE_MIN || param > VT_TYPE_MAX);
 }
