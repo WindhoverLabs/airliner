@@ -171,6 +171,21 @@ typedef enum {
 */  
     FAC_TBL_VALIDATE_ERR_EID            = 9,
 
+/** \brief <tt> 'Recvd invalid cmd CC %u' </tt>
+**  \event <tt> 'Recvd invalid cmd CC %u' </tt>
+**  
+**  \par Type: ERROR
+**
+**  \par Cause:
+**
+**  This event message is issued when the CFS FAC Task has
+**  received and failed to process a command.
+**
+*/
+    FAC_CMD_ERROR_EID                   = 10,
+
+    FAC_TBL_MODIFIED_ERROR_EID          = 11,
+
 /** \brief <tt> This is a count of all the app events and should not be used. </tt> */
     FAC_EVT_CNT
 } FAC_EventIds_t;
