@@ -330,13 +330,13 @@ typedef struct
     float	       _hold_alt;
     float              m_Hold_Alt;
 
-    boolean	m_Hdg_Hold_Enabled;
-    boolean	_yaw_lock_engaged;
+    boolean	       m_Hdg_Hold_Enabled;
+    boolean	       _yaw_lock_engaged;
 
-    ECL_TECS_MODE       tecsMode;
+    ECL_TECS_MODE      tecsMode;
 
-    uint64                 _time_started_landing;
-    boolean use_tecs_pitch;
+    uint64             _time_started_landing;
+    boolean            use_tecs_pitch;
     PX4_PositionSetpoint_t _hdg_hold_prev_wp;		///< position where heading hold started */
     PX4_PositionSetpoint_t _hdg_hold_curr_wp;		///< position to which heading hold flies */
 
@@ -345,6 +345,8 @@ typedef struct
     uint64  _airspeed_last_received;			///< last time airspeed was received. Used to detect timeouts.
     float   _airspeed;
     float   _eas2tas;
+
+    uint64   m_PositionSetpointTripletMsgCount;
 
     float   TecsPitch;
 
