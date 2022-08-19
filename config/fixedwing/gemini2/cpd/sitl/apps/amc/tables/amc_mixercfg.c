@@ -90,7 +90,7 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             {
                     0.987,  /* Negative Scale */
                     0.78,  /* Positive Scale */
-                   -0.155,  /* Offset         */
+                    0,  /* Offset         */
                    -1.0,  /* Minimum Output */
                     1.0   /* Maximum Output */
             },
@@ -116,7 +116,7 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             {
                     0.409,  /* Negative Scale */
                     0.38,  /* Positive Scale */
-                   -0.044,  /* Offset         */
+                    0,  /* Offset         */
                    -1.0,  /* Minimum Output */
                     1.0   /* Maximum Output */
            },
