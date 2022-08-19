@@ -41,20 +41,16 @@
 #include "fpc_app.h"
 
 
-#if 0
+#if 1
     #define     FPC_UT_TEST_WITH_OWN_FPC_OBJECT
 #else
     #define     FPC_UT_TEST_WITH_EXTERN_APPMAIN
 #endif
 
-extern FPC   oFPC;
 
 extern "C" void FPC_AppMain();
 extern "C" FPC_ConfigTbl_t FPC_ConfigTbl;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /*
  * Function Definitions
@@ -72,9 +68,5 @@ extern "C" uint64 PX4LIB_GetPX4TimeUs(void);
 extern "C" uint64 PX4LIB_GetPX4TimeMs(void);
 extern "C" uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* FPC_TEST_UTILS_H */

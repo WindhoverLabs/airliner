@@ -143,8 +143,6 @@ void FPC_Test_Setup(void)
 {
     /* initialize test environment to default state for every test */
 
-    CFE_PSP_MemCpy((void*)&oFPC, (void*)&cpyFPC, sizeof(FPC));
-
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();
     Ut_CFE_TIME_Reset();

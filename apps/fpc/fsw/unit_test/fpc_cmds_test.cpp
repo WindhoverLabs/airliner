@@ -58,6 +58,8 @@
  */
 void Test_FPC_ProcessNewCmds_InvalidCmd(void)
 {
+    FPC   oFPC{};
+
     int32           CmdPipe;
     FPC_NoArgCmd_t  InMsg;
 
@@ -99,6 +101,8 @@ void Test_FPC_ProcessNewCmds_InvalidCmd(void)
  */
 void Test_FPC_ProcessNewCmds_InvalidCmdCode(void)
 {
+    FPC   oFPC{};
+
     int32              CmdPipe;
     FPC_NoArgCmd_t     InMsg;
 
@@ -142,6 +146,8 @@ void Test_FPC_ProcessNewCmds_InvalidCmdCode(void)
  */
 void Test_FPC_ProcessNewCmds_CmdPipeError(void)
 {
+    FPC   oFPC{};
+
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_BAD_ARGUMENT, 1);
 
     /* Execute the function being tested */
@@ -156,6 +162,8 @@ void Test_FPC_ProcessNewCmds_CmdPipeError(void)
  */
 void Test_FPC_ProcessNewCmds_Noop(void)
 {
+    FPC   oFPC{};
+
     int32              CmdPipe;
     FPC_NoArgCmd_t     InMsg;
 
@@ -191,6 +199,8 @@ void Test_FPC_ProcessNewCmds_Noop(void)
  */
 void Test_FPC_ProcessNewCmds_Reset(void)
 {
+    FPC   oFPC{};
+
     int32              CmdPipe;
     FPC_NoArgCmd_t     InMsg;
 
@@ -227,6 +237,8 @@ void Test_FPC_ProcessNewCmds_Reset(void)
  */
 void Test_FPC_ProcessNewCmds_DoGoAround(void)
 {
+    FPC   oFPC{};
+
     int32              CmdPipe;
     FPC_NoArgCmd_t     InMsg;
 

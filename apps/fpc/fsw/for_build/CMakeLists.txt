@@ -60,6 +60,8 @@ buildliner_add_app_def(fpc
 
 buildliner_add_app_unit_test(fpc-ut
     UTASSERT 
+    NO_HELGRIND
+    NO_MASSIF
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_app_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fpc_cmds_test.cpp

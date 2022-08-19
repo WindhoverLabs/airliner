@@ -72,6 +72,8 @@ double   UpdateParams_ParamChecksum = 0.0;
  */
 void Test_FPC_InitEvent_Fail_Register(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for EVS */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_EVS_APP_NOT_REGISTERED;
@@ -94,6 +96,8 @@ void Test_FPC_InitEvent_Fail_Register(void)
  */
 void Test_FPC_InitPipe_Fail_CreateSCHPipe(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -113,6 +117,8 @@ void Test_FPC_InitPipe_Fail_CreateSCHPipe(void)
  */
 void Test_FPC_InitPipe_Fail_SubscribeWakeup(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -132,6 +138,8 @@ void Test_FPC_InitPipe_Fail_SubscribeWakeup(void)
  */
 void Test_FPC_InitPipe_Fail_SubscribeSendHK(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -151,6 +159,8 @@ void Test_FPC_InitPipe_Fail_SubscribeSendHK(void)
  */
 void Test_FPC_InitPipe_Fail_CreateCMDPipe(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -170,6 +180,8 @@ void Test_FPC_InitPipe_Fail_CreateCMDPipe(void)
  */
 void Test_FPC_InitPipe_Fail_SubscribeCMD(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -189,6 +201,8 @@ void Test_FPC_InitPipe_Fail_SubscribeCMD(void)
  */
 void Test_FPC_InitPipe_Fail_CreateDATAPipe(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -207,6 +221,8 @@ void Test_FPC_InitPipe_Fail_CreateDATAPipe(void)
  */
 void Test_FAC_InitPipe_Fail_SubscribeManualControlSp(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -226,6 +242,8 @@ void Test_FAC_InitPipe_Fail_SubscribeManualControlSp(void)
  */
 void Test_FAC_InitPipe_Fail_SubscribeVehicleControlMode(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -245,6 +263,8 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleControlMode(void)
  */
 void Test_FAC_InitPipe_Fail_SubscribeVehicleGlobalPosition(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -264,6 +284,8 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleGlobalPosition(void)
  */
 void Test_FAC_InitPipe_Fail_SubscribeVehicleLocalPosition(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -283,6 +305,8 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleLocalPosition(void)
  */
 void Test_FAC_InitPipe_Fail_SubscribePositionSetpointTriplet(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -302,6 +326,8 @@ void Test_FAC_InitPipe_Fail_SubscribePositionSetpointTriplet(void)
  */
 void Test_FAC_InitPipe_Fail_SubscribeVehicleStatus(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -321,6 +347,8 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleStatus(void)
  */
 void Test_FAC_InitPipe_Fail_SubscribeVehicleLandDetected(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -340,6 +368,8 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleLandDetected(void)
  */
 void Test_FAC_InitPipe_Fail_SubscribeAirspeed(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -359,6 +389,8 @@ void Test_FAC_InitPipe_Fail_SubscribeAirspeed(void)
  */
 void Test_FAC_InitPipe_Fail_SubscribeVehicleAttitude(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -378,6 +410,8 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleAttitude(void)
  */
 void Test_FAC_InitPipe_Fail_SubscribeSensorCombined(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -397,6 +431,8 @@ void Test_FAC_InitPipe_Fail_SubscribeSensorCombined(void)
  */
 void Test_FAC_InitPipe_Fail_SubscribeSensorBaro(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result for SB */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
@@ -420,6 +456,8 @@ void Test_FAC_InitPipe_Fail_SubscribeSensorBaro(void)
  */
 void Test_FPC_InitDataNominal(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
@@ -441,6 +479,9 @@ void Test_FPC_InitDataNominal(void)
  */
 void Test_FPC_InitApp_Fail_InitEvent(void)
 {
+    FPC   oFPC{};
+
+    /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_EVS_APP_NOT_REGISTERED;
 
@@ -459,6 +500,9 @@ void Test_FPC_InitApp_Fail_InitEvent(void)
  */
 void Test_FPC_InitApp_Fail_InitPipe(void)
 {
+    FPC   oFPC{};
+
+    /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
@@ -478,6 +522,9 @@ void Test_FPC_InitApp_Fail_InitPipe(void)
  */
 void Test_FPC_InitApp_Fail_InitData(void)
 {
+    FPC   oFPC{};
+
+    /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_SUCCESS;
 
@@ -494,6 +541,9 @@ void Test_FPC_InitApp_Fail_InitData(void)
  */
 void Test_FPC_InitApp_Fail_InitConfigTbl(void)
 {
+    FPC   oFPC{};
+
+    /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_TBL_ERR_INVALID_NAME;
 
@@ -512,7 +562,9 @@ void Test_FPC_InitApp_Fail_InitConfigTbl(void)
  */
 void Test_FPC_InitApp_Nominal(void)
 {
-    /* Set a fail result for SB */
+    FPC   oFPC{};
+
+    /* Set a nominal result for SB */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
     int32 expected = CFE_SUCCESS;
@@ -572,6 +624,9 @@ int32 Test_FPC_AppMain_SendEventHook(uint16 EventID, uint16 EventType, const cha
  */
 void Test_FPC_AppMain_Fail_RegisterApp(void)
 {
+    FPC   oFPC{};
+
+    /* Set a fail result */
     int32 expected = CFE_ES_ERR_APP_REGISTER;
 
     /* fail the register app */
@@ -591,6 +646,9 @@ void Test_FPC_AppMain_Fail_RegisterApp(void)
  */
 void Test_FPC_AppMain_Fail_InitApp(void)
 {
+    FPC   oFPC{};
+
+    /* Set a fail result */
     int32 expected = CFE_EVS_APP_NOT_REGISTERED;
 
     /* fail the register app */
@@ -617,9 +675,11 @@ void Test_FPC_AppMain_Fail_InitApp(void)
  */
 void Test_FPC_AppMain_Fail_AcquireConfigPtrs(void)
 {
+    FPC   oFPC{};
+
+    /* Set a fail result */
     int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
 
-    /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 2);
 
     SendEvent_HookCalledCnt = 0;
@@ -647,6 +707,8 @@ void Test_FPC_AppMain_Fail_AcquireConfigPtrs(void)
  */
 void Test_FPC_AppMain_InvalidSchMessage(void)
 {
+    FPC   oFPC{};
+
     /* The following will emulate the behavior of receiving an invalid SCH message */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, PX4_BATTERY_STATUS_MID, 1);
@@ -856,6 +918,8 @@ int32 Test_FPC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
  */
 void Test_FPC_AppMain_Nominal_SendHK(void)
 {
+    FPC   oFPC{};
+
     /* The following will emulate the behavior of receiving FPC_SEND_HK_MID */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_SEND_HK_MID, 1);
@@ -1007,7 +1071,9 @@ int32 Test_FPC_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
  */
 void Test_FPC_AppMain_Nominal_Wakeup(void)
 {
-    /* The following will emulate behavior of receiving a SCH message to WAKEUP */
+    FPC   oFPC{};
+
+    /* The following will emulate the behavior of receiving FPC_WAKEUP_MID */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
 
@@ -1096,12 +1162,13 @@ int32 Test_FPC_AppMain_ProcessNewDataHook(void *dst, void *src, uint32 size)
  */
 void Test_FPC_AppMain_ProcessNewData_InvalidMsgID(void)
 {
+    FPC   oFPC{};
+
     int32 DataPipe;
     PX4_ActuatorArmedMsg_t  InMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-
     DataPipe = Ut_CFE_SB_CreatePipe("FPC_DATA_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, PX4_ACTUATOR_ARMED_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
@@ -1130,9 +1197,13 @@ void Test_FPC_AppMain_ProcessNewData_InvalidMsgID(void)
  */
 void Test_FAC_AppMain_ProcessNewData_ManualControlSetpoint(void)
 {
+    FPC   oFPC{};
+
     int32                           DataPipe;
     PX4_ManualControlSetpointMsg_t  InMsg;
 
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("FPC_DATA_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
@@ -1163,9 +1234,13 @@ void Test_FAC_AppMain_ProcessNewData_ManualControlSetpoint(void)
  */
 void Test_FAC_AppMain_ProcessNewData_VehicleControlMode(void)
 {
+    FPC   oFPC{};
+
     int32                        DataPipe;
     PX4_VehicleControlModeMsg_t  InMsg;
 
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("FPC_DATA_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
@@ -1196,9 +1271,13 @@ void Test_FAC_AppMain_ProcessNewData_VehicleControlMode(void)
  */
 void Test_FAC_AppMain_ProcessNewData_PositionSetpointTriplet(void)
 {
+    FPC   oFPC{};
+
     int32                             DataPipe;
     PX4_PositionSetpointTripletMsg_t  InMsg;
 
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("FPC_DATA_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, PX4_POSITION_SETPOINT_TRIPLET_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
@@ -1229,9 +1308,13 @@ void Test_FAC_AppMain_ProcessNewData_PositionSetpointTriplet(void)
  */
 void Test_FAC_AppMain_ProcessNewData_VehicleStatus(void)
 {
+    FPC   oFPC{};
+
     int32                             DataPipe;
     PX4_VehicleStatusMsg_t            InMsg;
 
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("FPC_DATA_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_STATUS_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
@@ -1262,9 +1345,13 @@ void Test_FAC_AppMain_ProcessNewData_VehicleStatus(void)
  */
 void Test_FAC_AppMain_ProcessNewData_VehicleLandDetected(void)
 {
+    FPC   oFPC{};
+
     int32                             DataPipe;
     PX4_VehicleLandDetectedMsg_t      InMsg;
 
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("FPC_DATA_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
@@ -1295,9 +1382,13 @@ void Test_FAC_AppMain_ProcessNewData_VehicleLandDetected(void)
  */
 void Test_FAC_AppMain_ProcessNewData_VehicleLocalPosition(void)
 {
+    FPC   oFPC{};
+
     int32                             DataPipe;
     PX4_VehicleLocalPositionMsg_t     InMsg;
 
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("FPC_DATA_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_LOCAL_POSITION_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
@@ -1328,9 +1419,13 @@ void Test_FAC_AppMain_ProcessNewData_VehicleLocalPosition(void)
  */
 void Test_FAC_AppMain_ProcessNewData_VehicleGlobalPosition(void)
 {
+    FPC   oFPC{};
+
     int32                             DataPipe;
     PX4_VehicleGlobalPositionMsg_t    InMsg;
 
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("FPC_DATA_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_GLOBAL_POSITION_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
@@ -1361,9 +1456,13 @@ void Test_FAC_AppMain_ProcessNewData_VehicleGlobalPosition(void)
  */
 void Test_FAC_AppMain_ProcessNewData_Airspeed(void)
 {
+    FPC   oFPC{};
+
     int32                     DataPipe;
     PX4_AirspeedMsg_t         InMsg;
 
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("FPC_DATA_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, PX4_AIRSPEED_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
@@ -1394,9 +1493,13 @@ void Test_FAC_AppMain_ProcessNewData_Airspeed(void)
  */
 void Test_FAC_AppMain_ProcessNewData_VehicleAttitude(void)
 {
+    FPC   oFPC{};
+
     int32                     DataPipe;
     PX4_VehicleAttitudeMsg_t  InMsg;
 
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("FPC_DATA_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, PX4_VEHICLE_ATTITUDE_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
@@ -1427,9 +1530,13 @@ void Test_FAC_AppMain_ProcessNewData_VehicleAttitude(void)
  */
 void Test_FAC_AppMain_ProcessNewData_SensorCombined(void)
 {
+    FPC   oFPC{};
+
     int32                     DataPipe;
     PX4_SensorCombinedMsg_t   InMsg;
 
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("FPC_DATA_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, PX4_SENSOR_COMBINED_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
@@ -1460,9 +1567,13 @@ void Test_FAC_AppMain_ProcessNewData_SensorCombined(void)
  */
 void Test_FAC_AppMain_ProcessNewData_SensorBaro(void)
 {
+    FPC   oFPC{};
+
     int32                     DataPipe;
     PX4_SensorBaroMsg_t       InMsg;
 
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
     DataPipe = Ut_CFE_SB_CreatePipe("FPC_DATA_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, PX4_SENSOR_BARO_MID, sizeof(InMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)DataPipe);
@@ -1504,6 +1615,8 @@ int32 Test_FPC_UpdateParamsFromTable_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
  */
 void Test_FPC_UpdateParamsFromTable(void)
 {
+    FPC   oFPC{};
+
     double expected_checksum = 313.117959422;
 
     UpdateParams_ParamChecksum = 0.0;

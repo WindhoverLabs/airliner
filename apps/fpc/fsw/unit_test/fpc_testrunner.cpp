@@ -38,9 +38,6 @@
 #include "fpc_config_tbl_test.h"
 #include "fpc_test_utils.h"
 
-FPC oFPC{};
-FPC cpyFPC{};
-
 int main(void)
 {   
     FPC_App_Test_AddTestCases();

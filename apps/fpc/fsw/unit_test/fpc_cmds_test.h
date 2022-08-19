@@ -34,15 +34,8 @@
 #ifndef FPC_CMDS_TEST_H
 #define FPC_CMDS_TEST_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 void FPC_Cmds_Test_AddTestCases(void);
 
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* FPC_CMDS_TEST_H */

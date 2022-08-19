@@ -58,11 +58,12 @@
  */
 void Test_FPC_InitConfigTbl_Fail_TblRegister(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_TBL_ERR_NO_ACCESS;
 
-    /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, expected, 1);
 
     /* Execute the function being tested */
@@ -78,11 +79,12 @@ void Test_FPC_InitConfigTbl_Fail_TblRegister(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblLoad(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_TBL_INFO_UPDATE_PENDING;
 
-    /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, expected, 1);
 
     /* Execute the function being tested */
@@ -98,11 +100,12 @@ void Test_FPC_InitConfigTbl_Fail_TblLoad(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblManage(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
 
-    /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 1);
 
     /* Execute the function being tested */
@@ -118,11 +121,12 @@ void Test_FPC_InitConfigTbl_Fail_TblManage(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblGetAddress(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_TBL_ERR_NEVER_LOADED;
 
-    /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
 
     /* Execute the function being tested */
@@ -138,11 +142,12 @@ void Test_FPC_InitConfigTbl_Fail_TblGetAddress(void)
  */
 void Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
 
-    /* fail the register app */
     Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 1);
 
     /* Execute the function being tested */
@@ -158,6 +163,8 @@ void Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
  */
 void Test_FPC_InitConfigTbl_Nominal(void)
 {
+    FPC   oFPC{};
+
     /* Set a fail result */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
