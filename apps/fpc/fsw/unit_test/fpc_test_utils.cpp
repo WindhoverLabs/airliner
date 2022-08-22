@@ -48,6 +48,7 @@
 #include "ut_cfe_evs_stubs.h"
 
 #include <time.h>
+#include <iostream>
 
 extern FPC  cpyFPC;
 
@@ -171,6 +172,128 @@ void FPC_Test_TearDown(void) {
 
     memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
     memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
+}
+
+double FPC_Test_GetChecksum(FPC_ConfigTbl_t *pTbl)
+{
+    double checksum = 0.0;
+
+    checksum = (double)pTbl->L1_PERIOD + (double)pTbl->L1_DAMPING
+               + (double)pTbl->T_TIME_CONST + (double)pTbl->T_THRO_CONST
+               + (double)pTbl->T_SINK_MIN + (double)pTbl->T_SINK_MAX
+               + (double)pTbl->T_CLMB_MAX + (double)pTbl->CLMBOUT_DIFF
+               + (double)pTbl->T_HRATE_P + (double)pTbl->T_HRATE_FF
+               + (double)pTbl->T_SRATE_P + (double)pTbl->T_THR_DAMP
+               + (double)pTbl->T_INTEG_GAIN + (double)pTbl->T_VERT_ACC
+               + (double)pTbl->T_HGT_OMEGA + (double)pTbl->T_SPD_OMEGA
+               + (double)pTbl->T_RLL2THR + (double)pTbl->T_SPDWEIGHT
+               + (double)pTbl->T_PTCH_DAMP + (double)pTbl->AIRSPD_MIN
+               + (double)pTbl->AIRSPD_TRIM + (double)pTbl->AIRSPD_MAX
+               + (double)pTbl->ARSP_MODE
+               + (double)pTbl->P_LIM_MIN_RADIANS + (double)pTbl->P_LIM_MAX_RADIANS
+               + (double)pTbl->R_LIM_RADIANS + (double)pTbl->THR_MIN
+               + (double)pTbl->THR_MAX + (double)pTbl->THR_IDLE
+               + (double)pTbl->THR_CRUISE + (double)pTbl->THR_SLEW_MAX
+               + (double)pTbl->THR_ALT_SCL + (double)pTbl->MAN_R_MAX_RADIANS
+               + (double)pTbl->MAN_P_MAX_RADIANS + (double)pTbl->RSP_OFF_RADIANS
+               + (double)pTbl->PSP_OFF_RADIANS + (double)pTbl->THR_LND_MAX
+               + (double)pTbl->LND_ANG_RADIANS + (double)pTbl->LND_HVIRT
+               + (double)pTbl->LND_FLALT + (double)pTbl->LND_TLALT
+               + (double)pTbl->LND_HHDIST + (double)pTbl->LND_FL_PMIN_RADIANS
+               + (double)pTbl->LND_FL_PMAX_RADIANS
+               + (double)pTbl->LND_USETER
+               + (double)pTbl->LND_AIRSPD_SC;
+
+    checksum = checksum + (double)pTbl->FPC_Launch_Detection.LAUN_ALL_ON
+               + (double)pTbl->FPC_Launch_Detection.LAUN_CAT_A
+               + (double)pTbl->FPC_Launch_Detection.LAUN_CAT_T
+               + (double)pTbl->FPC_Launch_Detection.LAUN_CAT_MDEL
+               + (double)pTbl->FPC_Launch_Detection.LAUN_CAT_PMAX_RADIANS;
+
+    checksum = checksum + (double)pTbl->FPC_Runway_Takeoff.RWTO_TKOFF
+               + (double)pTbl->FPC_Runway_Takeoff.RWTO_HDG
+               + (double)pTbl->FPC_Runway_Takeoff.NAV_ALT
+               + (double)pTbl->FPC_Runway_Takeoff.MAX_THR
+               + (double)pTbl->FPC_Runway_Takeoff.PSP
+               + (double)pTbl->FPC_Runway_Takeoff.MAX_PITCH
+               + (double)pTbl->FPC_Runway_Takeoff.MAX_ROLL
+               + (double)pTbl->FPC_Runway_Takeoff.AIRSPD_SCL
+               + (double)pTbl->FPC_Runway_Takeoff.AIRSPD_MIN
+               + (double)pTbl->FPC_Runway_Takeoff.CLMBOUT_DIFF;
+
+    printf("FPC_Test_GetChecksum:\n");
+    std::cout.precision(17);
+    std::cout << "Params Checksum(with Max precision): "
+              << checksum << "\n";
+
+    std::cout.precision(7);
+    std::cout << "Param Table Values:\n";
+    std::cout << "L1_PERIOD: " << pTbl->L1_PERIOD
+              << ", L1_DAMPING: " << pTbl->L1_DAMPING << "\n";
+    std::cout << "T_TIME_CONST: " << pTbl->T_TIME_CONST
+              << ", T_THRO_CONST: " << pTbl->T_THRO_CONST << "\n";
+    std::cout << "T_SINK_MIN: " << pTbl->T_SINK_MIN
+              << ", T_SINK_MAX: " << pTbl->T_SINK_MAX << "\n";
+    std::cout << "T_CLMB_MAX: " << pTbl->T_CLMB_MAX
+              << ", CLMBOUT_DIFF: " << pTbl->CLMBOUT_DIFF << "\n";
+    std::cout << "T_HRATE_P: " << pTbl->T_HRATE_P
+              << ", T_HRATE_FF: " << pTbl->T_HRATE_FF << "\n";
+    std::cout << "T_SRATE_P: " << pTbl->T_SRATE_P
+              << ", T_THR_DAMP: " << pTbl->T_THR_DAMP << "\n";
+    std::cout << "T_INTEG_GAIN: " << pTbl->T_INTEG_GAIN
+              << ", T_VERT_ACC: " << pTbl->T_VERT_ACC << "\n";
+    std::cout << "T_HGT_OMEGA: " << pTbl->T_HGT_OMEGA
+              << ", T_SPD_OMEGA: " << pTbl->T_SPD_OMEGA << "\n";
+    std::cout << "T_RLL2THR: " << pTbl->T_RLL2THR
+              << ", T_SPDWEIGHT: " << pTbl->T_SPDWEIGHT << "\n";
+    std::cout << "T_PTCH_DAMP: " << pTbl->T_PTCH_DAMP
+              << ", AIRSPD_MIN: " << pTbl->AIRSPD_MIN << "\n";
+    std::cout << "AIRSPD_TRIM: " << pTbl->AIRSPD_TRIM
+              << ", AIRSPD_MAX: " << pTbl->AIRSPD_MAX << "\n";
+    std::cout << "ARSP_MODE: " << pTbl->ARSP_MODE << "\n";
+    std::cout << "P_LIM_MIN_RADIANS: " << pTbl->P_LIM_MIN_RADIANS
+              << ", P_LIM_MAX_RADIANS: " << pTbl->P_LIM_MAX_RADIANS << "\n";
+    std::cout << "R_LIM_RADIANS: " << pTbl->R_LIM_RADIANS
+              << ", THR_MIN: " << pTbl->THR_MIN << "\n";
+    std::cout << "THR_MAX: " << pTbl->THR_MAX
+              << ", THR_IDLE: " << pTbl->THR_IDLE << "\n";
+    std::cout << "THR_CRUISE: " << pTbl->THR_CRUISE
+              << ", THR_SLEW_MAX: " << pTbl->THR_SLEW_MAX << "\n";
+    std::cout << "THR_ALT_SCL: " << pTbl->THR_ALT_SCL
+              << ", MAN_R_MAX_RADIANS: " << pTbl->MAN_R_MAX_RADIANS << "\n";
+    std::cout << "MAN_P_MAX_RADIANS: " << pTbl->MAN_P_MAX_RADIANS
+              << ", RSP_OFF_RADIANS: " << pTbl->RSP_OFF_RADIANS << "\n";
+    std::cout << "PSP_OFF_RADIANS: " << pTbl->PSP_OFF_RADIANS
+              << ", THR_LND_MAX: " << pTbl->THR_LND_MAX << "\n";
+    std::cout << "LND_ANG_RADIANS: " << pTbl->LND_ANG_RADIANS
+              << ", LND_HVIRT: " << pTbl->LND_HVIRT << "\n";
+    std::cout << "LND_FLALT: " << pTbl->LND_FLALT
+              << ", LND_TLALT: " << pTbl->LND_TLALT << "\n";
+    std::cout << "LND_HHDIST: " << pTbl->LND_HHDIST
+              << ", LND_FL_PMIN_RADIANS: " << pTbl->LND_FL_PMIN_RADIANS << "\n";
+    std::cout << "LND_FL_PMAX_RADIANS: " << pTbl->LND_FL_PMAX_RADIANS
+              << ", LND_USETER: " << pTbl->LND_USETER << "\n";
+    std::cout << "LND_AIRSPD_SC: " << pTbl->LND_AIRSPD_SC << "\n";
+
+    std::cout << "LAUN_ALL_ON: " << pTbl->FPC_Launch_Detection.LAUN_ALL_ON
+              << ", LAUN_CAT_A: " << pTbl->FPC_Launch_Detection.LAUN_CAT_A << "\n";
+    std::cout << "LAUN_CAT_T: " << pTbl->FPC_Launch_Detection.LAUN_CAT_T
+              << ", LAUN_CAT_MDEL: " << pTbl->FPC_Launch_Detection.LAUN_CAT_MDEL << "\n";
+    std::cout << "LAUN_CAT_PMAX_RADIANS: " << pTbl->FPC_Launch_Detection.LAUN_CAT_PMAX_RADIANS
+              << "\n";
+
+    std::cout << "RWTO_TKOFF: " << pTbl->FPC_Runway_Takeoff.RWTO_TKOFF << "\n";
+    std::cout << "RWTO_HDG: " << pTbl->FPC_Runway_Takeoff.RWTO_HDG << "\n";
+    std::cout << "NAV_ALT: " << pTbl->FPC_Runway_Takeoff.NAV_ALT << "\n";
+    std::cout << "MAX_THR: " << pTbl->FPC_Runway_Takeoff.MAX_THR << "\n";
+    std::cout << "PSP: " << pTbl->FPC_Runway_Takeoff.PSP << "\n";
+    std::cout << "MAX_PITCH: " << pTbl->FPC_Runway_Takeoff.MAX_PITCH << "\n";
+    std::cout << "MAX_ROLL: " << pTbl->FPC_Runway_Takeoff.MAX_ROLL << "\n";
+    std::cout << "AIRSPD_SCL: " << pTbl->FPC_Runway_Takeoff.AIRSPD_SCL << "\n";
+    std::cout << "AIRSPD_MIN: " << pTbl->FPC_Runway_Takeoff.AIRSPD_MIN << "\n";
+    std::cout << "CLMBOUT_DIFF: " << pTbl->FPC_Runway_Takeoff.CLMBOUT_DIFF << "\n";
+
+    return checksum;
 }
 
 void FPC_Test_PrintCmdMsg(void *pMsg, uint32 size)

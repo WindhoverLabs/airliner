@@ -142,18 +142,30 @@ void Test_FPC_ProcessNewCmds_InvalidCmdCode(void)
 
 /**
  * Test FPC ProcessNewCmds, CmdPipeError
- *    Not able to generate CmdPipeError in AppMain
  */
 void Test_FPC_ProcessNewCmds_CmdPipeError(void)
 {
     FPC   oFPC{};
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_BAD_ARGUMENT, 1);
+    int32              SchPipe;
+    FPC_NoArgCmd_t     InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    SchPipe = Ut_CFE_SB_CreatePipe("FPC_SCH_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, FPC_WAKEUP_MID, sizeof(FPC_NoArgCmd_t), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_BAD_ARGUMENT, 2);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
 #ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
-    oFPC.ProcessNewCmds();
+    oFPC.AppMain();
 #else
+    FPC_AppMain();
 #endif
 }
 

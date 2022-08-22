@@ -58,9 +58,6 @@ uint16   ProcessNewDataHook_MsgId = 0;
 int32    WriteToSysLog_HookCalledCnt = 0;
 int32    SendEvent_HookCalledCnt = 0;
 int32    SendHk_HookCalledCnt = 0;
-//uint32   UpdateParams_ValidateStatus = 0x0;
-
-double   UpdateParams_ParamChecksum = 0.0;
 
 
 /**************************************************************************
@@ -1603,40 +1600,35 @@ void Test_FAC_AppMain_ProcessNewData_SensorBaro(void)
  * Tests for FPC UpdateParamsFromTable()
  **************************************************************************/
 /**
- * Test FPC UpdateParamsFromTable(), SendMsgHook
- */
-int32 Test_FPC_UpdateParamsFromTable_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
-{
-    return 0;
-}
-
-/**
  * Test FPC UpdateParamsFromTable()
  */
 void Test_FPC_UpdateParamsFromTable(void)
 {
     FPC   oFPC{};
 
-    double expected_checksum = 313.117959422;
-
-    UpdateParams_ParamChecksum = 0.0;
+    double expected_checksum1 = 313.117959422;
+    double expected_checksum2 = 319.397959422;
+    double UpdateParams_Checksum1 = 0.0;
+    double UpdateParams_Checksum2 = 0.0;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
-               (void*)&Test_FPC_UpdateParamsFromTable_SendMsgHook);
-
 #ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
-    oFPC.AppMain();
+    oFPC.InitConfigTbl();
+    UpdateParams_Checksum1 = FPC_Test_GetChecksum(oFPC.ConfigTblPtr);
+
+    oFPC.UpdateParamsFromTable();
+    UpdateParams_Checksum2 = FPC_Test_GetChecksum(oFPC.ConfigTblPtr);
 #else
     FPC_AppMain();
 #endif
 
-#if 0
-    if (fabs(UpdateParams_ParamChecksum - expected_checksum) <= FLT_EPSILON) // Fail with DBL_EPSILON
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+    if ((fabs(UpdateParams_Checksum1 - expected_checksum1) <= FLT_EPSILON)
+         && (fabs(UpdateParams_Checksum2 - expected_checksum2) <= FLT_EPSILON))  // Fail with DBL_EPSILON
     {
         UtAssert_True(TRUE, "FPC UpdateParamsFromTable");
     }
