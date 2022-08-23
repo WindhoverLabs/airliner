@@ -3456,7 +3456,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
         /* reset landing and takeoff state */
         if (!_last_manual) {
             ResetLandingState();
-            ResetLandingState();
+            ResetTakeoffState();
         }
     }
 
@@ -3803,6 +3803,22 @@ void FPC::ResetLandingState()
     }
 }
 
+void FPC::ResetTakeoffState()
+{
+    // only reset takeoff if !armed or just landed
+    if (!m_VehicleControlModeMsg.Armed || (_was_in_air && m_VehicleLandDetectedMsg.Landed)) {
+
+        _runway_takeoff.reset();
+
+        _launchDetector.reset();
+        _launch_detection_state = launchdetection::LaunchDetectionResult::LAUNCHDETECTION_RES_NONE;
+        _launch_detection_notify = 0;
+
+    } else {
+        _launch_detection_state = launchdetection::LaunchDetectionResult::LAUNCHDETECTION_RES_DETECTED_ENABLEMOTORS;
+
+    }
+}
 
 float FPC::GetDemandedAirspeed()
 {

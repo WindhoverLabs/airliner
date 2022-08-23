@@ -501,6 +501,7 @@ public:
 
     float GetTerrainAltitudeTakeoff(float takeoff_alt, const PX4_VehicleGlobalPositionMsg_t &global_pos);
     void ResetLandingState();
+    void ResetTakeoffState();
     float GetDemandedAirspeed();
 
     float GetTecsPitch();
