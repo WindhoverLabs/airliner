@@ -454,6 +454,18 @@ public:
     int32  AcquireConfigPointers(void);
 
     /************************************************************************/
+    /** \brief Inform table services that a table has been updated.
+    **
+    **  \par Description
+    **       This function calls CFE_TBL_Modified.
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    *************************************************************************/
+    void  HandleTableUpdate(void);
+
+    /************************************************************************/
     /** \brief Validate FAC PWM configuration table
     **
     **  \par Description
@@ -470,6 +482,56 @@ public:
     **
     *************************************************************************/
     static int32  ValidateParamTbl(void*);
+
+    static osalbool InvalidFW_R_TC(float param);
+    static osalbool InvalidFW_P_TC(float param);
+    static osalbool InvalidFW_PR_P(float param);
+    static osalbool InvalidFW_PR_I(float param);
+    static osalbool InvalidFW_P_RMAX_POS(float param);
+    static osalbool InvalidFW_P_RMAX_NEG(float param);
+    static osalbool InvalidFW_PR_IMAX(float param);
+    static osalbool InvalidFW_RR_P(float param);
+    static osalbool InvalidFW_RR_I(float param);
+    static osalbool InvalidFW_RR_IMAX(float param);
+    static osalbool InvalidFW_R_RMAX(float param);
+    static osalbool InvalidFW_YR_P(float param);
+    static osalbool InvalidFW_YR_I(float param);
+    static osalbool InvalidFW_YR_IMAX(float param);
+    static osalbool InvalidFW_Y_RMAX(float param);
+    static osalbool InvalidFW_RLL_TO_YAW_FF(float param);
+    static osalbool InvalidFW_W_EN(int32 param);
+    static osalbool InvalidFW_WR_P(float param);
+    static osalbool InvalidFW_WR_I(float param);
+    static osalbool InvalidFW_WR_IMAX(float param);
+    static osalbool InvalidFW_W_RMAX(float param);
+    static osalbool InvalidFW_RR_FF(float param);
+    static osalbool InvalidFW_PR_FF(float param);
+    static osalbool InvalidFW_YR_FF(float param);
+    static osalbool InvalidFW_WR_FF(float param);
+    static osalbool InvalidFW_YCO_VMIN(float param);
+    static osalbool InvalidFW_YCO_METHOD(int32 param);
+    static osalbool InvalidFW_RSP_OFF(float param);
+    static osalbool InvalidFW_PSP_OFF(float param);
+    static osalbool InvalidFW_MAN_R_MAX(float param);
+    static osalbool InvalidFW_MAN_P_MAX(float param);
+    static osalbool InvalidFW_FLAPS_SCL(float param);
+    static osalbool InvalidFW_FLAPERON_SCL(float param);
+    static osalbool InvalidFW_ARSP_MODE(int32 param);
+    static osalbool InvalidFW_MAN_R_SC(float param);
+    static osalbool InvalidFW_MAN_P_SC(float param);
+    static osalbool InvalidFW_MAN_Y_SC(float param);
+    static osalbool InvalidFW_BAT_SCALE_EN(int32 param);
+    static osalbool InvalidFW_ACRO_X_MAX(float param);
+    static osalbool InvalidFW_ACRO_Y_MAX(float param);
+    static osalbool InvalidFW_ACRO_Z_MAX(float param);
+    static osalbool InvalidFW_RATT_TH(float param);
+    static osalbool InvalidFW_AIRSPD_MIN(float param);
+    static osalbool InvalidFW_AIRSPD_MAX(float param);
+    static osalbool InvalidFW_AIRSPD_TRIM(float param);
+    static osalbool InvalidTRIM_ROLL(float param);
+    static osalbool InvalidTRIM_PITCH(float param);
+    static osalbool InvalidTRIM_YAW(float param);
+    static osalbool InvalidVT_TYPE(uint32 param);
 
     /************************************************************************/
     /** \brief Run Attitude Controller
