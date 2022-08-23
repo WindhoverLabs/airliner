@@ -365,6 +365,26 @@ int32 LD::InitApp()
         goto LD_InitApp_Exit_Tag;
     }
 
+    if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_AUTO)
+    {
+        (void) CFE_EVS_SendEvent(LD_STARTUP_MODE_EID, CFE_EVS_INFORMATION,
+                                 "Operational mode auto");
+    }
+
+    if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MANUAL)
+    {
+        (void) CFE_EVS_SendEvent(LD_STARTUP_MODE_EID, CFE_EVS_INFORMATION,
+                                 "Operational mode manual");
+    }
+
+    if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MIXED)
+    {
+        (void) CFE_EVS_SendEvent(LD_STARTUP_MODE_EID, CFE_EVS_INFORMATION,
+                                 "Operational mode mixed");
+    }
+
+    HkTlm.mode = ConfigTblPtr->LD_OP_MODE;
+
 LD_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
@@ -562,7 +582,8 @@ void LD::ProcessCmdPipe()
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LD::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 {
-    uint32 uiCmdCode = 0;
+    uint32 uiCmdCode  = 0;
+    int32  returnCode = 0;
 
     if (MsgPtr != NULL)
     {
@@ -585,6 +606,88 @@ void LD::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
             {
                 HkTlm.usCmdCnt = 0;
                 HkTlm.usCmdErrCnt = 0;
+                break;
+            }
+            case LD_MODE_AUTO_CC:
+            {
+                if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_AUTO)
+                {
+                    HkTlm.usCmdErrCnt++;
+                    (void) CFE_EVS_SendEvent(LD_MODE_CHANGE_ERROR_EID, 
+                                             CFE_EVS_ERROR,
+                                             "Command error LD already in auto mode.");
+                }
+                else
+                {
+                    HkTlm.usCmdCnt++;
+                    ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_AUTO;
+                    HkTlm.mode = ConfigTblPtr->LD_OP_MODE;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(LD_TBL_MODIFIED_ERROR_EID, 
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(LD_MODE_CHANGED_EID, 
+                                             CFE_EVS_INFORMATION,
+                                             "Operational mode changed to auto.");
+                }
+                break;
+            }
+            case LD_MODE_MANUAL_CC:
+            {
+                if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MANUAL)
+                {
+                    HkTlm.usCmdErrCnt++;
+                    (void) CFE_EVS_SendEvent(LD_MODE_CHANGE_ERROR_EID, 
+                                             CFE_EVS_ERROR,
+                                             "Command error LD already in manual mode.");
+                }
+                else
+                {
+                    HkTlm.usCmdCnt++;
+                    ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_MANUAL;
+                    HkTlm.mode = ConfigTblPtr->LD_OP_MODE;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(LD_TBL_MODIFIED_ERROR_EID, 
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)", returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(LD_MODE_CHANGED_EID, 
+                                             CFE_EVS_INFORMATION,
+                                             "Operational mode changed to manual.");
+                }
+                break;
+            }
+            case LD_MODE_MIXED_CC:
+            {
+                if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MIXED)
+                {
+                    HkTlm.usCmdErrCnt++;
+                    (void) CFE_EVS_SendEvent(LD_MODE_CHANGE_ERROR_EID, 
+                                             CFE_EVS_ERROR,
+                                             "Command error LD already in mixed mode.");
+                }
+                else
+                {
+                    HkTlm.usCmdCnt++;
+                    ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_MIXED;
+                    HkTlm.mode = ConfigTblPtr->LD_OP_MODE;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(LD_TBL_MODIFIED_ERROR_EID, 
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)", returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(LD_MODE_CHANGED_EID, 
+                                             CFE_EVS_INFORMATION,
+                                             "Operational mode changed to mixed.");
+                }
                 break;
             }
             default:
@@ -1123,13 +1226,14 @@ void LD::Execute()
     const osalbool Freefall = (state == LandDetectionState::FREEFALL);
     const osalbool Land = (state == LandDetectionState::LANDED);
     const osalbool Ground = (state == LandDetectionState::GROUND_CONTACT);
+    const osalbool Manual = ManualControlPresent();
 
     if ((VehicleLandDetectedMsg.Freefall != Freefall) ||
         (VehicleLandDetectedMsg.Landed != Land) ||
         (VehicleLandDetectedMsg.GroundContact != Ground) ||
         (fabsf(VehicleLandDetectedMsg.AltMax - prev_altitude_max) > FLT_EPSILON))
     {
-        VehicleLandDetectedMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+        VehicleLandDetectedMsg.Timestamp = now;
         VehicleLandDetectedMsg.AltMax = altitude_max;
         VehicleLandDetectedMsg.Freefall = Freefall;
         VehicleLandDetectedMsg.Landed = Land;
@@ -1138,6 +1242,35 @@ void LD::Execute()
     }
 
     DetectStateChange();
+
+    /* If in manual mode. */
+    if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MANUAL || 
+       (ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MIXED && Manual))
+    {
+        /* Check the arm switch to determine state. */
+        if(CVT.ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON
+           || CVT.ActuatorArmedMsg.Armed == TRUE)
+        {
+            /* Set state to in-flight. */
+            VehicleLandDetectedMsg.Timestamp     = now;
+            VehicleLandDetectedMsg.AltMax        = altitude_max;
+            VehicleLandDetectedMsg.Freefall      = FALSE;
+            VehicleLandDetectedMsg.Landed        = FALSE;
+            VehicleLandDetectedMsg.GroundContact = FALSE;
+            HkTlm.state                          = LandDetectionState::FLYING;
+        }
+        else
+        {
+            /* Set state to landed. */
+            VehicleLandDetectedMsg.Timestamp     = now;
+            VehicleLandDetectedMsg.AltMax        = altitude_max;
+            VehicleLandDetectedMsg.Freefall      = FALSE;
+            VehicleLandDetectedMsg.Landed        = TRUE;
+            VehicleLandDetectedMsg.GroundContact = FALSE;
+            HkTlm.state                          = LandDetectionState::LANDED;
+        }
+    }
+
     SendVehicleLandDetectedMsg();
     SendDiag();
 }

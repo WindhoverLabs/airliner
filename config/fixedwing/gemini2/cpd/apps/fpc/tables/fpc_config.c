@@ -258,18 +258,21 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
     0.5f,
 
     /**
-     * T_INTEG_GAIN
-     * Minimum thrust in auto thrust control
+      T_INTEG_GAIN
+     * Integrator gain
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This is the integrator gain on the control loop.
+     * Increasing this gain increases the speed at which speed
+     * and height offsets are trimmed out, but reduces damping and
+     * increases overshoot.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
+     * @min 0.0
+     * @max 2.0
      * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @increment 0.05
+     * @group FW TECS
      */
+
     0.1f,
 
     /**
