@@ -2,7 +2,7 @@
 config_base: ${PROJECT_SOURCE_DIR}
 cpu_id: cpd
 commander:
-  server_overlay: ${PROJECT_SOURCE_DIR}/config/fixedwing/gemini2/ppd/server_overlay
+  server_overlay: ${PROJECT_SOURCE_DIR}/config/multirotor/quad/ppd/sitl/server_overlay
 modules:
   core:
     modules:
@@ -202,20 +202,20 @@ modules:
           EA_MAIN_TASK_PERF_ID:
             id: 70
 
-      fac:
-        definition: ${PROJECT_SOURCE_DIR}/apps/fac/wh_design.yaml
+      mac:
+        definition: ${PROJECT_SOURCE_DIR}/apps/mac/wh_design.yaml
         telemetry:
-          FAC_HK_TLM_MID:
+          MAC_HK_TLM_MID:
             msgID: 0x0a8e
         commands:
-          FAC_CMD_MID:
+          MAC_CMD_MID:
             msgID: 0x1a8f
-          FAC_RUN_CONTROLLER_MID:
+          MAC_SEND_HK_MID:
             msgID: 0x1a90
-          FAC_SEND_HK_MID:
+          MAC_WAKEUP_MID:
             msgID: 0x1a91
         perfids:
-          FAC_MAIN_TASK_PERF_ID:
+          MAC_MAIN_TASK_PERF_ID:
             id: 77
 
       fm:
@@ -280,8 +280,6 @@ modules:
             content:
               - name: "AMC"                #  0
                 type: "APP_MAIN"       
-              - name: "ASPD4525"           #  1
-                type: "APP_MAIN"
               - name: "CF"                 #  2
                 type: "APP_MAIN"
               - name: "CFE_ES"             #  3
@@ -320,11 +318,11 @@ modules:
                 type: "APP_CHILD"
               - name: "CS_OneShotTask"     # 20
                 type: "APP_CHILD"
-              - name: "FAC"                # 21
+              - name: "MAC"                # 21
                 type: "APP_MAIN"
               - name: "FM"                 # 22
                 type: "APP_MAIN"
-              - name: "FPC"                # 23
+              - name: "MPC"                # 23
                 type: "APP_MAIN"
               - name: "FM_CHILD_TASK"      # 24
                 type: "APP_CHILD"
@@ -467,7 +465,7 @@ modules:
           displays: cdr
           templates:
             _ADD_MESSAGE_FLOW:
-              template: "../../config/fixedwing/cdr/TO_AddMessageFlow.j2"
+              template: "../../config/multirotor/cdr/TO_AddMessageFlow.j2"
               output: "TO_AddMessageFlow.bob"
               scope: GLOBAL
             _QUERY_MESSAGE_FLOW:
@@ -475,7 +473,7 @@ modules:
               output: "TO_QueryMessageFlow.bob"
               scope: GLOBAL
             _REMOVE_MESSAGE_FLOW:
-              template: "../../config/fixedwing/cdr/TO_RemoveMessageFlow.j2"
+              template: "../../config/multirotor/cdr/TO_RemoveMessageFlow.j2"
               output: "TO_RemoveMessageFlow.bob"
               scope: GLOBAL
             _TLM_MANAGEMENT_FLOW:
@@ -600,7 +598,7 @@ modules:
             msgID: 0x1a84              # CMD_MSG(  132 )
     
       ld:
-        definition: ${PROJECT_SOURCE_DIR}/apps/ld/fixedwing/wh_design.yaml
+        definition: ${PROJECT_SOURCE_DIR}/apps/ld/multicopter/wh_design.yaml
         telemetry:
           LD_DIAG_TLM_MID:
             msgID: 0x0a85              # TLM_MSG(  133 )
@@ -1048,49 +1046,20 @@ modules:
           ZUSUP_MAIN_TASK_PERF_ID:
             id: 113
             
-      adsbr:
-        definition: ${PROJECT_SOURCE_DIR}/apps/adsbr/wh_design.yaml
+      mpc:
+        definition: ${PROJECT_SOURCE_DIR}/apps/mpc/wh_design.yaml
         telemetry:
-          ADSBR_HK_TLM_MID:
-            msgID: 0x0b3a              # TLM_MSG(  314 )
-          ADSBR_OUT_DATA_MID:
-            msgID: 0x0b3b              # TLM_MSG(  315 )
-        commands:
-          ADSBR_CMD_MID:
-            msgID: 0x1b3c              # CMD_MSG(  316 )
-          ADSBR_SEND_HK_MID:
-            msgID: 0x1b3d              # CMD_MSG(  317 )
-          ADSBR_WAKEUP_MID:
-            msgID: 0x1b3e              # CMD_MSG(  318 )
-            
-      fpc:
-        definition: ${PROJECT_SOURCE_DIR}/apps/fpc/wh_design.yaml
-        telemetry:
-          FPC_DIAG_TLM_MID:
+          MPC_DIAG_TLM_MID:
             msgID: 0x0a92              # TLM_MSG(  146 )
-          FPC_HK_TLM_MID:
+          MPC_HK_TLM_MID:
             msgID: 0x0a93              # TLM_MSG(  147 )
         commands:
-          FPC_CMD_MID:
+          MPC_CMD_MID:
             msgID: 0x1a94              # CMD_MSG(  148 )
-          FPC_WAKEUP_MID:
+          MPC_WAKEUP_MID:
             msgID: 0x1a95              # CMD_MSG(  149 )
-          FPC_SEND_HK_MID:
+          MPC_SEND_HK_MID:
             msgID: 0x1a96              # CMD_MSG(  150 )  
                                
-      aspd4525:
-        definition: ${PROJECT_SOURCE_DIR}/apps/aspd4525/wh_design.yaml
-        commands:
-          ASPD4525_CMD_MID:
-            msgID: 0x1b58              # CMD_MSG(  344 )
-          ASPD4525_SEND_HK_MID:
-            msgID: 0x1b59              # CMD_MSG(  345 )
-          ASPD4525_WAKEUP_MID:
-            msgID: 0x1b5a              # CMD_MSG(  346 )
-        telemetry:
-          ASPD4525_OUT_DATA_MID:
-            msgID: 0x0b5b              # TLM_MSG(  347 )
-          ASPD4525_HK_TLM_MID:
-            msgID: 0x0b5c              # TLM_MSG(  348 )
             
             

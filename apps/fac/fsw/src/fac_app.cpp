@@ -68,8 +68,7 @@ FAC oFAC;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 FAC::FAC()
 {
-    _flaps_applied = 0;
-    _flaperons_applied = 0;
+    Init();
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -80,6 +79,36 @@ FAC::FAC()
 FAC::~FAC()
 {
 
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Initialize member variables.                                    */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void FAC::Init(void)
+{
+    CFE_PSP_MemSet((void*)EventTbl, 0x00, sizeof(EventTbl));
+
+    SchPipeId = 0;
+    CmdPipeId = 0;
+    DataPipeId = 0;
+
+    uiRunStatus = CFE_ES_APP_RUN;
+
+    ParamTblHdl = 0;
+    ParamTblPtr = NULL;
+
+    CFE_PSP_MemSet((void*)&m_ActuatorControls0, 0x00, sizeof(PX4_ActuatorControlsMsg_t));
+    CFE_PSP_MemSet((void*)&m_ActuatorControls2, 0x00, sizeof(PX4_ActuatorControlsMsg_t));
+    CFE_PSP_MemSet((void*)&m_VehicleRatesSetpoint, 0x00, sizeof(PX4_VehicleRatesSetpointMsg_t));
+
+    CFE_PSP_MemSet((void*)&HkTlm, 0x00, sizeof(FAC_HkTlm_t));
+
+    CFE_PSP_MemSet((void*)&CVT, 0x00, sizeof(FAC_CurrentValueTable_t));
+
+    _flaps_applied = 0;
+    _flaperons_applied = 0;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -127,7 +156,7 @@ int32 FAC::InitEvent()
     iStatus = CFE_EVS_Register(EventTbl, FAC_EVT_CNT, CFE_EVS_BINARY_FILTER);
     if (iStatus != CFE_SUCCESS)
     {
-        (void) CFE_ES_WriteToSysLog("FAC - Failed to register with EVS (0x%08X)\n", (unsigned int)iStatus);
+        CFE_ES_WriteToSysLog("FAC - Failed to register with EVS (0x%08X)\n", (unsigned int)iStatus);
     }
 
     return (iStatus);
@@ -151,24 +180,25 @@ int32 FAC::InitPipe()
         iStatus = CFE_SB_SubscribeEx(FAC_SEND_HK_MID, SchPipeId, CFE_SB_Default_Qos, FAC_SCH_PIPE_SEND_HK_RESERVED);
         if (iStatus != CFE_SUCCESS)
         {
-            (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
-                                     "CMD Pipe failed to subscribe to FAC_SEND_HK_MID. (0x%08X)",
+            CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+                                     "SCH Pipe failed to subscribe to FAC_SEND_HK_MID. (0x%08X)",
                                      (unsigned int)iStatus);
             goto FAC_InitPipe_Exit_Tag;
         }
 
-        iStatus = CFE_SB_SubscribeEx(FAC_RUN_CONTROLLER_MID, SchPipeId, CFE_SB_Default_Qos, 1);
+        iStatus = CFE_SB_SubscribeEx(FAC_RUN_CONTROLLER_MID, SchPipeId, CFE_SB_Default_Qos,
+                                     FAC_SCH_PIPE_RUN_CONTROLLER_RESERVED);
         if (iStatus != CFE_SUCCESS)
         {
-            (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
-                                     "CMD Pipe failed to subscribe to FAC_RUN_CONTROLLER_MID. (0x%08X)",
+            CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+                                     "SCH Pipe failed to subscribe to FAC_RUN_CONTROLLER_MID. (0x%08X)",
                                      (unsigned int)iStatus);
             goto FAC_InitPipe_Exit_Tag;
         }
     }
     else
     {
-        (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to create SCH pipe (0x%08X)",
                                  (unsigned int)iStatus);
         goto FAC_InitPipe_Exit_Tag;
@@ -185,7 +215,7 @@ int32 FAC::InitPipe()
 
         if (iStatus != CFE_SUCCESS)
         {
-            (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                      "CMD Pipe failed to subscribe to FAC_CMD_MID. (0x%08X)",
                                      (unsigned int)iStatus);
             goto FAC_InitPipe_Exit_Tag;
@@ -193,7 +223,7 @@ int32 FAC::InitPipe()
     }
     else
     {
-        (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to create CMD pipe (0x%08X)",
                                  (unsigned int)iStatus);
         goto FAC_InitPipe_Exit_Tag;
@@ -209,7 +239,7 @@ int32 FAC::InitPipe()
         iStatus = CFE_SB_SubscribeEx(PX4_BATTERY_STATUS_MID, DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
-            (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                      "DATA Pipe failed to subscribe to PX4_BATTERY_STATUS_MID. (0x%08X)",
                                      (unsigned int)iStatus);
             goto FAC_InitPipe_Exit_Tag;
@@ -218,7 +248,7 @@ int32 FAC::InitPipe()
         iStatus = CFE_SB_SubscribeEx(PX4_MANUAL_CONTROL_SETPOINT_MID, DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
-            (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                      "DATA Pipe failed to subscribe to PX4_MANUAL_CONTROL_SETPOINT_MID. (0x%08X)",
                                      (unsigned int)iStatus);
             goto FAC_InitPipe_Exit_Tag;
@@ -227,7 +257,7 @@ int32 FAC::InitPipe()
         iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_ATTITUDE_SETPOINT_MID, DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
-            (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                      "DATA Pipe failed to subscribe to PX4_VEHICLE_ATTITUDE_SETPOINT_MID. (0x%08X)",
                                      (unsigned int)iStatus);
             goto FAC_InitPipe_Exit_Tag;
@@ -236,7 +266,7 @@ int32 FAC::InitPipe()
         iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_ATTITUDE_MID, DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
-            (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                      "DATA Pipe failed to subscribe to PX4_VEHICLE_ATTITUDE_MID. (0x%08X)",
                                      (unsigned int)iStatus);
             goto FAC_InitPipe_Exit_Tag;
@@ -245,7 +275,7 @@ int32 FAC::InitPipe()
         iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_CONTROL_MODE_MID, DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
-            (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                      "DATA Pipe failed to subscribe to PX4_VEHICLE_CONTROL_MODE_MID. (0x%08X)",
                                      (unsigned int)iStatus);
             goto FAC_InitPipe_Exit_Tag;
@@ -254,7 +284,7 @@ int32 FAC::InitPipe()
         iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_STATUS_MID, DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
-            (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                      "DATA Pipe failed to subscribe to PX4_VEHICLE_STATUS_MID. (0x%08X)",
                                      (unsigned int)iStatus);
             goto FAC_InitPipe_Exit_Tag;
@@ -263,7 +293,7 @@ int32 FAC::InitPipe()
         iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_GLOBAL_POSITION_MID, DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
-            (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                      "DATA Pipe failed to subscribe to PX4_VEHICLE_GLOBAL_POSITION_MID. (0x%08X)",
                                      (unsigned int)iStatus);
             goto FAC_InitPipe_Exit_Tag;
@@ -272,7 +302,7 @@ int32 FAC::InitPipe()
         iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_LAND_DETECTED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
-            (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                      "DATA Pipe failed to subscribe to PX4_VEHICLE_LAND_DETECTED_MID. (0x%08X)",
                                      (unsigned int)iStatus);
             goto FAC_InitPipe_Exit_Tag;
@@ -280,7 +310,7 @@ int32 FAC::InitPipe()
     }
     else
     {
-        (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to create Data pipe (0x%08X)",
                                  (unsigned int)iStatus);
         goto FAC_InitPipe_Exit_Tag;
@@ -340,7 +370,7 @@ int32 FAC::InitApp()
     iStatus = InitEvent();
     if (iStatus != CFE_SUCCESS)
     {
-        (void) CFE_ES_WriteToSysLog("FAC - Failed to init events (0x%08X)\n", (unsigned int)iStatus);
+        CFE_ES_WriteToSysLog("FAC - Failed to init events (0x%08X)\n", (unsigned int)iStatus);
         goto FAC_InitApp_Exit_Tag;
     }
     else
@@ -351,7 +381,7 @@ int32 FAC::InitApp()
     iStatus = InitPipe();
     if (iStatus != CFE_SUCCESS)
     {
-        (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to init pipes (0x%08X)",
                                  (unsigned int)iStatus);
         goto FAC_InitApp_Exit_Tag;
@@ -360,7 +390,7 @@ int32 FAC::InitApp()
     iStatus = InitConfigTbl();
     if (iStatus != CFE_SUCCESS)
     {
-        (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to init config tables (0x%08X)",
                                  (unsigned int)iStatus);
         goto FAC_InitApp_Exit_Tag;
@@ -369,7 +399,7 @@ int32 FAC::InitApp()
     iStatus = InitData();
     if (iStatus != CFE_SUCCESS)
     {
-        (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to init data (0x%08X)",
                                  (unsigned int)iStatus);
         goto FAC_InitApp_Exit_Tag;
@@ -378,7 +408,7 @@ int32 FAC::InitApp()
 FAC_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
-        (void) CFE_EVS_SendEvent(FAC_INIT_INF_EID, CFE_EVS_INFORMATION,
+        CFE_EVS_SendEvent(FAC_INIT_INF_EID, CFE_EVS_INFORMATION,
                                  "Initialized.  Version %d.%d.%d.%d",
                                  FAC_MAJOR_VERSION,
                                  FAC_MINOR_VERSION,
@@ -389,11 +419,11 @@ FAC_InitApp_Exit_Tag:
     {
         if (hasEvents == 1)
         {
-            (void) CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR, "Application failed to initialize");
+            CFE_EVS_SendEvent(FAC_INIT_ERR_EID, CFE_EVS_ERROR, "Application failed to initialize");
         }
         else
         {
-            (void) CFE_ES_WriteToSysLog("FAC - Application failed to initialize\n");
+            CFE_ES_WriteToSysLog("FAC - Application failed to initialize\n");
         }
     }
 
@@ -429,8 +459,8 @@ int32 FAC::RcvSchPipeMsg(int32 iBlocking)
             case FAC_SEND_HK_MID:
             {
                 HkTlm.SendHkMsgRcvCnt++;
-                ProcessNewCmds();
                 ReportHousekeeping();
+                ProcessNewCmds();
                 break;
             }
 
@@ -447,7 +477,7 @@ int32 FAC::RcvSchPipeMsg(int32 iBlocking)
             default:
             {
                 HkTlm.usSchErrCnt++;
-                (void) CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
+                CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
                                   "Recvd invalid SCH msgId (0x%04X)", MsgId);
                 break;
             }
@@ -463,7 +493,7 @@ int32 FAC::RcvSchPipeMsg(int32 iBlocking)
     }
     else
     {
-        (void) CFE_EVS_SendEvent(FAC_PIPE_ERR_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(FAC_PIPE_ERR_EID, CFE_EVS_ERROR,
               "SB pipe read error (0x%08X), app will exit", (unsigned int)iStatus);
         uiRunStatus= CFE_ES_APP_ERROR;
     }
@@ -559,7 +589,7 @@ osalbool FAC::ProcessIncomingData()
                 default:
 				{
 					HkTlm.usDataErrCnt++;
-                    (void) CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
+                    CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
                                       "Recvd invalid DATA msgId (0x%04X)", (unsigned short)MsgId);
                     break;
 				}
@@ -571,7 +601,7 @@ osalbool FAC::ProcessIncomingData()
         }
         else
         {
-            (void) CFE_EVS_SendEvent(FAC_PIPE_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(FAC_PIPE_ERR_EID, CFE_EVS_ERROR,
                   "DATA pipe read error (0x%08X)", (unsigned int)iStatus);
             uiRunStatus = CFE_ES_APP_ERROR;
             result = false;
@@ -612,7 +642,7 @@ void FAC::ProcessNewCmds()
                      * (This should only occur if it was subscribed to with this
                      *  pipe, but not handled in this switch-case.) */
                     HkTlm.usCmdErrCnt++;
-                    (void) CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
+                    CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
                                       "Recvd invalid CMD msgId (0x%04X)", (unsigned short)CmdMsgId);
                     break;
             }
@@ -623,7 +653,7 @@ void FAC::ProcessNewCmds()
         }
         else
         {
-            (void) CFE_EVS_SendEvent(FAC_PIPE_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(FAC_PIPE_ERR_EID, CFE_EVS_ERROR,
                   "CMD pipe read error (0x%08X)", (unsigned int)iStatus);
             uiRunStatus = CFE_ES_APP_ERROR;
             break;
@@ -649,7 +679,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
         {
             case FAC_NOOP_CC:
                 HkTlm.usCmdCnt++;
-                (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
                                   "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
                                   (unsigned int)uiCmdCode,
                                   FAC_MAJOR_VERSION,
@@ -660,7 +690,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 
             case FAC_RESET_CC:
                 ResetHousekeeping();
-                (void) CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                CFE_EVS_SendEvent(FAC_CMD_INF_EID, CFE_EVS_INFORMATION,
                                   "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
                 break;
 
@@ -1989,7 +2019,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 
             default:
                 HkTlm.usCmdErrCnt++;
-                (void) CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
+                CFE_EVS_SendEvent(FAC_MSGID_ERR_EID, CFE_EVS_ERROR,
                                   "Recvd invalid cmdId (%u)", (unsigned int)uiCmdCode);
                 break;
         }
@@ -2003,6 +2033,7 @@ void FAC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void FAC::ReportHousekeeping()
 {
+    HkTlm.HkMsgSndCnt++;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
     CFE_SB_SendMsg((CFE_SB_Msg_t*)&HkTlm);
 }
@@ -2035,6 +2066,8 @@ void FAC::ResetHousekeeping()
 	HkTlm.ActuatorControls0MsgSndCnt = 0;
 	HkTlm.ActuatorControls2MsgSndCnt = 0;
 	HkTlm.VehicleRatesSetpointMsgSndCnt = 0;
+
+	HkTlm.HkMsgSndCnt = 0;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -2069,7 +2102,7 @@ boolean FAC::VerifyCmdLength(CFE_SB_Msg_t* MsgPtr,
             CFE_SB_MsgId_t MsgId = CFE_SB_GetMsgId(MsgPtr);
             uint16 usCmdCode = CFE_SB_GetCmdCode(MsgPtr);
 
-            (void) CFE_EVS_SendEvent(FAC_MSGLEN_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(FAC_MSGLEN_ERR_EID, CFE_EVS_ERROR,
                               "Rcvd invalid msgLen: msgId=0x%08X, cmdCode=%d, "
                               "msgLen=%d, expectedLen=%d",
                               MsgId, usCmdCode, usMsgLen, usExpectedLen);
@@ -2105,7 +2138,7 @@ void FAC::AppMain()
     int32 iStatus = CFE_ES_RegisterApp();
     if (iStatus != CFE_SUCCESS)
     {
-        (void) CFE_ES_WriteToSysLog("FAC - Failed to register the app (0x%08X)\n", (unsigned int)iStatus);
+        CFE_ES_WriteToSysLog("FAC - Failed to register the app (0x%08X)\n", (unsigned int)iStatus);
     }
 
     /* Start Performance Log entry */
@@ -2137,6 +2170,9 @@ void FAC::AppMain()
         iStatus = AcquireConfigPointers();
         if(iStatus != CFE_SUCCESS)
         {
+            CFE_EVS_SendEvent(FAC_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+                                     "FAC Failed to AcquireConfigPointers. (0x%08X)",
+                                     (unsigned int)iStatus);
             /* We apparently tried to load a new table but failed.  Terminate the application. */
             uiRunStatus = CFE_ES_APP_ERROR;
         }

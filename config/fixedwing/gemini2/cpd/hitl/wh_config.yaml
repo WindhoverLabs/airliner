@@ -2,7 +2,7 @@
 config_base: ${PROJECT_SOURCE_DIR}
 cpu_id: cpd
 commander:
-  server_overlay: ${PROJECT_SOURCE_DIR}/config/fixedwing/gemini2/ppd/server_overlay
+  server_overlay: ${PROJECT_SOURCE_DIR}/config/fixedwing/gemini2/ppd/sitl/server_overlay
 modules:
   core:
     modules:
@@ -210,9 +210,9 @@ modules:
         commands:
           FAC_CMD_MID:
             msgID: 0x1a8f
-          FAC_RUN_CONTROLLER_MID:
-            msgID: 0x1a90
           FAC_SEND_HK_MID:
+            msgID: 0x1a90
+          FAC_WAKEUP_MID:
             msgID: 0x1a91
         perfids:
           FAC_MAIN_TASK_PERF_ID:

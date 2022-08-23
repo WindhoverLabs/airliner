@@ -336,6 +336,9 @@ typedef struct
     /** \brief Count of VehicleRatesSetpoint Msg sent */
     uint32             VehicleRatesSetpointMsgSndCnt;
 
+    /** \brief Count of Hk Msg sent */
+    uint32             HkMsgSndCnt;
+
 } FAC_HkTlm_t;
 
 

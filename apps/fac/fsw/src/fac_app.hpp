@@ -558,6 +558,19 @@ public:
     *************************************************************************/
     void UpdateParams(void);
 
+    /************************************************************************/
+    /** \brief Initialize Member Variables
+    **
+    **  \par Description
+    **       This function initializes all the member variables of the FAC
+    **       object
+    **
+    **  \par Assumptions, External Events, and Notes:
+    **       None
+    **
+    *************************************************************************/
+    void Init(void);
+
 };
 
 extern FAC oFAC;
