@@ -120,6 +120,12 @@ extern "C" {
  */
 #define LD_RESET_CC                (1)
 
+#define LD_MODE_AUTO_CC            (2)
+
+#define LD_MODE_MANUAL_CC          (3)
+
+#define LD_MODE_MIXED_CC           (4)
+
 /************************************************************************
  ** Local Structure Declarations
  *************************************************************************/
@@ -156,6 +162,8 @@ typedef struct
     uint8 usCmdErrCnt;
 
     uint8 state;
+
+    uint8 mode;
 
     float velocity_xy_filtered_f;
     float velocity_xy_unfiltered_f;

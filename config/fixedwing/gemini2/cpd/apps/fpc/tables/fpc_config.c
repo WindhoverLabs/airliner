@@ -251,7 +251,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
     0.5f,
 
     /**
-     * T_INTEG_GAIN
+      T_INTEG_GAIN
      * Integrator gain
      *
      * This is the integrator gain on the control loop.
@@ -1019,4 +1019,3 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
 /************************/
 /*  End of File Comment */
 /************************/
-

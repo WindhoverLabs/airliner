@@ -47,14 +47,14 @@ NAV_ConfigTbl_t NAV_ConfigTbl =
 	 *  \par Limits:
 	 *       Min > Max (incr.) 0.05 > 200.0 , default 2.0.
 	 */
-	3.0,
+	15.0,
 
 	/** \brief Altitude Acceptance Radius.
 	 *
 	 *  \par Limits:
 	 *       Min > Max (incr.) 0.05 > 200 , default 0.8.
 	 */
-	1.2,
+	10.0,
 
 	/** \brief The Loiter Radius.
 	 *
@@ -68,14 +68,14 @@ NAV_ConfigTbl_t NAV_ConfigTbl =
 	 *  \par Limits:
 	 *       Min > Max (incr.) 0 > 80 , default 2.5.
 	 */
-	5.0,
+	30.0,
 
 	/** \brief Max yaw error in degrees needed for waypoint heading acceptance.
 	 *
 	 *  \par Limits:
 	 *       Min > Max (incr.) 0 > 90 , default 12.0.
 	 */
-	18.0,
+	12.0,
 
 	/** \brief Time in seconds we wait on reaching target heading at a waypoint if it is forced.
 	 *
@@ -89,28 +89,28 @@ NAV_ConfigTbl_t NAV_ConfigTbl =
 	 *  \par Limits:
 	 *       Min > Max (incr.) -1 > 80 , default 1.20.
 	 */
-	1.20,
+	30.0,
 
 	/** \brief RTL Altitude.
 	 *
 	 *  \par Limits:
 	 *       Min > Max (incr.) 0 > 150 , default 30.0.
 	 */
-	10.0,
+	60.0,
 
 	/** \brief RTL Loiter Altitude.
 	 *
 	 *  \par Limits:
 	 *       Min > Max (incr.) 2 > 100 , default 10.0.
 	 */
-	5.0,
+	30.0,
 
 	/** \brief RTL Delay.
 	 *
 	 *  \par Limits:
 	 *       Min > Max (incr.) -1 > 300 , default 0.0.
 	 */
-	0.0,
+	-1.0,
 
 	/** \brief Minimum distance to trigger rising to a safe altitude.
 	 *

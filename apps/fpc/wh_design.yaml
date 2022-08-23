@@ -65,7 +65,7 @@
       id: 31
     FPC_CMD_UPDT_REG_INVLD_STATE_EI: 
       id: 32
-    FPC_CMD_UPDATE_REG_EID: 
+    FPC_CMD_UPDATE_REG_EID:
       id: 33
     FPC_NO_DECODE_FUNC_EID: 
       id: 34
@@ -86,6 +86,191 @@
         GoAround:
           cc: 2
           struct: FPC_NoArgCmd_t
+        Update_L1_PERIOD:
+          cc: 3
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_L1_DAMPING:
+          cc: 4
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_TIME_CONST:
+          cc: 5
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_THRO_CONST:
+          cc: 6
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_SINK_MIN:
+          cc: 7
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_SINK_MAX:
+          cc: 8
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_CLMB_MAX:
+          cc: 9
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_CLMBOUT_DIFF:
+          cc: 10
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_HRATE_P:
+          cc: 11
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_HRATE_FF:
+          cc: 12
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_SRATE_P:
+          cc: 13
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_THR_DAMP:
+          cc: 14
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_INTEG_GAIN:
+          cc: 15
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_VERT_ACC:
+          cc: 16
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_HGT_OMEGA:
+          cc: 17
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_SPD_OMEGA:
+          cc: 18
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_RLL2THR:
+          cc: 19
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_SPDWEIGHT:
+          cc: 20
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_T_PTCH_DAMP:
+          cc: 21
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_AIRSPD_MIN:
+          cc: 22
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_AIRSPD_TRIM:
+          cc: 23
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_AIRSPD_MAX:
+          cc: 24
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_ARSP_MODE:
+          cc: 25
+          struct: FPC_UpdateParamBooleanCmd_t
+        Update_P_LIM_MIN_RADIANS:
+          cc: 26
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_P_LIM_MAX_RADIANS:
+          cc: 27
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_R_LIM_RADIANS:
+          cc: 28
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_THR_MIN:
+          cc: 29
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_THR_MAX:
+          cc: 30
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_THR_IDLE:
+          cc: 31
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_THR_CRUISE:
+          cc: 32
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_THR_SLEW_MAX:
+          cc: 33
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_THR_ALT_SCL:
+          cc: 34
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_MAN_R_MAX_RADIANS:
+          cc: 35
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_MAN_P_MAX_RADIANS:
+          cc: 36
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_PSP_OFF_RADIANS:
+          cc: 37
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_RSP_OFF_RADIANS:
+          cc: 38
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_THR_LND_MAX:
+          cc: 39
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_LND_ANG_RADIANS:
+          cc: 40
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_LND_HVIRT:
+          cc: 41
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_LND_FLALT:
+          cc: 42
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_LND_TLALT:
+          cc: 43
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_LND_HHDIST:
+          cc: 44
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_LND_FL_PMIN_RADIANS:
+          cc: 45
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_LND_FL_PMAX_RADIANS:
+          cc: 46
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_LND_USETER:
+          cc: 47
+          struct: FPC_UpdateInt32Cmd_t
+        Update_LND_AIRSPD_SC:
+          cc: 48
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_LAUN_ALL_ON:
+          cc: 49
+          struct: FPC_UpdateParamBooleanCmd_t
+        Update_LAUN_CAT_A:
+          cc: 50
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_LAUN_CAT_T:
+          cc: 51
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_LAUN_CAT_MDEL:
+          cc: 52
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_LAUN_CAT_PMAX_RADIANS:
+          cc: 53
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_RWTO_TKOFF:
+          cc: 54
+          struct: FPC_UpdateParamBooleanCmd_t
+        Update_RWTO_HDG:
+          cc: 55
+          struct: FPC_UpdateParamInt32Cmd_t
+        Update_NAV_ALT:
+          cc: 56
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_MAX_THR:
+          cc: 57
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_PSP:
+          cc: 58
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_MAX_PITCH:
+          cc: 59
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_MAX_ROLL:
+          cc: 60
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_AIRSPD_SCL:
+          cc: 61
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_RUNWAY_AIRSPD_MIN:
+          cc: 62
+          struct: FPC_UpdateParamFloatCmd_t
+        Update_RUNWAY_CLMBOUT_DIFF:
+          cc: 63
+          struct: FPC_UpdateParamFloatCmd_t
+
+
   msg_def_overrides:
     - parent: PX4_Position_Control_Status_t
       member: ABORT_LANDING

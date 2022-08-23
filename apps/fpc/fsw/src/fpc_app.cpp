@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2017 Windhover Labs, L.L.C. All rights reserved.
+ *   Copyright (c) 2022 Windhover Labs, L.L.C. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -100,7 +100,7 @@ int32 FPC::InitEvent()
     memset((void*)EventTbl, 0x00, sizeof(EventTbl));
 
     /* TODO: Choose the events you want to filter.  CFE_EVS_MAX_EVENT_FILTERS
-     * limits the number of filters per app.  An explicit CFE_EVS_NO_FILTER 
+     * limits the number of filters per app.  An explicit CFE_EVS_NO_FILTER
      * (the default) has been provided as an example. */
     EventTbl[  ind].EventID = FPC_RESERVED_EID;
     EventTbl[ind++].Mask    = CFE_EVS_FIRST_32_STOP;
@@ -187,7 +187,7 @@ int32 FPC::InitPipe()
     if (iStatus == CFE_SUCCESS)
     {
         /* Subscribe to command messages */
-        iStatus = CFE_SB_Subscribe(FPC_CMD_MID, CmdPipeId);
+        iStatus = CFE_SB_SubscribeEx(FPC_CMD_MID, CmdPipeId, CFE_SB_Default_Qos, FPC_CMD_MID_RESERVED);
 
         if (iStatus != CFE_SUCCESS)
         {
@@ -211,20 +211,106 @@ int32 FPC::InitPipe()
                                  FPC_DATA_PIPE_NAME);
     if (iStatus == CFE_SUCCESS)
     {
-        //TODO:Add when air speed message exists
-//        iStatus = CFE_SB_Subscribe(ASPD4525_HK_TLM_MID, DataPipeId);
-//        if (iStatus != CFE_SUCCESS)
-//        {
-//            (void) CFE_EVS_SendEvent(FPC_INIT_ERR_EID, CFE_EVS_ERROR,
-//                                     "CMD Pipe failed to subscribe to FPC_CMD_MID. (0x%08X)",
-//                                     (unsigned int)iStatus);
-//            goto FPC_InitPipe_Exit_Tag;
-//        }
-        /* TODO:  Add CFE_SB_Subscribe() calls for other apps' output data here.
-        **
-        ** Examples:
-        **     CFE_SB_Subscribe(GNCEXEC_OUT_DATA_MID, DataPipeId);
-        */
+        iStatus = CFE_SB_SubscribeEx(PX4_MANUAL_CONTROL_SETPOINT_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_MANUAL_CONTROL_SETPOINT_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_CONTROL_MODE_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_VEHICLE_CONTROL_MODE_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_GLOBAL_POSITION_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_VEHICLE_GLOBAL_POSITION_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_LOCAL_POSITION_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_VEHICLE_LOCAL_POSITION_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_POSITION_SETPOINT_TRIPLET_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_POSITION_SETPOINT_TRIPLET_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_STATUS_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_VEHICLE_STATUS_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_LAND_DETECTED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_VEHICLE_LAND_DETECTED_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+
+        iStatus = CFE_SB_SubscribeEx(PX4_AIRSPEED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_AIRSPEED_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_ATTITUDE_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_VEHICLE_ATTITUDE_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_COMBINED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_SENSOR_COMBINED_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
+
+        iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_BARO_MID, DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                     "DATA Pipe failed to subscribe to PX4_SENSOR_BARO_MID. (0x%08lX)",
+                     iStatus);
+            goto FPC_InitPipe_Exit_Tag;
+        }
     }
     else
     {
@@ -234,111 +320,10 @@ int32 FPC::InitPipe()
         goto FPC_InitPipe_Exit_Tag;
     }
 
-    iStatus = CFE_SB_SubscribeEx(PX4_MANUAL_CONTROL_SETPOINT_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_MANUAL_CONTROL_SETPOINT_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_CONTROL_MODE_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_VEHICLE_CONTROL_MODE_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_GLOBAL_POSITION_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_VEHICLE_GLOBAL_POSITION_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_LOCAL_POSITION_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_VEHICLE_LOCAL_POSITION_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_POSITION_SETPOINT_TRIPLET_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_POSITION_SETPOINT_TRIPLET_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-
-    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_STATUS_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_VEHICLE_STATUS_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_LAND_DETECTED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_VEHICLE_LAND_DETECTED_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-
-    iStatus = CFE_SB_SubscribeEx(PX4_AIRSPEED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_AIRSPEED_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_ATTITUDE_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_VEHICLE_ATTITUDE_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_COMBINED_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_SENSOR_COMBINED_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
-    iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_BARO_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FPC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                 "DATA Pipe failed to subscribe to PX4_SENSOR_BARO_MID. (0x%08lX)",
-                 iStatus);
-        goto FPC_InitPipe_Exit_Tag;
-    }
-
 FPC_InitPipe_Exit_Tag:
     return (iStatus);
 }
-    
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -349,32 +334,16 @@ FPC_InitPipe_Exit_Tag:
 int32 FPC::InitData()
 {
     int32  iStatus=CFE_SUCCESS;
-
     /* Init input data */
-    memset((void*)&InData, 0x00, sizeof(InData));
     memset((void*)&m_LandingSlope, 0x00, sizeof(m_LandingSlope));
 
-    /* Init output data */
-
-
     /* Init output messages */
-    memset((void*)&m_PositionControlStatusMsg, 0x00, sizeof(m_PositionControlStatusMsg));
-    CFE_SB_InitMsg(&m_PositionControlStatusMsg,
-        PX4_POSITION_CONTROL_STATUS_MID, sizeof(PX4_Position_Control_Status_t), TRUE);
-
-
-    memset((void*)&m_VehicleAttitudeSetpointMsg, 0x00, sizeof(m_VehicleAttitudeSetpointMsg));
-    CFE_SB_InitMsg(&m_VehicleAttitudeSetpointMsg,
-        PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(m_VehicleAttitudeSetpointMsg), TRUE);
-
-    memset((void*)&m_PX4_TecsStatusMsg, 0x00, sizeof(m_PX4_TecsStatusMsg));
-    CFE_SB_InitMsg(&m_PX4_TecsStatusMsg,
-        PX4_TECS_STATUS_MID, sizeof(m_PX4_TecsStatusMsg), TRUE);
+    CFE_SB_InitMsg(&m_PositionControlStatusMsg,  PX4_POSITION_CONTROL_STATUS_MID, sizeof(PX4_Position_Control_Status_t), TRUE);
+    CFE_SB_InitMsg(&m_VehicleAttitudeSetpointMsg,PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(m_VehicleAttitudeSetpointMsg), TRUE);
+    CFE_SB_InitMsg(&m_PX4_TecsStatusMsg,PX4_TECS_STATUS_MID, sizeof(m_PX4_TecsStatusMsg), TRUE);
 
     /* Init housekeeping packet */
-    memset((void*)&HkTlm, 0x00, sizeof(HkTlm));
-    CFE_SB_InitMsg(&HkTlm,
-                   FPC_HK_TLM_MID, sizeof(HkTlm), TRUE);
+    CFE_SB_InitMsg(&HkTlm, FPC_HK_TLM_MID, sizeof(HkTlm), TRUE);
 
     /* Clear input messages */
     CFE_PSP_MemSet(&m_ManualControlSetpointMsg, 0, sizeof(m_ManualControlSetpointMsg));
@@ -383,6 +352,11 @@ int32 FPC::InitData()
     CFE_PSP_MemSet(&m_VehicleStatusMsg, 0, sizeof(m_VehicleStatusMsg));
     CFE_PSP_MemSet(&m_VehicleLandDetectedMsg, 0, sizeof(m_VehicleLandDetectedMsg));
     CFE_PSP_MemSet(&m_VehicleLocalPositionMsg, 0, sizeof(m_VehicleLocalPositionMsg));
+    CFE_PSP_MemSet(&m_VehicleGlobalPositionMsg, 0, sizeof(m_VehicleGlobalPositionMsg));
+    CFE_PSP_MemSet(&m_AirspeedMsg, 0, sizeof(m_AirspeedMsg));
+    CFE_PSP_MemSet(&m_VehicleAttitudeMsg, 0, sizeof(m_VehicleAttitudeMsg));
+    CFE_PSP_MemSet(&m_SensorCombinedMsg, 0, sizeof(m_SensorCombinedMsg));
+    CFE_PSP_MemSet(&m_SensorBaroMsg, 0, sizeof(m_SensorBaroMsg));
 
     return (iStatus);
 }
@@ -488,7 +462,7 @@ int32 FPC::RcvMsg(int32 iBlocking)
     {
         MsgId = CFE_SB_GetMsgId(MsgPtr);
         switch (MsgId)
-	{
+    {
             case FPC_WAKEUP_MID:
                 ProcessNewCmds();
                 ProcessNewData();
@@ -513,7 +487,7 @@ int32 FPC::RcvMsg(int32 iBlocking)
     }
     else if (iStatus == CFE_SB_NO_MESSAGE)
     {
-        /* TODO: If there's no incoming message, you can do something here, or 
+        /* TODO: If there's no incoming message, you can do something here, or
          * nothing.  Note, this section is dead code only if the iBlocking arg
          * is CFE_SB_PEND_FOREVER. */
         iStatus = CFE_SUCCESS;
@@ -521,7 +495,7 @@ int32 FPC::RcvMsg(int32 iBlocking)
     else if (iStatus == CFE_SB_TIME_OUT)
     {
         /* TODO: If there's no incoming message within a specified time (via the
-         * iBlocking arg, you can do something here, or nothing.  
+         * iBlocking arg, you can do something here, or nothing.
          * Note, this section is dead code only if the iBlocking arg
          * is CFE_SB_PEND_FOREVER. */
         iStatus = CFE_SUCCESS;
@@ -532,7 +506,7 @@ int32 FPC::RcvMsg(int32 iBlocking)
          * CFE_SB_PIPE_RD_ERROR).
          */
         (void) CFE_EVS_SendEvent(FPC_PIPE_ERR_EID, CFE_EVS_ERROR,
-			  "SB pipe read error (0x%08X), app will exit", (unsigned int)iStatus);
+              "SB pipe read error (0x%08X), app will exit", (unsigned int)iStatus);
         uiRunStatus= CFE_ES_APP_ERROR;
     }
 
@@ -585,6 +559,7 @@ void FPC::ProcessNewData()
                 case PX4_POSITION_SETPOINT_TRIPLET_MID:
                 {
                     CFE_PSP_MemCpy(&m_PositionSetpointTripletMsg, dataMsgPtr, sizeof(m_PositionSetpointTripletMsg));
+                    HkTlm.m_PositionSetpointTripletMsgCount++;
                     break;
                 }
 
@@ -683,14 +658,6 @@ void FPC::ProcessNewCmds()
                     ProcessNewAppCmds(CmdMsgPtr);
                     break;
 
-                /* TODO:  Add code to process other subscribed commands here
-                **
-                ** Example:
-                **     case CFE_TIME_DATA_CMD_MID:
-                **         FPC_ProcessTimeDataCmd(CmdMsgPtr);
-                **         break;
-                */
-
                 default:
                     /* Bump the command error counter for an unknown command.
                      * (This should only occur if it was subscribed to with this
@@ -699,6 +666,1659 @@ void FPC::ProcessNewCmds()
                     (void) CFE_EVS_SendEvent(FPC_MSGID_ERR_EID, CFE_EVS_ERROR,
                                       "Recvd invalid CMD msgId (0x%04X)", (unsigned short)CmdMsgId);
                     break;
+            }
+        }
+        else if (iStatus == CFE_SB_NO_MESSAGE)
+        {
+            break;
+        }
+        else
+        {
+            (void) CFE_EVS_SendEvent(FPC_PIPE_ERR_EID, CFE_EVS_ERROR,
+                  "CMD pipe read error (0x%08X)", (unsigned int)iStatus);
+            uiRunStatus = CFE_ES_APP_ERROR;
+            break;
+        }
+    }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* UpdateParamsFromTable                                           */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void FPC::UpdateParamsFromTable(void)
+{
+    if(ConfigTblPtr != 0)
+    {
+        /* check if negative value for 2/3 of flare altitude is set for throttle cut */
+        if (ConfigTblPtr->LND_TLALT < 0.0f) {
+            ConfigTblPtr->LND_TLALT = 0.66f * ConfigTblPtr->LND_FLALT;
+        }
+        /* Update the landing slope */
+        m_LandingSlope.update(ConfigTblPtr->LND_ANG_RADIANS, ConfigTblPtr->LND_FLALT,
+                     ConfigTblPtr->LND_TLALT, ConfigTblPtr->LND_HVIRT);
+
+        /* Update and publish the navigation capabilities */
+        m_PositionControlStatusMsg.LANDING_SLOPE_ANGLE_RAD = m_LandingSlope.landing_slope_angle_rad();
+        m_PositionControlStatusMsg.LANDING_HORIZONTAL_SLOPE_DISPLACEMENT = m_LandingSlope.horizontal_slope_displacement();
+        m_PositionControlStatusMsg.LANDING_FLARE_LENGTH = m_LandingSlope.flare_length();
+
+        m_PositionControlStatusMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+
+
+        /* Update Launch Detector Parameters */
+//        _launchDetector.updateParams();
+//        _runway_takeoff.updateParams();
+
+        /* L1 control parameters */
+
+        _l1_control.set_l1_damping(ConfigTblPtr->L1_DAMPING);
+        _l1_control.set_l1_period(ConfigTblPtr->L1_PERIOD);
+        _l1_control.set_l1_roll_limit(ConfigTblPtr->R_LIM_RADIANS);
+
+        _tecs.set_time_const(ConfigTblPtr->T_TIME_CONST);
+        _tecs.set_time_const_throt(ConfigTblPtr->T_THRO_CONST);
+        _tecs.set_min_sink_rate(ConfigTblPtr->T_SINK_MIN);
+        _tecs.set_max_sink_rate(ConfigTblPtr->T_SINK_MAX);
+        _tecs.set_throttle_damp(ConfigTblPtr->T_THR_DAMP);
+        _tecs.set_throttle_slewrate(ConfigTblPtr->THR_SLEW_MAX);
+        _tecs.set_integrator_gain(ConfigTblPtr->T_INTEG_GAIN);
+        _tecs.set_vertical_accel_limit(ConfigTblPtr->T_VERT_ACC);
+        _tecs.set_height_comp_filter_omega(ConfigTblPtr->T_HGT_OMEGA);
+        _tecs.set_speed_comp_filter_omega(ConfigTblPtr->T_SPD_OMEGA);
+        _tecs.set_roll_throttle_compensation(ConfigTblPtr->T_RLL2THR);
+        _tecs.set_speed_weight(ConfigTblPtr->T_SPDWEIGHT);
+        _tecs.set_pitch_damping(ConfigTblPtr->T_PTCH_DAMP);
+        _tecs.set_indicated_airspeed_min(ConfigTblPtr->AIRSPD_MIN);
+        _tecs.set_indicated_airspeed_max(ConfigTblPtr->AIRSPD_MAX);
+        _tecs.set_max_climb_rate(ConfigTblPtr->T_CLMB_MAX);
+        _tecs.set_heightrate_p(ConfigTblPtr->T_HRATE_P);
+        _tecs.set_heightrate_ff(ConfigTblPtr->T_HRATE_FF);
+        _tecs.set_speedrate_p(ConfigTblPtr->T_SRATE_P);
+
+    }
+
+    _launchDetector.UpdateParamsFromTable(ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_A,
+                               ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_T,
+                               ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_MDEL,
+                               ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_PMAX_RADIANS,
+                               ConfigTblPtr->FPC_Launch_Detection.LAUN_ALL_ON
+                               );
+
+    _runway_takeoff.UpdateParamsFromTable(ConfigTblPtr->FPC_Runway_Takeoff.RWTO_TKOFF,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.RWTO_HDG,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.NAV_ALT,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.MAX_THR,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.PSP,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.MAX_PITCH,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.MAX_ROLL,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_SCL,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_MIN,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.CLMBOUT_DIFF);
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Process FPC Commands                                            */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+void FPC::ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
+{
+    uint32  uiCmdCode=0;
+    uint32  returnCode = 0;
+
+    if (MsgPtr != NULL)
+    {
+        uiCmdCode = CFE_SB_GetCmdCode(MsgPtr);
+        switch (uiCmdCode)
+        {
+            case FPC_NOOP_CC:
+                {
+                    if(VerifyCmdLength(MsgPtr, sizeof(FPC_NoArgCmd_t)) == TRUE)
+                    {
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                          "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
+                                          (unsigned int)uiCmdCode,
+                                          FPC_MAJOR_VERSION,
+                                          FPC_MINOR_VERSION,
+                                          FPC_REVISION,
+                                          FPC_MISSION_REV);
+                    }
+                    else
+                    {
+                        HkTlm.usCmdErrCnt++;
+                    }
+                    break;
+                 }
+
+            case FPC_RESET_CC:
+                {
+                   if(VerifyCmdLength(MsgPtr, sizeof(FPC_NoArgCmd_t)) == TRUE)
+                   {
+                       HkTlm.usCmdCnt = 0;
+                       HkTlm.usCmdErrCnt = 0;
+                       (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                         "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
+                   }
+                   else
+                   {
+                       HkTlm.usCmdErrCnt++;
+                   }
+                    break;
+
+                }
+            case FPC_DO_GO_AROUND_CC:
+                {
+                    if(VerifyCmdLength(MsgPtr, sizeof(FPC_NoArgCmd_t)) == TRUE)
+                    {
+                        HkTlm.usCmdCnt++;
+                        (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
+                                          "Recvd FPC_DO_GO_AROUND cmd (%u)", (unsigned int)uiCmdCode);
+
+                        if (m_VehicleControlModeMsg.ControlAutoEnabled &&
+                            m_PositionSetpointTripletMsg.Current.Valid &&
+                            m_PositionSetpointTripletMsg.Current.Type == PX4_SETPOINT_TYPE_LAND)
+                        {
+
+                            m_PositionControlStatusMsg.ABORT_LANDING = TRUE;
+                            (void) CFE_EVS_SendEvent(FPC_POS_CRIT_EID, CFE_EVS_CRITICAL,
+                                           "Landing aborted");
+                        }
+                    }
+                    else
+                    {
+                        HkTlm.usCmdErrCnt++;
+                    }
+                    break;
+
+                }
+
+            case FPC_UPDATE_L1_PERIOD_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->L1_PERIOD = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "L1_PERIOD Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+             }
+
+            case FPC_UPDATE_L1_DAMPING_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->L1_DAMPING = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "L1_DAMPING Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_TIME_CONST_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_TIME_CONST = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_TIME_CONST Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_THRO_CONST_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_THRO_CONST = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_TIME_CONST Modified.");
+               }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+               break;
+            }
+            case FPC_UPDATE_T_SINK_MIN_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_SINK_MIN = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_TIME_CONST Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+              break;
+            }
+            case FPC_UPDATE_T_SINK_MAX_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_SINK_MAX = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_SINK_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_CLMB_MAX_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_CLMB_MAX = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_SINK_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_CLMBOUT_DIFF_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->CLMBOUT_DIFF = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "CLMBOUT_DIFF Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_HRATE_P_CC:
+            {
+               if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+               {
+                   HkTlm.usCmdCnt++;
+                   FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                   ConfigTblPtr->T_HRATE_P = cmd->param;
+                   returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                   if(returnCode != CFE_SUCCESS)
+                   {
+                       (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                CFE_EVS_ERROR,
+                                                "CFE_TBL_Modified error (%d)",
+                                                (unsigned int)returnCode);
+                   }
+                   (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                            CFE_EVS_INFORMATION,
+                                            "T_HRATE_P Modified.");
+               }
+               else
+               {
+                   HkTlm.usCmdErrCnt++;
+               }
+               break;
+            }
+            case FPC_UPDATE_T_HRATE_FF_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_HRATE_FF = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_HRATE_FF Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+
+            case FPC_UPDATE_T_SRATE_P_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_SRATE_P = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_SRATE_P Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_THR_DAMP_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_THR_DAMP = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_INTEG_GAIN_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_INTEG_GAIN = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_VERT_ACC_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_VERT_ACC = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_HGT_OMEGA_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_HGT_OMEGA = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_SPD_OMEGA_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_SPD_OMEGA = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_RLL2THR_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_RLL2THR = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_SPDWEIGHT_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_SPDWEIGHT = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_THR_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_T_PTCH_DAMP_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->T_PTCH_DAMP = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "T_PTCH_DAMP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_AIRSPD_MIN_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->AIRSPD_MIN = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "AIRSPD_MIN Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_AIRSPD_TRIM_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->AIRSPD_TRIM = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "AIRSPD_TRIM Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_AIRSPD_MAX_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->AIRSPD_MAX = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "AIRSPD_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_ARSP_MODE_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamBooleanCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamBooleanCmd_t *cmd = (FPC_UpdateParamBooleanCmd_t*)MsgPtr;
+                    ConfigTblPtr->ARSP_MODE = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "ARSP_MODE Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_P_LIM_MIN_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->P_LIM_MIN_RADIANS = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "P_LIM_MIN_RADIANS Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_P_LIM_MAX_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->P_LIM_MAX_RADIANS = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "P_LIM_MAX_RADIANS Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_R_LIM_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->R_LIM_RADIANS = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "R_LIM_RADIANS Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_THR_MIN_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->THR_MIN = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "P_LIM_MAX_RADIANS Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_THR_MAX_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->THR_MAX = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_THR_IDLE_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->THR_IDLE = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_THR_CRUISE_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->THR_CRUISE = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_THR_SLEW_MAX_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->THR_SLEW_MAX = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_THR_ALT_SCL_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->THR_ALT_SCL = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_MAN_R_MAX_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->MAN_R_MAX_RADIANS = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_MAN_P_MAX_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->MAN_P_MAX_RADIANS = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_RSP_OFF_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->RSP_OFF_RADIANS = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_PSP_OFF_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->PSP_OFF_RADIANS = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "PSP_OFF_RADIANS Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_THR_LND_MAX_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->THR_LND_MAX = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_LND_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_LND_ANG_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->LND_ANG_RADIANS = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_LND_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_LND_HVIRT_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->LND_HVIRT = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_LND_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_LND_FLALT_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->LND_FLALT = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_LND_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_LND_TLALT_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->LND_TLALT = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_LND_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_LND_HHDIST_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->LND_HHDIST = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_LND_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_LND_FL_PMIN_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->LND_FL_PMIN_RADIANS = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_LND_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_LND_FL_PMAX_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->LND_FL_PMAX_RADIANS = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_LND_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_LND_USETER_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateInt32Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateInt32Cmd_t *cmd = (FPC_UpdateInt32Cmd_t*)MsgPtr;
+                    ConfigTblPtr->LND_USETER = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_LND_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_LND_AIRSPD_SC_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->LND_AIRSPD_SC = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "THR_LND_MAX Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+
+            // FPC_Launch_Detection_t Params
+            case FPC_UPDATE_LAUN_ALL_ON_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamBooleanCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamBooleanCmd_t *cmd = (FPC_UpdateParamBooleanCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Launch_Detection.LAUN_ALL_ON = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "LAUN_ALL_ON Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_LAUN_CAT_A_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_A = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "LAUN_ALL_ON Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_LAUN_CAT_T_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_T = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "LAUN_CAT_T Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_LAUN_CAT_MDEL_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_MDEL = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "LAUN_CAT_MDEL Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_LAUN_CAT_PMAX_RADIANS_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_PMAX_RADIANS = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "LAUN_CAT_MDEL Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+
+
+             // FPC_Runway_Takeoff Params
+            case FPC_UPDATE_RWTO_TKOFF_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamBooleanCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamBooleanCmd_t *cmd = (FPC_UpdateParamBooleanCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Runway_Takeoff.RWTO_TKOFF = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "RWTO_TKOFF Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_RWTO_HDG_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateInt32Cmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateInt32Cmd_t *cmd = (FPC_UpdateInt32Cmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Runway_Takeoff.RWTO_HDG = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "RWTO_TKOFF Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_NAV_ALT_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Runway_Takeoff.NAV_ALT = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "RWTO_TKOFF Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_MAX_THR_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Runway_Takeoff.MAX_THR = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "MAX_THR Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_PSP_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Runway_Takeoff.PSP = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "PSP Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_MAX_PITCH_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Runway_Takeoff.MAX_PITCH = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "MAX_PITCH Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_MAX_ROLL_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Runway_Takeoff.MAX_ROLL = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "MAX_PITCH Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_AIRSPD_SCL_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_SCL = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "MAX_PITCH Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
             }
         }
         else if (iStatus == CFE_SB_NO_MESSAGE)
@@ -819,43 +2439,51 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
             case FPC_NOOP_CC:
                 {
                     HkTlm.usCmdCnt++;
-                    (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                      "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
-                                      (unsigned int)uiCmdCode,
-                                      FPC_MAJOR_VERSION,
-                                      FPC_MINOR_VERSION,
-                                      FPC_REVISION,
-                                      FPC_MISSION_REV);
-                    break;
-                 }
-
-            case FPC_RESET_CC:
-                {
-                    HkTlm.usCmdCnt = 0;
-                    HkTlm.usCmdErrCnt = 0;
-                    (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                      "Recvd RESET cmd (%u)", (unsigned int)uiCmdCode);
-                    break;
-
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_MIN = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "MAX_PITCH Modified.");
                 }
-            case FPC_DO_GO_AROUND_CC:
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+            case FPC_UPDATE_RUNWAY_CLMBOUT_DIFF_CC:
+            {
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
                 {
                     HkTlm.usCmdCnt++;
-                    (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID, CFE_EVS_INFORMATION,
-                                      "Recvd FPC_DO_GO_AROUND cmd (%u)", (unsigned int)uiCmdCode);
-
-                    if (m_VehicleControlModeMsg.ControlAutoEnabled &&
-                        m_PositionSetpointTripletMsg.Current.Valid &&
-                        m_PositionSetpointTripletMsg.Current.Type == PX4_SETPOINT_TYPE_LAND)
+                    FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
+                    ConfigTblPtr->FPC_Runway_Takeoff.CLMBOUT_DIFF = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
                     {
-
-                        m_PositionControlStatusMsg.ABORT_LANDING = TRUE;
-                        (void) CFE_EVS_SendEvent(FPC_POS_CRIT_EID, CFE_EVS_CRITICAL,
-                                       "Landing aborted");
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                                                 CFE_EVS_ERROR,
+                                                 "CFE_TBL_Modified error (%d)",
+                                                 (unsigned int)returnCode);
                     }
-                    break;
-
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                                             CFE_EVS_INFORMATION,
+                                             "CLMBOUT_DIFF Modified.");
                 }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
             /* TODO:  Add code to process the rest of the FPC commands here */
 
             default:
@@ -895,6 +2523,7 @@ void FPC::ReportHousekeeping()
     HkTlm._runway_takeoff._min_airspeed_scaling = _runway_takeoff.getMinAirspeedScaling();
     HkTlm._runway_takeoff._airspeed_min = _runway_takeoff.getAirspeed_min();
     HkTlm._runway_takeoff._climbout_diff = _runway_takeoff.getClimbout_diff();
+    HkTlm._runway_takeoff._runway_takeoff_enabled = _runway_takeoff.get_runway_takeoff_enabled();
     HkTlm.ControlModeCurrent = static_cast<HK_FW_POSCTRL_MODE>((int)ControlModeCurrent);
     HkTlm.tecsMode = static_cast<ECL_TECS_MODE>((int)_tecs.tecs_mode());
     HkTlm._hold_alt = _hold_alt;
@@ -903,10 +2532,10 @@ void FPC::ReportHousekeeping()
     HkTlm._airspeed_last_received = _airspeed_last_received;
     HkTlm._airspeed = _airspeed;
     HkTlm._eas2tas = _eas2tas;
-    HkTlm.m_Hdg_Hold_Enabled = m_Hdg_Hold_Enabled;
-
-    CFE_PSP_MemCpy(&HkTlm._hdg_hold_curr_wp, &_hdg_hold_curr_wp, sizeof(_hdg_hold_curr_wp));
-    CFE_PSP_MemCpy(&HkTlm._hdg_hold_prev_wp, &_hdg_hold_prev_wp, sizeof(_hdg_hold_prev_wp));
+    HkTlm.m_Hdg_Hold_Enabled = _hdg_hold_enabled;
+    HkTlm._yaw_lock_engaged = _yaw_lock_engaged;
+    HkTlm.inControl = inControl;
+    HkTlm._runway_takeoff_initialized = _runway_takeoff.isInitialized();
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HkTlm);
 
@@ -926,15 +2555,6 @@ void FPC::ReportHousekeeping()
 
 void FPC::SendOutData()
 {
-    /* TODO:  Add code to update output data, if needed, here.  */
-
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&OutData);
-    int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&OutData);
-    if (iStatus != CFE_SUCCESS)
-    {
-        /* TODO: Decide what to do if the send message fails. */
-    }
-
     SendPositionControlStatusMsg();
     SendTecsStatusMsg();
     SendVehicleAttitudeSetpointMsg();
@@ -1084,11 +2704,11 @@ extern "C" void FPC_AppMain(void)
 
 void FPC::Execute(void)
 {
-    /* handle estimator reset events. we only adjust setpoins for manual modes*/
+        /* handle estimator reset events. we only adjust setpoins for manual modes*/
     if (TRUE == m_VehicleControlModeMsg.ControlManualEnabled) {
         if (m_VehicleControlModeMsg.ControlAltitudeEnabled && (m_VehicleGlobalPositionMsg.AltResetCounter != m_Alt_Reset_Counter)) {
             //Careful for
-            m_Hold_Alt += m_VehicleGlobalPositionMsg.DeltaAlt;
+            _hold_alt += m_VehicleGlobalPositionMsg.DeltaAlt;
             // make TECS accept step in altitude and demanded altitude
             _tecs.handle_alt_step(m_VehicleGlobalPositionMsg.DeltaAlt, m_VehicleGlobalPositionMsg.Alt);
         }
@@ -1098,7 +2718,7 @@ void FPC::Execute(void)
             && m_VehicleGlobalPositionMsg.LatLonResetCounter != m_Pos_Reset_Counter) {
 
             // reset heading hold flag, which will re-initialise position control
-            m_Hdg_Hold_Enabled = FALSE;
+            _hdg_hold_enabled = FALSE;
         }
     }
 
@@ -1113,16 +2733,15 @@ void FPC::Execute(void)
 //    }
      UpdateVehicleAttitude();
 
-    math::Vector2F curr_pos(m_VehicleGlobalPositionMsg.Lat, m_VehicleGlobalPositionMsg.Alt);
+    math::Vector2F curr_pos(m_VehicleGlobalPositionMsg.Lat, m_VehicleGlobalPositionMsg.Lon);
     math::Vector2F ground_speed(m_VehicleGlobalPositionMsg.VelN, m_VehicleGlobalPositionMsg.VelE);
 
-
-
+    inControl = ControlPosition(curr_pos, ground_speed, m_PositionSetpointTripletMsg.Previous, m_PositionSetpointTripletMsg.Current);
     /*
      * Attempt to control position, on success (= sensors present and not in manual mode),
      * publish setpoint.
      */
-    if (ControlPosition(curr_pos, ground_speed, m_PositionSetpointTripletMsg.Previous, m_PositionSetpointTripletMsg.Current)) {
+    if (inControl) {
         m_VehicleAttitudeSetpointMsg.Timestamp = PX4LIB_GetPX4TimeMs();
 
         // add attitude setpoint offsets
@@ -1162,6 +2781,7 @@ void FPC::Execute(void)
             m_PositionControlStatusMsg.WP_DIST = get_distance_to_next_waypoint(curr_pos[0], curr_pos[1], curr_wp[0], curr_wp[1]);
 
         }
+
     }
 
 }
@@ -1305,15 +2925,14 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
     }
 
     if (m_VehicleControlModeMsg.ControlAutoEnabled && pos_sp_curr.Valid) {
+            /* reset hold altitude */
+            _hold_alt = m_VehicleGlobalPositionMsg.Alt;
+
+            /* reset hold yaw */
+            _hdg_hold_yaw = _yaw;
         /* AUTONOMOUS FLIGHT */
 
         ControlModeCurrent = FW_POSCTRL_MODE_AUTO;
-
-        /* reset hold altitude */
-        _hold_alt = m_VehicleGlobalPositionMsg.Alt;
-
-        /* reset hold yaw */
-        _hdg_hold_yaw = _yaw;
 
         /* get circle mode */
         bool was_circle_mode = _l1_control.circle_mode();
@@ -1563,7 +3182,6 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
                     if (!_land_motor_lim) {
                         _land_motor_lim  = TRUE;
-//                        mavlink_log_info(&_mavlink_log_pub, "Landing, limiting throttle");
                         (void) CFE_EVS_SendEvent(FPC_INF_EID, CFE_EVS_INFORMATION,
                                           "Landing, limiting throttle");
                     }
@@ -1823,8 +3441,10 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
             m_VehicleAttitudeSetpointMsg.RollResetIntegral = TRUE;
         }
 
+
     } else if (m_VehicleControlModeMsg.ControlVelocityEnabled &&
            m_VehicleControlModeMsg.ControlAltitudeEnabled) {
+
         /* POSITION CONTROL: pitch stick moves altitude setpoint, throttle stick sets airspeed,
            heading is set to a distant waypoint */
 
@@ -1839,7 +3459,9 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
              * level out without new manual input */
             m_VehicleAttitudeSetpointMsg.RollBody = m_ManualControlSetpointMsg.Y * ConfigTblPtr->MAN_R_MAX_RADIANS;
             m_VehicleAttitudeSetpointMsg.YawBody = 0;
-        }
+          }
+
+
 
         ControlModeCurrent = FW_POSCTRL_MODE_POSITION;
 
@@ -1898,19 +3520,19 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
                     _hdg_hold_enabled = TRUE;
                     _hdg_hold_yaw = _yaw;
 
-                    GetWaypointHeadingDistance(_hdg_hold_yaw, _hdg_hold_prev_wp, _hdg_hold_curr_wp, TRUE);
+                    GetWaypointHeadingDistance(_hdg_hold_yaw, HkTlm._hdg_hold_prev_wp, HkTlm._hdg_hold_curr_wp, TRUE);
                 }
 
                 /* we have a valid heading hold position, are we too close? */
-                float dist = get_distance_to_next_waypoint(m_VehicleGlobalPositionMsg.Lat, m_VehicleGlobalPositionMsg.Lon, _hdg_hold_curr_wp.Lat,
-                        _hdg_hold_curr_wp.Lon);
+                float dist = get_distance_to_next_waypoint(m_VehicleGlobalPositionMsg.Lat, m_VehicleGlobalPositionMsg.Lon, HkTlm._hdg_hold_curr_wp.Lat,
+                        HkTlm._hdg_hold_curr_wp.Lon);
 
                 if (dist < HDG_HOLD_REACHED_DIST) {
-                    GetWaypointHeadingDistance(_hdg_hold_yaw, _hdg_hold_prev_wp, _hdg_hold_curr_wp, FALSE);
+                    GetWaypointHeadingDistance(_hdg_hold_yaw, HkTlm._hdg_hold_prev_wp, HkTlm._hdg_hold_curr_wp, FALSE);
                 }
 
-                math::Vector2F prev_wp{(float)_hdg_hold_prev_wp.Lat, (float)_hdg_hold_prev_wp.Lon};
-                math::Vector2F curr_wp{(float)_hdg_hold_curr_wp.Lat, (float)_hdg_hold_curr_wp.Lon};
+                math::Vector2F prev_wp{(float)HkTlm._hdg_hold_prev_wp.Lat, (float)HkTlm._hdg_hold_prev_wp.Lon};
+                math::Vector2F curr_wp{(float)HkTlm._hdg_hold_curr_wp.Lat, (float)HkTlm._hdg_hold_curr_wp.Lon};
 
                 /* populate l1 control setpoint */
                 _l1_control.navigate_waypoints(prev_wp, curr_wp, curr_pos, ground_speed);
@@ -1933,14 +3555,15 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
             m_VehicleAttitudeSetpointMsg.RollBody = m_ManualControlSetpointMsg.Y * ConfigTblPtr->MAN_R_MAX_RADIANS;
             m_VehicleAttitudeSetpointMsg.YawBody = 0;
         }
+      }
 
-    } else if (m_VehicleControlModeMsg.ControlAltitudeEnabled) {
-        /* ALTITUDE CONTROL: pitch stick moves altitude setpoint, throttle stick sets airspeed */
+    else if (m_VehicleControlModeMsg.ControlAltitudeEnabled) {
+            /* ALTITUDE CONTROL: pitch stick moves altitude setpoint, throttle stick sets airspeed */
 
-        if (ControlModeCurrent != FW_POSCTRL_MODE_POSITION && ControlModeCurrent != FW_POSCTRL_MODE_ALTITUDE) {
-            /* Need to init because last loop iteration was in a different mode */
-            _hold_alt = m_VehicleGlobalPositionMsg.Alt;
-        }
+            if (ControlModeCurrent != FW_POSCTRL_MODE_POSITION && ControlModeCurrent != FW_POSCTRL_MODE_ALTITUDE) {
+                /* Need to init because last loop iteration was in a different mode */
+                _hold_alt = m_VehicleGlobalPositionMsg.Alt;
+            }
 
         ControlModeCurrent = FW_POSCTRL_MODE_ALTITUDE;
 
@@ -1976,8 +3599,8 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
         m_VehicleAttitudeSetpointMsg.RollBody = m_ManualControlSetpointMsg.Y * ConfigTblPtr->MAN_R_MAX_RADIANS;
         m_VehicleAttitudeSetpointMsg.YawBody = 0;
-
-    } else {
+      }
+     else {
         ControlModeCurrent = FW_POSCTRL_MODE_OTHER;
 
         /* do not publish the setpoint */
@@ -2046,6 +3669,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
     if (use_tecs_pitch) {
         m_VehicleAttitudeSetpointMsg.PitchBody = GetTecsPitch();
+        HkTlm.TecsPitch = GetTecsPitch();
     }
 
     if (m_VehicleControlModeMsg.ControlPositionEnabled) {
