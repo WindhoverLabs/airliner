@@ -52,42 +52,44 @@ public:
     LaunchDetector();
     ~LaunchDetector();
 
-	LaunchDetector(const LaunchDetector &) = delete;
-	LaunchDetector operator=(const LaunchDetector &) = delete;
+    LaunchDetector(const LaunchDetector&) = delete;
+    LaunchDetector operator=(const LaunchDetector&) = delete;
 
-	void reset();
+    void reset();
 
-	void update(float accel_x);
+    void update(float accel_x);
     launchdetection::LaunchDetectionResult getLaunchDetected();
-    bool launchDetectionEnabled() { return launchDetectionOn; }
+    bool launchDetectionEnabled()
+    {
+        return launchDetectionOn;
+    }
 
-	/* Returns a maximum pitch in deg. Different launch methods may impose upper pitch limits during launch */
-	float getPitchMax(float pitchMaxDefault);
+    /* Returns a maximum pitch in deg. Different launch methods may impose upper pitch limits during launch */
+    float getPitchMax(float pitchMaxDefault);
 
-    void UpdateParamsFromTable(float newThresholdAccel,
-                    float newThresholdTime,
-                    float newMotorDelay,
-                    float newPitchMaxPreThrottle,
-                    bool newLaunchDetectionEnabled);
+    void UpdateParamsFromTable(float newThresholdAccel, float newThresholdTime,
+            float newMotorDelay, float newPitchMaxPreThrottle,
+            bool newLaunchDetectionEnabled);
 
 private:
-	/* holds an index to the launchMethod in the array launchMethods
-	 * which detected a Launch. If no launchMethod has detected a launch yet the
-	 * value is -1. Once one launchMethod has detected a launch only this
-	 * method is checked for further advancing in the state machine
-	 * (e.g. when to power up the motors)
-	 */
-	int activeLaunchDetectionMethodIndex{-1};
+    /* holds an index to the launchMethod in the array launchMethods
+     * which detected a Launch. If no launchMethod has detected a launch yet the
+     * value is -1. Once one launchMethod has detected a launch only this
+     * method is checked for further advancing in the state machine
+     * (e.g. when to power up the motors)
+     */
+    int activeLaunchDetectionMethodIndex
+    { -1 };
 
-   //In PX4 this is a base class list. Making it concrete for now to keep it simple.
+    //In PX4 this is a base class list. Making it concrete for now to keep it simple.
     CatapultLaunchMethod launchMethod;
 
     float thresholdAccel;
     float thresholdTime;
     float motorDelay;
     float pitchMaxPreThrottle; /**< Upper pitch limit before throttle is turned on.
-                               Can be used to make sure that the AC does not climb
-                               too much while attached to a bungee. In radians. */
+     Can be used to make sure that the AC does not climb
+     too much while attached to a bungee. In radians. */
 
     bool launchDetectionOn;
 };
