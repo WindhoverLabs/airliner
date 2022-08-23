@@ -2320,9 +2320,123 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
                 }
                 break;
             }
-            case FPC_UPDATE_RUNWAY_AIRSPD_MIN_CC:
-            {
-                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+        }
+        else if (iStatus == CFE_SB_NO_MESSAGE)
+        {
+            break;
+        }
+        else
+        {
+            (void) CFE_EVS_SendEvent(FPC_PIPE_ERR_EID, CFE_EVS_ERROR,
+                  "CMD pipe read error (0x%08X)", (unsigned int)iStatus);
+            uiRunStatus = CFE_ES_APP_ERROR;
+            break;
+        }
+    }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* UpdateParamsFromTable                                           */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void FPC::UpdateParamsFromTable(void)
+{
+    if(ConfigTblPtr != 0)
+    {
+        /* check if negative value for 2/3 of flare altitude is set for throttle cut */
+        if (ConfigTblPtr->LND_TLALT < 0.0f) {
+            ConfigTblPtr->LND_TLALT = 0.66f * ConfigTblPtr->LND_FLALT;
+        }
+        /* Update the landing slope */
+        m_LandingSlope.update(ConfigTblPtr->LND_ANG_RADIANS, ConfigTblPtr->LND_FLALT,
+                     ConfigTblPtr->LND_TLALT, ConfigTblPtr->LND_HVIRT);
+
+        /* Update and publish the navigation capabilities */
+        m_PositionControlStatusMsg.LANDING_SLOPE_ANGLE_RAD = m_LandingSlope.landing_slope_angle_rad();
+        m_PositionControlStatusMsg.LANDING_HORIZONTAL_SLOPE_DISPLACEMENT = m_LandingSlope.horizontal_slope_displacement();
+        m_PositionControlStatusMsg.LANDING_FLARE_LENGTH = m_LandingSlope.flare_length();
+
+        m_PositionControlStatusMsg.Timestamp = PX4LIB_GetPX4TimeUs();
+
+
+        /* Update Launch Detector Parameters */
+//        _launchDetector.updateParams();
+//        _runway_takeoff.updateParams();
+
+        /* L1 control parameters */
+
+        ConfigTblPtr->PSP_OFF_RADIANS = ConfigTblPtr->PSP_OFF_RADIANS;
+
+
+        /* check if negative value for 2/3 of flare altitude is set for throttle cut */
+        if (ConfigTblPtr->LND_TLALT < 0.0f) {
+            ConfigTblPtr->LND_TLALT = 0.66f * ConfigTblPtr->LND_FLALT;
+        }
+
+
+        _l1_control.set_l1_damping(ConfigTblPtr->L1_DAMPING);
+        _l1_control.set_l1_period(ConfigTblPtr->L1_PERIOD);
+        _l1_control.set_l1_roll_limit(ConfigTblPtr->R_LIM_RADIANS);
+
+        _tecs.set_time_const(ConfigTblPtr->T_TIME_CONST);
+        _tecs.set_time_const_throt(ConfigTblPtr->T_THRO_CONST);
+        _tecs.set_min_sink_rate(ConfigTblPtr->T_SINK_MIN);
+        _tecs.set_max_sink_rate(ConfigTblPtr->T_SINK_MAX);
+        _tecs.set_throttle_damp(ConfigTblPtr->T_THR_DAMP);
+        _tecs.set_throttle_slewrate(ConfigTblPtr->THR_SLEW_MAX);
+        _tecs.set_integrator_gain(ConfigTblPtr->T_INTEG_GAIN);
+        _tecs.set_vertical_accel_limit(ConfigTblPtr->T_VERT_ACC);
+        _tecs.set_height_comp_filter_omega(ConfigTblPtr->T_HGT_OMEGA);
+        _tecs.set_speed_comp_filter_omega(ConfigTblPtr->T_SPD_OMEGA);
+        _tecs.set_roll_throttle_compensation(ConfigTblPtr->T_RLL2THR);
+        _tecs.set_speed_weight(ConfigTblPtr->T_SPDWEIGHT);
+        _tecs.set_pitch_damping(ConfigTblPtr->T_PTCH_DAMP);
+        _tecs.set_indicated_airspeed_min(ConfigTblPtr->AIRSPD_MIN);
+        _tecs.set_indicated_airspeed_max(ConfigTblPtr->AIRSPD_MAX);
+        _tecs.set_max_climb_rate(ConfigTblPtr->T_CLMB_MAX);
+        _tecs.set_heightrate_p(ConfigTblPtr->T_HRATE_P);
+        _tecs.set_heightrate_ff(ConfigTblPtr->T_HRATE_FF);
+        _tecs.set_speedrate_p(ConfigTblPtr->T_SRATE_P);
+
+    }
+
+    _launchDetector.UpdateParamsFromTable(ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_A,
+                               ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_T,
+                               ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_MDEL,
+                               ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_PMAX_RADIANS,
+                               ConfigTblPtr->FPC_Launch_Detection.LAUN_ALL_ON
+                               );
+
+    _runway_takeoff.UpdateParamsFromTable(ConfigTblPtr->FPC_Runway_Takeoff.RWTO_TKOFF,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.RWTO_HDG,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.NAV_ALT,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.MAX_THR,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.PSP_RADIANS,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.MAX_PITCH_RADIANS,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.MAX_ROLL_RADIANS,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_SCL,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_MIN,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.CLMBOUT_DIFF);
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Process FPC Commands                                            */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+void FPC::ProcessNewAppCmds(CFE_SB_Msg_t* MsgPtr)
+{
+    uint32  uiCmdCode=0;
+
+    if (MsgPtr != NULL)
+    {
+        uiCmdCode = CFE_SB_GetCmdCode(MsgPtr);
+        switch (uiCmdCode)
+        {
+            case FPC_NOOP_CC:
                 {
                     HkTlm.usCmdCnt++;
                     FPC_UpdateParamFloatCmd_t *cmd = (FPC_UpdateParamFloatCmd_t*)MsgPtr;
@@ -3194,7 +3308,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
                 _l1_control.navigate_waypoints(_runway_takeoff.getStartWP(), curr_wp, curr_pos, nav_speed_2d);
 
                 // update tecs
-                float takeoff_pitch_max_deg = _runway_takeoff.getMaxPitch(math::degrees(ConfigTblPtr->P_LIM_MAX_RADIANS));
+                float takeoff_pitch_max_deg = _runway_takeoff.getMaxPitch(math::degrees(ConfigTblPtr->FPC_Runway_Takeoff.MAX_PITCH_RADIANS));
                 float takeoff_pitch_max_rad = math::radians(takeoff_pitch_max_deg);
 
                 TecsUpdatePitchThrottle(pos_sp_curr.Alt,
@@ -3205,7 +3319,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
                                ConfigTblPtr->THR_MAX, // XXX should we also set runway_takeoff_throttle here?
                                ConfigTblPtr->THR_CRUISE,
                                _runway_takeoff.climbout(),
-                               math::radians(_runway_takeoff.getMinPitch(pos_sp_curr.PitchMin, 10.0f, math::degrees(ConfigTblPtr->P_LIM_MIN_RADIANS))),
+                               _runway_takeoff.getMinPitch(pos_sp_curr.PitchMin, math::radians(10.0f), ConfigTblPtr->P_LIM_MIN_RADIANS),
                                PX4_TECS_MODE_TAKEOFF);
 
                 // assign values
@@ -3263,7 +3377,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
                     /* select maximum pitch: the launchdetector may impose another limit for the pitch
                      * depending on the state of the launch */
-                    float takeoff_pitch_max_rad = _launchDetector.getPitchMax(math::degrees(ConfigTblPtr->P_LIM_MAX_RADIANS));
+                    float takeoff_pitch_max_rad = _launchDetector.getPitchMax(ConfigTblPtr->P_LIM_MAX_RADIANS);
 
                     float altitude_error = pos_sp_curr.Alt - m_VehicleGlobalPositionMsg.Alt;
 
