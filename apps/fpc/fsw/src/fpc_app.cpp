@@ -3813,10 +3813,8 @@ void FPC::ResetTakeoffState()
         _launchDetector.reset();
         _launch_detection_state = launchdetection::LaunchDetectionResult::LAUNCHDETECTION_RES_NONE;
         _launch_detection_notify = 0;
-
     } else {
         _launch_detection_state = launchdetection::LaunchDetectionResult::LAUNCHDETECTION_RES_DETECTED_ENABLEMOTORS;
-
     }
 }
 
