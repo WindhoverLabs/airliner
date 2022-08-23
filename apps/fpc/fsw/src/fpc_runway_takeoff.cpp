@@ -161,7 +161,7 @@ osalbool RunwayTakeoff::controlYaw()
 float RunwayTakeoff::getPitch(float tecsPitch)
 {
 	if (_state <= RunwayTakeoffState::CLAMPED_TO_RUNWAY) {
-        return math::radians(_runway_pitch_sp);
+        return _runway_pitch_sp;
 	}
 
 	return tecsPitch;
@@ -180,8 +180,8 @@ float RunwayTakeoff::getRoll(float navigatorRoll)
 	// allow some roll during climbout
 	else if (_state < RunwayTakeoffState::FLY) {
 		return math::constrain(navigatorRoll,
-                       math::radians(-_max_takeoff_roll),
-                       math::radians(_max_takeoff_roll));
+                       -_max_takeoff_roll,
+                       _max_takeoff_roll);
 	}
 
 	return navigatorRoll;

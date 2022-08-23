@@ -792,9 +792,9 @@ void FPC::UpdateParamsFromTable(void)
                                           ConfigTblPtr->FPC_Runway_Takeoff.RWTO_HDG,
                                           ConfigTblPtr->FPC_Runway_Takeoff.NAV_ALT,
                                           ConfigTblPtr->FPC_Runway_Takeoff.MAX_THR,
-                                          ConfigTblPtr->FPC_Runway_Takeoff.PSP,
-                                          ConfigTblPtr->FPC_Runway_Takeoff.MAX_PITCH,
-                                          ConfigTblPtr->FPC_Runway_Takeoff.MAX_ROLL,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.PSP_RADIANS,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.MAX_PITCH_RADIANS,
+                                          ConfigTblPtr->FPC_Runway_Takeoff.MAX_ROLL_RADIANS,
                                           ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_SCL,
                                           ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_MIN,
                                           ConfigTblPtr->FPC_Runway_Takeoff.CLMBOUT_DIFF);
@@ -1690,7 +1690,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
                 _l1_control.navigate_waypoints(_runway_takeoff.getStartWP(), curr_wp, curr_pos, nav_speed_2d);
 
                 // update tecs
-                float takeoff_pitch_max_deg = _runway_takeoff.getMaxPitch(math::degrees(ConfigTblPtr->P_LIM_MAX_RADIANS));
+                float takeoff_pitch_max_deg = _runway_takeoff.getMaxPitch(math::degrees(ConfigTblPtr->FPC_Runway_Takeoff.MAX_PITCH_RADIANS));
                 float takeoff_pitch_max_rad = math::radians(takeoff_pitch_max_deg);
 
                 TecsUpdatePitchThrottle(pos_sp_curr.Alt,
@@ -1701,7 +1701,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
                                ConfigTblPtr->THR_MAX, // XXX should we also set runway_takeoff_throttle here?
                                ConfigTblPtr->THR_CRUISE,
                                _runway_takeoff.climbout(),
-                               math::radians(_runway_takeoff.getMinPitch(pos_sp_curr.PitchMin, 10.0f, math::degrees(ConfigTblPtr->P_LIM_MIN_RADIANS))),
+                               _runway_takeoff.getMinPitch(pos_sp_curr.PitchMin, math::radians(10.0f), ConfigTblPtr->P_LIM_MIN_RADIANS),
                                PX4_TECS_MODE_TAKEOFF);
 
                 // assign values
@@ -1759,7 +1759,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos, const math::Vector2
 
                     /* select maximum pitch: the launchdetector may impose another limit for the pitch
                      * depending on the state of the launch */
-                    float takeoff_pitch_max_rad = _launchDetector.getPitchMax(math::degrees(ConfigTblPtr->P_LIM_MAX_RADIANS));
+                    float takeoff_pitch_max_rad = _launchDetector.getPitchMax(ConfigTblPtr->P_LIM_MAX_RADIANS);
 
                     float altitude_error = pos_sp_curr.Alt - m_VehicleGlobalPositionMsg.Alt;
 
