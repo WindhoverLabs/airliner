@@ -573,6 +573,21 @@ void Test_FPC_InitApp_Nominal(void)
     UtAssert_True (result == expected, "InitApp, nominal");
 }
 
+
+/**************************************************************************
+ * Tests for extern FPC_AppMain()
+ **************************************************************************/
+/**
+ * Test FPC extern FPC_AppMain(), Nominal
+ */
+void Test_FPC_FPC_AppMain_Nominal(void)
+{
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    FPC_AppMain();
+}
+
+
 /**************************************************************************
  * Tests for FPC AppMain()
  **************************************************************************/
@@ -615,6 +630,7 @@ int32 Test_FPC_AppMain_SendEventHook(uint16 EventID, uint16 EventType, const cha
 
     return SendEvent_HookCalledCnt;
 }
+
 
 /**
  * Test FPC AppMain(), Fail RegisterApp
@@ -700,6 +716,26 @@ void Test_FPC_AppMain_Fail_AcquireConfigPtrs(void)
 
 
 /**
+ * Test FPC AppMain(), SchPipeError
+ */
+void Test_FPC_AppMain_SchPipeError(void)
+{
+    FPC   oFPC{};
+
+    int32 expected = CFE_SB_PIPE_RD_ERR;
+
+    /* The following will emulate the behavior of SCH pipe reading error */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 1);
+
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+    oFPC.AppMain();
+#else
+    FPC_AppMain();
+#endif
+}
+
+
+/**
  * Test FPC AppMain(), Invalid Schedule Message
  */
 void Test_FPC_AppMain_InvalidSchMessage(void)
@@ -719,6 +755,30 @@ void Test_FPC_AppMain_InvalidSchMessage(void)
     FPC_AppMain();
 #endif
 }
+
+
+/**
+ * Test FPC AppMain(), No Schedule Message
+ */
+void Test_FPC_AppMain_NoSchMessage(void)
+{
+    FPC   oFPC{};
+
+    int32 expected = CFE_SB_NO_MESSAGE;
+
+    /* The following will emulate the behavior of No SCH message */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+    oFPC.AppMain();
+#else
+    FPC_AppMain();
+#endif
+}
+
 
 /**
  * Test FPC GetPSPTimeHook
@@ -1153,6 +1213,37 @@ int32 Test_FPC_AppMain_ProcessNewDataHook(void *dst, void *src, uint32 size)
 
     return ((int32)ProcessNewDataHook_MsgId);
 }
+
+
+/**
+ * Test FPC AppMain(), ProcessNewData - DataPipeError
+ */
+void Test_FAC_AppMain_ProcessNewData_DataPipeError(void)
+{
+    FPC   oFPC{};
+
+    int32              expected = CFE_SB_PIPE_RD_ERR;
+    int32              SchPipe;
+    FPC_NoArgCmd_t     InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    SchPipe = Ut_CFE_SB_CreatePipe("FPC_SCH_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, FPC_WAKEUP_MID, sizeof(InMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
+
+    /* The following will emulate the behavior of SCH pipe reading error */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 3);
+
+    /* Execute the function being tested */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+    oFPC.AppMain();
+#else
+    FPC_AppMain();
+#endif
+}
+
 
 /**
  * Test FPC AppMain(), ProcessNewData - InvalidMsgID
@@ -1627,8 +1718,8 @@ void Test_FPC_UpdateParamsFromTable(void)
 #endif
 
 #ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
-    if ((fabs(UpdateParams_Checksum1 - expected_checksum1) <= FLT_EPSILON)
-         && (fabs(UpdateParams_Checksum2 - expected_checksum2) <= FLT_EPSILON))  // Fail with DBL_EPSILON
+    if ((fabs(UpdateParams_Checksum1 - expected_checksum1) <= 1e-5)
+        && (fabs(UpdateParams_Checksum2 - expected_checksum2) <= 1e-5)) // Fail with FLT_EPSILON
     {
         UtAssert_True(TRUE, "FPC UpdateParamsFromTable");
     }
@@ -1638,7 +1729,6 @@ void Test_FPC_UpdateParamsFromTable(void)
     }
 #endif
 }
-
 
 
 
@@ -1701,18 +1791,26 @@ void FPC_App_Test_AddTestCases(void)
                "Test_FPC_InitApp_Nominal");
 #endif
 
+    UtTest_Add(Test_FPC_FPC_AppMain_Nominal, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_FPC_AppMain_Nominal");
     UtTest_Add(Test_FPC_AppMain_Fail_RegisterApp, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_AppMain_Fail_RegisterApp");
     UtTest_Add(Test_FPC_AppMain_Fail_InitApp, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_AppMain_Fail_InitApp");
     UtTest_Add(Test_FPC_AppMain_Fail_AcquireConfigPtrs, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_AppMain_Fail_AcquireConfigPtrs");
+    UtTest_Add(Test_FPC_AppMain_SchPipeError, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_AppMain_SchPipeError");
     UtTest_Add(Test_FPC_AppMain_InvalidSchMessage, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_AppMain_InvalidSchMessage");
+    UtTest_Add(Test_FPC_AppMain_NoSchMessage, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_AppMain_NoSchMessage");
     UtTest_Add(Test_FPC_AppMain_Nominal_SendHK, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_AppMain_Nominal_SendHK");
     UtTest_Add(Test_FPC_AppMain_Nominal_Wakeup, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_AppMain_Nominal_Wakeup");
+    UtTest_Add(Test_FAC_AppMain_ProcessNewData_DataPipeError, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FAC_AppMain_ProcessNewData_DataPipeError");
     UtTest_Add(Test_FPC_AppMain_ProcessNewData_InvalidMsgID, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_AppMain_ProcessNewData_InvalidMsgID");
     UtTest_Add(Test_FAC_AppMain_ProcessNewData_ManualControlSetpoint, FPC_Test_Setup,

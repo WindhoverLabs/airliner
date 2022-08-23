@@ -58,10 +58,12 @@ extern "C" FPC_ConfigTbl_t FPC_ConfigTbl;
 
 void       FPC_Test_InitTest();
 void       FPC_Test_Setup(void);
+void       FPC_Test_Setup_ConfigInvalid(void);
 void       FPC_Test_TearDown(void);
 
 double     FPC_Test_GetChecksum(FPC_ConfigTbl_t *pTbl);
 void       FPC_Test_PrintCmdMsg(void *pMsg, uint32 size);
+uint64     FPC_Test_GetTimeUs(void);
 time_t     FPC_Test_GetTimeFromTimestamp(uint64 timestamp);
 time_t     FPC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 

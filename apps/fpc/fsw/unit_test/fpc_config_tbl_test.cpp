@@ -75,6 +75,40 @@ void Test_FPC_InitConfigTbl_Fail_TblRegister(void)
 }
 
 /**
+ * Test FPC InitConfigTbl(), fail ValidateConfigTbl
+ */
+void Test_FPC_InitConfigTbl_Fail_ValidateConfigTbl(void)
+{
+    FPC   oFPC{};
+
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = -1;
+
+    /* Execute the function being tested */
+    result = oFPC.InitConfigTbl();
+}
+
+/**
+ * Test FPC InitConfigTbl(), ValidateConfigTbl_Nominal
+ */
+void Test_FPC_InitConfigTbl_ValidateConfigTbl_Nominal(void)
+{
+    FPC   oFPC{};
+
+    /* Set a fail result */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
+    int32 expected = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = oFPC.InitConfigTbl();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitConfigTbl, ValidateConfigTbl Nominal");
+}
+
+/**
  * Test FPC InitConfigTbl(), fail TBL Load
  */
 void Test_FPC_InitConfigTbl_Fail_TblLoad(void)
@@ -183,6 +217,10 @@ void FPC_Config_Tbl_Test_AddTestCases(void)
 #ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     UtTest_Add(Test_FPC_InitConfigTbl_Fail_TblRegister, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_InitConfigTbl_Fail_TblRegister");
+    UtTest_Add(Test_FPC_InitConfigTbl_Fail_ValidateConfigTbl, FPC_Test_Setup_ConfigInvalid,
+               FPC_Test_TearDown, "Test_FPC_InitConfigTbl_Fail_ValidateConfigTbl");
+    UtTest_Add(Test_FPC_InitConfigTbl_ValidateConfigTbl_Nominal, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_InitConfigTbl_ValidateConfigTbl_Nominal");
     UtTest_Add(Test_FPC_InitConfigTbl_Fail_TblLoad, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_InitConfigTbl_Fail_TblLoad");
     UtTest_Add(Test_FPC_InitConfigTbl_Fail_TblManage, FPC_Test_Setup, FPC_Test_TearDown,
