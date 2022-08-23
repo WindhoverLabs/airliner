@@ -86,7 +86,7 @@ extern "C" {
 **
 **  \sa #FAC_RESET_CC
 */
-#define FAC_NOOP_CC                 (0)
+#define FAC_NOOP_CC                    (0)
 
 /** \faccmd Reset Counters
 **  
@@ -119,7 +119,105 @@ extern "C" {
 **
 **  \sa #FAC_NOOP_CC
 */
-#define FAC_RESET_CC                (1)
+#define FAC_RESET_CC                   (1)
+
+#define FAC_UPDATE_FW_R_TC_CC          (2)
+
+#define FAC_UPDATE_FW_P_TC_CC          (3)
+
+#define FAC_UPDATE_FW_PR_P_CC          (4)
+
+#define FAC_UPDATE_FW_PR_I_CC          (5)
+
+#define FAC_UPDATE_FW_P_RMAX_POS_CC    (6)
+
+#define FAC_UPDATE_FW_P_RMAX_NEG_CC    (7)
+
+#define FAC_UPDATE_FW_PR_IMAX_CC       (8)
+
+#define FAC_UPDATE_FW_RR_P_CC          (9)
+
+#define FAC_UPDATE_FW_RR_I_CC          (10)
+
+#define FAC_UPDATE_FW_RR_IMAX_CC       (11)
+
+#define FAC_UPDATE_FW_R_RMAX_CC        (12)
+
+#define FAC_UPDATE_FW_YR_P_CC          (13)
+
+#define FAC_UPDATE_FW_YR_I_CC          (14)
+
+#define FAC_UPDATE_FW_YR_IMAX_CC       (15)
+
+#define FAC_UPDATE_FW_Y_RMAX_CC        (16)
+
+#define FAC_UPDATE_FW_RLL_TO_YAW_FF_CC (17)
+
+#define FAC_UPDATE_FW_W_EN_CC          (18)
+
+#define FAC_UPDATE_FW_WR_P_CC          (19)
+
+#define FAC_UPDATE_FW_WR_I_CC          (20)
+
+#define FAC_UPDATE_FW_WR_IMAX_CC       (21)
+
+#define FAC_UPDATE_FW_W_RMAX_CC        (22)
+
+#define FAC_UPDATE_FW_RR_FF_CC         (23)
+
+#define FAC_UPDATE_FW_PR_FF_CC         (24)
+
+#define FAC_UPDATE_FW_YR_FF_CC         (25)
+
+#define FAC_UPDATE_FW_WR_FF_CC         (26)
+
+#define FAC_UPDATE_FW_YCO_VMIN_CC      (27)
+
+#define FAC_UPDATE_FW_YCO_METHOD_CC    (28)
+
+#define FAC_UPDATE_FW_RSP_OFF_CC       (29)
+
+#define FAC_UPDATE_FW_PSP_OFF_CC       (30)
+
+#define FAC_UPDATE_FW_MAN_R_MAX_CC     (31)
+
+#define FAC_UPDATE_FW_MAN_P_MAX_CC     (32)
+
+#define FAC_UPDATE_FW_FLAPS_SCL_CC     (33)
+
+#define FAC_UPDATE_FW_FLAPERON_SCL_CC  (34)
+
+#define FAC_UPDATE_FW_ARSP_MODE_CC     (35)
+
+#define FAC_UPDATE_FW_MAN_R_SC_CC      (36)
+
+#define FAC_UPDATE_FW_MAN_P_SC_CC      (37)
+
+#define FAC_UPDATE_FW_MAN_Y_SC_CC      (38)
+
+#define FAC_UPDATE_FW_BAT_SCALE_EN_CC  (39)
+
+#define FAC_UPDATE_FW_ACRO_X_MAX_CC    (40)
+
+#define FAC_UPDATE_FW_ACRO_Y_MAX_CC    (41)
+
+#define FAC_UPDATE_FW_ACRO_Z_MAX_CC    (42)
+
+#define FAC_UPDATE_FW_RATT_TH_CC       (43)
+
+#define FAC_UPDATE_FW_AIRSPD_MIN_CC    (44)
+
+#define FAC_UPDATE_FW_AIRSPD_MAX_CC    (45)
+
+#define FAC_UPDATE_FW_AIRSPD_TRIM_CC   (46)
+
+#define FAC_UPDATE_TRIM_ROLL_CC        (47)
+
+#define FAC_UPDATE_TRIM_PITCH_CC       (48)
+
+#define FAC_UPDATE_TRIM_YAW_CC         (49)
+
+#define FAC_UPDATE_VT_TYPE_CC          (50)
 
 /************************************************************************
 ** Local Structure Declarations
@@ -134,6 +232,42 @@ typedef struct
 {
     uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
 } FAC_NoArgCmd_t;
+
+/**
+**  \brief Update param float.
+*/
+typedef struct
+{
+    /** \brief cFE SB Cmd Msg Hdr */
+    uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief The param to update */
+    float  param;
+} FAC_UpdateParamFloatCmd_t;
+
+/**
+**  \brief Update param int32.
+*/
+typedef struct
+{
+    /** \brief cFE SB Cmd Msg Hdr */
+    uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief The param to update */
+    int32  param;
+} FAC_UpdateParamInt32Cmd_t;
+
+/**
+**  \brief Update param uint32.
+*/
+typedef struct
+{
+    /** \brief cFE SB Cmd Msg Hdr */
+    uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+
+    /** \brief The param to update */
+    uint32  param;
+} FAC_UpdateParamUint32Cmd_t;
 
 /** 
 **  \brief FAC application housekeeping data
@@ -201,6 +335,9 @@ typedef struct
 
     /** \brief Count of VehicleRatesSetpoint Msg sent */
     uint32             VehicleRatesSetpointMsgSndCnt;
+
+    /** \brief Count of Hk Msg sent */
+    uint32             HkMsgSndCnt;
 
 } FAC_HkTlm_t;
 

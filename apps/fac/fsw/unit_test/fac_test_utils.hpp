@@ -31,8 +31,8 @@
 *
 *****************************************************************************/
 
-#ifndef FAC_TEST_UTILS_H
-#define FAC_TEST_UTILS_H
+#ifndef FAC_TEST_UTILS_HPP
+#define FAC_TEST_UTILS_HPP
 
 /*
  * Includes
@@ -40,23 +40,32 @@
 
 #include "fac_app.hpp"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
+extern "C" void FAC_AppMain();
+
+extern FAC oFAC;
+
+extern "C" FAC_ParamTbl_t FAC_ParamTbl;
+
 
 /*
  * Function Definitions
  */
 
-void FAC_Test_Setup(void);
-void FAC_Test_TearDown(void);
+void       FAC_Test_Setup(void);
+void       FAC_Test_Setup_TailSitter(void);
+void       FAC_Test_Setup_ParamInvalid(void);
+void       FAC_Test_TearDown(void);
 
-extern FAC oFAC;
+void       FAC_Test_PrintCmdMsg(void *pMsg, uint32 size);
+void       FAC_Test_PrintEclValues();
+uint32     FAC_Test_ValidateEclValues();
+time_t     FAC_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t     FAC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
 
-#ifdef __cplusplus
-}
-#endif
+extern "C" uint64 PX4LIB_GetPX4TimeUs(void);
+extern "C" uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 
-#endif /* FAC_TEST_UTILS_H */
 
+#endif /* FAC_TEST_UTILS_HPP */

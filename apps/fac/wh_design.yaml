@@ -37,6 +37,153 @@
         Reset: 
           cc: 1
           struct: CFE_SB_CmdHdr_t
+        Update_FW_R_TC:
+          cc: 2
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_P_TC:
+          cc: 3
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_PR_P:
+          cc: 4
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_PR_I:
+          cc: 5
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_P_RMAX_POS:
+          cc: 6
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_P_RMAX_NEG:
+          cc: 7
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_PR_IMAX:
+          cc: 8
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_RR_P:
+          cc: 9
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_RR_I:
+          cc: 10
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_RR_IMAX:
+          cc: 11
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_R_RMAX:
+          cc: 12
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_YR_P:
+          cc: 13
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_YR_I:
+          cc: 14
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_YR_IMAX:
+          cc: 15
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_Y_RMAX:
+          cc: 16
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_RLL_TO_YAW_FF:
+          cc: 17
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_W_EN:
+          cc: 18
+          struct: FAC_UpdateParamInt32Cmd_t
+        Update_FW_WR_P:
+          cc: 19
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_WR_I:
+          cc: 20
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_WR_IMAX:
+          cc: 21
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_W_RMAX:
+          cc: 22
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_RR_FF:
+          cc: 23
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_PR_FF:
+          cc: 24
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_YR_FF:
+          cc: 25
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_WR_FF:
+          cc: 26
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_YCO_VMIN:
+          cc: 27
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_YCO_METHOD:
+          cc: 28
+          struct: FAC_UpdateParamInt32Cmd_t
+        Update_FW_RSP_OFF:
+          cc: 29
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_PSP_OFF:
+          cc: 30
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_MAN_R_MAX:
+          cc: 31
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_MAN_P_MAX:
+          cc: 32
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_FLAPS_SCL:
+          cc: 33
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_FLAPERON_SCL:
+          cc: 34
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_ARSP_MODE:
+          cc: 35
+          struct: FAC_UpdateParamInt32Cmd_t
+        Update_FW_MAN_R_SC:
+          cc: 36
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_MAN_P_SC:
+          cc: 37
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_MAN_Y_SC:
+          cc: 38
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_BAT_SCALE_EN:
+          cc: 39
+          struct: FAC_UpdateParamInt32Cmd_t
+        Update_FW_ACRO_X_MAX:
+          cc: 40
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_ACRO_Y_MAX:
+          cc: 41
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_ACRO_Z_MAX:
+          cc: 42
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_RATT_TH:
+          cc: 43
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_AIRSPD_MIN:
+          cc: 44
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_AIRSPD_MAX:
+          cc: 45
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_AIRSPD_TRIM:
+          cc: 46
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_TRIM_ROLL:
+          cc: 47
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_TRIM_PITCH:
+          cc: 48
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_TRIM_YAW:
+          cc: 49
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_VT_TYPE:
+          cc: 50
+          struct: FAC_UpdateParamUint32Cmd_t
     FAC_RUN_CONTROLLER_MID: 
       msgID: 
       commands: 

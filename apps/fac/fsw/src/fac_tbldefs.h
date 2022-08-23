@@ -82,7 +82,6 @@
 #define FW_Y_RMAX_MIN             (0.0f)
 #define FW_Y_RMAX_MAX             (90.0f)
 #define FW_RLL_TO_YAW_FF_MIN      (0.0f)
-#define FW_RLL_TO_YAW_FF_MAX      (0.01f)
 #define FW_WR_P_MIN               (0.005f)
 #define FW_WR_P_MAX               (1.0f)
 #define FW_WR_I_MIN               (0.005f)

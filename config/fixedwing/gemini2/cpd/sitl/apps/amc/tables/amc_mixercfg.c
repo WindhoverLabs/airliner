@@ -33,6 +33,7 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
     "amc_mixercfg.tbl", (sizeof(AMC_Mixer_ConfigTable_t))
 };
 
+
 /*
 ** External Global Variables
 */
@@ -88,9 +89,9 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             1,   /* Control Count */
             /* Output Scaler */
             {
-                    0.987,  /* Negative Scale */
-                    0.78,  /* Positive Scale */
-                    0,  /* Offset         */
+                    1.0,  /* Negative Scale */
+                    1.0,  /* Positive Scale */
+                    0.0,  /* Offset         */
                    -1.0,  /* Minimum Output */
                     1.0   /* Maximum Output */
             },
@@ -114,9 +115,9 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             1,   /* Control Count */
             /* Output Scaler */
             {
-                    0.409,  /* Negative Scale */
-                    0.38,  /* Positive Scale */
-                    0,  /* Offset         */
+                    1.0,  /* Negative Scale */
+                    1.0,  /* Positive Scale */
+                    0.0,  /* Offset         */
                    -1.0,  /* Minimum Output */
                     1.0   /* Maximum Output */
            },
@@ -167,9 +168,9 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
             1,   /* Control Count */
             /* Output Scaler */
             {
-                    0.47,  /* Negative Scale */
-                    0.46,  /* Positive Scale */
-                    0.067,  /* Offset         */
+                    1.0,  /* Negative Scale */
+                    1.0,  /* Positive Scale */
+                    0.0,  /* Offset         */
                    -1.0,  /* Minimum Output */
                     1.0   /* Maximum Output */
            },
@@ -258,8 +259,8 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
                     /* Scaler */
                     {
                          1.0, /* Negative Scale */
-                         1.05, /* Positive Scale */
-                        -0.17, /* Offset            */
+                         1.0, /* Positive Scale */
+                         0.0, /* Offset            */
                         -1.0, /* Minimum Output */
                          1.0  /* Maximum Output */
                     }
@@ -362,4 +363,3 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl =
 /*=======================================================================================
 ** End of file ci_config.c
 **=====================================================================================*/
-    
