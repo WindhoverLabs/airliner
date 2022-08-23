@@ -350,8 +350,8 @@ int32 FPC::InitData()
     CFE_SB_InitMsg(&m_PositionControlStatusMsg, PX4_POSITION_CONTROL_STATUS_MID,
             sizeof(PX4_Position_Control_Status_t), TRUE);
     CFE_SB_InitMsg(&m_VehicleAttitudeSetpointMsg,
-            PX4_VEHICLE_ATTITUDE_SETPOINT_MID,
-            sizeof(m_VehicleAttitudeSetpointMsg), TRUE);
+    PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(m_VehicleAttitudeSetpointMsg),
+            TRUE);
     CFE_SB_InitMsg(&m_PX4_TecsStatusMsg, PX4_TECS_STATUS_MID,
             sizeof(m_PX4_TecsStatusMsg), TRUE);
 
@@ -734,7 +734,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                 {
                     HkTlm.usCmdCnt++;
                     (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID,
-                            CFE_EVS_INFORMATION,
+                    CFE_EVS_INFORMATION,
                             "Recvd NOOP cmd (%u), Version %d.%d.%d.%d",
                             (unsigned int) uiCmdCode,
                             FPC_MAJOR_VERSION,
@@ -756,7 +756,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                     HkTlm.usCmdCnt = 0;
                     HkTlm.usCmdErrCnt = 0;
                     (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID,
-                            CFE_EVS_INFORMATION, "Recvd RESET cmd (%u)",
+                    CFE_EVS_INFORMATION, "Recvd RESET cmd (%u)",
                             (unsigned int) uiCmdCode);
                 }
                 else
@@ -772,8 +772,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                 {
                     HkTlm.usCmdCnt++;
                     (void) CFE_EVS_SendEvent(FPC_CMD_INF_EID,
-                            CFE_EVS_INFORMATION,
-                            "Recvd FPC_DO_GO_AROUND cmd (%u)",
+                    CFE_EVS_INFORMATION, "Recvd FPC_DO_GO_AROUND cmd (%u)",
                             (unsigned int) uiCmdCode);
 
                     if(m_VehicleControlModeMsg.ControlAutoEnabled
@@ -784,7 +783,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
 
                         m_PositionControlStatusMsg.ABORT_LANDING = TRUE;
                         (void) CFE_EVS_SendEvent(FPC_POS_CRIT_EID,
-                                CFE_EVS_CRITICAL, "Landing aborted");
+                        CFE_EVS_CRITICAL, "Landing aborted");
                     }
                 }
                 else
@@ -2818,8 +2817,8 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos,
 
     boolean setpoint = TRUE;
 
-    m_VehicleAttitudeSetpointMsg.FwControlYaw = FALSE;// by default we don't want yaw to be contoller directly with rudder
-    m_VehicleAttitudeSetpointMsg.ApplyFlaps = FALSE;// by default we don't use flaps
+    m_VehicleAttitudeSetpointMsg.FwControlYaw = FALSE; // by default we don't want yaw to be contoller directly with rudder
+    m_VehicleAttitudeSetpointMsg.ApplyFlaps = FALSE; // by default we don't use flaps
 
     CalculateGndSpeedUndershoot(curr_pos, ground_speed, pos_sp_prev,
             pos_sp_curr);
@@ -3201,8 +3200,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos,
                     {
                         _land_motor_lim = TRUE;
                         (void) CFE_EVS_SendEvent(FPC_INF_EID,
-                                CFE_EVS_INFORMATION,
-                                "Landing, limiting throttle");
+                        CFE_EVS_INFORMATION, "Landing, limiting throttle");
                     }
                 }
 
@@ -3288,7 +3286,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos,
                     if(!_land_onslope)
                     {
                         (void) CFE_EVS_SendEvent(FPC_INF_EID,
-                                CFE_EVS_INFORMATION, "Landing, on slope");
+                        CFE_EVS_INFORMATION, "Landing, on slope");
                         _land_onslope = TRUE;
                     }
 
@@ -3421,8 +3419,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos,
                                 > 4e6)
                         {
                             (void) CFE_EVS_SendEvent(FPC_POS_CRIT_EID,
-                                    CFE_EVS_CRITICAL,
-                                    "Launch detection running");
+                            CFE_EVS_CRITICAL, "Launch detection running");
                             _launch_detection_notify = PX4LIB_GetPX4TimeUs();
                         }
 
@@ -3531,7 +3528,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos,
         /* reset takeoff/launch state */
         if(pos_sp_curr.Type != PX4_SETPOINT_TYPE_TAKEOFF)
         {
-            ResetLandingState();
+            ResetTakeoffState();
         }
 
         if(was_circle_mode && !_l1_control.circle_mode())
