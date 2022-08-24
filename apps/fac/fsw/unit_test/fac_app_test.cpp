@@ -1406,9 +1406,9 @@ void Test_FAC_RunController_TailSitter(void)
     VCMode.ControlRattitudeEnabled = TRUE;
     VCMode.ControlForceEnabled = FALSE;
     VCMode.ControlAccelerationEnabled = FALSE;
-    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = TRUE;
     VCMode.ControlPositionEnabled = FALSE;
-    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = TRUE;
     VCMode.ControlClimbRateEnabled = FALSE;
     VCMode.ControlTerminationEnabled = FALSE;
     VCMode.ControlFixedHdgEnabled = FALSE;
@@ -1581,9 +1581,9 @@ void Test_FAC_RunController_RotaryWing(void)
     VCMode.ControlRattitudeEnabled = TRUE;
     VCMode.ControlForceEnabled = FALSE;
     VCMode.ControlAccelerationEnabled = FALSE;
-    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = TRUE;
     VCMode.ControlPositionEnabled = FALSE;
-    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = TRUE;
     VCMode.ControlClimbRateEnabled = FALSE;
     VCMode.ControlTerminationEnabled = FALSE;
     VCMode.ControlFixedHdgEnabled = FALSE;
@@ -1759,9 +1759,9 @@ void Test_FAC_RunController_AttitudeManual(void)
     VCMode.ControlRattitudeEnabled = TRUE;
     VCMode.ControlForceEnabled = FALSE;
     VCMode.ControlAccelerationEnabled = FALSE;
-    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = TRUE;
     VCMode.ControlPositionEnabled = FALSE;
-    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = TRUE;
     VCMode.ControlClimbRateEnabled = FALSE;
     VCMode.ControlTerminationEnabled = FALSE;
     VCMode.ControlFixedHdgEnabled = FALSE;
@@ -1938,9 +1938,9 @@ void Test_FAC_RunController_PureRateControl(void)
     VCMode.ControlRattitudeEnabled = TRUE;
     VCMode.ControlForceEnabled = FALSE;
     VCMode.ControlAccelerationEnabled = FALSE;
-    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = TRUE;
     VCMode.ControlPositionEnabled = FALSE;
-    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = TRUE;
     VCMode.ControlClimbRateEnabled = FALSE;
     VCMode.ControlTerminationEnabled = FALSE;
     VCMode.ControlFixedHdgEnabled = FALSE;
@@ -2293,9 +2293,9 @@ void Test_FAC_RunController_Auto(void)
     VCMode.ControlRattitudeEnabled = TRUE;
     VCMode.ControlForceEnabled = FALSE;
     VCMode.ControlAccelerationEnabled = FALSE;
-    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = TRUE;
     VCMode.ControlPositionEnabled = FALSE;
-    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = TRUE;
     VCMode.ControlClimbRateEnabled = FALSE;
     VCMode.ControlTerminationEnabled = FALSE;
     VCMode.ControlFixedHdgEnabled = FALSE;
@@ -2470,9 +2470,9 @@ void Test_FAC_RunController_Landed(void)
     VCMode.ControlRattitudeEnabled = TRUE;
     VCMode.ControlForceEnabled = FALSE;
     VCMode.ControlAccelerationEnabled = FALSE;
-    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = TRUE;
     VCMode.ControlPositionEnabled = FALSE;
-    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = TRUE;
     VCMode.ControlClimbRateEnabled = FALSE;
     VCMode.ControlTerminationEnabled = FALSE;
     VCMode.ControlFixedHdgEnabled = FALSE;
@@ -2604,6 +2604,7 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
  */
 void Test_FAC_UpdateParams_Standard(void)
 {
+    int32  iStatus = CFE_SUCCESS;
     double expected_checksum = 0.0;
 
     UpdateParams_ParamChecksum = 0.0;
@@ -2616,12 +2617,13 @@ void Test_FAC_UpdateParams_Standard(void)
     FAC_Test_PrintEclValues();
 
     /* Execute the function being tested */
-    oFAC.InitApp();
+    iStatus = oFAC.InitApp();
 
     /* Verify results */
     expected_checksum = 1373.39;
 
-    if ((UpdateParams_ValidateStatus == 0x0) &&
+    if ((iStatus == CFE_SUCCESS) &&
+        (UpdateParams_ValidateStatus == 0x0) &&
         (fabs(UpdateParams_ParamChecksum - expected_checksum) <= FLT_EPSILON)) // Fail with DBL_EPSILON
     {
         UtAssert_True(TRUE, "FAC UpdateParams_Standard");
@@ -2638,6 +2640,7 @@ void Test_FAC_UpdateParams_Standard(void)
  */
 void Test_FAC_UpdateParams_TailSitter(void)
 {
+    int32  iStatus = CFE_SUCCESS;
     double expected_checksum = 0.0;
 
     UpdateParams_ParamChecksum = 0.0;
@@ -2655,7 +2658,8 @@ void Test_FAC_UpdateParams_TailSitter(void)
     /* Verify results */
     expected_checksum = 1369.37;
 
-    if ((UpdateParams_ValidateStatus == 0x0) &&
+    if ((iStatus == CFE_SUCCESS) &&
+        (UpdateParams_ValidateStatus == 0x0) &&
         (fabs(UpdateParams_ParamChecksum - expected_checksum) <= FLT_EPSILON)) // Fail with DBL_EPSILON
     {
         UtAssert_True(TRUE, "FAC UpdateParams_TailSitter");
