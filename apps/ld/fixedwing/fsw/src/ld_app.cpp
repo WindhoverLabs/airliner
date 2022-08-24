@@ -1123,17 +1123,6 @@ osalbool LD::PositionLock()
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/*  Check manual control presence.                                 */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-osalbool LD::ManualControlPresent()
-{
-    return CVT.VehicleControlModeMsg.ControlManualEnabled &&
-           CVT.ManualControlSetpointMsg.Timestamp > 0;
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
 /* Check for minimum thrust.                                       */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1206,7 +1195,6 @@ void LD::Execute()
     const osalbool Freefall = (state == LandDetectionState::FREEFALL);
     const osalbool Land = (state == LandDetectionState::LANDED);
     const osalbool Ground = (state == LandDetectionState::GROUND_CONTACT);
-    const osalbool Manual = ManualControlPresent();
 
     if ((VehicleLandDetectedMsg.Freefall != Freefall) ||
         (VehicleLandDetectedMsg.Landed != Land) ||
@@ -1224,7 +1212,7 @@ void LD::Execute()
     DetectAndSendStateChangeEvent();
 
     /* If in manual mode. */
-    if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MANUAL && Manual)
+    if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MANUAL)
     {
         /* Check the arm switch to determine state. */
         if(CVT.ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON
