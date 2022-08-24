@@ -144,7 +144,7 @@ LD_ConfigTbl_t LD_ConfigTbl =
          *  \par Limits:
          *      default LD_OP_MODE_AUTO.
          */
-         LD_OP_MODE_MANUAL
+         LD_OP_MODE_MIXED
 };
 
 /*
