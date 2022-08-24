@@ -351,7 +351,7 @@ int32 FPC::InitData()
             sizeof(PX4_Position_Control_Status_t), TRUE);
     CFE_SB_InitMsg(&m_VehicleAttitudeSetpointMsg,
     PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(m_VehicleAttitudeSetpointMsg),
-            TRUE);
+    TRUE);
     CFE_SB_InitMsg(&m_PX4_TecsStatusMsg, PX4_TECS_STATUS_MID,
             sizeof(m_PX4_TecsStatusMsg), TRUE);
 
@@ -2277,6 +2277,25 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                 break;
             }
 
+            case FPC_OVERRIDE_ALTITUDE_CC:
+            {
+                if(VerifyCmdLength(MsgPtr,
+                        sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd =
+                            (FPC_UpdateParamFloatCmd_t*) MsgPtr;
+                    _hold_alt = cmd->param;
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                    CFE_EVS_INFORMATION, "_hold_alt Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+
             default:
             {
                 HkTlm.usCmdErrCnt++;
@@ -2424,6 +2443,7 @@ void FPC::ReportHousekeeping()
     HkTlm._yaw_lock_engaged = _yaw_lock_engaged;
     HkTlm.inControl = inControl;
     HkTlm._runway_takeoff_initialized = _runway_takeoff.isInitialized();
+    HkTlm._hdg_hold_yaw = _hdg_hold_yaw;
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &HkTlm);
 
@@ -3572,6 +3592,7 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos,
          */
         float pitch_limit_min
         { 0.0f };
+
         DoTakeoffHelp(&_hold_alt, &pitch_limit_min);
 
         /* throttle limiting */
@@ -4235,6 +4256,7 @@ bool FPC::UpdateDesiredAltitude(float dt)
         /* pitching up */
         float pitch = -(m_ManualControlSetpointMsg.X + deadBand) / factor;
         _hold_alt += (ConfigTblPtr->T_CLMB_MAX * dt) * pitch;
+
         _was_in_deadband = false;
         climbout_mode = (pitch > MANUAL_THROTTLE_CLIMBOUT_THRESH);
 
@@ -4245,6 +4267,7 @@ bool FPC::UpdateDesiredAltitude(float dt)
          * The aircraft should immediately try to fly at this altitude
          * as this is what the pilot expects when he moves the stick to the center */
         _hold_alt = m_VehicleGlobalPositionMsg.Alt;
+
         _althold_epv = m_VehicleGlobalPositionMsg.EpV;
         _was_in_deadband = true;
     }
@@ -4255,6 +4278,7 @@ bool FPC::UpdateDesiredAltitude(float dt)
                 || m_VehicleStatusMsg.InTransitionMode)
         {
             _hold_alt = m_VehicleGlobalPositionMsg.Alt;
+
         }
     }
 

@@ -269,6 +269,9 @@
         Update_RUNWAY_CLMBOUT_DIFF:
           cc: 63
           struct: FPC_UpdateParamFloatCmd_t
+        Update_Target_ALTITUDE:
+          cc: 64
+          struct: FPC_UpdateParamFloatCmd_t
 
 
   msg_def_overrides:

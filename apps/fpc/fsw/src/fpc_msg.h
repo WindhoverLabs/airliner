@@ -182,7 +182,7 @@ extern "C" {
 #define FPC_UPDATE_AIRSPD_SCL_CC                  (61)
 #define FPC_UPDATE_RUNWAY_AIRSPD_MIN_CC           (62)
 #define FPC_UPDATE_RUNWAY_CLMBOUT_DIFF_CC         (63)
-
+#define FPC_OVERRIDE_ALTITUDE_CC                  (64)
 /************************************************************************
  ** Local Structure Declarations
  *************************************************************************/
@@ -326,7 +326,7 @@ typedef struct
     HK_FW_POSCTRL_MODE ControlModeCurrent;
 
     float _hold_alt;
-    float m_Hold_Alt;
+    float _hdg_hold_yaw;
 
     boolean m_Hdg_Hold_Enabled;
     boolean _yaw_lock_engaged;
@@ -353,7 +353,6 @@ typedef struct
     boolean _runway_takeoff_enabled;
     boolean _runway_takeoff_initialized;
     Runway _runway_takeoff;
-
 } FPC_HkTlm_t;
 
 #ifdef __cplusplus
