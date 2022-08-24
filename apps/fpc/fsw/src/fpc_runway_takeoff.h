@@ -53,54 +53,71 @@ extern "C" {
 namespace runwaytakeoff
 {
 
-enum RunwayTakeoffState {
-    THROTTLE_RAMP      = 0, /**< ramping up throttle */
-    CLAMPED_TO_RUNWAY  = 1, /**< clamped to runway, controlling yaw directly (wheel or rudder) */
-    TAKEOFF            = 2, /**< taking off, get ground clearance, roll 0 */
-    CLIMBOUT           = 3, /**< climbout to safe height before navigation, roll limited */
-	FLY                = 4 /**< fly towards takeoff waypoint */
+enum RunwayTakeoffState
+{
+    THROTTLE_RAMP = 0, /**< ramping up throttle */
+    CLAMPED_TO_RUNWAY = 1, /**< clamped to runway, controlling yaw directly (wheel or rudder) */
+    TAKEOFF = 2, /**< taking off, get ground clearance, roll 0 */
+    CLIMBOUT = 3, /**< climbout to safe height before navigation, roll limited */
+    FLY = 4 /**< fly towards takeoff waypoint */
 };
 
 class RunwayTakeoff
 {
 public:
-     RunwayTakeoff();
-	~RunwayTakeoff();
+    RunwayTakeoff();
+    ~RunwayTakeoff();
 
-	void init(float yaw, double current_lat, double current_lon);
-    void update(float airspeed, float alt_agl, double current_lat, double current_lon);
+    void init(float yaw, double current_lat, double current_lon);
+    void update(float airspeed, float alt_agl, double current_lat,
+            double current_lon);
 
-    RunwayTakeoffState getState() { return _state; }
-    osalbool isInitialized() { return _initialized; }
+    RunwayTakeoffState getState()
+    {
+        return _state;
+    }
+    osalbool isInitialized()
+    {
+        return _initialized;
+    }
 
-    osalbool runwayTakeoffEnabled() { return (osalbool)_runway_takeoff_enabled; }
-    float getMinAirspeedScaling() { return _min_airspeed_scaling; }
-	float getInitYaw() { return _init_yaw; }
+    osalbool runwayTakeoffEnabled()
+    {
+        return (osalbool) _runway_takeoff_enabled;
+    }
+    float getMinAirspeedScaling()
+    {
+        return _min_airspeed_scaling;
+    }
+    float getInitYaw()
+    {
+        return _init_yaw;
+    }
 
     osalbool controlYaw();
-    osalbool climbout() { return _climbout; }
-	float getPitch(float tecsPitch);
-	float getRoll(float navigatorRoll);
-	float getYaw(float navigatorYaw);
-	float getThrottle(float tecsThrottle);
+    osalbool climbout()
+    {
+        return _climbout;
+    }
+    float getPitch(float tecsPitch);
+    float getRoll(float navigatorRoll);
+    float getYaw(float navigatorYaw);
+    float getThrottle(float tecsThrottle);
     osalbool resetIntegrators();
-	float getMinPitch(float sp_min, float climbout_min, float min);
-	float getMaxPitch(float max);
+    float getMinPitch(float sp_min, float climbout_min, float min);
+    float getMaxPitch(float max);
     math::Vector2F getStartWP();
-    osalbool get_runway_takeoff_enabled(){return _runway_takeoff_enabled;}
+    osalbool get_runway_takeoff_enabled()
+    {
+        return _runway_takeoff_enabled;
+    }
 
-	void reset();
+    void reset();
 
-    void UpdateParamsFromTable(osalbool takeoffEnabled,
-                    int32 headingMode,
-                    float navAlt,
-                    float takeffThrottle,
-                    float pitchSetpoint,
-                    float maxPitch,
-                    float maxRoll,
-                    float airspeedScaleFactor,
-                    float airspeedMin,
-                    float climboutDiff);
+    void UpdateParamsFromTable(osalbool takeoffEnabled, int32 headingMode,
+            float navAlt, float takeffThrottle, float pitchSetpoint,
+            float maxPitch, float maxRoll, float airspeedScaleFactor,
+            float airspeedMin, float climboutDiff);
 
     int32 getHeading_mode() const;
 
@@ -127,15 +144,15 @@ public:
 protected:
 private:
     /** state variables **/
-	RunwayTakeoffState _state;
+    RunwayTakeoffState _state;
     osalbool _initialized;
     uint64 _initialized_time;
-	float _init_yaw;
+    float _init_yaw;
     osalbool _climbout;
     unsigned int _throttle_ramp_time;
     math::Vector2F _start_wp;
 
-	/** parameters **/
+    /** parameters **/
     osalbool _runway_takeoff_enabled;
     int32 _heading_mode;
     float _nav_alt;

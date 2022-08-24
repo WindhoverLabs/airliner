@@ -30,17 +30,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  *****************************************************************************/
-    
+
 #ifndef FPC_MSG_H
 #define FPC_MSG_H
 
 /************************************************************************
-** Pragmas
-*************************************************************************/
+ ** Pragmas
+ *************************************************************************/
 
 /************************************************************************
-** Includes
-*************************************************************************/
+ ** Includes
+ *************************************************************************/
 #include "cfe.h"
 #include "px4_msgs.h"
 
@@ -48,78 +48,77 @@
 extern "C" {
 #endif
 
+/************************************************************************
+ ** Local Defines
+ *************************************************************************/
 
 /************************************************************************
-** Local Defines
-*************************************************************************/
-
-/************************************************************************
-** FPC Command Codes
-*************************************************************************/
+ ** FPC Command Codes
+ *************************************************************************/
 
 /** \fpccmd Noop 
-**  
-**  \par Description
-**       Implements the Noop command that demonstrates the FPC task is alive
-**
-**  \fpccmdmnemonic \FPC_NOOP
-**
-**  \par Command Structure
-**       #FPC_NoArgCmd_t
-**
-**  \par Command Verification
-**       Successful execution of this command may be verified with
-**       the following telemetry:
-**       - \b \c \FPC_CMDACPTCNT - command counter will increment
-**       - The #FPC_CMD_INF_EID informational event message will be 
-**         generated when the command is received
-** 
-**  \par Error Conditions
-**       This command may fail for the following reason(s):
-**       - Command packet length not as expected
-** 
-**  \par Evidence of failure may be found in the following telemetry: 
-**       - \b \c \FPC_CMDRJCTCNT - command error counter will increment
-**       - Error specific event message #FPC_MSGID_ERR_EID
-**
-**  \par Criticality
-**       None
-**
-**  \sa #FPC_RESET_CC
-*/
+ **
+ **  \par Description
+ **       Implements the Noop command that demonstrates the FPC task is alive
+ **
+ **  \fpccmdmnemonic \FPC_NOOP
+ **
+ **  \par Command Structure
+ **       #FPC_NoArgCmd_t
+ **
+ **  \par Command Verification
+ **       Successful execution of this command may be verified with
+ **       the following telemetry:
+ **       - \b \c \FPC_CMDACPTCNT - command counter will increment
+ **       - The #FPC_CMD_INF_EID informational event message will be
+ **         generated when the command is received
+ **
+ **  \par Error Conditions
+ **       This command may fail for the following reason(s):
+ **       - Command packet length not as expected
+ **
+ **  \par Evidence of failure may be found in the following telemetry:
+ **       - \b \c \FPC_CMDRJCTCNT - command error counter will increment
+ **       - Error specific event message #FPC_MSGID_ERR_EID
+ **
+ **  \par Criticality
+ **       None
+ **
+ **  \sa #FPC_RESET_CC
+ */
 #define FPC_NOOP_CC                 (0)
 
 /** \fpccmd Reset Counters
-**  
-**  \par Description
-**       Resets the fpc housekeeping counters
-**
-**  \fpccmdmnemonic \FPC_TLMRST
-**
-**  \par Command Structure
-**       #FPC_NoArgCmd_t
-**
-**  \par Command Verification
-**       Successful execution of this command may be verified with
-**       the following telemetry:
-**       - \b \c \FPC_CMDACTPCNT       - command counter will be cleared
-**       - \b \c \FPC_CMDRJCTCNT       - command error counter will be cleared
-**       - The #FPC_CMD_INF_EID debug event message will be 
-**         generated when the command is executed
-** 
-**  \par Error Conditions
-**       This command may fail for the following reason(s):
-**       - Command packet length not as expected
-** 
-**  \par Evidence of failure may be found in the following telemetry: 
-**       - \b \c \FPC_CMDRJCTCNT - command error counter will increment
-**       - Error specific event message #FPC_MSGID_ERR_EID
-**
-**  \par Criticality
-**       None
-**
-**  \sa #FPC_NOOP_CC
-*/
+ **
+ **  \par Description
+ **       Resets the fpc housekeeping counters
+ **
+ **  \fpccmdmnemonic \FPC_TLMRST
+ **
+ **  \par Command Structure
+ **       #FPC_NoArgCmd_t
+ **
+ **  \par Command Verification
+ **       Successful execution of this command may be verified with
+ **       the following telemetry:
+ **       - \b \c \FPC_CMDACTPCNT       - command counter will be cleared
+ **       - \b \c \FPC_CMDRJCTCNT       - command error counter will be cleared
+ **       - The #FPC_CMD_INF_EID debug event message will be
+ **         generated when the command is executed
+ **
+ **  \par Error Conditions
+ **       This command may fail for the following reason(s):
+ **       - Command packet length not as expected
+ **
+ **  \par Evidence of failure may be found in the following telemetry:
+ **       - \b \c \FPC_CMDRJCTCNT - command error counter will increment
+ **       - Error specific event message #FPC_MSGID_ERR_EID
+ **
+ **  \par Criticality
+ **       None
+ **
+ **  \sa #FPC_NOOP_CC
+ */
 #define FPC_RESET_CC                              (1)
 #define FPC_DO_GO_AROUND_CC                       (2)
 #define FPC_UPDATE_L1_PERIOD_CC                   (3)
@@ -185,89 +184,89 @@ extern "C" {
 #define FPC_UPDATE_RUNWAY_CLMBOUT_DIFF_CC         (63)
 
 /************************************************************************
-** Local Structure Declarations
-*************************************************************************/
+ ** Local Structure Declarations
+ *************************************************************************/
 
 /** 
-**  \brief No Arguments Command
-**  For command details see #FPC_NOOP_CC, #FPC_RESET_CC
-**  Also see #FPC_SEND_HK_MID
-*/
+ **  \brief No Arguments Command
+ **  For command details see #FPC_NOOP_CC, #FPC_RESET_CC
+ **  Also see #FPC_SEND_HK_MID
+ */
 typedef struct
 {
-    uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+    uint8 ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
 } FPC_NoArgCmd_t;
 
-
 /**
-**  \brief Add Message Flow command.
-*/
+ **  \brief Add Message Flow command.
+ */
 typedef struct
 {
     /** \brief cFE SB Cmd Msg Hdr */
-    uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+    uint8 ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
 
     /** \brief The param to update */
-    float  param;
+    float param;
 } FPC_UpdateParamFloatCmd_t;
 /**
-**  \brief Add Message Flow command.
-*/
+ **  \brief Add Message Flow command.
+ */
 typedef struct
 {
     /** \brief cFE SB Cmd Msg Hdr */
-    uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+    uint8 ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
 
     /** \brief The param to update */
-    int32  param;
+    int32 param;
 } FPC_UpdateInt32Cmd_t;
 /**
-**  \brief Add Message Flow command.
-*/
+ **  \brief Add Message Flow command.
+ */
 typedef struct
 {
     /** \brief TC message headers */
-    uint8          ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
+    uint8 ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
 
     /** \brief Index of the channel for which this command applies */
-    boolean        param;
+    boolean param;
 
 } FPC_UpdateParamBooleanCmd_t;
 
 /** 
-**  \brief TODO Elaborate this struct
-**  Boilerplate example of application-specific incoming data
-*/
+ **  \brief TODO Elaborate this struct
+ **  Boilerplate example of application-specific incoming data
+ */
 typedef struct
 {
-    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint32  counter;
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint32 counter;
 
     /* TODO:  Add input data to this application here, such as raw data read from I/O
-    **        devices.
-    **        Option: for data that is already defined by another app, include
-    **        that app's message header above.
-    */
+     **        devices.
+     **        Option: for data that is already defined by another app, include
+     **        that app's message header above.
+     */
 
 } FPC_InData_t;
 
 /** 
-**  \brief TODO Elaborate this struct
-**  Boilerplate example of application-specific outgoing data
-*/
+ **  \brief TODO Elaborate this struct
+ **  Boilerplate example of application-specific outgoing data
+ */
 typedef struct
 {
-    uint8   ucTlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint32  uiCounter;
+    uint8 ucTlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint32 uiCounter;
 } FPC_OutData_t;
 
-typedef enum {
-    THROTTLE_RAMP      = 0, /**< ramping up throttle */
-    CLAMPED_TO_RUNWAY  = 1, /**< clamped to runway, controlling yaw directly (wheel or rudder) */
-    TAKEOFF            = 2, /**< taking off, get ground clearance, roll 0 */
-    CLIMBOUT           = 3, /**< climbout to safe height before navigation, roll limited */
-        FLY                = 4 /**< fly towards takeoff waypoint */
-}RunwayTakeoffState;
+typedef enum
+{
+    THROTTLE_RAMP = 0, /**< ramping up throttle */
+    CLAMPED_TO_RUNWAY = 1, /**< clamped to runway, controlling yaw directly (wheel or rudder) */
+    TAKEOFF = 2, /**< taking off, get ground clearance, roll 0 */
+    CLIMBOUT = 3, /**< climbout to safe height before navigation, roll limited */
+    FLY = 4 /**< fly towards takeoff waypoint */
+} RunwayTakeoffState;
 
 typedef struct
 {
@@ -280,7 +279,7 @@ typedef struct
     unsigned int _throttle_ramp_time;
 //    math::Vector2F _start_wp;
 
-        /** parameters **/
+    /** parameters **/
     boolean _runway_takeoff_enabled;
     int32 _heading_mode;
     float _nav_alt;
@@ -293,68 +292,67 @@ typedef struct
     float _climbout_diff;
 } Runway;
 
-
-typedef enum  {
+typedef enum
+{
     FW_POSCTRL_MODE_AUTO = 0,
     FW_POSCTRL_MODE_POSITION = 1,
     FW_POSCTRL_MODE_ALTITUDE = 2,
     FW_POSCTRL_MODE_OTHER = 3
-} HK_FW_POSCTRL_MODE;		///< used to check the mode in the last control loop iteration. Use to check if the last iteration was in the same mode.
+} HK_FW_POSCTRL_MODE;///< used to check the mode in the last control loop iteration. Use to check if the last iteration was in the same mode.
 
-
-typedef enum {
-        ECL_TECS_MODE_NORMAL = 0,
-        ECL_TECS_MODE_UNDERSPEED,
-        ECL_TECS_MODE_BAD_DESCENT,
-        ECL_TECS_MODE_CLIMBOUT
-}ECL_TECS_MODE;
-
+typedef enum
+{
+    ECL_TECS_MODE_NORMAL = 0,
+    ECL_TECS_MODE_UNDERSPEED,
+    ECL_TECS_MODE_BAD_DESCENT,
+    ECL_TECS_MODE_CLIMBOUT
+} ECL_TECS_MODE;
 
 /** 
-**  \brief FPC application housekeeping data
-*/
+ **  \brief FPC application housekeeping data
+ */
 typedef struct
 {
     /** \brief cFE SB Tlm Msg Hdr */
-    uint8              TlmHeader[CFE_SB_TLM_HDR_SIZE];
+    uint8 TlmHeader[CFE_SB_TLM_HDR_SIZE];
 
     /** \fpctlmmnemonic \FPC_CMDACPTCNT
-        \brief Count of accepted commands */
-    uint8              usCmdCnt;   
+     \brief Count of accepted commands */
+    uint8 usCmdCnt;
 
     /** \fpctlmmnemonic \FPC_CMDRJCTCNT
-        \brief Count of failed commands */
-    uint8              usCmdErrCnt; 
+     \brief Count of failed commands */
+    uint8 usCmdErrCnt;
     HK_FW_POSCTRL_MODE ControlModeCurrent;
 
-    float	       _hold_alt;
-    float              m_Hold_Alt;
+    float _hold_alt;
+    float m_Hold_Alt;
 
-    boolean	       m_Hdg_Hold_Enabled;
-    boolean	       _yaw_lock_engaged;
+    boolean m_Hdg_Hold_Enabled;
+    boolean _yaw_lock_engaged;
 
-    ECL_TECS_MODE      tecsMode;
+    ECL_TECS_MODE tecsMode;
 
-    uint64             _time_started_landing;
-    boolean            use_tecs_pitch;
-    PX4_PositionSetpoint_t _hdg_hold_prev_wp;		///< position where heading hold started */
-    PX4_PositionSetpoint_t _hdg_hold_curr_wp;		///< position to which heading hold flies */
+    uint64 _time_started_landing;
+    boolean use_tecs_pitch;
+    PX4_PositionSetpoint_t _hdg_hold_prev_wp;///< position where heading hold started */
+    PX4_PositionSetpoint_t _hdg_hold_curr_wp;///< position to which heading hold flies */
 
     /* throttle and airspeed states */
-    boolean    _airspeed_valid;				///< flag if a valid airspeed estimate exists
-    uint64  _airspeed_last_received;			///< last time airspeed was received. Used to detect timeouts.
-    float   _airspeed;
-    float   _eas2tas;
+    boolean _airspeed_valid;	///< flag if a valid airspeed estimate exists
+    uint64 _airspeed_last_received;	///< last time airspeed was received. Used to detect timeouts.
+    float _airspeed;
+    float _eas2tas;
 
-    uint64   m_PositionSetpointTripletMsgCount;
+    uint64 m_PositionSetpointTripletMsgCount;
 
-    float   TecsPitch;
+    float TecsPitch;
 
-    boolean             inControl;
+    boolean inControl;
 
-    boolean            _runway_takeoff_enabled;
-    boolean            _runway_takeoff_initialized;
-    Runway             _runway_takeoff;
+    boolean _runway_takeoff_enabled;
+    boolean _runway_takeoff_initialized;
+    Runway _runway_takeoff;
 
 } FPC_HkTlm_t;
 
