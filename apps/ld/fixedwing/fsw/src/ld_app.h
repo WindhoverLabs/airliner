@@ -598,6 +598,24 @@ private:
      **
      *************************************************************************/
     osalbool PositionLock(void);
+    
+    /************************************************************************/
+    /** \brief Detect if vehicle is in free fall state.
+     **
+     **  \par Description
+     **       Computes net acceleration acting on the vehicle. if the value
+     **       is close to the free fall threshold then true is returned
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     **  \returns
+     **  True id net acceleration acting on the vehicle's body is less than
+     **  free fall threshold value.
+     **  \endreturns
+     **
+     *************************************************************************/
+    osalbool ManualControlPresent(void);
 
     /************************************************************************/
     /** \brief Detect if vehicle is in free fall state.
