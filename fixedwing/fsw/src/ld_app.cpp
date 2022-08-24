@@ -408,12 +408,6 @@ int32 LD::InitApp()
                                  "Operational mode manual");
     }
 
-    if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MIXED)
-    {
-        (void) CFE_EVS_SendEvent(LD_STARTUP_MODE_EID, CFE_EVS_INFORMATION,
-                                 "Operational mode mixed");
-    }
-
     HkTlm.mode = ConfigTblPtr->LD_OP_MODE;
 
 LD_InitApp_Exit_Tag:
@@ -757,33 +751,6 @@ void LD::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 }
                 break;
             }
-            case LD_MODE_MIXED_CC:
-            {
-                if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MIXED)
-                {
-                    HkTlm.usCmdErrCnt++;
-                    (void) CFE_EVS_SendEvent(LD_MODE_CHANGE_ERROR_EID, 
-                                             CFE_EVS_ERROR,
-                                             "Command error LD already in mixed mode.");
-                }
-                else
-                {
-                    HkTlm.usCmdCnt++;
-                    ConfigTblPtr->LD_OP_MODE = LD_OP_MODE_MIXED;
-                    HkTlm.mode = ConfigTblPtr->LD_OP_MODE;
-                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
-                    if(returnCode != CFE_SUCCESS)
-                    {
-                        (void) CFE_EVS_SendEvent(LD_TBL_MODIFIED_ERROR_EID, 
-                                                 CFE_EVS_ERROR,
-                                                 "CFE_TBL_Modified error (%d)", returnCode);
-                    }
-                    (void) CFE_EVS_SendEvent(LD_MODE_CHANGED_EID, 
-                                             CFE_EVS_INFORMATION,
-                                             "Operational mode changed to mixed.");
-                }
-                break;
-            }
             default:
             {
                 HkTlm.usCmdErrCnt++;
@@ -1119,6 +1086,17 @@ osalbool LD::AltitudeLock()
 osalbool LD::PositionLock()
 {
     return (AltitudeLock() && CVT.VehicleLocalPositionMsg.XY_Valid);
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/*  Check manual control presence.                                 */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+osalbool LD::ManualControlPresent()
+{
+    return CVT.VehicleControlModeMsg.ControlManualEnabled &&
+           CVT.ManualControlSetpointMsg.Timestamp > 0;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
