@@ -1224,8 +1224,7 @@ void LD::Execute()
     DetectAndSendStateChangeEvent();
 
     /* If in manual mode. */
-    if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MANUAL || 
-       (ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MIXED && Manual))
+    if(ConfigTblPtr->LD_OP_MODE == LD_OP_MODE_MANUAL && Manual)
     {
         /* Check the arm switch to determine state. */
         if(CVT.ManualControlSetpointMsg.ArmSwitch == PX4_SWITCH_POS_ON
