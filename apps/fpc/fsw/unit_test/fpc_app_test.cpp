@@ -216,7 +216,7 @@ void Test_FPC_InitPipe_Fail_CreateDATAPipe(void)
 /**
  * Test FPC InitPipe(), fail CFE_SB_SubscribeEx for ManualControlSp
  */
-void Test_FAC_InitPipe_Fail_SubscribeManualControlSp(void)
+void Test_FPC_InitPipe_Fail_SubscribeManualControlSp(void)
 {
     FPC   oFPC{};
 
@@ -237,7 +237,7 @@ void Test_FAC_InitPipe_Fail_SubscribeManualControlSp(void)
 /**
  * Test FPC InitPipe(), fail CFE_SB_SubscribeEx for VehicleControlMode
  */
-void Test_FAC_InitPipe_Fail_SubscribeVehicleControlMode(void)
+void Test_FPC_InitPipe_Fail_SubscribeVehicleControlMode(void)
 {
     FPC   oFPC{};
 
@@ -258,7 +258,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleControlMode(void)
 /**
  * Test FPC InitPipe(), fail CFE_SB_SubscribeEx for VehicleGlobalPosition
  */
-void Test_FAC_InitPipe_Fail_SubscribeVehicleGlobalPosition(void)
+void Test_FPC_InitPipe_Fail_SubscribeVehicleGlobalPosition(void)
 {
     FPC   oFPC{};
 
@@ -279,7 +279,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleGlobalPosition(void)
 /**
  * Test FPC InitPipe(), fail CFE_SB_SubscribeEx for VehicleLocalPosition
  */
-void Test_FAC_InitPipe_Fail_SubscribeVehicleLocalPosition(void)
+void Test_FPC_InitPipe_Fail_SubscribeVehicleLocalPosition(void)
 {
     FPC   oFPC{};
 
@@ -300,7 +300,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleLocalPosition(void)
 /**
  * Test FPC InitPipe(), fail CFE_SB_SubscribeEx for PositionSetpointTriplet
  */
-void Test_FAC_InitPipe_Fail_SubscribePositionSetpointTriplet(void)
+void Test_FPC_InitPipe_Fail_SubscribePositionSetpointTriplet(void)
 {
     FPC   oFPC{};
 
@@ -321,7 +321,7 @@ void Test_FAC_InitPipe_Fail_SubscribePositionSetpointTriplet(void)
 /**
  * Test FPC InitPipe(), fail CFE_SB_SubscribeEx for VehicleStatus
  */
-void Test_FAC_InitPipe_Fail_SubscribeVehicleStatus(void)
+void Test_FPC_InitPipe_Fail_SubscribeVehicleStatus(void)
 {
     FPC   oFPC{};
 
@@ -342,7 +342,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleStatus(void)
 /**
  * Test FPC InitPipe(), fail CFE_SB_SubscribeEx for VehicleLandDetected
  */
-void Test_FAC_InitPipe_Fail_SubscribeVehicleLandDetected(void)
+void Test_FPC_InitPipe_Fail_SubscribeVehicleLandDetected(void)
 {
     FPC   oFPC{};
 
@@ -363,7 +363,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleLandDetected(void)
 /**
  * Test FPC InitPipe(), fail CFE_SB_SubscribeEx for Airspeed
  */
-void Test_FAC_InitPipe_Fail_SubscribeAirspeed(void)
+void Test_FPC_InitPipe_Fail_SubscribeAirspeed(void)
 {
     FPC   oFPC{};
 
@@ -384,7 +384,7 @@ void Test_FAC_InitPipe_Fail_SubscribeAirspeed(void)
 /**
  * Test FPC InitPipe(), fail CFE_SB_SubscribeEx for VehicleAttitude
  */
-void Test_FAC_InitPipe_Fail_SubscribeVehicleAttitude(void)
+void Test_FPC_InitPipe_Fail_SubscribeVehicleAttitude(void)
 {
     FPC   oFPC{};
 
@@ -405,7 +405,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleAttitude(void)
 /**
  * Test FPC InitPipe(), fail CFE_SB_SubscribeEx for SensorCombined
  */
-void Test_FAC_InitPipe_Fail_SubscribeSensorCombined(void)
+void Test_FPC_InitPipe_Fail_SubscribeSensorCombined(void)
 {
     FPC   oFPC{};
 
@@ -426,7 +426,7 @@ void Test_FAC_InitPipe_Fail_SubscribeSensorCombined(void)
 /**
  * Test FPC InitPipe(), fail CFE_SB_SubscribeEx for SensorBaro
  */
-void Test_FAC_InitPipe_Fail_SubscribeSensorBaro(void)
+void Test_FPC_InitPipe_Fail_SubscribeSensorBaro(void)
 {
     FPC   oFPC{};
 
@@ -1113,9 +1113,14 @@ int32 Test_FPC_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
             printf("PitchInteg: %f\n", TecsStatus.PitchInteg);
             break;
         }
+        case FPC_HK_TLM_MID:
+        {
+            printf("Sent FPC_HK_TLM_MID.\n");
+            break;
+        }
         default:
         {
-            printf("Sent Invalid Message ID\n");
+            printf("Sent unknown message ID\n");
             break;
         }
     }
@@ -1218,7 +1223,7 @@ int32 Test_FPC_AppMain_ProcessNewDataHook(void *dst, void *src, uint32 size)
 /**
  * Test FPC AppMain(), ProcessNewData - DataPipeError
  */
-void Test_FAC_AppMain_ProcessNewData_DataPipeError(void)
+void Test_FPC_AppMain_ProcessNewData_DataPipeError(void)
 {
     FPC   oFPC{};
 
@@ -1283,7 +1288,7 @@ void Test_FPC_AppMain_ProcessNewData_InvalidMsgID(void)
 /**
  * Test FPC AppMain(), ProcessNewData - ManualControlSetpoint
  */
-void Test_FAC_AppMain_ProcessNewData_ManualControlSetpoint(void)
+void Test_FPC_AppMain_ProcessNewData_ManualControlSetpoint(void)
 {
     FPC   oFPC{};
 
@@ -1320,7 +1325,7 @@ void Test_FAC_AppMain_ProcessNewData_ManualControlSetpoint(void)
 /**
  * Test FPC AppMain(), ProcessNewData - VehicleControlMode
  */
-void Test_FAC_AppMain_ProcessNewData_VehicleControlMode(void)
+void Test_FPC_AppMain_ProcessNewData_VehicleControlMode(void)
 {
     FPC   oFPC{};
 
@@ -1357,7 +1362,7 @@ void Test_FAC_AppMain_ProcessNewData_VehicleControlMode(void)
 /**
  * Test FPC AppMain(), ProcessNewData - PositionSetpointTriplet
  */
-void Test_FAC_AppMain_ProcessNewData_PositionSetpointTriplet(void)
+void Test_FPC_AppMain_ProcessNewData_PositionSetpointTriplet(void)
 {
     FPC   oFPC{};
 
@@ -1394,7 +1399,7 @@ void Test_FAC_AppMain_ProcessNewData_PositionSetpointTriplet(void)
 /**
  * Test FPC AppMain(), ProcessNewData - VehicleStatus
  */
-void Test_FAC_AppMain_ProcessNewData_VehicleStatus(void)
+void Test_FPC_AppMain_ProcessNewData_VehicleStatus(void)
 {
     FPC   oFPC{};
 
@@ -1431,7 +1436,7 @@ void Test_FAC_AppMain_ProcessNewData_VehicleStatus(void)
 /**
  * Test FPC AppMain(), ProcessNewData - VehicleLandDetected
  */
-void Test_FAC_AppMain_ProcessNewData_VehicleLandDetected(void)
+void Test_FPC_AppMain_ProcessNewData_VehicleLandDetected(void)
 {
     FPC   oFPC{};
 
@@ -1468,7 +1473,7 @@ void Test_FAC_AppMain_ProcessNewData_VehicleLandDetected(void)
 /**
  * Test FPC AppMain(), ProcessNewData - VehicleLocalPosition
  */
-void Test_FAC_AppMain_ProcessNewData_VehicleLocalPosition(void)
+void Test_FPC_AppMain_ProcessNewData_VehicleLocalPosition(void)
 {
     FPC   oFPC{};
 
@@ -1505,7 +1510,7 @@ void Test_FAC_AppMain_ProcessNewData_VehicleLocalPosition(void)
 /**
  * Test FPC AppMain(), ProcessNewData - VehicleGlobalPosition
  */
-void Test_FAC_AppMain_ProcessNewData_VehicleGlobalPosition(void)
+void Test_FPC_AppMain_ProcessNewData_VehicleGlobalPosition(void)
 {
     FPC   oFPC{};
 
@@ -1542,7 +1547,7 @@ void Test_FAC_AppMain_ProcessNewData_VehicleGlobalPosition(void)
 /**
  * Test FPC AppMain(), ProcessNewData - Airspeed
  */
-void Test_FAC_AppMain_ProcessNewData_Airspeed(void)
+void Test_FPC_AppMain_ProcessNewData_Airspeed(void)
 {
     FPC   oFPC{};
 
@@ -1579,7 +1584,7 @@ void Test_FAC_AppMain_ProcessNewData_Airspeed(void)
 /**
  * Test FPC AppMain(), ProcessNewData - VehicleAttitude
  */
-void Test_FAC_AppMain_ProcessNewData_VehicleAttitude(void)
+void Test_FPC_AppMain_ProcessNewData_VehicleAttitude(void)
 {
     FPC   oFPC{};
 
@@ -1616,7 +1621,7 @@ void Test_FAC_AppMain_ProcessNewData_VehicleAttitude(void)
 /**
  * Test FPC AppMain(), ProcessNewData - SensorCombined
  */
-void Test_FAC_AppMain_ProcessNewData_SensorCombined(void)
+void Test_FPC_AppMain_ProcessNewData_SensorCombined(void)
 {
     FPC   oFPC{};
 
@@ -1653,7 +1658,7 @@ void Test_FAC_AppMain_ProcessNewData_SensorCombined(void)
 /**
  * Test FPC AppMain(), ProcessNewData - SensorBaro
  */
-void Test_FAC_AppMain_ProcessNewData_SensorBaro(void)
+void Test_FPC_AppMain_ProcessNewData_SensorBaro(void)
 {
     FPC   oFPC{};
 
@@ -1686,6 +1691,91 @@ void Test_FAC_AppMain_ProcessNewData_SensorBaro(void)
     UtAssert_True(ProcessNewDataHook_MsgId == PX4_SENSOR_BARO_MID,
                   "AppMain_ProcessNewData_SensorBaro");
 }
+
+
+/**************************************************************************
+ * Tests for FPC Execute()
+ **************************************************************************/
+/**
+ * Test FPC Execute
+ */
+void Test_FPC_Execute(void)
+{
+    FPC   oFPC{};
+
+    int32 iStatus = CFE_SUCCESS;
+
+    oFPC.m_VehicleGlobalPositionMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleGlobalPositionMsg.TimeUtcUsec = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleGlobalPositionMsg.Lat = 9.0;
+    oFPC.m_VehicleGlobalPositionMsg.Lon = 4.0;
+    oFPC.m_VehicleGlobalPositionMsg.Alt = 16.0f;
+    oFPC.m_VehicleGlobalPositionMsg.DeltaLatLon[0] = 6.0;
+    oFPC.m_VehicleGlobalPositionMsg.DeltaLatLon[1] = 0.0;
+    oFPC.m_VehicleGlobalPositionMsg.DeltaAlt = 11.0f;
+    oFPC.m_VehicleGlobalPositionMsg.LatLonResetCounter = 19;
+    oFPC.m_VehicleGlobalPositionMsg.AltResetCounter = 10;
+    oFPC.m_VehicleGlobalPositionMsg.VelN = 1.0f;
+    oFPC.m_VehicleGlobalPositionMsg.VelE = 14.0f;
+    oFPC.m_VehicleGlobalPositionMsg.VelD = 15.0f;
+    oFPC.m_VehicleGlobalPositionMsg.Yaw = 3.0f;
+    oFPC.m_VehicleGlobalPositionMsg.EpH = 20.0f;
+    oFPC.m_VehicleGlobalPositionMsg.EpV = 18.0f;
+    oFPC.m_VehicleGlobalPositionMsg.EvH = 17.0f;
+    oFPC.m_VehicleGlobalPositionMsg.EvV = 22.0f;
+    oFPC.m_VehicleGlobalPositionMsg.TerrainAlt = 21.0f;
+    oFPC.m_VehicleGlobalPositionMsg.PressureAlt = 13.0f;
+    oFPC.m_VehicleGlobalPositionMsg.TerrainAltValid = TRUE;
+    oFPC.m_VehicleGlobalPositionMsg.DeadReckoning = TRUE;
+
+    oFPC.m_AirspeedMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_AirspeedMsg.IndicatedAirspeed = 1.0f;                           // fix this
+    oFPC.m_AirspeedMsg.TrueAirspeed = 1.5f;                                // fix this
+    oFPC.m_AirspeedMsg.TrueAirspeedUnfiltered = 0.0f;                      // fix this
+    oFPC.m_AirspeedMsg.AirTemperature = 0.0f;                              // fix this
+    oFPC.m_AirspeedMsg.Confidence = 0.0f;                                  // fix this
+
+    oFPC.m_VehicleControlModeMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleControlModeMsg.ExternalManualOverrideOk = FALSE;
+    oFPC.m_VehicleControlModeMsg.SystemHilEnabled = FALSE;
+    oFPC.m_VehicleControlModeMsg.ControlManualEnabled = TRUE;
+    oFPC.m_VehicleControlModeMsg.ControlAutoEnabled = FALSE;
+    oFPC.m_VehicleControlModeMsg.ControlOffboardEnabled = FALSE;           // fix this
+    oFPC.m_VehicleControlModeMsg.ControlRatesEnabled = TRUE;
+    oFPC.m_VehicleControlModeMsg.ControlAttitudeEnabled = TRUE;
+    oFPC.m_VehicleControlModeMsg.ControlRattitudeEnabled = TRUE;
+    oFPC.m_VehicleControlModeMsg.ControlForceEnabled = FALSE;
+    oFPC.m_VehicleControlModeMsg.ControlAccelerationEnabled = FALSE;
+    oFPC.m_VehicleControlModeMsg.ControlVelocityEnabled = TRUE;
+    oFPC.m_VehicleControlModeMsg.ControlPositionEnabled = FALSE;
+    oFPC.m_VehicleControlModeMsg.ControlAltitudeEnabled = TRUE;
+    oFPC.m_VehicleControlModeMsg.ControlClimbRateEnabled = FALSE;
+    oFPC.m_VehicleControlModeMsg.ControlTerminationEnabled = FALSE;
+    oFPC.m_VehicleControlModeMsg.ControlFixedHdgEnabled = FALSE;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FPC_GetPSPTimeHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+               (void*)&Test_FPC_SendMsgHook);
+
+    /* Execute the function being tested */
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+    iStatus = oFPC.InitConfigTbl();
+    if (iStatus == CFE_SUCCESS)
+    {
+        oFPC.UpdateParamsFromTable();
+        oFPC.Execute();
+        oFPC.SendOutData();
+    }
+    else
+    {
+        printf("FPC_Execute: Failed to initialize Config Table\n");
+    }
+#else
+    FPC_AppMain();
+#endif
+}
+
 
 /**************************************************************************
  * Tests for FPC UpdateParamsFromTable()
@@ -1753,28 +1843,28 @@ void FPC_App_Test_AddTestCases(void)
                "Test_FPC_InitPipe_Fail_SubscribeCMD");
     UtTest_Add(Test_FPC_InitPipe_Fail_CreateDATAPipe, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_InitPipe_Fail_CreateDATAPipe");
-    UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeManualControlSp, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FAC_InitPipe_Fail_SubscribeManualControlSp");
-    UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeVehicleControlMode, FPC_Test_Setup,
-               FPC_Test_TearDown, "Test_FAC_InitPipe_Fail_SubscribeVehicleControlMode");
-    UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeVehicleGlobalPosition, FPC_Test_Setup,
-               FPC_Test_TearDown, "Test_FAC_InitPipe_Fail_SubscribeVehicleGlobalPosition");
-    UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeVehicleLocalPosition, FPC_Test_Setup,
-               FPC_Test_TearDown, "Test_FAC_InitPipe_Fail_SubscribeVehicleLocalPosition");
-    UtTest_Add(Test_FAC_InitPipe_Fail_SubscribePositionSetpointTriplet, FPC_Test_Setup,
-               FPC_Test_TearDown, "Test_FAC_InitPipe_Fail_SubscribePositionSetpointTriplet");
-    UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeVehicleStatus, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FAC_InitPipe_Fail_SubscribeVehicleStatus");
-    UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeVehicleLandDetected, FPC_Test_Setup,
-               FPC_Test_TearDown, "Test_FAC_InitPipe_Fail_SubscribeVehicleLandDetected");
-    UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeAirspeed, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FAC_InitPipe_Fail_SubscribeAirspeed");
-    UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeVehicleAttitude, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FAC_InitPipe_Fail_SubscribeVehicleAttitude");
-    UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeSensorCombined, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FAC_InitPipe_Fail_SubscribeSensorCombined");
-    UtTest_Add(Test_FAC_InitPipe_Fail_SubscribeSensorBaro, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FAC_InitPipe_Fail_SubscribeSensorBaro");
+    UtTest_Add(Test_FPC_InitPipe_Fail_SubscribeManualControlSp, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_InitPipe_Fail_SubscribeManualControlSp");
+    UtTest_Add(Test_FPC_InitPipe_Fail_SubscribeVehicleControlMode, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_InitPipe_Fail_SubscribeVehicleControlMode");
+    UtTest_Add(Test_FPC_InitPipe_Fail_SubscribeVehicleGlobalPosition, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_InitPipe_Fail_SubscribeVehicleGlobalPosition");
+    UtTest_Add(Test_FPC_InitPipe_Fail_SubscribeVehicleLocalPosition, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_InitPipe_Fail_SubscribeVehicleLocalPosition");
+    UtTest_Add(Test_FPC_InitPipe_Fail_SubscribePositionSetpointTriplet, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_InitPipe_Fail_SubscribePositionSetpointTriplet");
+    UtTest_Add(Test_FPC_InitPipe_Fail_SubscribeVehicleStatus, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_InitPipe_Fail_SubscribeVehicleStatus");
+    UtTest_Add(Test_FPC_InitPipe_Fail_SubscribeVehicleLandDetected, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_InitPipe_Fail_SubscribeVehicleLandDetected");
+    UtTest_Add(Test_FPC_InitPipe_Fail_SubscribeAirspeed, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_InitPipe_Fail_SubscribeAirspeed");
+    UtTest_Add(Test_FPC_InitPipe_Fail_SubscribeVehicleAttitude, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_InitPipe_Fail_SubscribeVehicleAttitude");
+    UtTest_Add(Test_FPC_InitPipe_Fail_SubscribeSensorCombined, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_InitPipe_Fail_SubscribeSensorCombined");
+    UtTest_Add(Test_FPC_InitPipe_Fail_SubscribeSensorBaro, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_InitPipe_Fail_SubscribeSensorBaro");
 
     UtTest_Add(Test_FPC_InitDataNominal, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_InitDataNominal");
@@ -1793,6 +1883,7 @@ void FPC_App_Test_AddTestCases(void)
 
     UtTest_Add(Test_FPC_FPC_AppMain_Nominal, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_FPC_AppMain_Nominal");
+
     UtTest_Add(Test_FPC_AppMain_Fail_RegisterApp, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_AppMain_Fail_RegisterApp");
     UtTest_Add(Test_FPC_AppMain_Fail_InitApp, FPC_Test_Setup, FPC_Test_TearDown,
@@ -1809,32 +1900,34 @@ void FPC_App_Test_AddTestCases(void)
                "Test_FPC_AppMain_Nominal_SendHK");
     UtTest_Add(Test_FPC_AppMain_Nominal_Wakeup, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_AppMain_Nominal_Wakeup");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_DataPipeError, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_DataPipeError");
+    UtTest_Add(Test_FPC_AppMain_ProcessNewData_DataPipeError, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_AppMain_ProcessNewData_DataPipeError");
     UtTest_Add(Test_FPC_AppMain_ProcessNewData_InvalidMsgID, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_AppMain_ProcessNewData_InvalidMsgID");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_ManualControlSetpoint, FPC_Test_Setup,
-               FPC_Test_TearDown, "Test_FAC_AppMain_ProcessNewData_ManualControlSetpoint");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_VehicleControlMode, FPC_Test_Setup,
-               FPC_Test_TearDown, "Test_FAC_AppMain_ProcessNewData_VehicleControlMode");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_PositionSetpointTriplet, FPC_Test_Setup,
-               FPC_Test_TearDown, "Test_FAC_AppMain_ProcessNewData_PositionSetpointTriplet");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_VehicleStatus, FPC_Test_Setup,
-               FPC_Test_TearDown, "Test_FAC_AppMain_ProcessNewData_VehicleStatus");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_VehicleLandDetected, FPC_Test_Setup,
-               FPC_Test_TearDown, "Test_FAC_AppMain_ProcessNewData_VehicleLandDetected");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_VehicleLocalPosition, FPC_Test_Setup,
-               FPC_Test_TearDown, "Test_FAC_AppMain_ProcessNewData_VehicleLocalPosition");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_VehicleGlobalPosition, FPC_Test_Setup,
-               FPC_Test_TearDown, "Test_FAC_AppMain_ProcessNewData_VehicleGlobalPosition");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_Airspeed, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_Airspeed");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_VehicleAttitude, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_VehicleAttitude");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_SensorCombined, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_SensorCombined");
-    UtTest_Add(Test_FAC_AppMain_ProcessNewData_SensorBaro, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FAC_AppMain_ProcessNewData_SensorBaro");
+    UtTest_Add(Test_FPC_AppMain_ProcessNewData_ManualControlSetpoint, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_AppMain_ProcessNewData_ManualControlSetpoint");
+    UtTest_Add(Test_FPC_AppMain_ProcessNewData_VehicleControlMode, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_AppMain_ProcessNewData_VehicleControlMode");
+    UtTest_Add(Test_FPC_AppMain_ProcessNewData_PositionSetpointTriplet, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_AppMain_ProcessNewData_PositionSetpointTriplet");
+    UtTest_Add(Test_FPC_AppMain_ProcessNewData_VehicleStatus, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_AppMain_ProcessNewData_VehicleStatus");
+    UtTest_Add(Test_FPC_AppMain_ProcessNewData_VehicleLandDetected, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_AppMain_ProcessNewData_VehicleLandDetected");
+    UtTest_Add(Test_FPC_AppMain_ProcessNewData_VehicleLocalPosition, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_AppMain_ProcessNewData_VehicleLocalPosition");
+    UtTest_Add(Test_FPC_AppMain_ProcessNewData_VehicleGlobalPosition, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_AppMain_ProcessNewData_VehicleGlobalPosition");
+    UtTest_Add(Test_FPC_AppMain_ProcessNewData_Airspeed, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_AppMain_ProcessNewData_Airspeed");
+    UtTest_Add(Test_FPC_AppMain_ProcessNewData_VehicleAttitude, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_AppMain_ProcessNewData_VehicleAttitude");
+    UtTest_Add(Test_FPC_AppMain_ProcessNewData_SensorCombined, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_AppMain_ProcessNewData_SensorCombined");
+    UtTest_Add(Test_FPC_AppMain_ProcessNewData_SensorBaro, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_AppMain_ProcessNewData_SensorBaro");
+
+    UtTest_Add(Test_FPC_Execute, FPC_Test_Setup, FPC_Test_TearDown, "Test_FPC_Execute");
 
     UtTest_Add(Test_FPC_UpdateParamsFromTable, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_UpdateParamsFromTable");

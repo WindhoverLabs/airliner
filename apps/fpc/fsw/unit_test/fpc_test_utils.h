@@ -67,9 +67,9 @@ uint64     FPC_Test_GetTimeUs(void);
 time_t     FPC_Test_GetTimeFromTimestamp(uint64 timestamp);
 time_t     FPC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
-extern "C" uint64 PX4LIB_GetPX4TimeUs(void);
-extern "C" uint64 PX4LIB_GetPX4TimeMs(void);
-extern "C" uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
+extern uint64 PX4LIB_GetPX4TimeUs(void);
+extern uint64 PX4LIB_GetPX4TimeMs(void);
+extern uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 
 
 #endif /* FPC_TEST_UTILS_H */

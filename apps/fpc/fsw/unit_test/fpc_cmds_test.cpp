@@ -493,9 +493,9 @@ void Test_FPC_ProcessNewCmds_DoGoAround(void)
 
 
 /**
- * Test FAC VerifyCmdLength(), Fail CmdLength
+ * Test FPC VerifyCmdLength(), Fail CmdLength
  */
-void Test_FAC_VerifyCmdLength_Fail_CmdLength(void)
+void Test_FPC_VerifyCmdLength_Fail_CmdLength(void)
 {
     FPC   oFPC{};
 
@@ -531,6 +531,6 @@ void FPC_Cmds_Test_AddTestCases(void)
                "Test_FPC_ProcessNewCmds_Reset");
     UtTest_Add(Test_FPC_ProcessNewCmds_DoGoAround, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_ProcessNewCmds_DoGoAround");
-    UtTest_Add(Test_FAC_VerifyCmdLength_Fail_CmdLength, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FAC_VerifyCmdLength_Fail_CmdLength");
+    UtTest_Add(Test_FPC_VerifyCmdLength_Fail_CmdLength, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_VerifyCmdLength_Fail_CmdLength");
 } /* end FPC_Cmds_Test_AddTestCases */
