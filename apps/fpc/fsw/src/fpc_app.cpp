@@ -2296,6 +2296,25 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                 break;
             }
 
+            case FPC_OVERRIDE_HEADING_CC:
+            {
+                if(VerifyCmdLength(MsgPtr,
+                        sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd =
+                            (FPC_UpdateParamFloatCmd_t*) MsgPtr;
+                    _hdg_hold_yaw = cmd->param;
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                    CFE_EVS_INFORMATION, "_hdg_hold_yaw Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+
             default:
             {
                 HkTlm.usCmdErrCnt++;

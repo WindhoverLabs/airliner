@@ -183,6 +183,7 @@ extern "C" {
 #define FPC_UPDATE_RUNWAY_AIRSPD_MIN_CC           (62)
 #define FPC_UPDATE_RUNWAY_CLMBOUT_DIFF_CC         (63)
 #define FPC_OVERRIDE_ALTITUDE_CC                  (64)
+#define FPC_OVERRIDE_HEADING_CC                   (65)
 /************************************************************************
  ** Local Structure Declarations
  *************************************************************************/
