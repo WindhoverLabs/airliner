@@ -1763,6 +1763,7 @@ void Test_FPC_Execute(void)
     iStatus = oFPC.InitConfigTbl();
     if (iStatus == CFE_SUCCESS)
     {
+        oFPC.InitData();
         oFPC.UpdateParamsFromTable();
         oFPC.Execute();
         oFPC.SendOutData();
