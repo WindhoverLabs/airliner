@@ -1261,6 +1261,8 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
 void Test_FAC_RunController_TailSitter(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -1272,6 +1274,12 @@ void Test_FAC_RunController_TailSitter(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
@@ -1312,26 +1320,26 @@ void Test_FAC_RunController_TailSitter(void)
                     sizeof(VGlobalPos), TRUE);
     VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
     VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1418,7 +1426,7 @@ void Test_FAC_RunController_TailSitter(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -1436,6 +1444,8 @@ void Test_FAC_RunController_TailSitter(void)
 void Test_FAC_RunController_RotaryWing(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -1447,6 +1457,12 @@ void Test_FAC_RunController_RotaryWing(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
@@ -1487,26 +1503,26 @@ void Test_FAC_RunController_RotaryWing(void)
                     sizeof(VGlobalPos), TRUE);
     VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
     VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1593,7 +1609,7 @@ void Test_FAC_RunController_RotaryWing(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -1614,6 +1630,8 @@ void Test_FAC_RunController_RotaryWing(void)
 void Test_FAC_RunController_AttitudeManual(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -1625,6 +1643,12 @@ void Test_FAC_RunController_AttitudeManual(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
@@ -1665,26 +1689,26 @@ void Test_FAC_RunController_AttitudeManual(void)
                     sizeof(VGlobalPos), TRUE);
     VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
     VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1771,7 +1795,7 @@ void Test_FAC_RunController_AttitudeManual(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -1793,6 +1817,8 @@ void Test_FAC_RunController_AttitudeManual(void)
 void Test_FAC_RunController_PureRateControl(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -1804,6 +1830,12 @@ void Test_FAC_RunController_PureRateControl(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
@@ -1844,26 +1876,26 @@ void Test_FAC_RunController_PureRateControl(void)
                     sizeof(VGlobalPos), TRUE);
     VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
     VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
@@ -1950,7 +1982,7 @@ void Test_FAC_RunController_PureRateControl(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -1971,6 +2003,8 @@ void Test_FAC_RunController_PureRateControl(void)
 void Test_FAC_RunController_ManualDirect(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -1982,6 +2016,12 @@ void Test_FAC_RunController_ManualDirect(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
@@ -2022,26 +2062,26 @@ void Test_FAC_RunController_ManualDirect(void)
                     sizeof(VGlobalPos), TRUE);
     VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
     VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
@@ -2127,7 +2167,7 @@ void Test_FAC_RunController_ManualDirect(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -2149,6 +2189,8 @@ void Test_FAC_RunController_ManualDirect(void)
 void Test_FAC_RunController_Auto(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -2160,6 +2202,12 @@ void Test_FAC_RunController_Auto(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
@@ -2200,26 +2248,26 @@ void Test_FAC_RunController_Auto(void)
                     sizeof(VGlobalPos), TRUE);
     VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
     VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
@@ -2305,7 +2353,7 @@ void Test_FAC_RunController_Auto(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -2326,6 +2374,8 @@ void Test_FAC_RunController_Auto(void)
 void Test_FAC_RunController_Landed(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -2337,6 +2387,12 @@ void Test_FAC_RunController_Landed(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
@@ -2377,26 +2433,26 @@ void Test_FAC_RunController_Landed(void)
                     sizeof(VGlobalPos), TRUE);
     VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
     VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
@@ -2482,7 +2538,7 @@ void Test_FAC_RunController_Landed(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -2656,7 +2712,7 @@ void Test_FAC_UpdateParams_TailSitter(void)
     oFAC.InitApp();
 
     /* Verify results */
-    expected_checksum = 1369.37;
+    expected_checksum = 1379.37;
 
     if ((iStatus == CFE_SUCCESS) &&
         (UpdateParams_ValidateStatus == 0x0) &&

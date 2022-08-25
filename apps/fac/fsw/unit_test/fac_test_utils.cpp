@@ -83,13 +83,13 @@ FAC_ParamTbl_t FAC_ParamTblTailSitter =
     0.02f,   /* Yaw rate proportional gain (FW_YR_P) */
     0.0f,    /* Yaw rate integrator gain (FW_YR_I) */
     0.2f,    /* Yaw rate integrator limit (FW_YR_IMAX) */
-    0.0f,    /* Maximum yaw rate (FW_Y_RMAX) */
+    5.0f,    /* Maximum yaw rate (FW_Y_RMAX) */
     0.0f,    /* Roll control to yaw control feedforward gain (FW_RLL_TO_YAW_FF) */
     0,       /* Enable wheel steering controller (FW_W_EN) */
     0.5f,    /* Wheel steering rate proportional gain (FW_WR_P) */
     0.1f,    /* Wheel steering rate integrator gain (FW_WR_I) */
     1.0f,    /* Wheel steering rate integrator limit (FW_WR_IMAX) */
-    0.0f,    /* Maximum wheel steering rate (FW_W_RMAX) */
+    5.0f,    /* Maximum wheel steering rate (FW_W_RMAX) */
     0.5f,    /* Roll rate feed forward (FW_RR_FF) */
     0.5f,    /* Pitch rate feed forward (FW_PR_FF) */
     0.3f,    /* Yaw rate feed forward (FW_YR_FF) */
