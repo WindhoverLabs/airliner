@@ -85,9 +85,7 @@ typedef enum
     /** \brief LD active in all flight modes. */
     LD_OP_MODE_AUTO   = 0,
     /** \brief LD inactive in all flight modes. */
-    LD_OP_MODE_MANUAL = 1,
-    /** \brief LD active in only auto flight modes. */
-    LD_OP_MODE_MIXED  = 2
+    LD_OP_MODE_MANUAL = 1
 } LD_Modes_t;
 
 /** \brief Definition for a single config table entry */
