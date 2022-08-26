@@ -2304,17 +2304,19 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                     HkTlm.usCmdCnt++;
                     FPC_UpdateParamFloatCmd_t *cmd =
                             (FPC_UpdateParamFloatCmd_t*) MsgPtr;
-                    _hdg_hold_yaw = cmd->param;
+                    _hdg_hold_yaw = DEG_TO_RADIANS(cmd->param);
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
                     CFE_EVS_INFORMATION, "_hdg_hold_yaw Modified.");
+                    _hdg_hold_enabled = FALSE;
+                    commandable_heading = TRUE;
                 }
                 else
                 {
                     HkTlm.usCmdErrCnt++;
                 }
+
                 break;
             }
-
             default:
             {
                 HkTlm.usCmdErrCnt++;
@@ -3635,7 +3637,6 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos,
                 && fabsf(m_ManualControlSetpointMsg.Y)
                         < HDG_HOLD_MAN_INPUT_THRESH)
         {
-
             /* heading / roll is zero, lock onto current heading */
             if(fabsf(m_VehicleAttitudeMsg.YawSpeed) < HDG_HOLD_YAWRATE_THRESH
                     && !_yaw_lock_engaged)
@@ -3661,21 +3662,24 @@ boolean FPC::ControlPosition(const math::Vector2F &curr_pos,
                 if(!_hdg_hold_enabled)
                 {
                     _hdg_hold_enabled = TRUE;
-                    _hdg_hold_yaw = _yaw;
-
+                    if(!commandable_heading)
+                    {
+                        _hdg_hold_yaw = _yaw;
+                    }
+                    commandable_heading = FALSE;
                     GetWaypointHeadingDistance(_hdg_hold_yaw,
                             HkTlm._hdg_hold_prev_wp, HkTlm._hdg_hold_curr_wp,
                             TRUE);
                 }
 
                 /* we have a valid heading hold position, are we too close? */
-                float dist = get_distance_to_next_waypoint(
+                HkTlm.dist_to_next_waypoint = get_distance_to_next_waypoint(
                         m_VehicleGlobalPositionMsg.Lat,
                         m_VehicleGlobalPositionMsg.Lon,
                         HkTlm._hdg_hold_curr_wp.Lat,
                         HkTlm._hdg_hold_curr_wp.Lon);
 
-                if(dist < HDG_HOLD_REACHED_DIST)
+                if(HkTlm.dist_to_next_waypoint < HDG_HOLD_REACHED_DIST)
                 {
                     GetWaypointHeadingDistance(_hdg_hold_yaw,
                             HkTlm._hdg_hold_prev_wp, HkTlm._hdg_hold_curr_wp,
