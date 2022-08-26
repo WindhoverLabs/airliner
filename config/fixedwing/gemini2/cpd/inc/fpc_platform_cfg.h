@@ -103,6 +103,7 @@ extern "C" {
 #define FPC_PIPE_SEND_HK_RESERVED     (1)
 
 #define FPC_SCH_PIPE_SEND_HK_RESERVED  (1)
+#define FPC_CMD_MID_RESERVED  (1)
 
 #define FPC_DATA_PIPE_DEPTH            (11)
 
