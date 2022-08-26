@@ -217,6 +217,8 @@ public:
     boolean _was_in_deadband
     {   FALSE};		///< wether the last stick input was in althold deadband */
 
+    boolean commandable_heading = FALSE;
+
     boolean _was_in_air
     {   FALSE};	///< indicated wether the plane was in the air in the previous interation*/
     uint64 _time_went_in_air

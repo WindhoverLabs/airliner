@@ -182,7 +182,8 @@ extern "C" {
 #define FPC_UPDATE_AIRSPD_SCL_CC                  (61)
 #define FPC_UPDATE_RUNWAY_AIRSPD_MIN_CC           (62)
 #define FPC_UPDATE_RUNWAY_CLMBOUT_DIFF_CC         (63)
-
+#define FPC_OVERRIDE_ALTITUDE_CC                  (64)
+#define FPC_OVERRIDE_HEADING_CC                   (65)
 /************************************************************************
  ** Local Structure Declarations
  *************************************************************************/
@@ -298,7 +299,7 @@ typedef enum
     FW_POSCTRL_MODE_POSITION = 1,
     FW_POSCTRL_MODE_ALTITUDE = 2,
     FW_POSCTRL_MODE_OTHER = 3
-} HK_FW_POSCTRL_MODE;///< used to check the mode in the last control loop iteration. Use to check if the last iteration was in the same mode.
+} HK_FW_POSCTRL_MODE; ///< used to check the mode in the last control loop iteration. Use to check if the last iteration was in the same mode.
 
 typedef enum
 {
@@ -326,7 +327,9 @@ typedef struct
     HK_FW_POSCTRL_MODE ControlModeCurrent;
 
     float _hold_alt;
-    float m_Hold_Alt;
+    float _hdg_hold_yaw;
+
+    float dist_to_next_waypoint;
 
     boolean m_Hdg_Hold_Enabled;
     boolean _yaw_lock_engaged;
@@ -335,8 +338,8 @@ typedef struct
 
     uint64 _time_started_landing;
     boolean use_tecs_pitch;
-    PX4_PositionSetpoint_t _hdg_hold_prev_wp;///< position where heading hold started */
-    PX4_PositionSetpoint_t _hdg_hold_curr_wp;///< position to which heading hold flies */
+    PX4_PositionSetpoint_t _hdg_hold_prev_wp; ///< position where heading hold started */
+    PX4_PositionSetpoint_t _hdg_hold_curr_wp; ///< position to which heading hold flies */
 
     /* throttle and airspeed states */
     boolean _airspeed_valid;	///< flag if a valid airspeed estimate exists
@@ -353,7 +356,6 @@ typedef struct
     boolean _runway_takeoff_enabled;
     boolean _runway_takeoff_initialized;
     Runway _runway_takeoff;
-
 } FPC_HkTlm_t;
 
 #ifdef __cplusplus
