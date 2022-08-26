@@ -355,6 +355,21 @@ gemini2-local-install::
 	sudo cp -R build/fixedwing/gemini2/ppd/target/target/exe /media/${USER}/rootfs/opt/airliner
 	sudo cp build/fixedwing/gemini2/cpd/target/target/exe/airliner.elf /media/${USER}/rootfs/lib/firmware
 
+quad-remote-install::
+	@echo 'Installing onto test flight vehicle at $(REMOTE_ADDRESS)'
+	ssh-keygen -f "${HOME}/.ssh/known_hosts" -R "$(REMOTE_ADDRESS)"
+	-ssh windhover@$(REMOTE_ADDRESS) rm -Rf exe
+	-ssh windhover@$(REMOTE_ADDRESS) rm airliner.elf
+	scp -r build/multirotor/quad/ppd/target/target/exe windhover@$(REMOTE_ADDRESS):~
+	scp build/multirotor/quad/cpd/target/target/exe/airliner.elf windhover@$(REMOTE_ADDRESS):~
+	scp config/multirotor/quad/ppd/target/airliner.service windhover@$(REMOTE_ADDRESS):~
+
+quad-local-install::
+	@echo 'Installing onto test flight vehicle at /media/${USER}/'
+	-sudo rm -Rf /media/${USER}/rootfs/opt/airliner
+	sudo cp -R build/multirotor/quad/ppd/target/target/exe /media/${USER}/rootfs/opt/airliner
+	sudo cp build/multirotor/quad/cpd/target/target/exe/airliner.elf /media/${USER}/rootfs/lib/firmware
+
 clean::
 	@echo 'Cleaning flight software builds                                                 '
 	rm -rf build
