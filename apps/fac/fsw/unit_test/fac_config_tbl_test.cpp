@@ -443,75 +443,6 @@ void Test_FAC_InitConfigTbl_Fail_ValidateParamTbl_EachParam(void)
 
 
 /**
- * Test FAC InitConfigTbl(), MultipleParam_SendEventHook
- */
-int32 Test_FAC_InitConfigTbl_MultipleParam_SendEventHook
-            (uint16 EventID, uint16 EventType, const char *EventText, ...)
-{
-    va_list  Ptr;
-    char     Buf[256];
-    char     *pSubStr1 = NULL;
-    char     *pSubStr2 = NULL;
-
-    va_start(Ptr, EventText);
-    vsnprintf(Buf, (size_t)CFE_EVS_MAX_MESSAGE_LENGTH, EventText, Ptr);
-    va_end(Ptr);
-
-    printf("###InitConfigTbl_MultipleParam_SendEventHook:\n");
-    printf("%s\n", Buf);
-
-    pSubStr1 = strstr(Buf, "FW_R_TC");
-    pSubStr2 = strstr(Buf, "FW_RLL_TO_YAW_FF");
-
-    printf("pSubStr1: %p, pSubStr2: %p\n", pSubStr1, pSubStr2);
-
-    if (pSubStr1 != NULL)
-    {
-        InitConfigTbl_ParamBit |= 0x1;
-    }
-
-    if (pSubStr2 != NULL)
-    {
-        InitConfigTbl_ParamBit |= 0x2;
-    }
-
-    return 0;
-}
-
-
-/**
- * Test FAC InitConfigTbl_Fail_ValidateParamTbl_MultipleParam()
- */
-void Test_FAC_InitConfigTbl_Fail_ValidateParamTbl_MultipleParam(void)
-{
-    int32    resultInit = CFE_SUCCESS;
-
-    InitConfigTbl_ParamBit = 0x0;
-    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
-               (void*)&Test_FAC_InitConfigTbl_MultipleParam_SendEventHook);
-
-    /* Execute the function being tested */
-    resultInit = oFAC.InitConfigTbl();
-    if (resultInit == CFE_SUCCESS)
-    {
-        oFAC.ParamTblPtr->FW_R_TC = 0.3f;
-        oFAC.ParamTblPtr->FW_RLL_TO_YAW_FF = -0.1f;
-
-        oFAC.ValidateParamTbl((void*)oFAC.ParamTblPtr);
-    }
-
-    if ((resultInit == CFE_SUCCESS) && (InitConfigTbl_ParamBit == 0x3))
-    {
-        UtAssert_True (TRUE, "InitConfigTbl Fail ValidateParamTbl_MultipleParam");
-    }
-    else
-    {
-        UtAssert_True (FALSE, "InitConfigTbl Fail ValidateParamTbl_MultipleParam");
-    }
-}
-
-
-/**
  * Test FAC InitConfigTbl(), ValidateParamTbl_Nominal
  */
 void Test_FAC_InitConfigTbl_ValidateParamTbl_Nominal(void)
@@ -640,8 +571,6 @@ void FAC_Config_Tbl_Test_AddTestCases(void)
                FAC_Test_TearDown, "Test_FAC_InitConfigTbl_Fail_ValidateParamTbl");
     UtTest_Add(Test_FAC_InitConfigTbl_Fail_ValidateParamTbl_EachParam, FAC_Test_Setup,
                FAC_Test_TearDown, "Test_FAC_InitConfigTbl_Fail_ValidateParamTbl_EachParam");
-    UtTest_Add(Test_FAC_InitConfigTbl_Fail_ValidateParamTbl_MultipleParam, FAC_Test_Setup,
-               FAC_Test_TearDown, "Test_FAC_InitConfigTbl_Fail_ValidateParamTbl_MultipleParam");
     UtTest_Add(Test_FAC_InitConfigTbl_ValidateParamTbl_Nominal, FAC_Test_Setup,
                FAC_Test_TearDown, "Test_FAC_InitConfigTbl_ValidateParamTbl_Nominal");
     UtTest_Add(Test_FAC_InitConfigTbl_Fail_TblLoad, FAC_Test_Setup, FAC_Test_TearDown,

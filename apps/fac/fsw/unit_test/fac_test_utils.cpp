@@ -122,22 +122,22 @@ FAC_ParamTbl_t FAC_ParamTblTailSitter =
 
 
 /*
- * Config table for Standard
+ * Config table for UnitTest
  */
-FAC_ParamTbl_t FAC_ParamTblStandard =
+FAC_ParamTbl_t FAC_ParamTblUnitTest =
 {
-    0.4f,    /* Attitude Roll Time Constant (FW_R_TC) */
-    0.4f,    /* Attitude pitch time constant (FW_P_TC) */
-    0.01f,   /* Pitch rate proportional gain (FW_PR_P) */
-    0.02f,   /* Pitch rate integrator gain (FW_PR_I) */
-    5.0f,    /* Maximum positive / up pitch rate (FW_P_RMAX_POS) */
-    20.0f,   /* Maximum negative / down pitch rate (FW_P_RMAX_NEG) */
-    0.2f,    /* Pitch rate integrator limit (FW_PR_IMAX) */
-    0.01f,   /* Roll rate proportional Gain (FW_RR_P) */
-    0.01f,   /* Roll rate integrator Gain (FW_RR_I) */
+    0.7f,    /* Attitude Roll Time Constant (FW_R_TC) */
+    0.5f,    /* Attitude pitch time constant (FW_P_TC) */
+    0.05f,   /* Pitch rate proportional gain (FW_PR_P) */
+    0.05f,   /* Pitch rate integrator gain (FW_PR_I) */
+    60.0f,   /* Maximum positive / up pitch rate (FW_P_RMAX_POS) */
+    60.0f,   /* Maximum negative / down pitch rate (FW_P_RMAX_NEG) */
+    0.4f,    /* Pitch rate integrator limit (FW_PR_IMAX) */
+    0.22f,   /* Roll rate proportional Gain (FW_RR_P) */
+    0.02f,   /* Roll rate integrator Gain (FW_RR_I) */
     0.2f,    /* Roll integrator anti-windup (FW_RR_IMAX) */
-    10.0f,   /* Maximum roll rate (FW_R_RMAX) */
-    0.02f,   /* Yaw rate proportional gain (FW_YR_P) */
+    70.0f,   /* Maximum roll rate (FW_R_RMAX) */
+    0.05f,   /* Yaw rate proportional gain (FW_YR_P) */
     0.0f,    /* Yaw rate integrator gain (FW_YR_I) */
     0.2f,    /* Yaw rate integrator limit (FW_YR_IMAX) */
     0.0f,    /* Maximum yaw rate (FW_Y_RMAX) */
@@ -147,8 +147,8 @@ FAC_ParamTbl_t FAC_ParamTblStandard =
     0.1f,    /* Wheel steering rate integrator gain (FW_WR_I) */
     1.0f,    /* Wheel steering rate integrator limit (FW_WR_IMAX) */
     0.0f,    /* Maximum wheel steering rate (FW_W_RMAX) */
-    0.5f,    /* Roll rate feed forward (FW_RR_FF) */
-    0.5f,    /* Pitch rate feed forward (FW_PR_FF) */
+    0.2f,    /* Roll rate feed forward (FW_RR_FF) */
+    0.4f,    /* Pitch rate feed forward (FW_PR_FF) */
     0.3f,    /* Yaw rate feed forward (FW_YR_FF) */
     0.2f,    /* Wheel steering rate feed forward (FW_WR_FF) */
     1000.0f, /* Minimal speed for yaw coordination (FW_YCO_VMIN) */
@@ -156,7 +156,7 @@ FAC_ParamTbl_t FAC_ParamTblStandard =
     0.0f,    /* Roll setpoint offset (FW_RSP_OFF) */
     0.0f,    /* Pitch setpoint offset (FW_PSP_OFF) */
     45.0f,   /* Max manual roll (FW_MAN_R_MAX) */
-    10.0f,   /* Max manual pitch (FW_MAN_P_MAX) */
+    45.0f,   /* Max manual pitch (FW_MAN_P_MAX) */
     1.0f,    /* Scale factor for flaps (FW_FLAPS_SCL) */
     0.02f,    /* Scale factor for flaperons (FW_FLAPERON_SCL) */
     0,       /* Disable airspeed sensor (FW_ARSP_MODE) */
@@ -256,7 +256,7 @@ void FAC_Test_Setup(void)
 
     if (1)
     {
-        Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTblStandard);
+        Ut_CFE_TBL_AddTable(FAC_PARAM_TABLE_FILENAME, (void *) &FAC_ParamTblUnitTest);
     }
     else
     {
