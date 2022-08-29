@@ -46,7 +46,6 @@ public:
 	void set_bodyrate_setpoint(float rate) {_bodyrate_setpoint = rate;}
 
 	/* Getters */
-	float get_rate_error();
 	float get_desired_rate();
 	float get_desired_bodyrate();
 
@@ -97,7 +96,6 @@ protected:
 	float _rate_error;
 	float _rate_setpoint;
 	float _bodyrate_setpoint;
-	float constrain_airspeed(float airspeed, float minspeed, float maxspeed);
 };
 
 #endif

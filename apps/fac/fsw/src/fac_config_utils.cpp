@@ -485,14 +485,8 @@ FAC_AcquireConfigPointers_Exit_Tag:
 
 void FAC::HandleTableUpdate(void)
 {
-    int32 Status = 0;
+    CFE_TBL_Modified(ParamTblHdl);
 
-    Status = CFE_TBL_Modified(ParamTblHdl);
-    if(Status != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FAC_TBL_MODIFIED_ERROR_EID, CFE_EVS_ERROR,
-                "CFE_TBL_Modified failed with code (%d)", Status);
-    }
     UpdateParams();
 }
 
