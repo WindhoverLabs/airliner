@@ -131,7 +131,16 @@ LD_ConfigTbl_t LD_ConfigTbl =
          *  \par Limits:
          *      default 8000000.
          */
-        8000000
+        8000000,
+
+        /** \ldcfg LD_OP_MODE
+         *
+         *  \brief Operational mode.
+         *
+         *  \par Limits:
+         *      default LD_OP_MODE_AUTO.
+         */
+         LD_OP_MODE_AUTO
 };
 
 /*

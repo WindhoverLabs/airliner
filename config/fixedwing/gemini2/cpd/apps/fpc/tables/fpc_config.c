@@ -130,7 +130,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW TECS
      */
-    0.7f,
+    2.0f,
 
     /**
      * T_SINK_MAX
@@ -196,172 +196,200 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      */
     10.0f,
 
-
     /**
      * T_HRATE_P
-     * Minimum thrust in auto thrust control
+     * Height rate proportional factor
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
-     *
-     * @unit norm
-     * @min 0.05
+     * @min 0.0
      * @max 1.0
      * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @increment 0.05
+     * @group FW TECS
      */
+
     0.05f,
 
     /**
-     * T_HRATE_FF
-     * Minimum thrust in auto thrust control
+      * T_HRATE_FF
+     * Height rate feed forward
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
-     *
-     * @unit norm
-     * @min 0.05
+     * @min 0.0
      * @max 1.0
      * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @increment 0.05
+     * @group FW TECS
      */
+
     0.8f,
 
     /**
-     * T_SRATE_P
-     * Minimum thrust in auto thrust control
+     * Speed rate P factor
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
-     *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
+     * @min 0.0
+     * @max 2.0
      * @decimal 2
      * @increment 0.01
-     * @group Fixedwing Position Control
+     * @group FW TECS
      */
+
     0.02f,
 
     /**
      * T_THR_DAMP
-     * Minimum thrust in auto thrust control
+     * Throttle damping factor
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This is the damping gain for the throttle demand loop.
+     * Increase to add damping to correct for oscillations in speed and height.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @min 0.0
+     * @max 2.0
+     * @decimal 1
+     * @increment 0.1
+     * @group FW TECS
      */
+
     0.5f,
 
     /**
-     * T_INTEG_GAIN
-     * Minimum thrust in auto thrust control
+      T_INTEG_GAIN
+     * Integrator gain
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This is the integrator gain on the control loop.
+     * Increasing this gain increases the speed at which speed
+     * and height offsets are trimmed out, but reduces damping and
+     * increases overshoot.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
+     * @min 0.0
+     * @max 2.0
      * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @increment 0.05
+     * @group FW TECS
      */
+
     0.1f,
 
     /**
-     * T_VERT_ACC
-     * Minimum thrust in auto thrust control
+     T_VERT_ACC
+     * Maximum vertical acceleration
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This is the maximum vertical acceleration (in m/s/s)
+     * either up or down that the controller will use to correct speed
+     * or height errors. The default value of 7 m/s/s (equivalent to +- 0.7 g)
+     * allows for reasonably aggressive pitch changes if required to recover
+     * from under-speed conditions.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit m/s/s
+     * @min 1.0
+     * @max 10.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW TECS
      */
+
     7.0f,
 
     /**
      * T_HGT_OMEGA
-     * Minimum thrust in auto thrust control
+     * Complementary filter "omega" parameter for height
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This is the cross-over frequency (in radians/second) of the complementary
+     * filter used to fuse vertical acceleration and barometric height to obtain
+     * an estimate of height rate and height. Increasing this frequency weights
+     * the solution more towards use of the barometer, whilst reducing it weights
+     * the solution more towards use of the accelerometer data.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit rad/s
+     * @min 1.0
+     * @max 10.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW TECS
      */
-    0.0f,
 
-    /**
-     * T_SPD_OMEGA
-     * Minimum thrust in auto thrust control
-     *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
-     *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
-     */
     3.0f,
 
+    /**
+      * T_SPD_OMEGA
+     * Complementary filter "omega" parameter for speed
+     *
+     * This is the cross-over frequency (in radians/second) of the complementary
+     * filter used to fuse longitudinal acceleration and airspeed to obtain an
+     * improved airspeed estimate. Increasing this frequency weights the solution
+     * more towards use of the airspeed sensor, whilst reducing it weights the
+     * solution more towards use of the accelerometer data.
+     *
+     * @unit rad/s
+     * @min 1.0
+     * @max 10.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW TECS
+     */
+
+    2.0f,
 
     /**
      * T_RLL2THR
-     * Minimum thrust in auto thrust control
+     * Roll -> Throttle feedforward
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * Increasing this gain turn increases the amount of throttle that will
+     * be used to compensate for the additional drag created by turning.
+     * Ideally this should be set to  approximately 10 x the extra sink rate
+     * in m/s created by a 45 degree bank turn. Increase this gain if
+     * the aircraft initially loses energy in turns and reduce if the
+     * aircraft initially gains energy in turns. Efficient high aspect-ratio
+     * aircraft (eg powered sailplanes) can use a lower value, whereas
+     * inefficient low aspect-ratio models (eg delta wings) can use a higher value.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @min 0.0
+     * @max 20.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW TECS
      */
-     15.0f,
 
+     15.0f,
 
     /**
      * T_SPDWEIGHT
-     * Minimum thrust in auto thrust control
+     * Speed <--> Altitude priority
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This parameter adjusts the amount of weighting that the pitch control
+     * applies to speed vs height errors. Setting it to 0.0 will cause the
+     * pitch control to control height and ignore speed errors. This will
+     * normally improve height accuracy but give larger airspeed errors.
+     * Setting it to 2.0 will cause the pitch control loop to control speed
+     * and ignore height errors. This will normally reduce airspeed errors,
+     * but give larger height errors. The default value of 1.0 allows the pitch
+     * control to simultaneously control height and speed.
+     * Note to Glider Pilots - set this parameter to 2.0 (The glider will
+     * adjust its pitch angle to maintain airspeed, ignoring changes in height).
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @min 0.0
+     * @max 2.0
+     * @decimal 1
+     * @increment 1.0
+     * @group FW TECS
      */
+
      1.0f,
 
     /**
      * T_PTCH_DAMP
-     * Minimum thrust in auto thrust control
+     * Pitch damping factor
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This is the damping gain for the pitch demand loop. Increase to add
+     * damping to correct for oscillations in height. The default value of 0.0
+     * will work well provided the pitch to servo controller has been tuned
+     * properly.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @min 0.0
+     * @max 2.0
+     * @decimal 1
+     * @increment 0.1
+     * @group FW TECS
      */
+
     0.0f,
 
     /**
@@ -378,7 +406,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW TECS
      */
-    0.6,
+    10.0f,
 
     /**
      * AIRSPD_TRIM
@@ -393,7 +421,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW TECS
      */
-    1.0f,
+    15.0f,
 
     /**
      * AIRSPD_MAX
@@ -409,7 +437,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW TECS
      */
-    10.0f,
+    20.0f,
 
     /**
      * ARSP_MODE
@@ -433,7 +461,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW L1 Control
      */
-    DEG_TO_RADIANS(10.0f),
+    DEG_TO_RADIANS(-45.0f),
 
     /**
      * P_LIM_MAX_RADIANS
@@ -447,7 +475,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW L1 Control
      */
-    DEG_TO_RADIANS(10.0f),
+    DEG_TO_RADIANS(45.0f),
 
     /**
      * R_LIM_RADIANS
@@ -477,7 +505,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    0.2f,
+    0.0f,
 
     /**
      * THR_MAX
@@ -579,7 +607,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.01
      * @group Fixedwing Position Control
      */
-    DEG_TO_RADIANS(10.0f),
+    DEG_TO_RADIANS(45.0f),
 
     /**
      * RSP_OFF_RADIANS
@@ -627,6 +655,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
     1.0f,
 
     /**
+     * LND_ANG_RADIANS
      * Landing slope angle in degrees
      *
      * @unit deg
@@ -636,7 +665,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW L1 Control
      */
-    DEG_TO_RADIANS(5.0f),
+    DEG_TO_RADIANS(8.0f),
 
     /**
      * LND_HVIRT
@@ -698,6 +727,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
     15.0f,
 
     /**
+     * LND_FL_PMIN_RADIANS
      * Flare, minimum pitch
      *
      * Minimum pitch during flare, a positive sign means nose up
@@ -785,7 +815,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.5
          * @group FW Launch detection
          */
-         30,
+         30.0f,
 
         /**
          * Catapult time threshold.
@@ -869,7 +899,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 1
          * @group Runway Takeoff
          */
-        100.0,
+        5.0,
         /**
          * MAX_THR
          * Max throttle during runway takeoff.
@@ -884,7 +914,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          */
         1.0,
         /**
-         * PSP
+         * PSP_RADIANS
          * Pitch setpoint during taxi / before takeoff airspeed is reached.
          * A taildragger with stearable wheel might need to pitch up
          * a little to keep it's wheel on the ground before airspeed
@@ -897,9 +927,9 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.5
          * @group Runway Takeoff
          */
-        0.0,
+        DEG_TO_RADIANS(0.0),
         /**
-         * MAX_PITCH
+         * MAX_PITCH_RADIANS
          * Max pitch during takeoff.
          * Fixed-wing settings are used if set to 0. Note that there is also a minimum
          * pitch of 10 degrees during takeoff, so this must be larger if set.
@@ -911,8 +941,9 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.5
          * @group Runway Takeoff
          */
-        10.0,
+        DEG_TO_RADIANS(20.0),
         /**
+         MAX_ROLL_RADIANS
          * Max roll during climbout.
          * Roll is limited during climbout to ensure enough lift and prevents aggressive
          * navigation before we're on a safe height.
@@ -924,7 +955,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.5
          * @group Runway Takeoff
          */
-         25,
+         DEG_TO_RADIANS(25),
         /**
          * AIRSPD_SCL
          * Min. airspeed scaling factor for takeoff.
@@ -938,7 +969,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.01
          * @group Runway Takeoff
          */
-         1.2,
+         1.3,
 
         /**
          * AIRSPD_MIN
@@ -953,7 +984,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.01
          * @group Fixedwing Position Control
          */
-        2.0,
+        10.0,
 
         /**
          * CLMBOUT_DIFF
@@ -988,4 +1019,3 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
 /************************/
 /*  End of File Comment */
 /************************/
-

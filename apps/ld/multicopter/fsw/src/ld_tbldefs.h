@@ -51,7 +51,7 @@ extern "C" {
 /************************************************************************
  ** Local Defines
  *************************************************************************/
-#define LD_PARAM_NAME_MAX_LEN     (32)
+#define LD_PARAM_NAME_MAX_LEN            (32)
 #define LD_FFALL_THR_MIN                 (0.1f)
 #define LD_FFALL_THR_MAX                 (10.0f)
 #define LD_FFALL_TTRI_MIN                (0.02f)
@@ -78,6 +78,15 @@ extern "C" {
  * configuration table registration.
  */
 #define LD_CONFIG_TABLENAME ("CONFIG_TBL")
+
+/** \brief operational modes. */
+typedef enum
+{
+    /** \brief LD active in all flight modes. */
+    LD_OP_MODE_AUTO   = 0,
+    /** \brief LD inactive in all flight modes. */
+    LD_OP_MODE_MANUAL = 1
+} LD_Modes_t;
 
 /** \brief Definition for a single config table entry */
 typedef struct
@@ -198,7 +207,16 @@ typedef struct
      *      default 8000000.
      */
     uint64 LD_MIN_THR_NO_ALT_TIMEOUT;
-    
+
+    /** \ldcfg LD_OP_MODE
+     *
+     *  \brief Operational mode.
+     *
+     *  \par Limits:
+     *      default LD_OP_MODE_AUTO.
+     */
+    LD_Modes_t LD_OP_MODE;
+
 }LD_ConfigTbl_t;
 
 #ifdef __cplusplus

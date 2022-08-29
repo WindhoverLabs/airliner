@@ -742,12 +742,6 @@ typedef struct
     /** \brief Number of times the main loop has woken up. */
     uint32 WakeupCount;
 
-    /** \brief Number of times the SensorMag message has been received. */
-    uint32 SensorMagMsgCount;
-
-    /** \brief Number of times the Sensor Gyro message has been received. */
-    uint32 SensorGyroMsgCount;
-
     /** \brief Number of times the Battery Status message has been received. */
     uint32 BatteryStatusMsgCount;
 
@@ -774,9 +768,6 @@ typedef struct
 
     /** \brief Number of times the Position Setpoint Triplet message has been received. */
     uint32 PositionSetpointTripletMsgCount;
-
-    /** \brief Number of times the Sensor Accel message has been received. */
-    uint32 SensorAccelMsgCount;
 
     /** \brief Number of times the Safety message has been received. */
     uint32 SafetyMsgCount;

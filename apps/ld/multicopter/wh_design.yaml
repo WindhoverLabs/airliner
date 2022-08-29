@@ -37,6 +37,14 @@
       id: 15
     LD_FLIGHT_DETECTED_EID: 
       id: 16
+    LD_TBL_MODIFIED_ERROR_EID: 
+      id: 17
+    LD_MODE_CHANGED_EID: 
+      id: 18
+    LD_MODE_CHANGE_ERROR_EID: 
+      id: 19
+    LD_STARTUP_MODE_EID: 
+      id: 20
   telemetry: 
     LD_DIAG_TLM_MID: 
       msgID: 
@@ -53,6 +61,15 @@
           struct: CFE_SB_CmdHdr_t
         Reset: 
           cc: 1
+          struct: CFE_SB_CmdHdr_t
+        Mode_Auto: 
+          cc: 2
+          struct: CFE_SB_CmdHdr_t
+        Mode_Manual: 
+          cc: 3
+          struct: CFE_SB_CmdHdr_t
+        Mode_Mixed: 
+          cc: 4
           struct: CFE_SB_CmdHdr_t
     LD_SEND_HK_MID: 
       msgID: 

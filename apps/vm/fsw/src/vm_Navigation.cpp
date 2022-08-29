@@ -403,9 +403,10 @@ osalbool VM_Navigation::AllMessagesReceivedAtLeastOnce()
 {
     osalbool validity = false;
 
-    osalbool SensorMagMsgReady = (App.SensorMagMsg.Timestamp > 0);
-    osalbool SensorGyroMsgReady = (App.SensorGyroMsg.Timestamp > 0);
-    osalbool SensorAccelMsgReady = (App.SensorAccelMsg.Timestamp > 0);
+    osalbool SensorMagMsgReady = (App.SensorCombinedMsg.MagTimestamp > 0);
+    /* SensorCombined timestamp is Gyro timestamp. */
+    osalbool SensorGyroMsgReady = (App.SensorCombinedMsg.Timestamp > 0);
+    osalbool SensorAccelMsgReady = (App.SensorCombinedMsg.AccTimestamp > 0);
     osalbool SensorCombinedMsgReady = (App.SensorCombinedMsg.Timestamp > 0);
     osalbool VehicleAttitudeMsgReady = (App.VehicleAttitudeMsg.Timestamp > 0);
     osalbool VehicleLocalPositionMsgReady = (App.VehicleLocalPositionMsg.Timestamp > 0);

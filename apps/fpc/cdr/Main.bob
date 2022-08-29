@@ -279,7 +279,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/mpc/SendHK', {});]]></text>
     <x>294</x>
     <y>42</y>
     <width>458</width>
-    <height>318</height>
+    <height>445</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -318,7 +318,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       <x>6</x>
       <y>48</y>
       <width>406</width>
-      <height>231</height>
+      <height>348</height>
       <style>3</style>
       <transparent>true</transparent>
       <widget type="label" version="2.0.0">
@@ -469,7 +469,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
         <name>Text Update_8</name>
         <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hold_alt</pv_name>
         <x>148</x>
-        <y>170</y>
+        <y>230</y>
         <width>248</width>
         <height>18</height>
         <background_color>
@@ -487,7 +487,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
         <name>Text Update_9</name>
         <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.ControlModeCurrent</pv_name>
         <x>148</x>
-        <y>150</y>
+        <y>210</y>
         <width>248</width>
         <height>18</height>
         <background_color>
@@ -505,7 +505,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
         <name>Text Update_10</name>
         <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.tecsMode</pv_name>
         <x>148</x>
-        <y>190</y>
+        <y>270</y>
         <width>248</width>
         <height>18</height>
         <background_color>
@@ -523,7 +523,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
         <name>Label_22</name>
         <text>Mode</text>
         <x>30</x>
-        <y>150</y>
+        <y>210</y>
         <width>108</width>
         <vertical_alignment>1</vertical_alignment>
         <wrap_words>false</wrap_words>
@@ -538,7 +538,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
         <name>Label_8</name>
         <text>Hold Alt</text>
         <x>30</x>
-        <y>170</y>
+        <y>230</y>
         <width>108</width>
         <vertical_alignment>1</vertical_alignment>
         <wrap_words>false</wrap_words>
@@ -553,7 +553,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
         <name>Label_10</name>
         <text>Tecs</text>
         <x>30</x>
-        <y>190</y>
+        <y>270</y>
         <width>108</width>
         <vertical_alignment>1</vertical_alignment>
         <wrap_words>false</wrap_words>
@@ -588,12 +588,94 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
         <actions>
         </actions>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_13</name>
+        <text>inControl</text>
+        <x>30</x>
+        <y>150</y>
+        <width>108</width>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="led" version="2.0.0">
+        <name>Text Update_13</name>
+        <pv_name>/cfs/$(CPUID)/apps/fpc/FPC_HK_TLM_MID.inControl</pv_name>
+        <x>148</x>
+        <y>151</y>
+        <height>18</height>
+        <actions>
+        </actions>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_15</name>
+        <text>Heading Hold</text>
+        <x>30</x>
+        <y>170</y>
+        <width>108</width>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="led" version="2.0.0">
+        <name>Text Update_14</name>
+        <pv_name>/cfs/$(CPUID)/apps/fpc/FPC_HK_TLM_MID.m_Hdg_Hold_Enabled</pv_name>
+        <x>148</x>
+        <y>171</y>
+        <height>18</height>
+        <actions>
+        </actions>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_11</name>
+        <text>Hold Heading</text>
+        <x>30</x>
+        <y>250</y>
+        <width>108</width>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_11</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hdg_hold_yaw</pv_name>
+        <x>148</x>
+        <y>250</y>
+        <width>248</width>
+        <height>18</height>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <format>9</format>
+        <precision>0</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_width>1</border_width>
+      </widget>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
     <name>Runway</name>
-    <x>316</x>
-    <y>456</y>
+    <x>294</x>
+    <y>507</y>
     <width>444</width>
     <height>174</height>
     <font>
