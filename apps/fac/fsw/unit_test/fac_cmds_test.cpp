@@ -209,7 +209,1159 @@ void Test_FAC_ProcessAppCmds_Reset(void)
     /* Verify results */
     UtAssert_True(((oFAC.HkTlm.SendHkMsgRcvCnt == 0) && (oFAC.HkTlm.HkMsgSndCnt == 0)
                   && (oFAC.HkTlm.usCmdCnt == 0) && (oFAC.HkTlm.usCmdErrCnt == 0)),
-				  "ProcessAppCmds, Reset");
+                  "ProcessAppCmds, Reset");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_R_TC_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_R_TC_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_R_TC_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_R_TC == 0.9f),
+                   "ProcessAppCmds, Update_FW_R_TC_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_P_TC_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_P_TC_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_P_TC_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_P_TC == 0.9f),
+                   "ProcessAppCmds, Update_FW_P_TC_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_PR_P_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_PR_P_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_PR_P_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_PR_P == 0.9f),
+                   "ProcessAppCmds, Update_FW_PR_P_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_PR_I_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_PR_I_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_PR_I_CC);
+    CmdMsg.param = 0.4f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_PR_I == 0.4f),
+                   "ProcessAppCmds, Update_FW_PR_I_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_P_RMAX_POS_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_P_RMAX_POS_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_P_RMAX_POS_CC);
+    CmdMsg.param = 89.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_P_RMAX_POS == 89.0f),
+                   "ProcessAppCmds, Update_FW_P_RMAX_POS_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_P_RMAX_NEG_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_P_RMAX_NEG_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_P_RMAX_NEG_CC);
+    CmdMsg.param = 89.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_P_RMAX_NEG == 89.0f),
+                   "ProcessAppCmds, Update_FW_P_RMAX_NEG_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_PR_IMAX_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_PR_IMAX_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_PR_IMAX_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_PR_IMAX == 0.9f),
+                   "ProcessAppCmds, Update_FW_PR_IMAX_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_RR_P_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_RR_P_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_RR_P_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_RR_P == 0.9f),
+                   "ProcessAppCmds, Update_FW_RR_P_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_RR_I_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_RR_I_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_RR_I_CC);
+    CmdMsg.param = 0.1f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_RR_I == 0.1f),
+                   "ProcessAppCmds, Update_FW_RR_I_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_RR_IMAX_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_RR_IMAX_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_RR_IMAX_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_RR_IMAX == 0.9f),
+                   "ProcessAppCmds, Update_FW_RR_IMAX_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_R_RMAX_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_R_RMAX_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_R_RMAX_CC);
+    CmdMsg.param = 89.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_R_RMAX == 89.0f),
+                   "ProcessAppCmds, Update_FW_R_RMAX_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_YR_P_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_YR_P_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_YR_P_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_YR_P == 0.9f),
+                   "ProcessAppCmds, Update_FW_YR_P_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_YR_I_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_YR_I_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_YR_I_CC);
+    CmdMsg.param = 49.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_YR_I == 49.0f),
+                   "ProcessAppCmds, Update_FW_YR_I_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_YR_IMAX_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_YR_IMAX_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_YR_IMAX_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_YR_IMAX == 0.9f),
+                   "ProcessAppCmds, Update_FW_YR_IMAX_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_Y_RMAX_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_Y_RMAX_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_Y_RMAX_CC);
+    CmdMsg.param = 89.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_Y_RMAX == 89.0f),
+                   "ProcessAppCmds, Update_FW_Y_RMAX_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_RLL_TO_YAW_FF_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_RLL_TO_YAW_FF_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_RLL_TO_YAW_FF_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_RLL_TO_YAW_FF == 0.9f),
+                   "ProcessAppCmds, Update_FW_RLL_TO_YAW_FF_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_W_EN_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_W_EN_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamInt32Cmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_W_EN_CC);
+    CmdMsg.param = 2;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_W_EN == 2),
+                   "ProcessAppCmds, Update_FW_W_EN_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_WR_P_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_WR_P_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_WR_P_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_WR_P == 0.9f),
+                   "ProcessAppCmds, Update_FW_WR_P_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_WR_I_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_WR_I_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_WR_I_CC);
+    CmdMsg.param = 0.4f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_WR_I == 0.4f),
+                   "ProcessAppCmds, Update_FW_WR_I_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_WR_IMAX_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_WR_IMAX_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_WR_IMAX_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_WR_IMAX == 0.9f),
+                   "ProcessAppCmds, Update_FW_WR_IMAX_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_W_RMAX_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_W_RMAX_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_W_RMAX_CC);
+    CmdMsg.param = 89.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_W_RMAX == 89.0f),
+                   "ProcessAppCmds, Update_FW_W_RMAX_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_RR_FF_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_RR_FF_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_RR_FF_CC);
+    CmdMsg.param = 9.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_RR_FF == 9.0f),
+                   "ProcessAppCmds, Update_FW_RR_FF_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_PR_FF_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_PR_FF_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_PR_FF_CC);
+    CmdMsg.param = 9.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_PR_FF == 9.0f),
+                   "ProcessAppCmds, Update_FW_PR_FF_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_YR_FF_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_YR_FF_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_YR_FF_CC);
+    CmdMsg.param = 9.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_YR_FF == 9.0f),
+                   "ProcessAppCmds, Update_FW_YR_FF_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_WR_FF_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_WR_FF_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_WR_FF_CC);
+    CmdMsg.param = 9.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_WR_FF == 9.0f),
+                   "ProcessAppCmds, Update_FW_WR_FF_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_YCO_VMIN_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_YCO_VMIN_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_YCO_VMIN_CC);
+    CmdMsg.param = 999.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_YCO_VMIN == 999.0f),
+                   "ProcessAppCmds, Update_FW_YCO_VMIN_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_YCO_METHOD_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_YCO_METHOD_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamInt32Cmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_YCO_METHOD_CC);
+    CmdMsg.param = 1;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_YCO_METHOD == 1),
+                   "ProcessAppCmds, Update_FW_YCO_METHOD_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_RSP_OFF_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_RSP_OFF_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_RSP_OFF_CC);
+    CmdMsg.param = 89.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_RSP_OFF == 89.0f),
+                   "ProcessAppCmds, Update_FW_RSP_OFF_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_PSP_OFF_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_PSP_OFF_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_PSP_OFF_CC);
+    CmdMsg.param = 89.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_PSP_OFF == 89.0f),
+                   "ProcessAppCmds, Update_FW_PSP_OFF_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_MAN_R_MAX_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_MAN_R_MAX_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_MAN_R_MAX_CC);
+    CmdMsg.param = 89.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_MAN_R_MAX == 89.0f),
+                   "ProcessAppCmds, Update_FW_MAN_R_MAX_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_MAN_P_MAX_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_MAN_P_MAX_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_MAN_P_MAX_CC);
+    CmdMsg.param = 89.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_MAN_P_MAX == 89.0f),
+                   "ProcessAppCmds, Update_FW_MAN_P_MAX_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_FLAPS_SCL_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_FLAPS_SCL_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_FLAPS_SCL_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_FLAPS_SCL == 0.9f),
+                   "ProcessAppCmds, Update_FW_FLAPS_SCL_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_FLAPERON_SCL_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_FLAPERON_SCL_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_FLAPERON_SCL_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_FLAPERON_SCL == 0.9f),
+                   "ProcessAppCmds, Update_FW_FLAPERON_SCL_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_ARSP_MODE_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_ARSP_MODE_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamInt32Cmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_ARSP_MODE_CC);
+    CmdMsg.param = 1;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_ARSP_MODE == 1),
+                   "ProcessAppCmds, Update_FW_ARSP_MODE_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_MAN_R_SC_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_MAN_R_SC_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_MAN_R_SC_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_MAN_R_SC == 0.9f),
+                   "ProcessAppCmds, Update_FW_MAN_R_SC_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_MAN_P_SC_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_MAN_P_SC_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_MAN_P_SC_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_MAN_P_SC == 0.9f),
+                   "ProcessAppCmds, Update_FW_MAN_P_SC_CC");
 }
 
 
@@ -249,6 +1401,79 @@ void FAC_Cmds_Test_AddTestCases(void)
                "Test_FAC_ProcessAppCmds_Noop");
     UtTest_Add(Test_FAC_ProcessAppCmds_Reset, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_ProcessAppCmds_Reset");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_R_TC_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_R_TC_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_P_TC_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_P_TC_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_PR_P_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_PR_P_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_PR_I_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_PR_I_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_P_RMAX_POS_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_P_RMAX_POS_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_P_RMAX_NEG_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_P_RMAX_NEG_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_PR_IMAX_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_PR_IMAX_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_RR_P_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_RR_P_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_RR_I_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_RR_I_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_RR_IMAX_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_RR_IMAX_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_R_RMAX_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_R_RMAX_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_YR_P_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_YR_P_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_YR_I_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_YR_I_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_YR_IMAX_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_YR_IMAX_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_Y_RMAX_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_Y_RMAX_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_RLL_TO_YAW_FF_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_RLL_TO_YAW_FF_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_W_EN_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_W_EN_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_WR_P_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_WR_P_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_WR_I_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_WR_I_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_WR_IMAX_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_WR_IMAX_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_W_RMAX_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_W_RMAX_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_RR_FF_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_RR_FF_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_PR_FF_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_PR_FF_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_YR_FF_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_YR_FF_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_WR_FF_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_WR_FF_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_YCO_VMIN_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_YCO_VMIN_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_YCO_METHOD_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_YCO_METHOD_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_RSP_OFF_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_RSP_OFF_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_PSP_OFF_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_PSP_OFF_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_MAN_R_MAX_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_MAN_R_MAX_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_MAN_P_MAX_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_MAN_P_MAX_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_FLAPS_SCL_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_FLAPS_SCL_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_FLAPERON_SCL_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_FLAPERON_SCL_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_ARSP_MODE_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_ARSP_MODE_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_MAN_R_SC_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_MAN_R_SC_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_MAN_P_SC_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_MAN_P_SC_CC");
+
     UtTest_Add(Test_FAC_VerifyCmdLength_Fail_CmdLength, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_VerifyCmdLength_Fail_CmdLength");
 } /* end FAC_Cmds_Test_AddTestCases */

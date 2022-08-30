@@ -2723,25 +2723,12 @@ void Test_FAC_UpdateParams_TailSitter(void)
 }
 
 
-void Test_FAC_ECL_WheelController_get_desired_rate(void)
-{
-    ECL_WheelController wheelController;
-    ECL_ControlData ctlData;
-    float rateSetpoint = 0.0f;
-
-    wheelController.init();
-
-    ctlData.yaw_setpoint = 1.0f;
-    ctlData.yaw = 2.0f;
-
-    rateSetpoint = wheelController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0f, FLT_EPSILON, "FAC ECL_WheelController_get_desired_rate, control_attitude");
-
-    rateSetpoint = wheelController.get_desired_rate();
-    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0f, FLT_EPSILON, "FAC ECL_WheelController_get_desired_rate, get_desired_rate");
-}
-
-
+/**************************************************************************
+ * Tests for FAC ECL Controllers()
+ **************************************************************************/
+/**
+ * Test FAC ECL_PitchController(), control_attitude_bad_inputs
+ */
 void Test_FAC_ECL_PitchController_control_attitude_bad_inputs(void)
 {
     ECL_PitchController pitchController;
@@ -2759,7 +2746,8 @@ void Test_FAC_ECL_PitchController_control_attitude_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0f, FLT_EPSILON, "control_attitude returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0f, FLT_EPSILON,
+                "FAC ECL_PitchController(), control_attitude_bad_inputs(nominal baseline)");
 
     /* Invalid input #1 */
     pitchController.init();
@@ -2772,7 +2760,8 @@ void Test_FAC_ECL_PitchController_control_attitude_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_attitude returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+                "FAC ECL_PitchController(), control_attitude_bad_inputs(Invalid input #1)");
 
     /* Invalid input #2 */
     pitchController.init();
@@ -2785,7 +2774,8 @@ void Test_FAC_ECL_PitchController_control_attitude_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_attitude returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+                "FAC ECL_PitchController(), control_attitude_bad_inputs(Invalid input #2)");
 
     /* Invalid input #3 */
     pitchController.init();
@@ -2798,7 +2788,8 @@ void Test_FAC_ECL_PitchController_control_attitude_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_attitude returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+                "FAC ECL_PitchController(), control_attitude_bad_inputs(Invalid input #3)");
 
     /* Invalid input #4 */
     pitchController.init();
@@ -2811,10 +2802,14 @@ void Test_FAC_ECL_PitchController_control_attitude_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_attitude returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+                "FAC ECL_PitchController(), control_attitude_bad_inputs(Invalid input #4)");
 }
 
 
+/**
+ * Test FAC ECL_PitchController(), control_bodyrate_bad_inputs
+ */
 void Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs(void)
 {
     ECL_PitchController pitchController;
@@ -2838,7 +2833,8 @@ void Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.25f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.25f, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(nominal baseline)");
 
     /* Invalid input run #1 */
     pitchController.init();
@@ -2857,7 +2853,8 @@ void Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #1)");
 
     /* Invalid input run #2 */
     pitchController.init();
@@ -2876,7 +2873,8 @@ void Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #2)");
 
     /* Invalid input run #3 */
     pitchController.init();
@@ -2895,7 +2893,8 @@ void Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #3)");
 
     /* Invalid input run #4 */
     pitchController.init();
@@ -2914,7 +2913,8 @@ void Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #4)");
 
     /* Invalid input run #5 */
     pitchController.init();
@@ -2933,7 +2933,8 @@ void Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #5)");
 
     /* Invalid input run #6 */
     pitchController.init();
@@ -2952,7 +2953,8 @@ void Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #6)");
 
     /* Invalid input run #7 */
     pitchController.init();
@@ -2971,7 +2973,8 @@ void Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #7)");
 
     /* Invalid input run #8 */
     pitchController.init();
@@ -2990,11 +2993,14 @@ void Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_bodyrate(ctlData);
-printf("PitchController_control_bodyrate_bad_inputs: rateSetpoint(run8): %f\n", rateSetpoint);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #8)");
 }
 
 
+/**
+ * Test FAC ECL_PitchController(), control_bodyrate_constrain
+ */
 void Test_FAC_ECL_PitchController_control_bodyrate_constrain(void)
 {
     ECL_PitchController pitchController;
@@ -3018,9 +3024,11 @@ void Test_FAC_ECL_PitchController_control_bodyrate_constrain(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_constrain(Run #1, First)");
     rateSetpoint = pitchController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_constrain(Run #1, Second)");
 
     /* Run 2 */
     pitchController.init();
@@ -3039,12 +3047,17 @@ void Test_FAC_ECL_PitchController_control_bodyrate_constrain(void)
     pitchController.set_max_rate(10.0);
     pitchController.set_max_rate_neg(10.0);
     rateSetpoint = pitchController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_constrain(Run #2, First)");
     rateSetpoint = pitchController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_constrain(Run #2, Second)");
 }
 
 
+/**
+ * Test FAC ECL_RollController(), control_attitude_bad_inputs
+ */
 void Test_FAC_ECL_RollController_control_attitude_bad_inputs(void)
 {
     ECL_RollController rollController;
@@ -3056,24 +3069,30 @@ void Test_FAC_ECL_RollController_control_attitude_bad_inputs(void)
     ctlData.roll_setpoint = 2.0f;
     ctlData.roll = 3.0f;
     rateSetpoint = rollController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0f, FLT_EPSILON, "control_attitude returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_attitude_bad_inputs(nominal baseline)");
 
     /* Run 1 */
     rollController.init();
     ctlData.roll_setpoint = NAN;
     ctlData.roll = 3.0f;
     rateSetpoint = rollController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_attitude returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_attitude_bad_inputs(Run #1)");
 
     /* Run 2 */
     rollController.init();
     ctlData.roll_setpoint = 2.0f;
     ctlData.roll = NAN;
     rateSetpoint = rollController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_attitude returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_attitude_bad_inputs(Run #2)");
 }
 
 
+/**
+ * Test FAC ECL_RollController(), control_bodyrate_bad_inputs
+ */
 void Test_FAC_ECL_RollController_control_bodyrate_bad_inputs(void)
 {
     ECL_RollController rollController;
@@ -3093,7 +3112,8 @@ void Test_FAC_ECL_RollController_control_bodyrate_bad_inputs(void)
     ctlData.airspeed_max = 6.0f;
     ctlData.scaler = 7.0f;
     rateSetpoint = rollController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(nominal baseline)");
 
     /* Run #1 */
     rollController.init();
@@ -3108,7 +3128,8 @@ void Test_FAC_ECL_RollController_control_bodyrate_bad_inputs(void)
     ctlData.airspeed_max = 6.0f;
     ctlData.scaler = 7.0f;
     rateSetpoint = rollController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Run #1)");
 
     /* Run #2 */
     rollController.init();
@@ -3123,7 +3144,8 @@ void Test_FAC_ECL_RollController_control_bodyrate_bad_inputs(void)
     ctlData.airspeed_max = 6.0f;
     ctlData.scaler = 7.0f;
     rateSetpoint = rollController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Run #2)");
 
     /* Run #3 */
     rollController.init();
@@ -3138,7 +3160,8 @@ void Test_FAC_ECL_RollController_control_bodyrate_bad_inputs(void)
     ctlData.airspeed_max = 6.0f;
     ctlData.scaler = 7.0f;
     rateSetpoint = rollController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Run #3)");
 
     /* Run #4 */
     rollController.init();
@@ -3153,7 +3176,8 @@ void Test_FAC_ECL_RollController_control_bodyrate_bad_inputs(void)
     ctlData.airspeed_max = 6.0f;
     ctlData.scaler = 7.0f;
     rateSetpoint = rollController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Run #4)");
 
     /* Run #5 */
     rollController.init();
@@ -3168,7 +3192,8 @@ void Test_FAC_ECL_RollController_control_bodyrate_bad_inputs(void)
     ctlData.airspeed_max = 6.0f;
     ctlData.scaler = 7.0f;
     rateSetpoint = rollController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Run #5)");
 
     /* Run #6 */
     rollController.init();
@@ -3183,7 +3208,8 @@ void Test_FAC_ECL_RollController_control_bodyrate_bad_inputs(void)
     ctlData.airspeed_max = NAN;
     ctlData.scaler = 7.0f;
     rateSetpoint = rollController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Run #6)");
 
     /* Run #7 */
     rollController.init();
@@ -3198,10 +3224,14 @@ void Test_FAC_ECL_RollController_control_bodyrate_bad_inputs(void)
     ctlData.airspeed_max = 6.0f;
     ctlData.scaler = NAN;
     rateSetpoint = rollController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Run #7)");
 }
 
 
+/**
+ * Test FAC ECL_RollController(), control_bodyrate_constrain
+ */
 void Test_FAC_ECL_RollController_control_bodyrate_constrain(void)
 {
     ECL_RollController rollController;
@@ -3221,21 +3251,52 @@ void Test_FAC_ECL_RollController_control_bodyrate_constrain(void)
     ctlData.airspeed_max = 6.0f;
     ctlData.scaler = 7.0f;
     rateSetpoint = rollController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_constrain(nominal baseline)");
 
     /* Run #1 */
     rateSetpoint = rollController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_constrain(Run #1)");
 
     /* Run #2 */
     ctlData.scaler = -7.0f;
     rateSetpoint = rollController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_constrain(Run #2, First)");
     rateSetpoint = rollController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_constrain(Run #2, Second)");
 }
 
 
+/**
+ * Test FAC ECL_WheelController(), get_desired_rate
+ */
+void Test_FAC_ECL_WheelController_get_desired_rate(void)
+{
+    ECL_WheelController wheelController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    wheelController.init();
+
+    ctlData.yaw_setpoint = 1.0f;
+    ctlData.yaw = 2.0f;
+
+    rateSetpoint = wheelController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), get_desired_rate(control_attitude)");
+
+    rateSetpoint = wheelController.get_desired_rate();
+    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), get_desired_rate(get_desired_rate)");
+}
+
+
+/**
+ * Test FAC ECL_WheelController(), control_attitude_bad_inputs
+ */
 void Test_FAC_ECL_WheelController_control_attitude_bad_inputs(void)
 {
     ECL_WheelController wheelController;
@@ -3247,24 +3308,30 @@ void Test_FAC_ECL_WheelController_control_attitude_bad_inputs(void)
     ctlData.yaw_setpoint = 2.0f;
     ctlData.yaw = 3.0f;
     rateSetpoint = wheelController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0f, FLT_EPSILON, "control_attitude returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_attitude_bad_inputs(nominal baseline)");
 
     /* Run 1 */
     wheelController.init();
     ctlData.yaw_setpoint = NAN;
     ctlData.yaw = 3.0f;
     rateSetpoint = wheelController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_attitude returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_attitude_bad_inputs(Run #1)");
 
     /* Run 2 */
     wheelController.init();
     ctlData.yaw_setpoint = 2.0f;
     ctlData.yaw = NAN;
     rateSetpoint = wheelController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_attitude returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_attitude_bad_inputs(Run #2)");
 }
 
 
+/**
+ * Test FAC ECL_WheelController(), control_attitude_constrain
+ */
 void Test_FAC_ECL_WheelController_control_attitude_constrain(void)
 {
     ECL_WheelController wheelController;
@@ -3276,17 +3343,22 @@ void Test_FAC_ECL_WheelController_control_attitude_constrain(void)
     ctlData.yaw = 2.0f;
     wheelController.set_max_rate(10.0);
     rateSetpoint = wheelController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0f, FLT_EPSILON, "control_attitude returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_attitude_constrain(First)");
 
     wheelController.init();
     ctlData.yaw_setpoint = 2.0f;
     ctlData.yaw = 1.0f;
     wheelController.set_max_rate(10.0);
     rateSetpoint = wheelController.control_attitude(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 10.0f, FLT_EPSILON, "control_attitude returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 10.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_attitude_constrain(Second)");
 }
 
 
+/**
+ * Test FAC ECL_WheelController(), control_bodyrate_bad_inputs
+ */
 void Test_FAC_ECL_WheelController_control_bodyrate_bad_inputs(void)
 {
     ECL_WheelController wheelController;
@@ -3303,7 +3375,8 @@ void Test_FAC_ECL_WheelController_control_bodyrate_bad_inputs(void)
     ctlData.groundspeed = 2.0f;
     ctlData.groundspeed_scaler = 3.0f;
     rateSetpoint = wheelController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_bodyrate_bad_inputs(nominal baseline)");
 
     /* Run #1 */
     wheelController.init();
@@ -3315,7 +3388,8 @@ void Test_FAC_ECL_WheelController_control_bodyrate_bad_inputs(void)
     ctlData.groundspeed = 2.0f;
     ctlData.groundspeed_scaler = 3.0f;
     rateSetpoint = wheelController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_bodyrate_bad_inputs(Run #1)");
 
     /* Run #2 */
     wheelController.init();
@@ -3327,7 +3401,8 @@ void Test_FAC_ECL_WheelController_control_bodyrate_bad_inputs(void)
     ctlData.groundspeed = NAN;
     ctlData.groundspeed_scaler = 3.0f;
     rateSetpoint = wheelController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_bodyrate_bad_inputs(Run #2)");
 
     /* Run #3 */
     wheelController.init();
@@ -3339,10 +3414,14 @@ void Test_FAC_ECL_WheelController_control_bodyrate_bad_inputs(void)
     ctlData.groundspeed = 2.0f;
     ctlData.groundspeed_scaler = NAN;
     rateSetpoint = wheelController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_bodyrate_bad_inputs(Run #3)");
 }
 
 
+/**
+ * Test FAC ECL_WheelController(), control_bodyrate_constrain
+ */
 void Test_FAC_ECL_WheelController_control_bodyrate_constrain(void)
 {
     ECL_WheelController wheelController;
@@ -3359,18 +3438,25 @@ void Test_FAC_ECL_WheelController_control_bodyrate_constrain(void)
     ctlData.groundspeed = 2.0f;
     ctlData.groundspeed_scaler = 3.0f;
     rateSetpoint = wheelController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_bodyrate_constrain(nominal baseline1)");
     rateSetpoint = wheelController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_bodyrate_constrain(nominal baseline2)");
 
     ctlData.body_z_rate = -1.0f;
     rateSetpoint = wheelController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_bodyrate_constrain(nominal baseline3)");
     rateSetpoint = wheelController.control_bodyrate(ctlData);
-    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON, "control_bodyrate returned the incorrect rate setpoint.");
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0f, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_bodyrate_constrain(nominal baseline4)");
 }
 
 
+/**
+ * Test FAC ECL_WheelController(), control_euler_rate
+ */
 void Test_FAC_ECL_WheelController_control_euler_rate(void)
 {
     ECL_WheelController wheelController;
@@ -3379,14 +3465,6 @@ void Test_FAC_ECL_WheelController_control_euler_rate(void)
 
     /* Just call the function for coverage. */
     wheelController.control_euler_rate(ctlData);
-}
-
-
-void Test_FAC_HandleTableUpdate(void)
-{
-    oFAC.InitApp();
-
-    oFAC.HandleTableUpdate();
 }
 
 
@@ -3505,32 +3583,28 @@ void FAC_App_Test_AddTestCases(void)
     UtTest_Add(Test_FAC_UpdateParams_TailSitter, FAC_Test_Setup_TailSitter, FAC_Test_TearDown,
                "Test_FAC_UpdateParams_TailSitter");
 
-    UtTest_Add(Test_FAC_ECL_WheelController_get_desired_rate, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ECL_WheelController_get_desired_rate");
-    UtTest_Add(Test_FAC_ECL_PitchController_control_attitude_bad_inputs, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ECL_PitchController_control_attitude_bad_inputs");
-    UtTest_Add(Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs");
-    UtTest_Add(Test_FAC_ECL_PitchController_control_bodyrate_constrain, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ECL_PitchController_control_bodyrate_constrain");
-    UtTest_Add(Test_FAC_ECL_RollController_control_attitude_bad_inputs, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ECL_RollController_control_attitude_bad_inputs");
-    UtTest_Add(Test_FAC_ECL_RollController_control_bodyrate_bad_inputs, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ECL_RollController_control_bodyrate_bad_inputs");
-    UtTest_Add(Test_FAC_ECL_RollController_control_bodyrate_constrain, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ECL_RollController_control_bodyrate_constrain");
-    UtTest_Add(Test_FAC_ECL_WheelController_control_attitude_bad_inputs, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ECL_WheelController_control_attitude_bad_inputs");
-    UtTest_Add(Test_FAC_ECL_WheelController_control_attitude_constrain, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ECL_WheelController_control_attitude_constrain");
-    UtTest_Add(Test_FAC_ECL_WheelController_control_bodyrate_bad_inputs, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ECL_WheelController_control_bodyrate_bad_inputs");
-    UtTest_Add(Test_FAC_ECL_WheelController_control_bodyrate_constrain, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ECL_WheelController_control_bodyrate_constrain");
-    UtTest_Add(Test_FAC_ECL_WheelController_control_euler_rate, FAC_Test_Setup, FAC_Test_TearDown,
-               "Test_FAC_ECL_WheelController_control_euler_rate");
-
-    UtTest_Add(Test_FAC_HandleTableUpdate, FAC_Test_Setup,
-               FAC_Test_TearDown, "Test_FAC_HandleTableUpdate");
-
+    UtTest_Add(Test_FAC_ECL_PitchController_control_attitude_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_PitchController_control_attitude_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_PitchController_control_bodyrate_constrain, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_PitchController_control_bodyrate_constrain");
+    UtTest_Add(Test_FAC_ECL_RollController_control_attitude_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_RollController_control_attitude_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_RollController_control_bodyrate_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_RollController_control_bodyrate_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_RollController_control_bodyrate_constrain, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_RollController_control_bodyrate_constrain");
+    UtTest_Add(Test_FAC_ECL_WheelController_get_desired_rate, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_WheelController_get_desired_rate");
+    UtTest_Add(Test_FAC_ECL_WheelController_control_attitude_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_WheelController_control_attitude_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_WheelController_control_attitude_constrain, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_WheelController_control_attitude_constrain");
+    UtTest_Add(Test_FAC_ECL_WheelController_control_bodyrate_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_WheelController_control_bodyrate_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_WheelController_control_bodyrate_constrain, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_WheelController_control_bodyrate_constrain");
+    UtTest_Add(Test_FAC_ECL_WheelController_control_euler_rate, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_WheelController_control_euler_rate");
 }

@@ -562,6 +562,20 @@ void Test_FAC_InitConfigTbl_Nominal(void)
 }
 
 
+/**************************************************************************
+ * Tests for FAC HandleTableUpdate()
+ **************************************************************************/
+/**
+ * Test FAC HandleTableUpdate, Nominal
+ */
+void Test_FAC_HandleTableUpdate(void)
+{
+    /* Execute the function being tested */
+    oFAC.InitApp();
+    oFAC.HandleTableUpdate();
+}
+
+
 
 void FAC_Config_Tbl_Test_AddTestCases(void)
 {
@@ -583,4 +597,7 @@ void FAC_Config_Tbl_Test_AddTestCases(void)
                FAC_Test_TearDown, "Test_FAC_InitConfigTbl_Fail_AcquireConfigPtrs");
     UtTest_Add(Test_FAC_InitConfigTbl_Nominal, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_InitConfigTbl_Nominal");
+
+    UtTest_Add(Test_FAC_HandleTableUpdate, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_HandleTableUpdate");
 }
