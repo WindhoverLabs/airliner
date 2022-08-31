@@ -254,10 +254,10 @@
         Update_PSP:
           cc: 58
           struct: FPC_UpdateParamFloatCmd_t
-        Update_MAX_PITCH:
+        Update_MAX_PITCH_RADIANS:
           cc: 59
           struct: FPC_UpdateParamFloatCmd_t
-        Update_MAX_ROLL:
+        Update_MAX_ROLL_RADIANS:
           cc: 60
           struct: FPC_UpdateParamFloatCmd_t
         Update_AIRSPD_SCL:

@@ -2116,7 +2116,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "RWTO_TKOFF Modified.");
+                    CFE_EVS_INFORMATION, "RWTO_HDG Modified.");
                 }
                 else
                 {
@@ -2141,7 +2141,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "RWTO_TKOFF Modified.");
+                    CFE_EVS_INFORMATION, "NAV_ALT Modified.");
                 }
                 else
                 {
@@ -2199,7 +2199,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                 }
                 break;
             }
-            case FPC_UPDATE_MAX_PITCH_CC:
+            case FPC_UPDATE_MAX_PITCH_RADIANS_CC:
             {
                 if(VerifyCmdLength(MsgPtr,
                         sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
@@ -2225,7 +2225,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                 }
                 break;
             }
-            case FPC_UPDATE_MAX_ROLL_CC:
+            case FPC_UPDATE_MAX_ROLL_RADIANS_CC:
             {
                 if(VerifyCmdLength(MsgPtr,
                         sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
