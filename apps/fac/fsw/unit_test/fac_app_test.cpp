@@ -3468,6 +3468,108 @@ void Test_FAC_ECL_WheelController_control_euler_rate(void)
 }
 
 
+/**
+ * Test FAC ECL_YawController(), control_attitude_bad_inputs
+ */
+void Test_FAC_ECL_YawController_control_attitude_bad_inputs(void)
+{
+    ECL_YawController yawController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    /* Get nominal baseline #1: Not inverted */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_OPEN);
+
+    ctlData.roll_setpoint = 1.0f;
+    ctlData.roll = 1.5f;
+    ctlData.pitch = 1.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+
+    yawController.set_max_rate(10.0);
+
+    rateSetpoint = yawController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs((double)rateSetpoint, 2.063708, 1e-5,     // Fail with FLT_EPSILON
+                "FAC ECL_YawController(), control_attitude_bad_inputs(nominal baseline #1)");
+
+    /* Get nominal baseline #2: Inverted */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_OPEN);
+
+    ctlData.roll_setpoint = 1.0f;
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+
+    yawController.set_max_rate(10.0);
+    rateSetpoint = yawController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+                "FAC ECL_YawController(), control_attitude_bad_inputs(nominal baseline #2)");
+
+    /* Get nominal baseline #3: left hemisphere */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_OPEN);
+
+    ctlData.roll_setpoint = -1.0f;
+    ctlData.roll = -2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+
+    yawController.set_max_rate(10.0);
+    rateSetpoint = yawController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+                "FAC ECL_YawController(), control_attitude_bad_inputs(nominal baseline #3)");
+
+    /* Invalid input #1 */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_OPEN);
+
+    ctlData.roll_setpoint = 1.0f;
+    ctlData.roll = NAN;
+    ctlData.pitch = 3.0f;
+    ctlData.airspeed = 1.0f;
+    ctlData.airspeed_min = 1.0f;
+
+    rateSetpoint = yawController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+                "FAC ECL_YawController(), control_attitude_bad_inputs(Invalid input #1)");
+
+    /* Invalid input #2 */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_CLOSEACC);
+
+    ctlData.roll_setpoint = -1.0f;
+    ctlData.roll = -2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.airspeed = 1.0f;
+    ctlData.airspeed_min = 1.0f;
+
+    rateSetpoint = yawController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+                "FAC ECL_YawController(), control_attitude_bad_inputs(Invalid input #2)");
+
+    /* Invalid input #3 */
+    yawController.init();
+    yawController.set_coordinated_method(2);
+
+    ctlData.roll_setpoint = -1.0f;
+    ctlData.roll = -2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.airspeed = 1.0f;
+    ctlData.airspeed_min = 1.0f;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+
+    rateSetpoint = yawController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0f, FLT_EPSILON,
+                "FAC ECL_YawController(), control_attitude_bad_inputs(Invalid input #3)");
+}
+
+
 
 /**************************************************************************
  * Rollup Test Cases
@@ -3607,4 +3709,6 @@ void FAC_App_Test_AddTestCases(void)
                FAC_Test_TearDown, "Test_FAC_ECL_WheelController_control_bodyrate_constrain");
     UtTest_Add(Test_FAC_ECL_WheelController_control_euler_rate, FAC_Test_Setup,
                FAC_Test_TearDown, "Test_FAC_ECL_WheelController_control_euler_rate");
+    UtTest_Add(Test_FAC_ECL_YawController_control_attitude_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_YawController_control_attitude_bad_inputs");
 }

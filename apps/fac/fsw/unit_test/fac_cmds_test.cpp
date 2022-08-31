@@ -102,7 +102,7 @@ void Test_FAC_ProcessAppCmds_InvalidCmdCode(void)
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&InMsg, FAC_CMD_MID, sizeof(FAC_NoArgCmd_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)20);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)100);
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     FAC_Test_PrintCmdMsg((void*)&InMsg, sizeof(FAC_NoArgCmd_t));
@@ -226,9 +226,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_R_TC_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_R_TC_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = 0.3f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -240,8 +246,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_R_TC_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_R_TC == 0.9f),
-                   "ProcessAppCmds, Update_FW_R_TC_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_R_TC == 0.9f), "ProcessAppCmds, Update_FW_R_TC_CC");
 }
 
 
@@ -258,9 +264,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_P_TC_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_P_TC_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = 0.1f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -272,8 +284,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_P_TC_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_P_TC == 0.9f),
-                   "ProcessAppCmds, Update_FW_P_TC_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_P_TC == 0.9f), "ProcessAppCmds, Update_FW_P_TC_CC");
 }
 
 
@@ -290,9 +302,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_PR_P_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_PR_P_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = 0.004f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -304,8 +322,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_PR_P_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_PR_P == 0.9f),
-                   "ProcessAppCmds, Update_FW_PR_P_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_PR_P == 0.9f), "ProcessAppCmds, Update_FW_PR_P_CC");
 }
 
 
@@ -322,9 +340,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_PR_I_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_PR_I_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = 0.004f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.4f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -336,8 +360,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_PR_I_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_PR_I == 0.4f),
-                   "ProcessAppCmds, Update_FW_PR_I_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_PR_I == 0.4f), "ProcessAppCmds, Update_FW_PR_I_CC");
 }
 
 
@@ -354,9 +378,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_P_RMAX_POS_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_P_RMAX_POS_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 89.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -368,8 +398,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_P_RMAX_POS_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_P_RMAX_POS == 89.0f),
-                   "ProcessAppCmds, Update_FW_P_RMAX_POS_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_P_RMAX_POS == 89.0f), "ProcessAppCmds, Update_FW_P_RMAX_POS_CC");
 }
 
 
@@ -386,9 +416,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_P_RMAX_NEG_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_P_RMAX_NEG_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 89.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -400,8 +436,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_P_RMAX_NEG_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_P_RMAX_NEG == 89.0f),
-                   "ProcessAppCmds, Update_FW_P_RMAX_NEG_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_P_RMAX_NEG == 89.0f), "ProcessAppCmds, Update_FW_P_RMAX_NEG_CC");
 }
 
 
@@ -418,9 +454,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_PR_IMAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_PR_IMAX_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -432,8 +474,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_PR_IMAX_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_PR_IMAX == 0.9f),
-                   "ProcessAppCmds, Update_FW_PR_IMAX_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_PR_IMAX == 0.9f), "ProcessAppCmds, Update_FW_PR_IMAX_CC");
 }
 
 
@@ -450,9 +492,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_RR_P_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_RR_P_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = 0.004f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -464,8 +512,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_RR_P_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_RR_P == 0.9f),
-                   "ProcessAppCmds, Update_FW_RR_P_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_RR_P == 0.9f), "ProcessAppCmds, Update_FW_RR_P_CC");
 }
 
 
@@ -482,9 +530,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_RR_I_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_RR_I_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = 0.004f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.1f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -496,8 +550,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_RR_I_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_RR_I == 0.1f),
-                   "ProcessAppCmds, Update_FW_RR_I_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_RR_I == 0.1f), "ProcessAppCmds, Update_FW_RR_I_CC");
 }
 
 
@@ -514,9 +568,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_RR_IMAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_RR_IMAX_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -528,8 +588,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_RR_IMAX_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_RR_IMAX == 0.9f),
-                   "ProcessAppCmds, Update_FW_RR_IMAX_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_RR_IMAX == 0.9f), "ProcessAppCmds, Update_FW_RR_IMAX_CC");
 }
 
 
@@ -546,9 +606,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_R_RMAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_R_RMAX_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 89.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -560,8 +626,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_R_RMAX_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_R_RMAX == 89.0f),
-                   "ProcessAppCmds, Update_FW_R_RMAX_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_R_RMAX == 89.0f), "ProcessAppCmds, Update_FW_R_RMAX_CC");
 }
 
 
@@ -578,9 +644,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_YR_P_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_YR_P_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = 0.004f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -592,8 +664,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_YR_P_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_YR_P == 0.9f),
-                   "ProcessAppCmds, Update_FW_YR_P_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_YR_P == 0.9f), "ProcessAppCmds, Update_FW_YR_P_CC");
 }
 
 
@@ -610,9 +682,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_YR_I_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_YR_I_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 49.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -624,8 +702,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_YR_I_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_YR_I == 49.0f),
-                   "ProcessAppCmds, Update_FW_YR_I_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_YR_I == 49.0f), "ProcessAppCmds, Update_FW_YR_I_CC");
 }
 
 
@@ -642,9 +720,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_YR_IMAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_YR_IMAX_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -656,8 +740,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_YR_IMAX_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_YR_IMAX == 0.9f),
-                   "ProcessAppCmds, Update_FW_YR_IMAX_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_YR_IMAX == 0.9f), "ProcessAppCmds, Update_FW_YR_IMAX_CC");
 }
 
 
@@ -674,9 +758,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_Y_RMAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_Y_RMAX_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 89.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -688,8 +778,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_Y_RMAX_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_Y_RMAX == 89.0f),
-                   "ProcessAppCmds, Update_FW_Y_RMAX_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_Y_RMAX == 89.0f), "ProcessAppCmds, Update_FW_Y_RMAX_CC");
 }
 
 
@@ -706,9 +796,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_RLL_TO_YAW_FF_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_RLL_TO_YAW_FF_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -720,8 +816,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_RLL_TO_YAW_FF_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_RLL_TO_YAW_FF == 0.9f),
-                   "ProcessAppCmds, Update_FW_RLL_TO_YAW_FF_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+          (oFAC.ParamTblPtr->FW_RLL_TO_YAW_FF == 0.9f), "ProcessAppCmds, Update_FW_RLL_TO_YAW_FF_CC");
 }
 
 
@@ -738,9 +834,12 @@ void Test_FAC_ProcessAppCmds_Update_FW_W_EN_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_W_EN_CC);
+
+    /* No Invalid parameter value */
+
+    /* Valid parameter value */
     CmdMsg.param = 2;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -770,9 +869,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_WR_P_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_WR_P_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = 0.004f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -784,8 +889,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_WR_P_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_WR_P == 0.9f),
-                   "ProcessAppCmds, Update_FW_WR_P_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_WR_P == 0.9f), "ProcessAppCmds, Update_FW_WR_P_CC");
 }
 
 
@@ -802,9 +907,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_WR_I_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_WR_I_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = 0.004f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.4f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -816,8 +927,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_WR_I_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_WR_I == 0.4f),
-                   "ProcessAppCmds, Update_FW_WR_I_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_WR_I == 0.4f), "ProcessAppCmds, Update_FW_WR_I_CC");
 }
 
 
@@ -834,9 +945,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_WR_IMAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_WR_IMAX_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -848,8 +965,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_WR_IMAX_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_WR_IMAX == 0.9f),
-                   "ProcessAppCmds, Update_FW_WR_IMAX_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_WR_IMAX == 0.9f), "ProcessAppCmds, Update_FW_WR_IMAX_CC");
 }
 
 
@@ -866,9 +983,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_W_RMAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_W_RMAX_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 89.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -880,8 +1003,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_W_RMAX_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_W_RMAX == 89.0f),
-                   "ProcessAppCmds, Update_FW_W_RMAX_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_W_RMAX == 89.0f), "ProcessAppCmds, Update_FW_W_RMAX_CC");
 }
 
 
@@ -898,9 +1021,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_RR_FF_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_RR_FF_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 9.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -912,8 +1041,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_RR_FF_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_RR_FF == 9.0f),
-                   "ProcessAppCmds, Update_FW_RR_FF_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_RR_FF == 9.0f), "ProcessAppCmds, Update_FW_RR_FF_CC");
 }
 
 
@@ -930,9 +1059,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_PR_FF_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_PR_FF_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 9.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -944,8 +1079,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_PR_FF_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_PR_FF == 9.0f),
-                   "ProcessAppCmds, Update_FW_PR_FF_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_PR_FF == 9.0f), "ProcessAppCmds, Update_FW_PR_FF_CC");
 }
 
 
@@ -962,9 +1097,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_YR_FF_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_YR_FF_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 9.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -976,8 +1117,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_YR_FF_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_YR_FF == 9.0f),
-                   "ProcessAppCmds, Update_FW_YR_FF_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_YR_FF == 9.0f), "ProcessAppCmds, Update_FW_YR_FF_CC");
 }
 
 
@@ -994,9 +1135,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_WR_FF_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_WR_FF_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 9.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1008,8 +1155,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_WR_FF_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_WR_FF == 9.0f),
-                   "ProcessAppCmds, Update_FW_WR_FF_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_WR_FF == 9.0f), "ProcessAppCmds, Update_FW_WR_FF_CC");
 }
 
 
@@ -1026,9 +1173,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_YCO_VMIN_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_YCO_VMIN_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 999.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1040,8 +1193,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_YCO_VMIN_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_YCO_VMIN == 999.0f),
-                   "ProcessAppCmds, Update_FW_YCO_VMIN_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_YCO_VMIN == 999.0f), "ProcessAppCmds, Update_FW_YCO_VMIN_CC");
 }
 
 
@@ -1058,9 +1211,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_YCO_METHOD_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_YCO_METHOD_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 1;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1072,8 +1231,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_YCO_METHOD_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_YCO_METHOD == 1),
-                   "ProcessAppCmds, Update_FW_YCO_METHOD_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_YCO_METHOD == 1), "ProcessAppCmds, Update_FW_YCO_METHOD_CC");
 }
 
 
@@ -1090,9 +1249,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_RSP_OFF_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_RSP_OFF_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -100.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 89.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1104,8 +1269,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_RSP_OFF_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_RSP_OFF == 89.0f),
-                   "ProcessAppCmds, Update_FW_RSP_OFF_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_RSP_OFF == 89.0f), "ProcessAppCmds, Update_FW_RSP_OFF_CC");
 }
 
 
@@ -1122,9 +1287,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_PSP_OFF_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_PSP_OFF_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -100.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 89.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1136,8 +1307,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_PSP_OFF_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_PSP_OFF == 89.0f),
-                   "ProcessAppCmds, Update_FW_PSP_OFF_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_PSP_OFF == 89.0f), "ProcessAppCmds, Update_FW_PSP_OFF_CC");
 }
 
 
@@ -1154,9 +1325,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_MAN_R_MAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_MAN_R_MAX_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 89.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1168,8 +1345,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_MAN_R_MAX_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_MAN_R_MAX == 89.0f),
-                   "ProcessAppCmds, Update_FW_MAN_R_MAX_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_MAN_R_MAX == 89.0f), "ProcessAppCmds, Update_FW_MAN_R_MAX_CC");
 }
 
 
@@ -1186,9 +1363,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_MAN_P_MAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_MAN_P_MAX_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 89.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1200,8 +1383,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_MAN_P_MAX_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_MAN_P_MAX == 89.0f),
-                   "ProcessAppCmds, Update_FW_MAN_P_MAX_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_MAN_P_MAX == 89.0f), "ProcessAppCmds, Update_FW_MAN_P_MAX_CC");
 }
 
 
@@ -1218,9 +1401,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_FLAPS_SCL_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_FLAPS_SCL_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1232,8 +1421,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_FLAPS_SCL_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_FLAPS_SCL == 0.9f),
-                   "ProcessAppCmds, Update_FW_FLAPS_SCL_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_FLAPS_SCL == 0.9f), "ProcessAppCmds, Update_FW_FLAPS_SCL_CC");
 }
 
 
@@ -1250,9 +1439,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_FLAPERON_SCL_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_FLAPERON_SCL_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1264,8 +1459,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_FLAPERON_SCL_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_FLAPERON_SCL == 0.9f),
-                   "ProcessAppCmds, Update_FW_FLAPERON_SCL_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_FLAPERON_SCL == 0.9f), "ProcessAppCmds, Update_FW_FLAPERON_SCL_CC");
 }
 
 
@@ -1282,9 +1477,12 @@ void Test_FAC_ProcessAppCmds_Update_FW_ARSP_MODE_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_ARSP_MODE_CC);
+
+    /* No Invalid parameter value */
+
+    /* Valid parameter value */
     CmdMsg.param = 1;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1314,9 +1512,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_MAN_R_SC_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_MAN_R_SC_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1328,8 +1532,8 @@ void Test_FAC_ProcessAppCmds_Update_FW_MAN_R_SC_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_MAN_R_SC == 0.9f),
-                   "ProcessAppCmds, Update_FW_MAN_R_SC_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_MAN_R_SC == 0.9f), "ProcessAppCmds, Update_FW_MAN_R_SC_CC");
 }
 
 
@@ -1346,9 +1550,15 @@ void Test_FAC_ProcessAppCmds_Update_FW_MAN_P_SC_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_MAN_P_SC_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
     CmdMsg.param = 0.9f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
     FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
@@ -1360,8 +1570,499 @@ void Test_FAC_ProcessAppCmds_Update_FW_MAN_P_SC_CC(void)
     oFAC.AppMain();
 
     /* Verify results */
-    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_MAN_P_SC == 0.9f),
-                   "ProcessAppCmds, Update_FW_MAN_P_SC_CC");
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_MAN_P_SC == 0.9f), "ProcessAppCmds, Update_FW_MAN_P_SC_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_MAN_Y_SC_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_MAN_Y_SC_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_MAN_Y_SC_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
+    CmdMsg.param = 2.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_MAN_Y_SC == 2.0f), "ProcessAppCmds, Update_FW_MAN_Y_SC_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_BAT_SCALE_EN_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_BAT_SCALE_EN_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamInt32Cmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_BAT_SCALE_EN_CC);
+
+    /* No Invalid parameter value */
+
+    /* Valid parameter value */
+    CmdMsg.param = 2;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.ParamTblPtr->FW_BAT_SCALE_EN == 2),
+                   "ProcessAppCmds, Update_FW_BAT_SCALE_EN_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_ACRO_X_MAX_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_ACRO_X_MAX_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_ACRO_X_MAX_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = 40.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
+    CmdMsg.param = 710.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_ACRO_X_MAX == 710.0f), "ProcessAppCmds, Update_FW_ACRO_X_MAX_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_ACRO_Y_MAX_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_ACRO_Y_MAX_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_ACRO_Y_MAX_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = 40.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
+    CmdMsg.param = 710.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_ACRO_Y_MAX == 710.0f), "ProcessAppCmds, Update_FW_ACRO_Y_MAX_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_ACRO_Z_MAX_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_ACRO_Z_MAX_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_ACRO_Z_MAX_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = 9.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
+    CmdMsg.param = 170.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_ACRO_Z_MAX == 170.0f), "ProcessAppCmds, Update_FW_ACRO_Z_MAX_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_RATT_TH_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_RATT_TH_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_RATT_TH_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_RATT_TH == 0.9f), "ProcessAppCmds, Update_FW_RATT_TH_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_AIRSPD_MIN_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_AIRSPD_MIN_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_AIRSPD_MIN_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
+    CmdMsg.param = 39.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_AIRSPD_MIN == 39.0f), "ProcessAppCmds, Update_FW_AIRSPD_MIN_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_AIRSPD_MAX_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_AIRSPD_MAX_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_AIRSPD_MAX_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
+    CmdMsg.param = 39.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_AIRSPD_MAX == 39.0f), "ProcessAppCmds, Update_FW_AIRSPD_MAX_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_FW_AIRSPD_TRIM_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_FW_AIRSPD_TRIM_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_FW_AIRSPD_TRIM_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
+    CmdMsg.param = 39.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->FW_AIRSPD_TRIM == 39.0f), "ProcessAppCmds, Update_FW_AIRSPD_TRIM_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_TRIM_ROLL_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_TRIM_ROLL_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_TRIM_ROLL_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -0.26f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
+    CmdMsg.param = 0.24f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->TRIM_ROLL == 0.24f), "ProcessAppCmds, Update_TRIM_ROLL_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_TRIM_PITCH_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_TRIM_PITCH_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_TRIM_PITCH_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -0.26f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
+    CmdMsg.param = 0.24f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->TRIM_PITCH == 0.24f), "ProcessAppCmds, Update_TRIM_PITCH_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_TRIM_YAW_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_TRIM_YAW_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamFloatCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_TRIM_YAW_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = -0.26f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
+    CmdMsg.param = 0.24f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->TRIM_YAW == 0.24f), "ProcessAppCmds, Update_TRIM_YAW_CC");
+}
+
+
+/**
+ * Test FAC ProcessAppCmds, Update_VT_TYPE_CC
+ */
+void Test_FAC_ProcessAppCmds_Update_VT_TYPE_CC(void)
+{
+    int32                      CmdPipe;
+    FAC_UpdateParamUint32Cmd_t CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FAC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FAC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FAC_UPDATE_VT_TYPE_CC);
+
+    /* Invalid parameter value */
+    CmdMsg.param = 9;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Valid parameter value */
+    CmdMsg.param = 1;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+    FAC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oFAC.AppMain();
+
+    /* Verify results */
+    UtAssert_True((oFAC.HkTlm.usCmdCnt == 1) && (oFAC.HkTlm.usCmdErrCnt == 1) &&
+            (oFAC.ParamTblPtr->VT_TYPE == 1), "ProcessAppCmds, Update_VT_TYPE_CC");
 }
 
 
@@ -1473,6 +2174,32 @@ void FAC_Cmds_Test_AddTestCases(void)
                "Test_FAC_ProcessAppCmds_Update_FW_MAN_R_SC_CC");
     UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_MAN_P_SC_CC, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_ProcessAppCmds_Update_FW_MAN_P_SC_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_MAN_Y_SC_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_MAN_Y_SC_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_BAT_SCALE_EN_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_BAT_SCALE_EN_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_ACRO_X_MAX_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_ACRO_X_MAX_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_ACRO_Y_MAX_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_ACRO_Y_MAX_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_ACRO_Z_MAX_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_ACRO_Z_MAX_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_RATT_TH_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_RATT_TH_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_AIRSPD_MIN_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_AIRSPD_MIN_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_AIRSPD_MAX_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_AIRSPD_MAX_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_FW_AIRSPD_TRIM_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_FW_AIRSPD_TRIM_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_TRIM_ROLL_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_TRIM_ROLL_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_TRIM_PITCH_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_TRIM_PITCH_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_TRIM_YAW_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_TRIM_YAW_CC");
+    UtTest_Add(Test_FAC_ProcessAppCmds_Update_VT_TYPE_CC, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_ProcessAppCmds_Update_VT_TYPE_CC");
 
     UtTest_Add(Test_FAC_VerifyCmdLength_Fail_CmdLength, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_VerifyCmdLength_Fail_CmdLength");
