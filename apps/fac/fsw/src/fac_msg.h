@@ -46,7 +46,7 @@ extern "C" {
 #endif
 
 #include "cfe.h"
-
+#include "fac_tbldefs.h"
 
 /************************************************************************
 ** Local Defines
@@ -338,6 +338,8 @@ typedef struct
 
     /** \brief Count of Hk Msg sent */
     uint32             HkMsgSndCnt;
+
+    FAC_ParamTbl_t    Params;
 
 } FAC_HkTlm_t;
 

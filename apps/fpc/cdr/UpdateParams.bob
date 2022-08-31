@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
-  <name>Display</name>
+  <name>UpdateParam</name>
+  <height>800</height>
   <widget type="label" version="2.0.0">
     <name>Label</name>
     <class>TITLE</class>
@@ -20,7 +21,8 @@
     <transparent use_class="true">true</transparent>
   </widget>
   <widget type="combo" version="2.0.0">
-    <name>param</name>
+    <name>param_combo</name>
+    <pv_name>loc://FPC_Param_Name&lt;VString&gt;</pv_name>
     <x>120</x>
     <y>31</y>
     <width>167</width>
@@ -87,9 +89,10 @@
       <item>T_VERT_ACC</item>
       <item>THR_MAX</item>
     </items>
+    <items_from_pv>false</items_from_pv>
   </widget>
   <widget type="action_button" version="3.0.0">
-    <name>NoOp</name>
+    <name>Update</name>
     <actions>
       <action type="execute">
         <script file="EmbeddedJs">
@@ -97,35 +100,38 @@
 importPackage(com.windhoverlabs.yamcs.script);
 importPackage(Packages.org.csstudio.display.builder.runtime.script);
 
-Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/Noop', {});
+var floatParams = ['AIRSPD_MAX', 'AIRSPD_MIN', 'AIRSPD_SCL', 'AIRSPD_TRIM', 'CLMBOUT_DIFF',
+                   'L1_DAMPING', 'L1_PERIOD', 'LAUN_CAT_A', 'LAUN_CAT_MDEL',
+                   'LAUN_CAT_T', 'LND_AIRSPD_SC', 'LND_ANG_RADIANS', 'LND_FLALT', 'LND_FL_PMAX_RADIANS',
+                   'LAUN_CAT_PMAX_RADIANS', 'LND_FL_PMIN_RADIANS', 'LND_HHDIST', 'LND_HVIRT', 'LND_TLALT',
+                   'LND_HHDIST', 'LND_FL_PMIN_RADIANS', 'LND_FL_PMAX_RADIANS', 'LND_AIRSPD_SC', 'LAUN_CAT_A',
+                   'LAUN_CAT_T', 'LAUN_CAT_MDEL', 'LAUN_CAT_PMAX_RADIANS', 'LAUN_CAT_PMAX_RADIANS', 'NAV_ALT',
+                   'MAX_THR', 'PSP', 'MAX_PITCH', 'MAX_ROLL', 'AIRSPD_SCL',
+                   'RUNWAY_AIRSPD_MIN', 'RUNWAY_CLMBOUT_DIFF', 'L1_PERIOD', 'L1_DAMPING',
+                   'T_TIME_CONST', 'T_THRO_CONST', 'T_SINK_MIN', 'T_SINK_MAX', 'T_CLMB_MAX',
+                   'CLMBOUT_DIFF', 'T_HRATE_P', 'T_HRATE_FF', 'T_SRATE_P', 'T_THR_DAMP',
+                   'T_INTEG_GAIN', 'T_VERT_ACC', 'T_HGT_OMEGA', 'T_SPD_OMEGA', 'T_RLL2THR',
+                   'T_SPDWEIGHT', 'T_PTCH_DAMP',
+                   ];
 
-var floatParams = ['Apple', 'Banana'];
+var int32Params  = ['LND_USETER', 'RWTO_HDG'];
+var boolParams   = ['LAUN_ALL_ON', 'RWTO_TKOFF', 'ARSP_MODE'];
 
-var param = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'msgIdInput')));
-var MsgLimit = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'MsgLimit')));
+var param = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'param_combo')));
+var value = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'value')));
 
-var msgIDOut = '';
-var pQueueIdxOut = '';
-var channelIdxOut = '';
-
-var msgName = widget.getEffectiveMacros().getValue("MSG_NAME");
-if (msgName === undefined || msgName === null) {
-    /* Message Name not defined.  Operate as usual. */
-} else {
-    MsgID = msgName;
-}
-
-/* Get actual message ID */if(MsgID == 'FPC_DIAG_TLM_MID') {
-    msgIDOut =2706;
-}
-else if(MsgID == 'FPC_HK_TLM_MID') {
-    msgIDOut =2707;
-}
+//This will be useful for setting the items of value combo box(bool, float, etc). This knowledge can be set by
+//a script triggered by param combo box.
+//var msgName = widget.getEffectiveMacros().getValue("MSG_NAME");
+//if (msgName === undefined || msgName === null) {
+//    /* Message Name not defined.  Operate as usual. */
+//} else {
+//    MsgID = msgName;
+//}
 
 
-Yamcs.issueCommand(widget, '/cfs/cpd/apps/to/AddMessageFlow', {
-    'MsgID': msgIDOut,
-    'MsgLimit': MsgLimit,
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_+ param, {
+    'param': value,
 });
 
 
@@ -134,8 +140,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/to/AddMessageFlow', {
       </action>
     </actions>
     <text>Update</text>
-    <x>120</x>
-    <y>130</y>
+    <x>70</x>
+    <y>110</y>
     <width>140</width>
     <height>20</height>
     <foreground_color>
@@ -183,8 +189,99 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/to/AddMessageFlow', {
   </widget>
   <widget type="combo" version="2.0.0">
     <name>value</name>
+    <pv_name>loc://FPC_Param_Value&lt;VBoolean&gt;</pv_name>
     <x>120</x>
     <y>61</y>
     <width>167</width>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>Parameters</name>
+    <x>10</x>
+    <y>170</y>
+    <width>610</width>
+    <height>520</height>
+    <widget type="group" version="2.0.0">
+      <name>Group</name>
+      <macros>
+        <ParamName>AIRSPD_MAX</ParamName>
+      </macros>
+      <x>22</x>
+      <width>510</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_1</name>
+        <text>AIRSPD_MAX</text>
+        <width>120</width>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update</name>
+        <x>140</x>
+        <width>110</width>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>Text Entry</name>
+        <pv_name>loc://$(ParamName)_Input</pv_name>
+        <x>270</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <limits_from_pv>false</limits_from_pv>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_1</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedJs">
+              <text><![CDATA[importPackage(com.windhoverlabs.yamcs.script);
+importPackage(com.windhoverlabs.yamcs.script);
+importPackage(Packages.org.csstudio.display.builder.runtime.script);
+
+var floatParams = ['AIRSPD_MAX', 'AIRSPD_MIN', 'AIRSPD_SCL', 'AIRSPD_TRIM', 'CLMBOUT_DIFF',
+                   'L1_DAMPING', 'L1_PERIOD', 'LAUN_CAT_A', 'LAUN_CAT_MDEL',
+                   'LAUN_CAT_T', 'LND_AIRSPD_SC', 'LND_ANG_RADIANS', 'LND_FLALT', 'LND_FL_PMAX_RADIANS',
+                   'LAUN_CAT_PMAX_RADIANS', 'LND_FL_PMIN_RADIANS', 'LND_HHDIST', 'LND_HVIRT', 'LND_TLALT',
+                   'LND_HHDIST', 'LND_FL_PMIN_RADIANS', 'LND_FL_PMAX_RADIANS', 'LND_AIRSPD_SC', 'LAUN_CAT_A',
+                   'LAUN_CAT_T', 'LAUN_CAT_MDEL', 'LAUN_CAT_PMAX_RADIANS', 'LAUN_CAT_PMAX_RADIANS', 'NAV_ALT',
+                   'MAX_THR', 'PSP', 'MAX_PITCH', 'MAX_ROLL', 'AIRSPD_SCL',
+                   'RUNWAY_AIRSPD_MIN', 'RUNWAY_CLMBOUT_DIFF', 'L1_PERIOD', 'L1_DAMPING',
+                   'T_TIME_CONST', 'T_THRO_CONST', 'T_SINK_MIN', 'T_SINK_MAX', 'T_CLMB_MAX',
+                   'CLMBOUT_DIFF', 'T_HRATE_P', 'T_HRATE_FF', 'T_SRATE_P', 'T_THR_DAMP',
+                   'T_INTEG_GAIN', 'T_VERT_ACC', 'T_HGT_OMEGA', 'T_SPD_OMEGA', 'T_RLL2THR',
+                   'T_SPDWEIGHT', 'T_PTCH_DAMP',
+                   ];
+
+var int32Params  = ['LND_USETER', 'RWTO_HDG'];
+var boolParams   = ['LAUN_ALL_ON', 'RWTO_TKOFF', 'ARSP_MODE'];
+
+var param = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'param_combo')));
+var value = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget, 'value')));
+
+
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_+ param, {
+    'param': value,
+});
+
+
+]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>370</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
   </widget>
 </display>

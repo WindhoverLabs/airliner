@@ -220,7 +220,7 @@
           struct: FPC_UpdateParamFloatCmd_t
         Update_LND_USETER:
           cc: 47
-          struct: FPC_UpdateInt32Cmd_t
+          struct: FPC_UpdateParamInt32Cmd_t
         Update_LND_AIRSPD_SC:
           cc: 48
           struct: FPC_UpdateParamFloatCmd_t

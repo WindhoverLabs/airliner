@@ -1899,10 +1899,10 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
             }
             case FPC_UPDATE_LND_USETER_CC:
             {
-                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateInt32Cmd_t)) == TRUE)
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamInt32Cmd_t)) == TRUE)
                 {
                     HkTlm.usCmdCnt++;
-                    FPC_UpdateInt32Cmd_t *cmd = (FPC_UpdateInt32Cmd_t*) MsgPtr;
+                    FPC_UpdateParamInt32Cmd_t *cmd = (FPC_UpdateParamInt32Cmd_t*) MsgPtr;
                     ConfigTblPtr->LND_USETER = cmd->param;
                     returnCode = CFE_TBL_Modified(ConfigTblHdl);
                     if(returnCode != CFE_SUCCESS)
@@ -2103,10 +2103,10 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
             }
             case FPC_UPDATE_RWTO_HDG_CC:
             {
-                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateInt32Cmd_t)) == TRUE)
+                if(VerifyCmdLength(MsgPtr, sizeof(FPC_UpdateParamInt32Cmd_t)) == TRUE)
                 {
                     HkTlm.usCmdCnt++;
-                    FPC_UpdateInt32Cmd_t *cmd = (FPC_UpdateInt32Cmd_t*) MsgPtr;
+                    FPC_UpdateParamInt32Cmd_t *cmd = (FPC_UpdateParamInt32Cmd_t*) MsgPtr;
                     ConfigTblPtr->FPC_Runway_Takeoff.RWTO_HDG = cmd->param;
                     returnCode = CFE_TBL_Modified(ConfigTblHdl);
                     if(returnCode != CFE_SUCCESS)
@@ -2465,6 +2465,7 @@ void FPC::ReportHousekeeping()
     HkTlm.inControl = inControl;
     HkTlm._runway_takeoff_initialized = _runway_takeoff.isInitialized();
     HkTlm._hdg_hold_yaw = _hdg_hold_yaw;
+    CFE_PSP_MemCpy(&HkTlm.Params, ConfigTblPtr, sizeof(HkTlm.Params));
 
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t*) &HkTlm);
 

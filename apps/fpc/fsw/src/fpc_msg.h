@@ -43,6 +43,7 @@
  *************************************************************************/
 #include "cfe.h"
 #include "px4_msgs.h"
+#include "fpc_tbldefs.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -219,7 +220,7 @@ typedef struct
 
     /** \brief The param to update */
     int32 param;
-} FPC_UpdateInt32Cmd_t;
+} FPC_UpdateParamInt32Cmd_t;
 /**
  **  \brief Add Message Flow command.
  */
@@ -356,6 +357,8 @@ typedef struct
     boolean _runway_takeoff_enabled;
     boolean _runway_takeoff_initialized;
     Runway _runway_takeoff;
+
+    FPC_ConfigTbl_t Params;
 } FPC_HkTlm_t;
 
 #ifdef __cplusplus
