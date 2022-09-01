@@ -1471,6 +1471,17 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+print 'Hello from script'
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+            </script>
+            <description>Execute Script</description>
+          </action>
+        </actions>
         <minimum>-100.0</minimum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
@@ -3445,5 +3456,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
     </widget>
+  </widget>
+  <widget type="webbrowser" version="2.0.0">
+    <name>Web Browser_1</name>
+    <url>file://$(DISPLAYS_ROOT_DIR)/../../../../../apps/fac/cdr/resources/pid_tuning_guide_fixedwing.html</url>
+    <x>620</x>
+    <y>271</y>
+    <width>900</width>
+    <height>1020</height>
+    <show_toolbar>false</show_toolbar>
   </widget>
 </display>

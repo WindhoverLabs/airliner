@@ -5,6 +5,7 @@
     <APP>fac</APP>
     <CPUID>cpd</CPUID>
   </macros>
+  <width>1024</width>
   <height>1024</height>
   <widget type="label" version="2.0.0">
     <name>$(APP)</name>
@@ -28,7 +29,7 @@
     <name>Main</name>
     <y>31</y>
     <width>610</width>
-    <height>1119</height>
+    <height>1059</height>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -3233,5 +3234,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
     </widget>
+  </widget>
+  <widget type="webbrowser" version="2.0.0">
+    <name>Web Browser_1</name>
+    <url>file://$(DISPLAYS_ROOT_DIR)/../../../../../apps/fac/cdr/resources/pid_tuning_guide_fixedwing.html</url>
+    <x>620</x>
+    <y>31</y>
+    <width>900</width>
+    <height>1020</height>
+    <show_toolbar>false</show_toolbar>
   </widget>
 </display>
