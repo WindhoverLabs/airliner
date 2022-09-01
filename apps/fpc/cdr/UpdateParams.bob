@@ -5,7 +5,7 @@
     <APP>fpc</APP>
     <CPUID>cpd</CPUID>
   </macros>
-  <height>900</height>
+  <height>1024</height>
   <widget type="label" version="2.0.0">
     <name>$(APP)</name>
     <class>TITLE</class>
@@ -28,7 +28,7 @@
     <name>Main</name>
     <y>31</y>
     <width>610</width>
-    <height>899</height>
+    <height>959</height>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -699,7 +699,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_1</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -763,7 +763,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_2</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -827,7 +827,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_3</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -891,7 +891,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_4</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -955,7 +955,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_5</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1019,7 +1019,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_6</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1083,7 +1083,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_7</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1147,7 +1147,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_8</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1211,7 +1211,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_9</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1275,7 +1275,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_10</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1339,7 +1339,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_10</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1402,13 +1402,12 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
       </widget>
-      <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_11</name>
-        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+      <widget type="slide_button" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VBoolean&gt;(0)</pv_name>
+        <label></label>
         <x>300</x>
-        <format>0</format>
-        <show_units>true</show_units>
-        <limits_from_pv>false</limits_from_pv>
+        <height>20</height>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_61</name>
@@ -1419,7 +1418,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+value = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
@@ -1467,11 +1466,12 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_12</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>-100.0</minimum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
@@ -1531,7 +1531,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_13</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1595,7 +1595,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_14</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1659,7 +1659,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_15</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1723,7 +1723,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_16</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1787,7 +1787,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_17</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1851,7 +1851,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_18</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1915,7 +1915,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_19</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -1979,7 +1979,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_20</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -2043,7 +2043,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_21</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -2107,7 +2107,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_22</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -2171,7 +2171,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_23</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -2235,7 +2235,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_24</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -2288,7 +2288,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       <widget type="label" version="2.0.0">
         <name>Label_75</name>
         <text>$(ParamName)</text>
-        <width>120</width>
+        <width>160</width>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -2299,7 +2299,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_25</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -2363,7 +2363,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_26</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -2427,7 +2427,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_27</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -2491,7 +2491,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_28</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -2555,7 +2555,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_29</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -2619,7 +2619,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_30</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -2683,7 +2683,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget_31</name>
+        <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
         <format>0</format>
@@ -2692,6 +2692,70 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_81</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_55</name>
+      <macros>
+        <ParamName>PSP_OFF_RADIANS</ParamName>
+      </macros>
+      <x>2</x>
+      <y>862</y>
+      <width>570</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_83</name>
+        <text>$(ParamName)</text>
+        <width>160</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_82</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <limits_from_pv>false</limits_from_pv>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_83</name>
         <actions>
           <action type="execute">
             <script file="EmbeddedPy">
@@ -2748,7 +2812,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       <vertical_alignment>1</vertical_alignment>
     </widget>
     <widget type="spinner" version="2.0.0">
-      <name>$(ParamName)_Input_Widget_32</name>
+      <name>$(ParamName)_Input_Widget</name>
       <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
       <x>300</x>
       <format>0</format>
@@ -2821,13 +2885,12 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
       </widget>
-      <widget type="spinner" version="2.0.0">
+      <widget type="slide_button" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VBoolean&gt;(0)</pv_name>
+        <label></label>
         <x>300</x>
-        <format>3</format>
-        <show_units>true</show_units>
-        <limits_from_pv>false</limits_from_pv>
+        <height>20</height>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_2</name>
@@ -2838,7 +2901,527 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"
-value = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+value = PVUtil.getString(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")))
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});
+]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_2</name>
+      <macros>
+        <ParamName>RWTO_HDG</ParamName>
+      </macros>
+      <x>2</x>
+      <y>22</y>
+      <width>570</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_3</name>
+        <text>$(ParamName)</text>
+        <width>169</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_2</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.FPC_Runway_Takeoff.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <format>1</format>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VLong&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <limits_from_pv>false</limits_from_pv>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_3</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getLong(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});
+]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_3</name>
+      <macros>
+        <ParamName>NAV_ALT</ParamName>
+      </macros>
+      <x>2</x>
+      <y>42</y>
+      <width>570</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_4</name>
+        <text>$(ParamName)</text>
+        <width>169</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_3</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.FPC_Runway_Takeoff.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <format>1</format>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <limits_from_pv>false</limits_from_pv>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_4</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});
+]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_4</name>
+      <macros>
+        <ParamName>MAX_THR</ParamName>
+      </macros>
+      <x>2</x>
+      <y>62</y>
+      <width>570</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_5</name>
+        <text>$(ParamName)</text>
+        <width>169</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_4</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.FPC_Runway_Takeoff.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <format>1</format>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <limits_from_pv>false</limits_from_pv>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_5</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});
+]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_5</name>
+      <macros>
+        <ParamName>PSP_RADIANS</ParamName>
+      </macros>
+      <x>2</x>
+      <y>82</y>
+      <width>570</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_6</name>
+        <text>$(ParamName)</text>
+        <width>169</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_5</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.FPC_Runway_Takeoff.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <format>1</format>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <limits_from_pv>false</limits_from_pv>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_6</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});
+]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_6</name>
+      <macros>
+        <ParamName>MAX_PITCH_RADIANS</ParamName>
+      </macros>
+      <x>2</x>
+      <y>102</y>
+      <width>570</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_7</name>
+        <text>$(ParamName)</text>
+        <width>169</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_6</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.FPC_Runway_Takeoff.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <format>1</format>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <limits_from_pv>false</limits_from_pv>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_7</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});
+]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_7</name>
+      <macros>
+        <ParamName>MAX_ROLL_RADIANS</ParamName>
+      </macros>
+      <x>2</x>
+      <y>122</y>
+      <width>570</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_8</name>
+        <text>$(ParamName)</text>
+        <width>169</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_7</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.FPC_Runway_Takeoff.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <format>1</format>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <limits_from_pv>false</limits_from_pv>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_8</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});
+]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_8</name>
+      <macros>
+        <ParamName>RWTO_CLMBOUT_DIFF</ParamName>
+      </macros>
+      <x>2</x>
+      <y>142</y>
+      <width>570</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_9</name>
+        <text>$(ParamName)</text>
+        <width>169</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_8</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.FPC_Runway_Takeoff.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <format>1</format>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <limits_from_pv>false</limits_from_pv>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_9</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
+   'param': value,
+});
+]]></text>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+    </widget>
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_9</name>
+      <macros>
+        <ParamName>RWTO_AIRSPD_MIN</ParamName>
+      </macros>
+      <x>2</x>
+      <y>162</y>
+      <width>570</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_10</name>
+        <text>$(ParamName)</text>
+        <width>169</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_9</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.FPC_Runway_Takeoff.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <format>1</format>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <limits_from_pv>false</limits_from_pv>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_10</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+from  org.csstudio.display.builder.runtime.script import PVUtil
+from org.csstudio.display.builder.runtime.script import ScriptUtil
+print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
+value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });
