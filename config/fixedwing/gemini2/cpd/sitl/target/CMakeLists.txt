@@ -324,13 +324,13 @@ buildliner_add_app(
     fpc
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/fpc/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/fpc
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/fpc
 )
 
 buildliner_add_app(
     fac
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/fac/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/fac
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/fac
 )
 
