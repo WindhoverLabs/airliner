@@ -888,7 +888,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "T_TIME_CONST Modified.");
+                    CFE_EVS_INFORMATION, "T_THRO_CONST Modified.");
                 }
                 else
                 {
@@ -913,7 +913,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "T_TIME_CONST Modified.");
+                    CFE_EVS_INFORMATION, "T_SINK_MIN Modified.");
                 }
                 else
                 {
@@ -963,7 +963,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "T_SINK_MAX Modified.");
+                    CFE_EVS_INFORMATION, "T_CLMB_MAX Modified.");
                 }
                 else
                 {
@@ -1114,7 +1114,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "T_THR_DAMP Modified.");
+                    CFE_EVS_INFORMATION, "T_INTEG_GAIN Modified.");
                 }
                 else
                 {
@@ -1139,7 +1139,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "T_THR_DAMP Modified.");
+                    CFE_EVS_INFORMATION, "T_VERT_ACC Modified.");
                 }
                 else
                 {
@@ -1164,7 +1164,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "T_THR_DAMP Modified.");
+                    CFE_EVS_INFORMATION, "T_HGT_OMEGA Modified.");
                 }
                 else
                 {
@@ -1189,7 +1189,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "T_THR_DAMP Modified.");
+                    CFE_EVS_INFORMATION, "T_SPD_OMEGA Modified.");
                 }
                 else
                 {
@@ -1214,7 +1214,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "T_THR_DAMP Modified.");
+                    CFE_EVS_INFORMATION, "T_RLL2THR Modified.");
                 }
                 else
                 {
@@ -1239,7 +1239,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "T_THR_DAMP Modified.");
+                    CFE_EVS_INFORMATION, "T_SPDWEIGHT Modified.");
                 }
                 else
                 {
@@ -1464,7 +1464,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "P_LIM_MAX_RADIANS Modified.");
+                    CFE_EVS_INFORMATION, "THR_MIN Modified.");
                 }
                 else
                 {
@@ -1514,7 +1514,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_MAX Modified.");
+                    CFE_EVS_INFORMATION, "THR_IDLE Modified.");
                 }
                 else
                 {
@@ -1539,7 +1539,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_MAX Modified.");
+                    CFE_EVS_INFORMATION, "THR_CRUISE Modified.");
                 }
                 else
                 {
@@ -1564,7 +1564,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_MAX Modified.");
+                    CFE_EVS_INFORMATION, "THR_SLEW_MAX Modified.");
                 }
                 else
                 {
@@ -1589,7 +1589,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_MAX Modified.");
+                    CFE_EVS_INFORMATION, "THR_ALT_SCL Modified.");
                 }
                 else
                 {
@@ -1614,7 +1614,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_MAX Modified.");
+                    CFE_EVS_INFORMATION, "MAN_R_MAX_RADIANS Modified.");
                 }
                 else
                 {
@@ -1639,7 +1639,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_MAX Modified.");
+                    CFE_EVS_INFORMATION, "MAN_P_MAX_RADIANS Modified.");
                 }
                 else
                 {
@@ -1664,7 +1664,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_MAX Modified.");
+                    CFE_EVS_INFORMATION, "RSP_OFF_RADIANS Modified.");
                 }
                 else
                 {
@@ -1739,7 +1739,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_LND_MAX Modified.");
+                    CFE_EVS_INFORMATION, "LND_ANG_RADIANS Modified.");
                 }
                 else
                 {
@@ -1764,7 +1764,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_LND_MAX Modified.");
+                    CFE_EVS_INFORMATION, "LND_HVIRT Modified.");
                 }
                 else
                 {
@@ -1789,7 +1789,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_LND_MAX Modified.");
+                    CFE_EVS_INFORMATION, "LND_FLALT Modified.");
                 }
                 else
                 {
@@ -1814,7 +1814,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_LND_MAX Modified.");
+                    CFE_EVS_INFORMATION, "LND_TLALT Modified.");
                 }
                 else
                 {
@@ -1839,7 +1839,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_LND_MAX Modified.");
+                    CFE_EVS_INFORMATION, "LND_HHDIST Modified.");
                 }
                 else
                 {
@@ -1864,7 +1864,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_LND_MAX Modified.");
+                    CFE_EVS_INFORMATION, "LND_FL_PMIN_RADIANS Modified.");
                 }
                 else
                 {
@@ -1889,7 +1889,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_LND_MAX Modified.");
+                    CFE_EVS_INFORMATION, "LND_FL_PMAX_RADIANS Modified.");
                 }
                 else
                 {
@@ -1912,7 +1912,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_LND_MAX Modified.");
+                    CFE_EVS_INFORMATION, "LND_USETER Modified.");
                 }
                 else
                 {
@@ -1937,7 +1937,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "THR_LND_MAX Modified.");
+                    CFE_EVS_INFORMATION, "LND_AIRSPD_SC Modified.");
                 }
                 else
                 {
@@ -1989,7 +1989,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "LAUN_ALL_ON Modified.");
+                    CFE_EVS_INFORMATION, "LAUN_CAT_A Modified.");
                 }
                 else
                 {
@@ -2066,7 +2066,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "LAUN_CAT_MDEL Modified.");
+                    CFE_EVS_INFORMATION, "LAUN_CAT_PMAX_RADIANS Modified.");
                 }
                 else
                 {
@@ -2174,7 +2174,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                 }
                 break;
             }
-            case FPC_UPDATE_PSP_CC:
+            case FPC_UPDATE_PSP_RADIANS_CC:
             {
                 if(VerifyCmdLength(MsgPtr,
                         sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
@@ -2191,7 +2191,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "PSP Modified.");
+                    CFE_EVS_INFORMATION, "PSP_RADIANS Modified.");
                 }
                 else
                 {
@@ -2217,7 +2217,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "MAX_PITCH Modified.");
+                    CFE_EVS_INFORMATION, "MAX_PITCH_RADIANS Modified.");
                 }
                 else
                 {
@@ -2243,7 +2243,7 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "MAX_PITCH Modified.");
+                    CFE_EVS_INFORMATION, "MAX_ROLL_RADIANS Modified.");
                 }
                 else
                 {
@@ -2268,7 +2268,59 @@ void FPC::ProcessNewAppCmds(CFE_SB_Msg_t *MsgPtr)
                                 (unsigned int) returnCode);
                     }
                     (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
-                    CFE_EVS_INFORMATION, "MAX_PITCH Modified.");
+                    CFE_EVS_INFORMATION, "AIRSPD_SCL Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+
+            case FPC_UPDATE_RUNWAY_AIRSPD_MIN_CC:
+            {
+                if(VerifyCmdLength(MsgPtr,
+                        sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd =
+                            (FPC_UpdateParamFloatCmd_t*) MsgPtr;
+                    ConfigTblPtr->FPC_Runway_Takeoff.RWTO_AIRSPD_MIN = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                        CFE_EVS_ERROR, "CFE_TBL_Modified error (%d)",
+                                (unsigned int) returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                    CFE_EVS_INFORMATION, "RWTO_AIRSPD_MIN Modified.");
+                }
+                else
+                {
+                    HkTlm.usCmdErrCnt++;
+                }
+                break;
+            }
+
+            case FPC_UPDATE_RUNWAY_CLMBOUT_DIFF_CC:
+            {
+                if(VerifyCmdLength(MsgPtr,
+                        sizeof(FPC_UpdateParamFloatCmd_t)) == TRUE)
+                {
+                    HkTlm.usCmdCnt++;
+                    FPC_UpdateParamFloatCmd_t *cmd =
+                            (FPC_UpdateParamFloatCmd_t*) MsgPtr;
+                    ConfigTblPtr->FPC_Runway_Takeoff.RWTO_CLMBOUT_DIFF = cmd->param;
+                    returnCode = CFE_TBL_Modified(ConfigTblHdl);
+                    if(returnCode != CFE_SUCCESS)
+                    {
+                        (void) CFE_EVS_SendEvent(FPC_TBL_ERR_EID,
+                        CFE_EVS_ERROR, "CFE_TBL_Modified error (%d)",
+                                (unsigned int) returnCode);
+                    }
+                    (void) CFE_EVS_SendEvent(FPC_TBL_INF_EID,
+                    CFE_EVS_INFORMATION, "RWTO_CLMBOUT_DIFF Modified.");
                 }
                 else
                 {
@@ -2412,8 +2464,8 @@ void FPC::UpdateParamsFromTable(void)
             ConfigTblPtr->FPC_Runway_Takeoff.MAX_PITCH_RADIANS,
             ConfigTblPtr->FPC_Runway_Takeoff.MAX_ROLL_RADIANS,
             ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_SCL,
-            ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_MIN,
-            ConfigTblPtr->FPC_Runway_Takeoff.CLMBOUT_DIFF);
+            ConfigTblPtr->FPC_Runway_Takeoff.RWTO_AIRSPD_MIN,
+            ConfigTblPtr->FPC_Runway_Takeoff.RWTO_CLMBOUT_DIFF);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -177,7 +177,7 @@ extern "C" {
 #define FPC_UPDATE_RWTO_HDG_CC                    (55)
 #define FPC_UPDATE_NAV_ALT_CC                     (56)
 #define FPC_UPDATE_MAX_THR_CC                     (57)
-#define FPC_UPDATE_PSP_CC                         (58)
+#define FPC_UPDATE_PSP_RADIANS_CC                 (58)
 #define FPC_UPDATE_MAX_PITCH_RADIANS_CC           (59)
 #define FPC_UPDATE_MAX_ROLL_RADIANS_CC            (60)
 #define FPC_UPDATE_AIRSPD_SCL_CC                  (61)
@@ -185,6 +185,8 @@ extern "C" {
 #define FPC_UPDATE_RUNWAY_CLMBOUT_DIFF_CC         (63)
 #define FPC_OVERRIDE_ALTITUDE_CC                  (64)
 #define FPC_OVERRIDE_HEADING_CC                   (65)
+#define FPC_UPDATE_AIRSPD_MIN_CC                  (22)
+
 /************************************************************************
  ** Local Structure Declarations
  *************************************************************************/

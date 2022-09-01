@@ -188,10 +188,10 @@
         Update_MAN_P_MAX_RADIANS:
           cc: 36
           struct: FPC_UpdateParamFloatCmd_t
-        Update_PSP_OFF_RADIANS:
+        Update_RSP_OFF_RADIANS:
           cc: 37
           struct: FPC_UpdateParamFloatCmd_t
-        Update_RSP_OFF_RADIANS:
+        Update_PSP_OFF_RADIANS:
           cc: 38
           struct: FPC_UpdateParamFloatCmd_t
         Update_THR_LND_MAX:
@@ -251,7 +251,7 @@
         Update_MAX_THR:
           cc: 57
           struct: FPC_UpdateParamFloatCmd_t
-        Update_PSP:
+        Update_PSP_RADIANS:
           cc: 58
           struct: FPC_UpdateParamFloatCmd_t
         Update_MAX_PITCH_RADIANS:
@@ -263,10 +263,10 @@
         Update_AIRSPD_SCL:
           cc: 61
           struct: FPC_UpdateParamFloatCmd_t
-        Update_RUNWAY_AIRSPD_MIN:
+        Update_RWTO_AIRSPD_MIN:
           cc: 62
           struct: FPC_UpdateParamFloatCmd_t
-        Update_RUNWAY_CLMBOUT_DIFF:
+        Update_RWTO_CLMBOUT_DIFF:
           cc: 63
           struct: FPC_UpdateParamFloatCmd_t
         Update_Target_ALTITUDE:
