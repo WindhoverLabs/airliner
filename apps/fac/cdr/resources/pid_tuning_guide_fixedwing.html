@@ -116,7 +116,7 @@ Roll response softer, decrease to make the response harder.</li>
 <h2 id="l1-controller-tuning-position-">L1 Controller Tuning (Position)</h2>
 <p>All L1 parameters are described <a href="../advanced_config/parameter_reference.md#fw-l1-control">here</a>.</p>
 <ul>
-<li><a href="../advanced_config/parameter_reference.md#FW_L1_PERIOD">FW_L1_PERIOD</a> - This is the L1 distance and defines the tracking
+<li><a href="../advanced_config/parameter_reference.md#L1_PERIOD">L1_PERIOD</a> - This is the L1 distance and defines the tracking
 point ahead of the aircraft its following. A value of 25 meters
 works for most aircraft. A value of 16-18 will still work, and
 provide a sharper response. Shorten slowly during tuning until
@@ -127,18 +127,18 @@ response is sharp without oscillation.</li>
 but needs some information about the main airframe properties to perform
 correctly.</p>
 <ul>
-<li><a href="../advanced_config/parameter_reference.md#FW_AIRSPD_TRIM">FW_AIRSPD_TRIM</a> - set to the airspeed on a manual level flight</li>
-<li><a href="../advanced_config/parameter_reference.md#FW_AIRSPD_MIN">FW_AIRSPD_MIN</a> - set to the airspeed on a manual climb</li>
-<li><a href="../advanced_config/parameter_reference.md#FW_AIRSPD_MAX">FW_AIRSPD_MAX</a> - set to the airspeed on a manual descend</li>
-<li><a href="../advanced_config/parameter_reference.md#FW_THR_CRUISE">FW_THR_CRUISE</a> - set to the throttle (stick position between 0 and
-1.0) on a manual level flight at <a href="../advanced_config/parameter_reference.md#FW_AIRSPD_TRIM">FW_AIRSPD_TRIM</a> airspeed</li>
-<li><a href="../advanced_config/parameter_reference.md#FW_THR_MIN">FW_THR_MIN</a> - set to the throttle on the manual descend</li>
-<li><a href="../advanced_config/parameter_reference.md#FW_THR_MAX">FW_THR_MAX</a> - set to the throttle on the manual climb</li>
-<li><a href="../advanced_config/parameter_reference.md#FW_T_CLMB_MAX">FW_T_CLMB_MAX</a> - set to the climb rate in meters on the manual climb</li>
-<li><a href="../advanced_config/parameter_reference.md#FW_T_SINK_MAX">FW_T_SINK_MAX</a> - set to the descend rate in the manual descend</li>
-<li><a href="../advanced_config/parameter_reference.md#FW_T_SINK_MIN">FW_T_SINK_MIN</a> - This is the sink rate of the aircraft with the
-throttle set to <a href="../advanced_config/parameter_reference.md#FW_THR_MIN">FW_THR_MIN</a> and flown at the same airspeed as used
-to measure <a href="../advanced_config/parameter_reference.md#FW_T_CLMB_MAX">FW_T_CLMB_MAX</a></li>
+<li><a href="../advanced_config/parameter_reference.md#AIRSPD_TRIM">AIRSPD_TRIM</a> - set to the airspeed on a manual level flight</li>
+<li><a href="../advanced_config/parameter_reference.md#AIRSPD_MIN">AIRSPD_MIN</a> - set to the airspeed on a manual climb</li>
+<li><a href="../advanced_config/parameter_reference.md#AIRSPD_MAX">AIRSPD_MAX</a> - set to the airspeed on a manual descend</li>
+<li><a href="../advanced_config/parameter_reference.md#THR_CRUISE">THR_CRUISE</a> - set to the throttle (stick position between 0 and
+1.0) on a manual level flight at <a href="../advanced_config/parameter_reference.md#AIRSPD_TRIM">AIRSPD_TRIM</a> airspeed</li>
+<li><a href="../advanced_config/parameter_reference.md#THR_MIN">THR_MIN</a> - set to the throttle on the manual descend</li>
+<li><a href="../advanced_config/parameter_reference.md#THR_MAX">THR_MAX</a> - set to the throttle on the manual climb</li>
+<li><a href="../advanced_config/parameter_reference.md#T_CLMB_MAX">T_CLMB_MAX</a> - set to the climb rate in meters on the manual climb</li>
+<li><a href="../advanced_config/parameter_reference.md#T_SINK_MAX">T_SINK_MAX</a> - set to the descend rate in the manual descend</li>
+<li><a href="../advanced_config/parameter_reference.md#T_SINK_MIN">T_SINK_MIN</a> - This is the sink rate of the aircraft with the
+throttle set to <a href="../advanced_config/parameter_reference.md#THR_MIN">THR_MIN</a> and flown at the same airspeed as used
+to measure <a href="../advanced_config/parameter_reference.md#T_CLMB_MAX">T_CLMB_MAX</a></li>
 </ul>
 <p>Once these parameters are set, put the system into a figure 8 pattern
 with waypoints and observer the altitude hold and airspeed hold
@@ -146,7 +146,7 @@ performance. The default gains are “soft” and gentle. To improve
 altitude hold (but also make the throttle response more twitchy,
 decrease the time constant:</p>
 <ul>
-<li><a href="../advanced_config/parameter_reference.md#FW_T_TIME_CONST">FW_T_TIME_CONST</a> - decrease to improve altitude hold performance,
+<li><a href="../advanced_config/parameter_reference.md#T_TIME_CONST">T_TIME_CONST</a> - decrease to improve altitude hold performance,
 but reduces efficiency and increases wear.</li>
 </ul>
 

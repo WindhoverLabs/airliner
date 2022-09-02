@@ -3241,7 +3241,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
     <x>620</x>
     <y>31</y>
     <width>1070</width>
-    <height>1020</height>
+    <height>620</height>
     <show_toolbar>false</show_toolbar>
   </widget>
 </display>
