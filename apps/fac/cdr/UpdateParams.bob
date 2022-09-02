@@ -49,6 +49,10 @@
         <name>Label_1</name>
         <text>$(ParamName)</text>
         <width>120</width>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -114,6 +118,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <name>Label_41</name>
         <text>$(ParamName)</text>
         <width>120</width>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -178,6 +186,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <name>Label_42</name>
         <text>$(ParamName)</text>
         <width>120</width>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -242,6 +254,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <name>Label_43</name>
         <text>$(ParamName)</text>
         <width>120</width>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -434,6 +450,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <name>Label_48</name>
         <text>$(ParamName)</text>
         <width>120</width>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -498,6 +518,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <name>Label_49</name>
         <text>$(ParamName)</text>
         <width>120</width>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -1323,11 +1347,23 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
       <width>570</width>
       <height>20</height>
       <style>3</style>
+      <background_color>
+        <color name="On" red="0" green="255" blue="0">
+        </color>
+      </background_color>
       <transparent>true</transparent>
       <widget type="label" version="2.0.0">
         <name>Label_64</name>
         <text>$(ParamName)</text>
         <width>120</width>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
+        <background_color>
+          <color name="ActiveText" red="255" green="255" blue="0">
+          </color>
+        </background_color>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -1392,6 +1428,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <name>Label_65</name>
         <text>$(ParamName)</text>
         <width>120</width>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -1713,6 +1753,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <name>Label_70</name>
         <text>$(ParamName)</text>
         <width>120</width>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -1777,6 +1821,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <name>Label_71</name>
         <text>$(ParamName)</text>
         <width>160</width>
+        <font>
+          <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+          </font>
+        </font>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -3240,7 +3288,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
     <url>file://$(DISPLAYS_ROOT_DIR)/../../../../../apps/fac/cdr/resources/pid_tuning_guide_fixedwing.html</url>
     <x>620</x>
     <y>31</y>
-    <width>1070</width>
+    <width>700</width>
     <height>620</height>
     <show_toolbar>false</show_toolbar>
   </widget>
