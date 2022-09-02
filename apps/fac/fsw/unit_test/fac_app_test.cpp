@@ -2553,6 +2553,50 @@ void Test_FAC_RunController_Landed(void)
 }
 
 
+/**
+ * Test FAC RunController(), TerminationEnabled
+ */
+void Test_FAC_RunController_TerminationEnabled(void)
+{
+    int32 iStatus = CFE_SUCCESS;
+
+    iStatus = oFAC.InitConfigTbl();
+    if (iStatus == CFE_SUCCESS)
+    {
+        oFAC.InitData();
+
+        oFAC.CVT.VehicleStatus.IsVtol = false;
+        oFAC.CVT.VControlMode.ControlTerminationEnabled = true;
+
+        oFAC.RunController();
+    }
+}
+
+
+/**
+ * Test FAC RunController(), InvalidValue
+ */
+void Test_FAC_RunController_InvalidValue(void)
+{
+    int32 iStatus = CFE_SUCCESS;
+
+    iStatus = oFAC.InitConfigTbl();
+    if (iStatus == CFE_SUCCESS)
+    {
+        oFAC.InitData();
+
+        oFAC.CVT.VehicleStatus.IsVtol = false;
+        oFAC.CVT.VControlMode.ControlTerminationEnabled = false;
+        oFAC.CVT.VehicleStatus.IsRotaryWing = false;
+        oFAC.CVT.VControlMode.ControlRattitudeEnabled = false;
+        oFAC.CVT.VControlMode.ControlRatesEnabled = true;
+        oFAC.CVT.Airspeed.IndicatedAirspeed = NAN;
+
+        oFAC.RunController();
+    }
+}
+
+
 /**************************************************************************
  * Tests for FAC UpdateParams()
  **************************************************************************/
@@ -4082,6 +4126,11 @@ void FAC_App_Test_AddTestCases(void)
                FAC_Test_TearDown, "Test_FAC_RunController_Auto");
     UtTest_Add(Test_FAC_RunController_Landed, FAC_Test_Setup,
                FAC_Test_TearDown, "Test_FAC_RunController_Landed");
+    UtTest_Add(Test_FAC_RunController_TerminationEnabled, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_RunController_TerminationEnabled");
+    UtTest_Add(Test_FAC_RunController_InvalidValue, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_RunController_InvalidValue");
+
     UtTest_Add(Test_FAC_UpdateParams_Standard, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_UpdateParams_Standard");
     UtTest_Add(Test_FAC_UpdateParams_TailSitter, FAC_Test_Setup_TailSitter, FAC_Test_TearDown,
