@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
-  <name>UpdateParam</name>
+  <name>FPC - UpdateParam</name>
   <macros>
     <APP>fpc</APP>
     <CPUID>cpd</CPUID>

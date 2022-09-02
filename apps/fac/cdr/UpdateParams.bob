@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <display version="2.0.0">
-  <name>UpdateParam</name>
+  <name>FAC - UpdateParam</name>
   <macros>
     <APP>fac</APP>
     <CPUID>cpd</CPUID>
@@ -3240,7 +3240,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
     <url>file://$(DISPLAYS_ROOT_DIR)/../../../../../apps/fac/cdr/resources/pid_tuning_guide_fixedwing.html</url>
     <x>620</x>
     <y>31</y>
-    <width>900</width>
+    <width>1070</width>
     <height>1020</height>
     <show_toolbar>false</show_toolbar>
   </widget>
