@@ -27,7 +27,7 @@
   <widget type="group" version="2.0.0">
     <name>Main</name>
     <y>31</y>
-    <width>610</width>
+    <width>670</width>
     <height>959</height>
     <font>
       <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
@@ -40,7 +40,7 @@
       </macros>
       <x>2</x>
       <y>2</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -101,6 +101,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_14</name>
@@ -109,7 +116,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>22</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -165,6 +172,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_1</name>
+        <text>norm</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_15</name>
@@ -173,7 +187,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>42</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -233,6 +247,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_13</name>
+        <text>seconds</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_16</name>
@@ -241,7 +262,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>62</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -297,6 +318,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_12</name>
+        <text>seconds</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_17</name>
@@ -305,7 +333,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>82</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -365,6 +393,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_11</name>
+        <text>m/s</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_18</name>
@@ -373,7 +408,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>102</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -433,6 +468,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_10</name>
+        <text>m/s</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_19</name>
@@ -441,7 +483,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>122</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -501,6 +543,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_9</name>
+        <text>m/s</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_20</name>
@@ -509,7 +558,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>142</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -565,6 +614,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_8</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_21</name>
@@ -573,7 +629,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>162</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -629,6 +685,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_7</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_22</name>
@@ -637,7 +700,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>182</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -693,6 +756,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_6</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_23</name>
@@ -701,7 +771,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>202</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -757,6 +827,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_4</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_24</name>
@@ -765,7 +842,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>222</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -821,6 +898,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_3</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_25</name>
@@ -829,7 +913,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>242</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -885,6 +969,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_2</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_26</name>
@@ -893,7 +984,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>262</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -949,6 +1040,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_5</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_27</name>
@@ -957,7 +1055,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>282</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1013,6 +1111,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_28</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_28</name>
@@ -1021,7 +1126,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>302</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1077,6 +1182,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_14</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_29</name>
@@ -1085,7 +1197,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>322</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1141,6 +1253,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_27</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_30</name>
@@ -1149,7 +1268,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>342</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1205,6 +1324,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_26</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_31</name>
@@ -1213,7 +1339,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>362</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1273,6 +1399,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_19</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_32</name>
@@ -1281,7 +1414,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>382</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1341,6 +1474,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_25</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_32</name>
@@ -1349,7 +1489,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>402</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1409,6 +1549,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_24</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_33</name>
@@ -1417,7 +1564,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>422</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1438,12 +1585,19 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
       </widget>
-      <widget type="slide_button" version="2.0.0">
+      <widget type="bool_button" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VBoolean&gt;(0)</pv_name>
-        <label></label>
         <x>300</x>
         <height>20</height>
+        <off_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </off_color>
+        <on_color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </on_color>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_61</name>
@@ -1476,6 +1630,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_23</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_34</name>
@@ -1484,7 +1645,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>442</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1552,6 +1713,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_22</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_35</name>
@@ -1560,7 +1728,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>462</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1616,6 +1784,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_21</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_36</name>
@@ -1624,7 +1799,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>482</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1680,6 +1855,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_18</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_37</name>
@@ -1688,7 +1870,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>502</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1748,6 +1930,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_20</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_38</name>
@@ -1756,7 +1945,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>522</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1816,6 +2005,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_17</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_39</name>
@@ -1824,7 +2020,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>542</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1880,6 +2076,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_16</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_40</name>
@@ -1888,7 +2091,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>562</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -1948,6 +2151,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_15</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_41</name>
@@ -1956,7 +2166,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>582</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2012,6 +2222,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_38</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_42</name>
@@ -2020,7 +2237,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>602</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2076,6 +2293,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_37</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_43</name>
@@ -2084,7 +2308,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>622</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2140,6 +2364,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_36</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_44</name>
@@ -2148,7 +2379,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>642</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2204,6 +2435,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_29</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_45</name>
@@ -2212,7 +2450,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>662</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2268,6 +2506,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_35</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_46</name>
@@ -2276,7 +2521,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>682</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2332,6 +2577,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_34</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_47</name>
@@ -2340,7 +2592,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>702</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2396,6 +2648,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_33</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_48</name>
@@ -2404,7 +2663,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>722</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2460,6 +2719,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_32</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_49</name>
@@ -2468,7 +2734,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>742</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2524,6 +2790,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_31</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_50</name>
@@ -2532,7 +2805,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>762</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2588,6 +2861,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_30</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_51</name>
@@ -2596,7 +2876,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>782</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2652,6 +2932,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_44</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_52</name>
@@ -2660,7 +2947,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>802</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2716,6 +3003,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_43</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_53</name>
@@ -2724,7 +3018,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>822</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2780,6 +3074,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_42</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group_55</name>
@@ -2788,7 +3089,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </macros>
       <x>2</x>
       <y>862</y>
-      <width>570</width>
+      <width>630</width>
       <height>20</height>
       <style>3</style>
       <transparent>true</transparent>
@@ -2844,46 +3145,52 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <tooltip>$(actions)</tooltip>
         <border_alarm_sensitive>false</border_alarm_sensitive>
       </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_40</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
-  </widget>
-  <widget type="group" version="2.0.0">
-    <name>$(ParamName)_Group_54</name>
-    <macros>
-      <ParamName>LND_AIRSPD_SC</ParamName>
-    </macros>
-    <x>20</x>
-    <y>891</y>
-    <width>570</width>
-    <height>20</height>
-    <style>3</style>
-    <transparent>true</transparent>
-    <widget type="label" version="2.0.0">
-      <name>Label_82</name>
-      <text>$(ParamName)</text>
-      <width>120</width>
-      <vertical_alignment>1</vertical_alignment>
-    </widget>
-    <widget type="textupdate" version="2.0.0">
-      <name>Text Update_81</name>
-      <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
-      <x>170</x>
-      <width>110</width>
-      <vertical_alignment>1</vertical_alignment>
-    </widget>
-    <widget type="spinner" version="2.0.0">
-      <name>$(ParamName)_Input_Widget</name>
-      <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
-      <x>300</x>
-      <format>0</format>
-      <show_units>true</show_units>
-      <limits_from_pv>false</limits_from_pv>
-    </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>Update_82</name>
-      <actions>
-        <action type="execute">
-          <script file="EmbeddedPy">
-            <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
+    <widget type="group" version="2.0.0">
+      <name>$(ParamName)_Group_54</name>
+      <macros>
+        <ParamName>LND_AIRSPD_SC</ParamName>
+      </macros>
+      <x>2</x>
+      <y>842</y>
+      <width>630</width>
+      <height>20</height>
+      <style>3</style>
+      <transparent>true</transparent>
+      <widget type="label" version="2.0.0">
+        <name>Label_82</name>
+        <text>$(ParamName)</text>
+        <width>120</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_81</name>
+        <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.Params.$(ParamName)</pv_name>
+        <x>170</x>
+        <width>110</width>
+        <vertical_alignment>1</vertical_alignment>
+      </widget>
+      <widget type="spinner" version="2.0.0">
+        <name>$(ParamName)_Input_Widget</name>
+        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
+        <x>300</x>
+        <format>0</format>
+        <show_units>true</show_units>
+        <limits_from_pv>false</limits_from_pv>
+      </widget>
+      <widget type="action_button" version="3.0.0">
+        <name>Update_82</name>
+        <actions>
+          <action type="execute">
+            <script file="EmbeddedPy">
+              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
@@ -2891,29 +3198,37 @@ value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(wid
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
-          </script>
-        </action>
-      </actions>
-      <text>Update</text>
-      <x>400</x>
-      <width>140</width>
-      <height>20</height>
-      <foreground_color>
-        <color red="255" green="255" blue="255">
-        </color>
-      </foreground_color>
-      <background_color>
-        <color red="34" green="45" blue="75">
-        </color>
-      </background_color>
-      <tooltip>$(actions)</tooltip>
-      <border_alarm_sensitive>false</border_alarm_sensitive>
+            </script>
+          </action>
+        </actions>
+        <text>Update</text>
+        <x>400</x>
+        <width>140</width>
+        <height>20</height>
+        <foreground_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </foreground_color>
+        <background_color>
+          <color red="34" green="45" blue="75">
+          </color>
+        </background_color>
+        <tooltip>$(actions)</tooltip>
+        <border_alarm_sensitive>false</border_alarm_sensitive>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Unit_41</name>
+        <text>meters</text>
+        <x>550</x>
+        <width>70</width>
+        <visible>false</visible>
+      </widget>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
     <name>Runway</name>
-    <x>610</x>
-    <y>31</y>
+    <x>780</x>
+    <y>20</y>
     <width>610</width>
     <height>240</height>
     <font>
@@ -2944,12 +3259,19 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
       </widget>
-      <widget type="slide_button" version="2.0.0">
+      <widget type="bool_button" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://FPC_Runway_Takeoff.$(ParamName)_Input&lt;VBoolean&gt;(0)</pv_name>
-        <label></label>
         <x>300</x>
         <height>20</height>
+        <off_color>
+          <color name="Button_Background" red="210" green="210" blue="210">
+          </color>
+        </off_color>
+        <on_color>
+          <color name="OK" red="0" green="255" blue="0">
+          </color>
+        </on_color>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_2</name>
@@ -3508,8 +3830,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
   <widget type="webbrowser" version="2.0.0">
     <name>Web Browser_1</name>
     <url>file://$(DISPLAYS_ROOT_DIR)/../../../../../apps/fpc/cdr/resources/pid_tuning_guide_fixedwing.html</url>
-    <x>620</x>
-    <y>271</y>
+    <x>790</x>
+    <y>260</y>
     <width>900</width>
     <height>1020</height>
     <show_toolbar>false</show_toolbar>
