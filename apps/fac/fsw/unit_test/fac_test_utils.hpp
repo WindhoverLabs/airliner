@@ -60,6 +60,7 @@ void       FAC_Test_TearDown(void);
 void       FAC_Test_PrintCmdMsg(void *pMsg, uint32 size);
 void       FAC_Test_PrintEclValues();
 uint32     FAC_Test_ValidateEclValues();
+uint64     FAC_Test_GetTimeUs(void);
 time_t     FAC_Test_GetTimeFromTimestamp(uint64 timestamp);
 time_t     FAC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 

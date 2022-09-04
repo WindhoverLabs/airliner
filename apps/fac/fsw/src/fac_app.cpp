@@ -2353,8 +2353,7 @@ void FAC::RunController(void)
 		float airspeed;
 
 		/* if airspeed is non-finite or not valid or if we are asked not to control it, we assume the normal average speed */
-		const bool airspeed_valid = isfinite(CVT.Airspeed.IndicatedAirspeed)
-					    && ((CVT.Airspeed.Timestamp - now) < 1e6);
+		const bool airspeed_valid = isfinite(CVT.Airspeed.IndicatedAirspeed) && (CVT.Airspeed.Timestamp > 0);
 
 		if(airspeed_valid)
 		{

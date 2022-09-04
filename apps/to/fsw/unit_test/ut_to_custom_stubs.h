@@ -53,6 +53,7 @@ typedef enum
     UT_TO_PRINTCUSTOMVERSION_INDEX,
     UT_TO_RESETCUSTOMCHANNELCOUNTERS_INDEX,
     UT_TO_UPDATECUSTOMDATAFROMTABLE_INDEX,
+	UT_TO_OUTPUTCHANNEL_SENDTELEMETRY_INDEX,
     UT_TO_CUSTOM_MAX_INDEX
 } Ut_TO_Custom_INDEX_t;
 
@@ -72,6 +73,7 @@ typedef struct
     void   (*TO_UpdateCustomDataFromTable)(uint8 ChannelID,
                                       osalbool sendEvent,
                                       osalbool abandonCurrentMsg);
+    void   (*TO_OutputChannel_SendTelemetry)(uint32 index);
 } Ut_TO_Custom_HookTable_t;
 
 typedef struct

@@ -10,11 +10,6 @@ set(APP_NAME sch)
 #                   not clear the interrupt.  The SED clears the interrupt
 #                   automatically.
 
-buildliner_add_app_unit_test_src(
-    ${APP_NAME}
-    SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/sch_custom_v2.c
-)
 
 buildliner_add_table(
     ${APP_NAME}

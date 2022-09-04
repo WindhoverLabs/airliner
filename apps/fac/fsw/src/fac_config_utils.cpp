@@ -37,8 +37,6 @@ extern "C" {
 
 #include "fac_app.hpp"
 
-#include <string.h>
-
 /************************************************************************
 ** Function Definitions
 *************************************************************************/
@@ -98,294 +96,329 @@ FAC_InitConfigTbl_Exit_Tag:
 int32 FAC::ValidateParamTbl(void* ConfigTblPtr)
 {
     int32  iStatus = CFE_SUCCESS;
-    uint32 err_code = 0x0;
-    FAC_ParamTbl_t* FAC_ParamTblPtr = (FAC_ParamTbl_t*)(ConfigTblPtr);
     char Param[FAC_PARAM_NAME_MAX_LEN];
-    char Err_Msg[2048];
-
-    CFE_PSP_MemSet((void*)Param, 0x00, sizeof(Param));
-    CFE_PSP_MemSet((void*)Err_Msg, 0x00, sizeof(Err_Msg));
+    FAC_ParamTbl_t* FAC_ParamTblPtr = (FAC_ParamTbl_t*)(ConfigTblPtr);
 
     if (InvalidFW_R_TC(FAC_ParamTblPtr->FW_R_TC))
     {
-        err_code |= 0x1;
-        strcat(Err_Msg, "FW_R_TC | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_R_TC");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_P_TC(FAC_ParamTblPtr->FW_P_TC))
     {
-        err_code |= 0x2;
-        strcat(Err_Msg, "FW_P_TC | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_P_TC");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_PR_P(FAC_ParamTblPtr->FW_PR_P))
     {
-        err_code |= 0x4;
-        strcat(Err_Msg, "FW_PR_P |");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_PR_P");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_PR_I(FAC_ParamTblPtr->FW_PR_I))
     {
-        err_code |= 0x8;
-        strcat(Err_Msg, "FW_PR_I | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_PR_I");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_P_RMAX_POS(FAC_ParamTblPtr->FW_P_RMAX_POS))
     {
-        err_code |= 0x10;
-        strcat(Err_Msg, "FW_P_RMAX_POS | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_P_RMAX_POS");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_P_RMAX_NEG(FAC_ParamTblPtr->FW_P_RMAX_NEG))
     {
-        err_code |= 0x20;
-        strcat(Err_Msg, "FW_P_RMAX_NEG | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_P_RMAX_NEG");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_PR_IMAX(FAC_ParamTblPtr->FW_PR_IMAX))
     {
-        err_code |= 0x40;
-        strcat(Err_Msg, "FW_PR_IMAX | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_PR_IMAX");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_RR_P(FAC_ParamTblPtr->FW_RR_P))
     {
-        err_code |= 0x80;
-        strcat(Err_Msg, "FW_RR_P | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_RR_P");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_RR_I(FAC_ParamTblPtr->FW_RR_I))
     {
-        err_code |= 0x100;
-        strcat(Err_Msg, "FW_RR_I | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_RR_I");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_RR_IMAX(FAC_ParamTblPtr->FW_RR_IMAX))
     {
-        err_code |= 0x200;
-        strcat(Err_Msg, "FW_RR_IMAX | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_RR_IMAX");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_R_RMAX(FAC_ParamTblPtr->FW_R_RMAX))
     {
-        err_code |= 0x400;
-        strcat(Err_Msg, "FW_R_RMAX | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_R_RMAX");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_YR_P(FAC_ParamTblPtr->FW_YR_P))
     {
-        err_code |= 0x800;
-        strcat(Err_Msg, "FW_YR_P | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_YR_P");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_YR_I(FAC_ParamTblPtr->FW_YR_I))
     {
-        err_code |= 0x1000;
-        strcat(Err_Msg, "FW_YR_I | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_YR_I");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_YR_IMAX(FAC_ParamTblPtr->FW_YR_IMAX))
     {
-        err_code |= 0x2000;
-        strcat(Err_Msg, "FW_YR_IMAX | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_YR_IMAX");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_Y_RMAX(FAC_ParamTblPtr->FW_Y_RMAX))
     {
-        err_code |= 0x4000;
-        strcat(Err_Msg, "FW_Y_RMAX | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_Y_RMAX");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_RLL_TO_YAW_FF(FAC_ParamTblPtr->FW_RLL_TO_YAW_FF))
     {
-        err_code |= 0x8000;
-        strcat(Err_Msg, "FW_RLL_TO_YAW_FF | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_RLL_TO_YAW_FF");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_WR_P(FAC_ParamTblPtr->FW_WR_P))
     {
-        err_code |= 0x10000;
-        strcat(Err_Msg, "FW_WR_P | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_WR_P");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_WR_I(FAC_ParamTblPtr->FW_WR_I))
     {
-        err_code |= 0x20000;
-        strcat(Err_Msg, "FW_WR_I | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_WR_I");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_WR_IMAX(FAC_ParamTblPtr->FW_WR_IMAX))
     {
-        err_code |= 0x40000;
-        strcat(Err_Msg, "FW_WR_IMAX | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_WR_IMAX");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_W_RMAX(FAC_ParamTblPtr->FW_W_RMAX))
     {
-        err_code |= 0x80000;
-        strcat(Err_Msg, "FW_W_RMAX | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_W_RMAX");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_RR_FF(FAC_ParamTblPtr->FW_RR_FF))
     {
-        err_code |= 0x100000;
-        strcat(Err_Msg, "FW_RR_FF | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_RR_FF");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_PR_FF(FAC_ParamTblPtr->FW_PR_FF))
     {
-        err_code |= 0x200000;
-        strcat(Err_Msg, "FW_PR_FF | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_PR_FF");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_YR_FF(FAC_ParamTblPtr->FW_YR_FF))
     {
-        err_code |= 0x400000;
-        strcat(Err_Msg, "FW_YR_FF | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_PR_FF");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_WR_FF(FAC_ParamTblPtr->FW_WR_FF))
     {
-        err_code |= 0x800000;
-        strcat(Err_Msg, "FW_WR_FF | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_WR_FF");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_YCO_VMIN(FAC_ParamTblPtr->FW_YCO_VMIN))
     {
-        err_code |= 0x1000000;
-        strcat(Err_Msg, "FW_YCO_VMIN | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_YCO_VMIN");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_YCO_METHOD(FAC_ParamTblPtr->FW_YCO_METHOD))
     {
-        err_code |= 0x2000000;
-        strcat(Err_Msg, "FW_YCO_METHOD | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_YCO_METHOD");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_RSP_OFF(FAC_ParamTblPtr->FW_RSP_OFF))
     {
-        err_code |= 0x4000000;
-        strcat(Err_Msg, "FW_RSP_OFF | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_RSP_OFF");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_PSP_OFF(FAC_ParamTblPtr->FW_PSP_OFF))
     {
-        err_code |= 0x8000000;
-        strcat(Err_Msg, "FW_PSP_OFF | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_PSP_OFF");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_MAN_R_MAX(FAC_ParamTblPtr->FW_MAN_R_MAX))
     {
-        err_code |= 0x10000000;
-        strcat(Err_Msg, "FW_MAN_R_MAX | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_MAN_R_MAX");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_MAN_P_MAX(FAC_ParamTblPtr->FW_MAN_P_MAX))
     {
-        err_code |= 0x20000000;
-        strcat(Err_Msg, "FW_MAN_P_MAX | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_MAN_P_MAX");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_FLAPS_SCL(FAC_ParamTblPtr->FW_FLAPS_SCL))
     {
-        err_code |= 0x40000000;
-        strcat(Err_Msg, "FW_FLAPS_SCL | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_FLAPS_SCL");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_FLAPERON_SCL(FAC_ParamTblPtr->FW_FLAPERON_SCL))
     {
-        err_code |= 0x80000000;
-        strcat(Err_Msg, "FW_FLAPERON_SCL | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_FLAPERON_SCL");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }    
 
     if (InvalidFW_MAN_R_SC(FAC_ParamTblPtr->FW_MAN_R_SC))
     {
-        err_code |= 0x100000000;
-        strcat(Err_Msg, "FW_MAN_R_SC | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_MAN_R_SC");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_MAN_P_SC(FAC_ParamTblPtr->FW_MAN_P_SC))
     {
-        err_code |= 0x200000000;
-        strcat(Err_Msg, "FW_MAN_P_SC | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_MAN_P_SC");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_MAN_Y_SC(FAC_ParamTblPtr->FW_MAN_Y_SC))
     {
-        err_code |= 0x400000000;
-        strcat(Err_Msg, "FW_MAN_Y_SC | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_MAN_Y_SC");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_ACRO_X_MAX(FAC_ParamTblPtr->FW_ACRO_X_MAX))
     {
-        err_code |= 0x800000000;
-        strcat(Err_Msg, "FW_ACRO_X_MAX | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_ACRO_X_MAX");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_ACRO_Y_MAX(FAC_ParamTblPtr->FW_ACRO_Y_MAX))
     {
-        err_code |= 0x1000000000;
-        strcat(Err_Msg, "FW_ACRO_Y_MAX | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_ACRO_Y_MAX");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_ACRO_Z_MAX(FAC_ParamTblPtr->FW_ACRO_Z_MAX))
     {
-        err_code |= 0x2000000000;
-        strcat(Err_Msg, "FW_ACRO_Z_MAX | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_ACRO_Z_MAX");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
     
     if (InvalidFW_RATT_TH(FAC_ParamTblPtr->FW_RATT_TH))
     {
-        err_code |= 0x4000000000;
-        strcat(Err_Msg, "FW_RATT_TH | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_RATT_TH");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_AIRSPD_MIN(FAC_ParamTblPtr->FW_AIRSPD_MIN))
     {
-        err_code |= 0x8000000000;
-        strcat(Err_Msg, "FW_AIRSPD_MIN | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_AIRSPD_MIN");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_AIRSPD_MAX(FAC_ParamTblPtr->FW_AIRSPD_MAX))
     {
-        err_code |= 0x10000000000;
-        strcat(Err_Msg, "FW_AIRSPD_MAX | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_AIRSPD_MAX");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidFW_AIRSPD_TRIM(FAC_ParamTblPtr->FW_AIRSPD_TRIM))
     {
-        err_code |= 0x20000000000;
-        strcat(Err_Msg, "FW_AIRSPD_TRIM | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "FW_AIRSPD_TRIM");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidTRIM_ROLL(FAC_ParamTblPtr->TRIM_ROLL))
     {
-        err_code |= 0x40000000000;
-        strcat(Err_Msg, "TRIM_ROLL | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "TRIM_ROLL");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidTRIM_PITCH(FAC_ParamTblPtr->TRIM_PITCH))
     {
-        err_code |= 0x80000000000;
-        strcat(Err_Msg, "TRIM_PITCH | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "TRIM_PITCH");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidTRIM_YAW(FAC_ParamTblPtr->TRIM_YAW))
     {
-        err_code |= 0x100000000000;
-        strcat(Err_Msg, "TRIM_YAW | ");
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "TRIM_YAW");
+        iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
     if (InvalidVT_TYPE(FAC_ParamTblPtr->VT_TYPE))
     {
-        err_code |= 0x200000000000;
-        strcat(Err_Msg, "VT_TYPE");
-    }
-
-    if (err_code != 0x0)
-    {
-        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "%s", Err_Msg);
+        snprintf(Param, FAC_PARAM_NAME_MAX_LEN, "VT_TYPE");
         iStatus = -1;
+        goto FAC_ValidateConfigTbl_Exit_Tag;
     }
 
 FAC_ValidateConfigTbl_Exit_Tag:
@@ -452,14 +485,8 @@ FAC_AcquireConfigPointers_Exit_Tag:
 
 void FAC::HandleTableUpdate(void)
 {
-    int32 Status = 0;
+    CFE_TBL_Modified(ParamTblHdl);
 
-    Status = CFE_TBL_Modified(ParamTblHdl);
-    if(Status != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(FAC_TBL_MODIFIED_ERROR_EID, CFE_EVS_ERROR,
-                "CFE_TBL_Modified failed with code (%d)", Status);
-    }
     UpdateParams();
 }
 
