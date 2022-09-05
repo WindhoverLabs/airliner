@@ -842,7 +842,6 @@ int32 Test_FPC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
             printf("CmdErrCnt: %d\n", HkMsg.usCmdErrCnt);
             printf("ControlModeCurrent: %d\n", HkMsg.ControlModeCurrent);
             printf("_hold_alt: %f\n", HkMsg._hold_alt);
-            printf("m_Hold_Alt: %f\n", HkMsg.m_Hold_Alt);
             printf("m_Hdg_Hold_Enabled: %d\n", HkMsg.m_Hdg_Hold_Enabled);
             printf("tecsMode: %d\n", HkMsg.tecsMode);
             printf("_time_started_landing: %" PRIu64"\n", HkMsg._time_started_landing);

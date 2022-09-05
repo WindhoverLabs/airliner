@@ -309,9 +309,9 @@ double FPC_Test_GetChecksum(FPC_ConfigTbl_t *pTbl)
                + (double)pTbl->FPC_Runway_Takeoff.RWTO_HDG
                + (double)pTbl->FPC_Runway_Takeoff.NAV_ALT
                + (double)pTbl->FPC_Runway_Takeoff.MAX_THR
-               + (double)pTbl->FPC_Runway_Takeoff.PSP
-               + (double)pTbl->FPC_Runway_Takeoff.MAX_PITCH
-               + (double)pTbl->FPC_Runway_Takeoff.MAX_ROLL
+               + (double)pTbl->FPC_Runway_Takeoff.PSP_RADIANS
+               + (double)pTbl->FPC_Runway_Takeoff.MAX_PITCH_RADIANS
+               + (double)pTbl->FPC_Runway_Takeoff.MAX_ROLL_RADIANS
                + (double)pTbl->FPC_Runway_Takeoff.AIRSPD_SCL
                + (double)pTbl->FPC_Runway_Takeoff.AIRSPD_MIN
                + (double)pTbl->FPC_Runway_Takeoff.CLMBOUT_DIFF;
@@ -381,9 +381,9 @@ double FPC_Test_GetChecksum(FPC_ConfigTbl_t *pTbl)
     std::cout << "RWTO_HDG: " << pTbl->FPC_Runway_Takeoff.RWTO_HDG << "\n";
     std::cout << "NAV_ALT: " << pTbl->FPC_Runway_Takeoff.NAV_ALT << "\n";
     std::cout << "MAX_THR: " << pTbl->FPC_Runway_Takeoff.MAX_THR << "\n";
-    std::cout << "PSP: " << pTbl->FPC_Runway_Takeoff.PSP << "\n";
-    std::cout << "MAX_PITCH: " << pTbl->FPC_Runway_Takeoff.MAX_PITCH << "\n";
-    std::cout << "MAX_ROLL: " << pTbl->FPC_Runway_Takeoff.MAX_ROLL << "\n";
+    std::cout << "PSP: " << pTbl->FPC_Runway_Takeoff.PSP_RADIANS << "\n";
+    std::cout << "MAX_PITCH: " << pTbl->FPC_Runway_Takeoff.MAX_PITCH_RADIANS << "\n";
+    std::cout << "MAX_ROLL: " << pTbl->FPC_Runway_Takeoff.MAX_ROLL_RADIANS << "\n";
     std::cout << "AIRSPD_SCL: " << pTbl->FPC_Runway_Takeoff.AIRSPD_SCL << "\n";
     std::cout << "AIRSPD_MIN: " << pTbl->FPC_Runway_Takeoff.AIRSPD_MIN << "\n";
     std::cout << "CLMBOUT_DIFF: " << pTbl->FPC_Runway_Takeoff.CLMBOUT_DIFF << "\n\n";
