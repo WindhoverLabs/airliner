@@ -31,8 +31,8 @@
  *
  *****************************************************************************/
 
-#ifndef FPC_TEST_UTILS_H
-#define FPC_TEST_UTILS_H
+#ifndef FPC_TEST_UTILS_HPP
+#define FPC_TEST_UTILS_HPP
 
 /*
  * Includes
@@ -72,4 +72,4 @@ extern uint64 PX4LIB_GetPX4TimeMs(void);
 extern uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 
 
-#endif /* FPC_TEST_UTILS_H */
+#endif /* FPC_TEST_UTILS_HPP */

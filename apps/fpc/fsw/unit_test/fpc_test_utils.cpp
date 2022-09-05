@@ -31,7 +31,9 @@
  *
  *****************************************************************************/
 
-#include "fpc_test_utils.h"
+#include "fpc_test_utils.hpp"
+
+#include <iostream>
 
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
@@ -48,7 +50,6 @@
 #include "ut_cfe_evs_stubs.h"
 
 #include <time.h>
-#include <iostream>
 
 extern FPC  cpyFPC;
 
@@ -115,7 +116,7 @@ FPC_ConfigTbl_t FPC_ConfigTblNominal = {
         /* @file launchdetection_params.c
          * Catapult launch detection parameters, accessible via MAVLink */
 
-         0,                       /* LAUN_ALL_ON */
+         FALSE,                   /* LAUN_ALL_ON */
          30.0f,                   /* LAUN_CAT_A */
          0.05f,                   /* Catapult time threshold. */
          0.0f,                    /* Motor delay */
@@ -160,7 +161,7 @@ FPC_ConfigTbl_t FPC_ConfigTblInvalid = {
     0.0f,                         /* T_PTCH_DAMP */
     0.6f,                         /* AIRSPD_MIN */
     5.0f,                         /* AIRSPD_TRIM */
-    4.5f,                        /* AIRSPD_MAX */
+    4.5f,                         /* AIRSPD_MAX */
     FALSE,                        /* ARSP_MODE */
     DEG_TO_RADIANS(10.0f),        /* P_LIM_MIN_RADIANS */
     DEG_TO_RADIANS(10.0f),        /* P_LIM_MAX_RADIANS */
@@ -345,7 +346,14 @@ double FPC_Test_GetChecksum(FPC_ConfigTbl_t *pTbl)
               << ", AIRSPD_MIN: " << pTbl->AIRSPD_MIN << "\n";
     std::cout << "AIRSPD_TRIM: " << pTbl->AIRSPD_TRIM
               << ", AIRSPD_MAX: " << pTbl->AIRSPD_MAX << "\n";
-    std::cout << "ARSP_MODE: " << pTbl->ARSP_MODE << "\n";
+    if (pTbl->ARSP_MODE == TRUE)
+    {
+        std::cout << "ARSP_MODE: " << true << "\n";
+    }
+    else
+    {
+        std::cout << "ARSP_MODE: " << false << "\n";
+    }
     std::cout << "P_LIM_MIN_RADIANS: " << pTbl->P_LIM_MIN_RADIANS
               << ", P_LIM_MAX_RADIANS: " << pTbl->P_LIM_MAX_RADIANS << "\n";
     std::cout << "R_LIM_RADIANS: " << pTbl->R_LIM_RADIANS
@@ -370,14 +378,29 @@ double FPC_Test_GetChecksum(FPC_ConfigTbl_t *pTbl)
               << ", LND_USETER: " << pTbl->LND_USETER << "\n";
     std::cout << "LND_AIRSPD_SC: " << pTbl->LND_AIRSPD_SC << "\n";
 
-    std::cout << "LAUN_ALL_ON: " << pTbl->FPC_Launch_Detection.LAUN_ALL_ON
+    if (pTbl->FPC_Launch_Detection.LAUN_ALL_ON == TRUE)
+    {
+        std::cout << "LAUN_ALL_ON: " << true
               << ", LAUN_CAT_A: " << pTbl->FPC_Launch_Detection.LAUN_CAT_A << "\n";
+    }
+    else
+    {
+        std::cout << "LAUN_ALL_ON: " << false
+              << ", LAUN_CAT_A: " << pTbl->FPC_Launch_Detection.LAUN_CAT_A << "\n";
+    }
     std::cout << "LAUN_CAT_T: " << pTbl->FPC_Launch_Detection.LAUN_CAT_T
               << ", LAUN_CAT_MDEL: " << pTbl->FPC_Launch_Detection.LAUN_CAT_MDEL << "\n";
     std::cout << "LAUN_CAT_PMAX_RADIANS: " << pTbl->FPC_Launch_Detection.LAUN_CAT_PMAX_RADIANS
               << "\n";
 
-    std::cout << "RWTO_TKOFF: " << pTbl->FPC_Runway_Takeoff.RWTO_TKOFF << "\n";
+    if (pTbl->FPC_Runway_Takeoff.RWTO_TKOFF == TRUE)
+    {
+        std::cout << "RWTO_TKOFF: " << true << "\n";
+    }
+    else
+    {
+        std::cout << "RWTO_TKOFF: " << false << "\n";
+    }
     std::cout << "RWTO_HDG: " << pTbl->FPC_Runway_Takeoff.RWTO_HDG << "\n";
     std::cout << "NAV_ALT: " << pTbl->FPC_Runway_Takeoff.NAV_ALT << "\n";
     std::cout << "MAX_THR: " << pTbl->FPC_Runway_Takeoff.MAX_THR << "\n";

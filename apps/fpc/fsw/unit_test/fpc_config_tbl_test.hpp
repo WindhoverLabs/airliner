@@ -31,11 +31,11 @@
  *
  *****************************************************************************/
 
-#ifndef FPC_APP_TEST_H
-#define FPC_APP_TEST_H
+#ifndef FPC_CONFIG_TBL_TEST_HPP
+#define FPC_CONFIG_TBL_TEST_HPP
 
 
-void FPC_App_Test_AddTestCases(void);
+void FPC_Config_Tbl_Test_AddTestCases(void);
 
 
-#endif /* FPC_APP_TEST_H */
+#endif /* FPC_CONFIG_TBL_TEST_HPP */

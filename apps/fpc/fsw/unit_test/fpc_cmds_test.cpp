@@ -31,8 +31,8 @@
  *
  *****************************************************************************/
 
-#include "fpc_cmds_test.h"
-#include "fpc_test_utils.h"
+#include "fpc_cmds_test.hpp"
+#include "fpc_test_utils.hpp"
 
 #include "fpc_msg.h"
 

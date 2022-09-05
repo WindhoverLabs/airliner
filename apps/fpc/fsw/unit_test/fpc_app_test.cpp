@@ -31,9 +31,10 @@
  *
  *****************************************************************************/
 
-#include "fpc_app_test.h"
+#include "fpc_app_test.hpp"
+#include "fpc_test_utils.hpp"
+
 #include "fpc_app.h"
-#include "fpc_test_utils.h"
 
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
@@ -1774,11 +1775,21 @@ void Test_FPC_Execute_RotaryWing(void)
                (void*)&Test_FPC_SendMsgHook);
 
     /* Execute the function being tested */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     iStatus = oFPC.InitConfigTbl();
     if (iStatus == CFE_SUCCESS)
     {
         oFPC.InitData();
+        /* Not initialized in oFPC.InitData() */
+        CFE_PSP_MemSet((void*)&oFPC.m_VehicleGlobalPositionMsg, 0x00,
+                        sizeof(oFPC.m_VehicleGlobalPositionMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_AirspeedMsg, 0x00,
+                        sizeof(oFPC.m_AirspeedMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_VehicleAttitudeMsg, 0x00,
+                        sizeof(oFPC.m_VehicleAttitudeMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_SensorCombinedMsg, 0x00,
+                        sizeof(oFPC.m_SensorCombinedMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_SensorBaroMsg, 0x00,
+                        sizeof(oFPC.m_SensorBaroMsg));
 
         Test_FPC_Execute_RotaryWing_SetData(pFPC);
 
@@ -1786,6 +1797,7 @@ void Test_FPC_Execute_RotaryWing(void)
         oFPC.Execute();
         oFPC.SendOutData();
 
+        oFPC.UpdateParamsFromTable();
         oFPC.Execute();
         oFPC.SendOutData();
     }
@@ -1793,16 +1805,13 @@ void Test_FPC_Execute_RotaryWing(void)
     {
         printf("FPC_Execute: Failed to initialize Config Table\n");
     }
-#else
-    FPC_AppMain();
-#endif
 }
 
 
 /**
  * Function for FPC Execute SetData
  */
-void Test_FPC_Execute_SetData(FPC *pFPC)
+void Test_FPC_Execute_Manual_SetData(FPC *pFPC)
 {
     pFPC->m_VehicleStatusMsg.Timestamp = FPC_Test_GetTimeUs();
     pFPC->m_VehicleStatusMsg.IsVtol = false;
@@ -1966,7 +1975,7 @@ void Test_FPC_Execute_SetData(FPC *pFPC)
 /**
  * Test FPC Execute
  */
-void Test_FPC_Execute(void)
+void Test_FPC_Execute_Manual(void)
 {
     FPC   oFPC{};
     FPC   *pFPC = &oFPC;
@@ -1979,18 +1988,29 @@ void Test_FPC_Execute(void)
                (void*)&Test_FPC_SendMsgHook);
 
     /* Execute the function being tested */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     iStatus = oFPC.InitConfigTbl();
     if (iStatus == CFE_SUCCESS)
     {
         oFPC.InitData();
+        /* Not initialized in oFPC.InitData() */
+        CFE_PSP_MemSet((void*)&oFPC.m_VehicleGlobalPositionMsg, 0x00,
+                        sizeof(oFPC.m_VehicleGlobalPositionMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_AirspeedMsg, 0x00,
+                        sizeof(oFPC.m_AirspeedMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_VehicleAttitudeMsg, 0x00,
+                        sizeof(oFPC.m_VehicleAttitudeMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_SensorCombinedMsg, 0x00,
+                        sizeof(oFPC.m_SensorCombinedMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_SensorBaroMsg, 0x00,
+                        sizeof(oFPC.m_SensorBaroMsg));
 
-        Test_FPC_Execute_SetData(pFPC);
+        Test_FPC_Execute_Manual_SetData(pFPC);
 
         oFPC.UpdateParamsFromTable();
         oFPC.Execute();
         oFPC.SendOutData();
 
+        oFPC.UpdateParamsFromTable();
         oFPC.Execute();
         oFPC.SendOutData();
     }
@@ -1998,9 +2018,6 @@ void Test_FPC_Execute(void)
     {
         printf("FPC_Execute: Failed to initialize Config Table\n");
     }
-#else
-    FPC_AppMain();
-#endif
 }
 
 
@@ -2197,11 +2214,21 @@ void Test_FPC_Execute_Auto(void)
                (void*)&Test_FPC_SendMsgHook);
 
     /* Execute the function being tested */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     iStatus = oFPC.InitConfigTbl();
     if (iStatus == CFE_SUCCESS)
     {
         oFPC.InitData();
+        /* Not initialized in oFPC.InitData() */
+        CFE_PSP_MemSet((void*)&oFPC.m_VehicleGlobalPositionMsg, 0x00,
+                        sizeof(oFPC.m_VehicleGlobalPositionMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_AirspeedMsg, 0x00,
+                        sizeof(oFPC.m_AirspeedMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_VehicleAttitudeMsg, 0x00,
+                        sizeof(oFPC.m_VehicleAttitudeMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_SensorCombinedMsg, 0x00,
+                        sizeof(oFPC.m_SensorCombinedMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_SensorBaroMsg, 0x00,
+                        sizeof(oFPC.m_SensorBaroMsg));
 
         Test_FPC_Execute_Auto_SetData(pFPC);
 
@@ -2209,6 +2236,7 @@ void Test_FPC_Execute_Auto(void)
         oFPC.Execute();
         oFPC.SendOutData();
 
+        oFPC.UpdateParamsFromTable();
         oFPC.Execute();
         oFPC.SendOutData();
     }
@@ -2216,9 +2244,6 @@ void Test_FPC_Execute_Auto(void)
     {
         printf("FPC_Execute: Failed to initialize Config Table\n");
     }
-#else
-    FPC_AppMain();
-#endif
 }
 
 
@@ -2306,11 +2331,21 @@ void Test_FPC_Execute_Landed(void)
                (void*)&Test_FPC_SendMsgHook);
 
     /* Execute the function being tested */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     iStatus = oFPC.InitConfigTbl();
     if (iStatus == CFE_SUCCESS)
     {
         oFPC.InitData();
+        /* Not initialized in oFPC.InitData() */
+        CFE_PSP_MemSet((void*)&oFPC.m_VehicleGlobalPositionMsg, 0x00,
+                        sizeof(oFPC.m_VehicleGlobalPositionMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_AirspeedMsg, 0x00,
+                        sizeof(oFPC.m_AirspeedMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_VehicleAttitudeMsg, 0x00,
+                        sizeof(oFPC.m_VehicleAttitudeMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_SensorCombinedMsg, 0x00,
+                        sizeof(oFPC.m_SensorCombinedMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_SensorBaroMsg, 0x00,
+                        sizeof(oFPC.m_SensorBaroMsg));
 
         Test_FPC_Execute_Landed_SetData(pFPC);
 
@@ -2318,6 +2353,7 @@ void Test_FPC_Execute_Landed(void)
         oFPC.Execute();
         oFPC.SendOutData();
 
+        oFPC.UpdateParamsFromTable();
         oFPC.Execute();
         oFPC.SendOutData();
     }
@@ -2325,9 +2361,6 @@ void Test_FPC_Execute_Landed(void)
     {
         printf("FPC_Execute: Failed to initialize Config Table\n");
     }
-#else
-    FPC_AppMain();
-#endif
 }
 
 
@@ -2352,17 +2385,12 @@ void Test_FPC_UpdateParamsFromTable(void)
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     oFPC.InitConfigTbl();
     UpdateParams_Checksum1 = FPC_Test_GetChecksum(oFPC.ConfigTblPtr);
 
     oFPC.UpdateParamsFromTable();
     UpdateParams_Checksum2 = FPC_Test_GetChecksum(oFPC.ConfigTblPtr);
-#else
-    FPC_AppMain();
-#endif
 
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     if ((fabs(UpdateParams_Checksum1 - expected_checksum1) <= 1e-5)
         && (fabs(UpdateParams_Checksum2 - expected_checksum2) <= 1e-5)) // Fail with FLT_EPSILON
     {
@@ -2372,7 +2400,6 @@ void Test_FPC_UpdateParamsFromTable(void)
     {
         UtAssert_True(FALSE, "FPC UpdateParamsFromTable");
     }
-#endif
 }
 
 
@@ -2482,11 +2509,13 @@ void FPC_App_Test_AddTestCases(void)
     UtTest_Add(Test_FPC_AppMain_ProcessNewData_SensorBaro, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_AppMain_ProcessNewData_SensorBaro");
 
+#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
     UtTest_Add(Test_FPC_Execute_RotaryWing, FPC_Test_Setup, FPC_Test_TearDown, "Test_FPC_Execute_RotaryWing");
-    UtTest_Add(Test_FPC_Execute, FPC_Test_Setup, FPC_Test_TearDown, "Test_FPC_Execute");
+    UtTest_Add(Test_FPC_Execute_Manual, FPC_Test_Setup, FPC_Test_TearDown, "Test_FPC_Execute");
     UtTest_Add(Test_FPC_Execute_Auto, FPC_Test_Setup, FPC_Test_TearDown, "Test_FPC_Execute_Auto");
     UtTest_Add(Test_FPC_Execute_Landed, FPC_Test_Setup, FPC_Test_TearDown, "Test_FPC_Execute_Landed");
 
     UtTest_Add(Test_FPC_UpdateParamsFromTable, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_UpdateParamsFromTable");
+#endif
 }
