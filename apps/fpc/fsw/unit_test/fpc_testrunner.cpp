@@ -31,52 +31,19 @@
  *
  *****************************************************************************/
 
+#include "uttest.h"
+
+#include "fpc_app_test.h"
+#include "fpc_cmds_test.h"
+#include "fpc_config_tbl_test.h"
 #include "fpc_test_utils.h"
 
-#include "ut_cfe_evs_hooks.h"
-#include "ut_cfe_time_stubs.h"
-#include "ut_cfe_psp_memutils_stubs.h"
-#include "ut_cfe_tbl_stubs.h"
-#include "ut_cfe_tbl_hooks.h"
-#include "ut_cfe_fs_stubs.h"
-#include "ut_cfe_time_stubs.h"
-#include "ut_osapi_stubs.h"
-#include "ut_osfileapi_stubs.h"
-#include "ut_cfe_sb_stubs.h"
-#include "ut_cfe_es_stubs.h"
-#include "ut_cfe_evs_stubs.h"
+int main(void)
+{   
+    FPC_App_Test_AddTestCases();
+    FPC_Cmds_Test_AddTestCases();
+    FPC_Config_Tbl_Test_AddTestCases();
 
-#include <time.h>
+    return(UtTest_Run());
 
-/*
- * Config table for testing
- */
-FPC_ConfigTblEntry_t FPC_configtable = {
-        1 /* iParam*/
-};
-
-/*
- * Function Definitions
- */
-
-void FPC_Test_Setup(void)
-{
-    /* initialize test environment to default state for every test */
-
-    CFE_PSP_MemSet(&FPC_AppData, 0x00, sizeof(FPC_AppData_t));
-
-    Ut_CFE_EVS_Reset();
-    Ut_CFE_FS_Reset();
-    Ut_CFE_TIME_Reset();
-    Ut_CFE_TBL_Reset();
-    Ut_CFE_SB_Reset();
-    Ut_CFE_ES_Reset();
-    Ut_OSAPI_Reset();
-    Ut_OSFILEAPI_Reset();
-
-    Ut_CFE_TBL_AddTable(FPC_CONFIG_TABLE_FILENAME, (void *) &FPC_configtable);
-}
-
-void FPC_Test_TearDown(void) {
-    CFE_PSP_MemSet(&FPC_AppData, 0x00, sizeof(FPC_AppData_t));
 }

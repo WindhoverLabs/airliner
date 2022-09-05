@@ -12,8 +12,8 @@
 *    notice, this list of conditions and the following disclaimer in
 *    the documentation and/or other materials provided with the
 *    distribution.
-* 3. Neither the name Windhover Labs nor the names of its 
-*    contributors may be used to endorse or promote products derived 
+* 3. Neither the name Windhover Labs nor the names of its
+*    contributors may be used to endorse or promote products derived
 *    from this software without specific prior written permission.
 *
 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -32,20 +32,41 @@
 *****************************************************************************/
 
 #include "cfe.h"
+#include "fpc_test_utils.h"
 
-#include "to_channel.h"
+#include <time.h>
 
-int32  Ut_TO_Custom_Init(void);
-int32  Ut_TO_Custom_InitEvent(int32 ind);
-int32  Ut_TO_OutputChannel_CustomBuildup(uint32 index);
-int32  Ut_TO_OutputChannel_CustomTeardown(uint32 index);
-void   Ut_TO_OutputChannel_CustomCleanupAll(void);
-void   Ut_TO_OutputChannel_ProcessNewCustomCmds(CFE_SB_Msg_t* MsgPtr);
-uint8  Ut_TO_OutputChannel_Status(uint32 index);
-uint32 Ut_TO_GetCustomVersion(void);
-void   Ut_TO_PrintCustomVersion(void);
-void   Ut_TO_ResetCustomChannelCounters(void);
-void   Ut_TO_UpdateCustomDataFromTable(uint16 ChannelID,
-                                  osalbool sendEvent,
-                                  osalbool abandonCurrentMsg);
-void   Ut_TO_OutputChannel_SendTelemetry(uint32 index);
+uint64 PX4LIB_GetPX4TimeUs(void)
+{
+    uint64           outTime = 0;
+    OS_time_t        localTime = {};
+
+    CFE_PSP_GetTime(&localTime);
+
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000000))
+              + static_cast<uint64>(localTime.microsecs);
+
+    return outTime;
+}
+
+uint64 PX4LIB_GetPX4TimeMs(void)
+{
+    uint64          outTime = 0;
+    OS_time_t       localTime = {};
+
+    CFE_PSP_GetTime(&localTime);
+
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000)) 
+              + static_cast<uint64>(static_cast<uint64>(localTime.microsecs) 
+              % static_cast<uint64>(1000));
+
+    return outTime;
+}
+
+uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then)
+{
+    uint64 delta = PX4LIB_GetPX4TimeUs() - then;
+    return delta;
+}

@@ -193,7 +193,7 @@ void TO_Test_Setup_EmptyConfig(void)
     /* Clear queues, semaphores, etc and call init */
     Ut_OS_API_Clear();
 
-    Ut_CFE_TBL_AddTable(TO_UDP_CONFIG_TABLE_FILENAME, (void *) &TO_EmptyConfigTable);
+    Ut_CFE_TBL_AddTable(TO_CONFIG_TABLE_FILENAME, (void *) &TO_EmptyConfigTable);
 }
 
 
@@ -214,7 +214,7 @@ void TO_Test_Setup_NoPQueueConfig(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-    Ut_CFE_TBL_AddTable(TO_UDP_CONFIG_TABLE_FILENAME, (void *) &TO_NoPQueueConfigTable);
+    Ut_CFE_TBL_AddTable(TO_CONFIG_TABLE_FILENAME, (void *) &TO_NoPQueueConfigTable);
 }
 
 
@@ -238,7 +238,7 @@ void TO_Test_Setup_FullConfig1(void)
     /* Clear queues, semaphores, etc and call init */
     Ut_OS_API_Clear();
 
-    Ut_CFE_TBL_AddTable(TO_UDP_CONFIG_TABLE_FILENAME, (void *) &TO_FullConfigTable1);
+    Ut_CFE_TBL_AddTable(TO_CONFIG_TABLE_FILENAME, (void *) &TO_FullConfigTable1);
 }
 
 
@@ -262,7 +262,7 @@ void TO_Test_Setup_FullConfig2(void)
     /* Clear queues, semaphores, etc and call init */
     Ut_OS_API_Clear();
 
-    Ut_CFE_TBL_AddTable(TO_UDP_CONFIG_TABLE_FILENAME, (void *) &TO_FullConfigTable2);
+    Ut_CFE_TBL_AddTable(TO_CONFIG_TABLE_FILENAME, (void *) &TO_FullConfigTable2);
 }
 
 

@@ -61,6 +61,7 @@ void Ut_TO_Custom_SetFunctionHook(uint32 Index, void *FunPtr)
     else if (Index == UT_TO_PRINTCUSTOMVERSION_INDEX)   { Ut_TO_Custom_HookTable.TO_PrintCustomVersion = (void (*)(void))FunPtr; }
     else if (Index == UT_TO_RESETCUSTOMCHANNELCOUNTERS_INDEX)   { Ut_TO_Custom_HookTable.TO_ResetCustomChannelCounters = (void (*)(void))FunPtr; }
     else if (Index == UT_TO_UPDATECUSTOMDATAFROMTABLE_INDEX)   { Ut_TO_Custom_HookTable.TO_UpdateCustomDataFromTable = (void (*)(uint8,osalbool,osalbool))FunPtr; }
+    else if (Index == UT_TO_OUTPUTCHANNEL_SENDTELEMETRY_INDEX)   { Ut_TO_Custom_HookTable.TO_OutputChannel_SendTelemetry = (void (*)(uint32))FunPtr; }
     else
     {
         printf("Unsupported TO_CUSTOM Index In SetFunctionHook Call %lu\n", Index);
@@ -165,10 +166,6 @@ int32  TO_OutputChannel_CustomTeardown(uint32 index)
 
 void   TO_OutputChannel_CustomCleanupAll(void)
 {
-    /* Check for specified return */
-    if (Ut_TO_Custom_UseReturnCode(UT_TO_OUTPUTCHANNEL_CUSTOMCLEANUPALL_INDEX))
-        Ut_TO_Custom_ReturnCodeTable[UT_TO_OUTPUTCHANNEL_CUSTOMCLEANUPALL_INDEX].Value;
-
     /* Check for Function Hook */
     if (Ut_TO_Custom_HookTable.TO_OutputChannel_CustomCleanupAll)
         Ut_TO_Custom_HookTable.TO_OutputChannel_CustomCleanupAll();
@@ -177,10 +174,6 @@ void   TO_OutputChannel_CustomCleanupAll(void)
 
 void   TO_OutputChannel_ProcessNewCustomCmds(CFE_SB_Msg_t* MsgPtr)
 {
-    /* Check for specified return */
-    if (Ut_TO_Custom_UseReturnCode(UT_TO_OUTPUTCHANNEL_PROCESSNEWCUSTOMCMDS_INDEX))
-        Ut_TO_Custom_ReturnCodeTable[UT_TO_OUTPUTCHANNEL_PROCESSNEWCUSTOMCMDS_INDEX].Value;
-
     /* Check for Function Hook */
     if (Ut_TO_Custom_HookTable.TO_OutputChannel_ProcessNewCustomCmds)
         Ut_TO_Custom_HookTable.TO_OutputChannel_ProcessNewCustomCmds(MsgPtr);
@@ -201,6 +194,14 @@ uint8  TO_OutputChannel_Status(uint32 index)
 }
 
 
+void  TO_OutputChannel_SendTelemetry(uint32 index)
+{
+    /* Check for Function Hook */
+    if (Ut_TO_Custom_HookTable.TO_OutputChannel_SendTelemetry)
+        Ut_TO_Custom_HookTable.TO_OutputChannel_SendTelemetry(index);
+}
+
+
 uint32 TO_GetCustomVersion(void)
 {
     /* Check for specified return */
@@ -217,10 +218,6 @@ uint32 TO_GetCustomVersion(void)
 
 void   TO_PrintCustomVersion(void)
 {
-    /* Check for specified return */
-    if (Ut_TO_Custom_UseReturnCode(UT_TO_PRINTCUSTOMVERSION_INDEX))
-        Ut_TO_Custom_ReturnCodeTable[UT_TO_PRINTCUSTOMVERSION_INDEX].Value;
-
     /* Check for Function Hook */
     if (Ut_TO_Custom_HookTable.TO_PrintCustomVersion)
         Ut_TO_Custom_HookTable.TO_PrintCustomVersion();
@@ -229,10 +226,6 @@ void   TO_PrintCustomVersion(void)
 
 void   TO_ResetCustomChannelCounters(void)
 {
-    /* Check for specified return */
-    if (Ut_TO_Custom_UseReturnCode(UT_TO_RESETCUSTOMCHANNELCOUNTERS_INDEX))
-        Ut_TO_Custom_ReturnCodeTable[UT_TO_RESETCUSTOMCHANNELCOUNTERS_INDEX].Value;
-
     /* Check for Function Hook */
     if (Ut_TO_Custom_HookTable.TO_ResetCustomChannelCounters)
         Ut_TO_Custom_HookTable.TO_ResetCustomChannelCounters();
@@ -243,10 +236,6 @@ void   TO_UpdateCustomDataFromTable(uint16 ChannelID,
                                   osalbool sendEvent,
                                   osalbool abandonCurrentMsg)
 {
-    /* Check for specified return */
-    if (Ut_TO_Custom_UseReturnCode(UT_TO_UPDATECUSTOMDATAFROMTABLE_INDEX))
-        Ut_TO_Custom_ReturnCodeTable[UT_TO_UPDATECUSTOMDATAFROMTABLE_INDEX].Value;
-
     /* Check for Function Hook */
     if (Ut_TO_Custom_HookTable.TO_UpdateCustomDataFromTable)
         Ut_TO_Custom_HookTable.TO_UpdateCustomDataFromTable(ChannelID, sendEvent, abandonCurrentMsg);
