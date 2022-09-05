@@ -61,83 +61,97 @@ void CatapultLaunchMethod::update(float accel_x)
     float dt = elapsed_time * 1e-6f;
     last_timestamp = PX4LIB_GetPX4TimeUs();
 
-	switch (state) {
-	case LAUNCHDETECTION_RES_NONE:
+    switch(state)
+    {
+        case LAUNCHDETECTION_RES_NONE:
         {
             /* Detect a acceleration that is longer and stronger as the minimum given by the params */
-            if (accel_x > thresholdAccel) {
+            if(accel_x > thresholdAccel)
+            {
                 integrator += dt;
 
-                if (integrator > thresholdTime) {
-                    if (motorDelay > 0.0f) {
+                if(integrator > thresholdTime)
+                {
+                    if(motorDelay > 0.0f)
+                    {
                         state = LAUNCHDETECTION_RES_DETECTED_ENABLECONTROL;
 
-                        (void) CFE_EVS_SendEvent(FPC_LAUNCH_ERROR_EID, CFE_EVS_ERROR,
-                                       "Launch detected: enablecontrol, waiting %8.4fs until full throttle", motorDelay);
+                        (void) CFE_EVS_SendEvent(FPC_LAUNCH_ERROR_EID,
+                                CFE_EVS_ERROR,
+                                "Launch detected: enablecontrol, waiting %8.4fs until full throttle",
+                                motorDelay);
 
-                    } else {
+                    }
+                    else
+                    {
                         /* No motor delay set: go directly to enablemotors state */
                         state = LAUNCHDETECTION_RES_DETECTED_ENABLEMOTORS;
-                        (void) CFE_EVS_SendEvent(FPC_LAUNCH_ERROR_EID, CFE_EVS_ERROR,
-                                       "Launch detected: enablemotors (delay not activated)");
+                        (void) CFE_EVS_SendEvent(FPC_LAUNCH_ERROR_EID,
+                                CFE_EVS_ERROR,
+                                "Launch detected: enablemotors (delay not activated)");
                     }
                 }
 
-            } else {
+            }
+            else
+            {
                 reset();
             }
 
             break;
         }
 
-	case LAUNCHDETECTION_RES_DETECTED_ENABLECONTROL:
+        case LAUNCHDETECTION_RES_DETECTED_ENABLECONTROL:
         {
             /* Vehicle is currently controlling attitude but not with full throttle. Waiting until delay is
              * over to allow full throttle */
             motorDelayCounter += dt;
 
-            if (motorDelayCounter > motorDelay) {
+            if(motorDelayCounter > motorDelay)
+            {
                 (void) CFE_EVS_SendEvent(FPC_LAUNCH_ERROR_EID, CFE_EVS_ERROR,
-                               "Launch detected: state enablemotors");
+                        "Launch detected: state enablemotors");
                 state = LAUNCHDETECTION_RES_DETECTED_ENABLEMOTORS;
             }
 
             break;
         }
 
-	default:
-		break;
+        default:
+            break;
 
-	}
+    }
 }
 
 LaunchDetectionResult CatapultLaunchMethod::getLaunchDetected() const
 {
-	return state;
+    return state;
 }
 
 void CatapultLaunchMethod::reset()
 {
-	integrator = 0.0f;
-	motorDelayCounter = 0.0f;
-	state = LAUNCHDETECTION_RES_NONE;
+    integrator = 0.0f;
+    motorDelayCounter = 0.0f;
+    state = LAUNCHDETECTION_RES_NONE;
 }
 
 float CatapultLaunchMethod::getPitchMax(float pitchMaxDefault)
 {
-	/* If motor is turned on do not impose the extra limit on maximum pitch */
-	if (state == LAUNCHDETECTION_RES_DETECTED_ENABLEMOTORS) {
-		return pitchMaxDefault;
+    /* If motor is turned on do not impose the extra limit on maximum pitch */
+    if(state == LAUNCHDETECTION_RES_DETECTED_ENABLEMOTORS)
+    {
+        return pitchMaxDefault;
 
-	} else {
+    }
+    else
+    {
         return pitchMaxPreThrottle;
-	}
+    }
 }
 
 void CatapultLaunchMethod::Initialize(float newThresholdAccel,
-                                      float newThresholdTime,
-                                      float newMotorDelay,
-                                      float newPitchMaxPreThrottle)
+        float newThresholdTime, float newMotorDelay,
+        float newPitchMaxPreThrottle)
 {
     last_timestamp = PX4LIB_GetPX4TimeUs();
 

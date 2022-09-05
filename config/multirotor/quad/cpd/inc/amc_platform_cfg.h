@@ -13,6 +13,24 @@ extern "C" {
 #define AMC_SIMPLE_MIXER_MAX_MIXERS       (10)
 #define AMC_SIMPLE_MIXER_MAX_CONTROLS     (2)
 
+#define AMC_PWM_FREQUENCY_CHANNEL_0       (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_1       (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_2       (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_3       (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_4       (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_5       (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_6       (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_7       (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_8       (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_9       (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_10      (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_11      (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_12      (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_13      (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_14      (400)
+#define AMC_PWM_FREQUENCY_CHANNEL_15      (400)
+
+
 /** \brief Mission specific version number for AMC application
 **  
 **  \par Description:

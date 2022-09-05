@@ -208,6 +208,11 @@ int32 LD::AcquireConfigPointers(void)
         goto LD_AcquireConfigPointers_Exit_Tag;
     }
 
+    if(iStatus == CFE_TBL_INFO_UPDATED)
+    {
+        HkTlm.mode = ConfigTblPtr->LD_OP_MODE;
+    }
+
     /*
      ** Get a pointer to the table
      */

@@ -121,6 +121,11 @@ buildliner_add_app(
     CONFIG_SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch/sch_custom_v1.c
 )
+buildliner_add_app_unit_test_src(
+    sch
+    SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch/sch_custom_v1.c
+)
 
 buildliner_add_app(
     sbnd
@@ -207,7 +212,7 @@ buildliner_add_app(
     amc
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/amc/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/amc
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/amc
     CONFIG_SOURCES
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc/amc_custom.cpp
 )

@@ -65,7 +65,6 @@ extern "C" {
 #include "math/Dcm.hpp"
 #include "math/Matrix3F3.hpp"
 #include "math/Vector3F.hpp"
-#include "CautionWarningHelper.hpp"
 
 
 /************************************************************************
@@ -138,14 +137,8 @@ public:
     CFE_TBL_Handle_t ConfigTblHdl;
     /** \brief Config Table Pointer */
     VM_ConfigTbl_t* ConfigTblPtr;
-    /** \brief Caution and Warning helper class */
-    CautionWarningHelper m_caws;
 
     /** \brief Input Data subscribed at the beginning of cycle */
-    /** \brief Magnetometer message */
-    PX4_SensorMagMsg_t SensorMagMsg;
-    /** \brief Gyro message */
-    PX4_SensorGyroMsg_t SensorGyroMsg;
     /** \brief Battery status message */
     PX4_BatteryStatusMsg_t BatteryStatusMsg;
     /** \brief Telemetry status message */
@@ -164,8 +157,6 @@ public:
     PX4_ManualControlSetpointMsg_t ManualControlSetpointMsg;
     /** \brief position setpoint triplet message */
     PX4_PositionSetpointTripletMsg_t PositionSetpointTripletMsg;
-    /** \brief Sensor accelerometer message */
-    PX4_SensorAccelMsg_t SensorAccelMsg;
     /** \brief Safety message */
     PX4_SafetyMsg_t SafetyMsg;
     /** \brief Sensor correction message */

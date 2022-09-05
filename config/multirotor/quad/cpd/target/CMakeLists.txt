@@ -272,14 +272,14 @@ buildliner_add_app(
     vm
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/vm/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/shared/apps/vm
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/vm
 )
 
 buildliner_add_app(
     ld
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ld/multicopter/fsw/for_build
-    CONFIG     ${PROJECT_SOURCE_DIR}/config/multirotor/quad/cpd/apps/ld
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/ld
 )
 
 buildliner_add_app(

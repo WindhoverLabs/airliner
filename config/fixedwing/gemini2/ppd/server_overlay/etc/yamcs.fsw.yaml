@@ -80,6 +80,8 @@ dataLinks:
   - name: tmtc_cpd
     class: com.windhoverlabs.yamcs.tctm.SerialATTmTcDatalink
     device: /dev/ttyUSB0
+    baudRate: 115200
+    flowControl: RTS_CTS
     tm_config:
       stream: tm_realtime
       packetInputStreamClassName: com.windhoverlabs.yamcs.tctm.RFC1055PacketInputStream

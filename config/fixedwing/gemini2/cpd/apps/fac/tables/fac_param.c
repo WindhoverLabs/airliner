@@ -60,7 +60,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.4f,
+	0.7f,
 
 	/**
 	 * Attitude pitch time constant (FW_P_TC)
@@ -78,7 +78,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.4f,
+	0.5f,
 
 	/**
 	 * Pitch rate proportional gain (FW_PR_P).
@@ -93,7 +93,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.01f,
+	0.05f,
 
 	/**
 	 * Pitch rate integrator gain (FW_PR_I).
@@ -108,7 +108,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.02f,
+	0.05f,
 
 	/**
 	 * Maximum positive / up pitch rate (FW_P_RMAX_POS).
@@ -123,7 +123,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	5.0f,
+	60.0f,
 
 	/**
 	 * Maximum negative / down pitch rate (FW_P_RMAX_NEG).
@@ -138,7 +138,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	20.0f,
+	60.0f,
 
 	/**
 	 * Pitch rate integrator limit (FW_PR_IMAX).
@@ -152,7 +152,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.2f,
+	0.4f,
 
 	/**
 	 * Roll rate proportional Gain (FW_RR_P).
@@ -167,7 +167,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.01f,
+	0.22f,
 
 	/**
 	 * Roll rate integrator Gain (FW_RR_I).
@@ -182,7 +182,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.01f,
+	0.02f,
 
 	/**
 	 * Roll integrator anti-windup (FW_RR_IMAX).
@@ -210,7 +210,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	10.0f,
+	70.0f,
 
 	/**
 	 * Yaw rate proportional gain (FW_YR_P).
@@ -225,7 +225,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.02f,
+	0.05f,
 
 	/**
 	 * Yaw rate integrator gain (FW_YR_I).
@@ -292,7 +292,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @boolean
 	 * @group FW Attitude Control
 	 */
-	0,
+	1,
 
 
 	/**
@@ -368,7 +368,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.5f,
+	0.2f,
 
 	/**
 	 * Pitch rate feed forward (FW_PR_FF).
@@ -382,7 +382,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.5f,
+	0.4f,
 
 	/**
 	 * Yaw rate feed forward (FW_YR_FF).
@@ -500,7 +500,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	10.0f,
+	45.0f,
 
 	/**
 	 * Scale factor for flaps (FW_FLAPS_SCL).

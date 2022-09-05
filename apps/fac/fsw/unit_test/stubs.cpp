@@ -32,10 +32,26 @@
 *****************************************************************************/
 
 #include "cfe.h"
+#include "fac_test_utils.hpp"
 
+#include <time.h>
 
 uint64 PX4LIB_GetPX4TimeUs(void)
 {
-	return 0;
+    uint64           outTime = 0;
+    OS_time_t        localTime = {};
+
+    CFE_PSP_GetTime(&localTime);
+
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000000))
+              + static_cast<uint64>(localTime.microsecs);
+
+    return outTime;
 }
 
+uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then)
+{
+    uint64 delta = PX4LIB_GetPX4TimeUs() - then;
+    return delta;
+}
