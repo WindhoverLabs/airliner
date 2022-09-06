@@ -670,23 +670,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       </actions>
       <border_width>1</border_width>
     </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>AppControl_4</name>
-      <actions>
-        <action type="open_display">
-          <file>$(APP_CONTROL_TEMPLATE)</file>
-          <target>tab</target>
-          <description>Open Display</description>
-        </action>
-      </actions>
-      <text>Set</text>
-      <x>422</x>
-      <y>306</y>
-      <width>66</width>
-      <height>20</height>
-      <tooltip>$(actions)</tooltip>
-      <border_alarm_sensitive>false</border_alarm_sensitive>
-    </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_9</name>
       <pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID.ControlModeCurrent</pv_name>
@@ -779,6 +762,23 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_4</name>
+      <actions>
+        <action type="open_display">
+          <file>UpdateParams.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Tune</text>
+      <x>240</x>
+      <y>12</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
