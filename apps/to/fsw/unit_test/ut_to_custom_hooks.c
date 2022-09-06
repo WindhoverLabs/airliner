@@ -100,3 +100,9 @@ void   Ut_TO_UpdateCustomDataFromTable(
 {
 
 }
+
+
+void   Ut_TO_OutputChannel_SendTelemetry(uint32 index)
+{
+
+}

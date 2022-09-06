@@ -50,6 +50,7 @@ typedef enum
     UT_TO_CHANNEL_UNLOCKBYREF_INDEX,
     UT_TO_MESSAGEFLOW_GETOBJECT_INDEX,
     UT_TO_CHANNEL_OPENCHANNEL_INDEX,
+	UT_TO_OUTPUTQUEUE_GETMSG_INDEX,
     UT_TO_MAX_INDEX
 } Ut_TO_INDEX_t;
 
@@ -66,6 +67,7 @@ typedef struct
     int32 (*TO_Channel_OpenChannel)(const uint32 index, const char *ChannelName,
             const char *ConfigTableName, const char *ConfigTableFileName, TO_ChannelTbl_t *BackupTbl,
             const char *DumpTableName, const uint32 CfCntSemMax, const char *CfCntSemName);
+    int32    (*TO_OutputQueue_GetMsg)(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, int32 Timeout );
 } Ut_TO_HookTable_t;
 
 typedef struct
@@ -79,6 +81,7 @@ void Ut_TO_Reset(void);
 void Ut_TO_SetFunctionHook(uint32 Index, void *FunPtr);
 void Ut_TO_SetReturnCode(uint32 Index, int32 RtnVal, uint32 CallCnt);
 void Ut_TO_ContinueReturnCodeAfterCountZero(uint32 Index);
+
 
 
 #ifdef __cplusplus

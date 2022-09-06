@@ -32,10 +32,10 @@
 *****************************************************************************/
 
 #include "cfe.h"
+#include "fac_test_utils.hpp"
 
 #include <time.h>
 
-extern "C" {
 uint64 PX4LIB_GetPX4TimeUs(void)
 {
     uint64           outTime = 0;
@@ -54,5 +54,4 @@ uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then)
 {
     uint64 delta = PX4LIB_GetPX4TimeUs() - then;
     return delta;
-}
 }

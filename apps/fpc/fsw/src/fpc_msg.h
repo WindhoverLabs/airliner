@@ -43,6 +43,7 @@
  *************************************************************************/
 #include "cfe.h"
 #include "px4_msgs.h"
+#include "fpc_tbldefs.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -176,14 +177,16 @@ extern "C" {
 #define FPC_UPDATE_RWTO_HDG_CC                    (55)
 #define FPC_UPDATE_NAV_ALT_CC                     (56)
 #define FPC_UPDATE_MAX_THR_CC                     (57)
-#define FPC_UPDATE_PSP_CC                         (58)
-#define FPC_UPDATE_MAX_PITCH_CC                   (59)
-#define FPC_UPDATE_MAX_ROLL_CC                    (60)
+#define FPC_UPDATE_PSP_RADIANS_CC                 (58)
+#define FPC_UPDATE_MAX_PITCH_RADIANS_CC           (59)
+#define FPC_UPDATE_MAX_ROLL_RADIANS_CC            (60)
 #define FPC_UPDATE_AIRSPD_SCL_CC                  (61)
 #define FPC_UPDATE_RUNWAY_AIRSPD_MIN_CC           (62)
 #define FPC_UPDATE_RUNWAY_CLMBOUT_DIFF_CC         (63)
 #define FPC_OVERRIDE_ALTITUDE_CC                  (64)
 #define FPC_OVERRIDE_HEADING_CC                   (65)
+#define FPC_UPDATE_AIRSPD_MIN_CC                  (22)
+
 /************************************************************************
  ** Local Structure Declarations
  *************************************************************************/
@@ -219,7 +222,7 @@ typedef struct
 
     /** \brief The param to update */
     int32 param;
-} FPC_UpdateInt32Cmd_t;
+} FPC_UpdateParamInt32Cmd_t;
 /**
  **  \brief Add Message Flow command.
  */
@@ -356,6 +359,8 @@ typedef struct
     boolean _runway_takeoff_enabled;
     boolean _runway_takeoff_initialized;
     Runway _runway_takeoff;
+
+    FPC_ConfigTbl_t Params;
 } FPC_HkTlm_t;
 
 #ifdef __cplusplus

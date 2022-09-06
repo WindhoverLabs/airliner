@@ -48,3 +48,4 @@ void   Ut_TO_ResetCustomChannelCounters(void);
 void   Ut_TO_UpdateCustomDataFromTable(uint16 ChannelID,
                                   osalbool sendEvent,
                                   osalbool abandonCurrentMsg);
+void   Ut_TO_OutputChannel_SendTelemetry(uint32 index);

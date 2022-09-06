@@ -108,7 +108,7 @@ int32 TO_Custom_InitHook(void)
     TO_AppCustomData.Channel[0].Socket = 0;
     TO_AppCustomData.Channel[0].ChildTaskID = 0;
 
-    iStatus = TO_Channel_OpenChannel(0, "UDP", TO_UDP_CONFIG_TABLENAME, TO_UDP_CONFIG_TABLE_FILENAME, &TO_EmptyConfigTable, TO_DUMP_TABLENAME, TO_UDP_CF_MAX_PDUS, TO_UDP_CF_THROTTLE_SEM_NAME);
+    iStatus = TO_Channel_OpenChannel(0, "UDP", TO_CONFIG_TABLENAME, TO_CONFIG_TABLE_FILENAME, &TO_EmptyConfigTable, TO_DUMP_TABLENAME, 1, TO_CF_THROTTLE_SEM_NAME);
     if(iStatus == CFE_SUCCESS) {
         TO_AppCustomData.Channel[0].State = TO_CHANNEL_OPENED;
     }
@@ -130,7 +130,7 @@ int32 TO_Custom_InitHook4(void)
     TO_AppCustomData.Channel[0].Socket = 0;
     TO_AppCustomData.Channel[0].ChildTaskID = 0;
 
-    iStatus = TO_Channel_OpenChannel(0, "UDP", TO_UDP_CONFIG_TABLENAME, TO_UDP_CONFIG_TABLE_FILENAME, &TO_EmptyConfigTable, TO_DUMP_TABLENAME, TO_UDP_CF_MAX_PDUS, TO_UDP_CF_THROTTLE_SEM_NAME);
+    iStatus = TO_Channel_OpenChannel(0, "UDP", TO_CONFIG_TABLENAME, TO_CONFIG_TABLE_FILENAME, &TO_EmptyConfigTable, TO_DUMP_TABLENAME, 1, TO_CF_THROTTLE_SEM_NAME);
     
     TO_AppCustomData.Channel[0].State = TO_CHANNEL_OPENED;
 
@@ -152,7 +152,7 @@ int32 TO_Custom_InitHook5(void)
     TO_AppCustomData.Channel[0].Socket = 0;
     TO_AppCustomData.Channel[0].ChildTaskID = 0;
 
-    iStatus = TO_Channel_OpenChannel(0, "UDP", TO_UDP_CONFIG_TABLENAME, TO_UDP_CONFIG_TABLE_FILENAME, &TO_EmptyConfigTable, TO_DUMP_TABLENAME, TO_UDP_CF_MAX_PDUS, TO_UDP_CF_THROTTLE_SEM_NAME);
+    iStatus = TO_Channel_OpenChannel(0, "UDP", TO_CONFIG_TABLENAME, TO_CONFIG_TABLE_FILENAME, &TO_EmptyConfigTable, TO_DUMP_TABLENAME, 1, TO_CF_THROTTLE_SEM_NAME);
     
     TO_AppCustomData.Channel[0].State = TO_CHANNEL_OPENED;
 

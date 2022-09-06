@@ -268,7 +268,7 @@ typedef struct
      * @increment 0.5
      * @group FW TECS
      */
-    float AIRSPD_MIN;
+    float RWTO_AIRSPD_MIN;
 
     /**
      * CLMBOUT_DIFF
@@ -287,7 +287,7 @@ typedef struct
      * @group FW L1 Control
      */
 
-    float CLMBOUT_DIFF;
+    float RWTO_CLMBOUT_DIFF;
 } FPC_Runway_Takeoff_t;
 
 /** \brief Definition for a single config table entry

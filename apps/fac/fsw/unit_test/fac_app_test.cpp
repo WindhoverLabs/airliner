@@ -60,10 +60,10 @@ uint32  UpdateParams_ValidateStatus = 0x0;
 
 double  UpdateParams_ParamChecksum = 0.0;
 
+
 /**************************************************************************
  * Tests for FAC InitEvent()
  **************************************************************************/
-
 /**
  * Test FAC InitEvent() with failed CFE_EVS_Register
  */
@@ -221,6 +221,7 @@ void Test_FAC_InitPipe_Fail_SubscribeBatteryStatus(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_BATTERY_STATUS_MID");
 }
 
+
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for ManualControlSp
  */
@@ -239,6 +240,7 @@ void Test_FAC_InitPipe_Fail_SubscribeManualControlSp(void)
     UtAssert_True (result == expected,
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_MANUAL_CONTROL_SETPOINT_MID");
 }
+
 
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VAttSp
@@ -259,6 +261,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVAttSp(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_ATTITUDE_SETPOINT_MID");
 }
 
+
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VAtt
  */
@@ -277,6 +280,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVAtt(void)
     UtAssert_True (result == expected,
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_ATTITUDE_MID");
 }
+
 
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VControlMode
@@ -297,6 +301,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVControlMode(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_CONTROL_MODE_MID");
 }
 
+
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VehicleStatus
  */
@@ -316,6 +321,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVehicleStatus(void)
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_STATUS_MID");
 }
 
+
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VGlobalPosition
  */
@@ -334,6 +340,7 @@ void Test_FAC_InitPipe_Fail_SubscribeVGlobalPosition(void)
     UtAssert_True (result == expected,
                    "InitPipe, fail CFE_SB_SubscribeEx for PX4_VEHICLE_GLOBAL_POSITION_MID");
 }
+
 
 /**
  * Test FAC InitPipe(), fail CFE_SB_SubscribeEx for VLandDetected
@@ -474,6 +481,7 @@ void Test_FAC_InitApp_Nominal(void)
     UtAssert_True (result == expected, "InitApp, nominal");
 }
 
+
 /**************************************************************************
  * Tests for extern FAC_AppMain()
  **************************************************************************/
@@ -511,6 +519,7 @@ int32 Test_FAC_AppMain_WriteToSysLogHook(const char *StringPtr, ...)
     return WriteToSysLog_HookCalledCnt;
 }
 
+
 /**
  * Test FAC AppMain(), SendEventHook
  */
@@ -530,6 +539,7 @@ int32 Test_FAC_AppMain_SendEventHook(uint16 EventID, uint16 EventType, const cha
 
     return SendEvent_HookCalledCnt;
 }
+
 
 /**
  * Test FAC AppMain(), Fail RegisterApp
@@ -600,6 +610,23 @@ void Test_FAC_AppMain_SchPipeError(void)
     /* The following will emulate the behavior of SCH pipe reading error */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 1);
 
+    oFAC.AppMain();
+}
+
+
+/**
+ * Test FAC AppMain(), SchPipeNoMessage
+ */
+void Test_FAC_AppMain_SchPipeNoMessage(void)
+{
+    int32 expected = CFE_SB_NO_MESSAGE;
+
+    /* The following will emulate the behavior of SCH pipe: No message */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
     oFAC.AppMain();
 }
 
@@ -694,6 +721,7 @@ int32 Test_FAC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     return CFE_SUCCESS;
 }
 
+
 /**
  * Test FAC AppMain(), Nominal - SendHK
  */
@@ -762,6 +790,7 @@ int32 Test_FAC_AppMain_ProcessIncomingDataHook(void *dst, void *src, uint32 size
     }
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - DataPipeError
  */
@@ -784,6 +813,7 @@ void Test_FAC_AppMain_ProcessIncomingData_DataPipeError(void)
     /* Execute the function being tested */
     oFAC.AppMain();
 }
+
 
 /**
  * Test FAC AppMain(), ProcessIncomingData - InvalidMsgID
@@ -817,6 +847,7 @@ void Test_FAC_AppMain_ProcessIncomingData_InvalidMsgID(void)
 #endif
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - Airspeed
  */
@@ -843,6 +874,7 @@ void Test_FAC_AppMain_ProcessIncomingData_Airspeed(void)
     /* Verify results */
     UtAssert_True(oFAC.HkTlm.AirSpeedMsgRcvCnt == 1, "AppMain_ProcessIncomingData_Airspeed");
 }
+
 
 /**
  * Test FAC AppMain(), ProcessIncomingData - BatteryStatus
@@ -873,6 +905,7 @@ void Test_FAC_AppMain_ProcessIncomingData_BatteryStatus(void)
                   "AppMain_ProcessIncomingData_BatteryStatus");
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - ManualControlSp
  */
@@ -902,6 +935,7 @@ void Test_FAC_AppMain_ProcessIncomingData_ManualControlSp(void)
                    "AppMain_ProcessIncomingData_ManualControlSp");
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - VAtt
  */
@@ -930,6 +964,7 @@ void Test_FAC_AppMain_ProcessIncomingData_VAtt(void)
     UtAssert_True(oFAC.HkTlm.VAttMsgRcvCnt == 1, "AppMain_ProcessIncomingData_VAtt");
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - VAttSp
  */
@@ -957,6 +992,7 @@ void Test_FAC_AppMain_ProcessIncomingData_VAttSp(void)
     /* Verify results */
     UtAssert_True(oFAC.HkTlm.VAttSpMsgRcvCnt == 1, "AppMain_ProcessIncomingData_VAttSp");
 }
+
 
 /**
  * Test FAC AppMain(), ProcessIncomingData - VControlMode
@@ -987,6 +1023,7 @@ void Test_FAC_AppMain_ProcessIncomingData_VControlMode(void)
                    "AppMain_ProcessIncomingData_VControlMode");
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - VGlobalPosition
  */
@@ -1016,6 +1053,7 @@ void Test_FAC_AppMain_ProcessIncomingData_VGlobalPosition(void)
                   "AppMain_ProcessIncomingData_VGlobalPosition");
 }
 
+
 /**
  * Test FAC AppMain(), ProcessIncomingData - VLandDetected
  */
@@ -1044,6 +1082,7 @@ void Test_FAC_AppMain_ProcessIncomingData_VLandDetected(void)
     UtAssert_True(oFAC.HkTlm.VLandDetectedMsgRcvCnt == 1,
                    "AppMain_ProcessIncomingData_VLandDetected");
 }
+
 
 /**
  * Test FAC AppMain(), ProcessIncomingData - VehicleStatus
@@ -1095,6 +1134,7 @@ void Test_FAC_GetPSPTimeHook(OS_time_t *LocalTime)
     return;
 }
 
+
 /**
  * Test FAC RunController(), SendEventHook
  */
@@ -1115,6 +1155,7 @@ int32 Test_FAC_RunController_SendEventHook
 
     return SendEvent_HookCalledCnt;
 }
+
 
 /**
  * Test FAC RunController, SendMsgtHook
@@ -1213,12 +1254,15 @@ int32 Test_FAC_RunController_SendMsgHook(CFE_SB_Msg_t   *MsgPtr)
     return 0;
 }
 
+
 /**
  * Test FAC RunController, TailSitter
  */
 void Test_FAC_RunController_TailSitter(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -1230,10 +1274,16 @@ void Test_FAC_RunController_TailSitter(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
-    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.Timestamp = FAC_Test_GetTimeUs();
     VStatus.IsVtol = TRUE;
     VStatus.IsRotaryWing = FALSE;
     VStatus.InTransitionMode = FALSE;                       // fix this
@@ -1243,7 +1293,7 @@ void Test_FAC_RunController_TailSitter(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
-    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Timestamp = FAC_Test_GetTimeUs();
     BatStat.Voltage = 0.0f;                                 // fix this
     BatStat.VoltageFiltered = 0.0f;                         // fix this
     BatStat.Current = 0.0f;                                 // fix this
@@ -1258,7 +1308,7 @@ void Test_FAC_RunController_TailSitter(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
-    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.Timestamp = FAC_Test_GetTimeUs();
     VLDetect.AltMax = 0.0f;                                 // fix this
     VLDetect.Landed = FALSE;
     VLDetect.Freefall = FALSE;
@@ -1268,33 +1318,33 @@ void Test_FAC_RunController_TailSitter(void)
 
     CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
                     sizeof(VGlobalPos), TRUE);
-    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
+    VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
-    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.Timestamp = FAC_Test_GetTimeUs();
     VAtt.RollSpeed = 0.0f;                                 // fix this
     VAtt.PitchSpeed = 0.0f;                                // fix this
     VAtt.YawSpeed = 0.0f;                                  // fix this
@@ -1307,7 +1357,7 @@ void Test_FAC_RunController_TailSitter(void)
 
     CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID,
                     sizeof(VAttSp), TRUE);
-    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.Timestamp = FAC_Test_GetTimeUs();
     VAttSp.RollBody = 0.0f;                                // fix this
     VAttSp.PitchBody = 0.0f;                               // fix this
     VAttSp.YawBody = 0.0f;                                 // fix this
@@ -1328,7 +1378,7 @@ void Test_FAC_RunController_TailSitter(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
-    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    MCSp.Timestamp = FAC_Test_GetTimeUs();
     MCSp.X = 0.0f;                                        // fix this
     MCSp.Y = 0.0f;                                        // fix this
     MCSp.Z = 0.0f;                                        // fix this
@@ -1343,8 +1393,8 @@ void Test_FAC_RunController_TailSitter(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
-    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
-    ASpeed.IndicatedAirspeed = 0.0f;                      // fix this
+    ASpeed.Timestamp = FAC_Test_GetTimeUs();
+    ASpeed.IndicatedAirspeed = 1.0f;                      // fix this
     ASpeed.TrueAirspeed = 0.0f;                           // fix this
     ASpeed.TrueAirspeedUnfiltered = 0.0f;                 // fix this
     ASpeed.AirTemperature = 0.0f;                         // fix this
@@ -1353,7 +1403,7 @@ void Test_FAC_RunController_TailSitter(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
-    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.Timestamp = FAC_Test_GetTimeUs();
     VCMode.ExternalManualOverrideOk = FALSE;
     VCMode.SystemHilEnabled = FALSE;
     VCMode.ControlManualEnabled = TRUE;
@@ -1364,9 +1414,9 @@ void Test_FAC_RunController_TailSitter(void)
     VCMode.ControlRattitudeEnabled = TRUE;
     VCMode.ControlForceEnabled = FALSE;
     VCMode.ControlAccelerationEnabled = FALSE;
-    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = TRUE;
     VCMode.ControlPositionEnabled = FALSE;
-    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = TRUE;
     VCMode.ControlClimbRateEnabled = FALSE;
     VCMode.ControlTerminationEnabled = FALSE;
     VCMode.ControlFixedHdgEnabled = FALSE;
@@ -1376,7 +1426,7 @@ void Test_FAC_RunController_TailSitter(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -1394,6 +1444,8 @@ void Test_FAC_RunController_TailSitter(void)
 void Test_FAC_RunController_RotaryWing(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -1405,10 +1457,16 @@ void Test_FAC_RunController_RotaryWing(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
-    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.Timestamp = FAC_Test_GetTimeUs();
     VStatus.IsVtol = FALSE;
     VStatus.IsRotaryWing = TRUE;
     VStatus.InTransitionMode = FALSE;                       // fix this
@@ -1418,14 +1476,14 @@ void Test_FAC_RunController_RotaryWing(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
-    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Timestamp = FAC_Test_GetTimeUs();
     BatStat.Voltage = 0.0f;                                 // fix this
     BatStat.VoltageFiltered = 0.0f;                         // fix this
     BatStat.Current = 0.0f;                                 // fix this
     BatStat.CurrentFiltered = 0.0f;                         // fix this
     BatStat.Discharged = 0.0f;                              // fix this
     BatStat.Remaining = 0.0f;                               // fix this
-    BatStat.Scale = 0.0f;                                   // fix this
+    BatStat.Scale = 0.1f;                                   // fix this
     BatStat.CellCount = 0;                                  // fix this
     BatStat.Connected = FALSE;                              // fix this
     BatStat.Warning = PX4_BATTERY_WARNING_NONE;             // fix this
@@ -1433,7 +1491,7 @@ void Test_FAC_RunController_RotaryWing(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
-    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.Timestamp = FAC_Test_GetTimeUs();
     VLDetect.AltMax = 0.0f;                                 // fix this
     VLDetect.Landed = FALSE;
     VLDetect.Freefall = FALSE;
@@ -1443,33 +1501,33 @@ void Test_FAC_RunController_RotaryWing(void)
 
     CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
                     sizeof(VGlobalPos), TRUE);
-    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
+    VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
-    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.Timestamp = FAC_Test_GetTimeUs();
     VAtt.RollSpeed = 0.0f;                              // fix this
     VAtt.PitchSpeed = 0.0f;                             // fix this
     VAtt.YawSpeed = 0.0f;                               // fix this
@@ -1482,7 +1540,7 @@ void Test_FAC_RunController_RotaryWing(void)
 
     CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID,
                     sizeof(VAttSp), TRUE);
-    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.Timestamp = FAC_Test_GetTimeUs();
     VAttSp.RollBody = 0.0f;                            // fix this
     VAttSp.PitchBody = 0.0f;                           // fix this
     VAttSp.YawBody = 0.0f;                             // fix this
@@ -1503,9 +1561,9 @@ void Test_FAC_RunController_RotaryWing(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
-    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
-    MCSp.X = 0.0f;                                     // fix this
-    MCSp.Y = 0.0f;                                     // fix this
+    MCSp.Timestamp = FAC_Test_GetTimeUs();
+    MCSp.X = 0.2f;                                     // fix this
+    MCSp.Y = 0.3f;                                     // fix this
     MCSp.Z = 0.0f;                                     // fix this
     MCSp.R = 0.0f;                                     // fix this
     MCSp.Flaps = 0.0f;                                 // fix this
@@ -1518,8 +1576,8 @@ void Test_FAC_RunController_RotaryWing(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
-    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
-    ASpeed.IndicatedAirspeed = 0.0f;                   // fix this
+    ASpeed.Timestamp = FAC_Test_GetTimeUs();
+    ASpeed.IndicatedAirspeed = 1.0f;                   // fix this
     ASpeed.TrueAirspeed = 0.0f;                        // fix this
     ASpeed.TrueAirspeedUnfiltered = 0.0f;              // fix this
     ASpeed.AirTemperature = 0.0f;                      // fix this
@@ -1528,7 +1586,7 @@ void Test_FAC_RunController_RotaryWing(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
-    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.Timestamp = FAC_Test_GetTimeUs();
     VCMode.ExternalManualOverrideOk = FALSE;
     VCMode.SystemHilEnabled = FALSE;
     VCMode.ControlManualEnabled = TRUE;
@@ -1539,9 +1597,9 @@ void Test_FAC_RunController_RotaryWing(void)
     VCMode.ControlRattitudeEnabled = TRUE;
     VCMode.ControlForceEnabled = FALSE;
     VCMode.ControlAccelerationEnabled = FALSE;
-    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = TRUE;
     VCMode.ControlPositionEnabled = FALSE;
-    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = TRUE;
     VCMode.ControlClimbRateEnabled = FALSE;
     VCMode.ControlTerminationEnabled = FALSE;
     VCMode.ControlFixedHdgEnabled = FALSE;
@@ -1551,7 +1609,7 @@ void Test_FAC_RunController_RotaryWing(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -1572,6 +1630,8 @@ void Test_FAC_RunController_RotaryWing(void)
 void Test_FAC_RunController_AttitudeManual(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -1583,10 +1643,16 @@ void Test_FAC_RunController_AttitudeManual(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
-    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.Timestamp = FAC_Test_GetTimeUs();
     VStatus.IsVtol = FALSE;
     VStatus.IsRotaryWing = FALSE;
     VStatus.InTransitionMode = FALSE;                       // fix this
@@ -1596,14 +1662,14 @@ void Test_FAC_RunController_AttitudeManual(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
-    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Timestamp = FAC_Test_GetTimeUs();
     BatStat.Voltage = 0.0f;                                 // fix this
     BatStat.VoltageFiltered = 0.0f;                         // fix this
     BatStat.Current = 0.0f;                                 // fix this
     BatStat.CurrentFiltered = 0.0f;                         // fix this
     BatStat.Discharged = 0.0f;                              // fix this
     BatStat.Remaining = 0.0f;                               // fix this
-    BatStat.Scale = 0.0f;                                   // fix this
+    BatStat.Scale = 0.1f;                                   // fix this
     BatStat.CellCount = 0;                                  // fix this
     BatStat.Connected = FALSE;                              // fix this
     BatStat.Warning = PX4_BATTERY_WARNING_NONE;             // fix this
@@ -1611,7 +1677,7 @@ void Test_FAC_RunController_AttitudeManual(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
-    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.Timestamp = FAC_Test_GetTimeUs();
     VLDetect.AltMax = 0.0f;                                 // fix this
     VLDetect.Landed = FALSE;
     VLDetect.Freefall = FALSE;
@@ -1621,33 +1687,33 @@ void Test_FAC_RunController_AttitudeManual(void)
 
     CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
                     sizeof(VGlobalPos), TRUE);
-    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
+    VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
-    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.Timestamp = FAC_Test_GetTimeUs();
     VAtt.RollSpeed = 0.0f;                              // fix this
     VAtt.PitchSpeed = 0.0f;                             // fix this
     VAtt.YawSpeed = 0.0f;                               // fix this
@@ -1660,7 +1726,7 @@ void Test_FAC_RunController_AttitudeManual(void)
 
     CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID,
                     sizeof(VAttSp), TRUE);
-    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.Timestamp = FAC_Test_GetTimeUs();
     VAttSp.RollBody = 0.0f;                            // fix this
     VAttSp.PitchBody = 0.0f;                           // fix this
     VAttSp.YawBody = 0.0f;                             // fix this
@@ -1681,9 +1747,9 @@ void Test_FAC_RunController_AttitudeManual(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
-    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
-    MCSp.X = 0.0f;                                     // fix this
-    MCSp.Y = 0.0f;                                     // fix this
+    MCSp.Timestamp = FAC_Test_GetTimeUs();
+    MCSp.X = 0.2f;                                     // fix this
+    MCSp.Y = 0.3f;                                     // fix this
     MCSp.Z = 0.0f;                                     // fix this
     MCSp.R = 0.0f;                                     // fix this
     MCSp.Flaps = 0.0f;                                 // fix this
@@ -1696,8 +1762,8 @@ void Test_FAC_RunController_AttitudeManual(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
-    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
-    ASpeed.IndicatedAirspeed = 0.0f;                   // fix this
+    ASpeed.Timestamp = FAC_Test_GetTimeUs();
+    ASpeed.IndicatedAirspeed = 1.0f;                   // fix this
     ASpeed.TrueAirspeed = 0.0f;                        // fix this
     ASpeed.TrueAirspeedUnfiltered = 0.0f;              // fix this
     ASpeed.AirTemperature = 0.0f;                      // fix this
@@ -1706,7 +1772,7 @@ void Test_FAC_RunController_AttitudeManual(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
-    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.Timestamp = FAC_Test_GetTimeUs();
     VCMode.ExternalManualOverrideOk = FALSE;
     VCMode.SystemHilEnabled = FALSE;
     VCMode.ControlManualEnabled = TRUE;
@@ -1717,9 +1783,9 @@ void Test_FAC_RunController_AttitudeManual(void)
     VCMode.ControlRattitudeEnabled = TRUE;
     VCMode.ControlForceEnabled = FALSE;
     VCMode.ControlAccelerationEnabled = FALSE;
-    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = TRUE;
     VCMode.ControlPositionEnabled = FALSE;
-    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = TRUE;
     VCMode.ControlClimbRateEnabled = FALSE;
     VCMode.ControlTerminationEnabled = FALSE;
     VCMode.ControlFixedHdgEnabled = FALSE;
@@ -1729,7 +1795,7 @@ void Test_FAC_RunController_AttitudeManual(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -1751,6 +1817,8 @@ void Test_FAC_RunController_AttitudeManual(void)
 void Test_FAC_RunController_PureRateControl(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -1762,10 +1830,16 @@ void Test_FAC_RunController_PureRateControl(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
-    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.Timestamp = FAC_Test_GetTimeUs();
     VStatus.IsVtol = FALSE;
     VStatus.IsRotaryWing = FALSE;
     VStatus.InTransitionMode = FALSE;                       // fix this
@@ -1775,14 +1849,14 @@ void Test_FAC_RunController_PureRateControl(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
-    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Timestamp = FAC_Test_GetTimeUs();
     BatStat.Voltage = 0.0f;                                 // fix this
     BatStat.VoltageFiltered = 0.0f;                         // fix this
     BatStat.Current = 0.0f;                                 // fix this
     BatStat.CurrentFiltered = 0.0f;                         // fix this
     BatStat.Discharged = 0.0f;                              // fix this
     BatStat.Remaining = 0.0f;                               // fix this
-    BatStat.Scale = 0.0f;                                   // fix this
+    BatStat.Scale = 0.1f;                                   // fix this
     BatStat.CellCount = 0;                                  // fix this
     BatStat.Connected = FALSE;                              // fix this
     BatStat.Warning = PX4_BATTERY_WARNING_NONE;             // fix this
@@ -1790,7 +1864,7 @@ void Test_FAC_RunController_PureRateControl(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
-    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.Timestamp = FAC_Test_GetTimeUs();
     VLDetect.AltMax = 0.0f;                                 // fix this
     VLDetect.Landed = FALSE;
     VLDetect.Freefall = FALSE;
@@ -1800,33 +1874,33 @@ void Test_FAC_RunController_PureRateControl(void)
 
     CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
                     sizeof(VGlobalPos), TRUE);
-    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
+    VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
-    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.Timestamp = FAC_Test_GetTimeUs();
     VAtt.RollSpeed = 0.0f;                              // fix this
     VAtt.PitchSpeed = 0.0f;                             // fix this
     VAtt.YawSpeed = 0.0f;                               // fix this
@@ -1839,7 +1913,7 @@ void Test_FAC_RunController_PureRateControl(void)
 
     CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID,
                     sizeof(VAttSp), TRUE);
-    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.Timestamp = FAC_Test_GetTimeUs();
     VAttSp.RollBody = 0.0f;                             // fix this
     VAttSp.PitchBody = 0.0f;                            // fix this
     VAttSp.YawBody = 0.0f;                              // fix this
@@ -1860,9 +1934,9 @@ void Test_FAC_RunController_PureRateControl(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
-    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
-    MCSp.X = 0.0f;                                      // fix this
-    MCSp.Y = 0.0f;                                      // fix this
+    MCSp.Timestamp = FAC_Test_GetTimeUs();
+    MCSp.X = 0.2f;                                      // fix this
+    MCSp.Y = 0.9f;                                      // fix this
     MCSp.Z = 0.0f;                                      // fix this
     MCSp.R = 0.0f;                                      // fix this
     MCSp.Flaps = 0.0f;                                  // fix this
@@ -1875,8 +1949,8 @@ void Test_FAC_RunController_PureRateControl(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
-    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
-    ASpeed.IndicatedAirspeed = 0.0f;                    // fix this
+    ASpeed.Timestamp = FAC_Test_GetTimeUs();
+    ASpeed.IndicatedAirspeed = 1.0f;                    // fix this
     ASpeed.TrueAirspeed = 0.0f;                         // fix this
     ASpeed.TrueAirspeedUnfiltered = 0.0f;               // fix this
     ASpeed.AirTemperature = 0.0f;                       // fix this
@@ -1885,20 +1959,20 @@ void Test_FAC_RunController_PureRateControl(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
-    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.Timestamp = FAC_Test_GetTimeUs();
     VCMode.ExternalManualOverrideOk = FALSE;
     VCMode.SystemHilEnabled = FALSE;
     VCMode.ControlManualEnabled = TRUE;
     VCMode.ControlAutoEnabled = FALSE;
     VCMode.ControlOffboardEnabled = FALSE;
     VCMode.ControlRatesEnabled = TRUE;
-    VCMode.ControlAttitudeEnabled = FALSE;
+    VCMode.ControlAttitudeEnabled = TRUE;
     VCMode.ControlRattitudeEnabled = TRUE;
     VCMode.ControlForceEnabled = FALSE;
     VCMode.ControlAccelerationEnabled = FALSE;
-    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = TRUE;
     VCMode.ControlPositionEnabled = FALSE;
-    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = TRUE;
     VCMode.ControlClimbRateEnabled = FALSE;
     VCMode.ControlTerminationEnabled = FALSE;
     VCMode.ControlFixedHdgEnabled = FALSE;
@@ -1908,7 +1982,7 @@ void Test_FAC_RunController_PureRateControl(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -1929,6 +2003,8 @@ void Test_FAC_RunController_PureRateControl(void)
 void Test_FAC_RunController_ManualDirect(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -1940,10 +2016,16 @@ void Test_FAC_RunController_ManualDirect(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
-    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.Timestamp = FAC_Test_GetTimeUs();
     VStatus.IsVtol = FALSE;
     VStatus.IsRotaryWing = FALSE;
     VStatus.InTransitionMode = FALSE;                      // fix this
@@ -1953,14 +2035,14 @@ void Test_FAC_RunController_ManualDirect(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
-    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Timestamp = FAC_Test_GetTimeUs();
     BatStat.Voltage = 0.0f;                                 // fix this
     BatStat.VoltageFiltered = 0.0f;                         // fix this
     BatStat.Current = 0.0f;                                 // fix this
     BatStat.CurrentFiltered = 0.0f;                         // fix this
     BatStat.Discharged = 0.0f;                              // fix this
     BatStat.Remaining = 0.0f;                               // fix this
-    BatStat.Scale = 0.0f;                                   // fix this
+    BatStat.Scale = 0.1f;                                   // fix this
     BatStat.CellCount = 0;                                  // fix this
     BatStat.Connected = FALSE;                              // fix this
     BatStat.Warning = PX4_BATTERY_WARNING_NONE;             // fix this
@@ -1968,7 +2050,7 @@ void Test_FAC_RunController_ManualDirect(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
-    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.Timestamp = FAC_Test_GetTimeUs();
     VLDetect.AltMax = 0.0f;                                 // fix this
     VLDetect.Landed = FALSE;
     VLDetect.Freefall = FALSE;
@@ -1978,33 +2060,33 @@ void Test_FAC_RunController_ManualDirect(void)
 
     CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
                     sizeof(VGlobalPos), TRUE);
-    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
+    VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
-    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.Timestamp = FAC_Test_GetTimeUs();
     VAtt.RollSpeed = 0.0f;                                // fix this
     VAtt.PitchSpeed = 0.0f;                               // fix this
     VAtt.YawSpeed = 0.0f;                                 // fix this
@@ -2016,7 +2098,7 @@ void Test_FAC_RunController_ManualDirect(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VAtt, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(VAttSp), TRUE);
-    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.Timestamp = FAC_Test_GetTimeUs();
     VAttSp.RollBody = 0.0f;                               // fix this
     VAttSp.PitchBody = 0.0f;                              // fix this
     VAttSp.YawBody = 0.0f;                                // fix this
@@ -2037,7 +2119,7 @@ void Test_FAC_RunController_ManualDirect(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
-    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    MCSp.Timestamp = FAC_Test_GetTimeUs();
     MCSp.X = 0.0f;                                       // fix this
     MCSp.Y = 0.0f;                                       // fix this
     MCSp.Z = 0.0f;                                       // fix this
@@ -2052,8 +2134,8 @@ void Test_FAC_RunController_ManualDirect(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
-    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
-    ASpeed.IndicatedAirspeed = 0.0f;                     // fix this
+    ASpeed.Timestamp = FAC_Test_GetTimeUs();
+    ASpeed.IndicatedAirspeed = 1.0f;                     // fix this
     ASpeed.TrueAirspeed = 0.0f;                          // fix this
     ASpeed.TrueAirspeedUnfiltered = 0.0f;                // fix this
     ASpeed.AirTemperature = 0.0f;                        // fix this
@@ -2062,7 +2144,7 @@ void Test_FAC_RunController_ManualDirect(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
-    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.Timestamp = FAC_Test_GetTimeUs();
     VCMode.ExternalManualOverrideOk = FALSE;
     VCMode.SystemHilEnabled = FALSE;
     VCMode.ControlManualEnabled = TRUE;
@@ -2085,7 +2167,7 @@ void Test_FAC_RunController_ManualDirect(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -2107,6 +2189,8 @@ void Test_FAC_RunController_ManualDirect(void)
 void Test_FAC_RunController_Auto(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -2118,10 +2202,16 @@ void Test_FAC_RunController_Auto(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
-    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.Timestamp = FAC_Test_GetTimeUs();
     VStatus.IsVtol = FALSE;
     VStatus.IsRotaryWing = FALSE;
     VStatus.InTransitionMode = FALSE;                      // fix this
@@ -2131,14 +2221,14 @@ void Test_FAC_RunController_Auto(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
-    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Timestamp = FAC_Test_GetTimeUs();
     BatStat.Voltage = 0.0f;                                 // fix this
     BatStat.VoltageFiltered = 0.0f;                         // fix this
     BatStat.Current = 0.0f;                                 // fix this
     BatStat.CurrentFiltered = 0.0f;                         // fix this
     BatStat.Discharged = 0.0f;                              // fix this
     BatStat.Remaining = 0.0f;                               // fix this
-    BatStat.Scale = 0.0f;                                   // fix this
+    BatStat.Scale = 0.1f;                                   // fix this
     BatStat.CellCount = 0;                                  // fix this
     BatStat.Connected = FALSE;                              // fix this
     BatStat.Warning = PX4_BATTERY_WARNING_NONE;             // fix this
@@ -2146,7 +2236,7 @@ void Test_FAC_RunController_Auto(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
-    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.Timestamp = FAC_Test_GetTimeUs();
     VLDetect.AltMax = 0.0f;                                 // fix this
     VLDetect.Landed = FALSE;
     VLDetect.Freefall = FALSE;
@@ -2156,33 +2246,33 @@ void Test_FAC_RunController_Auto(void)
 
     CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
                     sizeof(VGlobalPos), TRUE);
-    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
+    VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
-    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.Timestamp = FAC_Test_GetTimeUs();
     VAtt.RollSpeed = 0.0f;                                 // fix this
     VAtt.PitchSpeed = 0.0f;                                // fix this
     VAtt.YawSpeed = 0.0f;                                  // fix this
@@ -2194,7 +2284,7 @@ void Test_FAC_RunController_Auto(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VAtt, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(VAttSp), TRUE);
-    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.Timestamp = FAC_Test_GetTimeUs();
     VAttSp.RollBody = 0.0f;                               // fix this
     VAttSp.PitchBody = 0.0f;                              // fix this
     VAttSp.YawBody = 0.0f;                                // fix this
@@ -2208,14 +2298,14 @@ void Test_FAC_RunController_Auto(void)
     VAttSp.RollResetIntegral = TRUE;
     VAttSp.PitchResetIntegral = TRUE;
     VAttSp.YawResetIntegral = TRUE;
-    VAttSp.FwControlYaw = FALSE;
+    VAttSp.FwControlYaw = TRUE;
     VAttSp.DisableMcYawControl = TRUE;
     VAttSp.ApplyFlaps = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VAttSp);
     Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
-    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    MCSp.Timestamp = FAC_Test_GetTimeUs();
     MCSp.X = 0.0f;                                        // fix this
     MCSp.Y = 0.0f;                                        // fix this
     MCSp.Z = 0.0f;                                        // fix this
@@ -2230,8 +2320,8 @@ void Test_FAC_RunController_Auto(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
-    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
-    ASpeed.IndicatedAirspeed = 0.0f;                     // fix this
+    ASpeed.Timestamp = FAC_Test_GetTimeUs();
+    ASpeed.IndicatedAirspeed = 1.0f;                     // fix this
     ASpeed.TrueAirspeed = 0.0f;                          // fix this
     ASpeed.TrueAirspeedUnfiltered = 0.0f;                // fix this
     ASpeed.AirTemperature = 0.0f;                        // fix this
@@ -2240,7 +2330,7 @@ void Test_FAC_RunController_Auto(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
-    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.Timestamp = FAC_Test_GetTimeUs();
     VCMode.ExternalManualOverrideOk = FALSE;
     VCMode.SystemHilEnabled = FALSE;
     VCMode.ControlManualEnabled = FALSE;
@@ -2251,9 +2341,9 @@ void Test_FAC_RunController_Auto(void)
     VCMode.ControlRattitudeEnabled = TRUE;
     VCMode.ControlForceEnabled = FALSE;
     VCMode.ControlAccelerationEnabled = FALSE;
-    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = TRUE;
     VCMode.ControlPositionEnabled = FALSE;
-    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = TRUE;
     VCMode.ControlClimbRateEnabled = FALSE;
     VCMode.ControlTerminationEnabled = FALSE;
     VCMode.ControlFixedHdgEnabled = FALSE;
@@ -2263,7 +2353,7 @@ void Test_FAC_RunController_Auto(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -2284,6 +2374,8 @@ void Test_FAC_RunController_Auto(void)
 void Test_FAC_RunController_Landed(void)
 {
     int32                             DataPipe;
+    int32                             SchPipe;
+    FAC_NoArgCmd_t                    RController;
     PX4_VehicleStatusMsg_t            VStatus;
     PX4_BatteryStatusMsg_t            BatStat;
     PX4_VehicleLandDetectedMsg_t      VLDetect;
@@ -2295,10 +2387,16 @@ void Test_FAC_RunController_Landed(void)
     PX4_VehicleControlModeMsg_t       VCMode;
 
     /* Set inputs */
+    SchPipe = Ut_CFE_SB_CreatePipe("FAC_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&RController, FAC_RUN_CONTROLLER_MID, sizeof(RController), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&RController, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&RController, (CFE_SB_PipeId_t)SchPipe);
+
     DataPipe = Ut_CFE_SB_CreatePipe("FAC_DATA_PIPE");
 
     CFE_SB_InitMsg ((void*)&VStatus, PX4_VEHICLE_STATUS_MID, sizeof(VStatus), TRUE);
-    VStatus.Timestamp = PX4LIB_GetPX4TimeUs();
+    VStatus.Timestamp = FAC_Test_GetTimeUs();
     VStatus.IsVtol = FALSE;
     VStatus.IsRotaryWing = FALSE;
     VStatus.InTransitionMode = FALSE;                      // fix this
@@ -2308,14 +2406,14 @@ void Test_FAC_RunController_Landed(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VStatus, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&BatStat, PX4_BATTERY_STATUS_MID, sizeof(BatStat), TRUE);
-    BatStat.Timestamp = PX4LIB_GetPX4TimeUs();
+    BatStat.Timestamp = FAC_Test_GetTimeUs();
     BatStat.Voltage = 0.0f;                                 // fix this
     BatStat.VoltageFiltered = 0.0f;                         // fix this
     BatStat.Current = 0.0f;                                 // fix this
     BatStat.CurrentFiltered = 0.0f;                         // fix this
     BatStat.Discharged = 0.0f;                              // fix this
     BatStat.Remaining = 0.0f;                               // fix this
-    BatStat.Scale = 0.0f;                                   // fix this
+    BatStat.Scale = 0.1f;                                   // fix this
     BatStat.CellCount = 0;                                  // fix this
     BatStat.Connected = FALSE;                              // fix this
     BatStat.Warning = PX4_BATTERY_WARNING_NONE;             // fix this
@@ -2323,7 +2421,7 @@ void Test_FAC_RunController_Landed(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&BatStat, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VLDetect, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(VLDetect), TRUE);
-    VLDetect.Timestamp = PX4LIB_GetPX4TimeUs();
+    VLDetect.Timestamp = FAC_Test_GetTimeUs();
     VLDetect.AltMax = 0.0f;                                 // fix this
     VLDetect.Landed = TRUE;
     VLDetect.Freefall = FALSE;
@@ -2333,33 +2431,33 @@ void Test_FAC_RunController_Landed(void)
 
     CFE_SB_InitMsg ((void*)&VGlobalPos, PX4_VEHICLE_GLOBAL_POSITION_MID,
                     sizeof(VGlobalPos), TRUE);
-    VGlobalPos.Timestamp = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.TimeUtcUsec = PX4LIB_GetPX4TimeUs();
-    VGlobalPos.Lat = 0.0;
-    VGlobalPos.Lon = 0.0;
-    VGlobalPos.Alt = 0.0f;
-    VGlobalPos.DeltaLatLon[0] = 0.0;
+    VGlobalPos.Timestamp = FAC_Test_GetTimeUs();
+    VGlobalPos.TimeUtcUsec = FAC_Test_GetTimeUs();
+    VGlobalPos.Lat = 9.0;
+    VGlobalPos.Lon = 4.0;
+    VGlobalPos.Alt = 16.0f;
+    VGlobalPos.DeltaLatLon[0] = 6.0;
     VGlobalPos.DeltaLatLon[1] = 0.0;
-    VGlobalPos.DeltaAlt = 0.0f;
-    VGlobalPos.LatLonResetCounter = 0;
-    VGlobalPos.AltResetCounter = 0;
-    VGlobalPos.VelN = 0.0f;
-    VGlobalPos.VelE = 0.0f;
-    VGlobalPos.VelD = 0.0f;
-    VGlobalPos.Yaw = 0.0f;
-    VGlobalPos.EpH = 0.0f;
-    VGlobalPos.EpV = 0.0f;
-    VGlobalPos.EvH = 0.0f;
-    VGlobalPos.EvV = 0.0f;
-    VGlobalPos.TerrainAlt = 0.0f;
-    VGlobalPos.PressureAlt = 0.0f;
-    VGlobalPos.TerrainAltValid = FALSE;
-    VGlobalPos.DeadReckoning = FALSE;
+    VGlobalPos.DeltaAlt = 11.0f;
+    VGlobalPos.LatLonResetCounter = 19;
+    VGlobalPos.AltResetCounter = 10;
+    VGlobalPos.VelN = 1.0f;
+    VGlobalPos.VelE = 14.0f;
+    VGlobalPos.VelD = 15.0f;
+    VGlobalPos.Yaw = 3.0f;
+    VGlobalPos.EpH = 20.0f;
+    VGlobalPos.EpV = 18.0f;
+    VGlobalPos.EvH = 17.0f;
+    VGlobalPos.EvV = 22.0f;
+    VGlobalPos.TerrainAlt = 21.0f;
+    VGlobalPos.PressureAlt = 13.0f;
+    VGlobalPos.TerrainAltValid = TRUE;
+    VGlobalPos.DeadReckoning = TRUE;
     CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VGlobalPos);
     Ut_CFE_SB_AddMsgToPipe((void*)&VGlobalPos, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(VAtt), TRUE);
-    VAtt.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAtt.Timestamp = FAC_Test_GetTimeUs();
     VAtt.RollSpeed = 0.0f;                                 // fix this
     VAtt.PitchSpeed = 0.0f;                                // fix this
     VAtt.YawSpeed = 0.0f;                                  // fix this
@@ -2371,7 +2469,7 @@ void Test_FAC_RunController_Landed(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VAtt, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VAttSp, PX4_VEHICLE_ATTITUDE_SETPOINT_MID, sizeof(VAttSp), TRUE);
-    VAttSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    VAttSp.Timestamp = FAC_Test_GetTimeUs();
     VAttSp.RollBody = 0.0f;                               // fix this
     VAttSp.PitchBody = 0.0f;                              // fix this
     VAttSp.YawBody = 0.0f;                                // fix this
@@ -2392,7 +2490,7 @@ void Test_FAC_RunController_Landed(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&VAttSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&MCSp, PX4_MANUAL_CONTROL_SETPOINT_MID, sizeof(MCSp), TRUE);
-    MCSp.Timestamp = PX4LIB_GetPX4TimeUs();
+    MCSp.Timestamp = FAC_Test_GetTimeUs();
     MCSp.X = 0.0f;                                        // fix this
     MCSp.Y = 0.0f;                                        // fix this
     MCSp.Z = 0.0f;                                        // fix this
@@ -2407,8 +2505,8 @@ void Test_FAC_RunController_Landed(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&MCSp, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&ASpeed, PX4_AIRSPEED_MID, sizeof(ASpeed), TRUE);
-    ASpeed.Timestamp = PX4LIB_GetPX4TimeUs();
-    ASpeed.IndicatedAirspeed = 0.0f;                      // fix this
+    ASpeed.Timestamp = FAC_Test_GetTimeUs();
+    ASpeed.IndicatedAirspeed = 1.0f;                      // fix this
     ASpeed.TrueAirspeed = 0.0f;                           // fix this
     ASpeed.TrueAirspeedUnfiltered = 0.0f;                 // fix this
     ASpeed.AirTemperature = 0.0f;                         // fix this
@@ -2417,7 +2515,7 @@ void Test_FAC_RunController_Landed(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&ASpeed, (CFE_SB_PipeId_t)DataPipe);
 
     CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
-    VCMode.Timestamp = PX4LIB_GetPX4TimeUs();
+    VCMode.Timestamp = FAC_Test_GetTimeUs();
     VCMode.ExternalManualOverrideOk = FALSE;
     VCMode.SystemHilEnabled = FALSE;
     VCMode.ControlManualEnabled = TRUE;
@@ -2428,9 +2526,9 @@ void Test_FAC_RunController_Landed(void)
     VCMode.ControlRattitudeEnabled = TRUE;
     VCMode.ControlForceEnabled = FALSE;
     VCMode.ControlAccelerationEnabled = FALSE;
-    VCMode.ControlVelocityEnabled = FALSE;
+    VCMode.ControlVelocityEnabled = TRUE;
     VCMode.ControlPositionEnabled = FALSE;
-    VCMode.ControlAltitudeEnabled = FALSE;
+    VCMode.ControlAltitudeEnabled = TRUE;
     VCMode.ControlClimbRateEnabled = FALSE;
     VCMode.ControlTerminationEnabled = FALSE;
     VCMode.ControlFixedHdgEnabled = FALSE;
@@ -2440,7 +2538,7 @@ void Test_FAC_RunController_Landed(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FAC_RUN_CONTROLLER_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 9);
 
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                (void*)&Test_FAC_GetPSPTimeHook);
@@ -2452,6 +2550,50 @@ void Test_FAC_RunController_Landed(void)
 
     /* Execute the function being tested */
     oFAC.AppMain();
+}
+
+
+/**
+ * Test FAC RunController(), TerminationEnabled
+ */
+void Test_FAC_RunController_TerminationEnabled(void)
+{
+    int32 iStatus = CFE_SUCCESS;
+
+    iStatus = oFAC.InitConfigTbl();
+    if (iStatus == CFE_SUCCESS)
+    {
+        oFAC.InitData();
+
+        oFAC.CVT.VehicleStatus.IsVtol = false;
+        oFAC.CVT.VControlMode.ControlTerminationEnabled = true;
+
+        oFAC.RunController();
+    }
+}
+
+
+/**
+ * Test FAC RunController(), InvalidValue
+ */
+void Test_FAC_RunController_InvalidValue(void)
+{
+    int32 iStatus = CFE_SUCCESS;
+
+    iStatus = oFAC.InitConfigTbl();
+    if (iStatus == CFE_SUCCESS)
+    {
+        oFAC.InitData();
+
+        oFAC.CVT.VehicleStatus.IsVtol = false;
+        oFAC.CVT.VControlMode.ControlTerminationEnabled = false;
+        oFAC.CVT.VehicleStatus.IsRotaryWing = false;
+        oFAC.CVT.VControlMode.ControlRattitudeEnabled = false;
+        oFAC.CVT.VControlMode.ControlRatesEnabled = true;
+        oFAC.CVT.Airspeed.IndicatedAirspeed = NAN;
+
+        oFAC.RunController();
+    }
 }
 
 
@@ -2556,12 +2698,14 @@ int32 Test_FAC_UpdateParams_SendEventHook(uint16 EventID, uint16 EventType, cons
     UpdateParams_ValidateStatus = FAC_Test_ValidateEclValues();
 }
 
+
 /**
  * Test FAC UpdateParams, Standard
  */
 void Test_FAC_UpdateParams_Standard(void)
 {
-    double expected_checksum = 0.0;
+    int32  iStatus = CFE_SUCCESS;
+    double expected_checksum = 1563.91;
 
     UpdateParams_ParamChecksum = 0.0;
     UpdateParams_ValidateStatus = 0x0;
@@ -2573,12 +2717,11 @@ void Test_FAC_UpdateParams_Standard(void)
     FAC_Test_PrintEclValues();
 
     /* Execute the function being tested */
-    oFAC.InitApp();
+    iStatus = oFAC.InitApp();
 
     /* Verify results */
-    expected_checksum = 1371.37;
-
-    if ((UpdateParams_ValidateStatus == 0x0) &&
+    if ((iStatus == CFE_SUCCESS) &&
+        (UpdateParams_ValidateStatus == 0x0) &&
         (fabs(UpdateParams_ParamChecksum - expected_checksum) <= FLT_EPSILON)) // Fail with DBL_EPSILON
     {
         UtAssert_True(TRUE, "FAC UpdateParams_Standard");
@@ -2589,12 +2732,14 @@ void Test_FAC_UpdateParams_Standard(void)
     }
 }
 
+
 /**
  * Test FAC UpdateParams, TailSitter()
  */
 void Test_FAC_UpdateParams_TailSitter(void)
 {
-    double expected_checksum = 0.0;
+    int32  iStatus = CFE_SUCCESS;
+    double expected_checksum = 1379.37;
 
     UpdateParams_ParamChecksum = 0.0;
     UpdateParams_ValidateStatus = 0x0;
@@ -2609,9 +2754,8 @@ void Test_FAC_UpdateParams_TailSitter(void)
     oFAC.InitApp();
 
     /* Verify results */
-    expected_checksum = 1369.37;
-
-    if ((UpdateParams_ValidateStatus == 0x0) &&
+    if ((iStatus == CFE_SUCCESS) &&
+        (UpdateParams_ValidateStatus == 0x0) &&
         (fabs(UpdateParams_ParamChecksum - expected_checksum) <= FLT_EPSILON)) // Fail with DBL_EPSILON
     {
         UtAssert_True(TRUE, "FAC UpdateParams_TailSitter");
@@ -2620,6 +2764,1255 @@ void Test_FAC_UpdateParams_TailSitter(void)
     {
         UtAssert_True(FALSE, "FAC UpdateParams_TailSitter");
     }
+}
+
+
+/**************************************************************************
+ * Tests for FAC ECL Controllers()
+ **************************************************************************/
+/**
+ * Test FAC ECL_PitchController(), control_attitude_bad_inputs
+ */
+void Test_FAC_ECL_PitchController_control_attitude_bad_inputs(void)
+{
+    ECL_PitchController pitchController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    /* Get nominal baseline #1 */
+    pitchController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch_setpoint = 1.0f;
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.airspeed = 4.0f;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0, FLT_EPSILON,
+                "FAC ECL_PitchController(), control_attitude_bad_inputs(nominal baseline #1)");
+
+    /* Get nominal baseline #2 */
+    pitchController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch_setpoint = 4.0f;
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.airspeed = 4.0f;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 10.0, FLT_EPSILON,
+                "FAC ECL_PitchController(), control_attitude_bad_inputs(nominal baseline #2)");
+
+    /* Invalid input #1 */
+    pitchController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch_setpoint = NAN;
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.airspeed = 4.0f;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+                "FAC ECL_PitchController(), control_attitude_bad_inputs(Invalid input #1)");
+
+    /* Invalid input #2 */
+    pitchController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch_setpoint = 1.0f;
+    ctlData.roll = NAN;
+    ctlData.pitch = 3.0f;
+    ctlData.airspeed = 4.0f;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+                "FAC ECL_PitchController(), control_attitude_bad_inputs(Invalid input #2)");
+
+    /* Invalid input #3 */
+    pitchController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch_setpoint = 1.0f;
+    ctlData.roll = 2.0f;
+    ctlData.pitch = NAN;
+    ctlData.airspeed = 4.0f;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+                "FAC ECL_PitchController(), control_attitude_bad_inputs(Invalid input #3)");
+
+    /* Invalid input #4 */
+    pitchController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch_setpoint = 1.0f;
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.airspeed = NAN;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+                "FAC ECL_PitchController(), control_attitude_bad_inputs(Invalid input #4)");
+}
+
+
+/**
+ * Test FAC ECL_PitchController(), control_bodyrate_bad_inputs
+ */
+void Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs(void)
+{
+    ECL_PitchController pitchController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+
+    /* Get nominal baseline */
+    pitchController.init();
+    pitchController.set_k_i(1.0f);
+    pitchController.set_k_ff(0.5f);
+    pitchController.set_bodyrate_setpoint(0.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.body_y_rate = 6.0f;
+    ctlData.body_z_rate = 7.0f;
+    ctlData.yaw_rate_setpoint = 8.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.25, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(nominal baseline)");
+
+    /* Invalid input #1 */
+    pitchController.init();
+    pitchController.set_k_i(1.0f);
+    pitchController.set_k_ff(0.5f);
+    pitchController.set_bodyrate_setpoint(0.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = NAN;
+    ctlData.pitch = 3.0f;
+    ctlData.body_y_rate = 6.0f;
+    ctlData.body_z_rate = 7.0f;
+    ctlData.yaw_rate_setpoint = 8.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #1)");
+
+    /* Invalid input #2 */
+    pitchController.init();
+    pitchController.set_k_i(1.0f);
+    pitchController.set_k_ff(0.5f);
+    pitchController.set_bodyrate_setpoint(0.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 2.0f;
+    ctlData.pitch = NAN;
+    ctlData.body_y_rate = 6.0f;
+    ctlData.body_z_rate = 7.0f;
+    ctlData.yaw_rate_setpoint = 8.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #2)");
+
+    /* Invalid input #3 */
+    pitchController.init();
+    pitchController.set_k_i(1.0f);
+    pitchController.set_k_ff(0.5f);
+    pitchController.set_bodyrate_setpoint(0.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.body_y_rate = NAN;
+    ctlData.body_z_rate = 7.0f;
+    ctlData.yaw_rate_setpoint = 8.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #3)");
+
+    /* Invalid input #4 */
+    pitchController.init();
+    pitchController.set_k_i(1.0f);
+    pitchController.set_k_ff(0.5f);
+    pitchController.set_bodyrate_setpoint(0.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.body_y_rate = 6.0f;
+    ctlData.body_z_rate = NAN;
+    ctlData.yaw_rate_setpoint = 8.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #4)");
+
+    /* Invalid input #5 */
+    pitchController.init();
+    pitchController.set_k_i(1.0f);
+    pitchController.set_k_ff(0.5f);
+    pitchController.set_bodyrate_setpoint(0.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.body_y_rate = 6.0f;
+    ctlData.body_z_rate = 7.0f;
+    ctlData.yaw_rate_setpoint = NAN;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #5)");
+
+    /* Invalid input #6 */
+    pitchController.init();
+    pitchController.set_k_i(1.0f);
+    pitchController.set_k_ff(0.5f);
+    pitchController.set_bodyrate_setpoint(0.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.body_y_rate = 6.0f;
+    ctlData.body_z_rate = 7.0f;
+    ctlData.yaw_rate_setpoint = 8.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = NAN;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #6)");
+
+    /* Invalid input #7 */
+    pitchController.init();
+    pitchController.set_k_i(1.0f);
+    pitchController.set_k_ff(0.5f);
+    pitchController.set_bodyrate_setpoint(0.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.body_y_rate = 6.0f;
+    ctlData.body_z_rate = 7.0f;
+    ctlData.yaw_rate_setpoint = 8.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = NAN;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #7)");
+
+    /* Invalid input #8 */
+    pitchController.init();
+    pitchController.set_k_i(1.0f);
+    pitchController.set_k_ff(0.5f);
+    pitchController.set_bodyrate_setpoint(0.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.body_y_rate = 6.0f;
+    ctlData.body_z_rate = 7.0f;
+    ctlData.yaw_rate_setpoint = 8.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.scaler = NAN;
+    ctlData.lock_integrator = false;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_bad_inputs(Invalid input #8)");
+}
+
+
+/**
+ * Test FAC ECL_PitchController(), control_bodyrate_constrain
+ */
+void Test_FAC_ECL_PitchController_control_bodyrate_constrain(void)
+{
+    ECL_PitchController pitchController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+
+    /* Get nominal baseline #1 */
+    pitchController.init();
+    pitchController.set_k_i(1.0f);
+    pitchController.set_k_ff(1.0f);
+    pitchController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.body_y_rate = 6.0f;
+    ctlData.body_z_rate = 7.0f;
+    ctlData.yaw_rate_setpoint = 8.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.scaler = 2.0f;
+    ctlData.lock_integrator = false;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_constrain(baseline #1, First run)");
+
+    rateSetpoint = pitchController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_constrain(baseline #1, Second run)");
+
+    /* Get nominal baseline #2 */
+    pitchController.init();
+    pitchController.set_k_i(1.0f);
+    pitchController.set_k_ff(1.0f);
+    pitchController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.body_y_rate = 6.0f;
+    ctlData.body_z_rate = 7.0f;
+    ctlData.yaw_rate_setpoint = 8.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.scaler = -2.0f;
+    ctlData.lock_integrator = false;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    rateSetpoint = pitchController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_constrain(baseline #2, First run)");
+
+    rateSetpoint = pitchController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0, FLT_EPSILON,
+             "FAC ECL_PitchController(), control_bodyrate_constrain(baseline #2, Second run)");
+}
+
+
+/**
+ * Test FAC ECL_PitchController(), control_euler_rate
+ */
+void Test_FAC_ECL_PitchController_control_euler_rate(void)
+{
+    ECL_PitchController pitchController;
+    ECL_ControlData ctlData;
+    float result = 0.0f;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+
+    /* Get nominal baseline */
+    pitchController.init();
+    pitchController.set_k_i(1.0f);
+    pitchController.set_k_ff(0.5f);
+    pitchController.set_bodyrate_setpoint(0.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.body_y_rate = 6.0f;
+    ctlData.body_z_rate = 7.0f;
+    ctlData.yaw_rate_setpoint = 8.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    pitchController.set_max_rate(10.0);
+    pitchController.set_max_rate_neg(10.0);
+
+    result = pitchController.control_euler_rate(ctlData);
+}
+
+
+/**
+ * Test FAC ECL_RollController(), control_attitude_bad_inputs
+ */
+void Test_FAC_ECL_RollController_control_attitude_bad_inputs(void)
+{
+    ECL_RollController rollController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    /* Get nominal baseline #1*/
+    rollController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll_setpoint = 2.0f;
+    ctlData.roll = 3.0f;
+
+    rateSetpoint = rollController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_attitude_bad_inputs(nominal baseline #1)");
+
+    /* Get nominal baseline #2*/
+    rollController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll_setpoint = 2.0f;
+    ctlData.roll = 3.0f;
+    rollController.set_max_rate(15);
+
+    rateSetpoint = rollController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_attitude_bad_inputs(nominal baseline #2)");
+
+    /* Invalid Input #1 */
+    rollController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll_setpoint = NAN;
+    ctlData.roll = 3.0f;
+
+    rateSetpoint = rollController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_attitude_bad_inputs(Invalid Input #1)");
+
+    /* Invalid Input #2 */
+    rollController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll_setpoint = 2.0f;
+    ctlData.roll = NAN;
+
+    rateSetpoint = rollController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_attitude_bad_inputs(Invalid Input #2)");
+}
+
+
+/**
+ * Test FAC ECL_RollController(), control_bodyrate_bad_inputs
+ */
+void Test_FAC_ECL_RollController_control_bodyrate_bad_inputs(void)
+{
+    ECL_RollController rollController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+
+    /* Get nominal baseline */
+    rollController.init();
+    rollController.set_k_i(1.0f);
+    rollController.set_k_ff(1.0f);
+    rollController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch = 1.0f;
+    ctlData.body_x_rate = 2.0f;
+    ctlData.body_z_rate = 3.0f;
+    ctlData.yaw_rate_setpoint = 4.0f;
+    ctlData.airspeed_min = 5.0f;
+    ctlData.airspeed_max = 6.0f;
+    ctlData.scaler = 7.0f;
+    ctlData.lock_integrator = false;
+
+    rateSetpoint = rollController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(nominal baseline)");
+
+    /* Invalid input #1 */
+    rollController.init();
+    rollController.set_k_i(1.0f);
+    rollController.set_k_ff(1.0f);
+    rollController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch = NAN;
+    ctlData.body_x_rate = 2.0f;
+    ctlData.body_z_rate = 3.0f;
+    ctlData.yaw_rate_setpoint = 4.0f;
+    ctlData.airspeed_min = 5.0f;
+    ctlData.airspeed_max = 6.0f;
+    ctlData.scaler = 7.0f;
+    ctlData.lock_integrator = false;
+
+    rateSetpoint = rollController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Invalid input #1)");
+
+    /* Invalid input #2 */
+    rollController.init();
+    rollController.set_k_i(1.0f);
+    rollController.set_k_ff(1.0f);
+    rollController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch = 1.0f;
+    ctlData.body_x_rate = NAN;
+    ctlData.body_z_rate = 3.0f;
+    ctlData.yaw_rate_setpoint = 4.0f;
+    ctlData.airspeed_min = 5.0f;
+    ctlData.airspeed_max = 6.0f;
+    ctlData.scaler = 7.0f;
+    ctlData.lock_integrator = false;
+
+    rateSetpoint = rollController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Invalid input #2)");
+
+    /* Invalid input #3 */
+    rollController.init();
+    rollController.set_k_i(1.0f);
+    rollController.set_k_ff(1.0f);
+    rollController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch = 1.0f;
+    ctlData.body_x_rate = 2.0f;
+    ctlData.body_z_rate = NAN;
+    ctlData.yaw_rate_setpoint = 4.0f;
+    ctlData.airspeed_min = 5.0f;
+    ctlData.airspeed_max = 6.0f;
+    ctlData.scaler = 7.0f;
+    ctlData.lock_integrator = false;
+
+    rateSetpoint = rollController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Invalid input #3)");
+
+    /* Invalid input #4 */
+    rollController.init();
+    rollController.set_k_i(1.0f);
+    rollController.set_k_ff(1.0f);
+    rollController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch = 1.0f;
+    ctlData.body_x_rate = 2.0f;
+    ctlData.body_z_rate = 3.0f;
+    ctlData.yaw_rate_setpoint = NAN;
+    ctlData.airspeed_min = 5.0f;
+    ctlData.airspeed_max = 6.0f;
+    ctlData.scaler = 7.0f;
+    ctlData.lock_integrator = false;
+
+    rateSetpoint = rollController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Invalid input #4)");
+
+    /* Invalid input #5 */
+    rollController.init();
+    rollController.set_k_i(1.0f);
+    rollController.set_k_ff(1.0f);
+    rollController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch = 1.0f;
+    ctlData.body_x_rate = 2.0f;
+    ctlData.body_z_rate = 3.0f;
+    ctlData.yaw_rate_setpoint = 4.0f;
+    ctlData.airspeed_min = NAN;
+    ctlData.airspeed_max = 6.0f;
+    ctlData.scaler = 7.0f;
+    ctlData.lock_integrator = false;
+
+    rateSetpoint = rollController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Invalid input #5)");
+
+    /* Invalid input #6 */
+    rollController.init();
+    rollController.set_k_i(1.0f);
+    rollController.set_k_ff(1.0f);
+    rollController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch = 1.0f;
+    ctlData.body_x_rate = 2.0f;
+    ctlData.body_z_rate = 3.0f;
+    ctlData.yaw_rate_setpoint = 4.0f;
+    ctlData.airspeed_min = 5.0f;
+    ctlData.airspeed_max = NAN;
+    ctlData.scaler = 7.0f;
+    rateSetpoint = rollController.control_bodyrate(ctlData);
+
+    ctlData.lock_integrator = false;
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Invalid input #6)");
+
+    /* Invalid input #7 */
+    rollController.init();
+    rollController.set_k_i(1.0f);
+    rollController.set_k_ff(1.0f);
+    rollController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch = 1.0f;
+    ctlData.body_x_rate = 2.0f;
+    ctlData.body_z_rate = 3.0f;
+    ctlData.yaw_rate_setpoint = 4.0f;
+    ctlData.airspeed_min = 5.0f;
+    ctlData.airspeed_max = 6.0f;
+    ctlData.scaler = NAN;
+    ctlData.lock_integrator = false;
+
+    rateSetpoint = rollController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_bad_inputs(Invalid input #7)");
+}
+
+
+/**
+ * Test FAC ECL_RollController(), control_bodyrate_constrain
+ */
+void Test_FAC_ECL_RollController_control_bodyrate_constrain(void)
+{
+    ECL_RollController rollController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+
+    /* Get nominal baseline #1 */
+    rollController.init();
+    rollController.set_k_i(1.0f);
+    rollController.set_k_ff(1.0f);
+    rollController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch = 1.0f;
+    ctlData.body_x_rate = 2.0f;
+    ctlData.body_z_rate = 3.0f;
+    ctlData.yaw_rate_setpoint = 4.0f;
+    ctlData.airspeed_min = 5.0f;
+    ctlData.airspeed_max = 6.0f;
+    ctlData.scaler = 7.0f;
+    ctlData.lock_integrator = false;
+
+    rateSetpoint = rollController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_constrain(nominal baseline #1, First run)");
+
+    rateSetpoint = rollController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0, FLT_EPSILON,
+             "FAC ECL_RollController(), control_bodyrate_constrain(nominal baseline #1, Second run)");
+
+    /* Get nominal baseline #2 */
+    rollController.init();
+    rollController.set_k_i(1.0f);
+    rollController.set_k_ff(1.0f);
+    rollController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch = 1.0f;
+    ctlData.body_x_rate = 2.0f;
+    ctlData.body_z_rate = 3.0f;
+    ctlData.yaw_rate_setpoint = 4.0f;
+    ctlData.airspeed_min = 5.0f;
+    ctlData.airspeed_max = 6.0f;
+    ctlData.scaler = -7.0f;
+    ctlData.lock_integrator = false;
+
+    rateSetpoint = rollController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0, FLT_EPSILON,
+          "FAC ECL_RollController(), control_bodyrate_constrain(nominal baseline #2, First run)");
+
+    rateSetpoint = rollController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0, FLT_EPSILON,
+          "FAC ECL_RollController(), control_bodyrate_constrain(nominal baseline #2, Second run)");
+}
+
+
+/**
+ * Test FAC ECL_RollController(), control_euler_rate
+ */
+void Test_FAC_ECL_RollController_control_euler_rate(void)
+{
+    ECL_RollController rollController;
+    ECL_ControlData ctlData;
+    float result = 0.0f;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+
+    /* Get nominal baseline */
+    rollController.init();
+    rollController.set_k_i(1.0f);
+    rollController.set_k_ff(1.0f);
+    rollController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.pitch = 1.0f;
+    ctlData.body_x_rate = 2.0f;
+    ctlData.body_z_rate = 3.0f;
+    ctlData.yaw_rate_setpoint = 4.0f;
+    ctlData.roll_rate_setpoint = 2.0f;
+    ctlData.airspeed_min = 5.0f;
+    ctlData.airspeed_max = 6.0f;
+    ctlData.scaler = 7.0f;
+    ctlData.lock_integrator = false;
+
+    result = rollController.control_euler_rate(ctlData);
+}
+
+
+/**
+ * Test FAC ECL_WheelController(), get_desired_rate
+ */
+void Test_FAC_ECL_WheelController_get_desired_rate(void)
+{
+    ECL_WheelController wheelController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    wheelController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.yaw_setpoint = 1.0f;
+    ctlData.yaw = 2.0f;
+
+    rateSetpoint = wheelController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0, FLT_EPSILON,
+             "FAC ECL_WheelController(), get_desired_rate(control_attitude)");
+
+    rateSetpoint = wheelController.get_desired_rate();
+    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0, FLT_EPSILON,
+             "FAC ECL_WheelController(), get_desired_rate(get_desired_rate)");
+}
+
+
+/**
+ * Test FAC ECL_WheelController(), control_attitude_bad_inputs
+ */
+void Test_FAC_ECL_WheelController_control_attitude_bad_inputs(void)
+{
+    ECL_WheelController wheelController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    /* Get nominal baseline */
+    wheelController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.yaw_setpoint = 2.0f;
+    ctlData.yaw = 3.0f;
+
+    rateSetpoint = wheelController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_attitude_bad_inputs(nominal baseline)");
+
+    /* Invalid input #1 */
+    wheelController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.yaw_setpoint = NAN;
+    ctlData.yaw = 3.0f;
+
+    rateSetpoint = wheelController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_attitude_bad_inputs(Invalid input #1)");
+
+    /* Invalid input #2 */
+    wheelController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.yaw_setpoint = 2.0f;
+    ctlData.yaw = NAN;
+
+    rateSetpoint = wheelController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_attitude_bad_inputs(Invalid input #2)");
+}
+
+
+/**
+ * Test FAC ECL_WheelController(), control_attitude_constrain
+ */
+void Test_FAC_ECL_WheelController_control_attitude_constrain(void)
+{
+    ECL_WheelController wheelController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    /* Get nominal baseline #1 */
+    wheelController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.yaw_setpoint = 1.0f;
+    ctlData.yaw = 2.0f;
+    wheelController.set_max_rate(10.0);
+
+    rateSetpoint = wheelController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -10.0, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_attitude_constrain(nominal baseline #1)");
+
+    /* Get nominal baseline #2 */
+    wheelController.init();
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.yaw_setpoint = 2.0f;
+    ctlData.yaw = 1.0f;
+    wheelController.set_max_rate(10.0);
+
+    rateSetpoint = wheelController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 10.0, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_attitude_constrain(nominal baseline #2)");
+}
+
+
+/**
+ * Test FAC ECL_WheelController(), control_bodyrate_bad_inputs
+ */
+void Test_FAC_ECL_WheelController_control_bodyrate_bad_inputs(void)
+{
+    ECL_WheelController wheelController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+
+    /* Get nominal baseline */
+    wheelController.init();
+    wheelController.set_k_i(1.0f);
+    wheelController.set_k_p(1.0f);
+    wheelController.set_k_ff(1.0f);
+    wheelController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.body_z_rate = 1.0f;
+    ctlData.groundspeed = 2.0f;
+    ctlData.groundspeed_scaler = 3.0f;
+    ctlData.lock_integrator = 3.0f;
+
+    rateSetpoint = wheelController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_bodyrate_bad_inputs(nominal baseline)");
+
+    /* Invalid input #1 */
+    wheelController.init();
+    wheelController.set_k_i(1.0f);
+    wheelController.set_k_p(1.0f);
+    wheelController.set_k_ff(1.0f);
+    wheelController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.body_z_rate = NAN;
+    ctlData.groundspeed = 2.0f;
+    ctlData.groundspeed_scaler = 3.0f;
+    ctlData.lock_integrator = 3.0f;
+
+    rateSetpoint = wheelController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_bodyrate_bad_inputs(Invalid input #1)");
+
+    /* Invalid input #2 */
+    wheelController.init();
+    wheelController.set_k_i(1.0f);
+    wheelController.set_k_p(1.0f);
+    wheelController.set_k_ff(1.0f);
+    wheelController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.body_z_rate = 1.0f;
+    ctlData.groundspeed = NAN;
+    ctlData.groundspeed_scaler = 3.0f;
+    ctlData.lock_integrator = 3.0f;
+
+    rateSetpoint = wheelController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_bodyrate_bad_inputs(Invalid input #2)");
+
+    /* Invalid input #3 */
+    wheelController.init();
+    wheelController.set_k_i(1.0f);
+    wheelController.set_k_p(1.0f);
+    wheelController.set_k_ff(1.0f);
+    wheelController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.body_z_rate = 1.0f;
+    ctlData.groundspeed = 2.0f;
+    ctlData.groundspeed_scaler = NAN;
+    ctlData.lock_integrator = 3.0f;
+
+    rateSetpoint = wheelController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_WheelController(), control_bodyrate_bad_inputs(Invalid input #3)");
+}
+
+
+/**
+ * Test FAC ECL_WheelController(), control_bodyrate_constrain
+ */
+void Test_FAC_ECL_WheelController_control_bodyrate_constrain(void)
+{
+    ECL_WheelController wheelController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+
+    /* Get nominal baseline #1 */
+    wheelController.init();
+    wheelController.set_k_i(1.0f);
+    wheelController.set_k_p(1.0f);
+    wheelController.set_k_ff(1.0f);
+    wheelController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.body_z_rate = 1.0f;
+    ctlData.groundspeed = 2.0f;
+    ctlData.groundspeed_scaler = 3.0f;
+
+    rateSetpoint = wheelController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0, FLT_EPSILON,
+          "FAC ECL_WheelController(), control_bodyrate_constrain(nominal baseline #1, First run)");
+
+    rateSetpoint = wheelController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0, FLT_EPSILON,
+          "FAC ECL_WheelController(), control_bodyrate_constrain(nominal baseline #1, Second run)");
+
+    /* Get nominal baseline #2 */
+    wheelController.init();
+    wheelController.set_k_i(1.0f);
+    wheelController.set_k_p(1.0f);
+    wheelController.set_k_ff(1.0f);
+    wheelController.set_bodyrate_setpoint(1.0f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.body_z_rate = -1.0f;
+    ctlData.groundspeed = 2.0f;
+    ctlData.groundspeed_scaler = 3.0f;
+
+    rateSetpoint = wheelController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0, FLT_EPSILON,
+          "FAC ECL_WheelController(), control_bodyrate_constrain(nominal baseline #2, First run)");
+
+    rateSetpoint = wheelController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0, FLT_EPSILON,
+          "FAC ECL_WheelController(), control_bodyrate_constrain(nominal baseline #2, Second run)");
+}
+
+
+/**
+ * Test FAC ECL_WheelController(), control_euler_rate
+ */
+void Test_FAC_ECL_WheelController_control_euler_rate(void)
+{
+    ECL_WheelController wheelController;
+    ECL_ControlData ctlData;
+    float result = 0.0f;
+
+    /* Just call the function for coverage. */
+    result = wheelController.control_euler_rate(ctlData);
+}
+
+
+/**
+ * Test FAC ECL_YawController(), control_attitude_bad_inputs
+ */
+void Test_FAC_ECL_YawController_control_attitude_bad_inputs(void)
+{
+    ECL_YawController yawController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+
+    /* Get nominal baseline #1: Not inverted */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_OPEN);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 1.5f;
+    ctlData.pitch = 1.0f;
+    ctlData.roll_setpoint = 1.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed = 4.0f;
+    yawController.set_max_rate(10.0);
+
+    rateSetpoint = yawController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs((double)rateSetpoint, 2.063708, 1e-6,     // Fail with FLT_EPSILON
+                "FAC ECL_YawController(), control_attitude_bad_inputs(nominal baseline #1)");
+
+    /* Get nominal baseline #2: Inverted */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_OPEN);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.roll_setpoint = 1.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed = 4.0f;
+    yawController.set_max_rate(10.0);
+
+    rateSetpoint = yawController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+                "FAC ECL_YawController(), control_attitude_bad_inputs(nominal baseline #2)");
+
+    /* Get nominal baseline #3: left hemisphere */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_OPEN);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = -2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.roll_setpoint = -1.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed = 4.0f;
+    yawController.set_max_rate(10.0);
+
+    rateSetpoint = yawController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+                "FAC ECL_YawController(), control_attitude_bad_inputs(nominal baseline #3)");
+
+    /* Invalid input #1 */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_OPEN);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = NAN;
+    ctlData.pitch = 3.0f;
+    ctlData.roll_setpoint = 1.0f;
+    ctlData.roll_rate_setpoint = NAN;
+    ctlData.pitch_rate_setpoint = NAN;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed = 1.0f;
+    yawController.set_max_rate(10.0);
+
+    rateSetpoint = yawController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+                "FAC ECL_YawController(), control_attitude_bad_inputs(Invalid input #1)");
+
+    /* Invalid input #2 */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_CLOSEACC);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = -2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.roll_setpoint = -1.0f;
+    ctlData.roll_rate_setpoint = 1.0f;
+    ctlData.pitch_rate_setpoint = 1.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed = 1.0f;
+    yawController.set_max_rate(10.0);
+
+    rateSetpoint = yawController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+                "FAC ECL_YawController(), control_attitude_bad_inputs(Invalid input #2)");
+
+    /* Invalid input #3 */
+    yawController.init();
+    yawController.set_coordinated_method(2);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = -2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.roll_setpoint = -1.0f;
+    ctlData.roll_rate_setpoint = 1.0f;
+    ctlData.pitch_rate_setpoint = 1.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed = 1.0f;
+    yawController.set_max_rate(10.0);
+
+    rateSetpoint = yawController.control_attitude(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+                "FAC ECL_YawController(), control_attitude_bad_inputs(Invalid input #3)");
+}
+
+
+/**
+ * Test FAC ECL_YawController(), control_bodyrate_bad_inputs
+ */
+void Test_FAC_ECL_YawController_control_bodyrate_bad_inputs(void)
+{
+    ECL_YawController yawController;
+    ECL_ControlData ctlData;
+    float rateSetpoint = 0.0f;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+
+    /* Get nominal baseline #1 */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_OPEN);
+    yawController.set_k_p(1.0f);
+    yawController.set_k_i(1.0f);
+    yawController.set_k_ff(0.5f);
+    yawController.set_bodyrate_setpoint(0.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.body_z_rate = 7.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    yawController.set_max_rate(10.0);
+
+    rateSetpoint = yawController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0, FLT_EPSILON,
+          "FAC ECL_YawController(), control_bodyrate_bad_inputs(nominal baseline #1, First run)");
+
+    rateSetpoint = yawController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0, FLT_EPSILON,
+          "FAC ECL_YawController(), control_bodyrate_bad_inputs(nominal baseline #1, Second run)");
+
+    /* Get nominal baseline #2 */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_OPEN);
+    yawController.set_k_p(1.0f);
+    yawController.set_k_i(1.0f);
+    yawController.set_k_ff(0.5f);
+    yawController.set_bodyrate_setpoint(2.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.body_z_rate = 2.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.airspeed = 0.8f;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    yawController.set_max_rate(10.0);
+
+    rateSetpoint = yawController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0, FLT_EPSILON,
+          "FAC ECL_YawController(), control_bodyrate_bad_inputs(nominal baseline #2, First run)");
+
+    rateSetpoint = yawController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 1.0, FLT_EPSILON,
+          "FAC ECL_YawController(), control_bodyrate_bad_inputs(nominal baseline #2, Second run)");
+
+    /* Invalid input #1 */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_OPEN);
+    yawController.set_k_p(1.0f);
+    yawController.set_k_i(1.0f);
+    yawController.set_k_ff(0.5f);
+    yawController.set_bodyrate_setpoint(2.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = NAN;
+    ctlData.pitch = NAN;
+    ctlData.body_z_rate = NAN;
+    ctlData.body_y_rate = NAN;
+    ctlData.pitch_rate_setpoint = NAN;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    yawController.set_max_rate(10.0);
+
+    rateSetpoint = yawController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, 0.0, FLT_EPSILON,
+             "FAC ECL_YawController(), control_bodyrate_bad_inputs(Invalid input #1)");
+
+    /* Invalid input #2 */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_OPEN);
+    yawController.set_k_p(1.0f);
+    yawController.set_k_i(1.0f);
+    yawController.set_k_ff(0.5f);
+    yawController.set_bodyrate_setpoint(2.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.body_z_rate = 7.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.airspeed = NAN;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    yawController.set_max_rate(10.0);
+
+    rateSetpoint = yawController.control_bodyrate(ctlData);
+    UtAssert_DoubleCmpAbs(rateSetpoint, -1.0, FLT_EPSILON,
+             "FAC ECL_YawController(), control_bodyrate_bad_inputs(Invalid input #2)");
+}
+
+
+/**
+ * Test FAC ECL_YawController(), control_euler_rate
+ */
+void Test_FAC_ECL_YawController_control_euler_rate(void)
+{
+    ECL_YawController yawController;
+    ECL_ControlData ctlData;
+    float result = 0.0f;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FAC_GetPSPTimeHook);
+
+    /* Get nominal baseline #1 */
+    yawController.init();
+    yawController.set_coordinated_method(ECL_YawController::COORD_METHOD_OPEN);
+    yawController.set_k_p(1.0f);
+    yawController.set_k_i(1.0f);
+    yawController.set_k_ff(0.5f);
+    yawController.set_bodyrate_setpoint(0.5f);
+    memset((void*)&ctlData, 0x00, sizeof(ctlData));
+    ctlData.roll = 2.0f;
+    ctlData.pitch = 3.0f;
+    ctlData.body_z_rate = 7.0f;
+    ctlData.pitch_rate_setpoint = 4.0f;
+    ctlData.airspeed_min = 1.0f;
+    ctlData.airspeed_max = 100.0f;
+    ctlData.airspeed = 4.0f;
+    ctlData.scaler = 1.0f;
+    ctlData.lock_integrator = false;
+    yawController.set_max_rate(10.0);
+
+    result = yawController.control_euler_rate(ctlData);
+}
+
+
+/**
+ * Test FAC ECL_YawController(), get_coordinated_min_speed
+ */
+void Test_FAC_ECL_YawController_get_coordinated_min_speed(void)
+{
+    ECL_YawController yawController;
+    float result = 0.0f;
+
+    result = yawController.get_coordinated_min_speed();
+}
+
+
+/**
+ * Test FAC ECL_YawController(), get_coordinated_method
+ */
+void Test_FAC_ECL_YawController_get_coordinated_method(void)
+{
+    ECL_YawController yawController;
+    int32_t result = 0;
+
+    result = yawController.get_coordinated_method();
 }
 
 
@@ -2687,6 +4080,8 @@ void FAC_App_Test_AddTestCases(void)
                "Test_FAC_AppMain_Fail_AcquireConfigPtrs");
     UtTest_Add(Test_FAC_AppMain_SchPipeError, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_AppMain_SchPipeError");
+    UtTest_Add(Test_FAC_AppMain_SchPipeNoMessage, FAC_Test_Setup, FAC_Test_TearDown,
+               "Test_FAC_AppMain_SchPipeNoMessage");
     UtTest_Add(Test_FAC_AppMain_InvalidSchMessage, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_AppMain_InvalidSchMessage");
     UtTest_Add(Test_FAC_AppMain_Nominal_SendHK, FAC_Test_Setup, FAC_Test_TearDown,
@@ -2731,9 +4126,52 @@ void FAC_App_Test_AddTestCases(void)
                FAC_Test_TearDown, "Test_FAC_RunController_Auto");
     UtTest_Add(Test_FAC_RunController_Landed, FAC_Test_Setup,
                FAC_Test_TearDown, "Test_FAC_RunController_Landed");
+    UtTest_Add(Test_FAC_RunController_TerminationEnabled, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_RunController_TerminationEnabled");
+    UtTest_Add(Test_FAC_RunController_InvalidValue, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_RunController_InvalidValue");
+
     UtTest_Add(Test_FAC_UpdateParams_Standard, FAC_Test_Setup, FAC_Test_TearDown,
                "Test_FAC_UpdateParams_Standard");
     UtTest_Add(Test_FAC_UpdateParams_TailSitter, FAC_Test_Setup_TailSitter, FAC_Test_TearDown,
                "Test_FAC_UpdateParams_TailSitter");
 
+    UtTest_Add(Test_FAC_ECL_PitchController_control_attitude_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_PitchController_control_attitude_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_PitchController_control_bodyrate_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_PitchController_control_bodyrate_constrain, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_PitchController_control_bodyrate_constrain");
+    UtTest_Add(Test_FAC_ECL_PitchController_control_euler_rate, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_PitchController_control_euler_rate");
+    UtTest_Add(Test_FAC_ECL_RollController_control_attitude_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_RollController_control_attitude_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_RollController_control_bodyrate_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_RollController_control_bodyrate_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_RollController_control_bodyrate_constrain, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_RollController_control_bodyrate_constrain");
+    UtTest_Add(Test_FAC_ECL_RollController_control_euler_rate, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_RollController_control_euler_rate");
+    UtTest_Add(Test_FAC_ECL_WheelController_get_desired_rate, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_WheelController_get_desired_rate");
+    UtTest_Add(Test_FAC_ECL_WheelController_control_attitude_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_WheelController_control_attitude_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_WheelController_control_attitude_constrain, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_WheelController_control_attitude_constrain");
+    UtTest_Add(Test_FAC_ECL_WheelController_control_bodyrate_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_WheelController_control_bodyrate_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_WheelController_control_bodyrate_constrain, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_WheelController_control_bodyrate_constrain");
+    UtTest_Add(Test_FAC_ECL_WheelController_control_euler_rate, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_WheelController_control_euler_rate");
+    UtTest_Add(Test_FAC_ECL_YawController_control_attitude_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_YawController_control_attitude_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_YawController_control_bodyrate_bad_inputs, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_YawController_control_bodyrate_bad_inputs");
+    UtTest_Add(Test_FAC_ECL_YawController_control_euler_rate, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_YawController_control_euler_rate");
+    UtTest_Add(Test_FAC_ECL_YawController_get_coordinated_min_speed, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_YawController_get_coordinated_min_speed");
+    UtTest_Add(Test_FAC_ECL_YawController_get_coordinated_method, FAC_Test_Setup,
+               FAC_Test_TearDown, "Test_FAC_ECL_YawController_get_coordinated_method");
 }

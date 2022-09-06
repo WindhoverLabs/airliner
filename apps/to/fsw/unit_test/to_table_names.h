@@ -34,8 +34,16 @@
 #ifndef TO_TABLE_NAMES_H
 #define TO_TABLE_NAMES_H
 
+#ifndef TO_CONFIG_TABLE_FILENAME
 #define TO_CONFIG_TABLE_FILENAME      ("/cf/apps/to_config.tbl")
+#endif
+
+#ifndef TO_DUMP_TABLENAME
 #define TO_DUMP_TABLENAME             ("DMP")
+#endif
+
+#ifndef TO_CONFIG_TABLENAME
 #define TO_CONFIG_TABLENAME           ("CFG")
+#endif
 
 #endif /* TO_TABLE_NAMES_H */
