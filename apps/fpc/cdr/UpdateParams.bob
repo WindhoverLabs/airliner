@@ -3910,4 +3910,103 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
       </point>
     </points>
   </widget>
+  <widget type="group" version="2.0.0">
+    <name>Table Management</name>
+    <x>1430</x>
+    <y>20</y>
+    <width>185</width>
+    <height>148</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_8</name>
+      <actions>
+        <action type="open_display">
+          <file>../../core/cfe/cfe_tbl/LoadTable.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Load Table</text>
+      <x>5</x>
+      <y>5</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_9</name>
+      <actions>
+        <action type="open_display">
+          <file>../../core/cfe/cfe_tbl/AbortTableLoad.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Abort Table Load</text>
+      <x>5</x>
+      <y>25</y>
+      <width>140</width>
+      <height>20</height>
+      <scripts>
+        <script file="EmbeddedPy">
+          <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+print 'Hello'
+# widget.setPropertyValue('text', PVUtil.getString(pvs[0]))]]></text>
+        </script>
+      </scripts>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_10</name>
+      <actions>
+        <action type="open_display">
+          <file>../../core/cfe/cfe_tbl/DumpTable.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Dump Table</text>
+      <x>5</x>
+      <y>45</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_11</name>
+      <actions>
+        <action type="open_display">
+          <file>../../core/cfe/cfe_tbl/ValidateTable.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Validate Table</text>
+      <x>5</x>
+      <y>65</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_12</name>
+      <actions>
+        <action type="open_display">
+          <file>../../core/cfe/cfe_tbl/ActivateTable.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Activate Table</text>
+      <x>5</x>
+      <y>85</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
 </display>
