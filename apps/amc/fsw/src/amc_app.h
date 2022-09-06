@@ -36,6 +36,7 @@
 
 
 #include <mixer/MultirotorMixer.h>
+#include <mixer/SimpleMixer.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -77,6 +78,9 @@ typedef struct
 {
     PX4_ActuatorArmedMsg_t    ActuatorArmed;
     PX4_ActuatorControlsMsg_t ActuatorControls0;
+    PX4_ActuatorControlsMsg_t ActuatorControls1;
+    PX4_ActuatorControlsMsg_t ActuatorControls2;
+    PX4_ActuatorControlsMsg_t ActuatorControls3;
 } AMC_CurrentValueTable_t;
 
 
@@ -101,9 +105,6 @@ public:
     /** \brief Data Pipe ID */
     CFE_SB_PipeId_t DataPipeId;
 
-    /** \brief Data Pipe ID */
-    CFE_SB_PipeId_t ParamPipeId;
-
     /* Task-related */
 
     /** \brief Task Run Status */
@@ -111,17 +112,17 @@ public:
 
     /* Config table-related */
 
-    /** \brief PWM Config Table Handle */
-    CFE_TBL_Handle_t PwmConfigTblHdl;
+    /** \brief Config Table Handle */
+    CFE_TBL_Handle_t ConfigTblHdl;
 
     /** \brief Mixer Config Table Handle */
     CFE_TBL_Handle_t MixerConfigTblHdl;
 
-    /** \brief PWM Config Table Pointer */
-    AMC_PwmConfigTbl_t* PwmConfigTblPtr;
+    /** \brief Config Table Pointer */
+    AMC_ConfigTbl_t* ConfigTblPtr;
 
     /** \brief Mixer Config Table Pointer */
-    MultirotorMixer_ConfigTable_t* MixerConfigTblPtr;
+    AMC_Mixer_ConfigTable_t* MixerConfigTblPtr;
 
     /** \brief Output Data published at the end of cycle */
     PX4_ActuatorOutputsMsg_t ActuatorOutputs;
@@ -131,12 +132,13 @@ public:
 
     AMC_CurrentValueTable_t CVT;
 
-    MultirotorMixer MixerObject;
+    MultirotorMixer MultirotorMixerObject[AMC_MULTIROTOR_MIXER_MAX_MIXERS];
+    SimpleMixer     SimpleMixerObject[AMC_SIMPLE_MIXER_MAX_MIXERS];
 
     //MIXER_Data_t  MixerData;
     PwmLimit_Data_t PwmLimit;
 
-    int32 PwmConfigMutex;
+    int32 ConfigMutex;
 
     /************************************************************************/
     /** \brief CFS PWM Motor Controller Task (AMC) application entry point
@@ -293,27 +295,6 @@ public:
      **
      *************************************************************************/
     int32 InitDataPipe(void);
-
-    /************************************************************************/
-    /** \brief Initialize Parameter pipe
-     **
-     **  \par Description
-     **       This function performs the steps required to setup
-     **       initialize the cFE Software Bus message pipes and subscribe to
-     **       messages for the AMC application.
-     **
-     **  \par Assumptions, External Events, and Notes:
-     **       None
-     **
-     **  \returns
-     **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-     **  \retstmt Return codes from #CFE_SB_CreatePipe        \endcode
-     **  \retstmt Return codes from #CFE_SB_SubscribeEx       \endcode
-     **  \retstmt Return codes from #CFE_SB_Subscribe         \endcode
-     **  \endreturns
-     **
-     *************************************************************************/
-    int32 InitParamPipe(void);
 
     /************************************************************************/
     /** \brief Receive and process messages from the scheduler pipe.
@@ -547,7 +528,7 @@ public:
     **  \endreturns
     **
     *************************************************************************/
-    static int32  ValidatePwmCfgTbl(void*);
+    static int32  ValidateCfgTbl(void*);
 
     /************************************************************************/
     /** \brief Validate AMC Mixer configuration table
@@ -587,7 +568,7 @@ public:
     **  \endreturns
     **
     *************************************************************************/
-    static int32  ControlCallback(cpuaddr Handle,
+    static int32  ControlCallback(
         uint8 ControlGroup,
         uint8 ControlIndex,
         float &Control);

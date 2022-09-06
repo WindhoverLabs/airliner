@@ -2,9 +2,11 @@
 
 {%- set cpus = []                   -%}
 {%- for module in root.modules        -%}
-    {%- if root.modules[module].modules.apps.modules.to is defined -%}
-      {%- set cpus = cpus.append(root.modules[module].cpu_id) -%}
-    {%- endif -%}
+    {%- for module in module.modules        -%}
+        {%- if root.modules[module].modules.apps.modules.to is defined -%}
+          {%- set cpus = cpus.append(root.modules[module].cpu_id) -%}
+        {%- endif -%}
+    {%- endfor -%}
 {%- endfor -%}
 
 {%- set TO_Channels = []              -%}

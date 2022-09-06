@@ -309,7 +309,7 @@ osalbool TO_PriorityQueue_Query(uint16 ChannelIdx, uint16 PQueueIdx)
     {
         (void) CFE_EVS_SendEvent(TO_PQUEUE_INFO_EID,
                                  CFE_EVS_INFORMATION,
-                                 "CHANNEL=%d PQI=%u S=%u ML=%u QT=%u",
+                                 "CHANNEL=%d PQI=%u S=%u D=%u QT=%u",
                                  ChannelIdx,
                                  PQueueIdx,
                                  channel->ConfigTblPtr->PriorityQueue[PQueueIdx].State,
@@ -365,7 +365,7 @@ int32 TO_PriorityQueue_Get(TO_ChannelData_t *Channel, uint16 PQueueIdx,
         msgID = CFE_SB_GetMsgId(*Msg);
 
         /* Check if this is a CFDP message. */
-        if(CF_SPACE_TO_GND_PDU_MID == msgID)
+        if(TO_SPACE_TO_GND_PDU_MID == msgID)
         {
             /* This is a CFDP message. Release the throttling semaphore. */
             OS_CountSemGive(Channel->OutputQueue.CfCntSemId);

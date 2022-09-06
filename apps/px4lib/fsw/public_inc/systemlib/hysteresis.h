@@ -41,6 +41,10 @@
 
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "cfe.h"
 #include "px4lib.h"
 
@@ -90,3 +94,7 @@ private:
 };
 
 } // namespace systemlib
+
+#ifdef __cplusplus
+}
+#endif

@@ -7,4 +7,5 @@ build/**
 venv
 *.class
 *__pycache__
+.vscode
 *.cproject

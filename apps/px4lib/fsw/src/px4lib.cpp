@@ -118,8 +118,12 @@ uint64 PX4LIB_GetPX4TimeMs(void)
     return outTime;
 }
 
+uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then)
+{
+    uint64 delta = PX4LIB_GetPX4TimeUs() - then;
+    return delta;
 }
-
+}
 /************************/
 /*  End of File Comment */
 /************************/

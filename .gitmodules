@@ -13,3 +13,6 @@
 [submodule "core/tools/pyliner"]
 	path = core/tools/pyliner
 	url = https://github.com/WindhoverLabs/pyliner.git
+[submodule "tools/nanopb"]
+	path = tools/nanopb
+	url = https://github.com/nanopb/nanopb.git

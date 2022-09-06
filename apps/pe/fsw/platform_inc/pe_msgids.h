@@ -9,6 +9,7 @@ extern "C" {
 #define PE_SEND_HK_MID                              0x1c7a
 #define PE_WAKEUP_MID                               0x1c7b
 #define PE_CMD_MID                                  0x1c7c
+#define PE_DIAG_TLM_MID                             0x0c7d
 
 #ifdef __cplusplus
 }

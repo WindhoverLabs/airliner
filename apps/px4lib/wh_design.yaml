@@ -277,7 +277,10 @@
       struct: PX4_WindEstimateMsg_t
     PX4_SENSOR_CORRECTION_MID: 
       msgID: 
-      struct: PX4_SensorCorrectionMsg_t
+      struct:
+    PX4_POSITION_CONTROL_STATUS_MID:
+      msgID:
+      struct: PX4_Position_Control_Status_t
     FLOW_FRAME_MID: 
       msgID: 
       struct: PX4_OpticalFlowFrameMsg_t

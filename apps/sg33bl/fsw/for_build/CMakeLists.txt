@@ -20,8 +20,13 @@ buildliner_add_app_def(sg33bl
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
 
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
-
-    DESIGN_DEFINITION   ${CMAKE_CURRENT_SOURCE_DIR}/sg33bl_msg_overrides.json 
+    
+    REFERENCE_CONFIG
+        ${CMAKE_CURRENT_SOURCE_DIR}/../mission_inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../platform_inc
+        
+    COMMANDER_DISPLAYS 
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
 )
 
 buildliner_add_app_unit_test(sg33bl-ut

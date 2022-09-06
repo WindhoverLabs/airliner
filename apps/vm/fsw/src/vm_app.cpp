@@ -168,29 +168,12 @@ int32 VM::InitPipe()
     iStatus = CFE_SB_CreatePipe(&DataPipeId, VM_DATA_PIPE_DEPTH, VM_DATA_PIPE_NAME);
     if (iStatus == CFE_SUCCESS)
     {
-        iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_MAG_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_SENSOR_MAG_MID. (0x%08lX)",
-                    iStatus);
-            goto VM_InitPipe_Exit_Tag;
-        }
-
-        iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_GYRO_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_SENSOR_GYRO_MID. (0x%08lX)",
-                    iStatus);
-            goto VM_InitPipe_Exit_Tag;
-        }
 
         iStatus = CFE_SB_SubscribeEx(PX4_BATTERY_STATUS_MID, DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_TELEMETRY_STATUS_MID. (0x%08lX)",
+                    "DATA Pipe failed to subscribe to PX4_BATTERY_STATUS_MID. (0x%08lX)",
                     iStatus);
             goto VM_InitPipe_Exit_Tag;
         }
@@ -208,7 +191,7 @@ int32 VM::InitPipe()
         if (iStatus != CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_VEHICLE_COMMAND_MID. (0x%08lX)",
+                    "DATA Pipe failed to subscribe to PX4_VEHICLE_CONTROL_MODE_MID. (0x%08lX)",
                     iStatus);
             goto VM_InitPipe_Exit_Tag;
         }
@@ -217,7 +200,7 @@ int32 VM::InitPipe()
         if (iStatus != CFE_SUCCESS)
         {
             (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_SUBSYSTEM_INFO_MID. (0x%08lX)",
+                    "DATA Pipe failed to subscribe to PX4_VEHICLE_GLOBAL_POSITION_MID. (0x%08lX)",
                     iStatus);
             goto VM_InitPipe_Exit_Tag;
         }
@@ -320,15 +303,6 @@ int32 VM::InitPipe()
             goto VM_InitPipe_Exit_Tag;
         }
 
-        iStatus = CFE_SB_SubscribeEx(PX4_SENSOR_ACCEL_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_SENSOR_ACCEL_MID. (0x%08lX)",
-                    iStatus);
-            goto VM_InitPipe_Exit_Tag;
-        }
-
         iStatus = CFE_SB_SubscribeEx(PX4_SAFETY_MID, DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
@@ -343,15 +317,6 @@ int32 VM::InitPipe()
         {
             (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
                     "DATA Pipe failed to subscribe to PX4_SENSOR_CORRECTION_MID. (0x%08lX)",
-                    iStatus);
-            goto VM_InitPipe_Exit_Tag;
-        }
-
-        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_STATUS_MID, DataPipeId, CFE_SB_Default_Qos, 1);
-        if (iStatus != CFE_SUCCESS)
-        {
-            (void) CFE_EVS_SendEvent(VM_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                    "DATA Pipe failed to subscribe to PX4_VEHICLE_STATUS_MID. (0x%08lX)",
                     iStatus);
             goto VM_InitPipe_Exit_Tag;
         }
@@ -440,9 +405,6 @@ int32 VM::InitApp()
         goto VM_InitApp_Exit_Tag;
     }
 
-    /* Initialize the caution and warning helper */
-    m_caws.InitCAWS();
-
 VM_InitApp_Exit_Tag:
     if (iStatus == CFE_SUCCESS)
     {
@@ -498,9 +460,6 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
 
                 ProcessDataPipe();
 
-                /* Update status in caution and warning */
-                m_caws.SetStatus(&VehicleStatusMsg);
-
                 /* Cyclic maintainance loop */
                 Execute();
 
@@ -519,6 +478,7 @@ int32 VM::RcvSchPipeMsg(int32 iBlocking)
                 SendVehicleManagerStateMsg();
                 SendVehicleControlModeMsg();
                 SendActuatorArmedMsg();
+                SendVehicleStatusMsg();
 
                 break;
             }
@@ -641,20 +601,6 @@ void VM::ProcessDataPipe()
             }
             switch (MsgId)
             {
-                case PX4_SENSOR_MAG_MID:
-                {
-                    CFE_PSP_MemCpy(&SensorMagMsg, MsgPtr, sizeof(SensorMagMsg));
-                    HkTlm.SensorMagMsgCount++;
-                    break;
-                }
-
-                case PX4_SENSOR_GYRO_MID:
-                {
-                    CFE_PSP_MemCpy(&SensorGyroMsg, MsgPtr, sizeof(SensorGyroMsg));
-                    HkTlm.SensorGyroMsgCount++;
-                    break;
-                }
-
                 case PX4_BATTERY_STATUS_MID:
                 {
                     CFE_PSP_MemCpy(&BatteryStatusMsg, MsgPtr, sizeof(BatteryStatusMsg));
@@ -733,13 +679,6 @@ void VM::ProcessDataPipe()
                     break;
                 }
 
-                case PX4_SENSOR_ACCEL_MID:
-                {
-                    CFE_PSP_MemCpy(&SensorAccelMsg, MsgPtr, sizeof(SensorAccelMsg));
-                    HkTlm.SensorAccelMsgCount++;
-                    break;
-                }
-
                 case PX4_SAFETY_MID:
                 {
                     CFE_PSP_MemCpy(&SafetyMsg, MsgPtr, sizeof(SafetyMsg));
@@ -751,13 +690,6 @@ void VM::ProcessDataPipe()
                 {
                     CFE_PSP_MemCpy(&SensorCorrectionMsg, MsgPtr, sizeof(SensorCorrectionMsg));
                     HkTlm.SensorCorrectionMsgCount++;
-                    break;
-                }
-
-                case PX4_VEHICLE_STATUS_MID:
-                {
-                    CFE_PSP_MemCpy(&VehicleStatusMsg, MsgPtr, sizeof(VehicleStatusMsg));
-                    HkTlm.VehicleStatusMsgCount++;
                     break;
                 }
 
@@ -831,8 +763,6 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 HkTlm.usCmdCnt                        = 0;
                 HkTlm.usCmdErrCnt                     = 0;
                 HkTlm.WakeupCount                     = 0;
-                HkTlm.SensorMagMsgCount               = 0;
-                HkTlm.SensorGyroMsgCount              = 0;
                 HkTlm.BatteryStatusMsgCount           = 0;
                 HkTlm.TelemetryStatusMsgCount         = 0;
                 HkTlm.SubsystemInfoMsgCount           = 0;
@@ -842,10 +772,8 @@ void VM::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 HkTlm.MissionResultMsgCount           = 0;
                 HkTlm.ManualControlSetpointMsgCount   = 0;
                 HkTlm.PositionSetpointTripletMsgCount = 0;
-                HkTlm.SensorAccelMsgCount             = 0;
                 HkTlm.SafetyMsgCount                  = 0;
                 HkTlm.SensorCorrectionMsgCount        = 0;
-                HkTlm.VehicleStatusMsgCount           = 0;
                 HkTlm.VehicleControlModeMsgCount      = 0;
                 HkTlm.SensorCombinedMsgCount          = 0;
                 HkTlm.VehicleCommandMsgCount          = 0;
@@ -1451,8 +1379,24 @@ void VM::Initialization()
     VehicleStatusMsg.HilState = PX4_HIL_STATE_OFF;
     VehicleStatusMsg.Failsafe = false;
     VehicleStatusMsg.SystemType = PX4_SYSTEM_TYPE_HEXAROTOR;
-    VehicleStatusMsg.IsRotaryWing = true;
-    VehicleStatusMsg.IsVtol = false;
+    if(VM_VEHICLE_TYPE_ROTARY_WING == ConfigTblPtr->VEHICLE_TYPE)
+    {
+        VehicleStatusMsg.IsRotaryWing = true;
+    }
+    else
+    {
+        VehicleStatusMsg.IsRotaryWing = false;
+    }
+
+    if(VM_VEHICLE_TYPE_VTOL == ConfigTblPtr->VEHICLE_TYPE)
+    {
+        VehicleStatusMsg.IsVtol = true;
+    }
+    else
+    {
+        VehicleStatusMsg.IsVtol = false;
+    }
+
     VehicleStatusMsg.VtolFwPermanentStab = false;
     VehicleStatusMsg.InTransitionMode = false;
     VehicleStatusMsg.RcSignalLost = true;
@@ -1482,8 +1426,6 @@ void VM::Initialization()
     /* update parameters */
     if (!ActuatorArmedMsg.Armed)
     {
-        VehicleStatusMsg.IsRotaryWing = true;
-        VehicleStatusMsg.IsVtol = false;
         VehicleStatusMsg.SystemID = ConfigTblPtr->MAV_SYS_ID;
         VehicleStatusMsg.ComponentID = ConfigTblPtr->MAV_COMP_ID;
     }

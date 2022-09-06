@@ -262,6 +262,7 @@ extern "C" {
 */
 #define TO_NUM_BYTES_IN_MEM_POOL        (TO_MAX_CHANNELS * TO_OUTPUT_QUEUE_DEPTH * TO_MAX_BLOCK_SIZE)
 
+#define TO_SPACE_TO_GND_PDU_MID         (0)
 
 #ifdef __cplusplus
 }

@@ -350,7 +350,7 @@ void HS_UtilDiagReport(void)
     
     /* Output the HS_UTIL_DIAG_REPORTS as en event */
     CFE_EVS_SendEvent(HS_UTIL_DIAG_REPORT_EID, CFE_EVS_INFORMATION,
-                      "Mask 0x%08X Base Time Ticks per Idle Ticks (frequency): %i(%i), %i(%i), %i(%i), %i(%i)", (unsigned int)HS_CustomData.UtilMask,
+                       "Mask 0x%08X Base Time Ticks per Idle Ticks (frequency): %u(%u), %u(%u), %u(%u), %u(%u)", (unsigned int)HS_CustomData.UtilMask,
                        (int)OutputValue[OutputOrdinal[0]], (int)OutputCount[OutputOrdinal[0]], (int)OutputValue[OutputOrdinal[1]], (int)OutputCount[OutputOrdinal[1]], 
                        (int)OutputValue[OutputOrdinal[2]], (int)OutputCount[OutputOrdinal[2]], (int)OutputValue[OutputOrdinal[3]], (int)OutputCount[OutputOrdinal[3]]);
 

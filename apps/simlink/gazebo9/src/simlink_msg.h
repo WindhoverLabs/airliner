@@ -44,6 +44,7 @@
 #include "cfe.h"
 #include "simlink_platform_cfg.h"
 #include "simlink_mission_cfg.h"
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -299,6 +300,23 @@ typedef struct
 	uint8    mavlink_version; /*<  MAVLink version, not writable by user, gets added by protocol because of magic data type: uint8_t_mavlink_version*/
 } SIMLINK_Heartbeat_t;
 
+typedef struct
+{
+    uint32 Count;
+	uint16   checksum;       ///< sent at end of packet
+	uint8    magic;          ///< protocol magic marker
+	uint8    len;            ///< Length of payload
+	uint8    incompat_flags; ///< flags that must be understood
+	uint8    compat_flags;   ///< flags that can be ignored if not understood
+	uint8    seq;            ///< Sequence of packet
+	uint8    sysid;          ///< ID of message sender system/aircraft
+	uint8    compid;         ///< ID of the message sender component
+    uint64 time_usec;        /*< [us] Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.*/
+    uint64 flags;            /*<  Flags as bitfield, 1: indicate simulation using lockstep.*/
+    float  controls[16];     /*<  Control outputs -1 .. 1. Channel assignment depends on the simulated hardware.*/
+    uint8  mode;             /*<  System mode. Includes arming state.*/
+} SIMLINK_ActuatorControls_t;
+
 
 typedef struct
 {
@@ -317,8 +335,9 @@ typedef struct
     uint32 AccelMsgCount[SIMLINK_ACCEL_DEVICE_COUNT];
     uint32 MagMsgCount[SIMLINK_MAG_DEVICE_COUNT];
     uint32 BaroMsgCount[SIMLINK_BARO_DEVICE_COUNT];
-    uint32 PwmMsgCount;
-    uint32 HeartbeatCount;
+    uint32 DiffPressMsgCount[SIMLINK_DEFFPRESS_DEVICE_COUNT];
+    SIMLINK_Heartbeat_t         Heartbeat;
+    SIMLINK_ActuatorControls_t  PWM;
 } SIMLINK_DataOutMetrics_t;
 
 
@@ -340,6 +359,7 @@ typedef struct
 
     SIMLINK_DataInMetrics_t  DataInMetrics;
     SIMLINK_DataOutMetrics_t DataOutMetrics;
+    bool                     PwmEnabled;
 
 } SIMLINK_HkTlm_t;
 

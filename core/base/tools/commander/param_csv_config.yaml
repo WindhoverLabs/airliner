@@ -1,0 +1,65 @@
+uri:
+  http://localhost:8090/api/archive/
+instance:
+  yamcs-cfs
+method:
+  exportParameterValues
+param_array:
+  - /cfs/cpd/apps/aspd4525/ASPD4525_HK_TLM_MID.uPressureCount
+  - /cfs/cpd/apps/aspd4525/ASPD4525_HK_TLM_MID.fIndicatedAirSpeed
+  - /cfs/cpd/apps/aspd4525/ASPD4525_HK_TLM_MID.fTrueAirSpeed
+  - /cfs/cpd/apps/aspd4525/ASPD4525_HK_TLM_MID.fTrueAirSpeedUnfiltered
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.Lat
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.Lon
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.Alt
+  - /cfs/cpd/apps/px4lib/PX4_MANUAL_CONTROL_SETPOINT_MID.X
+  - /cfs/cpd/apps/px4lib/PX4_MANUAL_CONTROL_SETPOINT_MID.Y
+  - /cfs/cpd/apps/px4lib/PX4_MANUAL_CONTROL_SETPOINT_MID.Z
+  - /cfs/cpd/apps/px4lib/PX4_MANUAL_CONTROL_SETPOINT_MID.R
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.VelN
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.VelE
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.VelD
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.Yaw
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_ATTITUDE_MID.RollSpeed
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_ATTITUDE_MID.PitchSpeed
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_ATTITUDE_MID.YawSpeed
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_ATTITUDE_MID.Q[0]
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_ATTITUDE_MID.Q[1]
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_ATTITUDE_MID.Q[2]
+  - /cfs/cpd/apps/px4lib/PX4_VEHICLE_ATTITUDE_MID.Q[3]
+  - /cfs/cpd/apps/px4lib/PX4_SENSOR_COMBINED_MID.GyroRad[0]
+  - /cfs/cpd/apps/px4lib/PX4_SENSOR_COMBINED_MID.GyroRad[1]
+  - /cfs/cpd/apps/px4lib/PX4_SENSOR_COMBINED_MID.GyroRad[2]
+  - /cfs/cpd/apps/px4lib/PX4_SENSOR_COMBINED_MID.Acc[0]
+  - /cfs/cpd/apps/px4lib/PX4_SENSOR_COMBINED_MID.Acc[1]
+  - /cfs/cpd/apps/px4lib/PX4_SENSOR_COMBINED_MID.Acc[2]
+  - /cfs/cpd/apps/px4lib/PX4_SENSOR_COMBINED_MID.Mag[0]
+  - /cfs/cpd/apps/px4lib/PX4_SENSOR_COMBINED_MID.Mag[1]
+  - /cfs/cpd/apps/px4lib/PX4_SENSOR_COMBINED_MID.Mag[2]
+  - /cfs/cpd/apps/px4lib/PX4_SENSOR_COMBINED_MID.BaroAlt
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[0]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[1]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[2]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[3]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[4]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[5]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[6]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[7]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[8]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[9]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[10]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[11]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[12]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[13]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[14]
+  - /cfs/cpd/apps/px4lib/PX4_INPUT_RC_MID.Values[15]
+start:
+  #'1970-01-12T14:12:11.25Z'
+  '1970-01-12T14:04:11.25Z' #Date Format needs to be in RFC 3339 format of Packet time in yamcs
+stop:
+  #'1970-01-12T14:13:11.25Z'
+  '1970-01-12T14:40:00.000Z' #Date Format needs to be in RFC 3339 format of Packet time in yamcs
+output_csv_file:
+  param_log.csv
+yamcs_csv_file:
+  yamcs_param_log.csv

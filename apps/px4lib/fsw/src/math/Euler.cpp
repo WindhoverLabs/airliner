@@ -30,10 +30,23 @@ Euler::Euler() :
 {
 };
 
+Euler::Euler(Quaternion q)
+{
+    *this = Euler(Dcm(q));
+}
+
+Euler::Euler(float phi_, float theta_, float psi_)
+{
+    data[0] = phi_;
+    data[1] = theta_;
+    data[2] = psi_;
+}
 
 Euler::~Euler()
 {
 };
+
+
 
 
 

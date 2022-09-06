@@ -72,9 +72,18 @@ AMC oAMC;
 /* Default constructor.                                            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-AMC::AMC(void) :
-MixerObject(AMC::ControlCallback, (cpuaddr)&CVT.ActuatorControls0)
+AMC::AMC(void)
 {
+	for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
+	{
+		MultirotorMixerObject[i].set_callback(AMC::ControlCallback);
+	}
+
+	for(uint32 i = 0; i < AMC_SIMPLE_MIXER_MAX_MIXERS; ++i)
+	{
+		SimpleMixerObject[i].set_callback(AMC::ControlCallback);
+	}
+
     return;
 }
 
@@ -149,17 +158,6 @@ int32 AMC::InitPipes(void)
     if (iStatus != CFE_SUCCESS)
     {
         /* We failed to create the DATA pipe for data messages.
-         * An event was already raised.  Just abort the function.
-         */
-        goto AMC_InitPipe_Exit_Tag;
-
-    }
-
-    /* Init param pipe and subscribe to param messages */
-    iStatus = InitParamPipe();
-    if (iStatus != CFE_SUCCESS)
-    {
-        /* We failed to create the PARAM pipe for param requests.
          * An event was already raised.  Just abort the function.
          */
         goto AMC_InitPipe_Exit_Tag;
@@ -341,33 +339,49 @@ int32 AMC::InitDataPipe(void)
         goto AMC_InitPipe_Exit_Tag;
     }
 
-AMC_InitPipe_Exit_Tag:
-    return iStatus;
-}
-
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Initialize Message Pipes                                        */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 AMC::InitParamPipe(void)
-{
-    int32 iStatus=CFE_SUCCESS;
-
-    /* Init param pipe and subscribe to param messages */
-    iStatus = CFE_SB_CreatePipe(&ParamPipeId,
-            AMC_PARAM_PIPE_DEPTH,
-            AMC_PARAM_PIPE_NAME);
+    /* Subscribe to the PX4_ACTUATOR_CONTROLS_1_MID message. */
+    iStatus = CFE_SB_SubscribeEx(PX4_ACTUATOR_CONTROLS_1_MID, DataPipeId,
+            CFE_SB_Default_Qos, 1);
     if (iStatus != CFE_SUCCESS)
     {
-        /* We failed to create the pipe for param messages.  Raise an
-         * event and immediately jump to the end of the function to abort
-         * initialization.
+        /* The subscribe failed.  Raise an event and immediately jump
+         * to the end of the function to abort initialization.
          */
-        CFE_EVS_SendEvent(AMC_PIPE_INIT_ERR_EID, CFE_EVS_ERROR,
-                "Failed to create PARAM pipe (0x%08X)",
+        CFE_EVS_SendEvent(AMC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                "DATA Pipe failed to subscribe to \
+                PX4_ACTUATOR_CONTROLS_1_MID. (0x%08X)",
+                (unsigned int)iStatus);
+
+        goto AMC_InitPipe_Exit_Tag;
+    }
+
+    /* Subscribe to the PX4_ACTUATOR_CONTROLS_2_MID message. */
+    iStatus = CFE_SB_SubscribeEx(PX4_ACTUATOR_CONTROLS_2_MID, DataPipeId,
+            CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        /* The subscribe failed.  Raise an event and immediately jump
+         * to the end of the function to abort initialization.
+         */
+        CFE_EVS_SendEvent(AMC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                "DATA Pipe failed to subscribe to \
+                PX4_ACTUATOR_CONTROLS_2_MID. (0x%08X)",
+                (unsigned int)iStatus);
+
+        goto AMC_InitPipe_Exit_Tag;
+    }
+
+    /* Subscribe to the PX4_ACTUATOR_CONTROLS_3_MID message. */
+    iStatus = CFE_SB_SubscribeEx(PX4_ACTUATOR_CONTROLS_3_MID, DataPipeId,
+            CFE_SB_Default_Qos, 1);
+    if (iStatus != CFE_SUCCESS)
+    {
+        /* The subscribe failed.  Raise an event and immediately jump
+         * to the end of the function to abort initialization.
+         */
+        CFE_EVS_SendEvent(AMC_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                "DATA Pipe failed to subscribe to \
+                PX4_ACTUATOR_CONTROLS_3_MID. (0x%08X)",
                 (unsigned int)iStatus);
 
         goto AMC_InitPipe_Exit_Tag;
@@ -395,6 +409,14 @@ void AMC::InitData(void)
 
     CFE_PSP_MemSet(&CVT.ActuatorArmed, 0, sizeof(CVT.ActuatorArmed));
     CFE_PSP_MemSet(&CVT.ActuatorControls0, 0, sizeof(CVT.ActuatorControls0));
+    CFE_PSP_MemSet(&CVT.ActuatorControls1, 0, sizeof(CVT.ActuatorControls1));
+    CFE_PSP_MemSet(&CVT.ActuatorControls2, 0, sizeof(CVT.ActuatorControls2));
+    CFE_PSP_MemSet(&CVT.ActuatorControls3, 0, sizeof(CVT.ActuatorControls3));
+
+    for(uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; ++i)
+    {
+    	HkTlm.PWM[i] = ConfigTblPtr->Channel[i].PwmInitial;
+    }
 }
 
 
@@ -423,9 +445,6 @@ int32 AMC::InitApp(void)
         goto AMC_InitApp_Exit_Tag;
     }
 
-    /* Initialize all internal data. */
-    InitData();
-
     /* Initialize the application to use tables. */
     iStatus = InitConfigTbl();
     if (iStatus != CFE_SUCCESS)
@@ -433,15 +452,34 @@ int32 AMC::InitApp(void)
         goto AMC_InitApp_Exit_Tag;
     }
 
-    /* Initialize the mixer object. */
-    iStatus = MixerObject.SetConfigTablePtr(MixerConfigTblPtr);
-    if (iStatus != CFE_SUCCESS)
-    {
-        CFE_EVS_SendEvent(AMC_MIXER_INIT_ERR_EID, CFE_EVS_ERROR,
-                "Failed to init mixer (0x%08x)",
-                (unsigned int)iStatus);
-        goto AMC_InitApp_Exit_Tag;
-    }
+    /* Initialize all internal data. */
+    InitData();
+
+    /* Initialize the Multirotor Mixer object. */
+	for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
+	{
+	    iStatus = MultirotorMixerObject[i].Initialize();
+	    if (iStatus != CFE_SUCCESS)
+	    {
+	        CFE_EVS_SendEvent(AMC_MIXER_INIT_ERR_EID, CFE_EVS_ERROR,
+	                "Failed to init Multirotor mixer (0x%08x)",
+	                (unsigned int)iStatus);
+	        goto AMC_InitApp_Exit_Tag;
+	    }
+	}
+
+	for(uint32 i = 0; i < AMC_SIMPLE_MIXER_MAX_MIXERS; ++i)
+	{
+	    /* Initialize the Simple mixer object. */
+	    iStatus = SimpleMixerObject[i].Initialize();
+	    if (iStatus != CFE_SUCCESS)
+	    {
+	        CFE_EVS_SendEvent(AMC_MIXER_INIT_ERR_EID, CFE_EVS_ERROR,
+	                "Failed to init Simple mixer (0x%08x)",
+	                (unsigned int)iStatus);
+	        goto AMC_InitApp_Exit_Tag;
+	    }
+	}
 
     /* Initialize the PwmLimit object for use. */
     PwmLimit_Init(&PwmLimit);
@@ -667,6 +705,27 @@ void AMC::ProcessDataPipe(void)
                     break;
                 }
 
+                case PX4_ACTUATOR_CONTROLS_1_MID:
+                {
+                    CFE_PSP_MemCpy(&CVT.ActuatorControls1, MsgPtr,
+                        sizeof(CVT.ActuatorControls1));
+                    break;
+                }
+
+                case PX4_ACTUATOR_CONTROLS_2_MID:
+                {
+                    CFE_PSP_MemCpy(&CVT.ActuatorControls2, MsgPtr,
+                        sizeof(CVT.ActuatorControls2));
+                    break;
+                }
+
+                case PX4_ACTUATOR_CONTROLS_3_MID:
+                {
+                    CFE_PSP_MemCpy(&CVT.ActuatorControls3, MsgPtr,
+                        sizeof(CVT.ActuatorControls3));
+                    break;
+                }
+
                 default:
                 {
                     /* Bump the command error counter for an unknown command.
@@ -860,6 +919,95 @@ void AMC::ProcessAppCmds(CFE_SB_Msg_t* MsgPtr)
                 break;
             }
 
+            case AMC_SIMPLE_SET_OUTPUT_SCALER_CC:
+            {
+            	AMC_SimpleSetOutputScalerCmd_t *cmd = (AMC_SimpleSetOutputScalerCmd_t*)MsgPtr;
+
+            	if(cmd->MixerIndex >= AMC_SIMPLE_MIXER_MAX_MIXERS)
+            	{
+                    CFE_EVS_SendEvent(AMC_CMD_DEBUG_ERR_EID, CFE_EVS_ERROR,
+                            "Invalid Mixer index.");
+                    /* Increment the error counter. */
+                    HkTlm.usCmdErrCnt++;
+            	}
+            	else
+            	{
+            		int32 status = SimpleMixerObject[cmd->MixerIndex].SetOutputScaler(cmd->OutputScaler);
+
+            		if(status < 0)
+            		{
+                        HkTlm.usCmdErrCnt++;
+            		}
+            		else
+            		{
+                        HkTlm.usCmdCnt++;
+            		}
+            	}
+
+            	break;
+            }
+
+            case AMC_SIMPLE_SET_CONTROL_CC:
+            {
+            	AMC_SimpleSetControlCmd_t *cmd = (AMC_SimpleSetControlCmd_t*)MsgPtr;
+
+            	if(cmd->MixerIndex >= AMC_SIMPLE_MIXER_MAX_MIXERS)
+            	{
+                    CFE_EVS_SendEvent(AMC_CMD_DEBUG_ERR_EID, CFE_EVS_ERROR,
+                            "Invalid Mixer index.");
+                    /* Increment the error counter. */
+                    HkTlm.usCmdErrCnt++;
+            	}
+            	else
+            	{
+            		int32 status = SimpleMixerObject[cmd->MixerIndex].SetControl(
+            				cmd->Control,
+							cmd->Group,
+							cmd->Index);
+
+            		if(status < 0)
+            		{
+                        HkTlm.usCmdErrCnt++;
+            		}
+            		else
+            		{
+                        HkTlm.usCmdCnt++;
+            		}
+            	}
+
+            	break;
+            }
+
+            case AMC_SIMPLE_SET_CONTROL_SCALER_CC:
+            {
+            	AMC_SimpleSetControlScalerCmd_t *cmd = (AMC_SimpleSetControlScalerCmd_t*)MsgPtr;
+
+            	if(cmd->MixerIndex >= AMC_SIMPLE_MIXER_MAX_MIXERS)
+            	{
+                    CFE_EVS_SendEvent(AMC_CMD_DEBUG_ERR_EID, CFE_EVS_ERROR,
+                            "Invalid Mixer index.");
+                    /* Increment the error counter. */
+                    HkTlm.usCmdErrCnt++;
+            	}
+            	else
+            	{
+            		int32 status = SimpleMixerObject[cmd->MixerIndex].SetControlScaler(
+            				cmd->Control,
+							cmd->Scaler);
+
+            		if(status < 0)
+            		{
+                        HkTlm.usCmdErrCnt++;
+            		}
+            		else
+            		{
+                        HkTlm.usCmdCnt++;
+            		}
+            	}
+
+            	break;
+            }
+
             default:
             {
                 /* An unknown command was received.  Increment the command
@@ -1024,7 +1172,14 @@ void AMC::StopMotors(void)
 
     for (uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
     {
-        disarmed_pwm[i] = PwmConfigTblPtr->PwmDisarmed;
+    	if(AMC_PWM_DISARM_BEHAVIOR_SAFE == ConfigTblPtr->Channel[i].DisarmBehavior)
+    	{
+    		disarmed_pwm[i] = ConfigTblPtr->Channel[i].PwmSafe;
+    	}
+    	else
+    	{
+    		disarmed_pwm[i] = HkTlm.PWM[i];
+    	}
     }
 
     SetMotorOutputs(disarmed_pwm);
@@ -1042,13 +1197,19 @@ void AMC::UpdateMotors(void)
     uint16 disarmed_pwm[AMC_MAX_MOTOR_OUTPUTS];
     uint16 min_pwm[AMC_MAX_MOTOR_OUTPUTS];
     uint16 max_pwm[AMC_MAX_MOTOR_OUTPUTS];
-    uint16 pwm[AMC_MAX_MOTOR_OUTPUTS];
 
     for (uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
     {
-        disarmed_pwm[i] = PwmConfigTblPtr->PwmDisarmed;
-        min_pwm[i] = PwmConfigTblPtr->PwmMin;
-        max_pwm[i] = PwmConfigTblPtr->PwmMax;
+    	if(AMC_PWM_DISARM_BEHAVIOR_SAFE == ConfigTblPtr->Channel[i].DisarmBehavior)
+    	{
+    		disarmed_pwm[i] = ConfigTblPtr->Channel[i].PwmSafe;
+    	}
+    	else
+    	{
+    		disarmed_pwm[i] = HkTlm.PWM[i];
+    	}
+        min_pwm[i] = ConfigTblPtr->Channel[i].PwmMin;
+        max_pwm[i] = ConfigTblPtr->Channel[i].PwmMax;
     }
 
     /* Never actuate any motors unless the system is armed.  Check to see if
@@ -1061,51 +1222,73 @@ void AMC::UpdateMotors(void)
             SetMotorOutputs(disarmed_pwm);
         }
     }
-    else if(CVT.ActuatorArmed.Armed)
+
     {
         ActuatorOutputs.Timestamp = PX4LIB_GetPX4TimeUs();
 
         /* Do mixing */
-        ActuatorOutputs.Count = MixerObject.mix(ActuatorOutputs.Output, 0, 0);
-
+        ActuatorOutputs.Count = 0;
         /* Disable unused ports by setting their output to NaN */
-        for (size_t i = ActuatorOutputs.Count;
-                i < sizeof(ActuatorOutputs.Output)
-                        / sizeof(ActuatorOutputs.Output[0]);
-                i++)
-        {
-            ActuatorOutputs.Output[i] = NAN;
-        }
+//        for (size_t i = ActuatorOutputs.Count;
+//                i < sizeof(ActuatorOutputs.Output)
+//                        / sizeof(ActuatorOutputs.Output[0]);
+//                i++)
+//        {
+//            ActuatorOutputs.Output[i] = NAN;
+//        }
 
-        PwmLimit_Calc(
-                CVT.ActuatorArmed.Armed,
-                FALSE/*_armed.prearmed*/,
-                ActuatorOutputs.Count,
-                reverse_mask,
-                disarmed_pwm,
-                min_pwm,
-                max_pwm,
-                ActuatorOutputs.Output,
-                pwm,
-                &PwmLimit);
+		for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
+		{
+			ActuatorOutputs.Count += MultirotorMixerObject[i].mix(ActuatorOutputs.Output, 0, 0);
+		}
+
+		for(uint32 i = 0; i < AMC_SIMPLE_MIXER_MAX_MIXERS; ++i)
+		{
+			ActuatorOutputs.Count += SimpleMixerObject[i].mix(&ActuatorOutputs.Output[ActuatorOutputs.Count], 0, 0);
+		}
+
+	    for (uint32 i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
+	    {
+	    	if(AMC_PWM_DISARM_BEHAVIOR_SAFE == ConfigTblPtr->Channel[i].DisarmBehavior)
+	    	{
+				PwmLimit_Calc(
+						CVT.ActuatorArmed.Armed,
+						FALSE/*_armed.prearmed*/,
+						ActuatorOutputs.Count,
+						reverse_mask,
+						&disarmed_pwm[i],
+						&min_pwm[i],
+						&max_pwm[i],
+						&ActuatorOutputs.Output[i],
+						&HkTlm.PWM[i],
+						&PwmLimit);
+	    	}
+	    	else
+	    	{
+				PwmLimit_Calc(
+						TRUE,
+						FALSE/*_armed.prearmed*/,
+						ActuatorOutputs.Count,
+						reverse_mask,
+						&disarmed_pwm[i],
+						&min_pwm[i],
+						&max_pwm[i],
+						&ActuatorOutputs.Output[i],
+						&HkTlm.PWM[i],
+						&PwmLimit);
+	    	}
+	    }
 
         if(!CVT.ActuatorArmed.InEscCalibrationMode)
         {
             if(HkTlm.DebugEngaged != TRUE)
             {
-                SetMotorOutputs(pwm);
+                SetMotorOutputs(HkTlm.PWM);
             }
         }
 
         CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&ActuatorOutputs);
         CFE_SB_SendMsg((CFE_SB_Msg_t*)&ActuatorOutputs);
-    }
-    else
-    {
-        if(HkTlm.DebugEngaged != TRUE)
-        {
-            SetMotorOutputs(disarmed_pwm);
-        }
     }
 }
 
@@ -1116,31 +1299,57 @@ void AMC::UpdateMotors(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int32 AMC::ControlCallback(
-        cpuaddr Handle,
         uint8 ControlGroup,
         uint8 ControlIndex,
         float &Control)
 {
-    int32 iStatus = 0;
+    int32 status = 0;
+    PX4_ActuatorControlsMsg_t *controls = 0;
 
-    const PX4_ActuatorControlsMsg_t *controls =
-            (PX4_ActuatorControlsMsg_t*)Handle;
-
-    if(ControlGroup > 0)
+    if(ControlGroup >= PX4_ACTUATOR_CONTROL_COUNT)
     {
-        iStatus = -1;
-    }
-    else if(ControlIndex > 8)
-    {
-        iStatus = -1;
-    }
-    else
-    {
-        Control = controls[ControlGroup].Control[ControlIndex];
-        iStatus = CFE_SUCCESS;
+    	status = -1;
+    	goto end_of_function;
     }
 
-    return iStatus;
+    if(ControlIndex >= PX4_ACTUATOR_CONTROL_COUNT)
+    {
+    	status = -1;
+    	goto end_of_function;
+    }
+
+    switch(ControlGroup)
+    {
+        case 0:
+        {
+        	controls = &oAMC.CVT.ActuatorControls0;
+        	break;
+        }
+
+        case 1:
+        {
+        	controls = &oAMC.CVT.ActuatorControls1;
+        	break;
+        }
+
+        case 2:
+        {
+        	controls = &oAMC.CVT.ActuatorControls2;
+        	break;
+        }
+
+        case 3:
+        {
+        	controls = &oAMC.CVT.ActuatorControls3;
+        	break;
+        }
+    }
+
+    Control = controls->Control[ControlIndex];
+
+end_of_function:
+
+    return status;
 }
 
 

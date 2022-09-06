@@ -58,6 +58,9 @@
 /************************************************************************
 ** Local Defines
 *************************************************************************/
+#define SIMLINK_PWM_INPUT_MIN  (0.0f)
+#define SIMLINK_PWM_INPUT_MAX  (1.0f)
+
 
 /************************************************************************
 ** Local Structure Declarations
@@ -921,10 +924,11 @@ void SIMLINK_AppMain()
 
 int32 SIMLINK_InitListener(void)
 {
-    int32 status = CFE_SUCCESS;
-    char *simAddress = 0;
-    char *strSimPort = 0;
-    uint16 simPort = 0;
+    int32  status        = CFE_SUCCESS;
+    char  *simAddress    = 0;
+    char  *strSimPort    = 0;
+    char  *strPwmEnabled = 0;
+    uint16 simPort       = 0;
     struct             sockaddr_in servAddr;
     int                reuseaddr = 1;
     struct hostent    *he;
@@ -956,6 +960,18 @@ int32 SIMLINK_InitListener(void)
     }
 
 	simPort = atoi(strSimPort);
+
+    strPwmEnabled = getenv(SIMLINK_PWM_FLAG_ENV_VAR_NAME);
+    if(0 == strPwmEnabled)
+    {
+        OS_printf("%s environment variable not defined.  PWM enabled.\n", SIMLINK_PWM_FLAG_ENV_VAR_NAME);
+        SIMLINK_AppData.HkTlm.PwmEnabled = true;
+    }
+    else
+    {
+        OS_printf("SIMLINK PWM disabled.\n", SIMLINK_PWM_FLAG_ENV_VAR_NAME);
+        SIMLINK_AppData.HkTlm.PwmEnabled = false;
+    }
 
     SIMLINK_AppData.Socket = socket(AF_INET, SOCK_STREAM, 0);
     if(SIMLINK_AppData.Socket < 0)
@@ -1023,8 +1039,23 @@ int32 SIMLINK_SendHeartbeat(void)
     heartbeatMsg.system_status = MAV_STATE_ACTIVE;
     heartbeatMsg.mavlink_version = 1;
 
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.type = heartbeatMsg.type;
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.autopilot = heartbeatMsg.autopilot;
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.base_mode = heartbeatMsg.base_mode;
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.custom_mode = heartbeatMsg.custom_mode;
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.system_status = heartbeatMsg.system_status;
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.mavlink_version = heartbeatMsg.mavlink_version;
+
     mavlink_msg_heartbeat_encode(1, 1, &msg, &heartbeatMsg);
     length = mavlink_msg_to_send_buffer(buffer, &msg);
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.checksum = msg.checksum;
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.magic = msg.magic;
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.len = msg.len;
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.incompat_flags = msg.incompat_flags;
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.compat_flags = msg.compat_flags;
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.seq = msg.seq;
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.sysid = msg.sysid;
+    SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.compid = msg.compid;
 
     if(SIMLINK_AppData.Socket != 0)
     {
@@ -1032,7 +1063,7 @@ int32 SIMLINK_SendHeartbeat(void)
 
     	while(length > 0)
     	{
-            bytesSent = send(SIMLINK_AppData.Socket, (char *)buffer[bytesSent], length, 0);
+            bytesSent = send(SIMLINK_AppData.Socket, (char *)&buffer[bytesSent], length, 0);
             if(bytesSent < 0)
             {
                 (void) CFE_EVS_SendEvent(SIMLINK_SOCKET_ERR_EID, CFE_EVS_ERROR,
@@ -1044,7 +1075,7 @@ int32 SIMLINK_SendHeartbeat(void)
             length = length - bytesSent;
     	}
 
-        SIMLINK_AppData.HkTlm.DataOutMetrics.HeartbeatCount++;
+        SIMLINK_AppData.HkTlm.DataOutMetrics.Heartbeat.Count++;
     }
 
     status = 0;
@@ -1061,52 +1092,53 @@ void SIMLINK_ProcessPwmOutputs(void)
 	uint32 updateCount = 0;
 	uint32 size = sizeof(SIMLINK_AppData.PwmMsg);
 
-	status = CVT_GetContent(SIMLINK_AppData.PwmContainer, &updateCount, &SIMLINK_AppData.PwmMsg, &size);
-	if(CVT_SUCCESS != status)
-	{
-		(void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
-								 "Failed to get PWM container. (%li)",
-								 status);
-	}
-	else
-	{
-		if(updateCount != SIMLINK_AppData.PwmUpdateCount)
-		{
-			osalbool sendMsg = false;
-            osalbool armed   = false;
+    if(SIMLINK_AppData.HkTlm.PwmEnabled)
+    {
+        status = CVT_GetContent(SIMLINK_AppData.PwmContainer, &updateCount, &SIMLINK_AppData.PwmMsg, &size);
+        if(CVT_SUCCESS != status)
+        {
+            (void) CFE_EVS_SendEvent(SIMLINK_INIT_ERR_EID, CFE_EVS_ERROR,
+                                     "Failed to get PWM container. (%li)",
+                                     status);
+        }
+        else
+        {
+            if(updateCount != SIMLINK_AppData.PwmUpdateCount)
+            {
+                osalbool sendMsg = false;
+                osalbool armed   = false;
 
-			SIMLINK_AppData.PwmUpdateCount = updateCount;
+                SIMLINK_AppData.PwmUpdateCount = updateCount;
 
-			mavlink_message_t mavlinkMessage = {};
-			uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
-			mavlink_hil_actuator_controls_t actuatorControlsMsg = {};
-			uint32_t length = 0;
+                mavlink_message_t mavlinkMessage = {};
+                uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+                mavlink_hil_actuator_controls_t actuatorControlsMsg = {};
+                uint32_t length = 0;
 
-			for(uint32_t i = 0; i < SIMLINK_MAX_PWM_OUTPUTS; ++i)
-			{
-				if(i <= SIMLINK_PWM_CHANNEL_COUNT)
-				{
-					//actuatorControlsMsg.controls[i] = SIMLINK_PWM_To_Mavlink_Map(SIMLINK_AppData.PwmMsg.Channel[i], 1000, 3770, 0.0f, 1.0f);
-					actuatorControlsMsg.controls[i] = SIMLINK_AppData.PwmMsg.Channel[i];
-
-                    /* If any actuator control is non-zero. */
-                    if(actuatorControlsMsg.controls[i] > 0)
+                for(uint32_t i = 0; i < SIMLINK_MAX_PWM_OUTPUTS; ++i)
+                {
+                    if(i <= SIMLINK_PWM_CHANNEL_COUNT)
                     {
-                        /* Set the armed flag to true. */
-                        armed = true;
+                        /* If any actuator control is non-zero. */
+                        if(SIMLINK_AppData.PwmMsg.Channel[i] >= FLT_EPSILON)
+                        {
+                            /* Set the armed flag to true. */
+                            armed = true;
+                        }
+
+                        /* Y = (X-A)/(B-A) * (D-C) + C */
+                        actuatorControlsMsg.controls[i] =
+                                (((SIMLINK_AppData.PwmMsg.Channel[i] - SIMLINK_PWM_INPUT_MIN) /
+                                (SIMLINK_PWM_INPUT_MAX - SIMLINK_PWM_INPUT_MIN)) *
+                                (SIMLINK_AppData.ConfigTblPtr->PWM[i].Maximum - SIMLINK_AppData.ConfigTblPtr->PWM[i].Minimum)) +
+                                SIMLINK_AppData.ConfigTblPtr->PWM[i].Minimum;
+
+                        SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.controls[i] = actuatorControlsMsg.controls[i];
                     }
+                }
 
-					//if(actuatorControlsMsg.controls[i] >= FLT_EPSILON)
-					//{
-						sendMsg = true;
-					//}
-				}
-			}
-
-			if(sendMsg)
-			{
-				actuatorControlsMsg.time_usec = 0;
-				actuatorControlsMsg.flags = 0;
+                actuatorControlsMsg.time_usec = 0;
+                actuatorControlsMsg.flags = 0;
 
                 if(armed == true)
                 {
@@ -1118,32 +1150,45 @@ void SIMLINK_ProcessPwmOutputs(void)
                     actuatorControlsMsg.mode = 0;
                 }
 
-				mavlink_msg_hil_actuator_controls_encode(1, 1, &mavlinkMessage, &actuatorControlsMsg);
-				length = mavlink_msg_to_send_buffer(buffer, &mavlinkMessage);
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.time_usec = actuatorControlsMsg.time_usec;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.flags = actuatorControlsMsg.flags;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.mode = actuatorControlsMsg.mode;
 
-				if(SIMLINK_AppData.Socket != 0)
-				{
-			    	ssize_t bytesSent = 0;
+                mavlink_msg_hil_actuator_controls_encode(1, 1, &mavlinkMessage, &actuatorControlsMsg);
+                length = mavlink_msg_to_send_buffer(buffer, &mavlinkMessage);
 
-			    	while(length > 0)
-			    	{
-			            bytesSent = send(SIMLINK_AppData.Socket, (char *)&buffer[bytesSent], length, 0);
-			            if(bytesSent < 0)
-			            {
-			                (void) CFE_EVS_SendEvent(SIMLINK_SOCKET_ERR_EID, CFE_EVS_ERROR,
-			                                         "Failed to send pwm message (%d)",
-			                                         errno);
-			                goto end_of_function;
-			            }
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.checksum = mavlinkMessage.checksum;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.magic = mavlinkMessage.magic;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.len = mavlinkMessage.len;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.incompat_flags = mavlinkMessage.incompat_flags;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.compat_flags = mavlinkMessage.compat_flags;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.seq = mavlinkMessage.seq;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.sysid = mavlinkMessage.sysid;
+                SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.compid = mavlinkMessage.compid;
 
-			            length = length - bytesSent;
-			    	}
+                if(SIMLINK_AppData.Socket != 0)
+                {
+                    ssize_t bytesSent = 0;
 
-			        SIMLINK_AppData.HkTlm.DataOutMetrics.PwmMsgCount++;
-				}
-			}
-		}
-	}
+                    while(length > 0)
+                    {
+                        bytesSent = send(SIMLINK_AppData.Socket, (char *)&buffer[bytesSent], length, 0);
+                        if(bytesSent < 0)
+                        {
+                            (void) CFE_EVS_SendEvent(SIMLINK_SOCKET_ERR_EID, CFE_EVS_ERROR,
+                                                     "Failed to send pwm message (%d)",
+                                                     errno);
+                            goto end_of_function;
+                        }
+
+                        length = length - bytesSent;
+                    }
+
+                    SIMLINK_AppData.HkTlm.DataOutMetrics.PWM.Count++;
+                }
+            }
+        }
+    }
 
 end_of_function:
 
@@ -1234,25 +1279,16 @@ void SIMLINK_ListenerTaskMain(void)
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.sysid = msg.sysid;
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.compid = msg.compid;
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.time_usec = decodedMsg.time_usec;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xacc = decodedMsg.xacc;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.yacc = decodedMsg.yacc;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zacc = decodedMsg.zacc;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xgyro = decodedMsg.xgyro;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ygyro = decodedMsg.ygyro;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zgyro = decodedMsg.zgyro;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xmag = decodedMsg.xmag;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ymag = decodedMsg.ymag;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zmag = decodedMsg.zmag;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.abs_pressure = decodedMsg.abs_pressure;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.diff_pressure = decodedMsg.diff_pressure;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.pressure_alt = decodedMsg.pressure_alt;
-                            SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.temperature = decodedMsg.temperature;
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.fields_updated = decodedMsg.fields_updated;
                             SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.id = decodedMsg.id;
 
                             if(decodedMsg.fields_updated & (uint32_t)SIMLINK_ACCEL)
                             {
                                 int32 rc;
+
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xacc = decodedMsg.xacc;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.yacc = decodedMsg.yacc;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zacc = decodedMsg.zacc;
 
                                 /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.AccelMsg[0].TimeUsec = decodedMsg.time_usec;
@@ -1278,6 +1314,10 @@ void SIMLINK_ListenerTaskMain(void)
                             {
                                 int32 rc;
 
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xgyro = decodedMsg.xgyro;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ygyro = decodedMsg.ygyro;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zgyro = decodedMsg.zgyro;
+
                                 /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.GyroMsg[0].TimeUsec = decodedMsg.time_usec;
                                 SIMLINK_AppData.GyroMsg[0].X = decodedMsg.xgyro;
@@ -1301,6 +1341,10 @@ void SIMLINK_ListenerTaskMain(void)
                             if(decodedMsg.fields_updated & (uint32_t)SIMLINK_MAG)
                             {
                                 int32 rc;
+
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.xmag = decodedMsg.xmag;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.ymag = decodedMsg.ymag;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.zmag = decodedMsg.zmag;
 
                                 /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.MagMsg[0].TimeUsec = decodedMsg.time_usec;
@@ -1326,6 +1370,10 @@ void SIMLINK_ListenerTaskMain(void)
                             {
                                 int32 rc;
 
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.abs_pressure = decodedMsg.abs_pressure;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.pressure_alt = decodedMsg.pressure_alt;
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.temperature = decodedMsg.temperature;
+
                                 /* Update the outgoing message for consumers. */
                                 SIMLINK_AppData.BaroMsg[0].TimeUsec = decodedMsg.time_usec;
                                 SIMLINK_AppData.BaroMsg[0].Pressure = decodedMsg.abs_pressure;
@@ -1345,6 +1393,31 @@ void SIMLINK_ListenerTaskMain(void)
                                                              rc);
                             	}
                             }
+
+                            if(decodedMsg.fields_updated & (uint32_t)SIMLINK_DIFF_PRESS)
+                            {
+                                int32 rc;
+
+                                SIMLINK_AppData.HkTlm.DataInMetrics.HilSensor.diff_pressure = decodedMsg.diff_pressure;
+
+                                /* Update the outgoing message for consumers. */
+                                SIMLINK_AppData.BaroMsg[0].DiffPressure = decodedMsg.diff_pressure;
+
+                            	rc = CVT_SetContent(SIMLINK_AppData.BaroContainer[0], &SIMLINK_AppData.BaroMsg[0], sizeof(SIMLINK_Baro_Msg_t));
+                            	if(CVT_SUCCESS == rc)
+                            	{
+                                    SIMLINK_AppData.HkTlm.DataOutMetrics.DiffPressMsgCount[0]++;
+                            	}
+                            	else
+                            	{
+                                    (void) CFE_EVS_SendEvent(SIMLINK_CVT_ERR_EID, CFE_EVS_ERROR,
+                                                             "Failed to set Baro %d container. (%li)",
+                        									 i,
+                                                             rc);
+                            	}
+                            }
+
+
 
                             break;
                         }

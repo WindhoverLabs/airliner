@@ -8,7 +8,7 @@
 #DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "CFS Scheduler (SCH) Application on @BUILD_CONFIG_NAME@ Detailed Design"
 PROJECT_NUMBER         = 
-OUTPUT_DIRECTORY       = @CFS_DOCS_HTML_DIR@/apps/sch/detailed_design
+OUTPUT_DIRECTORY       = @CFS_DOCS_HTML_DIR@/apps/sch
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
 BRIEF_MEMBER_DESC      = YES
@@ -153,7 +153,7 @@ HTML_HYPERLINKS         = YES
 # configuration options related to the LaTeX output
 #---------------------------------------------------------------------------
 GENERATE_LATEX         = NO
-LATEX_OUTPUT           = @CFS_DOCS_LATEX_DIR@/apps/sch/detailed_design
+LATEX_OUTPUT           = @CFS_DOCS_LATEX_DIR@/detailed_design/apps/sch
 LATEX_CMD_NAME         = latex
 MAKEINDEX_CMD_NAME     = makeindex
 COMPACT_LATEX          = YES
@@ -168,7 +168,7 @@ LATEX_HIDE_INDICES     = NO
 # configuration options related to the RTF output
 #---------------------------------------------------------------------------
 GENERATE_RTF           = NO
-RTF_OUTPUT             = @CFS_DOCS_DIR@/detailed_design/rtf/apps/sch
+RTF_OUTPUT             = @CFS_DOCS_DIR@/rtf/apps/sch
 COMPACT_RTF            = YES
 RTF_HYPERLINKS         = NO
 RTF_STYLESHEET_FILE    = 
@@ -218,8 +218,8 @@ SKIP_FUNCTION_MACROS   = YES
 #---------------------------------------------------------------------------
 # Configuration::additions related to external references   
 #---------------------------------------------------------------------------
-TAGFILES               = @CFS_DOCS_HTML_DIR@/cfe/detailed_design/cfe.tag=../../../cfe/detailed_design/
-GENERATE_TAGFILE       = @CFS_DOCS_HTML_DIR@/apps/sch/detailed_design/sch.tag
+TAGFILES               = @CFS_DOCS_HTML_DIR@/cfe/cfe.tag=../../cfe/
+GENERATE_TAGFILE       = @CFS_DOCS_HTML_DIR@/apps/sch/sch.tag
 ALLEXTERNALS           = NO
 EXTERNAL_GROUPS        = YES
 PERL_PATH              = /usr/bin/perl

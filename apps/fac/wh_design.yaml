@@ -1,0 +1,241 @@
+  short_name: fac
+  long_name: Fixedwing Attitude Controller
+  app_name: FAC
+  module_type: CFE_APP
+  commander:
+    displays: cdr
+  events: 
+    FAC_INF_EID: 
+      id: 1
+    FAC_INIT_INF_EID: 
+      id: 2
+    FAC_CMD_INF_EID: 
+      id: 3
+    FAC_INIT_ERR_EID: 
+      id: 4
+    FAC_CONFIG_TABLE_ERR_EID: 
+      id: 5
+    FAC_PIPE_ERR_EID: 
+      id: 6
+    FAC_MSGID_ERR_EID: 
+      id: 7
+    FAC_MSGLEN_ERR_EID: 
+      id: 8
+    FAC_TBL_VALIDATE_ERR_EID: 
+      id: 9
+  telemetry: 
+    FAC_HK_TLM_MID: 
+      msgID: 
+      struct: FAC_HkTlm_t
+  commands: 
+    FAC_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
+        Reset: 
+          cc: 1
+          struct: CFE_SB_CmdHdr_t
+        Update_FW_R_TC:
+          cc: 2
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_P_TC:
+          cc: 3
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_PR_P:
+          cc: 4
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_PR_I:
+          cc: 5
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_P_RMAX_POS:
+          cc: 6
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_P_RMAX_NEG:
+          cc: 7
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_PR_IMAX:
+          cc: 8
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_RR_P:
+          cc: 9
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_RR_I:
+          cc: 10
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_RR_IMAX:
+          cc: 11
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_R_RMAX:
+          cc: 12
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_YR_P:
+          cc: 13
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_YR_I:
+          cc: 14
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_YR_IMAX:
+          cc: 15
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_Y_RMAX:
+          cc: 16
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_RLL_TO_YAW_FF:
+          cc: 17
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_W_EN:
+          cc: 18
+          struct: FAC_UpdateParamInt32Cmd_t
+        Update_FW_WR_P:
+          cc: 19
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_WR_I:
+          cc: 20
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_WR_IMAX:
+          cc: 21
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_W_RMAX:
+          cc: 22
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_RR_FF:
+          cc: 23
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_PR_FF:
+          cc: 24
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_YR_FF:
+          cc: 25
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_WR_FF:
+          cc: 26
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_YCO_VMIN:
+          cc: 27
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_YCO_METHOD:
+          cc: 28
+          struct: FAC_UpdateParamInt32Cmd_t
+        Update_FW_RSP_OFF:
+          cc: 29
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_PSP_OFF:
+          cc: 30
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_MAN_R_MAX:
+          cc: 31
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_MAN_P_MAX:
+          cc: 32
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_FLAPS_SCL:
+          cc: 33
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_FLAPERON_SCL:
+          cc: 34
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_ARSP_MODE:
+          cc: 35
+          struct: FAC_UpdateParamInt32Cmd_t
+        Update_FW_MAN_R_SC:
+          cc: 36
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_MAN_P_SC:
+          cc: 37
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_MAN_Y_SC:
+          cc: 38
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_BAT_SCALE_EN:
+          cc: 39
+          struct: FAC_UpdateParamInt32Cmd_t
+        Update_FW_ACRO_X_MAX:
+          cc: 40
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_ACRO_Y_MAX:
+          cc: 41
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_ACRO_Z_MAX:
+          cc: 42
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_RATT_TH:
+          cc: 43
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_AIRSPD_MIN:
+          cc: 44
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_AIRSPD_MAX:
+          cc: 45
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_FW_AIRSPD_TRIM:
+          cc: 46
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_TRIM_ROLL:
+          cc: 47
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_TRIM_PITCH:
+          cc: 48
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_TRIM_YAW:
+          cc: 49
+          struct: FAC_UpdateParamFloatCmd_t
+        Update_VT_TYPE:
+          cc: 50
+          struct: FAC_UpdateParamUint32Cmd_t
+    FAC_RUN_CONTROLLER_MID: 
+      msgID: 
+      commands: 
+        RunController: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
+    FAC_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: CFE_SB_CmdHdr_t
+  perfids: 
+    FAC_MAIN_TASK_PERF_ID: 
+      id: 
+  config: 
+    FAC_SB_TIMEOUT: 
+      name: FAC_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    FAC_MISSION_REV: 
+      name: FAC_MISSION_REV
+      value: 0
+    FAC_SCH_PIPE_DEPTH: 
+      name: FAC_SCH_PIPE_DEPTH
+      value: 15
+    FAC_SCH_PIPE_NAME: 
+      name: FAC_SCH_PIPE_NAME
+      value: FAC_SCH_PIPE
+    FAC_SCH_PIPE_PEND_TIME: 
+      name: FAC_SCH_PIPE_PEND_TIME
+      value: 2000
+    FAC_WAKEUP_MID_MAX_MSG_COUNT: 
+      name: FAC_WAKEUP_MID_MAX_MSG_COUNT
+      value: 1
+    FAC_SEND_HK_MID_MAX_MSG_COUNT: 
+      name: FAC_SEND_HK_MID_MAX_MSG_COUNT
+      value: 1
+    FAC_CMD_PIPE_DEPTH: 
+      name: FAC_CMD_PIPE_DEPTH
+      value: 15
+    FAC_CMD_PIPE_NAME: 
+      name: FAC_CMD_PIPE_NAME
+      value: FAC_CMD_PIPE
+    FAC_DATA_PIPE_DEPTH: 
+      name: FAC_DATA_PIPE_DEPTH
+      value: 4
+    FAC_DATA_PIPE_NAME: 
+      name: FAC_DATA_PIPE_NAME
+      value: FAC_DATA_PIPE
+    FAC_CONFIG_TABLE_FILENAME: 
+      name: FAC_CONFIG_TABLE_FILENAME
+      value: /cf/apps/fac_param.tbl
+    FAC_STARTUP_TIMEOUT_MSEC: 
+      name: FAC_STARTUP_TIMEOUT_MSEC
+      value: 1000

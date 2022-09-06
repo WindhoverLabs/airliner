@@ -286,6 +286,8 @@ public:
 	 *************************************************************************/
 	Vector2F operator-() const;
 
+    float operator %(const Vector2F &V) const;
+
 	/************************************************************************/
 	/** \brief Vector Multiplication
 	 **
@@ -303,6 +305,7 @@ public:
 	 **
 	 *************************************************************************/
 	Vector2F EMult(const Vector2F &vecIn);
+
 
 	/************************************************************************/
 	/** \brief Vector Constrain
@@ -335,6 +338,19 @@ public:
 	 **
 	 *************************************************************************/
 	Vector2F Normalized(void);
+
+    /************************************************************************/
+    /** \brief Normalize Vector
+     **
+     **  \par Description
+     **       This function normalizes this vector.
+     **
+     **  \par Assumptions, External Events, and Notes:
+     **       None
+     **
+     **
+     *************************************************************************/
+    void Normalize(void);
 	
 	/************************************************************************/
 	/** \brief Transpose Vector
@@ -345,12 +361,14 @@ public:
 	 **  \par Assumptions, External Events, and Notes:
 	 **       None
 	 **
-	 **  \returns
-	 **  Transposed vector as #Matrix1F2
-	 **  \endreturns
+     **  \returns
+     **  Transposed vector as #Matrix1F2
+     **  \endreturns
 	 **
 	 *************************************************************************/
     Matrix1F2 Transpose(void);
+
+
 
 protected:
 
