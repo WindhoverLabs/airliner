@@ -1661,6 +1661,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -1690,10 +1695,11 @@ print 'Hello from script'
               <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
+import math
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
 value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
-   'param': value,
+   'param': math.radians(value),
 });]]></text>
             </script>
           </action>
@@ -1744,6 +1750,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -1761,10 +1772,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
               <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
+import math
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
 value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
-   'param': value,
+   'param': math.radians(value),
 });]]></text>
             </script>
           </action>
@@ -1815,6 +1827,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -1832,8 +1849,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
               <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
-print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+import math
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
@@ -2324,6 +2341,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -2341,8 +2363,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
               <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
+import math
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
@@ -2395,6 +2418,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -2413,7 +2441,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+import math
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
@@ -2466,6 +2495,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -2484,7 +2518,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
@@ -2608,6 +2642,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -2625,8 +2664,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
               <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
+import math
+
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
@@ -3105,6 +3147,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <x>170</x>
         <width>110</width>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -3123,7 +3170,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+import math
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });]]></text>
@@ -3525,6 +3573,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <width>110</width>
         <format>1</format>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -3590,6 +3642,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <width>110</width>
         <format>1</format>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -3607,7 +3664,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });
@@ -3655,6 +3712,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
         <width>110</width>
         <format>1</format>
         <vertical_alignment>1</vertical_alignment>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
       </widget>
       <widget type="spinner" version="2.0.0">
         <name>$(ParamName)_Input_Widget</name>
@@ -3672,7 +3734,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
 from  org.csstudio.display.builder.runtime.script import PVUtil
 from org.csstudio.display.builder.runtime.script import ScriptUtil
 print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
+import math
+value = math.radians(PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget"))));
 Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
    'param': value,
 });
@@ -3835,5 +3898,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
     <width>900</width>
     <height>1020</height>
     <show_toolbar>false</show_toolbar>
+  </widget>
+  <widget type="polyline" version="2.0.0">
+    <name>Polyline</name>
+    <x>750</x>
+    <y>390</y>
+    <width>1</width>
+    <height>1</height>
+    <points>
+      <point x="0.0" y="0.0">
+      </point>
+    </points>
   </widget>
 </display>
