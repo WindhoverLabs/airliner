@@ -51,7 +51,9 @@
 
 #include <time.h>
 
+#ifdef FPC_UT_EXTERN_OBJECT
 extern FPC  cpyFPC;
+#endif
 
 extern Ut_CFE_PSP_MEMUTILS_HookTable_t         Ut_CFE_PSP_MEMUTILS_HookTable;
 extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t
@@ -218,6 +220,10 @@ void FPC_Test_Setup(void)
 {
     /* initialize test environment to default state for every test */
 
+#ifdef FPC_UT_EXTERN_OBJECT
+    CFE_PSP_MemCpy((void*)&oFPC, (void*)&cpyFPC, sizeof(FPC));
+#endif
+
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();
     Ut_CFE_TIME_Reset();
@@ -227,7 +233,7 @@ void FPC_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-#if 1
+#if 0
     Ut_CFE_TBL_AddTable(FPC_CONFIG_TABLE_FILENAME, (void *) &FPC_ConfigTbl);
 #else
     Ut_CFE_TBL_AddTable(FPC_CONFIG_TABLE_FILENAME, (void *) &FPC_ConfigTblNominal);
@@ -243,6 +249,10 @@ void FPC_Test_Setup(void)
 void FPC_Test_Setup_ConfigInvalid(void)
 {
     /* initialize test environment to default state for every test */
+
+#ifdef FPC_UT_EXTERN_OBJECT
+    CFE_PSP_MemCpy((void*)&oFPC, (void*)&cpyFPC, sizeof(FPC));
+#endif
 
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();

@@ -61,7 +61,9 @@ uint32    ProcessNewCmds_Result = 0xffffffff;
  */
 void Test_FPC_ProcessNewCmds_InvalidCmd(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     int32           CmdPipe;
     FPC_NoArgCmd_t  InMsg;
@@ -104,7 +106,9 @@ void Test_FPC_ProcessNewCmds_InvalidCmd(void)
  */
 void Test_FPC_ProcessNewCmds_InvalidCmdCode(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     int32              CmdPipe;
     FPC_NoArgCmd_t     InMsg;
@@ -148,7 +152,9 @@ void Test_FPC_ProcessNewCmds_InvalidCmdCode(void)
  */
 void Test_FPC_ProcessNewCmds_CmdPipeError(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     int32              SchPipe;
     FPC_NoArgCmd_t     InMsg;
@@ -222,7 +228,9 @@ int32 Test_FPC_ProcessNewCmds_SendEventHook
  */
 void Test_FPC_ProcessNewCmds_Noop(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     int32              CmdPipe;
     FPC_NoArgCmd_t     InMsg;
@@ -270,7 +278,9 @@ void Test_FPC_ProcessNewCmds_Noop(void)
  */
 void Test_FPC_ProcessNewCmds_Reset(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     int32              CmdPipe;
     FPC_NoArgCmd_t     InMsg;
@@ -320,7 +330,9 @@ void Test_FPC_ProcessNewCmds_Reset(void)
  */
 void Test_FPC_ProcessNewCmds_DoGoAround(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     int32                             CmdPipe;
     int32                             DataPipe;
@@ -497,7 +509,9 @@ void Test_FPC_ProcessNewCmds_DoGoAround(void)
  */
 void Test_FPC_VerifyCmdLength_Fail_CmdLength(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     bool              bResult = TRUE;
     bool              bExpected = FALSE;

@@ -58,7 +58,9 @@
  */
 void Test_FPC_InitConfigTbl_Fail_TblRegister(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
@@ -79,7 +81,9 @@ void Test_FPC_InitConfigTbl_Fail_TblRegister(void)
  */
 void Test_FPC_InitConfigTbl_Fail_ValidateConfigTbl(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
@@ -94,7 +98,9 @@ void Test_FPC_InitConfigTbl_Fail_ValidateConfigTbl(void)
  */
 void Test_FPC_InitConfigTbl_ValidateConfigTbl_Nominal(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     /* Set a fail result */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
@@ -113,7 +119,9 @@ void Test_FPC_InitConfigTbl_ValidateConfigTbl_Nominal(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblLoad(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
@@ -134,7 +142,9 @@ void Test_FPC_InitConfigTbl_Fail_TblLoad(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblManage(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
@@ -155,7 +165,9 @@ void Test_FPC_InitConfigTbl_Fail_TblManage(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblGetAddress(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
@@ -176,7 +188,9 @@ void Test_FPC_InitConfigTbl_Fail_TblGetAddress(void)
  */
 void Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
@@ -197,7 +211,9 @@ void Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
  */
 void Test_FPC_InitConfigTbl_Nominal(void)
 {
+#ifndef FPC_UT_EXTERN_OBJECT
     FPC   oFPC{};
+#endif
 
     /* Set a fail result */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)

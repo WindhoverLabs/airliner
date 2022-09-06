@@ -38,6 +38,10 @@
 
 #include "uttest.h"
 
+#ifdef FPC_UT_EXTERN_OBJECT
+FPC   cpyFPC{};
+#endif
+
 int main(void)
 {   
     FPC_App_Test_AddTestCases();
