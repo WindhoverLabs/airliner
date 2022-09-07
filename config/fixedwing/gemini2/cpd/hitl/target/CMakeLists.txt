@@ -43,7 +43,7 @@ buildliner_initialize(
         /cf/downlink/ppd_to_gnd/class1/priority6/
         /cf/downlink/ppd_to_gnd/class2/priority6/
     STARTUP_SCRIPT
-        ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../target/cfe_es_startup.scr
         
     COMMANDER_WORKSPACE
         ${CMAKE_BINARY_DIR}/../../commander_workspace
