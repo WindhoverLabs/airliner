@@ -56,10 +56,10 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      *
      * This is the L1 distance and defines the tracking
      * point ahead of the aircraft its following.
-     * A value of 18-25 meters works for most aircraft. Shorten
+     * A value of 18-25 seconds works for most aircraft. Shorten
      * slowly during tuning until response is sharp without oscillation.
      *
-     * @unit m
+     * @unit s
      * @min 12.0
      * @max 50.0
      * @decimal 1
@@ -461,7 +461,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW L1 Control
      */
-    DEG_TO_RADIANS(-45.0f),
+    DEG_TO_RADIANS(-20.0f),
 
     /**
      * P_LIM_MAX_RADIANS
@@ -475,7 +475,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW L1 Control
      */
-    DEG_TO_RADIANS(45.0f),
+    DEG_TO_RADIANS(20.0f),
 
     /**
      * R_LIM_RADIANS
@@ -490,7 +490,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW L1 Control
      */
-    DEG_TO_RADIANS(50.0f),
+    DEG_TO_RADIANS(30.0f),
 
     /**
      * THR_MIN
@@ -524,18 +524,21 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
 
     /**
      * THR_IDLE
-     * Minimum thrust in auto thrust control
+     * Idle throttle
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This is the minimum throttle while on the ground
+     *
+     * For aircraft with internal combustion engine this parameter should be set
+     * above desired idle rpm.
      *
      * @unit norm
-     * @min 0.05
-     * @max 1.0
+     * @min 0.0
+     * @max 0.4
      * @decimal 2
      * @increment 0.01
-     * @group Fixedwing Position Control
+     * @group FW L1 Control
      */
-    0.15f,
+    0.0f,
 
 
     /**
@@ -566,16 +569,20 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
 
     /**
      * THR_ALT_SCL
-     * Minimum thrust in auto thrust control
+     * Scale throttle by pressure change
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * Automatically adjust throttle to account for decreased air density at higher altitudes.
+     * Start with a scale factor of 1.0 and adjust for different propulsion systems.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * When flying without airspeed sensor this will help to keep a constant performance over large altitude ranges.
+     *
+     * The default value of 0 will disable scaling.
+     *
+     * @min 0.0
+     * @max 2.0
+     * @decimal 1
+     * @increment 0.1
+     * @group FW L1 Control
      */
     0.0f,
 
@@ -665,50 +672,41 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW L1 Control
      */
-    DEG_TO_RADIANS(8.0f),
+    DEG_TO_RADIANS(3.0f),
 
     /**
      * LND_HVIRT
-     * Minimum thrust in auto thrust control
-     *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
-     *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
      * @group Fixedwing Position Control
      */
     10.0f,
 
     /**
      * LND_FLALT
-     * Minimum thrust in auto thrust control
+     * Landing flare altitude (relative to landing altitude)
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * NOTE: max(FW_LND_FLALT, FW_LND_FL_TIME * |z-velocity|) is taken as the flare altitude
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit m
+     * @min 0.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
-    8.0f,
+    3.0f,
 
     /**
      * LND_TLALT
-     * Minimum thrust in auto thrust control
+     * Landing throttle limit altitude (relative landing altitude)
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * Default of -1.0 lets the system default to applying throttle
+     * limiting at 2/3 of the flare altitude.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit m
+     * @min -1.0
+     * @max 30.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
      */
     -1.0f,
 
@@ -724,7 +722,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW L1 Control
      */
-    15.0f,
+    0.5f,
 
     /**
      * LND_FL_PMIN_RADIANS
@@ -756,7 +754,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW L1 Control
      */
-    DEG_TO_RADIANS(15.0f),
+    DEG_TO_RADIANS(10.0f),
 
     /**
      * LND_USETER
@@ -769,16 +767,18 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
 
     /**
      * LND_AIRSPD_SC
-     * Minimum thrust in auto thrust control
+     * Min. airspeed scaling factor for landing
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * Multiplying this factor with the minimum airspeed of the plane
+     * gives the target airspeed the landing approach.
+     * FW_AIRSPD_MIN * FW_LND_AIRSPD_SC
      *
      * @unit norm
-     * @min 0.05
-     * @max 1.0
+     * @min 1.0
+     * @max 1.5
      * @decimal 2
      * @increment 0.01
-     * @group Fixedwing Position Control
+     * @group FW L1 Control
      */
     1.3f,
 
