@@ -42,15 +42,14 @@
 
 
 #if 1
-    #define     FPC_UT_TEST_WITH_OWN_FPC_OBJECT
-    #ifdef FPC_UT_EXTERN_OBJECT
-        #undefine     FPC_UT_EXTERN_OBJECT
-    #endif
+    #define     FPC_UT_EXTERN_OBJECT
 #else
     #define     FPC_UT_TEST_WITH_EXTERN_APPMAIN
 #endif
 
-extern FPC   oFPC;
+#ifdef FPC_UT_EXTERN_OBJECT
+    extern FPC   oFPC;
+#endif
 
 extern "C" void FPC_AppMain();
 extern "C" FPC_ConfigTbl_t FPC_ConfigTbl;

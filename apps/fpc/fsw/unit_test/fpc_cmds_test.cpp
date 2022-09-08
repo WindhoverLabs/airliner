@@ -61,10 +61,6 @@ uint32    ProcessNewCmds_Result = 0xffffffff;
  */
 void Test_FPC_ProcessNewCmds_InvalidCmd(void)
 {
-#ifndef FPC_UT_EXTERN_OBJECT
-    FPC   oFPC{};
-#endif
-
     int32           CmdPipe;
     FPC_NoArgCmd_t  InMsg;
 
@@ -82,14 +78,14 @@ void Test_FPC_ProcessNewCmds_InvalidCmd(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+#ifdef FPC_UT_EXTERN_OBJECT
     oFPC.AppMain();
 #else
     FPC_AppMain();
 #endif
 
     /* Verify results */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+#ifdef FPC_UT_EXTERN_OBJECT
     if ((Ut_CFE_EVS_GetEventQueueDepth() == 2) && (oFPC.HkTlm.usCmdErrCnt == 1))
     {
         UtAssert_True(TRUE, "ProcessNewCmds, InvalidCmd");
@@ -106,10 +102,6 @@ void Test_FPC_ProcessNewCmds_InvalidCmd(void)
  */
 void Test_FPC_ProcessNewCmds_InvalidCmdCode(void)
 {
-#ifndef FPC_UT_EXTERN_OBJECT
-    FPC   oFPC{};
-#endif
-
     int32              CmdPipe;
     FPC_NoArgCmd_t     InMsg;
 
@@ -128,14 +120,14 @@ void Test_FPC_ProcessNewCmds_InvalidCmdCode(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+#ifdef FPC_UT_EXTERN_OBJECT
     oFPC.AppMain();
 #else
     FPC_AppMain();
 #endif
 
     /* Verify results */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+#ifdef FPC_UT_EXTERN_OBJECT
     if ((Ut_CFE_EVS_GetEventQueueDepth() == 2) && (oFPC.HkTlm.usCmdErrCnt == 1))
     {
         UtAssert_True(TRUE, "ProcessNewCmds, InvalidCmdCode");
@@ -152,10 +144,6 @@ void Test_FPC_ProcessNewCmds_InvalidCmdCode(void)
  */
 void Test_FPC_ProcessNewCmds_CmdPipeError(void)
 {
-#ifndef FPC_UT_EXTERN_OBJECT
-    FPC   oFPC{};
-#endif
-
     int32              SchPipe;
     FPC_NoArgCmd_t     InMsg;
 
@@ -171,7 +159,7 @@ void Test_FPC_ProcessNewCmds_CmdPipeError(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+#ifdef FPC_UT_EXTERN_OBJECT
     oFPC.AppMain();
 #else
     FPC_AppMain();
@@ -228,10 +216,6 @@ int32 Test_FPC_ProcessNewCmds_SendEventHook
  */
 void Test_FPC_ProcessNewCmds_Noop(void)
 {
-#ifndef FPC_UT_EXTERN_OBJECT
-    FPC   oFPC{};
-#endif
-
     int32              CmdPipe;
     FPC_NoArgCmd_t     InMsg;
 
@@ -254,14 +238,14 @@ void Test_FPC_ProcessNewCmds_Noop(void)
                (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
 
     /* Execute the function being tested */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+#ifdef FPC_UT_EXTERN_OBJECT
     oFPC.AppMain();
 #else
     FPC_AppMain();
 #endif
 
     /* Verify results */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+#ifdef FPC_UT_EXTERN_OBJECT
     if ((oFPC.HkTlm.usCmdCnt == 1) && (ProcessNewCmds_Result == FPC_NOOP_CC))
     {
         UtAssert_True(TRUE, "ProcessNewCmds, Noop");
@@ -278,10 +262,6 @@ void Test_FPC_ProcessNewCmds_Noop(void)
  */
 void Test_FPC_ProcessNewCmds_Reset(void)
 {
-#ifndef FPC_UT_EXTERN_OBJECT
-    FPC   oFPC{};
-#endif
-
     int32              CmdPipe;
     FPC_NoArgCmd_t     InMsg;
 
@@ -304,14 +284,14 @@ void Test_FPC_ProcessNewCmds_Reset(void)
                (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
 
     /* Execute the function being tested */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+#ifdef FPC_UT_EXTERN_OBJECT
     oFPC.AppMain();
 #else
     FPC_AppMain();
 #endif
 
     /* Verify results */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+#ifdef FPC_UT_EXTERN_OBJECT
     if ((oFPC.HkTlm.usCmdCnt == 0) && (oFPC.HkTlm.usCmdErrCnt == 0)
          && (ProcessNewCmds_Result == FPC_RESET_CC))
     {
@@ -330,10 +310,6 @@ void Test_FPC_ProcessNewCmds_Reset(void)
  */
 void Test_FPC_ProcessNewCmds_DoGoAround(void)
 {
-#ifndef FPC_UT_EXTERN_OBJECT
-    FPC   oFPC{};
-#endif
-
     int32                             CmdPipe;
     int32                             DataPipe;
     FPC_NoArgCmd_t                    CmdMsg;
@@ -477,21 +453,24 @@ void Test_FPC_ProcessNewCmds_DoGoAround(void)
 
     FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
     ProcessNewCmds_Result = 0xffffffff;
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
                (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
 
     /* Execute the function being tested */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
-    oFPC.InitPipe();
-    oFPC.ProcessNewData();
-    oFPC.ProcessNewCmds();
+#ifdef FPC_UT_EXTERN_OBJECT
+    oFPC.AppMain();
 #else
     FPC_AppMain();
 #endif
 
     /* Verify results */
-#ifdef FPC_UT_TEST_WITH_OWN_FPC_OBJECT
+#ifdef FPC_UT_EXTERN_OBJECT
     if ((oFPC.HkTlm.usCmdCnt == 1) && (ProcessNewCmds_Result == FPC_DO_GO_AROUND_CC))
     {
         UtAssert_True(TRUE, "ProcessNewCmds, DoGoAround");
@@ -509,12 +488,8 @@ void Test_FPC_ProcessNewCmds_DoGoAround(void)
  */
 void Test_FPC_VerifyCmdLength_Fail_CmdLength(void)
 {
-#ifndef FPC_UT_EXTERN_OBJECT
-    FPC   oFPC{};
-#endif
-
-    bool              bResult = TRUE;
-    bool              bExpected = FALSE;
+    boolean           bResult = TRUE;
+    boolean           bExpected = FALSE;
     FPC_NoArgCmd_t    CmdMsg;
 
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
