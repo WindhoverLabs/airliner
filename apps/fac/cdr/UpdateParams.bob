@@ -54,6 +54,18 @@
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>@unit s
+@min 0.4
+@max 1.0
+@decimal 2
+@increment 0.05
+@group FW Attitude Control
+Attitude Roll Time Constant (FW_R_TC)
+This defines the latency between a roll step input and the achieved setpoint
+(inverse to a P gain). Half a second is a good start value and fits for
+most average systems. Smaller systems may require smaller values, but as
+this will wear out servos faster, the value should only be decreased as
+needed.</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update</name>
@@ -68,7 +80,10 @@
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.4</minimum>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_1</name>
@@ -137,7 +152,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.2</minimum>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_41</name>
@@ -205,7 +223,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.005</minimum>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.005</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_42</name>
@@ -273,7 +294,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.005</minimum>
+        <maximum>0.5</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.005</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_43</name>
@@ -337,7 +361,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>90.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_44</name>
@@ -401,7 +427,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_47</name>
@@ -469,7 +497,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.005</minimum>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.005</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_48</name>
@@ -537,7 +568,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.005</minimum>
+        <maximum>0.2</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.005</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_49</name>
@@ -601,7 +635,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_50</name>
@@ -665,7 +701,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>90.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_51</name>
@@ -729,7 +767,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.005</minimum>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.005</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_52</name>
@@ -793,7 +834,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>50.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_53</name>
@@ -857,7 +900,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_54</name>
@@ -921,7 +966,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>90.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_55</name>
@@ -985,6 +1032,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>200.0</maximum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
@@ -1050,6 +1098,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
@@ -1114,7 +1163,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.005</minimum>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.005</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_58</name>
@@ -1178,7 +1230,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>0.005</minimum>
+        <maximum>0.5</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.005</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_59</name>
@@ -1240,6 +1295,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <name>$(ParamName)_Input_Widget</name>
         <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
         <x>300</x>
+        <maximum>1.0</maximum>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_61</name>
@@ -1303,7 +1360,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>90.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_63</name>
@@ -1379,7 +1438,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>10.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_64</name>
@@ -1447,7 +1508,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>10.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_65</name>
@@ -1511,7 +1574,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>10.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_66</name>
@@ -1575,7 +1640,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>10.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.05</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_67</name>
@@ -1641,6 +1708,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <show_units>true</show_units>
         <maximum>10000.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_68</name>
@@ -1704,6 +1772,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
@@ -1772,7 +1841,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>-90.0</minimum>
+        <maximum>90.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_70</name>
@@ -1840,7 +1912,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>-90.0</minimum>
+        <maximum>90.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_71</name>
@@ -1904,7 +1979,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>90.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_72</name>
@@ -1968,7 +2045,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>90.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_73</name>
@@ -2032,7 +2111,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_74</name>
@@ -2096,7 +2177,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_75</name>
@@ -2160,6 +2243,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
@@ -2224,7 +2308,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_77</name>
@@ -2288,7 +2374,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>2.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_78</name>
@@ -2353,6 +2441,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <format>0</format>
         <show_units>true</show_units>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_79</name>
@@ -2416,6 +2505,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
@@ -2464,7 +2554,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
       <widget type="label" version="2.0.0">
         <name>Label_81</name>
         <text>$(ParamName)</text>
-        <width>120</width>
+        <width>130</width>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -2480,6 +2570,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>45.0</minimum>
+        <maximum>720.0</maximum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
@@ -2528,7 +2620,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
       <widget type="label" version="2.0.0">
         <name>Label_82</name>
         <text>$(ParamName)</text>
-        <width>120</width>
+        <width>140</width>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -2544,6 +2636,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>45.0</minimum>
+        <maximum>720.0</maximum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
@@ -2592,7 +2686,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
       <widget type="label" version="2.0.0">
         <name>Label_83</name>
         <text>$(ParamName)</text>
-        <width>120</width>
+        <width>140</width>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -2608,6 +2702,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>10.0</minimum>
+        <maximum>180.0</maximum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
@@ -2645,7 +2741,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
     <widget type="group" version="2.0.0">
       <name>$(ParamName)_Group</name>
       <macros>
-        <ParamName>FW_ACRO_X_MAX</ParamName>
+        <ParamName>FW_RATT_TH</ParamName>
       </macros>
       <x>2</x>
       <y>842</y>
@@ -2654,73 +2750,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
       <style>3</style>
       <transparent>true</transparent>
       <widget type="label" version="2.0.0">
-        <name>Label_84</name>
-        <text>$(ParamName)</text>
-        <width>120</width>
-        <vertical_alignment>1</vertical_alignment>
-      </widget>
-      <widget type="textupdate" version="2.0.0">
-        <name>Text Update_83</name>
-        <pv_name>/cfs/cpd/apps/fac/FAC_HK_TLM_MID.Params.$(ParamName)</pv_name>
-        <x>170</x>
-        <width>110</width>
-        <vertical_alignment>1</vertical_alignment>
-      </widget>
-      <widget type="spinner" version="2.0.0">
-        <name>$(ParamName)_Input_Widget</name>
-        <pv_name>loc://$(ParamName)_Input&lt;VDouble&gt;(0)</pv_name>
-        <x>300</x>
-        <format>0</format>
-        <show_units>true</show_units>
-        <limits_from_pv>false</limits_from_pv>
-      </widget>
-      <widget type="action_button" version="3.0.0">
-        <name>Update_84</name>
-        <actions>
-          <action type="execute">
-            <script file="EmbeddedPy">
-              <text><![CDATA[from com.windhoverlabs.yamcs.script import Yamcs
-from  org.csstudio.display.builder.runtime.script import PVUtil
-from org.csstudio.display.builder.runtime.script import ScriptUtil
-print widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "Input_Widget"
-value = PVUtil.getDouble(ScriptUtil.getPrimaryPV(ScriptUtil.findWidgetByName(widget.getParent().get(), widget.getParent().get().getEffectiveMacros().getValue("ParamName") + "_Input_Widget")));
-Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get().getEffectiveMacros().getValue("ParamName"), {
-   'param': value,
-});]]></text>
-            </script>
-          </action>
-        </actions>
-        <text>Update</text>
-        <x>400</x>
-        <width>140</width>
-        <height>20</height>
-        <foreground_color>
-          <color red="255" green="255" blue="255">
-          </color>
-        </foreground_color>
-        <background_color>
-          <color red="34" green="45" blue="75">
-          </color>
-        </background_color>
-        <tooltip>$(actions)</tooltip>
-        <border_alarm_sensitive>false</border_alarm_sensitive>
-      </widget>
-    </widget>
-    <widget type="group" version="2.0.0">
-      <name>$(ParamName)_Group</name>
-      <macros>
-        <ParamName>FW_RATT_TH</ParamName>
-      </macros>
-      <x>2</x>
-      <y>862</y>
-      <width>570</width>
-      <height>20</height>
-      <style>3</style>
-      <transparent>true</transparent>
-      <widget type="label" version="2.0.0">
         <name>Label_86</name>
         <text>$(ParamName)</text>
-        <width>120</width>
+        <width>130</width>
         <vertical_alignment>1</vertical_alignment>
       </widget>
       <widget type="textupdate" version="2.0.0">
@@ -2736,7 +2768,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>1.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_86</name>
@@ -2776,7 +2810,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <ParamName>FW_AIRSPD_MIN</ParamName>
       </macros>
       <x>2</x>
-      <y>882</y>
+      <y>862</y>
       <width>570</width>
       <height>20</height>
       <style>3</style>
@@ -2800,7 +2834,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>40.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_87</name>
@@ -2840,7 +2876,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <ParamName>FW_AIRSPD_MAX</ParamName>
       </macros>
       <x>2</x>
-      <y>902</y>
+      <y>882</y>
       <width>570</width>
       <height>20</height>
       <style>3</style>
@@ -2864,7 +2900,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>40.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_88</name>
@@ -2904,7 +2942,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <ParamName>FW_AIRSPD_TRIM</ParamName>
       </macros>
       <x>2</x>
-      <y>922</y>
+      <y>902</y>
       <width>570</width>
       <height>20</height>
       <style>3</style>
@@ -2928,7 +2966,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>40.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_88</name>
@@ -2968,7 +3008,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <ParamName>TRIM_ROLL</ParamName>
       </macros>
       <x>2</x>
-      <y>942</y>
+      <y>922</y>
       <width>570</width>
       <height>20</height>
       <style>3</style>
@@ -2992,7 +3032,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>-0.25</minimum>
+        <maximum>0.25</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_88</name>
@@ -3032,7 +3075,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <ParamName>TRIM_PITCH</ParamName>
       </macros>
       <x>2</x>
-      <y>1002</y>
+      <y>982</y>
       <width>570</width>
       <height>20</height>
       <style>3</style>
@@ -3056,7 +3099,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>-0.25</minimum>
+        <maximum>0.25</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_88</name>
@@ -3096,7 +3142,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <ParamName>TRIM_YAW</ParamName>
       </macros>
       <x>2</x>
-      <y>982</y>
+      <y>962</y>
       <width>570</width>
       <height>20</height>
       <style>3</style>
@@ -3120,7 +3166,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <minimum>-0.25</minimum>
+        <maximum>0.25</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.01</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_88</name>
@@ -3160,7 +3209,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <ParamName>VT_TYPE</ParamName>
       </macros>
       <x>2</x>
-      <y>962</y>
+      <y>942</y>
       <width>570</width>
       <height>20</height>
       <style>3</style>
@@ -3184,6 +3233,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>2.0</maximum>
         <limits_from_pv>false</limits_from_pv>
       </widget>
       <widget type="action_button" version="3.0.0">
@@ -3248,7 +3298,9 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <x>300</x>
         <format>0</format>
         <show_units>true</show_units>
+        <maximum>90.0</maximum>
         <limits_from_pv>false</limits_from_pv>
+        <increment>0.5</increment>
       </widget>
       <widget type="action_button" version="3.0.0">
         <name>Update_45</name>
