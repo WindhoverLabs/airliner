@@ -223,6 +223,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
     0.8f,
 
     /**
+     * T_SRATE_P
      * Speed rate P factor
      *
      * @min 0.0
@@ -618,31 +619,35 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
 
     /**
      * RSP_OFF_RADIANS
-     * Minimum thrust in auto thrust control
+     * Roll setpoint offset
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * An airframe specific offset of the roll setpoint in degrees, the value is
+     * added to the roll setpoint and should correspond to the typical cruise speed
+     * of the airframe.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit deg
+     * @min -90.0
+     * @max 90.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW Attitude Control
      */
     DEG_TO_RADIANS(0.0f),
 
     /**
      * PSP_OFF_RADIANS
-     * Minimum thrust in auto thrust control
+     * Pitch setpoint offset
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * An airframe specific offset of the pitch setpoint in degrees, the value is
+     * added to the pitch setpoint and should correspond to the typical cruise
+     * speed of the airframe.
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit deg
+     * @min -90.0
+     * @max 90.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW Attitude Control
      */
     DEG_TO_RADIANS(0.0f),
 
@@ -676,6 +681,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
 
     /**
      * LND_HVIRT
+     * This is "h1" here:https://github.com/WindhoverLabs/airliner/blob/integration/apps/fpc/docs/images/fw_landing.png
      * @group Fixedwing Position Control
      */
     10.0f,
