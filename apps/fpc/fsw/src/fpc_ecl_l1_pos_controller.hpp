@@ -76,208 +76,197 @@ class ECL_L1_Pos_Controller
 {
 public:
     ECL_L1_Pos_Controller()
-        :
-        _lateral_accel(0.0),
-        _L1_distance(20.0),
-        _circle_mode(FALSE),
-        _nav_bearing(0.0),
-        _bearing_error(0.0),
-        _crosstrack_error(0.0),
-        _target_bearing(0.0),
-        _L1_period(25.0),
-        _L1_damping(0.75),
-        _L1_ratio(5.0),
-        _K_L1(2.0),
-        _heading_omega(1.0),
-        _roll_lim_rad((10.0f / 180.0) * M_PI)
-	{
-	}
+    :
+    _lateral_accel(0.0),
+    _L1_distance(20.0),
+    _circle_mode(FALSE),
+    _nav_bearing(0.0),
+    _bearing_error(0.0),
+    _crosstrack_error(0.0),
+    _target_bearing(0.0),
+    _L1_period(25.0),
+    _L1_damping(0.75),
+    _L1_ratio(5.0),
+    _K_L1(2.0),
+    _heading_omega(1.0),
+    _roll_lim_rad((10.0f / 180.0) * M_PI)
+    {
+    }
 
-	/**
-	 * The current target bearing
-	 *
-	 * @return bearing angle (-pi..pi, in NED frame)
-	 */
-	float nav_bearing();
+    /**
+     * The current target bearing
+     *
+     * @return bearing angle (-pi..pi, in NED frame)
+     */
+    float nav_bearing();
 
+    /**
+     * Get lateral acceleration demand.
+     *
+     * @return Lateral acceleration in m/s^2
+     */
+    float nav_lateral_acceleration_demand();
 
-	/**
-	 * Get lateral acceleration demand.
-	 *
-	 * @return Lateral acceleration in m/s^2
-	 */
-	float nav_lateral_acceleration_demand();
+    /**
+     * Heading error.
+     *
+     * The heading error is either compared to the current track
+     * or to the tangent of the current loiter radius.
+     */
+    float bearing_error();
 
+    /**
+     * Bearing from aircraft to current target.
+     *
+     * @return bearing angle (-pi..pi, in NED frame)
+     */
+    float target_bearing();
 
-	/**
-	 * Heading error.
-	 *
-	 * The heading error is either compared to the current track
-	 * or to the tangent of the current loiter radius.
-	 */
-	float bearing_error();
+    /**
+     * Get roll angle setpoint for fixed wing.
+     *
+     * @return Roll angle (in NED frame)
+     */
+    float nav_roll();
 
+    /**
+     * Get the current crosstrack error.
+     *
+     * @return Crosstrack error in meters.
+     */
+    float crosstrack_error();
 
-	/**
-	 * Bearing from aircraft to current target.
-	 *
-	 * @return bearing angle (-pi..pi, in NED frame)
-	 */
-	float target_bearing();
+    /**
+     * Returns true if the loiter waypoint has been reached
+     */
+    bool reached_loiter_target();
 
+    /**
+     * Returns true if following a circle (loiter)
+     */
+    bool circle_mode()
+    {
+        return _circle_mode;
+    }
 
-	/**
-	 * Get roll angle setpoint for fixed wing.
-	 *
-	 * @return Roll angle (in NED frame)
-	 */
-	float nav_roll();
+    /**
+     * Get the switch distance
+     *
+     * This is the distance at which the system will
+     * switch to the next waypoint. This depends on the
+     * period and damping
+     *
+     * @param waypoint_switch_radius The switching radius the waypoint has set.
+     */
+    float switch_distance(float waypoint_switch_radius);
 
-
-	/**
-	 * Get the current crosstrack error.
-	 *
-	 * @return Crosstrack error in meters.
-	 */
-	float crosstrack_error();
-
-
-	/**
-	 * Returns true if the loiter waypoint has been reached
-	 */
-	bool reached_loiter_target();
-
-
-	/**
-	 * Returns true if following a circle (loiter)
-	 */
-	bool circle_mode() {
-		return _circle_mode;
-	}
-
-
-	/**
-	 * Get the switch distance
-	 * 
-	 * This is the distance at which the system will
-	 * switch to the next waypoint. This depends on the
-	 * period and damping
-	 *
-	 * @param waypoint_switch_radius The switching radius the waypoint has set.
-	 */
-	float switch_distance(float waypoint_switch_radius);
-
-
-	/**
-	 * Navigate between two waypoints
-	 *
-	 * Calling this function with two waypoints results in the
-	 * control outputs to fly to the line segment defined by
-	 * the points and once captured following the line segment.
-	 * This follows the logic in [1].
-	 *
-	 * @return sets _lateral_accel setpoint
-	 */
+    /**
+     * Navigate between two waypoints
+     *
+     * Calling this function with two waypoints results in the
+     * control outputs to fly to the line segment defined by
+     * the points and once captured following the line segment.
+     * This follows the logic in [1].
+     *
+     * @return sets _lateral_accel setpoint
+     */
     void navigate_waypoints(const math::Vector2F &vector_A, const math::Vector2F &vector_B, const math::Vector2F &vector_curr_position,
-               const math::Vector2F &ground_speed);
+            const math::Vector2F &ground_speed);
 
-
-	/**
-	 * Navigate on an orbit around a loiter waypoint.
-	 *
-	 * This allow orbits smaller than the L1 length,
-	 * this modification was introduced in [2].
-	 *
-	 * @return sets _lateral_accel setpoint
-	 */
+    /**
+     * Navigate on an orbit around a loiter waypoint.
+     *
+     * This allow orbits smaller than the L1 length,
+     * this modification was introduced in [2].
+     *
+     * @return sets _lateral_accel setpoint
+     */
     void navigate_loiter(const math::Vector2F &vector_A, const math::Vector2F &vector_curr_position, float radius, int8_t loiter_direction,
-               const math::Vector2F &ground_speed_vector);
+            const math::Vector2F &ground_speed_vector);
 
-
-	/**
-	 * Navigate on a fixed bearing.
-	 *
-	 * This only holds a certain direction and does not perform cross
-	 * track correction. Helpful for semi-autonomous modes. Introduced
-	 * by [2].
-	 *
-	 * @return sets _lateral_accel setpoint
-	 */
+    /**
+     * Navigate on a fixed bearing.
+     *
+     * This only holds a certain direction and does not perform cross
+     * track correction. Helpful for semi-autonomous modes. Introduced
+     * by [2].
+     *
+     * @return sets _lateral_accel setpoint
+     */
     void navigate_heading(float navigation_heading, float current_heading, const math::Vector2F &ground_speed);
 
+    /**
+     * Keep the wings level.
+     *
+     * This is typically needed for maximum-lift-demand situations,
+     * such as takeoff or near stall. Introduced in [2].
+     */
+    void navigate_level_flight(float current_heading);
 
-	/**
-	 * Keep the wings level.
-	 *
-	 * This is typically needed for maximum-lift-demand situations,
-	 * such as takeoff or near stall. Introduced in [2].
-	 */
-	void navigate_level_flight(float current_heading);
+    /**
+     * Set the L1 period.
+     */
+    void set_l1_period(float period)
+    {
+        _L1_period = period;
+        /* calculate the ratio introduced in [2] */
+        _L1_ratio = 1.0f / M_PI_F * _L1_damping * _L1_period;
+        /* calculate normalized frequency for heading tracking */
+        _heading_omega = sqrtf(2.0f) * M_PI_F / _L1_period;
+    }
 
+    /**
+     * Set the L1 damping factor.
+     *
+     * The original publication recommends a default of sqrt(2) / 2 = 0.707
+     */
+    void set_l1_damping(float damping)
+    {
+        _L1_damping = damping;
+        /* calculate the ratio introduced in [2] */
+        _L1_ratio = 1.0f / M_PI_F * _L1_damping * _L1_period;
+        /* calculate the L1 gain (following [2]) */
+        _K_L1 = 4.0f * _L1_damping * _L1_damping;
+    }
 
-	/**
-	 * Set the L1 period.
-	 */
-	void set_l1_period(float period) {
-		_L1_period = period;
-		/* calculate the ratio introduced in [2] */
-		_L1_ratio = 1.0f / M_PI_F * _L1_damping * _L1_period;
-		/* calculate normalized frequency for heading tracking */
-		_heading_omega = sqrtf(2.0f) * M_PI_F / _L1_period;
-	}
-
-
-	/**
-	 * Set the L1 damping factor.
-	 *
-	 * The original publication recommends a default of sqrt(2) / 2 = 0.707
-	 */
-	void set_l1_damping(float damping) {
-		_L1_damping = damping;
-		/* calculate the ratio introduced in [2] */
-		_L1_ratio = 1.0f / M_PI_F * _L1_damping * _L1_period;
-		/* calculate the L1 gain (following [2]) */
-		_K_L1 = 4.0f * _L1_damping * _L1_damping;
-	}
-
-
-	/**
-	 * Set the maximum roll angle output in radians
-	 *
-	 */
-	void set_l1_roll_limit(float roll_lim_rad) {
-		_roll_lim_rad = roll_lim_rad;
-	}
+    /**
+     * Set the maximum roll angle output in radians
+     *
+     */
+    void set_l1_roll_limit(float roll_lim_rad)
+    {
+        _roll_lim_rad = roll_lim_rad;
+    }
 
 private:
 
-	float _lateral_accel;		///< Lateral acceleration setpoint in m/s^2
-	float _L1_distance;		///< L1 lead distance, defined by period and damping
-    boolean _circle_mode;		///< flag for loiter mode
-	float _nav_bearing;		///< bearing to L1 reference point
-	float _bearing_error;		///< bearing error
-	float _crosstrack_error;	///< crosstrack error in meters
-	float _target_bearing;		///< the heading setpoint
+    float _lateral_accel;		///< Lateral acceleration setpoint in m/s^2
+    float _L1_distance;///< L1 lead distance, defined by period and damping
+    boolean _circle_mode;///< flag for loiter mode
+    float _nav_bearing;///< bearing to L1 reference point
+    float _bearing_error;///< bearing error
+    float _crosstrack_error;///< crosstrack error in meters
+    float _target_bearing;///< the heading setpoint
 
-	float _L1_period;		///< L1 tracking period in seconds
-	float _L1_damping;		///< L1 damping ratio
-	float _L1_ratio;		///< L1 ratio for navigation
-	float _K_L1;			///< L1 control gain for _L1_damping
-	float _heading_omega;		///< Normalized frequency
+    float _L1_period;///< L1 tracking period in seconds
+    float _L1_damping;///< L1 damping ratio
+    float _L1_ratio;///< L1 ratio for navigation
+    float _K_L1;///< L1 control gain for _L1_damping
+    float _heading_omega;///< Normalized frequency
 
-	float _roll_lim_rad;  ///<maximum roll angle
+    float _roll_lim_rad;///<maximum roll angle
 
-	/**
-	 * Convert a 2D vector from WGS84 to planar coordinates.
-	 *
-	 * This converts from latitude and longitude to planar
-	 * coordinates with (0,0) being at the position of ref and
-	 * returns a vector in meters towards wp.
-	 *
-	 * @param ref The reference position in WGS84 coordinates
-	 * @param wp The point to convert to into the local coordinates, in WGS84 coordinates
-	 * @return The vector in meters pointing from the reference position to the coordinates
-	 */
+    /**
+     * Convert a 2D vector from WGS84 to planar coordinates.
+     *
+     * This converts from latitude and longitude to planar
+     * coordinates with (0,0) being at the position of ref and
+     * returns a vector in meters towards wp.
+     *
+     * @param ref The reference position in WGS84 coordinates
+     * @param wp The point to convert to into the local coordinates, in WGS84 coordinates
+     * @return The vector in meters pointing from the reference position to the coordinates
+     */
     math::Vector2F get_local_planar_vector(const math::Vector2F &origin, const math::Vector2F &target) const;
 
 };

@@ -30,7 +30,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  *****************************************************************************/
-    
+
 #ifndef FPC_VERSION_H
 #define FPC_VERSION_H
 
@@ -39,47 +39,46 @@ extern "C" {
 #endif
 
 /** \brief Major version number for FPC application
-**  
-**  \par Description:
-**       An application version number consists of four parts:
-**       major version number, minor version number, revision
-**       number and mission specific revision number. The mission
-**       specific revision number is defined in "ci_platform_cfg.h".
-**
-**  \par Limits:
-**       Must be defined as a numeric value that is greater than
-**       or equal to zero.
-*/
+ **
+ **  \par Description:
+ **       An application version number consists of four parts:
+ **       major version number, minor version number, revision
+ **       number and mission specific revision number. The mission
+ **       specific revision number is defined in "ci_platform_cfg.h".
+ **
+ **  \par Limits:
+ **       Must be defined as a numeric value that is greater than
+ **       or equal to zero.
+ */
 #define FPC_MAJOR_VERSION    (0)
 
 /** \brief Minor version number for FPC application
-**  
-**  \par Description:
-**       An application version number consists of four parts:
-**       major version number, minor version number, revision
-**       number and mission specific revision number. The mission
-**       specific revision number is defined in "fpc_platform_cfg.h".
-**
-**  \par Limits:
-**       Must be defined as a numeric value that is greater than
-**       or equal to zero.
-*/
+ **
+ **  \par Description:
+ **       An application version number consists of four parts:
+ **       major version number, minor version number, revision
+ **       number and mission specific revision number. The mission
+ **       specific revision number is defined in "fpc_platform_cfg.h".
+ **
+ **  \par Limits:
+ **       Must be defined as a numeric value that is greater than
+ **       or equal to zero.
+ */
 #define FPC_MINOR_VERSION    (0)
 
 /** \brief Revision version number for FPC application
-**  
-**  \par Description:
-**       An application version number consists of four parts:
-**       major version number, minor version number, revision
-**       number and mission specific revision number. The mission
-**       specific revision number is defined in "fpc_platform_cfg.h".
-**
-**  \par Limits:
-**       Must be defined as a numeric value that is greater than
-**       or equal to zero.
-*/
+ **
+ **  \par Description:
+ **       An application version number consists of four parts:
+ **       major version number, minor version number, revision
+ **       number and mission specific revision number. The mission
+ **       specific revision number is defined in "fpc_platform_cfg.h".
+ **
+ **  \par Limits:
+ **       Must be defined as a numeric value that is greater than
+ **       or equal to zero.
+ */
 #define FPC_REVISION         (0)
-
 
 #ifdef __cplusplus
 }
