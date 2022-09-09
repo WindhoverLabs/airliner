@@ -1670,7 +1670,7 @@ void Test_FPC_Execute_RotaryWing_Data()
 
 
 /**
- * Test FPC Execute_RotaryWing
+ * Test FPC Execute, RotaryWing
  */
 void Test_FPC_Execute_RotaryWing(void)
 {
@@ -1711,7 +1711,7 @@ void Test_FPC_Execute_RotaryWing(void)
     }
     else
     {
-        printf("FPC_Execute_RotaryWing: Failed to initialize Config Table\n");
+        UtAssert_True(FALSE, "FPC Execute, RotaryWing");
     }
 }
 
@@ -1793,34 +1793,75 @@ void Test_FPC_Execute_Manual_VelocityAltitude_Data()
     oFPC.m_VehicleGlobalPositionMsg.Yaw = 1.566952f;
     oFPC.m_VehicleGlobalPositionMsg.EpH = 0.369742f;
     oFPC.m_VehicleGlobalPositionMsg.EpV = 0.216528f;
-    oFPC.m_VehicleGlobalPositionMsg.EvH = 0.000000f;
-    oFPC.m_VehicleGlobalPositionMsg.EvV = 0.000000f;
+    oFPC.m_VehicleGlobalPositionMsg.EvH = 0.0f;
+    oFPC.m_VehicleGlobalPositionMsg.EvV = 0.0f;
     oFPC.m_VehicleGlobalPositionMsg.TerrainAlt = 21.0f;
     oFPC.m_VehicleGlobalPositionMsg.PressureAlt = 13.0f;
     oFPC.m_VehicleGlobalPositionMsg.TerrainAltValid = TRUE;
     oFPC.m_VehicleGlobalPositionMsg.DeadReckoning = TRUE;
 
+    oFPC.m_VehicleLocalPositionMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefLat = 47.397741972655;
+    oFPC.m_VehicleLocalPositionMsg.RefLon = 8.545593900131;
+    oFPC.m_VehicleLocalPositionMsg.SurfaceBottomTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.X = -1.995731f;
+    oFPC.m_VehicleLocalPositionMsg.Y = 1.565559f;
+    oFPC.m_VehicleLocalPositionMsg.Z = -0.826584f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_Z = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.VX = -0.027511f;
+    oFPC.m_VehicleLocalPositionMsg.VY = 0.006788f;
+    oFPC.m_VehicleLocalPositionMsg.VZ = -0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AX = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AY = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Yaw = 1.566952f;
+    oFPC.m_VehicleLocalPositionMsg.RefAlt = 504.2629f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottom = 1.155246f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomRate = 0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.EpH = 0.369742f;
+    oFPC.m_VehicleLocalPositionMsg.EpV = 0.216528f;
+    oFPC.m_VehicleLocalPositionMsg.EvH = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EvV = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EstimatorType = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.XY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.Z_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VXY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VZ_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomValid = TRUE;
+
     oFPC.m_PositionSetpointTripletMsg.Timestamp = FPC_Test_GetTimeUs();
     oFPC.m_PositionSetpointTripletMsg.Previous.Timestamp = 0;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Lat = 0.000000000000;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Lon = 0.000000000000;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Lat = 47.397741972655;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Lon = 8.545593900131;
     oFPC.m_PositionSetpointTripletMsg.Previous.X = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Y = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Z = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.VX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.VY = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.VZ = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Alt = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Yaw = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Alt = 504.2629f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Yaw = 1.566952f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Yawspeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.LoiterRadius = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.LoiterRadius = 50.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.PitchMin = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AY = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AZ = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AcceptanceRadius = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingSpeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingThrottle = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingSpeed = -1.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingThrottle = -1.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Valid = FALSE;
     oFPC.m_PositionSetpointTripletMsg.Previous.Type = PX4_SETPOINT_TYPE_POSITION;
     oFPC.m_PositionSetpointTripletMsg.Previous.PositionValid = FALSE;
@@ -1833,25 +1874,25 @@ void Test_FPC_Execute_Manual_VelocityAltitude_Data()
     oFPC.m_PositionSetpointTripletMsg.Previous.AccelerationIsForce = FALSE;
 
     oFPC.m_PositionSetpointTripletMsg.Current.Timestamp = FPC_Test_GetTimeUs();
-    oFPC.m_PositionSetpointTripletMsg.Current.Lat = 0.000000000000;
-    oFPC.m_PositionSetpointTripletMsg.Current.Lon = 0.000000000000;
+    oFPC.m_PositionSetpointTripletMsg.Current.Lat = 47.397741972655;
+    oFPC.m_PositionSetpointTripletMsg.Current.Lon = 8.545593900131;
     oFPC.m_PositionSetpointTripletMsg.Current.X = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.Y = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.Z = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.VX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.VY = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.VZ = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.Alt = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.Yaw = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.Alt = 504.2629f;
+    oFPC.m_PositionSetpointTripletMsg.Current.Yaw = 1.566952f;
     oFPC.m_PositionSetpointTripletMsg.Current.Yawspeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.LoiterRadius = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.LoiterRadius = 50.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.PitchMin = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.AX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.AY = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.AZ = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.AcceptanceRadius = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.CruisingSpeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.CruisingThrottle = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.CruisingSpeed = -1.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.CruisingThrottle = -1.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.Valid = FALSE;
     oFPC.m_PositionSetpointTripletMsg.Current.Type = PX4_SETPOINT_TYPE_POSITION;
     oFPC.m_PositionSetpointTripletMsg.Current.PositionValid = FALSE;
@@ -1933,7 +1974,7 @@ void Test_FPC_Execute_Manual_VelocityAltitude(void)
     }
     else
     {
-        printf("FPC_Execute_Manual_VelocityAltitude: Failed to initialize Config Table\n");
+        UtAssert_True(FALSE, "FPC Execute, Manual_VelocityAltitude");
     }
 }
 
@@ -2015,34 +2056,75 @@ void Test_FPC_Execute_Manual_Altitude_Data()
     oFPC.m_VehicleGlobalPositionMsg.Yaw = 1.566952f;
     oFPC.m_VehicleGlobalPositionMsg.EpH = 0.369742f;
     oFPC.m_VehicleGlobalPositionMsg.EpV = 0.216528f;
-    oFPC.m_VehicleGlobalPositionMsg.EvH = 0.000000f;
-    oFPC.m_VehicleGlobalPositionMsg.EvV = 0.000000f;
-    oFPC.m_VehicleGlobalPositionMsg.TerrainAlt = 0.0f;
+    oFPC.m_VehicleGlobalPositionMsg.EvH = 0.0f;
+    oFPC.m_VehicleGlobalPositionMsg.EvV = 0.0f;
+    oFPC.m_VehicleGlobalPositionMsg.TerrainAlt = 21.0f;
     oFPC.m_VehicleGlobalPositionMsg.PressureAlt = 13.0f;
     oFPC.m_VehicleGlobalPositionMsg.TerrainAltValid = TRUE;
     oFPC.m_VehicleGlobalPositionMsg.DeadReckoning = TRUE;
 
+    oFPC.m_VehicleLocalPositionMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefLat = 47.397741972655;
+    oFPC.m_VehicleLocalPositionMsg.RefLon = 8.545593900131;
+    oFPC.m_VehicleLocalPositionMsg.SurfaceBottomTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.X = -1.995731f;
+    oFPC.m_VehicleLocalPositionMsg.Y = 1.565559f;
+    oFPC.m_VehicleLocalPositionMsg.Z = -0.826584f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_Z = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.VX = -0.027511f;
+    oFPC.m_VehicleLocalPositionMsg.VY = 0.006788f;
+    oFPC.m_VehicleLocalPositionMsg.VZ = -0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AX = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AY = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Yaw = 1.566952f;
+    oFPC.m_VehicleLocalPositionMsg.RefAlt = 504.2629f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottom = 1.155246f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomRate = 0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.EpH = 0.369742f;
+    oFPC.m_VehicleLocalPositionMsg.EpV = 0.216528f;
+    oFPC.m_VehicleLocalPositionMsg.EvH = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EvV = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EstimatorType = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.XY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.Z_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VXY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VZ_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomValid = TRUE;
+
     oFPC.m_PositionSetpointTripletMsg.Timestamp = FPC_Test_GetTimeUs();
     oFPC.m_PositionSetpointTripletMsg.Previous.Timestamp = 0;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Lat = 0.000000000000;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Lon = 0.000000000000;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Lat = 47.397741972655;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Lon = 8.545593900131;
     oFPC.m_PositionSetpointTripletMsg.Previous.X = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Y = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Z = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.VX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.VY = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.VZ = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Alt = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Yaw = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Alt = 504.2629f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Yaw = 1.566952f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Yawspeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.LoiterRadius = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.LoiterRadius = 50.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.PitchMin = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AY = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AZ = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AcceptanceRadius = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingSpeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingThrottle = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingSpeed = -1.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingThrottle = -1.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Valid = FALSE;
     oFPC.m_PositionSetpointTripletMsg.Previous.Type = PX4_SETPOINT_TYPE_POSITION;
     oFPC.m_PositionSetpointTripletMsg.Previous.PositionValid = FALSE;
@@ -2055,25 +2137,25 @@ void Test_FPC_Execute_Manual_Altitude_Data()
     oFPC.m_PositionSetpointTripletMsg.Previous.AccelerationIsForce = FALSE;
 
     oFPC.m_PositionSetpointTripletMsg.Current.Timestamp = FPC_Test_GetTimeUs();
-    oFPC.m_PositionSetpointTripletMsg.Current.Lat = 0.000000000000;
-    oFPC.m_PositionSetpointTripletMsg.Current.Lon = 0.000000000000;
+    oFPC.m_PositionSetpointTripletMsg.Current.Lat = 47.397741972655;
+    oFPC.m_PositionSetpointTripletMsg.Current.Lon = 8.545593900131;
     oFPC.m_PositionSetpointTripletMsg.Current.X = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.Y = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.Z = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.VX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.VY = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.VZ = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.Alt = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.Yaw = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.Alt = 504.2629f;
+    oFPC.m_PositionSetpointTripletMsg.Current.Yaw = 1.566952f;
     oFPC.m_PositionSetpointTripletMsg.Current.Yawspeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.LoiterRadius = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.LoiterRadius = 50.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.PitchMin = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.AX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.AY = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.AZ = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.AcceptanceRadius = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.CruisingSpeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.CruisingThrottle = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.CruisingSpeed = -1.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.CruisingThrottle = -1.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.Valid = FALSE;
     oFPC.m_PositionSetpointTripletMsg.Current.Type = PX4_SETPOINT_TYPE_POSITION;
     oFPC.m_PositionSetpointTripletMsg.Current.PositionValid = FALSE;
@@ -2155,15 +2237,15 @@ void Test_FPC_Execute_Manual_Altitude(void)
     }
     else
     {
-        printf("FPC_Execute_Manual_Altitude: Failed to initialize Config Table\n");
+        UtAssert_True(FALSE, "FPC Execute, Manual_Altitude");
     }
 }
 
 
 /**
- * Function for FPC Execute_Auto_Initializing SetData
+ * Function for FPC Execute_Auto_LandedIdle Data
  */
-void Test_FPC_Execute_Auto_Initializing_Data()
+void Test_FPC_Execute_Auto_LandedIdle_Data()
 {
     oFPC.m_VehicleStatusMsg.Timestamp = FPC_Test_GetTimeUs();
     oFPC.m_VehicleStatusMsg.SystemID = 1;
@@ -2194,34 +2276,6 @@ void Test_FPC_Execute_Auto_Initializing_Data()
     oFPC.m_VehicleLandDetectedMsg.Freefall = FALSE;
     oFPC.m_VehicleLandDetectedMsg.GroundContact = FALSE;
 
-    oFPC.m_ManualControlSetpointMsg.Timestamp = FPC_Test_GetTimeUs();
-    oFPC.m_ManualControlSetpointMsg.X = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Y = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Z = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.R = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Flaps = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux1 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux2 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux3 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux4 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux5 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.ModeSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ReturnSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.RattitudeSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.PosctlSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.LoiterSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.AcroSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.OffboardSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.KillSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.TransitionSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.GearSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ArmSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.StabSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ManSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ModeSlot = PX4_MODE_SLOT_1;
-    oFPC.m_ManualControlSetpointMsg.DataSource = (PX4_ManualControlDataSource_t)0;
-    oFPC.m_ManualControlSetpointMsg.AltctlSwitch = PX4_SWITCH_POS_NONE;
-
     oFPC.m_VehicleGlobalPositionMsg.Timestamp = FPC_Test_GetTimeUs();
     oFPC.m_VehicleGlobalPositionMsg.TimeUtcUsec = FPC_Test_GetTimeUs();
     oFPC.m_VehicleGlobalPositionMsg.Lat = 47.397743983469;         // fix GlobalPosition
@@ -2245,20 +2299,61 @@ void Test_FPC_Execute_Auto_Initializing_Data()
     oFPC.m_VehicleGlobalPositionMsg.TerrainAltValid = TRUE;
     oFPC.m_VehicleGlobalPositionMsg.DeadReckoning = TRUE;
 
+    oFPC.m_VehicleLocalPositionMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefLat = 47.397743983469;
+    oFPC.m_VehicleLocalPositionMsg.RefLon = 8.545593796482;
+    oFPC.m_VehicleLocalPositionMsg.SurfaceBottomTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.X = -1.995731f;
+    oFPC.m_VehicleLocalPositionMsg.Y = 1.565559f;
+    oFPC.m_VehicleLocalPositionMsg.Z = -0.826584f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_Z = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.VX = -0.027511f;
+    oFPC.m_VehicleLocalPositionMsg.VY = 0.006788f;
+    oFPC.m_VehicleLocalPositionMsg.VZ = -0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AX = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AY = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Yaw = 1.605385f;
+    oFPC.m_VehicleLocalPositionMsg.RefAlt = 488.2690f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottom = 1.155246f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomRate = 0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.EpH = 3.000000f;
+    oFPC.m_VehicleLocalPositionMsg.EpV = 2.000649f;
+    oFPC.m_VehicleLocalPositionMsg.EvH = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EvV = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EstimatorType = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.XY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.Z_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VXY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VZ_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomValid = TRUE;
+
     oFPC.m_PositionSetpointTripletMsg.Timestamp = FPC_Test_GetTimeUs();
     oFPC.m_PositionSetpointTripletMsg.Previous.Timestamp = 0;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Lat = 0.000000000000;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Lon = 0.000000000000;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Lat = 47.397743983469;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Lon = 8.545593796482;
     oFPC.m_PositionSetpointTripletMsg.Previous.X = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Y = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Z = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.VX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.VY = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.VZ = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Alt = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Yaw = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Alt = 488.2690f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Yaw = 1.605385f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Yawspeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.LoiterRadius = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.LoiterRadius = 50.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.PitchMin = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AY = 0.0f;
@@ -2278,18 +2373,18 @@ void Test_FPC_Execute_Auto_Initializing_Data()
     oFPC.m_PositionSetpointTripletMsg.Previous.AccelerationIsForce = FALSE;
 
     oFPC.m_PositionSetpointTripletMsg.Current.Timestamp = FPC_Test_GetTimeUs();
-    oFPC.m_PositionSetpointTripletMsg.Current.Lat = 0.000000000000;
-    oFPC.m_PositionSetpointTripletMsg.Current.Lon = 0.000000000000;
+    oFPC.m_PositionSetpointTripletMsg.Current.Lat = 47.397743983469;
+    oFPC.m_PositionSetpointTripletMsg.Current.Lon = 8.545593796482;
     oFPC.m_PositionSetpointTripletMsg.Current.X = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.Y = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.Z = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.VX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.VY = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.VZ = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.Alt = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.Yaw = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.Alt = 488.2690f;
+    oFPC.m_PositionSetpointTripletMsg.Current.Yaw = 1.605385f;
     oFPC.m_PositionSetpointTripletMsg.Current.Yawspeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.LoiterRadius = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.LoiterRadius = 50.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.PitchMin = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.AX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.AY = 0.0f;
@@ -2297,8 +2392,8 @@ void Test_FPC_Execute_Auto_Initializing_Data()
     oFPC.m_PositionSetpointTripletMsg.Current.AcceptanceRadius = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.CruisingSpeed = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Current.CruisingThrottle = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.Valid = FALSE;
-    oFPC.m_PositionSetpointTripletMsg.Current.Type = PX4_SETPOINT_TYPE_POSITION;
+    oFPC.m_PositionSetpointTripletMsg.Current.Valid = TRUE;
+    oFPC.m_PositionSetpointTripletMsg.Current.Type = PX4_SETPOINT_TYPE_IDLE;
     oFPC.m_PositionSetpointTripletMsg.Current.PositionValid = FALSE;
     oFPC.m_PositionSetpointTripletMsg.Current.VelocityValid = FALSE;
     oFPC.m_PositionSetpointTripletMsg.Current.YawValid = FALSE;
@@ -2337,9 +2432,9 @@ void Test_FPC_Execute_Auto_Initializing_Data()
 
 
 /**
- * Test FPC Execute, Auto_Initializing
+ * Test FPC Execute, Auto_LandedIdle
  */
-void Test_FPC_Execute_Auto_Initializing(void)
+void Test_FPC_Execute_Auto_LandedIdle(void)
 {
     int32 iStatus = CFE_SUCCESS;
 
@@ -2365,7 +2460,7 @@ void Test_FPC_Execute_Auto_Initializing(void)
         CFE_PSP_MemSet((void*)&oFPC.m_SensorBaroMsg, 0x00,
                         sizeof(oFPC.m_SensorBaroMsg));
 
-        Test_FPC_Execute_Auto_Initializing_Data();
+        Test_FPC_Execute_Auto_LandedIdle_Data();
 
         oFPC.UpdateParamsFromTable();
         oFPC.Execute();
@@ -2377,7 +2472,7 @@ void Test_FPC_Execute_Auto_Initializing(void)
     }
     else
     {
-        printf("FPC_Execute_Auto: Failed to initialize Config Table\n");
+        UtAssert_True(FALSE, "FPC Execute, Auto_LandedIdle");
     }
 }
 
@@ -2416,34 +2511,6 @@ void Test_FPC_Execute_Auto_TransitionToTakeoff_Data()
     oFPC.m_VehicleLandDetectedMsg.Freefall = FALSE;
     oFPC.m_VehicleLandDetectedMsg.GroundContact = FALSE;
 
-    oFPC.m_ManualControlSetpointMsg.Timestamp = FPC_Test_GetTimeUs();
-    oFPC.m_ManualControlSetpointMsg.X = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Y = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Z = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.R = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Flaps = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux1 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux2 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux3 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux4 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux5 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.ModeSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ReturnSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.RattitudeSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.PosctlSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.LoiterSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.AcroSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.OffboardSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.KillSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.TransitionSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.GearSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ArmSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.StabSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ManSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ModeSlot = PX4_MODE_SLOT_1;
-    oFPC.m_ManualControlSetpointMsg.DataSource = (PX4_ManualControlDataSource_t)0;
-    oFPC.m_ManualControlSetpointMsg.AltctlSwitch = PX4_SWITCH_POS_NONE;
-
     oFPC.m_VehicleGlobalPositionMsg.Timestamp = FPC_Test_GetTimeUs();
     oFPC.m_VehicleGlobalPositionMsg.TimeUtcUsec = FPC_Test_GetTimeUs();
     oFPC.m_VehicleGlobalPositionMsg.Lat = 47.397741905620;   // fix GlobalPosition
@@ -2467,29 +2534,70 @@ void Test_FPC_Execute_Auto_TransitionToTakeoff_Data()
     oFPC.m_VehicleGlobalPositionMsg.TerrainAltValid = TRUE;
     oFPC.m_VehicleGlobalPositionMsg.DeadReckoning = TRUE;
 
+    oFPC.m_VehicleLocalPositionMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefLat = 47.397741905620;
+    oFPC.m_VehicleLocalPositionMsg.RefLon = 8.545593899402;
+    oFPC.m_VehicleLocalPositionMsg.SurfaceBottomTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.X = -1.995731f;
+    oFPC.m_VehicleLocalPositionMsg.Y = 1.565559f;
+    oFPC.m_VehicleLocalPositionMsg.Z = -0.826584f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_Z = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.VX = -0.027511f;
+    oFPC.m_VehicleLocalPositionMsg.VY = 0.006788f;
+    oFPC.m_VehicleLocalPositionMsg.VZ = -0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AX = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AY = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Yaw = 1.547648f;
+    oFPC.m_VehicleLocalPositionMsg.RefAlt = 488.2539f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottom = 1.155246f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomRate = 0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.EpH = 0.364578f;
+    oFPC.m_VehicleLocalPositionMsg.EpV = 0.234133f;
+    oFPC.m_VehicleLocalPositionMsg.EvH = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EvV = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EstimatorType = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.XY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.Z_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VXY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VZ_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomValid = TRUE;
+
     oFPC.m_PositionSetpointTripletMsg.Timestamp = FPC_Test_GetTimeUs();
     oFPC.m_PositionSetpointTripletMsg.Previous.Timestamp = 0;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Lat = 0.000000000000;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Lon = 0.000000000000;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Lat = 47.397741905620;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Lon = 8.545593899402;
     oFPC.m_PositionSetpointTripletMsg.Previous.X = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Y = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Z = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.VX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.VY = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.VZ = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Alt = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Yaw = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Alt = 488.2539f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Yaw = 1.547648f;
     oFPC.m_PositionSetpointTripletMsg.Previous.Yawspeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.LoiterRadius = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.LoiterRadius = 50.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.PitchMin = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AX = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AY = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AZ = 0.0f;
     oFPC.m_PositionSetpointTripletMsg.Previous.AcceptanceRadius = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingSpeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingThrottle = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Valid = FALSE;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Type = PX4_SETPOINT_TYPE_POSITION;
+    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingSpeed = -1.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingThrottle = -1.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Valid = TRUE;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Type = PX4_SETPOINT_TYPE_IDLE;
     oFPC.m_PositionSetpointTripletMsg.Previous.PositionValid = FALSE;
     oFPC.m_PositionSetpointTripletMsg.Previous.VelocityValid = FALSE;
     oFPC.m_PositionSetpointTripletMsg.Previous.YawValid = FALSE;
@@ -2599,7 +2707,57 @@ void Test_FPC_Execute_Auto_TransitionToTakeoff(void)
     }
     else
     {
-        printf("FPC_Execute_Auto_TransitionToTakeoff: Failed to initialize Config Table\n");
+        UtAssert_True(FALSE, "FPC Execute, Auto_TransitionToTakeoff");
+    }
+}
+
+
+/**
+ * Test FPC Execute, Auto_Launch
+ */
+void Test_FPC_Execute_Auto_Launch(void)
+{
+    int32 iStatus = CFE_SUCCESS;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FPC_GetPSPTimeHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+               (void*)&Test_FPC_SendMsgHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitConfigTbl();
+    if (iStatus == CFE_SUCCESS)
+    {
+        oFPC.InitData();
+        // Not initialized in oFPC.InitData()
+        CFE_PSP_MemSet((void*)&oFPC.m_VehicleGlobalPositionMsg, 0x00,
+                        sizeof(oFPC.m_VehicleGlobalPositionMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_AirspeedMsg, 0x00,
+                        sizeof(oFPC.m_AirspeedMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_VehicleAttitudeMsg, 0x00,
+                        sizeof(oFPC.m_VehicleAttitudeMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_SensorCombinedMsg, 0x00,
+                        sizeof(oFPC.m_SensorCombinedMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_SensorBaroMsg, 0x00,
+                        sizeof(oFPC.m_SensorBaroMsg));
+
+        /* Same data with Launch */
+        Test_FPC_Execute_Auto_TransitionToTakeoff_Data();
+
+        oFPC.ConfigTblPtr->FPC_Runway_Takeoff.RWTO_TKOFF = FALSE;
+        oFPC.ConfigTblPtr->FPC_Launch_Detection.LAUN_ALL_ON = TRUE;
+
+        oFPC.UpdateParamsFromTable();
+        oFPC.Execute();
+        oFPC.SendOutData();
+
+        oFPC.UpdateParamsFromTable();
+        oFPC.Execute();
+        oFPC.SendOutData();
+    }
+    else
+    {
+        UtAssert_True(FALSE, "FPC Execute, Auto_Launch");
     }
 }
 
@@ -2638,48 +2796,20 @@ void Test_FPC_Execute_Auto_Position_Data()
     oFPC.m_VehicleLandDetectedMsg.Freefall = FALSE;
     oFPC.m_VehicleLandDetectedMsg.GroundContact = FALSE;
 
-    oFPC.m_ManualControlSetpointMsg.Timestamp = FPC_Test_GetTimeUs();
-    oFPC.m_ManualControlSetpointMsg.X = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Y = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Z = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.R = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Flaps = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux1 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux2 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux3 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux4 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux5 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.ModeSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ReturnSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.RattitudeSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.PosctlSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.LoiterSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.AcroSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.OffboardSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.KillSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.TransitionSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.GearSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ArmSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.StabSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ManSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ModeSlot = PX4_MODE_SLOT_1;
-    oFPC.m_ManualControlSetpointMsg.DataSource = (PX4_ManualControlDataSource_t)0;
-    oFPC.m_ManualControlSetpointMsg.AltctlSwitch = PX4_SWITCH_POS_NONE;
-
     oFPC.m_VehicleGlobalPositionMsg.Timestamp = FPC_Test_GetTimeUs();
     oFPC.m_VehicleGlobalPositionMsg.TimeUtcUsec = FPC_Test_GetTimeUs();
-    oFPC.m_VehicleGlobalPositionMsg.Lat = 47.397741972655;      // fix GlobalPosition
-    oFPC.m_VehicleGlobalPositionMsg.Lon = 8.545593900131;
-    oFPC.m_VehicleGlobalPositionMsg.Alt = 504.2629f;
+    oFPC.m_VehicleGlobalPositionMsg.Lat = 47.397741928975;      // fix GlobalPosition
+    oFPC.m_VehicleGlobalPositionMsg.Lon = 8.545593979817;
+    oFPC.m_VehicleGlobalPositionMsg.Alt = 490.7512f;
     oFPC.m_VehicleGlobalPositionMsg.DeltaLatLon[0] = 0.0;
     oFPC.m_VehicleGlobalPositionMsg.DeltaLatLon[1] = 0.0;
-    oFPC.m_VehicleGlobalPositionMsg.DeltaAlt = 504.2629f;
+    oFPC.m_VehicleGlobalPositionMsg.DeltaAlt = 490.7512f;
     oFPC.m_VehicleGlobalPositionMsg.LatLonResetCounter = 19;
     oFPC.m_VehicleGlobalPositionMsg.AltResetCounter = 10;
     oFPC.m_VehicleGlobalPositionMsg.VelN = 1.0f;
     oFPC.m_VehicleGlobalPositionMsg.VelE = 14.0f;
     oFPC.m_VehicleGlobalPositionMsg.VelD = 15.0f;
-    oFPC.m_VehicleGlobalPositionMsg.Yaw = 1.566952f;
+    oFPC.m_VehicleGlobalPositionMsg.Yaw = 1.547718f;
     oFPC.m_VehicleGlobalPositionMsg.EpH = 0.369742f;
     oFPC.m_VehicleGlobalPositionMsg.EpV = 0.216528f;
     oFPC.m_VehicleGlobalPositionMsg.EvH = 0.000000f;
@@ -2688,6 +2818,47 @@ void Test_FPC_Execute_Auto_Position_Data()
     oFPC.m_VehicleGlobalPositionMsg.PressureAlt = 13.0f;
     oFPC.m_VehicleGlobalPositionMsg.TerrainAltValid = TRUE;
     oFPC.m_VehicleGlobalPositionMsg.DeadReckoning = TRUE;
+
+    oFPC.m_VehicleLocalPositionMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefLat = 47.397741928975;
+    oFPC.m_VehicleLocalPositionMsg.RefLon = 8.545593979817;
+    oFPC.m_VehicleLocalPositionMsg.SurfaceBottomTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.X = -1.995731f;
+    oFPC.m_VehicleLocalPositionMsg.Y = 1.565559f;
+    oFPC.m_VehicleLocalPositionMsg.Z = -0.826584f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_Z = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.VX = -0.027511f;
+    oFPC.m_VehicleLocalPositionMsg.VY = 0.006788f;
+    oFPC.m_VehicleLocalPositionMsg.VZ = -0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AX = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AY = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Yaw = 1.547718f;
+    oFPC.m_VehicleLocalPositionMsg.RefAlt = 490.7512f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottom = 1.155246f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomRate = 0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.EpH = 0.369742f;
+    oFPC.m_VehicleLocalPositionMsg.EpV = 0.216528f;
+    oFPC.m_VehicleLocalPositionMsg.EvH = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EvV = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EstimatorType = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.XY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.Z_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VXY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VZ_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomValid = TRUE;
 
     oFPC.m_PositionSetpointTripletMsg.Timestamp = FPC_Test_GetTimeUs();
     oFPC.m_PositionSetpointTripletMsg.Previous.Timestamp = 0;
@@ -2822,7 +2993,7 @@ void Test_FPC_Execute_Auto_Position(void)
     }
     else
     {
-        printf("FPC_Execute_Auto_Position: Failed to initialize Config Table\n");
+        UtAssert_True(FALSE, "FPC Execute, Auto_Position");
     }
 }
 
@@ -2861,48 +3032,20 @@ void Test_FPC_Execute_Auto_Loiter_Data()
     oFPC.m_VehicleLandDetectedMsg.Freefall = FALSE;
     oFPC.m_VehicleLandDetectedMsg.GroundContact = FALSE;
 
-    oFPC.m_ManualControlSetpointMsg.Timestamp = FPC_Test_GetTimeUs();
-    oFPC.m_ManualControlSetpointMsg.X = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Y = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Z = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.R = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Flaps = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux1 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux2 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux3 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux4 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.Aux5 = 0.0f;
-    oFPC.m_ManualControlSetpointMsg.ModeSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ReturnSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.RattitudeSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.PosctlSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.LoiterSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.AcroSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.OffboardSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.KillSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.TransitionSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.GearSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ArmSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.StabSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ManSwitch = PX4_SWITCH_POS_NONE;
-    oFPC.m_ManualControlSetpointMsg.ModeSlot = PX4_MODE_SLOT_1;
-    oFPC.m_ManualControlSetpointMsg.DataSource = (PX4_ManualControlDataSource_t)0;
-    oFPC.m_ManualControlSetpointMsg.AltctlSwitch = PX4_SWITCH_POS_NONE;
-
     oFPC.m_VehicleGlobalPositionMsg.Timestamp = FPC_Test_GetTimeUs();
     oFPC.m_VehicleGlobalPositionMsg.TimeUtcUsec = FPC_Test_GetTimeUs();
-    oFPC.m_VehicleGlobalPositionMsg.Lat = 47.397741972655;      // fix GlobalPosition
-    oFPC.m_VehicleGlobalPositionMsg.Lon = 8.545593900131;
-    oFPC.m_VehicleGlobalPositionMsg.Alt = 504.2629f;
+    oFPC.m_VehicleGlobalPositionMsg.Lat = 47.397741928975;      // fix GlobalPosition
+    oFPC.m_VehicleGlobalPositionMsg.Lon = 8.545593979817;
+    oFPC.m_VehicleGlobalPositionMsg.Alt = 490.7512f;
     oFPC.m_VehicleGlobalPositionMsg.DeltaLatLon[0] = 0.0;
     oFPC.m_VehicleGlobalPositionMsg.DeltaLatLon[1] = 0.0;
-    oFPC.m_VehicleGlobalPositionMsg.DeltaAlt = 504.2629f;
+    oFPC.m_VehicleGlobalPositionMsg.DeltaAlt = 490.7512f;
     oFPC.m_VehicleGlobalPositionMsg.LatLonResetCounter = 19;
     oFPC.m_VehicleGlobalPositionMsg.AltResetCounter = 10;
     oFPC.m_VehicleGlobalPositionMsg.VelN = 1.0f;
     oFPC.m_VehicleGlobalPositionMsg.VelE = 14.0f;
     oFPC.m_VehicleGlobalPositionMsg.VelD = 15.0f;
-    oFPC.m_VehicleGlobalPositionMsg.Yaw = 1.566952f;
+    oFPC.m_VehicleGlobalPositionMsg.Yaw = 1.547718f;
     oFPC.m_VehicleGlobalPositionMsg.EpH = 0.369742f;
     oFPC.m_VehicleGlobalPositionMsg.EpV = 0.216528f;
     oFPC.m_VehicleGlobalPositionMsg.EvH = 0.000000f;
@@ -2911,6 +3054,47 @@ void Test_FPC_Execute_Auto_Loiter_Data()
     oFPC.m_VehicleGlobalPositionMsg.PressureAlt = 13.0f;
     oFPC.m_VehicleGlobalPositionMsg.TerrainAltValid = TRUE;
     oFPC.m_VehicleGlobalPositionMsg.DeadReckoning = TRUE;
+
+    oFPC.m_VehicleLocalPositionMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefLat = 47.397741928975;
+    oFPC.m_VehicleLocalPositionMsg.RefLon = 8.545593979817;
+    oFPC.m_VehicleLocalPositionMsg.SurfaceBottomTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.X = -1.995731f;
+    oFPC.m_VehicleLocalPositionMsg.Y = 1.565559f;
+    oFPC.m_VehicleLocalPositionMsg.Z = -0.826584f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_Z = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.VX = -0.027511f;
+    oFPC.m_VehicleLocalPositionMsg.VY = 0.006788f;
+    oFPC.m_VehicleLocalPositionMsg.VZ = -0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AX = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AY = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Yaw = 1.547718f;
+    oFPC.m_VehicleLocalPositionMsg.RefAlt = 490.7512f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottom = 1.155246f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomRate = 0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.EpH = 0.369742f;
+    oFPC.m_VehicleLocalPositionMsg.EpV = 0.216528f;
+    oFPC.m_VehicleLocalPositionMsg.EvH = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EvV = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EstimatorType = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.XY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.Z_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VXY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VZ_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomValid = TRUE;
 
     oFPC.m_PositionSetpointTripletMsg.Timestamp = FPC_Test_GetTimeUs();
     oFPC.m_PositionSetpointTripletMsg.Previous.Timestamp = 0;
@@ -3045,7 +3229,244 @@ void Test_FPC_Execute_Auto_Loiter(void)
     }
     else
     {
-        printf("FPC_Execute_Auto_Loiter: Failed to initialize Config Table\n");
+        UtAssert_True(FALSE, "FPC Execute, Auto_Loiter");
+    }
+}
+
+
+/**
+ * Function for FPC Execute_Auto_Land Data
+ */
+void Test_FPC_Execute_Auto_Land_Data()
+{
+    oFPC.m_VehicleStatusMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleStatusMsg.SystemID = 1;
+    oFPC.m_VehicleStatusMsg.ComponentID = 1;
+    oFPC.m_VehicleStatusMsg.OnboardControlSensorsPresent = 0;
+    oFPC.m_VehicleStatusMsg.OnboardControlSensorsEnabled = 0;
+    oFPC.m_VehicleStatusMsg.OnboardControlSensorsHealth = 0;
+    oFPC.m_VehicleStatusMsg.NavState = PX4_NAVIGATION_STATE_AUTO_LAND;
+    oFPC.m_VehicleStatusMsg.ArmingState = PX4_ARMING_STATE_INIT;             // fix this
+    oFPC.m_VehicleStatusMsg.HilState = PX4_HIL_STATE_OFF;
+    oFPC.m_VehicleStatusMsg.Failsafe = FALSE;
+    oFPC.m_VehicleStatusMsg.SystemType = PX4_SYSTEM_TYPE_FIXED_WING;         // fix this
+    oFPC.m_VehicleStatusMsg.IsRotaryWing = FALSE;
+    oFPC.m_VehicleStatusMsg.IsVtol = FALSE;
+    oFPC.m_VehicleStatusMsg.VtolFwPermanentStab = FALSE;
+    oFPC.m_VehicleStatusMsg.InTransitionMode = FALSE;                        // fix this
+    oFPC.m_VehicleStatusMsg.RcSignalLost = FALSE;
+    oFPC.m_VehicleStatusMsg.RcInputMode = PX4_RC_IN_MODE_OFF;
+    oFPC.m_VehicleStatusMsg.DataLinkLost = TRUE;
+    oFPC.m_VehicleStatusMsg.DataLinkLostCounter = 0;
+    oFPC.m_VehicleStatusMsg.EngineFailure = FALSE;
+    oFPC.m_VehicleStatusMsg.EngineFailureCmd = FALSE;
+    oFPC.m_VehicleStatusMsg.MissionFailure = FALSE;
+
+    oFPC.m_VehicleLandDetectedMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLandDetectedMsg.AltMax = 10000.0f;                        // fix this
+    oFPC.m_VehicleLandDetectedMsg.Landed = FALSE;
+    oFPC.m_VehicleLandDetectedMsg.Freefall = FALSE;
+    oFPC.m_VehicleLandDetectedMsg.GroundContact = FALSE;
+
+    oFPC.m_VehicleGlobalPositionMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleGlobalPositionMsg.TimeUtcUsec = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleGlobalPositionMsg.Lat = 47.397741928975;      // fix GlobalPosition
+    oFPC.m_VehicleGlobalPositionMsg.Lon = 8.545593979817;
+    oFPC.m_VehicleGlobalPositionMsg.Alt = 490.7512f;
+    oFPC.m_VehicleGlobalPositionMsg.DeltaLatLon[0] = 0.0;
+    oFPC.m_VehicleGlobalPositionMsg.DeltaLatLon[1] = 0.0;
+    oFPC.m_VehicleGlobalPositionMsg.DeltaAlt = 490.7512f;
+    oFPC.m_VehicleGlobalPositionMsg.LatLonResetCounter = 19;
+    oFPC.m_VehicleGlobalPositionMsg.AltResetCounter = 10;
+    oFPC.m_VehicleGlobalPositionMsg.VelN = 1.0f;
+    oFPC.m_VehicleGlobalPositionMsg.VelE = 14.0f;
+    oFPC.m_VehicleGlobalPositionMsg.VelD = 15.0f;
+    oFPC.m_VehicleGlobalPositionMsg.Yaw = 1.547718f;
+    oFPC.m_VehicleGlobalPositionMsg.EpH = 0.369742f;
+    oFPC.m_VehicleGlobalPositionMsg.EpV = 0.216528f;
+    oFPC.m_VehicleGlobalPositionMsg.EvH = 0.000000f;
+    oFPC.m_VehicleGlobalPositionMsg.EvV = 0.000000f;
+    oFPC.m_VehicleGlobalPositionMsg.TerrainAlt = 21.0f;
+    oFPC.m_VehicleGlobalPositionMsg.PressureAlt = 13.0f;
+    oFPC.m_VehicleGlobalPositionMsg.TerrainAltValid = TRUE;
+    oFPC.m_VehicleGlobalPositionMsg.DeadReckoning = TRUE;
+
+    oFPC.m_VehicleLocalPositionMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.RefLat = 47.397741928975;
+    oFPC.m_VehicleLocalPositionMsg.RefLon = 8.545593979817;
+    oFPC.m_VehicleLocalPositionMsg.SurfaceBottomTimestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleLocalPositionMsg.X = -1.995731f;
+    oFPC.m_VehicleLocalPositionMsg.Y = 1.565559f;
+    oFPC.m_VehicleLocalPositionMsg.Z = -0.826584f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_XY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_Z = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.VX = -0.027511f;
+    oFPC.m_VehicleLocalPositionMsg.VY = 0.006788f;
+    oFPC.m_VehicleLocalPositionMsg.VZ = -0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[0] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VXY[1] = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Delta_VZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AX = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AY = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.AZ = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.Yaw = 1.547718f;
+    oFPC.m_VehicleLocalPositionMsg.RefAlt = 490.7512f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottom = 1.155246f;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomRate = 0.051438f;
+    oFPC.m_VehicleLocalPositionMsg.EpH = 0.369742f;
+    oFPC.m_VehicleLocalPositionMsg.EpV = 0.216528f;
+    oFPC.m_VehicleLocalPositionMsg.EvH = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EvV = 0.0f;
+    oFPC.m_VehicleLocalPositionMsg.EstimatorType = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_XY_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.V_Z_Valid = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.XY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.Z_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VXY_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.VZ_ResetCounter = 0;
+    oFPC.m_VehicleLocalPositionMsg.XY_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.Z_Global = TRUE;
+    oFPC.m_VehicleLocalPositionMsg.DistBottomValid = TRUE;
+
+    oFPC.m_PositionSetpointTripletMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_PositionSetpointTripletMsg.Previous.Timestamp = 0;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Lat = 47.397741928975;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Lon = 8.545593979817;
+    oFPC.m_PositionSetpointTripletMsg.Previous.X = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Y = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Z = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.VX = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.VY = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.VZ = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Alt = 490.7512f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Yaw = 1.547718f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Yawspeed = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.LoiterRadius = 50.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.PitchMin = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.AX = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.AY = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.AZ = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.AcceptanceRadius = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingSpeed = -1.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingThrottle = -1.0f;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Valid = TRUE;
+    oFPC.m_PositionSetpointTripletMsg.Previous.Type = PX4_SETPOINT_TYPE_LOITER;
+    oFPC.m_PositionSetpointTripletMsg.Previous.PositionValid = FALSE;
+    oFPC.m_PositionSetpointTripletMsg.Previous.VelocityValid = FALSE;
+    oFPC.m_PositionSetpointTripletMsg.Previous.YawValid = TRUE;
+    oFPC.m_PositionSetpointTripletMsg.Previous.DisableMcYawControl = FALSE;
+    oFPC.m_PositionSetpointTripletMsg.Previous.YawspeedValid = FALSE;
+    oFPC.m_PositionSetpointTripletMsg.Previous.LoiterDirection = 1;
+    oFPC.m_PositionSetpointTripletMsg.Previous.AccelerationValid = FALSE;
+    oFPC.m_PositionSetpointTripletMsg.Previous.AccelerationIsForce = FALSE;
+
+    oFPC.m_PositionSetpointTripletMsg.Current.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_PositionSetpointTripletMsg.Current.Lat = 47.397741928975;
+    oFPC.m_PositionSetpointTripletMsg.Current.Lon = 8.545593979817;
+    oFPC.m_PositionSetpointTripletMsg.Current.X = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.Y = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.Z = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.VX = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.VY = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.VZ = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.Alt = 490.7512f;
+    oFPC.m_PositionSetpointTripletMsg.Current.Yaw = 1.547718f;
+    oFPC.m_PositionSetpointTripletMsg.Current.Yawspeed = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.LoiterRadius = 50.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.PitchMin = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.AX = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.AY = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.AZ = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.AcceptanceRadius = 0.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.CruisingSpeed = -1.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.CruisingThrottle = -1.0f;
+    oFPC.m_PositionSetpointTripletMsg.Current.Valid = TRUE;
+    oFPC.m_PositionSetpointTripletMsg.Current.Type = PX4_SETPOINT_TYPE_LAND;
+    oFPC.m_PositionSetpointTripletMsg.Current.PositionValid = FALSE;
+    oFPC.m_PositionSetpointTripletMsg.Current.VelocityValid = FALSE;
+    oFPC.m_PositionSetpointTripletMsg.Current.YawValid = TRUE;
+    oFPC.m_PositionSetpointTripletMsg.Current.DisableMcYawControl = FALSE;
+    oFPC.m_PositionSetpointTripletMsg.Current.YawspeedValid = FALSE;
+    oFPC.m_PositionSetpointTripletMsg.Current.LoiterDirection = 1;
+    oFPC.m_PositionSetpointTripletMsg.Current.AccelerationValid = FALSE;
+    oFPC.m_PositionSetpointTripletMsg.Current.AccelerationIsForce = FALSE;
+
+    oFPC.m_AirspeedMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_AirspeedMsg.IndicatedAirspeed = 1.0f;                           // fix this
+    oFPC.m_AirspeedMsg.TrueAirspeed = 1.5f;                                // fix this
+    oFPC.m_AirspeedMsg.TrueAirspeedUnfiltered = 0.0f;                      // fix this
+    oFPC.m_AirspeedMsg.AirTemperature = 0.0f;                              // fix this
+    oFPC.m_AirspeedMsg.Confidence = 0.0f;                                  // fix this
+
+    oFPC.m_VehicleControlModeMsg.Timestamp = FPC_Test_GetTimeUs();
+    oFPC.m_VehicleControlModeMsg.Armed = FALSE;
+    oFPC.m_VehicleControlModeMsg.ExternalManualOverrideOk = FALSE;
+    oFPC.m_VehicleControlModeMsg.SystemHilEnabled = FALSE;
+    oFPC.m_VehicleControlModeMsg.ControlManualEnabled = FALSE;
+    oFPC.m_VehicleControlModeMsg.ControlAutoEnabled = TRUE;
+    oFPC.m_VehicleControlModeMsg.ControlOffboardEnabled = FALSE;           // fix this
+    oFPC.m_VehicleControlModeMsg.ControlRatesEnabled = TRUE;
+    oFPC.m_VehicleControlModeMsg.ControlAttitudeEnabled = TRUE;
+    oFPC.m_VehicleControlModeMsg.ControlRattitudeEnabled = FALSE;
+    oFPC.m_VehicleControlModeMsg.ControlForceEnabled = FALSE;
+    oFPC.m_VehicleControlModeMsg.ControlAccelerationEnabled = FALSE;
+    oFPC.m_VehicleControlModeMsg.ControlVelocityEnabled = TRUE;
+    oFPC.m_VehicleControlModeMsg.ControlPositionEnabled = TRUE;
+    oFPC.m_VehicleControlModeMsg.ControlAltitudeEnabled = TRUE;
+    oFPC.m_VehicleControlModeMsg.ControlClimbRateEnabled = TRUE;
+    oFPC.m_VehicleControlModeMsg.ControlTerminationEnabled = FALSE;
+    oFPC.m_VehicleControlModeMsg.ControlFixedHdgEnabled = FALSE;
+}
+
+
+/**
+ * Test FPC Execute, Auto_Land
+ */
+void Test_FPC_Execute_Auto_Land(void)
+{
+    int32 iStatus = CFE_SUCCESS;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+               (void*)&Test_FPC_GetPSPTimeHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+               (void*)&Test_FPC_SendMsgHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitConfigTbl();
+    if (iStatus == CFE_SUCCESS)
+    {
+        /* Land */
+        oFPC.InitData();
+        /* Not initialized in oFPC.InitData() */
+        CFE_PSP_MemSet((void*)&oFPC.m_VehicleGlobalPositionMsg, 0x00,
+                        sizeof(oFPC.m_VehicleGlobalPositionMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_AirspeedMsg, 0x00,
+                        sizeof(oFPC.m_AirspeedMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_VehicleAttitudeMsg, 0x00,
+                        sizeof(oFPC.m_VehicleAttitudeMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_SensorCombinedMsg, 0x00,
+                        sizeof(oFPC.m_SensorCombinedMsg));
+        CFE_PSP_MemSet((void*)&oFPC.m_SensorBaroMsg, 0x00,
+                        sizeof(oFPC.m_SensorBaroMsg));
+
+        Test_FPC_Execute_Auto_Land_Data();
+
+        oFPC.UpdateParamsFromTable();
+        oFPC.Execute();
+        oFPC.SendOutData();
+
+        oFPC.UpdateParamsFromTable();
+        oFPC.Execute();
+        oFPC.SendOutData();
+
+    }
+    else
+    {
+        UtAssert_True(FALSE, "FPC Execute, Auto_Land");
     }
 }
 
@@ -3200,14 +3621,18 @@ void FPC_App_Test_AddTestCases(void)
                "Test_FPC_Execute_Manual_VelocityAltitude");
     UtTest_Add(Test_FPC_Execute_Manual_Altitude, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_Execute_Manual_Altitude");
-    UtTest_Add(Test_FPC_Execute_Auto_Initializing, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FPC_Execute_Auto_Initializing");
+    UtTest_Add(Test_FPC_Execute_Auto_LandedIdle, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_Execute_Auto_LandedIdle");
     UtTest_Add(Test_FPC_Execute_Auto_TransitionToTakeoff, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_Execute_Auto_TransitionToTakeoff");
+    UtTest_Add(Test_FPC_Execute_Auto_Launch, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_Execute_Auto_Launch");
     UtTest_Add(Test_FPC_Execute_Auto_Position, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_Execute_Auto_Position");
     UtTest_Add(Test_FPC_Execute_Auto_Loiter, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_Execute_Auto_Loiter");
+    UtTest_Add(Test_FPC_Execute_Auto_Land, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_Execute_Auto_Land");
 
     UtTest_Add(Test_FPC_UpdateParamsFromTable, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_UpdateParamsFromTable");
