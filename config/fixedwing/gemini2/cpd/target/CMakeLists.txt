@@ -242,7 +242,7 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/ci
     CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci/ci_slip_sed.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci/ci_framed_sed.c
 )
 
 buildliner_add_app(
@@ -251,7 +251,7 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to
     CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_slip_sed.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_framed_sed.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../apps/to/tables/to_backup_cfg.c
 )
 

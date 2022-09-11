@@ -74,34 +74,64 @@ dataLinks:
         epoch: CUSTOM
         epochUTC: "1970-01-01T00:00:00Z"
         timeIncludesLeapSeconds: false
-         
+          
   - name: tc_cpd
-    class: org.yamcs.tctm.UdpTcDataLink
-    stream: tc_realtime
+    class: org.yamcs.tctm.ccsds.UdpTcFrameLink
     host: 127.0.0.1
     port: 5110
-    commandPostprocessorClassName: com.windhoverlabs.yamcs.tctm.ccsds.CfsCommandPostprocessorRFC1055
-    commandPostprocessorArgs:
-      swapChecksumFc: true
-
+    enabledAtStartup: true      
+    spacecraftId: 1
+    maxFrameLength: 1024
+    cltuEncoding: BCH
+    #the following option can be commented out to randomize the CLTUs. Note that the simulator does not understand randmized data though.
+    #randomizeCltu: false 
+    #the following option can be used to skip randomization for certain virtual channels
+    #skipRandomizationForVcs: [1, 0]    enabledAtStartup: true
+    errorDetection: NONE
+    virtualChannels:
+      - vcId: 0
+        service: "PACKET"
+        commandPostprocessorClassName: org.yamcs.tctm.cfs.CfsCommandPostprocessor
+        commandPostprocessorArgs:
+          swapChecksumFc: true
+        stream: "tc_realtime" #which yamcs stream to get the data from
+        useCop1: true #enable FOP1 (the transmitter part of COP1, see CCSDS 232.1-B-2) for this VC
+        clcwStream: "cpd_clcw" #the name of the stream where the CLCW is received from, mandatory if FOP1 is used
+        initialClcwWait: 3600 #how many seconds to wait at startup for an initial CLCW, before going to state 6(initial). If not configured or negative, start directly in state 6
+                    
   - name: tm_cpd
-    class: org.yamcs.tctm.UdpTmDataLink
+    class: org.yamcs.tctm.ccsds.UdpTmFrameLink
     stream: tm_realtime
     port: 5111
-    maxLength: 32768 #32KB is the default for CCSDS
-    packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
-    packetPreprocessorArgs:
-      checkSequence: false
-      byteOrder: LITTLE_ENDIAN
-      useLocalGenerationTime: false
-      #errorDetection:
-      #tcoService:
-      timestampFormat: CFE_SB_TIME_32_16_SUBS
-      timeEncoding:
-        epoch: CUSTOM
-        epochUTC: "1970-01-01T00:00:00Z"
-        timeIncludesLeapSeconds: false
-        
+    frameType: TM
+    enabledAtStartup: true
+    clcwStream: cpd_clcw
+    goodFrameStream: good_frames
+    badFrameStream: bad_frames
+    frameHeaderErrorControlPresent: false
+    insertZoneLength: 0
+    spacecraftId: 1
+    errorDetection: NONE
+    frameLength: 1000
+    virtualChannels:
+      - vcId: 0
+        ocfPresent: true
+        service: PACKET
+        maxPacketLength: 32768 #32KB is the default for CCSDS
+        stream: tm_realtime
+        #stripEncapsulationHeader: false
+        #packetPreprocessorClassName: com.windhoverlabs.yamcs.tctm.PacketPreprocessor
+        packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
+        packetPreprocessorArgs:
+          byteOrder: LITTLE_ENDIAN
+          #errorDetection:
+          #tcoService:
+          timestampFormat: CFE_SB_TIME_32_16_SUBS
+          timeEncoding:
+            epoch: CUSTOM
+            epochUTC: "1970-01-01T00:00:00Z"
+            timeIncludesLeapSeconds: false
+
   - name: tc_ppd
     class: org.yamcs.tctm.UdpTcDataLink
     stream: tc_realtime

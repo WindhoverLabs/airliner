@@ -512,28 +512,36 @@ void RFD900X_ProcessNewData()
 
             case UART_QUEUE_DATA_FOR_TX_CC:
             {
-            	int status;
-                struct sockaddr_in s_addr;
+            	/* Loop through each byte to queue data or send a message out when the
+                 * end symbol was found. */
+            	for(uint32 i = 0; i < RFD900X_AppData.UART_QueueDataCmd.Hdr.BytesInBuffer; ++i)
+            	{
+            		if(RFD900X_AppData.TxInBufferCursor < sizeof(RFD900X_AppData.TxInBuffer))
+            		{
+						/* Queue the next byte. */
+						RFD900X_AppData.TxInBuffer[RFD900X_AppData.TxInBufferCursor] =
+								RFD900X_AppData.UART_QueueDataCmd.Buffer[i];
 
-                bzero((char *) &s_addr, sizeof(s_addr));
-            	s_addr.sin_family      = AF_INET;
-
-            	/* Send message via UDP socket */
-            	s_addr.sin_addr.s_addr = inet_addr(RFD900X_AppData.ConfigTblPtr->Address);
-            	s_addr.sin_port = htons(RFD900X_AppData.ConfigTblPtr->TxPort);
-
-        		status = sendto(RFD900X_AppData.TxSocket,
-        						(char *)RFD900X_AppData.UART_QueueDataCmd.Buffer,
-								RFD900X_AppData.UART_QueueDataCmd.Hdr.BytesInBuffer,
-        						0,
-        						(struct sockaddr *) &s_addr,
-        						sizeof(s_addr));
-        		if (status < 0)
-        		{
-        			CFE_EVS_SendEvent(RFD900X_TX_SEND_ERR_EID,
-        							  CFE_EVS_ERROR,
-        							  "send errno %d.", errno);
-        		}
+						/* Was this byte the SLIP_END symbol? */
+						if(SLIP_END == RFD900X_AppData.TxInBuffer[RFD900X_AppData.TxInBufferCursor])
+						{
+							/* Yes it was.  Send the message out, reset the cursor, and
+							 * keep going. */
+							RFD900X_SendMessage();
+							RFD900X_AppData.TxInBufferCursor = 0;
+						}
+						else
+						{
+							RFD900X_AppData.TxInBufferCursor++;
+						}
+            		}
+            		else
+            		{
+            			/* Overflow */
+                        (void) CFE_EVS_SendEvent(RFD900X_TX_BUFFER_OVERFLOW_ERR_EID, CFE_EVS_ERROR,
+                                          "TX buffer overflow.");
+            		}
+            	}
 
                 break;
             }
@@ -576,7 +584,7 @@ void RFD900X_ProcessNewData()
 				bytesToCopy = RFD900X_AppData.BytesInRxBuffer;
 			}
 
-			memcpy((void*)RFD900X_AppData.UART_StatusTlm.RxBuffer, (void*)RFD900X_AppData.RxBuffer, bytesToCopy);
+			memcpy(RFD900X_AppData.UART_StatusTlm.RxBuffer, RFD900X_AppData.RxBuffer, bytesToCopy);
 
 			RFD900X_AppData.UART_StatusTlm.Hdr.BytesInBuffer = bytesToCopy;
 			RFD900X_AppData.UART_StatusTlm.Hdr.RxFrameID++;
