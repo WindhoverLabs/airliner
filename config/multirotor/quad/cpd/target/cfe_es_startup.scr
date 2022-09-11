@@ -1,7 +1,6 @@
 CFE_LIB, /embedded/CFS_LIB.so,   CFS_LibInit,     CFS_LIB,    0,     0, 0x0, 0, 0;
 CFE_LIB, /embedded/MBP_LIB.so,   MBP_LibInit,     MBP_LIB,    0,     0, 0x0, 0, 0;
 CFE_LIB, /embedded/SED_LIB.so,   SEDLIB_LibInit,  SED_LIB,    0,     0, 0x0, 0, 0;
-CFE_LIB, /embedded/SLIP_LIB.so,  SLIP_LibInit,    SLIP_LIB,   0,     0, 0x0, 0, 0;
 CFE_LIB, /embedded/IO_LIB.so,    IO_LibInit,      IO_LIB,     0,     0, 0x0, 0, 0;
 CFE_LIB, /embedded/IPC_LIB.so,   IPC_LibInit,     IPC_LIB,    0,     0, 0x0, 0, 0;
 CFE_APP, /embedded/SENS.so,      SENS_AppMain,    SENS,      20, 65536, 0x0, 0, 0;

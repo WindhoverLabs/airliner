@@ -61,12 +61,6 @@ buildliner_add_app(
 )
 
 buildliner_add_app(
-    sliplib
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sliplib/fsw/for_build
-)
-
-buildliner_add_app(
     ipc_lib
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ipc_lib/fsw/for_build

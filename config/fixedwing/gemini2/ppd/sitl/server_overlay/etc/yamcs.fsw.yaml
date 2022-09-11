@@ -27,6 +27,7 @@ services:
       byteOrder: LITTLE_ENDIAN
       appNameMax: 40
       eventMsgMax: 122
+
   - class: org.yamcs.cfdp.CfdpService
     name: cfdp1
     args:
@@ -58,11 +59,11 @@ services:
       receiverFaultHandlers:
         AckLimitReached: suspend
 
-dataLinks:   
+dataLinks:
   - name: ds-logs
     class: com.windhoverlabs.yamcs.cfs.ds.CfsDsPlugin
     stream: tm_realtime
-    buckets: ["cfdpDownCH1","cfdpDownCH2"]
+    buckets: ["cfdpDownCH1", "cfdpDownCH2"]
     DS_FILE_HDR_SUBTYPE: 12346
     DS_TOTAL_FNAME_BUFSIZE: 64
     packetPreprocessorClassName: org.yamcs.tctm.cfs.CfsPacketPreprocessor
@@ -74,7 +75,7 @@ dataLinks:
         epoch: CUSTOM
         epochUTC: "1970-01-01T00:00:00Z"
         timeIncludesLeapSeconds: false
-          
+         
   - name: tc_cpd
     class: org.yamcs.tctm.ccsds.UdpTcFrameLink
     host: 127.0.0.1
