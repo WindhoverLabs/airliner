@@ -44,3 +44,6 @@ int32 TO_Channel_OpenChannel(const uint32 index, const char *ChannelName,
         const char *ConfigTableName, const char *ConfigTableFileName, TO_ChannelTbl_t *BackupTbl,
         const char *DumpTableName, const uint32 CfCntSemMax, const char *CfCntSemName);
 
+
+int32    Ut_TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, int32 Timeout );
+

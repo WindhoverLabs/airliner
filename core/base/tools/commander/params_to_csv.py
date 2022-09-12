@@ -1,21 +1,36 @@
+# argparse is imported to parse command line arguments in python
 import argparse
-import math
+
+# os.path is imported because it provides file pathname
+# libraries which can be used to parse parameter paths from YAMCS
 import os.path
 
+# requests is imported to make REST API calls to YAMCS server
 import requests
+
+# yaml library is imported to make reading yaml files simple
 import yaml
+
+# csv library is called to make operating with CSV files simple
 import csv
 
+# pandas library makes working with data structures simple
 import pandas as pd
+
+# datetime library makes working with timestamps simple
 import datetime as dt
 
 
+# This function is used to read a yaml file from the file system
 def read_yaml(yaml_file: str) -> dict:
     yaml_data = yaml.load(open(yaml_file, 'r'),
                           Loader=yaml.FullLoader)
     return yaml_data
 
 
+# This function is used to receive CSV file for the params from the YAMCS server.
+# The YAMCS server parameters are defined in the yaml dictionary
+# The file output is the intermediary CSV file that is used for further operations
 def rcv_csv_from_yamcs(yaml_dict):
     uri = yaml_dict['uri'] + yaml_dict['instance'] + ":" + yaml_dict['method']
     param_dict = {'parameters': yaml_dict['param_array'],
@@ -30,10 +45,11 @@ def rcv_csv_from_yamcs(yaml_dict):
                     csvfile.write(line + b'\n')
 
 
+# This function writes the csv file to the file system
 def write_csv(
         yaml_dict,
         time_col,
-        epoch_ms_delta_col,
+        delta_time_ms,
         param_dict,
         param_headers):
     csv_header = ['Time', 'delta_time_ms']
@@ -44,9 +60,7 @@ def write_csv(
 
     csv_data = []
     for i in range(len(time_col)):
-        csv_row = []
-        csv_row.append(time_col[i])
-        csv_row.append(epoch_ms_delta_col[i])
+        csv_row = [time_col[i], delta_time_ms[i]]
         for param_header in param_headers:
             csv_row.append(param_dict[param_header]['col'][i])
             csv_row.append(param_dict[param_header]['cnt'][i])
@@ -64,48 +78,75 @@ def write_csv(
         writer.writerows(csv_data)
 
 
+# This function parses the intermediary CSV file to generate data for the output csv file
 def parse_csv(yaml_dict):
     csv_data = pd.read_csv(yaml_dict['yamcs_csv_file'])
     time_col = csv_data['Time']
-    epoch_ms_delta_col = []
-    param_headers = []
+    new_time_col = []
+    delta_time_ms = []
     time_cell_count = 0
+    write_time_cell = ''
+    duplicate_time_cell_indexes = []
+    time_duplicates = []
     dt_zero = 0
+    dt_delta_ms = 0
+    for time_cell in time_col:
+        dtime = dt.datetime.strptime(time_cell, "%Y-%m-%dT%H:%M:%S.%fZ")
+        if time_cell_count == 0:
+            # this is the first time_col entry
+            write_time_cell = time_cell
+            dt_zero = dtime
+        else:
+            if time_cell != write_time_cell:
+                # This is a new time entry
+                new_time_col.append(write_time_cell)
+                delta_time_ms.append(dt_delta_ms)
+                time_duplicates.append(duplicate_time_cell_indexes)
+                duplicate_time_cell_indexes = []
+
+                # Write the new time entry
+                write_time_cell = time_cell
+                dt_delta_ms = (dtime - dt_zero).total_seconds() * 1000
+
+        duplicate_time_cell_indexes.append(time_cell_count)
+        time_cell_count += 1
+
+    print('Done with Time')
+
+    param_headers = []
     param_dict = {}
+    k = 0
     for param_path in yaml_dict['param_array']:
         param_basename = os.path.basename(param_path)
+        print(param_basename)
         param_headers.append(param_basename)
         param_dict[param_basename] = {}
         prev_cnt = 0
         prev_val = 0
         param_dict[param_basename]['cnt'] = []
         param_dict[param_basename]['col'] = []
-        for csv_cell in csv_data[param_basename]:
-            if (csv_cell != '') and (csv_cell != prev_val) and not(pd.isna(csv_cell)):
-                prev_cnt += 1
-                param_dict[param_basename]['cnt'].append(prev_cnt)
-                param_dict[param_basename]['col'].append(csv_cell)
-                prev_val = csv_cell
-            else:
-                param_dict[param_basename]['col'].append(prev_val)
-                param_dict[param_basename]['cnt'].append(prev_cnt)
 
-    for time_cell in time_col:
-        dtime = dt.datetime.strptime(time_cell, "%Y-%m-%dT%H:%M:%S.%fZ")
-        if time_cell_count == 0:
-            dt_zero = dtime
-        dt_delta_ms = (dtime - dt_zero).total_seconds()*1000
-        epoch_ms_delta_col.append(dt_delta_ms)
+        for i in range(len(new_time_col)):
+            for j in time_duplicates[i]:
+                if (csv_data[param_basename][j] != '') \
+                        and not (pd.isna(csv_data[param_basename][j])) \
+                        and csv_data[param_basename][j] != prev_val:
+                    prev_cnt += 1
+                    prev_val = csv_data[param_basename][j]
+            param_dict[param_basename]['cnt'].append(prev_cnt)
+            param_dict[param_basename]['col'].append(prev_val)
 
-        time_cell_count += 1
+        print('params done with ', k, ' of ', len(yaml_dict['param_array']))
+        k += 1
 
     write_csv(yaml_dict,
-              time_col,
-              epoch_ms_delta_col,
+              new_time_col,
+              delta_time_ms,
               param_dict,
               param_headers)
 
 
+# This is the main function for the script
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--file", help="yaml configuration file",
@@ -123,4 +164,5 @@ def main():
     print('Yamcs Params to CSV Successful.')
 
 
+# This is the main entry point for the script
 main()

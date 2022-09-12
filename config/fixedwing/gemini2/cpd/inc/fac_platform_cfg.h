@@ -48,14 +48,14 @@ extern "C" {
 */
 #define FAC_SCH_PIPE_PEND_TIME         (2000)
 
-/** \brief The number of WAKEUP messages to reserve on the Scheduler pipe.
+/** \brief The number of RUN_CONTROLLER messages to reserve on the Scheduler pipe.
 **
 **  \par Limits:
 **       minimum of 1, max limited to CFE_SB_MAX_PIPE_DEPTH-1.  Note the
-**       FAC_SCH_PIPE_WAKEUP_RESERVED and FAC_SCH_PIPE_SEND_HK_RESERVED
+**       FAC_SCH_PIPE_RUN_CONTROLLER_RESERVED and FAC_SCH_PIPE_SEND_HK_RESERVED
 **       must be less than FAC_SCH_PIPE_DEPTH.
 */
-#define FAC_SCH_PIPE_WAKEUP_RESERVED   (1)
+#define FAC_SCH_PIPE_RUN_CONTROLLER_RESERVED   (1)
 
 /** \brief The number of SEND_HK messages to reserve on the Scheduler pipe.
 **

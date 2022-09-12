@@ -889,7 +889,7 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/SendHK', {});]]></te
     <x>530</x>
     <y>30</y>
     <width>174</width>
-    <height>204</height>
+    <height>257</height>
     <font>
       <font family="Liberation Sans" style="BOLD" size="14.0">
       </font>
@@ -1022,11 +1022,27 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/core/cfe/cfe_time/SendHK', {});]]></te
       <tooltip>$(actions)</tooltip>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>Action Button_10</name>
+      <actions>
+        <action type="open_display">
+          <file>SyncTimeToGCS.bob</file>
+          <target>window</target>
+        </action>
+      </actions>
+      <text>Sync Time to GCS</text>
+      <x>5</x>
+      <y>165</y>
+      <width>130</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
   </widget>
   <widget type="group" version="2.0.0">
     <name>Miscellaneous</name>
     <x>530</x>
-    <y>234</y>
+    <y>287</y>
     <width>174</width>
     <height>125</height>
     <font>

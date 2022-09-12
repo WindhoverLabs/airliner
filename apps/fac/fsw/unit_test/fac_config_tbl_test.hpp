@@ -31,17 +31,11 @@
 *
 *****************************************************************************/
 
-#ifndef FAC_CONFIG_TBL_TEST_H
-#define FAC_CONFIG_TBL_TEST_H
+#ifndef FAC_CONFIG_TBL_TEST_HPP
+#define FAC_CONFIG_TBL_TEST_HPP
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 void FAC_Config_Tbl_Test_AddTestCases(void);
 
-#ifdef __cplusplus
-}
-#endif
 
-#endif /* FAC_CONFIG_TBL_TEST_H */
+#endif /* FAC_CONFIG_TBL_TEST_HPP */

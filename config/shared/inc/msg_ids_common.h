@@ -5,19 +5,21 @@
 #include "cfe_mission_cfg.h"
 #include "cfe_platform_cfg.h"
 
-#define FROM_PPD(X)     (PPD_CPU_BASE + X)
-#define FROM_CPD(X)     (CPD_CPU_BASE + X)
-#define TO_PPD(X)       (PPD_CPU_BASE + X)
-#define TO_CPD(X)       (CPD_CPU_BASE + X)
-#define FROM_SIMLINK(X) (SIMLINK_CPU_BASE + X)
+#define CFE_MSG_MASK      (0xF9FF)
+#define CFE_MSG_APID_MASK (0x01FF)
+#define FROM_PPD(X)       ((CFE_MSG_MASK & X) + PPD_CPU_BASE)
+#define FROM_CPD(X)       ((CFE_MSG_MASK & X) + CPD_CPU_BASE)
+#define FROM_SIMLINK(X)   ((CFE_MSG_MASK & X) + SIMLINK_CPU_BASE)
+#define TO_PPD(X)         ((CFE_MSG_MASK & X) + PPD_CPU_BASE)
+#define TO_CPD(X)         ((CFE_MSG_MASK & X) + CPD_CPU_BASE)
+#define TO_SIMLINK(X)     ((CFE_MSG_MASK & X) + SIMLINK_CPU_BASE)
 
-
-#define CMD_MSG(X)      (CFE_MSG_CPU_BASE + CFE_CMD_MID_BASE + X)
-#define TLM_MSG(X)      (CFE_MSG_CPU_BASE + CFE_TLM_MID_BASE + X)
-#define CPD_CMD_MSG(X)  (CPD_CPU_BASE + CFE_CMD_MID_BASE + X)
-#define CPD_TLM_MSG(X)  (CPD_CPU_BASE + CFE_TLM_MID_BASE + X)
-#define PPD_CMD_MSG(X)  (PPD_CPU_BASE + CFE_CMD_MID_BASE + X)
-#define PPD_TLM_MSG(X)  (PPD_CPU_BASE + CFE_TLM_MID_BASE + X)
+#define CMD_MSG(X)        (CFE_MSG_CPU_BASE + CFE_CMD_MID_BASE + (CFE_MSG_APID_MASK & X))
+#define TLM_MSG(X)        (CFE_MSG_CPU_BASE + CFE_TLM_MID_BASE + (CFE_MSG_APID_MASK & X))
+#define CPD_CMD_MSG(X)    (CPD_CPU_BASE + CFE_CMD_MID_BASE + (CFE_MSG_APID_MASK & X))
+#define CPD_TLM_MSG(X)    (CPD_CPU_BASE + CFE_TLM_MID_BASE + (CFE_MSG_APID_MASK & X))
+#define PPD_CMD_MSG(X)    (PPD_CPU_BASE + CFE_CMD_MID_BASE + (CFE_MSG_APID_MASK & X))
+#define PPD_TLM_MSG(X)    (PPD_CPU_BASE + CFE_TLM_MID_BASE + (CFE_MSG_APID_MASK & X))
 
 
 /* Core                                                                    */

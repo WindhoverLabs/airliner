@@ -30,17 +30,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  *****************************************************************************/
-    
+
 #ifndef FPC_TBLDEFS_H
 #define FPC_TBLDEFS_H
 
 /************************************************************************
-** Pragmas
-*************************************************************************/
+ ** Pragmas
+ *************************************************************************/
 
 /************************************************************************
-** Includes
-*************************************************************************/
+ ** Includes
+ *************************************************************************/
 #include "cfe.h"
 
 #ifdef __cplusplus
@@ -48,8 +48,8 @@ extern "C" {
 #endif
 
 /************************************************************************
-** Local Defines
-*************************************************************************/
+ ** Local Defines
+ *************************************************************************/
 /**
  * \brief Defines the number of entries in the table
  */
@@ -61,8 +61,8 @@ extern "C" {
 #define FPC_CONFIG_TABLENAME          ("CONFIG_TBL")
 
 /************************************************************************
-** Local Structure Declarations
-*************************************************************************/
+ ** Local Structure Declarations
+ *************************************************************************/
 typedef struct
 {
     /**
@@ -213,7 +213,7 @@ typedef struct
      * @increment 0.5
      * @group Runway Takeoff
      */
-    float PSP;
+    float PSP_RADIANS;
     /**
      * Max pitch during takeoff.
      * Fixed-wing settings are used if set to 0. Note that there is also a minimum
@@ -226,7 +226,7 @@ typedef struct
      * @increment 0.5
      * @group Runway Takeoff
      */
-     float MAX_PITCH;
+    float MAX_PITCH_RADIANS;
     /**
      * Max roll during climbout.
      * Roll is limited during climbout to ensure enough lift and prevents aggressive
@@ -239,7 +239,7 @@ typedef struct
      * @increment 0.5
      * @group Runway Takeoff
      */
-     float MAX_ROLL;
+    float MAX_ROLL_RADIANS;
     /**
      * Min. airspeed scaling factor for takeoff.
      * Pitch up will be commanded when the following airspeed is reached:
@@ -252,38 +252,42 @@ typedef struct
      * @increment 0.01
      * @group Runway Takeoff
      */
-     float AIRSPD_SCL;
+    float AIRSPD_SCL;
 
-     /**
-      * AIRSPD_MIN
-      * Minimum thrust in auto thrust control
-      *
-      * It's recommended to set it > 0 to avoid free fall with zero thrust.
-      *
-      * @unit norm
-      * @min 0.05
-      * @max 1.0
-      * @decimal 2
-      * @increment 0.01
-      * @group Fixedwing Position Control
-      */
-     float AIRSPD_MIN;
+    /**
+     * AIRSPD_MIN
+     * Minimum Airspeed
+     *
+     * If the airspeed falls below this value, the TECS controller will try to
+     * increase airspeed more aggressively.
+     *
+     * @unit m/s
+     * @min 0.0
+     * @max 40
+     * @decimal 1
+     * @increment 0.5
+     * @group FW TECS
+     */
+    float RWTO_AIRSPD_MIN;
 
-     /**
-      * CLMBOUT_DIFF
-      * Minimum thrust in auto thrust control
-      *
-      * It's recommended to set it > 0 to avoid free fall with zero thrust.
-      *
-      * @unit norm
-      * @min 0.05
-      * @max 1.0
-      * @decimal 2
-      * @increment 0.01
-      * @group Fixedwing Position Control
-      */
+    /**
+     * CLMBOUT_DIFF
+     * Climbout Altitude difference
+     *
+     * If the altitude error exceeds this parameter, the system will climb out
+     * with maximum throttle and minimum airspeed until it is closer than this
+     * distance to the desired altitude. Mostly used for takeoff waypoints / modes.
+     * Set to 0 to disable climbout mode (not recommended).
+     *
+     * @unit m
+     * @min 0.0
+     * @max 150.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW L1 Control
+     */
 
-     float CLMBOUT_DIFF;
+    float RWTO_CLMBOUT_DIFF;
 } FPC_Runway_Takeoff_t;
 
 /** \brief Definition for a single config table entry
@@ -291,7 +295,7 @@ typedef struct
  * https://github.com/WindhoverLabs/PX4-Autopilot/blob/main/src/modules/fw_pos_control_l1/FixedwingPositionControl.cpp
  *
  * Any params related to vtol were ignored.
-*/
+ */
 typedef struct
 {
     float L1_PERIOD;
@@ -318,7 +322,6 @@ typedef struct
     float AIRSPD_MIN;
     float AIRSPD_TRIM;
     float AIRSPD_MAX;
-
 
     boolean ARSP_MODE;
 
@@ -440,7 +443,6 @@ typedef struct
      */
     float LND_FL_PMIN_RADIANS;
 
-
     /**
      * Flare, maximum pitch
      *
@@ -467,21 +469,20 @@ typedef struct
 } FPC_ConfigTbl_t;
 
 /************************************************************************
-** External Global Variables
-*************************************************************************/
+ ** External Global Variables
+ *************************************************************************/
 
 /************************************************************************
-** Global Variables
-*************************************************************************/
+ ** Global Variables
+ *************************************************************************/
 
 /************************************************************************
-** Local Variables
-*************************************************************************/
+ ** Local Variables
+ *************************************************************************/
 
 /************************************************************************
-** Local Function Prototypes
-*************************************************************************/
-
+ ** Local Function Prototypes
+ *************************************************************************/
 
 #ifdef __cplusplus
 }
