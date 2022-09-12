@@ -58,6 +58,8 @@
  */
 void Test_FPC_InitConfigTbl_Fail_TblRegister(void)
 {
+    FPC  oFPC{};
+
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_TBL_ERR_NO_ACCESS;
@@ -77,6 +79,8 @@ void Test_FPC_InitConfigTbl_Fail_TblRegister(void)
  */
 void Test_FPC_InitConfigTbl_Fail_ValidateConfigTbl(void)
 {
+    FPC  oFPC{};
+
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = -1;
@@ -90,6 +94,8 @@ void Test_FPC_InitConfigTbl_Fail_ValidateConfigTbl(void)
  */
 void Test_FPC_InitConfigTbl_ValidateConfigTbl_Nominal(void)
 {
+    FPC  oFPC{};
+
     /* Set a fail result */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
@@ -107,6 +113,8 @@ void Test_FPC_InitConfigTbl_ValidateConfigTbl_Nominal(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblLoad(void)
 {
+    FPC  oFPC{};
+
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_TBL_INFO_UPDATE_PENDING;
@@ -126,6 +134,8 @@ void Test_FPC_InitConfigTbl_Fail_TblLoad(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblManage(void)
 {
+    FPC  oFPC{};
+
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
@@ -145,6 +155,8 @@ void Test_FPC_InitConfigTbl_Fail_TblManage(void)
  */
 void Test_FPC_InitConfigTbl_Fail_TblGetAddress(void)
 {
+    FPC  oFPC{};
+
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_TBL_ERR_NEVER_LOADED;
@@ -164,6 +176,8 @@ void Test_FPC_InitConfigTbl_Fail_TblGetAddress(void)
  */
 void Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
 {
+    FPC  oFPC{};
+
     /* Set a fail result */
     int32 result = CFE_SUCCESS;
     int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
@@ -183,6 +197,8 @@ void Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
  */
 void Test_FPC_InitConfigTbl_Nominal(void)
 {
+    FPC  oFPC{};
+
     /* Set a fail result */
     int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
                    | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
@@ -198,7 +214,6 @@ void Test_FPC_InitConfigTbl_Nominal(void)
 
 void FPC_Config_Tbl_Test_AddTestCases(void)
 {
-#ifdef FPC_UT_EXTERN_OBJECT
     UtTest_Add(Test_FPC_InitConfigTbl_Fail_TblRegister, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_InitConfigTbl_Fail_TblRegister");
     UtTest_Add(Test_FPC_InitConfigTbl_Fail_ValidateConfigTbl, FPC_Test_Setup_ConfigInvalid,
@@ -215,5 +230,4 @@ void FPC_Config_Tbl_Test_AddTestCases(void)
                "Test_FPC_InitConfigTbl_Fail_AcquireConfigPtrs");
     UtTest_Add(Test_FPC_InitConfigTbl_Nominal, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_InitConfigTbl_Nominal");
-#endif
 }

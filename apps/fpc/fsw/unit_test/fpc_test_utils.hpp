@@ -41,10 +41,8 @@
 #include "fpc_app.h"
 
 
-#if 1
+#if 0
     #define     FPC_UT_EXTERN_OBJECT
-#else
-    #define     FPC_UT_TEST_WITH_EXTERN_APPMAIN
 #endif
 
 #ifdef FPC_UT_EXTERN_OBJECT
