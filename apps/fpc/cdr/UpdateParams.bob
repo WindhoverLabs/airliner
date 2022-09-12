@@ -3458,8 +3458,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
   </widget>
   <widget type="group" version="2.0.0">
     <name>Runway</name>
-    <x>780</x>
-    <y>20</y>
+    <x>10</x>
+    <y>990</y>
     <width>610</width>
     <height>240</height>
     <font>
@@ -4085,10 +4085,10 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
     </widget>
   </widget>
   <widget type="webbrowser" version="2.0.0">
-    <name>Web Browser_1</name>
+    <name>$(APP)_tuning_guide</name>
     <url>file://$(DISPLAYS_ROOT_DIR)/../../../../../apps/fpc/cdr/resources/pid_tuning_guide_fixedwing.html</url>
-    <x>790</x>
-    <y>260</y>
+    <x>730</x>
+    <y>31</y>
     <width>900</width>
     <height>1020</height>
     <show_toolbar>false</show_toolbar>
@@ -4106,8 +4106,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
   </widget>
   <widget type="group" version="2.0.0">
     <name>Table Management</name>
-    <x>1430</x>
-    <y>20</y>
+    <x>970</x>
+    <y>1070</y>
     <width>185</width>
     <height>148</height>
     <font>
@@ -4202,5 +4202,29 @@ print 'Hello'
       <tooltip>$(actions)</tooltip>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
+  </widget>
+  <widget type="slide_button" version="2.0.0">
+    <name>Slide Button</name>
+    <pv_name>loc://$(APP)_show_guide_slide&lt;VBoolean&gt;</pv_name>
+    <label>Show Guide</label>
+    <x>1660</x>
+    <y>31</y>
+    <width>155</width>
+    <actions>
+    </actions>
+    <scripts>
+      <script file="EmbeddedPy">
+        <text><![CDATA[# Embedded python script
+from org.csstudio.display.builder.runtime.script import PVUtil, ScriptUtil
+
+visible  = PVUtil.getInt(pvs[0])
+tuning_widget_name = widget.getDisplayModel().getEffectiveMacros().getValue("APP") + "_tuning_guide"
+if visible == 1:
+	ScriptUtil.findWidgetByName(widget, tuning_widget_name).setPropertyValue('visible', True )
+else:
+	ScriptUtil.findWidgetByName(widget, tuning_widget_name).setPropertyValue('visible', False)]]></text>
+        <pv_name>$(pv_name)</pv_name>
+      </script>
+    </scripts>
   </widget>
 </display>
