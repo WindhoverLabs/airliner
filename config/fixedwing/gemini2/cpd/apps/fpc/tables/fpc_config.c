@@ -589,32 +589,34 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
 
     /**
      * MAN_R_MAX_RADIANS
-     * Minimum thrust in auto thrust control
+     * Max manual roll
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * Max roll for manual control in attitude stabilized mode
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit deg
+     * @min 0.0
+     * @max 90.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW Attitude Control
      */
+
     DEG_TO_RADIANS(45.0f),
 
     /**
      * MAN_P_MAX_RADIANS
-     * Minimum thrust in auto thrust control
+     * Max manual pitch
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * Max pitch for manual control in attitude stabilized mode
      *
-     * @unit norm
-     * @min 0.05
-     * @max 1.0
-     * @decimal 2
-     * @increment 0.01
-     * @group Fixedwing Position Control
+     * @unit deg
+     * @min 0.0
+     * @max 90.0
+     * @decimal 1
+     * @increment 0.5
+     * @group FW Attitude Control
      */
+
     DEG_TO_RADIANS(45.0f),
 
     /**
@@ -653,17 +655,19 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
 
     /**
      * THR_LND_MAX
-     * Minimum thrust in auto thrust control
+     * Throttle limit value before flare
      *
-     * It's recommended to set it > 0 to avoid free fall with zero thrust.
+     * This throttle value will be set as throttle limit at FW_LND_TLALT,
+     * before aircraft will flare.
      *
      * @unit norm
-     * @min 0.05
+     * @min 0.0
      * @max 1.0
      * @decimal 2
      * @increment 0.01
-     * @group Fixedwing Position Control
+     * @group FW L1 Control
      */
+
     1.0f,
 
     /**
