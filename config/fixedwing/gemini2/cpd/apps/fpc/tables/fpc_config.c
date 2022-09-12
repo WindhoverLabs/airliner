@@ -982,32 +982,36 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          1.3,
 
         /**
-         * AIRSPD_MIN
-         * Minimum thrust in auto thrust control
+         * RWTO_AIRSPD_MIN
+         * Minimum Airspeed
          *
-         * It's recommended to set it > 0 to avoid free fall with zero thrust.
+         * If the airspeed falls below this value, the TECS controller will try to
+         * increase airspeed more aggressively.
          *
-         * @unit norm
-         * @min 0.05
-         * @max 1.0
-         * @decimal 2
-         * @increment 0.01
-         * @group Fixedwing Position Control
+         * @unit m/s
+         * @min 0.0
+         * @max 40
+         * @decimal 1
+         * @increment 0.5
+         * @group FW TECS
          */
         10.0,
 
         /**
-         * CLMBOUT_DIFF
-         * Minimum thrust in auto thrust control
+         * RWTO_CLMBOUT_DIFF
+         * Climbout Altitude difference
          *
-         * It's recommended to set it > 0 to avoid free fall with zero thrust.
+         * If the altitude error exceeds this parameter, the system will climb out
+         * with maximum throttle and minimum airspeed until it is closer than this
+         * distance to the desired altitude. Mostly used for takeoff waypoints / modes.
+         * Set to 0 to disable climbout mode (not recommended).
          *
-         * @unit norm
-         * @min 0.05
-         * @max 1.0
-         * @decimal 2
-         * @increment 0.01
-         * @group Fixedwing Position Control
+         * @unit m
+         * @min 0.0
+         * @max 150.0
+         * @decimal 1
+         * @increment 0.5
+         * @group FW L1 Control
          */
         10.0f
     }
