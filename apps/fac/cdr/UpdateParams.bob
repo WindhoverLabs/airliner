@@ -138,6 +138,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Attitude pitch time constant (FW_P_TC)
+*
+* @unit s
+* @min 0.2
+* @max 1.0
+* @decimal 2
+* @increment 0.05
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_40</name>
@@ -209,6 +219,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Pitch rate proportional gain (FW_PR_P).
+* @unit %/rad/s
+* @min 0.005
+* @max 1.0
+* @decimal 3
+* @increment 0.005
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_41</name>
@@ -280,6 +299,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Pitch rate integrator gain (FW_PR_I).
+* @unit %/rad
+* @min 0.005
+* @max 0.5
+* @decimal 3
+* @increment 0.005
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_42</name>
@@ -347,6 +375,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>140</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Maximum positive / up pitch rate (FW_P_RMAX_POS).
+* @unit deg/s
+* @min 0.0
+* @max 90.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_43</name>
@@ -413,6 +450,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Pitch rate integrator limit (FW_PR_IMAX).
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.05
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_46</name>
@@ -483,6 +528,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Roll rate proportional Gain (FW_RR_P).
+* @unit %/rad/s
+* @min 0.005
+* @max 1.0
+* @decimal 3
+* @increment 0.005
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_47</name>
@@ -554,6 +608,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Roll rate integrator Gain (FW_RR_I).
+* @unit %/rad
+* @min 0.005
+* @max 0.2
+* @decimal 3
+* @increment 0.005
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_48</name>
@@ -621,6 +684,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Roll integrator anti-windup (FW_RR_IMAX).
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.05
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_49</name>
@@ -687,6 +758,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Maximum roll rate (FW_R_RMAX).
+* @unit deg/s
+* @min 0.0
+* @max 90.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_50</name>
@@ -753,6 +833,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Yaw rate proportional gain (FW_YR_P).
+* @unit %/rad/s
+* @min 0.005
+* @max 1.0
+* @decimal 3
+* @increment 0.005
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_51</name>
@@ -820,6 +909,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Yaw rate integrator gain (FW_YR_I).
+* @unit %/rad
+* @min 0.0
+* @max 50.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_52</name>
@@ -886,6 +984,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Yaw rate integrator limit (FW_YR_IMAX).
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.05
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_53</name>
@@ -952,6 +1058,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Maximum yaw rate (FW_Y_RMAX).
+* @unit deg/s
+* @min 0.0
+* @max 90.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_54</name>
@@ -1018,6 +1133,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>160</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Roll control to yaw control feedforward gain (FW_RLL_TO_YAW_FF).
+* @min 0.0
+* @decimal 1
+* @increment 0.01
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_55</name>
@@ -1083,6 +1205,12 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Enable wheel steering controller (FW_W_EN).
+*
+* @boolean
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_56</name>
@@ -1149,6 +1277,17 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Wheel steering rate proportional gain (FW_WR_P).
+*
+*
+* @unit %/rad/s
+* @min 0.005
+* @max 1.0
+* @decimal 3
+* @increment 0.005
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_57</name>
@@ -1216,6 +1355,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Wheel steering rate integrator gain (FW_WR_I).
+* @unit %/rad
+* @min 0.005
+* @max 0.5
+* @decimal 3
+* @increment 0.005
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_58</name>
@@ -1283,6 +1431,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Wheel steering rate integrator limit (FW_WR_IMAX).
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.05
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_60</name>
@@ -1346,6 +1502,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>160</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Maximum wheel steering rate (FW_W_RMAX).
+* @unit deg/s
+* @min 0.0
+* @max 90.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_62</name>
@@ -1424,6 +1589,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
           </color>
         </background_color>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Roll rate feed forward (FW_RR_FF).
+* @unit %/rad/s
+* @min 0.0
+* @max 10.0
+* @decimal 2
+* @increment 0.05
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_63</name>
@@ -1494,6 +1668,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Pitch rate feed forward (FW_PR_FF).
+*
+* @unit %/rad/s
+* @min 0.0
+* @max 10.0
+* @decimal 2
+* @increment 0.05
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_64</name>
@@ -1626,6 +1810,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Wheel steering rate feed forward (FW_WR_FF).
+* @unit %/rad/s
+* @min 0.0
+* @max 10.0
+* @decimal 2
+* @increment 0.05
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_66</name>
@@ -1692,6 +1885,19 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>130</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Minimal speed for yaw coordination (FW_YCO_VMIN).
+*
+* For airspeeds above this value, the yaw rate is calculated for a coordinated
+* turn. Set to a very high value to disable.
+*
+* @unit m/s
+* @min 0.0
+* @max 1000.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_67</name>
@@ -1758,6 +1964,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>140</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Method used for yaw coordination (FW_YCO_METHOD).
+* @min 0
+* @max 1
+* @value 0 open-loop
+* @value 1 closed-loop
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_68</name>
@@ -1827,6 +2041,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Roll setpoint offset (FW_RSP_OFF).
+* @unit deg
+* @min -90.0
+* @max 90.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_69</name>
@@ -1898,6 +2121,17 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
           </font>
         </font>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Pitch setpoint offset (FW_PSP_OFF).
+*
+*
+* @unit deg
+* @min -90.0
+* @max 90.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_70</name>
@@ -1965,6 +2199,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>160</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Max manual roll (FW_MAN_R_MAX).
+* @unit deg
+* @min 0.0
+* @max 90.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_71</name>
@@ -2031,6 +2274,18 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>160</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Max manual pitch (FW_MAN_P_MAX).
+*
+* Max pitch for manual control in attitude stabilized mode
+*
+* @unit deg
+* @min 0.0
+* @max 90.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_72</name>
@@ -2097,6 +2352,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Scale factor for flaps (FW_FLAPS_SCL).
+* @unit norm
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.01
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_73</name>
@@ -2163,6 +2427,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>160</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Scale factor for flaperons (FW_FLAPERON_SCL).
+*
+* @unit norm
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.01
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_74</name>
@@ -2229,6 +2503,11 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Disable airspeed sensor (FW_ARSP_MODE).
+* @boolean
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_75</name>
@@ -2294,6 +2573,19 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Manual roll scale (FW_MAN_R_SC).
+*
+* Scale factor applied to the desired roll actuator command in full manual mode. This parameter allows
+* to adjust the throws of the control surfaces.
+*
+* @unit norm
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.01
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_76</name>
@@ -2360,6 +2652,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Manual pitch scale (FW_MAN_P_SC).
+* @unit norm
+* @min 0.0
+* @decimal 2
+* @increment 0.01
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_77</name>
@@ -2426,6 +2726,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Manual yaw scale (FW_MAN_Y_SC).
+*
+* @unit norm
+* @min 0.0
+* @decimal 2
+* @increment 0.01
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_78</name>
@@ -2491,6 +2800,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>140</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Whether to scale throttle by battery power level (FW_BAT_SCALE_EN).
+*
+*
+* @boolean
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_79</name>
@@ -2556,6 +2872,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>130</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Acro body x max rate (FW_ACRO_X_MAX).
+* @min 45
+* @max 720
+* @unit degrees
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_80</name>
@@ -2622,6 +2945,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>140</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Acro body y max rate (FW_ACRO_Y_MAX).
+* @min 45
+* @max 720
+* @unit degrees
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_81</name>
@@ -2688,6 +3018,13 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>140</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Acro body z max rate (FW_ACRO_Z_MAX).
+* @min 10
+* @max 180
+* @unit degrees
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_82</name>
@@ -2754,6 +3091,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>130</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Threshold for Rattitude mode (FW_RATT_TH).
+* @min 0.0
+* @max 1.0
+* @decimal 2
+* @increment 0.01
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_85</name>
@@ -2820,6 +3165,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Minimum Airspeed (FW_AIRSPD_MIN).
+* @unit m/s
+* @min 0.0
+* @max 40
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_86</name>
@@ -2886,6 +3240,19 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Maximum Airspeed (FW_AIRSPD_MAX).
+*
+* If the airspeed is above this value, the TECS controller will try to decrease
+* airspeed more aggressively.
+*
+* @unit m/s
+* @min 0.0
+* @max 40
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_87</name>
@@ -2952,6 +3319,15 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>140</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Cruise Airspeed (FW_AIRSPD_TRIM).
+* @unit m/s
+* @min 0.0
+* @max 40
+* @decimal 1
+* @increment 0.5
+* @group FW TECS
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_87</name>
@@ -3018,6 +3394,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Roll trim (TRIM_ROLL).
+* @group Radio Calibration
+* @min -0.25
+* @max 0.25
+* @decimal 2
+* @increment 0.01
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_87</name>
@@ -3085,6 +3469,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Pitch trim (TRIM_PITCH).
+* @group Radio Calibration
+* @min -0.25
+* @max 0.25
+* @decimal 2
+* @increment 0.01
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_87</name>
@@ -3152,6 +3544,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* Yaw trim (TRIM_YAW).
+* @group Radio Calibration
+* @min -0.25
+* @max 0.25
+* @decimal 2
+* @increment 0.01
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_87</name>
@@ -3219,6 +3619,16 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>120</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* VTOL Type (Tailsitter=0, Tiltrotor=1, Standard=2) (VT_TYPE).
+* @value 0 Tailsitter
+* @value 1 Tiltrotor
+* @value 2 Standard
+* @min 0
+* @max 2
+* @decimal 0
+* @group VTOL Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_87</name>
@@ -3284,6 +3694,14 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
         <text>$(ParamName)</text>
         <width>140</width>
         <vertical_alignment>1</vertical_alignment>
+        <tooltip>/**
+* @unit deg/s
+* @min 0.0
+* @max 90.0
+* @decimal 1
+* @increment 0.5
+* @group FW Attitude Control
+*/</tooltip>
       </widget>
       <widget type="textupdate" version="2.0.0">
         <name>Text Update_44</name>
