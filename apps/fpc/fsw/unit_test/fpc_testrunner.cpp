@@ -48,9 +48,9 @@ int main(void)
     CFE_PSP_MemCpy((void*)&oFPC, (void*)&cpyFPC, sizeof(FPC));
 #endif
 
-//    FPC_App_Test_AddTestCases();
+    FPC_App_Test_AddTestCases();
     FPC_Cmds_Test_AddTestCases();
-//    FPC_Config_Tbl_Test_AddTestCases();
+    FPC_Config_Tbl_Test_AddTestCases();
 
     return(UtTest_Run());
 

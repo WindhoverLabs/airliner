@@ -51,7 +51,8 @@
 #include "ut_cfe_time_stubs.h"
 
 
-uint32    ProcessNewCmds_Result = 0xffffffff;
+boolean   ProcessNewCmds_Result = FALSE;
+char      ProcessNewCmds_Str[64];
 
 /**************************************************************************
  * Tests for FPC ProcessNewCmds()
@@ -165,9 +166,7 @@ int32 Test_FPC_ProcessNewCmds_SendEventHook
 {
     va_list  Ptr;
     char     Buf[256];
-    char     *pCmdStr1 = NULL;
-    char     *pCmdStr2 = NULL;
-    char     *pCmdStr3 = NULL;
+    char     *pCmdStr = NULL;
 
     va_start(Ptr, EventText);
     vsnprintf(Buf, (size_t)CFE_EVS_MAX_MESSAGE_LENGTH, EventText, Ptr);
@@ -176,25 +175,13 @@ int32 Test_FPC_ProcessNewCmds_SendEventHook
     printf("###ProcessNewCmds_SendEventHook:\n");
     printf("%s\n", Buf);
 
-    pCmdStr1 = strstr(Buf, "NOOP");
-    pCmdStr2 = strstr(Buf, "RESET");
-    pCmdStr3 = strstr(Buf, "FPC_DO_GO_AROUND");
+    pCmdStr = strstr(Buf, ProcessNewCmds_Str);
 
-    printf("pCmdStr1: %p, pCmdStr2: %p, pCmdStr3: %p\n", pCmdStr1, pCmdStr2, pCmdStr3);
+    printf("pCmdStr: %p\n", pCmdStr);
 
-    if (pCmdStr1 != NULL)
+    if (pCmdStr != NULL)
     {
-        ProcessNewCmds_Result = FPC_NOOP_CC;
-    }
-
-    if (pCmdStr2 != NULL)
-    {
-        ProcessNewCmds_Result = FPC_RESET_CC;
-    }
-
-    if (pCmdStr3 != NULL)
-    {
-        ProcessNewCmds_Result = FPC_DO_GO_AROUND_CC;
+        ProcessNewCmds_Result = TRUE;
     }
 
     return 0;
@@ -209,23 +196,24 @@ void Test_FPC_ProcessNewCmds_Noop(void)
     FPC  oFPC{};
 
     int32              CmdPipe;
-    FPC_NoArgCmd_t     InMsg;
+    FPC_NoArgCmd_t     CmdMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, FPC_CMD_MID, sizeof(FPC_NoArgCmd_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)FPC_NOOP_CC);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(FPC_NoArgCmd_t), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_NOOP_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
-    FPC_Test_PrintCmdMsg((void*)&InMsg, sizeof(FPC_NoArgCmd_t));
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(FPC_NoArgCmd_t));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    ProcessNewCmds_Result = 0xffffffff;
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "NOOP");
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
                (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
 
@@ -233,7 +221,8 @@ void Test_FPC_ProcessNewCmds_Noop(void)
     oFPC.AppMain();
 
     /* Verify results */
-    if ((oFPC.HkTlm.usCmdCnt == 1) && (ProcessNewCmds_Result == FPC_NOOP_CC))
+    if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+         && (ProcessNewCmds_Result == TRUE))
     {
         UtAssert_True(TRUE, "ProcessNewCmds, Noop");
     }
@@ -251,23 +240,24 @@ void Test_FPC_ProcessNewCmds_Reset(void)
     FPC  oFPC{};
 
     int32              CmdPipe;
-    FPC_NoArgCmd_t     InMsg;
+    FPC_NoArgCmd_t     CmdMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, FPC_CMD_MID, sizeof(FPC_NoArgCmd_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)FPC_RESET_CC);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(FPC_NoArgCmd_t), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_RESET_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
-    FPC_Test_PrintCmdMsg((void*)&InMsg, sizeof(FPC_NoArgCmd_t));
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(FPC_NoArgCmd_t));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    ProcessNewCmds_Result = 0xffffffff;
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "RESET");
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
                (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
 
@@ -276,7 +266,7 @@ void Test_FPC_ProcessNewCmds_Reset(void)
 
     /* Verify results */
     if ((oFPC.HkTlm.usCmdCnt == 0) && (oFPC.HkTlm.usCmdErrCnt == 0)
-         && (ProcessNewCmds_Result == FPC_RESET_CC))
+         && (ProcessNewCmds_Result == TRUE))
     {
         UtAssert_True(TRUE, "ProcessNewCmds, Reset");
     }
@@ -292,9 +282,7 @@ void Test_FPC_ProcessNewCmds_Reset(void)
  */
 void Test_FPC_ProcessNewCmds_DoGoAround(void)
 {
-#if 1
     FPC  oFPC{};
-#endif
 
     int32              CmdPipe;
     FPC_NoArgCmd_t     CmdMsg;
@@ -311,14 +299,8 @@ void Test_FPC_ProcessNewCmds_DoGoAround(void)
 
     FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
-/*
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 4);
-*/
-
-    ProcessNewCmds_Result = 0xffffffff;
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "DO_GO_AROUND");
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
                (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
 
@@ -415,7 +397,8 @@ void Test_FPC_ProcessNewCmds_DoGoAround(void)
     oFPC.ProcessNewCmds();
 
     /* Verify results */
-    if ((oFPC.HkTlm.usCmdCnt == 1) && (ProcessNewCmds_Result == FPC_DO_GO_AROUND_CC))
+    if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+        && (ProcessNewCmds_Result == TRUE))
     {
         UtAssert_True(TRUE, "ProcessNewCmds, DoGoAround");
     }
@@ -425,117 +408,23 @@ void Test_FPC_ProcessNewCmds_DoGoAround(void)
     }
 }
 
-#if 0
-void Test_FPC_ProcessNewCmds_DoGoAround(void)
-{
-#if 0
-    FPC  oFPC{};
-#endif
 
-    int32                             CmdPipe;
-    int32                             DataPipe;
-    FPC_NoArgCmd_t                    CmdMsg;
-    PX4_VehicleControlModeMsg_t       VCMode;
-    PX4_PositionSetpointTripletMsg_t  PSpTriple;
+/**
+ * Test FPC ProcessNewCmds, UPDATE_L1_PERIOD_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_L1_PERIOD_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
-
-    DataPipe = Ut_CFE_SB_CreatePipe("FPC_DATA_PIPE");
-
-    CFE_SB_InitMsg ((void*)&VCMode, PX4_VEHICLE_CONTROL_MODE_MID, sizeof(VCMode), TRUE);
-    VCMode.Timestamp = FPC_Test_GetTimeUs();
-    VCMode.ExternalManualOverrideOk = FALSE;
-    VCMode.SystemHilEnabled = FALSE;
-    VCMode.ControlManualEnabled = FALSE;
-    VCMode.ControlAutoEnabled = TRUE;
-    VCMode.ControlOffboardEnabled = FALSE;                       // fix this
-    VCMode.ControlRatesEnabled = TRUE;
-    VCMode.ControlAttitudeEnabled = TRUE;
-    VCMode.ControlRattitudeEnabled = TRUE;
-    VCMode.ControlForceEnabled = FALSE;
-    VCMode.ControlAccelerationEnabled = FALSE;
-    VCMode.ControlVelocityEnabled = FALSE;
-    VCMode.ControlPositionEnabled = FALSE;
-    VCMode.ControlAltitudeEnabled = FALSE;
-    VCMode.ControlClimbRateEnabled = FALSE;
-    VCMode.ControlTerminationEnabled = FALSE;
-    VCMode.ControlFixedHdgEnabled = FALSE;
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&VCMode);
-    Ut_CFE_SB_AddMsgToPipe((void*)&VCMode, (CFE_SB_PipeId_t)DataPipe);
-
-    CFE_SB_InitMsg ((void*)&PSpTriple, PX4_POSITION_SETPOINT_TRIPLET_MID, sizeof(PSpTriple), TRUE);
-    PSpTriple.Timestamp = FPC_Test_GetTimeUs();
-    PSpTriple.Previous.Timestamp = FPC_Test_GetTimeUs();
-    PSpTriple.Previous.Lat = 47.397741928975;
-    PSpTriple.Previous.Lon = 8.545593979817;
-    PSpTriple.Previous.X = 0.0f;                                  // fix this
-    PSpTriple.Previous.Y = 0.0f;                                  // fix this
-    PSpTriple.Previous.Z = 0.0f;                                  // fix this
-    PSpTriple.Previous.VX = 0.0f;                                 // fix this
-    PSpTriple.Previous.VY = 0.0f;                                 // fix this
-    PSpTriple.Previous.VZ = 0.0f;                                 // fix this
-    PSpTriple.Previous.Alt = 490.7512f;                                // fix this
-    PSpTriple.Previous.Yaw = 1.547718f;                                // fix this
-    PSpTriple.Previous.Yawspeed = 0.0f;                           // fix this
-    PSpTriple.Previous.LoiterRadius = 50.0f;                       // fix this
-    PSpTriple.Previous.PitchMin = 0.0f;                           // fix this
-    PSpTriple.Previous.AX = 0.0f;                                 // fix this
-    PSpTriple.Previous.AY = 0.0f;                                 // fix this
-    PSpTriple.Previous.AZ = 0.0f;                                 // fix this
-    PSpTriple.Previous.AcceptanceRadius = 0.0f;                   // fix this
-    PSpTriple.Previous.CruisingSpeed = -1.0f;                      // fix this
-    PSpTriple.Previous.CruisingThrottle = -1.0f;                   // fix this
-    PSpTriple.Previous.Valid = TRUE;                                // fix this
-    PSpTriple.Previous.Type = PX4_SETPOINT_TYPE_LOITER;
-    PSpTriple.Previous.PositionValid = FALSE;
-    PSpTriple.Previous.VelocityValid = FALSE;
-    PSpTriple.Previous.VelocityFrame = 0;
-    PSpTriple.Previous.AltValid = TRUE;
-    PSpTriple.Previous.YawValid = TRUE;
-    PSpTriple.Previous.DisableMcYawControl = FALSE;
-    PSpTriple.Previous.YawspeedValid = FALSE;
-    PSpTriple.Previous.LoiterDirection = 1;
-    PSpTriple.Previous.AccelerationValid = FALSE;
-    PSpTriple.Previous.AccelerationIsForce = FALSE;
-
-    PSpTriple.Current.Timestamp = FPC_Test_GetTimeUs();
-    PSpTriple.Current.Lat = 47.397741928975;
-    PSpTriple.Current.Lon = 8.545593979817;
-    PSpTriple.Current.X = 0.0f;                                   // fix this
-    PSpTriple.Current.Y = 0.0f;                                   // fix this
-    PSpTriple.Current.Z = 0.0f;                                   // fix this
-    PSpTriple.Current.VX = 0.0f;                                  // fix this
-    PSpTriple.Current.VY = 0.0f;                                  // fix this
-    PSpTriple.Current.VZ = 0.0f;                                  // fix this
-    PSpTriple.Current.Alt = 490.7512f;                                 // fix this
-    PSpTriple.Current.Yaw = 1.547718f;                                 // fix this
-    PSpTriple.Current.Yawspeed = 0.0f;                            // fix this
-    PSpTriple.Current.LoiterRadius = 50.0f;                        // fix this
-    PSpTriple.Current.PitchMin = 0.0f;                            // fix this
-    PSpTriple.Current.AX = 0.0f;                                  // fix this
-    PSpTriple.Current.AY = 0.0f;                                  // fix this
-    PSpTriple.Current.AZ = 0.0f;                                  // fix this
-    PSpTriple.Current.AcceptanceRadius = 0.0f;                    // fix this
-    PSpTriple.Current.CruisingSpeed = -1.0f;                       // fix this
-    PSpTriple.Current.CruisingThrottle = -1.0f;                    // fix this
-    PSpTriple.Current.Valid = TRUE;
-    PSpTriple.Current.Type = PX4_SETPOINT_TYPE_LAND;
-    PSpTriple.Current.PositionValid = FALSE;
-    PSpTriple.Current.VelocityValid = FALSE;
-    PSpTriple.Current.VelocityFrame = 0;
-    PSpTriple.Current.AltValid = TRUE;
-    PSpTriple.Current.YawValid = TRUE;
-    PSpTriple.Current.DisableMcYawControl = FALSE;
-    PSpTriple.Current.YawspeedValid = FALSE;
-    PSpTriple.Current.LoiterDirection = 1;
-    PSpTriple.Current.AccelerationValid = FALSE;
-    PSpTriple.Current.AccelerationIsForce = FALSE;
-
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_DO_GO_AROUND_CC);
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&CmdMsg);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_L1_PERIOD_CC);
+    CmdMsg.param = 19.0f;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
@@ -543,9 +432,10 @@ void Test_FPC_ProcessNewCmds_DoGoAround(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 4);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    ProcessNewCmds_Result = 0xffffffff;
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "L1_PERIOD");
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
                (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
 
@@ -553,16 +443,62 @@ void Test_FPC_ProcessNewCmds_DoGoAround(void)
     oFPC.AppMain();
 
     /* Verify results */
-    if ((oFPC.HkTlm.usCmdCnt == 1) && (ProcessNewCmds_Result == FPC_DO_GO_AROUND_CC))
+    if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+         && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->L1_PERIOD == 19.0f))
     {
-        UtAssert_True(TRUE, "ProcessNewCmds, DoGoAround");
+        UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_L1_PERIOD_CC");
     }
     else
     {
-        UtAssert_True(FALSE, "ProcessNewCmds, DoGoAround");
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_L1_PERIOD_CC");
     }
 }
-#endif
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_L1_DAMPING_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_L1_DAMPING_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_L1_DAMPING_CC);
+    CmdMsg.param = 0.74f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "L1_DAMPING");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    oFPC.AppMain();
+
+    /* Verify results */
+    if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+         && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->L1_DAMPING == 0.74f))
+    {
+        UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_L1_DAMPING_CC");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_L1_DAMPING_CC");
+    }
+}
 
 
 /**
@@ -570,15 +506,13 @@ void Test_FPC_ProcessNewCmds_DoGoAround(void)
  */
 void Test_FPC_VerifyCmdLength_Fail_CmdLength(void)
 {
-#if 1
     FPC  oFPC{};
-#endif
 
     boolean           bResult = TRUE;
     boolean           bExpected = FALSE;
     FPC_NoArgCmd_t    CmdMsg;
 
-    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg) + 5, TRUE);
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_NOOP_CC);
 
     FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
@@ -594,7 +528,6 @@ void Test_FPC_VerifyCmdLength_Fail_CmdLength(void)
 
 void FPC_Cmds_Test_AddTestCases(void)
 {
-#if 0
     UtTest_Add(Test_FPC_ProcessNewCmds_InvalidCmd, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_ProcessNewCmds_InvalidCmd");
     UtTest_Add(Test_FPC_ProcessNewCmds_InvalidCmdCode, FPC_Test_Setup, FPC_Test_TearDown,
@@ -605,9 +538,12 @@ void FPC_Cmds_Test_AddTestCases(void)
                "Test_FPC_ProcessNewCmds_Noop");
     UtTest_Add(Test_FPC_ProcessNewCmds_Reset, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_ProcessNewCmds_Reset");
-#endif
     UtTest_Add(Test_FPC_ProcessNewCmds_DoGoAround, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_ProcessNewCmds_DoGoAround");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_L1_PERIOD_CC, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_ProcessNewCmds_UPDATE_L1_PERIOD_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_L1_DAMPING_CC, FPC_Test_Setup, FPC_Test_TearDown,
+               "Test_FPC_ProcessNewCmds_UPDATE_L1_DAMPING_CC");
     UtTest_Add(Test_FPC_VerifyCmdLength_Fail_CmdLength, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_VerifyCmdLength_Fail_CmdLength");
 } /* end FPC_Cmds_Test_AddTestCases */
