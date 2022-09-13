@@ -651,10 +651,43 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
           </color>
         </border_color>
       </widget>
-      <widget type="tank" version="2.0.0">
-        <name>Tank</name>
-        <x>306</x>
-        <y>42</y>
+      <widget type="textupdate" version="2.0.0">
+        <name>Text Update_18</name>
+        <pv_name>/cfs/$(CPUID)/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.Yaw</pv_name>
+        <x>168</x>
+        <y>360</y>
+        <width>248</width>
+        <height>18</height>
+        <background_color>
+          <color red="255" green="255" blue="255">
+          </color>
+        </background_color>
+        <precision>3</precision>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <scripts>
+          <script file="resources/rad_to_deg.py">
+            <pv_name>$(pv_name)</pv_name>
+          </script>
+        </scripts>
+        <border_width>1</border_width>
+      </widget>
+      <widget type="label" version="2.0.0">
+        <name>Label_25</name>
+        <text>Yaw</text>
+        <x>30</x>
+        <y>360</y>
+        <width>123</width>
+        <vertical_alignment>1</vertical_alignment>
+        <wrap_words>false</wrap_words>
+        <actions>
+        </actions>
+        <border_color>
+          <color red="0" green="128" blue="255">
+          </color>
+        </border_color>
       </widget>
     </widget>
     <widget type="textupdate" version="2.0.0">
@@ -674,23 +707,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
-    </widget>
-    <widget type="action_button" version="3.0.0">
-      <name>AppControl_4</name>
-      <actions>
-        <action type="open_display">
-          <file>$(APP_CONTROL_TEMPLATE)</file>
-          <target>tab</target>
-          <description>Open Display</description>
-        </action>
-      </actions>
-      <text>Set</text>
-      <x>422</x>
-      <y>306</y>
-      <width>66</width>
-      <height>20</height>
-      <tooltip>$(actions)</tooltip>
-      <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_9</name>
@@ -784,6 +800,23 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       <actions>
       </actions>
       <border_width>1</border_width>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_4</name>
+      <actions>
+        <action type="open_display">
+          <file>UpdateParams.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Tune</text>
+      <x>240</x>
+      <y>12</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
   <widget type="group" version="2.0.0">
@@ -963,5 +996,20 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
       </actions>
       <border_width>1</border_width>
     </widget>
+  </widget>
+  <widget type="waypoint" version="2.0.0">
+    <name>Waypoint</name>
+    <waypoint_a_lon_pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hdg_hold_prev_wp.Lon</waypoint_a_lon_pv_name>
+    <waypoint_a_lat_pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hdg_hold_prev_wp.Lat</waypoint_a_lat_pv_name>
+    <waypoint_current_lon_pv_name>/cfs/cpd/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.Lon</waypoint_current_lon_pv_name>
+    <waypoint_current_lat_pv_name>/cfs/cpd/apps/px4lib/PX4_VEHICLE_GLOBAL_POSITION_MID.Lat</waypoint_current_lat_pv_name>
+    <waypoint_b_lon_pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hdg_hold_curr_wp.Lon</waypoint_b_lon_pv_name>
+    <waypoint_b_lat_pv_name>/cfs/cpd/apps/fpc/FPC_HK_TLM_MID._hdg_hold_curr_wp.Lat</waypoint_b_lat_pv_name>
+    <x>1002</x>
+    <y>96</y>
+    <foreground_color>
+      <color name="MAJOR" red="255" green="0" blue="0">
+      </color>
+    </foreground_color>
   </widget>
 </display>
