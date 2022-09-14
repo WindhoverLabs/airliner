@@ -50,6 +50,8 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
+#include <float.h>
+
 
 boolean   ProcessNewCmds_Result = FALSE;
 char      ProcessNewCmds_Str[64];
@@ -278,12 +280,106 @@ void Test_FPC_ProcessNewCmds_Reset(void)
 
 
 /**
+ * Test FPC ProcessNewCmds, DoGoAround_Data
+ */
+void Test_FPC_ProcessNewCmds_DoGoAround_Data(FPC *pFPC)
+{
+    pFPC->m_VehicleControlModeMsg.Timestamp = FPC_Test_GetTimeUs();
+    pFPC->m_VehicleControlModeMsg.ExternalManualOverrideOk = FALSE;
+    pFPC->m_VehicleControlModeMsg.SystemHilEnabled = FALSE;
+    pFPC->m_VehicleControlModeMsg.ControlManualEnabled = FALSE;
+    pFPC->m_VehicleControlModeMsg.ControlAutoEnabled = TRUE;
+    pFPC->m_VehicleControlModeMsg.ControlOffboardEnabled = FALSE;
+    pFPC->m_VehicleControlModeMsg.ControlRatesEnabled = TRUE;
+    pFPC->m_VehicleControlModeMsg.ControlAttitudeEnabled = TRUE;
+    pFPC->m_VehicleControlModeMsg.ControlRattitudeEnabled = TRUE;
+    pFPC->m_VehicleControlModeMsg.ControlForceEnabled = FALSE;
+    pFPC->m_VehicleControlModeMsg.ControlAccelerationEnabled = FALSE;
+    pFPC->m_VehicleControlModeMsg.ControlVelocityEnabled = FALSE;
+    pFPC->m_VehicleControlModeMsg.ControlPositionEnabled = FALSE;
+    pFPC->m_VehicleControlModeMsg.ControlAltitudeEnabled = FALSE;
+    pFPC->m_VehicleControlModeMsg.ControlClimbRateEnabled = FALSE;
+    pFPC->m_VehicleControlModeMsg.ControlTerminationEnabled = FALSE;
+    pFPC->m_VehicleControlModeMsg.ControlFixedHdgEnabled = FALSE;
+
+    pFPC->m_PositionSetpointTripletMsg.Timestamp = FPC_Test_GetTimeUs();
+    pFPC->m_PositionSetpointTripletMsg.Previous.Timestamp = FPC_Test_GetTimeUs();
+    pFPC->m_PositionSetpointTripletMsg.Previous.Lat = 47.397741928975;
+    pFPC->m_PositionSetpointTripletMsg.Previous.Lon = 8.545593979817;
+    pFPC->m_PositionSetpointTripletMsg.Previous.X = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.Y = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.Z = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.VX = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.VY = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.VZ = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.Alt = 490.7512f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.Yaw = 1.547718f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.Yawspeed = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.LoiterRadius = 50.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.PitchMin = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.AX = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.AY = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.AZ = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.AcceptanceRadius = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.CruisingSpeed = -1.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.CruisingThrottle = -1.0f;
+    pFPC->m_PositionSetpointTripletMsg.Previous.Valid = TRUE;
+    pFPC->m_PositionSetpointTripletMsg.Previous.Type = PX4_SETPOINT_TYPE_LOITER;
+    pFPC->m_PositionSetpointTripletMsg.Previous.PositionValid = FALSE;
+    pFPC->m_PositionSetpointTripletMsg.Previous.VelocityValid = FALSE;
+    pFPC->m_PositionSetpointTripletMsg.Previous.VelocityFrame = 0;
+    pFPC->m_PositionSetpointTripletMsg.Previous.AltValid = TRUE;
+    pFPC->m_PositionSetpointTripletMsg.Previous.YawValid = TRUE;
+    pFPC->m_PositionSetpointTripletMsg.Previous.DisableMcYawControl = FALSE;
+    pFPC->m_PositionSetpointTripletMsg.Previous.YawspeedValid = FALSE;
+    pFPC->m_PositionSetpointTripletMsg.Previous.LoiterDirection = 1;
+    pFPC->m_PositionSetpointTripletMsg.Previous.AccelerationValid = FALSE;
+    pFPC->m_PositionSetpointTripletMsg.Previous.AccelerationIsForce = FALSE;
+
+    pFPC->m_PositionSetpointTripletMsg.Current.Timestamp = FPC_Test_GetTimeUs();
+    pFPC->m_PositionSetpointTripletMsg.Current.Lat = 47.397741928975;
+    pFPC->m_PositionSetpointTripletMsg.Current.Lon = 8.545593979817;
+    pFPC->m_PositionSetpointTripletMsg.Current.X = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.Y = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.Z = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.VX = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.VY = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.VZ = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.Alt = 490.7512f;
+    pFPC->m_PositionSetpointTripletMsg.Current.Yaw = 1.547718f;
+    pFPC->m_PositionSetpointTripletMsg.Current.Yawspeed = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.LoiterRadius = 50.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.PitchMin = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.AX = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.AY = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.AZ = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.AcceptanceRadius = 0.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.CruisingSpeed = -1.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.CruisingThrottle = -1.0f;
+    pFPC->m_PositionSetpointTripletMsg.Current.Valid = TRUE;
+    pFPC->m_PositionSetpointTripletMsg.Current.Type = PX4_SETPOINT_TYPE_LAND;
+    pFPC->m_PositionSetpointTripletMsg.Current.PositionValid = FALSE;
+    pFPC->m_PositionSetpointTripletMsg.Current.VelocityValid = FALSE;
+    pFPC->m_PositionSetpointTripletMsg.Current.VelocityFrame = 0;
+    pFPC->m_PositionSetpointTripletMsg.Current.AltValid = TRUE;
+    pFPC->m_PositionSetpointTripletMsg.Current.YawValid = TRUE;
+    pFPC->m_PositionSetpointTripletMsg.Current.DisableMcYawControl = FALSE;
+    pFPC->m_PositionSetpointTripletMsg.Current.YawspeedValid = FALSE;
+    pFPC->m_PositionSetpointTripletMsg.Current.LoiterDirection = 1;
+    pFPC->m_PositionSetpointTripletMsg.Current.AccelerationValid = FALSE;
+    pFPC->m_PositionSetpointTripletMsg.Current.AccelerationIsForce = FALSE;
+}
+
+
+/**
  * Test FPC ProcessNewCmds, DoGoAround
  */
 void Test_FPC_ProcessNewCmds_DoGoAround(void)
 {
     FPC  oFPC{};
+    FPC  *pFPC = &oFPC;
 
+    int32              iStatus = CFE_SUCCESS;
     int32              CmdPipe;
     FPC_NoArgCmd_t     CmdMsg;
 
@@ -305,106 +401,37 @@ void Test_FPC_ProcessNewCmds_DoGoAround(void)
                (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
 
     /* Execute the function being tested */
-    oFPC.InitEvent();
-    oFPC.InitPipe();
-    oFPC.InitData();
-
-    oFPC.m_VehicleControlModeMsg.Timestamp = FPC_Test_GetTimeUs();
-    oFPC.m_VehicleControlModeMsg.ExternalManualOverrideOk = FALSE;
-    oFPC.m_VehicleControlModeMsg.SystemHilEnabled = FALSE;
-    oFPC.m_VehicleControlModeMsg.ControlManualEnabled = FALSE;
-    oFPC.m_VehicleControlModeMsg.ControlAutoEnabled = TRUE;
-    oFPC.m_VehicleControlModeMsg.ControlOffboardEnabled = FALSE;
-    oFPC.m_VehicleControlModeMsg.ControlRatesEnabled = TRUE;
-    oFPC.m_VehicleControlModeMsg.ControlAttitudeEnabled = TRUE;
-    oFPC.m_VehicleControlModeMsg.ControlRattitudeEnabled = TRUE;
-    oFPC.m_VehicleControlModeMsg.ControlForceEnabled = FALSE;
-    oFPC.m_VehicleControlModeMsg.ControlAccelerationEnabled = FALSE;
-    oFPC.m_VehicleControlModeMsg.ControlVelocityEnabled = FALSE;
-    oFPC.m_VehicleControlModeMsg.ControlPositionEnabled = FALSE;
-    oFPC.m_VehicleControlModeMsg.ControlAltitudeEnabled = FALSE;
-    oFPC.m_VehicleControlModeMsg.ControlClimbRateEnabled = FALSE;
-    oFPC.m_VehicleControlModeMsg.ControlTerminationEnabled = FALSE;
-    oFPC.m_VehicleControlModeMsg.ControlFixedHdgEnabled = FALSE;
-
-    oFPC.m_PositionSetpointTripletMsg.Timestamp = FPC_Test_GetTimeUs();
-    oFPC.m_PositionSetpointTripletMsg.Previous.Timestamp = FPC_Test_GetTimeUs();
-    oFPC.m_PositionSetpointTripletMsg.Previous.Lat = 47.397741928975;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Lon = 8.545593979817;
-    oFPC.m_PositionSetpointTripletMsg.Previous.X = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Y = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Z = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.VX = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.VY = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.VZ = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Alt = 490.7512f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Yaw = 1.547718f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Yawspeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.LoiterRadius = 50.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.PitchMin = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.AX = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.AY = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.AZ = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.AcceptanceRadius = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingSpeed = -1.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.CruisingThrottle = -1.0f;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Valid = TRUE;
-    oFPC.m_PositionSetpointTripletMsg.Previous.Type = PX4_SETPOINT_TYPE_LOITER;
-    oFPC.m_PositionSetpointTripletMsg.Previous.PositionValid = FALSE;
-    oFPC.m_PositionSetpointTripletMsg.Previous.VelocityValid = FALSE;
-    oFPC.m_PositionSetpointTripletMsg.Previous.VelocityFrame = 0;
-    oFPC.m_PositionSetpointTripletMsg.Previous.AltValid = TRUE;
-    oFPC.m_PositionSetpointTripletMsg.Previous.YawValid = TRUE;
-    oFPC.m_PositionSetpointTripletMsg.Previous.DisableMcYawControl = FALSE;
-    oFPC.m_PositionSetpointTripletMsg.Previous.YawspeedValid = FALSE;
-    oFPC.m_PositionSetpointTripletMsg.Previous.LoiterDirection = 1;
-    oFPC.m_PositionSetpointTripletMsg.Previous.AccelerationValid = FALSE;
-    oFPC.m_PositionSetpointTripletMsg.Previous.AccelerationIsForce = FALSE;
-
-    oFPC.m_PositionSetpointTripletMsg.Current.Timestamp = FPC_Test_GetTimeUs();
-    oFPC.m_PositionSetpointTripletMsg.Current.Lat = 47.397741928975;
-    oFPC.m_PositionSetpointTripletMsg.Current.Lon = 8.545593979817;
-    oFPC.m_PositionSetpointTripletMsg.Current.X = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.Y = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.Z = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.VX = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.VY = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.VZ = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.Alt = 490.7512f;
-    oFPC.m_PositionSetpointTripletMsg.Current.Yaw = 1.547718f;
-    oFPC.m_PositionSetpointTripletMsg.Current.Yawspeed = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.LoiterRadius = 50.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.PitchMin = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.AX = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.AY = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.AZ = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.AcceptanceRadius = 0.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.CruisingSpeed = -1.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.CruisingThrottle = -1.0f;
-    oFPC.m_PositionSetpointTripletMsg.Current.Valid = TRUE;
-    oFPC.m_PositionSetpointTripletMsg.Current.Type = PX4_SETPOINT_TYPE_LAND;
-    oFPC.m_PositionSetpointTripletMsg.Current.PositionValid = FALSE;
-    oFPC.m_PositionSetpointTripletMsg.Current.VelocityValid = FALSE;
-    oFPC.m_PositionSetpointTripletMsg.Current.VelocityFrame = 0;
-    oFPC.m_PositionSetpointTripletMsg.Current.AltValid = TRUE;
-    oFPC.m_PositionSetpointTripletMsg.Current.YawValid = TRUE;
-    oFPC.m_PositionSetpointTripletMsg.Current.DisableMcYawControl = FALSE;
-    oFPC.m_PositionSetpointTripletMsg.Current.YawspeedValid = FALSE;
-    oFPC.m_PositionSetpointTripletMsg.Current.LoiterDirection = 1;
-    oFPC.m_PositionSetpointTripletMsg.Current.AccelerationValid = FALSE;
-    oFPC.m_PositionSetpointTripletMsg.Current.AccelerationIsForce = FALSE;
-
-    oFPC.ProcessNewCmds();
-
-    /* Verify results */
-    if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-        && (ProcessNewCmds_Result == TRUE))
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
     {
-        UtAssert_True(TRUE, "ProcessNewCmds, DoGoAround");
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                Test_FPC_ProcessNewCmds_DoGoAround_Data(pFPC);
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, DoGoAround");
     }
     else
     {
-        UtAssert_True(FALSE, "ProcessNewCmds, DoGoAround");
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+            && (ProcessNewCmds_Result == TRUE))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, DoGoAround");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, DoGoAround");
+        }
     }
 }
 
@@ -416,6 +443,7 @@ void Test_FPC_ProcessNewCmds_UPDATE_L1_PERIOD_CC(void)
 {
     FPC  oFPC{};
 
+    int32                        iStatus = CFE_SUCCESS;
     int32                        CmdPipe;
     FPC_UpdateParamFloatCmd_t    CmdMsg;
 
@@ -429,28 +457,42 @@ void Test_FPC_ProcessNewCmds_UPDATE_L1_PERIOD_CC(void)
 
     FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "L1_PERIOD");
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
                (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
 
     /* Execute the function being tested */
-    oFPC.AppMain();
-
-    /* Verify results */
-    if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-         && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->L1_PERIOD == 19.0f))
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
     {
-        UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_L1_PERIOD_CC");
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_L1_PERIOD_CC");
     }
     else
     {
-        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_L1_PERIOD_CC");
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->L1_PERIOD == 19.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_L1_PERIOD_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_L1_PERIOD_CC");
+        }
     }
 }
 
@@ -462,6 +504,7 @@ void Test_FPC_ProcessNewCmds_UPDATE_L1_DAMPING_CC(void)
 {
     FPC  oFPC{};
 
+    int32                        iStatus = CFE_SUCCESS;
     int32                        CmdPipe;
     FPC_UpdateParamFloatCmd_t    CmdMsg;
 
@@ -475,28 +518,2433 @@ void Test_FPC_ProcessNewCmds_UPDATE_L1_DAMPING_CC(void)
 
     FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "L1_DAMPING");
     Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
                (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
 
     /* Execute the function being tested */
-    oFPC.AppMain();
-
-    /* Verify results */
-    if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-         && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->L1_DAMPING == 0.74f))
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
     {
-        UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_L1_DAMPING_CC");
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_L1_DAMPING_CC");
     }
     else
     {
-        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_L1_DAMPING_CC");
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+          && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->L1_DAMPING == 0.74f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_L1_DAMPING_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_L1_DAMPING_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_TIME_CONST_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_TIME_CONST_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_TIME_CONST_CC);
+    CmdMsg.param = 4.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_TIME_CONST");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_TIME_CONST_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_TIME_CONST == 4.9f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_TIME_CONST_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_TIME_CONST_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_THRO_CONST_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_THRO_CONST_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_THRO_CONST_CC);
+    CmdMsg.param = 7.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_THRO_CONST");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_THRO_CONST_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+          && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_THRO_CONST == 7.9f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_THRO_CONST_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_THRO_CONST_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_SINK_MIN_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_SINK_MIN_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_SINK_MIN_CC);
+    CmdMsg.param = 1.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_SINK_MIN");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_SINK_MIN_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_SINK_MIN == 1.9f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_SINK_MIN_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_SINK_MIN_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_SINK_MAX_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_SINK_MAX_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_SINK_MAX_CC);
+    CmdMsg.param = 4.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_SINK_MAX");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_SINK_MAX_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+          && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_SINK_MAX == 4.9f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_SINK_MAX_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_SINK_MAX_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_CLMB_MAX_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_CLMB_MAX_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_CLMB_MAX_CC);
+    CmdMsg.param = 4.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_CLMB_MAX");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_CLMB_MAX_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_CLMB_MAX == 4.9f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_CLMB_MAX_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_CLMB_MAX_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_CLMBOUT_DIFF_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_CLMBOUT_DIFF_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_CLMBOUT_DIFF_CC);
+    CmdMsg.param = 9.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "CLMBOUT_DIFF");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_CLMBOUT_DIFF_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+          && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->CLMBOUT_DIFF == 9.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_CLMBOUT_DIFF_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_CLMBOUT_DIFF_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_HRATE_P_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_HRATE_P_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_HRATE_P_CC);
+    CmdMsg.param = 0.04f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_HRATE_P");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_HRATE_P_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_HRATE_P == 0.04f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_HRATE_P_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_HRATE_P_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_HRATE_FF_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_HRATE_FF_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_HRATE_FF_CC);
+    CmdMsg.param = 0.7f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_HRATE_FF");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_HRATE_FF_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_HRATE_FF == 0.7f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_HRATE_FF_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_HRATE_FF_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_SRATE_P_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_SRATE_P_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_SRATE_P_CC);
+    CmdMsg.param = 0.01f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_SRATE_P");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_SRATE_P_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_SRATE_P == 0.01f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_SRATE_P_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_SRATE_P_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_THR_DAMP_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_THR_DAMP_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_THR_DAMP_CC);
+    CmdMsg.param = 0.4f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_THR_DAMP");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_THR_DAMP_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_THR_DAMP == 0.4f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_THR_DAMP_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_THR_DAMP_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_INTEG_GAIN_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_INTEG_GAIN_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_INTEG_GAIN_CC);
+    CmdMsg.param = 0.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_INTEG_GAIN");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_INTEG_GAIN_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_INTEG_GAIN == 0.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_INTEG_GAIN_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_INTEG_GAIN_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_VERT_ACC_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_VERT_ACC_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_VERT_ACC_CC);
+    CmdMsg.param = 6.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_VERT_ACC");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_VERT_ACC_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_VERT_ACC == 6.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_VERT_ACC_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_VERT_ACC_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_HGT_OMEGA_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_HGT_OMEGA_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_HGT_OMEGA_CC);
+    CmdMsg.param = 2.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_HGT_OMEGA");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_HGT_OMEGA_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_HGT_OMEGA == 2.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_HGT_OMEGA_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_HGT_OMEGA_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_SPD_OMEGA_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_SPD_OMEGA_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_SPD_OMEGA_CC);
+    CmdMsg.param = 1.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_SPD_OMEGA");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_SPD_OMEGA_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_SPD_OMEGA == 1.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_SPD_OMEGA_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_SPD_OMEGA_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_RLL2THR_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_RLL2THR_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_RLL2THR_CC);
+    CmdMsg.param = 14.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_RLL2THR");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_RLL2THR_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_RLL2THR == 14.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_RLL2THR_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_RLL2THR_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_SPDWEIGHT_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_SPDWEIGHT_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_SPDWEIGHT_CC);
+    CmdMsg.param = 0.9f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_SPDWEIGHT");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_SPDWEIGHT_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_SPDWEIGHT == 0.9f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_SPDWEIGHT_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_SPDWEIGHT_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_T_PTCH_DAMP_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_T_PTCH_DAMP_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_PTCH_DAMP_CC);
+    CmdMsg.param = 0.1f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "T_PTCH_DAMP");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_PTCH_DAMP_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_PTCH_DAMP == 0.1f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_PTCH_DAMP_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_T_PTCH_DAMP_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_AIRSPD_MIN_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_MIN_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_AIRSPD_MIN_CC);
+    CmdMsg.param = 9.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "AIRSPD_MIN");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_AIRSPD_MIN_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->AIRSPD_MIN == 9.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_AIRSPD_MIN_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_AIRSPD_MIN_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_AIRSPD_TRIM_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_TRIM_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_AIRSPD_TRIM_CC);
+    CmdMsg.param = 14.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "AIRSPD_TRIM");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_AIRSPD_TRIM_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->AIRSPD_TRIM == 14.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_AIRSPD_TRIM_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_AIRSPD_TRIM_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_AIRSPD_MAX_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_MAX_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_AIRSPD_MAX_CC);
+    CmdMsg.param = 19.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "AIRSPD_MAX");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_AIRSPD_MAX_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->AIRSPD_MAX == 19.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_AIRSPD_MAX_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_AIRSPD_MAX_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_ARSP_MODE_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_ARSP_MODE_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamBooleanCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_ARSP_MODE_CC);
+    CmdMsg.param = TRUE;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "ARSP_MODE");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_ARSP_MODE_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->ARSP_MODE == TRUE))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_ARSP_MODE_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_ARSP_MODE_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_P_LIM_MIN_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_P_LIM_MIN_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_P_LIM_MIN_RADIANS_CC);
+    CmdMsg.param = DEG_TO_RADIANS(-44.0f);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "P_LIM_MIN_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_P_LIM_MIN_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC.ConfigTblPtr->P_LIM_MIN_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_P_LIM_MIN_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_P_LIM_MIN_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_P_LIM_MAX_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_P_LIM_MAX_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_P_LIM_MAX_RADIANS_CC);
+    CmdMsg.param = DEG_TO_RADIANS(46.0f);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "P_LIM_MAX_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_P_LIM_MAX_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC.ConfigTblPtr->P_LIM_MAX_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_P_LIM_MAX_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_P_LIM_MAX_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_R_LIM_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_R_LIM_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_R_LIM_RADIANS_CC);
+    CmdMsg.param = DEG_TO_RADIANS(51.0f);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "R_LIM_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_R_LIM_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC.ConfigTblPtr->R_LIM_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_R_LIM_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_R_LIM_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_THR_MIN_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_THR_MIN_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_MIN_CC);
+    CmdMsg.param = 0.1f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "THR_MIN");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_MIN_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC.ConfigTblPtr->THR_MIN - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_MIN_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_MIN_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_THR_MAX_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_THR_MAX_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_MAX_CC);
+    CmdMsg.param = 2.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "THR_MAX");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_MAX_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->THR_MAX == 2.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_MAX_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_MAX_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_THR_IDLE_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_THR_IDLE_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_IDLE_CC);
+    CmdMsg.param = 0.16f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "THR_IDLE");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_IDLE_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->THR_IDLE == 0.16f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_IDLE_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_IDLE_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_THR_CRUISE_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_THR_CRUISE_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_CRUISE_CC);
+    CmdMsg.param = 0.7f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "THR_CRUISE");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_CRUISE_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->THR_CRUISE == 0.7f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_CRUISE_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_CRUISE_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_THR_SLEW_MAX_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_THR_SLEW_MAX_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_SLEW_MAX_CC);
+    CmdMsg.param = 0.1f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "THR_SLEW_MAX");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_SLEW_MAX_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->THR_SLEW_MAX == 0.1f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_SLEW_MAX_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_SLEW_MAX_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_THR_ALT_SCL_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_THR_ALT_SCL_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_ALT_SCL_CC);
+    CmdMsg.param = 0.1f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "THR_ALT_SCL");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_ALT_SCL_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->THR_ALT_SCL == 0.1f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_ALT_SCL_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_ALT_SCL_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_MAN_R_MAX_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_MAN_R_MAX_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_MAN_R_MAX_RADIANS_CC);
+    CmdMsg.param = DEG_TO_RADIANS(46.0f);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "MAN_R_MAX_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_MAN_R_MAX_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC.ConfigTblPtr->MAN_R_MAX_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_MAN_R_MAX_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_MAN_R_MAX_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_MAN_P_MAX_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_MAN_P_MAX_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_MAN_P_MAX_RADIANS_CC);
+    CmdMsg.param = DEG_TO_RADIANS(46.0f);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "MAN_P_MAX_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_MAN_P_MAX_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC.ConfigTblPtr->MAN_P_MAX_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_MAN_P_MAX_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_MAN_P_MAX_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_RSP_OFF_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_RSP_OFF_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_RSP_OFF_RADIANS_CC);
+    CmdMsg.param = DEG_TO_RADIANS(1.0f);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "RSP_OFF_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_RSP_OFF_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC.ConfigTblPtr->RSP_OFF_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_RSP_OFF_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_RSP_OFF_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_PSP_OFF_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_PSP_OFF_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_PSP_OFF_RADIANS_CC);
+    CmdMsg.param = DEG_TO_RADIANS(1.0f);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "PSP_OFF_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_PSP_OFF_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC.ConfigTblPtr->PSP_OFF_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_PSP_OFF_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_PSP_OFF_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_THR_LND_MAX_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_THR_LND_MAX_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_LND_MAX_CC);
+    CmdMsg.param = 2.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "THR_LND_MAX");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_LND_MAX_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->THR_LND_MAX == 2.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_LND_MAX_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_THR_LND_MAX_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LND_ANG_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LND_ANG_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LND_ANG_RADIANS_CC);
+    CmdMsg.param = DEG_TO_RADIANS(8.0f);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LND_ANG_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_ANG_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC.ConfigTblPtr->LND_ANG_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LND_ANG_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_ANG_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LND_HVIRT_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LND_HVIRT_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LND_HVIRT_CC);
+    CmdMsg.param = 9.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LND_HVIRT");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_HVIRT_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->LND_HVIRT == 9.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LND_HVIRT_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_HVIRT_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LND_FLALT_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LND_FLALT_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LND_FLALT_CC);
+    CmdMsg.param = 9.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LND_FLALT");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_FLALT_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->LND_FLALT == 9.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LND_FLALT_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_FLALT_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LND_TLALT_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LND_TLALT_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LND_TLALT_CC);
+    CmdMsg.param = -2.0f;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LND_TLALT");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_TLALT_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->LND_TLALT == -2.0f))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LND_TLALT_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_TLALT_CC");
+        }
     }
 }
 
@@ -540,10 +2988,88 @@ void FPC_Cmds_Test_AddTestCases(void)
                "Test_FPC_ProcessNewCmds_Reset");
     UtTest_Add(Test_FPC_ProcessNewCmds_DoGoAround, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_ProcessNewCmds_DoGoAround");
-    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_L1_PERIOD_CC, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FPC_ProcessNewCmds_UPDATE_L1_PERIOD_CC");
-    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_L1_DAMPING_CC, FPC_Test_Setup, FPC_Test_TearDown,
-               "Test_FPC_ProcessNewCmds_UPDATE_L1_DAMPING_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_L1_PERIOD_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_L1_PERIOD_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_L1_DAMPING_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_L1_DAMPING_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_TIME_CONST_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_TIME_CONST_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_THRO_CONST_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_THRO_CONST_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_SINK_MIN_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_SINK_MIN_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_SINK_MAX_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_SINK_MAX_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_CLMB_MAX_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_CLMB_MAX_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_CLMBOUT_DIFF_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_CLMBOUT_DIFF_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_HRATE_P_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_HRATE_P_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_HRATE_FF_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_HRATE_FF_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_SRATE_P_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_SRATE_P_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_THR_DAMP_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_THR_DAMP_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_INTEG_GAIN_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_INTEG_GAIN_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_VERT_ACC_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_VERT_ACC_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_HGT_OMEGA_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_HGT_OMEGA_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_SPD_OMEGA_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_SPD_OMEGA_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_RLL2THR_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_RLL2THR_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_SPDWEIGHT_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_SPDWEIGHT_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_T_PTCH_DAMP_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_T_PTCH_DAMP_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_MIN_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_MIN_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_TRIM_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_TRIM_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_MAX_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_MAX_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_ARSP_MODE_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_ARSP_MODE_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_P_LIM_MIN_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_P_LIM_MIN_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_P_LIM_MAX_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_P_LIM_MAX_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_R_LIM_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_R_LIM_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_THR_MIN_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_THR_MIN_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_THR_MAX_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_THR_MAX_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_THR_IDLE_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_THR_IDLE_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_THR_CRUISE_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_THR_CRUISE_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_THR_SLEW_MAX_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_THR_SLEW_MAX_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_THR_ALT_SCL_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_THR_ALT_SCL_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_MAN_R_MAX_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_MAN_R_MAX_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_MAN_P_MAX_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_MAN_P_MAX_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_RSP_OFF_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_RSP_OFF_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_PSP_OFF_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_PSP_OFF_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_THR_LND_MAX_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_THR_LND_MAX_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LND_ANG_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LND_ANG_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LND_HVIRT_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LND_HVIRT_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LND_FLALT_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LND_FLALT_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LND_TLALT_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LND_TLALT_CC");
     UtTest_Add(Test_FPC_VerifyCmdLength_Fail_CmdLength, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_VerifyCmdLength_Fail_CmdLength");
 } /* end FPC_Cmds_Test_AddTestCases */

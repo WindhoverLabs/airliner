@@ -67,7 +67,7 @@ extern Ut_CFE_PSP_TIMER_ReturnCodeTable_t
 /*
  * Config table for Nominal status
  */
-FPC_ConfigTbl_t FPC_ConfigTblNominal = {
+FPC_ConfigTbl_t FPC_ConfigTblUnitTest = {
     20.0f,                        /* L1_PERIOD */
     0.75f,                        /* L1_DAMPING */
     5.0f,                         /* T_TIME_CONST */
@@ -233,10 +233,10 @@ void FPC_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-#if 1
+#if 0
     Ut_CFE_TBL_AddTable(FPC_CONFIG_TABLE_FILENAME, (void *) &FPC_ConfigTbl);
 #else
-    Ut_CFE_TBL_AddTable(FPC_CONFIG_TABLE_FILENAME, (void *) &FPC_ConfigTblNominal);
+    Ut_CFE_TBL_AddTable(FPC_CONFIG_TABLE_FILENAME, (void *) &FPC_ConfigTblUnitTest);
 #endif
 
     memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
