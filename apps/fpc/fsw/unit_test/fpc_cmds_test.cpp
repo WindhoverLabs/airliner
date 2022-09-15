@@ -67,15 +67,15 @@ void Test_FPC_ProcessNewCmds_InvalidCmd(void)
     FPC  oFPC{};
 
     int32           CmdPipe;
-    FPC_NoArgCmd_t  InMsg;
+    FPC_NoArgCmd_t  CmdMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, PX4_AIRSPEED_MID, sizeof(FPC_NoArgCmd_t), TRUE);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CFE_SB_InitMsg ((void*)&CmdMsg, PX4_AIRSPEED_MID, sizeof(CmdMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
-    FPC_Test_PrintCmdMsg((void*)&InMsg, sizeof(FPC_NoArgCmd_t));
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
@@ -104,16 +104,16 @@ void Test_FPC_ProcessNewCmds_InvalidCmdCode(void)
     FPC  oFPC{};
 
     int32              CmdPipe;
-    FPC_NoArgCmd_t     InMsg;
+    FPC_NoArgCmd_t     CmdMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, FPC_CMD_MID, sizeof(FPC_NoArgCmd_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)255);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)CmdPipe);
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)255);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
-    FPC_Test_PrintCmdMsg((void*)&InMsg, sizeof(FPC_NoArgCmd_t));
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
@@ -142,14 +142,14 @@ void Test_FPC_ProcessNewCmds_CmdPipeError(void)
     FPC  oFPC{};
 
     int32              SchPipe;
-    FPC_NoArgCmd_t     InMsg;
+    FPC_NoArgCmd_t     CmdMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     SchPipe = Ut_CFE_SB_CreatePipe("FPC_SCH_PIPE");
-    CFE_SB_InitMsg ((void*)&InMsg, FPC_WAKEUP_MID, sizeof(FPC_NoArgCmd_t), TRUE);
-    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&InMsg, (uint16)0);
-    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_WAKEUP_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)SchPipe);
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_BAD_ARGUMENT, 2);
 
@@ -179,8 +179,6 @@ int32 Test_FPC_ProcessNewCmds_SendEventHook
 
     pCmdStr = strstr(Buf, ProcessNewCmds_Str);
 
-    printf("pCmdStr: %p\n", pCmdStr);
-
     if (pCmdStr != NULL)
     {
         ProcessNewCmds_Result = TRUE;
@@ -203,11 +201,11 @@ void Test_FPC_ProcessNewCmds_Noop(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
-    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(FPC_NoArgCmd_t), TRUE);
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_NOOP_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(FPC_NoArgCmd_t));
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
@@ -247,11 +245,11 @@ void Test_FPC_ProcessNewCmds_Reset(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
-    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(FPC_NoArgCmd_t), TRUE);
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_RESET_CC);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(FPC_NoArgCmd_t));
+    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, FPC_WAKEUP_MID, 1);
@@ -386,11 +384,9 @@ void Test_FPC_ProcessNewCmds_DoGoAround(void)
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
 
-
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_DO_GO_AROUND_CC);
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t *)&CmdMsg);
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
@@ -452,10 +448,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_L1_PERIOD_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_L1_PERIOD_CC);
-    CmdMsg.param = 19.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "L1_PERIOD");
@@ -472,7 +464,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_L1_PERIOD_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->L1_PERIOD + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -485,7 +485,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_L1_PERIOD_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->L1_PERIOD == 19.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->L1_PERIOD - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_L1_PERIOD_CC");
         }
@@ -513,10 +514,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_L1_DAMPING_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_L1_DAMPING_CC);
-    CmdMsg.param = 0.74f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "L1_DAMPING");
@@ -533,7 +530,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_L1_DAMPING_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->L1_DAMPING + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -546,7 +551,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_L1_DAMPING_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-          && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->L1_DAMPING == 0.74f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->L1_DAMPING - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_L1_DAMPING_CC");
         }
@@ -574,10 +580,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_TIME_CONST_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_TIME_CONST_CC);
-    CmdMsg.param = 4.9f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_TIME_CONST");
@@ -594,7 +596,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_TIME_CONST_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_TIME_CONST + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -607,7 +617,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_TIME_CONST_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_TIME_CONST == 4.9f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_TIME_CONST - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_TIME_CONST_CC");
         }
@@ -635,10 +646,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_THRO_CONST_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_THRO_CONST_CC);
-    CmdMsg.param = 7.9f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_THRO_CONST");
@@ -655,7 +662,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_THRO_CONST_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_THRO_CONST + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -668,7 +683,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_THRO_CONST_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-          && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_THRO_CONST == 7.9f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_THRO_CONST - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_THRO_CONST_CC");
         }
@@ -696,10 +712,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SINK_MIN_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_SINK_MIN_CC);
-    CmdMsg.param = 1.9f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_SINK_MIN");
@@ -716,7 +728,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SINK_MIN_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_SINK_MIN + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -729,7 +749,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SINK_MIN_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_SINK_MIN == 1.9f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_SINK_MIN - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_SINK_MIN_CC");
         }
@@ -757,10 +778,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SINK_MAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_SINK_MAX_CC);
-    CmdMsg.param = 4.9f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_SINK_MAX");
@@ -777,7 +794,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SINK_MAX_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_SINK_MAX + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -790,7 +815,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SINK_MAX_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-          && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_SINK_MAX == 4.9f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_SINK_MAX - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_SINK_MAX_CC");
         }
@@ -818,10 +844,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_CLMB_MAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_CLMB_MAX_CC);
-    CmdMsg.param = 4.9f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_CLMB_MAX");
@@ -838,7 +860,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_CLMB_MAX_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_CLMB_MAX + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -851,7 +881,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_CLMB_MAX_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_CLMB_MAX == 4.9f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_CLMB_MAX - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_CLMB_MAX_CC");
         }
@@ -879,10 +910,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_CLMBOUT_DIFF_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_CLMBOUT_DIFF_CC);
-    CmdMsg.param = 9.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "CLMBOUT_DIFF");
@@ -899,7 +926,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_CLMBOUT_DIFF_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->CLMBOUT_DIFF + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -912,7 +947,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_CLMBOUT_DIFF_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-          && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->CLMBOUT_DIFF == 9.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->CLMBOUT_DIFF - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_CLMBOUT_DIFF_CC");
         }
@@ -940,10 +976,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_HRATE_P_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_HRATE_P_CC);
-    CmdMsg.param = 0.04f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_HRATE_P");
@@ -960,7 +992,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_HRATE_P_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_HRATE_P + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -973,7 +1013,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_HRATE_P_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_HRATE_P == 0.04f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_HRATE_P - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_HRATE_P_CC");
         }
@@ -1001,10 +1042,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_HRATE_FF_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_HRATE_FF_CC);
-    CmdMsg.param = 0.7f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_HRATE_FF");
@@ -1021,7 +1058,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_HRATE_FF_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_HRATE_FF + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1034,7 +1079,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_HRATE_FF_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_HRATE_FF == 0.7f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_HRATE_FF - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_HRATE_FF_CC");
         }
@@ -1062,10 +1108,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SRATE_P_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_SRATE_P_CC);
-    CmdMsg.param = 0.01f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_SRATE_P");
@@ -1081,7 +1123,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SRATE_P_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_SRATE_P + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1094,7 +1144,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SRATE_P_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_SRATE_P == 0.01f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_SRATE_P - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_SRATE_P_CC");
         }
@@ -1122,10 +1173,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_THR_DAMP_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_THR_DAMP_CC);
-    CmdMsg.param = 0.4f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_THR_DAMP");
@@ -1142,7 +1189,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_THR_DAMP_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_THR_DAMP + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1155,7 +1210,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_THR_DAMP_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_THR_DAMP == 0.4f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_THR_DAMP - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_THR_DAMP_CC");
         }
@@ -1183,10 +1239,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_INTEG_GAIN_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_INTEG_GAIN_CC);
-    CmdMsg.param = 0.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_INTEG_GAIN");
@@ -1203,7 +1255,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_INTEG_GAIN_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_INTEG_GAIN + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1216,7 +1276,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_INTEG_GAIN_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_INTEG_GAIN == 0.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_INTEG_GAIN - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_INTEG_GAIN_CC");
         }
@@ -1244,10 +1305,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_VERT_ACC_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_VERT_ACC_CC);
-    CmdMsg.param = 6.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_VERT_ACC");
@@ -1264,7 +1321,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_VERT_ACC_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_VERT_ACC + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1277,7 +1342,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_VERT_ACC_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_VERT_ACC == 6.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_VERT_ACC - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_VERT_ACC_CC");
         }
@@ -1305,10 +1371,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_HGT_OMEGA_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_HGT_OMEGA_CC);
-    CmdMsg.param = 2.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_HGT_OMEGA");
@@ -1325,7 +1387,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_HGT_OMEGA_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_HGT_OMEGA + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1338,7 +1408,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_HGT_OMEGA_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_HGT_OMEGA == 2.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_HGT_OMEGA - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_HGT_OMEGA_CC");
         }
@@ -1366,10 +1437,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SPD_OMEGA_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_SPD_OMEGA_CC);
-    CmdMsg.param = 1.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_SPD_OMEGA");
@@ -1386,7 +1453,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SPD_OMEGA_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_SPD_OMEGA + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1399,7 +1474,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SPD_OMEGA_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_SPD_OMEGA == 1.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_SPD_OMEGA - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_SPD_OMEGA_CC");
         }
@@ -1427,10 +1503,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_RLL2THR_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_RLL2THR_CC);
-    CmdMsg.param = 14.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_RLL2THR");
@@ -1447,7 +1519,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_RLL2THR_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_RLL2THR + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1460,7 +1540,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_RLL2THR_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_RLL2THR == 14.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_RLL2THR - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_RLL2THR_CC");
         }
@@ -1488,10 +1569,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SPDWEIGHT_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_SPDWEIGHT_CC);
-    CmdMsg.param = 0.9f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_SPDWEIGHT");
@@ -1508,7 +1585,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SPDWEIGHT_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_SPDWEIGHT + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1521,7 +1606,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_SPDWEIGHT_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_SPDWEIGHT == 0.9f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_SPDWEIGHT - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_SPDWEIGHT_CC");
         }
@@ -1549,10 +1635,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_PTCH_DAMP_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_T_PTCH_DAMP_CC);
-    CmdMsg.param = 0.1f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "T_PTCH_DAMP");
@@ -1569,7 +1651,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_PTCH_DAMP_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->T_PTCH_DAMP + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1582,7 +1672,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_T_PTCH_DAMP_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->T_PTCH_DAMP == 0.1f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->T_PTCH_DAMP - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_T_PTCH_DAMP_CC");
         }
@@ -1610,10 +1701,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_MIN_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_AIRSPD_MIN_CC);
-    CmdMsg.param = 9.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "AIRSPD_MIN");
@@ -1630,7 +1717,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_MIN_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->AIRSPD_MIN + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1643,7 +1738,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_MIN_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->AIRSPD_MIN == 9.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->AIRSPD_MIN - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_AIRSPD_MIN_CC");
         }
@@ -1671,10 +1767,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_TRIM_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_AIRSPD_TRIM_CC);
-    CmdMsg.param = 14.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "AIRSPD_TRIM");
@@ -1691,7 +1783,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_TRIM_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->AIRSPD_TRIM + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1704,7 +1804,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_TRIM_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->AIRSPD_TRIM == 14.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->AIRSPD_TRIM - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_AIRSPD_TRIM_CC");
         }
@@ -1732,10 +1833,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_MAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_AIRSPD_MAX_CC);
-    CmdMsg.param = 19.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "AIRSPD_MAX");
@@ -1752,7 +1849,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_MAX_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->AIRSPD_MAX + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1765,7 +1870,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_MAX_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->AIRSPD_MAX == 19.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->AIRSPD_MAX - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_AIRSPD_MAX_CC");
         }
@@ -1793,10 +1899,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_ARSP_MODE_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_ARSP_MODE_CC);
-    CmdMsg.param = TRUE;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "ARSP_MODE");
@@ -1813,7 +1915,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_ARSP_MODE_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = !oFPC.ConfigTblPtr->ARSP_MODE;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1826,7 +1936,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_ARSP_MODE_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->ARSP_MODE == TRUE))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->ARSP_MODE - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_ARSP_MODE_CC");
         }
@@ -1854,10 +1965,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_P_LIM_MIN_RADIANS_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_P_LIM_MIN_RADIANS_CC);
-    CmdMsg.param = DEG_TO_RADIANS(-44.0f);
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "P_LIM_MIN_RADIANS");
@@ -1874,7 +1981,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_P_LIM_MIN_RADIANS_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->P_LIM_MIN_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1887,8 +2002,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_P_LIM_MIN_RADIANS_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE)
-           && (fabs(oFPC.ConfigTblPtr->P_LIM_MIN_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->P_LIM_MIN_RADIANS - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_P_LIM_MIN_RADIANS_CC");
         }
@@ -1916,10 +2031,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_P_LIM_MAX_RADIANS_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_P_LIM_MAX_RADIANS_CC);
-    CmdMsg.param = DEG_TO_RADIANS(46.0f);
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "P_LIM_MAX_RADIANS");
@@ -1936,7 +2047,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_P_LIM_MAX_RADIANS_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->P_LIM_MAX_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -1949,8 +2068,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_P_LIM_MAX_RADIANS_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE)
-           && (fabs(oFPC.ConfigTblPtr->P_LIM_MAX_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->P_LIM_MAX_RADIANS - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_P_LIM_MAX_RADIANS_CC");
         }
@@ -1978,10 +2097,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_R_LIM_RADIANS_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_R_LIM_RADIANS_CC);
-    CmdMsg.param = DEG_TO_RADIANS(51.0f);
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "R_LIM_RADIANS");
@@ -1998,7 +2113,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_R_LIM_RADIANS_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->R_LIM_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2011,8 +2134,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_R_LIM_RADIANS_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE)
-           && (fabs(oFPC.ConfigTblPtr->R_LIM_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->R_LIM_RADIANS - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_R_LIM_RADIANS_CC");
         }
@@ -2040,10 +2163,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_MIN_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_MIN_CC);
-    CmdMsg.param = 0.1f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "THR_MIN");
@@ -2060,7 +2179,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_MIN_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->THR_MIN + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2073,8 +2200,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_MIN_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE)
-           && (fabs(oFPC.ConfigTblPtr->THR_MIN - CmdMsg.param) < FLT_EPSILON))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->THR_MIN - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_MIN_CC");
         }
@@ -2102,10 +2229,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_MAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_MAX_CC);
-    CmdMsg.param = 2.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "THR_MAX");
@@ -2122,7 +2245,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_MAX_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->THR_MAX + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2135,7 +2266,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_MAX_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->THR_MAX == 2.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->THR_MAX - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_MAX_CC");
         }
@@ -2163,10 +2295,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_IDLE_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_IDLE_CC);
-    CmdMsg.param = 0.16f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "THR_IDLE");
@@ -2183,7 +2311,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_IDLE_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->THR_IDLE + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2196,7 +2332,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_IDLE_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->THR_IDLE == 0.16f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->THR_IDLE - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_IDLE_CC");
         }
@@ -2224,10 +2361,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_CRUISE_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_CRUISE_CC);
-    CmdMsg.param = 0.7f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "THR_CRUISE");
@@ -2244,7 +2377,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_CRUISE_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->THR_CRUISE + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2257,7 +2398,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_CRUISE_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->THR_CRUISE == 0.7f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->THR_CRUISE - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_CRUISE_CC");
         }
@@ -2285,10 +2427,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_SLEW_MAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_SLEW_MAX_CC);
-    CmdMsg.param = 0.1f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "THR_SLEW_MAX");
@@ -2305,7 +2443,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_SLEW_MAX_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->THR_SLEW_MAX + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2318,7 +2464,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_SLEW_MAX_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->THR_SLEW_MAX == 0.1f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->THR_SLEW_MAX - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_SLEW_MAX_CC");
         }
@@ -2346,10 +2493,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_ALT_SCL_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_ALT_SCL_CC);
-    CmdMsg.param = 0.1f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "THR_ALT_SCL");
@@ -2366,7 +2509,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_ALT_SCL_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->THR_ALT_SCL + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2379,7 +2530,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_ALT_SCL_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->THR_ALT_SCL == 0.1f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->THR_ALT_SCL - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_ALT_SCL_CC");
         }
@@ -2407,10 +2559,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_MAN_R_MAX_RADIANS_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_MAN_R_MAX_RADIANS_CC);
-    CmdMsg.param = DEG_TO_RADIANS(46.0f);
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "MAN_R_MAX_RADIANS");
@@ -2427,7 +2575,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_MAN_R_MAX_RADIANS_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->MAN_R_MAX_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2440,8 +2596,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_MAN_R_MAX_RADIANS_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE)
-           && (fabs(oFPC.ConfigTblPtr->MAN_R_MAX_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->MAN_R_MAX_RADIANS - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_MAN_R_MAX_RADIANS_CC");
         }
@@ -2469,10 +2625,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_MAN_P_MAX_RADIANS_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_MAN_P_MAX_RADIANS_CC);
-    CmdMsg.param = DEG_TO_RADIANS(46.0f);
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "MAN_P_MAX_RADIANS");
@@ -2489,7 +2641,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_MAN_P_MAX_RADIANS_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->MAN_P_MAX_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2502,8 +2662,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_MAN_P_MAX_RADIANS_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE)
-           && (fabs(oFPC.ConfigTblPtr->MAN_P_MAX_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->MAN_P_MAX_RADIANS - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_MAN_P_MAX_RADIANS_CC");
         }
@@ -2531,10 +2691,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_RSP_OFF_RADIANS_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_RSP_OFF_RADIANS_CC);
-    CmdMsg.param = DEG_TO_RADIANS(1.0f);
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "RSP_OFF_RADIANS");
@@ -2551,7 +2707,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_RSP_OFF_RADIANS_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->RSP_OFF_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2564,8 +2728,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_RSP_OFF_RADIANS_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE)
-           && (fabs(oFPC.ConfigTblPtr->RSP_OFF_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->RSP_OFF_RADIANS - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_RSP_OFF_RADIANS_CC");
         }
@@ -2593,10 +2757,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_PSP_OFF_RADIANS_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_PSP_OFF_RADIANS_CC);
-    CmdMsg.param = DEG_TO_RADIANS(1.0f);
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "PSP_OFF_RADIANS");
@@ -2613,7 +2773,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_PSP_OFF_RADIANS_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->PSP_OFF_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2626,8 +2794,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_PSP_OFF_RADIANS_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE)
-           && (fabs(oFPC.ConfigTblPtr->PSP_OFF_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->PSP_OFF_RADIANS - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_PSP_OFF_RADIANS_CC");
         }
@@ -2655,10 +2823,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_LND_MAX_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_THR_LND_MAX_CC);
-    CmdMsg.param = 2.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "THR_LND_MAX");
@@ -2675,7 +2839,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_LND_MAX_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->THR_LND_MAX + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2688,7 +2860,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_THR_LND_MAX_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->THR_LND_MAX == 2.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->THR_LND_MAX - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_THR_LND_MAX_CC");
         }
@@ -2716,10 +2889,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_LND_ANG_RADIANS_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LND_ANG_RADIANS_CC);
-    CmdMsg.param = DEG_TO_RADIANS(8.0f);
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "LND_ANG_RADIANS");
@@ -2736,7 +2905,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_LND_ANG_RADIANS_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->LND_ANG_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2749,8 +2926,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_LND_ANG_RADIANS_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE)
-           && (fabs(oFPC.ConfigTblPtr->LND_ANG_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->LND_ANG_RADIANS - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LND_ANG_RADIANS_CC");
         }
@@ -2778,10 +2955,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_LND_HVIRT_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LND_HVIRT_CC);
-    CmdMsg.param = 9.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "LND_HVIRT");
@@ -2798,7 +2971,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_LND_HVIRT_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->LND_HVIRT + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2811,7 +2992,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_LND_HVIRT_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->LND_HVIRT == 9.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->LND_HVIRT - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LND_HVIRT_CC");
         }
@@ -2839,10 +3021,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_LND_FLALT_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LND_FLALT_CC);
-    CmdMsg.param = 9.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "LND_FLALT");
@@ -2859,7 +3037,15 @@ void Test_FPC_ProcessNewCmds_UPDATE_LND_FLALT_CC(void)
             iStatus = oFPC.InitData();
             if (iStatus == CFE_SUCCESS)
             {
-                oFPC.ProcessNewCmds();
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->LND_FLALT + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
             }
         }
     }
@@ -2872,7 +3058,8 @@ void Test_FPC_ProcessNewCmds_UPDATE_LND_FLALT_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->LND_FLALT == 9.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->LND_FLALT - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LND_FLALT_CC");
         }
@@ -2900,10 +3087,6 @@ void Test_FPC_ProcessNewCmds_UPDATE_LND_TLALT_CC(void)
     CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LND_TLALT_CC);
-    CmdMsg.param = -2.0f;
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
-
-    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     ProcessNewCmds_Result = FALSE;
     strcpy(ProcessNewCmds_Str, "LND_TLALT");
@@ -2923,6 +3106,10 @@ void Test_FPC_ProcessNewCmds_UPDATE_LND_TLALT_CC(void)
                 iStatus = oFPC.InitConfigTbl();
                 if (iStatus == CFE_SUCCESS)
                 {
+                    CmdMsg.param = oFPC.ConfigTblPtr->LND_TLALT + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
                     oFPC.ProcessNewCmds();
                 }
             }
@@ -2937,13 +3124,1458 @@ void Test_FPC_ProcessNewCmds_UPDATE_LND_TLALT_CC(void)
     {
         /* Verify results */
         if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
-           && (ProcessNewCmds_Result == TRUE) && (oFPC.ConfigTblPtr->LND_TLALT == -2.0f))
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->LND_TLALT - CmdMsg.param) < FLT_EPSILON))
         {
             UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LND_TLALT_CC");
         }
         else
         {
             UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_TLALT_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LND_HHDIST_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LND_HHDIST_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LND_HHDIST_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LND_HHDIST");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->LND_HHDIST + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_HHDIST_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->LND_HHDIST - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LND_HHDIST_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_HHDIST_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LND_FL_PMIN_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LND_FL_PMIN_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LND_FL_PMIN_RADIANS_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LND_FL_PMIN_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->LND_FL_PMIN_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_FL_PMIN_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->LND_FL_PMIN_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LND_FL_PMIN_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_FL_PMIN_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LND_FL_PMAX_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LND_FL_PMAX_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LND_FL_PMAX_RADIANS_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LND_FL_PMAX_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->LND_FL_PMAX_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_FL_PMAX_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->LND_FL_PMAX_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LND_FL_PMAX_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_FL_PMAX_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LND_USETER_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LND_USETER_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamInt32Cmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LND_USETER_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LND_USETER");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->LND_USETER + 1;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_USETER_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->LND_USETER - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LND_USETER_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_USETER_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LND_AIRSPD_SC_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LND_AIRSPD_SC_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LND_AIRSPD_SC_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LND_AIRSPD_SC");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->LND_AIRSPD_SC + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_AIRSPD_SC_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->LND_AIRSPD_SC - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LND_AIRSPD_SC_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LND_AIRSPD_SC_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LAUN_ALL_ON_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LAUN_ALL_ON_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamBooleanCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LAUN_ALL_ON_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LAUN_ALL_ON");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = !oFPC.ConfigTblPtr->FPC_Launch_Detection.LAUN_ALL_ON;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LAUN_ALL_ON_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->FPC_Launch_Detection.LAUN_ALL_ON - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LAUN_ALL_ON_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LAUN_ALL_ON_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LAUN_CAT_A_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LAUN_CAT_A_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LAUN_CAT_A_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LAUN_CAT_A");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_A + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LAUN_CAT_A_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_A - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LAUN_CAT_A_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LAUN_CAT_A_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LAUN_CAT_T_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LAUN_CAT_T_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LAUN_CAT_T_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LAUN_CAT_T");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_T + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LAUN_CAT_T_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_T - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LAUN_CAT_T_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LAUN_CAT_T_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LAUN_CAT_MDEL_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LAUN_CAT_MDEL_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LAUN_CAT_MDEL_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LAUN_CAT_MDEL");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_MDEL + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LAUN_CAT_MDEL_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_MDEL - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LAUN_CAT_MDEL_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LAUN_CAT_MDEL_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_LAUN_CAT_PMAX_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_LAUN_CAT_PMAX_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_LAUN_CAT_PMAX_RADIANS_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "LAUN_CAT_PMAX_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_PMAX_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LAUN_CAT_PMAX_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+        && (ProcessNewCmds_Result == TRUE)
+        && (fabs(oFPC.ConfigTblPtr->FPC_Launch_Detection.LAUN_CAT_PMAX_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_LAUN_CAT_PMAX_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_LAUN_CAT_PMAX_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_RWTO_TKOFF_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_RWTO_TKOFF_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamBooleanCmd_t  CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_RWTO_TKOFF_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "RWTO_TKOFF");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = !oFPC.ConfigTblPtr->FPC_Runway_Takeoff.RWTO_TKOFF;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_RWTO_TKOFF_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+         && (ProcessNewCmds_Result == TRUE)
+         && (fabs(oFPC.ConfigTblPtr->FPC_Runway_Takeoff.RWTO_TKOFF - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_RWTO_TKOFF_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_RWTO_TKOFF_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_RWTO_HDG_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_RWTO_HDG_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamInt32Cmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_RWTO_HDG_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "RWTO_HDG");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->FPC_Runway_Takeoff.RWTO_HDG + 1;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_RWTO_HDG_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+         && (ProcessNewCmds_Result == TRUE)
+         && (fabs(oFPC.ConfigTblPtr->FPC_Runway_Takeoff.RWTO_HDG - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_RWTO_HDG_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_RWTO_HDG_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_NAV_ALT_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_NAV_ALT_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_NAV_ALT_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "NAV_ALT");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->FPC_Runway_Takeoff.NAV_ALT + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_NAV_ALT_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+         && (ProcessNewCmds_Result == TRUE)
+         && (fabs(oFPC.ConfigTblPtr->FPC_Runway_Takeoff.NAV_ALT - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_NAV_ALT_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_NAV_ALT_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_MAX_THR_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_MAX_THR_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_MAX_THR_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "MAX_THR");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->FPC_Runway_Takeoff.MAX_THR + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_MAX_THR_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+         && (ProcessNewCmds_Result == TRUE)
+         && (fabs(oFPC.ConfigTblPtr->FPC_Runway_Takeoff.MAX_THR - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_MAX_THR_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_MAX_THR_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_PSP_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_PSP_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_PSP_RADIANS_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "PSP_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->FPC_Runway_Takeoff.PSP_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_PSP_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+         && (ProcessNewCmds_Result == TRUE)
+         && (fabs(oFPC.ConfigTblPtr->FPC_Runway_Takeoff.PSP_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_PSP_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_PSP_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_MAX_PITCH_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_MAX_PITCH_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_MAX_PITCH_RADIANS_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "MAX_PITCH_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->FPC_Runway_Takeoff.MAX_PITCH_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_MAX_PITCH_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+         && (ProcessNewCmds_Result == TRUE)
+         && (fabs(oFPC.ConfigTblPtr->FPC_Runway_Takeoff.MAX_PITCH_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_MAX_PITCH_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_MAX_PITCH_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_MAX_ROLL_RADIANS_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_MAX_ROLL_RADIANS_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_MAX_ROLL_RADIANS_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "MAX_ROLL_RADIANS");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->FPC_Runway_Takeoff.MAX_ROLL_RADIANS + 0.1f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_MAX_ROLL_RADIANS_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC.ConfigTblPtr->FPC_Runway_Takeoff.MAX_ROLL_RADIANS - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_MAX_ROLL_RADIANS_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_MAX_ROLL_RADIANS_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_AIRSPD_SCL_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_SCL_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_AIRSPD_SCL_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "AIRSPD_SCL");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_SCL + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_AIRSPD_SCL_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC.ConfigTblPtr->FPC_Runway_Takeoff.AIRSPD_SCL - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_AIRSPD_SCL_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_AIRSPD_SCL_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_RUNWAY_AIRSPD_MIN_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_RUNWAY_AIRSPD_MIN_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_RUNWAY_AIRSPD_MIN_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "RWTO_AIRSPD_MIN");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->FPC_Runway_Takeoff.RWTO_AIRSPD_MIN + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_RUNWAY_AIRSPD_MIN_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC.ConfigTblPtr->FPC_Runway_Takeoff.RWTO_AIRSPD_MIN - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_RUNWAY_AIRSPD_MIN_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_RUNWAY_AIRSPD_MIN_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, UPDATE_RUNWAY_CLMBOUT_DIFF_CC
+ */
+void Test_FPC_ProcessNewCmds_UPDATE_RUNWAY_CLMBOUT_DIFF_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_UPDATE_RUNWAY_CLMBOUT_DIFF_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "RWTO_CLMBOUT_DIFF");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                iStatus = oFPC.InitConfigTbl();
+                if (iStatus == CFE_SUCCESS)
+                {
+                    CmdMsg.param = oFPC.ConfigTblPtr->FPC_Runway_Takeoff.RWTO_CLMBOUT_DIFF + 1.0f;
+                    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                    FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                    oFPC.ProcessNewCmds();
+                }
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_RUNWAY_CLMBOUT_DIFF_CC");
+    }
+    else
+    {
+       /* Verify results */
+       if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+         && (ProcessNewCmds_Result == TRUE)
+         && (fabs(oFPC.ConfigTblPtr->FPC_Runway_Takeoff.RWTO_CLMBOUT_DIFF - CmdMsg.param) < FLT_EPSILON))
+       {
+           UtAssert_True(TRUE, "ProcessNewCmds, UPDATE_RUNWAY_CLMBOUT_DIFF_CC");
+       }
+       else
+       {
+           UtAssert_True(FALSE, "ProcessNewCmds, UPDATE_RUNWAY_CLMBOUT_DIFF_CC");
+       }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, OVERRIDE_ALTITUDE_CC
+ */
+void Test_FPC_ProcessNewCmds_OVERRIDE_ALTITUDE_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_OVERRIDE_ALTITUDE_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "_hold_alt");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                CmdMsg.param = oFPC._hold_alt + 1.0f;
+                Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, OVERRIDE_ALTITUDE_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC._hold_alt - CmdMsg.param) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, OVERRIDE_ALTITUDE_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, OVERRIDE_ALTITUDE_CC");
+        }
+    }
+}
+
+
+/**
+ * Test FPC ProcessNewCmds, OVERRIDE_HEADING_CC
+ */
+void Test_FPC_ProcessNewCmds_OVERRIDE_HEADING_CC(void)
+{
+    FPC  oFPC{};
+
+    int32                        iStatus = CFE_SUCCESS;
+    int32                        CmdPipe;
+    FPC_UpdateParamFloatCmd_t    CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("FPC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_OVERRIDE_HEADING_CC);
+
+    ProcessNewCmds_Result = FALSE;
+    strcpy(ProcessNewCmds_Str, "_hdg_hold_yaw");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_FPC_ProcessNewCmds_SendEventHook);
+
+    /* Execute the function being tested */
+    iStatus = oFPC.InitEvent();
+    if (iStatus == CFE_SUCCESS)
+    {
+        iStatus = oFPC.InitPipe();
+        if (iStatus == CFE_SUCCESS)
+        {
+            iStatus = oFPC.InitData();
+            if (iStatus == CFE_SUCCESS)
+            {
+                CmdMsg.param = 45.0f;
+                Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+                FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+                oFPC.ProcessNewCmds();
+            }
+        }
+    }
+
+    if (iStatus != CFE_SUCCESS)
+    {
+        UtAssert_True(FALSE, "ProcessNewCmds, OVERRIDE_HEADING_CC");
+    }
+    else
+    {
+        /* Verify results */
+        if ((oFPC.HkTlm.usCmdCnt == 1) && (oFPC.HkTlm.usCmdErrCnt == 0)
+           && (ProcessNewCmds_Result == TRUE)
+           && (fabs(oFPC._hdg_hold_yaw - DEG_TO_RADIANS(CmdMsg.param)) < FLT_EPSILON))
+        {
+            UtAssert_True(TRUE, "ProcessNewCmds, OVERRIDE_HEADING_CC");
+        }
+        else
+        {
+            UtAssert_True(FALSE, "ProcessNewCmds, OVERRIDE_HEADING_CC");
         }
     }
 }
@@ -3070,6 +4702,50 @@ void FPC_Cmds_Test_AddTestCases(void)
                FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LND_FLALT_CC");
     UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LND_TLALT_CC, FPC_Test_Setup,
                FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LND_TLALT_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LND_HHDIST_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LND_HHDIST_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LND_FL_PMIN_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LND_FL_PMIN_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LND_FL_PMAX_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LND_FL_PMAX_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LND_USETER_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LND_USETER_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LND_AIRSPD_SC_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LND_AIRSPD_SC_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LAUN_ALL_ON_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LAUN_ALL_ON_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LAUN_CAT_A_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LAUN_CAT_A_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LAUN_CAT_T_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LAUN_CAT_T_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LAUN_CAT_MDEL_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LAUN_CAT_MDEL_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_LAUN_CAT_PMAX_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_LAUN_CAT_PMAX_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_RWTO_TKOFF_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_RWTO_TKOFF_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_RWTO_HDG_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_RWTO_HDG_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_NAV_ALT_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_NAV_ALT_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_MAX_THR_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_MAX_THR_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_PSP_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_PSP_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_MAX_PITCH_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_MAX_PITCH_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_MAX_ROLL_RADIANS_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_MAX_ROLL_RADIANS_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_SCL_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_AIRSPD_SCL_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_RUNWAY_AIRSPD_MIN_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_RUNWAY_AIRSPD_MIN_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_UPDATE_RUNWAY_CLMBOUT_DIFF_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_UPDATE_RUNWAY_CLMBOUT_DIFF_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_OVERRIDE_ALTITUDE_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_OVERRIDE_ALTITUDE_CC");
+    UtTest_Add(Test_FPC_ProcessNewCmds_OVERRIDE_HEADING_CC, FPC_Test_Setup,
+               FPC_Test_TearDown, "Test_FPC_ProcessNewCmds_OVERRIDE_HEADING_CC");
     UtTest_Add(Test_FPC_VerifyCmdLength_Fail_CmdLength, FPC_Test_Setup, FPC_Test_TearDown,
                "Test_FPC_VerifyCmdLength_Fail_CmdLength");
 } /* end FPC_Cmds_Test_AddTestCases */
