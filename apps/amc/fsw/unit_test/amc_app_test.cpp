@@ -474,8 +474,10 @@ void AMC_App_Test_AddTestCases(void)
     UtTest_Add(Test_AMC_InitPipe_Fail_CreateDATAPipe, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_CreateDATAPipe");
 
+#if 0
     UtTest_Add(Test_AMC_InitData, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitData");
+#endif
 
     UtTest_Add(Test_AMC_InitApp_Fail_InitEvent, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitApp_Fail_InitEvent");

@@ -45,6 +45,11 @@
 extern "C" {
 #endif
 
+extern "C" void AMC_AppMain();
+
+extern "C" AMC_ConfigTbl_t AMC_ConfigTbl;
+extern "C" AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl;
+
 /*
  * Function Definitions
  */

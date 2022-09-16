@@ -56,37 +56,328 @@ namespace math
     }
 }
 
+#if 0
 /*
  * Config table for testing
  */
-AMC_ConfigTbl_t ConfigTbl = {
-        1000,
-        2000,
-        3000
+AMC_ConfigTbl_t ConfigTblUnitTest = {
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  1 - Right Aileron    */
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  2 - Elevator         */
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_SAFE,   1450, /* Actuator  3 - Left Throttle    */
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  4 - Rudder/Nose Gear */
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  5 - Unused           */
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  6 - Left Aileron     */
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  7 - Unused           */
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_SAFE,   1450, /* Actuator  8 - Right Throttle   */
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  9 - Left Flap        */
+    900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450  /* Actuator 10 - Right Flap       */
 };
 
 /*
- * Mixer Config table for testing
+ * AMC Mixer Config table for testing
  */
-MultirotorMixer_ConfigTable_t MixerConfigTbl = {
-   1.0,          // RollScale
-   1.0,          // PitchScale
-   1.0,          // YawScale
-   1.0,          // IdleSpeed
-   1.0,          // DeltaOutMax
-   8,            // RotorCount
-   MIXER_OCTA_X, // Geometry
-   {  // RollScale, PitchScale, YawScale, OutScale
-       { 1.0,       1.0,        1.0,      1.0     },
-       { 1.0,       1.0,        1.0,      1.0     },
-       { 1.0,       1.0,        1.0,      1.0     },
-       { 1.0,       1.0,        1.0,      1.0     },
-       { 1.0,       1.0,        1.0,      1.0     },
-       { 1.0,       1.0,        1.0,      1.0     },
-       { 1.0,       1.0,        1.0,      1.0     },
-       { 1.0,       1.0,        1.0,      1.0     }
-   }
+AMC_Mixer_ConfigTable_t AMC_MixerCfgTblUnitTest = {
+    /* Multirotor Mixer */
+    {
+        0,             /* Rotor Count or 0 to disable the Multirotor Mixer  */
+        1.0,           /* Roll Scale                                        */
+        1.0,           /* Pitch Scale                                       */
+        1.0,           /* Yaw Scale                                         */
+        0.0,           /* Idle Speed                                        */
+        1.0,           /* Delta Out Max                                     */
+        MIXER_QUAD_X,  /* Rotor Geometry                                    */
+        {
+            /* Roll Scale | Pitch Scale |  Yaw Scale  | Output Scale |  Rotor # */
+            { -0.707107,    0.707107,      1.000000,    1.000000 },   /*  0  */
+            {  0.707107,   -0.707107,      1.000000,    1.000000 },   /*  1  */
+            {  0.707107,    0.707107,     -1.000000,    1.000000 },   /*  2  */
+            { -0.707107,   -0.707107,     -1.000000,    1.000000 },   /*  3  */
+            {  0.000000,    0.000000,      0.000000,    0.000000 },   /*  4  */
+            {  0.000000,    0.000000,      0.000000,    0.000000 },   /*  5  */
+            {  0.000000,    0.000000,      0.000000,    0.000000 },   /*  6  */
+            {  0.000000,    0.000000,      0.000000,    0.000000 }    /*  7  */
+        }
+    },
+
+    /* Ctrl Count,
+     *     Neg Scale, Pos Scale, Offset, Min Output, Max Output      */
+    /*         Group, Index, Neg Scale, Pos Scale, Offset, Min Output, Max Output */
+
+    /* Simple Mixers */
+    {
+        /* Actuator 1 - Right Aileron */
+        {
+            1,         /* Control Count */
+            /* Output Scaler */
+            {
+                1.0,   /* Negative Scale */
+                1.0,   /* Positive Scale */
+                0.0,   /* Offset         */
+                -1.0,  /* Minimum Output */
+                1.0    /* Maximum Output */
+            },
+            /* Controls: actual size of the array is set by control count */
+            {
+                {
+                    0,                         /* Control Group */
+                    PX4_ACTUATOR_CONTROL_ROLL, /* Control Index */
+                    /* Scaler */
+                    {
+                        1.0,                   /* Negative Scale */
+                        1.0,                   /* Positive Scale */
+                        0.0,                   /* Offset         */
+                        -1.0,                  /* Minimum Output */
+                        1.0                    /* Maximum Output */
+                    }
+                }
+            }
+        },
+        /* Actuator 2 - Elevator */
+        {
+            1,         /* Control Count */
+            /* Output Scaler */
+            {
+                1.0,   /* Negative Scale */
+                1.0,   /* Positive Scale */
+                0.0,   /* Offset         */
+                -1.0,  /* Minimum Output */
+                1.0    /* Maximum Output */
+            },
+            /* Controls */
+            {
+                {
+                    0,  /* Control Group */
+                    PX4_ACTUATOR_CONTROL_PITCH, /* Control Index */
+                    /* Scaler */
+                    {
+                        1.0,                    /* Negative Scale */
+                        1.0,                    /* Positive Scale */
+                        0.0,                    /* Offset         */
+                        -1.0,                   /* Minimum Output */
+                        1.0                     /* Maximum Output */
+                    }
+                }
+            }
+        },
+        /* Actuator 3 - Left Throttle */
+        {
+            1,         /* Control Count */
+            /* Output Scaler */
+            {
+                1.0,   /* Negative Scale */
+                1.0,   /* Positive Scale */
+                0.0,   /* Offset         */
+                -1.0,  /* Minimum Output */
+                1.0    /* Maximum Output */
+            },
+            /* Controls */
+            {
+                {
+                    0,                              /* Control Group */
+                    PX4_ACTUATOR_CONTROL_THROTTLE,  /* Control Index */
+                    /* Scaler */
+                    {
+                        0.0,                        /* Negative Scale */
+                        2.0,                        /* Positive Scale */
+                        -1.0,                       /* Offset         */
+                        -1.0,                       /* Minimum Output */
+                        1.0                         /* Maximum Output */
+                    }
+                }
+            }
+        },
+        /* Actuator 4 - Rudder/Nose Gear */
+        {
+            1,         /* Control Count */
+            /* Output Scaler */
+            {
+                1.0,   /* Negative Scale */
+                1.0,   /* Positive Scale */
+                0.0,   /* Offset         */
+                -1.0,  /* Minimum Output */
+                1.0    /* Maximum Output */
+            },
+            /* Controls */
+            {
+                {
+                    0,                           /* Control Group */
+                    PX4_ACTUATOR_CONTROL_YAW,    /* Control Index */
+                    /* Scaler */
+                    {
+                        -1.0,                    /* Negative Scale */
+                        -1.0,                    /* Positive Scale */
+                        0.0,                     /* Offset         */
+                        -1.0,                    /* Minimum Output */
+                        1.0                      /* Maximum Output */
+                    }
+                }
+            }
+        },
+        /* Actuator 5 - Unused */
+        {
+            1,         /* Control Count */
+            /* Output Scaler */
+            {
+                1.0,   /* Negative Scale */
+                1.0,   /* Positive Scale */
+                0.0,   /* Offset         */
+                -1.0,  /* Minimum Output */
+                1.0    /* Maximum Output */
+            },
+            /* Controls */
+            {
+                {
+                    0,                                 /* Control Group */
+                    PX4_ACTUATOR_CONTROL_LANDING_GEAR, /* Control Index */
+                    /* Scaler */
+                    {
+                        1.0,                           /* Negative Scale */
+                        1.0,                           /* Positive Scale */
+                        0.0,                           /* Offset         */
+                        -1.0,                          /* Minimum Output */
+                        1.0                            /* Maximum Output */
+                    }
+                }
+            }
+        },
+        /* Actuator 6 - Unused */
+        {
+            1,         /* Control Count */
+            /* Output Scaler */
+            {
+                1.0,   /* Negative Scale */
+                1.0,   /* Positive Scale */
+                0.0,   /* Offset         */
+                -1.0,  /* Minimum Output */
+                1.0    /* Maximum Output */
+            },
+            /* Controls */
+            {
+                {
+                    0,                                  /* Control Group */
+                    PX4_ACTUATOR_CONTROL_LANDING_GEAR,  /* Control Index */
+                    /* Scaler */
+                    {
+                        1.0,                            /* Negative Scale */
+                        1.0,                            /* Positive Scale */
+                        0.0,                            /* Offset         */
+                        -1.0,                           /* Minimum Output */
+                        1.0                             /* Maximum Output */
+                    }
+                }
+            }
+        },
+        /* Actuator 7 - Left Aileron */
+        {
+            1,         /* Control Count */
+            /* Output Scaler */
+            {
+                1.0,   /* Negative Scale */
+                1.0,   /* Positive Scale */
+                0.0,   /* Offset         */
+                -1.0,  /* Minimum Output */
+                1.0    /* Maximum Output */
+            },
+            /* Controls */
+            {
+                {
+                    0,                          /* Control Group */
+                    PX4_ACTUATOR_CONTROL_ROLL,  /* Control Index */
+                    /* Scaler */
+                    {
+                         1.0,                   /* Negative Scale */
+                         1.0,                   /* Positive Scale */
+                         0.0,                   /* Offset         */
+                        -1.0,                   /* Minimum Output */
+                         1.0                    /* Maximum Output */
+                    }
+                }
+            }
+        },
+        /* Actuator 8 - Right Throttle */
+        {
+            1,         /* Control Count */
+            /* Output Scaler */
+            {
+                1.0,   /* Negative Scale */
+                1.0,   /* Positive Scale */
+                0.0,   /* Offset         */
+                -1.0,  /* Minimum Output */
+                1.0    /* Maximum Output */
+            },
+            /* Controls */
+            {
+                {
+                    0,                              /* Control Group */
+                    PX4_ACTUATOR_CONTROL_THROTTLE,  /* Control Index */
+                    /* Scaler */
+                    {
+                        0.0,                        /* Negative Scale */
+                        2.0,                        /* Positive Scale */
+                        -1.0,                       /* Offset         */
+                        -1.0,                       /* Minimum Output */
+                        1.0                         /* Maximum Output */
+                    }
+                }
+            }
+        },
+        /* Actuator 9 - Left Flap */
+        {
+            1,        /* Control Count */
+            /* Output Scaler */
+            {
+                1.0,  /* Negative Scale */
+                1.0,  /* Positive Scale */
+                0.0,  /* Offset         */
+                0.0,  /* Minimum Output */
+                0.0   /* Maximum Output */
+            },
+            /* Controls */
+            {
+                {
+                    0,                           /* Control Group */
+                    PX4_ACTUATOR_CONTROL_FLAPS,  /* Control Index */
+                    /* Scaler */
+                    {
+                        1.0,                     /* Negative Scale */
+                        1.0,                     /* Positive Scale */
+                        0.0,                     /* Offset         */
+                        0.0,                     /* Minimum Output */
+                        0.0                      /* Maximum Output */
+                    }
+                }
+            }
+        },
+        /* Actuator 10 - Right Flap */
+        {
+            1,        /* Control Count */
+            /* Output Scaler */
+            {
+                1.0,  /* Negative Scale */
+                1.0,  /* Positive Scale */
+                0.0,  /* Offset         */
+                0.0,  /* Minimum Output */
+                0.0   /* Maximum Output */
+            },
+            /* Controls */
+            {
+                {
+                    0,                           /* Control Group */
+                    PX4_ACTUATOR_CONTROL_FLAPS,  /* Control Index */
+                    /* Scaler */
+                    {
+                        1.0,                     /* Negative Scale */
+                        1.0,                     /* Positive Scale */
+                        0.0,                     /* Offset         */
+                        0.0,                     /* Minimum Output */
+                        0.0                      /* Maximum Output */
+                    }
+                }
+            }
+        }
+    }
 };
+#endif
 
 /*
  * Function Definitions
@@ -105,8 +396,13 @@ void AMC_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-    Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &ConfigTbl);
-    Ut_CFE_TBL_AddTable(AMC_MIXER_CONFIG_TABLE_FILENAME, (void *) &MixerConfigTbl);
+#if 1
+    Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &AMC_ConfigTbl);
+    Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &AMC_MixerCfgTbl);
+#else
+    Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &ConfigTblUnitTest);
+    Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &AMC_MixerCfgTblUnitTest);
+#endif
 }
 
 void AMC_Test_TearDown(void) {
