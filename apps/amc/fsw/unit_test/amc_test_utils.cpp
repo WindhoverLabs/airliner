@@ -33,8 +33,10 @@
 
 #include "cfe.h"
 #include "amc_test_utils.h"
+#include "ut_amc_custom_stubs.h"
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
+#include "ut_cfe_psp_timer_stubs.h"
 #include "ut_cfe_psp_memutils_stubs.h"
 #include "ut_cfe_tbl_stubs.h"
 #include "ut_cfe_tbl_hooks.h"
@@ -48,6 +50,15 @@
 
 #include <time.h>
 
+
+extern Ut_CFE_PSP_MEMUTILS_HookTable_t         Ut_CFE_PSP_MEMUTILS_HookTable;
+extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t
+                  Ut_CFE_PSP_MEMUTILS_ReturnCodeTable[UT_CFE_PSP_MEMUTILS_MAX_INDEX];
+
+extern Ut_CFE_PSP_TIMER_HookTable_t            Ut_CFE_PSP_TIMER_HookTable;
+extern Ut_CFE_PSP_TIMER_ReturnCodeTable_t
+                  Ut_CFE_PSP_TIMER_ReturnCodeTable[UT_CFE_PSP_TIMER_MAX_INDEX];
+
 namespace math
 {
     const float &constrain(const float &val, const float &min_val, const float &max_val)
@@ -56,7 +67,6 @@ namespace math
     }
 }
 
-#if 0
 /*
  * Config table for testing
  */
@@ -377,7 +387,6 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTblUnitTest = {
         }
     }
 };
-#endif
 
 /*
  * Function Definitions
@@ -395,16 +404,45 @@ void AMC_Test_Setup(void)
     Ut_CFE_ES_Reset();
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
+    Ut_AMC_Custom_Reset();
 
-#if 1
-    Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &AMC_ConfigTbl);
-    Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &AMC_MixerCfgTbl);
-#else
+#if 0
     Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &ConfigTblUnitTest);
-    Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &AMC_MixerCfgTblUnitTest);
+    Ut_CFE_TBL_AddTable(AMC_MIXER_CONFIG_TABLE_FILENAME, (void *) &AMC_MixerCfgTblUnitTest);
+#else
+    Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &AMC_ConfigTbl);
+    Ut_CFE_TBL_AddTable(AMC_MIXER_CONFIG_TABLE_FILENAME, (void *) &AMC_MixerCfgTbl);
 #endif
+
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
+
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
 void AMC_Test_TearDown(void) {
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
 
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
+}
+
+time_t AMC_Test_GetTimeFromTimestamp(uint64 timestamp)
+{
+    time_t  local_time;
+
+    local_time = (time_t)(timestamp / 1000000);
+
+    return local_time;
+}
+
+time_t AMC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time)
+{
+    time_t   local_time;
+
+    local_time = (time_t)cfe_time.Seconds;
+
+    return local_time;
 }

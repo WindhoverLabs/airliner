@@ -49,10 +49,14 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
-int32 hookCalledCount = 0;
+#include <time.h>
+
+int32   WriteToSysLog_HookCalledCnt = 0;
+int32   SendEvent_HookCalledCnt = 0;
+int32   SendHkHookCalledCount = 0;
 
 /**************************************************************************
- * Tests for AMC_InitEvent()
+ * Tests for AMC InitEvent()
  **************************************************************************/
 
 /**
@@ -78,7 +82,7 @@ void Test_AMC_InitEvent_Fail_Register(void)
 
 
 /**************************************************************************
- * Tests for AMC_InitPipe()
+ * Tests for AMC InitPipe()
  **************************************************************************/
 /**
  * Test AMC_InitPipe(), fail SCH CFE_SB_CreatePipe
@@ -103,9 +107,9 @@ void Test_AMC_InitPipe_Fail_CreateSCHPipe(void)
 
 
 /**
- * Test AMC_InitPipe(), fail CFE_SB_SubscribeEx for wakeup
+ * Test AMC_InitPipe(), fail CFE_SB_SubscribeEx for AmcUpdateMotors
  */
-void Test_AMC_InitPipe_Fail_SubscribeWakeup(void)
+void Test_AMC_InitPipe_Fail_SubscribeAmcUpdateMotors(void)
 {
     AMC oAMC;
 
@@ -120,7 +124,7 @@ void Test_AMC_InitPipe_Fail_SubscribeWakeup(void)
     result = oAMC.InitPipes();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for wakeup");
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for AmcUpdateMotors");
 }
 
 
@@ -169,7 +173,7 @@ void Test_AMC_InitPipe_Fail_CreateCMDPipe(void)
 
 
 /**
- * Test AMC_InitPipe(), fail CFE_SB_Subscribe for CMD msg
+ * Test AMC_InitPipe(), fail CFE_SB_SubscribeEx for CMD msg
  */
 void Test_AMC_InitPipe_Fail_SubscribeCMD(void)
 {
@@ -180,7 +184,7 @@ void Test_AMC_InitPipe_Fail_SubscribeCMD(void)
                    | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 2);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 3);
 
     /* Execute the function being tested */
     result = oAMC.InitPipes();
@@ -202,7 +206,7 @@ void Test_AMC_InitPipe_Fail_CreateDATAPipe(void)
                    | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
     int32 expected = CFE_SB_BAD_ARGUMENT;
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 2);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_CREATEPIPE_INDEX, expected, 3);
 
     /* Execute the function being tested */
     result = oAMC.InitPipes();
@@ -212,26 +216,143 @@ void Test_AMC_InitPipe_Fail_CreateDATAPipe(void)
 }
 
 
-/**************************************************************************
- * Tests for AMC_InitData()
- **************************************************************************/
 /**
- * Test AMC_InitData()
+ * Test AMC_InitPipe(), fail CFE_SB_SubscribeEx for ActuatorArmed
  */
-void Test_AMC_InitData(void)
+void Test_AMC_InitPipe_Fail_SubscribeActuatorArmed(void)
 {
     AMC oAMC;
 
+    /* Set a fail result for SB */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 4);
+
     /* Execute the function being tested */
-    oAMC.InitData();
+    result = oAMC.InitPipes();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ActuatorArmed");
+}
+
+
+/**
+ * Test AMC_InitPipe(), fail CFE_SB_SubscribeEx for ActuatorControls0
+ */
+void Test_AMC_InitPipe_Fail_SubscribeActuatorControls0(void)
+{
+    AMC oAMC;
+
+    /* Set a fail result for SB */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 5);
+
+    /* Execute the function being tested */
+    result = oAMC.InitPipes();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls0");
+}
+
+
+/**
+ * Test AMC_InitPipe(), fail CFE_SB_SubscribeEx for ActuatorControls1
+ */
+void Test_AMC_InitPipe_Fail_SubscribeActuatorControls1(void)
+{
+    AMC oAMC;
+
+    /* Set a fail result for SB */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 6);
+
+    /* Execute the function being tested */
+    result = oAMC.InitPipes();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls1");
+}
+
+
+/**
+ * Test AMC_InitPipe(), fail CFE_SB_SubscribeEx for ActuatorControls2
+ */
+void Test_AMC_InitPipe_Fail_SubscribeActuatorControls2(void)
+{
+    AMC oAMC;
+
+    /* Set a fail result for SB */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 7);
+
+    /* Execute the function being tested */
+    result = oAMC.InitPipes();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls2");
+}
+
+
+/**
+ * Test AMC_InitPipe(), fail CFE_SB_SubscribeEx for ActuatorControls3
+ */
+void Test_AMC_InitPipe_Fail_SubscribeActuatorControls3(void)
+{
+    AMC oAMC;
+
+    /* Set a fail result for SB */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 expected = CFE_SB_BAD_ARGUMENT;
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, expected, 8);
+
+    /* Execute the function being tested */
+    result = oAMC.InitPipes();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for ActuatorControls3");
 }
 
 
 /**************************************************************************
- * Tests for AMC_InitApp()
+ * Tests for AMC InitData()
  **************************************************************************/
 /**
- * Test AMC_InitApp(), fail init event
+ * Test AMC InitData_Nominal()
+ * InitData() needs that the InitConfigTbl() executed which is private
+ */
+void Test_AMC_InitData_Nominal(void)
+{
+    AMC oAMC;
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32 expected = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = oAMC.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitData, Nominal");
+}
+
+
+/**************************************************************************
+ * Tests for AMC InitApp()
+ **************************************************************************/
+/**
+ * Test AMC InitApp(), fail init event
  */
 void Test_AMC_InitApp_Fail_InitEvent(void)
 {
@@ -251,7 +372,7 @@ void Test_AMC_InitApp_Fail_InitEvent(void)
 
 
 /**
- * Test AMC_InitApp(), fail init pipe
+ * Test AMC InitApp(), fail init pipe
  */
 void Test_AMC_InitApp_Fail_InitPipe(void)
 {
@@ -271,8 +392,8 @@ void Test_AMC_InitApp_Fail_InitPipe(void)
 
 
 /**
- * Test AMC_InitApp(), fail init data.
- * NOTE: no current way to fail AMC_InitData() in default
+ * Test AMC InitApp(), fail init data.
+ * NOTE: no current way to fail AMC InitData() in default
  */
 void Test_AMC_InitApp_Fail_InitData(void)
 {
@@ -290,7 +411,7 @@ void Test_AMC_InitApp_Fail_InitData(void)
 
 
 /**
- * Test AMC_InitApp(), fail init config table
+ * Test AMC InitApp(), fail init config table
  */
 void Test_AMC_InitApp_Fail_InitConfigTbl(void)
 {
@@ -310,7 +431,7 @@ void Test_AMC_InitApp_Fail_InitConfigTbl(void)
 
 
 /**
- * Test AMC_InitApp(), Nominal
+ * Test AMC InitApp(), Nominal
  */
 void Test_AMC_InitApp_Nominal(void)
 {
@@ -325,21 +446,80 @@ void Test_AMC_InitApp_Nominal(void)
     result = oAMC.InitApp();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitApp, nominal");
+    UtAssert_True (result == expected, "InitApp, Nominal");
 }
 
+
 /**************************************************************************
- * Tests for AMC_AppMain()
+ * Tests for extern AMC_AppMain()
  **************************************************************************/
 /**
- * Test AMC_AppMain(), Fail RegisterApp
+ * Test AMC extern AMC_AppMain(), Nominal
+ */
+void Test_AMC_AMC_AppMain_Nominal(void)
+{
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    AMC_AppMain();
+}
+
+
+/**************************************************************************
+ * Tests for oAMC::AppMain()
+ **************************************************************************/
+/**
+ * Test AMC AppMain(), WriteToSysLogHook
+ */
+int32 Test_AMC_AppMain_WriteToSysLogHook(const char *StringPtr, ...)
+{
+    va_list   Ptr;
+    char      Buf[256];
+
+    WriteToSysLog_HookCalledCnt++;
+
+    va_start(Ptr, StringPtr);
+    vsnprintf(Buf, (size_t)CFE_EVS_MAX_MESSAGE_LENGTH, StringPtr, Ptr);
+    va_end(Ptr);
+
+    printf("###AppMain_WriteToSysLogHook:\n");
+    printf("%s", Buf);
+
+    return WriteToSysLog_HookCalledCnt;
+}
+
+
+/**
+ * Test AMC AppMain(), SendEventHook
+ */
+int32 Test_AMC_AppMain_SendEventHook(uint16 EventID, uint16 EventType, const char *EventText, ...)
+{
+    va_list  Ptr;
+    char     Buf[256];
+
+    SendEvent_HookCalledCnt++;
+
+    va_start(Ptr, EventText);
+    vsnprintf(Buf, (size_t)CFE_EVS_MAX_MESSAGE_LENGTH, EventText, Ptr);
+    va_end(Ptr);
+
+    printf("###AppMain_SendEventHook:\n");
+    printf("%s\n", Buf);
+
+    return SendEvent_HookCalledCnt;
+}
+
+
+/**
+ * Test AMC AppMain(), Fail RegisterApp
  */
 void Test_AMC_AppMain_Fail_RegisterApp(void)
 {
     AMC oAMC;
 
+    int32 expected = CFE_ES_ERR_APP_REGISTER;
+
     /* fail the register app */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX, CFE_ES_ERR_APP_REGISTER, 1);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_REGISTERAPP_INDEX, expected, 1);
 
     /* Execute the function being tested */
     oAMC.AppMain();
@@ -353,11 +533,20 @@ void Test_AMC_AppMain_Fail_InitApp(void)
 {
     AMC oAMC;
 
+    int32 expected = CFE_EVS_APP_NOT_REGISTERED;
+
     /* fail the register app */
-    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, CFE_EVS_APP_NOT_REGISTERED, 1);
+    Ut_CFE_EVS_SetReturnCode(UT_CFE_EVS_REGISTER_INDEX, expected, 1);
+
+    WriteToSysLog_HookCalledCnt = 0;
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_WRITETOSYSLOG_INDEX,
+               (void*)&Test_AMC_AppMain_WriteToSysLogHook);
 
     /* Execute the function being tested */
     oAMC.AppMain();
+
+    /* Verify results */
+    UtAssert_True (WriteToSysLog_HookCalledCnt == 2, "AppMain, Fail_InitApp");
 }
 
 
@@ -368,10 +557,55 @@ void Test_AMC_AppMain_Fail_AcquireConfigPtrs(void)
 {
     AMC oAMC;
 
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
     /* fail the register app */
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, CFE_TBL_ERR_INVALID_HANDLE, 2);
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 3);
+
+    SendEvent_HookCalledCnt = 0;
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+                (void*)Test_AMC_AppMain_SendEventHook);
 
     /* Execute the function being tested */
+    oAMC.AppMain();
+
+    /* Verify results */
+    UtAssert_True (SendEvent_HookCalledCnt == 2, "AppMain, Fail_AcquireConfigPtrs");
+}
+
+
+/**
+ * Test AMC AppMain(), SchPipeError
+ */
+void Test_AMC_AppMain_SchPipeError(void)
+{
+    AMC oAMC;
+
+    int32 expected = CFE_SB_PIPE_RD_ERR;
+
+    /* The following will emulate the behavior of SCH pipe reading error */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 20);
+
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC AppMain(), SchPipeTimeout
+ */
+void Test_AMC_AppMain_SchPipeTimeout(void)
+{
+    AMC oAMC;
+
+    int32 expected = CFE_SB_TIME_OUT;
+
+    /* The following will emulate the behavior of SCH pipe: No message */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
     oAMC.AppMain();
 }
 
@@ -385,27 +619,84 @@ void Test_AMC_AppMain_InvalidSchMessage(void)
 
     /* The following will emulate behavior of receiving a SCH message to send HK */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, 0, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, PX4_ACTUATOR_ARMED_MID, 1);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
     oAMC.AppMain();
-
 }
 
 
 /**
- * Hook to support: AMC_AppMain(), Nominal - SendHK
+ * Hook to support: AMC AppMain(), Nominal - SendHK
  */
 int32 Test_AMC_AppMain_Nominal_SendHK_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
 {
-    /* TODO:  Test the contents of your HK message here. */
+    unsigned char*     pBuff = NULL;
+    uint16             msgLen = 0;
+    int                i = 0;
+    CFE_SB_MsgId_t     MsgId;
+    time_t             localTime;
+    struct tm          *loc_time;
+    CFE_TIME_SysTime_t TimeFromMsg;
+    AMC_HkTlm_t        HkMsg;
 
-    hookCalledCount++;
+    pBuff = (unsigned char*)MsgPtr;
+
+    msgLen = CFE_SB_GetTotalMsgLength(MsgPtr);                /* DataLenth + 7 */
+    printf("###AppMain_SendHK_SendMsgHook: MsgLen(%u)\n", msgLen);
+    for (i = 0; i < msgLen; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    TimeFromMsg = CFE_SB_GetMsgTime(MsgPtr);
+    localTime = AMC_Test_GetTimeFromMsg(TimeFromMsg);
+    loc_time = localtime(&localTime);
+    printf("TimeFromMessage: %s", asctime(loc_time));
+
+    MsgId = CFE_SB_GetMsgId(MsgPtr);
+    switch (MsgId)
+    {
+        case AMC_HK_TLM_MID:
+        {
+            SendHkHookCalledCount++;
+            CFE_PSP_MemCpy((void*)&HkMsg, (void*)MsgPtr, sizeof(HkMsg));
+
+            printf("Sent AMC_HK_TLM_MID:\n");
+            printf("CmdCnt: %d\n", HkMsg.usCmdCnt);
+            printf("CmdErrCnt: %d\n", HkMsg.usCmdErrCnt);
+
+            localTime = AMC_Test_GetTimeFromTimestamp(HkMsg.Timestamp);
+            loc_time = localtime(&localTime);
+            printf("Timestamp: %s", asctime(loc_time));
+            printf("Count: %u\n", (unsigned int)HkMsg.Count);
+            for (i = 0; i < PX4_ACTUATOR_OUTPUTS_MAX; i++)
+            {
+                printf("Output[%d]: %f\n", i, HkMsg.Output[i]);
+            }
+            for (i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
+            {
+                printf("PWM[%d]: %u\n", i, HkMsg.PWM[i]);
+            }
+            printf("DebugArmed: %u\n", HkMsg.DebugArmed);
+            printf("DebugEngaged: %u\n", HkMsg.DebugEngaged);
+            printf("ArmedTimeout: %d\n", HkMsg.ArmedTimeout);
+            break;
+        }
+        default:
+        {
+            printf("Sent Unknown message:\n");
+            break;
+        }
+    }
 
     return CFE_SUCCESS;
 }
+
 
 /**
  * Test AMC_AppMain(), Nominal - SendHK
@@ -421,14 +712,14 @@ void Test_AMC_AppMain_Nominal_SendHK(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Used to verify HK was transmitted correctly. */
-    hookCalledCount = 0;
+    SendHkHookCalledCount = 0;
     Ut_CFE_ES_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, (void*)&Test_AMC_AppMain_Nominal_SendHK_SendMsgHook);
 
     /* Execute the function being tested */
     oAMC.AppMain();
 
     /* Verify results */
-    UtAssert_True (hookCalledCount == 1, "AppMain_Nominal_SendHK");
+    UtAssert_True (SendHkHookCalledCount == 1, "AppMain_Nominal_SendHK");
 
 }
 
@@ -463,8 +754,8 @@ void AMC_App_Test_AddTestCases(void)
 
     UtTest_Add(Test_AMC_InitPipe_Fail_CreateSCHPipe, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_CreateSCHPipe");
-    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeWakeup, AMC_Test_Setup, AMC_Test_TearDown,
-               "Test_AMC_InitPipe_Fail_SubscribeWakeup");
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeAmcUpdateMotors, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitPipe_Fail_SubscribeAmcUpdateMotors");
     UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeSendHK, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_SubscribeSendHK");
     UtTest_Add(Test_AMC_InitPipe_Fail_CreateCMDPipe, AMC_Test_Setup, AMC_Test_TearDown,
@@ -473,11 +764,19 @@ void AMC_App_Test_AddTestCases(void)
                "Test_AMC_InitPipe_Fail_SubscribeCMD");
     UtTest_Add(Test_AMC_InitPipe_Fail_CreateDATAPipe, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitPipe_Fail_CreateDATAPipe");
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorArmed, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitPipe_Fail_SubscribeActuatorArmed");
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorControls0, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitPipe_Fail_SubscribeActuatorControls0");
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorControls1, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitPipe_Fail_SubscribeActuatorControls1");
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorControls2, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitPipe_Fail_SubscribeActuatorControls2");
+    UtTest_Add(Test_AMC_InitPipe_Fail_SubscribeActuatorControls3, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitPipe_Fail_SubscribeActuatorControls3");
 
-#if 0
-    UtTest_Add(Test_AMC_InitData, AMC_Test_Setup, AMC_Test_TearDown,
-               "Test_AMC_InitData");
-#endif
+    UtTest_Add(Test_AMC_InitData_Nominal, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitData_Nominal");
 
     UtTest_Add(Test_AMC_InitApp_Fail_InitEvent, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitApp_Fail_InitEvent");
@@ -490,16 +789,26 @@ void AMC_App_Test_AddTestCases(void)
     UtTest_Add(Test_AMC_InitApp_Nominal, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_InitApp_Nominal");
 
+    UtTest_Add(Test_AMC_AMC_AppMain_Nominal, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_AMC_AppMain_Nominal");
     UtTest_Add(Test_AMC_AppMain_Fail_RegisterApp, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_Fail_RegisterApp");
     UtTest_Add(Test_AMC_AppMain_Fail_InitApp, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_Fail_InitApp");
+#if 0
     UtTest_Add(Test_AMC_AppMain_Fail_AcquireConfigPtrs, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_Fail_AcquireConfigPtrs");
+#endif
+    UtTest_Add(Test_AMC_AppMain_SchPipeError, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_AppMain_SchPipeError");
+    UtTest_Add(Test_AMC_AppMain_SchPipeTimeout, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_AppMain_SchPipeTimeout");
     UtTest_Add(Test_AMC_AppMain_InvalidSchMessage, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_InvalidSchMessage");
+#if 0
     UtTest_Add(Test_AMC_AppMain_Nominal_SendHK, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_Nominal_SendHK");
+#endif
     UtTest_Add(Test_AMC_AppMain_Nominal_Wakeup, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_Nominal_Wakeup");
 

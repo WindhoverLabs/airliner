@@ -57,6 +57,9 @@ extern "C" AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl;
 void AMC_Test_Setup(void);
 void AMC_Test_TearDown(void);
 
+time_t AMC_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t AMC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
+
 
 #ifdef __cplusplus
 }
