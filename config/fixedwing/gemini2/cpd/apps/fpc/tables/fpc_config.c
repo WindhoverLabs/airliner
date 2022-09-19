@@ -175,7 +175,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW TECS
      */
-    5.0f,
+    4.0f,
 
 
     /**
