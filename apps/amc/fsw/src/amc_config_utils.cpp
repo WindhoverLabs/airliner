@@ -179,9 +179,9 @@ int32 AMC::AcquireConfigPointers(void)
      * has been updated.  We ignore this return value in favor of checking
      * CFE_TBL_Manage(), but be sure this is the behavior you want.
      */
-    CFE_TBL_ReleaseAddress(ConfigTblHdl);
+    (void) CFE_TBL_ReleaseAddress(ConfigTblHdl);
 
-    CFE_TBL_ReleaseAddress(MixerConfigTblHdl);
+    (void) CFE_TBL_ReleaseAddress(MixerConfigTblHdl);
 
     /*
      ** Manage the table
@@ -210,8 +210,7 @@ int32 AMC::AcquireConfigPointers(void)
     /*
      ** Get a pointer to the table
      */
-    iStatus = CFE_TBL_GetAddress((void**)&ConfigTblPtr,
-            ConfigTblHdl);
+    iStatus = CFE_TBL_GetAddress((void**)&ConfigTblPtr, ConfigTblHdl);
     if (iStatus == CFE_TBL_INFO_UPDATED)
     {
         iStatus = CFE_SUCCESS;
@@ -222,38 +221,39 @@ int32 AMC::AcquireConfigPointers(void)
         CFE_EVS_SendEvent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
                 "Failed to get Config table's address (0x%08X)",
                 (unsigned int)iStatus);
+        goto AMC_AcquireConfigPointers_Exit_Tag;
     }
 
     /*
      ** Get a pointer to the table
      */
-    iStatus = CFE_TBL_GetAddress((void**)&MixerConfigTblPtr,
-    		MixerConfigTblHdl);
+    iStatus = CFE_TBL_GetAddress((void**)&MixerConfigTblPtr, 
+                                 MixerConfigTblHdl);
     if (iStatus == CFE_TBL_INFO_UPDATED)
     {
         iStatus = CFE_SUCCESS;
     }
     else if(iStatus != CFE_SUCCESS)
     {
-    	MixerConfigTblPtr = 0;
+        MixerConfigTblPtr = 0;
         CFE_EVS_SendEvent(AMC_CFGTBL_GETADDR_ERR_EID, CFE_EVS_ERROR,
                 "Failed to get Mixer Config table's address (0x%08X)",
                 (unsigned int)iStatus);
+        goto AMC_AcquireConfigPointers_Exit_Tag;
     }
 
-	for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
-	{
-	    MultirotorMixerObject[i].SetConfig(&MixerConfigTblPtr->Multirotor[i]);
-	}
+    for(uint32 i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; ++i)
+    {
+        MultirotorMixerObject[i].SetConfig(&MixerConfigTblPtr->Multirotor[i]);
+    }
 
-	for(uint32 i = 0; i < AMC_SIMPLE_MIXER_MAX_MIXERS; ++i)
-	{
-	    SimpleMixerObject[i].SetConfig(&MixerConfigTblPtr->Simple[i]);
-	}
+    for(uint32 i = 0; i < AMC_SIMPLE_MIXER_MAX_MIXERS; ++i)
+    {
+        SimpleMixerObject[i].SetConfig(&MixerConfigTblPtr->Simple[i]);
+    }
 
 AMC_AcquireConfigPointers_Exit_Tag:
     return iStatus;
-
 }
 
 #ifdef __cplusplus
