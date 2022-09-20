@@ -660,7 +660,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW TECS
 	 */
-     10.0f,
+     13.0f,
 
 	/**
 	 * Maximum Airspeed (FW_AIRSPD_MAX).
@@ -675,7 +675,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW TECS
 	 */
-     20.0f,
+     30.0f,
 
 	/**
 	 * Cruise Airspeed (FW_AIRSPD_TRIM).
@@ -689,7 +689,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW TECS
 	 */
-     15.0f,
+     21.0f,
 
 	/**
 	 * Roll trim (TRIM_ROLL).
