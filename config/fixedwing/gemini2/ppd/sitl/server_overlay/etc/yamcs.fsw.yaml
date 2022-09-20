@@ -23,7 +23,7 @@ services:
         warmupTime: 60
   - class: org.yamcs.tctm.cfs.CfsEventDecoder
     args:
-      msgIds: [0x0815, 0x0a15, 0x0c15] #Always confirm this ID with CFE_EVS configuration
+      msgIds: [0x0815, 0x0a15] #Always confirm this ID with CFE_EVS configuration
       byteOrder: LITTLE_ENDIAN
       appNameMax: 40
       eventMsgMax: 122
@@ -84,7 +84,7 @@ dataLinks:
     spacecraftId: 1
     maxFrameLength: 1024
     cltuEncoding: BCH
-    #the following option can be commented out to randomize the CLTUs. Note that the simulator does not understand randmized data though.
+    #the following option can be commented out to randomize the CLTUs.
     #randomizeCltu: false 
     #the following option can be used to skip randomization for certain virtual channels
     #skipRandomizationForVcs: [1, 0]    enabledAtStartup: true
