@@ -42,7 +42,7 @@ buildliner_initialize(
         /cf/downlink/ppd_to_gnd/class2/priority6/
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
-        
+
     COMMANDER_WORKSPACE
         ${CMAKE_BINARY_DIR}/../../commander_workspace
 )
@@ -119,12 +119,12 @@ buildliner_add_app(
 #)
 
 
-# sch_custom_v1.c:  Traditional platform independent layer that uses OS_Timer 
+# sch_custom_v1.c:  Traditional platform independent layer that uses OS_Timer
 #                   to drive minor frames.
 # sch_custom_v2.c:  SED specific layer that uses 250Hz minor frame interrupts
 #                   to drive minor frames.  This assumes you are using the
 #                   Windhover Labs avionics platform with the major and minor
-#                   frame timers controlled by the Sensor and Effector Domain 
+#                   frame timers controlled by the Sensor and Effector Domain
 #                   (SED).  The interrupt handler included in this file does
 #                   not clear the interrupt.  The SED clears the interrupt
 #                   automatically.
