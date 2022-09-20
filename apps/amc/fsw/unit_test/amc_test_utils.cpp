@@ -32,8 +32,6 @@
 *****************************************************************************/
 
 #include "cfe.h"
-#include "amc_test_utils.h"
-#include "ut_amc_custom_stubs.h"
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
 #include "ut_cfe_psp_timer_stubs.h"
@@ -47,6 +45,9 @@
 #include "ut_cfe_sb_stubs.h"
 #include "ut_cfe_es_stubs.h"
 #include "ut_cfe_evs_stubs.h"
+
+#include "amc_test_utils.hpp"
+#include "ut_amc_custom_stubs.h"
 
 #include <time.h>
 
@@ -81,6 +82,22 @@ AMC_ConfigTbl_t ConfigTblUnitTest = {
     900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_SAFE,   1450, /* Actuator  8 - Right Throttle   */
     900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  9 - Left Flap        */
     900, 1100, 2000, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450  /* Actuator 10 - Right Flap       */
+};
+
+/*
+ * Invalid Config table for testing
+ */
+AMC_ConfigTbl_t ConfigTblUnitTest_Invalid = {
+    2000, 1100, 900, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  1 - Right Aileron    */
+    2000, 1100, 900, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  2 - Elevator         */
+    2000, 1100, 900, AMC_PWM_DISARM_BEHAVIOR_SAFE,   1450, /* Actuator  3 - Left Throttle    */
+    2000, 1100, 900, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  4 - Rudder/Nose Gear */
+    2000, 1100, 900, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  5 - Unused           */
+    2000, 1100, 900, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  6 - Left Aileron     */
+    2000, 1100, 900, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  7 - Unused           */
+    2000, 1100, 900, AMC_PWM_DISARM_BEHAVIOR_SAFE,   1450, /* Actuator  8 - Right Throttle   */
+    2000, 1100, 900, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450, /* Actuator  9 - Left Flap        */
+    2000, 1100, 900, AMC_PWM_DISARM_BEHAVIOR_IGNORE, 1450  /* Actuator 10 - Right Flap       */
 };
 
 /*
@@ -395,7 +412,6 @@ AMC_Mixer_ConfigTable_t AMC_MixerCfgTblUnitTest = {
 void AMC_Test_Setup(void)
 {
     /* initialize test environment to default state for every test */
-
     Ut_CFE_EVS_Reset();
     Ut_CFE_FS_Reset();
     Ut_CFE_TIME_Reset();
@@ -421,12 +437,52 @@ void AMC_Test_Setup(void)
     memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
+void AMC_Test_Setup_CfgTblInvalid(void)
+{
+    /* initialize test environment to default state for every test */
+    Ut_CFE_EVS_Reset();
+    Ut_CFE_FS_Reset();
+    Ut_CFE_TIME_Reset();
+    Ut_CFE_TBL_Reset();
+    Ut_CFE_SB_Reset();
+    Ut_CFE_ES_Reset();
+    Ut_OSAPI_Reset();
+    Ut_OSFILEAPI_Reset();
+    Ut_AMC_Custom_Reset();
+
+    Ut_CFE_TBL_AddTable(AMC_CONFIG_TABLE_FILENAME, (void *) &ConfigTblUnitTest_Invalid);
+    Ut_CFE_TBL_AddTable(AMC_MIXER_CONFIG_TABLE_FILENAME, (void *) &AMC_MixerCfgTblUnitTest);
+
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
+
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
+}
+
 void AMC_Test_TearDown(void) {
     memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
     memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
 
     memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
     memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
+}
+
+void AMC_Test_PrintCmdMsg(void *pMsg, uint32 size)
+{
+    unsigned char *pBuff;
+    int           i = 0;
+
+    pBuff = (unsigned char*)pMsg;
+    printf("Emulated Cmd message:");
+    for (i = 0; i < size; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    return;
 }
 
 time_t AMC_Test_GetTimeFromTimestamp(uint64 timestamp)
