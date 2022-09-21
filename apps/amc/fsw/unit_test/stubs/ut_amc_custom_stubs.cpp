@@ -33,10 +33,11 @@
 
 #include "cfe.h"
 #include "utassert.h"
-#include "ut_amc_custom_stubs.h"
-#include "ut_amc_custom_hooks.h"
 #include <string.h>
 #include "amc_app.h"
+
+#include "ut_amc_custom_stubs.h"
+#include "ut_amc_custom_hooks.h"
 
 Ut_AMC_Custom_HookTable_t           Ut_AMC_Custom_HookTable;
 Ut_AMC_Custom_ReturnCodeTable_t     Ut_AMC_Custom_ReturnCodeTable[UT_AMC_CUSTOM_MAX_INDEX];
@@ -120,11 +121,26 @@ void AMC::SetMotorOutputs(const uint16 *PWM)
 
 extern "C" uint64 PX4LIB_GetPX4TimeUs(void)
 {
+    uint64           outTime = 0;
+    OS_time_t        localTime = {};
+
     /* Check for specified return */
     if (Ut_AMC_Custom_UseReturnCode(UT_AMC_PX4LIB_GETPX4TIMEUS_INDEX))
+    {
         return Ut_AMC_Custom_ReturnCodeTable[UT_AMC_PX4LIB_GETPX4TIMEUS_INDEX].Value;
+    }
 
     /* Check for Function Hook */
     if (Ut_AMC_Custom_HookTable.PX4LIB_GetPX4TimeUs)
+    {
         return Ut_AMC_Custom_HookTable.PX4LIB_GetPX4TimeUs();
+    }
+
+    CFE_PSP_GetTime(&localTime);
+
+    outTime = static_cast<uint64>(static_cast<uint64>(localTime.seconds)
+              * static_cast<uint64>(1000000))
+              + static_cast<uint64>(localTime.microsecs);
+
+    return outTime;
 }

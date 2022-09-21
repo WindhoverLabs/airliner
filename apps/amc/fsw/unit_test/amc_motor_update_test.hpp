@@ -31,18 +31,21 @@
 *
 *****************************************************************************/
 
-#ifndef AMC_APP_TEST_H
-#define AMC_APP_TEST_H
+#ifndef AMC_MOTOR_UPDATE_TEST_HPP
+#define AMC_MOTOR_UPDATE_TEST_HPP
 
+#if 0
 #ifdef __cplusplus
 extern "C" {
 #endif
+#endif
 
-void AMC_App_Test_AddTestCases(void);
+void AMC_Motor_Update_Test_AddTestCases(void);
 
-
+#if 0
 #ifdef __cplusplus
 }
 #endif
+#endif
 
-#endif /* AMC_APP_TEST_H */
+#endif /* AMC_MOTOR_UPDATE_TEST_HPP */

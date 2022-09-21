@@ -32,11 +32,11 @@
 *****************************************************************************/
 
 #include "uttest.h"
-#include "amc_app_test.h"
-#include "amc_cmds_test.h"
-#include "amc_config_tbl_test.h"
-#include "amc_mixer_config_tbl_test.h"
-#include "amc_motor_update_test.h"
+#include "amc_app_test.hpp"
+#include "amc_cmds_test.hpp"
+#include "amc_config_tbl_test.hpp"
+#include "amc_mixer_config_tbl_test.hpp"
+#include "amc_motor_update_test.hpp"
 
 int main(void)
 {   

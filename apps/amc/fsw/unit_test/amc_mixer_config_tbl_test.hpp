@@ -31,17 +31,21 @@
 *
 *****************************************************************************/
 
-#ifndef AMC_MOTOR_UPDATE_TEST_H
-#define AMC_MOTOR_UPDATE_TEST_H
+#ifndef AMC_MIXER_CONFIG_TBL_TEST_HPP
+#define AMC_MIXER_CONFIG_TBL_TEST_HPP
 
+#if 0
 #ifdef __cplusplus
 extern "C" {
 #endif
+#endif
 
-void AMC_Motor_Update_Test_AddTestCases(void);
+void AMC_Mixer_Config_Tbl_Test_AddTestCases(void);
 
+#if 0
 #ifdef __cplusplus
 }
 #endif
+#endif
 
-#endif /* AMC_MOTOR_UPDATE_TEST_H */
+#endif /* AMC_MIXER_CONFIG_TBL_TEST_HPP */

@@ -33,11 +33,10 @@
 
 #include "cfe.h"
 #include "amc_msg.h"
-#include "amc_cmds_test.h"
-#include "amc_test_utils.h"
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
 #include "ut_cfe_sb_stubs.h"
+#include "ut_cfe_sb_hooks.h"
 #include "ut_cfe_es_stubs.h"
 #include "ut_cfe_es_hooks.h"
 #include "ut_cfe_evs_stubs.h"
@@ -48,43 +47,421 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
-int32 AMC_Cmds_Test_UT_CFE_SB_SubscribeHook1(CFE_SB_MsgId_t MsgId, CFE_SB_PipeId_t PipeId,
-                                                CFE_SB_Qos_t Quality, uint16 MsgLim)
+#include "amc_cmds_test.hpp"
+#include "amc_test_utils.hpp"
+
+
+/**************************************************************************
+ * Tests for AMC ProcessCmdPipe()
+ **************************************************************************/
+/**
+ * Test AMC ProcessCmdPipe, InvalidCmd
+ */
+void Test_AMC_ProcessCmdPipe_InvalidCmd(void)
 {
-    return 5;
-}
+    AMC  oAMC;
 
+    int32           CmdPipe;
+    AMC_NoArgCmd_t  CmdMsg;
 
-int32 AMC_Cmds_Test_UT_CFE_SB_SubscribeHook2(CFE_SB_MsgId_t MsgId, CFE_SB_PipeId_t PipeId,
-                                                CFE_SB_Qos_t Quality, uint16 MsgLim)
-{
-    return 6;
-}
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, PX4_AIRSPEED_MID, sizeof(CmdMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
-void AMC_Function2_Test_Case1(void)
-{
-/*    int32 Result;
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
 
-    Variable3 = 3;
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SUBSCRIBE_INDEX, &AMC_Cmds_Test_UT_CFE_SB_SubscribeHook1);
-*/
     /* Execute the function being tested */
-/*    Result = AMC_Function2();*/
-    
-    /* Verify results */
-/*    UtAssert_True (Variable4 == 4, "Variable4 == 4");
-    UtAssert_True (Result == 25, "Result == 25");
+    oAMC.AppMain();
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
-*/
-} /* end AMC_Function2_Test_Case1 */
+    /* Verify results */
+    if ((Ut_CFE_EVS_GetEventQueueDepth() == 2) && (oAMC.HkTlm.usCmdErrCnt == 1))
+    {
+        UtAssert_True(TRUE, "ProcessCmdPipe, InvalidCmd");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessCmdPipe, InvalidCmd");
+    }
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, CmdPipeError
+ */
+void Test_AMC_ProcessCmdPipe_CmdPipeError(void)
+{
+    AMC  oAMC;
+
+    int32              SchPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    SchPipe = Ut_CFE_SB_CreatePipe("AMC_SCH_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_SEND_HK_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)0);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)SchPipe);
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_BAD_ARGUMENT, 2);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, Noop
+ */
+void Test_AMC_ProcessCmdPipe_Noop(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_NOOP_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, Reset
+ */
+void Test_AMC_ProcessCmdPipe_Reset(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_RESET_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, ArmDebug
+ */
+void Test_AMC_ProcessCmdPipe_ArmDebug(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_ARM_DEBUG_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, DisarmDebug
+ */
+void Test_AMC_ProcessCmdPipe_DisarmDebug(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DISARM_DEBUG_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, EngageDebug
+ */
+void Test_AMC_ProcessCmdPipe_EngageDebug(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_ENGAGE_DEBUG_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, DisengageDebug
+ */
+void Test_AMC_ProcessCmdPipe_DisengageDebug(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DISENGAGE_DEBUG_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, DebugCmd
+ */
+void Test_AMC_ProcessCmdPipe_DebugCmd(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DEBUG_CMD_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, SimpleSetOutputScaler
+ */
+void Test_AMC_ProcessCmdPipe_SimpleSetOutputScaler(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_SIMPLE_SET_OUTPUT_SCALER_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, SimpleSetControl
+ */
+void Test_AMC_ProcessCmdPipe_SimpleSetControl(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_SIMPLE_SET_CONTROL_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, SimpleSetControlScaler
+ */
+void Test_AMC_ProcessCmdPipe_SimpleSetControlScaler(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_SIMPLE_SET_CONTROL_SCALER_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC VerifyCmdLength(), Fail CmdLength
+ */
+void Test_AMC_VerifyCmdLength_Fail_CmdLength(void)
+{
+    AMC  oAMC;
+
+    bool              bResult = TRUE;
+    bool              bExpected = FALSE;
+    AMC_NoArgCmd_t    CmdMsg;
+
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_NOOP_CC);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    /* Execute the function being tested */
+    bResult = oAMC.VerifyCmdLength((CFE_SB_MsgPtr_t)&CmdMsg, 16);
+
+    /* Verify results */
+    UtAssert_True (((bResult == bExpected) && (oAMC.HkTlm.usCmdErrCnt == 1)),
+                   "VerifyCmdLength, Fail CmdLength");
+}
+
 
 
 void AMC_Cmds_Test_AddTestCases(void)
 {
-    UtTest_Add(AMC_Function2_Test_Case1, AMC_Test_Setup, AMC_Test_TearDown, "AMC_Function2_Test_Case1");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_InvalidCmd, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_InvalidCmd");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_CmdPipeError, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_CmdPipeError");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_Noop, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_Noop");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_Reset, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_Reset");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_ArmDebug, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_ArmDebug");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_DisarmDebug, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_DisarmDebug");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_EngageDebug, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_EngageDebug");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_DisengageDebug, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_DisengageDebug");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_DebugCmd, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_DebugCmd");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_SimpleSetOutputScaler, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_SimpleSetOutputScaler");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_SimpleSetControl, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_SimpleSetControl");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_SimpleSetControlScaler, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_SimpleSetControlScaler");
+    UtTest_Add(Test_AMC_VerifyCmdLength_Fail_CmdLength, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_VerifyCmdLength_Fail_CmdLength");
 } /* end AMC_Cmds_Test_AddTestCases */
 
 

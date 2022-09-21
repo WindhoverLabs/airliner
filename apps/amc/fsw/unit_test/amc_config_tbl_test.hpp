@@ -31,31 +31,21 @@
 *
 *****************************************************************************/
 
+#ifndef AMC_CONFIG_TBL_TEST_HPP
+#define AMC_CONFIG_TBL_TEST_HPP
 
-#ifndef AMC_TEST_UTILS_H
-#define AMC_TEST_UTILS_H
-
-/*
- * Includes
- */
-
-#include "amc_app.h"
-
+#if 0
 #ifdef __cplusplus
 extern "C" {
 #endif
+#endif
 
-/*
- * Function Definitions
- */
+void AMC_Config_Tbl_Test_AddTestCases(void);
 
-void AMC_Test_Setup(void);
-void AMC_Test_TearDown(void);
-
-
+#if 0
 #ifdef __cplusplus
 }
 #endif
+#endif
 
-#endif /* AMC_TEST_UTILS_H */
-
+#endif /* AMC_CONFIG_TBL_TEST_HPP */

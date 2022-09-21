@@ -31,17 +31,45 @@
 *
 *****************************************************************************/
 
-#ifndef AMC_CONFIG_TBL_TEST_H
-#define AMC_CONFIG_TBL_TEST_H
 
+#ifndef AMC_TEST_UTILS_HPP
+#define AMC_TEST_UTILS_HPP
+
+/*
+ * Includes
+ */
+
+#include "amc_app.h"
+
+#if 0
 #ifdef __cplusplus
 extern "C" {
 #endif
+#endif
 
-void AMC_Config_Tbl_Test_AddTestCases(void);
+extern "C" void AMC_AppMain();
 
+extern "C" AMC_ConfigTbl_t AMC_ConfigTbl;
+extern "C" AMC_Mixer_ConfigTable_t AMC_MixerCfgTbl;
+
+/*
+ * Function Definitions
+ */
+
+void AMC_Test_Setup(void);
+void AMC_Test_Setup_CfgTblInvalid(void);
+void AMC_Test_TearDown(void);
+
+void   AMC_Test_PrintCmdMsg(void *pMsg, uint32 size);
+time_t AMC_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t AMC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
+
+
+#if 0
 #ifdef __cplusplus
 }
 #endif
+#endif
 
-#endif /* AMC_CONFIG_TBL_TEST_H */
+#endif /* AMC_TEST_UTILS_HPP */
+
