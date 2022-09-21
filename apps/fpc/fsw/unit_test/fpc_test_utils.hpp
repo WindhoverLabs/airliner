@@ -31,11 +31,46 @@
  *
  *****************************************************************************/
 
-#ifndef FPC_CONFIG_TBL_TEST_H
-#define FPC_CONFIG_TBL_TEST_H
+#ifndef FPC_TEST_UTILS_HPP
+#define FPC_TEST_UTILS_HPP
+
+/*
+ * Includes
+ */
+
+#include "fpc_app.h"
 
 
-void FPC_Config_Tbl_Test_AddTestCases(void);
+#if 0
+    #define     FPC_UT_EXTERN_OBJECT
+#endif
+
+#ifdef FPC_UT_EXTERN_OBJECT
+    extern FPC   oFPC;
+#endif
+
+extern "C" void FPC_AppMain();
+extern "C" FPC_ConfigTbl_t FPC_ConfigTbl;
 
 
-#endif /* FPC_CONFIG_TBL_TEST_H */
+/*
+ * Function Definitions
+ */
+
+void       FPC_Test_InitTest();
+void       FPC_Test_Setup(void);
+void       FPC_Test_Setup_ConfigInvalid(void);
+void       FPC_Test_TearDown(void);
+
+double     FPC_Test_GetChecksum(FPC_ConfigTbl_t *pTbl);
+void       FPC_Test_PrintCmdMsg(void *pMsg, uint32 size);
+uint64     FPC_Test_GetTimeUs(void);
+time_t     FPC_Test_GetTimeFromTimestamp(uint64 timestamp);
+time_t     FPC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
+
+extern uint64 PX4LIB_GetPX4TimeUs(void);
+extern uint64 PX4LIB_GetPX4TimeMs(void);
+extern uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
+
+
+#endif /* FPC_TEST_UTILS_HPP */

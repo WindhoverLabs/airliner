@@ -31,8 +31,9 @@
 *
 *****************************************************************************/
 
+#include "fpc_test_utils.hpp"
+
 #include "cfe.h"
-#include "fpc_test_utils.h"
 
 #include <time.h>
 
