@@ -41,12 +41,6 @@
 
 #include "amc_app.h"
 
-#if 0
-#ifdef __cplusplus
-extern "C" {
-#endif
-#endif
-
 extern "C" void AMC_AppMain();
 
 extern "C" AMC_ConfigTbl_t AMC_ConfigTbl;
@@ -65,11 +59,4 @@ time_t AMC_Test_GetTimeFromTimestamp(uint64 timestamp);
 time_t AMC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
 
 
-#if 0
-#ifdef __cplusplus
-}
-#endif
-#endif
-
 #endif /* AMC_TEST_UTILS_HPP */
-

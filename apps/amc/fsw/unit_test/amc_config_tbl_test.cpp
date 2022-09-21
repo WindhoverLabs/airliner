@@ -54,6 +54,7 @@
  **************************************************************************/
 /**
  * Test AMC InitConfigTbl(), fail TBL Register
+ * Can not call private function:InitConfigTbl()
  */
 void Test_AMC_InitConfigTbl_Fail_TblRegister(void)
 {
@@ -71,6 +72,7 @@ void Test_AMC_InitConfigTbl_Fail_TblRegister(void)
 
 /**
  * Test AMC InitConfigTbl(), Fail ValidateCfgTbl()
+ * Can not call private function:InitConfigTbl()
  */
 void Test_AMC_InitConfigTbl_Fail_ValidateCfgTbl(void)
 {
@@ -83,6 +85,7 @@ void Test_AMC_InitConfigTbl_Fail_ValidateCfgTbl(void)
 
 /**
  * Test AMC InitConfigTbl(), ValidateCfgTbl_Nominal
+ * Can not call private function:InitConfigTbl()
  */
 void Test_AMC_InitConfigTbl_ValidateCfgTbl_Nominal(void)
 {
@@ -97,6 +100,7 @@ void Test_AMC_InitConfigTbl_ValidateCfgTbl_Nominal(void)
 
 /**
  * Test AMC InitConfigTbl(), fail TBL Load
+ * Can not call private function:InitConfigTbl()
  */
 void Test_AMC_InitConfigTbl_Fail_TblLoad(void)
 {
@@ -115,6 +119,7 @@ void Test_AMC_InitConfigTbl_Fail_TblLoad(void)
 
 /**
  * Test AMC InitConfigTbl(), fail TBL Manage
+ * Can not call private function:InitConfigTbl()
  */
 void Test_AMC_InitConfigTbl_Fail_TblManage(void)
 {
@@ -132,6 +137,7 @@ void Test_AMC_InitConfigTbl_Fail_TblManage(void)
 
 /**
  * Test AMC InitConfigTbl(), fail TBL GetAddress
+ * Can not call private function:InitConfigTbl()
  */
 void Test_AMC_InitConfigTbl_Fail_TblGetAddress(void)
 {
@@ -149,6 +155,7 @@ void Test_AMC_InitConfigTbl_Fail_TblGetAddress(void)
 
 /**
  * Test AMC InitConfigTbl(), fail AcquireConfigPtrs
+ * Can not call private function:InitConfigTbl()
  */
 void Test_AMC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
 {
@@ -166,6 +173,7 @@ void Test_AMC_InitConfigTbl_Fail_AcquireConfigPtrs(void)
 
 /**
  * Test AMC InitConfigTbl(), Nominal
+ * Can not call private function:InitConfigTbl()
  */
 void Test_AMC_InitConfigTbl_Nominal(void)
 {

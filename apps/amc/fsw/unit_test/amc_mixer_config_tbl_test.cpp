@@ -49,15 +49,135 @@
 #include "amc_mixer_config_tbl_test.hpp"
 #include "amc_test_utils.hpp"
 
-void AMC_Mixer_Config_Tbl_Test_Case1(void)
-{
 
+/**************************************************************************
+ * Tests for AMC InitConfigTbl()
+ **************************************************************************/
+/**
+ * Test AMC InitConfigTbl(), fail Mixer TBL Register
+ * Can not call private function:InitConfigTbl()
+ */
+void Test_AMC_InitConfigTbl_Fail_MixerTblRegister(void)
+{
+    AMC  oAMC;
+
+    int32 expected = CFE_TBL_ERR_REGISTRY_FULL;
+
+    /* fail TBL Register */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, expected, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
 }
+
+
+/**
+ * Test AMC InitConfigTbl(), fail Mixer TBL Load
+ * Can not call private function:InitConfigTbl()
+ */
+void Test_AMC_InitConfigTbl_Fail_MixerTblLoad(void)
+{
+    AMC  oAMC;
+
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_LOAD_IN_PROGRESS;
+
+    /* fail TBL Load */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, expected, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC InitConfigTbl(), fail Mixer TBL Manage
+ * Can not call private function:InitConfigTbl()
+ */
+void Test_AMC_InitConfigTbl_Fail_MixerTblManage(void)
+{
+    AMC  oAMC;
+
+    /* Set a fail result */
+    int32 expected = CFE_TBL_INFO_DUMP_PENDING;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC InitConfigTbl(), fail Mixer TBL GetAddress
+ * Can not call private function:InitConfigTbl()
+ */
+void Test_AMC_InitConfigTbl_Fail_MixerTblGetAddress(void)
+{
+    AMC  oAMC;
+
+    /* Set a fail result */
+    int32 expected = CFE_TBL_WARN_DUPLICATE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC InitConfigTbl(), fail Mixer AcquireConfigPtrs
+ * Can not call private function:InitConfigTbl()
+ */
+void Test_AMC_InitConfigTbl_Fail_MixerAcquireConfigPtrs(void)
+{
+    AMC  oAMC;
+
+    /* Set a fail result */
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
+
+/**
+ * Test AMC InitConfigTbl(), Mixer Nominal
+ * Can not call private function:InitConfigTbl()
+ */
+void Test_AMC_InitConfigTbl_MixerNominal(void)
+{
+    AMC  oAMC;
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oAMC.AppMain();
+}
+
 
 
 void AMC_Mixer_Config_Tbl_Test_AddTestCases(void)
 {
-    UtTest_Add(AMC_Mixer_Config_Tbl_Test_Case1, AMC_Test_Setup, AMC_Test_TearDown, "AMC_Mixer_Config_Tbl_Test_Case1");
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerTblRegister, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitConfigTbl_Fail_MixerTblRegister");
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerTblLoad, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitConfigTbl_Fail_MixerTblLoad");
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerTblManage, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitConfigTbl_Fail_MixerTblManage");
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerTblGetAddress, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitConfigTbl_Fail_MixerTblGetAddress");
+    UtTest_Add(Test_AMC_InitConfigTbl_Fail_MixerAcquireConfigPtrs, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitConfigTbl_Fail_MixerAcquireConfigPtrs");
+    UtTest_Add(Test_AMC_InitConfigTbl_MixerNominal, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_InitConfigTbl_MixerNominal");
 }
 
 

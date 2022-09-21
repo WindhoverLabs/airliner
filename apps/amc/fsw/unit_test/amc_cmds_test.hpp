@@ -34,19 +34,6 @@
 #ifndef AMC_CMDS_TEST_HPP
 #define AMC_CMDS_TEST_HPP
 
-#if 0
-#ifdef __cplusplus
-extern "C" {
-#endif
-#endif
-
 void AMC_Cmds_Test_AddTestCases(void);
-
-
-#if 0
-#ifdef __cplusplus
-}
-#endif
-#endif
 
 #endif /* AMC_CMDS_TEST_HPP */
