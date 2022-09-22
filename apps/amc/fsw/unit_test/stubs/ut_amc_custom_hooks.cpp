@@ -34,6 +34,8 @@
 #include "cfe.h"
 #include "pwm_limit/pwm_limit.h"
 
+#include <time.h>
+
 uint32 UT_InitDevice(void)
 {
     return 0;
@@ -48,5 +50,17 @@ void UT_SetMotorOutputs(const uint16 *PWM)
 
 uint64 UT_PX4LIB_GetPX4TimeUs(void)
 {
-    return 0;
+    int              iStatus;
+    uint64           outTime = 0;
+    struct timespec  time;
+
+    iStatus = clock_gettime(CLOCK_REALTIME, &time);
+    if (iStatus == 0)
+    {
+        outTime = static_cast<uint64>(static_cast<uint64>(time.tv_sec)
+                   * static_cast<uint64>(1000000))
+                   + static_cast<uint64>(time.tv_nsec / 1000);
+    }
+
+    return outTime;
 }

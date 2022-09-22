@@ -300,24 +300,34 @@ void Test_AMC_ProcessCmdPipe_DebugCmd(void)
     AMC  oAMC;
 
     int32              CmdPipe;
-    AMC_NoArgCmd_t     CmdMsg;
+    AMC_DebugCmd_t     CmdMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DEBUG_CMD_CC);
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
     /* Execute the function being tested */
-    oAMC.AppMain();
+    oAMC.InitApp();
+
+    oAMC.HkTlm.DebugEngaged = TRUE;
+    CmdMsg.Index = 0;        // check this values
+    CmdMsg.Cmd = oAMC.ConfigTblPtr->Channel[0].PwmInitial;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    oAMC.ProcessCmdPipe();
+
+    if (oAMC.HkTlm.usCmdCnt == 1)
+    {
+        UtAssert_True(TRUE, "AMC ProcessCmdPipe, DebugCmd");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "AMC ProcessCmdPipe, DebugCmd");
+    }
 }
 
 
@@ -328,25 +338,38 @@ void Test_AMC_ProcessCmdPipe_SimpleSetOutputScaler(void)
 {
     AMC  oAMC;
 
-    int32              CmdPipe;
-    AMC_NoArgCmd_t     CmdMsg;
+    int32                           CmdPipe;
+    AMC_SimpleSetOutputScalerCmd_t  CmdMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_SIMPLE_SET_OUTPUT_SCALER_CC);
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
     /* Execute the function being tested */
-    oAMC.AppMain();
+    oAMC.InitApp();
+
+    CmdMsg.MixerIndex = 0;                  // check this values
+    CmdMsg.OutputScaler.NegativeScale = oAMC.MixerConfigTblPtr->Simple[0].OutputScaler.NegativeScale + 1.0;
+    CmdMsg.OutputScaler.PositiveScale = oAMC.MixerConfigTblPtr->Simple[0].OutputScaler.PositiveScale + 1.0;
+    CmdMsg.OutputScaler.Offset = oAMC.MixerConfigTblPtr->Simple[0].OutputScaler.Offset + 1.0;
+    CmdMsg.OutputScaler.MinOutput = oAMC.MixerConfigTblPtr->Simple[0].OutputScaler.MinOutput + 1.0;
+    CmdMsg.OutputScaler.MaxOutput = oAMC.MixerConfigTblPtr->Simple[0].OutputScaler.MaxOutput + 1.0;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    oAMC.ProcessCmdPipe();
+
+    if (oAMC.HkTlm.usCmdCnt == 1)
+    {
+        UtAssert_True(TRUE, "AMC ProcessCmdPipe, SimpleSetOutputScaler");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "AMC ProcessCmdPipe, SimpleSetOutputScaler");
+    }
 }
 
 
@@ -357,25 +380,43 @@ void Test_AMC_ProcessCmdPipe_SimpleSetControl(void)
 {
     AMC  oAMC;
 
-    int32              CmdPipe;
-    AMC_NoArgCmd_t     CmdMsg;
+    int32                      CmdPipe;
+    AMC_SimpleSetControlCmd_t  CmdMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_SIMPLE_SET_CONTROL_CC);
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
     /* Execute the function being tested */
-    oAMC.AppMain();
+    oAMC.InitApp();
+
+    CmdMsg.MixerIndex = 0;                        // check this value
+    CmdMsg.Control = 0;
+    CmdMsg.Group = oAMC.MixerConfigTblPtr->Simple[0].Controls[0].ControlGroup;
+    if (oAMC.MixerConfigTblPtr->Simple[0].Controls[0].ControlIndex < PX4_ACTUATOR_CONTROL_LANDING_GEAR)
+    {
+        CmdMsg.Index = oAMC.MixerConfigTblPtr->Simple[0].Controls[0].ControlIndex + 1;
+    }
+    else
+    {
+        CmdMsg.Index = 0;
+    }
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    oAMC.ProcessCmdPipe();
+
+    if (oAMC.HkTlm.usCmdCnt == 1)
+    {
+        UtAssert_True(TRUE, "AMC ProcessCmdPipe, SimpleSetControl");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "AMC ProcessCmdPipe, SimpleSetControl");
+    }
 }
 
 
@@ -386,25 +427,39 @@ void Test_AMC_ProcessCmdPipe_SimpleSetControlScaler(void)
 {
     AMC  oAMC;
 
-    int32              CmdPipe;
-    AMC_NoArgCmd_t     CmdMsg;
+    int32                            CmdPipe;
+    AMC_SimpleSetControlScalerCmd_t  CmdMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
     CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_SIMPLE_SET_CONTROL_SCALER_CC);
-    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
     /* Execute the function being tested */
-    oAMC.AppMain();
+    oAMC.InitApp();
+
+    CmdMsg.MixerIndex = 0;                  // check this value
+    CmdMsg.Control = 0;
+    CmdMsg.Scaler.NegativeScale = oAMC.MixerConfigTblPtr->Simple[0].Controls[0].Scaler.NegativeScale + 1;
+    CmdMsg.Scaler.PositiveScale = oAMC.MixerConfigTblPtr->Simple[0].Controls[0].Scaler.PositiveScale + 1;
+    CmdMsg.Scaler.Offset = oAMC.MixerConfigTblPtr->Simple[0].Controls[0].Scaler.Offset + 1;
+    CmdMsg.Scaler.MinOutput = oAMC.MixerConfigTblPtr->Simple[0].Controls[0].Scaler.MinOutput + 1;
+    CmdMsg.Scaler.MaxOutput = oAMC.MixerConfigTblPtr->Simple[0].Controls[0].Scaler.MaxOutput + 1;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    oAMC.ProcessCmdPipe();
+
+    if (oAMC.HkTlm.usCmdCnt == 1)
+    {
+        UtAssert_True(TRUE, "AMC ProcessCmdPipe, SimpleSetControlScaler");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "AMC ProcessCmdPipe, SimpleSetControlScaler");
+    }
 }
 
 

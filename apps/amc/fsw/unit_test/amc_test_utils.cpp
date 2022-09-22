@@ -468,6 +468,81 @@ void AMC_Test_TearDown(void) {
     memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
+double GetConfigTblChecksum(AMC *pAMC)
+{
+    int    i;
+    double Checksum = 0.0;
+
+    for (i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
+    {
+        Checksum += pAMC->ConfigTblPtr->Channel[i].PwmSafe + pAMC->ConfigTblPtr->Channel[i].PwmMin
+                   + pAMC->ConfigTblPtr->Channel[i].PwmMax + pAMC->ConfigTblPtr->Channel[i].DisarmBehavior
+                   + pAMC->ConfigTblPtr->Channel[i].PwmInitial;
+    }
+
+    return Checksum;
+}
+
+double GetMultirotorMixerConfigTblChecksum(AMC *pAMC)
+{
+    int              i, j;
+    int              rotor_count = 0;
+    double           Checksum = 0.0;
+    AMC_MultirotorMixer_Config_t  *pMulti = NULL;
+
+    for (i = 0; i < AMC_MULTIROTOR_MIXER_MAX_MIXERS; i++)
+    {
+        pMulti = &pAMC->MixerConfigTblPtr->Multirotor[i];
+        rotor_count = pMulti->RotorCount;
+        if (rotor_count > 0)
+        {
+            Checksum += pMulti->RotorCount + pMulti->RollScale + pMulti->PitchScale
+                       + pMulti->YawScale + pMulti->IdleSpeed + pMulti->DeltaOutMax
+                       + pMulti->Geometry;
+            for (j = 0; j < rotor_count; j++)
+            {
+                Checksum += pMulti->RotorConfig[j].RollScale + pMulti->RotorConfig[j].PitchScale
+                           + pMulti->RotorConfig[j].YawScale + pMulti->RotorConfig[j].OutScale;
+            }
+        }
+    }
+
+    return Checksum;
+}
+
+double GetSimpleMixerConfigTblChecksum(AMC *pAMC)
+{
+    int              i, j;
+    int              control_count = 0;
+    double           Checksum = 0.0;
+    AMC_SimpleMixer_Config_t  *pSimple = NULL;
+
+    for (i = 0; i < AMC_SIMPLE_MIXER_MAX_MIXERS; i++)
+    {
+        pSimple = &pAMC->MixerConfigTblPtr->Simple[i];
+        control_count = pSimple->ControlCount;
+        if (control_count > 0)
+        {
+            Checksum += pSimple->ControlCount
+                       + pSimple->OutputScaler.NegativeScale + pSimple->OutputScaler.PositiveScale
+                       + pSimple->OutputScaler.Offset + pSimple->OutputScaler.MinOutput
+                       + pSimple->OutputScaler.MaxOutput;
+
+            for (j = 0; j < control_count; j++)
+            {
+                Checksum += pSimple->Controls[j].ControlGroup + pSimple->Controls[j].ControlIndex;
+                Checksum += pSimple->Controls[j].Scaler.NegativeScale
+                           + pSimple->Controls[j].Scaler.PositiveScale
+                           + pSimple->Controls[j].Scaler.Offset
+                           + pSimple->Controls[j].Scaler.MinOutput
+                           + pSimple->Controls[j].Scaler.MaxOutput;
+            }
+        }
+    }
+
+    return Checksum;
+}
+
 void AMC_Test_PrintCmdMsg(void *pMsg, uint32 size)
 {
     unsigned char *pBuff;

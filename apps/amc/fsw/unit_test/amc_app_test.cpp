@@ -52,6 +52,7 @@
 #include "amc_app_test.hpp"
 
 #include <time.h>
+#include <float.h>
 
 uint16  ProcessDataHook_MsgId = 0;
 int32   WriteToSysLog_HookCalledCnt = 0;
@@ -546,8 +547,6 @@ void Test_AMC_AMC_AppMain_Nominal(void)
 {
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-               (void*)&Test_AMC_GetPSPTimeHook);
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, (void*)&Test_AMC_AppMain_SendMsgHook);
 
     AMC_AppMain();
@@ -809,8 +808,6 @@ void Test_AMC_AppMain_Nominal_SendHK(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Used to verify HK was transmitted correctly. */
-    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-               (void*)&Test_AMC_GetPSPTimeHook);
     SendHkHookCalledCount = 0;
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, (void*)&Test_AMC_AppMain_Nominal_SendHK_SendMsgHook);
 
@@ -836,8 +833,6 @@ void Test_AMC_AppMain_Nominal_UpdateMotors(void)
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
-               (void*)&Test_AMC_GetPSPTimeHook);
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, (void*)&Test_AMC_AppMain_SendMsgHook);
 
     /* Execute the function being tested */
@@ -1109,6 +1104,99 @@ void Test_AMC_AppMain_ProcessData_ActuatorControls3(void)
 }
 
 
+/**************************************************************************
+ * Tests for AMC Config Table Data()
+ **************************************************************************/
+/**
+ * Test AMC Config Table Data, ConfigTbl
+ */
+void Test_AMC_ConfigTable_ConfigTbl(void)
+{
+    AMC oAMC;
+    AMC *pAMC = &oAMC;
+
+    int32  iStatus = CFE_SUCCESS;
+    double expected_checksum = 54508.0;
+    double ConfigChecksum = 0.0;
+
+    /* Execute the function being tested */
+    iStatus = oAMC.InitApp();
+
+    ConfigChecksum = GetConfigTblChecksum(pAMC);
+
+    /* Verify results */
+    if ((iStatus == CFE_SUCCESS) &&
+        (fabs(ConfigChecksum - expected_checksum) <= FLT_EPSILON))
+    {
+        UtAssert_True(TRUE, "AMC Config Table Data, ConfigTbl");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "AMC Config Table Data, ConfigTbl");
+    }
+}
+
+
+/**
+ * Test AMC Config Table Data, MultirotorMixerConfigTbl
+ */
+void Test_AMC_ConfigTable_MultirotorConfigTbl(void)
+{
+    AMC oAMC;
+    AMC *pAMC = &oAMC;
+
+    int32  iStatus = CFE_SUCCESS;
+    double expected_checksum = 0.0;
+    double ConfigChecksum = 0.0;
+
+    /* Execute the function being tested */
+    iStatus = oAMC.InitApp();
+
+    ConfigChecksum = GetMultirotorMixerConfigTblChecksum(pAMC);
+
+    /* Verify results */
+    if ((iStatus == CFE_SUCCESS) &&
+        (fabs(ConfigChecksum - expected_checksum) <= FLT_EPSILON))
+    {
+        UtAssert_True(TRUE, "AMC Config Table Data, MultirotorMixerConfigTbl");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "AMC Config Table Data, MultirotorMixerConfigTbl");
+    }
+}
+
+
+/**
+ * Test AMC Config Table Data, SimpleMixerConfigTbl
+ */
+void Test_AMC_ConfigTable_SimpleMixerConfigTbl(void)
+{
+    AMC oAMC;
+    AMC *pAMC = &oAMC;
+
+    int32  iStatus = CFE_SUCCESS;
+    double expected_checksum = 75.0;
+    double ConfigChecksum = 0.0;
+
+    /* Execute the function being tested */
+    iStatus = oAMC.InitApp();
+
+    ConfigChecksum = GetSimpleMixerConfigTblChecksum(pAMC);
+
+    /* Verify results */
+    if ((iStatus == CFE_SUCCESS) &&
+        (fabs(ConfigChecksum - expected_checksum) <= FLT_EPSILON))
+    {
+        UtAssert_True(TRUE, "AMC Config Table Data, SimpleMixerConfigTbl");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "AMC Config Table Data, SimpleMixerConfigTbl");
+    }
+}
+
+
 
 /**************************************************************************
  * Rollup Test Cases
@@ -1194,6 +1282,11 @@ void AMC_App_Test_AddTestCases(void)
     UtTest_Add(Test_AMC_AppMain_ProcessData_ActuatorControls3, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_ProcessData_ActuatorControls3");
 
+    UtTest_Add(Test_AMC_ConfigTable_ConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ConfigTable_ConfigTbl");
+    UtTest_Add(Test_AMC_ConfigTable_MultirotorConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ConfigTable_MultirotorConfigTbl");
+    UtTest_Add(Test_AMC_ConfigTable_SimpleMixerConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ConfigTable_SimpleMixerConfigTbl");
+
 }
-
-

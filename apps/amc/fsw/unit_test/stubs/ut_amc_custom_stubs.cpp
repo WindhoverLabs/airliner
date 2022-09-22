@@ -46,13 +46,26 @@ void Ut_AMC_Custom_Reset(void)
 {
     memset(&Ut_AMC_Custom_HookTable, 0, sizeof(Ut_AMC_Custom_HookTable));
     memset(&Ut_AMC_Custom_ReturnCodeTable, 0, sizeof(Ut_AMC_Custom_ReturnCodeTable));
+
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_INITDEVICE_INDEX, (void*)&UT_InitDevice);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX, (void*)&UT_SetMotorOutputs);
+    Ut_AMC_Custom_SetFunctionHook(UT_AMC_PX4LIB_GETPX4TIMEUS_INDEX, (void*)&UT_PX4LIB_GetPX4TimeUs);
 }
 
 void Ut_AMC_Custom_SetFunctionHook(uint32 Index, void *FunPtr)
 {
-    if      (Index == UT_AMC_CUSTOM_INITDEVICE_INDEX)     { Ut_AMC_Custom_HookTable.InitDevice = (uint32 (*)(void))FunPtr; }
-    else if (Index == UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX)     { Ut_AMC_Custom_HookTable.SetMotorOutputs = (void(*)(const uint16 *))FunPtr; }
-    else if (Index == UT_AMC_PX4LIB_GETPX4TIMEUS_INDEX)   { Ut_AMC_Custom_HookTable.PX4LIB_GetPX4TimeUs = (uint64  (*)(void))FunPtr; }
+    if (Index == UT_AMC_CUSTOM_INITDEVICE_INDEX)
+    {
+        Ut_AMC_Custom_HookTable.InitDevice = (uint32 (*)(void))FunPtr;
+    }
+    else if (Index == UT_AMC_CUSTOM_SETMOTOROUTPUTS_INDEX)
+    {
+        Ut_AMC_Custom_HookTable.SetMotorOutputs = (void(*)(const uint16 *))FunPtr;
+    }
+    else if (Index == UT_AMC_PX4LIB_GETPX4TIMEUS_INDEX)
+    {
+        Ut_AMC_Custom_HookTable.PX4LIB_GetPX4TimeUs = (uint64  (*)(void))FunPtr;
+    }
     else
     {
         printf("Unsupported AMC_CUSTOM Index In SetFunctionHook Call %lu\n", Index);

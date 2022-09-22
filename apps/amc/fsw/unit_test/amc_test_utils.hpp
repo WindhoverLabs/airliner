@@ -54,6 +54,9 @@ void AMC_Test_Setup(void);
 void AMC_Test_Setup_CfgTblInvalid(void);
 void AMC_Test_TearDown(void);
 
+double GetConfigTblChecksum(AMC *pAMC);
+double GetMultirotorMixerConfigTblChecksum(AMC *pAMC);
+double GetSimpleMixerConfigTblChecksum(AMC *pAMC);
 void   AMC_Test_PrintCmdMsg(void *pMsg, uint32 size);
 time_t AMC_Test_GetTimeFromTimestamp(uint64 timestamp);
 time_t AMC_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
