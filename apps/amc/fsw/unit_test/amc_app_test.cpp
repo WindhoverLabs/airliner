@@ -510,7 +510,7 @@ int32 Test_AMC_AppMain_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
     {
         case AMC_HK_TLM_MID:
         {
-            printf("Send AMC_HK_TLM_MID\n");
+            printf("Sent AMC_HK_TLM_MID\n");
             break;
         }
         case PX4_ACTUATOR_OUTPUTS_MID:
@@ -518,7 +518,7 @@ int32 Test_AMC_AppMain_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
             PX4_ActuatorOutputsMsg_t  ActOuts;
             CFE_PSP_MemCpy((void*)&ActOuts, (void*)MsgPtr, sizeof(ActOuts));
 
-            printf("Send PX4_ACTUATOR_OUTPUTS_MID:\n");
+            printf("Sent PX4_ACTUATOR_OUTPUTS_MID:\n");
             localTime = AMC_Test_GetTimeFromTimestamp(ActOuts.Timestamp);
             loc_time = localtime(&localTime);
             printf("Timestamp: %s", asctime(loc_time));
@@ -531,7 +531,7 @@ int32 Test_AMC_AppMain_SendMsgHook(CFE_SB_Msg_t *MsgPtr)
         }
         default:
         {
-            printf("Send unknown message.\n");
+            printf("Sent unknown message.\n");
             break;
         }
     }
@@ -1108,9 +1108,9 @@ void Test_AMC_AppMain_ProcessData_ActuatorControls3(void)
  * Tests for AMC Config Table Data()
  **************************************************************************/
 /**
- * Test AMC Config Table Data, ConfigTbl
+ * Test AMC Config Data, ConfigTbl
  */
-void Test_AMC_ConfigTable_ConfigTbl(void)
+void Test_AMC_ConfigData_ConfigTbl(void)
 {
     AMC oAMC;
     AMC *pAMC = &oAMC;
@@ -1128,19 +1128,19 @@ void Test_AMC_ConfigTable_ConfigTbl(void)
     if ((iStatus == CFE_SUCCESS) &&
         (fabs(ConfigChecksum - expected_checksum) <= FLT_EPSILON))
     {
-        UtAssert_True(TRUE, "AMC Config Table Data, ConfigTbl");
+        UtAssert_True(TRUE, "AMC Config Data, ConfigTbl");
     }
     else
     {
-        UtAssert_True(FALSE, "AMC Config Table Data, ConfigTbl");
+        UtAssert_True(FALSE, "AMC Config Data, ConfigTbl");
     }
 }
 
 
 /**
- * Test AMC Config Table Data, MultirotorMixerConfigTbl
+ * Test AMC Config Data, MultirotorMixerConfigTbl
  */
-void Test_AMC_ConfigTable_MultirotorConfigTbl(void)
+void Test_AMC_ConfigData_MultirotorMixerConfigTbl(void)
 {
     AMC oAMC;
     AMC *pAMC = &oAMC;
@@ -1158,19 +1158,19 @@ void Test_AMC_ConfigTable_MultirotorConfigTbl(void)
     if ((iStatus == CFE_SUCCESS) &&
         (fabs(ConfigChecksum - expected_checksum) <= FLT_EPSILON))
     {
-        UtAssert_True(TRUE, "AMC Config Table Data, MultirotorMixerConfigTbl");
+        UtAssert_True(TRUE, "AMC Config Data, MultirotorMixerConfigTbl");
     }
     else
     {
-        UtAssert_True(FALSE, "AMC Config Table Data, MultirotorMixerConfigTbl");
+        UtAssert_True(FALSE, "AMC Config Data, MultirotorMixerConfigTbl");
     }
 }
 
 
 /**
- * Test AMC Config Table Data, SimpleMixerConfigTbl
+ * Test AMC Config Data, SimpleMixerConfigTbl
  */
-void Test_AMC_ConfigTable_SimpleMixerConfigTbl(void)
+void Test_AMC_ConfigData_SimpleMixerConfigTbl(void)
 {
     AMC oAMC;
     AMC *pAMC = &oAMC;
@@ -1188,11 +1188,11 @@ void Test_AMC_ConfigTable_SimpleMixerConfigTbl(void)
     if ((iStatus == CFE_SUCCESS) &&
         (fabs(ConfigChecksum - expected_checksum) <= FLT_EPSILON))
     {
-        UtAssert_True(TRUE, "AMC Config Table Data, SimpleMixerConfigTbl");
+        UtAssert_True(TRUE, "AMC Config Data, SimpleMixerConfigTbl");
     }
     else
     {
-        UtAssert_True(FALSE, "AMC Config Table Data, SimpleMixerConfigTbl");
+        UtAssert_True(FALSE, "AMC Config Data, SimpleMixerConfigTbl");
     }
 }
 
@@ -1282,11 +1282,11 @@ void AMC_App_Test_AddTestCases(void)
     UtTest_Add(Test_AMC_AppMain_ProcessData_ActuatorControls3, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_ProcessData_ActuatorControls3");
 
-    UtTest_Add(Test_AMC_ConfigTable_ConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
-               "Test_AMC_ConfigTable_ConfigTbl");
-    UtTest_Add(Test_AMC_ConfigTable_MultirotorConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
-               "Test_AMC_ConfigTable_MultirotorConfigTbl");
-    UtTest_Add(Test_AMC_ConfigTable_SimpleMixerConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
-               "Test_AMC_ConfigTable_SimpleMixerConfigTbl");
+    UtTest_Add(Test_AMC_ConfigData_ConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ConfigData_ConfigTbl");
+    UtTest_Add(Test_AMC_ConfigData_MultirotorMixerConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ConfigData_MultirotorMixerConfigTbl");
+    UtTest_Add(Test_AMC_ConfigData_SimpleMixerConfigTbl, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ConfigData_SimpleMixerConfigTbl");
 
 }

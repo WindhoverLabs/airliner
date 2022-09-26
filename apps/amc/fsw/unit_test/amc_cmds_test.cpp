@@ -51,6 +51,10 @@
 #include "amc_test_utils.hpp"
 
 
+boolean   ProcessCmdPipe_Result = FALSE;
+char      ProcessCmdPipe_Str[64];
+
+
 /**************************************************************************
  * Tests for AMC ProcessCmdPipe()
  **************************************************************************/
@@ -119,6 +123,33 @@ void Test_AMC_ProcessCmdPipe_CmdPipeError(void)
 
 
 /**
+ * Test AMC ProcessCmdPipe(), SendEventHook
+ */
+int32 Test_AMC_ProcessCmdPipe_SendEventHook(uint16 EventID, uint16 EventType, const char *EventText, ...)
+{
+    va_list  Ptr;
+    char     Buf[256];
+    char     *pCmdStr = NULL;
+
+    va_start(Ptr, EventText);
+    vsnprintf(Buf, (size_t)CFE_EVS_MAX_MESSAGE_LENGTH, EventText, Ptr);
+    va_end(Ptr);
+
+    printf("###ProcessCmdPipe_SendEventHook:\n");
+    printf("%s\n", Buf);
+
+    pCmdStr = strstr(Buf, ProcessCmdPipe_Str);
+
+    if (pCmdStr != NULL)
+    {
+        ProcessCmdPipe_Result = TRUE;
+    }
+
+    return 0;
+}
+
+
+/**
  * Test AMC ProcessCmdPipe, Noop
  */
 void Test_AMC_ProcessCmdPipe_Noop(void)
@@ -142,8 +173,24 @@ void Test_AMC_ProcessCmdPipe_Noop(void)
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
+    ProcessCmdPipe_Result = FALSE;
+    strcpy(ProcessCmdPipe_Str, "NOOP");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_AMC_ProcessCmdPipe_SendEventHook);
+
     /* Execute the function being tested */
     oAMC.AppMain();
+
+    /* Verify results */
+    if ((oAMC.HkTlm.usCmdCnt == 1) && (oAMC.HkTlm.usCmdErrCnt == 0)
+         && (ProcessCmdPipe_Result == TRUE))
+    {
+        UtAssert_True(TRUE, "ProcessCmdPipe, Noop");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessCmdPipe, Noop");
+    }
 }
 
 
@@ -173,6 +220,16 @@ void Test_AMC_ProcessCmdPipe_Reset(void)
 
     /* Execute the function being tested */
     oAMC.AppMain();
+
+    /* Verify results */
+    if ((oAMC.HkTlm.usCmdCnt == 0) && (oAMC.HkTlm.usCmdErrCnt == 0))
+    {
+        UtAssert_True(TRUE, "ProcessCmdPipe, Reset");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessCmdPipe, Reset");
+    }
 }
 
 
@@ -195,13 +252,69 @@ void Test_AMC_ProcessCmdPipe_ArmDebug(void)
 
     AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    ProcessCmdPipe_Result = FALSE;
+    strcpy(ProcessCmdPipe_Str, "Debug mode armed");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_AMC_ProcessCmdPipe_SendEventHook);
 
     /* Execute the function being tested */
-    oAMC.AppMain();
+    oAMC.InitApp();
+    oAMC.ProcessCmdPipe();
+
+    /* Verify results */
+    if ((oAMC.HkTlm.usCmdCnt == 1) && (oAMC.HkTlm.usCmdErrCnt == 0)
+         && (oAMC.HkTlm.DebugArmed == TRUE) && (ProcessCmdPipe_Result == TRUE))
+    {
+        UtAssert_True(TRUE, "ProcessCmdPipe, ArmDebug");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessCmdPipe, ArmDebug");
+    }
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, Fail ArmDebug
+ */
+void Test_AMC_ProcessCmdPipe_FailArmDebug(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_ARM_DEBUG_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessCmdPipe_Result = FALSE;
+    strcpy(ProcessCmdPipe_Str, "Failed to arm debug mode");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_AMC_ProcessCmdPipe_SendEventHook);
+
+    /* Execute the function being tested */
+    oAMC.InitApp();
+
+    oAMC.HkTlm.DebugArmed = TRUE;
+
+    oAMC.ProcessCmdPipe();
+
+    /* Verify results */
+    if ((oAMC.HkTlm.usCmdCnt == 0) && (oAMC.HkTlm.usCmdErrCnt == 1)
+         && (ProcessCmdPipe_Result == TRUE))
+    {
+        UtAssert_True(TRUE, "ProcessCmdPipe, Fail ArmDebug");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessCmdPipe, Fail ArmDebug");
+    }
 }
 
 
@@ -224,13 +337,69 @@ void Test_AMC_ProcessCmdPipe_DisarmDebug(void)
 
     AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    ProcessCmdPipe_Result = FALSE;
+    strcpy(ProcessCmdPipe_Str, "Debug mode disarmed");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_AMC_ProcessCmdPipe_SendEventHook);
 
     /* Execute the function being tested */
-    oAMC.AppMain();
+    oAMC.InitApp();
+
+    oAMC.HkTlm.DebugArmed = TRUE;
+
+    oAMC.ProcessCmdPipe();
+
+    /* Verify results */
+    if ((oAMC.HkTlm.usCmdCnt == 1) && (oAMC.HkTlm.usCmdErrCnt == 0)
+         && (oAMC.HkTlm.DebugArmed == FALSE) && (ProcessCmdPipe_Result == TRUE))
+    {
+        UtAssert_True(TRUE, "ProcessCmdPipe, DisarmDebug");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessCmdPipe, DisarmDebug");
+    }
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, Fail DisarmDebug
+ */
+void Test_AMC_ProcessCmdPipe_FailDisarmDebug(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DISARM_DEBUG_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessCmdPipe_Result = FALSE;
+    strcpy(ProcessCmdPipe_Str, "Failed to disarm debug mode");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_AMC_ProcessCmdPipe_SendEventHook);
+
+    /* Execute the function being tested */
+    oAMC.InitApp();
+    oAMC.ProcessCmdPipe();
+
+    /* Verify results */
+    if ((oAMC.HkTlm.usCmdCnt == 0) && (oAMC.HkTlm.usCmdErrCnt == 1)
+         && (ProcessCmdPipe_Result == TRUE))
+    {
+        UtAssert_True(TRUE, "ProcessCmdPipe, Fail DisarmDebug");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessCmdPipe, Fail DisarmDebug");
+    }
 }
 
 
@@ -253,13 +422,69 @@ void Test_AMC_ProcessCmdPipe_EngageDebug(void)
 
     AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    ProcessCmdPipe_Result = FALSE;
+    strcpy(ProcessCmdPipe_Str, "Debug mode engaged");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_AMC_ProcessCmdPipe_SendEventHook);
 
     /* Execute the function being tested */
-    oAMC.AppMain();
+    oAMC.InitApp();
+
+    oAMC.HkTlm.DebugArmed = TRUE;
+
+    oAMC.ProcessCmdPipe();
+
+    /* Verify results */
+    if ((oAMC.HkTlm.usCmdCnt == 1) && (oAMC.HkTlm.usCmdErrCnt == 0)
+         && (oAMC.HkTlm.DebugEngaged == TRUE) && (ProcessCmdPipe_Result == TRUE))
+    {
+        UtAssert_True(TRUE, "ProcessCmdPipe, EngageDebug");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessCmdPipe, EngageDebug");
+    }
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, Fail EngageDebug
+ */
+void Test_AMC_ProcessCmdPipe_FailEngageDebug(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_ENGAGE_DEBUG_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessCmdPipe_Result = FALSE;
+    strcpy(ProcessCmdPipe_Str, "Failed to engage debug");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_AMC_ProcessCmdPipe_SendEventHook);
+
+    /* Execute the function being tested */
+    oAMC.InitApp();
+    oAMC.ProcessCmdPipe();
+
+    /* Verify results */
+    if ((oAMC.HkTlm.usCmdCnt == 0) && (oAMC.HkTlm.usCmdErrCnt == 1)
+         && (ProcessCmdPipe_Result == TRUE))
+    {
+        UtAssert_True(TRUE, "ProcessCmdPipe, Fail EngageDebug");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessCmdPipe, Fail EngageDebug");
+    }
 }
 
 
@@ -282,13 +507,69 @@ void Test_AMC_ProcessCmdPipe_DisengageDebug(void)
 
     AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, AMC_SEND_HK_MID, 1);
-
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    ProcessCmdPipe_Result = FALSE;
+    strcpy(ProcessCmdPipe_Str, "Debug mode disengaged");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_AMC_ProcessCmdPipe_SendEventHook);
 
     /* Execute the function being tested */
-    oAMC.AppMain();
+    oAMC.InitApp();
+
+    oAMC.HkTlm.DebugEngaged = TRUE;
+
+    oAMC.ProcessCmdPipe();
+
+    /* Verify results */
+    if ((oAMC.HkTlm.usCmdCnt == 1) && (oAMC.HkTlm.usCmdErrCnt == 0)
+         && (oAMC.HkTlm.DebugEngaged == FALSE) && (ProcessCmdPipe_Result == TRUE))
+    {
+        UtAssert_True(TRUE, "ProcessCmdPipe, DisengageDebug");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessCmdPipe, DisengageDebug");
+    }
+}
+
+
+/**
+ * Test AMC ProcessCmdPipe, Fail DisengageDebug
+ */
+void Test_AMC_ProcessCmdPipe_FailDisengageDebug(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_NoArgCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DISENGAGE_DEBUG_CC);
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessCmdPipe_Result = FALSE;
+    strcpy(ProcessCmdPipe_Str, "Failed to disengage debug mode");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_AMC_ProcessCmdPipe_SendEventHook);
+
+    /* Execute the function being tested */
+    oAMC.InitApp();
+    oAMC.ProcessCmdPipe();
+
+    /* Verify results */
+    if ((oAMC.HkTlm.usCmdCnt == 0) && (oAMC.HkTlm.usCmdErrCnt == 1)
+         && (ProcessCmdPipe_Result == TRUE))
+    {
+        UtAssert_True(TRUE, "ProcessCmdPipe, Fail DisengageDebug");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "ProcessCmdPipe, Fail DisengageDebug");
+    }
 }
 
 
@@ -310,17 +591,23 @@ void Test_AMC_ProcessCmdPipe_DebugCmd(void)
 
     AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
+    ProcessCmdPipe_Result = FALSE;
+    strcpy(ProcessCmdPipe_Str, "Received debug command");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_AMC_ProcessCmdPipe_SendEventHook);
+
     /* Execute the function being tested */
     oAMC.InitApp();
 
     oAMC.HkTlm.DebugEngaged = TRUE;
-    CmdMsg.Index = 0;        // check this values
-    CmdMsg.Cmd = oAMC.ConfigTblPtr->Channel[0].PwmInitial;
+    CmdMsg.Index = 0;
+    CmdMsg.Cmd = oAMC.ConfigTblPtr->Channel[0].PwmMax;
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     oAMC.ProcessCmdPipe();
 
-    if (oAMC.HkTlm.usCmdCnt == 1)
+    if ((oAMC.HkTlm.usCmdCnt == 1) && (oAMC.HkTlm.usCmdErrCnt == 0)
+        && (ProcessCmdPipe_Result == TRUE))
     {
         UtAssert_True(TRUE, "AMC ProcessCmdPipe, DebugCmd");
     }
@@ -332,11 +619,56 @@ void Test_AMC_ProcessCmdPipe_DebugCmd(void)
 
 
 /**
+ * Test AMC ProcessCmdPipe, Fail DebugCmd
+ */
+void Test_AMC_ProcessCmdPipe_FailDebugCmd(void)
+{
+    AMC  oAMC;
+
+    int32              CmdPipe;
+    AMC_DebugCmd_t     CmdMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    CmdPipe = Ut_CFE_SB_CreatePipe("AMC_CMD_PIPE");
+    CFE_SB_InitMsg ((void*)&CmdMsg, AMC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)AMC_DEBUG_CMD_CC);
+
+    AMC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
+
+    ProcessCmdPipe_Result = FALSE;
+    strcpy(ProcessCmdPipe_Str, "Debug command received with debug mode disengaged");
+    Ut_CFE_EVS_SetFunctionHook(UT_CFE_EVS_SENDEVENT_INDEX,
+               (void*)&Test_AMC_ProcessCmdPipe_SendEventHook);
+
+    /* Execute the function being tested */
+    oAMC.InitApp();
+
+    CmdMsg.Index = 0;
+    CmdMsg.Cmd = oAMC.ConfigTblPtr->Channel[0].PwmMax;
+    Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
+
+    oAMC.ProcessCmdPipe();
+
+    if ((oAMC.HkTlm.usCmdCnt == 0) && (oAMC.HkTlm.usCmdErrCnt == 1)
+        && (ProcessCmdPipe_Result == TRUE))
+    {
+        UtAssert_True(TRUE, "AMC ProcessCmdPipe, Fail DebugCmd");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "AMC ProcessCmdPipe, Fail DebugCmd");
+    }
+}
+
+
+/**
  * Test AMC ProcessCmdPipe, SimpleSetOutputScaler
  */
 void Test_AMC_ProcessCmdPipe_SimpleSetOutputScaler(void)
 {
     AMC  oAMC;
+    AMC  *pAMC = &oAMC;
 
     int32                           CmdPipe;
     AMC_SimpleSetOutputScalerCmd_t  CmdMsg;
@@ -351,8 +683,9 @@ void Test_AMC_ProcessCmdPipe_SimpleSetOutputScaler(void)
 
     /* Execute the function being tested */
     oAMC.InitApp();
+    AMC_Test_PrintSimpleMixerOutputScaler(pAMC, CmdMsg.MixerIndex);
 
-    CmdMsg.MixerIndex = 0;                  // check this values
+    CmdMsg.MixerIndex = 0;
     CmdMsg.OutputScaler.NegativeScale = oAMC.MixerConfigTblPtr->Simple[0].OutputScaler.NegativeScale + 1.0;
     CmdMsg.OutputScaler.PositiveScale = oAMC.MixerConfigTblPtr->Simple[0].OutputScaler.PositiveScale + 1.0;
     CmdMsg.OutputScaler.Offset = oAMC.MixerConfigTblPtr->Simple[0].OutputScaler.Offset + 1.0;
@@ -361,15 +694,7 @@ void Test_AMC_ProcessCmdPipe_SimpleSetOutputScaler(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     oAMC.ProcessCmdPipe();
-
-    if (oAMC.HkTlm.usCmdCnt == 1)
-    {
-        UtAssert_True(TRUE, "AMC ProcessCmdPipe, SimpleSetOutputScaler");
-    }
-    else
-    {
-        UtAssert_True(FALSE, "AMC ProcessCmdPipe, SimpleSetOutputScaler");
-    }
+    AMC_Test_PrintSimpleMixerOutputScaler(pAMC, CmdMsg.MixerIndex);
 }
 
 
@@ -379,6 +704,7 @@ void Test_AMC_ProcessCmdPipe_SimpleSetOutputScaler(void)
 void Test_AMC_ProcessCmdPipe_SimpleSetControl(void)
 {
     AMC  oAMC;
+    AMC  *pAMC = &oAMC;
 
     int32                      CmdPipe;
     AMC_SimpleSetControlCmd_t  CmdMsg;
@@ -393,8 +719,9 @@ void Test_AMC_ProcessCmdPipe_SimpleSetControl(void)
 
     /* Execute the function being tested */
     oAMC.InitApp();
+    AMC_Test_PrintSimpleMixerControls(pAMC, CmdMsg.MixerIndex, CmdMsg.Control);
 
-    CmdMsg.MixerIndex = 0;                        // check this value
+    CmdMsg.MixerIndex = 0;
     CmdMsg.Control = 0;
     CmdMsg.Group = oAMC.MixerConfigTblPtr->Simple[0].Controls[0].ControlGroup;
     if (oAMC.MixerConfigTblPtr->Simple[0].Controls[0].ControlIndex < PX4_ACTUATOR_CONTROL_LANDING_GEAR)
@@ -408,15 +735,7 @@ void Test_AMC_ProcessCmdPipe_SimpleSetControl(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     oAMC.ProcessCmdPipe();
-
-    if (oAMC.HkTlm.usCmdCnt == 1)
-    {
-        UtAssert_True(TRUE, "AMC ProcessCmdPipe, SimpleSetControl");
-    }
-    else
-    {
-        UtAssert_True(FALSE, "AMC ProcessCmdPipe, SimpleSetControl");
-    }
+    AMC_Test_PrintSimpleMixerControls(pAMC, CmdMsg.MixerIndex, CmdMsg.Control);
 }
 
 
@@ -426,6 +745,7 @@ void Test_AMC_ProcessCmdPipe_SimpleSetControl(void)
 void Test_AMC_ProcessCmdPipe_SimpleSetControlScaler(void)
 {
     AMC  oAMC;
+    AMC  *pAMC = &oAMC;
 
     int32                            CmdPipe;
     AMC_SimpleSetControlScalerCmd_t  CmdMsg;
@@ -440,8 +760,9 @@ void Test_AMC_ProcessCmdPipe_SimpleSetControlScaler(void)
 
     /* Execute the function being tested */
     oAMC.InitApp();
+    AMC_Test_PrintSimpleMixerControlsScaler(pAMC, CmdMsg.MixerIndex, CmdMsg.Control);
 
-    CmdMsg.MixerIndex = 0;                  // check this value
+    CmdMsg.MixerIndex = 0;
     CmdMsg.Control = 0;
     CmdMsg.Scaler.NegativeScale = oAMC.MixerConfigTblPtr->Simple[0].Controls[0].Scaler.NegativeScale + 1;
     CmdMsg.Scaler.PositiveScale = oAMC.MixerConfigTblPtr->Simple[0].Controls[0].Scaler.PositiveScale + 1;
@@ -451,15 +772,7 @@ void Test_AMC_ProcessCmdPipe_SimpleSetControlScaler(void)
     Ut_CFE_SB_AddMsgToPipe((void*)&CmdMsg, (CFE_SB_PipeId_t)CmdPipe);
 
     oAMC.ProcessCmdPipe();
-
-    if (oAMC.HkTlm.usCmdCnt == 1)
-    {
-        UtAssert_True(TRUE, "AMC ProcessCmdPipe, SimpleSetControlScaler");
-    }
-    else
-    {
-        UtAssert_True(FALSE, "AMC ProcessCmdPipe, SimpleSetControlScaler");
-    }
+    AMC_Test_PrintSimpleMixerControlsScaler(pAMC, CmdMsg.MixerIndex, CmdMsg.Control);
 }
 
 
@@ -501,14 +814,24 @@ void AMC_Cmds_Test_AddTestCases(void)
                "Test_AMC_ProcessCmdPipe_Reset");
     UtTest_Add(Test_AMC_ProcessCmdPipe_ArmDebug, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_ProcessCmdPipe_ArmDebug");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_FailArmDebug, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_FailArmDebug");
     UtTest_Add(Test_AMC_ProcessCmdPipe_DisarmDebug, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_ProcessCmdPipe_DisarmDebug");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_FailDisarmDebug, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_FailDisarmDebug");
     UtTest_Add(Test_AMC_ProcessCmdPipe_EngageDebug, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_ProcessCmdPipe_EngageDebug");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_FailEngageDebug, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_FailEngageDebug");
     UtTest_Add(Test_AMC_ProcessCmdPipe_DisengageDebug, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_ProcessCmdPipe_DisengageDebug");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_FailDisengageDebug, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_FailDisengageDebug");
     UtTest_Add(Test_AMC_ProcessCmdPipe_DebugCmd, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_ProcessCmdPipe_DebugCmd");
+    UtTest_Add(Test_AMC_ProcessCmdPipe_FailDebugCmd, AMC_Test_Setup, AMC_Test_TearDown,
+               "Test_AMC_ProcessCmdPipe_FailDebugCmd");
     UtTest_Add(Test_AMC_ProcessCmdPipe_SimpleSetOutputScaler, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_ProcessCmdPipe_SimpleSetOutputScaler");
     UtTest_Add(Test_AMC_ProcessCmdPipe_SimpleSetControl, AMC_Test_Setup, AMC_Test_TearDown,
@@ -518,5 +841,3 @@ void AMC_Cmds_Test_AddTestCases(void)
     UtTest_Add(Test_AMC_VerifyCmdLength_Fail_CmdLength, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_VerifyCmdLength_Fail_CmdLength");
 } /* end AMC_Cmds_Test_AddTestCases */
-
-

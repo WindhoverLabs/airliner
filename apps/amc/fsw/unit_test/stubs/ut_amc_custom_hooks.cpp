@@ -34,17 +34,29 @@
 #include "cfe.h"
 #include "pwm_limit/pwm_limit.h"
 
+#include "amc_platform_cfg.h"
+
 #include <time.h>
 
 uint32 UT_InitDevice(void)
 {
+    printf("### InitDevice called\n");
+
     return 0;
 }
 
 
 void UT_SetMotorOutputs(const uint16 *PWM)
 {
+    int  i = 0;
 
+    printf("### SetMotorOutputs:\n");
+    for (i = 0; i < AMC_MAX_MOTOR_OUTPUTS; i++)
+    {
+        printf("PWM[%d]: %u\n", i, PWM[i]);
+    }
+
+    return;
 }
 
 
