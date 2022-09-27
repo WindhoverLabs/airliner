@@ -2744,7 +2744,7 @@ void SCH_ValidateScheduleDeadlines_Test_Invalid1(void)
 	SCH_AppData.ScheduleTable[TestIdx2].Deadline = 100;
 
     sprintf(expEventText1, "Schedule table verify results -- good[0] bad[2] unused[%u]", SCH_TABLE_ENTRIES-2);
-    sprintf(expEventText2, "Schedule tbl verify error - idx[0] ena[2] typ[1] fre[1] rem[0] msg[1] grp[0x00000000] dl[100]", SCH_TABLE_ENTRIES-2);
+    sprintf(expEventText2, "Schedule tbl verify error - idx[0] ena[2] typ[1] fre[1] rem[0] msg[1] grp[0x00000000] dl[100]");
 
     /* Execute the function being tested */
     Result = SCH_ValidateScheduleData(&SCH_AppData.ScheduleTable[0]);
