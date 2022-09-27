@@ -651,11 +651,6 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fpc/GoAround', {});]]></text>
           </color>
         </border_color>
       </widget>
-      <widget type="tank" version="2.0.0">
-        <name>Tank</name>
-        <x>306</x>
-        <y>42</y>
-      </widget>
     </widget>
     <widget type="textupdate" version="2.0.0">
       <name>Text Update_8</name>
