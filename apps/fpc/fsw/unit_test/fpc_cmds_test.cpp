@@ -4592,13 +4592,13 @@ void Test_FPC_VerifyCmdLength_Fail_CmdLength(void)
     boolean           bExpected = FALSE;
     FPC_NoArgCmd_t    CmdMsg;
 
-    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg), TRUE);
+    CFE_SB_InitMsg ((void*)&CmdMsg, FPC_CMD_MID, sizeof(CmdMsg) + 5, TRUE);
     CFE_SB_SetCmdCode ((CFE_SB_MsgPtr_t)&CmdMsg, (uint16)FPC_NOOP_CC);
 
     FPC_Test_PrintCmdMsg((void*)&CmdMsg, sizeof(CmdMsg));
 
     /* Execute the function being tested */
-    bResult = oFPC.VerifyCmdLength((CFE_SB_MsgPtr_t)&CmdMsg, sizeof(CmdMsg) + 10);
+    bResult = oFPC.VerifyCmdLength((CFE_SB_MsgPtr_t)&CmdMsg, sizeof(CmdMsg));
 
     /* Verify results */
     UtAssert_True (((bResult == bExpected) && (oFPC.HkTlm.usCmdErrCnt == 1)),
