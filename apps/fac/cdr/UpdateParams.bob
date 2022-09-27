@@ -3756,7 +3756,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fac/Update_'+ widget.getParent().get()
   <widget type="webbrowser" version="2.0.0">
     <name>$(APP)_tuning_guide</name>
     <url>file://$(DISPLAYS_ROOT_DIR)/../../../../../apps/fac/cdr/resources/pid_tuning_guide_fixedwing.html</url>
-    <x>620</x>
+    <x>770</x>
     <y>31</y>
     <width>700</width>
     <height>620</height>
@@ -3865,7 +3865,7 @@ print 'Hello'
     <name>Slide Button</name>
     <pv_name>loc://$(APP)_show_guide_slide&lt;VBoolean&gt;</pv_name>
     <label>Show Guide</label>
-    <x>1360</x>
+    <x>610</x>
     <y>31</y>
     <width>155</width>
     <actions>

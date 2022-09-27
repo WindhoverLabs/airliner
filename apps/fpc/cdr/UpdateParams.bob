@@ -4705,7 +4705,7 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
   <widget type="webbrowser" version="2.0.0">
     <name>$(APP)_tuning_guide</name>
     <url>file://$(DISPLAYS_ROOT_DIR)/../../../../../apps/fpc/cdr/resources/pid_tuning_guide_fixedwing.html</url>
-    <x>730</x>
+    <x>800</x>
     <y>31</y>
     <width>900</width>
     <height>1020</height>
@@ -4724,8 +4724,8 @@ Yamcs.issueCommand(widget, '/cfs/cpd/apps/fpc/Update_'+ widget.getParent().get()
   </widget>
   <widget type="group" version="2.0.0">
     <name>Table Management</name>
-    <x>970</x>
-    <y>1070</y>
+    <x>640</x>
+    <y>1050</y>
     <width>185</width>
     <height>148</height>
     <font>
@@ -4825,9 +4825,9 @@ print 'Hello'
     <name>Slide Button</name>
     <pv_name>loc://$(APP)_show_guide_slide&lt;VBoolean&gt;</pv_name>
     <label>Show Guide</label>
-    <x>1660</x>
+    <x>670</x>
     <y>31</y>
-    <width>155</width>
+    <width>130</width>
     <actions>
     </actions>
     <scripts>
