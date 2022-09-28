@@ -12,9 +12,31 @@ buildliner_initialize(
         ${PROJECT_SOURCE_DIR}/config/shared/inc
     FILESYS
         /cf/apps
-        /cf/download
         /cf/log
-        /cf/upload
+        /cf/uplink/ppd_to_cpd/class1/priority2/
+        /cf/uplink/ppd_to_cpd/class2/priority2/
+        /cf/uplink/ppd_to_cpd/class1/priority4/
+        /cf/uplink/ppd_to_cpd/class2/priority4/
+        /cf/uplink/ppd_to_cpd/class1/priority6/
+        /cf/uplink/ppd_to_cpd/class2/priority6/
+        /cf/downlink/ppd_to_gnd/class1/priority2/
+        /cf/downlink/ppd_to_gnd/class2/priority2/
+        /cf/downlink/ppd_to_gnd/class1/priority4/
+        /cf/downlink/ppd_to_gnd/class2/priority4/
+        /cf/downlink/ppd_to_gnd/class1/priority6/
+        /cf/downlink/ppd_to_gnd/class2/priority6/
+        /cf/downlink/cpd_to_ppd/class1/priority2/
+        /cf/downlink/cpd_to_ppd/class2/priority2/
+        /cf/downlink/cpd_to_ppd/class1/priority4/
+        /cf/downlink/cpd_to_ppd/class2/priority4/
+        /cf/downlink/cpd_to_ppd/class1/priority6/
+        /cf/downlink/cpd_to_ppd/class2/priority6/
+        /cf/downlink/cpd_to_gnd/class1/priority2/
+        /cf/downlink/cpd_to_gnd/class2/priority2/
+        /cf/downlink/cpd_to_gnd/class1/priority4/
+        /cf/downlink/cpd_to_gnd/class2/priority4/
+        /cf/downlink/cpd_to_gnd/class1/priority6/
+        /cf/downlink/cpd_to_gnd/class2/priority6/
         /ram
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/../../cfe_es_startup.scr
@@ -38,7 +60,6 @@ buildliner_add_app(
 
 buildliner_add_app(
     ipc_lib
-    EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/ipc_lib/fsw/for_build
     CONFIG_SOURCES
         ${PROJECT_SOURCE_DIR}/../private/config/obc/ppd/apps/ipc_lib/ipc_lib_custom.c

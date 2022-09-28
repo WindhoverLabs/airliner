@@ -203,7 +203,7 @@
 **       (#HS_WATCHDOG_TIMEOUT_VALUE * 1000) - HS runtime in ms
 **       otherwise HS may not be able to service the watchdog in time.
 */
-#define HS_WAKEUP_TIMEOUT 1200
+#define HS_WAKEUP_TIMEOUT (CFE_SB_PEND_FOREVER)
 
 /** \hscfg CPU aliveness output string
 **

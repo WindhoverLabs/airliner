@@ -14,24 +14,32 @@ buildliner_initialize(
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../../inc
         ${PROJECT_SOURCE_DIR}/config/shared/inc
     FILESYS
+        /cf/apps
         /cf/log
-        /cf/uplink
-        /cf/downlink/ch0/dir0/
-        /cf/downlink/ch0/dir1/
-        /cf/downlink/ch0/dir2/
-        /cf/downlink/ch0/dir3/
-        /cf/downlink/ch0/dir4/
-        /cf/downlink/ch0/dir5/
-        /cf/downlink/ch0/dir6/
-        /cf/downlink/ch0/dir7/
-        /cf/downlink/ch1/dir0/
-        /cf/downlink/ch1/dir1/
-        /cf/downlink/ch1/dir2/
-        /cf/downlink/ch1/dir3/
-        /cf/downlink/ch1/dir4/
-        /cf/downlink/ch1/dir5/
-        /cf/downlink/ch1/dir6/
-        /cf/downlink/ch1/dir7/
+        /cf/uplink/ppd_to_cpd/class1/priority2
+        /cf/uplink/ppd_to_cpd/class2/priority2
+        /cf/uplink/ppd_to_cpd/class1/priority4
+        /cf/uplink/ppd_to_cpd/class2/priority4
+        /cf/uplink/ppd_to_cpd/class1/priority6
+        /cf/uplink/ppd_to_cpd/class2/priority6
+        /cf/downlink/cpd_to_ppd/class1/priority2/
+        /cf/downlink/cpd_to_ppd/class2/priority2/
+        /cf/downlink/cpd_to_ppd/class1/priority4/
+        /cf/downlink/cpd_to_ppd/class2/priority4/
+        /cf/downlink/cpd_to_ppd/class1/priority6/
+        /cf/downlink/cpd_to_ppd/class2/priority6/
+        /cf/downlink/cpd_to_gnd/class1/priority2/
+        /cf/downlink/cpd_to_gnd/class2/priority2/
+        /cf/downlink/cpd_to_gnd/class1/priority4/
+        /cf/downlink/cpd_to_gnd/class2/priority4/
+        /cf/downlink/cpd_to_gnd/class1/priority6/
+        /cf/downlink/cpd_to_gnd/class2/priority6/
+        /cf/downlink/ppd_to_gnd/class1/priority2/
+        /cf/downlink/ppd_to_gnd/class2/priority2/
+        /cf/downlink/ppd_to_gnd/class1/priority4/
+        /cf/downlink/ppd_to_gnd/class2/priority4/
+        /cf/downlink/ppd_to_gnd/class1/priority6/
+        /cf/downlink/ppd_to_gnd/class2/priority6/
     STARTUP_SCRIPT
         ${CMAKE_CURRENT_SOURCE_DIR}/cfe_es_startup.scr
         
@@ -50,12 +58,6 @@ buildliner_add_app(
     mbp_lib
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/mbp_lib/fsw/for_build
-)
-
-buildliner_add_app(
-    sliplib
-    EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/sliplib/fsw/for_build
 )
 
 buildliner_add_app(
@@ -111,6 +113,11 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/sch/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch
     CONFIG_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch/sch_custom_v1.c
+)
+buildliner_add_app_unit_test_src(
+    sch
+    SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/sch/sch_custom_v1.c
 )
 
@@ -181,7 +188,7 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/ci/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/ci
     CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci/ci_slip_sed.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/ci/ci_framed_sed.c
 )
 
 buildliner_add_app(
@@ -190,7 +197,7 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/to/fsw/for_build
     CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to
     CONFIG_SOURCES
-        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_slip_sed.c
+        ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/to/to_framed_sed.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/to/tables/to_backup_cfg.c
 )
 
@@ -199,7 +206,7 @@ buildliner_add_app(
     amc
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/amc/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/amc
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/amc
     CONFIG_SOURCES
         ${PROJECT_SOURCE_DIR}/../private/config/obc/cpd/apps/amc/amc_custom.cpp
 )
@@ -316,13 +323,13 @@ buildliner_add_app(
     fpc
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/fpc/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/fpc
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/fpc
 )
 
 buildliner_add_app(
     fac
     EMBEDDED
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/fac/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/fac
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../apps/fac
 )
 

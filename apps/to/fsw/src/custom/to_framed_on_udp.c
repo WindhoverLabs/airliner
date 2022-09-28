@@ -507,7 +507,7 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
     {
         if(TO_Channel_State(ChannelIdx) == TO_CHANNEL_OPENED)
         {
-        	iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[ChannelIdx], &msg, TO_CUSTOM_CHANNEL_GET_TIMEOUT );
+            iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[ChannelIdx], &msg, TO_CUSTOM_CHANNEL_GET_TIMEOUT );
             if(iStatus == OS_SUCCESS)
             {
             	/* Add packet to the outgoing frame */

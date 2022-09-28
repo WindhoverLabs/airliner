@@ -3,6 +3,7 @@
  *************************************************************************/
 #include "cfe_tbl_filedef.h"
 #include "to_tbldefs.h"
+#include "to_platform_cfg.h"
 #include "msg_ids.h"
 
 /**
@@ -59,7 +60,6 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {FROM_CPD(BAT_HK_TLM_MID),               1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(CF_CONFIG_TLM_MID),            1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(CF_HK_TLM_MID),                1, TO_PQUEUE_CPD_HK_IDX},
-        {FROM_CPD(CF_SPACE_TO_GND_PDU_MID),     32, TO_PQUEUE_CPD_CFDP_IDX},
         {FROM_CPD(CF_TRANS_TLM_MID),             1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(CFE_ES_APP_TLM_MID),           1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(CFE_ES_HK_TLM_MID),            1, TO_PQUEUE_CPD_HK_IDX},
@@ -87,7 +87,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {FROM_CPD(LC_HK_TLM_MID),                1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(LD_DIAG_TLM_MID),              1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(LD_HK_TLM_MID),                1, TO_PQUEUE_CPD_HK_IDX},
-        {FROM_CPD(MAC_HK_TLM_MID),               1, TO_PQUEUE_CPD_HK_IDX},
+        {FROM_CPD(FAC_HK_TLM_MID),               1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(MD_HK_TLM_MID),                1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(MM_HK_TLM_MID),                1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(FPC_DIAG_TLM_MID),             1, TO_PQUEUE_CPD_HK_IDX},
@@ -116,7 +116,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {BAT_HK_TLM_MID,                         1, TO_PQUEUE_PPD_HK_IDX},
         {CF_CONFIG_TLM_MID,                      1, TO_PQUEUE_PPD_HK_IDX},
         {CF_HK_TLM_MID,                          1, TO_PQUEUE_PPD_HK_IDX},
-        {CF_SPACE_TO_GND_PDU_MID,               32, TO_PQUEUE_PPD_CFDP_IDX},
+        {CF_PPD_TO_GND_PDU_MID,     TO_CF_MAX_PDUS, TO_PQUEUE_PPD_CFDP_IDX},
         {CF_TRANS_TLM_MID,                       1, TO_PQUEUE_PPD_HK_IDX},
         {CFE_ES_APP_TLM_MID,                     1, TO_PQUEUE_PPD_HK_IDX},
         {CFE_ES_HK_TLM_MID,                      1, TO_PQUEUE_PPD_HK_IDX},

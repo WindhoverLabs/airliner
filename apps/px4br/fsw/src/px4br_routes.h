@@ -9,7 +9,7 @@
 #define SRC_PX4BR_ROUTES_H_
 
 #include "cfe.h"
-#include "msg_ids.h"
+#include "px4br_msgids.h"
 #include "px4br_app.h"
 
 #define PX4BR_MAX_ROUTE_COUNT		200

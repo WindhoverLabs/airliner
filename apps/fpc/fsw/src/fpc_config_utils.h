@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (c) 2017 Windhover Labs, L.L.C. All rights reserved.
+ *   Copyright (c) 2022 Windhover Labs, L.L.C. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -30,17 +30,17 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  *****************************************************************************/
-    
+
 #ifndef FPC_CONFIG_UTILS_H
 #define FPC_CONFIG_UTILS_H
 
 /************************************************************************
-** Pragmas
-*************************************************************************/
+ ** Pragmas
+ *************************************************************************/
 
 /************************************************************************
-** Includes
-*************************************************************************/
+ ** Includes
+ *************************************************************************/
 #include "cfe.h"
 #include "fpc_app.h"
 
@@ -49,98 +49,97 @@ extern "C" {
 #endif
 
 /************************************************************************
-** Local Defines
-*************************************************************************/
+ ** Local Defines
+ *************************************************************************/
 
 /************************************************************************
-** Local Structure Declarations
-*************************************************************************/
+ ** Local Structure Declarations
+ *************************************************************************/
 
 /************************************************************************
-** External Global Variables
-*************************************************************************/
+ ** External Global Variables
+ *************************************************************************/
 
 /************************************************************************
-** Global Variables
-*************************************************************************/
+ ** Global Variables
+ *************************************************************************/
 
 /************************************************************************
-** Local Variables
-*************************************************************************/
+ ** Local Variables
+ *************************************************************************/
 
 /************************************************************************
-** Local Function Prototypes
-*************************************************************************/
+ ** Local Function Prototypes
+ *************************************************************************/
 
 /************************************************************************/
 /** \brief Init FPC Config table
-**
-**  \par Description
-**       This function initializes FPC's Config table
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
-**  \retstmt Return codes from #CFE_TBL_Register          \endcode
-**  \retstmt Return codes from #CFE_TBL_Load              \endcode
-**  \retstmt Return codes from #FPC_AcquireConfigPointers \endcode
-**  \endreturns
-**
-*************************************************************************/
-int32  FPC_InitConfigTbl(void);
+ **
+ **  \par Description
+ **       This function initializes FPC's Config table
+ **
+ **  \par Assumptions, External Events, and Notes:
+ **       None
+ **
+ **  \returns
+ **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
+ **  \retstmt Return codes from #CFE_TBL_Register          \endcode
+ **  \retstmt Return codes from #CFE_TBL_Load              \endcode
+ **  \retstmt Return codes from #FPC_AcquireConfigPointers \endcode
+ **  \endreturns
+ **
+ *************************************************************************/
+int32 FPC_InitConfigTbl(void);
 
 /************************************************************************/
 /** \brief Validate FPC Config table
-**
-**  \par Description
-**       This function validates FPC's Config table
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
-**  \endreturns
-**
-*************************************************************************/
-int32  FPC_ValidateConfigTbl(void*);
+ **
+ **  \par Description
+ **       This function validates FPC's Config table
+ **
+ **  \par Assumptions, External Events, and Notes:
+ **       None
+ **
+ **  \returns
+ **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
+ **  \endreturns
+ **
+ *************************************************************************/
+int32 FPC_ValidateConfigTbl(void*);
 
 /************************************************************************/
 /** \brief Obtain FPC Config Table Data Pointer
-**
-**  \par Description
-**       This function manages the config table
-**       and obtains a pointer to its data.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
-**  \endreturns
-**
-*************************************************************************/
+ **
+ **  \par Description
+ **       This function manages the config table
+ **       and obtains a pointer to its data.
+ **
+ **  \par Assumptions, External Events, and Notes:
+ **       None
+ **
+ **  \returns
+ **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
+ **  \endreturns
+ **
+ *************************************************************************/
 int32 FPC_AcquireConfigPointers(void);
 
 /************************************************************************/
 /** \brief Process new FPC Config table
-**
-**  \par Description
-**       This function processes FPC's new Config table
-**       and set Config parameters with new values.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
-**  \endreturns
-**
-*************************************************************************/
-void   FPC_ProcessNewConfigTbl(void);
-
+ **
+ **  \par Description
+ **       This function processes FPC's new Config table
+ **       and set Config parameters with new values.
+ **
+ **  \par Assumptions, External Events, and Notes:
+ **       None
+ **
+ **  \returns
+ **  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS  \endcode
+ **  \endreturns
+ **
+ *************************************************************************/
+void FPC_ProcessNewConfigTbl(void);
 
 #ifdef __cplusplus
 }
@@ -151,4 +150,4 @@ void   FPC_ProcessNewConfigTbl(void);
 /************************/
 /*  End of File Comment */
 /************************/
-    
+

@@ -44,70 +44,49 @@ static OS_USED CFE_TBL_FileDef_t CFE_TBL_FileDef =
 SBND_ConfigTbl_t SBND_ConfigTbl =
 {
     {
-        /* Mids[0] */
-        FROM_CPD(AMC_CMD_MID),
-        /* Mids[1] */
-        CF_SPACE_TO_GND_PDU_MID,
-        /* Mids[2] */
-        CF_INCOMING_PDU_MID,
-        /* Mids[3] */
-        SBND_HK_TLM_MID,
-        /* Mids[4] */
-        0x0,
-        /* Mids[5] */
-        0x0,
-        /* Mids[6] */
-        0x0,
-        /* Mids[7] */
-        0x0,
-        /* Mids[8] */
-        0x0,
-        /* Mids[9] */
-        0x0,
-        /* Mids[10] */
-        0x0,
-        /* Mids[11] */
-        0x0,
-        /* Mids[12] */
-        0x0,
-        /* Mids[13] */
-        0x0,
-        /* Mids[14] */
-        0x0,
-        /* Mids[15] */
-        0x0,
-        /* Mids[16] */
-        0x0,
-        /* Mids[17] */
-        0x0,
-        /* Mids[18] */
-        0x0,
-        /* Mids[19] */
-        0x0,
-        /* Mids[20] */
-        0x0,
-        /* Mids[21] */
-        0x0,
-        /* Mids[22] */
-        0x0,
-        /* Mids[23] */
-        0x0,
-        /* Mids[24] */
-        0x0,
-        /* Mids[25] */
-        0x0,
-        /* Mids[26] */
-        0x0,
-        /* Mids[27] */
-        0x0,
-        /* Mids[28] */
-        0x0,
-        /* Mids[29] */
-        0x0,
-        /* Mids[30] */
-        0x0,
-        /* Mids[31] */
-        0x0,
+        /* 0 */   TO_CPD(AMC_CMD_MID),
+        /* 1 */   CF_PPD_TO_CPD_PDU_MID,
+        /* 2 */   0,
+        /* 3 */   SBND_HK_TLM_MID,
+        /* 4 */	  TO_CPD(CFE_ES_CMD_MID),
+        /* 5 */	  TO_CPD(CFE_EVS_CMD_MID),
+        /* 6 */	  TO_CPD(CFE_SB_CMD_MID),
+        /* 7 */	  TO_CPD(CFE_TBL_CMD_MID),
+        /* 8 */	  TO_CPD(CFE_TIME_CMD_MID),
+        /* 9 */	  TO_CPD(CF_CMD_MID),
+        /* 10 */  TO_CPD(CI_CMD_MID),
+        /* 11 */  TO_CPD(CS_CMD_MID),
+        /* 12 */  TO_CPD(CVT_CMD_MID),
+        /* 13 */  0,
+        /* 14 */  TO_CPD(FM_CMD_MID),
+        /* 15 */  TO_CPD(HK_CMD_MID),
+        /* 16 */  TO_CPD(HS_CMD_MID),
+        /* 17 */  TO_CPD(LC_CMD_MID),
+        /* 18 */  TO_CPD(MD_CMD_MID),
+        /* 19 */  TO_CPD(MM_CMD_MID),
+        /* 20 */  TO_CPD(SC_CMD_MID),
+        /* 21 */  TO_CPD(SCH_CMD_MID),
+        /* 22 */  TO_CPD(TO_CMD_MID),
+        /* 23 */  TO_CPD(AMC_CMD_MID),
+        /* 24 */  TO_CPD(LD_CMD_MID),
+        /* 25 */  TO_CPD(FAC_CMD_MID),
+        /* 26 */  TO_CPD(FPC_CMD_MID),
+        /* 27 */  TO_CPD(NAV_CMD_MID),
+        /* 28 */  TO_CPD(PE_CMD_MID),
+        /* 29 */  TO_CPD(QAE_CMD_MID),
+        /* 30 */  TO_CPD(SBND_CMD_MID),
+        /* 31 */  TO_CPD(SENS_CMD_MID),
+        /* 32 */  TO_CPD(VM_CMD_MID),
+        /* 33 */  TO_CPD(BAT_CMD_MID),
+        /* 34 */  TO_CPD(GPS_CMD_MID),
+        /* 35 */  TO_CPD(HMC5883_CMD_MID),
+        /* 36 */  TO_CPD(ICM20689_CMD_MID),
+        /* 37 */  TO_CPD(MS5611_CMD_MID),
+        /* 38 */  TO_CPD(RCIN_CMD_MID),
+        /* 39 */  TO_CPD(SED_CMD_MID),
+        /* 40 */  TO_CPD(VC_CMD_MID),
+        /* 41 */  TO_CPD(ZUSUP_CMD_MID),
+        /* 42 */  TO_CPD(ASPD4525_CMD_MID)
     },
 };
 

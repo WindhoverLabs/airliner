@@ -10,3 +10,6 @@
 [submodule "tools/jMAVSim"]
 	path = tools/jMAVSim
 	url = https://github.com/WindhoverLabs/jMAVSim.git
+[submodule "tools/nanopb"]
+	path = tools/nanopb
+	url = https://github.com/nanopb/nanopb.git

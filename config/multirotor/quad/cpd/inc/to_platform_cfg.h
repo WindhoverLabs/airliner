@@ -15,6 +15,15 @@ extern "C" {
 #define TO_CUSTOM_BURST_LENGTH         (4)
 #define TO_CUSTOM_BURST_DELAY          (1)
 
+#define TO_CUSTOM_TF_SIZE   1000
+#define TO_CUSTOM_TF_OVERFLOW_SIZE TO_CUSTOM_TF_SIZE
+#define TO_CUSTOM_TF_IDLE_SIZE TO_CUSTOM_TF_SIZE
+
+#define TO_CUSTOM_NUM_CHNL      2
+#define TO_CUSTOM_TF_SCID       0
+#define TO_CUSTOM_TF_ERR_CTRL   0
+#define TO_CUSTOM_TF_RANDOMIZE  0
+
 
 /** \tocfg Child task flags
 **
@@ -63,7 +72,7 @@ extern "C" {
 **       Two channels in CF must not have the same semaphore name. This must be unique
 **       compared to other channels' throttling semaphores.
 */
-#define TO_CF_THROTTLE_SEM_NAME    "TO_CF_CH0_SEM"
+#define TO_CF_THROTTLE_SEM_NAME    "TO_CF_SEM"
 
 
 /** \tocfg The channel Name
@@ -78,7 +87,7 @@ extern "C" {
 **  \par Limits:
 **       Must not be larger than the TO_DATA_PIPE_DEPTH
 */
-#define TO_CF_MAX_PDUS    (4)
+#define TO_CF_MAX_PDUS    (1)
 
 
 /** \tocfg Mission specific version number for TO application
@@ -251,6 +260,7 @@ extern "C" {
 */
 #define TO_NUM_BYTES_IN_MEM_POOL        (200 * TO_MAX_BLOCK_SIZE)
 
+#define TO_SPACE_TO_GND_PDU_MID         CF_CPD_TO_GND_PDU_MID
 
 #ifdef __cplusplus
 }

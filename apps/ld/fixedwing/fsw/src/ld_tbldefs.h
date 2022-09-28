@@ -78,6 +78,15 @@ extern "C" {
  */
 #define LD_CONFIG_TABLENAME ("CONFIG_TBL")
 
+/** \brief operational modes. */
+typedef enum
+{
+    /** \brief LD active in all flight modes. */
+    LD_OP_MODE_AUTO   = 0,
+    /** \brief LD inactive in all flight modes. */
+    LD_OP_MODE_MANUAL = 1
+} LD_Modes_t;
+
 /** \brief Definition for a single config table entry */
 typedef struct
 {
@@ -175,7 +184,16 @@ typedef struct
      *      default 8000000.
      */
     uint64 LD_MIN_THR_NO_ALT_TIMEOUT;
-    
+
+    /** \ldcfg LD_OP_MODE
+     *
+     *  \brief Operational mode.
+     *
+     *  \par Limits:
+     *      default LD_OP_MODE_AUTO.
+     */
+    LD_Modes_t LD_OP_MODE;
+
 }LD_ConfigTbl_t;
 
 #ifdef __cplusplus

@@ -48,6 +48,7 @@ extern "C"
 #include "px4br_cmds.h"
 #include "px4br_events.h"
 #include "px4br_cmd_codes.h"
+#include "px4br_msgids.h"
 
 
 

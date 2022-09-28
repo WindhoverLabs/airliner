@@ -45,7 +45,7 @@ PQ_ChannelTbl_t PQ_BackupConfigTbl =
         {CF_HK_TLM_MID,                1, PQ_PQUEUE_LOW_IDX},
         {CF_TRANS_TLM_MID,             1, PQ_PQUEUE_LOW_IDX},
         {CF_CONFIG_TLM_MID,            1, PQ_PQUEUE_LOW_IDX},
-        {CF_SPACE_TO_GND_PDU_MID,     32, PQ_PQUEUE_LOW_IDX},
+        {CF_CPD_TO_PPD_PDU_MID,       32, PQ_PQUEUE_LOW_IDX},
         {FM_HK_TLM_MID,                1, PQ_PQUEUE_LOW_IDX},
         {FM_FILE_INFO_TLM_MID,         1, PQ_PQUEUE_LOW_IDX},
         {FM_DIR_LIST_TLM_MID,          1, PQ_PQUEUE_LOW_IDX},

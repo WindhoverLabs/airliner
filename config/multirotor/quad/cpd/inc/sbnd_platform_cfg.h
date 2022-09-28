@@ -80,7 +80,7 @@ extern "C" {
 */
 #define SBND_CMD_PIPE_NAME              ("SBND_CMD_PIPE")
 
-#define SBND_CONFIG_MAX_MIDS            (170)
+#define SBND_CONFIG_MAX_MIDS            (200)
 
 #define SBND_DATA_MID_MAX_MSG_COUNT      (1)
 
@@ -115,6 +115,9 @@ extern "C" {
 */
 #define SBND_STARTUP_TIMEOUT_MSEC    (1000)
 
+#define SBND_CF_THROTTLE_SEM_NAME       "SBND_CF_SEM"
+#define SBND_CF_THROTTLE_SEM_MAX_COUNT  (1)
+#define SBND_CF_PDU_MID                 CF_CPD_TO_PPD_PDU_MID
 
 #ifdef __cplusplus
 }

@@ -48,9 +48,9 @@ buildliner_add_app_def(fac
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_app.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_app.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_config_utils.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_symbols.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_events.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_msg.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_symbols.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_tbldefs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_version.h
 
@@ -61,8 +61,8 @@ buildliner_add_app_def(fac
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
     
     REFERENCE_CONFIG
-        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/mission_inc
-        ${PROJECT_SOURCE_DIR}/apps/fac/fsw/platform_inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../mission_inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../platform_inc
         
     COMMANDER_DISPLAYS 
         ${CMAKE_CURRENT_SOURCE_DIR}/../../cdr
@@ -80,17 +80,30 @@ buildliner_add_app_unit_test(fac-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fac_cmds_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fac_config_tbl_test.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fac_config_tbl_test.hpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fac_testrunner.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fac_test_utils.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fac_test_utils.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/fac_testrunner.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs.cpp
+
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ECL_Controller.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ECL_Controller.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ECL_PitchController.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ECL_PitchController.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ECL_RollController.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ECL_RollController.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ECL_WheelController.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ECL_WheelController.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ECL_YawController.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/ECL_YawController.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_app.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_app.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_config_utils.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_symbols.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_events.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_msg.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_tbldefs.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_version.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/fac_config_utils.cpp
+
         ${PX4LIB_LIB_SOURCES}
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../cfs_lib/fsw/src/cfs_utils.c
 

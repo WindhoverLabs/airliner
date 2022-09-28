@@ -54,6 +54,7 @@ void Ut_TO_SetFunctionHook(uint32 Index, void *FunPtr)
     else if (Index == UT_TO_VERIFYCMDLENGTH_INDEX)     { Ut_TO_HookTable.TO_VerifyCmdLength = (osalbool (*)(CFE_SB_Msg_t*, uint16))FunPtr; }
     else if (Index == UT_TO_CHANNEL_LOCKBYINDEX_INDEX) { Ut_TO_HookTable.TO_Channel_LockByIndex = (void (*)(uint8))FunPtr; }
     else if (Index == UT_TO_MESSAGEFLOW_GETOBJECT_INDEX) {Ut_TO_HookTable.TO_MessageFlow_GetObject = (TO_MessageFlow_t* (*)(TO_ChannelData_t*, CFE_SB_MsgId_t, uint32*))FunPtr; }
+    else if (Index == UT_TO_OUTPUTQUEUE_GETMSG_INDEX) {Ut_TO_HookTable.TO_OutputQueue_GetMsg = (int32* (*)(TO_ChannelData_t*, CFE_SB_MsgPtr_t*, uint32))FunPtr; }
     else
     {
         printf("Unsupported TO Index In SetFunctionHook Call %lu\n", Index);
@@ -203,6 +204,20 @@ int32 TO_Channel_OpenChannel(const uint32 index, const char *ChannelName,
     /* Check for Function Hook */
     if (Ut_TO_HookTable.TO_Channel_OpenChannel)
         return Ut_TO_HookTable.TO_Channel_OpenChannel(index, ChannelName, ConfigTableName, ConfigTableFileName, BackupTbl, DumpTableName, CfCntSemMax, CfCntSemName);
+
+    return 0;
+}
+
+
+int32 TO_OutputQueue_GetMsg(TO_ChannelData_t *channel, CFE_SB_MsgPtr_t *MsgPtr, int32 Timeout )
+{
+    /* Check for specified return */
+    if (Ut_TO_UseReturnCode(UT_TO_OUTPUTQUEUE_GETMSG_INDEX))
+        return Ut_TO_ReturnCodeTable[UT_TO_OUTPUTQUEUE_GETMSG_INDEX].Value;
+
+    /* Check for Function Hook */
+    if (Ut_TO_HookTable.TO_OutputQueue_GetMsg)
+        return Ut_TO_HookTable.TO_OutputQueue_GetMsg(channel, MsgPtr, Timeout);
 
     return 0;
 }

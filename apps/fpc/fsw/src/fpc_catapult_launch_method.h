@@ -48,14 +48,15 @@
 namespace launchdetection
 {
 
-enum LaunchDetectionResult {
+enum LaunchDetectionResult
+{
     LAUNCHDETECTION_RES_NONE = 0, /**< No launch has been detected */
     LAUNCHDETECTION_RES_DETECTED_ENABLECONTROL = 1, /**< Launch has been detected, the controller should
-                              control the attitude. However any motors should not throttle
-                              up. For instance this is used to have a delay for the motor
-                              when launching a fixed wing aircraft from a bungee */
+     control the attitude. However any motors should not throttle
+     up. For instance this is used to have a delay for the motor
+     when launching a fixed wing aircraft from a bungee */
     LAUNCHDETECTION_RES_DETECTED_ENABLEMOTORS = 2 /**< Launch has been detected, the controller should control
-                            attitude and also throttle up the motors. */
+     attitude and also throttle up the motors. */
 };
 
 class CatapultLaunchMethod
@@ -65,27 +66,31 @@ public:
     ~CatapultLaunchMethod();
 
     void update(float accel_x);
-    LaunchDetectionResult getLaunchDetected() const ;
+    LaunchDetectionResult getLaunchDetected() const;
     void reset();
     float getPitchMax(float pitchMaxDefault);
-    void Initialize(float thresholdAccel, float thresholdTime, float motorDelay, float pitchMaxPreThrottle);
+    void Initialize(float thresholdAccel, float thresholdTime, float motorDelay,
+            float pitchMaxPreThrottle);
 
 private:
-    uint64 last_timestamp{0};
-	float integrator{0.0f};
-	float motorDelayCounter{0.0f};
+    uint64 last_timestamp
+    { 0 };
+    float integrator
+    { 0.0f };
+    float motorDelayCounter
+    { 0.0f };
 
-	LaunchDetectionResult state{LAUNCHDETECTION_RES_NONE};
+    LaunchDetectionResult state
+    { LAUNCHDETECTION_RES_NONE };
 
     float thresholdAccel;
     float thresholdTime;
     float motorDelay;
     float pitchMaxPreThrottle; /**< Upper pitch limit before throttle is turned on.
-						       Can be used to make sure that the AC does not climb
-						       too much while attached to a bungee */
+     Can be used to make sure that the AC does not climb
+     too much while attached to a bungee */
 
 };
-
 
 } // namespace launchdetection
 

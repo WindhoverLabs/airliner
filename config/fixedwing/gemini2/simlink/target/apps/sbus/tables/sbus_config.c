@@ -33,7 +33,7 @@
 static CFE_TBL_FileDef_t CFE_TBL_FileDef =
 {
     "SBUS_ConfigTbl", "SBUS.CONFIG_TBL", "SBUS default config table",
-    "sbus_config.tbl", sizeof(SBUS_ConfigTblEntry_t)
+    "sbus_cfg.tbl", sizeof(SBUS_ConfigTblEntry_t)
 };
 
 /************************************************************************

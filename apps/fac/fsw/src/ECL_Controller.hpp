@@ -46,9 +46,38 @@ public:
 	void set_bodyrate_setpoint(float rate) {_bodyrate_setpoint = rate;}
 
 	/* Getters */
-	float get_rate_error();
 	float get_desired_rate();
 	float get_desired_bodyrate();
+
+	float get_time_constant()
+	{
+		return _tc;
+	}
+
+	float get_k_p()
+	{
+		return _k_p;
+	}
+
+	float get_k_i()
+	{
+		return _k_i;
+	}
+
+	float get_k_ff()
+	{
+		return _k_ff;
+	}
+
+	float get_integrator_max()
+	{
+		return _integrator_max;
+	}
+
+	float get_max_rate()
+	{
+		return _max_rate;
+	}
 
 	void  reset_integrator();
 
@@ -67,7 +96,6 @@ protected:
 	float _rate_error;
 	float _rate_setpoint;
 	float _bodyrate_setpoint;
-	float constrain_airspeed(float airspeed, float minspeed, float maxspeed);
 };
 
 #endif

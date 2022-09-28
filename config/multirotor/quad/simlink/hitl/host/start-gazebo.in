@@ -1,0 +1,34 @@
+#!/bin/bash
+
+pkill -x gazebo || true
+
+if [ -x "$(command -v gazebo)" ]
+then
+	# setup Gazebo env and update package path
+	export GAZEBO_PLUGIN_PATH=@GAZEBO_PLUGIN_BUILD_DIR@:${GAZEBO_PLUGIN_PATH}
+        # Add gazebo 8 built-in plugins to path
+        export GAZEBO_PLUGIN_PATH=/usr/lib/x86_64-linux-gnu/gazebo-8/plugins:${GAZEBO_PLUGIN_PATH}
+	export GAZEBO_MODEL_PATH=${GAZEBO_MODEL_PATH}:@GAZEBO_MODELS_DIR@
+	# Disabling the remote model download seems only necessary with Gazebo 6
+	#export GAZEBO_MODEL_DATABASE_URI=""
+	export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:@GAZEBO_PLUGIN_BUILD_DIR@/msgs/:@GAZEBO_PLUGIN_BUILD_DIR@
+
+	gzserver --verbose @GAZEBO_WORLDS_DIR@/quad_world_nls.sdf &
+	SIM_PID=`echo $!`
+
+	if [[ -n "$HEADLESS" ]]; then
+		echo "not running gazebo gui"
+	else
+		gzclient --verbose
+		GUI_PID=`echo $!`
+	fi
+else
+	echo "You need to have gazebo simulator installed!"
+	exit 1
+fi
+
+kill -9 $SIM_PID
+if [[ ! -n "$HEADLESS" ]]; then
+	kill -9 $GUI_PID
+fi
+

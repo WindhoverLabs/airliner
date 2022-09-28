@@ -52,7 +52,7 @@ include(${PROJECT_SOURCE_DIR}/core/tools/auto-yamcs/build-functions.cmake)
 #)
 function(psp_buildliner_initialize)
     # Define the function arguments.
-    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "INSTALL_DIR;CORE_BINARY;CORE_BINARY_NAME;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_DISPLAYS;COMMANDER_WORKSPACE_OVERLAY;COMMANDER_CUSTOM_MACRO_BLOCK" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "REFERENCE;APPS_ONLY" "INSTALL_DIR;CORE_BINARY;CORE_BINARY_NAME;OSAL;STARTUP_SCRIPT;CPU_ID;COMMANDER_WORKSPACE;COMMANDER_DISPLAYS;COMMANDER_WORKSPACE_OVERLAY;COMMANDER_CUSTOM_MACRO_BLOCK" "CONFIG;CONFIG_SOURCES;FILESYS;CONFIG_DEFINITION;COVERAGE_EXCLUSIONS" ${ARGN})
     
     # Set the location to put applications and tables, if specified. 
     if(PARSED_ARGS_INSTALL_DIR)
@@ -209,6 +209,33 @@ function(psp_buildliner_initialize)
             endif()
         endif()
     endif()
+
+    set(CORE_COVERAGE_EXCLUSIONS 
+        ${PROJECT_SOURCE_DIR}/core/base/ut_assert/src
+        ${PROJECT_SOURCE_DIR}/core/base/osal/src/tests
+        ${PROJECT_SOURCE_DIR}/core/base/osal/src/ut-stubs
+        ${PROJECT_SOURCE_DIR}/core/base/osal/ut_assert/src
+        */unit_test
+        */unit-test
+        */unit_tests
+        */unit-tests
+    )
+
+    add_custom_target(coverage-report)
+    set_target_properties(coverage-report PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    add_custom_target(init-coverage-report 
+        COMMAND ${PROJECT_SOURCE_DIR}/core/base/tools/ci/init_coverage.sh ${CMAKE_BINARY_DIR}
+        COMMAND ${PROJECT_SOURCE_DIR}/core/base/tools/ci/add_exclusions.sh ${CMAKE_BINARY_DIR} ${CORE_COVERAGE_EXCLUSIONS}
+        COMMAND ${PROJECT_SOURCE_DIR}/core/base/tools/ci/add_exclusions.sh ${CMAKE_BINARY_DIR} ${PSP_COVERAGE_EXCLUSIONS}
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/
+    )
+
+    add_custom_target(finalize-coverage-report
+        COMMAND ${PROJECT_SOURCE_DIR}/core/base/tools/ci/generate_coverage.sh
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/
+    )
+    add_dependencies(coverage-report finalize-coverage-report)
+    add_dependencies(finalize-coverage-report init-coverage-report)
 endfunction(psp_buildliner_initialize)
 
 
@@ -245,12 +272,12 @@ function(psp_add_executable)
         target_link_libraries(${TARGET_BINARY} PUBLIC ${PARSED_ARGS_LIBS})
     endif()
     
-    if(PARSED_ARGS_COMPILE_FLAGS)
+    if(COMPILE_FLAGS OR PARSED_ARGS_COMPILE_FLAGS)
         set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} ${PARSED_ARGS_COMPILE_FLAGS}")
         set_target_properties(${TARGET_BINARY} PROPERTIES COMPILE_FLAGS "${COMPILE_FLAGS} ${PARSED_ARGS_COMPILE_FLAGS}")
     endif()
-    
-    if(PARSED_ARGS_LINK_FLAGS)
+
+    if(LINK_FLAGS OR PARSED_ARGS_LINK_FLAGS)
         set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES LINK_FLAGS "${LINK_FLAGS} ${PARSED_ARGS_LINK_FLAGS}")
         set_target_properties(${TARGET_BINARY} PROPERTIES LINK_FLAGS "${LINK_FLAGS} ${PARSED_ARGS_LINK_FLAGS}")
     endif()
@@ -280,17 +307,6 @@ function(psp_add_executable)
     # because they aren't being used.
     set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES ENABLE_EXPORTS TRUE)
     set_target_properties(${TARGET_BINARY}                PROPERTIES ENABLE_EXPORTS TRUE)
-        
-    # Add in the various flags also supplied by the PSP.
-    if(COMPILE_FLAGS)
-        set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES COMPILE_FLAGS ${COMPILE_FLAGS})
-        set_target_properties(${TARGET_BINARY}                PROPERTIES COMPILE_FLAGS ${COMPILE_FLAGS})
-    endif()
-    if(LINK_FLAGS)
-        set_target_properties(${TARGET_BINARY_WITHOUT_SYMTAB} PROPERTIES LINK_FLAGS ${LINK_FLAGS})
-        set_target_properties(${TARGET_BINARY_WITH_SYMTAB}    PROPERTIES LINK_FLAGS ${LINK_FLAGS})
-        set_target_properties(${TARGET_BINARY}                PROPERTIES LINK_FLAGS ${LINK_FLAGS})
-    endif()
         
     # Link in the various libraries specified by the PSP
     target_link_libraries(${TARGET_BINARY_WITHOUT_SYMTAB} PUBLIC ${LINK_FLAGS} ${PSP_LIBS})
@@ -445,6 +461,8 @@ function(psp_buildliner_add_app)
     # Define the application name.
     set(PARSED_ARGS_APP_NAME ${ARGV0})
     cmake_parse_arguments(PARSED_ARGS "EMBEDDED" "DESIGN_DEFINITION" "CONFIG;CONFIG_SOURCES;INCLUDES;CONFIG_DEFINITION;COMPILE_OPTIONS" ${ARGN})
+
+    message("Adding ${PARSED_ARGS_APP_NAME}")
     
     # Set the embedded property, if present.
     if(PARSED_ARGS_EMBEDDED)
@@ -650,7 +668,7 @@ endfunction(buildliner_add_app_dependencies)
 
 function(psp_buildliner_add_app_unit_test)
     set(PARSED_ARGS_TARGET ${ARGV0})
-    cmake_parse_arguments(PARSED_ARGS "UTASSERT;NO_MEMCHECK;NO_HELGRIND;NO_MASSIF" "COMPILE_OPTIONS;FILE;VALGRIND_SUPPRESSION_FILE" "SOURCES;LIBS;INCLUDES;WRAPPERS;REFERENCE_CUSTOM_SOURCE" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "UTASSERT;NO_MEMCHECK;NO_HELGRIND;NO_MASSIF" "COMPILE_OPTIONS;FILE;VALGRIND_SUPPRESSION_FILE" "SOURCES;LIBS;INCLUDES;WRAPPERS;REFERENCE_CUSTOM_SOURCE;COVERAGE_EXCLUSIONS" ${ARGN})
         
     get_property(PUBLIC_APP_INCLUDES GLOBAL PROPERTY PUBLIC_APP_INCLUDES_PROPERTY)
     separate_arguments(PUBLIC_APP_INCLUDES)
@@ -718,6 +736,7 @@ function(psp_buildliner_add_app_unit_test)
     )
     
     if(${GCOV_SUPPORTED})
+
         psp_add_executable(${PARSED_ARGS_TARGET}-gcov
             EXCLUDE_FROM_ALL
 
@@ -795,6 +814,18 @@ function(psp_buildliner_add_app_unit_test)
             endif()
         endif()
     endif()
+    
+    # Add unit test exclusions, if defined.
+    if(PARSED_ARGS_COVERAGE_EXCLUSIONS)
+        string (REPLACE ";" " " COVERAGE_EXCLUSIONS_STRING "${PARSED_ARGS_COVERAGE_EXCLUSIONS}")
+        add_custom_target(${PARSED_ARGS_TARGET}-add-ut-coverage-exclusions
+            COMMAND ${PROJECT_SOURCE_DIR}/core/base/tools/ci/add_exclusions.sh ${CMAKE_BINARY_DIR} ${COVERAGE_EXCLUSIONS_STRING}
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/
+        )
+        add_dependencies(${PARSED_ARGS_TARGET}-add-ut-coverage-exclusions init-coverage-report)
+        add_dependencies(finalize-coverage-report ${PARSED_ARGS_TARGET}-add-ut-coverage-exclusions)
+    endif()
+
 endfunction(psp_buildliner_add_app_unit_test)
 
 

@@ -149,7 +149,7 @@
 **      Lower Limit of 1, Upper limit of 255.
 **
 */
-#define CF_NUM_INPUT_CHANNELS               1
+#define CF_NUM_INPUT_CHANNELS               2
 
 
 /**
@@ -192,7 +192,7 @@
 **      added.
 **
 */
-#define CF_MAX_POLLING_DIRS_PER_CHAN        8
+#define CF_MAX_POLLING_DIRS_PER_CHAN        16
 
 
 /**
@@ -262,8 +262,8 @@
 #define CF_FILTERED_EVENT4                  CF_OUT_TRANS_OK_EID
 #define CF_FILTER_MASK4                     CFE_EVS_NO_FILTER
 
-#define CF_FILTERED_EVENT5                  0
-#define CF_FILTER_MASK5                     CFE_EVS_NO_FILTER
+#define CF_FILTERED_EVENT5                  CF_QDIR_OPENFILE_EID
+#define CF_FILTER_MASK5                     CFE_EVS_FIRST_ONE_STOP
 
 #define CF_FILTERED_EVENT6                  0
 #define CF_FILTER_MASK6                     CFE_EVS_NO_FILTER

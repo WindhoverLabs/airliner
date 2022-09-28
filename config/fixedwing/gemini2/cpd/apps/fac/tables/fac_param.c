@@ -60,7 +60,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.4f,
+     0.4f,
 
 	/**
 	 * Attitude pitch time constant (FW_P_TC)
@@ -78,7 +78,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.4f,
+     0.4f,
 
 	/**
 	 * Pitch rate proportional gain (FW_PR_P).
@@ -93,7 +93,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.01f,
+     0.04f,
 
 	/**
 	 * Pitch rate integrator gain (FW_PR_I).
@@ -108,7 +108,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.02f,
+     0.01f,
 
 	/**
 	 * Maximum positive / up pitch rate (FW_P_RMAX_POS).
@@ -123,7 +123,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	5.0f,
+     60.0f,
 
 	/**
 	 * Maximum negative / down pitch rate (FW_P_RMAX_NEG).
@@ -138,7 +138,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	20.0f,
+     60.0f,
 
 	/**
 	 * Pitch rate integrator limit (FW_PR_IMAX).
@@ -152,7 +152,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.2f,
+     0.4f,
 
 	/**
 	 * Roll rate proportional Gain (FW_RR_P).
@@ -167,7 +167,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.01f,
+     0.20f,
 
 	/**
 	 * Roll rate integrator Gain (FW_RR_I).
@@ -182,7 +182,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.01f,
+     0.02f,
 
 	/**
 	 * Roll integrator anti-windup (FW_RR_IMAX).
@@ -195,7 +195,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.2f,
+     0.2f,
 
 	/**
 	 * Maximum roll rate (FW_R_RMAX).
@@ -210,7 +210,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	10.0f,
+     70.0f,
 
 	/**
 	 * Yaw rate proportional gain (FW_YR_P).
@@ -225,7 +225,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.02f,
+     0.05f,
 
 	/**
 	 * Yaw rate integrator gain (FW_YR_I).
@@ -240,7 +240,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	0.0f,
+     0.02f,
 
 	/**
 	 * Yaw rate integrator limit (FW_YR_IMAX).
@@ -254,7 +254,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.2f,
+     0.2f,
 
 	/**
 	 * Maximum yaw rate (FW_Y_RMAX).
@@ -269,7 +269,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	0.0f,
+     0.0f,
 
 	/**
 	 * Roll control to yaw control feedforward gain (FW_RLL_TO_YAW_FF).
@@ -284,7 +284,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.01
 	 * @group FW Attitude Control
 	 */
-	0.0f,
+     0.0f,
 
 	/**
 	 * Enable wheel steering controller (FW_W_EN).
@@ -292,7 +292,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @boolean
 	 * @group FW Attitude Control
 	 */
-	0,
+     1,
 
 
 	/**
@@ -308,7 +308,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.5f,
+     0.5f,
 
 	/**
 	 * Wheel steering rate integrator gain (FW_WR_I).
@@ -323,7 +323,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.005
 	 * @group FW Attitude Control
 	 */
-	0.1f,
+     0.1f,
 
 	/**
 	 * Wheel steering rate integrator limit (FW_WR_IMAX).
@@ -337,7 +337,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	1.0f,
+     1.0f,
 
 	/**
 	 * Maximum wheel steering rate (FW_W_RMAX).
@@ -352,7 +352,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	0.0f,
+     0.0f,
 
 	/**
 	 * Roll rate feed forward (FW_RR_FF).
@@ -368,7 +368,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.5f,
+     2.0f,
 
 	/**
 	 * Pitch rate feed forward (FW_PR_FF).
@@ -382,7 +382,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.5f,
+     0.1f,
 
 	/**
 	 * Yaw rate feed forward (FW_YR_FF).
@@ -396,7 +396,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.3f,
+     0.3f,
 
 	/**
 	 * Wheel steering rate feed forward (FW_WR_FF).
@@ -410,7 +410,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.05
 	 * @group FW Attitude Control
 	 */
-	0.2f,
+     0.2f,
 
 	/**
 	 * Minimal speed for yaw coordination (FW_YCO_VMIN).
@@ -425,7 +425,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	1000.0f,
+     10.0f,
 
 	/**
 	 * Method used for yaw coordination (FW_YCO_METHOD).
@@ -440,7 +440,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @value 1 closed-loop
 	 * @group FW Attitude Control
 	 */
-	0,
+     0,
 
 	/**
 	 * Roll setpoint offset (FW_RSP_OFF).
@@ -456,7 +456,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	0.0f,
+     0.0f,
 
 	/**
 	 * Pitch setpoint offset (FW_PSP_OFF).
@@ -472,7 +472,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	0.0f,
+     0.0f,
 
 	/**
 	 * Max manual roll (FW_MAN_R_MAX).
@@ -486,7 +486,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	45.0f,
+     30.0f,
 
 	/**
 	 * Max manual pitch (FW_MAN_P_MAX).
@@ -500,7 +500,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW Attitude Control
 	 */
-	10.0f,
+     20.0f,
 
 	/**
 	 * Scale factor for flaps (FW_FLAPS_SCL).
@@ -512,7 +512,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.01
 	 * @group FW Attitude Control
 	 */
-	1.0f,
+     0.0f,
 
 	/**
 	 * Scale factor for flaperons (FW_FLAPERON_SCL).
@@ -524,7 +524,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.01
 	 * @group FW Attitude Control
 	 */
-	0.0f,
+     0.0f,
 
 	/**
 	 * Disable airspeed sensor (FW_ARSP_MODE).
@@ -535,7 +535,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @boolean
 	 * @group FW Attitude Control
 	 */
-	0,
+     0,
 
 	/**
 	 * Manual roll scale (FW_MAN_R_SC).
@@ -550,7 +550,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.01
 	 * @group FW Attitude Control
 	 */
-	1.0f,
+     1.0f,
 
 	/**
 	 * Manual pitch scale (FW_MAN_P_SC).
@@ -564,7 +564,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.01
 	 * @group FW Attitude Control
 	 */
-	1.0f,
+     1.0f,
 
 	/**
 	 * Manual yaw scale (FW_MAN_Y_SC).
@@ -578,7 +578,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.01
 	 * @group FW Attitude Control
 	 */
-	1.0f,
+     1.0f,
 
 	/**
 	 * Whether to scale throttle by battery power level (FW_BAT_SCALE_EN).
@@ -592,7 +592,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @boolean
 	 * @group FW Attitude Control
 	 */
-	0,
+     0,
 
 	/**
 	 * Acro body x max rate (FW_ACRO_X_MAX).
@@ -605,7 +605,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @unit degrees
 	 * @group FW Attitude Control
 	 */
-	90.0f,
+     90.0f,
 
 	/**
 	 * Acro body y max rate (FW_ACRO_Y_MAX).
@@ -618,7 +618,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @unit degrees
 	 * @group FW Attitude Control
 	 */
-	90.0f,
+     90.0f,
 
 	/**
 	 * Acro body z max rate (FW_ACRO_Z_MAX).
@@ -631,7 +631,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @unit degrees
 	 * @group FW Attitude Control
 	 */
-	45.0f,
+     45.0f,
 
 	/**
 	 * Threshold for Rattitude mode (FW_RATT_TH).
@@ -645,7 +645,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.01
 	 * @group FW Attitude Control
 	 */
-	0.8f,
+     0.8f,
 
 	/**
 	 * Minimum Airspeed (FW_AIRSPD_MIN).
@@ -660,7 +660,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW TECS
 	 */
-	10.0f,
+     13.0f,
 
 	/**
 	 * Maximum Airspeed (FW_AIRSPD_MAX).
@@ -675,7 +675,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW TECS
 	 */
-	20.0f,
+     30.0f,
 
 	/**
 	 * Cruise Airspeed (FW_AIRSPD_TRIM).
@@ -689,7 +689,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @increment 0.5
 	 * @group FW TECS
 	 */
-	15.0f,
+     21.0f,
 
 	/**
 	 * Roll trim (TRIM_ROLL).
@@ -705,7 +705,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @decimal 2
 	 * @increment 0.01
 	 */
-	0.0f,
+     0.0f,
 
 	/**
 	 * Pitch trim (TRIM_PITCH).
@@ -721,7 +721,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @decimal 2
 	 * @increment 0.01
 	 */
-	0.0f,
+     0.0f,
 
 	/**
 	 * Yaw trim (TRIM_YAW).
@@ -737,7 +737,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @decimal 2
 	 * @increment 0.01
 	 */
-	0.0f,
+     0.0f,
 
 	/**
 	 * VTOL Type (Tailsitter=0, Tiltrotor=1, Standard=2) (VT_TYPE).
@@ -750,7 +750,7 @@ FAC_ParamTbl_t FAC_ParamTbl =
 	 * @decimal 0
 	 * @group VTOL Attitude Control
 	 */
-	0
+     0
 };
 
 CFE_TBL_FILEDEF(FAC_ParamTbl, FAC.PARAM_TBL, FAC dflt param table, fac_param.tbl)

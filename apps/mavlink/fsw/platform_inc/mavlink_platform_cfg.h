@@ -112,6 +112,11 @@ extern "C" {
 /* TODO:  Add Doxygen markup. */
 #define MAVLINK_CUSTOM_DEV_PATH       "/tmp/ttyS0"
 
+#define MAVLINK_ACTION_MAP_ENTRIES      (10)
+#define MAVLINK_LISTENER_TASK_FLAGS     (0)
+#define MAVLINK_SYSTEM_ID               (0)
+#define MAVLINK_COMPONENT_ID            (0)
+
 
 #ifdef __cplusplus
 }

@@ -48,8 +48,8 @@ buildliner_add_app_def(ea
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
     
     REFERENCE_CONFIG
-        ${PROJECT_SOURCE_DIR}/apps/ea/fsw/mission_inc
-        ${PROJECT_SOURCE_DIR}/apps/ea/fsw/platform_inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../mission_inc
+        ${CMAKE_CURRENT_SOURCE_DIR}/../platform_inc
 )
 
 buildliner_add_app_unit_test(ea-ut
@@ -80,8 +80,8 @@ buildliner_add_app_unit_test(ea-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/valgrind.supp
 )
 
-add_dependencies(ea-ut ea)
-add_dependencies(ea-ut-gcov ea)
+#add_dependencies(ea-ut ea)
+#add_dependencies(ea-ut-gcov ea)
 
 add_custom_target(
     ea-ut-input-files

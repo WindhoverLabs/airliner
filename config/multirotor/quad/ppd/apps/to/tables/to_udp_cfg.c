@@ -3,6 +3,7 @@
  *************************************************************************/
 #include "cfe_tbl_filedef.h"
 #include "to_tbldefs.h"
+#include "to_platform_cfg.h"
 #include "msg_ids.h"
 
 /**
@@ -59,7 +60,6 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {FROM_CPD(BAT_HK_TLM_MID),               1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(CF_CONFIG_TLM_MID),            1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(CF_HK_TLM_MID),                1, TO_PQUEUE_CPD_HK_IDX},
-        {FROM_CPD(CF_SPACE_TO_GND_PDU_MID),     32, TO_PQUEUE_CPD_CFDP_IDX},
         {FROM_CPD(CF_TRANS_TLM_MID),             1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(CFE_ES_APP_TLM_MID),           1, TO_PQUEUE_CPD_HK_IDX},
         {FROM_CPD(CFE_ES_HK_TLM_MID),            1, TO_PQUEUE_CPD_HK_IDX},
@@ -116,7 +116,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
         {BAT_HK_TLM_MID,                         1, TO_PQUEUE_PPD_HK_IDX},
         {CF_CONFIG_TLM_MID,                      1, TO_PQUEUE_PPD_HK_IDX},
         {CF_HK_TLM_MID,                          1, TO_PQUEUE_PPD_HK_IDX},
-        {CF_SPACE_TO_GND_PDU_MID,               32, TO_PQUEUE_PPD_CFDP_IDX},
+        {CF_PPD_TO_GND_PDU_MID,     TO_CF_MAX_PDUS, TO_PQUEUE_PPD_CFDP_IDX},
         {CF_TRANS_TLM_MID,                       1, TO_PQUEUE_PPD_HK_IDX},
         {CFE_ES_APP_TLM_MID,                     1, TO_PQUEUE_PPD_HK_IDX},
         {CFE_ES_HK_TLM_MID,                      1, TO_PQUEUE_PPD_HK_IDX},
@@ -159,8 +159,8 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_ACTUATOR_ARMED_MID,       1, TO_PQUEUE_LOW_IDX},
 		{FROM_CPD(PX4_ACTUATOR_CONTROLS_0_MID),  1, TO_PQUEUE_CPD_PX4LOW_IDX},
 //        {PX4_ACTUATOR_CONTROLS_1_MID,  1, TO_PQUEUE_LOW_IDX},
-//        {PX4_ACTUATOR_CONTROLS_2_MID,  1, TO_PQUEUE_LOW_IDX},
-//        {PX4_ACTUATOR_CONTROLS_3_MID,  1, TO_PQUEUE_LOW_IDX},
+        {FROM_CPD(PX4_ACTUATOR_CONTROLS_2_MID),  1, TO_PQUEUE_CPD_PX4LOW_IDX},
+        {FROM_CPD(PX4_ACTUATOR_CONTROLS_3_MID),  1, TO_PQUEUE_CPD_PX4LOW_IDX},
 //        {PX4_ACTUATOR_DIRECT_MID,      1, TO_PQUEUE_LOW_IDX},
 		{FROM_CPD(PX4_ACTUATOR_OUTPUTS_MID),     1, TO_PQUEUE_CPD_PX4LOW_IDX},
 //        {PX4_ADC_REPORT_MID,           1, TO_PQUEUE_LOW_IDX},
@@ -191,7 +191,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_GPS_INJECT_DATA_MID,      1, TO_PQUEUE_LOW_IDX},
 //        {PX4_HIL_SENSOR_MID,           1, TO_PQUEUE_LOW_IDX},
 //        {PX4_HOME_POSITION_MID,        1, TO_PQUEUE_LOW_IDX},
-//        {PX4_INPUT_RC_MID,             1, TO_PQUEUE_LOW_IDX},
+        {FROM_CPD(PX4_INPUT_RC_MID),             1, TO_PQUEUE_CPD_PX4LOW_IDX},
 //        {PX4_LED_CONTROL_MID,          1, TO_PQUEUE_LOW_IDX},
 //        {PX4_LOG_MESSAGE_MID,          1, TO_PQUEUE_LOW_IDX},
 //        {PX4_MANUAL_CONTROL_SETPOINT_MID, 1, TO_PQUEUE_LOW_IDX},
@@ -209,7 +209,7 @@ TO_ChannelTbl_t TO_ConfigTbl =
 //        {PX4_POSITION_SETPOINT_TRIPLET_MID, 1, TO_PQUEUE_LOW_IDX},
 //        {PX4_PWM_INPUT_MID,            1, TO_PQUEUE_LOW_IDX},
 //        {PX4_QSHELL_REQ_MID,           1, TO_PQUEUE_LOW_IDX},
-//        {PX4_RC_CHANNELS_MID,          1, TO_PQUEUE_LOW_IDX},
+        {FROM_CPD(PX4_RC_CHANNELS_MID),          1, TO_PQUEUE_CPD_PX4LOW_IDX},
 //        {PX4_RC_PARAMETER_MAP_MID,     1, TO_PQUEUE_LOW_IDX},
 //        {PX4_SAFETY_MID,               1, TO_PQUEUE_LOW_IDX},
 //        {PX4_SATELLITE_INFO_MID),       1, TO_PQUEUE_LOW_IDX},

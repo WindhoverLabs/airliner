@@ -1315,6 +1315,8 @@ typedef enum {
 
 	TO_PQUEUE_SB_ERR_EID = 91,
 
+	TO_CUSTOM_ERR_EID = 92,
+
 /** \brief This is a count of all the app events and should not be used. */
     TO_EVT_CNT
 } TO_EventIds_t;
