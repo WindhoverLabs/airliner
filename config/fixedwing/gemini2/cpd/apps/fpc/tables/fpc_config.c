@@ -175,7 +175,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW TECS
      */
-    5.0f,
+    4.0f,
 
 
     /**
@@ -421,7 +421,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW TECS
      */
-    15.0f,
+    21.0f,
 
     /**
      * AIRSPD_MAX
@@ -437,7 +437,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
      * @increment 0.5
      * @group FW TECS
      */
-    20.0f,
+    30.0f,
 
     /**
      * ARSP_MODE
@@ -984,7 +984,7 @@ FPC_ConfigTbl_t FPC_ConfigTbl =
          * @increment 0.01
          * @group Fixedwing Position Control
          */
-        10.0,
+        13.0,
 
         /**
          * CLMBOUT_DIFF

@@ -61,7 +61,7 @@ NAV_ConfigTbl_t NAV_ConfigTbl =
 	 *  \par Limits:
 	 *       Min > Max (incr.) 25 > 1000 , default 50.0.
 	 */
-	50.0,
+    70.0,
 
 	/** \brief Take-off Altitude.
 	 *
