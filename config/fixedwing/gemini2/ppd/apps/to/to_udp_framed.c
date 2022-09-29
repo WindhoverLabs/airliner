@@ -39,7 +39,7 @@
 ** Includes
 *************************************************************************/
 
-#include "to_custom_udp.h"
+#include "to_udp_framed.h"
 #include "to_platform_cfg.h"
 #include "to_events.h"
 #include "io_lib_utils.h"
@@ -49,6 +49,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include "tm_sync.h"
+#include "tm_sdlp.h"
 
 /************************************************************************
 ** Local Defines
@@ -63,7 +65,6 @@
 
 
 TO_AppCustomData_t     TO_AppCustomData;
-
 TO_EnableChannelCmd_t  TO_EnableChannelCmd_S;
 TO_DisableChannelCmd_t TO_DisableChannelCmd_S;
 
@@ -81,11 +82,12 @@ static const uint16    iCaduSize = TO_CUSTOM_TF_SIZE + TM_SYNC_ASM_SIZE;
 /* Set channel config table */
 TM_SDLP_ChannelConfig_t chnlConfig[] =
 {
-    {0, 0, 0, 0, 0, 0, TO_CUSTOM_TF_OVERFLOW_SIZE}
+    {0, 0, 0, 1, 0, 0, TO_CUSTOM_TF_OVERFLOW_SIZE}
 };
 
 
-void TO_OutputChannel_FrameSend(uint32 ChannelIdx);
+void  TO_OutputChannel_FrameSend(uint32 ChannelIdx);
+int32 TO_CustomSetOcfCmd(COP1_Clcw_t *clcw);
 
 
 uint8 TO_OutputChannel_Status(uint32 Index)
@@ -158,8 +160,8 @@ int32 TO_Custom_Init(void)
                       TO_UDP_CONFIG_TABLE_FILENAME,
                       &TO_BackupConfigTbl,
                       TO_UDP_DUMP_TABLENAME, 
-                      1, 
-                      TO_UDP_CF_THROTTLE_SEM_NAME);
+                      TO_CF_MAX_PDUS,
+                      TO_CF_THROTTLE_SEM_NAME);
 
     for (i=0; i < TO_MAX_CHANNELS; i++)
     {
@@ -345,11 +347,36 @@ void TO_OutputChannel_ProcessNewCustomCmds(CFE_SB_Msg_t* MsgPtr)
                 break;
             }
 
+            case TO_SET_OCF_DATA_CC:
+            {
+            	TO_CustomSetOcfCmd_t *cmd = (TO_CustomSetOcfCmd_t*) MsgPtr;
+                /* Validate arguments. */
+                if(inSize != sizeof(TO_CustomSetOcfCmd_t))
+                {
+                    TO_AppData.HkTlm.CmdErrCnt++;
+                    (void) CFE_EVS_SendEvent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR,
+                                      "Invalid message length.  Received %u.  Expected %u.",
+                                      (unsigned int)inSize, sizeof(TO_CustomSetOcfCmd_t));
+                    break;
+                }
+
+                if(TO_CustomSetOcfCmd(&cmd->clcw))
+                {
+                     TO_AppData.HkTlm.CmdErrCnt++;
+                     break;
+                }
+
+                TO_AppData.HkTlm.CmdCnt++;
+                break;
+            }
+
             default:
+            {
                 TO_AppData.HkTlm.CmdErrCnt++;
                 (void) CFE_EVS_SendEvent(TO_CC_ERR_EID, CFE_EVS_ERROR,
                                   "Recvd invalid cmdId (%u)", (unsigned int)uiCmdCode);
                 break;
+            }
         }
         OS_MutSemGive(TO_AppData.MutexID);
     }
@@ -476,6 +503,33 @@ end_of_function:
 }
 
 
+int32 TO_CustomSetOcfCmd(COP1_Clcw_t *clcw)
+{
+    int32 rc = 0;
+
+    switch(COP1_GetClcwVcId(clcw))
+    {
+        case 0:
+        {
+            CFE_PSP_MemCpy(&TO_AppCustomData.ocfBuff[0],
+                           clcw,
+						   4);
+            break;
+        }
+
+        default:
+        {
+            CFE_EVS_SendEvent(TO_CUSTOM_ERR_EID,
+            		          CFE_EVS_ERROR,
+                              "Received invalid Channel ID in TO_SET_OCF_DATA_CC");
+            rc = 1;
+        }
+    }
+
+    return rc;
+}
+
+
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -518,12 +572,12 @@ void TO_OutputChannel_ChannelHandler(uint32 ChannelIdx)
                 }
                 else if(0 == iStatus)
                 {
-                	TO_OutputChannel_FrameSend(ChannelIdx);
+                    TO_Channel_LockByIndex(ChannelIdx);
+                    TO_AppData.ChannelData[ChannelIdx].OutputQueue.SentCount++;
+                    //TO_AppData.ChannelData[ChannelIdx].OutputQueue.SentBytes += size;
+                    TO_OutputChannel_FrameSend(ChannelIdx);
+                    TO_Channel_UnlockByIndex(ChannelIdx);
                 }
-
-                TO_Channel_LockByIndex(ChannelIdx);
-                TO_AppData.ChannelData[ChannelIdx].OutputQueue.SentCount++;
-                TO_Channel_UnlockByIndex(ChannelIdx);
             }
             else if(iStatus == OS_QUEUE_TIMEOUT)
             {
@@ -549,8 +603,8 @@ void TO_OutputChannel_FrameSend(uint32 ChannelIdx)
 	osalbool sendMessage = TRUE;
     int32    caduSize = 0;
 
-	/* The frame isn't full, but go ahead and send it anyway. But,
-	 * first check if there is packets, otherwise, fill with OID. */
+    /* The frame isn't full, but go ahead and send it anyway. But,
+     * first check if there is packets, otherwise, fill with OID. */
     status = TM_SDLP_FrameHasData(&TO_AppCustomData.frameInfo);
     if(1 == status)
     {
@@ -609,4 +663,9 @@ int32 TO_Custom_InitEvent(int32 *ind)
 void TO_PrintCustomVersion(void)
 {
 
+}
+
+
+void TO_OutputChannel_SendTelemetry(uint32 index)
+{
 }

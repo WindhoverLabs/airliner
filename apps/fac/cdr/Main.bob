@@ -277,4 +277,31 @@ Yamcs.issueCommand(widget, '/cfs/$(CPUID)/apps/fac/SendHK', {});]]></text>
       <border_alarm_sensitive>false</border_alarm_sensitive>
     </widget>
   </widget>
+  <widget type="group" version="2.0.0">
+    <name>Flight</name>
+    <x>324</x>
+    <y>30</y>
+    <width>192</width>
+    <height>116</height>
+    <font>
+      <font family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+    </font>
+    <widget type="action_button" version="3.0.0">
+      <name>AppControl_5</name>
+      <actions>
+        <action type="open_display">
+          <file>UpdateParams.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>Tune</text>
+      <y>5</y>
+      <width>140</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+      <border_alarm_sensitive>false</border_alarm_sensitive>
+    </widget>
+  </widget>
 </display>
