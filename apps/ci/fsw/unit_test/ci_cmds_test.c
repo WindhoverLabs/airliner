@@ -49,43 +49,54 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
-int32 CI_Cmds_Test_UT_CFE_SB_SubscribeHook1(CFE_SB_MsgId_t MsgId, CFE_SB_PipeId_t PipeId,
-                                                CFE_SB_Qos_t Quality, uint16 MsgLim)
+
+/**************************************************************************
+ * Tests for CI_ProcessNewAppCmds()
+ **************************************************************************/
+/**
+ * Test CI_ProcessNewAppCmds(), Reset
+ */
+void Test_CI_ProcessNewAppCmds_Reset(void)
 {
-    return 5;
-}
+    boolean         retCode = FALSE;
+    CI_NoArgCmd_t   cmd;
+    uint32          MsgSize = sizeof(cmd);
+    CFE_SB_MsgPtr_t CmdMsgPtr;
+    CCSDS_CmdPkt_t  *cmdPkt = 0;
+    char            expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
+    /* Create CFE_SB_Msg_t */
+    CFE_SB_InitMsg(&cmd, CI_CMD_MID, MsgSize, TRUE);
+    CmdMsgPtr = (CFE_SB_MsgPtr_t)&cmd;
+    cmdPkt = (CCSDS_CmdPkt_t *)CmdMsgPtr;
 
-int32 CI_Cmds_Test_UT_CFE_SB_SubscribeHook2(CFE_SB_MsgId_t MsgId, CFE_SB_PipeId_t PipeId,
-                                                CFE_SB_Qos_t Quality, uint16 MsgLim)
-{
-    return 6;
-}
+    /* Set to cause to reset */
+    CCSDS_WR_FC(cmdPkt->SecHdr, 1);
 
+    /* Updates values */
+    CI_AppData.HkTlm.usCmdCnt = 1;
+    CI_AppData.HkTlm.usCmdErrCnt = 1;
+    CI_AppData.HkTlm.IngestMsgCount = 1;
+    CI_AppData.HkTlm.IngestErrorCount = 1;
 
-void CI_Function2_Test_Case1(void)
-{
-/*    int32 Result;
+    sprintf(expEventText, "Recvd RESET cmd (%u)", 1);
 
-    CI_AppData.Variable3 = 3;
-
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SUBSCRIBE_INDEX, &CI_Cmds_Test_UT_CFE_SB_SubscribeHook1);
-*/
     /* Execute the function being tested */
-/*    Result = CI_Function2();*/
-    
-    /* Verify results */
-/*    UtAssert_True (CI_AppData.Variable4 == 4, "CI_AppData.Variable4 == 4");
-    UtAssert_True (Result == 25, "Result == 25");
+    CI_ProcessNewAppCmds(CmdMsgPtr);
 
-    UtAssert_True (Ut_CFE_EVS_GetEventQueueDepth() == 0, "Ut_CFE_EVS_GetEventQueueDepth() == 0");
-*/
-} /* end CI_Function2_Test_Case1 */
+    /* Verify results */
+    UtAssert_True(CI_AppData.HkTlm.usCmdCnt == 0,"Reset param");
+    UtAssert_True(CI_AppData.HkTlm.usCmdErrCnt == 0,"Reset param");
+    UtAssert_True(CI_AppData.HkTlm.IngestMsgCount == 0,"Reset param");
+    UtAssert_True(CI_AppData.HkTlm.IngestErrorCount == 0,"Reset param");
+    UtAssert_EventSent(CI_CMD_INF_EID, CFE_EVS_INFORMATION, expEventText, expEventText);
+}
+
+
 
 
 void CI_Cmds_Test_AddTestCases(void)
 {
-    UtTest_Add(CI_Function2_Test_Case1, CI_Test_Setup, CI_Test_TearDown, "CI_Function2_Test_Case1");
-} /* end CI_Cmds_Test_AddTestCases */
-
-
+    UtTest_Add(Test_CI_ProcessNewAppCmds_Reset, CI_Test_Setup, CI_Test_TearDown,
+              "Test_CI_ProcessNewAppCmds_Reset");
+}
