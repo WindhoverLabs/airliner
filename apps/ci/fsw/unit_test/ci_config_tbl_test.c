@@ -164,7 +164,7 @@ void CI_Config_Tbl_Test_AddTestCases(void)
                "Test_CI_InitTbls_Fail_TblLoad");
     UtTest_Add(Test_CI_InitTbls_Fail_TblManage, CI_Test_Setup, CI_Test_TearDown,
                "Test_CI_InitTbls_Fail_TblManage");
-#if 0  // Issue ticket #218
+#if 1  // Issue ticket #218
     UtTest_Add(Test_CI_InitTbls_Fail_TblGetAddress, CI_Test_Setup, CI_Test_TearDown,
                "Test_CI_InitTbls_Fail_TblGetAddress");
 #endif
