@@ -9,7 +9,6 @@
 ECL_YawController::ECL_YawController() :
 	ECL_Controller("yaw"),
 	_coordinated_min_speed(1.0f),
-	_max_rate(0.0f), /* disable by default */
 	_coordinated_method(0)
 {
 }
