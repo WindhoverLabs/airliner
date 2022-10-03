@@ -83,7 +83,7 @@ int32 CFE_SB_SendMsg_TO_RcvMsgHook(CFE_SB_Msg_t* MsgPtr) {
  **************************************************************************/
 
 /**
- * Test TO_InitEvent() with failed CFE_EVS_Register
+ * Test TO_InitEvent(), Fail Register
  */
 void Test_TO_InitEvent_Fail_Register(void)
 {
@@ -98,9 +98,12 @@ void Test_TO_InitEvent_Fail_Register(void)
     result = TO_InitEvent();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitEvent, failed EVS Register");
+    UtAssert_True (result == expected, "InitEvent(), Fail Register");
 }
 
+/**
+ * Test TO_InitEvent(), Fail Custom_Bad_Ind
+ */
 void Test_TO_InitEvent_Fail_Custom_Bad_Ind(void)
 {
     /* Set fail return for TO_Custom_InitEvent()*/
@@ -109,11 +112,14 @@ void Test_TO_InitEvent_Fail_Custom_Bad_Ind(void)
     /* Execute the function being tested*/
     TO_InitEvent();
 
-    UtAssert_True(Ut_CFE_ES_SysLogWritten("TO - Custom Init Event error: event table index out of range. Custom EID filters not set."),
-                  "InitEvent, fail TO_Custom_InitEvent - Bad Index Error");
-
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(
+             "TO - Custom Init Event error: event table index out of range. Custom EID filters not set."),
+             "InitEvent(), Fail Custom_Bad_Ind");
 }
 
+/**
+ * Test TO_InitEvent(), Fail Custom_Index_Occupied
+ */
 void Test_TO_InitEvent_Fail_Custom_Index_Occupied(void)
 {
     /* Set fail return for TO_Custom_InitEvent()*/
@@ -122,11 +128,15 @@ void Test_TO_InitEvent_Fail_Custom_Index_Occupied(void)
     /* Execute the function being tested*/
     TO_InitEvent();
 
-    UtAssert_True(Ut_CFE_ES_SysLogWritten("TO - Custom Init Event error: event table occupied at starting index. Custom EID filters not set."),
-                  "InitEvent, fail TO_Custom_InitEvent - Index Occupied Error");
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(
+        "TO - Custom Init Event error: event table occupied at starting index. Custom EID filters not set."),
+        "InitEvent(), Fail Custom_Index_Occupied");
 
 }
 
+/**
+ * Test TO_InitEvent(), Fail Custom_Too_Many
+ */
 void Test_TO_InitEvent_Fail_Custom_Too_Many(void)
 {
     /* Set fail return for TO_Custom_InitEvent()*/
@@ -135,11 +145,14 @@ void Test_TO_InitEvent_Fail_Custom_Too_Many(void)
     /* Execute the function being tested*/
     TO_InitEvent();
 
-    UtAssert_True(Ut_CFE_ES_SysLogWritten("TO - Custom Init Event error: Filter limit reached. Some custom EID filters not set."),
-                  "InitEvent, fail TO_Custom_InitEvent - Too Many Filters Error");
-
+    UtAssert_True(Ut_CFE_ES_SysLogWritten(
+          "TO - Custom Init Event error: Filter limit reached. Some custom EID filters not set."),
+          "InitEvent(), Fail Custom_Too_Many");
 }
 
+/**
+ * Test TO_InitEvent(), Fail Custom_Unknown
+ */
 void Test_TO_InitEvent_Fail_Custom_Unknown(void)
 {
     /* Set fail return for TO_Custom_InitEvent()*/
@@ -149,17 +162,15 @@ void Test_TO_InitEvent_Fail_Custom_Unknown(void)
     TO_InitEvent();
 
     UtAssert_True(Ut_CFE_ES_SysLogWritten("TO - Custom Init Event: Unknown Error."),
-                  "InitEvent, fail TO_Custom_InitEvent - Unknown Error");
-
+                  "InitEvent(), Fail Custom_Unknown");
 }
-
 
 
 /**************************************************************************
  * Tests for TO_InitPipe()
  **************************************************************************/
 /**
- * Test TO_InitPipe(), fail SCH CFE_SB_CreatePipe
+ * Test TO_InitPipe(), Fail CreateSCHPipe
  */
 void Test_TO_InitPipe_Fail_CreateSCHPipe(void)
 {
@@ -274,10 +285,14 @@ void Test_TO_InitData(void)
     result = TO_InitData();
 
     /* Verify results */
-    UtAssert_True (CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)&TO_AppData.HkTlm) == TO_HK_TLM_MID, "InitData success - TO_HK_TLM_MID subscribed");
+    UtAssert_True (CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)&TO_AppData.HkTlm) == TO_HK_TLM_MID,
+                   "InitData success - TO_HK_TLM_MID subscribed");
     UtAssert_True (result == expected, "InitData success - returned success");
 }
 
+/**
+ * Test TO_InitData(), FailAppMutSemCreate
+ */
 void Test_TO_InitData_FailAppMutSemCreate(void)
 {
     int32 result = -777;
@@ -321,7 +336,6 @@ void Test_TO_InitApp_Fail_InitEvent(void)
     UtAssert_True (result == expected, "InitApp, fail init event");
 }
 
-
 /**
  * Test TO_InitApp(), fail init pipe
  */
@@ -338,7 +352,6 @@ void Test_TO_InitApp_Fail_InitPipe(void)
     /* Verify results */
     UtAssert_True (result == expected, "InitApp, fail init pipe");
 }
-
 
 /**
  * Test TO_InitApp(), fail init data.
@@ -357,7 +370,6 @@ void Test_TO_InitApp_Fail_InitData(void)
     /* Verify results, error code should propagate back to initApp*/
     UtAssert_True (result == expected, "InitApp, fail init data");
 }
-
 
 /**
  * Test TO_InitApp(), fail TO_Channel_InitAll
@@ -379,7 +391,6 @@ void Test_TO_InitApp_Fail_ChannelInitAll(void)
     UtAssert_True (result == expected, "InitApp, fail channel init all");
 }
 
-
 /**
  * Test TO_InitApp(), fail TO_Custom_Init()
  */
@@ -397,7 +408,6 @@ void Test_TO_InitApp_Fail_CustomInit(void)
     /* Verify results */
     UtAssert_True (result == expected, "InitApp, fail custom init all");
 }
-
 
 /**
  * Test TO_InitApp(), Nominal
@@ -431,7 +441,6 @@ void Test_TO_AppMain_Fail_RegisterApp(void)
     /* Execute the function being tested */
     TO_AppMain();
 }
-
 
 /**
  * Test TO_AppMain(), Fail InitApp
@@ -496,7 +505,6 @@ void Test_TO_AppMain_Nominal_SendHK(void)
 
     /* Verify results */
     UtAssert_True (hookCalledCount == 1, "AppMain_Nominal_SendHK");
-
 }
 
 
@@ -513,7 +521,6 @@ void Test_TO_AppMain_Nominal_Wakeup(void)
 
     /* Execute the function being tested */
     TO_AppMain();
-
 }
 
 
@@ -540,7 +547,7 @@ void Test_TO_AppMain_ProcessNewData_InvalidMsgID(void)
     TO_AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(TO_MSG_ID_ERR_EID, CFE_EVS_ERROR, "", "Error Event Sent");
+    UtAssert_EventSent(TO_MSG_ID_ERR_EID, CFE_EVS_ERROR, "", "TO_AppMain(), ProcessNewData - InvalidMsgID");
 }
 
 
@@ -557,12 +564,15 @@ void Test_TO_AppMain_Fail_RcvMsg(void)
     
     /* Verify results */
     UtAssert_EventSent(TO_SB_RECEIVE_ERR_EID, CFE_EVS_CRITICAL, "", 
-                                          "Main loop error: SB receive");    
+                                          "TO_AppMain(), Fail RcvMsg");
 }
 
 /**************************************************************************
  * Tests for TO_ProcessNewCmds()
  **************************************************************************/
+/**
+ * Test TO_ProcessNewCmds(), RcvMsgErr
+ */
 void Test_TO_ProcessNewCmds_RcvMsgErr(void)
 {
     int32 errCodeSet = CFE_SB_MSG_TOO_BIG; //Anything other than CFE_SUCCESS or CFE_SB_NO_MESSAGE
@@ -579,7 +589,7 @@ void Test_TO_ProcessNewCmds_RcvMsgErr(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_PIPE_READ_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "ProcessNewCmds SB_RcvMsg error - error event correct");
+                       expectedEvent, "ProcessNewCmds RcvMsgErr");
 }
 
 
@@ -785,7 +795,7 @@ void Test_TO_ProcessNewAppCmds_Reset_InvalidCmdLength(void)
 }
 
 /**
- * Test TO_ProcessNewAppCmds(), AddMessageFlow command, Nominal
+ * Test TO_ProcessNewAppCmds(), AddMessageFlow_InvalidPQueueIdx
  */
 void Test_TO_ProcessNewAppCmds_AddMessageFlow_InvalidPQueueIdx(void)
 {
@@ -5767,16 +5777,12 @@ void TO_App_Test_AddTestCases(void)
     /* Test for TO_InitEvent() */
     UtTest_Add(Test_TO_InitEvent_Fail_Register, TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitEvent_Fail_Register");
-
     UtTest_Add(Test_TO_InitEvent_Fail_Custom_Bad_Ind, TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitEvent_Fail_Custom_Bad_Ind");
-
     UtTest_Add(Test_TO_InitEvent_Fail_Custom_Index_Occupied, TO_Test_Setup_NoConfig, TO_Test_TearDown,
                 "Test_TO_InitEvent_Fail_Custom_Index_Occupied");
-
     UtTest_Add(Test_TO_InitEvent_Fail_Custom_Too_Many, TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitEvent_Fail_Custom_Too_Many");
-
     UtTest_Add(Test_TO_InitEvent_Fail_Custom_Unknown, TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitEvent_Fail_Custom_Unknown");
 
@@ -5795,7 +5801,6 @@ void TO_App_Test_AddTestCases(void)
     /**** Tests for TO_InitData() */
     UtTest_Add(Test_TO_InitData, TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitData");
-
     UtTest_Add(Test_TO_InitData_FailAppMutSemCreate, TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitData Fail App MutSemCreate");
 
@@ -5848,10 +5853,10 @@ void TO_App_Test_AddTestCases(void)
                "Test_TO_ProcessNewAppCmds_AddMessageFlow_Nominal");
     UtTest_Add(Test_TO_ProcessNewAppCmds_AddMessageFlow_InvalidCmdLength, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_AddMessageFlow_InvalidCmdLength");
-//    UtTest_Add(Test_TO_ProcessNewAppCmds_AddMessageFlow_Over, TO_Test_Setup_FullConfig7, TO_Test_TearDown,
-//               "Test_TO_ProcessNewAppCmds_AddMessageFlow_Over");
 //    UtTest_Add(Test_TO_ProcessNewAppCmds_AddMessageFlow_Full, TO_Test_Setup_FullConfig6, TO_Test_TearDown,
 //               "Test_TO_ProcessNewAppCmds_AddMessageFlow_Full");
+//    UtTest_Add(Test_TO_ProcessNewAppCmds_AddMessageFlow_Over, TO_Test_Setup_FullConfig7, TO_Test_TearDown,
+//               "Test_TO_ProcessNewAppCmds_AddMessageFlow_Over");
     UtTest_Add(Test_TO_ProcessNewAppCmds_RemoveMessageFlow_Nominal, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_RemoveMessageFlow_Nominal");
     UtTest_Add(Test_TO_ProcessNewAppCmds_RemoveMessageFlow_InvalidCmdLength, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
@@ -5874,231 +5879,175 @@ void TO_App_Test_AddTestCases(void)
                "Test_TO_ProcessNewAppCmds_SendDiag_InvalidCmdLength");
 
     /* Traffic shaping algorithm */
+#if 0
     UtTest_Add(Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1");
     UtTest_Add(Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2, TO_Test_Setup_FullConfig2, TO_Test_TearDown,
                "Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2");
     UtTest_Add(Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3, TO_Test_Setup_FullConfig2, TO_Test_TearDown,
                "Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3");
+#endif
               
     /* Tests for checking TO NULL Pointers */
+#if 0
     UtTest_Add(Test_TO_NULL_Ptr_check, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check");          
-
     UtTest_Add(Test_TO_NULL_Ptr_check_PQ_buildup, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check_PQ_buildup");
-
     UtTest_Add(Test_TO_NULL_Ptr_check_PQ_buildup_channel_ptr_null, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check_PQ_buildup_channel_ptr_null");
-                             
     UtTest_Add(Test_TO_NULL_Ptr_check1, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check1");
-               
     UtTest_Add(Test_TO_NULL_Ptr_check2, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check2");
-               
     UtTest_Add(Test_TO_NULL_Ptr_check_Scheduler, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check_Scheduler");
+#endif
                
     /**** Tests for TO Output Queue */
     UtTest_Add(Test_TO_Output_Queue_Buildup_QueueCreate_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_Output_Queue_Buildup_QueueCreate_Fail");    
     UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut");
-               
     UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail");
-               
     UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success");
-               
     UtTest_Add(Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Fail");
-               
     UtTest_Add(Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Success, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Success");
-               
     UtTest_Add(Test_TO_OutputQueue_Teardown_QueueGet_Queue_Empty, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_Teardown_QueueGet_Queue_Empty");                 
 
     /**** Tests for TO Message Flow */
     UtTest_Add(Test_TO_MessageFlow_TeardownAll_SubscribeEx, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_TeardownAll_SubscribeEx");
-                   
     UtTest_Add(Test_TO_MessageFlow_TeardownAll_Unsubscribe, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_TeardownAll_Unsubscribe");
-                         
     UtTest_Add(Test_TO_MessageFlow_GetObject_ConfigTblPtr_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetObject_ConfigTblPtr_NULL");
-
     UtTest_Add(Test_TO_MessageFlow_GetObject_Channel_Ptr_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetObject_Channel_Ptr_NULL");
-
     UtTest_Add(Test_TO_MessageFlow_GetPQueue_MsgFlow_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetPQueue_MsgFlow_NULL");
-               
     UtTest_Add(Test_TO_MessageFlow_GetPQueue_ConfigTblPtr_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetPQueue_ConfigTblPtr_NULL");
-               
     UtTest_Add(Test_TO_MessageFlow_GetPQueue_ChannelPtr_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetPQueue_ChannelPtr_NULL");
-               
     UtTest_Add(Test_TO_MessageFlow_GetPQueue_Idx_Max_Priority_Queues, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetPQueue_Idx_Max_Priority_Queues");
-               
     UtTest_Add(Test_TO_MessageFlow_GetPQueue_Idx_Null, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetPQueue_Idx_Null");
-
     UtTest_Add(Test_TO_MessageFlow_Reset_All_Counts_Channel_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_Reset_All_Counts_Channel_NULL");               
 
     /**** Tests for TO Priority Queue */
     UtTest_Add(Test_TO_Priority_Queue_Buildup_QueueCreate_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_Priority_Queue_Buildup_QueueCreate_Fail");
-
     UtTest_Add(Test_TO_Priority_Queue_Buildup_NoPQueues, TO_Test_Setup_NoPQueueConfig, TO_Test_TearDown,
                "Test_TO_Priority_Queue_Buildup_NoPQueues");
-                
     UtTest_Add(Test_TO_Priority_Queue_Teardown_QueueGet_PutPoolBuf_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_Priority_Queue_Teardown_QueueGet_PutPoolBuf_Fail");
-
-    UtTest_Add(Test_TO_Priority_Queue_Teardown_OSALQueueIDInvalid, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-               "Test_TO_Priority_Queue_Teardown_OSALQueueIDInvalid");
-               
     UtTest_Add(Test_TO_Priority_Queue_Teardown_QueueDelete_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_Priority_Queue_Teardown_QueueDelete_Fail");
-               
+    UtTest_Add(Test_TO_Priority_Queue_Teardown_OSALQueueIDInvalid, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Priority_Queue_Teardown_OSALQueueIDInvalid");
     UtTest_Add(Test_TO_PriorityQueue_IsValid_Null_ConfigTblPtr_Check, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_PriorityQueue_IsValid_Null_ConfigTblPtr_Check");               
-               
     UtTest_Add(Test_TO_PriorityQueue_IsValid_Null_Ptr_Check, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_PriorityQueue_IsValid_Null_Ptr_Check");
-               
     UtTest_Add(Test_TO_PriorityQueue_IsValid_PQ_State_Check, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_PriorityQueue_IsValid_PQ_State_Check");                
 
     /**** Tests TO Config Utils (Table validation, Managing Tables */
     UtTest_Add(Test_TO_InitTables_Ground_Table_Fail_TBL_Register, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_InitTables_Ground_Table_Fail_TBL_Register");
-              
     UtTest_Add(Test_TO_InitTables_Dump_Table_Fail_TBL_Register, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_InitTables_Dump_Table_Fail_TBL_Register");
-              
     UtTest_Add(Test_TO_InitTables_Dump_Table_Fail_TBL_Load, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_InitTables_Dump_Table_Fail_TBL_Load");
-              
-    UtTest_Add(Test_TO_InitTables_Load_Backup_Table, TO_Test_Setup_FullConfig1, TO_Test_TearDown,                                                        
+    UtTest_Add(Test_TO_InitTables_Load_Backup_Table, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_InitTables_Load_Backup_Table");
-               
+
     UtTest_Add(Test_TO_ValidateConfigTbl_ConfigTblPtr_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ValidateConfigTbl_ConfigTblPtr_NULL");
-
+//    UtTest_Add(Test_TO_ValidateConfigTbl_InvalidCCSDSVersion, TO_Test_Setup_FullConfig4, TO_Test_TearDown,
+//               "Test_TO_ValidateConfigTbl_InvalidCCSDSVersion");
     UtTest_Add(Test_TO_ValidateConfigTbl_Priority_Queue_State_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ValidateConfigTbl_Priority_Queue_State_Failure");
-
     UtTest_Add(Test_TO_ValidateConfigTbl_Priority_Queue_Qtype_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ValidateConfigTbl_Priority_Queue_Qtype_Failure");
-
     UtTest_Add(Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure");
-
     UtTest_Add(Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure_Max, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure_Max");
-              
 //    UtTest_Add(Test_TO_ValidateConfigTbl_Priority_Queue_No_Valid_States, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
 //              "Test_TO_ValidateConfigTbl_Priority_Queue_No_Valid_States");
-              
     UtTest_Add(Test_TO_ValidateConfigTbl_Secondary_Header_Absent, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ValidateConfigTbl_Secondary_Header_Absent");
-              
     UtTest_Add(Test_TO_ValidateConfigTbl_MessageFlow_MsgLimit_Not_In_Range, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ValidateConfigTbl_MessageFlow_MsgLimit_Not_In_Range");
-
     UtTest_Add(Test_TO_ValidateConfigTbl_MessageFlow_UnusedChecks, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ValidateConfigTbl_MessageFlow_UnusedChecks");
-                           
     UtTest_Add(Test_TO_ValidateConfigTbl_MessageFlow_PQueueId_Invalid, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ValidateConfigTbl_MessageFlow_PQueueId_Invalid");
-
-//    UtTest_Add(Test_TO_ValidateConfigTbl_Ground_Tbl_MessageFlow_Queue_Invalid, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-//              "Test_TO_ValidateConfigTbl_Ground_Tbl_MessageFlow_Queue_Invalid");
-
 //    UtTest_Add(Test_TO_ValidateConfigTbl1, TO_Test_Setup_FullConfig4, TO_Test_TearDown, 
 //               "Test_TO_ValidateConfigTbl1");
-
 //    UtTest_Add(Test_TO_ValidateConfigTbl2, TO_Test_Setup_FullConfig5, TO_Test_TearDown, 
 //               "Test_TO_ValidateConfigTbl2");
 
-//    UtTest_Add(Test_TO_ValidateConfigTbl_InvalidCCSDSVersion, TO_Test_Setup_FullConfig4, TO_Test_TearDown,
-//               "Test_TO_ValidateConfigTbl_InvalidCCSDSVersion");
 
     UtTest_Add(Test_TO_ManageChannelTables_GetStatus_Error, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ManageChannelTables_GetStatus_Error");                               
-
     UtTest_Add(Test_TO_ManageChannelTables_GetStatus_Validate_Pending, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ManageChannelTables_GetStatus_Validate_Pending");
-
     UtTest_Add(Test_TO_ManageChannelTables_GetStatus_Update_Pending, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ManageChannelTables_GetStatus_Update_Pending");
-
     UtTest_Add(Test_TO_ManageChannelTables_GetAddress_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ManageChannelTables_GetAddress_Failure");
-
     UtTest_Add(Test_TO_ManageChannelTables_GetStatus_Update_Pending_Fail_Dequeue, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ManageChannelTables_GetStatus_Update_Pending_Fail_Dequeue");
-              
     UtTest_Add(Test_TO_ManageChannelTables_GetAddress_Process_Config_Tbl_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ManageChannelTables_GetAddress_Process_Config_Tbl_Failure");
 
     /* Additional tests for TO Channel */
 //    UtTest_Add(Test_TO_Channel_SBPipe_Dequeue_All, TO_Test_Setup_NoConfig, TO_Test_TearDown,
 //               "Test_TO_Channel_SBPipe_Dequeue_All");
-//
 //    UtTest_Add(Test_TO_Channel_SBPipe_Dequeue_All_Continue, TO_Test_Setup_NoConfig, TO_Test_TearDown,
 //               "Test_TO_Channel_SBPipe_Dequeue_All_Continue");
-    
+
     UtTest_Add(Test_TO_Channel_State, TO_Test_Setup_EmptyConfig, TO_Test_TearDown, 
                "Test_TO_Channel_State");
-    
     UtTest_Add(Test_TO_Channel_State_Fail, TO_Test_Setup_EmptyConfig, TO_Test_TearDown, 
                "Test_TO_Channel_State_Fail");
     
     UtTest_Add(TO_Channel_OpenChannel_Fail_Invalid_ChannelID, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
                "TO_Channel_OpenChannel_Fail_Invalid_ChannelID");
-
     UtTest_Add(TO_Channel_OpenChannel_Fail_ChannelAlreadyOpen, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
                "TO_Channel_OpenChannel_Fail_ChannelAlreadyOpen");
 
     UtTest_Add(Test_TO_Channel_Open_OS_CountSemCreate_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_Open_OS_CountSemCreate_Failure");         
-              
     UtTest_Add(Test_TO_Channel_Open_OutputQueue_Buildup_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_Open_OutputQueue_Buildup_Failure");
-              
     UtTest_Add(Test_TO_Channel_Open_CFE_SB_CreatePipe_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_Open_CFE_SB_CreatePipe_Failure");
-              
     UtTest_Add(Test_TO_Channel_Open_TO_InitTables_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_Open_TO_InitTables_Failure");
-              
     UtTest_Add(Test_TO_Channel_Open_PoolCreateEx_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_Open_PoolCreateEx_Failure");
               
     UtTest_Add(Test_TO_Channel_LockByIndex_Index_Out_Of_Range, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_LockByIndex_Index_Out_Of_Range");
-              
     UtTest_Add(Test_TO_Channel_UnlockByIndex_Index_Out_Of_Range, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_UnlockByIndex_Index_Out_Of_Range");
-              
     UtTest_Add(Test_TO_Channel_LockByRef_NullPtr, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_LockByRef_NullPtr");
-
     UtTest_Add(Test_TO_Channel_UnlockByRef_NullPtr, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_UnlockByRef_NullPtr");
-
     UtTest_Add(Test_TO_Channel_LockByRef_Mutex_Take_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_LockByRef_Mutex_Take_Failure");
-              
     UtTest_Add(Test_TO_Channel_UnlockByRef_Mutex_Give_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_UnlockByRef_Mutex_Give_Failure");
               
@@ -6107,51 +6056,40 @@ void TO_App_Test_AddTestCases(void)
               
     UtTest_Add(Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure");
-              
     UtTest_Add(Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure");                         
               
     UtTest_Add(Test_TO_Channel_Cleanup_Index_Out_Of_Range_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_Cleanup_Index_Out_Of_Range_Failure");
-              
     UtTest_Add(Test_TO_Channel_Init_Index_Out_Of_Range_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Channel_Init_Index_Out_Of_Range_Failure");
               
     /**** Tests for TO_Classifier_Run */
 //    UtTest_Add(Test_TO_Classifier_NoMessage, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
 //               "Test_TO_Classifier_NoMessage");
-//
-//    UtTest_Add(Test_TO_Classifier_MsgNullPtr, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
-//               "Test_TO_Classifier_MsgNullPtr");
-//
-//    UtTest_Add(Test_TO_Classifier_MaxMessages, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
-//               "Test_TO_Classifier_MaxMessages");
-
     UtTest_Add(Test_TO_Classifier_MessageTooLong, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
                "Test_TO_Classifier_MessageTooLong");
-
+//    UtTest_Add(Test_TO_Classifier_MsgNullPtr, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
+//               "Test_TO_Classifier_MsgNullPtr");
+//    UtTest_Add(Test_TO_Classifier_MaxMessages, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
+//               "Test_TO_Classifier_MaxMessages");
 //    UtTest_Add(Test_TO_Classifier_NoMsgFlow, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
 //               "Test_TO_Classifier_NoMsgFlow");
-//
 //    UtTest_Add(Test_TO_Classifier_Message_pqueue_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
 //              "Test_TO_Classifier_Message_pqueue_NULL");
-//
 //    UtTest_Add(Test_TO_Classifier_Message_HighwaterMark, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
 //              "Test_TO_Classifier_Message_HighwaterMark");
 
     /**** Tests for TO_Scheduler_Run */
 //    UtTest_Add(Test_TO_Scheduler_Run_OS_Max_Queues, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
 //              "Test_TO_Scheduler_Run_OS_Max_Queues");
-                          
     UtTest_Add(Test_TO_Scheduler_Run_QueueMsg_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Scheduler_Run_QueueMsg_Fail");
-              
     UtTest_Add(Test_TO_Scheduler_Run_HighwaterMark, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_Scheduler_Run_HighwaterMark"); 
               
     UtTest_Add(Test_TO_ReportHousekeeping_Ground, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ReportHousekeeping_Ground");
-              
     UtTest_Add(Test_TO_ReportHousekeeping_UnknownChannelID, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ReportHousekeeping_UnknownChannelID");
 
@@ -6161,69 +6099,44 @@ void TO_App_Test_AddTestCases(void)
     /* Additional tests for TO_ProcessNewCmds */
     UtTest_Add(Test_TO_ProcessNewAppCmds_Default, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ProcessNewAppCmds_Default");
-
     UtTest_Add(Test_TO_ProcessNewAppCmds_MsgPtr_Null, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
               "Test_TO_ProcessNewAppCmds_MsgPtr_Null");
-               
 //    UtTest_Add(Test_TO_ProcessNewAppCmds_AddMessageFlow_Channel_Invalid, TO_Test_Setup_FullConfig3, TO_Test_TearDown,
 //               "Test_TO_ProcessNewAppCmds_AddMessageFlow_Channel_Invalid");
-               
 //    UtTest_Add(Test_TO_ProcessNewAppCmds_AddMessageFlow_Channel_Null_ConfigTblPtr, TO_Test_Setup_FullConfig3, TO_Test_TearDown,
 //               "Test_TO_ProcessNewAppCmds_AddMessageFlow_Channel_Null_ConfigTblPtr");
-               
     UtTest_Add(Test_TO_ProcessNewAppCmds_AddMessageFlow_SubscribeEx_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_AddMessageFlow_SubscribeEx_Failure");
-               
     UtTest_Add(Test_TO_ProcessNewAppCmds_AddMessageFlow_Fail_Channel_Not_Open, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_AddMessageFlow_Fail_Channel_Not_Open"); 
-               
     UtTest_Add(Test_TO_ProcessNewAppCmds_MessageFlow_Remove_MsgId_That_Does_Not_Exist, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_MessageFlow_Remove_MsgId_That_Does_Not_Exist");
-               
     UtTest_Add(Test_TO_ProcessNewAppCmds_MessageFlow_Remove_Channel_Invalid, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_MessageFlow_Remove_Channel_Invalid");
-               
     UtTest_Add(Test_TO_ProcessNewAppCmds_MessageFlow_Remove_MsgId_Channel_Not_Open, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_MessageFlow_Remove_MsgId_Channel_Not_Open");                         
-               
     UtTest_Add(Test_TO_ProcessNewAppCmds_QueryMessageFlow_Nominal_Channel_Invalid, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_QueryMessageFlow_Nominal_Channel_Invalid");
-               
     UtTest_Add(Test_TO_ProcessNewAppCmds_QueryMessageFlow_Nominal_MsgFlow_Not_Defined, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_QueryMessageFlow_Nominal_MsgFlow_Not_Defined");
-                                                                                                         
     UtTest_Add(Test_TO_ProcessNewAppCmds_QueryPriorityQueue_Channel_Index_Invalid, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_QueryPriorityQueue_Channel_Index_Invalid");
-               
     UtTest_Add(Test_TO_ProcessNewAppCmds_QueryPriorityQueue_PQ_Invalid, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_QueryPriorityQueue_PQ_Invalid");
-               
     UtTest_Add(Test_TO_ProcessNewAppCmds_QueryOutputChannel_Fail_ChannelID_Invalid, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_QueryOutputChannel_Fail_ChannelID_Invalid");
-               
     UtTest_Add(Test_TO_ProcessNewAppCmds_SendDiag_Fail_ChannelID_Invalid, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_SendDiag_Fail_ChannelID_Invalid");
-               
     UtTest_Add(Test_TO_ProcessNewAppCmds_SendDiag_Fail_Channel_Not_Open, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_SendDiag_Fail_Channel_Not_Open");
-               
-//    UtTest_Add(Test_TO_ProcessNewAppCmds_Modify_Message_Flow_Fail_Channel_Not_Open, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-//               "Test_TO_ProcessNewAppCmds_Modify_Message_Flow_Fail_Channel_Not_Open");
-               
     UtTest_Add(Test_TO_ProcessNewAppCmds_QueryMessageFlow_Nominal_Channel_Not_Open, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_QueryMessageFlow_Nominal_Channel_Not_Open");
-               
     UtTest_Add(Test_TO_ProcessNewAppCmds_QueryPriorityQueue_Fail_Channel_Not_Open, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_QueryPriorityQueue_Fail_Channel_Not_Open");
-
     UtTest_Add(Test_TO_ProcessNewAppCmds_RemoveMessageFlow_Nominal_Unsubscribe_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_RemoveMessageFlow_Nominal_Unsubscribe_Fail");
-
     UtTest_Add(Test_TO_ProcessNewAppCmds_Output_Channel_Query_Channel_Not_Open, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_ProcessNewAppCmds_Output_Channel_Query_Channel_Not_Open");
-
-    UtTest_Add(Test_TO_ProcessNewConfigTbl_PriorityQueueBuildupFail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-               "Test_TO_ProcessNewConfigTbl_PriorityQueueBuildupFail");
 
     /* TO_RcvMsg tests */
     UtTest_Add(Test_TO_RcvMsg_noMsg, TO_Test_Setup_NoConfig, TO_Test_TearDown,
@@ -6242,5 +6155,7 @@ void TO_App_Test_AddTestCases(void)
     /* Test TO_VerifyCmdLength */
     UtTest_Add(Test_TO_VerifyCmdLength_MsgPtr_Null, TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_VerifyCmdLength_MsgPtr_Null");                 
-}
 
+    UtTest_Add(Test_TO_ProcessNewConfigTbl_PriorityQueueBuildupFail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_ProcessNewConfigTbl_PriorityQueueBuildupFail");
+}
