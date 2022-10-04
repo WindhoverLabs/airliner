@@ -77,7 +77,7 @@ dataLinks:
         timeIncludesLeapSeconds: false
         
   - name: tmtc_cpd
-    class: com.windhoverlabs.yamcs.tctm.SerialTmTcFrameLink
+    class: com.windhoverlabs.yamcs.tctm.ccsds.SerialTmTcFrameLink
     device: /dev/ttyUSB0
     baudRate: 115200
     flowControl: RTS_CTS
@@ -96,7 +96,7 @@ dataLinks:
       insertZoneLength: 0
       spacecraftId: 1
       errorDetection: NONE
-      packetInputStreamClassName: org.yamcs.tctm.ccsds.SdlpPacketInputStream
+      packetInputStreamClassName: com.windhoverlabs.yamcs.tctm.ccsds.SdlpPacketInputStream
       packetInputStreamArgs:
         asm: "1ACFFC1D"
         minLength: 1000

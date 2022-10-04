@@ -677,7 +677,7 @@ void Test_AMC_AppMain_SchPipeError(void)
     /* The following will emulate the behavior of SCH pipe reading error */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 1);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 20);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     oAMC.AppMain();
 }
@@ -908,6 +908,8 @@ void Test_AMC_AppMain_ProcessData_DataPipeError(void)
 
     /* The following will emulate the behavior of SCH pipe reading error */
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, expected, 2);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
     oAMC.AppMain();
@@ -1249,14 +1251,10 @@ void AMC_App_Test_AddTestCases(void)
                "Test_AMC_AppMain_Fail_RegisterApp");
     UtTest_Add(Test_AMC_AppMain_Fail_InitApp, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_Fail_InitApp");
-#if 0  // core dump
     UtTest_Add(Test_AMC_AppMain_Fail_AcquireConfigPtrs, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_Fail_AcquireConfigPtrs");
-#endif
-#if 0  // infinite loop
     UtTest_Add(Test_AMC_AppMain_SchPipeError, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_SchPipeError");
-#endif
     UtTest_Add(Test_AMC_AppMain_SchPipeTimeout, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_SchPipeTimeout");
     UtTest_Add(Test_AMC_AppMain_InvalidSchMessage, AMC_Test_Setup, AMC_Test_TearDown,
@@ -1265,10 +1263,8 @@ void AMC_App_Test_AddTestCases(void)
                "Test_AMC_AppMain_Nominal_SendHK");
     UtTest_Add(Test_AMC_AppMain_Nominal_UpdateMotors, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_Nominal_UpdateMotors");
-#if 0   // infinite loop
     UtTest_Add(Test_AMC_AppMain_ProcessData_DataPipeError, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_ProcessData_DataPipeError");
-#endif
     UtTest_Add(Test_AMC_AppMain_ProcessData_InvalidMsgID, AMC_Test_Setup, AMC_Test_TearDown,
                "Test_AMC_AppMain_ProcessData_InvalidMsgID");
     UtTest_Add(Test_AMC_AppMain_ProcessData_ActuatorArmed, AMC_Test_Setup, AMC_Test_TearDown,

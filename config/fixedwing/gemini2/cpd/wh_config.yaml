@@ -137,6 +137,9 @@ modules:
         telemetry:
           CI_HK_TLM_MID:
             msgID: 0x0a27              # TLM_MSG(   39 )
+          CI_CUSTOM_HK_TLM_MID:
+            msgID: 0x0a72              # TLM_MSG(  114 )
+            struct: CI_CustomHkTlm_t      
         commands:
           CI_CMD_MID:
             msgID: 0x1a28              # CMD_MSG(   40 )
@@ -489,6 +492,9 @@ modules:
             msgID: 0x0a6a              # TLM_MSG(  106 )
           TO_HK_TLM_MID:
             msgID: 0x0a6b              # TLM_MSG(  107 )
+          TO_CUSTOM_HK_TLM_MID:
+            msgID: 0x0a71              # TLM_MSG(  113 )
+            struct: TO_CustomHkTlm_t      
         commands:
           TO_CMD_MID:
             msgID: 0x1a6c              # CMD_MSG(  108 )
