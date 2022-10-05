@@ -3457,9 +3457,11 @@ void TO_App_Test_AddTestCases(void)
     /* Tests for checking TO NULL Pointers */
     UtTest_Add(Test_TO_NULL_Ptr_check, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check");
-#if 0   // core dump
+#if 0   // core dump(#225)
     UtTest_Add(Test_TO_NULL_Ptr_check_PQ_buildup, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check_PQ_buildup");
+#endif
+#if 0   // core dump (#225)
     UtTest_Add(Test_TO_NULL_Ptr_check_PQ_buildup_channel_ptr_null, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check_PQ_buildup_channel_ptr_null");
 #endif
@@ -3471,10 +3473,14 @@ void TO_App_Test_AddTestCases(void)
                "Test_TO_NULL_Ptr_check_Scheduler");
 
     /**** Tests for TO Output Queue */
+#if 1  // #226
     UtTest_Add(Test_TO_Output_Queue_Buildup_QueueCreate_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_Output_Queue_Buildup_QueueCreate_Fail");
+#endif
+#if 0  // #227
     UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut");
+#endif
     UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail");
     UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
