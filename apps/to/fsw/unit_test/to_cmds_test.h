@@ -31,19 +31,18 @@
 *
 *****************************************************************************/
 
-#include "uttest.h"
+#ifndef TO_CMDS_TEST_H
+#define TO_CMDS_TEST_H
 
-#include "to_app_test.h"
-#include "to_cmds_test.h"
-#include "to_config_tbl_test.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-int main(void)
-{   
-    TO_App_Test_AddTestCases();
-    TO_Cmds_Test_AddTestCases();
-    TO_Config_Tbl_Test_AddTestCases();
+void TO_Cmds_Test_AddTestCases(void);
 
-    return(UtTest_Run());
 
+#ifdef __cplusplus
 }
+#endif
 
+#endif /* TO_CMDS_TEST_H */

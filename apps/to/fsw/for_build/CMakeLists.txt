@@ -77,6 +77,10 @@ buildliner_add_app_unit_test(to-ut
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/to_app_test.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/to_app_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/to_cmds_test.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/to_cmds_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/to_config_tbl_test.c
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/to_config_tbl_test.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/to_test_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/to_test_utils.h
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/to_testrunner.c
