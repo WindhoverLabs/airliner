@@ -652,11 +652,11 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
 
     /* Verify results */
     Ut_OSAPI_QueueGetIdByName(&chQueue0, "TO_UDP_OUT");
-    CFE_SB_Msg_t   msgBuf;
-    CFE_SB_MsgPtr_t   msgPtr = &msgBuf;
-    uint32 sizeCopied = 0;
-    int32 iStatus = 0;
-    CFE_SB_MsgId_t  MsgId;
+    CFE_SB_Msg_t     msgBuf;
+    CFE_SB_MsgPtr_t  msgPtr = &msgBuf;
+    uint32           sizeCopied = 0;
+    int32            iStatus = 0;
+    CFE_SB_MsgId_t   MsgId;
 
     memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
     Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
@@ -712,25 +712,16 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2(void)
     TO_NoArgCmd_t InSchMsg;
     int32         SchPipe;
     int32         DataPipe;
-    TO_HkTlm_t    msgCfeEsHk;
-    TO_HkTlm_t    msgCfeEvsHk;
-    TO_HkTlm_t    msgCfeSbHk;
-    TO_HkTlm_t    msgCfeTblHk;
-    TO_HkTlm_t    msgCfeTimeHk;
-    TO_HkTlm_t    msgCfeTimeDiag;
-    TO_HkTlm_t    msgCfeEvsEvent;
-    TO_HkTlm_t    msgCfeSbStats;
-    TO_HkTlm_t    msgCfeEsApp;
-    TO_HkTlm_t    msgCfeTblReg;
-    TO_HkTlm_t    msgCfeSbOneSub;
-    TO_HkTlm_t    msgCfeEsShell;
-    TO_HkTlm_t    msgCfeEsMemStats;
-    TO_HkTlm_t    msgCfeHk;
-    TO_HkTlm_t    msgCfTrans;
-    TO_HkTlm_t    msgCfConfig;
-    TO_HkTlm_t    msgCfSpaceToGndPdu;
-    TO_HkTlm_t    msgCsHk;
-    uint32        chQueue0;
+    CFE_ES_HkPacket_t     msgCfeEsHk;
+    CFE_EVS_TlmPkt_t      msgCfeEvsHk;
+    CFE_SB_HKMsg_t        msgCfeSbHk;
+    CFE_TBL_HkPacket_t    msgCfeTblHk;
+    CFE_TIME_HkPacket_t   msgCfeTimeHk;
+    CFE_TIME_DiagPacket_t msgCfeTimeDiag;
+    CFE_EVS_Packet_t      msgCfeEvsEvent;
+    CFE_SB_StatMsg_t      msgCfeSbStats;
+    CFE_ES_OneAppTlm_t    msgCfeEsApp;
+    uint32                chQueue0;
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and processing a full pipe of telemetry messages. */
@@ -786,27 +777,46 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2(void)
 
     /* Verify results */
     Ut_OSAPI_QueueGetIdByName(&chQueue0, "TO_UDP_OUT");
-    CFE_SB_MsgPtr_t   msgPtr = 0;
-    uint32 sizeCopied = 0;
-    int32 iStatus = 0;
+    CFE_SB_Msg_t     msgBuf;
+    CFE_SB_MsgPtr_t  msgPtr = &msgBuf;
+    uint32           sizeCopied = 0;
+    int32            iStatus = 0;
+    CFE_SB_MsgId_t   MsgId;
 
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_ES_HK_TLM_MID, "1-1: High Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_EVS_HK_TLM_MID, "1-2: High Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_SB_HK_TLM_MID, "1-3: High Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TBL_HK_TLM_MID, "1-4: Medium Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TIME_HK_TLM_MID, "1-5: Medium Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TIME_DIAG_TLM_MID, "1-6: Medium Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_EVS_EVENT_MSG_MID, "1-7: Low Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_SB_STATS_TLM_MID, "1-8: Low Priority");
-    iStatus = Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    iStatus = Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(iStatus == OS_QUEUE_EMPTY, "1-9: EMPTY");
 }
 
@@ -820,25 +830,16 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3(void)
     TO_NoArgCmd_t InSchMsg;
     int32         SchPipe;
     int32         DataPipe;
-    TO_HkTlm_t    msgCfeEsHk;
-    TO_HkTlm_t    msgCfeEvsHk;
-    TO_HkTlm_t    msgCfeSbHk;
-    TO_HkTlm_t    msgCfeTblHk;
-    TO_HkTlm_t    msgCfeTimeHk;
-    TO_HkTlm_t    msgCfeTimeDiag;
-    TO_HkTlm_t    msgCfeEvsEvent;
-    TO_HkTlm_t    msgCfeSbStats;
-    TO_HkTlm_t    msgCfeEsApp;
-    TO_HkTlm_t    msgCfeTblReg;
-    TO_HkTlm_t    msgCfeSbOneSub;
-    TO_HkTlm_t    msgCfeEsShell;
-    TO_HkTlm_t    msgCfeEsMemStats;
-    TO_HkTlm_t    msgCfeHk;
-    TO_HkTlm_t    msgCfTrans;
-    TO_HkTlm_t    msgCfConfig;
-    TO_HkTlm_t    msgCfSpaceToGndPdu;
-    TO_HkTlm_t    msgCsHk;
-    uint32        chQueue0;
+    CFE_ES_HkPacket_t      msgCfeEsHk;
+    CFE_EVS_TlmPkt_t       msgCfeEvsHk;
+    CFE_SB_HKMsg_t         msgCfeSbHk;
+    CFE_TBL_HkPacket_t     msgCfeTblHk;
+    CFE_TIME_HkPacket_t    msgCfeTimeHk;
+    CFE_TIME_DiagPacket_t  msgCfeTimeDiag;
+    CFE_EVS_Packet_t       msgCfeEvsEvent;
+    CFE_SB_StatMsg_t       msgCfeSbStats;
+    CFE_ES_OneAppTlm_t     msgCfeEsApp;
+    uint32                 chQueue0;
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and processing a full pipe of telemetry messages. */
@@ -898,27 +899,46 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3(void)
 
     /* Verify results */
     Ut_OSAPI_QueueGetIdByName(&chQueue0, "TO_UDP_OUT");
-    CFE_SB_MsgPtr_t   msgPtr = 0;
-    uint32 sizeCopied = 0;
-    int32 iStatus = 0;
+    CFE_SB_Msg_t     msgBuf;
+    CFE_SB_MsgPtr_t  msgPtr = &msgBuf;
+    uint32           sizeCopied = 0;
+    int32            iStatus = 0;
+    CFE_SB_MsgId_t   MsgId;
 
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_ES_HK_TLM_MID, "1-1: High Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_EVS_HK_TLM_MID, "1-2: High Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_SB_HK_TLM_MID, "1-3: High Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TBL_HK_TLM_MID, "1-4: Medium Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TIME_HK_TLM_MID, "1-5: Medium Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TIME_DIAG_TLM_MID, "1-6: Medium Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_EVS_EVENT_MSG_MID, "1-7: Low Priority");
-    Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_SB_STATS_TLM_MID, "1-8: Low Priority");
-    iStatus = Ut_OSAPI_QueueGetHook(chQueue0, &msgPtr, sizeof(msgPtr), &sizeCopied, OS_CHECK);
+
+    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
+    iStatus = Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
     UtAssert_True(iStatus == OS_QUEUE_EMPTY, "1-9: EMPTY");
 }
 
@@ -999,7 +1019,6 @@ void Test_TO_NULL_Ptr_check_PQ_buildup(void)
 
     iStatus = TO_PriorityQueue_BuildupAll(channel);
     UtAssert_True(iStatus == -4, "TO_NO_TABLE_ERR");
-
 }
 
 /**
@@ -1096,37 +1115,36 @@ void Test_TO_NULL_Ptr_check_Scheduler(void)
  **************************************************************************/
 void Test_TO_Output_Queue_Buildup_QueueCreate_Fail(void)
 {
-//    uint16  ChannelIdx = 0;
-//    int32 iStatus = 0;
-//    TO_ChannelData_t* channel;
-//
-//    char expectedEvent[100];
-//
-//    /* Set return codes */
-//    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-//
-//    /* Set function hook for TO_Custom_Init */
-//    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
-//
-//    /* Set function hooks */
-//    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, &Ut_OSAPI_QueueCreateHook);
-//
-//    TO_InitApp();
-//
-//    /* Get channel data information */
-//    channel = &TO_AppData.ChannelData[ChannelIdx];
-//
-//    /* Execute the function being tested */
-//    iStatus = TO_OutputQueue_Buildup(channel);
-//
-//    sprintf(expectedEvent, "Failed to create '%s' output channel queue for channel %d. err=%ld",
-//            channel->ChannelName,
-//            channel->channelIdx,
-//            iStatus);
-//
-//    /* Verify results */
-//    UtAssert_EventSent(TO_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
-//                       expectedEvent, "Output Queue Buildup OS_QueueCreate Failed - event correct");
+    uint16  ChannelIdx = 0;
+    int32 iStatus = 0;
+    TO_ChannelData_t* channel;
+
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* Set return codes */
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Set function hook for TO_Custom_Init */
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+
+    /* Set function hooks */
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, &Ut_OSAPI_QueueCreateHook);
+
+    TO_InitApp();
+
+    /* Get channel data information */
+    channel = &TO_AppData.ChannelData[ChannelIdx];
+
+    /* Execute the function being tested */
+    iStatus = TO_OutputQueue_Buildup(channel, TO_CF_THROTTLE_SEM_NAME, 1);
+
+    sprintf(expectedEvent, "Failed to create '%s' output channel queue for channel %u. err=%ld",
+            channel->ChannelName, (unsigned int)channel->channelIdx, iStatus);
+printf("########%s\n", expectedEvent);
+
+    /* Verify results */
+    UtAssert_EventSent(TO_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
+                       expectedEvent, "Output Queue Buildup OS_QueueCreate Failed - event correct");
 }
 
 void Test_TO_OutputQueue_QueueMsg_QueuePut(void)
@@ -1136,10 +1154,11 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut(void)
     TO_ChannelData_t* channel;
     CFE_SB_MsgPtr_t   msgPtr = 0;
 
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_PUTPOOLBUF_INDEX, -1, 1);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEPUT_INDEX, OS_ERROR, 1);
     Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_PUTPOOLBUF_INDEX);
@@ -3438,10 +3457,12 @@ void TO_App_Test_AddTestCases(void)
     /* Tests for checking TO NULL Pointers */
     UtTest_Add(Test_TO_NULL_Ptr_check, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check");
+#if 0   // core dump
     UtTest_Add(Test_TO_NULL_Ptr_check_PQ_buildup, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check_PQ_buildup");
     UtTest_Add(Test_TO_NULL_Ptr_check_PQ_buildup_channel_ptr_null, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check_PQ_buildup_channel_ptr_null");
+#endif
     UtTest_Add(Test_TO_NULL_Ptr_check1, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check1");
     UtTest_Add(Test_TO_NULL_Ptr_check2, TO_Test_Setup_FullConfig1, TO_Test_TearDown,

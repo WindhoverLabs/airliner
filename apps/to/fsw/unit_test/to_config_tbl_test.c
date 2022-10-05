@@ -56,7 +56,7 @@
 
 
 /**************************************************************************
- * Tests for TO Config Utils (Table validation, Managing Tables) 
+ * Tests for TO Config Utils (Table validation, Managing Tables)
  **************************************************************************/
 void Test_TO_InitTables_Ground_Table_Fail_TBL_Register(void)
 {
@@ -68,7 +68,7 @@ void Test_TO_InitTables_Ground_Table_Fail_TBL_Register(void)
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-  
+
     /* Set function hook for TO_Custom_Init */
     Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
 
@@ -77,7 +77,7 @@ void Test_TO_InitTables_Ground_Table_Fail_TBL_Register(void)
     /* Get channel data information */
     channel = &TO_AppData.ChannelData[ChannelIdx];
 
-    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, -1, 1); 
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, -1, 1);
     Ut_CFE_TBL_ContinueReturnCodeAfterCountZero(UT_CFE_TBL_REGISTER_INDEX);
 
     iStatus = TO_InitTables(channel);
