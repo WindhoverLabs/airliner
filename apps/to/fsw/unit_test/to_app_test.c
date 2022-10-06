@@ -1150,22 +1150,27 @@ printf("########%s\n", expectedEvent);
 void Test_TO_OutputQueue_QueueMsg_QueuePut(void)
 {
     uint16  ChannelIdx = 0;
-    int32 iStatus = 0;
-    TO_ChannelData_t* channel;
-    CFE_SB_MsgPtr_t   msgPtr = 0;
+    int32   iStatus = 0;
+    CFE_ES_HkPacket_t   msgCfeEsHk;
+    TO_ChannelData_t*   channel = NULL;
+    CFE_SB_MsgPtr_t     msgPtr = NULL;
 
     char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    CFE_SB_InitMsg ((void *)&msgCfeEsHk, CFE_ES_HK_TLM_MID, sizeof(msgCfeEsHk), TRUE);
+    msgPtr = (CFE_SB_MsgPtr_t)&msgCfeEsHk;
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_PUTPOOLBUF_INDEX, -1, 1);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEPUT_INDEX, OS_ERROR, 1);
-    Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_PUTPOOLBUF_INDEX);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEPUT_INDEX);
 
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, (void *)&Ut_CFE_ES_GetPoolBuf);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX, (void *)&Ut_CFE_ES_PutPoolBuf);
+
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -1176,23 +1181,28 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut(void)
     iStatus = TO_OutputQueue_QueueMsg(channel, msgPtr);
 
     sprintf(expectedEvent, "OS_QueuePut failed: channel=%ld size=%u error=%li",
-            channel->channelIdx,
-             4,
-            iStatus);
+            channel->channelIdx, 4, iStatus);
 
     /* Verify results */
-    UtAssert_EventSent(TO_OSQUEUE_PUT_ERROR_EID, CFE_EVS_ERROR,
+    if (iStatus == OS_ERROR)
+    {
+        UtAssert_EventSent(TO_OSQUEUE_PUT_ERROR_EID, CFE_EVS_ERROR,
                        expectedEvent, "Output Queue Message QueuePut Failed - event correct");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "Test_TO_OutputQueue_QueueMsg_QueuePut");
+    }
 }
 
 void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail(void)
 {
     uint16  ChannelIdx = 0;
-    int32 iStatus = 0;
-    TO_ChannelData_t* channel;
-    CFE_SB_MsgPtr_t   msgPtr = 0;
+    int32   iStatus = 0;
+    TO_ChannelData_t* channel = NULL;
+    CFE_SB_MsgPtr_t   msgPtr = NULL;
 
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -1224,12 +1234,12 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail(void)
 void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success(void)
 {
     uint16  ChannelIdx = 0;
-    int32 result = 0;
-    int32 expected = 16;
-    TO_ChannelData_t* channel;
-    CFE_SB_MsgPtr_t   msgPtr = 0;
+    int32   result = 0;
+    int32   expected = 16;
+    TO_ChannelData_t* channel = NULL;
+    CFE_SB_MsgPtr_t   msgPtr = NULL;
 
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -3477,12 +3487,14 @@ void TO_App_Test_AddTestCases(void)
     UtTest_Add(Test_TO_Output_Queue_Buildup_QueueCreate_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_Output_Queue_Buildup_QueueCreate_Fail");
 #endif
-#if 0  // #227
+#if 1  // #227
     UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut");
 #endif
+#if 0 // #227
     UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail");
+#endif
     UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success");
     UtTest_Add(Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
