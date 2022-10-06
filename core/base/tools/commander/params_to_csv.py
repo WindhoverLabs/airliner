@@ -150,7 +150,7 @@ def parse_csv(yaml_dict):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--file", help="yaml configuration file",
-                        type=str)
+                        type=str, required=True)
 
     args = parser.parse_args()
     print(args.file)
