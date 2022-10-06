@@ -193,7 +193,7 @@ void Test_TO_InitPipe_Fail_CreateSCHPipe(void)
     result = TO_InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail SB create SCH pipe");
+    UtAssert_True (result == expected, "InitPipe, fail CreateSCHPipe");
 }
 
 
@@ -213,7 +213,7 @@ void Test_TO_InitPipe_Fail_SubscribeWakeup(void)
     result = TO_InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for wakeup");
+    UtAssert_True (result == expected, "InitPipe, fail SubscribeWakeup");
 }
 
 
@@ -233,7 +233,7 @@ void Test_TO_InitPipe_Fail_SubscribeSendHK(void)
     result = TO_InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_SubscribeEx for sendhk");
+    UtAssert_True (result == expected, "InitPipe, fail SubscribeSendHK");
 }
 
 
@@ -253,7 +253,7 @@ void Test_TO_InitPipe_Fail_CreateCMDPipe(void)
     result = TO_InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail SB create CMD pipe");
+    UtAssert_True (result == expected, "InitPipe, fail CreateCMDPipe");
 }
 
 
@@ -273,7 +273,7 @@ void Test_TO_InitPipe_Fail_SubscribeCMD(void)
     result = TO_InitPipe();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitPipe, fail CFE_SB_Subscribe for CMD");
+    UtAssert_True (result == expected, "InitPipe, fail SubscribeCMD");
 }
 
 
@@ -295,7 +295,7 @@ void Test_TO_InitData(void)
     /* Verify results */
     UtAssert_True (CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)&TO_AppData.HkTlm) == TO_HK_TLM_MID,
                    "InitData success - TO_HK_TLM_MID subscribed");
-    UtAssert_True (result == expected, "InitData success - returned success");
+    UtAssert_True (result == expected, "InitData");
 }
 
 /**
@@ -317,8 +317,8 @@ void Test_TO_InitData_FailAppMutSemCreate(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CREATE_APPDATA_MUTEX_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "InitData Fail App SemCreate - error event correct");
-    UtAssert_True (result == expectedReturn, "InitData Fail App SemCreate - returned failure");
+                       expectedEvent, "InitData FailAppMutSemCreate - error event correct");
+    UtAssert_True (result == expectedReturn, "InitData FailAppMutSemCreate - returned failure");
 
 
 }
@@ -341,7 +341,7 @@ void Test_TO_InitApp_Fail_InitEvent(void)
     result = TO_InitApp();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitApp, fail init event");
+    UtAssert_True (result == expected, "InitApp, fail InitEvent");
 }
 
 /**
@@ -358,7 +358,7 @@ void Test_TO_InitApp_Fail_InitPipe(void)
     result = TO_InitApp();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitApp, fail init pipe");
+    UtAssert_True (result == expected, "InitApp, fail InitPipe");
 }
 
 /**
@@ -376,7 +376,7 @@ void Test_TO_InitApp_Fail_InitData(void)
     result = TO_InitApp();
 
     /* Verify results, error code should propagate back to initApp*/
-    UtAssert_True (result == expected, "InitApp, fail init data");
+    UtAssert_True (result == expected, "InitApp, fail InitData");
 }
 
 /**
@@ -396,7 +396,7 @@ void Test_TO_InitApp_Fail_ChannelInitAll(void)
     result = TO_InitApp();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitApp, fail channel init all");
+    UtAssert_True (result == expected, "InitApp, fail ChannelInitAll");
 }
 
 /**
@@ -414,7 +414,7 @@ void Test_TO_InitApp_Fail_CustomInit(void)
     result = TO_InitApp();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitApp, fail custom init all");
+    UtAssert_True (result == expected, "InitApp, fail CustomInit");
 }
 
 /**
@@ -431,7 +431,7 @@ void Test_TO_InitApp_Nominal(void)
     result = TO_InitApp();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitApp, nominal");
+    UtAssert_True (result == expected, "InitApp, Nominal");
 }
 
 
@@ -506,7 +506,7 @@ void Test_TO_AppMain_Nominal_SendHK(void)
 
     /* Used to verify HK was transmitted correctly. */
     hookCalledCount = 0;
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, &Test_TO_AppMain_Nominal_SendHK_SendMsgHook);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, (void *)&Test_TO_AppMain_Nominal_SendHK_SendMsgHook);
 
     /* Execute the function being tested */
     TO_AppMain();
@@ -555,7 +555,7 @@ void Test_TO_AppMain_ProcessNewData_InvalidMsgID(void)
     TO_AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(TO_MSG_ID_ERR_EID, CFE_EVS_ERROR, "", "TO_AppMain(), ProcessNewData - InvalidMsgID");
+    UtAssert_EventSent(TO_MSG_ID_ERR_EID, CFE_EVS_ERROR, "", "TO_AppMain(), ProcessNewData_InvalidMsgID");
 }
 
 
@@ -633,14 +633,14 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     /* Set function hooks */
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, &Ut_OSAPI_QueueCreateHook);
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEPUT_INDEX, &Ut_OSAPI_QueuePutHook);
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEGET_INDEX, &Ut_OSAPI_QueueGetHook);
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, &Ut_CFE_ES_GetPoolBuf);
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX, &Ut_CFE_ES_PutPoolBuf);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, (void *)&Ut_OSAPI_QueueCreateHook);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEPUT_INDEX, (void *)&Ut_OSAPI_QueuePutHook);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEGET_INDEX, (void *)&Ut_OSAPI_QueueGetHook);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, (void *)&Ut_CFE_ES_GetPoolBuf);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX, (void *)&Ut_CFE_ES_PutPoolBuf);
 
     /* Execute the function being tested.  We can't just run TO_AppMain because
      * right before it terminates, it clears the output queue.  We have to call
@@ -758,14 +758,14 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     /* Set function hooks */
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, &Ut_OSAPI_QueueCreateHook);
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEPUT_INDEX, &Ut_OSAPI_QueuePutHook);
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEGET_INDEX, &Ut_OSAPI_QueueGetHook);
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, &Ut_CFE_ES_GetPoolBuf);
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX, &Ut_CFE_ES_PutPoolBuf);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, (void *)&Ut_OSAPI_QueueCreateHook);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEPUT_INDEX, (void *)&Ut_OSAPI_QueuePutHook);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEGET_INDEX, (void *)&Ut_OSAPI_QueueGetHook);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, (void *)&Ut_CFE_ES_GetPoolBuf);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX, (void *)&Ut_CFE_ES_PutPoolBuf);
 
     /* Execute the function being tested.  We can't just run TO_AppMain because
      * right before it terminates, it clears the output queue.  We have to call
@@ -880,14 +880,14 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     /* Set function hooks */
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, &Ut_OSAPI_QueueCreateHook);
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEPUT_INDEX, &Ut_OSAPI_QueuePutHook);
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEGET_INDEX, &Ut_OSAPI_QueueGetHook);
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, &Ut_CFE_ES_GetPoolBuf);
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX, &Ut_CFE_ES_PutPoolBuf);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, (void *)&Ut_OSAPI_QueueCreateHook);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEPUT_INDEX, (void *)&Ut_OSAPI_QueuePutHook);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEGET_INDEX, (void *)&Ut_OSAPI_QueueGetHook);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, (void *)&Ut_CFE_ES_GetPoolBuf);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX, (void *)&Ut_CFE_ES_PutPoolBuf);
 
     /* Execute the function being tested.  We can't just run TO_AppMain because
      * right before it terminates, it clears the output queue.  We have to call
@@ -978,10 +978,10 @@ void Test_TO_NULL_Ptr_check(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     iStatus = TO_MessageFlow_Buildup(channel);
-    UtAssert_True(iStatus == -3, "TO_MESSAGE_FLOW_NO_TABLE_ERR");
+    UtAssert_True(iStatus == -3, "NULL_Ptr_check: TO_MESSAGE_FLOW_NO_TABLE_ERR");
 }
 
 /**
@@ -1015,10 +1015,10 @@ void Test_TO_NULL_Ptr_check_PQ_buildup(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     iStatus = TO_PriorityQueue_BuildupAll(channel);
-    UtAssert_True(iStatus == -4, "TO_NO_TABLE_ERR");
+    UtAssert_True(iStatus == -4, "NULL_Ptr_check_PQ_buildup: TO_NO_TABLE_ERR");
 }
 
 /**
@@ -1052,10 +1052,10 @@ void Test_TO_NULL_Ptr_check_PQ_buildup_channel_ptr_null(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     iStatus = TO_PriorityQueue_BuildupAll(channel);
-    UtAssert_True(iStatus == -7, "TO_CHANNEL_PTR_NULL");
+    UtAssert_True(iStatus == -7, "NULL_Ptr_check_PQ_buildup_channel_ptr_null: TO_CHANNEL_PTR_NULL");
 }
 
 void Test_TO_NULL_Ptr_check1(void)
@@ -1067,10 +1067,10 @@ void Test_TO_NULL_Ptr_check1(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     iStatus = TO_MessageFlow_Buildup(channel);
-    UtAssert_True(iStatus == -2, "TO_MESSAGE_FLOW_BAD_ARG_ERR");
+    UtAssert_True(iStatus == -2, "NULL_Ptr_check1: TO_MESSAGE_FLOW_BAD_ARG_ERR");
 
 }
 
@@ -1083,10 +1083,10 @@ void Test_TO_NULL_Ptr_check2(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     iStatus = TO_MessageFlow_TeardownAll(channel);
-    UtAssert_True(iStatus == -2, "TO_MESSAGE_FLOW_BAD_ARG_ERR");
+    UtAssert_True(iStatus == -2, "NULL_Ptr_check2: TO_MESSAGE_FLOW_BAD_ARG_ERR");
 
 }
 
@@ -1101,7 +1101,7 @@ void Test_TO_NULL_Ptr_check_Scheduler(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     channel = &TO_AppData.ChannelData[ChannelIdx];
 
@@ -1125,10 +1125,10 @@ void Test_TO_Output_Queue_Buildup_QueueCreate_Fail(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     /* Set function hooks */
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, &Ut_OSAPI_QueueCreateHook);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, (void *)&Ut_OSAPI_QueueCreateHook);
 
     TO_InitApp();
 
@@ -1144,7 +1144,7 @@ printf("########%s\n", expectedEvent);
 
     /* Verify results */
     UtAssert_EventSent(TO_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Output Queue Buildup OS_QueueCreate Failed - event correct");
+                       expectedEvent, "Output_Queue_Buildup_QueueCreate_Fail");
 }
 
 void Test_TO_OutputQueue_QueueMsg_QueuePut(void)
@@ -1161,16 +1161,15 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut(void)
     msgPtr = (CFE_SB_MsgPtr_t)&msgCfeEsHk;
 
     /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
     Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEPUT_INDEX, OS_ERROR, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEPUT_INDEX);
 
+    /* Set function hook */
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, (void *)&Ut_CFE_ES_GetPoolBuf);
     Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX, (void *)&Ut_CFE_ES_PutPoolBuf);
-
-    /* Set function hook for TO_Custom_Init */
     Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     TO_InitApp();
 
@@ -1187,11 +1186,11 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut(void)
     if (iStatus == OS_ERROR)
     {
         UtAssert_EventSent(TO_OSQUEUE_PUT_ERROR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Output Queue Message QueuePut Failed - event correct");
+                       expectedEvent, "OutputQueue_QueueMsg_QueuePut");
     }
     else
     {
-        UtAssert_True(FALSE, "Test_TO_OutputQueue_QueueMsg_QueuePut");
+        UtAssert_True(FALSE, "OutputQueue_QueueMsg_QueuePut");
     }
 }
 
@@ -1199,20 +1198,26 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail(void)
 {
     uint16  ChannelIdx = 0;
     int32   iStatus = 0;
+    CFE_ES_HkPacket_t msgCfeEsHk;
     TO_ChannelData_t* channel = NULL;
     CFE_SB_MsgPtr_t   msgPtr = NULL;
 
     char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_PUTPOOLBUF_INDEX, -1, 1);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEPUT_INDEX, OS_QUEUE_FULL, 1);
-    Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_PUTPOOLBUF_INDEX);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEPUT_INDEX);
+    CFE_SB_InitMsg ((void *)&msgCfeEsHk, CFE_ES_HK_TLM_MID, sizeof(msgCfeEsHk), TRUE);
+    msgPtr = (CFE_SB_MsgPtr_t)&msgCfeEsHk;
 
-    /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    /* Set return codes */
+    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEPUT_INDEX, OS_QUEUE_FULL, 1);
+    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEPUT_INDEX);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_PUTPOOLBUF_INDEX, TO_MEMORY_FULL_ERR, 1);
+    Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_PUTPOOLBUF_INDEX);
+
+    /* Set function hooks */
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, (void *)&Ut_CFE_ES_GetPoolBuf);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     TO_InitApp();
 
@@ -1223,12 +1228,18 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail(void)
     iStatus = TO_OutputQueue_QueueMsg(channel, msgPtr);
 
     sprintf(expectedEvent, "PutPoolBuf: channel=%ld, error=%ld",
-            channel->channelIdx,
-            iStatus);
+            channel->channelIdx, iStatus);
 
     /* Verify results */
-    UtAssert_EventSent(TO_PUT_POOL_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Output Queue Message QueuePut Queue Full Put Pool Buffer fail - event correct");
+    if (iStatus == TO_MEMORY_FULL_ERR)
+    {
+        UtAssert_EventSent(TO_PUT_POOL_ERR_EID, CFE_EVS_ERROR,
+                   expectedEvent, "OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail");
+    }
+    else
+    {
+        UtAssert_True(FALSE, "OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail");
+    }
 }
 
 void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success(void)
@@ -1236,20 +1247,26 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success(void)
     uint16  ChannelIdx = 0;
     int32   result = 0;
     int32   expected = 16;
+    CFE_ES_HkPacket_t msgCfeEsHk;
     TO_ChannelData_t* channel = NULL;
     CFE_SB_MsgPtr_t   msgPtr = NULL;
 
     char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
+    CFE_SB_InitMsg ((void *)&msgCfeEsHk, CFE_ES_HK_TLM_MID, sizeof(msgCfeEsHk), TRUE);
+    msgPtr = (CFE_SB_MsgPtr_t)&msgCfeEsHk;
+
     /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_PUTPOOLBUF_INDEX, 16, 1);
-    Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_PUTPOOLBUF_INDEX);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEPUT_INDEX, OS_QUEUE_FULL, 1);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEPUT_INDEX);
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_PUTPOOLBUF_INDEX, expected, 1);
+    Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_PUTPOOLBUF_INDEX);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, (void *)&Ut_CFE_ES_GetPoolBuf);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     TO_InitApp();
 
@@ -1260,7 +1277,7 @@ void Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success(void)
     result = TO_OutputQueue_QueueMsg(channel, msgPtr);
 
     /* Verify results */
-    UtAssert_True (result == expected, "Memory In Use as expected.");
+    UtAssert_True (result == expected, "OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success");
 }
 
 void Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Fail(void)
@@ -1281,7 +1298,7 @@ void Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Fail(void)
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -1299,10 +1316,10 @@ void Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Fail(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_PUT_POOL_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Output Queue TeardownAll PutPoolBuf Failed - event correct");
+                       expectedEvent, "OutputQueue_Teardown_QueueGet_PutPoolBuf_Fail");
 }
 
-void Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Success(void)
+void Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Success(void)   // check this
 {
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
@@ -1320,7 +1337,7 @@ void Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Success(void)
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -1357,7 +1374,7 @@ void Test_TO_OutputQueue_Teardown_QueueGet_Queue_Empty(void)
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -1386,7 +1403,7 @@ void Test_TO_MessageFlow_TeardownAll_SubscribeEx(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -1405,7 +1422,7 @@ void Test_TO_MessageFlow_TeardownAll_SubscribeEx(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Message flow failed to subscribe - event correct");
+                       expectedEvent, "MessageFlow_TeardownAll_SubscribeEx");
 }
 void Test_TO_MessageFlow_TeardownAll_Unsubscribe(void)
 {
@@ -1421,7 +1438,7 @@ void Test_TO_MessageFlow_TeardownAll_Unsubscribe(void)
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_UNSUBSCRIBE_INDEX, -1, 1);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -1438,7 +1455,7 @@ void Test_TO_MessageFlow_TeardownAll_Unsubscribe(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_UNSUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Message flow failed to unsubscribe - event correct");
+                       expectedEvent, "MessageFlow_TeardownAll_Unsubscribe");
 }
 
 void Test_TO_MessageFlow_GetObject_ConfigTblPtr_NULL(void)
@@ -1464,7 +1481,7 @@ void Test_TO_MessageFlow_GetObject_ConfigTblPtr_NULL(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     UtAssert_True (msgFlow != NULL, "MessageFlow object is not NULL.");
 
@@ -1472,7 +1489,7 @@ void Test_TO_MessageFlow_GetObject_ConfigTblPtr_NULL(void)
     msgFlow = TO_MessageFlow_GetObject(channel, MsgId, &msgFlowIndex);
 
     /* Verify results */
-    UtAssert_True (msgFlow == NULL, "MessageFlow object is NULL.");
+    UtAssert_True (msgFlow == NULL, "MessageFlow_GetObject_ConfigTblPtr_NULL");
 }
 
 void Test_TO_MessageFlow_GetObject_Channel_Ptr_NULL(void)
@@ -1492,7 +1509,7 @@ void Test_TO_MessageFlow_GetObject_Channel_Ptr_NULL(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     UtAssert_True (msgFlow != NULL, "MessageFlow object is not NULL.");
 
@@ -1500,7 +1517,7 @@ void Test_TO_MessageFlow_GetObject_Channel_Ptr_NULL(void)
     msgFlow = TO_MessageFlow_GetObject(channel, MsgId, &msgFlowIndex);
 
     /* Verify results */
-    UtAssert_True (msgFlow == NULL, "MessageFlow object is NULL.");
+    UtAssert_True (msgFlow == NULL, "MessageFlow_GetObject_Channel_Ptr_NULL");
 }
 
 void Test_TO_MessageFlow_GetPQueue_MsgFlow_NULL(void)
@@ -1526,7 +1543,7 @@ void Test_TO_MessageFlow_GetPQueue_MsgFlow_NULL(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     UtAssert_True (pqueue != NULL, "Priority Queue object is not NULL.");
 
@@ -1534,7 +1551,7 @@ void Test_TO_MessageFlow_GetPQueue_MsgFlow_NULL(void)
     pqueue = TO_MessageFlow_GetPQueue(channel, msgFlow, &pQueueIndex);
 
     /* Verify results */
-    UtAssert_True (pqueue == NULL, "Priority Queue object is not NULL.");
+    UtAssert_True (pqueue == NULL, "MessageFlow_GetPQueue_MsgFlow_NULL");
 }
 
 void Test_TO_MessageFlow_GetPQueue_ConfigTblPtr_NULL(void)
@@ -1566,7 +1583,7 @@ void Test_TO_MessageFlow_GetPQueue_ConfigTblPtr_NULL(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     UtAssert_True (channel != NULL, "Channel pointer is not NULL.");
 
@@ -1578,7 +1595,7 @@ void Test_TO_MessageFlow_GetPQueue_ConfigTblPtr_NULL(void)
     pqueue = TO_MessageFlow_GetPQueue(channel, msgFlow, &pQueueIndex);
 
     /* Verify results */
-    UtAssert_True (pqueue == NULL, "Priority Queue object is not NULL.");
+    UtAssert_True (pqueue == NULL, "MessageFlow_GetPQueue_ConfigTblPtr_NULL");
 }
 
 void Test_TO_MessageFlow_GetPQueue_ChannelPtr_NULL(void)
@@ -1608,7 +1625,7 @@ void Test_TO_MessageFlow_GetPQueue_ChannelPtr_NULL(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     UtAssert_True (msgFlow != NULL, "Message Flow object is not NULL.");
 
@@ -1618,7 +1635,7 @@ void Test_TO_MessageFlow_GetPQueue_ChannelPtr_NULL(void)
     pqueue = TO_MessageFlow_GetPQueue(channel, msgFlow, &pQueueIndex);
 
     /* Verify results */
-    UtAssert_True (pqueue == NULL, "Priority Queue object is not NULL.");
+    UtAssert_True (pqueue == NULL, "MessageFlow_GetPQueue_ChannelPtr_NULL");
 }
 
 void Test_TO_MessageFlow_GetPQueue_Idx_Max_Priority_Queues(void)
@@ -1642,7 +1659,7 @@ void Test_TO_MessageFlow_GetPQueue_Idx_Max_Priority_Queues(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     UtAssert_True (msgFlow != NULL, "Message Flow object is not NULL.");
 
@@ -1661,7 +1678,7 @@ void Test_TO_MessageFlow_GetPQueue_Idx_Max_Priority_Queues(void)
     pqueue = TO_MessageFlow_GetPQueue(channel, msgFlow, &pQueueIndex);
 
     /* Verify results */
-    UtAssert_True (pqueue == NULL, "Priority Queue object is not NULL.");
+    UtAssert_True (pqueue == NULL, "MessageFlow_GetPQueue_Idx_Max_Priority_Queues");
 }
 
 void Test_TO_MessageFlow_GetPQueue_Idx_Null(void)
@@ -1684,7 +1701,7 @@ void Test_TO_MessageFlow_GetPQueue_Idx_Null(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     UtAssert_True (msgFlow != NULL, "Message Flow object is not NULL.");
 
@@ -1701,7 +1718,7 @@ void Test_TO_MessageFlow_GetPQueue_Idx_Null(void)
     pqueue = TO_MessageFlow_GetPQueue(channel, msgFlow, NULL);
 
     /* Verify results */
-    UtAssert_True (pqueue != NULL, "Priority Queue object is not NULL.");
+    UtAssert_True (pqueue != NULL, "MessageFlow_GetPQueue_Idx_Null");
 }
 
 /**
@@ -1718,7 +1735,7 @@ void Test_TO_MessageFlow_Reset_All_Counts_Channel_NULL(void)
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     /* Execute the function being tested */
     TO_MessageFlow_ResetCountsAll(channel);
@@ -1743,10 +1760,10 @@ void Test_TO_Priority_Queue_Buildup_QueueCreate_Fail(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     /* Set function hooks */
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, &Ut_OSAPI_QueueCreateHook);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, (void *)&Ut_OSAPI_QueueCreateHook);
 
     TO_InitApp();
 
@@ -1764,7 +1781,7 @@ void Test_TO_Priority_Queue_Buildup_QueueCreate_Fail(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_PQUEUE_CREATE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Priority Queue Buildup OS_QueueCreate Failed - event correct");
+                       expectedEvent, "Priority_Queue_Buildup_QueueCreate_Fail");
 }
 
 void Test_TO_Priority_Queue_Buildup_NoPQueues(void)
@@ -1779,10 +1796,10 @@ void Test_TO_Priority_Queue_Buildup_NoPQueues(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     /* Set function hooks */
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, &Ut_OSAPI_QueueCreateHook);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, (void *)&Ut_OSAPI_QueueCreateHook);
 
     TO_InitApp();
 
@@ -1800,7 +1817,7 @@ void Test_TO_Priority_Queue_Buildup_NoPQueues(void)
 
     /* Verify results */
     UtAssert_EventNotSent(TO_PQUEUE_CREATE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Priority Queue Buildup OS_QueueCreate Failed - event not sent");
+                       expectedEvent, "Priority_Queue_Buildup_NoPQueues");
 }
 
 void Test_TO_Priority_Queue_Teardown_QueueGet_PutPoolBuf_Fail(void)
@@ -1823,7 +1840,7 @@ void Test_TO_Priority_Queue_Teardown_QueueGet_PutPoolBuf_Fail(void)
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -1839,7 +1856,7 @@ void Test_TO_Priority_Queue_Teardown_QueueGet_PutPoolBuf_Fail(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_PQUEUE_TEARDOWN_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Priority Queue TeardownAll PutPoolBuf Failed - event correct");
+                       expectedEvent, "Priority_Queue_Teardown_QueueGet_PutPoolBuf_Fail");
 }
 
 void Test_TO_Priority_Queue_Teardown_QueueDelete_Fail(void)
@@ -1864,7 +1881,7 @@ void Test_TO_Priority_Queue_Teardown_QueueDelete_Fail(void)
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEDELETE_INDEX);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -1881,7 +1898,7 @@ void Test_TO_Priority_Queue_Teardown_QueueDelete_Fail(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_PQUEUE_TEARDOWN_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Priority Queue TeardownAll PutPoolBuf Failed - event correct");
+                       expectedEvent, "Priority_Queue_Teardown_QueueDelete_Fail");
 }
 
 void Test_TO_Priority_Queue_Teardown_OSALQueueIDInvalid(void)
@@ -1906,7 +1923,7 @@ void Test_TO_Priority_Queue_Teardown_OSALQueueIDInvalid(void)
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEDELETE_INDEX);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -1923,7 +1940,7 @@ void Test_TO_Priority_Queue_Teardown_OSALQueueIDInvalid(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_PQUEUE_TEARDOWN_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Priority Queue TeardownAll PutPoolBuf Failed - event correct");
+                       expectedEvent, "Priority_Queue_Teardown_OSALQueueIDInvalid");
 }
 
 /**
@@ -1942,13 +1959,13 @@ void Test_TO_PriorityQueue_IsValid_Null_ConfigTblPtr_Check(void)
     channel = &TO_AppData.ChannelData[channelIdx];
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     /* Execute the function being tested */
     result = TO_PriorityQueue_IsValid(channel, PQueueIdx);
 
     /* Verify results */
-    UtAssert_True (result == expected, "TO_PriorityQueue_IsValid, NULL Pointer Check");
+    UtAssert_True (result == expected, "PriorityQueue_IsValid_Null_ConfigTblPtr_Check");
 }
 
 /**
@@ -1964,13 +1981,13 @@ void Test_TO_PriorityQueue_IsValid_Null_Ptr_Check(void)
     TO_ChannelData_t* channel = NULL;
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     /* Execute the function being tested */
     result = TO_PriorityQueue_IsValid(channel, PQueueIdx);
 
     /* Verify results */
-    UtAssert_True (result == expected, "TO_PriorityQueue_IsValid, NULL Pointer Check");
+    UtAssert_True (result == expected, "PriorityQueue_IsValid_Null_Ptr_Check");
 }
 
 /**
@@ -2013,7 +2030,7 @@ void Test_TO_PriorityQueue_IsValid_PQ_State_Check(void)
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2023,7 +2040,7 @@ void Test_TO_PriorityQueue_IsValid_PQ_State_Check(void)
     result = TO_PriorityQueue_IsValid(channel, PQueueIdx);
 
     /* Verify results */
-    UtAssert_True (result == expected, "TO_PriorityQueue_IsValid, State not enabled");
+    UtAssert_True (result == expected, "PriorityQueue_IsValid_PQ_State_Check");
 }
 
 
@@ -2039,7 +2056,7 @@ void Test_TO_ManageChannelTables_GetStatus_Error(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2057,7 +2074,7 @@ void Test_TO_ManageChannelTables_GetStatus_Error(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Channel config table handle failure - event correct");
+                       expectedEvent, "ManageChannelTables_GetStatus_Error");
 }
 
 void Test_TO_ManageChannelTables_GetStatus_Validate_Pending(void)
@@ -2072,7 +2089,7 @@ void Test_TO_ManageChannelTables_GetStatus_Validate_Pending(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2092,7 +2109,7 @@ void Test_TO_ManageChannelTables_GetStatus_Validate_Pending(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CONFIG_MANAGE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Failed to manage Config table for channel - event correct");
+                       expectedEvent, "ManageChannelTables_GetStatus_Validate_Pending");
 }
 
 void Test_TO_ManageChannelTables_GetStatus_Update_Pending(void)
@@ -2107,7 +2124,7 @@ void Test_TO_ManageChannelTables_GetStatus_Update_Pending(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2131,7 +2148,7 @@ void Test_TO_ManageChannelTables_GetStatus_Update_Pending(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CONFIG_MANAGE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Failed to manage Config table for channel - event correct");
+                       expectedEvent, "ManageChannelTables_GetStatus_Update_Pending");
 }
 
 void Test_TO_ManageChannelTables_GetAddress_Failure(void)
@@ -2146,7 +2163,7 @@ void Test_TO_ManageChannelTables_GetAddress_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2168,7 +2185,7 @@ void Test_TO_ManageChannelTables_GetAddress_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CONFIG_ADDR_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Failed to get Config table's address for channel - event correct");
+                       expectedEvent, "ManageChannelTables_GetAddress_Failure");
 }
 
 
@@ -2184,7 +2201,7 @@ void Test_TO_ManageChannelTables_GetStatus_Update_Pending_Fail_Dequeue(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2209,7 +2226,7 @@ void Test_TO_ManageChannelTables_GetStatus_Update_Pending_Fail_Dequeue(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CONFIG_TABLE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Failed to clear SB data pipe for channel - event correct");
+                       expectedEvent, "ManageChannelTables_GetStatus_Update_Pending_Fail_Dequeue");
 
 }
 
@@ -2225,7 +2242,7 @@ void Test_TO_ManageChannelTables_GetAddress_Process_Config_Tbl_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2251,7 +2268,7 @@ void Test_TO_ManageChannelTables_GetAddress_Process_Config_Tbl_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CONFIG_PROCESS_CONFIG_TBL_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Process New Config Table Failed for channel - event correct");
+                       expectedEvent, "ManageChannelTables_GetAddress_Process_Config_Tbl_Failure");
 
     /* Pass #2 for branch coverage purposes. */
 
@@ -2271,7 +2288,7 @@ void Test_TO_ManageChannelTables_GetAddress_Process_Config_Tbl_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CONFIG_PROCESS_CONFIG_TBL_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Process New Config Table Failed for channel - event correct");
+                       expectedEvent, "ManageChannelTables_GetAddress_Process_Config_Tbl_Failure");
 }
 
 /**************************************************************************
@@ -2324,7 +2341,7 @@ void Test_TO_Channel_State(void)
     uint16 ChannelID = 0;
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2332,7 +2349,7 @@ void Test_TO_Channel_State(void)
     result = TO_Channel_State(ChannelID);
 
     /* Verify results */
-    UtAssert_True (result == expected, "Channel 0 is open.");
+    UtAssert_True (result == expected, "Channel_State");
 }
 
 /**
@@ -2346,7 +2363,7 @@ void Test_TO_Channel_State_Fail(void)
     uint16 ChannelID = 5;
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2357,7 +2374,7 @@ void Test_TO_Channel_State_Fail(void)
     UtAssert_EventSent(TO_CHANNEL_OUT_OF_RANGE_ERR_EID, CFE_EVS_ERROR, "",
                        "Invalid channel index");
 
-    UtAssert_True (result == expected, "Channel 0 is open.");
+    UtAssert_True (result == expected, "Channel_State_Fail");
 }
 
 /**
@@ -2376,7 +2393,7 @@ void TO_Channel_OpenChannel_Fail_Invalid_ChannelID(void)
     /* Verify results */
     UtAssert_EventSent(TO_INIT_APP_ERR_EID, CFE_EVS_ERROR, "",
                        "Invalid channel index of 5.");
-    UtAssert_True (result == expected, "Invalid channel index.");
+    UtAssert_True (result == expected, "Channel_OpenChannel_Fail_Invalid_ChannelID");
 }
 
 /**
@@ -2393,7 +2410,7 @@ void TO_Channel_OpenChannel_Fail_ChannelAlreadyOpen(void)
     result = TO_Channel_OpenChannel(ChannelID, "GRD", "GRD_CFG", "/boot/apps/to_grd_def.tbl", &TO_EmptyConfigTable, "GRD_DMP", 1, "CFTOSemIdGrd");
 
     /* Verify results */
-    UtAssert_True (result == TO_CHANNEL_OPEN_ERR, "Channel already opened.");
+    UtAssert_True (result == TO_CHANNEL_OPEN_ERR, "Channel_OpenChannel_Fail_ChannelAlreadyOpen");
 }
 
 
@@ -2408,7 +2425,7 @@ void Test_TO_Channel_Open_OS_CountSemCreate_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2431,7 +2448,7 @@ void Test_TO_Channel_Open_OS_CountSemCreate_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_INIT_APP_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Failed to create counting semaphore - event correct");
+                       expectedEvent, "Channel_Open_OS_CountSemCreate_Failure");
 }
 
 void Test_TO_Channel_Open_OutputQueue_Buildup_Failure(void)
@@ -2445,10 +2462,10 @@ void Test_TO_Channel_Open_OutputQueue_Buildup_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hooks */
-    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, &Ut_OSAPI_QueueCreateHook);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX, (void *)&Ut_OSAPI_QueueCreateHook);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2464,7 +2481,7 @@ void Test_TO_Channel_Open_OutputQueue_Buildup_Failure(void)
                                      TO_CONFIG_TABLE_FILENAME, &TO_EmptyConfigTable, TO_DUMP_TABLENAME,
                                      4, "cs_gnd");
 
-    UtAssert_True(status == OS_ERR_NAME_TAKEN, "OutputQueue_Buildup Error");
+    UtAssert_True(status == OS_ERR_NAME_TAKEN, "Channel_Open_OutputQueue_Buildup_Failure");
 }
 
 void Test_TO_Channel_Open_CFE_SB_CreatePipe_Failure(void)
@@ -2478,7 +2495,7 @@ void Test_TO_Channel_Open_CFE_SB_CreatePipe_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2506,7 +2523,7 @@ void Test_TO_Channel_Open_CFE_SB_CreatePipe_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_INIT_DATAPIPE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Failed to create channel - event correct");
+                       expectedEvent, "Channel_Open_CFE_SB_CreatePipe_Failure");
 }
 
 void Test_TO_Channel_Open_TO_InitTables_Failure(void)
@@ -2520,7 +2537,7 @@ void Test_TO_Channel_Open_TO_InitTables_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2549,7 +2566,7 @@ void Test_TO_Channel_Open_TO_InitTables_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_INIT_CONFIG_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Failed to init config tables - event correct");
+                       expectedEvent, "Channel_Open_TO_InitTables_Failure");
 }
 
 void Test_TO_Channel_Open_PoolCreateEx_Failure(void)
@@ -2563,7 +2580,7 @@ void Test_TO_Channel_Open_PoolCreateEx_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2592,7 +2609,7 @@ void Test_TO_Channel_Open_PoolCreateEx_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CR_POOL_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Error creating memory pool - event correct");
+                       expectedEvent, "Channel_Open_PoolCreateEx_Failure");
 }
 
 void Test_TO_Channel_LockByIndex_Index_Out_Of_Range(void)
@@ -2609,7 +2626,7 @@ void Test_TO_Channel_LockByIndex_Index_Out_Of_Range(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CHANNEL_OUT_OF_RANGE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Invalid channel index - event correct");
+                       expectedEvent, "Channel_LockByIndex_Index_Out_Of_Range");
 }
 
 void Test_TO_Channel_UnlockByIndex_Index_Out_Of_Range(void)
@@ -2626,7 +2643,7 @@ void Test_TO_Channel_UnlockByIndex_Index_Out_Of_Range(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CHANNEL_OUT_OF_RANGE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Invalid channel index - event correct");
+                       expectedEvent, "Channel_UnlockByIndex_Index_Out_Of_Range");
 }
 
 void Test_TO_Channel_LockByRef_NullPtr(void)
@@ -2650,7 +2667,7 @@ void Test_TO_Channel_LockByRef_Mutex_Take_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2667,7 +2684,7 @@ void Test_TO_Channel_LockByRef_Mutex_Take_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CHANNEL_LOCK_MUTEX_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Channel lock mutex failure - event correct");
+                       expectedEvent, "Channel_LockByRef_Mutex_Take_Failure");
 }
 
 void Test_TO_Channel_UnlockByRef_Mutex_Give_Failure(void)
@@ -2681,7 +2698,7 @@ void Test_TO_Channel_UnlockByRef_Mutex_Give_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2698,7 +2715,7 @@ void Test_TO_Channel_UnlockByRef_Mutex_Give_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CHANNEL_UNLOCK_MUTEX_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Channel unlock mutex failure - event correct");
+                       expectedEvent, "Channel_UnlockByRef_Mutex_Give_Failure");
 }
 
 void Test_TO_Channel_InitAll_Mutex_Create_Failure(void)
@@ -2712,7 +2729,7 @@ void Test_TO_Channel_InitAll_Mutex_Create_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2724,7 +2741,7 @@ void Test_TO_Channel_InitAll_Mutex_Create_Failure(void)
 
     TO_Channel_InitAll();
 
-    UtAssert_True(channel->State == TO_CHANNEL_UNKNOWN, "Channel Cleanup OS Mut Semphore Create Failure");
+    UtAssert_True(channel->State == TO_CHANNEL_UNKNOWN, "Channel_InitAll_Mutex_Create_Failure");
 }
 
 void Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure(void)
@@ -2738,7 +2755,7 @@ void Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2764,7 +2781,7 @@ void Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CHANNEL_TEARDOWN_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Priority Queue Teardown failure - event correct");
+                       expectedEvent, "Channel_CleanupAll_PriorityQueue_TeardownAll_Failure");
 }
 
 void Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure(void)
@@ -2778,7 +2795,7 @@ void Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2803,7 +2820,7 @@ void Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CHANNEL_TEARDOWN_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Output Queue Teardown failure - event correct");
+                       expectedEvent, "Channel_CleanupAll_OutputQueue_Teardown_Failure");
 }
 
 void Test_TO_Channel_Cleanup_Index_Out_Of_Range_Failure(void)
@@ -2817,7 +2834,7 @@ void Test_TO_Channel_Cleanup_Index_Out_Of_Range_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2835,7 +2852,7 @@ void Test_TO_Channel_Cleanup_Index_Out_Of_Range_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CHANNEL_OUT_OF_RANGE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Invalid channel index - event correct");
+                       expectedEvent, "Channel_Cleanup_Index_Out_Of_Range_Failure");
 }
 
 void Test_TO_Channel_Init_Index_Out_Of_Range_Failure(void)
@@ -2849,7 +2866,7 @@ void Test_TO_Channel_Init_Index_Out_Of_Range_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2867,7 +2884,7 @@ void Test_TO_Channel_Init_Index_Out_Of_Range_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CHANNEL_OUT_OF_RANGE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Invalid channel index - event correct");
+                       expectedEvent, "Channel_Init_Index_Out_Of_Range_Failure");
 }
 
 
@@ -3067,7 +3084,7 @@ void Test_TO_Classifier_MessageTooLong(void)
 //    memset(dummyMessageBuf, 0x00, sizeof(dummyMessageBuf));
 //
 //    /* Set function hook for TO_Custom_Init */
-//    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+//    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 //
 //    /* Initialize app*/
 //    TO_InitApp();
@@ -3109,7 +3126,7 @@ void Test_TO_Classifier_MessageTooLong(void)
 //    memset(dummyMessageBuf, 0x00, sizeof(dummyMessageBuf));
 //
 //    /* Set function hook for TO_Custom_Init */
-//    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+//    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 //
 //    /* Initialize app*/
 //    TO_InitApp();
@@ -3119,7 +3136,7 @@ void Test_TO_Classifier_MessageTooLong(void)
 //    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEPUT_INDEX);
 //    Ut_CFE_ES_ContinueReturnCodeAfterCountZero(UT_CFE_ES_PUTPOOLBUF_INDEX);
 //
-//    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, &Ut_CFE_ES_GetPoolBuf);
+//    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX, (void *)&Ut_CFE_ES_GetPoolBuf);
 //
 //    /* Get channel data information */
 //    groundChannel = &TO_AppData.ChannelData[0];
@@ -3149,7 +3166,7 @@ void Test_TO_Classifier_MessageTooLong(void)
 //    TO_ChannelData_t*       channel = NULL;
 //
 //    /* Set function hook for TO_Custom_Init */
-//    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+//    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 //
 //    /* Initialize app*/
 //    TO_InitApp();
@@ -3172,7 +3189,7 @@ void Test_TO_Scheduler_Run_QueueMsg_Fail(void)
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEPUT_INDEX);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     /* Initialize app*/
     TO_InitApp();
@@ -3189,7 +3206,7 @@ void Test_TO_Scheduler_Run_HighwaterMark(void)
     TO_ChannelData_t*       channel = NULL;
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     /* Initialize app*/
     TO_InitApp();
@@ -3212,7 +3229,7 @@ void Test_TO_ReportHousekeeping_Ground(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -3230,7 +3247,7 @@ void Test_TO_ReportHousekeeping_UnknownChannelID(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -3240,7 +3257,7 @@ void Test_TO_ReportHousekeeping_UnknownChannelID(void)
     TO_ReportHousekeeping();
 }
 
-void Test_TO_SendDiag_Ground(void)
+void Test_TO_SendDiag_Ground(void)   // check this
 {
     uint16  ChannelIdx = 0;
     TO_ChannelData_t* channel;
@@ -3250,7 +3267,7 @@ void Test_TO_SendDiag_Ground(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -3273,7 +3290,7 @@ void Test_TO_SendDiag_Ground(void)
 /**************************************************************************
  * Tests for TO_RcvMsg
  **************************************************************************/
-void Test_TO_RcvMsg_noMsg(void)
+void Test_TO_RcvMsg_noMsg(void)    // check this
 {
     int32 result = -99;
     char outputText[200];
@@ -3353,7 +3370,7 @@ void Test_TO_RcvMsg_sendTlmMsgId(void)
     int32 result = -99;
     char outputText[200];
 
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_SendMsg_TO_RcvMsgHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_RCVMSG_INDEX, (void *)&CFE_SB_SendMsg_TO_RcvMsgHook);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, TO_SEND_TLM_MID, 1);
     Ut_CFE_SB_ContinueReturnCodeAfterCountZero(UT_CFE_SB_GETMSGID_INDEX);
 
@@ -3374,7 +3391,7 @@ void Test_TO_RcvMsg_sendHkMsgId(void)
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, TO_SEND_HK_MID, 1);
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, CFE_SB_SendMsg_TO_RcvMsgHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, (void *)&CFE_SB_SendMsg_TO_RcvMsgHook);
 
     result = TO_RcvMsg(TO_SCH_PIPE_PEND_TIME);
 
@@ -3491,10 +3508,8 @@ void TO_App_Test_AddTestCases(void)
     UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut");
 #endif
-#if 0 // #227
     UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail");
-#endif
     UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success");
     UtTest_Add(Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
