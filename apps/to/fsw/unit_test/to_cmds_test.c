@@ -79,7 +79,7 @@ void Test_TO_ProcessNewCmds_RcvMsgErr(void)
 {
     int32 errCodeSet = CFE_SB_MSG_TOO_BIG; //Anything other than CFE_SUCCESS or CFE_SB_NO_MESSAGE
 
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     sprintf(expectedEvent, "CMD pipe read error (0x%08X)", (unsigned int)errCodeSet);
 
     /* Set a fail result */
@@ -684,7 +684,7 @@ void Test_TO_ProcessNewAppCmds_QueryMessageFlow_Nominal(void)
     int32                       CmdPipe;
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
 
-    char expEventText[100];
+    char expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and gives it a command to process. */
@@ -772,7 +772,7 @@ void Test_TO_ProcessNewAppCmds_QueryPriorityQueue_Nominal(void)
     int32         CmdPipe;
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
     uint16        PQueueIdx = 0;
-    char expEventText[100];
+    char expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and gives it a command to process. */
@@ -857,7 +857,7 @@ void Test_TO_ProcessNewAppCmds_QueryOutputChannel_Nominal(void)
     int32                       DataPipe;
     int32                       CmdPipe;
     uint16  ChannelIdx = 0;
-    char expEventText[100];
+    char expEventText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and gives it a command to process. */

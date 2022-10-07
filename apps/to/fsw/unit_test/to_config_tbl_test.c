@@ -63,7 +63,7 @@ void Test_TO_InitTables_Ground_Table_Fail_TBL_Register(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
 
     /* Set return codes */
@@ -96,7 +96,7 @@ void Test_TO_InitTables_Dump_Table_Fail_TBL_Register(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
 
     /* Set return codes */
@@ -131,7 +131,7 @@ void Test_TO_InitTables_Dump_Table_Fail_TBL_Load(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
 
     /* Set return codes */
@@ -169,7 +169,7 @@ void Test_TO_InitTables_Load_Backup_Table(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
 
     /* Set return codes */
@@ -202,7 +202,7 @@ void Test_TO_ValidateConfigTbl_ConfigTblPtr_NULL(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
 
     /* Set return codes */
@@ -232,7 +232,7 @@ void Test_TO_ValidateConfigTbl_ConfigTblPtr_NULL(void)
 void Test_TO_ValidateConfigTbl_InvalidCCSDSVersion(void)
 {
     int32 iStatus = 0;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     TO_ChannelTbl_t TO_ConfigTable =
     {
@@ -271,7 +271,7 @@ void Test_TO_ValidateConfigTbl_Priority_Queue_State_Failure(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     uint16 PQueueIdx = 0;
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
 
@@ -307,7 +307,7 @@ void Test_TO_ValidateConfigTbl_Priority_Queue_Qtype_Failure(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     uint16 PQueueIdx = 0;
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
 
@@ -349,7 +349,7 @@ void Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     uint16 PQueueIdx = 0;
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
 
@@ -396,7 +396,7 @@ void Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure_Max(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     uint16 PQueueIdx = 0;
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
 
@@ -444,7 +444,7 @@ void Test_TO_ValidateConfigTbl_Priority_Queue_No_Valid_States(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     uint16 PQueueIdx = 0;
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
 
@@ -477,7 +477,7 @@ void Test_TO_ValidateConfigTbl_Secondary_Header_Absent(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     uint16 MFlowIdx = 0;
 
     /* Set return codes */
@@ -530,7 +530,7 @@ void Test_TO_ValidateConfigTbl_MessageFlow_MsgLimit_Not_In_Range(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -682,7 +682,7 @@ void Test_TO_ValidateConfigTbl_MessageFlow_PQueueId_Invalid(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     uint16 MFlowIdx = 0;
 
     /* Set return codes */

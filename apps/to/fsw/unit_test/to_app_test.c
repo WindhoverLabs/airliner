@@ -306,7 +306,7 @@ void Test_TO_InitData_FailAppMutSemCreate(void)
     int32 result = -777;
     int32 expectedReturn = OS_ERROR;
 
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     sprintf(expectedEvent, "Init Data: Failed to create TO_AppData mutex: 0x%08lX", (unsigned long)expectedReturn);
 
     /* Set a fail result */
@@ -586,7 +586,10 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
 {
     TO_NoArgCmd_t InSchMsg;
     int32         SchPipe;
-    int32         DataPipe;
+    int32         DataPipe2;
+    int32         DataPipe3;
+    int32         DataPipe4;
+#if 0
     CFE_ES_HkPacket_t     msgCfeEsHk;
     CFE_EVS_TlmPkt_t      msgCfeEvsHk;
     CFE_SB_HKMsg_t        msgCfeSbHk;
@@ -596,6 +599,17 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
     CFE_EVS_Packet_t      msgCfeEvsEvent;
     CFE_SB_StatMsg_t      msgCfeSbStats;
     CFE_ES_OneAppTlm_t    msgCfeEsApp;
+#else
+    CFE_ES_HkPacket_t     msgCfeEsHk;
+    CFE_ES_HkPacket_t     msgCfeEvsHk;
+    CFE_ES_HkPacket_t     msgCfeSbHk;
+    CFE_ES_HkPacket_t     msgCfeTblHk;
+    CFE_ES_HkPacket_t     msgCfeTimeHk;
+    CFE_ES_HkPacket_t     msgCfeTimeDiag;
+    CFE_ES_HkPacket_t     msgCfeEvsEvent;
+    CFE_ES_HkPacket_t     msgCfeSbStats;
+    CFE_ES_HkPacket_t     msgCfeEsApp;
+#endif
     uint32                chQueue0;
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
@@ -604,7 +618,9 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
     CFE_SB_InitMsg (&InSchMsg, TO_SEND_TLM_MID, sizeof(InSchMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe(&InSchMsg, SchPipe);
 
-    DataPipe = Ut_CFE_SB_CreatePipe("TO_UDP");
+    DataPipe2 = Ut_CFE_SB_CreatePipe("TO_UDP_2");
+    DataPipe3 = Ut_CFE_SB_CreatePipe("TO_UDP_3");
+    DataPipe4 = Ut_CFE_SB_CreatePipe("TO_UDP_4");
 
     /* Initialize a bunch of telemetry messages for downlink. */
     CFE_SB_InitMsg (&msgCfeEsHk, CFE_ES_HK_TLM_MID, sizeof(msgCfeEsHk), TRUE);
@@ -619,15 +635,15 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
 
     /* Now load up the software bus with all the messages starting with low
      * priority first. */
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsEvent, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbStats, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsApp, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTblHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeDiag, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbHk, DataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsEvent, DataPipe4);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbStats, DataPipe4);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsApp, DataPipe4);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTblHk, DataPipe3);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeHk, DataPipe3);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeDiag, DataPipe3);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsHk, DataPipe2);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsHk, DataPipe2);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbHk, DataPipe2);
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -655,51 +671,51 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
     CFE_SB_Msg_t     msgBuf;
     CFE_SB_MsgPtr_t  msgPtr = &msgBuf;
     uint32           sizeCopied = 0;
-    int32            iStatus = 0;
+    int32            iStatus = CFE_SUCCESS;
     CFE_SB_MsgId_t   MsgId;
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
+    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
+    iStatus = Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
     UtAssert_True(MsgId == CFE_ES_HK_TLM_MID, "1-1: High Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
+    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
     UtAssert_True(MsgId == CFE_EVS_HK_TLM_MID, "1-2: High Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
+    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
     UtAssert_True(MsgId == CFE_TBL_HK_TLM_MID, "1-3: Medium Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
+    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
     UtAssert_True(MsgId == CFE_TIME_HK_TLM_MID, "1-4: Medium Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
+    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
     UtAssert_True(MsgId == CFE_TIME_DIAG_TLM_MID, "1-5: Medium Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
+    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
     UtAssert_True(MsgId == CFE_EVS_EVENT_MSG_MID, "1-6: Low Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
+    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
     UtAssert_True(MsgId == CFE_SB_STATS_TLM_MID, "1-7: Low Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
+    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
+    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
     UtAssert_True(MsgId == CFE_ES_APP_TLM_MID, "1-8: Low Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    iStatus = Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
+    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
+    iStatus = Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
     UtAssert_True(iStatus == OS_QUEUE_EMPTY, "1-9: EMPTY");
 }
 
@@ -1286,7 +1302,7 @@ void Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Fail(void)
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
 
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -1325,7 +1341,7 @@ void Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Success(void)   // check t
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
 
-    char expectedEvent[200];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -1396,7 +1412,7 @@ void Test_TO_MessageFlow_TeardownAll_SubscribeEx(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
 
     /* Set return codes */
@@ -1428,7 +1444,7 @@ void Test_TO_MessageFlow_TeardownAll_Unsubscribe(void)
 {
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     TO_ChannelData_t* channel;
 
@@ -1754,7 +1770,7 @@ void Test_TO_Priority_Queue_Buildup_QueueCreate_Fail(void)
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
 
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -1790,7 +1806,7 @@ void Test_TO_Priority_Queue_Buildup_NoPQueues(void)
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
 
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -1826,7 +1842,7 @@ void Test_TO_Priority_Queue_Teardown_QueueGet_PutPoolBuf_Fail(void)
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
 
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -1865,7 +1881,7 @@ void Test_TO_Priority_Queue_Teardown_QueueDelete_Fail(void)
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
 
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -1907,7 +1923,7 @@ void Test_TO_Priority_Queue_Teardown_OSALQueueIDInvalid(void)
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
 
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2049,7 +2065,7 @@ void Test_TO_ManageChannelTables_GetStatus_Error(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     osalbool initialManage = TRUE;
 
     /* Set return codes */
@@ -2082,7 +2098,7 @@ void Test_TO_ManageChannelTables_GetStatus_Validate_Pending(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     osalbool initialManage = TRUE;
 
     /* Set return codes */
@@ -2117,7 +2133,7 @@ void Test_TO_ManageChannelTables_GetStatus_Update_Pending(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     osalbool initialManage = TRUE;
 
     /* Set return codes */
@@ -2156,7 +2172,7 @@ void Test_TO_ManageChannelTables_GetAddress_Failure(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     osalbool initialManage = TRUE;
 
     /* Set return codes */
@@ -2194,7 +2210,7 @@ void Test_TO_ManageChannelTables_GetStatus_Update_Pending_Fail_Dequeue(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     osalbool initialManage = TRUE;
 
     /* Set return codes */
@@ -2235,7 +2251,7 @@ void Test_TO_ManageChannelTables_GetAddress_Process_Config_Tbl_Failure(void)
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
     osalbool initialManage = TRUE;
 
     /* Set return codes */
@@ -2419,7 +2435,7 @@ void Test_TO_Channel_Open_OS_CountSemCreate_Failure(void)
     uint16  ChannelIdx = 0;
     int32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[1000];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2456,7 +2472,6 @@ void Test_TO_Channel_Open_OutputQueue_Buildup_Failure(void)
     uint16  ChannelIdx = 0;
     int32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2489,7 +2504,7 @@ void Test_TO_Channel_Open_CFE_SB_CreatePipe_Failure(void)
     uint16  ChannelIdx = 0;
     uint32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2531,7 +2546,7 @@ void Test_TO_Channel_Open_TO_InitTables_Failure(void)
     uint16  ChannelIdx = 0;
     uint32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2574,7 +2589,7 @@ void Test_TO_Channel_Open_PoolCreateEx_Failure(void)
     uint16  ChannelIdx = 0;
     uint32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2617,7 +2632,7 @@ void Test_TO_Channel_LockByIndex_Index_Out_Of_Range(void)
     uint16  ChannelIdx = 5;
     uint32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     TO_Channel_LockByIndex(ChannelIdx);
 
@@ -2634,7 +2649,7 @@ void Test_TO_Channel_UnlockByIndex_Index_Out_Of_Range(void)
     uint16  ChannelIdx = 5;
     uint32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     TO_Channel_UnlockByIndex(ChannelIdx);
 
@@ -2661,7 +2676,7 @@ void Test_TO_Channel_LockByRef_Mutex_Take_Failure(void)
     uint16  ChannelIdx = 0;
     uint32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2692,7 +2707,7 @@ void Test_TO_Channel_UnlockByRef_Mutex_Give_Failure(void)
     uint16  ChannelIdx = 0;
     uint32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2723,7 +2738,6 @@ void Test_TO_Channel_InitAll_Mutex_Create_Failure(void)
     uint16  ChannelIdx = 0;
     uint32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2749,7 +2763,7 @@ void Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure(void)
     uint16  ChannelIdx = 0;
     uint32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2789,7 +2803,7 @@ void Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure(void)
     uint16  ChannelIdx = 0;
     uint32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2828,7 +2842,7 @@ void Test_TO_Channel_Cleanup_Index_Out_Of_Range_Failure(void)
     uint16  ChannelIdx = 5;
     uint32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2860,7 +2874,7 @@ void Test_TO_Channel_Init_Index_Out_Of_Range_Failure(void)
     uint16  ChannelIdx = 5;
     uint32 status = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -2897,7 +2911,7 @@ void Test_TO_Channel_Init_Index_Out_Of_Range_Failure(void)
 //    TO_ChannelData_t* groundChannel;
 //
 //    /* Set up expected event string*/
-//    char expectedEvent[100];
+//    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 //    memset(expectedEvent, 0x00, sizeof(expectedEvent));
 //    sprintf(expectedEvent, "Data pipe read error (0x%08X) on channel 0", (unsigned int)errCodeSet);
 //
@@ -2933,7 +2947,7 @@ void Test_TO_Classifier_MessageTooLong(void)
 //    memset(dummyMessageBuf, 0x00, sizeof(dummyMessageBuf));
 //
 //    /* Set up expected event string*/
-//    char expectedEvent[100];
+//    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 //    memset(expectedEvent, 0x00, sizeof(expectedEvent));
 //    sprintf(expectedEvent, "Message too long (size = %lu > max = %d) for msgId = (0x%04X) on channel (%u)",
 //    		(uint32)TO_MAX_MSG_LENGTH+1, TO_MAX_MSG_LENGTH, (unsigned short)dummyMID, (unsigned int)gndChannelId);
@@ -3032,7 +3046,7 @@ void Test_TO_Classifier_MessageTooLong(void)
 //    memset(dummyMessageBuf, 0x00, sizeof(dummyMessageBuf));
 //
 //    /* Set up expected event string*/
-//    char expectedEvent[100];
+//    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 //    memset(expectedEvent, 0x00, sizeof(expectedEvent));
 //    sprintf(expectedEvent, "Classifier Recvd invalid msgId (0x%04X) or message flow was removed on channel (%u)",
 //            (unsigned short)dummyMID, (unsigned int)gndChannelId);
@@ -3261,7 +3275,7 @@ void Test_TO_SendDiag_Ground(void)   // check this
 {
     uint16  ChannelIdx = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[100];
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -3293,7 +3307,7 @@ void Test_TO_SendDiag_Ground(void)   // check this
 void Test_TO_RcvMsg_noMsg(void)    // check this
 {
     int32 result = -99;
-    char outputText[200];
+    char outputText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_NO_MESSAGE, 1);
 
@@ -3308,7 +3322,7 @@ void Test_TO_RcvMsg_noMsg(void)    // check this
 void Test_TO_RcvMsg_recieveTimeout(void)
 {
     int32 result = -99;
-    char outputText[200];
+    char outputText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_TIME_OUT, 1);
 
@@ -3323,7 +3337,7 @@ void Test_TO_RcvMsg_recieveTimeout(void)
 
 void Test_TO_RcvMsg_receiveError(void)
 {
-    char outputText[200];
+    char outputText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Implementation doesn't distinguish between error types except on return type.
      * The call to CFE_EVS_SendEvent records the same event type regardless.  Is that sufficient? */
@@ -3351,7 +3365,7 @@ void Test_TO_RcvMsg_receiveError(void)
 void Test_TO_RcvMsg_unknownMsgId(void)
 {
     int32 result = -99;
-    char outputText[200];
+    char outputText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, TO_CMD_MID, 1);
@@ -3368,7 +3382,7 @@ void Test_TO_RcvMsg_unknownMsgId(void)
 void Test_TO_RcvMsg_sendTlmMsgId(void)
 {
     int32 result = -99;
-    char outputText[200];
+    char outputText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_RCVMSG_INDEX, (void *)&CFE_SB_SendMsg_TO_RcvMsgHook);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, TO_SEND_TLM_MID, 1);
@@ -3387,7 +3401,7 @@ void Test_TO_RcvMsg_sendHkMsgId(void)
 {
     int32 result = -99;
 //    TO_test_sendMsg_msgPtr = NULL;
-    char outputText[200];
+    char outputText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, TO_SEND_HK_MID, 1);
