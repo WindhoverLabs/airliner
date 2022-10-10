@@ -1,0 +1,7 @@
+#ifndef RHAPC_PLATFORM_CFG_H
+#define RHAPC_PLATFORM_CFG_H
+#endif
+
+#define RHAPC_DEFAULT_STACK                (20000)
+#define RHAPC_DEFAULT_MESSAGE_QUEUE_SIZE   (100)
+#define RHAPC_DEFAULT_THREAD_PRIORITY      (0)

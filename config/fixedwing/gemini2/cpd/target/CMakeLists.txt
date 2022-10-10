@@ -111,6 +111,12 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
 )
 
+buildliner_add_app(
+    rhapc
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/rhapsody/fsw/LangC/for_build
+)
+
 #buildliner_add_app(
     #sed
     #EMBEDDED

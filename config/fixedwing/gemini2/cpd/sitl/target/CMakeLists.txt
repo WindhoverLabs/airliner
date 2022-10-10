@@ -103,6 +103,24 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/px4lib/fsw/for_build
 )
 
+#buildliner_add_app(
+#    rhapc
+#    EMBEDDED
+#    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/rhapsody/fsw/LangC/for_build
+#)
+
+buildliner_add_app(
+    rhapcpp
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/rhapsody/fsw/LangCpp/for_build
+)
+
+buildliner_add_app(
+    rhapapp
+    EMBEDDED
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/rhapsody/fsw/sample/for_build
+)
+
 
 # sch_custom_v1.c:  Traditional platform independent layer that uses OS_Timer 
 #                   to drive minor frames.
