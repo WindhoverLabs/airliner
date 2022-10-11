@@ -515,4 +515,19 @@ modules:
           VC_SOCKET_SEND_PERF_ID:
             id: 109
             
+      hes:
+        definition: ${PROJECT_SOURCE_DIR}/apps/hes/wh_design.yaml
+        telemetry:
+          HES_HK_TLM_MID:
+            msgID: 0x095E              # TLM_MSG(  353 )
+        commands:
+          HES_CMD_MID:
+            msgID: 0x195A              # CMD_MSG(  349 )
+          HES_WAKEUP_MID:
+            msgID: 0x195C              # CMD_MSG(  351 )
+          HES_SEND_HK_MID:
+            msgID: 0x195B              # CMD_MSG(  350 )
+        perfids:
+          HES_MAIN_TASK_PERF_ID:
+            id: 124
       

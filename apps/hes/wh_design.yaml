@@ -1,0 +1,106 @@
+  short_name: hes
+  long_name: Hawk Eye Server App
+  app_name: HES
+  module_type: CFE_APP
+  commander:
+    displays: cdr
+  events: 
+    HES_INF_EID: 
+      id: 1
+    HES_INIT_INF_EID: 
+      id: 2
+    HES_CONFIG_TABLE_INF_EID: 
+      id: 3
+    HES_CDS_INF_EID: 
+      id: 4
+    HES_CMD_INF_EID: 
+      id: 5
+    HES_ERR_EID: 
+      id: 6
+    HES_INIT_ERR_EID: 
+      id: 7
+    HES_CONFIG_TABLE_ERR_EID: 
+      id: 8
+    HES_CDS_ERR_EID: 
+      id: 9
+    HES_CMD_ERR_EID: 
+      id: 10
+    HES_PIPE_ERR_EID: 
+      id: 11
+    HES_MSGID_ERR_EID: 
+      id: 12
+    HES_MSGLEN_ERR_EID: 
+      id: 13
+  telemetry: 
+    HES_HK_TLM_MID: 
+      msgID: 
+      struct: HES_HkTlm_t
+  commands: 
+    HES_CMD_MID: 
+      msgID: 
+      commands: 
+        Noop: 
+          cc: 0
+          struct: HES_NoArgCmd_t
+        Reset: 
+          cc: 1
+          struct: HES_NoArgCmd_t
+    HES_SEND_HK_MID: 
+      msgID: 
+      commands: 
+        SendHK: 
+          cc: 0
+          struct: HES_NoArgCmd_t
+    HES_WAKEUP_MID: 
+      msgID: 
+      commands: 
+        WakeUp: 
+          cc: 0
+          struct: HES_NoArgCmd_t
+  perfids: 
+    HES_MAIN_TASK_PERF_ID: 
+      id: 
+    # HES_RECEIVE_PERF_ID: 
+    #   id: 
+    # HES_SEND_PERF_ID: 
+    #   id: 
+  config: 
+    HES_SB_TIMEOUT: 
+      name: HES_SB_TIMEOUT
+      value: CFE_SB_PEND_FOREVER
+    HES_MISSION_REV: 
+      name: HES_MISSION_REV
+      value: 0
+    HES_SCH_PIPE_DEPTH: 
+      name: HES_SCH_PIPE_DEPTH
+      value: 2
+    HES_SCH_PIPE_NAME: 
+      name: HES_SCH_PIPE_NAME
+      value: HES_SCH_PIPE
+    HES_SCH_PIPE_PEND_TIME: 
+      name: HES_SCH_PIPE_PEND_TIME
+      value: 2000
+    HES_SCH_PIPE_WAKEUP_RESERVED:
+      name: HES_SCH_PIPE_WAKEUP_RESERVED
+      value: 1
+    HES_SCH_PIPE_SEND_HK_RESERVED:
+      name: HES_SCH_PIPE_SEND_HK_RESERVED
+      value: 1
+    HES_CMD_PIPE_DEPTH: 
+      name: HES_CMD_PIPE_DEPTH
+      value: 4
+    HES_CMD_PIPE_NAME: 
+      name: HES_CMD_PIPE_NAME
+      value: HES_CMD_PIPE
+    HES_DATA_PIPE_DEPTH: 
+      name: HES_DATA_PIPE_DEPTH
+      value: 4
+    HES_DATA_PIPE_NAME: 
+      name: HES_DATA_PIPE_NAME
+      value: HES_DATA_PIPE
+    HES_CONFIG_TABLE_FILENAME: 
+      name: HES_CONFIG_TABLE_FILENAME
+      value: /cf/apps/hes_config.tbl
+    HES_STARTUP_TIMEOUT_MSEC: 
+      name: HES_STARTUP_TIMEOUT_MSEC
+      value: 1000
