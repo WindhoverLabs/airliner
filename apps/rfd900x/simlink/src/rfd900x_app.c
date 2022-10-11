@@ -562,54 +562,67 @@ void RFD900X_ProcessNewData()
     rc = SEDLIB_GetMessageStatus(RFD900X_AppData.RxMsgPortHandle, &readStatus, &writeStatus);
     if(readStatus == SEDLIB_MSG_READ_ACKNOWLEDGED)
     {
-		/* Process UART responses.  First see if we received any data. */
-		bytesRemaining = sizeof(RFD900X_AppData.RxBuffer) - RFD900X_AppData.BytesInRxBuffer;
-		recvSize = recv(RFD900X_AppData.RxSocket,
-						(char *)&RFD900X_AppData.RxBuffer[RFD900X_AppData.BytesInRxBuffer],
-						(size_t)bytesRemaining, 0);
+                /* Process UART responses.  First see if we received any data. */
+                if(RFD900X_AppData.BytesInRxBuffer > 0)
+                {
+                    bytesRemaining = RFD900X_AppData.BytesInRxBuffer;
+                    recvSize = RFD900X_AppData.BytesInRxBuffer;
+
+                }
+                else
+                {
+                    bytesRemaining = sizeof(RFD900X_AppData.RxBuffer) - RFD900X_AppData.BytesInRxBuffer;
+                    recvSize = recv(RFD900X_AppData.RxSocket,
+                                    (char *)&RFD900X_AppData.RxBuffer[RFD900X_AppData.BytesInRxBuffer],
+                                    (size_t)bytesRemaining, 0);
+                }
 		/* Did we receive any data? */
 		if(recvSize > 0)
 		{
-			uint32 bytesToCopy;
+                    uint32 bytesToCopy;
 
-			RFD900X_AppData.BytesInRxBuffer += recvSize;
+                    RFD900X_AppData.BytesInRxBuffer = recvSize;
 
-			/* Yes we did.  Put as much of it in the status response as will fit. */
-			if(RFD900X_AppData.BytesInRxBuffer > sizeof(RFD900X_AppData.UART_StatusTlm.RxBuffer))
-			{
-				bytesToCopy = sizeof(RFD900X_AppData.UART_StatusTlm.RxBuffer);
-			}
-			else
-			{
-				bytesToCopy = RFD900X_AppData.BytesInRxBuffer;
-			}
+                    /* Yes we did.  Put as much of it in the status response as will fit. */
+                    if(RFD900X_AppData.BytesInRxBuffer > sizeof(RFD900X_AppData.UART_StatusTlm.RxBuffer))
+                    {
+                            bytesToCopy = sizeof(RFD900X_AppData.UART_StatusTlm.RxBuffer);
+                    }
+                    else
+                    {
+                            bytesToCopy = RFD900X_AppData.BytesInRxBuffer;
+                    }
 
-			memcpy(RFD900X_AppData.UART_StatusTlm.RxBuffer, RFD900X_AppData.RxBuffer, bytesToCopy);
+                    memcpy(RFD900X_AppData.UART_StatusTlm.RxBuffer, RFD900X_AppData.RxBuffer, bytesToCopy);
 
-			RFD900X_AppData.UART_StatusTlm.Hdr.BytesInBuffer = bytesToCopy;
-			RFD900X_AppData.UART_StatusTlm.Hdr.RxFrameID++;
+                    RFD900X_AppData.UART_StatusTlm.Hdr.BytesInBuffer = bytesToCopy;
+                    RFD900X_AppData.UART_StatusTlm.Hdr.RxFrameID++;
 
-			rc = SEDLIB_SendMsg(RFD900X_AppData.RxMsgPortHandle, (CFE_SB_MsgPtr_t)&RFD900X_AppData.UART_StatusTlm);
-            if(rc != SEDLIB_OK)
-            {
-                (void) CFE_EVS_SendEvent(RFD900X_SENDMSG_ERR_EID,
-                		                 CFE_EVS_ERROR,
-                                         "SEDLIB_SendMsg error %i", rc);
-            }
+                    rc = SEDLIB_SendMsg(RFD900X_AppData.RxMsgPortHandle, (CFE_SB_MsgPtr_t)&RFD900X_AppData.UART_StatusTlm);
+                    if(rc != SEDLIB_OK)
+                    {
+                        (void) CFE_EVS_SendEvent(RFD900X_SENDMSG_ERR_EID,
+                                                         CFE_EVS_ERROR,
+                                                 "SEDLIB_SendMsg error %i", rc);
+                    }
 
-			/* We're going to assume that the message went out.  Nothing we can
-			 * do if it didn't.  Is there any data left in the RxBuffer? */
-            if(RFD900X_AppData.BytesInRxBuffer >  bytesToCopy)
-            {
-            	/* Yes, there is still data left.  Shift the data to the left. */
-            	for(uint32 i = bytesToCopy; i < RFD900X_AppData.BytesInRxBuffer; ++i)
-            	{
-            		RFD900X_AppData.RxBuffer[i - bytesToCopy] = RFD900X_AppData.RxBuffer[i];
-            	}
-            }
+                            /* We're going to assume that the message went out.  Nothing we can
+                             * do if it didn't.  Is there any data left in the RxBuffer? */
+                    if(RFD900X_AppData.BytesInRxBuffer >  bytesToCopy)
+                    {
+                        /* Yes, there is still data left.  Shift the data to the left. */
+                        for(uint32 i = bytesToCopy; i < RFD900X_AppData.BytesInRxBuffer; ++i)
+                        {
+                                RFD900X_AppData.RxBuffer[i - bytesToCopy] = RFD900X_AppData.RxBuffer[i];
+                        }
+                    }
 
-        	RFD900X_AppData.BytesInRxBuffer = RFD900X_AppData.BytesInRxBuffer - bytesToCopy;
+                    RFD900X_AppData.BytesInRxBuffer = RFD900X_AppData.BytesInRxBuffer - bytesToCopy;
 		}
+            else
+            {
+
+            }
     }
 }
 
