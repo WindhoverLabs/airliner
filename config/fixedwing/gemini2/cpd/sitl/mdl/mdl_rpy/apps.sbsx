@@ -12,9 +12,9 @@
 			<_id type="a">GUID 3e0ed101-5535-4bd6-9ee7-95660db3e97f</_id>
 			<_myState type="a">8192</_myState>
 			<_name type="a">apps</_name>
-			<_modifiedTimeWeak type="a">10.11.2022::22:57:22</_modifiedTimeWeak>
-			<_modifiedTime type="a">10.11.2022::22:57:22</_modifiedTime>
-			<weakCGTime type="a">10.11.2022::22:57:22</weakCGTime>
+			<_modifiedTimeWeak type="a">10.11.2022::23:6:47</_modifiedTimeWeak>
+			<_modifiedTime type="a">10.11.2022::23:6:47</_modifiedTime>
+			<weakCGTime type="a">10.11.2022::23:6:47</weakCGTime>
 			<strongCGTime type="a">10.11.2022::21:15:58</strongCGTime>
 			<_defaultComposite type="s">GUID 2f2eea29-1a53-4127-a269-407bdd0e40b1</_defaultComposite>
 			<_eventsBaseID type="a">-1</_eventsBaseID>
@@ -27,12 +27,12 @@
 		</ISubsystem>
 		<ISubsystem type="e">
 			<fileName type="a">NAV</fileName>
-			<_persistAs type="a">..\..\..\..\..\..\..\..\private\apps\nav\nav_rpy</_persistAs>
+			<_persistAs type="a">..\..\..\..\..\..\..\..\private\apps\nav\mdl\nav_rpy</_persistAs>
 			<_id type="a">GUID 41a74863-a65f-4857-8000-caa1d72e5670</_id>
 		</ISubsystem>
 		<ISubsystem type="e">
 			<fileName type="a">PX4LIB</fileName>
-			<_persistAs type="a">..\..\..\..\..\..\..\..\private\apps\px4lib</_persistAs>
+			<_persistAs type="a">..\..\..\..\..\..\..\..\private\apps\px4lib\mdl</_persistAs>
 			<_id type="a">GUID 5cb2705b-7e3e-4425-ae9b-d1f6e7dd3952</_id>
 		</ISubsystem>
 		<IClass type="e">

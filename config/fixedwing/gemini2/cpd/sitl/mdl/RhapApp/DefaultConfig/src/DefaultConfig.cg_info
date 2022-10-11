@@ -1,0 +1,67 @@
+I-Logix-RPY-Archive version 8.15.0 * 202006101734
+
+- m_fileModifyTime = { IRPYRawContainer 
+	- size = 14;
+	- value = "RhapApp/DefaultConfig/CfsAppBase.cpp" 10.11.2022::23:19:11
+	"RhapApp/DefaultConfig/CfsAppBase.h" 10.11.2022::23:19:11
+	"RhapApp/DefaultConfig/RhapApp.cpp" 10.11.2022::23:19:11
+	"RhapApp/DefaultConfig/RhapApp.h" 10.11.2022::23:19:11
+	"RhapApp/DefaultConfig/core.cpp" 10.11.2022::23:19:11
+	"RhapApp/DefaultConfig/core.h" 10.11.2022::23:19:11
+	"RhapApp/DefaultConfig/src/CfsAppBase.cpp" 10.11.2022::23:35:32
+	"RhapApp/DefaultConfig/src/CfsAppBase.h" 10.11.2022::23:38:16
+	"RhapApp/DefaultConfig/src/RhapApp.cpp" 10.11.2022::23:35:32
+	"RhapApp/DefaultConfig/src/RhapApp.h" 10.11.2022::23:38:16
+	"RhapApp/DefaultConfig/src/SampleApp.cpp" 10.11.2022::23:36:15
+	"RhapApp/DefaultConfig/src/SampleApp.h" 10.11.2022::23:36:15
+	"RhapApp/DefaultConfig/src/core.cpp" 10.11.2022::23:35:32
+	"RhapApp/DefaultConfig/src/core.h" 10.11.2022::23:35:32
+	
+}
+- m_saveUnitAndOwnerSaveUnit = { IRPYRawContainer 
+	- size = 3;
+	- value = "GUID 6ecc751c-cdde-406d-81eb-070df47be2d5" "GUID 1b07d5d7-347a-419a-98b1-37ee5b4aa36a"
+	"GUID f7866174-1c8e-4ce6-b06e-cfe6b95b5f15" "GUID 1b07d5d7-347a-419a-98b1-37ee5b4aa36a"
+	"GUID fbecc6b6-8c38-4f76-aa9a-c9cdf80714d9" "GUID f7866174-1c8e-4ce6-b06e-cfe6b95b5f15"
+	
+}
+- size = 5;
+- hElement = { IHandle 
+	- _m2Class = "ICodeGenConfigInfo";
+	- _filename = ".\\..\\..\\..\\mdl_rpy\\RhapAppComponent.cmpx";
+	- _name = "RhapAppComponent\\DefaultConfig";
+	- _id = GUID fb90a508-478f-4eb2-91ae-787985b052fb;
+}
+- genTime = 10.11.2022::23:38:16;
+- hElement = { IHandle 
+	- _m2Class = "IClass";
+	- _filename = ".\\..\\..\\..\\..\\..\\..\\..\\..\\..\\..\\private\\core\\SampleApp.sbsx";
+	- _subsystem = "core::SampleApp";
+	- _name = "CfsAppBase";
+	- _id = GUID 2bdc85b4-34d7-4e4a-b1ea-c80ab2c9a14f;
+}
+- genTime = 10.11.2022::23:38:16;
+- hElement = { IHandle 
+	- _m2Class = "IClass";
+	- _filename = ".\\..\\..\\..\\..\\..\\..\\..\\..\\..\\..\\private\\core\\SampleApp.sbsx";
+	- _subsystem = "core::SampleApp";
+	- _name = "RhapApp";
+	- _id = GUID 0f4d7c3b-1eca-4809-a2bf-a4ffadb03d4d;
+}
+- genTime = 10.11.2022::23:38:16;
+- hElement = { IHandle 
+	- _m2Class = "ISubsystem";
+	- _filename = ".\\..\\..\\..\\..\\..\\..\\..\\..\\..\\..\\private\\core\\core.sbsx";
+	- _name = "core";
+	- _id = GUID f7866174-1c8e-4ce6-b06e-cfe6b95b5f15;
+}
+- genTime = 10.11.2022::23:35:32;
+- hElement = { IHandle 
+	- _m2Class = "ISubsystem";
+	- _filename = ".\\..\\..\\..\\..\\..\\..\\..\\..\\..\\..\\private\\core\\SampleApp.sbsx";
+	- _subsystem = "core";
+	- _name = "SampleApp";
+	- _id = GUID fbecc6b6-8c38-4f76-aa9a-c9cdf80714d9;
+}
+- genTime = 10.11.2022::23:38:16;
+

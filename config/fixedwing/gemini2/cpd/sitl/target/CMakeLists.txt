@@ -119,7 +119,7 @@ buildliner_add_app(
 buildliner_add_app(
     rhapapp
     EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/rhapsody/fsw/sample/for_build
+    DEFINITION ../mdl/RhapApp/DefaultConfig/for_build
 )
 
 

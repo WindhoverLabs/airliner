@@ -12,8 +12,8 @@
 			<_id type="a">GUID 1b07d5d7-347a-419a-98b1-37ee5b4aa36a</_id>
 			<_myState type="a">8192</_myState>
 			<_name type="a">mdl</_name>
-			<_modifiedTimeWeak type="a">10.11.2022::22:57:22</_modifiedTimeWeak>
-			<_modifiedTime type="a">10.11.2022::22:57:22</_modifiedTime>
+			<_modifiedTimeWeak type="a">10.11.2022::23:10:59</_modifiedTimeWeak>
+			<_modifiedTime type="a">10.11.2022::23:10:59</_modifiedTime>
 			<_lastID type="a">2</_lastID>
 			<_UserColors type="w">
 				<IRPYRawContainer type="e">
@@ -45,7 +45,7 @@
 			<_component type="r">
 				<IHandle type="e">
 					<_hm2Class type="a">IComponent</_hm2Class>
-					<_hname type="a">DefaultComponent</_hname>
+					<_hname type="a">RhapAppComponent</_hname>
 					<_hid type="a">GUID 6ecc751c-cdde-406d-81eb-070df47be2d5</_hid>
 				</IHandle>
 			</_component>
@@ -86,6 +86,7 @@
 				<value>GUID d24d9192-bc4f-48a2-a4e1-fdaebbdfa6b6</value>
 				<value>GUID 3e0ed101-5535-4bd6-9ee7-95660db3e97f</value>
 				<value>GUID f7866174-1c8e-4ce6-b06e-cfe6b95b5f15</value>
+				<value>GUID f88530b4-de6c-45b0-9718-32176ed12254</value>
 				<value>GUID 360de7e3-082b-4c36-9826-cdbfc6f91f2d</value>
 				<value>GUID 6ecc751c-cdde-406d-81eb-070df47be2d5</value>
 			</AggregatesList>
@@ -104,6 +105,11 @@
 			<fileName type="a">core</fileName>
 			<_persistAs type="a">..\..\..\..\..\..\..\..\private\core</_persistAs>
 			<_id type="a">GUID f7866174-1c8e-4ce6-b06e-cfe6b95b5f15</_id>
+		</ISubsystem>
+		<ISubsystem type="e">
+			<fileName type="a">Default</fileName>
+			<_persistAs type="a">..\..\..\..\..\..\..\..\private\apps\rhapsody\fsw\CFS\CFS_rpy</_persistAs>
+			<_id type="a">GUID f88530b4-de6c-45b0-9718-32176ed12254</_id>
 		</ISubsystem>
 		<IDiagram type="e">
 			<_id type="a">GUID 360de7e3-082b-4c36-9826-cdbfc6f91f2d</_id>
@@ -232,7 +238,7 @@
 			</Operations>
 		</CGIClass>
 		<IComponent type="e">
-			<fileName type="a">DefaultComponent</fileName>
+			<fileName type="a">RhapAppComponent</fileName>
 			<_id type="a">GUID 6ecc751c-cdde-406d-81eb-070df47be2d5</_id>
 		</IComponent>
 		
