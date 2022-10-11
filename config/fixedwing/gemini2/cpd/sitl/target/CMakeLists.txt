@@ -1,7 +1,8 @@
 include(../set-vars.cmake)
 
+set(RHAPSODY_INSTRUMENTATION "ANIMATION")
+
 buildliner_initialize(
-    EMBED_SYMTAB
     CPU_ID CPD
     PSP ${PSP}
     OSAL ${OSAL}

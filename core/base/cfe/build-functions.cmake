@@ -176,7 +176,7 @@ endfunction(buildliner_build_cfe_host_tools)
 #)
 function(buildliner_add_app_def)
     set(PARSED_ARGS_TARGET ${ARGV0})
-    cmake_parse_arguments(PARSED_ARGS "" "FILE;DESIGN_DEFINITION" "SOURCES;LIBS;INCLUDES;PUBLIC_INCLUDES;DESIGN_DOCS" ${ARGN})
+    cmake_parse_arguments(PARSED_ARGS "" "FILE;DESIGN_DEFINITION" "SOURCES;LIBS;INCLUDES;PUBLIC_INCLUDES;DESIGN_DOCS;DEFINES" ${ARGN})
 
     psp_buildliner_add_app_def(${ARGN})
 endfunction(buildliner_add_app_def)
