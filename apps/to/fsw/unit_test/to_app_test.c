@@ -582,14 +582,19 @@ void Test_TO_AppMain_Fail_RcvMsg(void)
 /**
  * Test TO_ProcessNewAppCmds(), QueryChannelQueue command, Nominal
  */
-void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
+void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)   // check the MsgLen
 {
-    TO_NoArgCmd_t InSchMsg;
-    int32         SchPipe;
-    int32         DataPipe2;
-    int32         DataPipe3;
-    int32         DataPipe4;
-#if 0
+    int32            iStatus = CFE_SUCCESS;
+    int32            SchPipe;
+    int32            DataPipe2;
+    int32            DataPipe3;
+    int32            DataPipe4;
+    CFE_SB_MsgPtr_t  msgPtr;
+    CFE_SB_MsgId_t   MsgId;
+    uint16           MsgLen;
+
+    TO_NoArgCmd_t         InSchMsg;
+
     CFE_ES_HkPacket_t     msgCfeEsHk;
     CFE_EVS_TlmPkt_t      msgCfeEvsHk;
     CFE_SB_HKMsg_t        msgCfeSbHk;
@@ -599,18 +604,6 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
     CFE_EVS_Packet_t      msgCfeEvsEvent;
     CFE_SB_StatMsg_t      msgCfeSbStats;
     CFE_ES_OneAppTlm_t    msgCfeEsApp;
-#else
-    CFE_ES_HkPacket_t     msgCfeEsHk;
-    CFE_ES_HkPacket_t     msgCfeEvsHk;
-    CFE_ES_HkPacket_t     msgCfeSbHk;
-    CFE_ES_HkPacket_t     msgCfeTblHk;
-    CFE_ES_HkPacket_t     msgCfeTimeHk;
-    CFE_ES_HkPacket_t     msgCfeTimeDiag;
-    CFE_ES_HkPacket_t     msgCfeEvsEvent;
-    CFE_ES_HkPacket_t     msgCfeSbStats;
-    CFE_ES_HkPacket_t     msgCfeEsApp;
-#endif
-    uint32                chQueue0;
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and processing a full pipe of telemetry messages. */
@@ -667,56 +660,93 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
     TO_RcvMsg(TO_SCH_PIPE_PEND_TIME);
 
     /* Verify results */
-    Ut_OSAPI_QueueGetIdByName(&chQueue0, "TO_UDP_OUT");
-    CFE_SB_Msg_t     msgBuf;
-    CFE_SB_MsgPtr_t  msgPtr = &msgBuf;
-    uint32           sizeCopied = 0;
-    int32            iStatus = CFE_SUCCESS;
-    CFE_SB_MsgId_t   MsgId;
-
-    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
-    iStatus = Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
     UtAssert_True(MsgId == CFE_ES_HK_TLM_MID, "1-1: High Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
     UtAssert_True(MsgId == CFE_EVS_HK_TLM_MID, "1-2: High Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
-    UtAssert_True(MsgId == CFE_TBL_HK_TLM_MID, "1-3: Medium Priority");
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_SB_HK_TLM_MID, "1-2: High Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
-    UtAssert_True(MsgId == CFE_TIME_HK_TLM_MID, "1-4: Medium Priority");
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_TBL_HK_TLM_MID, "1-4: Medium Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
-    UtAssert_True(MsgId == CFE_TIME_DIAG_TLM_MID, "1-5: Medium Priority");
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_TIME_HK_TLM_MID, "1-5: Medium Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
-    UtAssert_True(MsgId == CFE_EVS_EVENT_MSG_MID, "1-6: Low Priority");
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_TIME_DIAG_TLM_MID, "1-6: Medium Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
-    UtAssert_True(MsgId == CFE_SB_STATS_TLM_MID, "1-7: Low Priority");
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_EVS_EVENT_MSG_MID, "1-7: Low Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
-    UtAssert_True(MsgId == CFE_ES_APP_TLM_MID, "1-8: Low Priority");
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_SB_STATS_TLM_MID, "1-8: Low Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_ES_HkPacket_t));
-    iStatus = Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_ES_HkPacket_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(iStatus == OS_QUEUE_EMPTY, "1-9: EMPTY");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_ES_APP_TLM_MID, "1-9: Low Priority");
+
+    msgPtr = NULL;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    printf("####ProcessTelemetry_PriorityPreemption1:iStatus(%ld)\n", iStatus);
+    UtAssert_True(iStatus == OS_QUEUE_EMPTY, "1-10: EMPTY");
+
+    TO_Cleanup();
 }
 
 
@@ -725,9 +755,17 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
  */
 void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2(void)
 {
-    TO_NoArgCmd_t InSchMsg;
-    int32         SchPipe;
-    int32         DataPipe;
+    int32            iStatus = CFE_SUCCESS;
+    int32            SchPipe;
+    int32            DataPipe2;
+    int32            DataPipe3;
+    int32            DataPipe4;
+    CFE_SB_MsgPtr_t  msgPtr;
+    CFE_SB_MsgId_t   MsgId;
+    uint16           MsgLen;
+
+    TO_NoArgCmd_t         InSchMsg;
+
     CFE_ES_HkPacket_t     msgCfeEsHk;
     CFE_EVS_TlmPkt_t      msgCfeEvsHk;
     CFE_SB_HKMsg_t        msgCfeSbHk;
@@ -745,7 +783,9 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2(void)
     CFE_SB_InitMsg (&InSchMsg, TO_SEND_TLM_MID, sizeof(InSchMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe(&InSchMsg, SchPipe);
 
-    DataPipe = Ut_CFE_SB_CreatePipe("TO_UDP");
+    DataPipe2 = Ut_CFE_SB_CreatePipe("TO_UDP_2");
+    DataPipe3 = Ut_CFE_SB_CreatePipe("TO_UDP_3");
+    DataPipe4 = Ut_CFE_SB_CreatePipe("TO_UDP_4");
 
     /* Initialize a bunch of telemetry messages for downlink. */
     CFE_SB_InitMsg (&msgCfeEsHk, CFE_ES_HK_TLM_MID, sizeof(msgCfeEsHk), TRUE);
@@ -760,15 +800,15 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2(void)
 
     /* Now load up the software bus with all the messages starting with low
      * priority first. */
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsEvent, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbStats, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsApp, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTblHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeDiag, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbHk, DataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbStats, DataPipe4);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsHk, DataPipe2);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsApp, DataPipe4);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeHk, DataPipe3);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeDiag, DataPipe3);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsEvent, DataPipe4);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsHk, DataPipe2);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTblHk, DataPipe3);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbHk, DataPipe2);
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -792,48 +832,93 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2(void)
     TO_RcvMsg(TO_SCH_PIPE_PEND_TIME);
 
     /* Verify results */
-    Ut_OSAPI_QueueGetIdByName(&chQueue0, "TO_UDP_OUT");
-    CFE_SB_Msg_t     msgBuf;
-    CFE_SB_MsgPtr_t  msgPtr = &msgBuf;
-    uint32           sizeCopied = 0;
-    int32            iStatus = 0;
-    CFE_SB_MsgId_t   MsgId;
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_EVS_HK_TLM_MID, "1-1: High Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_ES_HK_TLM_MID, "1-1: High Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_ES_HK_TLM_MID, "1-2: High Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_EVS_HK_TLM_MID, "1-2: High Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_SB_HK_TLM_MID, "1-2: High Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_SB_HK_TLM_MID, "1-3: High Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_TIME_HK_TLM_MID, "1-4: Medium Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TBL_HK_TLM_MID, "1-4: Medium Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_TIME_DIAG_TLM_MID, "1-5: Medium Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TIME_HK_TLM_MID, "1-5: Medium Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_TBL_HK_TLM_MID, "1-6: Medium Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TIME_DIAG_TLM_MID, "1-6: Medium Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_SB_STATS_TLM_MID, "1-7: Low Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_EVS_EVENT_MSG_MID, "1-7: Low Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_ES_APP_TLM_MID, "1-8: Low Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_SB_STATS_TLM_MID, "1-8: Low Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_EVS_EVENT_MSG_MID, "1-9: Low Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    iStatus = Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(iStatus == OS_QUEUE_EMPTY, "1-9: EMPTY");
+    msgPtr = NULL;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    printf("####ProcessTelemetry_PriorityPreemption1:iStatus(%ld)\n", iStatus);
+    UtAssert_True(iStatus == OS_QUEUE_EMPTY, "1-10: EMPTY");
+
+    TO_Cleanup();
 }
 
 
@@ -843,9 +928,17 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2(void)
  */
 void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3(void)
 {
-    TO_NoArgCmd_t InSchMsg;
-    int32         SchPipe;
-    int32         DataPipe;
+    int32            iStatus = CFE_SUCCESS;
+    int32            SchPipe;
+    int32            DataPipe2;
+    int32            DataPipe3;
+    int32            DataPipe4;
+    CFE_SB_MsgPtr_t  msgPtr;
+    CFE_SB_MsgId_t   MsgId;
+    uint16           MsgLen;
+
+    TO_NoArgCmd_t          InSchMsg;
+
     CFE_ES_HkPacket_t      msgCfeEsHk;
     CFE_EVS_TlmPkt_t       msgCfeEvsHk;
     CFE_SB_HKMsg_t         msgCfeSbHk;
@@ -855,7 +948,6 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3(void)
     CFE_EVS_Packet_t       msgCfeEvsEvent;
     CFE_SB_StatMsg_t       msgCfeSbStats;
     CFE_ES_OneAppTlm_t     msgCfeEsApp;
-    uint32                 chQueue0;
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and processing a full pipe of telemetry messages. */
@@ -863,7 +955,9 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3(void)
     CFE_SB_InitMsg (&InSchMsg, TO_SEND_TLM_MID, sizeof(InSchMsg), TRUE);
     Ut_CFE_SB_AddMsgToPipe(&InSchMsg, SchPipe);
 
-    DataPipe = Ut_CFE_SB_CreatePipe("TO_UDP");
+    DataPipe2 = Ut_CFE_SB_CreatePipe("TO_UDP_2");
+    DataPipe3 = Ut_CFE_SB_CreatePipe("TO_UDP_3");
+    DataPipe4 = Ut_CFE_SB_CreatePipe("TO_UDP_4");
 
     /* Initialize a bunch of telemetry messages for downlink. */
     CFE_SB_InitMsg (&msgCfeEsHk, CFE_ES_HK_TLM_MID, sizeof(msgCfeEsHk), TRUE);
@@ -880,17 +974,17 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3(void)
      * order. */
 
     /* High priority */
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbHk, DataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsApp, DataPipe2);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTblHk, DataPipe2);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsHk, DataPipe2);
     /* Low priority */
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsEvent, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbStats, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsApp, DataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsEvent, DataPipe4);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbStats, DataPipe4);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsHk, DataPipe4);
     /* Medium priority */
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTblHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeHk, DataPipe);
-    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeDiag, DataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeHk, DataPipe3);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeTimeDiag, DataPipe3);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbHk, DataPipe3);
 
     /* Set return codes */
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
@@ -914,48 +1008,93 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3(void)
     TO_RcvMsg(TO_SCH_PIPE_PEND_TIME);
 
     /* Verify results */
-    Ut_OSAPI_QueueGetIdByName(&chQueue0, "TO_UDP_OUT");
-    CFE_SB_Msg_t     msgBuf;
-    CFE_SB_MsgPtr_t  msgPtr = &msgBuf;
-    uint32           sizeCopied = 0;
-    int32            iStatus = 0;
-    CFE_SB_MsgId_t   MsgId;
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_ES_APP_TLM_MID, "1-1: High Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_ES_HK_TLM_MID, "1-1: High Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_TBL_HK_TLM_MID, "1-2: High Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_EVS_HK_TLM_MID, "1-2: High Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_EVS_HK_TLM_MID, "1-2: High Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_SB_HK_TLM_MID, "1-3: High Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_TIME_HK_TLM_MID, "1-4: Medium Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TBL_HK_TLM_MID, "1-4: Medium Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_TIME_DIAG_TLM_MID, "1-5: Medium Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TIME_HK_TLM_MID, "1-5: Medium Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_SB_HK_TLM_MID, "1-6: Medium Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_TIME_DIAG_TLM_MID, "1-6: Medium Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_EVS_EVENT_MSG_MID, "1-7: Low Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_EVS_EVENT_MSG_MID, "1-7: Low Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_SB_STATS_TLM_MID, "1-8: Low Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(Ut_CFE_SB_GetMsgIdHook(msgPtr) == CFE_SB_STATS_TLM_MID, "1-8: Low Priority");
+    msgPtr = NULL;
+    MsgId = 0;
+    MsgLen = 0;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    MsgId = CFE_SB_GetMsgId(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
+    UtAssert_True(MsgId == CFE_ES_HK_TLM_MID, "1-9: Low Priority");
 
-    memset((void *)msgPtr, 0x00, sizeof(CFE_SB_Msg_t));
-    iStatus = Ut_OSAPI_QueueGetHook(chQueue0, msgPtr, sizeof(CFE_SB_Msg_t), &sizeCopied, OS_CHECK);
-    UtAssert_True(iStatus == OS_QUEUE_EMPTY, "1-9: EMPTY");
+    msgPtr = NULL;
+    iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
+    printf("####ProcessTelemetry_PriorityPreemption1:iStatus(%ld)\n", iStatus);
+    UtAssert_True(iStatus == OS_QUEUE_EMPTY, "1-10: EMPTY");
+
+    TO_Cleanup();
 }
 
 /**************************************************************************
@@ -1407,39 +1546,6 @@ void Test_TO_OutputQueue_Teardown_QueueGet_Queue_Empty(void)
 /**************************************************************************
  * Tests for TO Message Flow
  **************************************************************************/
-void Test_TO_MessageFlow_TeardownAll_SubscribeEx(void)
-{
-    uint16  ChannelIdx = 0;
-    int32 iStatus = 0;
-    TO_ChannelData_t* channel;
-    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-    CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
-
-    /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-
-    /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
-
-    TO_InitApp();
-
-    /* Get channel data information */
-    channel = &TO_AppData.ChannelData[ChannelIdx];
-
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, CFE_SB_BAD_ARGUMENT, 1);
-    Ut_CFE_SB_ContinueReturnCodeAfterCountZero(UT_CFE_SB_SUBSCRIBEEX_INDEX);
-
-    iStatus = TO_MessageFlow_Buildup(channel);
-
-    sprintf(expectedEvent, "Message flow failed to subscribe to (0x%08X) on channel %d. (%ld)",
-        MsgId,
-        ChannelIdx,
-        CFE_SB_BAD_ARGUMENT);
-
-    /* Verify results */
-    UtAssert_EventSent(TO_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "MessageFlow_TeardownAll_SubscribeEx");
-}
 void Test_TO_MessageFlow_TeardownAll_Unsubscribe(void)
 {
     uint16  ChannelIdx = 0;
@@ -1834,6 +1940,34 @@ void Test_TO_Priority_Queue_Buildup_NoPQueues(void)
     /* Verify results */
     UtAssert_EventNotSent(TO_PQUEUE_CREATE_ERR_EID, CFE_EVS_ERROR,
                        expectedEvent, "Priority_Queue_Buildup_NoPQueues");
+}
+
+void Test_TO_Priority_Queue_Buildup_SubscribeEx_Fail(void)
+{
+    int32           iStatus = 0;
+    uint32          ChannelIdx = 0;
+    CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
+    char            expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* Set function hook for TO_Custom_Init */
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
+
+    /* Set return codes */
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, CFE_SB_BAD_ARGUMENT, 3);
+    Ut_CFE_SB_ContinueReturnCodeAfterCountZero(UT_CFE_SB_SUBSCRIBEEX_INDEX);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    TO_InitApp();
+
+    sprintf(expectedEvent, "Message flow failed to subscribe to (0x%08X) on channel %lu. (%ld)",
+        MsgId,
+        ChannelIdx,
+        (int32)CFE_SB_BAD_ARGUMENT);
+
+    /* Verify results */
+    UtAssert_EventSent(TO_SUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                       expectedEvent, "MessageFlow_TeardownAll_SubscribeEx");
 }
 
 void Test_TO_Priority_Queue_Teardown_QueueGet_PutPoolBuf_Fail(void)
@@ -3492,7 +3626,7 @@ void TO_App_Test_AddTestCases(void)
                "Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1");
     UtTest_Add(Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2, TO_Test_Setup_FullConfig2, TO_Test_TearDown,
                "Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2");
-    UtTest_Add(Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3, TO_Test_Setup_FullConfig2, TO_Test_TearDown,
+    UtTest_Add(Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3, TO_Test_Setup_FullConfig3, TO_Test_TearDown,
                "Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3");
 
     /* Tests for checking TO NULL Pointers */
@@ -3534,8 +3668,6 @@ void TO_App_Test_AddTestCases(void)
                "Test_TO_OutputQueue_Teardown_QueueGet_Queue_Empty");
 
     /**** Tests for TO Message Flow */
-    UtTest_Add(Test_TO_MessageFlow_TeardownAll_SubscribeEx, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-               "Test_TO_MessageFlow_TeardownAll_SubscribeEx");
     UtTest_Add(Test_TO_MessageFlow_TeardownAll_Unsubscribe, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_TeardownAll_Unsubscribe");
     UtTest_Add(Test_TO_MessageFlow_GetObject_ConfigTblPtr_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
@@ -3560,6 +3692,8 @@ void TO_App_Test_AddTestCases(void)
                "Test_TO_Priority_Queue_Buildup_QueueCreate_Fail");
     UtTest_Add(Test_TO_Priority_Queue_Buildup_NoPQueues, TO_Test_Setup_NoPQueueConfig, TO_Test_TearDown,
                "Test_TO_Priority_Queue_Buildup_NoPQueues");
+    UtTest_Add(Test_TO_Priority_Queue_Buildup_SubscribeEx_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Priority_Queue_Buildup_SubscribeEx_Fail");
     UtTest_Add(Test_TO_Priority_Queue_Teardown_QueueGet_PutPoolBuf_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_Priority_Queue_Teardown_QueueGet_PutPoolBuf_Fail");
     UtTest_Add(Test_TO_Priority_Queue_Teardown_QueueDelete_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,

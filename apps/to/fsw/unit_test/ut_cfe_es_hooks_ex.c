@@ -33,7 +33,6 @@
 
 #include "ut_cfe_es_hooks.h"
 
-static char Ut_PoolBuf[8192];
 
 int32 Ut_CFE_ES_GetPoolBuf(uint32 **BufPtr, CFE_ES_MemHandle_t HandlePtr, uint32 Size)
 {
@@ -42,7 +41,10 @@ int32 Ut_CFE_ES_GetPoolBuf(uint32 **BufPtr, CFE_ES_MemHandle_t HandlePtr, uint32
         return -1;
     }
 
-    *BufPtr = (void *)Ut_PoolBuf;
+    *BufPtr = malloc(Size);
+void *pTmp = NULL;
+pTmp = *BufPtr;
+printf("####Ut_CFE_ES_GetPoolBuf: malloc(%p), size(%u)\n", pTmp, (unsigned int)Size);
     
     if(*BufPtr == 0)
     {
@@ -59,6 +61,9 @@ int32 Ut_CFE_ES_PutPoolBuf(CFE_ES_MemHandle_t HandlePtr, uint32 *BufPtr)
     {
         return -1;
     }
+
+printf("$$$$Ut_CFE_ES_PutPoolBuf freed(%p)\n", (void *)BufPtr);
+    free(BufPtr);
 
     return 0;
 }

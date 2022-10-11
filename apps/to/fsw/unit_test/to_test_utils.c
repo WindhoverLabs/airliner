@@ -122,29 +122,54 @@ TO_ChannelTbl_t TO_FullConfigTable1 =
 
 TO_ChannelTbl_t TO_FullConfigTable2 =
 {
-	/* Table ID */
-	1,
-	{
-		/* Message Flows */
-		{CFE_ES_HK_TLM_MID,			1,	TO_PQUEUE_HIGH_IDX},
-		{CFE_EVS_HK_TLM_MID,		1,	TO_PQUEUE_HIGH_IDX},
-		{CFE_SB_HK_TLM_MID,			1,	TO_PQUEUE_HIGH_IDX},
-		{CFE_TBL_HK_TLM_MID,		1,	TO_PQUEUE_MEDIUM_IDX},
-		{CFE_TIME_HK_TLM_MID,		1,	TO_PQUEUE_MEDIUM_IDX},
-		{CFE_TIME_DIAG_TLM_MID,		1,	TO_PQUEUE_MEDIUM_IDX},
-		{CFE_EVS_EVENT_MSG_MID,		32, TO_PQUEUE_LOW_IDX},
-		{CFE_SB_STATS_TLM_MID,		1,	TO_PQUEUE_LOW_IDX},
-		{CFE_ES_APP_TLM_MID,		1,	TO_PQUEUE_LOW_IDX}
-	},{
-		/* Priority Queues */
-		{TO_PQUEUE_ENA, 10, TO_PRIORITY_QUEUE_TYPE_SINGLE},
-		{TO_PQUEUE_ENA, 10, TO_PRIORITY_QUEUE_TYPE_FIFO},
-		{TO_PQUEUE_ENA,  4, TO_PRIORITY_QUEUE_TYPE_FIFO},
-		{TO_PQUEUE_ENA,  3, TO_PRIORITY_QUEUE_TYPE_FIFO},
-		{TO_PQUEUE_ENA,  2, TO_PRIORITY_QUEUE_TYPE_FIFO}
-	}
+    /* Table ID */
+    1,
+    {
+        /* Message Flows */
+        {CFE_ES_HK_TLM_MID,         1,  TO_PQUEUE_HIGH_IDX},
+        {CFE_EVS_HK_TLM_MID,        1,  TO_PQUEUE_HIGH_IDX},
+        {CFE_SB_HK_TLM_MID,         1,  TO_PQUEUE_HIGH_IDX},
+        {CFE_TBL_HK_TLM_MID,        1,  TO_PQUEUE_MEDIUM_IDX},
+        {CFE_TIME_HK_TLM_MID,       1,  TO_PQUEUE_MEDIUM_IDX},
+        {CFE_TIME_DIAG_TLM_MID,     1,  TO_PQUEUE_MEDIUM_IDX},
+        {CFE_EVS_EVENT_MSG_MID,     32, TO_PQUEUE_LOW_IDX},
+        {CFE_SB_STATS_TLM_MID,      1,  TO_PQUEUE_LOW_IDX},
+        {CFE_ES_APP_TLM_MID,        1,  TO_PQUEUE_LOW_IDX}
+    },{
+        /* Priority Queues */
+        {TO_PQUEUE_ENA, 10, TO_PRIORITY_QUEUE_TYPE_SINGLE},
+        {TO_PQUEUE_ENA, 10, TO_PRIORITY_QUEUE_TYPE_FIFO},
+        {TO_PQUEUE_ENA,  4, TO_PRIORITY_QUEUE_TYPE_FIFO},
+        {TO_PQUEUE_ENA,  3, TO_PRIORITY_QUEUE_TYPE_FIFO},
+        {TO_PQUEUE_ENA,  2, TO_PRIORITY_QUEUE_TYPE_FIFO}
+    }
 };
 
+
+TO_ChannelTbl_t TO_FullConfigTable3 =
+{
+    /* Table ID */
+    1,
+    {
+        /* Message Flows */
+        {CFE_TBL_HK_TLM_MID,        1,  TO_PQUEUE_HIGH_IDX},
+        {CFE_ES_APP_TLM_MID,        1,  TO_PQUEUE_HIGH_IDX},
+        {CFE_EVS_HK_TLM_MID,        1,  TO_PQUEUE_HIGH_IDX},
+        {CFE_TIME_HK_TLM_MID,       1,  TO_PQUEUE_MEDIUM_IDX},
+        {CFE_SB_HK_TLM_MID,         1,  TO_PQUEUE_MEDIUM_IDX},
+        {CFE_TIME_DIAG_TLM_MID,     1,  TO_PQUEUE_MEDIUM_IDX},
+        {CFE_EVS_EVENT_MSG_MID,     32, TO_PQUEUE_LOW_IDX},
+        {CFE_ES_HK_TLM_MID,         1,  TO_PQUEUE_LOW_IDX},
+        {CFE_SB_STATS_TLM_MID,      1,  TO_PQUEUE_LOW_IDX}
+    },{
+        /* Priority Queues */
+        {TO_PQUEUE_ENA, 10, TO_PRIORITY_QUEUE_TYPE_SINGLE},
+        {TO_PQUEUE_ENA, 10, TO_PRIORITY_QUEUE_TYPE_FIFO},
+        {TO_PQUEUE_ENA,  4, TO_PRIORITY_QUEUE_TYPE_FIFO},
+        {TO_PQUEUE_ENA,  3, TO_PRIORITY_QUEUE_TYPE_FIFO},
+        {TO_PQUEUE_ENA,  2, TO_PRIORITY_QUEUE_TYPE_FIFO}
+    }
+};
 
 
 /*
@@ -265,6 +290,29 @@ void TO_Test_Setup_FullConfig2(void)
     Ut_CFE_TBL_AddTable(TO_CONFIG_TABLE_FILENAME, (void *) &TO_FullConfigTable2);
 }
 
+
+void TO_Test_Setup_FullConfig3(void)
+{
+    /* initialize test environment to default state for every test */
+
+    CFE_PSP_MemSet(&TO_AppData, 0x00, sizeof(TO_AppData_t));
+
+    Ut_TO_Custom_Reset();
+
+    Ut_CFE_EVS_Reset();
+    Ut_CFE_FS_Reset();
+    Ut_CFE_TIME_Reset();
+    Ut_CFE_TBL_Reset();
+    Ut_CFE_SB_Reset();
+    Ut_CFE_ES_Reset();
+    Ut_OSAPI_Reset();
+    Ut_OSFILEAPI_Reset();
+
+    /* Clear queues, semaphores, etc and call init */
+    Ut_OS_API_Clear();
+
+    Ut_CFE_TBL_AddTable(TO_CONFIG_TABLE_FILENAME, (void *) &TO_FullConfigTable3);
+}
 
 
 void TO_Test_TearDown(void) 
