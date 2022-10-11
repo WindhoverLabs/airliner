@@ -866,8 +866,8 @@ int32 OS_TaskCreate (uint32 *task_id, const char *task_name, osal_task_entry fun
     */
     *task_id = possible_taskid;
 
-    /* 
-    ** Initialize the table entries 
+    /*
+    ** Initialize the table entries
     */
     OS_task_table[possible_taskid].free = FALSE;
     strcpy(OS_task_table[*task_id].name, (char*) task_name);
