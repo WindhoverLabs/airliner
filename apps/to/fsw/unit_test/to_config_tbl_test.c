@@ -58,6 +58,9 @@
 /**************************************************************************
  * Tests for TO Config Utils (Table validation, Managing Tables)
  **************************************************************************/
+/**
+ * Test TO_InitTables(), Ground_Table_Fail_TBL_Register
+ */
 void Test_TO_InitTables_Ground_Table_Fail_TBL_Register(void)
 {
     uint16  ChannelIdx = 0;
@@ -86,11 +89,14 @@ void Test_TO_InitTables_Ground_Table_Fail_TBL_Register(void)
         (unsigned int)iStatus, ChannelIdx);
 
     /* Verify results */
-    UtAssert_EventSent(TO_INIT_CONFIG_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Failed to register Config table - event correct");
+    UtAssert_EventSent(TO_INIT_CONFIG_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+                       "TO_InitTables, Ground_Table_Fail_TBL_Register");
 }
 
 
+/**
+ * Test TO_InitTables(), Dump_Table_Fail_TBL_Register
+ */
 void Test_TO_InitTables_Dump_Table_Fail_TBL_Register(void)
 {
     uint16  ChannelIdx = 0;
@@ -121,11 +127,14 @@ void Test_TO_InitTables_Dump_Table_Fail_TBL_Register(void)
         ChannelIdx);
 
     /* Verify results */
-    UtAssert_EventSent(TO_INIT_CONFIG_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Failed to register Dump table - event correct");
+    UtAssert_EventSent(TO_INIT_CONFIG_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+                       "TO_InitTables, Dump_Table_Fail_TBL_Register");
 }
 
 
+/**
+ * Test TO_InitTables(), Dump_Table_Fail_TBL_Load
+ */
 void Test_TO_InitTables_Dump_Table_Fail_TBL_Load(void)
 {
     uint16  ChannelIdx = 0;
@@ -160,10 +169,13 @@ void Test_TO_InitTables_Dump_Table_Fail_TBL_Load(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_INIT_CONFIG_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Failed to load Dump table - event correct");
+                       expectedEvent, "TO_InitTables, Dump_Table_Fail_TBL_Load");
 }
 
 
+/**
+ * Test TO_InitTables(), Load_Backup_Table
+ */
 void Test_TO_InitTables_Load_Backup_Table(void)
 {
     uint16  ChannelIdx = 0;
@@ -193,10 +205,13 @@ void Test_TO_InitTables_Load_Backup_Table(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_BACKUP_TABLE_INF_EID, CFE_EVS_INFORMATION,
-                       expectedEvent, "Loaded built-in emergency backup config table - event correct");
+                       expectedEvent, "TO_InitTables, Load_Backup_Table");
 }
 
 
+/**
+ * Test TO_ValidateConfigTbl(), ConfigTblPtr_NULL
+ */
 void Test_TO_ValidateConfigTbl_ConfigTblPtr_NULL(void)
 {
     uint16  ChannelIdx = 0;
@@ -225,10 +240,13 @@ void Test_TO_ValidateConfigTbl_ConfigTblPtr_NULL(void)
     UtAssert_EventSent(TO_CONFIG_TABLE_NULL_PTR_EID, CFE_EVS_ERROR,
                        expectedEvent, "Test_TO_ValidateConfigTbl NULL table pointer - event correct");
 
-    UtAssert_True(iStatus == TO_CONFIG_TABLE_NULL_PTR_ERR, "TO_CONFIG_TABLE_NULL_PTR_ERR");
+    UtAssert_True(iStatus == TO_CONFIG_TABLE_NULL_PTR_ERR, "TO_ValidateConfigTbl, ConfigTblPtr_NULL");
 }
 
 
+/**
+ * Test TO_ValidateConfigTbl(), InvalidCCSDSVersion
+ */
 void Test_TO_ValidateConfigTbl_InvalidCCSDSVersion(void)
 {
     int32 iStatus = 0;
@@ -262,10 +280,14 @@ void Test_TO_ValidateConfigTbl_InvalidCCSDSVersion(void)
     UtAssert_EventSent(TO_CONFIG_TABLE_CCSDS_VER_INVALID_EID, CFE_EVS_ERROR,
                        expectedEvent, "Invalid CCSDS Version for table index - event correct");
 
-    UtAssert_True(iStatus == TO_CONFIG_TABLE_RETURN_INVALID_VERSION, "TO_CONFIG_TABLE_RETURN_INVALID_VERSION");
+    UtAssert_True(iStatus == TO_CONFIG_TABLE_RETURN_INVALID_VERSION,
+                   "TO_ValidateConfigTbl, InvalidCCSDSVersion");
 }
 
 
+/**
+ * Test TO_ValidateConfigTbl(), Priority_Queue_State_Failure
+ */
 void Test_TO_ValidateConfigTbl_Priority_Queue_State_Failure(void)
 {
     uint16  ChannelIdx = 0;
@@ -298,10 +320,14 @@ void Test_TO_ValidateConfigTbl_Priority_Queue_State_Failure(void)
     UtAssert_EventSent(TO_CONFIG_TABLE_PQUEUE_STATE_ERR_EID, CFE_EVS_ERROR,
                        expectedEvent, "Priority Queue State is invalid - event correct");
 
-    UtAssert_True(iStatus == TO_CONFIG_TABLE_PQUEUE_STATE_ERR, "TO_CONFIG_TABLE_PQUEUE_STATE_ERR");
+    UtAssert_True(iStatus == TO_CONFIG_TABLE_PQUEUE_STATE_ERR,
+                  "TO_ValidateConfigTbl, Priority_Queue_State_Failure");
 }
 
 
+/**
+ * Test TO_ValidateConfigTbl(), Priority_Queue_Qtype_Failure
+ */
 void Test_TO_ValidateConfigTbl_Priority_Queue_Qtype_Failure(void)
 {
     uint16  ChannelIdx = 0;
@@ -340,21 +366,21 @@ void Test_TO_ValidateConfigTbl_Priority_Queue_Qtype_Failure(void)
     UtAssert_EventSent(TO_CONFIG_TABLE_PQUEUE_QTYPE_ERR_EID, CFE_EVS_ERROR,
                        expectedEvent, "Priority Queue Qtype is invalid - event correct");
 
-    UtAssert_True(iStatus == TO_CONFIG_TABLE_PQUEUE_QTYPE_ERR, "TO_CONFIG_TABLE_PQUEUE_QTYPE_ERR");
+    UtAssert_True(iStatus == TO_CONFIG_TABLE_PQUEUE_QTYPE_ERR,
+                  "TO_ValidateConfigTbl, Priority_Queue_Qtype_Failure");
 }
 
 
+/**
+ * Test TO_ValidateConfigTbl(), Priority_Queue_MsgLimit_Failure
+ */
 void Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure(void)
 {
-    uint16  ChannelIdx = 0;
-    int32 iStatus = 0;
+    uint16            ChannelIdx = 0;
+    uint16            PQueueIdx = 0;
+    int32             iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-    uint16 PQueueIdx = 0;
-    CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
-
-    /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    char              expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set function hook for TO_Custom_Init */
     Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
@@ -378,7 +404,7 @@ void Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure(void)
 
     iStatus = TO_ValidateConfigTbl(channel->ConfigTblPtr);
 
-    sprintf(expectedEvent, "Priority Queue MsgLimit invalid (%d) for Table ID (%lu) at table index (%d)",
+    sprintf(expectedEvent, "Priority Queue Depth invalid (%d) for Table ID (%lu) at table index (%d)",
             channel->ConfigTblPtr->PriorityQueue[PQueueIdx].Depth,
             channel->ConfigTblPtr->TableID,
             PQueueIdx);
@@ -387,21 +413,21 @@ void Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure(void)
     UtAssert_EventSent(TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR_EID, CFE_EVS_ERROR,
                        expectedEvent, "Priority Queue MsgLimit is invalid - event correct");
 
-    UtAssert_True(iStatus == TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR, "TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR");
+    UtAssert_True(iStatus == TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR,
+                  "TO_ValidateConfigTbl, Priority_Queue_MsgLimit_Failure");
 }
 
 
+/**
+ * Test TO_ValidateConfigTbl(), Priority_Queue_MsgLimit_Failure_Max
+ */
 void Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure_Max(void)
 {
-    uint16  ChannelIdx = 0;
-    int32 iStatus = 0;
+    uint16            ChannelIdx = 0;
+    uint16            PQueueIdx = 0;
+    int32             iStatus = 0;
     TO_ChannelData_t* channel;
-    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-    uint16 PQueueIdx = 0;
-    CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
-
-    /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+    char              expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set function hook for TO_Custom_Init */
     Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
@@ -426,7 +452,7 @@ void Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure_Max(void)
 
     iStatus = TO_ValidateConfigTbl(channel->ConfigTblPtr);
 
-    sprintf(expectedEvent, "Priority Queue MsgLimit invalid (%d) for Table ID (%lu) at table index (%d)",
+    sprintf(expectedEvent, "Priority Queue Depth invalid (%d) for Table ID (%lu) at table index (%d)",
             channel->ConfigTblPtr->PriorityQueue[PQueueIdx].Depth,
             channel->ConfigTblPtr->TableID,
             PQueueIdx);
@@ -435,10 +461,14 @@ void Test_TO_ValidateConfigTbl_Priority_Queue_MsgLimit_Failure_Max(void)
     UtAssert_EventSent(TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR_EID, CFE_EVS_ERROR,
                        expectedEvent, "Priority Queue MsgLimit is invalid - event correct");
 
-    UtAssert_True(iStatus == TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR, "TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR");
+    UtAssert_True(iStatus == TO_CONFIG_TABLE_PQUEUE_MSG_LIMIT_ERR,
+                  "TO_ValidateConfigTbl, Priority_Queue_MsgLimit_Failure_Max");
 }
 
 
+/**
+ * Test TO_ValidateConfigTbl(), Priority_Queue_No_Valid_States
+ */
 void Test_TO_ValidateConfigTbl_Priority_Queue_No_Valid_States(void)
 {
     uint16  ChannelIdx = 0;
@@ -468,10 +498,14 @@ void Test_TO_ValidateConfigTbl_Priority_Queue_No_Valid_States(void)
     UtAssert_EventSent(TO_CONFIG_TABLE_NO_PQUEUES_ERR_EID, CFE_EVS_ERROR,
                        expectedEvent, "Priority Queue Qtype is invalid - event correct");
 
-    UtAssert_True(iStatus == TO_CONFIG_TABLE_NO_PQUEUES_ERR, "TO_CONFIG_TABLE_NO_PQUEUES_ERR");
+    UtAssert_True(iStatus == TO_CONFIG_TABLE_NO_PQUEUES_ERR,
+                  "TO_ValidateConfigTbl, Priority_Queue_No_Valid_States");
 }
 
 
+/**
+ * Test TO_ValidateConfigTbl(), Secondary_Header_Absent
+ */
 void Test_TO_ValidateConfigTbl_Secondary_Header_Absent(void)
 {
     uint16  ChannelIdx = 0;
@@ -521,10 +555,14 @@ void Test_TO_ValidateConfigTbl_Secondary_Header_Absent(void)
     UtAssert_EventSent(TO_CONFIG_TABLE_SHDR_ABSENT_EID, CFE_EVS_ERROR,
                        expectedEvent, "Secondary Header is absent for table index - event correct");
 
-    UtAssert_True(iStatus == TO_CONFIG_TABLE_RETURN_NO_SECONDARY_HEADER, "TO_CONFIG_TABLE_RETURN_NO_SECONDARY_HEADER");
+    UtAssert_True(iStatus == TO_CONFIG_TABLE_RETURN_NO_SECONDARY_HEADER,
+                  "TO_ValidateConfigTbl, Secondary_Header_Absent");
 }
 
 
+/**
+ * Test TO_ValidateConfigTbl(), MessageFlow_MsgLimit_Not_In_Range
+ */
 void Test_TO_ValidateConfigTbl_MessageFlow_MsgLimit_Not_In_Range(void)
 {
     uint16  ChannelIdx = 0;
@@ -590,10 +628,14 @@ void Test_TO_ValidateConfigTbl_MessageFlow_MsgLimit_Not_In_Range(void)
     UtAssert_EventSent(TO_CONFIG_TABLE_MSG_FLOW_MSG_LIMIT_ERR_EID, CFE_EVS_ERROR,
                        expectedEvent, "Message Flow MsgLimit invalid - event correct");
 
-    UtAssert_True(iStatus == TO_CONFIG_TABLE_MSG_FLOW_MSG_LIMIT_ERR, "TO_CONFIG_TABLE_MSG_FLOW_MSG_LIMIT_ERR");
+    UtAssert_True(iStatus == TO_CONFIG_TABLE_MSG_FLOW_MSG_LIMIT_ERR,
+                  "TO_ValidateConfigTbl, MessageFlow_MsgLimit_Not_In_Range");
 }
 
 
+/**
+ * Test TO_ValidateConfigTbl(), MessageFlow_UnusedChecks
+ */
 void Test_TO_ValidateConfigTbl_MessageFlow_UnusedChecks(void)
 {
     uint16  ChannelIdx = 0;
@@ -677,6 +719,9 @@ void Test_TO_ValidateConfigTbl_MessageFlow_UnusedChecks(void)
 }
 
 
+/**
+ * Test TO_ValidateConfigTbl(), MessageFlow_PQueueId_Invalid
+ */
 void Test_TO_ValidateConfigTbl_MessageFlow_PQueueId_Invalid(void)
 {
     uint16  ChannelIdx = 0;
@@ -726,10 +771,14 @@ void Test_TO_ValidateConfigTbl_MessageFlow_PQueueId_Invalid(void)
     UtAssert_EventSent(TO_CONFIG_TABLE_MSG_FLOW_PQ_ID_ERR_EID, CFE_EVS_ERROR,
                        expectedEvent, "Message Flow Priority Queue ID is invalid - event correct");
 
-    UtAssert_True(iStatus == TO_CONFIG_TABLE_MSG_FLOW_PQ_ID_ERR, "TO_CONFIG_TABLE_MSG_FLOW_PQ_ID_ERR");
+    UtAssert_True(iStatus == TO_CONFIG_TABLE_MSG_FLOW_PQ_ID_ERR,
+                  "TO_ValidateConfigTbl, MessageFlow_PQueueId_Invalid");
 }
 
 
+/**
+ * Test Test_TO_ValidateConfigTbl1
+ */
 void Test_TO_ValidateConfigTbl1(void)
 {
     TO_NoArgCmd_t                     InSchMsg;
@@ -749,11 +798,13 @@ void Test_TO_ValidateConfigTbl1(void)
     result = TO_Custom_Init();
 
         /* Verify results */
-    UtAssert_True (result == expected,
-                "TO_Custom_Init() did return an expected value");
+    UtAssert_True (result == expected, "ValidateConfigTbl1");
 }
 
 
+/**
+ * Test Test_TO_ValidateConfigTbl2
+ */
 void Test_TO_ValidateConfigTbl2(void)
 {
     TO_NoArgCmd_t                     InSchMsg;
@@ -773,13 +824,12 @@ void Test_TO_ValidateConfigTbl2(void)
     result = TO_Custom_Init();
 
     /* Verify results */
-    UtAssert_True (result == expected,
-                "TO_Custom_Init() did return an expected value");
+    UtAssert_True (result == expected, "ValidateConfigTbl2");
 }
 
 
 /**
- * Test TO_ProcessNewConfigTbl(), Nominal
+ * Test TO_ProcessNewConfigTbl(), PriorityQueueBuildupFail
  */
 void Test_TO_ProcessNewConfigTbl_PriorityQueueBuildupFail(void)
 {
@@ -792,7 +842,7 @@ void Test_TO_ProcessNewConfigTbl_PriorityQueueBuildupFail(void)
     result = TO_InitApp();
 
     /* Verify results */
-    UtAssert_True (result == expected, "InitApp, nominal");
+    UtAssert_True (result == expected, "TO_ProcessNewConfigTbl, PriorityQueueBuildupFail");
 }
 
 

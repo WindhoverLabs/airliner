@@ -91,7 +91,7 @@ void Test_TO_ProcessNewCmds_RcvMsgErr(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_PIPE_READ_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "ProcessNewCmds RcvMsgErr");
+                       expectedEvent, "ProcessNewCmds, RcvMsgErr");
 }
 
 
@@ -122,7 +122,7 @@ void Test_TO_ProcessNewAppCmds_Noop_InvalidSize(void)
     TO_AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR, "", "NOOP Cmd Event Sent");
+    UtAssert_EventSent(TO_MSG_LEN_ERR_EID, CFE_EVS_ERROR, "", "TO_ProcessNewAppCmds, NOOP command, Invalid Size");
 }
 
 
@@ -153,7 +153,7 @@ void Test_TO_ProcessNewAppCmds_Noop_Nominal(void)
     TO_AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(TO_CMD_NOOP_INF_EID, CFE_EVS_INFORMATION, "", "NOOP Cmd Event Sent");
+    UtAssert_EventSent(TO_CMD_NOOP_INF_EID, CFE_EVS_INFORMATION, "", "TO_ProcessNewAppCmds, NOOP command, Nominal");
 }
 
 
@@ -337,7 +337,7 @@ void Test_TO_ProcessNewAppCmds_AddMessageFlow_InvalidPQueueIdx(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CMD_ADD_MSG_FLOW_ERR_EID,
-                       CFE_EVS_ERROR, "", "Add Message Flow Cmd Event Sent");
+                       CFE_EVS_ERROR, "", "TO_ProcessNewAppCmds, AddMessageFlow_InvalidPQueueIdx");
 }
 
 /**
@@ -381,7 +381,7 @@ void Test_TO_ProcessNewAppCmds_AddMessageFlow_AlreadyDefined(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CMD_ADD_MSG_FLOW_ERR_EID, CFE_EVS_ERROR, "",
-            "Add Message Flow Cmd Event Sent");
+            "TO_ProcessNewAppCmds, AddMessageFlow command, AlreadyDefined");
 }
 
 
@@ -719,7 +719,7 @@ void Test_TO_ProcessNewAppCmds_QueryMessageFlow_Nominal(void)
 
 
     UtAssert_EventSent(TO_MSG_FLOW_INFO_EID,
-                       CFE_EVS_INFORMATION, "", "Query Message Flow Cmd Event Sent");
+                       CFE_EVS_INFORMATION, "", "TO_ProcessNewAppCmds, QueryMessageFlow Nominal");
 }
 
 
@@ -805,7 +805,7 @@ void Test_TO_ProcessNewAppCmds_QueryPriorityQueue_Nominal(void)
             TO_AppData.ChannelData[0].ConfigTblPtr->PriorityQueue[PQueueIdx].QType);
 
     UtAssert_EventSent(TO_PQUEUE_INFO_EID,
-                       CFE_EVS_INFORMATION, "", "Query Priority Queue Cmd Event Sent");
+                       CFE_EVS_INFORMATION, "", "TO_ProcessNewAppCmds, QueryPriorityQueue Nominal");
 }
 
 
@@ -890,7 +890,7 @@ void Test_TO_ProcessNewAppCmds_QueryOutputChannel_Nominal(void)
             TO_AppData.ChannelData[0].OutputQueue.HighwaterMark);
 
     UtAssert_EventSent(TO_OUT_CH_INFO_EID,
-                       CFE_EVS_INFORMATION, "", "Query Output Queue Cmd Event Sent");
+                       CFE_EVS_INFORMATION, "", "TO_ProcessNewAppCmds, QueryOutputChannel Nominal");
 }
 
 
@@ -982,7 +982,7 @@ void Test_TO_ProcessNewAppCmds_SendDiag_Success(void) {
         }
     }
 
-    UtAssert_True(Ut_CFE_SB_PacketSent(TO_DIAG_MSG_FLOW_MID), "Send Diag Success - Channel MsgFlow Diag Packets sent");
+    UtAssert_True(Ut_CFE_SB_PacketSent(TO_DIAG_MSG_FLOW_MID), "TO_ProcessNewAppCmds, SendDiag_Success");
 }
 
 
@@ -1027,6 +1027,9 @@ void Test_TO_ProcessNewAppCmds_SendDiag_InvalidCmdLength(void)
 /**************************************************************************
  * Additional tests for TO_ProcessNewAppCmds
  **************************************************************************/
+/**
+ * Test TO_ProcessNewAppCmds(), Default
+ */
 void Test_TO_ProcessNewAppCmds_Default(void)
 {
     uint16  ChannelIdx = 0;
@@ -1053,6 +1056,9 @@ void Test_TO_ProcessNewAppCmds_Default(void)
 }
 
 
+/**
+ * Test TO_ProcessNewAppCmds(), MsgPtr_Null
+ */
 void Test_TO_ProcessNewAppCmds_MsgPtr_Null(void)
 {
     uint16  ChannelIdx = 0;
@@ -1079,6 +1085,9 @@ void Test_TO_ProcessNewAppCmds_MsgPtr_Null(void)
 }
 
 
+/**
+ * Test TO_ProcessNewAppCmds(), AddMessageFlow_Channel_Invalid
+ */
 void Test_TO_ProcessNewAppCmds_AddMessageFlow_Channel_Invalid(void)
 {
     TO_NoArgCmd_t           InSchMsg;
@@ -1118,10 +1127,13 @@ void Test_TO_ProcessNewAppCmds_AddMessageFlow_Channel_Invalid(void)
 
     /* Verify results */
      UtAssert_EventSent(TO_CMD_ADD_MSG_FLOW_ERR_EID, CFE_EVS_ERROR, "",
-                                          "Add Message Flow: Invalid channel.");
+                                          "TO_ProcessNewAppCmds(), AddMessageFlow_Channel_Invalid");
 }
 
 
+/**
+ * Test TO_ProcessNewAppCmds(), AddMessageFlow_Channel_Null_ConfigTblPtr
+ */
 void Test_TO_ProcessNewAppCmds_AddMessageFlow_Channel_Null_ConfigTblPtr(void)
 {
     TO_NoArgCmd_t           InSchMsg;
@@ -1161,7 +1173,7 @@ void Test_TO_ProcessNewAppCmds_AddMessageFlow_Channel_Null_ConfigTblPtr(void)
 
     /* Verify results */
      UtAssert_EventSent(TO_MSG_FLOW_MISSING_TBL_ERR_EID, CFE_EVS_ERROR, "",
-                                          "Channel missing valid table data.");
+                                          "TO_ProcessNewAppCmds, AddMessageFlow_Channel_Null_ConfigTblPtr");
 }
 
 
@@ -1170,14 +1182,13 @@ void Test_TO_ProcessNewAppCmds_AddMessageFlow_Channel_Null_ConfigTblPtr(void)
  */
 void Test_TO_ProcessNewAppCmds_AddMessageFlow_SubscribeEx_Failure(void)
 {
-    CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
+    CFE_SB_MsgId_t  MsgId = FAC_HK_TLM_MID;
     uint16          MsgLimit = 1;
     uint16          PQueueIdx = 0;
     uint16          channelIdx = 0;
     osalbool        result = TRUE;
     osalbool        expected = FALSE;
 
-    TO_ChannelData_t channel;
     TO_ChannelTbl_t table;
     CFE_PSP_MemSet(&table, 0x0, sizeof(table));
 
@@ -1186,10 +1197,7 @@ void Test_TO_ProcessNewAppCmds_AddMessageFlow_SubscribeEx_Failure(void)
     TO_AppData.ChannelData[channelIdx].ConfigTblPtr = &table;
     TO_AppData.ChannelData[channelIdx].ConfigTblPtr->PriorityQueue[0].State = TO_PQUEUE_ENA;
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_QUEUE_EMPTY, 0);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, CFE_SB_BAD_ARGUMENT, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_SUBSCRIBEEX_INDEX, CFE_SB_BAD_ARGUMENT, 3);
     Ut_CFE_SB_ContinueReturnCodeAfterCountZero(UT_CFE_SB_SUBSCRIBEEX_INDEX);
 
     /* Set function hook for TO_Custom_Init */
@@ -1203,13 +1211,13 @@ void Test_TO_ProcessNewAppCmds_AddMessageFlow_SubscribeEx_Failure(void)
     /* Verify results */
     UtAssert_True (result == expected, "Message flow failed to subscribe on channel.");
 
-    UtAssert_EventSent(TO_CMD_ADD_MSG_FLOW_ERR_EID, CFE_EVS_ERROR, "",
-                       "Message flow failed to subscribe");
+    UtAssert_EventSent(TO_UNSUBSCRIBE_ERR_EID, CFE_EVS_ERROR, "",
+                       "TO_ProcessNewAppCmds(), AddMessageFlow SubscribeEx Failure");
 }
 
 
 /**
- * Test TO_ProcessNewAppCmds(), AddMessageFlow command, Channel Not Open
+ * Test TO_ProcessNewAppCmds(), AddMessageFlow fail, Channel Not Open
  */
 void Test_TO_ProcessNewAppCmds_AddMessageFlow_Fail_Channel_Not_Open(void)
 {
@@ -1242,10 +1250,13 @@ void Test_TO_ProcessNewAppCmds_AddMessageFlow_Fail_Channel_Not_Open(void)
     UtAssert_True (result == expected, "Channel has not been opened.");
 
     UtAssert_EventSent(TO_CMD_ADD_MSG_FLOW_ERR_EID, CFE_EVS_ERROR, "",
-                       "Channel not open.");
+                       "TO_ProcessNewAppCmds(), AddMessageFlow fail, Channel Not Open");
 }
 
 
+/**
+ * Test TO_ProcessNewAppCmds(), MessageFlow_Remove_MsgId_That_Does_Not_Exist
+ */
 void Test_TO_ProcessNewAppCmds_MessageFlow_Remove_MsgId_That_Does_Not_Exist(void)
 {
     TO_NoArgCmd_t               InSchMsg;
@@ -1280,10 +1291,13 @@ void Test_TO_ProcessNewAppCmds_MessageFlow_Remove_MsgId_That_Does_Not_Exist(void
 
     /* Verify results */
     UtAssert_EventSent(TO_CMD_REMOVE_MSG_FLOW_ERR_EID, CFE_EVS_ERROR, "",
-                                          "Message flow is not defined.");
+                                          "TO_ProcessNewAppCmds(), MessageFlow_Remove_MsgId_That_Does_Not_Exist");
 }
 
 
+/**
+ * Test TO_ProcessNewAppCmds(), MessageFlow_Remove_Channel_Invalid
+ */
 void Test_TO_ProcessNewAppCmds_MessageFlow_Remove_Channel_Invalid(void)
 {
     TO_NoArgCmd_t               InSchMsg;
@@ -1319,10 +1333,13 @@ void Test_TO_ProcessNewAppCmds_MessageFlow_Remove_Channel_Invalid(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CMD_REMOVE_MSG_FLOW_ERR_EID, CFE_EVS_ERROR, "",
-                                          "Invalid channel - channel index out of range.");
+                                          "TO_ProcessNewAppCmds, MessageFlow_Remove_Channel_Invalid");
 }
 
 
+/**
+ * Test TO_ProcessNewAppCmds(), MessageFlow_Remove_MsgId_Channel_Not_Open
+ */
 void Test_TO_ProcessNewAppCmds_MessageFlow_Remove_MsgId_Channel_Not_Open(void)
 {
     uint16                      channelIdx = 0;
@@ -1352,12 +1369,12 @@ void Test_TO_ProcessNewAppCmds_MessageFlow_Remove_MsgId_Channel_Not_Open(void)
     UtAssert_True (result == expected, "Channel has not been opened.");
 
     UtAssert_EventSent(TO_CMD_REMOVE_MSG_FLOW_ERR_EID, CFE_EVS_ERROR, "",
-                                          "Channel has not been opened..");
+                                          "TO_ProcessNewAppCmds, MessageFlow_Remove_MsgId_Channel_Not_Open");
 }
 
 
 /**
- * Test TO_ProcessNewAppCmds(), QueryMessageFlow command, Nominal channel invalid
+ * Test TO_ProcessNewAppCmds(), QueryMessageFlow Nominal channel invalid
  */
 void Test_TO_ProcessNewAppCmds_QueryMessageFlow_Nominal_Channel_Invalid(void)
 {
@@ -1393,7 +1410,7 @@ void Test_TO_ProcessNewAppCmds_QueryMessageFlow_Nominal_Channel_Invalid(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_MSG_FLOW_INFO_ERR_EID, CFE_EVS_ERROR, "",
-                                          "Invalid channel - channel index out of range.");
+                                          "TO_ProcessNewAppCmds, QueryMessageFlow Nominal channel invalid");
 }
 
 
@@ -1435,7 +1452,7 @@ void Test_TO_ProcessNewAppCmds_QueryMessageFlow_Nominal_MsgFlow_Not_Defined(void
 
     /* Verify results */
     UtAssert_EventSent(TO_MSG_FLOW_INFO_ERR_EID, CFE_EVS_ERROR, "",
-                                          "Channel missing valid table data.");
+                       "TO_ProcessNewAppCmds, QueryMessageFlow Message Flow Not Defined");
 }
 
 
@@ -1476,13 +1493,13 @@ void Test_TO_ProcessNewAppCmds_QueryPriorityQueue_Channel_Index_Invalid(void)
     TO_AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(TO_PQUEUE_INFO_ERR_EID,
-                       CFE_EVS_ERROR, "", "Invalid channel index");
+    UtAssert_EventSent(TO_PQUEUE_INFO_ERR_EID, CFE_EVS_ERROR, "",
+                      "TO_ProcessNewAppCmds, QueryPriorityQueue Channel Index Invalid");
 }
 
 
 /**
- * Test TO_ProcessNewAppCmds(), QueryPriorityQueue command, Channel closed
+ * Test TO_ProcessNewAppCmds(), QueryPriorityQueue_PQ_Invalid
  */
 void Test_TO_ProcessNewAppCmds_QueryPriorityQueue_PQ_Invalid(void)
 {
@@ -1518,13 +1535,13 @@ void Test_TO_ProcessNewAppCmds_QueryPriorityQueue_PQ_Invalid(void)
     TO_AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(TO_PQUEUE_INFO_ERR_EID,
-                       CFE_EVS_ERROR, "", "PQueueIdx exceeds the largest available priority queue index");
+    UtAssert_EventSent(TO_PQUEUE_INFO_ERR_EID, CFE_EVS_ERROR, "",
+                       "TO_ProcessNewAppCmds, QueryPriorityQueue_PQ_Invalid");
 }
 
 
 /**
- * Test TO_ProcessNewAppCmds(), QueryOutputChannel command, ChannelID invalid (out of range)
+ * Test TO_ProcessNewAppCmds(), QueryOutputChannel Fail ChannelID invalid (out of range)
  */
 void Test_TO_ProcessNewAppCmds_QueryOutputChannel_Fail_ChannelID_Invalid(void)
 {
@@ -1558,12 +1575,12 @@ void Test_TO_ProcessNewAppCmds_QueryOutputChannel_Fail_ChannelID_Invalid(void)
     TO_AppMain();
 
     UtAssert_EventSent(TO_OUT_CH_INFO_ERR_EID, CFE_EVS_ERROR, "",
-            "Invalid channel index");
+            "TO_ProcessNewAppCmds, QueryOutputChannel Fail ChannelID invalid");
 }
 
 
 /**
- * Test TO_ProcessNewAppCmds Send diag command Fail ChannelID invalid (out of range)
+ * Test TO_ProcessNewAppCmds Send diag Fail ChannelID invalid (out of range)
  */
 void Test_TO_ProcessNewAppCmds_SendDiag_Fail_ChannelID_Invalid(void) {
     TO_NoArgCmd_t           InSchMsg;
@@ -1596,8 +1613,8 @@ void Test_TO_ProcessNewAppCmds_SendDiag_Fail_ChannelID_Invalid(void) {
     TO_AppMain();
 
     /* Verify results */
-    UtAssert_EventSent(TO_CMD_SEND_DIAG_ERR_EID,
-                                 CFE_EVS_ERROR, "", "Invalid channel index");
+    UtAssert_EventSent(TO_CMD_SEND_DIAG_ERR_EID, CFE_EVS_ERROR, "",
+                       "TO_ProcessNewAppCmds, Send diag Fail ChannelID invalid");
 }
 
 
@@ -1631,12 +1648,15 @@ void Test_TO_ProcessNewAppCmds_SendDiag_Fail_Channel_Not_Open(void)
     /* Verify results */
     UtAssert_True (result == expected, "Channel has not been opened.");
 
-    UtAssert_EventSent(TO_CMD_SEND_DIAG_ERR_EID,
-                                 CFE_EVS_ERROR, "", "Channel has not been opened.");
+    UtAssert_EventSent(TO_CMD_SEND_DIAG_ERR_EID, CFE_EVS_ERROR, "",
+                       "TO_ProcessNewAppCmds Send diag Fail Channel not open");
 
 }
 
 
+/**
+ * Test TO_ProcessNewAppCmds(), QueryMessageFlow_Nominal_Channel_Not_Open
+ */
 void Test_TO_ProcessNewAppCmds_QueryMessageFlow_Nominal_Channel_Not_Open(void)
 {
     uint16                      channelIdx = 0;
@@ -1666,12 +1686,12 @@ void Test_TO_ProcessNewAppCmds_QueryMessageFlow_Nominal_Channel_Not_Open(void)
     UtAssert_True (result == expected, "Channel has not been opened.");
 
     UtAssert_EventSent(TO_MSG_FLOW_INFO_ERR_EID, CFE_EVS_ERROR, "",
-                                          "Channel Not Open");
+                       "TO_ProcessNewAppCmds, QueryMessageFlow_Nominal_Channel_Not_Open");
 }
 
 
 /**
- * Test TO_ProcessNewAppCmds(), QueryPriorityQueue command, Nominal
+ * Test TO_ProcessNewAppCmds(), QueryPriorityQueue Fail_Channel_Not_Open
  */
 void Test_TO_ProcessNewAppCmds_QueryPriorityQueue_Fail_Channel_Not_Open(void)
 {
@@ -1702,7 +1722,7 @@ void Test_TO_ProcessNewAppCmds_QueryPriorityQueue_Fail_Channel_Not_Open(void)
     UtAssert_True (result == expected, "Channel has not been opened.");
 
     UtAssert_EventSent(TO_PQUEUE_INFO_ERR_EID, CFE_EVS_ERROR, "",
-                                          "Channel Not Open");
+                       "TO_ProcessNewAppCmds, QueryPriorityQueue Fail_Channel_Not_Open");
 }
 
 
@@ -1715,8 +1735,8 @@ void Test_TO_ProcessNewAppCmds_RemoveMessageFlow_Nominal_Unsubscribe_Fail(void)
     TO_RemoveMessageFlowCmd_t   InCmd;
     int32                       DataPipe;
     int32                       CmdPipe;
-    uint16                      ChannelIdx = 0;
-    CFE_SB_MsgId_t  MsgId = CFE_ES_HK_TLM_MID;
+    CFE_SB_MsgId_t              MsgId = CFE_ES_HK_TLM_MID;
+    char                        expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* The following will emulate behavior of receiving a SCH message to WAKEUP,
        and gives it a command to process. */
@@ -1732,9 +1752,7 @@ void Test_TO_ProcessNewAppCmds_RemoveMessageFlow_Nominal_Unsubscribe_Fail(void)
     Ut_CFE_SB_AddMsgToPipe(&InCmd, CmdPipe);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
-    Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_QUEUE_EMPTY, 0);
-    Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);
-    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_UNSUBSCRIBE_INDEX, -1, 1);
+    Ut_CFE_SB_SetReturnCode(UT_CFE_SB_UNSUBSCRIBE_INDEX, CFE_SB_BAD_ARGUMENT, 1);
 
     /* Set function hook for TO_Custom_Init */
     Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, TO_Custom_InitHook);
@@ -1742,12 +1760,17 @@ void Test_TO_ProcessNewAppCmds_RemoveMessageFlow_Nominal_Unsubscribe_Fail(void)
     /* Execute the function being tested */
     TO_AppMain();
 
+    sprintf(expectedEvent, "Message flow (0x%08X) failed to unsubscribe on channel %d. (%ld)",
+            MsgId, 0, CFE_SB_BAD_ARGUMENT);
     /* Verify results */
-    UtAssert_EventSent(TO_CMD_REMOVE_MSG_FLOW_ERR_EID,
-                                 CFE_EVS_ERROR, "", "Remove Message Flow Unsubscribe Fail");
+    UtAssert_EventSent(TO_UNSUBSCRIBE_ERR_EID, CFE_EVS_ERROR,
+                       expectedEvent, "ProcessNewAppCmds_RemoveMessageFlow_Nominal_Unsubscribe_Fail");
 }
 
 
+/**
+ * Test TO_ProcessNewAppCmds(), Output_Channel_Query_Channel_Not_Open
+ */
 void Test_TO_ProcessNewAppCmds_Output_Channel_Query_Channel_Not_Open(void)
 {
     uint16                      channelIdx = 0;
@@ -1769,10 +1792,13 @@ void Test_TO_ProcessNewAppCmds_Output_Channel_Query_Channel_Not_Open(void)
     UtAssert_True (result == expected, "Channel has not been opened.");
 
     UtAssert_EventSent(TO_OUT_CH_INFO_ERR_EID, CFE_EVS_ERROR, "",
-                                          "Channel has not been opened..");
+                       "TO_ProcessNewAppCmds, Output_Channel_Query_Channel_Not_Open");
 }
 
 
+/**
+ * Test TO_VerifyCmdLength(), MsgPtr_Null
+ */
 void Test_TO_VerifyCmdLength_MsgPtr_Null(void)
 {
     osalbool result = TRUE;
@@ -1787,7 +1813,7 @@ void Test_TO_VerifyCmdLength_MsgPtr_Null(void)
     result = TO_VerifyCmdLength(Cmd_msgPtr, expectedLen);
 
     /* Verify results */
-    UtAssert_True (result == expected, "Channel has not been opened.");
+    UtAssert_True (result == expected, "TO_VerifyCmdLength(), MsgPtr_Null");
 }
 
 
