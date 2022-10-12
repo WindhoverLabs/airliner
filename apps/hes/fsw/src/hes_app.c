@@ -39,6 +39,7 @@
 ** Includes
 *************************************************************************/
 #include <string.h>
+#include <math.h>
 
 #include "cfe.h"
 
@@ -232,6 +233,16 @@ int32 HES_InitPipe()
             goto HES_InitPipe_Exit_Tag;
         }
 
+        iStatus = CFE_SB_SubscribeEx(PX4_BATTERY_STATUS_MID, HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            CFE_EVS_SendEvent(HES_INIT_ERR_EID, CFE_EVS_ERROR,
+                                     "DATA Pipe failed to subscribe to PX4_BATTERY_STATUS_MID. (0x%08X)",
+                                     (unsigned int)iStatus);
+            goto HES_InitPipe_Exit_Tag;
+        }
+
+
 
         /* TODO:  Add CFE_SB_Subscribe() calls for other apps' output data here.
         **
@@ -261,6 +272,14 @@ HES_InitPipe_Exit_Tag:
 int32 HES_InitData()
 {
     int32  iStatus=CFE_SUCCESS;
+
+    memset((void*)&HES_AppData.CVT, 0x00, sizeof(HES_AppData.CVT));
+    CFE_SB_InitMsg((void*)&HES_AppData.CVT.Airspeed, PX4_AIRSPEED_MID, sizeof(HES_AppData.CVT.Airspeed), TRUE);
+    CFE_SB_InitMsg((void*)&HES_AppData.CVT.BatteryStatus, PX4_BATTERY_STATUS_MID, sizeof(HES_AppData.CVT.BatteryStatus), TRUE);
+    CFE_SB_InitMsg((void*)&HES_AppData.CVT.VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(HES_AppData.CVT.VAtt), TRUE);
+    CFE_SB_InitMsg((void*)&HES_AppData.CVT.VGlobalPosition, PX4_VEHICLE_GLOBAL_POSITION_MID, sizeof(HES_AppData.CVT.VGlobalPosition), TRUE);
+    CFE_SB_InitMsg((void*)&HES_AppData.CVT.VLandDetected, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(HES_AppData.CVT.VLandDetected), TRUE);
+    CFE_SB_InitMsg((void*)&HES_AppData.CVT.VehicleStatus, PX4_VEHICLE_STATUS_MID, sizeof(HES_AppData.CVT.VehicleStatus), TRUE);
 
     /* Init input data */
     memset((void*)&HES_AppData.InData, 0x00, sizeof(HES_AppData.InData));
@@ -392,6 +411,7 @@ int32 HES_RcvMsg(int32 iBlocking)
             case HES_WAKEUP_MID:
                 HES_ProcessNewCmds();
                 HES_ProcessNewData();
+                HES_ProcessCVT();
 
                 /* TODO:  Add more code here to handle other things when app wakes up */
 
@@ -459,13 +479,47 @@ void HES_ProcessNewData()
             DataMsgId = CFE_SB_GetMsgId(DataMsgPtr);
             switch (DataMsgId)
             {
-                /* TODO:  Add code to process all subscribed data here
-                **
-                ** Example:
-                **     case NAV_OUT_DATA_MID:
-                **         HES_ProcessNavData(DataMsgPtr);
-                **         break;
-                */
+				case PX4_AIRSPEED_MID:
+				{
+					HES_AppData.HkTlm.AirSpeedMsgRcvCnt++;
+					CFE_PSP_MemCpy(&HES_AppData.CVT.Airspeed, DataMsgPtr, sizeof(HES_AppData.CVT.Airspeed));
+					break;
+				}
+
+				case PX4_BATTERY_STATUS_MID:
+				{
+					HES_AppData.HkTlm.BatteryStatusMsgRcvCnt++;
+					CFE_PSP_MemCpy(&HES_AppData.CVT.BatteryStatus, DataMsgPtr, sizeof(HES_AppData.CVT.BatteryStatus));
+					break;
+				}
+
+				case PX4_VEHICLE_ATTITUDE_MID:
+				{
+					HES_AppData.HkTlm.VAttMsgRcvCnt++;
+					CFE_PSP_MemCpy(&HES_AppData.CVT.VAtt, DataMsgPtr, sizeof(HES_AppData.CVT.VAtt));
+					break;
+				}
+
+				case PX4_VEHICLE_GLOBAL_POSITION_MID:
+				{
+					HES_AppData.HkTlm.VGlobalPositionMsgRcvCnt++;
+					CFE_PSP_MemCpy(&HES_AppData.CVT.VGlobalPosition, DataMsgPtr, sizeof(HES_AppData.CVT.VGlobalPosition));
+					break;
+				}
+
+				case PX4_VEHICLE_LAND_DETECTED_MID:
+				{
+					HES_AppData.HkTlm.VLandDetectedMsgRcvCnt++;
+					CFE_PSP_MemCpy(&HES_AppData.CVT.VLandDetected, DataMsgPtr, sizeof(HES_AppData.CVT.VLandDetected));
+					break;
+				}
+
+				case PX4_VEHICLE_STATUS_MID:
+				{
+					HES_AppData.HkTlm.VehicleStatusMsgRcvCnt++;
+					CFE_PSP_MemCpy(&HES_AppData.CVT.VehicleStatus, DataMsgPtr, sizeof(HES_AppData.CVT.VehicleStatus));
+					break;
+				}
 
                 default:
                     (void) CFE_EVS_SendEvent(HES_MSGID_ERR_EID, CFE_EVS_ERROR,
@@ -487,6 +541,193 @@ void HES_ProcessNewData()
     }
 }
 
+/* Conjugate with inversed quaternion */
+/* Body to NED Frame*/
+void Quaternion_Conjugate(const float* v, const float* data, float* result)
+{
+    float q0q0 = data[0] * data[0];
+    float q1q1 = data[1] * data[1];
+    float q2q2 = data[2] * data[2];
+    float q3q3 = data[3] * data[3];
+    
+    result[0] = (v[0] * (
+            q0q0 + q1q1 - q2q2 - q3q3) +
+            v[1] * 2.0f * (data[1] * data[2] - data[0] * data[3]) +
+            v[2] * 2.0f * (data[0] * data[2] + data[1] * data[3]));
+
+    result[1] = (v[0] * 2.0f * (data[1] * data[2] + data[0] * data[3]) +
+            v[1] * (q0q0 - q1q1 + q2q2 - q3q3) +
+            v[2] * 2.0f * (data[2] * data[3] - data[0] * data[1]));
+
+    result[2] = (v[0] * 2.0f * (data[1] * data[3] - data[0] * data[2]) +
+            v[1] * 2.0f * (data[0] * data[1] + data[2] * data[3]) +
+            v[2] * (q0q0 - q1q1 - q2q2 + q3q3));
+}
+
+
+/* Conjugate with inversed quaternion */
+/* NED to Body Frame*/
+void Quaternion_ConjugateInversed(const float* v, const float* data, float* result)
+{
+    float q0q0 = data[0] * data[0];
+    float q1q1 = data[1] * data[1];
+    float q2q2 = data[2] * data[2];
+    float q3q3 = data[3] * data[3];
+    
+    result[0] = (v[0] * (
+            q0q0 + q1q1 - q2q2 - q3q3) +
+            v[1] * 2.0f * (data[1] * data[2] + data[0] * data[3]) +
+            v[2] * 2.0f * (data[1] * data[3] - data[0] * data[2]));
+
+    result[1] = (v[0] * 2.0f * (data[1] * data[2] - data[0] * data[3]) +
+            v[1] * (q0q0 - q1q1 + q2q2 - q3q3) +
+            v[2] * 2.0f * (data[2] * data[3] + data[0] * data[1]));
+
+    result[2] = (v[0] * 2.0f * (data[1] * data[3] + data[0] * data[2]) +
+            v[1] * 2.0f * (data[2] * data[3] - data[0] * data[1]) +
+            v[2] * (q0q0 - q1q1 - q2q2 + q3q3));
+}
+
+
+void Quaternion_RotationMatrix(float* data, float** R)
+{
+	float aSq = data[0] * data[0];
+	float bSq = data[1] * data[1];
+	float cSq = data[2] * data[2];
+	float dSq = data[3] * data[3];
+	R[0][0] = aSq + bSq - cSq - dSq;
+	R[0][1] = 2.0f * (data[1] * data[2] - data[0] * data[3]);
+	R[0][2] = 2.0f * (data[0] * data[2] + data[1] * data[3]);
+	R[1][0] = 2.0f * (data[1] * data[2] + data[0] * data[3]);
+	R[1][1] = aSq - bSq + cSq - dSq;
+	R[1][2] = 2.0f * (data[2] * data[3] - data[0] * data[1]);
+	R[2][0] = 2.0f * (data[1] * data[3] - data[0] * data[2]);
+	R[2][1] = 2.0f * (data[0] * data[1] + data[2] * data[3]);
+	R[2][2] = aSq - bSq - cSq + dSq;
+}
+
+void Quaternion_ToEuler(float* data, float* euler)
+{
+	euler[0] = atan2f(2.0f * (data[0] * data[1] + data[2] * data[3]), 1.0f - 2.0f * (data[1] * data[1] + data[2] * data[2]));
+	euler[1] = asinf(2.0f * (data[0] * data[2] - data[3] * data[1]));
+	euler[2] = atan2f(2.0f * (data[0] * data[3] + data[1] * data[2]), 1.0f - 2.0f * (data[2] * data[2] + data[3] * data[3]));
+}
+
+void HES_ProcessCVT() {
+    float euler[3];
+    float wind_n, wind_e;
+    float vel_ned[3];
+    float wind[3];
+    float wind_body[3];
+    float v_r;
+
+    HES_AppData.HkTlm.altitude[0] = HES_AppData.CVT.VGlobalPosition.Alt;
+    HES_AppData.HkTlm.altitude[1] = 3.28084 * HES_AppData.CVT.VGlobalPosition.Alt;
+    HES_AppData.HkTlm.altitude[0] = HES_AppData.CVT.VGlobalPosition.Alt / 3;
+
+    HES_AppData.HkTlm.Lat = HES_AppData.CVT.VGlobalPosition.Lat;
+    HES_AppData.HkTlm.Lon = HES_AppData.CVT.VGlobalPosition.Lon;
+
+
+    HES_AppData.CVT.filtered_vel_d = 
+        (HES_VEL_FILTER_COEFF) * (HES_AppData.CVT.VGlobalPosition.VelD) +
+        (1 - (HES_VEL_FILTER_COEFF)) * HES_AppData.CVT.filtered_vel_d;
+    HES_AppData.CVT.filtered_vel_e = 
+        (HES_VEL_FILTER_COEFF) * (HES_AppData.CVT.VGlobalPosition.VelE) +
+        (1 - (HES_VEL_FILTER_COEFF)) * HES_AppData.CVT.filtered_vel_e;
+    HES_AppData.CVT.filtered_vel_n = 
+        (HES_VEL_FILTER_COEFF) * (HES_AppData.CVT.VGlobalPosition.VelN) +
+        (1 - (HES_VEL_FILTER_COEFF)) * HES_AppData.CVT.filtered_vel_n;
+    
+    vel_ned[0] = HES_AppData.CVT.filtered_vel_n;
+    vel_ned[1] = HES_AppData.CVT.filtered_vel_e;
+    vel_ned[2] = HES_AppData.CVT.filtered_vel_d;
+
+    HES_AppData.CVT.filtered_airspeed = 
+        (HES_AIRSPEED_FILTER_COEFF) * HES_AppData.CVT.Airspeed.TrueAirspeed + 
+        (1 - (HES_AIRSPEED_FILTER_COEFF)) * HES_AppData.CVT.filtered_airspeed;
+    HES_AppData.HkTlm.airspeed[0] = HES_AppData.CVT.filtered_airspeed;
+    HES_AppData.HkTlm.airspeed[1] = (1.943844) * HES_AppData.CVT.filtered_airspeed;
+    HES_AppData.HkTlm.airspeed[2] = (3.6) * HES_AppData.CVT.filtered_airspeed;
+    HES_AppData.HkTlm.airspeed[3] = (2.236936) * HES_AppData.CVT.filtered_airspeed;
+
+    HES_AppData.CVT.filtered_groundspeed = 
+        (HES_GROUNDSPEED_FILTER_COEFF) * (sqrtf(
+            (HES_AppData.CVT.VGlobalPosition.VelN * HES_AppData.CVT.VGlobalPosition.VelN) + 
+            (HES_AppData.CVT.VGlobalPosition.VelE * HES_AppData.CVT.VGlobalPosition.VelE))) + 
+        (1 - (HES_GROUNDSPEED_FILTER_COEFF)) * HES_AppData.CVT.filtered_groundspeed;
+    HES_AppData.HkTlm.groundspeed[0] = HES_AppData.CVT.filtered_groundspeed;
+    HES_AppData.HkTlm.groundspeed[1] = (1.943844) * HES_AppData.CVT.filtered_groundspeed;
+    HES_AppData.HkTlm.groundspeed[2] = (3.6) * HES_AppData.CVT.filtered_groundspeed;
+    HES_AppData.HkTlm.groundspeed[3] = (2.236936) * HES_AppData.CVT.filtered_groundspeed;
+
+    // HES_AppData.CVT.filtered_speed = 
+    //     (HES_SPEED_FILTER_COEFF) * (sqrtf(
+    //         (HES_AppData.CVT.VGlobalPosition.VelN * HES_AppData.CVT.VGlobalPosition.VelN) + 
+    //         (HES_AppData.CVT.VGlobalPosition.VelE * HES_AppData.CVT.VGlobalPosition.VelE) + 
+    //         (HES_AppData.CVT.VGlobalPosition.VelD * HES_AppData.CVT.VGlobalPosition.VelD))) + 
+    //     (1 - (HES_SPEED_FILTER_COEFF)) * HES_AppData.CVT.filtered_speed;
+
+    Quaternion_ToEuler(HES_AppData.CVT.VAtt.Q, euler);
+    HES_AppData.CVT.filtered_euler[0] = (HES_EULER_FILTER_COEFF) * euler[0] + (1 - (HES_EULER_FILTER_COEFF)) * HES_AppData.CVT.filtered_euler[0];
+    HES_AppData.CVT.filtered_euler[1] = (HES_EULER_FILTER_COEFF) * euler[1] + (1 - (HES_EULER_FILTER_COEFF)) * HES_AppData.CVT.filtered_euler[1];
+    HES_AppData.CVT.filtered_euler[2] = (HES_EULER_FILTER_COEFF) * euler[2] + (1 - (HES_EULER_FILTER_COEFF)) * HES_AppData.CVT.filtered_euler[2];
+
+    HES_AppData.HkTlm.rollDegrees = - (180/M_PI) * HES_AppData.CVT.filtered_euler[0];
+    HES_AppData.HkTlm.pitchDegrees =  (180/M_PI) * HES_AppData.CVT.filtered_euler[1];
+    HES_AppData.HkTlm.headingDegrees = (180/M_PI) * HES_AppData.CVT.filtered_euler[2];
+
+    wind_n = 
+        HES_AppData.CVT.filtered_vel_n
+            - HES_AppData.CVT.filtered_airspeed*(cosf(HES_AppData.CVT.filtered_euler[2]))*(cosf(asinf(- (HES_AppData.CVT.filtered_vel_d) / (HES_AppData.CVT.filtered_airspeed))));
+    wind_e = 
+        HES_AppData.CVT.filtered_vel_e
+            - HES_AppData.CVT.filtered_airspeed*(sinf(HES_AppData.CVT.filtered_euler[2]))*(cosf(asinf(- (HES_AppData.CVT.filtered_vel_d) / (HES_AppData.CVT.filtered_airspeed))));
+
+    HES_AppData.HkTlm.windspeed[0] = sqrtf(wind_e*wind_e + wind_n*wind_n);
+    HES_AppData.HkTlm.windspeed[1] = (1.943844) * HES_AppData.HkTlm.windspeed[0];
+    HES_AppData.HkTlm.windspeed[2] = (3.6) * HES_AppData.HkTlm.windspeed[0];
+    HES_AppData.HkTlm.windspeed[3] = (2.236936) * HES_AppData.HkTlm.windspeed[0];
+
+    HES_AppData.HkTlm.winddirection[0] = atan2f(wind_e, wind_n);
+    HES_AppData.HkTlm.winddirection[1] = (180/M_PI) * HES_AppData.HkTlm.winddirection[0];
+
+    HES_AppData.HkTlm.groundtrackdirection[0] = atan2f(HES_AppData.CVT.filtered_vel_e, HES_AppData.CVT.filtered_vel_n);
+    HES_AppData.HkTlm.groundtrackdirection[1] = (180/M_PI) * HES_AppData.HkTlm.groundtrackdirection[0];
+
+    Quaternion_ConjugateInversed(vel_ned, HES_AppData.CVT.VAtt.Q, HES_AppData.HkTlm.vel_xyz);
+
+    wind[0] = wind_n;
+    wind[1] = wind_e;
+    wind[2] = 0;
+    Quaternion_ConjugateInversed(wind, HES_AppData.CVT.VAtt.Q, wind_body);
+
+    v_r = HES_AppData.HkTlm.vel_xyz[1] - wind_body[1];
+
+    if (HES_AppData.CVT.filtered_airspeed != 0) {
+        HES_AppData.HkTlm.alpha[1] = HES_AppData.CVT.filtered_euler[1] - asinf(- (HES_AppData.CVT.filtered_vel_d) / (HES_AppData.CVT.filtered_airspeed));
+        HES_AppData.HkTlm.alpha[0] = HES_AppData.HkTlm.alpha[1] * (180/M_PI);
+        HES_AppData.HkTlm.beta[1] = asinf(v_r / HES_AppData.CVT.filtered_airspeed);
+        HES_AppData.HkTlm.beta[0] = HES_AppData.HkTlm.beta[1] * (180/M_PI);
+    } else {
+        HES_AppData.HkTlm.alpha[0] = 0;
+        HES_AppData.HkTlm.alpha[1] = 0;
+        HES_AppData.HkTlm.beta[1] = 0;
+        HES_AppData.HkTlm.beta[0] = 0;
+    }
+
+    HES_AppData.HkTlm.VoltageFiltered = HES_AppData.CVT.BatteryStatus.VoltageFiltered;
+    HES_AppData.HkTlm.CurrentFiltered = HES_AppData.CVT.BatteryStatus.CurrentFiltered;
+    HES_AppData.HkTlm.Discharged = HES_AppData.CVT.BatteryStatus.Discharged;
+    HES_AppData.HkTlm.Remaining = HES_AppData.CVT.BatteryStatus.Remaining;
+    HES_AppData.HkTlm.Warning = HES_AppData.CVT.BatteryStatus.Warning;
+
+    HES_AppData.HkTlm.RcSignalLost = HES_AppData.CVT.VehicleStatus.RcSignalLost;
+    HES_AppData.HkTlm.NavState = HES_AppData.CVT.VehicleStatus.NavState;
+    HES_AppData.HkTlm.ArmingState = HES_AppData.CVT.VehicleStatus.ArmingState;
+    HES_AppData.HkTlm.EngineFailure = HES_AppData.CVT.VehicleStatus.EngineFailure;
+    HES_AppData.HkTlm.landed = HES_AppData.CVT.VLandDetected.Landed;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */

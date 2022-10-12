@@ -199,7 +199,7 @@ buildliner_add_app(
 buildliner_add_app(
     hes
     DEFINITION ${PROJECT_SOURCE_DIR}/apps/hes/fsw/for_build
-    # CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/hes
+    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/hes
     # CONFIG_SOURCES
     #     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/hes/src/hes_custom.c
 )

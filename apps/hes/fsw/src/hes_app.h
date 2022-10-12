@@ -63,9 +63,45 @@ extern "C" {
 *************************************************************************/
 #define HES_TIMEOUT_MSEC             	(1000)
 
+#define HES_VEL_FILTER_COEFF            (0.01)
+#define HES_AIRSPEED_FILTER_COEFF       (0.01)
+#define HES_GROUNDSPEED_FILTER_COEFF    (0.01)
+// #define HES_SPEED_FILTER_COEFF          (0.01)
+#define HES_EULER_FILTER_COEFF          (0.01)
+
 /************************************************************************
 ** Local Structure Definitions
 *************************************************************************/
+typedef struct
+{
+    /** \brief Airspeed */
+    PX4_AirspeedMsg_t                     Airspeed;
+
+    /** \brief Battery status */
+    PX4_BatteryStatusMsg_t                BatteryStatus;
+
+    /** \brief Vehicle attitude */
+    PX4_VehicleAttitudeMsg_t              VAtt;
+
+    /** \brief Vehicle global position */
+    PX4_VehicleGlobalPositionMsg_t        VGlobalPosition;
+
+    /** \brief Vehicle land detected */
+    PX4_VehicleLandDetectedMsg_t          VLandDetected;
+
+    /** \brief Vehicle Status */
+    PX4_VehicleStatusMsg_t                VehicleStatus;
+
+    float filtered_vel_n;
+    float filtered_vel_e;
+    float filtered_vel_d;
+    float filtered_airspeed;
+    float filtered_groundspeed;
+    // float filtered_speed;
+    float filtered_euler[3];
+    
+} HES_CurrentValueTable_t;
+
 /**
 **  \brief HES Operational Data Structure
 */
@@ -105,6 +141,8 @@ typedef struct
     HES_CdsTbl_t  CdsTbl;
 
     /* Inputs/Outputs */
+    /** \brief Current value table */
+    HES_CurrentValueTable_t CVT;
 
     /** \brief Input Data from I/O or other apps */
     HES_InData_t   InData;

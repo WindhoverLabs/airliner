@@ -179,6 +179,9 @@ typedef struct
         \brief Count of failed commands */
     uint8              usCmdErrCnt; 
 
+    double Lat;
+    double Lon;
+
     float rollDegrees;
     float pitchDegrees;
     float headingDegrees;
@@ -204,6 +207,14 @@ typedef struct
     PX4_NavigationState_t NavState;
     PX4_ArmingState_t ArmingState;
     boolean EngineFailure;
+    boolean landed;
+
+    uint32 AirSpeedMsgRcvCnt;
+    uint32 BatteryStatusMsgRcvCnt;
+    uint32 VAttMsgRcvCnt;
+    uint32 VGlobalPositionMsgRcvCnt;
+    uint32 VLandDetectedMsgRcvCnt;
+    uint32 VehicleStatusMsgRcvCnt;
 } HES_HkTlm_t;
 
 
