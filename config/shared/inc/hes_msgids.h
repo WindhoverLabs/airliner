@@ -12,30 +12,30 @@ extern "C" {
 
 #include "msg_ids.h"
 
-/**
-** \brief HES application-specific command MID
-*/
-#define HES_CMD_MID                 (0x18C0)
+// /**
+// ** \brief HES application-specific command MID
+// */
+// #define HES_CMD_MID                 (0x18C0)
 
-/**
-** \brief Command for the application to send HK data
-*/
-#define HES_SEND_HK_MID             (0x18C1)
+// /**
+// ** \brief Command for the application to send HK data
+// */
+// #define HES_SEND_HK_MID             (0x18C1)
 
-/**
-** \brief Wakeup command for the application to perform processing
-*/
-#define HES_WAKEUP_MID              (0x18D0)
+// /**
+// ** \brief Wakeup command for the application to perform processing
+// */
+// #define HES_WAKEUP_MID              (0x18D0)
 
-/**
-** \brief Application-specific data output
-*/
-#define HES_OUT_DATA_MID            (0x18D1)
+// /**
+// ** \brief Application-specific data output
+// */
+// #define HES_OUT_DATA_MID            (0x18D1)
 
-/**
-** \brief Application housekeeping telemetry data
-*/
-#define HES_HK_TLM_MID              (0x08BB)
+// /**
+// ** \brief Application housekeeping telemetry data
+// */
+// #define HES_HK_TLM_MID              (0x08BB)
 
 
 #ifdef __cplusplus

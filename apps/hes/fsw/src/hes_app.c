@@ -74,6 +74,7 @@ HES_AppData_t  HES_AppData;
 /************************************************************************
 ** Local Function Definitions
 *************************************************************************/
+void HES_ProcessCVT();
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -403,12 +404,26 @@ int32 HES_RcvMsg(int32 iBlocking)
     /* Start Performance Log entry */
     CFE_ES_PerfLogEntry(HES_MAIN_TASK_PERF_ID);
 
+    // printf("waking up code %x\n", HES_WAKEUP_MID);
+    //printf("waking up code %x\n", TO_SEND_HK_MID);
+
     if (iStatus == CFE_SUCCESS)
     {
         MsgId = CFE_SB_GetMsgId(MsgPtr);
+
+        // printf("getting here %d\n", MsgId);
+
         switch (MsgId)
-	{
+	    {
             case HES_WAKEUP_MID:
+                // printf("waking up\n");
+                // printf("getting here %d\n", MsgId);
+
+                // printf("wake up code %x\n", HES_WAKEUP_MID);
+                // printf("Hk code %x\n", HES_HK_TLM_MID);
+                // printf("Send Hk code %x\n", HES_SEND_HK_MID);
+                // printf("Cmd code %x\n", HES_CMD_MID);
+
                 HES_ProcessNewCmds();
                 HES_ProcessNewData();
                 HES_ProcessCVT();
@@ -434,6 +449,7 @@ int32 HES_RcvMsg(int32 iBlocking)
         /* TODO: If there's no incoming message, you can do something here, or 
          * nothing.  Note, this section is dead code only if the iBlocking arg
          * is CFE_SB_PEND_FOREVER. */
+        // printf("no msg %ld\n", iStatus);
         iStatus = CFE_SUCCESS;
     }
     else if (iStatus == CFE_SB_TIME_OUT)
@@ -442,6 +458,7 @@ int32 HES_RcvMsg(int32 iBlocking)
          * iBlocking arg, you can do something here, or nothing.  
          * Note, this section is dead code only if the iBlocking arg
          * is CFE_SB_PEND_FOREVER. */
+        // printf("timeout %ld\n", iStatus);
         iStatus = CFE_SUCCESS;
     }
     else
@@ -449,6 +466,7 @@ int32 HES_RcvMsg(int32 iBlocking)
         /* TODO: This is an example of exiting on an error (either CFE_SB_BAD_ARGUMENT, or
          * CFE_SB_PIPE_RD_ERROR).
          */
+        // printf("error %d\n", iStatus);
         (void) CFE_EVS_SendEvent(HES_PIPE_ERR_EID, CFE_EVS_ERROR,
 			  "SB pipe read error (0x%08X), app will exit", (unsigned int)iStatus);
         HES_AppData.uiRunStatus= CFE_ES_APP_ERROR;
@@ -620,6 +638,8 @@ void HES_ProcessCVT() {
     float wind[3];
     float wind_body[3];
     float v_r;
+
+    // printf("processing CVT\n");
 
     HES_AppData.HkTlm.altitude[0] = HES_AppData.CVT.VGlobalPosition.Alt;
     HES_AppData.HkTlm.altitude[1] = 3.28084 * HES_AppData.CVT.VGlobalPosition.Alt;
