@@ -172,6 +172,51 @@ typedef struct {
     float radius;
 } HES_WayPoint_t;
 
+typedef struct {
+    float mps;
+    float knots;
+    float mph;
+    float kph;
+} HES_AirSpeed;
+
+typedef struct{
+    float mps;
+    float knots;
+    float mph;
+    float kph;
+} HES_GroundSpeed;
+
+typedef struct{
+    float mps;
+    float knots;
+    float mph;
+    float kph;
+} HES_WindSpeed;
+
+typedef struct{
+    float degrees;
+    float radians;
+} HES_WindDirection;
+
+typedef struct{
+    float degrees;
+    float radians;
+} HES_GroundTrackDirection;
+
+typedef struct{
+    float mps;
+    float fps;
+} HES_Vel_D;
+
+typedef struct{
+    float degrees;
+    float radians;
+} HES_Alpha;
+
+typedef struct{
+    float degrees;
+    float radians;
+} HES_Beta;
 /** 
 **  \brief HES application housekeeping data
 */
@@ -195,15 +240,15 @@ typedef struct
     float pitchDegrees;
     float headingDegrees;
 
-    float airspeed[4];
-    float groundspeed[4];
-    float windspeed[4];
-    float winddirection[2];
-    float groundtrackdirection[2];
+    HES_AirSpeed airspeed;
+    HES_GroundSpeed groundspeed;
+    HES_WindSpeed windspeed;
+    HES_WindDirection winddirection;
+    HES_GroundTrackDirection groundtrackdirection;
     float altitude[3];
-    float vel_d[2];
-    float alpha[2];
-    float beta[2];
+    HES_Vel_D vel_d[2];
+    HES_Alpha alpha;
+    HES_Beta beta;
     float vel_xyz[3];
 
     float   VoltageFiltered;			/* V */

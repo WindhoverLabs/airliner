@@ -683,20 +683,20 @@ void HES_ProcessCVT() {
     HES_AppData.CVT.filtered_airspeed = 
         (HES_AIRSPEED_FILTER_COEFF) * HES_AppData.CVT.Airspeed.TrueAirspeed + 
         (1 - (HES_AIRSPEED_FILTER_COEFF)) * HES_AppData.CVT.filtered_airspeed;
-    HES_AppData.HkTlm.airspeed[0] = HES_AppData.CVT.filtered_airspeed;
-    HES_AppData.HkTlm.airspeed[1] = (1.943844) * HES_AppData.CVT.filtered_airspeed;
-    HES_AppData.HkTlm.airspeed[2] = (3.6) * HES_AppData.CVT.filtered_airspeed;
-    HES_AppData.HkTlm.airspeed[3] = (2.236936) * HES_AppData.CVT.filtered_airspeed;
+    HES_AppData.HkTlm.airspeed.mps = HES_AppData.CVT.filtered_airspeed;
+    HES_AppData.HkTlm.airspeed.knots = (1.943844) * HES_AppData.CVT.filtered_airspeed;
+    HES_AppData.HkTlm.airspeed.mph = (3.6) * HES_AppData.CVT.filtered_airspeed;
+    HES_AppData.HkTlm.airspeed.kph = (2.236936) * HES_AppData.CVT.filtered_airspeed;
 
     HES_AppData.CVT.filtered_groundspeed = 
         (HES_GROUNDSPEED_FILTER_COEFF) * (sqrtf(
             (HES_AppData.CVT.VGlobalPosition.VelN * HES_AppData.CVT.VGlobalPosition.VelN) + 
             (HES_AppData.CVT.VGlobalPosition.VelE * HES_AppData.CVT.VGlobalPosition.VelE))) + 
         (1 - (HES_GROUNDSPEED_FILTER_COEFF)) * HES_AppData.CVT.filtered_groundspeed;
-    HES_AppData.HkTlm.groundspeed[0] = HES_AppData.CVT.filtered_groundspeed;
-    HES_AppData.HkTlm.groundspeed[1] = (1.943844) * HES_AppData.CVT.filtered_groundspeed;
-    HES_AppData.HkTlm.groundspeed[2] = (3.6) * HES_AppData.CVT.filtered_groundspeed;
-    HES_AppData.HkTlm.groundspeed[3] = (2.236936) * HES_AppData.CVT.filtered_groundspeed;
+    HES_AppData.HkTlm.groundspeed.mps = HES_AppData.CVT.filtered_groundspeed;
+    HES_AppData.HkTlm.groundspeed.knots = (1.943844) * HES_AppData.CVT.filtered_groundspeed;
+    HES_AppData.HkTlm.groundspeed.mph = (3.6) * HES_AppData.CVT.filtered_groundspeed;
+    HES_AppData.HkTlm.groundspeed.kph = (2.236936) * HES_AppData.CVT.filtered_groundspeed;
 
     // HES_AppData.CVT.filtered_speed = 
     //     (HES_SPEED_FILTER_COEFF) * (sqrtf(
@@ -721,16 +721,16 @@ void HES_ProcessCVT() {
         HES_AppData.CVT.filtered_vel_e
             - HES_AppData.CVT.filtered_airspeed*(sinf(HES_AppData.CVT.filtered_euler[2]))*(cosf(asinf(- (HES_AppData.CVT.filtered_vel_d) / (HES_AppData.CVT.filtered_airspeed))));
 
-    HES_AppData.HkTlm.windspeed[0] = sqrtf(wind_e*wind_e + wind_n*wind_n);
-    HES_AppData.HkTlm.windspeed[1] = (1.943844) * HES_AppData.HkTlm.windspeed[0];
-    HES_AppData.HkTlm.windspeed[2] = (3.6) * HES_AppData.HkTlm.windspeed[0];
-    HES_AppData.HkTlm.windspeed[3] = (2.236936) * HES_AppData.HkTlm.windspeed[0];
+    HES_AppData.HkTlm.windspeed.mps = sqrtf(wind_e*wind_e + wind_n*wind_n);
+    HES_AppData.HkTlm.windspeed.knots = (1.943844) * HES_AppData.HkTlm.windspeed.mps;
+    HES_AppData.HkTlm.windspeed.mph = (3.6) * HES_AppData.HkTlm.windspeed.mps;
+    HES_AppData.HkTlm.windspeed.kph = (2.236936) * HES_AppData.HkTlm.windspeed.mps;
 
-    HES_AppData.HkTlm.winddirection[0] = atan2f(wind_e, wind_n);
-    HES_AppData.HkTlm.winddirection[1] = (180/M_PI) * HES_AppData.HkTlm.winddirection[0];
+    HES_AppData.HkTlm.winddirection.degrees = atan2f(wind_e, wind_n);
+    HES_AppData.HkTlm.winddirection.radians = (180/M_PI) * HES_AppData.HkTlm.winddirection.degrees;
 
-    HES_AppData.HkTlm.groundtrackdirection[0] = atan2f(HES_AppData.CVT.filtered_vel_e, HES_AppData.CVT.filtered_vel_n);
-    HES_AppData.HkTlm.groundtrackdirection[1] = (180/M_PI) * HES_AppData.HkTlm.groundtrackdirection[0];
+    HES_AppData.HkTlm.groundtrackdirection.degrees = atan2f(HES_AppData.CVT.filtered_vel_e, HES_AppData.CVT.filtered_vel_n);
+    HES_AppData.HkTlm.groundtrackdirection.radians = (180/M_PI) * HES_AppData.HkTlm.groundtrackdirection.degrees;
 
     Quaternion_ConjugateInversed(vel_ned, HES_AppData.CVT.VAtt.Q, HES_AppData.HkTlm.vel_xyz);
 
@@ -742,15 +742,15 @@ void HES_ProcessCVT() {
     v_r = HES_AppData.HkTlm.vel_xyz[1] - wind_body[1];
 
     if (HES_AppData.CVT.filtered_airspeed != 0) {
-        HES_AppData.HkTlm.alpha[1] = HES_AppData.CVT.filtered_euler[1] - asinf(- (HES_AppData.CVT.filtered_vel_d) / (HES_AppData.CVT.filtered_airspeed));
-        HES_AppData.HkTlm.alpha[0] = HES_AppData.HkTlm.alpha[1] * (180/M_PI);
-        HES_AppData.HkTlm.beta[1] = asinf(v_r / HES_AppData.CVT.filtered_airspeed);
-        HES_AppData.HkTlm.beta[0] = HES_AppData.HkTlm.beta[1] * (180/M_PI);
+        HES_AppData.HkTlm.alpha.radians = HES_AppData.CVT.filtered_euler[1] - asinf(- (HES_AppData.CVT.filtered_vel_d) / (HES_AppData.CVT.filtered_airspeed));
+        HES_AppData.HkTlm.alpha.degrees = HES_AppData.HkTlm.alpha.radians * (180/M_PI);
+        HES_AppData.HkTlm.beta.radians = asinf(v_r / HES_AppData.CVT.filtered_airspeed);
+        HES_AppData.HkTlm.beta.degrees = HES_AppData.HkTlm.beta.radians * (180/M_PI);
     } else {
-        HES_AppData.HkTlm.alpha[0] = 0;
-        HES_AppData.HkTlm.alpha[1] = 0;
-        HES_AppData.HkTlm.beta[1] = 0;
-        HES_AppData.HkTlm.beta[0] = 0;
+        HES_AppData.HkTlm.alpha.degrees = 0;
+        HES_AppData.HkTlm.alpha.radians = 0;
+        HES_AppData.HkTlm.beta.radians = 0;
+        HES_AppData.HkTlm.beta.degrees = 0;
     }
 
     HES_AppData.HkTlm.VoltageFiltered = HES_AppData.CVT.BatteryStatus.VoltageFiltered;
