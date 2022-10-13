@@ -203,7 +203,7 @@ int32 HES_InitPipe()
                                  HES_DATA_PIPE_NAME);
     if (iStatus == CFE_SUCCESS)
     {
-        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_GLOBAL_POSITION_MID,
+        iStatus = CFE_SB_SubscribeEx(TO_CPD(PX4_VEHICLE_GLOBAL_POSITION_MID),
                 HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
         if(iStatus != CFE_SUCCESS)
         {
@@ -214,7 +214,7 @@ int32 HES_InitPipe()
         }
 
 
-        iStatus = CFE_SB_SubscribeEx(PX4_VEHICLE_ATTITUDE_MID,
+        iStatus = CFE_SB_SubscribeEx(TO_CPD(PX4_VEHICLE_ATTITUDE_MID),
                 HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
         if(iStatus != CFE_SUCCESS)
         {
@@ -224,7 +224,7 @@ int32 HES_InitPipe()
             goto HES_InitPipe_Exit_Tag;
         }
 
-        iStatus = CFE_SB_SubscribeEx(PX4_AIRSPEED_MID,
+        iStatus = CFE_SB_SubscribeEx(TO_CPD(PX4_AIRSPEED_MID),
                 HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
         if(iStatus != CFE_SUCCESS)
         {
@@ -234,7 +234,7 @@ int32 HES_InitPipe()
             goto HES_InitPipe_Exit_Tag;
         }
 
-        iStatus = CFE_SB_SubscribeEx(PX4_BATTERY_STATUS_MID, HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
+        iStatus = CFE_SB_SubscribeEx(TO_CPD(PX4_BATTERY_STATUS_MID), HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
             CFE_EVS_SendEvent(HES_INIT_ERR_EID, CFE_EVS_ERROR,
@@ -275,12 +275,6 @@ int32 HES_InitData()
     int32  iStatus=CFE_SUCCESS;
 
     memset((void*)&HES_AppData.CVT, 0x00, sizeof(HES_AppData.CVT));
-    CFE_SB_InitMsg((void*)&HES_AppData.CVT.Airspeed, PX4_AIRSPEED_MID, sizeof(HES_AppData.CVT.Airspeed), TRUE);
-    CFE_SB_InitMsg((void*)&HES_AppData.CVT.BatteryStatus, PX4_BATTERY_STATUS_MID, sizeof(HES_AppData.CVT.BatteryStatus), TRUE);
-    CFE_SB_InitMsg((void*)&HES_AppData.CVT.VAtt, PX4_VEHICLE_ATTITUDE_MID, sizeof(HES_AppData.CVT.VAtt), TRUE);
-    CFE_SB_InitMsg((void*)&HES_AppData.CVT.VGlobalPosition, PX4_VEHICLE_GLOBAL_POSITION_MID, sizeof(HES_AppData.CVT.VGlobalPosition), TRUE);
-    CFE_SB_InitMsg((void*)&HES_AppData.CVT.VLandDetected, PX4_VEHICLE_LAND_DETECTED_MID, sizeof(HES_AppData.CVT.VLandDetected), TRUE);
-    CFE_SB_InitMsg((void*)&HES_AppData.CVT.VehicleStatus, PX4_VEHICLE_STATUS_MID, sizeof(HES_AppData.CVT.VehicleStatus), TRUE);
 
     /* Init input data */
     memset((void*)&HES_AppData.InData, 0x00, sizeof(HES_AppData.InData));
@@ -497,42 +491,42 @@ void HES_ProcessNewData()
             DataMsgId = CFE_SB_GetMsgId(DataMsgPtr);
             switch (DataMsgId)
             {
-				case PX4_AIRSPEED_MID:
+				case TO_CPD(PX4_AIRSPEED_MID):
 				{
 					HES_AppData.HkTlm.AirSpeedMsgRcvCnt++;
 					CFE_PSP_MemCpy(&HES_AppData.CVT.Airspeed, DataMsgPtr, sizeof(HES_AppData.CVT.Airspeed));
 					break;
 				}
 
-				case PX4_BATTERY_STATUS_MID:
+				case TO_CPD(PX4_BATTERY_STATUS_MID):
 				{
 					HES_AppData.HkTlm.BatteryStatusMsgRcvCnt++;
 					CFE_PSP_MemCpy(&HES_AppData.CVT.BatteryStatus, DataMsgPtr, sizeof(HES_AppData.CVT.BatteryStatus));
 					break;
 				}
 
-				case PX4_VEHICLE_ATTITUDE_MID:
+				case TO_CPD(PX4_VEHICLE_ATTITUDE_MID):
 				{
 					HES_AppData.HkTlm.VAttMsgRcvCnt++;
 					CFE_PSP_MemCpy(&HES_AppData.CVT.VAtt, DataMsgPtr, sizeof(HES_AppData.CVT.VAtt));
 					break;
 				}
 
-				case PX4_VEHICLE_GLOBAL_POSITION_MID:
+				case TO_CPD(PX4_VEHICLE_GLOBAL_POSITION_MID):
 				{
 					HES_AppData.HkTlm.VGlobalPositionMsgRcvCnt++;
 					CFE_PSP_MemCpy(&HES_AppData.CVT.VGlobalPosition, DataMsgPtr, sizeof(HES_AppData.CVT.VGlobalPosition));
 					break;
 				}
 
-				case PX4_VEHICLE_LAND_DETECTED_MID:
+				case TO_CPD(PX4_VEHICLE_LAND_DETECTED_MID):
 				{
 					HES_AppData.HkTlm.VLandDetectedMsgRcvCnt++;
 					CFE_PSP_MemCpy(&HES_AppData.CVT.VLandDetected, DataMsgPtr, sizeof(HES_AppData.CVT.VLandDetected));
 					break;
 				}
 
-				case PX4_VEHICLE_STATUS_MID:
+				case TO_CPD(PX4_VEHICLE_STATUS_MID):
 				{
 					HES_AppData.HkTlm.VehicleStatusMsgRcvCnt++;
 					CFE_PSP_MemCpy(&HES_AppData.CVT.VehicleStatus, DataMsgPtr, sizeof(HES_AppData.CVT.VehicleStatus));
