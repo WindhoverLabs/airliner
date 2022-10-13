@@ -685,8 +685,8 @@ void HES_ProcessCVT() {
         (1 - (HES_AIRSPEED_FILTER_COEFF)) * HES_AppData.CVT.filtered_airspeed;
     HES_AppData.HkTlm.airspeed.mps = HES_AppData.CVT.filtered_airspeed;
     HES_AppData.HkTlm.airspeed.knots = (1.943844) * HES_AppData.CVT.filtered_airspeed;
-    HES_AppData.HkTlm.airspeed.mph = (3.6) * HES_AppData.CVT.filtered_airspeed;
-    HES_AppData.HkTlm.airspeed.kph = (2.236936) * HES_AppData.CVT.filtered_airspeed;
+    HES_AppData.HkTlm.airspeed.kph = (3.6) * HES_AppData.CVT.filtered_airspeed;
+    HES_AppData.HkTlm.airspeed.mph = (2.236936) * HES_AppData.CVT.filtered_airspeed;
 
     HES_AppData.CVT.filtered_groundspeed = 
         (HES_GROUNDSPEED_FILTER_COEFF) * (sqrtf(
@@ -695,8 +695,8 @@ void HES_ProcessCVT() {
         (1 - (HES_GROUNDSPEED_FILTER_COEFF)) * HES_AppData.CVT.filtered_groundspeed;
     HES_AppData.HkTlm.groundspeed.mps = HES_AppData.CVT.filtered_groundspeed;
     HES_AppData.HkTlm.groundspeed.knots = (1.943844) * HES_AppData.CVT.filtered_groundspeed;
-    HES_AppData.HkTlm.groundspeed.mph = (3.6) * HES_AppData.CVT.filtered_groundspeed;
-    HES_AppData.HkTlm.groundspeed.kph = (2.236936) * HES_AppData.CVT.filtered_groundspeed;
+    HES_AppData.HkTlm.groundspeed.kph = (3.6) * HES_AppData.CVT.filtered_groundspeed;
+    HES_AppData.HkTlm.groundspeed.mph = (2.236936) * HES_AppData.CVT.filtered_groundspeed;
 
     // HES_AppData.CVT.filtered_speed = 
     //     (HES_SPEED_FILTER_COEFF) * (sqrtf(
@@ -723,14 +723,14 @@ void HES_ProcessCVT() {
 
     HES_AppData.HkTlm.windspeed.mps = sqrtf(wind_e*wind_e + wind_n*wind_n);
     HES_AppData.HkTlm.windspeed.knots = (1.943844) * HES_AppData.HkTlm.windspeed.mps;
-    HES_AppData.HkTlm.windspeed.mph = (3.6) * HES_AppData.HkTlm.windspeed.mps;
-    HES_AppData.HkTlm.windspeed.kph = (2.236936) * HES_AppData.HkTlm.windspeed.mps;
+    HES_AppData.HkTlm.windspeed.kph = (3.6) * HES_AppData.HkTlm.windspeed.mps;
+    HES_AppData.HkTlm.windspeed.mph = (2.236936) * HES_AppData.HkTlm.windspeed.mps;
 
-    HES_AppData.HkTlm.winddirection.degrees = atan2f(wind_e, wind_n);
-    HES_AppData.HkTlm.winddirection.radians = (180/M_PI) * HES_AppData.HkTlm.winddirection.degrees;
+    HES_AppData.HkTlm.winddirection.radians = atan2f(wind_e, wind_n);
+    HES_AppData.HkTlm.winddirection.degrees = (180/M_PI) * HES_AppData.HkTlm.winddirection.degrees;
 
-    HES_AppData.HkTlm.groundtrackdirection.degrees = atan2f(HES_AppData.CVT.filtered_vel_e, HES_AppData.CVT.filtered_vel_n);
-    HES_AppData.HkTlm.groundtrackdirection.radians = (180/M_PI) * HES_AppData.HkTlm.groundtrackdirection.degrees;
+    HES_AppData.HkTlm.groundtrackdirection.radians = atan2f(HES_AppData.CVT.filtered_vel_e, HES_AppData.CVT.filtered_vel_n);
+    HES_AppData.HkTlm.groundtrackdirection.degrees = (180/M_PI) * HES_AppData.HkTlm.groundtrackdirection.degrees;
 
     Quaternion_ConjugateInversed(vel_ned, HES_AppData.CVT.VAtt.Q, HES_AppData.HkTlm.vel_xyz);
 

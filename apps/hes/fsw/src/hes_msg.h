@@ -246,7 +246,7 @@ typedef struct
     HES_WindDirection winddirection;
     HES_GroundTrackDirection groundtrackdirection;
     float altitude[3];
-    HES_Vel_D vel_d[2];
+    HES_Vel_D vel_d;
     HES_Alpha alpha;
     HES_Beta beta;
     float vel_xyz[3];
