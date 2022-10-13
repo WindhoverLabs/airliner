@@ -52,6 +52,8 @@ extern "C" {
 /************************************************************************
 ** Local Defines
 *************************************************************************/
+#define HES_MAX_WAYPOINTS 32
+
 
 /************************************************************************
 ** HES Command Codes
@@ -163,6 +165,13 @@ typedef struct
     uint32  uiCounter;
 } HES_OutData_t;
 
+typedef struct {
+    double Lat;
+    double Lon;
+    float Alt;
+    float radius;
+} HES_WayPoint_t;
+
 /** 
 **  \brief HES application housekeeping data
 */
@@ -203,11 +212,15 @@ typedef struct
     float   Remaining;
     PX4_BatteryWarningSeverity_t Warning;
 
+    HES_WayPoint_t way_points[HES_MAX_WAYPOINTS];
+    uint32 num_way_points;
+    boolean way_points_valid;
+
     boolean RcSignalLost;
-    PX4_NavigationState_t NavState;
-    PX4_ArmingState_t ArmingState;
     boolean EngineFailure;
     boolean landed;
+    PX4_NavigationState_t NavState;
+    PX4_ArmingState_t ArmingState;
 
     uint32 AirSpeedMsgRcvCnt;
     uint32 BatteryStatusMsgRcvCnt;
