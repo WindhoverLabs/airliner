@@ -116,12 +116,6 @@ buildliner_add_app(
     DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/rhapsody/fsw/LangCpp/for_build
 )
 
-buildliner_add_app(
-    rhapapp
-    EMBEDDED
-    DEFINITION ../mdl/RhapApp/DefaultConfig/for_build
-)
-
 
 # sch_custom_v1.c:  Traditional platform independent layer that uses OS_Timer 
 #                   to drive minor frames.
@@ -247,8 +241,7 @@ buildliner_add_app(
 buildliner_add_app(
     vm
     EMBEDDED
-    DEFINITION ${PROJECT_SOURCE_DIR}/apps/vm/fsw/for_build
-    CONFIG     ${CMAKE_CURRENT_SOURCE_DIR}/../../apps/vm
+    DEFINITION ${PROJECT_SOURCE_DIR}/../private/apps/va/vm/fsw/for_build
 )
 
 buildliner_add_app(

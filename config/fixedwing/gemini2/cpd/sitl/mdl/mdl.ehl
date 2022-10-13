@@ -1,3 +1,6 @@
 [Op Calls]
 [Events]
+VM[0]->GEN(evAltitudeControl())`apps::VM::VM
+VM[0]->GEN(evAltitudeControl())`VM
+VM[0]->GEN(evHeadingControl())`VM
 [Breakpoints]

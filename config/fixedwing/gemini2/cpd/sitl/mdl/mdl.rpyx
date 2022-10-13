@@ -12,8 +12,8 @@
 			<_id type="a">GUID 1b07d5d7-347a-419a-98b1-37ee5b4aa36a</_id>
 			<_myState type="a">8192</_myState>
 			<_name type="a">mdl</_name>
-			<_modifiedTimeWeak type="a">10.11.2022::23:10:59</_modifiedTimeWeak>
-			<_modifiedTime type="a">10.11.2022::23:10:59</_modifiedTime>
+			<_modifiedTimeWeak type="a">10.13.2022::16:39:19</_modifiedTimeWeak>
+			<_modifiedTime type="a">10.13.2022::16:39:19</_modifiedTime>
 			<_lastID type="a">2</_lastID>
 			<_UserColors type="w">
 				<IRPYRawContainer type="e">
@@ -45,8 +45,8 @@
 			<_component type="r">
 				<IHandle type="e">
 					<_hm2Class type="a">IComponent</_hm2Class>
-					<_hname type="a">RhapAppComponent</_hname>
-					<_hid type="a">GUID 6ecc751c-cdde-406d-81eb-070df47be2d5</_hid>
+					<_hname type="a">VMComponent</_hname>
+					<_hid type="a">GUID da91a3c5-464b-4de6-a00b-e5b57e19081e</_hid>
 				</IHandle>
 			</_component>
 			<Multiplicities type="c">
@@ -88,7 +88,7 @@
 				<value>GUID f7866174-1c8e-4ce6-b06e-cfe6b95b5f15</value>
 				<value>GUID f88530b4-de6c-45b0-9718-32176ed12254</value>
 				<value>GUID 360de7e3-082b-4c36-9826-cdbfc6f91f2d</value>
-				<value>GUID 6ecc751c-cdde-406d-81eb-070df47be2d5</value>
+				<value>GUID da91a3c5-464b-4de6-a00b-e5b57e19081e</value>
 			</AggregatesList>
 		</IProject>
 		<IProfile type="e">
@@ -238,8 +238,8 @@
 			</Operations>
 		</CGIClass>
 		<IComponent type="e">
-			<fileName type="a">RhapAppComponent</fileName>
-			<_id type="a">GUID 6ecc751c-cdde-406d-81eb-070df47be2d5</_id>
+			<fileName type="a">VMComponent</fileName>
+			<_id type="a">GUID da91a3c5-464b-4de6-a00b-e5b57e19081e</_id>
 		</IComponent>
 		
 	</RHAPSODY-MODEL>
