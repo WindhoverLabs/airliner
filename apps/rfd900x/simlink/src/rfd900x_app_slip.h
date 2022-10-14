@@ -62,28 +62,7 @@ extern "C" {
 /************************************************************************
 ** Local Defines
 *************************************************************************/
-#define RFD900X_TIMEOUT_MSEC             	(1000)
-
-#define UART_BUFFER_SIZE                        (1500)
-
-/* UART In message */
-#pragma pack(push, 1)
-typedef struct
-{
-	UART_QueueDataHdr_t Hdr;
-    volatile uint8      Buffer[UART_BUFFER_SIZE];
-} UART_QueueDataCmd_t;
-#pragma pack(pop)
-
-/* UART In message */
-#pragma pack(push, 1)
-typedef struct
-{
-    UART_StatusHdr_t    Hdr;
-    volatile uint8      RxBuffer[UART_BUFFER_SIZE];
-} UART_StatusTlm_t;
-#pragma pack(pop)
-
+#define RFD900X_TIMEOUT_MSEC (1000)
 
 /************************************************************************
 ** Local Structure Definitions
