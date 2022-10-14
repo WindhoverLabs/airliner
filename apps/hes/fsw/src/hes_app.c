@@ -637,7 +637,7 @@ void HES_ProcessCVT() {
 
     HES_AppData.HkTlm.altitude[0] = HES_AppData.CVT.VGlobalPosition.Alt;
     HES_AppData.HkTlm.altitude[1] = 3.28084 * HES_AppData.CVT.VGlobalPosition.Alt;
-    HES_AppData.HkTlm.altitude[0] = HES_AppData.CVT.VGlobalPosition.Alt / 3;
+    HES_AppData.HkTlm.altitude[2] = HES_AppData.HkTlm.altitude[1] / 3;
 
     HES_AppData.HkTlm.Lat = HES_AppData.CVT.VGlobalPosition.Lat;
     HES_AppData.HkTlm.Lon = HES_AppData.CVT.VGlobalPosition.Lon;
