@@ -121,8 +121,8 @@ void Test_TO_InitEvent_Fail_Custom_Bad_Ind(void)
     TO_InitEvent();
 
     UtAssert_True(Ut_CFE_ES_SysLogWritten(
-             "TO - Custom Init Event error: event table index out of range. Custom EID filters not set."),
-             "InitEvent(), Fail Custom_Bad_Ind");
+      "TO - Custom Init Event error: event table index out of range. Custom EID filters not set."),
+      "InitEvent(), Fail Custom_Bad_Ind");
 }
 
 /**
@@ -137,8 +137,8 @@ void Test_TO_InitEvent_Fail_Custom_Index_Occupied(void)
     TO_InitEvent();
 
     UtAssert_True(Ut_CFE_ES_SysLogWritten(
-        "TO - Custom Init Event error: event table occupied at starting index. Custom EID filters not set."),
-        "InitEvent(), Fail Custom_Index_Occupied");
+     "TO - Custom Init Event error: event table occupied at starting index. Custom EID filters not set."),
+     "InitEvent(), Fail Custom_Index_Occupied");
 
 }
 
@@ -148,14 +148,15 @@ void Test_TO_InitEvent_Fail_Custom_Index_Occupied(void)
 void Test_TO_InitEvent_Fail_Custom_Too_Many(void)
 {
     /* Set fail return for TO_Custom_InitEvent()*/
-    Ut_TO_Custom_SetReturnCode(UT_TO_CUSTOM_INITEVENT_INDEX, TO_CUSTOM_INITEVENT_TOO_MANY_FILTERS, 1);
+    Ut_TO_Custom_SetReturnCode(UT_TO_CUSTOM_INITEVENT_INDEX,
+                               TO_CUSTOM_INITEVENT_TOO_MANY_FILTERS, 1);
 
     /* Execute the function being tested*/
     TO_InitEvent();
 
     UtAssert_True(Ut_CFE_ES_SysLogWritten(
-          "TO - Custom Init Event error: Filter limit reached. Some custom EID filters not set."),
-          "InitEvent(), Fail Custom_Too_Many");
+      "TO - Custom Init Event error: Filter limit reached. Some custom EID filters not set."),
+      "InitEvent(), Fail Custom_Too_Many");
 }
 
 /**
@@ -286,15 +287,14 @@ void Test_TO_InitPipe_Fail_SubscribeCMD(void)
 void Test_TO_InitData(void)
 {
     /* Set a fail result */
-    int32 result = -1;
-    int32 expected = CFE_SUCCESS;
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_SOFTWARE_BUS_SERVICE | CFE_SB_NOT_IMPLEMENTED;
+    int32           expected = CFE_SUCCESS;
 
     /* Execute the function being tested */
     result = TO_InitData();
 
     /* Verify results */
-    UtAssert_True (CFE_SB_GetMsgId((CFE_SB_MsgPtr_t)&TO_AppData.HkTlm) == TO_HK_TLM_MID,
-                   "InitData success - TO_HK_TLM_MID subscribed");
     UtAssert_True (result == expected, "InitData");
 }
 
@@ -307,7 +307,9 @@ void Test_TO_InitData_FailAppMutSemCreate(void)
     int32 expectedReturn = OS_ERROR;
 
     char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
-    sprintf(expectedEvent, "Init Data: Failed to create TO_AppData mutex: 0x%08lX", (unsigned long)expectedReturn);
+    sprintf(expectedEvent,
+            "Init Data: Failed to create TO_AppData mutex: 0x%08lX",
+            (unsigned long)expectedReturn);
 
     /* Set a fail result */
     Ut_OSAPI_SetReturnCode(UT_OSAPI_MUTSEMCREATE_INDEX, OS_ERROR, 1);
@@ -580,7 +582,7 @@ void Test_TO_AppMain_Fail_RcvMsg(void)
 /**
  * Test TO_AppMain(), ProcessTelemetry_PriorityPreemption1
  */
-void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)   // check the MsgLen
+void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)
 {
     int32            iStatus = CFE_SUCCESS;
     int32            SchPipe;
@@ -726,7 +728,7 @@ void Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1(void)   // check the M
     MsgLen = 0;
     iStatus = TO_OutputQueue_GetMsg(&TO_AppData.ChannelData[0], &msgPtr, OS_CHECK);
     MsgId = CFE_SB_GetMsgId(msgPtr);
-    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);
+    MsgLen = CFE_SB_GetTotalMsgLength(msgPtr);  // MsgLen was ajusted
     printf("####ProcessTelemetry_PriorityPreemption1:MsgId(%u), MsgLen(%u)\n", MsgId, MsgLen);
     UtAssert_True(MsgId == CFE_SB_STATS_TLM_MID, "1-8: Low Priority");
 
@@ -1495,7 +1497,7 @@ void Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Fail(void)
 /**
  * Test Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Success()
  */
-void Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Success(void)   // check this
+void Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Success(void)
 {
     uint16  ChannelIdx = 0;
     int32 iStatus = 0;
@@ -1504,7 +1506,6 @@ void Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Success(void)   // check t
     char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     /* Set return codes */
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_PUTPOOLBUF_INDEX, 16, 1);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_SUCCESS, 1);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_ERROR, 2);
@@ -1858,11 +1859,12 @@ void Test_TO_MessageFlow_GetPQueue_Idx_Null(void)
  */
 void Test_TO_MessageFlow_Reset_All_Counts_Channel_NULL(void)
 {
-    TO_NoArgCmd_t InSchMsg;
+    uint16            ChannelIdx = 0;
+    int               i = 0;
+    boolean           result = TRUE;
 
     TO_ChannelData_t* channel = NULL;
 
-    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
     Ut_OSAPI_SetReturnCode(UT_OSAPI_QUEUEGET_INDEX, OS_QUEUE_EMPTY, 0);
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEGET_INDEX);
 
@@ -1870,10 +1872,23 @@ void Test_TO_MessageFlow_Reset_All_Counts_Channel_NULL(void)
     Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
 
     /* Execute the function being tested */
+    TO_InitApp();
+
+    channel = &TO_AppData.ChannelData[ChannelIdx];
     TO_MessageFlow_ResetCountsAll(channel);
 
     /* Verify results */
-    //UtAssert_True (result == expected, "MessageFlow_Reset_All_Counts_Channel_NULL");
+    for (i = 0; i < TO_MAX_MESSAGE_FLOWS; i++)
+    {
+        if ((channel->DumpTbl.MessageFlow[i].QueuedMsgCnt != 0) ||
+            (channel->DumpTbl.MessageFlow[i].SBMsgCnt != 0))
+        {
+            result = FALSE;
+            break;
+        }
+    }
+
+    UtAssert_True (result, "MessageFlow_Reset_All_Counts_Channel_NULL");
 }
 
 
@@ -2705,8 +2720,7 @@ void Test_TO_Channel_LockByRef_Mutex_Take_Failure(void)
     TO_Channel_LockByRef(channel);
 
     sprintf(expectedEvent, "Channel lock mutex failure (%i) on channel %d.",
-            OS_ERROR,
-            ChannelIdx);
+            OS_ERROR, ChannelIdx);
 
     /* Verify results */
     UtAssert_EventSent(TO_CHANNEL_LOCK_MUTEX_ERR_EID, CFE_EVS_ERROR,
@@ -2739,8 +2753,7 @@ void Test_TO_Channel_UnlockByRef_Mutex_Give_Failure(void)
     TO_Channel_UnlockByRef(channel);
 
     sprintf(expectedEvent, "Channel unlock mutex failure (%i) on channel %d.",
-            OS_ERROR,
-            ChannelIdx);
+            OS_ERROR, ChannelIdx);
 
     /* Verify results */
     UtAssert_EventSent(TO_CHANNEL_UNLOCK_MUTEX_ERR_EID, CFE_EVS_ERROR,
@@ -2772,7 +2785,8 @@ void Test_TO_Channel_InitAll_Mutex_Create_Failure(void)
 
     TO_Channel_InitAll();
 
-    UtAssert_True(channel->State == TO_CHANNEL_UNKNOWN, "Channel_InitAll_Mutex_Create_Failure");
+    UtAssert_True(channel->State == TO_CHANNEL_UNKNOWN,
+                  "Channel_InitAll_Mutex_Create_Failure");
 }
 
 /**
@@ -2796,13 +2810,15 @@ void Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure(void)
 
     TO_Channel_CleanupAll();
 
-    /* TO_Channel_CleanupAll does not return a status, TO_PriorityQueue_TeardownAll does and it's OS_ERROR */
-    sprintf(expectedEvent, "Failed to tear down priority queues on channel %d, missing table.",
-            (int)ChannelIdx);
+    /* TO_Channel_CleanupAll does not return a status,
+            TO_PriorityQueue_TeardownAll does and it's OS_ERROR */
+    sprintf(expectedEvent,
+           "Failed to tear down priority queues on channel %d, missing table.",
+           (int)ChannelIdx);
 
     /* Verify results */
-    UtAssert_EventSent(TO_PQUEUE_MISSING_TBL_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Channel_CleanupAll_PriorityQueue_TeardownAll_Failure");
+    UtAssert_EventSent(TO_PQUEUE_MISSING_TBL_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+             "Channel_CleanupAll_PriorityQueue_TeardownAll_Failure");
 }
 
 /**
@@ -2837,14 +2853,14 @@ void Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure(void)
 
     TO_Channel_CleanupAll();
 
-    /* TO_Channel_CleanupAll does not return a status, TO_OutputQueue_Teardown Custom returns -1 */
+    /* TO_Channel_CleanupAll does not return a status,
+                  TO_OutputQueue_Teardown Custom returns -1 */
     sprintf(expectedEvent, "Output Queue Teardown failure %d on channel %u.",
-            -1,
-            ChannelIdx);
+            -1, ChannelIdx);
 
     /* Verify results */
-    UtAssert_EventSent(TO_CHANNEL_TEARDOWN_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Channel_CleanupAll_OutputQueue_Teardown_Failure");
+    UtAssert_EventSent(TO_CHANNEL_TEARDOWN_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+             "Channel_CleanupAll_OutputQueue_Teardown_Failure");
 }
 
 /**
@@ -2879,7 +2895,7 @@ void Test_TO_Channel_Cleanup_Index_Out_Of_Range_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CHANNEL_OUT_OF_RANGE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Channel_Cleanup_Index_Out_Of_Range_Failure");
+             expectedEvent, "Channel_Cleanup_Index_Out_Of_Range_Failure");
 }
 
 /**
@@ -2896,7 +2912,8 @@ void Test_TO_Channel_Init_Index_Out_Of_Range_Failure(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX,
+                                 (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -2914,7 +2931,7 @@ void Test_TO_Channel_Init_Index_Out_Of_Range_Failure(void)
 
     /* Verify results */
     UtAssert_EventSent(TO_CHANNEL_OUT_OF_RANGE_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "Channel_Init_Index_Out_Of_Range_Failure");
+             expectedEvent, "Channel_Init_Index_Out_Of_Range_Failure");
 }
 
 
@@ -2926,21 +2943,64 @@ void Test_TO_Channel_Init_Index_Out_Of_Range_Failure(void)
  */
 void Test_TO_Scheduler_Run_OS_Max_Queues(void)
 {
-    uint16                  ChannelIdx = 0;
-    TO_ChannelData_t*       channel = NULL;
+    uint16                ChannelIdx = 0;
+    int32                 SchPipe;
+    int32                 DataPipe;
+    TO_NoArgCmd_t         InSchMsg;
+    TO_ChannelData_t*     channel = NULL;
+
+    CFE_ES_HkPacket_t     msgCfeEsHk;
+    CFE_EVS_TlmPkt_t      msgCfeEvsHk;
+    CFE_SB_HKMsg_t        msgCfeSbHk;
+
+    char expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    /* The following will emulate behavior of receiving a SCH message to WAKEUP,
+       and processing a full pipe of telemetry messages. */
+    SchPipe = Ut_CFE_SB_CreatePipe("TO_SCH_PIPE");
+    CFE_SB_InitMsg (&InSchMsg, TO_SEND_TLM_MID, sizeof(InSchMsg), TRUE);
+    Ut_CFE_SB_AddMsgToPipe(&InSchMsg, SchPipe);
+
+    DataPipe = Ut_CFE_SB_CreatePipe("TO_UDP_2");
+
+    /* Initialize a bunch of telemetry messages for downlink. */
+    CFE_SB_InitMsg (&msgCfeEsHk, CFE_ES_HK_TLM_MID, sizeof(msgCfeEsHk), TRUE);
+    CFE_SB_InitMsg (&msgCfeEvsHk, CFE_EVS_HK_TLM_MID, sizeof(msgCfeEvsHk), TRUE);
+    CFE_SB_InitMsg (&msgCfeSbHk, CFE_SB_HK_TLM_MID, sizeof(msgCfeSbHk), TRUE);
+
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEsHk, DataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeEvsHk, DataPipe);
+    Ut_CFE_SB_AddMsgToPipe(&msgCfeSbHk, DataPipe);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX,
+                             (void *)&TO_Custom_InitHook);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUECREATE_INDEX,
+                             (void *)&Ut_OSAPI_QueueCreateHook);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEPUT_INDEX,
+                             (void *)&Ut_OSAPI_QueuePutHook);
+    Ut_OSAPI_SetFunctionHook(UT_OSAPI_QUEUEGET_INDEX,
+                             (void *)&Ut_OSAPI_QueueGetHook);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_GETPOOLBUF_INDEX,
+                             (void *)&Ut_CFE_ES_GetPoolBuf);
+    Ut_CFE_ES_SetFunctionHook(UT_CFE_ES_PUTPOOLBUF_INDEX,
+                             (void *)&Ut_CFE_ES_PutPoolBuf);
 
     /* Initialize app*/
     TO_InitApp();
 
     /* Get channel data information */
-    channel = &TO_AppData.ChannelData[0];
+    channel = &TO_AppData.ChannelData[ChannelIdx];
 
     channel->OutputQueue.OSALQueueID = OS_MAX_QUEUES;
 
     TO_Scheduler_Run(channel);
+
+    sprintf(expectedEvent, "OS_QueuePut failed: channel=%d size=%u error=%i",
+            (int)channel->channelIdx, 4, OS_ERR_INVALID_ID);
+
+    UtAssert_EventSent(TO_OSQUEUE_PUT_ERROR_EID, CFE_EVS_ERROR,
+                       expectedEvent, "Scheduler_Run_OS_Max_Queues");
 }
 
 /**
@@ -2956,7 +3016,8 @@ void Test_TO_Scheduler_Run_QueueMsg_Fail(void)
     Ut_OSAPI_ContinueReturnCodeAfterCountZero(UT_OSAPI_QUEUEPUT_INDEX);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX,
+                                 (void *)&TO_Custom_InitHook);
 
     /* Initialize app*/
     TO_InitApp();
@@ -2976,7 +3037,8 @@ void Test_TO_Scheduler_Run_HighwaterMark(void)
     TO_ChannelData_t*       channel = NULL;
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX,
+                                 (void *)&TO_Custom_InitHook);
 
     /* Initialize app*/
     TO_InitApp();
@@ -3001,7 +3063,8 @@ void Test_TO_ReportHousekeeping_Ground(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX,
+                                 (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -3022,7 +3085,8 @@ void Test_TO_ReportHousekeeping_UnknownChannelID(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX,
+                                 (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -3033,9 +3097,9 @@ void Test_TO_ReportHousekeeping_UnknownChannelID(void)
 }
 
 /**
- * Test Test_TO_SendDiag_Ground()
+ * Test Test_TO_SendDiag_Ground, NullPtr_Table
  */
-void Test_TO_SendDiag_Ground(void)   // check this
+void Test_TO_SendDiag_Ground_NullPtr_Table(void)
 {
     uint16  ChannelIdx = 0;
     TO_ChannelData_t* channel;
@@ -3045,7 +3109,8 @@ void Test_TO_SendDiag_Ground(void)   // check this
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Set function hook for TO_Custom_Init */
-    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX, (void *)&TO_Custom_InitHook);
+    Ut_TO_Custom_SetFunctionHook(UT_TO_CUSTOM_INIT_INDEX,
+                                 (void *)&TO_Custom_InitHook);
 
     TO_InitApp();
 
@@ -3061,7 +3126,7 @@ void Test_TO_SendDiag_Ground(void)   // check this
 
     /* Verify results */
     UtAssert_EventSent(TO_CMD_SEND_MISSING_TBL_ERR_EID, CFE_EVS_ERROR,
-                       expectedEvent, "SendDiag_Ground");
+                       expectedEvent, "SendDiag_Ground_NullPtr_Table");
 }
 
 
@@ -3071,7 +3136,7 @@ void Test_TO_SendDiag_Ground(void)   // check this
 /**
  * Test Test_TO_RcvMsg_noMsg()
  */
-void Test_TO_RcvMsg_noMsg(void)    // check this
+void Test_TO_RcvMsg_noMsg(void)
 {
     int32 result = -99;
     char outputText[CFE_EVS_MAX_MESSAGE_LENGTH];
@@ -3111,8 +3176,9 @@ void Test_TO_RcvMsg_receiveError(void)
 {
     char outputText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    /* Implementation doesn't distinguish between error types except on return type.
-     * The call to CFE_EVS_SendEvent records the same event type regardless.  Is that sufficient? */
+    /* Implementation doesn't distinguish between error types except on
+     * return type. The call to CFE_EVS_SendEvent records the same event type
+     * regardless. Is that sufficient? */
     int32 result = -99;
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SB_BAD_ARGUMENT, 1);
@@ -3161,7 +3227,8 @@ void Test_TO_RcvMsg_sendTlmMsgId(void)
     int32 result = -99;
     char outputText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_RCVMSG_INDEX, (void *)&CFE_SB_SendMsg_TO_RcvMsgHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_RCVMSG_INDEX,
+                              (void *)&CFE_SB_SendMsg_TO_RcvMsgHook);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, TO_SEND_TLM_MID, 1);
     Ut_CFE_SB_ContinueReturnCodeAfterCountZero(UT_CFE_SB_GETMSGID_INDEX);
 
@@ -3179,12 +3246,12 @@ void Test_TO_RcvMsg_sendTlmMsgId(void)
 void Test_TO_RcvMsg_sendHkMsgId(void)
 {
     int32 result = -99;
-//    TO_test_sendMsg_msgPtr = NULL;
     char outputText[CFE_EVS_MAX_MESSAGE_LENGTH];
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, TO_SEND_HK_MID, 1);
-    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX, (void *)&CFE_SB_SendMsg_TO_RcvMsgHook);
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+                              (void *)&CFE_SB_SendMsg_TO_RcvMsgHook);
 
     result = TO_RcvMsg(TO_SCH_PIPE_PEND_TIME);
 
@@ -3196,7 +3263,8 @@ void Test_TO_RcvMsg_sendHkMsgId(void)
     sprintf(outputText, "expected = %p, actual = %p",
             &TO_AppData.HkTlm, TO_test_sendMsg_msgPtr);
 
-    UtAssert_True((void *)TO_test_sendMsg_msgPtr == (void *)&TO_AppData.HkTlm, outputText);
+    UtAssert_True((void *)TO_test_sendMsg_msgPtr == (void *)&TO_AppData.HkTlm,
+                  outputText);
 }
 
 
@@ -3207,226 +3275,317 @@ void Test_TO_RcvMsg_sendHkMsgId(void)
 void TO_App_Test_AddTestCases(void)
 {
     /* Test for TO_InitEvent() */
-    UtTest_Add(Test_TO_InitEvent_Fail_Register, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitEvent_Fail_Register,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitEvent_Fail_Register");
-    UtTest_Add(Test_TO_InitEvent_Fail_Custom_Bad_Ind, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitEvent_Fail_Custom_Bad_Ind,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitEvent_Fail_Custom_Bad_Ind");
-    UtTest_Add(Test_TO_InitEvent_Fail_Custom_Index_Occupied, TO_Test_Setup_NoConfig, TO_Test_TearDown,
-                "Test_TO_InitEvent_Fail_Custom_Index_Occupied");
-    UtTest_Add(Test_TO_InitEvent_Fail_Custom_Too_Many, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitEvent_Fail_Custom_Index_Occupied,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
+               "Test_TO_InitEvent_Fail_Custom_Index_Occupied");
+    UtTest_Add(Test_TO_InitEvent_Fail_Custom_Too_Many,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitEvent_Fail_Custom_Too_Many");
-    UtTest_Add(Test_TO_InitEvent_Fail_Custom_Unknown, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitEvent_Fail_Custom_Unknown,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitEvent_Fail_Custom_Unknown");
 
     /* Test for TO_InitPipe() */
-    UtTest_Add(Test_TO_InitPipe_Fail_CreateSCHPipe, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitPipe_Fail_CreateSCHPipe,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitPipe_Fail_CreateSCHPipe");
-    UtTest_Add(Test_TO_InitPipe_Fail_SubscribeWakeup, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitPipe_Fail_SubscribeWakeup,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitPipe_Fail_SubscribeWakeup");
-    UtTest_Add(Test_TO_InitPipe_Fail_SubscribeSendHK, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitPipe_Fail_SubscribeSendHK,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitPipe_Fail_SubscribeSendHK");
-    UtTest_Add(Test_TO_InitPipe_Fail_CreateCMDPipe, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitPipe_Fail_CreateCMDPipe,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitPipe_Fail_CreateCMDPipe");
-    UtTest_Add(Test_TO_InitPipe_Fail_SubscribeCMD, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitPipe_Fail_SubscribeCMD,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitPipe_Fail_SubscribeCMD");
 
     /**** Tests for TO_InitData() */
-    UtTest_Add(Test_TO_InitData, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitData,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitData");
-    UtTest_Add(Test_TO_InitData_FailAppMutSemCreate, TO_Test_Setup_NoConfig, TO_Test_TearDown,
-               "Test_TO_InitData Fail App MutSemCreate");
+    UtTest_Add(Test_TO_InitData_FailAppMutSemCreate,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
+               "Test_TO_InitData_FailAppMutSemCreate");
 
     /**** Tests for TO_InitApp() */
-    UtTest_Add(Test_TO_InitApp_Fail_InitEvent, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitApp_Fail_InitEvent,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitApp_Fail_InitEvent");
-    UtTest_Add(Test_TO_InitApp_Fail_InitPipe, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitApp_Fail_InitPipe,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitApp_Fail_InitPipe");
-    UtTest_Add(Test_TO_InitApp_Fail_InitData, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitApp_Fail_InitData,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitApp_Fail_InitData");
-    UtTest_Add(Test_TO_InitApp_Fail_ChannelInitAll, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitApp_Fail_ChannelInitAll,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitApp_Fail_ChannelInitAll");
-    UtTest_Add(Test_TO_InitApp_Fail_CustomInit, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitApp_Fail_CustomInit,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitApp_Fail_CustomInit");
-    UtTest_Add(Test_TO_InitApp_Nominal, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_InitApp_Nominal,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_InitApp_Nominal");
 
     /**** Tests for AppMain() */
-    UtTest_Add(Test_TO_AppMain_Fail_RegisterApp, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_AppMain_Fail_RegisterApp,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_AppMain_Fail_RegisterApp");
-    UtTest_Add(Test_TO_AppMain_Fail_InitApp, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_AppMain_Fail_InitApp,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_AppMain_Fail_InitApp");
-    UtTest_Add(Test_TO_AppMain_InvalidSchMessage, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_AppMain_InvalidSchMessage,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_AppMain_InvalidSchMessage");
-    UtTest_Add(Test_TO_AppMain_Nominal_SendHK, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_AppMain_Nominal_SendHK,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_AppMain_Nominal_SendHK");
-    UtTest_Add(Test_TO_AppMain_Nominal_Wakeup, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_AppMain_Nominal_Wakeup,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_AppMain_Nominal_Wakeup");
-    UtTest_Add(Test_TO_AppMain_ProcessNewData_InvalidMsgID, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_AppMain_ProcessNewData_InvalidMsgID,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_AppMain_ProcessNewData_InvalidMsgID");
-    UtTest_Add(Test_TO_AppMain_Fail_RcvMsg, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_AppMain_Fail_RcvMsg,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_AppMain_Fail_RcvMsg");
 
     /* Traffic shaping algorithm */
-    UtTest_Add(Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_AppMain_ProcessTelemetry_PriorityPreemption1");
-    UtTest_Add(Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2, TO_Test_Setup_FullConfig2, TO_Test_TearDown,
+    UtTest_Add(Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2,
+               TO_Test_Setup_FullConfig2, TO_Test_TearDown,
                "Test_TO_AppMain_ProcessTelemetry_PriorityPreemption2");
-    UtTest_Add(Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3, TO_Test_Setup_FullConfig3, TO_Test_TearDown,
+    UtTest_Add(Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3,
+               TO_Test_Setup_FullConfig3, TO_Test_TearDown,
                "Test_TO_AppMain_ProcessTelemetry_PriorityPreemption3");
 
     /* Tests for checking TO NULL Pointers */
-    UtTest_Add(Test_TO_NULL_Ptr_check, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_NULL_Ptr_check,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check");
 #if 0   // core dump(#225)
-    UtTest_Add(Test_TO_NULL_Ptr_check_PQ_buildup, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_NULL_Ptr_check_PQ_buildup,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check_PQ_buildup");
 #endif
 #if 0   // core dump (#225)
-    UtTest_Add(Test_TO_NULL_Ptr_check_PQ_buildup_channel_ptr_null, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_NULL_Ptr_check_PQ_buildup_channel_ptr_null,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check_PQ_buildup_channel_ptr_null");
 #endif
-    UtTest_Add(Test_TO_NULL_Ptr_check1, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_NULL_Ptr_check1,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check1");
-    UtTest_Add(Test_TO_NULL_Ptr_check2, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_NULL_Ptr_check2,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check2");
-    UtTest_Add(Test_TO_NULL_Ptr_check_Scheduler, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_NULL_Ptr_check_Scheduler,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_NULL_Ptr_check_Scheduler");
 
     /**** Tests for TO Output Queue */
-    UtTest_Add(Test_TO_Output_Queue_Buildup_QueueCreate_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_Output_Queue_Buildup_QueueCreate_Fail,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_Output_Queue_Buildup_QueueCreate_Fail");
-    UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut");
-    UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Fail");
-    UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_QueueMsg_QueuePut_PutPoolBuf_Success");
-    UtTest_Add(Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Fail,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Fail");
-    UtTest_Add(Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Success, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Success,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_Teardown_QueueGet_PutPoolBuf_Success");
-    UtTest_Add(Test_TO_OutputQueue_Teardown_QueueGet_Queue_Empty, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_OutputQueue_Teardown_QueueGet_Queue_Empty,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_OutputQueue_Teardown_QueueGet_Queue_Empty");
 
     /**** Tests for TO Message Flow */
-    UtTest_Add(Test_TO_MessageFlow_GetObject_ConfigTblPtr_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_MessageFlow_GetObject_ConfigTblPtr_NULL,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetObject_ConfigTblPtr_NULL");
-    UtTest_Add(Test_TO_MessageFlow_GetObject_Channel_Ptr_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_MessageFlow_GetObject_Channel_Ptr_NULL,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetObject_Channel_Ptr_NULL");
-    UtTest_Add(Test_TO_MessageFlow_GetPQueue_MsgFlow_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_MessageFlow_GetPQueue_MsgFlow_NULL,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetPQueue_MsgFlow_NULL");
-    UtTest_Add(Test_TO_MessageFlow_GetPQueue_ConfigTblPtr_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_MessageFlow_GetPQueue_ConfigTblPtr_NULL,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetPQueue_ConfigTblPtr_NULL");
-    UtTest_Add(Test_TO_MessageFlow_GetPQueue_ChannelPtr_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_MessageFlow_GetPQueue_ChannelPtr_NULL,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetPQueue_ChannelPtr_NULL");
-    UtTest_Add(Test_TO_MessageFlow_GetPQueue_Idx_Max_Priority_Queues, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_MessageFlow_GetPQueue_Idx_Max_Priority_Queues,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetPQueue_Idx_Max_Priority_Queues");
-    UtTest_Add(Test_TO_MessageFlow_GetPQueue_Idx_Null, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_MessageFlow_GetPQueue_Idx_Null,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_GetPQueue_Idx_Null");
-    UtTest_Add(Test_TO_MessageFlow_Reset_All_Counts_Channel_NULL, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_MessageFlow_Reset_All_Counts_Channel_NULL,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_MessageFlow_Reset_All_Counts_Channel_NULL");
 
     /* Tests for TO Priority Queue */
-    UtTest_Add(Test_TO_Priority_Queue_Buildup_QueueCreate_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_Priority_Queue_Buildup_QueueCreate_Fail,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_Priority_Queue_Buildup_QueueCreate_Fail");
-    UtTest_Add(Test_TO_Priority_Queue_Buildup_NoPQueues, TO_Test_Setup_NoPQueueConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_Priority_Queue_Buildup_NoPQueues,
+               TO_Test_Setup_NoPQueueConfig, TO_Test_TearDown,
                "Test_TO_Priority_Queue_Buildup_NoPQueues");
-    UtTest_Add(Test_TO_Priority_Queue_Buildup_SubscribeEx_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_Priority_Queue_Buildup_SubscribeEx_Fail,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_Priority_Queue_Buildup_SubscribeEx_Fail");
-    UtTest_Add(Test_TO_Priority_Queue_TeardownAll_Unsubscribe_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_Priority_Queue_TeardownAll_Unsubscribe_Fail,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_Priority_Queue_TeardownAll_Unsubscribe_Fail");
-    UtTest_Add(Test_TO_PriorityQueue_IsValid_Null_ConfigTblPtr_Check, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_PriorityQueue_IsValid_Null_ConfigTblPtr_Check,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_PriorityQueue_IsValid_Null_ConfigTblPtr_Check");
-    UtTest_Add(Test_TO_PriorityQueue_IsValid_Null_Ptr_Check, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_PriorityQueue_IsValid_Null_Ptr_Check,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_PriorityQueue_IsValid_Null_Ptr_Check");
-    UtTest_Add(Test_TO_PriorityQueue_IsValid_PQ_State_Check, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+    UtTest_Add(Test_TO_PriorityQueue_IsValid_PQ_State_Check,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
                "Test_TO_PriorityQueue_IsValid_PQ_State_Check");
 
     /* Tests for TO ManageChannelTables */
-    UtTest_Add(Test_TO_ManageChannelTables_GetStatus_Error, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_ManageChannelTables_GetStatus_Error");
-    UtTest_Add(Test_TO_ManageChannelTables_GetStatus_Validate_Pending, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_ManageChannelTables_GetStatus_Validate_Pending");
-    UtTest_Add(Test_TO_ManageChannelTables_GetStatus_Update_Pending, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_ManageChannelTables_GetStatus_Update_Pending");
-    UtTest_Add(Test_TO_ManageChannelTables_GetAddress_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_ManageChannelTables_GetAddress_Failure");
-    UtTest_Add(Test_TO_ManageChannelTables_GetAddress_Process_Config_Tbl_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_ManageChannelTables_GetAddress_Process_Config_Tbl_Failure");
+    UtTest_Add(Test_TO_ManageChannelTables_GetStatus_Error,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_ManageChannelTables_GetStatus_Error");
+    UtTest_Add(Test_TO_ManageChannelTables_GetStatus_Validate_Pending,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_ManageChannelTables_GetStatus_Validate_Pending");
+    UtTest_Add(Test_TO_ManageChannelTables_GetStatus_Update_Pending,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_ManageChannelTables_GetStatus_Update_Pending");
+    UtTest_Add(Test_TO_ManageChannelTables_GetAddress_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_ManageChannelTables_GetAddress_Failure");
+    UtTest_Add(Test_TO_ManageChannelTables_GetAddress_Process_Config_Tbl_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_ManageChannelTables_GetAddress_Process_Config_Tbl_Failure");
 
     /* Additional tests for TO Channel */
-    UtTest_Add(Test_TO_Channel_State, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_Channel_State,
+               TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
                "Test_TO_Channel_State");
-    UtTest_Add(Test_TO_Channel_State_Fail, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_Channel_State_Fail,
+               TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
                "Test_TO_Channel_State_Fail");
-    UtTest_Add(TO_Channel_OpenChannel_Fail_Invalid_ChannelID, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
+    UtTest_Add(TO_Channel_OpenChannel_Fail_Invalid_ChannelID,
+               TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
                "TO_Channel_OpenChannel_Fail_Invalid_ChannelID");
-    UtTest_Add(TO_Channel_OpenChannel_Fail_ChannelAlreadyOpen, TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
+    UtTest_Add(TO_Channel_OpenChannel_Fail_ChannelAlreadyOpen,
+               TO_Test_Setup_EmptyConfig, TO_Test_TearDown,
                "TO_Channel_OpenChannel_Fail_ChannelAlreadyOpen");
-    UtTest_Add(Test_TO_Channel_Open_OS_CountSemCreate_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_Open_OS_CountSemCreate_Failure");
-    UtTest_Add(Test_TO_Channel_Open_OutputQueue_Buildup_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_Open_OutputQueue_Buildup_Failure");
-    UtTest_Add(Test_TO_Channel_Open_CFE_SB_CreatePipe_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_Open_CFE_SB_CreatePipe_Failure");
-    UtTest_Add(Test_TO_Channel_Open_TO_InitTables_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_Open_TO_InitTables_Failure");
-    UtTest_Add(Test_TO_Channel_Open_PoolCreateEx_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_Open_PoolCreateEx_Failure");
-    UtTest_Add(Test_TO_Channel_LockByIndex_Index_Out_Of_Range, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_LockByIndex_Index_Out_Of_Range");
-    UtTest_Add(Test_TO_Channel_UnlockByIndex_Index_Out_Of_Range, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_UnlockByIndex_Index_Out_Of_Range");
-    UtTest_Add(Test_TO_Channel_LockByRef_NullPtr, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_LockByRef_NullPtr");
-    UtTest_Add(Test_TO_Channel_UnlockByRef_NullPtr, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_UnlockByRef_NullPtr");
-    UtTest_Add(Test_TO_Channel_LockByRef_Mutex_Take_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_LockByRef_Mutex_Take_Failure");
-    UtTest_Add(Test_TO_Channel_UnlockByRef_Mutex_Give_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_UnlockByRef_Mutex_Give_Failure");
-    UtTest_Add(Test_TO_Channel_InitAll_Mutex_Create_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_InitAll_Mutex_Create_Failure");
-    UtTest_Add(Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure");
-    UtTest_Add(Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure");
-    UtTest_Add(Test_TO_Channel_Cleanup_Index_Out_Of_Range_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_Cleanup_Index_Out_Of_Range_Failure");
-    UtTest_Add(Test_TO_Channel_Init_Index_Out_Of_Range_Failure, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Channel_Init_Index_Out_Of_Range_Failure");
+    UtTest_Add(Test_TO_Channel_Open_OS_CountSemCreate_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_Open_OS_CountSemCreate_Failure");
+    UtTest_Add(Test_TO_Channel_Open_OutputQueue_Buildup_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_Open_OutputQueue_Buildup_Failure");
+    UtTest_Add(Test_TO_Channel_Open_CFE_SB_CreatePipe_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_Open_CFE_SB_CreatePipe_Failure");
+    UtTest_Add(Test_TO_Channel_Open_TO_InitTables_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_Open_TO_InitTables_Failure");
+    UtTest_Add(Test_TO_Channel_Open_PoolCreateEx_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_Open_PoolCreateEx_Failure");
+    UtTest_Add(Test_TO_Channel_LockByIndex_Index_Out_Of_Range,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_LockByIndex_Index_Out_Of_Range");
+    UtTest_Add(Test_TO_Channel_UnlockByIndex_Index_Out_Of_Range,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_UnlockByIndex_Index_Out_Of_Range");
+    UtTest_Add(Test_TO_Channel_LockByRef_NullPtr,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_LockByRef_NullPtr");
+    UtTest_Add(Test_TO_Channel_UnlockByRef_NullPtr,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_UnlockByRef_NullPtr");
+    UtTest_Add(Test_TO_Channel_LockByRef_Mutex_Take_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_LockByRef_Mutex_Take_Failure");
+    UtTest_Add(Test_TO_Channel_UnlockByRef_Mutex_Give_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_UnlockByRef_Mutex_Give_Failure");
+    UtTest_Add(Test_TO_Channel_InitAll_Mutex_Create_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_InitAll_Mutex_Create_Failure");
+    UtTest_Add(Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_CleanupAll_PriorityQueue_TeardownAll_Failure");
+    UtTest_Add(Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_CleanupAll_OutputQueue_Teardown_Failure");
+    UtTest_Add(Test_TO_Channel_Cleanup_Index_Out_Of_Range_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_Cleanup_Index_Out_Of_Range_Failure");
+    UtTest_Add(Test_TO_Channel_Init_Index_Out_Of_Range_Failure,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Channel_Init_Index_Out_Of_Range_Failure");
 
     /* Tests for TO_Scheduler_Run */
-#if 1
-    UtTest_Add(Test_TO_Scheduler_Run_OS_Max_Queues, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Scheduler_Run_OS_Max_Queues");
-#endif
-    UtTest_Add(Test_TO_Scheduler_Run_QueueMsg_Fail, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Scheduler_Run_QueueMsg_Fail");
-    UtTest_Add(Test_TO_Scheduler_Run_HighwaterMark, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_Scheduler_Run_HighwaterMark");
+    UtTest_Add(Test_TO_Scheduler_Run_OS_Max_Queues,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Scheduler_Run_OS_Max_Queues");
+    UtTest_Add(Test_TO_Scheduler_Run_QueueMsg_Fail,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Scheduler_Run_QueueMsg_Fail");
+    UtTest_Add(Test_TO_Scheduler_Run_HighwaterMark,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_Scheduler_Run_HighwaterMark");
 
     /* Tests for TO_ReportHousekeeping */
-    UtTest_Add(Test_TO_ReportHousekeeping_Ground, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_ReportHousekeeping_Ground");
-    UtTest_Add(Test_TO_ReportHousekeeping_UnknownChannelID, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_ReportHousekeeping_UnknownChannelID");
+    UtTest_Add(Test_TO_ReportHousekeeping_Ground,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_ReportHousekeeping_Ground");
+    UtTest_Add(Test_TO_ReportHousekeeping_UnknownChannelID,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_ReportHousekeeping_UnknownChannelID");
 
     /* Tests for TO_SendDiag */
-    UtTest_Add(Test_TO_SendDiag_Ground, TO_Test_Setup_FullConfig1, TO_Test_TearDown,
-              "Test_TO_SendDiag_Ground");
+    UtTest_Add(Test_TO_SendDiag_Ground_NullPtr_Table,
+               TO_Test_Setup_FullConfig1, TO_Test_TearDown,
+               "Test_TO_SendDiag_Ground_NullPtr_Table");
 
     /* Tests for TO_RcvMsg */
-    UtTest_Add(Test_TO_RcvMsg_noMsg, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_RcvMsg_noMsg,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_RcvMsg_noMsg");
-    UtTest_Add(Test_TO_RcvMsg_recieveTimeout, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_RcvMsg_recieveTimeout,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_RcvMsg_receiveTimeout");
-    UtTest_Add(Test_TO_RcvMsg_receiveError, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_RcvMsg_receiveError,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_RcvMsg_receiveError");
-    UtTest_Add(Test_TO_RcvMsg_unknownMsgId, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_RcvMsg_unknownMsgId,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_RcvMsg_unknownMsgId");
-    UtTest_Add(Test_TO_RcvMsg_sendTlmMsgId, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_RcvMsg_sendTlmMsgId,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_RcvMsg_sendTlmMsgId");
-    UtTest_Add(Test_TO_RcvMsg_sendHkMsgId, TO_Test_Setup_NoConfig, TO_Test_TearDown,
+    UtTest_Add(Test_TO_RcvMsg_sendHkMsgId,
+               TO_Test_Setup_NoConfig, TO_Test_TearDown,
                "Test_TO_RcvMsg_sendHkMsgId");
 }
