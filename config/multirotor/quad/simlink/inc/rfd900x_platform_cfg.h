@@ -115,8 +115,8 @@ extern "C" {
 #define RFD900X_ADDRESS_MAX_LENGTH      (16)
 
 
-#define RFD900X_UART_CMD_MID            (0x1822)
-#define RFD900X_UART_TLM_MID            (0x0823)
+#define RFD900X_UART_CMD_MID            (SEDLIB_UART_1_CMD_MID)
+#define RFD900X_UART_TLM_MID            (SEDLIB_UART_1_TLM_MID)
 
 
 #ifdef __cplusplus
