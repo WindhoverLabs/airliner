@@ -727,10 +727,10 @@ void HES_ProcessCVT() {
     HES_AppData.HkTlm.windspeed.mph = (2.236936) * HES_AppData.HkTlm.windspeed.mps;
 
     HES_AppData.HkTlm.winddirection.radians = atan2f(wind_e, wind_n);
-    HES_AppData.HkTlm.winddirection.degrees = (180/M_PI) * HES_AppData.HkTlm.winddirection.degrees;
+    HES_AppData.HkTlm.winddirection.degrees = (180/M_PI) * HES_AppData.HkTlm.winddirection.radians;
 
     HES_AppData.HkTlm.groundtrackdirection.radians = atan2f(HES_AppData.CVT.filtered_vel_e, HES_AppData.CVT.filtered_vel_n);
-    HES_AppData.HkTlm.groundtrackdirection.degrees = (180/M_PI) * HES_AppData.HkTlm.groundtrackdirection.degrees;
+    HES_AppData.HkTlm.groundtrackdirection.degrees = (180/M_PI) * HES_AppData.HkTlm.groundtrackdirection.radians;
 
     Quaternion_ConjugateInversed(vel_ned, HES_AppData.CVT.VAtt.Q, HES_AppData.HkTlm.vel_xyz);
 
