@@ -31,10 +31,11 @@
 *
 *****************************************************************************/
 
+#include "sens_app_test.hpp"
+#include "sens_test_utils.hpp"
+
 #include "cfe.h"
 #include "sens_app.h"
-#include "sens_test_utils.h"
-#include "sens_app_test.h"
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
 #include "ut_cfe_sb_stubs.h"
@@ -453,7 +454,7 @@ void Test_SENS_AppMain_Nominal_Wakeup(void)
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    //oSENS.AppMain();
+    oSENS.AppMain();
 
 }
 
@@ -508,5 +509,3 @@ void SENS_App_Test_AddTestCases(void)
                "Test_SENS_AppMain_Nominal_Wakeup");
 
 }
-
-

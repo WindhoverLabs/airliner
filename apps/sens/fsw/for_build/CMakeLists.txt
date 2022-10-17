@@ -39,6 +39,7 @@ buildliner_add_app_unit_test(sens-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_testrunner.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_test_utils.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_test_utils.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/stubs.cpp
         #${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/ut_LowPassFilter2p_hooks.cpp
         #${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/ut_LowPassFilter2p_hooks.h
         #${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/ut_LowPassFilter2p_stubs.cpp

@@ -31,10 +31,12 @@
 *
 *****************************************************************************/
 
+#include "sens_test_utils.hpp"
+
 #include "cfe.h"
-#include "sens_test_utils.h"
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
+#include "ut_cfe_psp_timer_stubs.h"
 #include "ut_cfe_psp_memutils_stubs.h"
 #include "ut_cfe_tbl_stubs.h"
 #include "ut_cfe_tbl_hooks.h"
@@ -48,10 +50,19 @@
 
 #include <time.h>
 
+
+extern Ut_CFE_PSP_MEMUTILS_HookTable_t         Ut_CFE_PSP_MEMUTILS_HookTable;
+extern Ut_CFE_PSP_MEMUTILS_ReturnCodeTable_t
+                  Ut_CFE_PSP_MEMUTILS_ReturnCodeTable[UT_CFE_PSP_MEMUTILS_MAX_INDEX];
+
+extern Ut_CFE_PSP_TIMER_HookTable_t            Ut_CFE_PSP_TIMER_HookTable;
+extern Ut_CFE_PSP_TIMER_ReturnCodeTable_t
+                  Ut_CFE_PSP_TIMER_ReturnCodeTable[UT_CFE_PSP_TIMER_MAX_INDEX];
+
 /*
  * Config table for testing
  */
-SENS_ConfigTbl_t ConfigTbl = {
+SENS_ConfigTbl_t SENS_ConfigTblUnitTest = {
         /* TODO:  Define table */
 		0
 };
@@ -73,9 +84,43 @@ void SENS_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
-    Ut_CFE_TBL_AddTable(SENS_CONFIG_TABLE_FILENAME, (void *) &ConfigTbl);
+    if (1)
+    {
+        Ut_CFE_TBL_AddTable(SENS_CONFIG_TABLE_FILENAME, (void *) &SENS_ConfigTblUnitTest);
+    }
+    else
+    {
+        Ut_CFE_TBL_AddTable(SENS_CONFIG_TABLE_FILENAME, (void *) &SENS_ConfigTbl);
+    }
+
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
+
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
 }
 
 void SENS_Test_TearDown(void) {
+    memset(&Ut_CFE_PSP_MEMUTILS_HookTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_HookTable));
+    memset(&Ut_CFE_PSP_MEMUTILS_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_MEMUTILS_ReturnCodeTable));
 
+    memset(&Ut_CFE_PSP_TIMER_HookTable, 0, sizeof(Ut_CFE_PSP_TIMER_HookTable));
+    memset(&Ut_CFE_PSP_TIMER_ReturnCodeTable, 0, sizeof(Ut_CFE_PSP_TIMER_ReturnCodeTable));
+}
+
+void SENS_Test_PrintCmdMsg(void *pMsg, uint32 size)
+{
+    unsigned char *pBuff;
+    int           i = 0;
+
+    pBuff = (unsigned char*)pMsg;
+    printf("Emulated Cmd message:");
+    for (i = 0; i < size; i++)
+    {
+        printf("0x%02x ", *pBuff);
+        pBuff++;
+    }
+    printf("\n");
+
+    return;
 }

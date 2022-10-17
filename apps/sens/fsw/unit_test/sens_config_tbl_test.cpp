@@ -31,10 +31,11 @@
 *
 *****************************************************************************/
 
+#include "sens_config_tbl_test.hpp"
+#include "sens_test_utils.hpp"
+
 #include "cfe.h"
 #include "sens_msg.h"
-#include "sens_config_tbl_test.h"
-#include "sens_test_utils.h"
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
 #include "ut_cfe_sb_stubs.h"
@@ -48,15 +49,178 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
-void SENS_Config_Tbl_Test_Case1(void)
-{
 
+/**************************************************************************
+ * Tests for SENS InitConfigTbl()
+ **************************************************************************/
+/**
+ * Test SENS InitConfigTbl(), fail TBL Register
+ * Can not call private function, InitConfigTbl directly
+ */
+void Test_SENS_InitConfigTbl_Fail_TblRegister(void)
+{
+    SENS  oSENS;
+
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NO_ACCESS;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oSENS.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Register");
+}
+
+
+/**
+ * Test SENS InitConfigTbl(), fail ValidateConfigTbl
+ * Can not call private function, InitConfigTbl directly
+ * Currently there are no way to make this fail
+ */
+void Test_SENS_InitConfigTbl_Fail_ValidateConfigTbl(void)
+{
+    SENS  oSENS;
+    int32 result = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = oSENS.InitApp();
+}
+
+
+/**
+ * Test SENS InitConfigTbl(), fail TBL Load
+ * Can not call private function, InitConfigTbl directly
+ */
+void Test_SENS_InitConfigTbl_Fail_TblLoad(void)
+{
+    SENS  oSENS;
+
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_INFO_UPDATE_PENDING;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oSENS.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Load");
+}
+
+
+/**
+ * Test SENS InitConfigTbl(), fail TBL Manage
+ * Can not call private function, InitConfigTbl directly
+ */
+void Test_SENS_InitConfigTbl_Fail_TblManage(void)
+{
+    SENS  oSENS;
+
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oSENS.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Manage");
+}
+
+
+/**
+ * Test SENS InitConfigTbl(), fail TBL GetAddress
+ * Can not call private function, InitConfigTbl directly
+ */
+void Test_SENS_InitConfigTbl_Fail_TblGetAddress(void)
+{
+    SENS  oSENS;
+
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NEVER_LOADED;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oSENS.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL GetAddress");
+}
+
+
+/**
+ * Test SENS InitConfigTbl(), fail AcquireConfigPointers
+ * Can not call private function, InitConfigTbl directly
+ */
+void Test_SENS_InitConfigTbl_Fail_AcquireConfigPointers(void)
+{
+    SENS  oSENS;
+
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oSENS.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail AcquireConfigPointers");
+}
+
+
+/**
+ * Test SENS InitConfigTbl(), Nominal
+ * Can not call private function, InitConfigTbl directly
+ */
+void Test_SENS_InitConfigTbl_Fail_Nominal(void)
+{
+    SENS  oSENS;
+
+    /* Set a fail result */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
+    int32 expected = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = oSENS.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, Nominal");
 }
 
 
 void SENS_Config_Tbl_Test_AddTestCases(void)
 {
-    UtTest_Add(SENS_Config_Tbl_Test_Case1, SENS_Test_Setup, SENS_Test_TearDown, "SENS_Config_Tbl_Test_Case1");
+    UtTest_Add(Test_SENS_InitConfigTbl_Fail_TblRegister, SENS_Test_Setup,
+               SENS_Test_TearDown, "Test_SENS_InitConfigTbl_Fail_TblRegister");
+    UtTest_Add(Test_SENS_InitConfigTbl_Fail_ValidateConfigTbl, SENS_Test_Setup,
+               SENS_Test_TearDown, "Test_SENS_InitConfigTbl_Fail_ValidateConfigTbl");
+    UtTest_Add(Test_SENS_InitConfigTbl_Fail_TblManage, SENS_Test_Setup,
+               SENS_Test_TearDown, "Test_SENS_InitConfigTbl_Fail_TblManage");
+    UtTest_Add(Test_SENS_InitConfigTbl_Fail_TblGetAddress, SENS_Test_Setup,
+               SENS_Test_TearDown, "Test_SENS_InitConfigTbl_Fail_TblGetAddress");
+    UtTest_Add(Test_SENS_InitConfigTbl_Fail_AcquireConfigPointers, SENS_Test_Setup,
+               SENS_Test_TearDown, "Test_SENS_InitConfigTbl_Fail_AcquireConfigPointers");
+    UtTest_Add(Test_SENS_InitConfigTbl_Fail_Nominal, SENS_Test_Setup,
+               SENS_Test_TearDown, "Test_SENS_InitConfigTbl_Fail_Nominal");
 }
-
-
