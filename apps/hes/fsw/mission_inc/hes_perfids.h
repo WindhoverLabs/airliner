@@ -39,7 +39,8 @@ extern "C" {
 #endif
 
 /** \brief Performance ID for the TO main task */
-#define HES_MAIN_TASK_PERF_ID            (124)
+#include "perf_ids.h"
+// #define HES_MAIN_TASK_PERF_ID            (50)
 
 #ifdef __cplusplus
 }

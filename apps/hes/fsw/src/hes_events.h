@@ -93,18 +93,6 @@ typedef enum {
 */
     HES_CONFIG_TABLE_INF_EID,
 
-/** \brief <tt> 'HES - ' </tt>
-**  \event <tt> 'HES - ' </tt>
-**  
-**  \par Type: INFORMATION
-**
-**  \par Cause:
-**
-**  This event message is issued when TBD
-**
-*/
-    HES_CDS_INF_EID,
-
 /** \brief <tt> 'HES - Recvd $x cmd (%us)' </tt>
 **  \event <tt> 'HES - Recvd $x cmd (%us)' </tt>
 **  
@@ -155,19 +143,6 @@ typedef enum {
 **
 */
     HES_CONFIG_TABLE_ERR_EID,
-
-/** \brief <tt> 'HES - ' </tt>
-**  \event <tt> 'HES - ' </tt>
-**  
-**  \par Type: ERROR
-**
-**  \par Cause:
-**
-**  This event message is issued when the CFS HES Task has
-**  had an error in CDS.
-**
-*/
-    HES_CDS_ERR_EID,
 
 /** \brief <tt> 'HES - $commandError' </tt>
 **  \event <tt> 'HES - $commandError' </tt>

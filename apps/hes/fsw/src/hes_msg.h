@@ -138,33 +138,6 @@ typedef struct
     uint8  ucCmdHeader[CFE_SB_CMD_HDR_SIZE];
 } HES_NoArgCmd_t;
 
-/** 
-**  \brief TODO Elaborate this struct
-**  Boilerplate example of application-specific incoming data
-*/
-typedef struct
-{
-    uint8   TlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint32  counter;
-
-    /* TODO:  Add input data to this application here, such as raw data read from I/O
-    **        devices.
-    **        Option: for data that is already defined by another app, include
-    **        that app's message header above.
-    */
-
-} HES_InData_t;
-
-/** 
-**  \brief TODO Elaborate this struct
-**  Boilerplate example of application-specific outgoing data
-*/
-typedef struct
-{
-    uint8   ucTlmHeader[CFE_SB_TLM_HDR_SIZE];
-    uint32  uiCounter;
-} HES_OutData_t;
-
 typedef struct {
     double Lat;
     double Lon;

@@ -35,15 +35,14 @@ buildliner_add_app_def(hes
     FILE HES
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/hes_app.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/../src/hes_cds_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/hes_config_utils.c
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/hes_symbols.c
    
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
 
-    #USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}/user_doxy.in
-    USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}
+    USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}/user_doxy.in
+    #USER_DOCS   ${CMAKE_CURRENT_SOURCE_DIR}
     DESIGN_DOCS ${CMAKE_CURRENT_SOURCE_DIR}/detail_doxy.in
     
     # MSG_OVERRIDES ${CMAKE_CURRENT_SOURCE_DIR}/hes_msg_overrides.json
