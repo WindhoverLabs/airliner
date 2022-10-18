@@ -215,6 +215,8 @@ void SENS_Config_Tbl_Test_AddTestCases(void)
                SENS_Test_TearDown, "Test_SENS_InitConfigTbl_Fail_TblRegister");
     UtTest_Add(Test_SENS_InitConfigTbl_Fail_ValidateConfigTbl, SENS_Test_Setup,
                SENS_Test_TearDown, "Test_SENS_InitConfigTbl_Fail_ValidateConfigTbl");
+    UtTest_Add(Test_SENS_InitConfigTbl_Fail_TblLoad, SENS_Test_Setup,
+               SENS_Test_TearDown, "Test_SENS_InitConfigTbl_Fail_TblLoad");
     UtTest_Add(Test_SENS_InitConfigTbl_Fail_TblManage, SENS_Test_Setup,
                SENS_Test_TearDown, "Test_SENS_InitConfigTbl_Fail_TblManage");
     UtTest_Add(Test_SENS_InitConfigTbl_Fail_TblGetAddress, SENS_Test_Setup,

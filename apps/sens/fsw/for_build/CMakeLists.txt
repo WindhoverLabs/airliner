@@ -31,14 +31,14 @@ buildliner_add_app_unit_test(sens-ut
 
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_app_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_app_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_app_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_cmds_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_cmds_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_cmds_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_config_tbl_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_config_tbl_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_config_tbl_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_testrunner.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_test_utils.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_test_utils.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/sens_test_utils.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/stubs.cpp
         #${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/ut_LowPassFilter2p_hooks.cpp
         #${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/stubs/ut_LowPassFilter2p_hooks.h
