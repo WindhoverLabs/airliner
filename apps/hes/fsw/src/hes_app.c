@@ -103,9 +103,6 @@ int32 HES_InitEvent()
     HES_AppData.EventTbl[  ind].EventID = HES_CONFIG_TABLE_ERR_EID;
     HES_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
 
-    HES_AppData.EventTbl[  ind].EventID = HES_CDS_ERR_EID;
-    HES_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
-
     HES_AppData.EventTbl[  ind].EventID = HES_PIPE_ERR_EID;
     HES_AppData.EventTbl[ind++].Mask    = CFE_EVS_NO_FILTER;
 
@@ -203,7 +200,7 @@ int32 HES_InitPipe()
                                  HES_DATA_PIPE_NAME);
     if (iStatus == CFE_SUCCESS)
     {
-        iStatus = CFE_SB_SubscribeEx(TO_CPD(PX4_VEHICLE_GLOBAL_POSITION_MID),
+        iStatus = CFE_SB_SubscribeEx(HES_PX4_VEHICLE_GLOBAL_POSITION_MID,
                 HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
         if(iStatus != CFE_SUCCESS)
         {
@@ -214,7 +211,7 @@ int32 HES_InitPipe()
         }
 
 
-        iStatus = CFE_SB_SubscribeEx(TO_CPD(PX4_VEHICLE_ATTITUDE_MID),
+        iStatus = CFE_SB_SubscribeEx(HES_PX4_VEHICLE_ATTITUDE_MID,
                 HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
         if(iStatus != CFE_SUCCESS)
         {
@@ -224,7 +221,7 @@ int32 HES_InitPipe()
             goto HES_InitPipe_Exit_Tag;
         }
 
-        iStatus = CFE_SB_SubscribeEx(TO_CPD(PX4_AIRSPEED_MID),
+        iStatus = CFE_SB_SubscribeEx(HES_PX4_AIRSPEED_MID,
                 HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
         if(iStatus != CFE_SUCCESS)
         {
@@ -234,7 +231,7 @@ int32 HES_InitPipe()
             goto HES_InitPipe_Exit_Tag;
         }
 
-        iStatus = CFE_SB_SubscribeEx(TO_CPD(PX4_BATTERY_STATUS_MID), HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
+        iStatus = CFE_SB_SubscribeEx(HES_PX4_BATTERY_STATUS_MID, HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
         if (iStatus != CFE_SUCCESS)
         {
             CFE_EVS_SendEvent(HES_INIT_ERR_EID, CFE_EVS_ERROR,
@@ -243,13 +240,23 @@ int32 HES_InitPipe()
             goto HES_InitPipe_Exit_Tag;
         }
 
+        iStatus = CFE_SB_SubscribeEx(HES_PX4_VEHICLE_LAND_DETECTED_MID, HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            CFE_EVS_SendEvent(HES_INIT_ERR_EID, CFE_EVS_ERROR,
+                                     "DATA Pipe failed to subscribe to HES_PX4_VEHICLE_LAND_DETECTED_MID. (0x%08X)",
+                                     (unsigned int)iStatus);
+            goto HES_InitPipe_Exit_Tag;
+        }
 
-
-        /* TODO:  Add CFE_SB_Subscribe() calls for other apps' output data here.
-        **
-        ** Examples:
-        **     CFE_SB_Subscribe(GNCEXEC_OUT_DATA_MID, HES_AppData.DataPipeId);
-        */
+        iStatus = CFE_SB_SubscribeEx(HES_PX4_VEHICLE_STATUS_MID, HES_AppData.DataPipeId, CFE_SB_Default_Qos, 1);
+        if (iStatus != CFE_SUCCESS)
+        {
+            CFE_EVS_SendEvent(HES_INIT_ERR_EID, CFE_EVS_ERROR,
+                                     "DATA Pipe failed to subscribe to HES_PX4_VEHICLE_STATUS_MID. (0x%08X)",
+                                     (unsigned int)iStatus);
+            goto HES_InitPipe_Exit_Tag;
+        }
     }
     else
     {
@@ -275,14 +282,6 @@ int32 HES_InitData()
     int32  iStatus=CFE_SUCCESS;
 
     memset((void*)&HES_AppData.CVT, 0x00, sizeof(HES_AppData.CVT));
-
-    /* Init input data */
-    memset((void*)&HES_AppData.InData, 0x00, sizeof(HES_AppData.InData));
-
-    /* Init output data */
-    memset((void*)&HES_AppData.OutData, 0x00, sizeof(HES_AppData.OutData));
-    CFE_SB_InitMsg(&HES_AppData.OutData,
-                   HES_OUT_DATA_MID, sizeof(HES_AppData.OutData), TRUE);
 
     /* Init housekeeping packet */
     memset((void*)&HES_AppData.HkTlm, 0x00, sizeof(HES_AppData.HkTlm));
@@ -338,15 +337,6 @@ int32 HES_InitApp()
     {
         (void) CFE_EVS_SendEvent(HES_INIT_ERR_EID, CFE_EVS_ERROR,
                                  "Failed to init config tables (0x%08X)",
-                                 (unsigned int)iStatus);
-        goto HES_InitApp_Exit_Tag;
-    }
-
-    iStatus = HES_InitCdsTbl();
-    if (iStatus != CFE_SUCCESS)
-    {
-        (void) CFE_EVS_SendEvent(HES_INIT_ERR_EID, CFE_EVS_ERROR,
-                                 "Failed to init CDS table (0x%08X)",
                                  (unsigned int)iStatus);
         goto HES_InitApp_Exit_Tag;
     }
@@ -423,10 +413,6 @@ int32 HES_RcvMsg(int32 iBlocking)
                 HES_ProcessCVT();
 
                 /* TODO:  Add more code here to handle other things when app wakes up */
-
-                /* The last thing to do at the end of this Wakeup cycle should be to
-                 * automatically publish new output. */
-                HES_SendOutData();
                 break;
 
             case HES_SEND_HK_MID:
@@ -491,42 +477,42 @@ void HES_ProcessNewData()
             DataMsgId = CFE_SB_GetMsgId(DataMsgPtr);
             switch (DataMsgId)
             {
-				case TO_CPD(PX4_AIRSPEED_MID):
+				case HES_PX4_AIRSPEED_MID:
 				{
 					HES_AppData.HkTlm.AirSpeedMsgRcvCnt++;
 					CFE_PSP_MemCpy(&HES_AppData.CVT.Airspeed, DataMsgPtr, sizeof(HES_AppData.CVT.Airspeed));
 					break;
 				}
 
-				case TO_CPD(PX4_BATTERY_STATUS_MID):
+				case HES_PX4_BATTERY_STATUS_MID:
 				{
 					HES_AppData.HkTlm.BatteryStatusMsgRcvCnt++;
 					CFE_PSP_MemCpy(&HES_AppData.CVT.BatteryStatus, DataMsgPtr, sizeof(HES_AppData.CVT.BatteryStatus));
 					break;
 				}
 
-				case TO_CPD(PX4_VEHICLE_ATTITUDE_MID):
+				case HES_PX4_VEHICLE_ATTITUDE_MID:
 				{
 					HES_AppData.HkTlm.VAttMsgRcvCnt++;
 					CFE_PSP_MemCpy(&HES_AppData.CVT.VAtt, DataMsgPtr, sizeof(HES_AppData.CVT.VAtt));
 					break;
 				}
 
-				case TO_CPD(PX4_VEHICLE_GLOBAL_POSITION_MID):
+				case HES_PX4_VEHICLE_GLOBAL_POSITION_MID:
 				{
 					HES_AppData.HkTlm.VGlobalPositionMsgRcvCnt++;
 					CFE_PSP_MemCpy(&HES_AppData.CVT.VGlobalPosition, DataMsgPtr, sizeof(HES_AppData.CVT.VGlobalPosition));
 					break;
 				}
 
-				case TO_CPD(PX4_VEHICLE_LAND_DETECTED_MID):
+				case HES_PX4_VEHICLE_LAND_DETECTED_MID:
 				{
 					HES_AppData.HkTlm.VLandDetectedMsgRcvCnt++;
 					CFE_PSP_MemCpy(&HES_AppData.CVT.VLandDetected, DataMsgPtr, sizeof(HES_AppData.CVT.VLandDetected));
 					break;
 				}
 
-				case TO_CPD(PX4_VEHICLE_STATUS_MID):
+				case HES_PX4_VEHICLE_STATUS_MID:
 				{
 					HES_AppData.HkTlm.VehicleStatusMsgRcvCnt++;
 					CFE_PSP_MemCpy(&HES_AppData.CVT.VehicleStatus, DataMsgPtr, sizeof(HES_AppData.CVT.VehicleStatus));
@@ -636,8 +622,8 @@ void HES_ProcessCVT() {
     // printf("processing CVT\n");
 
     HES_AppData.HkTlm.altitude[0] = HES_AppData.CVT.VGlobalPosition.Alt;
-    HES_AppData.HkTlm.altitude[1] = 3.28084 * HES_AppData.CVT.VGlobalPosition.Alt;
-    HES_AppData.HkTlm.altitude[2] = HES_AppData.HkTlm.altitude[1] / 3;
+    HES_AppData.HkTlm.altitude[1] = HES_METERS_TO_FEET(HES_AppData.CVT.VGlobalPosition.Alt);
+    HES_AppData.HkTlm.altitude[2] = HES_FEET_TO_YARDS(HES_AppData.HkTlm.altitude[1]);
 
     HES_AppData.HkTlm.Lat = HES_AppData.CVT.VGlobalPosition.Lat;
     HES_AppData.HkTlm.Lon = HES_AppData.CVT.VGlobalPosition.Lon;
@@ -684,9 +670,9 @@ void HES_ProcessCVT() {
         (HES_AIRSPEED_FILTER_COEFF) * HES_AppData.CVT.Airspeed.TrueAirspeed + 
         (1 - (HES_AIRSPEED_FILTER_COEFF)) * HES_AppData.CVT.filtered_airspeed;
     HES_AppData.HkTlm.airspeed.mps = HES_AppData.CVT.filtered_airspeed;
-    HES_AppData.HkTlm.airspeed.knots = (1.943844) * HES_AppData.CVT.filtered_airspeed;
-    HES_AppData.HkTlm.airspeed.kph = (3.6) * HES_AppData.CVT.filtered_airspeed;
-    HES_AppData.HkTlm.airspeed.mph = (2.236936) * HES_AppData.CVT.filtered_airspeed;
+    HES_AppData.HkTlm.airspeed.knots = HES_MPS_TO_KNOTS(HES_AppData.CVT.filtered_airspeed);
+    HES_AppData.HkTlm.airspeed.kph = HES_MPS_TO_KPH(HES_AppData.CVT.filtered_airspeed);
+    HES_AppData.HkTlm.airspeed.mph = HES_MPS_TO_MPH(HES_AppData.CVT.filtered_airspeed);
 
     HES_AppData.CVT.filtered_groundspeed = 
         (HES_GROUNDSPEED_FILTER_COEFF) * (sqrtf(
@@ -694,9 +680,9 @@ void HES_ProcessCVT() {
             (HES_AppData.CVT.VGlobalPosition.VelE * HES_AppData.CVT.VGlobalPosition.VelE))) + 
         (1 - (HES_GROUNDSPEED_FILTER_COEFF)) * HES_AppData.CVT.filtered_groundspeed;
     HES_AppData.HkTlm.groundspeed.mps = HES_AppData.CVT.filtered_groundspeed;
-    HES_AppData.HkTlm.groundspeed.knots = (1.943844) * HES_AppData.CVT.filtered_groundspeed;
-    HES_AppData.HkTlm.groundspeed.kph = (3.6) * HES_AppData.CVT.filtered_groundspeed;
-    HES_AppData.HkTlm.groundspeed.mph = (2.236936) * HES_AppData.CVT.filtered_groundspeed;
+    HES_AppData.HkTlm.groundspeed.knots = HES_MPS_TO_KNOTS(HES_AppData.CVT.filtered_groundspeed);
+    HES_AppData.HkTlm.groundspeed.kph = HES_MPS_TO_KPH(HES_AppData.CVT.filtered_groundspeed);
+    HES_AppData.HkTlm.groundspeed.mph = HES_MPS_TO_MPH(HES_AppData.CVT.filtered_groundspeed);
 
     // HES_AppData.CVT.filtered_speed = 
     //     (HES_SPEED_FILTER_COEFF) * (sqrtf(
@@ -722,9 +708,9 @@ void HES_ProcessCVT() {
             - HES_AppData.CVT.filtered_airspeed*(sinf(HES_AppData.CVT.filtered_euler[2]))*(cosf(asinf(- (HES_AppData.CVT.filtered_vel_d) / (HES_AppData.CVT.filtered_airspeed))));
 
     HES_AppData.HkTlm.windspeed.mps = sqrtf(wind_e*wind_e + wind_n*wind_n);
-    HES_AppData.HkTlm.windspeed.knots = (1.943844) * HES_AppData.HkTlm.windspeed.mps;
-    HES_AppData.HkTlm.windspeed.kph = (3.6) * HES_AppData.HkTlm.windspeed.mps;
-    HES_AppData.HkTlm.windspeed.mph = (2.236936) * HES_AppData.HkTlm.windspeed.mps;
+    HES_AppData.HkTlm.windspeed.knots = HES_MPS_TO_KNOTS(HES_AppData.HkTlm.windspeed.mps);
+    HES_AppData.HkTlm.windspeed.kph = HES_MPS_TO_KPH(HES_AppData.HkTlm.windspeed.mps);
+    HES_AppData.HkTlm.windspeed.mph = HES_MPS_TO_MPH(HES_AppData.HkTlm.windspeed.mps);
 
     HES_AppData.HkTlm.winddirection.radians = atan2f(wind_e, wind_n);
     HES_AppData.HkTlm.winddirection.degrees = (180/M_PI) * HES_AppData.HkTlm.winddirection.radians;
@@ -889,25 +875,6 @@ void HES_ReportHousekeeping()
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* Publish Output Data                                             */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-void HES_SendOutData()
-{
-    /* TODO:  Add code to update output data, if needed, here.  */
-
-    CFE_SB_TimeStampMsg((CFE_SB_Msg_t*)&HES_AppData.OutData);
-    int32 iStatus = CFE_SB_SendMsg((CFE_SB_Msg_t*)&HES_AppData.OutData);
-    if (iStatus != CFE_SUCCESS)
-    {
-        /* TODO: Decide what to do if the send message fails. */
-    }
-}
-
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
 /* Verify Command Length                                           */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -985,12 +952,6 @@ void HES_AppMain()
         {
             /* TODO: Decide what to do for other return values in HES_RcvMsg(). */
         }
-        /* TODO: This is only a suggestion for when to update and save CDS table.
-        ** Depends on the nature of the application, the frequency of update
-        ** and save can be more or less independently.
-        */
-        HES_UpdateCdsTbl();
-        HES_SaveCdsTbl();
 
         iStatus = HES_AcquireConfigPointers();
         if(iStatus != CFE_SUCCESS)

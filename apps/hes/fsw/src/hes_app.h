@@ -45,14 +45,12 @@
 
 #include "hes_platform_cfg.h"
 #include "hes_mission_cfg.h"
-#include "hes_private_ids.h"
-#include "hes_private_types.h"
 #include "hes_perfids.h"
 #include "hes_msgids.h"
 #include "hes_msg.h"
 #include "hes_events.h"
 #include "hes_config_utils.h"
-#include "hes_cds_utils.h"
+#include "hes_tbldefs.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -61,13 +59,17 @@ extern "C" {
 /************************************************************************
 ** Local Defines
 *************************************************************************/
-#define HES_TIMEOUT_MSEC             	(1000)
-
 #define HES_VEL_FILTER_COEFF            (0.01)
 #define HES_AIRSPEED_FILTER_COEFF       (0.01)
 #define HES_GROUNDSPEED_FILTER_COEFF    (0.01)
-// #define HES_SPEED_FILTER_COEFF          (0.01)
 #define HES_EULER_FILTER_COEFF          (0.01)
+
+#define HES_MPS_TO_KNOTS(mps)           ((1.943844)*(mps))
+#define HES_MPS_TO_KPH(mps)             ((3.6)*(mps))
+#define HES_MPS_TO_MPH(mps)             ((2.236936)*(mps))
+
+#define HES_METERS_TO_FEET(meters)      ((3.28084)*(meters))
+#define HES_FEET_TO_YARDS(feet)         ((feet)/3)
 
 /************************************************************************
 ** Local Structure Definitions
@@ -132,23 +134,9 @@ typedef struct
     /** \brief Config Table Pointer */
     HES_ConfigTblEntry_t*  ConfigTblPtr;
 
-    /* Critical Data Storage (CDS) table-related */
-
-    /** \brief CDS Table Handle */
-    CFE_ES_CDSHandle_t  CdsTblHdl;
-
-    /** \brief CDS Table data */
-    HES_CdsTbl_t  CdsTbl;
-
     /* Inputs/Outputs */
     /** \brief Current value table */
     HES_CurrentValueTable_t CVT;
-
-    /** \brief Input Data from I/O or other apps */
-    HES_InData_t   InData;
-
-    /** \brief Output Data published at the end of cycle */
-    HES_OutData_t  OutData;
 
     /** \brief Housekeeping Telemetry for downlink */
     HES_HkTlm_t  HkTlm;

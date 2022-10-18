@@ -11,26 +11,22 @@
       id: 2
     HES_CONFIG_TABLE_INF_EID: 
       id: 3
-    HES_CDS_INF_EID: 
-      id: 4
     HES_CMD_INF_EID: 
-      id: 5
+      id: 4
     HES_ERR_EID: 
-      id: 6
+      id: 5
     HES_INIT_ERR_EID: 
-      id: 7
+      id: 6
     HES_CONFIG_TABLE_ERR_EID: 
-      id: 8
-    HES_CDS_ERR_EID: 
-      id: 9
+      id: 7
     HES_CMD_ERR_EID: 
-      id: 10
+      id: 8
     HES_PIPE_ERR_EID: 
-      id: 11
+      id: 9
     HES_MSGID_ERR_EID: 
-      id: 12
+      id: 10
     HES_MSGLEN_ERR_EID: 
-      id: 13
+      id: 11
   telemetry: 
     HES_HK_TLM_MID: 
       msgID: 

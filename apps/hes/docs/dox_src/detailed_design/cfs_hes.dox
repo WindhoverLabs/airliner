@@ -8,7 +8,7 @@
 /*      insert at that location.                                            */
 /*==========================================================================*/
 /**
-    \mainpage HES cFS Application (HES) User's Guide    
+    \mainpage Hawk Eye Server cFS Application (HES) User's Guide    
 
        <UL>
            <LI> \subpage cfshesrevhist
@@ -45,12 +45,8 @@
 	
   <H2> Scope </H2>
 
-  This document provides a complete specification for the commands and telemetry associated
-  with the HES Application (HES) software.  The document is intended primarily 
-  for users of the software (operations personal, test engineers, and maintenance personnel).  
-  The last section of the document, the deployment guide section, is intended for mission 
-  developers when deploying and configuring this application software for a mission 
-  flight software build environment. 
+  This Application is designed to support the Hawk Eye Pilot Display Software that is expected
+  to be running on the ground system.
 
   <H2> Applicable Documents </H2>
 
@@ -100,10 +96,10 @@
 /**
   \page cfshesovr HES Application Overview
 	
-  The HES Application (HES) application does some cool stuff.
+  The HES Application (HES) application provides real time data for Hawk Eye Pilot Display Software on the ground system.
 
-  (Insert paragraph providing application purpose and a high level description of 
-  application capabilites)
+  It accumulates flight data and vehicle status data from multiple messages in the flight software and outputs them as one or multiple packets for the ground system to easily display.
+
 	
   HES Design Overview
   ====
@@ -183,6 +179,8 @@
   (Insert text describing steps required to integrate the application with a CFS system.  This should
    include:
      1) References to message IDs that need to be inserted into a CFS Scheduler table
+     HES_WAKEUP_MID
+     HES_SEND_HK_MID
      2) References to telemetry that can be generated
      3) Additional description of application configuration parameters that may need to be modified.
         For example, questions that a systems integrator needs to have answered before the application
@@ -301,12 +299,6 @@
     services functions when HES tries to do table management (check for updates, dump 
     requests etc.) during each housekeeping cycle. 
 
-  Critical Data Store Operation
-  ====
-    
-    When using the Critical Data Store (CDS), the results tables and housekeeping data
-    will only be restored if the application was shut down through cFE Executive Services 
-    and exited clean. If this is not the case, default values will be used 
     (see \ref cfshesfaqs). 
     
     Next: \ref cfshesfaqs <BR>
