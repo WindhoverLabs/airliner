@@ -31,8 +31,9 @@
 *
 *****************************************************************************/
 
+#include "vm_test_utils.hpp"
+
 #include "cfe.h"
-#include "vm_test_utils.h"
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
 #include "ut_cfe_psp_memutils_stubs.h"
@@ -48,7 +49,25 @@
 
 #include <time.h>
 
-extern VM_ConfigTbl_t VM_ConfigTbl;
+
+/*
+ * Config table for UnitTest
+ */
+VM_ConfigTbl_t VM_ConfigTblUnitTest =
+{
+    2,                          /* COM_RC_IN_MODE       */
+    0,                          /* COM_ARM_SWISBTN      */
+    1000,                       /* COM_RC_ARM_HYST      */
+    1,                          /* MAV_SYS_ID           */
+    1,                          /* MAV_COMP_ID          */
+    2,                          /* COM_RC_LOSS_T        */
+    1,                          /* COM_LOW_BAT_ACT      */
+    5.0,                        /* COM_HOME_H_T         */
+    10.0,                       /* COM_HOME_V_T         */
+    0.0,                        /* HOME_POS_ALT_PADDING */
+    VM_VEHICLE_TYPE_FIXED_WING  /* VEHICLE_TYPE         */
+};
+
 
 /*
  * Function Definitions
@@ -67,9 +86,31 @@ void VM_Test_Setup(void)
     Ut_OSAPI_Reset();
     Ut_OSFILEAPI_Reset();
 
+#if 0
     Ut_CFE_TBL_AddTable(VM_CONFIG_TABLE_FILENAME, (void *) &VM_ConfigTbl);
+#else
+    Ut_CFE_TBL_AddTable(VM_CONFIG_TABLE_FILENAME, (void *) &VM_ConfigTblUnitTest);
+#endif
 }
 
 void VM_Test_TearDown(void) {
 
+}
+
+uint64 VM_Test_GetTimeUs(void)
+{
+    int              iStatus;
+    uint64           outTime = 0;
+    struct timespec  time;
+
+    iStatus = clock_gettime(CLOCK_REALTIME, &time);
+    if (iStatus == 0)
+    {
+        outTime = static_cast<uint64>(static_cast<uint64>(time.tv_sec)
+                  * static_cast<uint64>(1000000))
+                  + static_cast<uint64>(static_cast<uint64>(time.tv_nsec)
+                    / static_cast<uint64>(1000));
+    }
+
+    return outTime;
 }

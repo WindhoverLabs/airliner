@@ -72,14 +72,14 @@ buildliner_add_app_unit_test(vm-ut
 
     SOURCES
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_app_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_app_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_app_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_cmds_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_cmds_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_cmds_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_config_tbl_test.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_config_tbl_test.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_config_tbl_test.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_testrunner.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_test_utils.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_test_utils.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_test_utils.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/vm_stubs.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_app.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/vm_app.h
@@ -121,10 +121,13 @@ buildliner_add_app_unit_test(vm-ut
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../prmlib/fsw/src/ParamsConsumer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/../../../prmlib/fsw/src/prm_lib.c
 
+
     INCLUDES
         ${CMAKE_CURRENT_SOURCE_DIR}/../src/
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../../../tools/smc/lib/C++
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../../tools/smc/lib/C++/
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../prmlib/fsw/public_inc/
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../../prmlib/fsw/platform_inc/
 
     VALGRIND_SUPPRESSION_FILE
         ${CMAKE_CURRENT_SOURCE_DIR}/../unit_test/valgrind.supp

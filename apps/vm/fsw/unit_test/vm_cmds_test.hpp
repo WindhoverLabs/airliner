@@ -31,31 +31,11 @@
 *
 *****************************************************************************/
 
-
-#ifndef VM_TEST_UTILS_H
-#define VM_TEST_UTILS_H
-
-/*
- * Includes
- */
-
-#include "vm_app.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-/*
- * Function Definitions
- */
-
-void VM_Test_Setup(void);
-void VM_Test_TearDown(void);
+#ifndef VM_CMDS_TEST_HPP
+#define VM_CMDS_TEST_HPP
 
 
-#ifdef __cplusplus
-}
-#endif
+void VM_Cmds_Test_AddTestCases(void);
 
-#endif /* VM_TEST_UTILS_H */
 
+#endif /* VM_CMDS_TEST_HPP */

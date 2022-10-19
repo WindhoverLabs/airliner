@@ -31,10 +31,11 @@
 *
 *****************************************************************************/
 
+#include "vm_app_test.hpp"
+#include "vm_cmds_test.hpp"
+#include "vm_config_tbl_test.hpp"
+
 #include "uttest.h"
-#include "vm_app_test.h"
-#include "vm_cmds_test.h"
-#include "vm_config_tbl_test.h"
 
 int main(void)
 {   
@@ -45,4 +46,3 @@ int main(void)
     return(UtTest_Run());
 
 }
-

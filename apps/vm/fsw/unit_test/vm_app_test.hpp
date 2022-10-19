@@ -31,18 +31,11 @@
 *
 *****************************************************************************/
 
-#ifndef VM_CMDS_TEST_H
-#define VM_CMDS_TEST_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-void VM_Cmds_Test_AddTestCases(void);
+#ifndef VM_APP_TEST_HPP
+#define VM_APP_TEST_HPP
 
 
-#ifdef __cplusplus
-}
-#endif
+void VM_App_Test_AddTestCases(void);
 
-#endif /* VM_CMDS_TEST_H */
+
+#endif /* VM_APP_TEST_HPP */

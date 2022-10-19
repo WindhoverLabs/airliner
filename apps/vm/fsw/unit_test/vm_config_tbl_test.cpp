@@ -31,10 +31,11 @@
 *
 *****************************************************************************/
 
+#include "vm_config_tbl_test.hpp"
+#include "vm_test_utils.hpp"
+
 #include "cfe.h"
 #include "vm_msg.h"
-#include "vm_config_tbl_test.h"
-#include "vm_test_utils.h"
 #include "uttest.h"
 #include "ut_osapi_stubs.h"
 #include "ut_cfe_sb_stubs.h"

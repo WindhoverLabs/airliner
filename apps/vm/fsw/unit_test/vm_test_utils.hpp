@@ -31,17 +31,20 @@
 *
 *****************************************************************************/
 
-#ifndef VM_CONFIG_TBL_TEST_H
-#define VM_CONFIG_TBL_TEST_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifndef VM_TEST_UTILS_HPP
+#define VM_TEST_UTILS_HPP
 
-void VM_Config_Tbl_Test_AddTestCases(void);
+#include "vm_app.h"
 
-#ifdef __cplusplus
-}
-#endif
 
-#endif /* VM_CONFIG_TBL_TEST_H */
+extern "C" void VM_AppMain();
+extern "C" VM_ConfigTbl_t VM_ConfigTbl;
+
+void VM_Test_Setup(void);
+void VM_Test_TearDown(void);
+
+uint64 VM_Test_GetTimeUs(void);
+
+
+#endif /* VM_TEST_UTILS_HPP */
