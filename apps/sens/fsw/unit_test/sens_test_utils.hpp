@@ -38,6 +38,7 @@
 #include "sens_app.h"
 
 
+extern "C" void SENS_AppMain();
 extern "C" SENS_ConfigTbl_t SENS_ConfigTbl;
 
 

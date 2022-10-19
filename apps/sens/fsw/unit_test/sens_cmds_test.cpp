@@ -55,7 +55,6 @@
 /**************************************************************************
  * Tests for SENS ProcessCmdPipe()
  **************************************************************************/
-
 /**
  * Test SENS ProcessCmdPipe(), InvalidCmd
  */
@@ -227,6 +226,9 @@ void Test_SENS_ProcessCmdPipe_Reset(void)
 }
 
 
+/**************************************************************************
+ * Tests for SENS VerifyCmdLength()
+ **************************************************************************/
 /**
  * Test SENS VerifyCmdLength(), Fail CmdLength
  */
@@ -261,20 +263,27 @@ void Test_SENS_VerifyCmdLength_Fail_CmdLength(void)
 
 
 
+/**************************************************************************
+ * Rollup Test Cases
+ **************************************************************************/
 void SENS_Cmds_Test_AddTestCases(void)
 {
-    UtTest_Add(Test_SENS_ProcessCmdPipe_InvalidCmd, SENS_Test_Setup,
-               SENS_Test_TearDown, "Test_SENS_ProcessCmdPipe_InvalidCmd");
-    UtTest_Add(Test_SENS_ProcessCmdPipe_InvalidCmdCode, SENS_Test_Setup,
-               SENS_Test_TearDown, "Test_SENS_ProcessCmdPipe_InvalidCmdCode");
-    UtTest_Add(Test_SENS_ProcessCmdPipe_CmdPipeError, SENS_Test_Setup,
-               SENS_Test_TearDown, "Test_SENS_ProcessCmdPipe_CmdPipeError");
-    UtTest_Add(Test_SENS_ProcessCmdPipe_Noop, SENS_Test_Setup,
-               SENS_Test_TearDown, "Test_SENS_ProcessCmdPipe_Noop");
-    UtTest_Add(Test_SENS_ProcessCmdPipe_Reset, SENS_Test_Setup,
-               SENS_Test_TearDown, "Test_SENS_ProcessCmdPipe_Reset");
-    UtTest_Add(Test_SENS_VerifyCmdLength_Fail_CmdLength, SENS_Test_Setup,
-               SENS_Test_TearDown, "Test_SENS_VerifyCmdLength_Fail_CmdLength");
+    UtTest_Add(Test_SENS_ProcessCmdPipe_InvalidCmd,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_ProcessCmdPipe_InvalidCmd");
+    UtTest_Add(Test_SENS_ProcessCmdPipe_InvalidCmdCode,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_ProcessCmdPipe_InvalidCmdCode");
+    UtTest_Add(Test_SENS_ProcessCmdPipe_CmdPipeError,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_ProcessCmdPipe_CmdPipeError");
+    UtTest_Add(Test_SENS_ProcessCmdPipe_Noop,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_ProcessCmdPipe_Noop");
+    UtTest_Add(Test_SENS_ProcessCmdPipe_Reset,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_ProcessCmdPipe_Reset");
+    UtTest_Add(Test_SENS_VerifyCmdLength_Fail_CmdLength,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_VerifyCmdLength_Fail_CmdLength");
 } /* end SENS_Cmds_Test_AddTestCases */
-
-

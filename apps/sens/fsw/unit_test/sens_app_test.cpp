@@ -518,6 +518,21 @@ void Test_SENS_InitApp_Nominal(void)
     UtAssert_True (result == expected, "InitApp, nominal");
 }
 
+
+/**************************************************************************
+ * Tests for extern SENS_AppMain()
+ **************************************************************************/
+/**
+ * Test SENS extern SENS_AppMain(), Nominal
+ */
+void Test_SENS_SENS_AppMain_Nominal(void)
+{
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    SENS_AppMain();
+}
+
+
 /**************************************************************************
  * Tests for SENS_AppMain()
  **************************************************************************/
@@ -619,9 +634,9 @@ void Test_SENS_AppMain_SchPipeError(void)
 
 
 /**
- * Test SENS_AppMain(), Process_InputRcMsg
+ * Test SENS_AppMain(), SchData_InputRcMsg
  */
-void Test_SENS_AppMain_Process_InputRcMsg(void)
+void Test_SENS_AppMain_SchData_InputRcMsg(void)
 {
     SENS             oSENS;
 
@@ -651,9 +666,9 @@ void Test_SENS_AppMain_Process_InputRcMsg(void)
 
 
 /**
- * Test SENS_AppMain(), Process_DifferentialPressureMsg
+ * Test SENS_AppMain(), SchData_DifferentialPressureMsg
  */
-void Test_SENS_AppMain_Process_DifferentialPressureMsg(void)
+void Test_SENS_AppMain_SchData_DifferentialPressureMsg(void)
 {
     SENS             oSENS;
 
@@ -682,9 +697,9 @@ void Test_SENS_AppMain_Process_DifferentialPressureMsg(void)
 
 
 /**
- * Test SENS_AppMain(), Process_SensorBaroMsg
+ * Test SENS_AppMain(), SchData_SensorBaroMsg
  */
-void Test_SENS_AppMain_Process_SensorBaroMsg(void)
+void Test_SENS_AppMain_SchData_SensorBaroMsg(void)
 {
     SENS             oSENS;
 
@@ -713,9 +728,9 @@ void Test_SENS_AppMain_Process_SensorBaroMsg(void)
 
 
 /**
- * Test SENS_AppMain(), Process_SensorAccelMsg
+ * Test SENS_AppMain(), SchData_SensorAccelMsg
  */
-void Test_SENS_AppMain_Process_SensorAccelMsg(void)
+void Test_SENS_AppMain_SchData_SensorAccelMsg(void)
 {
     SENS             oSENS;
 
@@ -744,9 +759,9 @@ void Test_SENS_AppMain_Process_SensorAccelMsg(void)
 
 
 /**
- * Test SENS_AppMain(), Process_SensorMagMsg
+ * Test SENS_AppMain(), SchData_SensorMagMsg
  */
-void Test_SENS_AppMain_Process_SensorMagMsg(void)
+void Test_SENS_AppMain_SchData_SensorMagMsg(void)
 {
     SENS             oSENS;
 
@@ -775,9 +790,9 @@ void Test_SENS_AppMain_Process_SensorMagMsg(void)
 
 
 /**
- * Test SENS_AppMain(), Process_SensorGyroMsg
+ * Test SENS_AppMain(), SchData_SensorGyroMsg
  */
-void Test_SENS_AppMain_Process_SensorGyroMsg(void)
+void Test_SENS_AppMain_SchData_SensorGyroMsg(void)
 {
     SENS             oSENS;
 
@@ -785,39 +800,19 @@ void Test_SENS_AppMain_Process_SensorGyroMsg(void)
     time_t           localTime;
     struct tm        *loc_time;
     PX4_SensorGyroMsg_t  InMsg;
-    PX4_SensorAccelMsg_t SensorAccelMsg;
-    PX4_SensorMagMsg_t   SensorMsgMsg;
-    PX4_SensorBaroMsg_t  SensorBaroMsg;
 
     /* The following will emulate the behavior of receiving a message,
        and gives it data to process. */
     SchPipe = Ut_CFE_SB_CreatePipe("SENS_SCH_PIPE");
-
-    CFE_SB_InitMsg ((void*)&SensorAccelMsg, PX4_SENSOR_ACCEL_MID, sizeof(SensorAccelMsg), TRUE);
-    SensorAccelMsg.Timestamp = SENS_Test_GetTimeUs();
-    Ut_CFE_SB_AddMsgToPipe((void*)&SensorAccelMsg, (CFE_SB_PipeId_t)SchPipe);
-
-    CFE_SB_InitMsg ((void*)&SensorMsgMsg, PX4_SENSOR_MAG_MID, sizeof(SensorMsgMsg), TRUE);
-    SensorMsgMsg.Timestamp = SENS_Test_GetTimeUs();
-    Ut_CFE_SB_AddMsgToPipe((void*)&SensorMsgMsg, (CFE_SB_PipeId_t)SchPipe);
-
-    CFE_SB_InitMsg ((void*)&SensorBaroMsg, PX4_SENSOR_BARO_MID, sizeof(SensorBaroMsg), TRUE);
-    SensorBaroMsg.Timestamp = SENS_Test_GetTimeUs();
-    Ut_CFE_SB_AddMsgToPipe((void*)&SensorBaroMsg, (CFE_SB_PipeId_t)SchPipe);
-
     CFE_SB_InitMsg ((void*)&InMsg, PX4_SENSOR_GYRO_MID, sizeof(InMsg), TRUE);
     InMsg.Timestamp = SENS_Test_GetTimeUs();
+
     Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 
     /* Execute the function being tested */
-    oSENS.InitApp();
-    memset((void *)&oSENS.CVT, 0x00, sizeof(oSENS.CVT));
-    oSENS.RcvSchPipeMsg(SENS_SCH_PIPE_PEND_TIME);
-    oSENS.RcvSchPipeMsg(SENS_SCH_PIPE_PEND_TIME);
-    oSENS.RcvSchPipeMsg(SENS_SCH_PIPE_PEND_TIME);
-    oSENS.RcvSchPipeMsg(SENS_SCH_PIPE_PEND_TIME);
+    oSENS.AppMain();
 
     localTime = SENS_Test_GetTimeFromTimestamp(oSENS.CVT.SensorGyroMsg.Timestamp);
     loc_time = localtime(&localTime);
@@ -826,9 +821,9 @@ void Test_SENS_AppMain_Process_SensorGyroMsg(void)
 
 
 /**
- * Test SENS_AppMain(), Process_VehicleControlModeMsg
+ * Test SENS_AppMain(), SchData_VehicleControlModeMsg
  */
-void Test_SENS_AppMain_Process_VehicleControlModeMsg(void)
+void Test_SENS_AppMain_SchData_VehicleControlModeMsg(void)
 {
     SENS             oSENS;
 
@@ -913,85 +908,218 @@ void Test_SENS_AppMain_Nominal_Wakeup(void)
 }
 
 
+/**************************************************************************
+ * Tests for SENS CyclicProcessing
+ **************************************************************************/
+/**
+ * Test SENS_AppMain(), ProcessRCInput
+ */
+void Test_SENS_AppMain_ProcessRCInput(void)
+{
+    SENS             oSENS;
+
+    int32            SchPipe;
+    time_t           localTime;
+    struct tm        *loc_time;
+    PX4_InputRcMsg_t InMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    SchPipe = Ut_CFE_SB_CreatePipe("SENS_SCH_PIPE");
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_INPUT_RC_MID, sizeof(InMsg), TRUE);
+    InMsg.Timestamp = SENS_Test_GetTimeUs();
+    InMsg.LastSignal = InMsg.Timestamp - 1000000;
+
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oSENS.AppMain();
+
+    localTime = SENS_Test_GetTimeFromTimestamp(oSENS.CVT.InputRcMsg.Timestamp);
+    loc_time = localtime(&localTime);
+    printf("Received oSENS.CVT.InputRcMsg.Timestamp: %s", asctime(loc_time));
+    localTime = SENS_Test_GetTimeFromTimestamp(oSENS.CVT.InputRcMsg.LastSignal);
+    loc_time = localtime(&localTime);
+    printf("Received oSENS.CVT.InputRcMsg.LastSignal: %s", asctime(loc_time));
+}
+
+
+/**
+ * Test SENS_AppMain(), CombineSensorInput
+ */
+void Test_SENS_AppMain_CombineSensorInput(void)
+{
+    SENS             oSENS;
+
+    int32            SchPipe;
+    time_t           localTime;
+    struct tm        *loc_time;
+    PX4_SensorGyroMsg_t  InMsg;
+    PX4_SensorAccelMsg_t SensorAccelMsg;
+    PX4_SensorMagMsg_t   SensorMsgMsg;
+    PX4_SensorBaroMsg_t  SensorBaroMsg;
+
+    /* The following will emulate the behavior of receiving a message,
+       and gives it data to process. */
+    SchPipe = Ut_CFE_SB_CreatePipe("SENS_SCH_PIPE");
+
+    CFE_SB_InitMsg ((void*)&SensorAccelMsg, PX4_SENSOR_ACCEL_MID, sizeof(SensorAccelMsg), TRUE);
+    SensorAccelMsg.Timestamp = SENS_Test_GetTimeUs();
+    Ut_CFE_SB_AddMsgToPipe((void*)&SensorAccelMsg, (CFE_SB_PipeId_t)SchPipe);
+
+    CFE_SB_InitMsg ((void*)&SensorMsgMsg, PX4_SENSOR_MAG_MID, sizeof(SensorMsgMsg), TRUE);
+    SensorMsgMsg.Timestamp = SENS_Test_GetTimeUs();
+    Ut_CFE_SB_AddMsgToPipe((void*)&SensorMsgMsg, (CFE_SB_PipeId_t)SchPipe);
+
+    CFE_SB_InitMsg ((void*)&SensorBaroMsg, PX4_SENSOR_BARO_MID, sizeof(SensorBaroMsg), TRUE);
+    SensorBaroMsg.Timestamp = SENS_Test_GetTimeUs();
+    Ut_CFE_SB_AddMsgToPipe((void*)&SensorBaroMsg, (CFE_SB_PipeId_t)SchPipe);
+
+    CFE_SB_InitMsg ((void*)&InMsg, PX4_SENSOR_GYRO_MID, sizeof(InMsg), TRUE);
+    InMsg.Timestamp = SENS_Test_GetTimeUs();
+    Ut_CFE_SB_AddMsgToPipe((void*)&InMsg, (CFE_SB_PipeId_t)SchPipe);
+
+    Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
+
+    /* Execute the function being tested */
+    oSENS.InitApp();
+    memset((void *)&oSENS.CVT, 0x00, sizeof(oSENS.CVT));
+    oSENS.RcvSchPipeMsg(SENS_SCH_PIPE_PEND_TIME);
+    oSENS.RcvSchPipeMsg(SENS_SCH_PIPE_PEND_TIME);
+    oSENS.RcvSchPipeMsg(SENS_SCH_PIPE_PEND_TIME);
+    oSENS.RcvSchPipeMsg(SENS_SCH_PIPE_PEND_TIME);
+
+    localTime = SENS_Test_GetTimeFromTimestamp(oSENS.CVT.SensorGyroMsg.Timestamp);
+    loc_time = localtime(&localTime);
+    printf("Received oSENS.CVT.SensorGyroMsg.Timestamp: %s", asctime(loc_time));
+}
+
+
 
 /**************************************************************************
  * Rollup Test Cases
  **************************************************************************/
 void SENS_App_Test_AddTestCases(void)
 {
-    UtTest_Add(Test_SENS_InitEvent_Fail_Register, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitEvent_Fail_Register,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitEvent_Fail_Register");
 
-    UtTest_Add(Test_SENS_InitPipe_Fail_CreateSCHPipe, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitPipe_Fail_CreateSCHPipe,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitPipe_Fail_CreateSCHPipe");
-    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeWakeup, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeWakeup,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitPipe_Fail_SubscribeWakeup");
-    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeSendHK, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeSendHK,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitPipe_Fail_SubscribeSendHK");
-    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeInputRcMsg, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeInputRcMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitPipe_Fail_SubscribeInputRcMsg");
-    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeDifferentialPressureMsg, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeDifferentialPressureMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitPipe_Fail_SubscribeDifferentialPressureMsg");
-    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeSensorBaroMsg, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeSensorBaroMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitPipe_Fail_SubscribeSensorBaroMsg");
-    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeSensorAccelMsg, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeSensorAccelMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitPipe_Fail_SubscribeSensorAccelMsg");
-    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeSensorMagMsg, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeSensorMagMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitPipe_Fail_SubscribeSensorMagMsg");
-    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeSensorGyroMsg, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeSensorGyroMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitPipe_Fail_SubscribeSensorGyroMsg");
-    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeVehicleControlModeMsg, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeVehicleControlModeMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitPipe_Fail_SubscribeVehicleControlModeMsg");
-    UtTest_Add(Test_SENS_InitPipe_Fail_CreateCMDPipe, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitPipe_Fail_CreateCMDPipe,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitPipe_Fail_CreateCMDPipe");
-    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeCMD, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitPipe_Fail_SubscribeCMD,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitPipe_Fail_SubscribeCMD");
-    UtTest_Add(Test_SENS_InitPipe_Fail_CreateDATAPipe, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitPipe_Fail_CreateDATAPipe,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitPipe_Fail_CreateDATAPipe");
 
-    UtTest_Add(Test_SENS_InitData, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitData,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitData");
 
-    UtTest_Add(Test_SENS_InitApp_Fail_InitEvent, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitApp_Fail_InitEvent,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitApp_Fail_InitEvent");
-    UtTest_Add(Test_SENS_InitApp_Fail_InitPipe, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitApp_Fail_InitPipe,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitApp_Fail_InitPipe");
-    UtTest_Add(Test_SENS_InitApp_Fail_InitData, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitApp_Fail_InitData,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitApp_Fail_InitData");
-    UtTest_Add(Test_SENS_InitApp_Fail_InitConfigTbl, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitApp_Fail_InitConfigTbl,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitApp_Fail_InitConfigTbl");
-    UtTest_Add(Test_SENS_InitApp_Nominal, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_InitApp_Nominal,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_InitApp_Nominal");
 
-    UtTest_Add(Test_SENS_AppMain_Fail_RegisterApp, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_SENS_AppMain_Nominal,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_SENS_AppMain_Nominal");
+
+    UtTest_Add(Test_SENS_AppMain_Fail_RegisterApp,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_AppMain_Fail_RegisterApp");
-    UtTest_Add(Test_SENS_AppMain_Fail_InitApp, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_AppMain_Fail_InitApp,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_AppMain_Fail_InitApp");
-    UtTest_Add(Test_SENS_AppMain_Fail_AcquireConfigPtrs, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_AppMain_Fail_AcquireConfigPtrs,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_AppMain_Fail_AcquireConfigPtrs");
-    UtTest_Add(Test_SENS_AppMain_InvalidSchMessage, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_AppMain_InvalidSchMessage,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_AppMain_InvalidSchMessage");
 #if 1  // ticket #238
-    UtTest_Add(Test_SENS_AppMain_SchPipeError, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_AppMain_SchPipeError,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_AppMain_SchPipeError");
 #endif
-    UtTest_Add(Test_SENS_AppMain_Process_InputRcMsg, SENS_Test_Setup, SENS_Test_TearDown,
-               "Test_SENS_AppMain_Process_InputRcMsg");
-    UtTest_Add(Test_SENS_AppMain_Process_DifferentialPressureMsg, SENS_Test_Setup, SENS_Test_TearDown,
-               "Test_SENS_AppMain_Process_DifferentialPressureMsg");
-    UtTest_Add(Test_SENS_AppMain_Process_SensorBaroMsg, SENS_Test_Setup, SENS_Test_TearDown,
-               "Test_SENS_AppMain_Process_SensorBaroMsg");
-    UtTest_Add(Test_SENS_AppMain_Process_SensorAccelMsg, SENS_Test_Setup, SENS_Test_TearDown,
-               "Test_SENS_AppMain_Process_SensorAccelMsg");
-    UtTest_Add(Test_SENS_AppMain_Process_SensorMagMsg, SENS_Test_Setup, SENS_Test_TearDown,
-               "Test_SENS_AppMain_Process_SensorMagMsg");
-    UtTest_Add(Test_SENS_AppMain_Process_SensorGyroMsg, SENS_Test_Setup, SENS_Test_TearDown,
-               "Test_SENS_AppMain_Process_SensorGyroMsg");
-    UtTest_Add(Test_SENS_AppMain_Process_VehicleControlModeMsg, SENS_Test_Setup, SENS_Test_TearDown,
-               "Test_SENS_AppMain_Process_VehicleControlModeMsg");
-    UtTest_Add(Test_SENS_AppMain_Nominal_SendHK, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_AppMain_SchData_InputRcMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_AppMain_SchData_InputRcMsg");
+    UtTest_Add(Test_SENS_AppMain_SchData_DifferentialPressureMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_AppMain_SchData_DifferentialPressureMsg");
+    UtTest_Add(Test_SENS_AppMain_SchData_SensorBaroMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_AppMain_SchData_SensorBaroMsg");
+    UtTest_Add(Test_SENS_AppMain_SchData_SensorAccelMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_AppMain_SchData_SensorAccelMsg");
+    UtTest_Add(Test_SENS_AppMain_SchData_SensorMagMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_AppMain_SchData_SensorMagMsg");
+    UtTest_Add(Test_SENS_AppMain_SchData_SensorGyroMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_AppMain_SchData_SensorGyroMsg");
+    UtTest_Add(Test_SENS_AppMain_SchData_VehicleControlModeMsg,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_AppMain_SchData_VehicleControlModeMsg");
+    UtTest_Add(Test_SENS_AppMain_Nominal_SendHK,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_AppMain_Nominal_SendHK");
-    UtTest_Add(Test_SENS_AppMain_Nominal_Wakeup, SENS_Test_Setup, SENS_Test_TearDown,
+    UtTest_Add(Test_SENS_AppMain_Nominal_Wakeup,
+               SENS_Test_Setup, SENS_Test_TearDown,
                "Test_SENS_AppMain_Nominal_Wakeup");
 
+    UtTest_Add(Test_SENS_AppMain_ProcessRCInput,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_AppMain_ProcessRCInput");
+    UtTest_Add(Test_SENS_AppMain_CombineSensorInput,
+               SENS_Test_Setup, SENS_Test_TearDown,
+               "Test_SENS_AppMain_CombineSensorInput");
 }
