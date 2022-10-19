@@ -62,7 +62,7 @@ extern "C" {
 #define HES_VEL_FILTER_COEFF            (0.01)
 #define HES_AIRSPEED_FILTER_COEFF       (0.01)
 #define HES_GROUNDSPEED_FILTER_COEFF    (0.01)
-#define HES_EULER_FILTER_COEFF          (0.01)
+#define HES_EULER_FILTER_COEFF          (1)//(0.01)
 
 #define HES_MPS_TO_KNOTS(mps)           ((1.943844)*(mps))
 #define HES_MPS_TO_KPH(mps)             ((3.6)*(mps))

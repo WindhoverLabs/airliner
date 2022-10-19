@@ -36,14 +36,12 @@
 #include "hes_app_test.h"
 #include "hes_cmds_test.h"
 #include "hes_config_tbl_test.h"
-#include "hes_cds_tbl_test.h"
 
 int main(void)
 {   
     HES_App_Test_AddTestCases();
     HES_Cmds_Test_AddTestCases();
     HES_Config_Tbl_Test_AddTestCases();
-    HES_CDS_Tbl_Test_AddTestCases();
 
     return(UtTest_Run());
 
