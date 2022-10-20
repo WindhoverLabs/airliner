@@ -16,6 +16,7 @@
 PRG="$0"
 YAMCS_HOME="$1"
 WORKSPACE_PATH="$2"
+LOG_LEVEL="${3-2}"
 
 while [ -h "$PRG" ]; do
   ls=`ls -ld "$PRG"`
@@ -58,7 +59,6 @@ fi
 
 echo $CLASSPATH
 
-exec "$_RUNJAVA" $JAVA_OPTS $JMX_OPTS -Djava.util.logging.manager=org.yamcs.logging.YamcsLogManager -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/ org.yamcs.YamcsServer 
-
+exec "$_RUNJAVA" $JAVA_OPTS $JMX_OPTS -Djava.util.logging.manager=org.yamcs.logging.YamcsLogManager -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/ org.yamcs.YamcsServer --log $LOG_LEVEL
 
 
