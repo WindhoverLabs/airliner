@@ -31,27 +31,13 @@
 *
 *****************************************************************************/
 
-
-#ifndef VM_TEST_UTILS_HPP
-#define VM_TEST_UTILS_HPP
-
-#include "vm_app.h"
+#ifndef VM_STUBS_HPP
+#define VM_STUBS_HPP
 
 
-extern VM oVM;
-
-extern "C" void VM_AppMain();
-extern "C" VM_ConfigTbl_t VM_ConfigTbl;
-
-void VM_Test_Setup(void);
-void VM_Test_Setup_InvalidConfigTbl(void);
-void VM_Test_TearDown(void);
-
-void   VM_Test_PrintCmdMsg(void *pMsg, uint32 size);
-
-uint64 VM_Test_GetTimeUs(void);
-time_t VM_Test_GetTimeFromTimestamp(uint64 timestamp);
-time_t VM_Test_GetTimeFromMsg(CFE_TIME_SysTime_t cfe_time);
+extern "C" uint64 PX4LIB_GetPX4TimeUs(void);
+extern "C" uint64 PX4LIB_GetPX4TimeMs(void);
+extern "C" uint64 PX4LIB_GetPX4ElapsedTimeUs(uint64 then);
 
 
-#endif /* VM_TEST_UTILS_HPP */
+#endif /* VM_STUBS_HPP */

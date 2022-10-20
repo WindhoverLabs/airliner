@@ -34,15 +34,21 @@
 #include "vm_app_test.hpp"
 #include "vm_cmds_test.hpp"
 #include "vm_config_tbl_test.hpp"
+#include "vm_test_utils.hpp"
+
+#include "vm_app.h"
 
 #include "uttest.h"
 
+VM cpyVM;
+
 int main(void)
-{   
+{
+    CFE_PSP_MemCpy((void*)&oVM, (void*)&cpyVM, sizeof(VM));
+
     VM_App_Test_AddTestCases();
     VM_Cmds_Test_AddTestCases();
     VM_Config_Tbl_Test_AddTestCases();
 
     return(UtTest_Run());
-
 }

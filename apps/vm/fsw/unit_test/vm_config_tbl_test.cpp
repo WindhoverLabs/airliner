@@ -49,15 +49,193 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
-void VM_Config_Tbl_Test_Case1(void)
-{
 
+/**************************************************************************
+ * Tests for VM InitConfigTbl()
+ **************************************************************************/
+/**
+ * Test VM InitConfigTbl(), fail TBL Register
+ * Can not call private function, InitConfigTbl()
+ */
+void Test_VM_InitConfigTbl_Fail_TblRegister(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NO_ACCESS;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_REGISTER_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oVM.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Register");
 }
+
+
+/**
+ * Test VM InitConfigTbl(), Fail_ValidateConfigTbl
+ */
+void Test_VM_InitConfigTbl_Fail_ValidateConfigTbl(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = -1;
+    char  expectedEvent[CFE_EVS_MAX_MESSAGE_LENGTH];
+
+    sprintf(expectedEvent, "Failed to load Config Table (0x%08X)", (unsigned int)-1);
+
+    /* Execute the function being tested */
+    result = oVM.InitApp();
+
+    UtAssert_True(result == expected, "InitConfigTbl(), Fail_ValidateConfigTbl");
+    UtAssert_EventSent(VM_CFGTBL_LOAD_ERR_EID, CFE_EVS_ERROR, expectedEvent,
+             "InitConfigTbl(), Fail_ValidateConfigTbl EventSent");
+}
+
+
+/**
+ * Test VM InitConfigTbl(), ValidateConfigTbl_Nominal
+ */
+void Test_VM_InitConfigTbl_ValidateConfigTbl_Nominal(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = oVM.InitApp();
+}
+
+
+/**
+ * Test VM InitConfigTbl(), fail TBL Load
+ */
+void Test_VM_InitConfigTbl_Fail_TblLoad(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_INFO_UPDATE_PENDING;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_LOAD_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oVM.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Load");
+}
+
+
+/**
+ * Test VM InitConfigTbl(), fail TBL Manage
+ */
+void Test_VM_InitConfigTbl_Fail_TblManage(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_MANAGE_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oVM.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL Manage");
+}
+
+
+/**
+ * Test VM InitConfigTbl(), fail TBL GetAddress
+ */
+void Test_VM_InitConfigTbl_Fail_TblGetAddress(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_NEVER_LOADED;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oVM.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail TBL GetAddress");
+}
+
+
+/**
+ * Test VM InitConfigTbl(), fail AcquireConfigPtrs
+ */
+void Test_VM_InitConfigTbl_Fail_AcquireConfigPtrs(void)
+{
+    /* Set a fail result */
+    int32 result = CFE_SUCCESS;
+    int32 expected = CFE_TBL_ERR_INVALID_HANDLE;
+
+    /* fail the register app */
+    Ut_CFE_TBL_SetReturnCode(UT_CFE_TBL_GETADDRESS_INDEX, expected, 1);
+
+    /* Execute the function being tested */
+    result = oVM.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected,
+                   "InitConfigTbl, fail AcquireConfigPtrs");
+}
+
+
+/**
+ * Test VM InitConfigTbl(), Nominal
+ */
+void Test_VM_InitConfigTbl_Nominal(void)
+{
+    /* Set a fail result */
+    int32 result = (CFE_SEVERITY_BITMASK & CFE_SEVERITY_ERROR)
+                   | CFE_EXECUTIVE_SERVICE | CFE_ES_ERR_APP_REGISTER;
+    int32 expected = CFE_SUCCESS;
+
+    /* Execute the function being tested */
+    result = oVM.InitApp();
+
+    /* Verify results */
+    UtAssert_True (result == expected, "InitConfigTbl, Nominal");
+}
+
 
 
 void VM_Config_Tbl_Test_AddTestCases(void)
 {
-    UtTest_Add(VM_Config_Tbl_Test_Case1, VM_Test_Setup, VM_Test_TearDown, "VM_Config_Tbl_Test_Case1");
+    UtTest_Add(Test_VM_InitConfigTbl_Fail_TblRegister,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_InitConfigTbl_Fail_TblRegister");
+    UtTest_Add(Test_VM_InitConfigTbl_Fail_ValidateConfigTbl,
+               VM_Test_Setup_InvalidConfigTbl, VM_Test_TearDown,
+               "Test_VM_InitConfigTbl_Fail_ValidateConfigTbl");
+    UtTest_Add(Test_VM_InitConfigTbl_ValidateConfigTbl_Nominal,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_InitConfigTbl_ValidateConfigTbl_Nominal");
+    UtTest_Add(Test_VM_InitConfigTbl_Fail_TblLoad,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_InitConfigTbl_Fail_TblLoad");
+    UtTest_Add(Test_VM_InitConfigTbl_Fail_TblManage,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_InitConfigTbl_Fail_TblManage");
+    UtTest_Add(Test_VM_InitConfigTbl_Fail_TblGetAddress,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_InitConfigTbl_Fail_TblGetAddress");
+    UtTest_Add(Test_VM_InitConfigTbl_Fail_AcquireConfigPtrs,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_InitConfigTbl_Fail_AcquireConfigPtrs");
+    UtTest_Add(Test_VM_InitConfigTbl_Nominal,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_InitConfigTbl_Nominal");
 }
-
-
