@@ -47,9 +47,29 @@
 #include "ut_cfe_evs_hooks.h"
 #include "ut_cfe_time_stubs.h"
 #include "ut_cfe_psp_memutils_stubs.h"
+#include "ut_cfe_psp_timer_stubs.h"
 #include "ut_cfe_tbl_stubs.h"
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
+
+
+/**
+ * Test VM ProcessCmdPipe_GetPSPTimeHook
+ */
+void Test_VM_ProcessCmdPipe_GetPSPTimeHook(OS_time_t *LocalTime)
+{
+    int              iStatus;
+    struct timespec  time;
+
+    iStatus = clock_gettime(CLOCK_REALTIME, &time);
+    if (iStatus == 0)
+    {
+        LocalTime->seconds = time.tv_sec;
+        LocalTime->microsecs = time.tv_nsec / 1000;
+    }
+
+    return;
+}
 
 
 /**************************************************************************
@@ -248,6 +268,9 @@ void Test_VM_ProcessCmdPipe_VehicleArm(void)
 
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_RCVMSG_INDEX, CFE_SUCCESS, 1);
     Ut_CFE_SB_SetReturnCode(UT_CFE_SB_GETMSGID_INDEX, VM_SEND_HK_MID, 1);
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                        (void *)&Test_VM_ProcessCmdPipe_GetPSPTimeHook);
 
     Ut_CFE_ES_SetReturnCode(UT_CFE_ES_RUNLOOP_INDEX, FALSE, 2);
 

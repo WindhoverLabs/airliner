@@ -51,6 +51,8 @@
 #include "ut_cfe_fs_stubs.h"
 #include "ut_cfe_time_stubs.h"
 
+#include <unistd.h>
+
 int32 hookCalledCount = 0;
 CFE_SB_MsgId_t ProcessNewDataHook_MsgId = 0;
 
@@ -1800,6 +1802,42 @@ void Test_VM_AppMain_ProcessDataPipe_SensorCombined(void)
 }
 
 
+/**
+ * Test VM AppMain(), Execute
+ */
+void Test_VM_AppMain_Execute(void)
+{
+    int32                   iStatus = CFE_SUCCESS;
+
+    Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
+                              (void *)&Test_VM_GetPSPTimeHook);
+
+    iStatus = oVM.InitApp();
+
+    oVM.BatteryStatusMsg.Timestamp = VM_Test_GetTimeUs();
+    oVM.BatteryStatusMsg.Voltage = 0.0f;
+    oVM.BatteryStatusMsg.VoltageFiltered = VM_MINIMUM_VALID_BATTERY_VOLTAGE + 1.0f;
+    oVM.BatteryStatusMsg.Current = 0.0f;
+    oVM.BatteryStatusMsg.CurrentFiltered = 0.0f;
+    oVM.BatteryStatusMsg.Discharged = 0.0f;
+    oVM.BatteryStatusMsg.Remaining = 0.0f;
+    oVM.BatteryStatusMsg.Scale = 0.1f;
+    oVM.BatteryStatusMsg.CellCount = 0;
+    oVM.BatteryStatusMsg.Connected = FALSE;
+    oVM.BatteryStatusMsg.Warning = PX4_BATTERY_WARNING_CRITICAL;
+
+    oVM.ArmingSM.FSM.InitComplete();
+    oVM.NavigationSM.FSM.trInitComplete();
+
+    oVM.Initialization();
+    oVM.SetHomePosition();
+
+    oVM.Execute();
+    usleep(7000000);
+    oVM.Execute();
+}
+
+
 
 /**************************************************************************
  * Rollup Test Cases
@@ -1987,4 +2025,8 @@ void VM_App_Test_AddTestCases(void)
     UtTest_Add(Test_VM_AppMain_ProcessDataPipe_SensorCombined,
                VM_Test_Setup, VM_Test_TearDown,
                "Test_VM_AppMain_ProcessDataPipe_SensorCombined");
+
+    UtTest_Add(Test_VM_AppMain_Execute,
+               VM_Test_Setup, VM_Test_TearDown,
+               "Test_VM_AppMain_Execute");
 }
