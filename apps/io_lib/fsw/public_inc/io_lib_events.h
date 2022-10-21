@@ -31,7 +31,6 @@ extern "C" {
 /* Event IDs */
 typedef enum
 {
-    IO_LIB_RESERVED_EID             = 200,
     IO_LIB_INF_EID                  = 201,
     IO_LIB_ERR_EID                  = 202,
     IO_LIB_FORMAT_INF_EID           = 203,
