@@ -60,7 +60,7 @@ extern "C" {
 ** Local Defines
 *************************************************************************/
 #define HES_VEL_FILTER_COEFF            (0.01)
-#define HES_AIRSPEED_FILTER_COEFF       (0.01)
+#define HES_AIRSPEED_FILTER_COEFF       (0.05)//(0.01)
 #define HES_GROUNDSPEED_FILTER_COEFF    (0.01)
 #define HES_EULER_FILTER_COEFF          (1)//(0.01)
 
