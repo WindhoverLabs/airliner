@@ -79,8 +79,8 @@
 #define PROM_C6 28312u
 
 /* Message IDs. */
-#define SPI_CMD_MSG_ID                       (0x182c)
-#define SPI_RESPONSE_MSG_ID                  (0x082d)
+#define SPI_CMD_MSG_ID                       (SEDLIB_SPI_0_CMD_MID)
+#define SPI_RESPONSE_MSG_ID                  (SEDLIB_SPI_0_TLM_MID)
 /************************************************************************
 ** Local Structure Declarations
 *************************************************************************/
