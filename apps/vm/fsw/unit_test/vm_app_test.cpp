@@ -873,7 +873,7 @@ void Test_VM_AppMain_Nominal_SendHK(void)
 
     /* Used to verify HK was transmitted correctly. */
     hookCalledCount = 0;
-    Ut_CFE_ES_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,
+    Ut_CFE_SB_SetFunctionHook(UT_CFE_SB_SENDMSG_INDEX,                 // check this
                               (void*)&Test_VM_AppMain_Nominal_SendHK_SendMsgHook);
     Ut_CFE_PSP_TIMER_SetFunctionHook(UT_CFE_PSP_TIMER_GETTIME_INDEX,
                               (void *)&Test_VM_GetPSPTimeHook);
